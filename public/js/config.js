@@ -13,7 +13,7 @@
     const isRailway = hostname.includes('railway.app');
     
     // URL da API no Railway
-    const RAILWAY_API_URL = 'https://web-production-aefa.up.railway.app';
+    const RAILWAY_API_URL = 'https://sistemaerp-production-a924.up.railway.app';
     
     // Configurações por ambiente
     const environments = {
