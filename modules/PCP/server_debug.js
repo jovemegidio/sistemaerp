@@ -14,13 +14,14 @@ const PORT = 3001;
 app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
-// Configuração do banco
+// Configuração do banco - Railway MySQL
+require('dotenv').config({ path: require('path').join(__dirname, '../../.env') });
 const db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'aluforce_vendas',
-    port: 3306,
+    host: process.env.DB_HOST || 'interchange.proxy.rlwy.net',
+    user: process.env.DB_USER || 'root',
+    password: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
+    database: process.env.DB_NAME || 'railway',
+    port: process.env.DB_PORT || 19396,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0

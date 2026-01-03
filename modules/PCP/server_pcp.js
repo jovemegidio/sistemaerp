@@ -125,11 +125,11 @@ try {
 // --- CONFIGURAÇÃO DA LIGAÇÃO À BASE DE DADOS ---
 // 🚀 PERFORMANCE: Pool otimizado para melhor throughput
 const db = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || 'interchange.proxy.rlwy.net',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '@dminalu',
-    database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT || 3306,
+    password: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
+    database: process.env.DB_NAME || 'railway',
+    port: process.env.DB_PORT || 19396,
     waitForConnections: true,
     connectionLimit: 20, // Aumentado para melhor concorrência
     queueLimit: 0,

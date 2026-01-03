@@ -84,12 +84,12 @@ function startChatServer() {
         
         console.log('\n🔵 Iniciando servidor de chat...');
         
-        // Configurar variáveis de ambiente
-        process.env.DB_HOST = process.env.DB_HOST || 'localhost';
+        // Configurar variáveis de ambiente - Railway MySQL
+        process.env.DB_HOST = process.env.DB_HOST || 'interchange.proxy.rlwy.net';
         process.env.DB_USER = process.env.DB_USER || 'root';
-        process.env.DB_PASSWORD = process.env.DB_PASSWORD || '@dminalu';
-        process.env.DB_NAME = process.env.DB_NAME || 'aluforce_vendas';
-        process.env.DB_PORT = process.env.DB_PORT || '3306';
+        process.env.DB_PASSWORD = process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu';
+        process.env.DB_NAME = process.env.DB_NAME || 'railway';
+        process.env.DB_PORT = process.env.DB_PORT || '19396';
         
         // Em modo empacotado, usar require() em vez de spawn
         if (isPackaged) {
@@ -195,11 +195,11 @@ function startSupportServer() {
         // Modo desenvolvimento - usar spawn
         const envVars = {
             ...process.env,
-            DB_HOST: process.env.DB_HOST || 'localhost',
+            DB_HOST: process.env.DB_HOST || 'interchange.proxy.rlwy.net',
             DB_USER: process.env.DB_USER || 'root',
-            DB_PASSWORD: process.env.DB_PASSWORD || '@dminalu',
-            DB_NAME: process.env.DB_NAME || 'aluforce_vendas',
-            DB_PORT: process.env.DB_PORT || '3306',
+            DB_PASSWORD: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
+            DB_NAME: process.env.DB_NAME || 'railway',
+            DB_PORT: process.env.DB_PORT || '19396',
             PORT: '3003'
         };
         
@@ -446,11 +446,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 const DB_CONFIG = {
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || 'interchange.proxy.rlwy.net',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '@dminalu',
-    database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
+    password: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
+    database: process.env.DB_NAME || 'railway',
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 19396,
     waitForConnections: true,
     connectionLimit: parseInt(process.env.DB_CONN_LIMIT) || 30, // Pool maior
     queueLimit: 0,
@@ -15861,12 +15861,13 @@ process.on('unhandledRejection', (reason, promise) => {
 // ROTAS DO MÓDULO VENDAS
 // ======================================
 
-// Pool de conexão para banco aluforce_vendas
+// Pool de conexão para banco de vendas (Railway)
 const vendasPool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || 'interchange.proxy.rlwy.net',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '@dminalu',
-    database: 'aluforce_vendas',
+    password: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
+    database: process.env.DB_NAME || 'railway',
+    port: process.env.DB_PORT || 19396,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0

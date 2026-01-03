@@ -35,11 +35,11 @@ if (process.env.NODE_ENV === 'production' && (!process.env.JWT_SECRET || process
 
 // --- CONFIGURAÇÁO DA LIGAÇÁO À BASE DE DADOS ---
 const db = mysql.createConnection({
-  host: process.env.DB_HOST || 'localhost',
+  host: process.env.DB_HOST || 'interchange.proxy.rlwy.net',
   user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASS || '@dminalu',
-  database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
+  password: process.env.DB_PASS || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
+  database: process.env.DB_NAME || 'railway',
+  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 19396
 })
 
 db.connect((err) => {

@@ -60,10 +60,11 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // --- CONFIGURAÇÕES ---
 const JWT_SECRET = process.env.JWT_SECRET || 'sua-chave-secreta-super-dificil-de-adivinhar-@123!';
 const DB_CONFIG = {
-    host: process.env.DB_HOST || 'localhost',
+    host: process.env.DB_HOST || 'interchange.proxy.rlwy.net',
     user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASSWORD || '@dminalu',
-    database: process.env.DB_NAME || 'aluforce_vendas',
+    password: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
+    database: process.env.DB_NAME || 'railway',
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 19396,
     waitForConnections: true,
     connectionLimit: Number(process.env.DB_CONN_LIMIT || 10),
     queueLimit: 0
