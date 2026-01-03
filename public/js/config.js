@@ -12,8 +12,8 @@
     const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';
     const isRailway = hostname.includes('railway.app');
     
-    // URL da API no Railway (deve ser configurada após deploy)
-    const RAILWAY_API_URL = 'https://sistemaerp-production.up.railway.app';
+    // URL da API no Railway
+    const RAILWAY_API_URL = 'https://web-production-aefa.up.railway.app';
     
     // Configurações por ambiente
     const environments = {
