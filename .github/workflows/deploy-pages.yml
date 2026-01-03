@@ -24,9 +24,14 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
-      - name: Create root index.html redirect
+      - name: Fix absolute paths to relative
         run: |
-          echo '<!DOCTYPE html><html><head><meta http-equiv="refresh" content="0; url=login.html"><script>window.location.href="login.html";</script></head><body><a href="login.html">Entrar no Sistema</a></body></html>' > public/index.html
+          cd public
+          # Corrigir caminhos absolutos para relativos em todos os HTML
+          find . -name "*.html" -exec sed -i 's|href="/|href="|g' {} \;
+          find . -name "*.html" -exec sed -i 's|src="/|src="|g' {} \;
+          # Criar index.html de redirecionamento se não existir redirect
+          echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0; url=login.html"><title>ALUFORCE</title></head><body><script>window.location.href="login.html";</script></body></html>' > index.html
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
