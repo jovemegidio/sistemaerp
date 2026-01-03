@@ -9,10 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!loginForm) return;
 
-  // Helper para chamadas à API: usa caminhos relativos
-  // O frontend e backend estão na mesma porta (3000)
+  // Helper para chamadas à API: usa config.js para determinar URL base
+  // GitHub Pages → Railway API, Local → mesmo servidor
   function apiFetch(path, options = {}) {
-    return fetch(path, options);
+    const baseUrl = window.ALUFORCE_CONFIG?.API_BASE_URL || '';
+    const url = baseUrl + path;
+    return fetch(url, {
+      ...options,
+      credentials: 'include'
+    });
   }
 
   // Mapeamento de avatares para usuários com nomes específicos

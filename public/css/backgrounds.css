@@ -1,4 +1,4 @@
-/* Backgrounds do Dashboard */
+﻿/* Backgrounds do Dashboard */
 .dashboard-background {
     position: fixed;
     top: 0;
@@ -29,55 +29,55 @@
 
 /* Backgrounds disponíveis - Apenas Imagens - v2025.12.25 */
 .bg-image-1 {
-    background-image: url('/Fundos/Fundos (1).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (1).jpg?v=20251225');
 }
 
 .bg-image-2 {
-    background-image: url('/Fundos/Fundos (2).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (2).jpg?v=20251225');
 }
 
 .bg-image-3 {
-    background-image: url('/Fundos/Fundos (3).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (3).jpg?v=20251225');
 }
 
 .bg-image-4 {
-    background-image: url('/Fundos/Fundos (4).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (4).jpg?v=20251225');
 }
 
 .bg-image-5 {
-    background-image: url('/Fundos/Fundos (5).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (5).jpg?v=20251225');
 }
 
 .bg-image-6 {
-    background-image: url('/Fundos/Fundos (6).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (6).jpg?v=20251225');
 }
 
 .bg-image-7 {
-    background-image: url('/Fundos/Fundos (7).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (7).jpg?v=20251225');
 }
 
 .bg-image-8 {
-    background-image: url('/Fundos/Fundos (8).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (8).jpg?v=20251225');
 }
 
 .bg-image-9 {
-    background-image: url('/Fundos/Fundos (9).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (9).jpg?v=20251225');
 }
 
 .bg-image-10 {
-    background-image: url('/Fundos/Fundos (10).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (10).jpg?v=20251225');
 }
 
 .bg-image-11 {
-    background-image: url('/Fundos/Fundos (11).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (11).jpg?v=20251225');
 }
 
 .bg-image-12 {
-    background-image: url('/Fundos/Fundos (12).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (12).jpg?v=20251225');
 }
 
 .bg-image-13 {
-    background-image: url('/Fundos/Fundos (13).jpg?v=20251225');
+    background-image: url('../Fundos/Fundos (13).jpg?v=20251225');
 }
 
 /* Seletor de Background */

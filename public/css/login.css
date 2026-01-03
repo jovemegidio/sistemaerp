@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 :root {
     /* Cores que combinam com a identidade visual da Aluforce */
@@ -23,7 +23,7 @@ body {
     height: 100vh;
     margin: 0;
     /* Utiliza a imagem de fundo da Aluforce */
-    background: url('/images/Papeldeparede-alu.webp') no-repeat center center;
+    background: url('../images/Papeldeparede-alu.webp') no-repeat center center;
     background-size: cover;
 }
 
