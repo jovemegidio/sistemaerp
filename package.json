@@ -10,6 +10,11 @@
     "node": ">=18.0.0",
     "npm": ">=8.0.0"
   },
+  "overrides": {
+    "soap": {
+      "axios": "^1.13.2"
+    }
+  },
   "scripts": {
     "dev": "nodemon server.js --ignore uploads/ --ignore logs/",
     "start": "electron .",
