@@ -258,6 +258,15 @@ const app = express();
 const PORT = parseInt(process.env.PORT) || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
 
+// 🚀 HEALTH CHECK IMEDIATO - Responde antes de qualquer middleware pesado
+// Isso garante que o Railway detecte o servidor como "healthy" rapidamente
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+app.get('/api/health', (req, res) => {
+    res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
 // reference to the running http.Server (set when app.listen is called)
 let serverInstance = null;
 let chatServerProcess = null;
