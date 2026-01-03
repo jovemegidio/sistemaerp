@@ -1,0 +1,32 @@
+const fs = require('fs');
+const path = require('path');
+
+console.log('🧹 Removendo todos os estilos inline das páginas NFe...\n');
+
+const arquivos = ['danfe.html', 'relatorios.html', 'eventos.html', 'logistica.html'];
+
+arquivos.forEach(arquivo => {
+    const filePath = path.join(__dirname, 'modules', 'NFe', arquivo);
+    
+    if (!fs.existsSync(filePath)) {
+        console.log(`⚠️  ${arquivo} não encontrado`);
+        return;
+    }
+    
+    let content = fs.readFileSync(filePath, 'utf8');
+    
+    // Remover completamente a tag <style> e todo seu conteúdo
+    content = content.replace(/<style>[\s\S]*?<\/style>/g, '');
+    
+    // Limpar múltiplas linhas vazias
+    content = content.replace(/\n\s*\n\s*\n/g, '\n\n');
+    
+    fs.writeFileSync(filePath, content, 'utf8');
+    console.log(`✅ ${arquivo} - Todos os estilos inline removidos`);
+});
+
+console.log('\n✨ Limpeza concluída!');
+console.log('🎨 Agora todas as páginas usam apenas CSS externo:');
+console.log('   1. modern-saas.css (base framework)');
+console.log('   2. pcp_modern_clean.css (PCP styles)');
+console.log('   3. nfe-specific.css (NFe specific styles)');

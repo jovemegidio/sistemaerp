@@ -1,0 +1,591 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NFSe - Serviços - Aluforce</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --sidebar-width: 56px;
+            --header-height: 48px;
+            --primary-green: #10b981;
+            --primary-green-dark: #059669;
+            --primary-dark: #1a1a2e;
+            --bg-white: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-white);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--primary-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-green);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        .sidebar-logo i { color: white; font-size: 18px; }
+
+        .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+
+        .sidebar-btn {
+            width: 40px;
+            height: 40px;
+            background: transparent;
+            color: #8b8b9a;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .sidebar-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+        .sidebar-btn.active { background: var(--primary-green); color: white; }
+        .sidebar-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+
+        /* MAIN AREA */
+        .main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: var(--sidebar-width);
+        }
+
+        /* HEADER */
+        .header {
+            height: var(--header-height);
+            background: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 24px; }
+        .header-brand { display: flex; align-items: center; gap: 8px; color: white; }
+        .header-brand img { height: 24px; }
+        .header-brand span { font-size: 14px; font-weight: 600; color: #8b8b9a; }
+        .header-brand .title { color: white; font-weight: 700; }
+        .header-right { display: flex; align-items: center; gap: 8px; }
+
+        .header-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: #8b8b9a;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 8px;
+            overflow: hidden;
+        }
+
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 16px;
+            color: #8b8b9a;
+            font-size: 13px;
+        }
+
+        .user-greeting strong { color: white; }
+
+        /* CONTENT */
+        .content-area {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background: var(--bg-white);
+        }
+
+        /* FORM STYLES */
+        .form-section {
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+            color: white;
+            padding: 16px 20px;
+        }
+
+        .section-header h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            padding: 20px;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group.full-width { grid-column: 1 / -1; }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-control {
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+
+        textarea.form-control { resize: vertical; min-height: 100px; }
+
+        /* RESUMO */
+        .resumo-tributario {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            padding: 20px;
+        }
+
+        .resumo-item {
+            background: #f1f5f9;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .resumo-item span { color: var(--text-secondary); font-size: 13px; }
+        .resumo-item strong { color: var(--text-primary); font-size: 14px; }
+
+        .resumo-item.total {
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+            color: white;
+        }
+
+        .resumo-item.total span,
+        .resumo-item.total strong { color: white; }
+
+        /* BUTTONS */
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-green), var(--primary-green-dark));
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f1f5f9;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover { background: #e2e8f0; }
+
+        @media (max-width: 768px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .form-actions { flex-direction: column; }
+            .form-actions button { width: 100%; justify-content: center; }
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="/dashboard" class="sidebar-logo" title="Voltar ao Painel">
+                <i class="fas fa-file-invoice"></i>
+            </a>
+            
+            <nav class="sidebar-nav">
+                <a href="index.html" class="sidebar-btn" title="Dashboard"><i class="fas fa-chart-pie"></i></a>
+                <a href="emitir.html" class="sidebar-btn" title="Emitir NFe"><i class="fas fa-file-invoice"></i></a>
+                <a href="consultar.html" class="sidebar-btn" title="Consultar NFe"><i class="fas fa-search"></i></a>
+                <a href="nfse.html" class="sidebar-btn active" title="NFSe"><i class="fas fa-file-contract"></i></a>
+                <a href="danfe.html" class="sidebar-btn" title="DANFE"><i class="fas fa-print"></i></a>
+                <a href="relatorios.html" class="sidebar-btn" title="Relatórios"><i class="fas fa-chart-bar"></i></a>
+                <a href="eventos.html" class="sidebar-btn" title="Eventos"><i class="fas fa-history"></i></a>
+                <a href="logistica.html" class="sidebar-btn" title="Logística"><i class="fas fa-truck"></i></a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="certificado.html" class="sidebar-btn" title="Certificado"><i class="fas fa-certificate"></i></a>
+                <a href="/dashboard" class="sidebar-btn" title="Voltar ao Painel"><i class="fas fa-home"></i></a>
+            </div>
+        </aside>
+
+        <main class="main-area">
+            <!-- Header -->
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <span style="font-size: 14px; font-weight: 600; color: #8b8b9a;">NFe & Logística</span>
+                        <span style="color: #3d3d54;">|</span>
+                        <span style="font-size: 14px; font-weight: 500; color: #34d399;">NFSe - Serviços</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" onclick="location.reload()" title="Atualizar">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="header-btn" title="Notificações">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div class="user-greeting">
+                        <span id="user-greeting"><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <div class="user-avatar" id="user-avatar">
+                            <img id="user-photo" src="" alt="Foto" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                            <span id="user-initial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Conteúdo -->
+            <div class="content-area">
+                <form id="form-nfse">
+                    <!-- Dados do Tomador -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-user"></i> Dados do Tomador</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label>Razão Social / Nome</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>CPF / CNPJ</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Inscrição Municipal</label>
+                                <input type="text" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Telefone</label>
+                                <input type="tel" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dados do Serviço -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-clipboard-list"></i> Dados do Serviço</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label>Descrição do Serviço</label>
+                                <textarea class="form-control" rows="4" required placeholder="Descreva detalhadamente o serviço prestado"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Código do Serviço</label>
+                                <input type="text" class="form-control" placeholder="Ex: 07.02">
+                            </div>
+                            <div class="form-group">
+                                <label>Item da Lista de Serviços</label>
+                                <select class="form-control" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="0702">07.02 - Execução de obras</option>
+                                    <option value="0716">07.16 - Serviços de manutenção</option>
+                                    <option value="1001">10.01 - Planejamento e design</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Valor do Serviço</label>
+                                <input type="text" class="form-control" required placeholder="R$ 0,00">
+                            </div>
+                            <div class="form-group">
+                                <label>Alíquota ISS (%)</label>
+                                <input type="number" class="form-control" step="0.01" value="2.00" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Impostos -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-percent"></i> Impostos e Deduções</h3>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>PIS (%)</label>
+                                <input type="number" class="form-control" step="0.01" value="0.65">
+                            </div>
+                            <div class="form-group">
+                                <label>COFINS (%)</label>
+                                <input type="number" class="form-control" step="0.01" value="3.00">
+                            </div>
+                            <div class="form-group">
+                                <label>IRPJ (%)</label>
+                                <input type="number" class="form-control" step="0.01" value="1.5">
+                            </div>
+                            <div class="form-group">
+                                <label>CSLL (%)</label>
+                                <input type="number" class="form-control" step="0.01" value="1.00">
+                            </div>
+                            <div class="form-group">
+                                <label>Deduções</label>
+                                <input type="text" class="form-control" placeholder="R$ 0,00">
+                            </div>
+                            <div class="form-group">
+                                <label>Desconto</label>
+                                <input type="text" class="form-control" placeholder="R$ 0,00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Resumo -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h3><i class="fas fa-calculator"></i> Resumo da NFSe</h3>
+                        </div>
+                        <div class="resumo-tributario">
+                            <div class="resumo-item">
+                                <span>Valor dos Serviços:</span>
+                                <strong>R$ 0,00</strong>
+                            </div>
+                            <div class="resumo-item">
+                                <span>Total de Deduções:</span>
+                                <strong>R$ 0,00</strong>
+                            </div>
+                            <div class="resumo-item">
+                                <span>Base de Cálculo ISS:</span>
+                                <strong>R$ 0,00</strong>
+                            </div>
+                            <div class="resumo-item">
+                                <span>ISS:</span>
+                                <strong>R$ 0,00</strong>
+                            </div>
+                            <div class="resumo-item total">
+                                <span>VALOR TOTAL:</span>
+                                <strong>R$ 0,00</strong>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn-secondary" onclick="window.location.href='index.html'">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                            <button type="submit" class="btn-primary">
+                                <i class="fas fa-paper-plane"></i> Emitir NFSe
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    <script>
+        // Carregar usuário logado com avatar e saudação
+        async function carregarUsuarioLogado() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || user.name || 'Usuário';
+                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    
+                    // Atualizar nome na saudação
+                    const userNameEl = document.getElementById('user-name');
+                    if (userNameEl) {
+                        userNameEl.textContent = primeiroNome;
+                    }
+                    
+                    // Mapeamento de avatares
+                    const avatarNameMap = {
+                        'clemerson': '/avatars/Clemerson.webp',
+                        'isabela': '/avatars/Isabela.webp',
+                        'thaina': '/avatars/Thaina.webp',
+                        'thiago': '/avatars/Thiago.webp',
+                        'nicolas': '/avatars/NicolasDaniel.webp',
+                        'nicolasdaniel': '/avatars/NicolasDaniel.webp',
+                        'rh': '/avatars/Rh.webp',
+                        'admin': '/avatars/admin.webp',
+                        'ti': '/avatars/TI.webp',
+                        'tialuforce': '/avatars/TI.webp',
+                        'antonio': '/avatars/Antonio.webp',
+                        'antônio': '/avatars/Antonio.webp',
+                        'andreia': '/avatars/Andreia.webp',
+                        'guilherme': '/avatars/Guilherme.webp',
+                        'marcelo': '/avatars/Marcelo.webp',
+                        'financeiro': '/avatars/Financeiro.webp',
+                        'douglas': '/avatars/Douglas.webp',
+                        'hellen': '/avatars/Hellen.webp',
+                        'helen': '/avatars/Hellen.webp',
+                        'marcia': '/avatars/Marcia.webp',
+                        'augusto': '/avatars/Augusto.webp',
+                        'renata': '/avatars/Renata.webp',
+                        'fabiano': '/avatars/Fabiano.webp',
+                        'fabiola': '/avatars/Fabiola.webp'
+                    };
+                    
+                    let avatarUrl = null;
+                    if (user.avatar && user.avatar !== '/avatars/default.webp') avatarUrl = user.avatar;
+                    else if (user.foto && user.foto !== '/avatars/default.webp') avatarUrl = user.foto;
+                    else if (user.email) {
+                        const username = user.email.split('@')[0].split('.')[0].toLowerCase();
+                        avatarUrl = avatarNameMap[username];
+                    }
+                    if (!avatarUrl) avatarUrl = avatarNameMap[primeiroNome.toLowerCase()];
+                    
+                    const userPhotoEl = document.getElementById('user-photo');
+                    const initialEl = document.getElementById('user-initial');
+                    
+                    if (avatarUrl && userPhotoEl) {
+                        userPhotoEl.src = avatarUrl;
+                        userPhotoEl.style.display = 'block';
+                        userPhotoEl.onerror = function() {
+                            this.style.display = 'none';
+                            if (initialEl) { initialEl.textContent = primeiroNome.charAt(0).toUpperCase(); initialEl.style.display = 'flex'; }
+                        };
+                        if (initialEl) initialEl.style.display = 'none';
+                    } else if (initialEl) {
+                        initialEl.textContent = primeiroNome.charAt(0).toUpperCase();
+                    }
+                }
+            } catch (e) { console.log('Erro ao carregar usuário:', e); }
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarUsuarioLogado);
+
+        document.getElementById('form-nfse').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('NFSe emitida com sucesso!\n\nNúmero: 0001234\nData/Hora: ' + new Date().toLocaleString('pt-BR'));
+            setTimeout(() => window.location.href = 'index.html', 2000);
+        });
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+
+

@@ -1,0 +1,731 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>Consultar NFe - Aluforce</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/chat-widget.css?v=20251210">
+    <script src="/js/chat-widget.js?v=1765417597"></script>
+    <style>
+        :root {
+            --sidebar-width: 56px;
+            --header-height: 48px;
+            --primary-dark: #1a1a2e;
+            --bg-gray: #f5f5f5;
+            --border-color: #e5e5e5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --nfe-primary: #10b981;
+            --nfe-secondary: #059669;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .app-container { display: flex; height: 100vh; }
+
+        /* Sidebar */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--primary-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--nfe-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            text-decoration: none;
+        }
+
+        .sidebar-logo i { color: white; font-size: 18px; }
+
+        .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+
+        .sidebar-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            color: #8b8b9a;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .sidebar-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+        .sidebar-btn.active { background: var(--nfe-primary); color: white; }
+
+        .sidebar-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+
+        /* Main Area */
+        .main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: var(--sidebar-width);
+            overflow: hidden;
+        }
+
+        /* Header */
+        .header {
+            height: var(--header-height);
+            background: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 24px; }
+
+        .header-brand { display: flex; align-items: center; gap: 8px; color: white; }
+        .header-brand img { height: 24px; }
+        .header-brand span { font-size: 14px; font-weight: 600; color: #8b8b9a; }
+
+        .header-right { display: flex; align-items: center; gap: 8px; }
+
+        .header-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: #8b8b9a;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 16px;
+            color: #8b8b9a;
+            font-size: 13px;
+        }
+
+        .user-greeting strong { color: white; }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            overflow: hidden;
+        }
+
+        /* Tabs Bar */
+        .tabs-bar {
+            background: white;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .tab:hover { background: #e5e5e5; }
+        .tab.active { background: var(--nfe-primary); color: white; }
+
+        /* Content */
+        .content-area {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background: #ffffff;
+        }
+
+        /* Form Styles */
+        .consulta-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .consulta-header {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 16px 20px;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .consulta-header h3 { color: white; margin: 0; display: flex; align-items: center; gap: 10px; }
+
+        .form-grid {
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .form-group { display: flex; flex-direction: column; }
+        .form-group.full-width { grid-column: 1 / -1; }
+
+        .form-group label {
+            color: #64748b;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 6px;
+        }
+
+        .form-control, input, select {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+            border-radius: 8px;
+            padding: 10px 12px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus, input:focus, select:focus {
+            border-color: #10b981;
+            outline: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+
+        /* Table */
+        .table-responsive { overflow-x: auto; padding: 20px; }
+
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th, .data-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .data-table th { background: #f1f5f9; color: #64748b; font-weight: 600; font-size: 13px; }
+        .data-table td { color: #1e293b; font-size: 14px; }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-autorizada { background: #dcfce7; color: #16a34a; }
+        .status-transmitida { background: #dbeafe; color: #2563eb; }
+        .status-cancelada { background: #fee2e2; color: #dc2626; }
+        .status-rejeitada { background: #fef3c7; color: #d97706; }
+
+        .action-buttons { display: flex; gap: 8px; }
+
+        .btn-action {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: #f1f5f9;
+            color: #64748b;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover { background: var(--nfe-primary); color: white; }
+
+        .info-message {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 8px;
+            color: #0369a1;
+        }
+
+        .info-message i { font-size: 20px; }
+
+        .nfe-numero { display: flex; flex-direction: column; gap: 4px; }
+        .numero-badge { font-weight: 700; color: var(--nfe-primary); }
+        .serie-badge { font-size: 11px; color: #64748b; }
+
+        .cliente-info, .data-hora { display: flex; align-items: center; gap: 8px; }
+        .cliente-info i, .data-hora i { color: #64748b; }
+
+        .valor-nfe { font-weight: 600; color: #059669; }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="/dashboard" class="sidebar-logo" title="Voltar ao Painel">
+                <i class="fas fa-file-invoice"></i>
+            </a>
+            
+            <nav class="sidebar-nav">
+                <a href="index.html" class="sidebar-btn" title="Dashboard">
+                    <i class="fas fa-chart-pie"></i>
+                </a>
+                <a href="emitir.html" class="sidebar-btn" title="Emitir NFe">
+                    <i class="fas fa-file-invoice"></i>
+                </a>
+                <a href="consultar.html" class="sidebar-btn active" title="Consultar NFe">
+                    <i class="fas fa-search"></i>
+                </a>
+                <a href="nfse.html" class="sidebar-btn" title="NFSe - Serviços">
+                    <i class="fas fa-file-contract"></i>
+                </a>
+                <a href="danfe.html" class="sidebar-btn" title="Gerar DANFE">
+                    <i class="fas fa-print"></i>
+                </a>
+                <a href="relatorios.html" class="sidebar-btn" title="Relatórios">
+                    <i class="fas fa-chart-bar"></i>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="eventos.html" class="sidebar-btn" title="Eventos">
+                    <i class="fas fa-history"></i>
+                </a>
+                <a href="logistica.html" class="sidebar-btn" title="Logística">
+                    <i class="fas fa-truck"></i>
+                </a>
+                <a href="/dashboard" class="sidebar-btn" title="Voltar ao Painel">
+                    <i class="fas fa-home"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Area -->
+        <main class="main-area">
+            <!-- Header -->
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <span style="font-size: 14px; font-weight: 600; color: #8b8b9a;">NFe & Logística</span>
+                        <span style="color: #3d3d54;">|</span>
+                        <span style="font-size: 14px; font-weight: 500; color: #34d399;">Consultar NFe</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" title="Atualizar" onclick="location.reload()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="header-btn" title="Notificações">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div class="user-greeting">
+                        <span id="user-greeting"><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <div class="user-avatar" id="user-avatar">
+                            <img id="user-photo" src="" alt="Foto" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                            <span id="user-initial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tabs Bar -->
+            <div class="tabs-bar">
+                <a href="index.html" class="tab">
+                    <i class="fas fa-chart-pie"></i>
+                    Dashboard
+                </a>
+                <a href="emitir.html" class="tab">
+                    <i class="fas fa-file-invoice"></i>
+                    Emitir NFe
+                </a>
+                <a href="consultar.html" class="tab active">
+                    <i class="fas fa-search"></i>
+                    Consultar
+                </a>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <div class="content-area">
+                    <!-- Formulário de Consulta -->
+                    <div class="consulta-box">
+                        <div class="consulta-header">
+                            <h3><i class="fas fa-filter"></i> Filtros de Pesquisa</h3>
+                        </div>
+                        <form class="consulta-form" id="form-consulta">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Número da NFe</label>
+                                    <input type="text" class="form-control" id="filtro-numero" placeholder="000001">
+                                </div>
+                                <div class="form-group">
+                                    <label>Série</label>
+                                    <input type="text" class="form-control" id="filtro-serie" placeholder="001">
+                                </div>
+                                <div class="form-group full-width">
+                                    <label>Chave de Acesso</label>
+                                    <input type="text" class="form-control" id="filtro-chave" placeholder="35251243818589000195550010003420001234567890">
+                                </div>
+                                <div class="form-group">
+                                    <label>Cliente</label>
+                                    <input type="text" class="form-control" id="filtro-cliente" placeholder="Nome ou CNPJ">
+                                </div>
+                                <div class="form-group">
+                                    <label>Data Inicial</label>
+                                    <input type="date" class="form-control" id="filtro-data-inicio" title="Data inicial">
+                                </div>
+                                <div class="form-group">
+                                    <label>Data Final</label>
+                                    <input type="date" class="form-control" id="filtro-data-fim" title="Data final">
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select class="form-control" id="filtro-status" title="Selecione o status">
+                                        <option value="">Todos</option>
+                                        <option value="AUTORIZADA">Autorizada</option>
+                                        <option value="TRANSMITIDA">Transmitida</option>
+                                        <option value="CANCELADA">Cancelada</option>
+                                        <option value="REJEITADA">Rejeitada</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="display: flex; align-items: flex-end;">
+                                    <button type="submit" class="btn-primary" style="width: 100%;">
+                                        <i class="fas fa-search"></i> Pesquisar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Resultados -->
+                    <div id="resultados-consulta" style="display: none;">
+                        <div class="consulta-box">
+                            <div class="consulta-header">
+                                <h3><i class="fas fa-list"></i> Resultados da Pesquisa</h3>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Número</th>
+                                            <th>Cliente</th>
+                                            <th>Data/Hora</th>
+                                            <th>Valor</th>
+                                            <th>Status</th>
+                                            <th>Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody-resultados">
+                                        <!-- Resultados serão inseridos aqui -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mensagem sem resultados -->
+                    <div id="sem-resultados" class="info-message" style="display: none;">
+                        <i class="fas fa-info-circle"></i>
+                        <p>Nenhuma NFe encontrada com os filtros selecionados.</p>
+                    </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dados de exemplo (simula banco de dados)
+        const nfesDatabase = [
+            { Número: '000342', serie: '001', cliente: 'CONSTRUTORA ABC LTDA', data: '10/12/2025 14:32', valor: 45678.90, status: 'AUTORIZADA', chave: '35251243818589000195550010003420001234567890' },
+            { Número: '000341', serie: '001', cliente: 'INDÚSTRIA XYZ S/A', data: '10/12/2025 11:15', valor: 32145.50, status: 'TRANSMITIDA', chave: '35251243818589000195550010003410001234567889' },
+            { Número: '000340', serie: '001', cliente: 'COMERCIAL DEF', data: '09/12/2025 16:48', valor: 18920.00, status: 'AUTORIZADA', chave: '35251243818589000195550010003400001234567888' },
+            { Número: '000339', serie: '001', cliente: 'METALÚRGICA GHI', data: '09/12/2025 10:22', valor: 67890.00, status: 'AUTORIZADA', chave: '35251243818589000195550010003390001234567887' },
+            { Número: '000338', serie: '001', cliente: 'DISTRIBUIDORA JKL', data: '08/12/2025 15:05', valor: 23456.80, status: 'CANCELADA', chave: '35251243818589000195550010003380001234567886' },
+            { Número: '000337', serie: '001', cliente: 'TRANSPORTES MNO', data: '08/12/2025 09:30', valor: 15678.00, status: 'AUTORIZADA', chave: '35251243818589000195550010003370001234567885' },
+            { Número: '000336', serie: '001', cliente: 'SERVIÇOS PQR', data: '07/12/2025 14:15', valor: 8945.30, status: 'REJEITADA', chave: '35251243818589000195550010003360001234567884' },
+        ];
+
+        // Função de consulta
+        document.getElementById('form-consulta').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const filtros = {
+                Número: document.getElementById('filtro-numero').value.trim(),
+                serie: document.getElementById('filtro-serie').value.trim(),
+                chave: document.getElementById('filtro-chave').value.trim(),
+                cliente: document.getElementById('filtro-cliente').value.trim().toUpperCase(),
+                dataInicio: document.getElementById('filtro-data-inicio').value,
+                dataFim: document.getElementById('filtro-data-fim').value,
+                status: document.getElementById('filtro-status').value
+            };
+
+            // Filtrar resultados
+            let resultados = nfesDatabase.filter(nfe => {
+                if (filtros.Número && !nfe.Número.includes(filtros.Número)) return false;
+                if (filtros.serie && !nfe.serie.includes(filtros.serie)) return false;
+                if (filtros.chave && !nfe.chave.includes(filtros.chave)) return false;
+                if (filtros.cliente && !nfe.cliente.includes(filtros.cliente)) return false;
+                if (filtros.status && nfe.status !== filtros.status) return false;
+                
+                // Filtro por data (simplificado)
+                if (filtros.dataInicio || filtros.dataFim) {
+                    const nfeData = nfe.data.split(' ')[0];
+                    const [dia, mes, ano] = nfeData.split('/');
+                    const nfeDataObj = new Date(ano, mes - 1, dia);
+                    
+                    if (filtros.dataInicio) {
+                        const dataInicio = new Date(filtros.dataInicio);
+                        if (nfeDataObj < dataInicio) return false;
+                    }
+                    
+                    if (filtros.dataFim) {
+                        const dataFim = new Date(filtros.dataFim);
+                        if (nfeDataObj > dataFim) return false;
+                    }
+                }
+                
+                return true;
+            });
+
+            // Exibir resultados
+            const tbody = document.getElementById('tbody-resultados');
+            const resultadosDiv = document.getElementById('resultados-consulta');
+            const semResultadosDiv = document.getElementById('sem-resultados');
+
+            if (resultados.length > 0) {
+                tbody.innerHTML = resultados.map(nfe => `
+                    <tr>
+                        <td>
+                            <div class="nfe-Número">
+                                <span class="Número-badge">${nfe.Número}</span>
+                                <span class="serie-badge">Série ${nfe.serie}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="cliente-info">
+                                <i class="fas fa-building"></i>
+                                ${nfe.cliente}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="data-hora">
+                                <i class="far fa-calendar"></i>
+                                ${nfe.data}
+                            </div>
+                        </td>
+                        <td>
+                            <span class="valor-nfe">R$ ${nfe.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</span>
+                        </td>
+                        <td>
+                            <span class="status-badge status-${nfe.status.toLowerCase()}">
+                                ${getStatusIcon(nfe.status)} ${nfe.status}
+                            </span>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <button class="btn-action" title="Ver NFe" onclick="visualizarNFe(${JSON.stringify(nfe).replace(/"/g, '&quot;')})">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="btn-action" title="Download XML" onclick="baixarXML('${nfe.chave}')">
+                                    <i class="fas fa-download"></i>
+                                </button>
+                                <button class="btn-action" title="Enviar Email" onclick="enviarEmail(${JSON.stringify(nfe).replace(/"/g, '&quot;')})">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+                
+                resultadosDiv.style.display = 'block';
+                semResultadosDiv.style.display = 'none';
+            } else {
+                resultadosDiv.style.display = 'none';
+                semResultadosDiv.style.display = 'flex';
+            }
+        });
+
+        function getStatusIcon(status) {
+            const icons = {
+                'AUTORIZADA': '<i class="fas fa-check-circle"></i>',
+                'TRANSMITIDA': '<i class="fas fa-paper-plane"></i>',
+                'CANCELADA': '<i class="fas fa-times-circle"></i>',
+                'REJEITADA': '<i class="fas fa-exclamation-circle"></i>'
+            };
+            return icons[status] || '<i class="fas fa-circle"></i>';
+        }
+
+        function visualizarNFe(nfe) {
+            alert(`Visualizar NFe ${nfe.Número}\nCliente: ${nfe.cliente}\nValor: R$ ${nfe.valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`);
+        }
+
+        function baixarXML(chave) {
+            alert('Download do XML da chave: ' + chave);
+        }
+
+        function enviarEmail(nfe) {
+            const email = prompt('Digite o email do DESTINATÁRIO:');
+            if (email) {
+                alert(`NFe ${nfe.Número} enviada para ${email}`);
+            }
+        }
+    </script>
+
+    <script src="dashboard-nfe-pro.js?v=20251215"></script>
+    
+    <!-- Carregar dados do usuário logado -->
+    <script>
+        async function carregarUsuarioLogado() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || user.name || 'Usuário';
+                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    
+                    // Atualizar nome na saudação
+                    const userNameEl = document.getElementById('user-name');
+                    if (userNameEl) {
+                        userNameEl.textContent = primeiroNome;
+                    }
+                    
+                    // Mapeamento de avatares
+                    const avatarNameMap = {
+                        'clemerson': '/avatars/Clemerson.webp',
+                        'isabela': '/avatars/Isabela.webp',
+                        'thaina': '/avatars/Thaina.webp',
+                        'thiago': '/avatars/Thiago.webp',
+                        'nicolas': '/avatars/NicolasDaniel.webp',
+                        'nicolasdaniel': '/avatars/NicolasDaniel.webp',
+                        'rh': '/avatars/Rh.webp',
+                        'admin': '/avatars/admin.webp',
+                        'ti': '/avatars/TI.webp',
+                        'tialuforce': '/avatars/TI.webp',
+                        'antonio': '/avatars/Antonio.webp',
+                        'antônio': '/avatars/Antonio.webp',
+                        'andreia': '/avatars/Andreia.webp',
+                        'guilherme': '/avatars/Guilherme.webp',
+                        'marcelo': '/avatars/Marcelo.webp',
+                        'financeiro': '/avatars/Financeiro.webp',
+                        'douglas': '/avatars/Douglas.webp',
+                        'hellen': '/avatars/Hellen.webp',
+                        'helen': '/avatars/Hellen.webp',
+                        'marcia': '/avatars/Marcia.webp',
+                        'augusto': '/avatars/Augusto.webp',
+                        'renata': '/avatars/Renata.webp',
+                        'fabiano': '/avatars/Fabiano.webp',
+                        'fabiola': '/avatars/Fabiola.webp'
+                    };
+                    
+                    let avatarUrl = null;
+                    if (user.avatar && user.avatar !== '/avatars/default.webp') avatarUrl = user.avatar;
+                    else if (user.foto && user.foto !== '/avatars/default.webp') avatarUrl = user.foto;
+                    else if (user.email) {
+                        const username = user.email.split('@')[0].split('.')[0].toLowerCase();
+                        avatarUrl = avatarNameMap[username];
+                    }
+                    if (!avatarUrl) avatarUrl = avatarNameMap[primeiroNome.toLowerCase()];
+                    
+                    const userPhotoEl = document.getElementById('user-photo');
+                    const initialEl = document.getElementById('user-initial');
+                    
+                    if (avatarUrl && userPhotoEl) {
+                        userPhotoEl.src = avatarUrl;
+                        userPhotoEl.style.display = 'block';
+                        userPhotoEl.onerror = function() {
+                            this.style.display = 'none';
+                            if (initialEl) { initialEl.textContent = primeiroNome.charAt(0).toUpperCase(); initialEl.style.display = 'flex'; }
+                        };
+                        if (initialEl) initialEl.style.display = 'none';
+                    } else if (initialEl) {
+                        initialEl.textContent = primeiroNome.charAt(0).toUpperCase();
+                    }
+                }
+            } catch (e) { console.log('Erro ao carregar usuário:', e); }
+        }
+        document.addEventListener('DOMContentLoaded', carregarUsuarioLogado);
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+
+
+
+
+
+

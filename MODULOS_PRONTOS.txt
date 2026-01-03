@@ -1,0 +1,106 @@
+﻿
+           MÓDULOS ALUFORCE - PRONTOS PARA USO             
+
+
+ STATUS GERAL: TODOS OS MÓDULOS OPERACIONAIS
+
+
+  1. RECURSOS HUMANOS (RH)                                  
+     Cor: Rosa/Vermelho (#e11d48)                           
+     Header PCP:                                            
+     Sidebar PCP:                                           
+     Funcionalidades:                                        
+      - Dashboard com métricas                                
+      - Gestão de funcionários                                
+      - Controle de ponto eletrônico                          
+      - Gestão de férias                                      
+      - Folha de pagamento                                    
+      - Benefícios                                            
+      - Avaliações de desempenho                              
+     Arquivo: modules/RH/rh.html                             
+
+
+
+  2. GESTÃO DE COMPRAS                                      
+     Cor: Laranja (#f97316)                                 
+     Header PCP:                                            
+     Sidebar PCP:                                           
+     Funcionalidades:                                        
+      - Dashboard de compras                                  
+      - Gestão de fornecedores                                
+      - Pedidos de compra                                     
+      - Sistema de cotações                                   
+      - Controle de estoque                                   
+      - Relatórios                                            
+     Arquivo: modules/Compras/compras.html                   
+
+
+
+  3. NFe & LOGÍSTICA                                        
+     Cor: Roxo (#8b5cf6)                                    
+     Header PCP:                                            
+     Sidebar PCP:                                           
+     Funcionalidades:                                        
+      - Dashboard de notas fiscais                            
+      - Emissão de NFe                                        
+      - Consulta e gerenciamento                              
+      - Certificado digital                                   
+      - Controle logístico                                    
+      - Eventos                                               
+     Arquivo: modules/NFe/nfe.html                           
+
+
+
+  4. FINANCEIRO                                             
+     Cor: Verde (#10b981)                                   
+     Header PCP:                                            
+     Sidebar PCP:                                           
+     Funcionalidades:                                        
+      - Dashboard financeiro                                  
+      - Contas a Pagar                                        
+      - Contas a Receber                                      
+      - Fluxo de caixa                                        
+      - Conciliação bancária                                  
+      - DRE e relatórios                                      
+     Arquivo: modules/Financeiro/financeiro.html             
+
+
+
+  5. VENDAS                                                 
+     Cor: Azul (#3b82f6)                                    
+     Header PCP:                                            
+     Sidebar PCP:                                           
+     Funcionalidades:                                        
+      - Dashboard de vendas                                   
+      - Pipeline/Kanban                                       
+      - Gestão de pedidos                                     
+      - CRM - Clientes                                        
+      - Gestão de empresas                                    
+      - Análise de performance                                
+     Arquivo: modules/Vendas/public/index.html               
+
+
+ DESIGN SYSTEM UNIFICADO
+
+ Sidebar lateral com ícones e tooltips
+ Header moderno (logo, busca, notificações, modo escuro, perfil)
+ Componentes padronizados (botões, cards, tabelas, formulários)
+ Modo escuro em todos os módulos
+ Totalmente responsivo (mobile, tablet, desktop)
+ Acessibilidade (ARIA labels, navegação por teclado)
+
+ ARQUIVOS COMPARTILHADOS
+
+ modules/_shared/pcp-standard.css (estilos base)
+ modules/_shared/pcp-components.css (componentes)
+ modules/_shared/pcp-standard.js (funções JS)
+
+ COMO USAR
+
+1. Acesse cada módulo pelo navegador
+2. Todos seguem o mesmo padrão visual do PCP
+3. Navegação pela sidebar lateral
+4. Alternância de abas pelos botões superiores
+5. Modo escuro disponível no header
+
+ TODOS OS MÓDULOS PRONTOS PARA USO NO DIA A DIA!

@@ -1,0 +1,252 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carregando Aluforce...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            -webkit-app-region: drag;
+        }
+
+        .splash-container {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border-radius: 20px;
+            padding: 50px 60px;
+            text-align: center;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .splash-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6, #1e40af);
+            background-size: 200% 100%;
+            animation: gradient-move 2s ease infinite;
+        }
+
+        @keyframes gradient-move {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #1e40af, #1d4ed8);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            box-shadow: 0 10px 40px rgba(30, 64, 175, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 10px 40px rgba(30, 64, 175, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 50px rgba(30, 64, 175, 0.5); }
+        }
+
+        .logo-text {
+            font-size: 48px;
+            font-weight: 800;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .app-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .app-subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 35px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .loader-container {
+            margin-bottom: 20px;
+        }
+
+        .loader {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loader-bar {
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            border-radius: 10px;
+            animation: loader-animation 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loader-animation {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(350%); }
+        }
+
+        .status-text {
+            font-size: 13px;
+            color: #64748b;
+            min-height: 20px;
+        }
+
+        .version {
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+            font-size: 11px;
+            color: #475569;
+        }
+
+        /* Partículas decorativas */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; top: 80%; animation-delay: 1s; }
+        .particle:nth-child(3) { left: 60%; top: 30%; animation-delay: 2s; }
+        .particle:nth-child(4) { left: 80%; top: 70%; animation-delay: 3s; }
+        .particle:nth-child(5) { left: 90%; top: 20%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) scale(1); opacity: 0.5; }
+            50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+        }
+
+        /* Glow effect */
+        .glow {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(30, 64, 175, 0.3) 0%, transparent 70%);
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            pointer-events: none;
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="splash-container">
+        <div class="glow"></div>
+        <div class="particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        
+        <div class="logo-container">
+            <div class="logo">
+                <span class="logo-text">A</span>
+            </div>
+        </div>
+        
+        <h1 class="app-name">Aluforce</h1>
+        <p class="app-subtitle">Sistema de Gestão Empresarial</p>
+        
+        <div class="loader-container">
+            <div class="loader">
+                <div class="loader-bar"></div>
+            </div>
+        </div>
+        
+        <p class="status-text" id="status">Iniciando servidor...</p>
+        
+        <span class="version">v2.0.0</span>
+    </div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+        
+        // Receber atualizações de status
+        ipcRenderer.on('status-update', (event, message) => {
+            const statusElement = document.getElementById('status');
+            if (statusElement) {
+                statusElement.textContent = message;
+            }
+        });
+
+        // Lista de mensagens de status
+        const statusMessages = [
+            'Iniciando servidor...',
+            'Carregando módulos...',
+            'Conectando ao banco de dados...',
+            'Preparando interface...'
+        ];
+
+        let currentIndex = 0;
+
+        // Alternar mensagens automaticamente se não receber do main
+        const autoStatus = setInterval(() => {
+            const statusElement = document.getElementById('status');
+            if (statusElement) {
+                currentIndex = (currentIndex + 1) % statusMessages.length;
+                statusElement.textContent = statusMessages[currentIndex];
+            }
+        }, 2000);
+
+        // Limpar interval quando fechar
+        window.addEventListener('beforeunload', () => {
+            clearInterval(autoStatus);
+        });
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

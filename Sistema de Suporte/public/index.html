@@ -1,0 +1,934 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte - Atendimento</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a5a4c 0%, #2d8b74 50%, #3da88a 100%);
+            min-height: 100vh;
+        }
+
+        /* Widget Button */
+        .widget-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9998;
+            border: none;
+            transition: all 0.3s;
+        }
+        .widget-btn:hover { transform: scale(1.1); }
+        .widget-btn img { width: 40px; height: 40px; }
+        .widget-btn .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: #e74c3c;
+            color: white;
+            min-width: 24px;
+            height: 24px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid white;
+            padding: 0 6px;
+            animation: pulse 2s infinite;
+        }
+        .widget-btn .badge.show { display: flex; }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Widget Container */
+        .widget {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            width: 420px;
+            height: 600px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.25);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 9999;
+            animation: slideUp 0.3s ease;
+        }
+        .widget.open { display: flex; }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .widget-header {
+            background: linear-gradient(135deg, #00b8a9 0%, #00d4aa 100%);
+            padding: 16px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .widget-header h2 { 
+            font-size: 18px; 
+            font-weight: 600; 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+        }
+        .widget-header .online-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            opacity: 0.9;
+        }
+        .widget-header .online-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: blink 2s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .widget-header .close-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background 0.2s;
+        }
+        .widget-header .close-btn:hover { background: rgba(255,255,255,0.3); }
+
+        /* Login Screen */
+        .login-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+        }
+        .login-screen.hidden { display: none; }
+        .login-screen i { font-size: 60px; color: #00b8a9; margin-bottom: 20px; }
+        .login-screen h3 { font-size: 20px; color: #1f2937; margin-bottom: 8px; }
+        .login-screen p { font-size: 14px; color: #6b7280; margin-bottom: 24px; }
+        .login-screen input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .login-screen input:focus { border-color: #00b8a9; }
+        .login-screen button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #00b8a9 0%, #00d4aa 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .login-screen button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,184,169,0.4); }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .main-content.active { display: flex; }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 10px 14px;
+            gap: 8px;
+        }
+        .stat-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e5e7eb;
+        }
+        .stat-item.highlight { 
+            background: linear-gradient(135deg, #00b8a9 0%, #00d4aa 100%); 
+            border: none;
+        }
+        .stat-item .number { font-size: 20px; font-weight: 700; color: #1f2937; }
+        .stat-item.highlight .number { color: white; }
+        .stat-item .label { font-size: 10px; color: #6b7280; text-transform: uppercase; }
+        .stat-item.highlight .label { color: rgba(255,255,255,0.9); }
+
+        /* Tickets List */
+        .tickets-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .tickets-header {
+            padding: 12px 14px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .tickets-header h4 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tickets-header .filter-btns { display: flex; gap: 6px; }
+        .filter-btn {
+            padding: 5px 10px;
+            border-radius: 16px;
+            font-size: 11px;
+            cursor: pointer;
+            border: 1px solid #e5e7eb;
+            background: white;
+            color: #6b7280;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover { border-color: #00b8a9; color: #00b8a9; }
+        .filter-btn.active { background: #00b8a9; border-color: #00b8a9; color: white; }
+
+        .tickets-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+        .ticket-item {
+            display: flex;
+            align-items: center;
+            padding: 14px;
+            border-bottom: 1px solid #f3f4f6;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .ticket-item:hover { background: #f9fafb; }
+        .ticket-item.waiting { 
+            background: #fef3c7; 
+            border-left: 4px solid #f59e0b;
+        }
+        .ticket-item.waiting:hover { background: #fde68a; }
+        .ticket-item.active { 
+            background: #ecfdf5; 
+            border-left: 4px solid #00b8a9;
+        }
+        .ticket-item .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #00b8a9;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 16px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .ticket-item.waiting .avatar { background: #f59e0b; }
+        .ticket-item .content { flex: 1; min-width: 0; }
+        .ticket-item .top-row { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 4px; 
+        }
+        .ticket-item .name { 
+            font-size: 14px; 
+            font-weight: 600; 
+            color: #1f2937; 
+        }
+        .ticket-item .time { 
+            font-size: 11px; 
+            color: #9ca3af; 
+        }
+        .ticket-item .preview { 
+            font-size: 12px; 
+            color: #6b7280; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+        .ticket-item .status-badge {
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 600;
+            margin-left: 8px;
+            flex-shrink: 0;
+        }
+        .status-badge.waiting { background: #fef3c7; color: #d97706; }
+        .status-badge.handling { background: #dbeafe; color: #2563eb; }
+        .status-badge.ai { background: #e0e7ff; color: #4f46e5; }
+
+        .empty-state {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #9ca3af;
+            padding: 40px;
+        }
+        .empty-state i { font-size: 48px; margin-bottom: 12px; }
+        .empty-state p { font-size: 14px; }
+
+        /* Chat Panel */
+        .chat-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+        }
+        .chat-panel.open { display: flex; }
+
+        .chat-header {
+            background: linear-gradient(135deg, #00b8a9 0%, #00d4aa 100%);
+            padding: 14px 16px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .chat-header .back-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .chat-header .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .chat-header .info { flex: 1; }
+        .chat-header .name { font-size: 15px; font-weight: 600; }
+        .chat-header .protocol { font-size: 11px; opacity: 0.9; }
+
+        .chat-actions {
+            display: flex;
+            gap: 8px;
+            padding: 10px 14px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        .action-btn.primary {
+            background: linear-gradient(135deg, #00b8a9 0%, #00d4aa 100%);
+            color: white;
+        }
+        .action-btn.success {
+            background: #10b981;
+            color: white;
+        }
+        .action-btn.secondary {
+            background: white;
+            color: #6b7280;
+            border: 1px solid #e5e7eb;
+        }
+        .action-btn:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .messages-container {
+            flex: 1;
+            padding: 14px;
+            overflow-y: auto;
+            background: #f9fafb;
+        }
+        .message {
+            margin-bottom: 12px;
+            max-width: 85%;
+        }
+        .message.received { margin-right: auto; }
+        .message.sent { margin-left: auto; }
+        .message .sender {
+            font-size: 10px;
+            color: #6b7280;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .message .sender i { font-size: 12px; }
+        .message .bubble {
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .message.received .bubble {
+            background: white;
+            color: #1f2937;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+        .message.sent .bubble {
+            background: linear-gradient(135deg, #00b8a9 0%, #00d4aa 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        .message.ai .bubble {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+        .message .time {
+            font-size: 10px;
+            color: #9ca3af;
+            margin-top: 4px;
+        }
+        .message.system {
+            max-width: 100%;
+            text-align: center;
+        }
+        .message.system .bubble {
+            background: #fef3c7;
+            color: #92400e;
+            display: inline-block;
+            font-size: 12px;
+            padding: 8px 14px;
+        }
+
+        .chat-input {
+            padding: 12px 14px;
+            background: white;
+            border-top: 1px solid #e5e7eb;
+            display: flex;
+            gap: 10px;
+        }
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 24px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .chat-input input:focus { border-color: #00b8a9; }
+        .chat-input input:disabled { background: #f3f4f6; }
+        .chat-input button {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00b8a9 0%, #00d4aa 100%);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .chat-input button:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,184,169,0.4); }
+        .chat-input button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <!-- Widget Button -->
+    <button class="widget-btn" onclick="toggleWidget()">
+        <img src="/Icone-Chat.png" alt="Suporte" onerror="this.outerHTML='<i class=\'bi bi-headset\' style=\'font-size:28px;color:#00b8a9\'></i>'">
+        <span class="badge" id="badge">0</span>
+    </button>
+
+    <!-- Widget -->
+    <div class="widget" id="widget">
+        <!-- Header -->
+        <div class="widget-header">
+            <h2><i class="bi bi-headset"></i> Suporte</h2>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <span class="online-status" id="onlineStatus">Online</span>
+                <button class="close-btn" onclick="toggleWidget()"><i class="bi bi-x"></i></button>
+            </div>
+        </div>
+
+        <!-- Login -->
+        <div class="login-screen" id="loginScreen">
+            <i class="bi bi-person-badge"></i>
+            <h3>Central de Atendimento</h3>
+            <p>Identifique-se para começar a atender</p>
+            <input type="text" id="attendantName" placeholder="Seu nome" onkeypress="if(event.key==='Enter')login()">
+            <button onclick="login()"><i class="bi bi-box-arrow-in-right"></i> Entrar</button>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+            <!-- Stats -->
+            <div class="stats-bar">
+                <div class="stat-item highlight">
+                    <div class="number" id="statWaiting">0</div>
+                    <div class="label">Aguardando</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number" id="statHandling">0</div>
+                    <div class="label">Atendendo</div>
+                </div>
+                <div class="stat-item">
+                    <div class="number" id="statToday">0</div>
+                    <div class="label">Fechados</div>
+                </div>
+            </div>
+
+            <!-- Tickets Panel -->
+            <div class="tickets-panel">
+                <div class="tickets-header">
+                    <h4><i class="bi bi-people"></i> Clientes</h4>
+                    <div class="filter-btns">
+                        <button class="filter-btn active" onclick="filterTickets('waiting')" data-filter="waiting">Aguardando</button>
+                        <button class="filter-btn" onclick="filterTickets('all')" data-filter="all">Todos</button>
+                    </div>
+                </div>
+                <div class="tickets-list" id="ticketsList">
+                    <div class="empty-state">
+                        <i class="bi bi-inbox"></i>
+                        <p>Nenhum cliente aguardando</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chat Panel (overlay) -->
+            <div class="chat-panel" id="chatPanel">
+                <div class="chat-header">
+                    <button class="back-btn" onclick="closeChat()"><i class="bi bi-arrow-left"></i></button>
+                    <div class="avatar" id="chatAvatar">?</div>
+                    <div class="info">
+                        <div class="name" id="chatName">Cliente</div>
+                        <div class="protocol" id="chatProtocol">#000000</div>
+                    </div>
+                </div>
+                <div class="chat-actions" id="chatActions">
+                    <button class="action-btn primary" id="btnTake" onclick="takeTicket()">
+                        <i class="bi bi-hand-index"></i> Assumir
+                    </button>
+                    <button class="action-btn success" id="btnClose" onclick="closeTicket()" style="display:none">
+                        <i class="bi bi-check-circle"></i> Finalizar
+                    </button>
+                </div>
+                <div class="messages-container" id="messages"></div>
+                <div class="chat-input" id="chatInput">
+                    <input type="text" id="messageInput" placeholder="Digite sua mensagem..." disabled onkeypress="if(event.key==='Enter')sendMessage()">
+                    <button onclick="sendMessage()" disabled id="sendBtn"><i class="bi bi-send"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        // State
+        let socket = null;
+        let attendantName = '';
+        let loggedIn = false;
+        let tickets = [];
+        let currentTicket = null;
+        let currentFilter = 'waiting';
+
+        // Toggle Widget
+        function toggleWidget() {
+            const widget = document.getElementById('widget');
+            widget.classList.toggle('open');
+            if (widget.classList.contains('open') && loggedIn) {
+                loadTickets();
+            }
+        }
+
+        // Login
+        function login() {
+            const name = document.getElementById('attendantName').value.trim();
+            if (!name) {
+                document.getElementById('attendantName').focus();
+                return;
+            }
+            
+            attendantName = name;
+            loggedIn = true;
+            localStorage.setItem('attendantName', name);
+            
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('mainContent').classList.add('active');
+            
+            connectSocket();
+        }
+
+        // Socket Connection
+        function connectSocket() {
+            socket = io();
+            
+            socket.on('connect', () => {
+                socket.emit('identify', { type: 'admin', name: attendantName });
+                document.getElementById('onlineStatus').textContent = 'Online';
+            });
+
+            socket.on('disconnect', () => {
+                document.getElementById('onlineStatus').textContent = 'Reconectando...';
+            });
+
+            socket.on('tickets_list', (data) => {
+                tickets = data;
+                renderTickets();
+                updateStats();
+            });
+
+            socket.on('new_ticket', (ticket) => {
+                const exists = tickets.find(t => t.id === ticket.id);
+                if (!exists) {
+                    tickets.unshift(ticket);
+                    if (ticket.status === 'waiting_human') {
+                        playNotification();
+                        showBrowserNotification(ticket);
+                    }
+                }
+                renderTickets();
+                updateStats();
+            });
+
+            socket.on('ticket_updated', (ticket) => {
+                const idx = tickets.findIndex(t => t.id === ticket.id);
+                if (idx >= 0) {
+                    tickets[idx] = ticket;
+                } else {
+                    tickets.unshift(ticket);
+                }
+                renderTickets();
+                updateStats();
+                
+                if (currentTicket && currentTicket.id === ticket.id) {
+                    currentTicket = ticket;
+                    updateChatUI();
+                }
+            });
+
+            socket.on('ticket_message', (data) => {
+                if (currentTicket && currentTicket.id === data.ticketId && data.sender !== 'admin') {
+                    addMessage(data.message, 'received', data.senderName, data.sender === 'ai');
+                    playNotification();
+                }
+            });
+        }
+
+        // Render tickets list
+        function renderTickets() {
+            const container = document.getElementById('ticketsList');
+            let filtered = tickets;
+            
+            if (currentFilter === 'waiting') {
+                filtered = tickets.filter(t => t.status === 'waiting_human' || t.status === 'ai_handling');
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="bi bi-inbox"></i>
+                        <p>${currentFilter === 'waiting' ? 'Nenhum cliente aguardando' : 'Nenhum ticket'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(ticket => {
+                const initial = (ticket.clientName || 'V').charAt(0).toUpperCase();
+                const time = new Date(ticket.updatedAt || ticket.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                const isWaiting = ticket.status === 'waiting_human';
+                const isAI = ticket.status === 'ai_handling';
+                const isHandling = ticket.status === 'human_handling';
+                const isActive = currentTicket && currentTicket.id === ticket.id;
+                
+                let statusBadge = '';
+                if (isWaiting) statusBadge = '<span class="status-badge waiting">Aguardando</span>';
+                else if (isAI) statusBadge = '<span class="status-badge ai">Com IA</span>';
+                else if (isHandling) statusBadge = '<span class="status-badge handling">Atendendo</span>';
+
+                return `
+                    <div class="ticket-item ${isWaiting ? 'waiting' : ''} ${isActive ? 'active' : ''}" onclick="openTicket(${ticket.id})">
+                        <div class="avatar">${initial}</div>
+                        <div class="content">
+                            <div class="top-row">
+                                <span class="name">${ticket.clientName || 'Visitante'}</span>
+                                <span class="time">${time}</span>
+                            </div>
+                            <div class="preview">${ticket.lastMessage || ticket.subject || 'Nova conversa'}</div>
+                        </div>
+                        ${statusBadge}
+                    </div>
+                `;
+            }).join('');
+
+            updateBadge();
+        }
+
+        // Filter tickets
+        function filterTickets(filter) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.filter === filter);
+            });
+            renderTickets();
+        }
+
+        // Update stats
+        function updateStats() {
+            const waiting = tickets.filter(t => t.status === 'waiting_human' || t.status === 'ai_handling').length;
+            const handling = tickets.filter(t => t.status === 'human_handling' && t.assignedTo === attendantName).length;
+            const closed = tickets.filter(t => t.status === 'closed').length;
+            
+            document.getElementById('statWaiting').textContent = waiting;
+            document.getElementById('statHandling').textContent = handling;
+            document.getElementById('statToday').textContent = closed;
+        }
+
+        // Update badge
+        function updateBadge() {
+            const waiting = tickets.filter(t => t.status === 'waiting_human').length;
+            const badge = document.getElementById('badge');
+            badge.textContent = waiting;
+            badge.classList.toggle('show', waiting > 0);
+        }
+
+        // Open ticket chat
+        async function openTicket(ticketId) {
+            currentTicket = tickets.find(t => t.id === ticketId);
+            if (!currentTicket) return;
+
+            document.getElementById('chatAvatar').textContent = (currentTicket.clientName || 'V').charAt(0).toUpperCase();
+            document.getElementById('chatName').textContent = currentTicket.clientName || 'Visitante';
+            document.getElementById('chatProtocol').textContent = '#' + (currentTicket.protocolo || currentTicket.id);
+
+            try {
+                const res = await fetch(`/api/tickets/${ticketId}/messages`);
+                const messages = await res.json();
+                
+                const container = document.getElementById('messages');
+                container.innerHTML = messages.map(m => {
+                    if (m.sender === 'system') {
+                        return `<div class="message system"><div class="bubble">${m.message}</div></div>`;
+                    }
+                    const type = m.sender === 'client' ? 'received' : 'sent';
+                    const isAI = m.sender === 'ai';
+                    const time = new Date(m.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+                    const senderName = m.sender === 'client' ? (currentTicket.clientName || 'Cliente') : 
+                                       m.sender === 'ai' ? 'IA' : (m.senderName || attendantName);
+                    const icon = m.sender === 'ai' ? '<i class="bi bi-robot"></i>' : 
+                                 m.sender === 'client' ? '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
+                    return `
+                        <div class="message ${type} ${isAI ? 'ai' : ''}">
+                            <div class="sender">${icon} ${senderName}</div>
+                            <div class="bubble">${m.message}</div>
+                            <div class="time">${time}</div>
+                        </div>
+                    `;
+                }).join('');
+                container.scrollTop = container.scrollHeight;
+            } catch (e) {
+                console.error(e);
+            }
+
+            updateChatUI();
+            document.getElementById('chatPanel').classList.add('open');
+            renderTickets();
+        }
+
+        // Update chat UI based on ticket status
+        function updateChatUI() {
+            if (!currentTicket) return;
+            
+            const isWaiting = currentTicket.status === 'waiting_human' || currentTicket.status === 'ai_handling';
+            const isHandling = currentTicket.status === 'human_handling' && currentTicket.assignedTo === attendantName;
+            const isClosed = currentTicket.status === 'closed';
+
+            document.getElementById('btnTake').style.display = isWaiting ? 'flex' : 'none';
+            document.getElementById('btnClose').style.display = isHandling ? 'flex' : 'none';
+            document.getElementById('messageInput').disabled = !isHandling;
+            document.getElementById('sendBtn').disabled = !isHandling;
+            
+            if (isClosed) {
+                document.getElementById('chatActions').innerHTML = `
+                    <button class="action-btn secondary" disabled>
+                        <i class="bi bi-check-circle"></i> Ticket Finalizado
+                    </button>
+                `;
+            }
+        }
+
+        // Close chat panel
+        function closeChat() {
+            document.getElementById('chatPanel').classList.remove('open');
+            currentTicket = null;
+            renderTickets();
+        }
+
+        // Take ticket
+        function takeTicket() {
+            if (!currentTicket || !socket) return;
+            socket.emit('admin_take_ticket', { ticketId: currentTicket.id, adminName: attendantName });
+        }
+
+        // Send message
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const msg = input.value.trim();
+            if (!msg || !currentTicket || !socket) return;
+
+            socket.emit('admin_message', { 
+                ticketId: currentTicket.id, 
+                message: msg, 
+                adminName: attendantName 
+            });
+            
+            addMessage(msg, 'sent', attendantName);
+            input.value = '';
+            input.focus();
+        }
+
+        // Add message to chat
+        function addMessage(text, type, sender, isAI = false) {
+            const container = document.getElementById('messages');
+            const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            const icon = isAI ? '<i class="bi bi-robot"></i>' : 
+                         type === 'received' ? '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
+            
+            const div = document.createElement('div');
+            div.className = `message ${type} ${isAI ? 'ai' : ''}`;
+            div.innerHTML = `
+                <div class="sender">${icon} ${sender}</div>
+                <div class="bubble">${text}</div>
+                <div class="time">${time}</div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Close ticket
+        function closeTicket() {
+            if (!currentTicket || !socket) return;
+            if (confirm('Deseja finalizar este atendimento?')) {
+                socket.emit('admin_close_ticket', { 
+                    ticketId: currentTicket.id, 
+                    resolution: 'Atendimento finalizado' 
+                });
+                closeChat();
+            }
+        }
+
+        // Play notification sound
+        function playNotification() {
+            try {
+                const audio = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleQ==');
+                audio.volume = 0.3;
+                audio.play();
+            } catch (e) {}
+        }
+
+        // Browser notification
+        function showBrowserNotification(ticket) {
+            if (Notification.permission === 'granted') {
+                new Notification('🔔 Novo cliente aguardando!', {
+                    body: `${ticket.clientName || 'Visitante'} precisa de atendimento`,
+                    icon: '/Icone-Chat.png'
+                });
+            }
+        }
+
+        // Load tickets
+        async function loadTickets() {
+            try {
+                const res = await fetch('/api/tickets?status=all');
+                tickets = await res.json();
+                renderTickets();
+                updateStats();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('attendantName');
+            if (saved) {
+                attendantName = saved;
+                loggedIn = true;
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('mainContent').classList.add('active');
+                connectSocket();
+            }
+
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        });
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

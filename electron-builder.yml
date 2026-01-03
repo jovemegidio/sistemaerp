@@ -1,0 +1,139 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+#  ALUFORCE ERP - Electron Builder Configuration
+#  Configuração profissional para builds Windows (Instalável e Portátil)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+appId: com.aluforce.erp
+productName: ALUFORCE ERP
+copyright: Copyright © 2025 ALUFORCE
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  DIRETÓRIOS
+# ─────────────────────────────────────────────────────────────────────────────
+
+directories:
+  output: dist-release
+  buildResources: build
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  ARQUIVOS INCLUÍDOS
+# ─────────────────────────────────────────────────────────────────────────────
+
+files:
+  - "!**/*.md"
+  - "!**/*.map"
+  - "!**/test/**"
+  - "!**/tests/**"
+  - "!**/.git/**"
+  - "!**/node_modules/.cache/**"
+  - "server.js"
+  - "package.json"
+  - "electron/**"
+  - "public/**"
+  - "modules/**"
+  - "src/**"
+  - "views/**"
+  - "uploads/**"
+  - "assets/**"
+  - ".env.example"
+  - "node_modules/**"
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  ARQUIVOS EXTRA (Copiados para resources)
+# ─────────────────────────────────────────────────────────────────────────────
+
+extraResources:
+  - from: "database"
+    to: "database"
+    filter: "*.sql"
+  - from: "docs"
+    to: "docs"
+    filter: ["*.pdf", "*.md"]
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  COMPRESSÃO
+# ─────────────────────────────────────────────────────────────────────────────
+
+compression: maximum
+asar: true
+asarUnpack:
+  - "node_modules/sharp/**"
+  - "node_modules/puppeteer/**"
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  CONFIGURAÇÕES WINDOWS
+# ─────────────────────────────────────────────────────────────────────────────
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+  icon: assets/icon.ico
+  artifactName: "${productName}-${version}-${arch}.${ext}"
+  publisherName: ALUFORCE Sistemas
+  verifyUpdateCodeSignature: false
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  INSTALADOR NSIS (VERSÃO INSTALÁVEL)
+# ─────────────────────────────────────────────────────────────────────────────
+
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  allowElevation: true
+  perMachine: false
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  shortcutName: ALUFORCE ERP
+  installerIcon: assets/icon.ico
+  uninstallerIcon: assets/icon.ico
+  installerHeader: assets/installer-header.bmp
+  installerSidebar: assets/installer-sidebar.bmp
+  deleteAppDataOnUninstall: false
+  runAfterFinish: true
+  menuCategory: true
+  artifactName: "ALUFORCE-ERP-Setup-${version}.${ext}"
+  
+  # Customização do instalador
+  include: build/installer.nsh
+  
+  # Licença
+  license: LICENSE.txt
+  
+  # Idiomas
+  installerLanguages:
+    - pt_BR
+    - en_US
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  VERSÃO PORTÁTIL
+# ─────────────────────────────────────────────────────────────────────────────
+
+portable:
+  artifactName: "ALUFORCE-ERP-Portable-${version}.${ext}"
+  splashImage: assets/splash.bmp
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  ATUALIZAÇÃO AUTOMÁTICA
+# ─────────────────────────────────────────────────────────────────────────────
+
+publish:
+  provider: generic
+  url: https://downloads.aluforce.com
+  channel: latest
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  METADATA
+# ─────────────────────────────────────────────────────────────────────────────
+
+extraMetadata:
+  main: electron/main.js
+  description: Sistema de Gestão Empresarial Completo - ERP, PCP, Vendas, Compras, Faturamento, RH
+  author:
+    name: ALUFORCE Sistemas
+    email: contato@aluforce.com
+    url: https://www.aluforce.com

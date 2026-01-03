@@ -1,0 +1,139 @@
+{
+  "reorganization_plan": {
+    "description": "Plano de reorganização da estrutura do projeto ALUFORCE",
+    "new_structure": {
+      "src/": {
+        "description": "Código-fonte principal da aplicação",
+        "subdirs": {
+          "routes/": "Rotas da API (auth, rh, vendas, pcp, financeiro, nfe)",
+          "middleware/": "Middlewares (auth, validation, errorHandler, performance)",
+          "models/": "Modelos de dados e schemas",
+          "services/": "Lógica de negócios",
+          "controllers/": "Controladores das rotas"
+        }
+      },
+      "config/": {
+        "description": "Arquivos de configuração",
+        "files": ["database.js", "logger.js", "security.js", "email.js"]
+      },
+      "public/": {
+        "description": "Arquivos estáticos servidos ao cliente",
+        "subdirs": {
+          "css/": "Arquivos CSS",
+          "js/": "JavaScript do cliente",
+          "images/": "Imagens e logos",
+          "avatars/": "Avatares de usuários",
+          "uploads/": "Arquivos enviados por usuários"
+        }
+      },
+      "modules/": {
+        "description": "Módulos principais do sistema",
+        "subdirs": {
+          "RH/": "Módulo de Recursos Humanos",
+          "Vendas/": "Módulo de Vendas e CRM",
+          "PCP/": "Módulo de PCP (Planejamento e Controle de Produção)",
+          "Financeiro/": "Módulo Financeiro",
+          "CRM/": "Módulo de CRM",
+          "NFe/": "Módulo de Notas Fiscais"
+        }
+      },
+      "tests/": {
+        "description": "Testes automatizados",
+        "subdirs": {
+          "unit/": "Testes unitários",
+          "integration/": "Testes de integração",
+          "e2e/": "Testes end-to-end",
+          "fixtures/": "Dados de teste"
+        }
+      },
+      "scripts/": {
+        "description": "Scripts utilitários",
+        "files": ["setup.js", "migrate.js", "seed.js", "health-check.js"]
+      },
+      "docs/": {
+        "description": "Documentação do projeto",
+        "files": ["API.md", "ARCHITECTURE.md", "DEPLOYMENT.md"]
+      },
+      "logs/": {
+        "description": "Arquivos de log",
+        "gitignore": true
+      }
+    },
+    "files_to_move": {
+      "root_to_src": [
+        "auth.js",
+        "verifica_db.js"
+      ],
+      "root_to_scripts": [
+        "analyze-usuarios.js",
+        "batch_check_logins.js",
+        "batch_check_logins_full.js",
+        "check_user_emails.js",
+        "create_user.js",
+        "criar_usuario_teste.js",
+        "debug_list_users.js",
+        "debug_query_user.js",
+        "fix_user_password.js",
+        "gerar_hash_admin123.js",
+        "remove_funcionario_6.js",
+        "reset_weak_passwords.js"
+      ],
+      "root_to_tests": [
+        "test_permissions.js",
+        "test_bcrypt.js",
+        "test-all-logins.js",
+        "test-dashboard-login.js",
+        "test-login-automatizado.js",
+        "test-usuarios.js",
+        "test-usuarios-banco.js",
+        "test-usuarios-simples.js",
+        "testes-avancados.js"
+      ],
+      "root_to_public": [
+        "login.html",
+        "login.css",
+        "login.js",
+        "index.html",
+        "config.html",
+        "test_avatars.html",
+        "test-correcoes.html"
+      ],
+      "root_to_public_css": [
+        "style.css",
+        "style-backup.css",
+        "style-enhanced.css",
+        "style-modules.css",
+        "style-new.css",
+        "stylebckup.css",
+        "index-theme.css"
+      ],
+      "root_to_public_js": [
+        "script.js"
+      ],
+      "root_to_docs": [
+        "*.md files (consolidate)"
+      ]
+    },
+    "files_to_delete": {
+      "description": "Arquivos obsoletos ou duplicados",
+      "list": [
+        "server-improved.js (já unificado)",
+        "backup-db-*.sql (mover para pasta backups/)",
+        "*.csv (arquivos temporários de teste)",
+        "*.json de resultado de batch (mover para logs/)",
+        "weak_passwords_backup.json"
+      ]
+    },
+    "consolidation": {
+      "docs": {
+        "action": "Consolidar múltiplos READMEs e documentações em docs/",
+        "keep": ["README.md (principal)", "docs/API.md", "docs/ARCHITECTURE.md"],
+        "archive": "Mover documentos de implementação antigas para docs/archive/"
+      },
+      "tests": {
+        "action": "Organizar testes por tipo (unit, integration, e2e)",
+        "structure": "tests/{unit,integration,e2e,fixtures}/"
+      }
+    }
+  }
+}

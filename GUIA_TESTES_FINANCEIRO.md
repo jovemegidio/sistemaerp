@@ -1,0 +1,423 @@
+# 🧪 GUIA RÁPIDO DE TESTE - Módulo Financeiro
+## Como testar as novas funcionalidades | ALUFORCE v2.0
+
+---
+
+## ✅ PRÉ-REQUISITOS
+
+- ✅ Servidor Node.js rodando (porta 3000)
+- ✅ Banco de dados MySQL com migration executada
+- ✅ Usuário autenticado no sistema
+
+---
+
+## 🎯 TESTES PASSO A PASSO
+
+### **1. DASHBOARD COM GRÁFICOS** 📊
+
+**URL:** `http://localhost:3000/modules/Financeiro/dashboard.html`
+
+**O que testar:**
+
+1. **Carregar a página**
+   - ✅ Deve mostrar loading spinner
+   - ✅ Cards devem preencher com valores reais
+   - ✅ 4 gráficos devem aparecer
+
+2. **Verificar Cards:**
+   - Saldo Atual: Deve mostrar soma de todas contas bancárias
+   - A Receber: Total pendente + quantidade
+   - A Pagar: Total pendente + quantidade
+   - Vencendo Hoje: Contador de contas
+
+3. **Verificar Gráficos:**
+   - **Receitas vs Despesas**: Barras verdes e vermelhas (6 meses)
+   - **Despesas por Categoria**: Rosca colorida
+   - **Fluxo de Caixa**: Linhas de entradas, saídas e saldo
+   - **Status de Contas**: Barras comparando pagar vs receber
+
+4. **Alertas:**
+   - Se houver contas vencendo hoje → Banner amarelo no topo
+
+**Resultado esperado:** Dashboard totalmente funcional com dados reais.
+
+---
+
+### **2. MODAL DE PARCELAMENTO** 💳
+
+**URL:** `http://localhost:3000/modules/Financeiro/gestao_completa.html`
+
+**Passo a passo:**
+
+1. **Criar uma conta de teste:**
+   ```sql
+   INSERT INTO contas_pagar (descricao, valor, data_vencimento, status)
+   VALUES ('Equipamento Industrial', 12000.00, '2025-12-15', 'pendente');
+   ```
+
+2. **Abrir modal:**
+   - Vá para aba "Contas a Pagar"
+   - Localize a conta de R$ 12.000
+   - Clique no botão "Parcelar"
+
+3. **Configurar parcelamento:**
+   - Selecione "6x (Seis vezes)"
+   - Defina data da 1ª parcela: 15/01/2026
+   - Veja prévia aparecer
+
+4. **Verificar prévia:**
+   ```
+   Parcela 1/6 → 15/01/2026 → R$ 2.000,00
+   Parcela 2/6 → 15/02/2026 → R$ 2.000,00
+   ...
+   Parcela 6/6 → 15/06/2026 → R$ 2.000,00 [AJUSTE]
+   ```
+
+5. **Confirmar:**
+   - Clique "Confirmar Parcelamento"
+   - Aguarde mensagem de sucesso
+   - Verifique se 6 contas foram criadas no banco
+
+**Resultado esperado:** 6 parcelas de R$ 2.000 criadas automaticamente.
+
+**Validação no banco:**
+```sql
+SELECT parcela_numero, parcela_total, valor, data_vencimento 
+FROM contas_pagar 
+WHERE descricao LIKE '%Equipamento%'
+ORDER BY parcela_numero;
+```
+
+---
+
+### **3. MODAL DE RECORRÊNCIAS** 🔄
+
+**URL:** Menu lateral → "Recorrências"
+
+**Passo a passo:**
+
+1. **Abrir modal:**
+   - Clique em "Recorrências" no menu
+   - Clique "Nova Recorrência"
+
+2. **Cadastrar recorrência:**
+   ```
+   Tipo: Despesa
+   Categoria: Aluguel
+   Descrição: Aluguel do Galpão Industrial
+   Valor Mensal: R$ 5.000,00
+   Dia Vencimento: 10
+   Data Início: 2025-12-01
+   Data Fim: (vazio)
+   ```
+
+3. **Salvar:**
+   - Clique "Salvar Recorrência"
+   - Aguarde confirmação
+
+4. **Verificar card:**
+   - Deve aparecer card com:
+     - 🔴 Aluguel do Galpão Industrial
+     - ✅ Ativa
+     - R$ 5.000,00
+     - Dia 10
+     - Próxima Geração: 10/01/2026
+
+5. **Testar ações:**
+   - Clique ⏸️ para pausar → Badge muda para "⏸️ Pausada"
+   - Clique ▶️ para reativar → Badge volta para "✅ Ativa"
+
+**Resultado esperado:** Recorrência cadastrada e gerenciável.
+
+**Processar recorrências manualmente:**
+```sql
+-- Simular processamento mensal
+CALL processar_recorrencias();
+```
+
+Ou via API:
+```bash
+POST http://localhost:3000/api/financeiro/recorrencias/processar
+Authorization: Bearer SEU_TOKEN
+```
+
+**Validar:**
+```sql
+SELECT * FROM contas_pagar WHERE recorrente = 1;
+```
+
+---
+
+### **4. FILTROS AVANÇADOS E TABELAS** 🔍
+
+**URL:** `http://localhost:3000/modules/Financeiro/gestao_completa.html`
+
+**Testes de Filtros:**
+
+1. **Busca por texto:**
+   - Digite "equipamento" no campo Buscar
+   - Pressione Enter ou clique "Aplicar Filtros"
+   - ✅ Deve filtrar apenas contas com "equipamento"
+
+2. **Filtro de Status:**
+   - Selecione "Pendente"
+   - ✅ Mostra apenas pendentes
+
+3. **Filtro de Data:**
+   - Data Início: 01/12/2025
+   - Data Fim: 31/12/2025
+   - ✅ Mostra apenas dezembro
+
+4. **Itens por página:**
+   - Selecione "25"
+   - ✅ Tabela mostra máximo 25 itens
+
+**Testes de Ordenação:**
+
+1. **Ordenar por Valor:**
+   - Clique no cabeçalho "Valor"
+   - ✅ Ordena crescente
+   - Clique novamente
+   - ✅ Ordena decrescente
+
+2. **Ordenar por Vencimento:**
+   - Clique em "Vencimento"
+   - ✅ Ordena por data
+
+**Testes de Paginação:**
+
+1. **Criar 100 contas de teste:**
+   ```sql
+   INSERT INTO contas_pagar (descricao, valor, data_vencimento, status)
+   SELECT 
+       CONCAT('Conta Teste ', n),
+       RAND() * 1000,
+       DATE_ADD('2025-12-01', INTERVAL FLOOR(RAND() * 30) DAY),
+       'pendente'
+   FROM (
+       SELECT @rownum := @rownum + 1 AS n
+       FROM information_schema.columns, (SELECT @rownum := 0) r
+       LIMIT 100
+   ) numbers;
+   ```
+
+2. **Testar paginação:**
+   - Itens por página: 50
+   - ✅ Deve mostrar "Página 1 de 2"
+   - Clique "Próxima"
+   - ✅ Vai para página 2
+
+**Testes de Seleção Múltipla:**
+
+1. **Selecionar contas:**
+   - Marque 3 checkboxes individuais
+   - ✅ Painel "Ações em Lote" aparece no canto
+   - ✅ Mostra "3 selecionados"
+
+2. **Selecionar todas:**
+   - Marque checkbox no cabeçalho
+   - ✅ Todas as contas da página são selecionadas
+
+3. **Pagar em lote:**
+   - Com 3 selecionadas, clique "Pagar Selecionados"
+   - ✅ Confirmação aparece
+   - Confirme
+   - ✅ 3 contas marcadas como "Pago"
+
+**Resultado esperado:** Sistema completo de gestão funcionando.
+
+---
+
+### **5. TESTAR ABAS** 📑
+
+1. **Aba Contas a Pagar:**
+   - ✅ Mostra fornecedor
+   - ✅ Botão "Pagar"
+   - ✅ Botão "Parcelar"
+
+2. **Aba Contas a Receber:**
+   - Clique na aba
+   - ✅ Mostra cliente
+   - ✅ Botão "Receber"
+   - ✅ Botão "Parcelar"
+
+3. **Aba Contas Bancárias:**
+   - Clique na aba
+   - ✅ Mostra banco, agência, conta
+   - ✅ Mostra saldo atual
+   - ✅ Botão "Ver Extrato"
+
+---
+
+## 🐛 POSSÍVEIS PROBLEMAS E SOLUÇÕES
+
+### **Problema 1: Gráficos não aparecem**
+
+**Causa:** Chart.js não carregou
+
+**Solução:**
+```html
+<!-- Verificar se está no <head> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+```
+
+**Teste no console:**
+```javascript
+console.log(typeof Chart); // Deve retornar 'function'
+```
+
+---
+
+### **Problema 2: "Erro ao carregar dados"**
+
+**Causa:** Servidor não está rodando ou token inválido
+
+**Solução:**
+```powershell
+# Verificar servidor
+Get-Process -Name node
+
+# Se não estiver rodando
+cd "C:\Users\egidioVLRNT\Documents\Sistema - Aluforce v.2 - BETA"
+node server.js
+```
+
+**Verificar token:**
+```javascript
+// No console do navegador
+console.log(localStorage.getItem('token'));
+// Se null → fazer login novamente
+```
+
+---
+
+### **Problema 3: Modal não abre**
+
+**Causa:** Arquivos de modal não carregados
+
+**Solução:**
+```javascript
+// Verificar no console do navegador
+console.error(); // Deve mostrar erros de carregamento
+
+// Verificar se arquivos existem:
+// - modules/Financeiro/modal_parcelamento.html
+// - modules/Financeiro/modal_recorrencias.html
+```
+
+---
+
+### **Problema 4: Parcelas não são geradas**
+
+**Causa:** API retorna erro
+
+**Solução:**
+```javascript
+// Abrir DevTools → Network → Encontrar requisição POST
+// Ver Response → Deve mostrar erro específico
+
+// Erros comuns:
+// - "conta_id não encontrado" → Conta não existe
+// - "numero_parcelas inválido" → Deve ser >= 2
+// - "Unauthorized" → Token expirado
+```
+
+**Validar tabela parcelas:**
+```sql
+SHOW TABLES LIKE '%parcelas%';
+DESCRIBE parcelas;
+```
+
+---
+
+### **Problema 5: Recorrências não processam**
+
+**Causa:** Função de processamento não foi chamada
+
+**Solução:**
+```sql
+-- Verificar se recorrências existem
+SELECT * FROM recorrencias WHERE ativa = 1;
+
+-- Executar processamento manualmente
+-- Via API ou SQL (dependendo da implementação)
+```
+
+---
+
+## 📋 CHECKLIST COMPLETO DE TESTES
+
+### **Dashboard:**
+- [ ] Cards carregam com valores corretos
+- [ ] Gráfico de Receitas vs Despesas aparece
+- [ ] Gráfico de Categorias aparece
+- [ ] Gráfico de Fluxo de Caixa aparece
+- [ ] Gráfico de Status aparece
+- [ ] Alerta de vencimento funciona
+- [ ] Loading spinner aparece/desaparece
+
+### **Modal de Parcelamento:**
+- [ ] Abre ao clicar "Parcelar"
+- [ ] Informações da conta aparecem
+- [ ] Seleção de parcelas funciona
+- [ ] Campo personalizado aparece
+- [ ] Prévia de parcelas gera corretamente
+- [ ] Valores somam o total
+- [ ] Última parcela ajusta arredondamento
+- [ ] Confirmação gera parcelas no banco
+- [ ] Fecha ao clicar "X" ou fora
+
+### **Modal de Recorrências:**
+- [ ] Abre pelo menu
+- [ ] Formulário aparece ao clicar "Nova"
+- [ ] Categorias carregam no select
+- [ ] Salvamento funciona
+- [ ] Card aparece após salvar
+- [ ] Badge de status correto
+- [ ] Pausar/Ativar funciona
+- [ ] Excluir pede confirmação
+- [ ] Exclui do banco
+
+### **Gestão Completa:**
+- [ ] Aba Pagar carrega
+- [ ] Aba Receber carrega
+- [ ] Aba Bancos carrega
+- [ ] Filtro de busca funciona
+- [ ] Filtro de status funciona
+- [ ] Filtro de data funciona
+- [ ] Filtro de categoria funciona
+- [ ] Ordenação por coluna funciona
+- [ ] Paginação funciona
+- [ ] Seleção múltipla funciona
+- [ ] Selecionar todos funciona
+- [ ] Painel de ações em lote aparece
+- [ ] Pagar em lote funciona
+- [ ] Desmarcar todos funciona
+- [ ] Botão "Pagar" individual funciona
+
+---
+
+## ✅ RESULTADO FINAL ESPERADO
+
+Após todos os testes, o sistema deve:
+
+1. ✅ Dashboard carregar em 2-3 segundos
+2. ✅ Gráficos renderizarem corretamente
+3. ✅ Parcelamento dividir contas precisamente
+4. ✅ Recorrências gerarem contas automaticamente
+5. ✅ Filtros aplicarem instantaneamente
+6. ✅ Paginação navegar suavemente
+7. ✅ Seleção múltipla ser intuitiva
+8. ✅ Ações em lote executarem rapidamente
+9. ✅ Interface ser responsiva e rápida
+10. ✅ Sem erros no console do navegador
+
+---
+
+**🎯 Pronto para Produção!**
+
+Se todos os testes passarem, o Módulo Financeiro está **100% funcional** e pronto para uso diário em ambiente de produção.
+
+**Documentado em:** 07/12/2025  
+**Versão:** ALUFORCE v2.0 BETA  
+**Status:** ✅ Pronto para Testes

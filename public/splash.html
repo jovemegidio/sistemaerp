@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALUFORCE ERP - Carregando...</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #ffffff;
+        }
+
+        .splash-container {
+            text-align: center;
+            padding: 40px;
+            max-width: 600px;
+        }
+
+        .logo-container {
+            margin-bottom: 30px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .logo {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .company-name {
+            font-size: 42px;
+            font-weight: 700;
+            margin: 20px 0 10px;
+            letter-spacing: 2px;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .product-name {
+            font-size: 24px;
+            font-weight: 300;
+            color: #a8b2d1;
+            margin-bottom: 40px;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+
+        .version {
+            font-size: 14px;
+            color: #8892b0;
+            margin-bottom: 30px;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+        }
+
+        .loading-container {
+            margin: 40px 0;
+            animation: fadeInUp 1s ease-out 0.8s backwards;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .loading-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 40%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 2px;
+            animation: loading 2s ease-in-out infinite;
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #8892b0;
+        }
+
+        .status-text {
+            font-size: 14px;
+            color: #64ffda;
+            margin-top: 10px;
+            min-height: 20px;
+        }
+
+        .footer {
+            margin-top: 60px;
+            font-size: 12px;
+            color: #495670;
+            animation: fadeIn 1s ease-out 1s backwards;
+        }
+
+        .footer-line {
+            margin: 5px 0;
+        }
+
+        .copyright {
+            font-weight: 500;
+        }
+
+        /* Animações */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 25px 70px rgba(102, 126, 234, 0.6);
+            }
+        }
+
+        @keyframes loading {
+            0% {
+                left: -40%;
+            }
+            100% {
+                left: 100%;
+            }
+        }
+
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .company-name {
+                font-size: 32px;
+            }
+            .product-name {
+                font-size: 18px;
+            }
+            .logo {
+                width: 150px;
+                height: 150px;
+                font-size: 36px;
+            }
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="splash-container">
+        <div class="logo-container">
+            <div class="logo">
+                <span>A</span>
+            </div>
+        </div>
+
+        <h1 class="company-name">ALUFORCE</h1>
+        <h2 class="product-name">Sistema de Gestão Empresarial</h2>
+        <p class="version">Versão 2.2.0 - Enterprise Edition</p>
+
+        <div class="loading-container">
+            <div class="loading-bar"></div>
+            <p class="loading-text">Inicializando sistema...</p>
+            <p class="status-text" id="statusText">Carregando módulos</p>
+        </div>
+
+        <div class="footer">
+            <div class="footer-line copyright">© 2025 ALUFORCE Sistemas Ltda.</div>
+            <div class="footer-line">Todos os direitos reservados</div>
+            <div class="footer-line">CNPJ: XX.XXX.XXX/XXXX-XX</div>
+        </div>
+    </div>
+
+    <script>
+        // Simular progresso de carregamento
+        const statusMessages = [
+            'Carregando módulos...',
+            'Conectando ao banco de dados...',
+            'Inicializando servidor...',
+            'Carregando configurações...',
+            'Preparando interface...',
+            'Verificando licença...',
+            'Pronto!'
+        ];
+
+        let currentStatus = 0;
+        const statusText = document.getElementById('statusText');
+
+        function updateStatus() {
+            if (currentStatus < statusMessages.length) {
+                statusText.textContent = statusMessages[currentStatus];
+                currentStatus++;
+                setTimeout(updateStatus, 600);
+            } else {
+                // Redirecionar para aplicação principal
+                setTimeout(() => {
+                    window.location.href = '/dashboard';
+                }, 500);
+            }
+        }
+
+        // Iniciar atualização de status após 500ms
+        setTimeout(updateStatus, 500);
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

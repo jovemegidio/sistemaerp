@@ -1,0 +1,553 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Diagnóstico Completo do Sistema PCP</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+        }
+        .tab {
+            flex: 1;
+            padding: 15px;
+            cursor: pointer;
+            background: #f8f9fa;
+            border: none;
+            border-right: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+        .tab:hover { background: #e9ecef; }
+        .tab.active { background: white; border-bottom: 2px solid #667eea; }
+        .content {
+            padding: 20px;
+            min-height: 400px;
+        }
+        .test-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        .test-section h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .btn {
+            padding: 8px 16px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-secondary { background: #6c757d; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-warning { background: #ffc107; color: #212529; }
+        .btn:hover { opacity: 0.8; transform: translateY(-1px); }
+        .result {
+            margin: 10px 0;
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 4px solid #007bff;
+        }
+        .result.success { background: #d1fae5; border-color: #10b981; color: #047857; }
+        .result.error { background: #fee2e2; border-color: #ef4444; color: #dc2626; }
+        .result.warning { background: #fef3c7; border-color: #f59e0b; color: #d97706; }
+        .result.info { background: #dbeafe; border-color: #3b82f6; color: #1d4ed8; }
+        .code {
+            background: #f1f3f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+        }
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .status-card {
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            background: white;
+        }
+        .status-card h4 {
+            margin: 0 0 10px 0;
+            color: #495057;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .badge-online { background: #d1fae5; color: #047857; }
+        .badge-offline { background: #fee2e2; color: #dc2626; }
+        .badge-unknown { background: #f3f4f6; color: #6b7280; }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            border: 1px solid #dee2e6;
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔧 Diagnóstico Completo do Sistema PCP</h1>
+            <p>Ferramenta para verificar se todos os componentes estão funcionando corretamente</p>
+        </div>
+        
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('api')">🌐 Testes de API</button>
+            <button class="tab" onclick="showTab('frontend')">🎨 Frontend</button>
+            <button class="tab" onclick="showTab('database')">🗄️ Database</button>
+            <button class="tab" onclick="showTab('files')">📁 Arquivos</button>
+        </div>
+        
+        <div class="content">
+            <!-- Aba API -->
+            <div id="tab-api" class="tab-content">
+                <div class="status-grid">
+                    <div class="status-card">
+                        <h4>🌐 Status do Servidor</h4>
+                        <div id="server-status">
+                            <span class="status-badge badge-unknown">Verificando...</span>
+                        </div>
+                    </div>
+                    <div class="status-card">
+                        <h4>📊 Total de Produtos</h4>
+                        <div id="products-count">
+                            <span class="status-badge badge-unknown">Carregando...</span>
+                        </div>
+                    </div>
+                    <div class="status-card">
+                        <h4>🏷️ Produtos com SKU</h4>
+                        <div id="sku-count">
+                            <span class="status-badge badge-unknown">Carregando...</span>
+                        </div>
+                    </div>
+                    <div class="status-card">
+                        <h4>📋 Produtos com GTIN</h4>
+                        <div id="gtin-count">
+                            <span class="status-badge badge-unknown">Carregando...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="test-section">
+                    <h3>🧪 Testes de Endpoints</h3>
+                    <button class="btn btn-primary" onclick="testEndpoint('/api/pcp/produtos', 'Lista de Produtos')">
+                        📋 Testar Lista de Produtos
+                    </button>
+                    <button class="btn btn-primary" onclick="testEndpoint('/api/pcp/produtos/334', 'Produto por ID')">
+                        🔍 Testar Produto por ID
+                    </button>
+                    <button class="btn btn-primary" onclick="testEndpoint('/api/pcp/produtos/sku/FECHPAACE334', 'Busca por SKU')">
+                        🏷️ Testar Busca por SKU
+                    </button>
+                    <button class="btn btn-success" onclick="testCreateProduct()">
+                        ➕ Testar Criação de Produto
+                    </button>
+                    <div id="api-results"></div>
+                </div>
+            </div>
+
+            <!-- Aba Frontend -->
+            <div id="tab-frontend" class="tab-content" style="display:none">
+                <div class="test-section">
+                    <h3>🎨 Testes de Interface</h3>
+                    <button class="btn btn-primary" onclick="testModalExists()">
+                        🪟 Verificar Modal de Edição
+                    </button>
+                    <button class="btn btn-primary" onclick="testTableButtons()">
+                        🔘 Verificar Botões da Tabela
+                    </button>
+                    <button class="btn btn-primary" onclick="testCSSStyles()">
+                        🎨 Verificar Estilos CSS
+                    </button>
+                    <button class="btn btn-primary" onclick="testJSFunctions()">
+                        ⚙️ Verificar Funções JavaScript
+                    </button>
+                    <div id="frontend-results"></div>
+                </div>
+
+                <div class="test-section">
+                    <h3>🌓 Teste de Modo Escuro</h3>
+                    <button class="btn btn-secondary" onclick="testDarkMode()">
+                        🌙 Testar Alternância de Modo
+                    </button>
+                    <button class="btn btn-warning" onclick="testLogoSwitch()">
+                        🖼️ Testar Troca de Logo
+                    </button>
+                    <div id="darkmode-results"></div>
+                </div>
+            </div>
+
+            <!-- Aba Database -->
+            <div id="tab-database" class="tab-content" style="display:none">
+                <div class="test-section">
+                    <h3>🗄️ Verificação do Banco de Dados</h3>
+                    <button class="btn btn-primary" onclick="testDatabaseStructure()">
+                        🏗️ Verificar Estrutura
+                    </button>
+                    <button class="btn btn-primary" onclick="testSKUGeneration()">
+                        🏷️ Verificar SKUs Gerados
+                    </button>
+                    <button class="btn btn-danger" onclick="testDataIntegrity()">
+                        🔍 Verificar Integridade
+                    </button>
+                    <div id="database-results"></div>
+                </div>
+            </div>
+
+            <!-- Aba Arquivos -->
+            <div id="tab-files" class="tab-content" style="display:none">
+                <div class="test-section">
+                    <h3>📁 Verificação de Arquivos</h3>
+                    <button class="btn btn-primary" onclick="testFileExists('index.html')">
+                        📄 index.html
+                    </button>
+                    <button class="btn btn-primary" onclick="testFileExists('pcp.js')">
+                        ⚙️ pcp.js
+                    </button>
+                    <button class="btn btn-primary" onclick="testFileExists('pcp_modern_clean.css')">
+                        🎨 pcp_modern_clean.css
+                    </button>
+                    <button class="btn btn-primary" onclick="testFileExists('server_pcp.js')">
+                        🖥️ server_pcp.js
+                    </button>
+                    <div id="files-results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = {
+            api: [],
+            frontend: [],
+            database: [],
+            files: []
+        };
+
+        // Função para mostrar abas
+        function showTab(tabName) {
+            // Esconder todas as abas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            
+            // Remover classe active de todas as abas
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar aba selecionada
+            document.getElementById(`tab-${tabName}`).style.display = 'block';
+            event.target.classList.add('active');
+        }
+
+        // Função para adicionar resultado
+        function addResult(type, message, status) {
+            const container = document.getElementById(`${type}-results`);
+            const timestamp = new Date().toLocaleTimeString();
+            const icon = status === 'success' ? '✅' : status === 'error' ? '❌' : status === 'warning' ? '⚠️' : 'ℹ️';
+            
+            const result = document.createElement('div');
+            result.className = `result ${status}`;
+            result.innerHTML = `<strong>[${timestamp}]</strong> ${icon} ${message}`;
+            
+            container.insertBefore(result, container.firstChild);
+            testResults[type].push({timestamp, message, status});
+        }
+
+        // Verificar status inicial
+        async function checkInitialStatus() {
+            try {
+                // Verificar servidor
+                const response = await fetch('/api/pcp/produtos?limit=1');
+                if (response.ok) {
+                    document.getElementById('server-status').innerHTML = 
+                        '<span class="status-badge badge-online">Online</span>';
+                    
+                    // Contar produtos
+                    const data = await response.json();
+                    const total = data.total || 0;
+                    document.getElementById('products-count').innerHTML = 
+                        `<span class="status-badge badge-online">${total} produtos</span>`;
+                } else {
+                    document.getElementById('server-status').innerHTML = 
+                        '<span class="status-badge badge-offline">Offline</span>';
+                }
+            } catch (error) {
+                document.getElementById('server-status').innerHTML = 
+                    '<span class="status-badge badge-offline">Erro de conexão</span>';
+            }
+
+            // Verificar SKUs e GTINs
+            try {
+                const response = await fetch('/api/pcp/produtos');
+                if (response.ok) {
+                    const data = await response.json();
+                    const produtos = data.rows || [];
+                    
+                    const withSKU = produtos.filter(p => p.sku && p.sku.trim() !== '').length;
+                    const withGTIN = produtos.filter(p => p.gtin && p.gtin.trim() !== '').length;
+                    
+                    document.getElementById('sku-count').innerHTML = 
+                        `<span class="status-badge badge-${withSKU > 0 ? 'online' : 'offline'}">${withSKU} com SKU</span>`;
+                    document.getElementById('gtin-count').innerHTML = 
+                        `<span class="status-badge badge-${withGTIN > 0 ? 'online' : 'offline'}">${withGTIN} com GTIN</span>`;
+                }
+            } catch (error) {
+                console.error('Erro ao verificar SKUs/GTINs:', error);
+            }
+        }
+
+        // Testar endpoint
+        async function testEndpoint(url, description) {
+            try {
+                addResult('api', `Testando ${description}...`, 'info');
+                const response = await fetch(url);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const size = JSON.stringify(data).length;
+                    addResult('api', `${description}: ✅ Sucesso (${size} bytes)`, 'success');
+                } else {
+                    addResult('api', `${description}: ❌ Erro ${response.status}`, 'error');
+                }
+            } catch (error) {
+                addResult('api', `${description}: ❌ ${error.message}`, 'error');
+            }
+        }
+
+        // Testar criação de produto
+        async function testCreateProduct() {
+            try {
+                addResult('api', 'Testando criação de produto...', 'info');
+                
+                const testProduct = {
+                    codigo: 'TEST_' + Date.now(),
+                    nome: 'Produto de Teste',
+                    descricao: 'Produto criado para teste',
+                    sku: 'TEST_' + Date.now(),
+                    marca: 'Teste',
+                    unidade_medida: 'un',
+                    quantidade: 1,
+                    custo_unitario: 10.50
+                };
+
+                const response = await fetch('/api/pcp/produtos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testProduct)
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    addResult('api', `Produto criado com sucesso! ID: ${data.id}`, 'success');
+                    
+                    // Tentar excluir o produto de teste
+                    const deleteResponse = await fetch(`/api/pcp/produtos/${data.id}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    if (deleteResponse.ok) {
+                        addResult('api', 'Produto de teste removido com sucesso', 'success');
+                    }
+                } else {
+                    const errorData = await response.json().catch(() => ({}));
+                    addResult('api', `Erro ao criar produto: ${errorData.message || response.status}`, 'error');
+                }
+            } catch (error) {
+                addResult('api', `Erro na criação: ${error.message}`, 'error');
+            }
+        }
+
+        // Testar modal
+        function testModalExists() {
+            const modal = document.getElementById('product-edit-modal');
+            if (modal) {
+                addResult('frontend', 'Modal de edição encontrado no DOM', 'success');
+                
+                // Verificar elementos do modal
+                const elements = [
+                    'product-edit-title',
+                    'product-edit-form',
+                    'edit-codigo',
+                    'edit-nome',
+                    'edit-sku',
+                    'edit-gtin'
+                ];
+                
+                elements.forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        addResult('frontend', `Elemento ${id} encontrado`, 'success');
+                    } else {
+                        addResult('frontend', `Elemento ${id} não encontrado`, 'error');
+                    }
+                });
+            } else {
+                addResult('frontend', 'Modal de edição não encontrado', 'error');
+            }
+        }
+
+        // Testar botões da tabela
+        function testTableButtons() {
+            const editButtons = document.querySelectorAll('.btn-editar-prod');
+            const deleteButtons = document.querySelectorAll('.btn-excluir-prod');
+            
+            addResult('frontend', `Encontrados ${editButtons.length} botões de editar`, 
+                editButtons.length > 0 ? 'success' : 'warning');
+            addResult('frontend', `Encontrados ${deleteButtons.length} botões de excluir`, 
+                deleteButtons.length > 0 ? 'success' : 'warning');
+        }
+
+        // Testar estilos CSS
+        function testCSSStyles() {
+            const testElements = [
+                { selector: '.btn-editar-prod', description: 'Estilo do botão editar' },
+                { selector: '.btn-excluir-prod', description: 'Estilo do botão excluir' },
+                { selector: '.sku-badge', description: 'Estilo do badge SKU' },
+                { selector: '.gtin-text', description: 'Estilo do texto GTIN' }
+            ];
+
+            testElements.forEach(test => {
+                const elements = document.querySelectorAll(test.selector);
+                if (elements.length > 0) {
+                    const style = window.getComputedStyle(elements[0]);
+                    const hasBackground = style.backgroundColor !== 'rgba(0, 0, 0, 0)';
+                    addResult('frontend', `${test.description}: ${hasBackground ? 'Estilizado' : 'Sem estilo'}`, 
+                        hasBackground ? 'success' : 'warning');
+                } else {
+                    addResult('frontend', `${test.description}: Elementos não encontrados`, 'warning');
+                }
+            });
+        }
+
+        // Testar funções JavaScript
+        function testJSFunctions() {
+            const functions = [
+                'handleEditProduct',
+                'openProductEditModal',
+                'carregarProdutos'
+            ];
+
+            functions.forEach(funcName => {
+                if (typeof window[funcName] === 'function') {
+                    addResult('frontend', `Função ${funcName} disponível`, 'success');
+                } else {
+                    addResult('frontend', `Função ${funcName} não encontrada`, 'warning');
+                }
+            });
+        }
+
+        // Testar modo escuro
+        function testDarkMode() {
+            const body = document.body;
+            const currentTheme = body.classList.contains('dark-mode') ? 'escuro' : 'claro';
+            addResult('frontend', `Modo atual: ${currentTheme}`, 'info');
+            
+            // Tentar alternar
+            if (typeof toggleDarkModeFromButton === 'function') {
+                toggleDarkModeFromButton();
+                const newTheme = body.classList.contains('dark-mode') ? 'escuro' : 'claro';
+                addResult('frontend', `Modo alternado para: ${newTheme}`, 'success');
+            } else {
+                addResult('frontend', 'Função de alternância não encontrada', 'error');
+            }
+        }
+
+        // Testar troca de logo
+        function testLogoSwitch() {
+            const logos = document.querySelectorAll('.header-logo');
+            addResult('frontend', `Encontradas ${logos.length} logos`, 
+                logos.length > 0 ? 'success' : 'warning');
+            
+            logos.forEach((logo, index) => {
+                const src = logo.src || logo.getAttribute('src');
+                addResult('frontend', `Logo ${index + 1}: ${src ? src.split('/').pop() : 'sem src'}`, 'info');
+            });
+        }
+
+        // Testar estrutura do banco
+        function testDatabaseStructure() {
+            addResult('database', 'Verificação de estrutura via API...', 'info');
+            // Implementar verificações específicas do banco
+        }
+
+        // Testar geração de SKU
+        function testSKUGeneration() {
+            addResult('database', 'Verificando SKUs gerados...', 'info');
+            // Implementar verificação de SKUs
+        }
+
+        // Testar integridade dos dados
+        function testDataIntegrity() {
+            addResult('database', 'Verificando integridade dos dados...', 'info');
+            // Implementar verificações de integridade
+        }
+
+        // Testar existência de arquivo
+        async function testFileExists(filename) {
+            try {
+                const response = await fetch(filename, { method: 'HEAD' });
+                addResult('files', `${filename}: ${response.ok ? 'Existe' : 'Não encontrado'}`, 
+                    response.ok ? 'success' : 'error');
+            } catch (error) {
+                addResult('files', `${filename}: Erro ao verificar`, 'error');
+            }
+        }
+
+        // Inicializar diagnóstico
+        document.addEventListener('DOMContentLoaded', function() {
+            checkInitialStatus();
+            addResult('api', 'Sistema de diagnóstico iniciado', 'info');
+        });
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

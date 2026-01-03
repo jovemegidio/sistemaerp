@@ -1,0 +1,612 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALUFORCE - Financeiro</title>
+    
+    <!-- CSP Fix - Converter onclick inline para addEventListener -->
+    <script src="/js/csp-fix.js"></script>
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Redirecionamento baseado em permissões do usuário
+        (async function() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    const permFinanceiro = user.permissoes_financeiro || [];
+                    const isAdmin = user.is_admin === 1 || user.role === 'admin';
+                    
+                    // Se não for admin, verificar permissões específicas
+                    if (!isAdmin && permFinanceiro.length > 0) {
+                        // Verificar se tem apenas contas_pagar
+                        const temContasPagar = permFinanceiro.includes('contas_pagar');
+                        const temContasReceber = permFinanceiro.includes('contas_receber');
+                        
+                        if (temContasPagar && !temContasReceber) {
+                            // Usuário só tem permissão de Contas a Pagar
+                            window.location.href = 'dashboard-contas-pagar.html';
+                            return;
+                        } else if (temContasReceber && !temContasPagar) {
+                            // Usuário só tem permissão de Contas a Receber
+                            window.location.href = 'dashboard-contas-receber.html';
+                            return;
+                        }
+                        // Se tem ambas ou nenhuma específica, mostra o dashboard completo
+                    }
+                    // Admin ou usuário com acesso completo: permanece na página atual
+                }
+            } catch (e) {
+                console.log('Erro ao verificar permissões:', e);
+            }
+        })();
+    </script>
+    <style>
+        :root {
+            --sidebar-width: 56px;
+            --header-height: 48px;
+            --primary-color: #84cc16;
+            --primary-dark: #1a1a2e;
+            --bg-gray: #f5f5f5;
+            --border-color: #e5e5e5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --success-green: #22c55e;
+            --warning-yellow: #eab308;
+            --danger-red: #ef4444;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-gray); color: var(--text-primary); overflow: hidden; }
+        
+        .app-container { display: flex; height: 100vh; }
+        
+        /* SIDEBAR */
+        .sidebar { width: var(--sidebar-width); background: var(--primary-dark); display: flex; flex-direction: column; align-items: center; padding: 12px 0; z-index: 100; }
+        .sidebar-logo { width: 36px; height: 36px; background: var(--primary-color); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; cursor: pointer; text-decoration: none; }
+        .sidebar-logo i { color: white; font-size: 18px; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .sidebar-btn { width: 40px; height: 40px; border: none; background: transparent; color: #8b8b9a; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.2s; }
+        .sidebar-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .sidebar-btn.active { background: var(--primary-color); color: white; }
+        .sidebar-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+        
+        /* MAIN AREA */
+        .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        
+        /* HEADER */
+        .header { height: var(--header-height); background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+        .header-left { display: flex; align-items: center; gap: 24px; }
+        .header-brand { display: flex; align-items: center; gap: 8px; color: white; }
+        .header-brand img { height: 24px; }
+        .header-brand span { font-size: 14px; font-weight: 600; color: #8b8b9a; }
+        .header-right { display: flex; align-items: center; gap: 8px; }
+        .header-btn { width: 36px; height: 36px; border: none; background: transparent; color: #8b8b9a; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; position: relative; }
+        .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .user-greeting { display: flex; align-items: center; gap: 12px; margin-left: 16px; color: #8b8b9a; font-size: 13px; }
+        .user-greeting strong { color: white; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #84cc16, #65a30d); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; cursor: pointer; overflow: hidden; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .user-avatar img.visible { display: block; }
+        .user-avatar .user-initial { display: block; }
+        .user-avatar img.visible + .user-initial { display: none; }
+        
+        /* NOTIFICAÇÕES */
+        .notification-container { position: relative; }
+        .notification-badge { position: absolute; top: 2px; right: 2px; min-width: 18px; height: 18px; background: #ef4444; color: white; font-size: 10px; font-weight: 600; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 5px; }
+        .notification-badge.hidden { display: none; }
+        .notification-panel { position: absolute; top: calc(100% + 12px); right: 0; width: 380px; max-height: 500px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; display: none; overflow: hidden; }
+        .notification-panel.active { display: block; }
+        .notification-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: linear-gradient(135deg, #84cc16, #65a30d); color: white; }
+        .notification-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
+        .notification-list { max-height: 340px; overflow-y: auto; }
+        .notification-item { display: flex; gap: 12px; padding: 14px 20px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: all 0.2s; }
+        .notification-item:hover { background: #f8f8f8; }
+        .notification-item.unread { background: #f0fdf4; border-left: 3px solid #84cc16; }
+        .notification-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .notification-icon.success { background: #dcfce7; color: #22c55e; }
+        .notification-icon.warning { background: #fef3c7; color: #f59e0b; }
+        .notification-icon.error { background: #fee2e2; color: #ef4444; }
+        .notification-icon.info { background: #dbeafe; color: #3b82f6; }
+        .notification-content { flex: 1; }
+        .notification-title { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 4px; }
+        .notification-message { font-size: 12px; color: #666; }
+        .notification-time { font-size: 11px; color: #999; margin-top: 6px; }
+        .notification-footer { padding: 12px 20px; background: #f8f8f8; text-align: center; border-top: 1px solid #e5e5e5; }
+        .notification-footer a { color: #84cc16; text-decoration: none; font-size: 13px; font-weight: 500; }
+        
+        /* CONTENT */
+        .content { flex: 1; overflow-y: auto; padding: 20px; }
+        
+        /* CARDS KPI */
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .kpi-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .kpi-card .label { font-size: 12px; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase; }
+        .kpi-card .value { font-size: 28px; font-weight: 700; color: var(--text-primary); }
+        .kpi-card .value.success { color: var(--success-green); }
+        .kpi-card .value.danger { color: var(--danger-red); }
+        .kpi-card .value.warning { color: var(--warning-yellow); }
+        .kpi-card .trend { display: flex; align-items: center; gap: 4px; font-size: 12px; margin-top: 8px; }
+        .kpi-card .trend.up { color: var(--success-green); }
+        .kpi-card .trend.down { color: var(--danger-red); }
+        
+        /* GRID LAYOUT */
+        .grid-2 { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 24px; }
+        
+        /* CARD */
+        .card { background: white; border-radius: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .card-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; border-bottom: 1px solid var(--border-color); }
+        .card-header h3 { font-size: 16px; font-weight: 600; }
+        .card-body { padding: 20px; }
+        
+        /* TABELA */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background: #f8f9fa; font-size: 12px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; }
+        td { font-size: 14px; }
+        tr:hover { background: #f8f9fa; }
+        
+        /* BADGES */
+        .badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .badge-success { background: #dcfce7; color: #16a34a; }
+        .badge-warning { background: #fef3c7; color: #d97706; }
+        .badge-danger { background: #fee2e2; color: #dc2626; }
+        .badge-info { background: #dbeafe; color: #2563eb; }
+        
+        /* BOTÕES */
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: var(--primary-color); color: white; }
+        .btn-primary:hover { background: #65a30d; }
+        .btn-success { background: var(--success-green); color: white; }
+        .btn-danger { background: var(--danger-red); color: white; }
+        .btn-outline { background: white; border: 1px solid var(--border-color); color: var(--text-primary); }
+        .btn-outline:hover { background: #f5f5f5; }
+        
+        /* CHART */
+        .chart-container { height: 300px; }
+        
+        /* LISTA VENCIMENTOS */
+        .vencimento-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-color); }
+        .vencimento-item:last-child { border-bottom: none; }
+        .vencimento-info h4 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+        .vencimento-info span { font-size: 12px; color: var(--text-secondary); }
+        .vencimento-valor { font-weight: 600; }
+        
+        /* QUICK ACTIONS */
+        .quick-actions { display: flex; gap: 12px; padding: 16px 20px; background: #f8fafc; border-bottom: 1px solid var(--border-color); }
+        .quick-actions .btn { box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        
+        @media (max-width: 1200px) {
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="/" class="sidebar-logo" title="Voltar ao Painel">
+                <i class="fas fa-home"></i>
+            </a>
+            <nav class="sidebar-nav">
+                <button class="sidebar-btn active" title="Dashboard" onclick="window.location.href='index.html'">
+                    <i class="fas fa-chart-line"></i>
+                </button>
+                <button class="sidebar-btn" title="Contas a Pagar" onclick="window.location.href='contas-pagar.html'">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </button>
+                <button class="sidebar-btn" title="Contas a Receber" onclick="window.location.href='contas-receber.html'">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </button>
+                <button class="sidebar-btn" title="Fluxo de Caixa" onclick="window.location.href='fluxo-caixa.html'">
+                    <i class="fas fa-chart-area"></i>
+                </button>
+            </nav>
+            <div class="sidebar-bottom">
+                <button class="sidebar-btn" title="Bancos" onclick="window.location.href='bancos.html'">
+                    <i class="fas fa-university"></i>
+                </button>
+                <button class="sidebar-btn" title="Conciliação" onclick="window.location.href='conciliacao.html'">
+                    <i class="fas fa-balance-scale"></i>
+                </button>
+                <button class="sidebar-btn" title="Relatórios" onclick="window.location.href='relatorios.html'">
+                    <i class="fas fa-chart-bar"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Area -->
+        <main class="main-area">
+            <!-- Header -->
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <img src="/images/Logo Monocromatico - Branco - Aluforce.png" alt="ALUFORCE">
+                        <span>|</span>
+                        <span>Financeiro</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification-container">
+                        <button class="header-btn" title="Notificações" onclick="toggleNotificacoes()">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge" id="notification-count">3</span>
+                        </button>
+                        <div class="notification-panel" id="notification-panel">
+                            <div class="notification-header">
+                                <h3><i class="fas fa-bell"></i> Notificações</h3>
+                            </div>
+                            <div class="notification-list" id="notification-list"></div>
+                            <div class="notification-footer">
+                                <a href="#">Ver todas as notificações</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-greeting">
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <div class="user-avatar" id="user-avatar">
+                            <img src="" alt="Foto do usuário" id="user-photo">
+                            <span class="user-initial" id="user-initial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="btn btn-success" onclick="novoLancamento('pagar')">
+                    <i class="fas fa-plus"></i> Nova Conta a Pagar
+                </button>
+                <button class="btn btn-primary" onclick="novoLancamento('receber')">
+                    <i class="fas fa-plus"></i> Nova Conta a Receber
+                </button>
+                <button class="btn btn-outline" onclick="window.location.href='relatorios.html'">
+                    <i class="fas fa-file-alt"></i> Relatórios
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="content">
+                <!-- KPIs -->
+                <div class="kpi-grid">
+                    <div class="kpi-card">
+                        <div class="label">A Receber (30 dias)</div>
+                        <div class="value success" id="kpi-receber">R$ 0,00</div>
+                        <div class="trend up"><i class="fas fa-arrow-up"></i> 12% vs mês anterior</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="label">A Pagar (30 dias)</div>
+                        <div class="value danger" id="kpi-pagar">R$ 0,00</div>
+                        <div class="trend down"><i class="fas fa-arrow-down"></i> 8% vs mês anterior</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="label">Saldo Previsto</div>
+                        <div class="value" id="kpi-saldo">R$ 0,00</div>
+                        <div class="trend up"><i class="fas fa-arrow-up"></i> Positivo</div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="label">Vencidos</div>
+                        <div class="value warning" id="kpi-vencidos">0</div>
+                        <div class="trend"><i class="fas fa-exclamation-triangle"></i> Requer atenção</div>
+                    </div>
+                </div>
+
+                <!-- Grid Principal -->
+                <div class="grid-2">
+                    <!-- Gráfico Fluxo de Caixa -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-area"></i> Fluxo de Caixa - Próximos 30 dias</h3>
+                            <button class="btn btn-outline" onclick="window.location.href='fluxo-caixa.html'">Ver Detalhes</button>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="fluxoCaixaChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Próximos Vencimentos -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-calendar-alt"></i> Próximos Vencimentos</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="lista-vencimentos">
+                                <div class="vencimento-item">
+                                    <div class="vencimento-info">
+                                        <h4>Carregando...</h4>
+                                        <span>Aguarde</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Últimos Lançamentos -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-list"></i> Últimos Lançamentos</h3>
+                        <div style="display: flex; gap: 8px;">
+                            <button class="btn btn-outline" onclick="window.location.href='contas-pagar.html'">Ver Contas a Pagar</button>
+                            <button class="btn btn-outline" onclick="window.location.href='contas-receber.html'">Ver Contas a Receber</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <th>Descrição</th>
+                                        <th>Vencimento</th>
+                                        <th>Valor</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-lancamentos">
+                                    <tr>
+                                        <td colspan="5" style="text-align: center; padding: 40px;">
+                                            <i class="fas fa-spinner fa-spin"></i> Carregando...
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dados do usuário
+        async function carregarUsuario() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || 'Usuário';
+                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    document.getElementById('user-name').textContent = primeiroNome;
+                    document.getElementById('user-initial').textContent = primeiroNome.charAt(0).toUpperCase();
+                    
+                    // Carregar foto do usuário - verificar múltiplos campos
+                    const fotoUrl = user.avatar || user.foto || user.foto_perfil_url;
+                    const fotoEl = document.getElementById('user-photo');
+                    const inicialEl = document.getElementById('user-initial');
+                    
+                    if (fotoUrl && fotoUrl !== '/avatars/default.webp') {
+                        fotoEl.src = fotoUrl;
+                        fotoEl.onload = () => {
+                            fotoEl.classList.add('visible');
+                            fotoEl.style.display = 'block';
+                            if (inicialEl) inicialEl.style.display = 'none';
+                        };
+                        fotoEl.onerror = () => {
+                            fotoEl.style.display = 'none';
+                            if (inicialEl) inicialEl.style.display = 'flex';
+                        };
+                    } else {
+                        // Sem foto - mostrar iniciais
+                        if (fotoEl) fotoEl.style.display = 'none';
+                        if (inicialEl) inicialEl.style.display = 'flex';
+                    }
+                    
+                    console.log('👤 Usuário Financeiro:', primeiroNome, '| Foto:', fotoUrl ? 'Sim' : 'Não');
+                }
+            } catch (e) { console.log('Erro ao carregar usuário:', e); }
+        }
+
+        // Notificações
+        function toggleNotificacoes() {
+            const panel = document.getElementById('notification-panel');
+            panel.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(e) {
+            const container = document.querySelector('.notification-container');
+            const panel = document.getElementById('notification-panel');
+            if (container && !container.contains(e.target)) {
+                panel.classList.remove('active');
+            }
+        });
+
+        // Carregar notificações
+        function carregarNotificacoes() {
+            const lista = document.getElementById('notification-list');
+            lista.innerHTML = `
+                <div class="notification-item unread">
+                    <div class="notification-icon warning"><i class="fas fa-exclamation-triangle"></i></div>
+                    <div class="notification-content">
+                        <div class="notification-title">Contas vencendo hoje</div>
+                        <div class="notification-message">Você tem 3 contas vencendo hoje</div>
+                        <div class="notification-time"><i class="fas fa-clock"></i> Agora</div>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon success"><i class="fas fa-check"></i></div>
+                    <div class="notification-content">
+                        <div class="notification-title">Pagamento confirmado</div>
+                        <div class="notification-message">Pagamento de R$ 1.500,00 confirmado</div>
+                        <div class="notification-time"><i class="fas fa-clock"></i> 2 horas atrás</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Carregar KPIs
+        async function carregarKPIs() {
+            try {
+                const [receber, pagar] = await Promise.all([
+                    fetch('/api/financeiro/contas-receber', { credentials: 'include' }).then(r => r.json()).catch(() => []),
+                    fetch('/api/financeiro/contas-pagar', { credentials: 'include' }).then(r => r.json()).catch(() => [])
+                ]);
+
+                const totalReceber = (receber.data || receber || []).reduce((sum, c) => sum + parseFloat(c.valor || 0), 0);
+                const totalPagar = (pagar.data || pagar || []).reduce((sum, c) => sum + parseFloat(c.valor || 0), 0);
+                const saldo = totalReceber - totalPagar;
+                const vencidos = [...(receber.data || receber || []), ...(pagar.data || pagar || [])]
+                    .filter(c => new Date(c.data_vencimento) < new Date() && c.status !== 'pago').length;
+
+                document.getElementById('kpi-receber').textContent = formatarMoeda(totalReceber);
+                document.getElementById('kpi-pagar').textContent = formatarMoeda(totalPagar);
+                document.getElementById('kpi-saldo').textContent = formatarMoeda(saldo);
+                document.getElementById('kpi-saldo').className = 'value ' + (saldo >= 0 ? 'success' : 'danger');
+                document.getElementById('kpi-vencidos').textContent = vencidos;
+            } catch (e) { console.log('Erro ao carregar KPIs'); }
+        }
+
+        // Carregar gráfico
+        function carregarGrafico() {
+            const ctx = document.getElementById('fluxoCaixaChart').getContext('2d');
+            const labels = [];
+            const entradas = [];
+            const saidas = [];
+            
+            for (let i = 0; i < 30; i++) {
+                const d = new Date();
+                d.setDate(d.getDate() + i);
+                labels.push(d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }));
+                entradas.push(Math.random() * 10000 + 5000);
+                saidas.push(Math.random() * 8000 + 3000);
+            }
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'Entradas', data: entradas, borderColor: '#22c55e', backgroundColor: 'rgba(34,197,94,0.1)', fill: true, tension: 0.4 },
+                        { label: 'Saídas', data: saidas, borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', fill: true, tension: 0.4 }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'top' } },
+                    scales: { y: { beginAtZero: true, ticks: { callback: v => 'R$ ' + v.toLocaleString() } } }
+                }
+            });
+        }
+
+        // Carregar vencimentos
+        async function carregarVencimentos() {
+            const lista = document.getElementById('lista-vencimentos');
+            try {
+                const [receber, pagar] = await Promise.all([
+                    fetch('/api/financeiro/contas-receber', { credentials: 'include' }).then(r => r.json()).catch(() => []),
+                    fetch('/api/financeiro/contas-pagar', { credentials: 'include' }).then(r => r.json()).catch(() => [])
+                ]);
+
+                const todas = [
+                    ...(receber.data || receber || []).map(c => ({ ...c, tipo: 'receber' })),
+                    ...(pagar.data || pagar || []).map(c => ({ ...c, tipo: 'pagar' }))
+                ].filter(c => c.status !== 'pago')
+                 .sort((a, b) => new Date(a.data_vencimento) - new Date(b.data_vencimento))
+                 .slice(0, 5);
+
+                if (todas.length === 0) {
+                    lista.innerHTML = '<p style="text-align:center;color:#666;">Nenhum vencimento próximo</p>';
+                    return;
+                }
+
+                lista.innerHTML = todas.map(c => `
+                    <div class="vencimento-item">
+                        <div class="vencimento-info">
+                            <h4>${c.descricao || c.fornecedor || c.cliente || 'Sem descrição'}</h4>
+                            <span>${new Date(c.data_vencimento).toLocaleDateString('pt-BR')} - ${c.tipo === 'receber' ? 'A Receber' : 'A Pagar'}</span>
+                        </div>
+                        <div class="vencimento-valor ${c.tipo === 'receber' ? 'success' : 'danger'}" style="color: ${c.tipo === 'receber' ? 'var(--success-green)' : 'var(--danger-red)'}">
+                            ${formatarMoeda(c.valor)}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                lista.innerHTML = '<p style="text-align:center;color:#666;">Erro ao carregar</p>';
+            }
+        }
+
+        // Carregar lançamentos
+        async function carregarLancamentos() {
+            const tbody = document.getElementById('tabela-lancamentos');
+            try {
+                const [receber, pagar] = await Promise.all([
+                    fetch('/api/financeiro/contas-receber', { credentials: 'include' }).then(r => r.json()).catch(() => []),
+                    fetch('/api/financeiro/contas-pagar', { credentials: 'include' }).then(r => r.json()).catch(() => [])
+                ]);
+
+                const todas = [
+                    ...(receber.data || receber || []).map(c => ({ ...c, tipo: 'Receber' })),
+                    ...(pagar.data || pagar || []).map(c => ({ ...c, tipo: 'Pagar' }))
+                ].sort((a, b) => new Date(b.created_at || b.data_vencimento) - new Date(a.created_at || a.data_vencimento))
+                 .slice(0, 10);
+
+                if (todas.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;">Nenhum lançamento encontrado</td></tr>';
+                    return;
+                }
+
+                tbody.innerHTML = todas.map(c => `
+                    <tr>
+                        <td><span class="badge ${c.tipo === 'Receber' ? 'badge-success' : 'badge-danger'}">${c.tipo}</span></td>
+                        <td>${c.descricao || c.fornecedor || c.cliente || 'Sem descrição'}</td>
+                        <td>${new Date(c.data_vencimento).toLocaleDateString('pt-BR')}</td>
+                        <td style="font-weight:600;">${formatarMoeda(c.valor)}</td>
+                        <td><span class="badge ${getStatusClass(c.status)}">${c.status || 'pendente'}</span></td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:40px;">Erro ao carregar</td></tr>';
+            }
+        }
+
+        function getStatusClass(status) {
+            const s = (status || '').toLowerCase();
+            if (s === 'pago' || s === 'recebido') return 'badge-success';
+            if (s === 'vencido') return 'badge-danger';
+            if (s === 'parcial') return 'badge-warning';
+            return 'badge-info';
+        }
+
+        function formatarMoeda(valor) {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor || 0);
+        }
+
+        function novoLancamento(tipo) {
+            window.location.href = tipo === 'pagar' ? 'contas-pagar.html' : 'contas-receber.html';
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarUsuario();
+            carregarNotificacoes();
+            carregarKPIs();
+            carregarGrafico();
+            carregarVencimentos();
+            carregarLancamentos();
+        });
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

@@ -1,0 +1,639 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - Aluforce NFe</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="nfe-specific.css">
+    <script src="../../js/auth-unified.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #1e293b; min-height: 100vh; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar-btn:hover { background: rgba(16, 185, 129, 0.2) !important; color: white !important; }
+        
+        .relatorios-section { margin-bottom: 32px; }
+        .relatorios-section h2 { font-size: 18px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: #1e293b; }
+        .relatorios-section h2 i { color: #10b981; }
+        
+        .relatorios-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; }
+        
+        .relatorio-card {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        .relatorio-card:hover { transform: translateY(-3px); border-color: #10b981; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15); }
+        .relatorio-icon { font-size: 2em; color: #10b981; margin-bottom: 12px; }
+        .relatorio-card h3 { font-size: 14px; font-weight: 500; color: #1e293b; margin-bottom: 12px; }
+        .relatorio-card .btn-primary {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .relatorio-card .btn-primary:hover { background: linear-gradient(135deg, #059669, #047857); }
+        
+        .relatorio-preview { background: #f8fafc; border-radius: 12px; margin-top: 24px; padding: 24px; border: 1px solid #e2e8f0; }
+        .relatorio-preview.hidden { display: none; }
+        .relatório-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+        .relatório-header h3 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; color: #1e293b; }
+        .relatório-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-secondary { background: #1e40af; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+        .btn-secondary:hover { background: #1e3a8a; }
+        
+        .relatorio-tabela { width: 100%; border-collapse: collapse; margin-top: 16px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .relatorio-tabela th, .relatorio-tabela td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+        .relatorio-tabela th { background: #1e40af; font-weight: 600; font-size: 13px; color: white; text-transform: uppercase; letter-spacing: 0.5px; }
+        .relatorio-tabela td { font-size: 13px; color: #374151; }
+        .relatorio-tabela tr:nth-child(even) { background: #f9fafb; }
+        .relatorio-tabela tr:hover { background: #eef2ff; }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Lateral (Estilo Vendas) -->
+        <aside class="sidebar" style="width: 56px; background: #1a1a2e; display: flex; flex-direction: column; align-items: center; padding: 12px 0; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100;">
+            <a href="/dashboard" style="width: 36px; height: 36px; background: #10b981; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; text-decoration: none;" title="Voltar ao Painel">
+                <i class="fas fa-file-invoice" style="color: white; font-size: 18px;"></i>
+            </a>
+            
+            <nav style="display: flex; flex-direction: column; gap: 4px; flex: 1;">
+                <a href="index.html" class="sidebar-btn" title="Dashboard" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-chart-pie" style="font-size: 18px;"></i>
+                </a>
+                <a href="emitir.html" class="sidebar-btn" title="Emitir NFe" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-file-invoice" style="font-size: 18px;"></i>
+                </a>
+                <a href="consultar.html" class="sidebar-btn" title="Consultar NFe" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-search" style="font-size: 18px;"></i>
+                </a>
+                <a href="nfse.html" class="sidebar-btn" title="NFSe" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-file-contract" style="font-size: 18px;"></i>
+                </a>
+                <a href="danfe.html" class="sidebar-btn" title="DANFE" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-print" style="font-size: 18px;"></i>
+                </a>
+                <a href="relatorios.html" class="sidebar-btn" title="Relatórios" style="width: 40px; height: 40px; background: #10b981; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-chart-bar" style="font-size: 18px;"></i>
+                </a>
+                <a href="eventos.html" class="sidebar-btn" title="Eventos" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-history" style="font-size: 18px;"></i>
+                </a>
+                <a href="logistica.html" class="sidebar-btn" title="Logística" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-truck" style="font-size: 18px;"></i>
+                </a>
+            </nav>
+
+            <div style="margin-top: auto; display: flex; flex-direction: column; gap: 4px;">
+                <a href="/dashboard" class="sidebar-btn" title="Voltar ao Painel" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-home" style="font-size: 18px;"></i>
+                </a>
+            </div>
+        </aside>
+
+        <main style="flex: 1; display: flex; flex-direction: column; margin-left: 56px;">
+            <!-- Header (Estilo Vendas) -->
+            <header style="height: 48px; background: #1a1a2e; display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div style="display: flex; align-items: center; gap: 8px; color: white;">
+                    <span style="font-size: 14px; font-weight: 600; color: #8b8b9a;">NFe & Logística</span>
+                    <span style="color: #3d3d54;">|</span>
+                    <span style="font-size: 14px; font-weight: 500; color: #34d399;">Relatórios</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button onclick="location.reload()" style="width: 36px; height: 36px; border: none; background: transparent; color: #8b8b9a; border-radius: 8px; cursor: pointer;" title="Atualizar">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button style="width: 36px; height: 36px; border: none; background: transparent; color: #8b8b9a; border-radius: 8px; cursor: pointer;" title="Notificações">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-left: 16px; color: #8b8b9a; font-size: 13px;">
+                        <span id="user-greeting"><span id="greeting-text">Bom dia</span>, <strong style="color: white;" id="user-name">Usuário</strong></span>
+                        <div id="user-avatar" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; overflow: hidden;">
+                            <img id="user-photo" src="" alt="Foto" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                            <span id="user-initial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Conteúdo Principal -->
+            <div class="content-area" style="flex: 1; padding: 24px; overflow-y: auto; background: #ffffff;">
+                
+                <!-- Seção: Ordens de Serviço -->
+                <div class="relatorios-section">
+                    <h2><i class="fas fa-tools"></i> Ordens de Serviço</h2>
+                    <div class="relatorios-grid">
+                        <div class="relatorio-card" onclick="gerarRelatorio('os-previsao-faturamento')">
+                            <div class="relatorio-icon"><i class="fas fa-calendar-check"></i></div>
+                            <h3>Por Previsão de Faturamento</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('os-data-vencimento')">
+                            <div class="relatorio-icon"><i class="fas fa-calendar-times"></i></div>
+                            <h3>Por Data de Vencimento</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('os-servico')">
+                            <div class="relatorio-icon"><i class="fas fa-cogs"></i></div>
+                            <h3>Por Serviço</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('os-cliente')">
+                            <div class="relatorio-icon"><i class="fas fa-user"></i></div>
+                            <h3>Por Cliente</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção: Contratos de Serviço -->
+                <div class="relatorios-section">
+                    <h2><i class="fas fa-file-contract"></i> Contratos de Serviço</h2>
+                    <div class="relatorios-grid">
+                        <div class="relatorio-card" onclick="gerarRelatorio('cs-vigencia')">
+                            <div class="relatorio-icon"><i class="fas fa-hourglass-half"></i></div>
+                            <h3>Por Vigência</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('cs-previsao-faturamento')">
+                            <div class="relatorio-icon"><i class="fas fa-calendar-alt"></i></div>
+                            <h3>Por Previsão de Faturamento</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('cs-data-vencimento')">
+                            <div class="relatorio-icon"><i class="fas fa-calendar-day"></i></div>
+                            <h3>Por Data de Vencimento</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('cs-servico')">
+                            <div class="relatorio-icon"><i class="fas fa-wrench"></i></div>
+                            <h3>Por Serviço</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('cs-cliente')">
+                            <div class="relatorio-icon"><i class="fas fa-building"></i></div>
+                            <h3>Por Cliente</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('cs-suspensos')">
+                            <div class="relatorio-icon"><i class="fas fa-pause-circle"></i></div>
+                            <h3>Suspensos</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('cs-cancelados')">
+                            <div class="relatorio-icon"><i class="fas fa-times-circle"></i></div>
+                            <h3>Cancelados</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção: Faturamento -->
+                <div class="relatorios-section">
+                    <h2><i class="fas fa-dollar-sign"></i> Faturamento</h2>
+                    <div class="relatorios-grid">
+                        <div class="relatorio-card" onclick="gerarRelatorio('fat-Período')">
+                            <div class="relatorio-icon"><i class="fas fa-chart-line"></i></div>
+                            <h3>Por Período</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('fat-mes-ano')">
+                            <div class="relatorio-icon"><i class="fas fa-calendar"></i></div>
+                            <h3>Por Mês/Ano</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('fat-vencimento')">
+                            <div class="relatorio-icon"><i class="fas fa-bell"></i></div>
+                            <h3>Por Vencimento</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('fat-servico')">
+                            <div class="relatorio-icon"><i class="fas fa-list"></i></div>
+                            <h3>Por Serviço</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('fat-cliente')">
+                            <div class="relatorio-icon"><i class="fas fa-users"></i></div>
+                            <h3>Por Cliente</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                        <div class="relatorio-card" onclick="gerarRelatorio('fat-cancelados')">
+                            <div class="relatorio-icon"><i class="fas fa-ban"></i></div>
+                            <h3>Cancelados</h3>
+                            <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Preview de relatório -->
+                <div id="preview-relatorio" class="relatorio-preview hidden">
+                    <div class="relatório-header">
+                        <h3 id="titulo-relatorio"><i class="fas fa-file-alt"></i> Preview do relatório</h3>
+                        <div class="relatório-actions">
+                            <button class="btn-secondary" onclick="exportarPDF()">
+                                <i class="fas fa-file-pdf"></i> Exportar PDF
+                            </button>
+                            <button class="btn-secondary" onclick="exportarExcel()">
+                                <i class="fas fa-file-excel"></i> Exportar Excel
+                            </button>
+                            <button class="btn-secondary" onclick="fecharPreview()">
+                                <i class="fas fa-times"></i> Fechar
+                            </button>
+                        </div>
+                    </div>
+                    <div id="conteudo-relatorio" class="relatório-conteudo"></div>
+                </div>
+
+            </div><!-- /.content-area -->
+        </main>
+    </div><!-- /.app-container -->
+
+    <script>
+        function gerarRelatorio(tipo) {
+            const preview = document.getElementById('preview-relatorio');
+            const conteudo = document.getElementById('conteudo-relatorio');
+            const titulo = document.getElementById('titulo-relatorio');
+
+            const Relatórios = {
+                'os-previsao-faturamento': {
+                    titulo: 'Ordens de Serviço - Por Previsão de Faturamento',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>OS</th><th>Cliente</th><th>Serviço</th><th>Previsão</th><th>Valor</th></tr></thead><tbody><tr><td>OS-001</td><td>EMPRESA ABC</td><td>Manutenção</td><td>15/12/2025</td><td>R$ 3.500,00</td></tr><tr><td>OS-002</td><td>EMPRESA XYZ</td><td>Instalação</td><td>20/12/2025</td><td>R$ 5.200,00</td></tr></tbody></table>'
+                },
+                'os-data-vencimento': {
+                    titulo: 'Ordens de Serviço - Por Data de Vencimento',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>OS</th><th>Cliente</th><th>Vencimento</th><th>Status</th><th>Valor</th></tr></thead><tbody><tr><td>OS-003</td><td>CONSTRUTORA DEF</td><td>12/12/2025</td><td>Pendente</td><td>R$ 8.750,00</td></tr></tbody></table>'
+                },
+                'os-servico': {
+                    titulo: 'Ordens de Serviço - Por Serviço',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Serviço</th><th>Qtd OS</th><th>Valor Total</th></tr></thead><tbody><tr><td>Manutenção Preventiva</td><td>12</td><td>R$ 42.000,00</td></tr><tr><td>Instalação</td><td>8</td><td>R$ 35.600,00</td></tr></tbody></table>'
+                },
+                'os-cliente': {
+                    titulo: 'Ordens de Serviço - Por Cliente',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Cliente</th><th>Qtd OS</th><th>Valor Total</th></tr></thead><tbody><tr><td>EMPRESA ABC LTDA</td><td>5</td><td>R$ 17.500,00</td></tr><tr><td>CONSTRUTORA XYZ</td><td>3</td><td>R$ 12.300,00</td></tr></tbody></table>'
+                },
+                'cs-vigencia': {
+                    titulo: 'Contratos de Serviço - Por Vigência',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Contrato</th><th>Cliente</th><th>Início</th><th>Término</th><th>Valor Mensal</th></tr></thead><tbody><tr><td>CT-001</td><td>EMPRESA ABC</td><td>01/01/2025</td><td>31/12/2025</td><td>R$ 2.500,00</td></tr><tr><td>CT-002</td><td>INDÚSTRIA XYZ</td><td>01/06/2025</td><td>31/05/2026</td><td>R$ 4.200,00</td></tr></tbody></table>'
+                },
+                'cs-previsao-faturamento': {
+                    titulo: 'Contratos de Serviço - Por Previsão de Faturamento',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Contrato</th><th>Cliente</th><th>Próximo Faturamento</th><th>Valor</th></tr></thead><tbody><tr><td>CT-001</td><td>EMPRESA ABC</td><td>15/12/2025</td><td>R$ 2.500,00</td></tr></tbody></table>'
+                },
+                'cs-data-vencimento': {
+                    titulo: 'Contratos de Serviço - Por Data de Vencimento',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Contrato</th><th>Cliente</th><th>Vencimento</th><th>Valor</th></tr></thead><tbody><tr><td>CT-003</td><td>COMERCIAL DEF</td><td>31/12/2025</td><td>R$ 3.800,00</td></tr></tbody></table>'
+                },
+                'cs-servico': {
+                    titulo: 'Contratos de Serviço - Por Serviço',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Serviço</th><th>Qtd Contratos</th><th>Valor Mensal Total</th></tr></thead><tbody><tr><td>Manutenção Preventiva</td><td>15</td><td>R$ 37.500,00</td></tr><tr><td>Suporte Técnico</td><td>10</td><td>R$ 28.000,00</td></tr></tbody></table>'
+                },
+                'cs-cliente': {
+                    titulo: 'Contratos de Serviço - Por Cliente',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Cliente</th><th>Qtd Contratos</th><th>Valor Total</th></tr></thead><tbody><tr><td>EMPRESA ABC LTDA</td><td>3</td><td>R$ 7.500,00</td></tr><tr><td>INDÚSTRIA XYZ S/A</td><td>2</td><td>R$ 8.400,00</td></tr></tbody></table>'
+                },
+                'cs-suspensos': {
+                    titulo: 'Contratos de Serviço - Suspensos',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Contrato</th><th>Cliente</th><th>Data Suspensão</th><th>Motivo</th></tr></thead><tbody><tr><td>CT-005</td><td>TRANSPORTES GHI</td><td>01/11/2025</td><td>Inadimplência</td></tr></tbody></table>'
+                },
+                'cs-cancelados': {
+                    titulo: 'Contratos de Serviço - Cancelados',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Contrato</th><th>Cliente</th><th>Data Cancelamento</th><th>Motivo</th></tr></thead><tbody><tr><td>CT-008</td><td>SERVIÇOS JKL</td><td>15/10/2025</td><td>Solicitação do cliente</td></tr></tbody></table>'
+                },
+                'fat-Período': {
+                    titulo: 'Faturamento - Por Período (Dezembro/2025)',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Data</th><th>Tipo</th><th>Documento</th><th>Cliente</th><th>Valor</th></tr></thead><tbody><tr><td>10/12/2025</td><td>NFe</td><td>000342</td><td>CONSTRUTORA ABC</td><td>R$ 45.678,90</td></tr><tr><td>09/12/2025</td><td>NFSe</td><td>001234</td><td>EMPRESA XYZ</td><td>R$ 12.500,00</td></tr><tr><td colspan="4" style="text-align: right; font-weight: bold;">TOTAL:</td><td style="font-weight: bold;">R$ 58.178,90</td></tr></tbody></table>'
+                },
+                'fat-mes-ano': {
+                    titulo: 'Faturamento - Por Mês/Ano (2025)',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Mês/Ano</th><th>Qtd NFe</th><th>Qtd NFSe</th><th>Total NFe</th><th>Total NFSe</th><th>Total Geral</th></tr></thead><tbody><tr><td>Dezembro/2025</td><td>45</td><td>28</td><td>R$ 487.234,50</td><td>R$ 156.800,00</td><td>R$ 644.034,50</td></tr><tr><td>Novembro/2025</td><td>38</td><td>22</td><td>R$ 435.123,00</td><td>R$ 132.400,00</td><td>R$ 567.523,00</td></tr></tbody></table>'
+                },
+                'fat-vencimento': {
+                    titulo: 'Faturamento - Por Vencimento',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Vencimento</th><th>Documento</th><th>Cliente</th><th>Valor</th><th>Status</th></tr></thead><tbody><tr><td>15/12/2025</td><td>NFe 000345</td><td>METALÚRGICA ABC</td><td>R$ 23.450,00</td><td>A vencer</td></tr><tr><td>10/12/2025</td><td>NFSe 001250</td><td>SERVIÇOS XYZ</td><td>R$ 8.900,00</td><td>Pago</td></tr></tbody></table>'
+                },
+                'fat-servico': {
+                    titulo: 'Faturamento - Por Serviço',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Serviço</th><th>Qtd</th><th>Valor Total</th><th>% Total</th></tr></thead><tbody><tr><td>Manutenção Preventiva</td><td>35</td><td>R$ 245.000,00</td><td>38%</td></tr><tr><td>Instalação</td><td>28</td><td>R$ 196.000,00</td><td>30%</td></tr><tr><td>Suporte Técnico</td><td>42</td><td>R$ 203.034,50</td><td>32%</td></tr></tbody></table>'
+                },
+                'fat-cliente': {
+                    titulo: 'Faturamento - Por Cliente (Top 10)',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Posição</th><th>Cliente</th><th>Qtd Documentos</th><th>Valor Total</th></tr></thead><tbody><tr><td>1º</td><td>METALÚRGICA GHI LTDA</td><td>18</td><td>R$ 234.567,00</td></tr><tr><td>2º</td><td>CONSTRUTORA ABC S/A</td><td>12</td><td>R$ 187.234,90</td></tr><tr><td>3º</td><td>INDÚSTRIA XYZ</td><td>10</td><td>R$ 145.678,50</td></tr></tbody></table>'
+                },
+                'fat-cancelados': {
+                    titulo: 'Faturamento - Cancelados',
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Data</th><th>Documento</th><th>Cliente</th><th>Valor</th><th>Motivo</th></tr></thead><tbody><tr><td>08/12/2025</td><td>NFe 000338</td><td>DISTRIBUIDORA JKL</td><td>R$ 23.456,80</td><td>Erro nos dados</td></tr><tr><td>05/12/2025</td><td>NFSe 001248</td><td>SERVIÇOS MNO</td><td>R$ 5.600,00</td><td>Duplicidade</td></tr></tbody></table>'
+                }
+            };
+
+            const relatório = Relatórios[tipo];
+            if (relatório) {
+                titulo.innerHTML = '<i class="fas fa-file-alt"></i> ' + relatório.titulo;
+                conteudo.innerHTML = relatório.conteudo;
+                preview.classList.remove('hidden');
+                preview.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function fecharPreview() {
+            document.getElementById('preview-relatorio').classList.add('hidden');
+        }
+
+        function exportarPDF() {
+            const titulo = document.getElementById('titulo-relatorio').innerText;
+            const conteudo = document.getElementById('conteudo-relatorio').innerHTML;
+            const dataAtual = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+            
+            const janelaImpressao = window.open('', '_blank');
+            janelaImpressao.document.write(`<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <title>${titulo}</title>
+    <style>
+        @page { size: A4; margin: 15mm; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; color: #1e293b; font-size: 11px; line-height: 1.4; }
+        
+        /* Cabeçalho Institucional */
+        .header-institucional {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 3px solid #1e40af;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo-circle {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-circle svg {
+            width: 35px;
+            height: 35px;
+            fill: white;
+        }
+        .empresa-info h1 {
+            font-size: 14px;
+            font-weight: 700;
+            color: #1e40af;
+            letter-spacing: 1px;
+        }
+        .empresa-info p {
+            font-size: 9px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+        .dados-empresa {
+            text-align: right;
+            font-size: 9px;
+            color: #475569;
+            line-height: 1.5;
+        }
+        .dados-empresa strong { color: #1e293b; }
+        
+        /* Título do Relatório */
+        .titulo-relatorio {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .titulo-relatorio h2 {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .titulo-relatorio .data {
+            font-size: 10px;
+            opacity: 0.9;
+        }
+        
+        /* Tabela */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 10px 12px; text-align: left; border: 1px solid #e2e8f0; }
+        th { 
+            background: #1e40af; 
+            color: white; 
+            font-weight: 600; 
+            font-size: 10px; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        td { font-size: 10px; color: #374151; }
+        tr:nth-child(even) { background: #f8fafc; }
+        tr:hover { background: #eef2ff; }
+        
+        /* Rodapé */
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 2px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 8px;
+            color: #94a3b8;
+        }
+        .footer .confidencial {
+            font-weight: 600;
+            color: #ef4444;
+        }
+        
+        @media print {
+            body { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="header-institucional">
+        <div class="logo-area">
+            <div class="logo-circle">
+                <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" fill="none"/><path d="M12 2 L12 22 M2 12 L22 12" stroke="white" stroke-width="1.5"/></svg>
+            </div>
+            <div class="empresa-info">
+                <h1>ALUFORCE</h1>
+                <p>CABOS DE ALUMÍNIO</p>
+            </div>
+        </div>
+        <div class="dados-empresa">
+            <strong>I. M. DOS REIS - ALUFORCE INDÚSTRIA E COMÉRCIO DE CONDUTORES</strong><br>
+            CNPJ: 08.192.479/0001-60 | IE: 103.385.861-110<br>
+            RUA ERNESTINA, 270 - VILA SÃO JOÃO<br>
+            Ferraz de Vasconcelos - SP | CEP: 08527-400<br>
+            Tel: (11) 94723-8729
+        </div>
+    </div>
+    
+    <div class="titulo-relatorio">
+        <h2>${titulo.replace(/<[^>]*>/g, '')}</h2>
+        <span class="data">Emitido em: ${dataAtual}</span>
+    </div>
+    
+    ${conteudo}
+    
+    <div class="footer">
+        <span class="confidencial">DOCUMENTO CONFIDENCIAL - USO INTERNO</span>
+        <span>ALUFORCE ERP - Sistema de Gestão Empresarial</span>
+        <span>Página 1 de 1</span>
+    </div>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>`);
+            janelaImpressao.document.close();
+            setTimeout(() => janelaImpressao.print(), 500);
+        }
+
+        function exportarExcel() {
+            const titulo = document.getElementById('titulo-relatorio').innerText.replace(/<[^>]*>/g, '');
+            const tabela = document.querySelector('#conteudo-relatorio table');
+            if (!tabela) { alert('Nenhum relatório para exportar!'); return; }
+
+            // Cabeçalho institucional
+            const csv = [];
+            csv.push('"ALUFORCE - RELATÓRIO EMPRESARIAL"');
+            csv.push('"I. M. DOS REIS - ALUFORCE INDÚSTRIA E COMÉRCIO DE CONDUTORES"');
+            csv.push('"CNPJ: 08.192.479/0001-60"');
+            csv.push('""');
+            csv.push('"' + titulo + '"');
+            csv.push('"Gerado em: ' + new Date().toLocaleString('pt-BR') + '"');
+            csv.push('""');
+
+            tabela.querySelectorAll('tr').forEach(linha => {
+                const row = [];
+                linha.querySelectorAll('th, td').forEach(col => {
+                    row.push('"' + (col.innerText || '').replace(/"/g, '""') + '"');
+                });
+                csv.push(row.join(';'));
+            });
+
+            const blob = new Blob(['\ufeff' + csv.join('\n')], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'ALUFORCE_' + titulo.replace(/[^a-z0-9]/gi, '_') + '_' + new Date().toISOString().split('T')[0] + '.csv';
+            link.click();
+        }
+    </script>
+    <script src="dashboard-nfe-pro.js?v=20251217"></script>
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    
+    <!-- Carregar dados do usuário logado -->
+    <script>
+        async function carregarDadosUsuario() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || user.name || 'Usuário';
+                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    
+                    // Atualizar nome na saudação
+                    const userNameEl = document.getElementById('user-name');
+                    if (userNameEl) {
+                        userNameEl.textContent = primeiroNome;
+                    }
+                    
+                    // Mapeamento de avatares
+                    const avatarNameMap = {
+                        'clemerson': '/avatars/Clemerson.webp',
+                        'isabela': '/avatars/Isabela.webp',
+                        'thaina': '/avatars/Thaina.webp',
+                        'thiago': '/avatars/Thiago.webp',
+                        'nicolas': '/avatars/NicolasDaniel.webp',
+                        'nicolasdaniel': '/avatars/NicolasDaniel.webp',
+                        'rh': '/avatars/Rh.webp',
+                        'admin': '/avatars/admin.webp',
+                        'ti': '/avatars/TI.webp',
+                        'tialuforce': '/avatars/TI.webp',
+                        'antonio': '/avatars/Antonio.webp',
+                        'antônio': '/avatars/Antonio.webp',
+                        'andreia': '/avatars/Andreia.webp',
+                        'guilherme': '/avatars/Guilherme.webp',
+                        'marcelo': '/avatars/Marcelo.webp',
+                        'financeiro': '/avatars/Financeiro.webp',
+                        'douglas': '/avatars/Douglas.webp',
+                        'hellen': '/avatars/Hellen.webp',
+                        'helen': '/avatars/Hellen.webp',
+                        'marcia': '/avatars/Marcia.webp',
+                        'augusto': '/avatars/Augusto.webp',
+                        'renata': '/avatars/Renata.webp',
+                        'fabiano': '/avatars/Fabiano.webp',
+                        'fabiola': '/avatars/Fabiola.webp'
+                    };
+                    
+                    let avatarUrl = null;
+                    if (user.avatar && user.avatar !== '/avatars/default.webp') avatarUrl = user.avatar;
+                    else if (user.foto && user.foto !== '/avatars/default.webp') avatarUrl = user.foto;
+                    else if (user.email) {
+                        const username = user.email.split('@')[0].split('.')[0].toLowerCase();
+                        avatarUrl = avatarNameMap[username];
+                    }
+                    if (!avatarUrl) avatarUrl = avatarNameMap[primeiroNome.toLowerCase()];
+                    
+                    const userPhotoEl = document.getElementById('user-photo');
+                    const initialEl = document.getElementById('user-initial');
+                    
+                    if (avatarUrl && userPhotoEl) {
+                        userPhotoEl.src = avatarUrl;
+                        userPhotoEl.style.display = 'block';
+                        userPhotoEl.onerror = function() {
+                            this.style.display = 'none';
+                            if (initialEl) { initialEl.textContent = primeiroNome.charAt(0).toUpperCase(); initialEl.style.display = 'flex'; }
+                        };
+                        if (initialEl) initialEl.style.display = 'none';
+                    } else if (initialEl) {
+                        initialEl.textContent = primeiroNome.charAt(0).toUpperCase();
+                    }
+                }
+            } catch (e) { console.log('Erro ao carregar usuário:', e); }
+        }
+        document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+
+
+
+

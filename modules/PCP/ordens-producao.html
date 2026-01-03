@@ -1,0 +1,2831 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>ALUFORCE - Ordens de Produção</title>
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ============================================
+           VARIÁVEIS CSS - DESIGN SYSTEM ALUFORCE
+           ============================================ */
+        :root {
+            /* Cores Primárias - Vermelho */
+            --primary-50: #fef2f2;
+            --primary-100: #fee2e2;
+            --primary-200: #fecaca;
+            --primary-300: #fca5a5;
+            --primary-400: #f87171;
+            --primary-500: #ef4444;
+            --primary-600: #dc2626;
+            --primary-700: #b91c1c;
+            --primary-800: #991b1b;
+            --primary-900: #7f1d1d;
+            
+            /* Cores de Estado */
+            --success-500: #10b981;
+            --success-600: #059669;
+            --warning-500: #f59e0b;
+            --warning-600: #d97706;
+            --danger-500: #ef4444;
+            --danger-600: #dc2626;
+            --info-500: #06b6d4;
+            --info-600: #0891b2;
+            
+            /* Neutros */
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            
+            /* Dark Theme */
+            --dark-bg: #0f172a;
+            --dark-surface: #1e293b;
+            --dark-border: #334155;
+            
+            /* Spacing */
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+            --space-12: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            
+            /* Shadows */
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            
+            /* Transitions */
+            --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+            
+            /* Layout */
+            --sidebar-width: 56px;
+            --header-height: 56px;
+            
+            /* Cores legado */
+            --primary-red: #dc2626;
+            --primary-red-dark: #b91c1c;
+            --primary-red-light: #ef4444;
+            --primary-dark: #0f172a;
+            --bg-gray: #f9fafb;
+            --border-color: #e5e7eb;
+            --text-primary: #111827;
+            --text-secondary: #6b7280;
+            --success-green: #22c55e;
+            --warning-yellow: #eab308;
+        }
+
+        /* ============================================
+           RESET E BASE
+           ============================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ============================================
+           LAYOUT PRINCIPAL
+           ============================================ */
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* ============================================
+           SIDEBAR - ESTILO INSTITUCIONAL
+           ============================================ */
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, var(--dark-bg) 0%, #0c1222 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--space-4) 0;
+            z-index: 1000;
+            border-right: 1px solid var(--dark-border);
+        }
+
+        .sidebar-logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: var(--space-6);
+            cursor: pointer;
+            transition: all var(--transition-base);
+            text-decoration: none;
+        }
+
+        .sidebar-logo:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
+        }
+
+        .sidebar-logo i {
+            color: white;
+            font-size: 18px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            flex: 1;
+            width: 100%;
+            padding: 0 var(--space-3);
+        }
+
+        .sidebar-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            color: var(--gray-400);
+            border-radius: var(--radius-lg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all var(--transition-base);
+            position: relative;
+            margin: 0 auto;
+            text-decoration: none;
+        }
+
+        .sidebar-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        .sidebar-btn.active {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            color: white;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        .sidebar-btn::after {
+            content: attr(title);
+            position: absolute;
+            left: 54px;
+            background: var(--gray-900);
+            color: white;
+            padding: 6px 12px;
+            border-radius: var(--radius-md);
+            font-size: 12px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all var(--transition-base);
+            z-index: 1001;
+        }
+
+        .sidebar-btn:hover::after {
+            opacity: 1;
+        }
+
+        .sidebar-btn .badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--danger-500);
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar-divider {
+            width: 32px;
+            height: 1px;
+            background: var(--dark-border);
+            margin: var(--space-4) auto;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-2);
+            padding: 0 var(--space-3);
+        }
+
+        /* ============================================
+           MAIN CONTENT AREA
+           ============================================ */
+        .main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            margin-left: var(--sidebar-width);
+        }
+
+        /* ============================================
+           HEADER - ESTILO INSTITUCIONAL
+           ============================================ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: var(--sidebar-width);
+            right: 0;
+            height: var(--header-height);
+            background: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 var(--space-6);
+            z-index: 999;
+            border-bottom: 1px solid var(--dark-border);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: var(--space-6);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .header-brand img {
+            height: 28px;
+            object-fit: contain;
+        }
+
+        .header-brand span {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-400);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+        }
+
+        .header-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: var(--gray-400);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all var(--transition-base);
+            position: relative;
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        .header-btn .notification-badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            min-width: 16px;
+            height: 16px;
+            background: var(--danger-500);
+            color: white;
+            font-size: 10px;
+            font-weight: 600;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 4px;
+        }
+
+        /* User greeting e avatar - estilo Omie */
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--gray-400);
+            margin-left: 12px;
+            padding-left: 12px;
+            border-left: 1px solid var(--dark-border);
+        }
+        
+        .user-greeting strong {
+            color: white;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-left: 12px;
+            cursor: pointer;
+            transition: all var(--transition-base);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* ========================================
+           TABS BAR
+           ======================================== */
+        .tabs-bar {
+            background: white;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+            margin-top: var(--header-height);
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--gray-100);
+            border: none;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .tab:hover {
+            background: var(--gray-200);
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            color: white;
+        }
+
+        .tab .close-tab {
+            margin-left: 4px;
+            opacity: 0.7;
+            font-size: 12px;
+        }
+
+        /* ========================================
+           FILTROS BAR
+           ======================================== */
+        .filters-bar {
+            background: white;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid var(--border-color);
+            margin-top: var(--header-height);
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--gray-100);
+            border-radius: 8px;
+            padding: 0 12px;
+            width: 300px;
+        }
+
+        .search-box i {
+            color: var(--gray-400);
+            font-size: 14px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 10px 12px;
+            font-size: 14px;
+            width: 100%;
+            outline: none;
+        }
+
+        .filter-link {
+            color: var(--primary-500);
+            font-size: 13px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .filter-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ========================================
+           KANBAN BOARD
+           ======================================== */
+        .kanban-container {
+            flex: 1;
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 16px;
+            background: var(--gray-50);
+            height: calc(100vh - var(--header-height) - 60px);
+        }
+
+        .kanban-board {
+            display: flex;
+            gap: 12px;
+            height: 100%;
+            width: 100%;
+        }
+
+        .kanban-column {
+            flex: 1;
+            min-width: 200px;
+            max-width: none;
+            background: white;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .kanban-column-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .column-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .column-count {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .column-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .column-indicator.a-produzir { background: #ef4444; }
+        .column-indicator.produzindo { background: #f59e0b; }
+        .column-indicator.qualidade { background: #8b5cf6; }
+        .column-indicator.conferido { background: #3b82f6; }
+        .column-indicator.concluido { background: #22c55e; }
+        .column-indicator.armazenado { background: #06b6d4; }
+
+        .kanban-column-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            min-height: 200px;
+        }
+
+        .kanban-column-content.drag-over {
+            background: rgba(220, 38, 38, 0.05);
+            border: 2px dashed var(--primary-500);
+            border-radius: 8px;
+        }
+
+        .kanban-column-footer {
+            padding: 12px 16px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-new-card {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+        }
+
+        .btn-new-card:hover {
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* ========================================
+           KANBAN CARDS
+           ======================================== */
+        .kanban-card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 14px;
+            cursor: grab;
+            transition: all 0.2s;
+            position: relative;
+            border-left: 4px solid #ef4444;
+        }
+
+        .kanban-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .kanban-card.dragging {
+            opacity: 0.5;
+            transform: rotate(2deg);
+            cursor: grabbing;
+        }
+
+        .kanban-card.concluida {
+            border-left-color: #22c55e;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+        }
+
+        .card-op-number {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .card-status-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .card-status-badge.atrasada {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        .card-status-badge.concluida {
+            background: #f0fdf4;
+            color: #16a34a;
+        }
+
+        .card-status-badge.em-dia {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .card-menu {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            color: #999;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-menu:hover {
+            background: #f5f5f5;
+            color: var(--text-primary);
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+
+        .card-product-code {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-family: monospace;
+        }
+
+        .card-meta {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .card-meta i {
+            width: 14px;
+            text-align: center;
+        }
+
+        .card-quantity {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .card-quantity i {
+            color: var(--primary-500);
+            font-size: 14px;
+        }
+
+        .card-quantity-text {
+            font-size: 12px;
+            color: var(--text-primary);
+        }
+
+        .card-quantity-text strong {
+            font-weight: 600;
+        }
+
+        .card-produced {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-left: auto;
+        }
+
+        /* Empty State */
+        .empty-column {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-column i {
+            font-size: 32px;
+            opacity: 0.3;
+            margin-bottom: 12px;
+        }
+
+        .empty-column p {
+            font-size: 13px;
+        }
+
+        /* ========================================
+           MODAL NOVA ORDEM
+           ======================================== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: scale(0.95) translateY(-20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-header h2 i {
+            color: var(--primary-500);
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #f5f5f5;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        .modal-body {
+            padding: 24px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .form-grid.full {
+            grid-template-columns: 1fr;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .form-group label .required {
+            color: var(--danger-red);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 10px 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+
+        .form-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .form-section h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-section h3 i {
+            color: var(--primary-500);
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 20px 24px;
+            border-top: 1px solid var(--border-color);
+            background: #fafafa;
+            border-radius: 0 0 16px 16px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            background: #e5e5e5;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
+            color: white;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.2);
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-600), var(--primary-700));
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+
+        /* ========================================
+           RESPONSIVO
+           ======================================== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f5f5f5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+
+        @media (max-width: 1200px) {
+            .kanban-column {
+                min-width: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ========================================
+           MODAL VISUALIZAÇÃO ORDEM (Estilo Omie)
+           ======================================== */
+        .modal-ordem-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 2500;
+        }
+
+        .modal-ordem-view.active {
+            display: block;
+        }
+
+        .modal-ordem-container {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 1150px;
+            max-width: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            animation: slideInRight 0.3s ease;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+
+        .modal-ordem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: #fafafa;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .modal-ordem-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .modal-ordem-close {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .modal-ordem-close:hover {
+            color: #dc2626;
+        }
+
+        .modal-ordem-body {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .modal-ordem-main {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .modal-ordem-sidebar {
+            width: 180px;
+            background: #fafafa;
+            border-left: 1px solid #e5e5e5;
+            padding: 16px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-action {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            border: none;
+            background: transparent;
+            color: #475569;
+            font-size: 13px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .sidebar-action:hover {
+            background: #f1f5f9;
+            color: #dc2626;
+        }
+
+        .sidebar-action i {
+            width: 16px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .sidebar-action.primary {
+            color: #dc2626;
+            font-weight: 500;
+        }
+
+        .sidebar-action.danger {
+            color: #ef4444;
+            margin-top: auto;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: #e5e5e5;
+            margin: 8px 0;
+        }
+
+        /* Cabeçalho do Produto */
+        .produto-header {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .produto-codigo-badge {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 11px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .produto-info {
+            flex: 1;
+        }
+
+        .produto-info-row {
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .produto-info-group {
+            flex: 1;
+        }
+
+        .produto-info-group label {
+            display: block;
+            font-size: 12px;
+            color: #94a3b8;
+            margin-bottom: 4px;
+        }
+
+        .produto-info-group .value {
+            font-size: 14px;
+            color: #1e293b;
+        }
+
+        .produto-info-group .value a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        .produto-info-group .value a:hover {
+            text-decoration: underline;
+        }
+
+        .previsao-input {
+            padding: 8px 12px;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .previsao-alerta {
+            color: #dc2626;
+            font-size: 12px;
+        }
+
+        /* Quantidade */
+        .quantidade-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .quantidade-label {
+            font-size: 14px;
+            color: #166534;
+        }
+
+        .quantidade-input {
+            padding: 10px 14px;
+            border: 2px solid #22c55e;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 160px;
+            text-align: center;
+        }
+
+        .quantidade-unidade {
+            font-size: 16px;
+            font-weight: 600;
+            color: #166534;
+        }
+
+        .quantidade-status {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* Abas */
+        .ordem-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e5e5e5;
+        }
+
+        .ordem-tab {
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s;
+        }
+
+        .ordem-tab:hover {
+            color: #1e293b;
+        }
+
+        .ordem-tab.active {
+            color: #dc2626;
+        }
+
+        .ordem-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #dc2626;
+        }
+
+        .ordem-tab-content {
+            display: none;
+        }
+
+        .ordem-tab-content.active {
+            display: block;
+        }
+
+        /* Tabela de Itens */
+        .itens-table-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .itens-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .itens-table thead {
+            background: #f8fafc;
+        }
+
+        .itens-table th {
+            padding: 12px 16px;
+            text-align: left;
+            font-weight: 500;
+            color: #64748b;
+            border-bottom: 1px solid #e5e5e5;
+            white-space: nowrap;
+        }
+
+        .itens-table th i {
+            margin-left: 4px;
+            font-size: 10px;
+        }
+
+        .itens-table tbody tr {
+            transition: background 0.2s;
+        }
+
+        .itens-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .itens-table tbody tr.item-principal {
+            background: #fef3c7;
+        }
+
+        .itens-table tbody tr.item-principal:hover {
+            background: #fef3c7;
+        }
+
+        .itens-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #f1f5f9;
+            color: #1e293b;
+        }
+
+        .item-opcoes {
+            display: flex;
+            gap: 4px;
+        }
+
+        .item-opcoes button {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #e5e5e5;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #64748b;
+            font-size: 11px;
+            transition: all 0.2s;
+        }
+
+        .item-opcoes button:hover {
+            background: #f1f5f9;
+            border-color: #dc2626;
+            color: #dc2626;
+        }
+
+        .tipo-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .tipo-badge.acabado {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .tipo-badge.materia-prima {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .tipo-badge.processo {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .table-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: #fafafa;
+            font-size: 13px;
+            color: #64748b;
+        }
+
+        .table-pagination {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .table-pagination button {
+            padding: 6px 10px;
+            border: 1px solid #e5e5e5;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .table-pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .table-pagination .page-info {
+            padding: 6px 12px;
+            background: #dc2626;
+            color: white;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        /* Ações Rápidas */
+        .acoes-rapidas {
+            margin-top: 24px;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 8px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .acoes-rapidas i {
+            margin-right: 8px;
+            color: #94a3b8;
+        }
+
+        /* Botões de Visualização */
+        .view-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .btn-view {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-view.primary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-view.primary:hover {
+            background: #b91c1c;
+        }
+
+        .btn-view.secondary {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-view.secondary:hover {
+            background: #b91c1c;
+        }
+
+        /* Status Badge Rodapé */
+        .status-badge-footer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #dc2626, #f87171);
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 0 0 16px 0;
+        }
+
+        .status-badge-footer i {
+            color: white;
+            font-size: 16px;
+        }
+
+        .status-badge-footer span {
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Botões de opções na tabela */
+        .opcoes-btns {
+            display: flex;
+            gap: 4px;
+        }
+
+        .btn-opcao {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 6px;
+            background: #f3f4f6;
+            color: #6b7280;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .btn-opcao:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-opcao.danger:hover {
+            background: #ef4444;
+        }
+
+        /* Badge de tipo de produto */
+        .tipo-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .tipo-produtoacabado {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .tipo-matriaprima {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .tipo-componente {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .tipo-embalagem {
+            background: #f3e8ff;
+            color: #7c3aed;
+        }
+
+        /* Textarea para observações */
+        #modal-observacoes {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        #modal-observacoes:focus {
+            outline: none;
+            border-color: var(--primary-500);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+        }
+        
+        /* Esconder a tabs-bar */
+        .tabs-bar {
+            display: none !important;
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <a href="/dashboard" class="sidebar-logo" title="Painel Principal">
+                <i class="fas fa-home"></i>
+            </a>
+            
+            <div class="sidebar-nav">
+                <a href="index.html" class="sidebar-btn" title="Dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                </a>
+                <a href="index.html" class="sidebar-btn" title="Produtos e Estoque" onclick="localStorage.setItem('pcp-view','produtos')">
+                    <i class="fas fa-boxes"></i>
+                </a>
+                <a href="index.html" class="sidebar-btn" title="Ordem de Compra" onclick="localStorage.setItem('pcp-view','ordem-compra')">
+                    <i class="fas fa-shopping-cart"></i>
+                </a>
+                <a href="ordens-producao.html" class="sidebar-btn active" title="Ordens de Produção">
+                    <i class="fas fa-clipboard-list"></i>
+                </a>
+                <a href="index.html" class="sidebar-btn" title="Programação de Faturamento" onclick="localStorage.setItem('pcp-view','faturamento')">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </a>
+            </div>
+            
+            <div class="sidebar-bottom">
+                <button class="sidebar-btn" title="Configurações">
+                    <i class="fas fa-cog"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Main Area -->
+        <div class="main-area">
+            <!-- Header -->
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <span>PCP</span>
+                        <span>|</span>
+                        <span style="color: white;">Ordens de Produção</span>
+                    </div>
+                </div>
+                
+                <div class="header-right">
+                    <button class="header-btn" title="Atualizar" onclick="location.reload()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="header-btn" title="Notificações">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    
+                    <div class="user-greeting">
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                    </div>
+                    
+                    <div class="user-avatar" id="user-avatar">
+                        <img src="/avatars/default.webp" alt="" id="user-photo">
+                        <span id="user-initials" style="display:none;align-items:center;justify-content:center;width:100%;height:100%;color:white;font-weight:600;font-size:14px;border-radius:50%;">U</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tabs Bar - Hidden -->
+            <div class="tabs-bar" style="display: none !important;">
+            </div>
+
+            <!-- Filters Bar -->
+            <div class="filters-bar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Digite o que deseja pesquisar" id="searchOrdens">
+                </div>
+                <span class="filter-link" id="filterInfo">Exibindo Ordens de Produção de todos os períodos</span>
+            </div>
+
+            <!-- Kanban Container -->
+            <div class="kanban-container">
+                <div class="kanban-board" id="kanbanBoard">
+                    <!-- Coluna: A Produzir -->
+                    <div class="kanban-column" data-status="a_produzir">
+                        <div class="kanban-column-header">
+                            <div>
+                                <div class="column-title">A Produzir</div>
+                                <div class="column-count" id="count-a_produzir">0 ordens de produção</div>
+                            </div>
+                            <div class="column-indicator a-produzir"></div>
+                        </div>
+                        <div class="kanban-column-content" id="col-a_produzir">
+                            <!-- Cards serão inseridos aqui -->
+                        </div>
+                        <div class="kanban-column-footer">
+                            <button class="btn-new-card" onclick="openNovaOrdemModal()">
+                                <i class="fas fa-plus"></i>
+                                Nova Ordem de Produção
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Coluna: Produzindo -->
+                    <div class="kanban-column" data-status="produzindo">
+                        <div class="kanban-column-header">
+                            <div>
+                                <div class="column-title">Produzindo</div>
+                                <div class="column-count" id="count-produzindo">Nenhuma ordem de produção</div>
+                            </div>
+                            <div class="column-indicator produzindo"></div>
+                        </div>
+                        <div class="kanban-column-content" id="col-produzindo">
+                            <div class="empty-column">
+                                <i class="fas fa-inbox"></i>
+                                <p>Nenhuma ordem de produção</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coluna: Qualidade -->
+                    <div class="kanban-column" data-status="qualidade">
+                        <div class="kanban-column-header">
+                            <div>
+                                <div class="column-title">Qualidade</div>
+                                <div class="column-count" id="count-qualidade">Nenhuma ordem de produção</div>
+                            </div>
+                            <div class="column-indicator qualidade"></div>
+                        </div>
+                        <div class="kanban-column-content" id="col-qualidade">
+                            <div class="empty-column">
+                                <i class="fas fa-inbox"></i>
+                                <p>Nenhuma ordem de produção</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coluna: Conferido -->
+                    <div class="kanban-column" data-status="conferido">
+                        <div class="kanban-column-header">
+                            <div>
+                                <div class="column-title">Conferido</div>
+                                <div class="column-count" id="count-conferido">Nenhuma ordem de produção</div>
+                            </div>
+                            <div class="column-indicator conferido"></div>
+                        </div>
+                        <div class="kanban-column-content" id="col-conferido">
+                            <div class="empty-column">
+                                <i class="fas fa-inbox"></i>
+                                <p>Nenhuma ordem de produção</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coluna: Concluído -->
+                    <div class="kanban-column" data-status="concluido">
+                        <div class="kanban-column-header">
+                            <div>
+                                <div class="column-title">Concluído</div>
+                                <div class="column-count" id="count-concluido">Arraste aqui a ordem de produção para c...</div>
+                            </div>
+                            <div class="column-indicator concluido"></div>
+                        </div>
+                        <div class="kanban-column-content" id="col-concluido">
+                            <!-- Cards concluídos serão inseridos aqui -->
+                        </div>
+                    </div>
+
+                    <!-- Coluna: Armazenado -->
+                    <div class="kanban-column" data-status="armazenado">
+                        <div class="kanban-column-header">
+                            <div>
+                                <div class="column-title">Armazenado</div>
+                                <div class="column-count" id="count-armazenado">Arraste aqui a ordem de produção para c...</div>
+                            </div>
+                            <div class="column-indicator armazenado"></div>
+                        </div>
+                        <div class="kanban-column-content" id="col-armazenado">
+                            <div class="empty-column">
+                                <i class="fas fa-inbox"></i>
+                                <p>Arraste aqui a ordem de produção para concluir</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualização Ordem de Produção (Estilo Omie) -->
+    <div class="modal-ordem-view" id="modalOrdemView">
+        <div class="modal-ordem-container">
+            <!-- Header -->
+            <div class="modal-ordem-header">
+                <h2 id="modal-ordem-titulo">Ordem de Produção Nº 2025/00001</h2>
+                <button class="modal-ordem-close" onclick="fecharModalOrdem()">
+                    Fechar <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-ordem-body">
+                <!-- Main Content -->
+                <div class="modal-ordem-main">
+                    <!-- Cabeçalho do Produto -->
+                    <div class="produto-header">
+                        <div class="produto-codigo-badge" id="modal-produto-badge">TRN25C</div>
+                        <div class="produto-info">
+                            <div class="produto-info-row">
+                                <div class="produto-info-group" style="flex: 2;">
+                                    <label>Produto <i class="fas fa-external-link-alt" style="font-size: 10px; color: #3b82f6;"></i></label>
+                                    <div class="value">
+                                        <a href="#" id="modal-produto-link">ALUFORCE CB TRIPLEX 25MM NEUTRO NU PT/CZ</a>
+                                    </div>
+                                </div>
+                                <div class="produto-info-group">
+                                    <label>Previsão de Conclusão <i class="fas fa-exclamation-circle previsao-alerta" title="Atrasada"></i></label>
+                                    <div class="value">
+                                        <input type="date" class="previsao-input" id="modal-previsao-conclusao">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quantidade a Produzir -->
+                    <div class="quantidade-box">
+                        <span class="quantidade-label">Quantidade a produzir</span>
+                        <input type="text" class="quantidade-input" id="modal-quantidade" value="5.000,000000">
+                        <span class="quantidade-unidade" id="modal-unidade">M</span>
+                        <span class="quantidade-status" id="modal-quantidade-status">mas nenhum ainda produzido</span>
+                    </div>
+
+                    <!-- Abas -->
+                    <div class="ordem-tabs">
+                        <button class="ordem-tab active" onclick="switchOrdemTab('itens')">Itens da Ordem de Produção</button>
+                        <button class="ordem-tab" onclick="switchOrdemTab('info')">Informações Adicionais</button>
+                        <button class="ordem-tab" onclick="switchOrdemTab('observacoes')">Observações</button>
+                    </div>
+
+                    <!-- Conteúdo das Abas -->
+                    <div class="ordem-tab-content active" id="tab-itens">
+                        <div class="itens-table-container">
+                            <table class="itens-table">
+                                <thead>
+                                    <tr>
+                                        <th>Opções</th>
+                                        <th>Descrição do Item <i class="fas fa-sort"></i></th>
+                                        <th>Código do Item <i class="fas fa-sort"></i></th>
+                                        <th>Quantidade <i class="fas fa-sort"></i></th>
+                                        <th>Estoque Disponível <i class="fas fa-sort"></i></th>
+                                        <th>Local de Estoque</th>
+                                        <th>Tipo de Produto</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="modal-itens-tbody">
+                                    <!-- Itens serão inseridos via JavaScript -->
+                                </tbody>
+                            </table>
+                            <div class="table-footer">
+                                <span id="modal-itens-count">1 - 6 de 6 registros</span>
+                                <div class="table-pagination">
+                                    <button disabled><i class="fas fa-angle-double-left"></i></button>
+                                    <button disabled>anterior</button>
+                                    <span class="page-info">1</span>
+                                    <button disabled>próximo</button>
+                                    <button disabled><i class="fas fa-angle-double-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="acoes-rapidas">
+                            <i class="fas fa-info-circle"></i>
+                            Alterar a quantidade e observação do item da estrutura
+                        </div>
+
+                        <div class="view-buttons">
+                            <button class="btn-view primary" onclick="visualizarOrdemProducao()">
+                                <i class="fas fa-search"></i> Visualizar Ordem de Produção
+                            </button>
+                            <button class="btn-view secondary" onclick="visualizarMapaCusto()">
+                                <i class="fas fa-search"></i> Visualizar Mapa de Custo
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="ordem-tab-content" id="tab-info">
+                        <div class="itens-table-container" style="padding: 24px;">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Código do Produto</label>
+                                    <input type="text" id="modal-info-codigo" readonly style="background: #f5f5f5;">
+                                </div>
+                                <div class="form-group">
+                                    <label>Setor de Produção</label>
+                                    <input type="text" id="modal-info-setor" value="Extrusão">
+                                </div>
+                                <div class="form-group">
+                                    <label>Data de Criação</label>
+                                    <input type="text" id="modal-info-criacao" readonly style="background: #f5f5f5;">
+                                </div>
+                                <div class="form-group">
+                                    <label>Responsável</label>
+                                    <input type="text" id="modal-info-responsavel" value="Sistema">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ordem-tab-content" id="tab-observacoes">
+                        <div class="itens-table-container" style="padding: 24px;">
+                            <div class="form-group">
+                                <label>Observações da Ordem de Produção</label>
+                                <textarea id="modal-observacoes" rows="8" placeholder="Adicione observações sobre esta ordem de produção..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sidebar de Ações -->
+                <div class="modal-ordem-sidebar">
+                    <button class="sidebar-action" onclick="salvarOrdemModal()">
+                        <i class="fas fa-save"></i> Salvar
+                    </button>
+                    <button class="sidebar-action" onclick="incluirItemOrdem()">
+                        <i class="fas fa-plus"></i> Incluir
+                    </button>
+                    <button class="sidebar-action" onclick="imprimirOrdem()">
+                        <i class="fas fa-print"></i> Imprimir
+                    </button>
+                    <button class="sidebar-action" onclick="duplicarOrdemModal()">
+                        <i class="fas fa-copy"></i> Duplicar
+                    </button>
+                    <button class="sidebar-action" onclick="verAnexosOrdem()">
+                        <i class="fas fa-paperclip"></i> Anexos
+                    </button>
+                    <button class="sidebar-action" onclick="verHistoricoOrdem()">
+                        <i class="fas fa-history"></i> Histórico de Alterações
+                    </button>
+
+                    <div class="sidebar-divider"></div>
+
+                    <button class="sidebar-action" onclick="verTarefasOrdem()">
+                        <i class="fas fa-tasks"></i> Tarefas
+                    </button>
+                    <button class="sidebar-action primary" onclick="concluirOrdemModal()">
+                        <i class="fas fa-chevron-right"></i> Concluir Ordem de Produção
+                    </button>
+                    <button class="sidebar-action" onclick="verPedidoVinculado()">
+                        <i class="fas fa-link"></i> Pedido Vinculado
+                    </button>
+
+                    <div class="sidebar-divider"></div>
+
+                    <button class="sidebar-action danger" onclick="excluirOrdemModal()">
+                        <i class="fas fa-trash"></i> Excluir
+                    </button>
+                </div>
+            </div>
+
+            <!-- Footer Status -->
+            <div class="status-badge-footer" id="modal-status-footer">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="modal-status-text">Atrasada</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova Ordem de Produção -->
+    <div class="modal-overlay" id="modalNovaOrdem">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus-circle"></i> Nova Ordem de Produção</h2>
+                <button class="modal-close" onclick="closeNovaOrdemModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="formNovaOrdem" onsubmit="criarOrdemProducao(event)">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Número da OP <span class="required">*</span></label>
+                            <input type="text" id="opNumero" placeholder="Ex: OP Nº 2025/00001" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Conclusão Prevista <span class="required">*</span></label>
+                            <input type="date" id="opDataConclusao" required>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-cube"></i> Produto</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Código do Produto</label>
+                                <input type="text" id="opCodigoProduto" placeholder="Ex: TRN25C">
+                            </div>
+                            <div class="form-group">
+                                <label>Nome do Produto <span class="required">*</span></label>
+                                <input type="text" id="opNomeProduto" placeholder="Ex: ALUFORCE CB TRIPLEX 25MM" required>
+                            </div>
+                        </div>
+                        <div class="form-grid full">
+                            <div class="form-group">
+                                <label>Descrição Completa</label>
+                                <textarea id="opDescricao" rows="2" placeholder="Ex: NEUTRO NU PT/CZ"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-calculator"></i> Quantidade</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Quantidade Total <span class="required">*</span></label>
+                                <input type="number" id="opQuantidade" placeholder="Ex: 5000" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Unidade de Medida</label>
+                                <select id="opUnidade">
+                                    <option value="M">Metros (M)</option>
+                                    <option value="KG">Quilogramas (KG)</option>
+                                    <option value="UN">Unidades (UN)</option>
+                                    <option value="PC">Peças (PC)</option>
+                                    <option value="CX">Caixas (CX)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3><i class="fas fa-info-circle"></i> Informações Adicionais</h3>
+                        <div class="form-grid full">
+                            <div class="form-group">
+                                <label>Observações</label>
+                                <textarea id="opObservacoes" rows="3" placeholder="Observações sobre a ordem de produção..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeNovaOrdemModal()">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i> Criar Ordem
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // ========================================
+        // VARIÁVEIS GLOBAIS
+        // ========================================
+        let ordensProducao = [];
+        let draggedCard = null;
+        const API_BASE = '/api';
+
+        // ========================================
+        // INICIALIZAÇÃO
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarUsuario();
+            carregarOrdensProducao();
+            initDragAndDrop();
+            initSearch();
+            gerarNumeroOP();
+        });
+
+        // ========================================
+        // USUÁRIO
+        // ========================================
+        
+        // Mapeamento de avatares por nome de usuário
+        const avatarNameMap = {
+            'clemerson': '/avatars/Clemerson.webp',
+            'isabela': '/avatars/Isabela.webp',
+            'thaina': '/avatars/Thaina.webp',
+            'thiago': '/avatars/Thiago.webp',
+            'nicolas': '/avatars/NicolasDaniel.webp',
+            'nicolasdaniel': '/avatars/NicolasDaniel.webp',
+            'rh': '/avatars/Rh.webp',
+            'admin': '/avatars/admin.webp',
+            'ti': '/avatars/TI.webp',
+            'tialuforce': '/avatars/TI.webp',
+            'antonio': '/avatars/Antonio.webp',
+            'andreia': '/avatars/Andreia.webp',
+            'guilherme': '/avatars/Guilherme.webp',
+            'marcelo': '/avatars/Marcelo.webp'
+        };
+
+        function getAvatarFromEmail(email, nome) {
+            if (!email) return null;
+            const username = email.split('@')[0].split('.')[0].toLowerCase();
+            if (avatarNameMap[username]) return avatarNameMap[username];
+            if (nome) {
+                const firstName = nome.split(' ')[0].toLowerCase();
+                if (avatarNameMap[firstName]) return avatarNameMap[firstName];
+            }
+            return null;
+        }
+
+        async function carregarUsuario() {
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/me', {
+                    credentials: 'include',
+                    headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+                });
+                
+                if (response.ok) {
+                    const user = await response.json();
+                    
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || 'Usuário';
+                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                    const nomeCompleto = user.nome || user.name || 'Usuário';
+                    
+                    // Atualizar nome na saudação
+                    const userNameEl = document.getElementById('user-name');
+                    if (userNameEl) userNameEl.textContent = primeiroNome;
+                    
+                    const initialsEl = document.getElementById('user-initials');
+                    const avatarImg = document.querySelector('#user-avatar img');
+                    const avatarDiv = document.getElementById('user-avatar');
+                    
+                    // Prioridade: avatarNameMap > foto_perfil_url > avatar
+                    let fotoUrl = getAvatarFromEmail(user.email, nomeCompleto);
+                    if (!fotoUrl) {
+                        fotoUrl = user.foto_perfil_url || user.avatar;
+                    }
+                    
+                    if (fotoUrl && fotoUrl !== '/avatars/default.webp') {
+                        if (avatarImg) {
+                            avatarImg.src = fotoUrl;
+                            avatarImg.style.display = 'block';
+                            avatarImg.onerror = function() {
+                                this.style.display = 'none';
+                                mostrarIniciaisAvatarOP(nomeCompleto, avatarDiv, initialsEl);
+                            };
+                        }
+                        if (initialsEl) initialsEl.style.display = 'none';
+                    } else {
+                        mostrarIniciaisAvatarOP(nomeCompleto, avatarDiv, initialsEl);
+                        if (avatarImg) avatarImg.style.display = 'none';
+                    }
+                    
+                    // Salvar no localStorage
+                    localStorage.setItem('userData', JSON.stringify({
+                        nome: nomeCompleto,
+                        email: user.email,
+                        avatar: fotoUrl
+                    }));
+                    
+                    console.log('✅ Usuário carregado:', primeiroNome);
+                }
+            } catch (error) {
+                console.log('⚠️ Erro ao carregar usuário:', error);
+                // Tentar usar localStorage
+                try {
+                    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                    if (userData.nome) {
+                        document.getElementById('user-name').textContent = userData.nome.split(' ')[0];
+                        const avatarImg = document.querySelector('#user-avatar img');
+                        if (avatarImg && userData.avatar) avatarImg.src = userData.avatar;
+                    }
+                } catch (e) {}
+            }
+        }
+        
+        function mostrarIniciaisAvatarOP(nomeCompleto, avatarDiv, initialsEl) {
+            const initials = nomeCompleto.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase() || 'U';
+            const cores = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899'];
+            const cor = cores[nomeCompleto.charCodeAt(0) % cores.length];
+            
+            if (initialsEl) {
+                initialsEl.textContent = initials;
+                initialsEl.style.display = 'flex';
+                initialsEl.style.background = cor;
+            } else if (avatarDiv) {
+                avatarDiv.innerHTML = `<span style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;background:${cor};color:white;font-weight:600;border-radius:50%;">${initials}</span>`;
+            }
+        }
+
+        // ========================================
+        // ORDENS DE PRODUÇÃO - CRUD
+        // ========================================
+        async function carregarOrdensProducao() {
+            try {
+                const response = await fetch('/api/pcp/ordens-kanban', { credentials: 'include' });
+                if (response.ok) {
+                    const ordensAPI = await response.json();
+                    const ordensLocal = getOrdensLocais();
+                    
+                    // Mesclar ordens da API com locais (evitar duplicatas por ID)
+                    const idsAPI = new Set(ordensAPI.map(o => o.id));
+                    const ordensLocalNovas = ordensLocal.filter(o => !idsAPI.has(o.id));
+                    
+                    ordensProducao = [...ordensAPI, ...ordensLocalNovas];
+                    
+                    // Mapear status para o formato do Kanban
+                    ordensProducao = ordensProducao.map(o => ({
+                        ...o,
+                        status: o.statusKanban || o.status || 'a_produzir',
+                        produzido: o.produzido || o.quantidade_produzida || 0
+                    }));
+                    
+                    console.log('✅ Ordens carregadas:', ordensProducao.length);
+                    renderizarKanban();
+                } else {
+                    console.log('API retornou erro, usando dados locais');
+                    ordensProducao = getOrdensLocais();
+                    renderizarKanban();
+                }
+            } catch (error) {
+                console.log('Erro na API, usando dados locais:', error);
+                ordensProducao = getOrdensLocais();
+                renderizarKanban();
+            }
+        }
+
+        function getOrdensLocais() {
+            const stored = localStorage.getItem('ordensProducao');
+            if (stored) {
+                try {
+                    return JSON.parse(stored);
+                } catch (e) {
+                    console.warn('Erro ao parsear ordensProducao do localStorage');
+                }
+            }
+            // Retornar array vazio se não houver dados
+            return [];
+        }
+
+        function salvarOrdensLocais() {
+            localStorage.setItem('ordensProducao', JSON.stringify(ordensProducao));
+        }
+
+        async function criarOrdemProducao(event) {
+            event.preventDefault();
+
+            const novaOrdem = {
+                id: Date.now(),
+                numero: document.getElementById('opNumero').value,
+                status: 'a_produzir',
+                statusTexto: 'Em dia',
+                produto: document.getElementById('opNomeProduto').value,
+                descricao: document.getElementById('opDescricao').value || '',
+                codigo: document.getElementById('opCodigoProduto').value || '',
+                dataConclusao: document.getElementById('opDataConclusao').value,
+                quantidade: parseInt(document.getElementById('opQuantidade').value),
+                produzido: 0,
+                unidade: document.getElementById('opUnidade').value,
+                observacoes: document.getElementById('opObservacoes').value || ''
+            };
+
+            // Verificar se está atrasada
+            const hoje = new Date();
+            const dataConclusao = new Date(novaOrdem.dataConclusao);
+            if (dataConclusao < hoje) {
+                novaOrdem.statusTexto = 'Atrasada';
+            }
+
+            try {
+                const response = await fetch('/api/pcp/ordens-kanban', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(novaOrdem)
+                });
+
+                if (response.ok) {
+                    const ordem = await response.json();
+                    ordensProducao.push(ordem);
+                } else {
+                    ordensProducao.push(novaOrdem);
+                    salvarOrdensLocais();
+                }
+            } catch (error) {
+                ordensProducao.push(novaOrdem);
+                salvarOrdensLocais();
+            }
+
+            renderizarKanban();
+            closeNovaOrdemModal();
+            document.getElementById('formNovaOrdem').reset();
+            gerarNumeroOP();
+
+            showNotification('Ordem de produção criada com sucesso!', 'success');
+        }
+
+        async function atualizarStatusOrdem(ordemId, novoStatus) {
+            const ordem = ordensProducao.find(o => o.id == ordemId);
+            if (!ordem) return;
+
+            const statusAntigo = ordem.status;
+            ordem.status = novoStatus;
+
+            // Atualizar status texto
+            if (novoStatus === 'concluido' || novoStatus === 'armazenado') {
+                ordem.statusTexto = 'Concluída';
+                ordem.produzido = ordem.quantidade;
+            }
+
+            try {
+                await fetch(`/api/pcp/ordens-kanban/${ordemId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ status: novoStatus })
+                });
+            } catch (error) {
+                salvarOrdensLocais();
+            }
+
+            renderizarKanban();
+        }
+
+        // ========================================
+        // RENDERIZAÇÃO DO KANBAN
+        // ========================================
+        function renderizarKanban() {
+            const colunas = ['a_produzir', 'produzindo', 'qualidade', 'conferido', 'concluido', 'armazenado'];
+            
+            colunas.forEach(status => {
+                const container = document.getElementById(`col-${status}`);
+                const ordens = ordensProducao.filter(o => o.status === status);
+                
+                // Limpar container
+                container.innerHTML = '';
+                
+                if (ordens.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-column">
+                            <i class="fas fa-inbox"></i>
+                            <p>Nenhuma ordem de produção</p>
+                        </div>
+                    `;
+                } else {
+                    ordens.forEach(ordem => {
+                        container.appendChild(criarCardOrdem(ordem));
+                    });
+                }
+
+                // Atualizar contador
+                const countEl = document.getElementById(`count-${status}`);
+                if (countEl) {
+                    const count = ordens.length;
+                    countEl.textContent = count === 0 ? 'Nenhuma ordem de produção' : 
+                                         count === 1 ? '1 ordem de produção' : 
+                                         `${count} ordens de produção`;
+                }
+            });
+        }
+
+        function criarCardOrdem(ordem) {
+            const card = document.createElement('div');
+            card.className = `kanban-card ${ordem.status === 'concluido' || ordem.status === 'armazenado' ? 'concluida' : ''}`;
+            card.draggable = true;
+            card.dataset.id = ordem.id;
+
+            // Adiciona evento de duplo clique para abrir modal de visualização
+            card.ondblclick = function(e) {
+                e.stopPropagation();
+                abrirModalOrdem(ordem.id);
+            };
+
+            const statusClass = ordem.statusTexto === 'Atrasada' ? 'atrasada' : 
+                               ordem.statusTexto === 'Concluída' ? 'concluida' : 'em-dia';
+
+            const dataConclusao = new Date(ordem.dataConclusao);
+            const dataFormatada = dataConclusao.toLocaleDateString('pt-BR', { 
+                day: '2-digit', 
+                month: '2-digit',
+                weekday: 'short'
+            }).replace('.', '');
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div>
+                        <div class="card-op-number">${ordem.numero} <span class="card-status-badge ${statusClass}">(${ordem.statusTexto})</span></div>
+                    </div>
+                    <button class="card-menu" onclick="event.stopPropagation(); showCardMenu(${ordem.id})">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                </div>
+                <div class="card-title">${ordem.produto}</div>
+                ${ordem.descricao ? `<div class="card-product-code">${ordem.descricao}</div>` : ''}
+                <div class="card-product-code">${ordem.codigo || ''}</div>
+                <div class="card-meta">
+                    <i class="fas fa-calendar"></i>
+                    Conclusão prevista para: ${dataFormatada}
+                </div>
+                <div class="card-quantity">
+                    <i class="fas fa-bolt"></i>
+                    <span class="card-quantity-text"><strong>${ordem.quantidade.toLocaleString('pt-BR')} ${ordem.unidade}</strong></span>
+                    <span class="card-produced">(${ordem.produzido > 0 ? ordem.produzido.toLocaleString('pt-BR') + ' ' + ordem.unidade + ' produzidos' : 'nenhum ainda produzido'})</span>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // ========================================
+        // DRAG AND DROP
+        // ========================================
+        function initDragAndDrop() {
+            const board = document.getElementById('kanbanBoard');
+
+            board.addEventListener('dragstart', (e) => {
+                if (e.target.classList.contains('kanban-card')) {
+                    draggedCard = e.target;
+                    e.target.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                }
+            });
+
+            board.addEventListener('dragend', (e) => {
+                if (e.target.classList.contains('kanban-card')) {
+                    e.target.classList.remove('dragging');
+                    draggedCard = null;
+                    document.querySelectorAll('.kanban-column-content').forEach(col => {
+                        col.classList.remove('drag-over');
+                    });
+                }
+            });
+
+            board.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                const column = e.target.closest('.kanban-column-content');
+                if (column) {
+                    column.classList.add('drag-over');
+                }
+            });
+
+            board.addEventListener('dragleave', (e) => {
+                const column = e.target.closest('.kanban-column-content');
+                if (column && !column.contains(e.relatedTarget)) {
+                    column.classList.remove('drag-over');
+                }
+            });
+
+            board.addEventListener('drop', (e) => {
+                e.preventDefault();
+                const column = e.target.closest('.kanban-column-content');
+                if (column && draggedCard) {
+                    const novoStatus = column.closest('.kanban-column').dataset.status;
+                    const ordemId = draggedCard.dataset.id;
+                    
+                    column.classList.remove('drag-over');
+                    column.appendChild(draggedCard);
+                    
+                    atualizarStatusOrdem(ordemId, novoStatus);
+                }
+            });
+        }
+
+        // ========================================
+        // BUSCA
+        // ========================================
+        function initSearch() {
+            const searchInput = document.getElementById('searchOrdens');
+            searchInput.addEventListener('input', (e) => {
+                const termo = e.target.value.toLowerCase();
+                
+                document.querySelectorAll('.kanban-card').forEach(card => {
+                    const texto = card.textContent.toLowerCase();
+                    card.style.display = texto.includes(termo) ? 'block' : 'none';
+                });
+            });
+        }
+
+        // ========================================
+        // MODAL
+        // ========================================
+        function openNovaOrdemModal() {
+            document.getElementById('modalNovaOrdem').classList.add('active');
+            gerarNumeroOP();
+        }
+
+        function closeNovaOrdemModal() {
+            document.getElementById('modalNovaOrdem').classList.remove('active');
+        }
+
+        // ========================================
+        // MODAL VISUALIZAÇÃO ORDEM (ESTILO OMIE)
+        // ========================================
+        let ordemAtualId = null;
+
+        function abrirModalOrdem(ordemId) {
+            ordemAtualId = ordemId;
+            const ordem = ordensProducao.find(o => o.id === ordemId);
+            
+            if (!ordem) {
+                showNotification('Ordem não encontrada', 'error');
+                return;
+            }
+
+            // Preencher dados do header
+            document.getElementById('modal-ordem-titulo').textContent = `Ordem de Produção ${ordem.numero}`;
+            
+            // Preencher dados do produto
+            const codigo = ordem.codigo || ordem.produto.substring(0, 6).toUpperCase();
+            document.getElementById('modal-produto-badge').textContent = codigo;
+            document.getElementById('modal-produto-link').textContent = ordem.produto;
+            
+            // Data de previsão de conclusão
+            const previsaoInput = document.getElementById('modal-previsao-conclusao');
+            if (ordem.dataConclusao) {
+                const data = new Date(ordem.dataConclusao);
+                previsaoInput.value = data.toISOString().split('T')[0];
+            }
+            
+            // Atualizar ícone de alerta baseado no status
+            const alertaIcon = document.querySelector('.previsao-alerta');
+            if (ordem.statusTexto === 'Atrasada') {
+                alertaIcon.style.display = 'inline';
+            } else {
+                alertaIcon.style.display = 'none';
+            }
+            
+            // Quantidade
+            document.getElementById('modal-quantidade').value = ordem.quantidade.toLocaleString('pt-BR', { minimumFractionDigits: 6 });
+            document.getElementById('modal-unidade').textContent = ordem.unidade || 'UN';
+            
+            const statusQtd = ordem.produzido > 0 
+                ? `${ordem.produzido.toLocaleString('pt-BR')} ${ordem.unidade} já produzidos`
+                : 'mas nenhum ainda produzido';
+            document.getElementById('modal-quantidade-status').textContent = statusQtd;
+            
+            // Carregar itens da ordem
+            carregarItensOrdem(ordem);
+            
+            // Preencher aba de informações adicionais
+            document.getElementById('modal-info-codigo').value = codigo;
+            document.getElementById('modal-info-setor').value = ordem.setor || 'Produção';
+            document.getElementById('modal-info-criacao').value = new Date(ordem.dataCriacao || new Date()).toLocaleDateString('pt-BR');
+            document.getElementById('modal-info-responsavel').value = ordem.responsavel || 'Sistema';
+            
+            // Preencher observações
+            document.getElementById('modal-observacoes').value = ordem.observacoes || '';
+            
+            // Atualizar status no footer
+            const statusFooter = document.getElementById('modal-status-footer');
+            const statusText = document.getElementById('modal-status-text');
+            statusText.textContent = ordem.statusTexto || 'Em andamento';
+            
+            if (ordem.statusTexto === 'Atrasada') {
+                statusFooter.style.background = 'linear-gradient(135deg, #dc2626, #f87171)';
+            } else if (ordem.statusTexto === 'Concluída') {
+                statusFooter.style.background = 'linear-gradient(135deg, #22c55e, #86efac)';
+            } else {
+                statusFooter.style.background = 'linear-gradient(135deg, #3b82f6, #93c5fd)';
+            }
+            
+            // Reset tabs
+            document.querySelectorAll('.ordem-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.ordem-tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector('.ordem-tab').classList.add('active');
+            document.getElementById('tab-itens').classList.add('active');
+            
+            // Abrir modal
+            document.getElementById('modalOrdemView').classList.add('active');
+        }
+
+        function fecharModalOrdem() {
+            document.getElementById('modalOrdemView').classList.remove('active');
+            ordemAtualId = null;
+        }
+
+        function switchOrdemTab(tabId) {
+            // Remover active de todas as tabs
+            document.querySelectorAll('.ordem-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.ordem-tab-content').forEach(content => content.classList.remove('active'));
+            
+            // Adicionar active na tab clicada
+            const tabs = document.querySelectorAll('.ordem-tab');
+            const tabIndex = tabId === 'itens' ? 0 : tabId === 'info' ? 1 : 2;
+            tabs[tabIndex].classList.add('active');
+            
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+        }
+
+        function carregarItensOrdem(ordem) {
+            const tbody = document.getElementById('modal-itens-tbody');
+            tbody.innerHTML = '';
+            
+            // Itens simulados baseados na ordem (em produção real, viria da API)
+            const itensExemplo = [
+                { descricao: ordem.produto, codigo: ordem.codigo || 'PROD001', quantidade: ordem.quantidade, estoque: 0, local: 'ALMOXARIFADO', tipo: 'Produto Acabado', principal: true },
+                { descricao: 'Matéria-prima 1', codigo: 'MP001', quantidade: ordem.quantidade * 0.5, estoque: 1000, local: 'DEPÓSITO A', tipo: 'Matéria-Prima', principal: false },
+                { descricao: 'Matéria-prima 2', codigo: 'MP002', quantidade: ordem.quantidade * 0.3, estoque: 500, local: 'DEPÓSITO B', tipo: 'Matéria-Prima', principal: false },
+                { descricao: 'Componente 1', codigo: 'COMP001', quantidade: ordem.quantidade * 1, estoque: 200, local: 'PRODUÇÃO', tipo: 'Componente', principal: false },
+                { descricao: 'Embalagem', codigo: 'EMB001', quantidade: ordem.quantidade * 0.1, estoque: 5000, local: 'EXPEDIÇÃO', tipo: 'Embalagem', principal: false }
+            ];
+            
+            itensExemplo.forEach((item, index) => {
+                const tr = document.createElement('tr');
+                if (item.principal) tr.classList.add('item-principal');
+                
+                tr.innerHTML = `
+                    <td>
+                        <div class="opcoes-btns">
+                            <button class="btn-opcao" title="Editar" onclick="editarItemOrdem(${index})">
+                                <i class="fas fa-pencil-alt"></i>
+                            </button>
+                            ${!item.principal ? `<button class="btn-opcao danger" title="Remover" onclick="removerItemOrdem(${index})">
+                                <i class="fas fa-trash"></i>
+                            </button>` : ''}
+                        </div>
+                    </td>
+                    <td>${item.descricao}</td>
+                    <td>${item.codigo}</td>
+                    <td>${item.quantidade.toLocaleString('pt-BR')} ${ordem.unidade || 'UN'}</td>
+                    <td>${item.estoque.toLocaleString('pt-BR')} ${ordem.unidade || 'UN'}</td>
+                    <td>${item.local}</td>
+                    <td><span class="tipo-badge tipo-${item.tipo.toLowerCase().replace(/[^a-z]/g, '')}">${item.tipo}</span></td>
+                `;
+                tbody.appendChild(tr);
+            });
+            
+            document.getElementById('modal-itens-count').textContent = `1 - ${itensExemplo.length} de ${itensExemplo.length} registros`;
+        }
+
+        // Funções de ação da sidebar
+        function salvarOrdemModal() {
+            if (!ordemAtualId) return;
+            
+            const ordem = ordensProducao.find(o => o.id === ordemAtualId);
+            if (ordem) {
+                // Salvar alterações
+                const novaPrevisao = document.getElementById('modal-previsao-conclusao').value;
+                if (novaPrevisao) {
+                    ordem.dataConclusao = novaPrevisao;
+                }
+                ordem.observacoes = document.getElementById('modal-observacoes').value;
+                
+                renderizarKanban();
+                showNotification('Ordem salva com sucesso!', 'success');
+            }
+        }
+
+        function incluirItemOrdem() {
+            showNotification('Funcionalidade de inclusão de item em desenvolvimento', 'info');
+        }
+
+        function imprimirOrdem() {
+            if (!ordemAtualId) return;
+            const ordem = ordensProducao.find(o => o.id === ordemAtualId);
+            if (ordem) {
+                window.print();
+                showNotification('Preparando impressão...', 'info');
+            }
+        }
+
+        function duplicarOrdemModal() {
+            if (!ordemAtualId) return;
+            const ordemOriginal = ordensProducao.find(o => o.id === ordemAtualId);
+            
+            if (ordemOriginal) {
+                const novaOrdem = {
+                    ...ordemOriginal,
+                    id: Date.now(),
+                    numero: `OP Nº ${new Date().getFullYear()}/${String(ordensProducao.length + 1).padStart(5, '0')}`,
+                    status: 'fila',
+                    statusTexto: 'Em dia',
+                    dataCriacao: new Date().toISOString()
+                };
+                
+                ordensProducao.push(novaOrdem);
+                renderizarKanban();
+                fecharModalOrdem();
+                showNotification('Ordem duplicada com sucesso!', 'success');
+            }
+        }
+
+        function verAnexosOrdem() {
+            showNotification('Nenhum anexo encontrado para esta ordem', 'info');
+        }
+
+        function verHistoricoOrdem() {
+            showNotification('Histórico de alterações em desenvolvimento', 'info');
+        }
+
+        function verTarefasOrdem() {
+            showNotification('Módulo de tarefas em desenvolvimento', 'info');
+        }
+
+        function concluirOrdemModal() {
+            if (!ordemAtualId) return;
+            
+            if (confirm('Deseja concluir esta ordem de produção?')) {
+                const ordem = ordensProducao.find(o => o.id === ordemAtualId);
+                if (ordem) {
+                    ordem.status = 'concluido';
+                    ordem.statusTexto = 'Concluída';
+                    ordem.produzido = ordem.quantidade;
+                    
+                    renderizarKanban();
+                    fecharModalOrdem();
+                    showNotification('Ordem concluída com sucesso!', 'success');
+                }
+            }
+        }
+
+        function verPedidoVinculado() {
+            if (!ordemAtualId) return;
+            const ordem = ordensProducao.find(o => o.id === ordemAtualId);
+            
+            if (ordem && ordem.pedidoVinculado) {
+                showNotification(`Pedido vinculado: ${ordem.pedidoVinculado}`, 'info');
+            } else {
+                showNotification('Nenhum pedido vinculado a esta ordem', 'info');
+            }
+        }
+
+        function excluirOrdemModal() {
+            if (!ordemAtualId) return;
+            
+            if (confirm('Tem certeza que deseja excluir esta ordem de produção? Esta ação não pode ser desfeita.')) {
+                const index = ordensProducao.findIndex(o => o.id === ordemAtualId);
+                if (index > -1) {
+                    ordensProducao.splice(index, 1);
+                    renderizarKanban();
+                    fecharModalOrdem();
+                    showNotification('Ordem excluída com sucesso!', 'success');
+                }
+            }
+        }
+
+        function editarItemOrdem(index) {
+            showNotification('Edição de item em desenvolvimento', 'info');
+        }
+
+        function removerItemOrdem(index) {
+            if (confirm('Deseja remover este item da ordem?')) {
+                showNotification('Item removido!', 'success');
+            }
+        }
+
+        function visualizarOrdemProducao() {
+            showNotification('Abrindo visualização da ordem de produção...', 'info');
+        }
+
+        function visualizarMapaCusto() {
+            showNotification('Abrindo mapa de custo...', 'info');
+        }
+
+        // Fechar modal de visualização ao clicar fora
+        document.getElementById('modalOrdemView').addEventListener('click', (e) => {
+            if (e.target.id === 'modalOrdemView') {
+                fecharModalOrdem();
+            }
+        });
+
+        // Fechar modal com ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (document.getElementById('modalOrdemView').classList.contains('active')) {
+                    fecharModalOrdem();
+                }
+            }
+        });
+
+        function gerarNumeroOP() {
+            const ano = new Date().getFullYear();
+            const proximoNumero = ordensProducao.length + 1;
+            const numeroFormatado = String(proximoNumero).padStart(5, '0');
+            document.getElementById('opNumero').value = `OP Nº ${ano}/${numeroFormatado}`;
+        }
+
+        // Fechar modal ao clicar fora
+        document.getElementById('modalNovaOrdem').addEventListener('click', (e) => {
+            if (e.target.id === 'modalNovaOrdem') {
+                closeNovaOrdemModal();
+            }
+        });
+
+        // ========================================
+        // UTILITÁRIOS
+        // ========================================
+        function showCardMenu(ordemId) {
+            // TODO: Implementar menu de contexto
+            console.log('Menu do card:', ordemId);
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                background: ${type === 'success' ? '#22c55e' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                color: white;
+                border-radius: 8px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                z-index: 3000;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'times' : 'info'}-circle"></i> ${message}`;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Adicionar estilos de animação
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Carregar dados do usuário
+        async function loadUserData() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    const userName = document.getElementById('user-name');
+                    const userPhoto = document.getElementById('user-photo');
+                    const userInitials = document.getElementById('user-initials');
+                    
+                    if (userName) {
+                        userName.textContent = user.nome || user.apelido || 'Usuário';
+                    }
+                    if (userPhoto && user.avatar) {
+                        userPhoto.src = user.avatar;
+                        userPhoto.style.display = 'block';
+                        if (userInitials) userInitials.style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
+            }
+        }
+        loadUserData();
+    </script>
+    
+    <!-- Sistema de Chat e Suporte -->
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+

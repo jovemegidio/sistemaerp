@@ -1,0 +1,1085 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>ALUFORCE - NFe & Logística</title>
+    
+    <!-- CSP Fix - Converter onclick inline para addEventListener -->
+    <script src="/js/csp-fix.js"></script>
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sidebar-width: 56px;
+            --header-height: 48px;
+            --primary-orange: #10b981;
+            --primary-dark: #1a1a2e;
+            --bg-gray: #f5f5f5;
+            --border-color: #e5e5e5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --success-green: #22c55e;
+            --warning-yellow: #eab308;
+            --danger-red: #ef4444;
+            /* NFe specific */
+            --nfe-primary: #10b981;
+            --nfe-secondary: #059669;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           LAYOUT PRINCIPAL
+           ======================================== */
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* ========================================
+           SIDEBAR LATERAL (Estilo Vendas/Omie)
+           ======================================== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--primary-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0;
+            z-index: 100;
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+        }
+
+        .sidebar-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--nfe-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .sidebar-logo i {
+            color: white;
+            font-size: 18px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .sidebar-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            color: #8b8b9a;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .sidebar-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .sidebar-btn.active {
+            background: var(--nfe-primary);
+            color: white;
+        }
+
+        .sidebar-btn .badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--danger-red);
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* Tooltip para sidebar */
+        .sidebar-btn::after {
+            content: attr(title);
+            position: absolute;
+            left: 50px;
+            background: #333;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+            z-index: 1000;
+        }
+
+        .sidebar-btn:hover::after {
+            opacity: 1;
+        }
+
+        /* ========================================
+           MAIN CONTENT AREA
+           ======================================== */
+        .main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin-left: var(--sidebar-width);
+            overflow: hidden;
+        }
+
+        /* ========================================
+           HEADER SUPERIOR (Estilo Vendas)
+           ======================================== */
+        .header {
+            height: var(--header-height);
+            background: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+
+        .header-brand img {
+            height: 24px;
+        }
+
+        .header-brand span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b8b9a;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: #8b8b9a;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981, #059669);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 8px;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 16px;
+            color: #8b8b9a;
+            font-size: 13px;
+        }
+
+        .user-greeting strong {
+            color: white;
+        }
+
+        /* ========================================
+           TABS BAR
+           ======================================== */
+        .tabs-bar {
+            background: white;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 6px;
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .tab:hover {
+            background: #e5e5e5;
+        }
+
+        .tab.active {
+            background: var(--nfe-primary);
+            color: white;
+        }
+
+        /* ========================================
+           DASHBOARD CONTENT
+           ======================================== */
+        .dashboard-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            background: #ffffff;
+        }
+
+        /* KPI Cards */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .kpi-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border-left: 4px solid var(--nfe-primary);
+            transition: all 0.3s;
+        }
+
+        .kpi-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+        }
+
+        .kpi-card .kpi-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .kpi-card.purple .kpi-icon {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--nfe-primary);
+        }
+
+        .kpi-card.green .kpi-icon {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success-green);
+        }
+
+        .kpi-card.blue .kpi-icon {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .kpi-card.orange .kpi-icon {
+            background: rgba(249, 115, 22, 0.1);
+            color: var(--primary-orange);
+        }
+
+        .kpi-card .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .kpi-card .kpi-label {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .kpi-card .kpi-trend {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        .kpi-card .kpi-trend.up {
+            color: var(--success-green);
+        }
+
+        .kpi-card .kpi-trend.down {
+            color: var(--danger-red);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: white;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .action-btn .action-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .action-btn.purple .action-icon { background: linear-gradient(135deg, #10b981, #059669); }
+        .action-btn.blue .action-icon { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+        .action-btn.green .action-icon { background: linear-gradient(135deg, #22c55e, #16a34a); }
+        .action-btn.orange .action-icon { background: linear-gradient(135deg, #10b981, #ea580c); }
+
+        .action-btn .action-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .action-btn .action-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .action-btn .action-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        /* Table Card */
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        .table-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .table-card-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .table-card-header h3 i {
+            color: var(--nfe-primary);
+        }
+
+        .table-card-body {
+            padding: 0;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            text-align: left;
+            padding: 12px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            background: #fafafa;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .data-table td {
+            padding: 12px 16px;
+            font-size: 13px;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .data-table tr:hover td {
+            background: #fafafa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .status-badge.emitida {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success-green);
+        }
+
+        .status-badge.pendente {
+            background: rgba(234, 179, 8, 0.1);
+            color: var(--warning-yellow);
+        }
+
+        .status-badge.cancelada {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-red);
+        }
+
+        /* Sidebar Card */
+        .sidebar-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        .sidebar-card-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-card-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sidebar-card-header h3 i {
+            color: var(--nfe-primary);
+        }
+
+        .sidebar-card-body {
+            padding: 16px 20px;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f5f5f5;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.success {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success-green);
+        }
+
+        .activity-icon.warning {
+            background: rgba(234, 179, 8, 0.1);
+            color: var(--warning-yellow);
+        }
+
+        .activity-icon.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-red);
+        }
+
+        .activity-icon.info {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--nfe-primary);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .activity-time {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 1200px) {
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ========================================
+           SCROLLBAR
+           ======================================== */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f5f5f5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #aaa;
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Lateral (Estilo Vendas) -->
+        <aside class="sidebar">
+            <a href="/dashboard" class="sidebar-logo" title="Voltar ao Painel">
+                <i class="fas fa-file-invoice"></i>
+            </a>
+            
+            <nav class="sidebar-nav">
+                <a href="index.html" class="sidebar-btn active" title="Dashboard">
+                    <i class="fas fa-chart-pie"></i>
+                </a>
+                <a href="emitir.html" class="sidebar-btn" title="Emitir NFe">
+                    <i class="fas fa-file-invoice"></i>
+                </a>
+                <a href="consultar.html" class="sidebar-btn" title="Consultar NFe">
+                    <i class="fas fa-search"></i>
+                </a>
+                <a href="nfse.html" class="sidebar-btn" title="NFSe - Serviços">
+                    <i class="fas fa-file-contract"></i>
+                </a>
+                <a href="danfe.html" class="sidebar-btn" title="Gerar DANFE">
+                    <i class="fas fa-print"></i>
+                </a>
+                <a href="relatorios.html" class="sidebar-btn" title="Relatórios">
+                    <i class="fas fa-chart-bar"></i>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="eventos.html" class="sidebar-btn" title="Eventos">
+                    <i class="fas fa-history"></i>
+                </a>
+                <a href="logistica.html" class="sidebar-btn" title="Logística">
+                    <i class="fas fa-truck"></i>
+                </a>
+                <a href="/dashboard" class="sidebar-btn" title="Voltar ao Painel">
+                    <i class="fas fa-home"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Area -->
+        <main class="main-area">
+            <!-- Header (Estilo Vendas) -->
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <img src="/images/Logo Monocromatico - Branco - Aluforce.png" alt="ALUFORCE">
+                        <span>|</span>
+                        <span>NFe & Logística</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" title="Atualizar" onclick="location.reload()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button class="header-btn" title="Notificações">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <button class="header-btn" title="Configurações">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <div class="user-greeting">
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <div class="user-avatar" id="user-avatar">
+                            <img id="user-photo" src="" alt="Foto" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                            <span id="user-initials">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tabs Bar -->
+            <div class="tabs-bar">
+                <a href="index.html" class="tab active">
+                    <i class="fas fa-chart-pie"></i>
+                    Dashboard
+                </a>
+                <a href="emitir.html" class="tab">
+                    <i class="fas fa-file-invoice"></i>
+                    Emitir NFe
+                </a>
+                <a href="consultar.html" class="tab">
+                    <i class="fas fa-search"></i>
+                    Consultar
+                </a>
+            </div>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- KPI Cards -->
+                <div class="kpi-grid">
+                    <div class="kpi-card purple">
+                        <div class="kpi-icon"><i class="fas fa-file-invoice"></i></div>
+                        <div class="kpi-value" id="kpi-emitidas">28</div>
+                        <div class="kpi-label">NFes Emitidas Este Mês</div>
+                        <div class="kpi-trend up">
+                            <i class="fas fa-arrow-up"></i> 12% vs mês anterior
+                        </div>
+                    </div>
+                    <div class="kpi-card green" style="border-left-color: var(--success-green);">
+                        <div class="kpi-icon"><i class="fas fa-check-circle"></i></div>
+                        <div class="kpi-value" id="kpi-autorizadas">26</div>
+                        <div class="kpi-label">Autorizadas pela SEFAZ</div>
+                        <div class="kpi-trend up">
+                            <i class="fas fa-check"></i> 92.8% de aprovação
+                        </div>
+                    </div>
+                    <div class="kpi-card blue" style="border-left-color: #3b82f6;">
+                        <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="kpi-value" id="kpi-valor">R$ 152.840</div>
+                        <div class="kpi-label">Valor Total Faturado</div>
+                        <div class="kpi-trend up">
+                            <i class="fas fa-arrow-up"></i> 8% vs mês anterior
+                        </div>
+                    </div>
+                    <div class="kpi-card orange" style="border-left-color: var(--primary-orange);">
+                        <div class="kpi-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="kpi-value" id="kpi-pendentes">2</div>
+                        <div class="kpi-label">Pendências/Rejeições</div>
+                        <div class="kpi-trend down">
+                            <i class="fas fa-exclamation"></i> Requer atenção
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <a href="emitir.html" class="action-btn purple">
+                        <div class="action-icon"><i class="fas fa-plus"></i></div>
+                        <div class="action-text">
+                            <span class="action-title">Nova NFe</span>
+                            <span class="action-desc">Emitir nota fiscal</span>
+                        </div>
+                    </a>
+                    <a href="consultar.html" class="action-btn blue">
+                        <div class="action-icon"><i class="fas fa-search"></i></div>
+                        <div class="action-text">
+                            <span class="action-title">Consultar</span>
+                            <span class="action-desc">Buscar notas fiscais</span>
+                        </div>
+                    </a>
+                    <a href="danfe.html" class="action-btn green">
+                        <div class="action-icon"><i class="fas fa-print"></i></div>
+                        <div class="action-text">
+                            <span class="action-title">DANFE</span>
+                            <span class="action-desc">Gerar/imprimir DANFE</span>
+                        </div>
+                    </a>
+                    <a href="relatorios.html" class="action-btn orange">
+                        <div class="action-icon"><i class="fas fa-chart-bar"></i></div>
+                        <div class="action-text">
+                            <span class="action-title">Relatórios</span>
+                            <span class="action-desc">Análises e exportações</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="content-grid">
+                    <!-- Table Card -->
+                    <div class="table-card">
+                        <div class="table-card-header">
+                            <h3><i class="fas fa-file-invoice"></i> Notas Fiscais Recentes</h3>
+                            <a href="consultar.html" class="tab">Ver todas</a>
+                        </div>
+                        <div class="table-card-body">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Número</th>
+                                        <th>Cliente</th>
+                                        <th>Data</th>
+                                        <th>Valor</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="nfe-table-body">
+                                    <tr>
+                                        <td><strong>001234</strong></td>
+                                        <td>Cliente Exemplo Ltda</td>
+                                        <td>17/12/2025</td>
+                                        <td>R$ 12.500,00</td>
+                                        <td><span class="status-badge emitida">Emitida</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>001233</strong></td>
+                                        <td>Empresa ABC S/A</td>
+                                        <td>16/12/2025</td>
+                                        <td>R$ 8.750,00</td>
+                                        <td><span class="status-badge emitida">Emitida</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>001232</strong></td>
+                                        <td>Comércio XYZ EIRELI</td>
+                                        <td>16/12/2025</td>
+                                        <td>R$ 3.200,00</td>
+                                        <td><span class="status-badge pendente">Pendente</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>001231</strong></td>
+                                        <td>Indústria Delta Ltda</td>
+                                        <td>15/12/2025</td>
+                                        <td>R$ 45.800,00</td>
+                                        <td><span class="status-badge emitida">Emitida</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>001230</strong></td>
+                                        <td>Distribuidora Omega</td>
+                                        <td>15/12/2025</td>
+                                        <td>R$ 15.600,00</td>
+                                        <td><span class="status-badge emitida">Emitida</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Card -->
+                    <div class="sidebar-card">
+                        <div class="sidebar-card-header">
+                            <h3><i class="fas fa-history"></i> Atividades Recentes</h3>
+                        </div>
+                        <div class="sidebar-card-body">
+                            <div class="activity-item">
+                                <div class="activity-icon success">
+                                    <i class="fas fa-check"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">NFe 001234 autorizada</div>
+                                    <div class="activity-time">Há 15 minutos</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon info">
+                                    <i class="fas fa-file-invoice"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">NFe 001233 emitida</div>
+                                    <div class="activity-time">Há 2 horas</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon warning">
+                                    <i class="fas fa-exclamation"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">NFe 001232 pendente validação</div>
+                                    <div class="activity-time">Há 3 horas</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon success">
+                                    <i class="fas fa-truck"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">Entrega 001231 confirmada</div>
+                                    <div class="activity-time">Há 5 horas</div>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon error">
+                                    <i class="fas fa-times"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <div class="activity-title">NFe 001225 cancelada</div>
+                                    <div class="activity-time">Ontem, 18:30</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Mapeamento de avatares por nome de usuário
+        const avatarNameMap = {
+            'clemerson': '/avatars/Clemerson.webp',
+            'isabela': '/avatars/Isabela.webp',
+            'thaina': '/avatars/Thaina.webp',
+            'thiago': '/avatars/Thiago.webp',
+            'nicolas': '/avatars/NicolasDaniel.webp',
+            'nicolasdaniel': '/avatars/NicolasDaniel.webp',
+            'rh': '/avatars/Rh.webp',
+            'admin': '/avatars/admin.webp',
+            'ti': '/avatars/TI.webp',
+            'tialuforce': '/avatars/TI.webp',
+            'antonio': '/avatars/Antonio.webp',
+            'antônio': '/avatars/Antonio.webp',
+            'andreia': '/avatars/Andreia.webp',
+            'guilherme': '/avatars/Guilherme.webp',
+            'marcelo': '/avatars/Marcelo.webp',
+            'financeiro': '/avatars/Financeiro.webp',
+            'douglas': '/avatars/Douglas.webp',
+            'hellen': '/avatars/Hellen.webp',
+            'helen': '/avatars/Hellen.webp',
+            'marcia': '/avatars/Marcia.webp',
+            'augusto': '/avatars/Augusto.webp',
+            'renata': '/avatars/Renata.webp',
+            'fabiano': '/avatars/Fabiano.webp',
+            'fabiola': '/avatars/Fabiola.webp'
+        };
+        
+        // Carregar usuário
+        async function carregarUsuario() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || user.name || 'Usuário';
+                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    
+                    // Atualizar nome na saudação
+                    document.getElementById('user-name').textContent = primeiroNome;
+                    
+                    const initialsEl = document.getElementById('user-initials');
+                    const avatarImg = document.getElementById('user-photo');
+                    
+                    // Verificar avatar do usuário ou buscar pelo mapeamento
+                    let avatarUrl = user.avatar || user.foto || user.foto_perfil_url;
+                    
+                    if (!avatarUrl || avatarUrl === '/avatars/default.webp') {
+                        // Tentar encontrar pelo email
+                        if (user.email) {
+                            const username = user.email.split('@')[0].split('.')[0].toLowerCase();
+                            avatarUrl = avatarNameMap[username];
+                        }
+                        // Tentar pelo primeiro nome
+                        if (!avatarUrl) {
+                            avatarUrl = avatarNameMap[primeiroNome.toLowerCase()];
+                        }
+                    }
+                    
+                    if (avatarUrl && avatarImg) {
+                        avatarImg.src = avatarUrl;
+                        avatarImg.onload = () => {
+                            avatarImg.style.display = 'block';
+                            if (initialsEl) initialsEl.style.display = 'none';
+                        };
+                        avatarImg.onerror = () => {
+                            avatarImg.style.display = 'none';
+                            if (initialsEl) {
+                                initialsEl.style.display = 'flex';
+                                const initials = nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                                initialsEl.textContent = initials;
+                            }
+                        };
+                    } else {
+                        // Mostrar iniciais quando não há foto
+                        if (avatarImg) avatarImg.style.display = 'none';
+                        if (initialsEl) {
+                            initialsEl.style.display = 'flex';
+                            const initials = nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                            initialsEl.textContent = initials;
+                        }
+                    }
+                    
+                    console.log('👤 Usuário NFe:', primeiroNome, '| Foto:', avatarUrl ? 'Sim' : 'Não');
+                }
+            } catch (error) {
+                console.log('Erro ao carregar usuário:', error);
+            }
+        }
+
+        // Carregar dados do dashboard
+        async function carregarDados() {
+            try {
+                const response = await fetch('/api/nfe/dashboard');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('kpi-emitidas').textContent = data.emitidas || 28;
+                    document.getElementById('kpi-autorizadas').textContent = data.autorizadas || 26;
+                    document.getElementById('kpi-valor').textContent = 'R$ ' + (data.valor || 152840).toLocaleString('pt-BR');
+                    document.getElementById('kpi-pendentes').textContent = data.pendentes || 2;
+                }
+            } catch (error) {
+                console.log('Usando dados padrão');
+            }
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarUsuario();
+            carregarDados();
+        });
+    </script>
+    
+    <!-- Sistema de Monitoramento de Conexão -->
+    <script src="../_shared/connection-monitor.js?v=20251223"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

@@ -1,0 +1,1441 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALUFORCE - Fluxo de Caixa</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --sidebar-width: 56px;
+            --header-height: 48px;
+            --primary-blue: #84cc16;
+            --primary-dark: #1a1a2e;
+            --bg-gray: #f8fafc;
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-gray); color: var(--text-primary); }
+        .app-container { display: flex; height: 100vh; }
+
+        /* SIDEBAR */
+        .sidebar { width: var(--sidebar-width); background: var(--primary-dark); display: flex; flex-direction: column; align-items: center; padding: 12px 0; z-index: 100; position: fixed; height: 100vh; }
+        .sidebar-logo { width: 36px; height: 36px; background: var(--primary-blue); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; text-decoration: none; }
+        .sidebar-logo i { color: white; font-size: 18px; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .sidebar-btn { width: 40px; height: 40px; border: none; background: transparent; color: #8b8b9a; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.2s; }
+        .sidebar-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .sidebar-btn.active { background: var(--primary-blue); color: white; }
+        .sidebar-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+
+        /* MAIN */
+        .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; margin-left: var(--sidebar-width); }
+
+        /* HEADER */
+        .header { height: var(--header-height); background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+        .header-brand { display: flex; align-items: center; gap: 8px; }
+        .header-brand img { height: 24px; }
+        .header-brand span { font-size: 14px; font-weight: 600; color: #8b8b9a; }
+        .header-right { display: flex; align-items: center; gap: 8px; }
+        .header-btn { width: 36px; height: 36px; border: none; background: transparent; color: #8b8b9a; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; position: relative; }
+        .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .header-btn .notification-badge { position: absolute; top: 4px; right: 4px; min-width: 16px; height: 16px; background: #ef4444; border-radius: 10px; color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
+        .notification-container { position: relative; }
+        .notification-panel { position: absolute; top: calc(100% + 12px); right: 0; width: 380px; max-height: 500px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; display: none; overflow: hidden; }
+        .notification-panel.active { display: block; }
+        .notification-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: linear-gradient(135deg, #84cc16, #65a30d); color: white; }
+        .notification-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
+        .notification-list { max-height: 340px; overflow-y: auto; }
+        .notification-item { display: flex; gap: 12px; padding: 14px 20px; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: all 0.2s; }
+        .notification-item:hover { background: #f8f8f8; }
+        .notification-item.unread { background: #f0fdf4; border-left: 3px solid #84cc16; }
+        .notification-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .notification-icon.success { background: #dcfce7; color: #22c55e; }
+        .notification-icon.warning { background: #fef3c7; color: #f59e0b; }
+        .notification-icon.error { background: #fee2e2; color: #ef4444; }
+        .notification-icon.info { background: #dbeafe; color: #3b82f6; }
+        .notification-content { flex: 1; }
+        .notification-title { font-size: 13px; font-weight: 600; color: #333; margin-bottom: 4px; }
+        .notification-message { font-size: 12px; color: #666; }
+        .notification-time { font-size: 11px; color: #999; margin-top: 6px; }
+        .notification-footer { padding: 12px 20px; background: #f8f8f8; text-align: center; border-top: 1px solid #e5e5e5; }
+        .notification-footer a { color: #84cc16; text-decoration: none; font-size: 13px; font-weight: 500; }
+        .user-greeting { display: flex; align-items: center; gap: 12px; margin-left: 16px; color: #8b8b9a; font-size: 13px; }
+        .user-greeting strong { color: white; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #84cc16, #65a30d); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; overflow: hidden; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .user-avatar img.visible { display: block; }
+        .user-avatar .user-initial { display: block; }
+        .user-avatar img.visible + .user-initial { display: none; }
+
+        /* PAGE */
+        .page-content { flex: 1; overflow-y: auto; padding: 24px; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .page-title-section h1 { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; margin-bottom: 4px; }
+        .page-title-section h1 i { color: var(--info); }
+        .page-title-section p { font-size: 14px; color: var(--text-secondary); }
+        .page-actions { display: flex; gap: 12px; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: var(--primary-blue); color: white; }
+        .btn-primary:hover { background: #65a30d; }
+        .btn-secondary { background: white; color: var(--text-primary); border: 1px solid var(--border-color); }
+
+        /* KPI CARDS */
+        .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
+        .kpi-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .kpi-card.highlight { background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%); color: white; }
+        .kpi-card.highlight .kpi-content h3 { color: rgba(255,255,255,0.8); }
+        .kpi-card.highlight .kpi-icon { background: rgba(255,255,255,0.2); color: white; }
+        .kpi-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+        .kpi-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .kpi-icon.green { background: rgba(34,197,94,0.1); color: var(--success); }
+        .kpi-icon.red { background: rgba(239,68,68,0.1); color: var(--danger); }
+        .kpi-icon.blue { background: rgba(59,130,246,0.1); color: var(--info); }
+        .kpi-icon.purple { background: rgba(139,92,246,0.1); color: #8b5cf6; }
+        .kpi-content h3 { font-size: 13px; color: var(--text-secondary); margin-bottom: 8px; }
+        .kpi-value { font-size: 28px; font-weight: 700; }
+        .kpi-value.green { color: var(--success); }
+        .kpi-value.red { color: var(--danger); }
+
+        /* PERIOD SELECTOR */
+        .period-selector { display: flex; gap: 8px; background: white; padding: 6px; border-radius: 10px; }
+        .period-btn { padding: 8px 16px; border: none; background: transparent; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+        .period-btn:hover { background: var(--bg-gray); }
+        .period-btn.active { background: var(--primary-blue); color: white; }
+
+        /* MAIN GRID */
+        .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 24px; }
+
+        /* CARD */
+        .card { background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
+        .card-header { padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .card-header h3 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+        .card-header h3 i { color: var(--primary-blue); }
+        .card-body { padding: 24px; }
+
+        /* CHART */
+        .chart-container { height: 350px; position: relative; }
+
+        /* RESUMO DIARIO */
+        .resumo-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
+        .dia-card { background: var(--bg-gray); border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .dia-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .dia-card.hoje { border: 2px solid var(--primary-blue); background: rgba(30,64,175,0.05); }
+        .dia-card .dia-semana { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
+        .dia-card .dia-numero { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+        .dia-card .dia-valor { font-size: 13px; font-weight: 600; }
+        .dia-card .dia-valor.positivo { color: var(--success); }
+        .dia-card .dia-valor.negativo { color: var(--danger); }
+
+        /* PROJECAO */
+        .projecao-item { display: flex; align-items: center; gap: 16px; padding: 16px; background: var(--bg-gray); border-radius: 12px; margin-bottom: 12px; }
+        .projecao-item:last-child { margin-bottom: 0; }
+        .projecao-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+        .projecao-icon.entrada { background: rgba(34,197,94,0.1); color: var(--success); }
+        .projecao-icon.saida { background: rgba(239,68,68,0.1); color: var(--danger); }
+        .projecao-info { flex: 1; }
+        .projecao-info h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+        .projecao-info span { font-size: 12px; color: var(--text-secondary); }
+        .projecao-valor { font-size: 15px; font-weight: 700; }
+        .projecao-valor.positivo { color: var(--success); }
+        .projecao-valor.negativo { color: var(--danger); }
+
+        /* TABELA MOVIMENTAÇÕES */
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: var(--bg-gray); padding: 14px 20px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; }
+        .data-table td { padding: 16px 20px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+        .data-table tr:hover { background: var(--bg-gray); }
+        .tipo-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .tipo-badge.entrada { background: rgba(34,197,94,0.1); color: var(--success); }
+        .tipo-badge.saida { background: rgba(239,68,68,0.1); color: var(--danger); }
+        .valor-cell { font-weight: 600; }
+        .valor-cell.positivo { color: var(--success); }
+        .valor-cell.negativo { color: var(--danger); }
+
+        /* RESPONSIVE */
+        @media (max-width: 1400px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } .resumo-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 1200px) { .main-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .kpi-grid { grid-template-columns: 1fr; } .resumo-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        /* MODAIS */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 95%;
+            max-width: 560px;
+            max-height: 90vh;
+            overflow: hidden;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.active .modal-container {
+            transform: scale(1) translateY(0);
+        }
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 24px;
+            background: linear-gradient(135deg, #84cc16, #65a30d);
+            color: white;
+        }
+        .modal-header h3 {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .modal-body {
+            padding: 24px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            background: #f8fafc;
+            border-top: 1px solid var(--border-color);
+        }
+        .modal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .modal-btn-secondary {
+            background: white;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        .modal-btn-secondary:hover {
+            background: #f1f5f9;
+        }
+        .modal-btn-primary {
+            background: var(--primary-blue);
+            color: white;
+        }
+        .modal-btn-primary:hover {
+            background: #65a30d;
+        }
+        .modal-btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        .modal-btn-danger:hover {
+            background: #dc2626;
+        }
+
+        /* Modal Detalhes do Dia */
+        .dia-resumo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .dia-resumo-card {
+            background: var(--bg-gray);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .dia-resumo-card.entrada { border-left: 4px solid var(--success); }
+        .dia-resumo-card.saida { border-left: 4px solid var(--danger); }
+        .dia-resumo-card.saldo { border-left: 4px solid var(--info); }
+        .dia-resumo-card h4 {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .dia-resumo-card .valor {
+            font-size: 18px;
+            font-weight: 700;
+        }
+        .dia-resumo-card .valor.verde { color: var(--success); }
+        .dia-resumo-card .valor.vermelho { color: var(--danger); }
+        .dia-resumo-card .valor.azul { color: var(--info); }
+        .movimentacao-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .movimentacao-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: var(--bg-gray);
+            border-radius: 10px;
+        }
+        .movimentacao-item .icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        .movimentacao-item .icon.entrada {
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+        }
+        .movimentacao-item .icon.saida {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        .movimentacao-item .info {
+            flex: 1;
+        }
+        .movimentacao-item .info h5 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .movimentacao-item .info span {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .movimentacao-item .valor {
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .movimentacao-item .valor.verde { color: var(--success); }
+        .movimentacao-item .valor.vermelho { color: var(--danger); }
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 16px;
+            color: #cbd5e1;
+        }
+        .empty-state p {
+            font-size: 14px;
+        }
+
+        /* Modal Exportar */
+        .export-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .export-section h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .format-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 16px;
+            background: var(--bg-gray);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .format-option:hover {
+            border-color: var(--primary-blue);
+        }
+        .format-option.selected {
+            border-color: var(--primary-blue);
+            background: rgba(132, 204, 22, 0.1);
+        }
+        .format-option i {
+            font-size: 28px;
+            color: var(--text-secondary);
+        }
+        .format-option.selected i {
+            color: var(--primary-blue);
+        }
+        .format-option span {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .periodo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .periodo-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: var(--bg-gray);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .periodo-option:hover {
+            border-color: var(--primary-blue);
+        }
+        .periodo-option.selected {
+            border-color: var(--primary-blue);
+            background: rgba(132, 204, 22, 0.1);
+        }
+        .periodo-option input[type="radio"] {
+            accent-color: var(--primary-blue);
+        }
+        .periodo-option span {
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .export-checkbox {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            background: var(--bg-gray);
+            border-radius: 10px;
+        }
+        .export-checkbox input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-blue);
+        }
+        .export-checkbox label {
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Modal Editar Projeção */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        .tipo-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+        .tipo-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tipo-option:hover {
+            border-color: var(--primary-blue);
+        }
+        .tipo-option.selected.entrada {
+            border-color: var(--success);
+            background: rgba(34, 197, 94, 0.1);
+            color: var(--success);
+        }
+        .tipo-option.selected.saida {
+            border-color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        .tipo-option i {
+            font-size: 18px;
+        }
+        .tipo-option span {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Tornar projeções clicáveis */
+        .projecao-item {
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .projecao-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <a href="/" class="sidebar-logo" title="Início"><i class="fas fa-home"></i></a>
+            <nav class="sidebar-nav">
+                <button class="sidebar-btn" title="Dashboard" onclick="location.href='index.html'"><i class="fas fa-chart-line"></i></button>
+                <button class="sidebar-btn" title="Contas a Pagar" onclick="location.href='contas-pagar.html'"><i class="fas fa-file-invoice-dollar"></i></button>
+                <button class="sidebar-btn" title="Contas a Receber" onclick="location.href='contas-receber.html'"><i class="fas fa-hand-holding-usd"></i></button>
+                <button class="sidebar-btn" title="Bancos" onclick="location.href='bancos.html'"><i class="fas fa-university"></i></button>
+                <button class="sidebar-btn active" title="Fluxo de Caixa" onclick="location.href='fluxo-caixa.html'"><i class="fas fa-chart-area"></i></button>
+                <button class="sidebar-btn" title="Conciliação" onclick="location.href='conciliacao.html'"><i class="fas fa-balance-scale"></i></button>
+            </nav>
+            <div class="sidebar-bottom">
+                <button class="sidebar-btn" title="Relatórios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
+                <button class="sidebar-btn" title="Configurações"><i class="fas fa-cog"></i></button>
+            </div>
+        </aside>
+
+        <!-- MAIN -->
+        <main class="main-area">
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <span>Financeiro</span>
+                        <span>|</span>
+                        <span style="color: white;">Fluxo de Caixa</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <div class="notification-container">
+                        <button class="header-btn notification-btn" title="Notificações">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge" id="notification-count" style="display: none;">0</span>
+                        </button>
+                    </div>
+                    <div class="user-greeting">
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <div class="user-avatar" id="user-avatar">
+                            <img src="" alt="Foto do usuário" id="user-photo">
+                            <span class="user-initial" id="user-initial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="page-title-section">
+                        <h1><i class="fas fa-chart-area"></i> Fluxo de Caixa</h1>
+                        <p>Visualize e projete o fluxo financeiro da empresa</p>
+                    </div>
+                    <div class="page-actions">
+                        <div class="period-selector">
+                            <button class="period-btn" onclick="alterarPeriodo('7d')">7 dias</button>
+                            <button class="period-btn active" onclick="alterarPeriodo('30d')">30 dias</button>
+                            <button class="period-btn" onclick="alterarPeriodo('90d')">90 dias</button>
+                            <button class="period-btn" onclick="alterarPeriodo('ano')">Ano</button>
+                        </div>
+                        <button class="btn btn-secondary" onclick="exportarFluxo()"><i class="fas fa-download"></i> Exportar</button>
+                    </div>
+                </div>
+
+                <!-- KPIs -->
+                <div class="kpi-grid">
+                    <div class="kpi-card highlight">
+                        <div class="kpi-header">
+                            <div class="kpi-icon"><i class="fas fa-wallet"></i></div>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Saldo Atual</h3>
+                            <div class="kpi-value" id="saldoAtual">R$ 0,00</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <div class="kpi-icon green"><i class="fas fa-arrow-down"></i></div>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Entradas Previstas</h3>
+                            <div class="kpi-value green" id="entradasPrevistas">R$ 0,00</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <div class="kpi-icon red"><i class="fas fa-arrow-up"></i></div>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Saídas Previstas</h3>
+                            <div class="kpi-value red" id="saidasPrevistas">R$ 0,00</div>
+                        </div>
+                    </div>
+                    <div class="kpi-card">
+                        <div class="kpi-header">
+                            <div class="kpi-icon purple"><i class="fas fa-chart-line"></i></div>
+                        </div>
+                        <div class="kpi-content">
+                            <h3>Saldo Projetado</h3>
+                            <div class="kpi-value" id="saldoProjetado">R$ 0,00</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resumo Semanal -->
+                <div class="card" style="margin-bottom: 24px;">
+                    <div class="card-header">
+                        <h3><i class="fas fa-calendar-week"></i> Resumo Semanal</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="resumo-grid" id="resumoSemanal"></div>
+                    </div>
+                </div>
+
+                <!-- Main Grid -->
+                <div class="main-grid">
+                    <!-- Gráfico -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-area"></i> Evolução do Fluxo</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <canvas id="fluxoChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Projeções -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-clock"></i> Próximas Movimentações</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="projecoesList"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela de Movimentações -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-exchange-alt"></i> Movimentações do Período</h3>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Tipo</th>
+                                <th>Valor</th>
+                                <th>Saldo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="movimentacoesBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Dados
+        const saldoInicial = 158750.45;
+        
+        let movimentacoes = [
+            { data: '2024-12-16', descricao: 'Recebimento Cliente ABC', categoria: 'Vendas', tipo: 'entrada', valor: 15000 },
+            { data: '2024-12-16', descricao: 'Pagamento Fornecedor', categoria: 'Fornecedores', tipo: 'saida', valor: 8000 },
+            { data: '2024-12-17', descricao: 'Conta de Energia', categoria: 'Utilidades', tipo: 'saida', valor: 1850 },
+            { data: '2024-12-18', descricao: 'Venda Projeto Residencial', categoria: 'Vendas', tipo: 'entrada', valor: 22000 },
+            { data: '2024-12-18', descricao: 'Material de Escritório', categoria: 'Operacional', tipo: 'saida', valor: 450 },
+            { data: '2024-12-19', descricao: 'Folha de Pagamento', categoria: 'Pessoal', tipo: 'saida', valor: 28750 },
+            { data: '2024-12-20', descricao: 'Recebimento Parcela', categoria: 'Vendas', tipo: 'entrada', valor: 8500 },
+            { data: '2024-12-21', descricao: 'Pagamento Vidros', categoria: 'Fornecedores', tipo: 'saida', valor: 4250 },
+            { data: '2024-12-22', descricao: 'Venda à Vista', categoria: 'Vendas', tipo: 'entrada', valor: 12800 },
+        ];
+
+        let projecoes = [
+            { data: '2024-12-23', descricao: 'Construtora ABC', tipo: 'entrada', valor: 45800 },
+            { data: '2024-12-25', descricao: 'Aluguel Galpão', tipo: 'saida', valor: 8500 },
+            { data: '2024-12-28', descricao: 'Fornecedor Alumínio', tipo: 'saida', valor: 23400 },
+            { data: '2024-12-30', descricao: 'Salários', tipo: 'saida', valor: 45000 },
+            { data: '2025-01-05', descricao: 'Imobiliária XYZ', tipo: 'entrada', valor: 12500 },
+            { data: '2025-01-10', descricao: 'Construtora Mega', tipo: 'entrada', valor: 67500 },
+        ];
+
+        let periodoAtual = '30d';
+
+        // Init
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarUsuario();
+            atualizarKPIs();
+            renderizarResumoSemanal();
+            renderizarProjecoes();
+            renderizarMovimentacoes();
+            inicializarGrafico();
+        });
+
+        async function carregarUsuario() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || 'Usuário';
+                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    document.getElementById('user-name').textContent = primeiroNome;
+                    document.getElementById('user-initial').textContent = primeiroNome.charAt(0).toUpperCase();
+                    
+                    if (user.avatar && user.avatar !== '/avatars/default.webp') {
+                        const foto = document.getElementById('user-photo');
+                        foto.src = user.avatar;
+                        foto.onload = () => foto.classList.add('visible');
+                    }
+                }
+            } catch (e) { console.log('Erro ao carregar usuário'); }
+        }
+
+        function formatarMoeda(valor) {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor);
+        }
+
+        function formatarData(data) {
+            return new Date(data + 'T00:00:00').toLocaleDateString('pt-BR');
+        }
+
+        function atualizarKPIs() {
+            const entradas = movimentacoes.filter(m => m.tipo === 'entrada').reduce((s, m) => s + m.valor, 0);
+            const saidas = movimentacoes.filter(m => m.tipo === 'saida').reduce((s, m) => s + m.valor, 0);
+            const saldoAtual = saldoInicial + entradas - saidas;
+            
+            const entradasPrev = projecoes.filter(p => p.tipo === 'entrada').reduce((s, p) => s + p.valor, 0);
+            const saidasPrev = projecoes.filter(p => p.tipo === 'saida').reduce((s, p) => s + p.valor, 0);
+            const saldoProjetado = saldoAtual + entradasPrev - saidasPrev;
+
+            document.getElementById('saldoAtual').textContent = formatarMoeda(saldoAtual);
+            document.getElementById('entradasPrevistas').textContent = formatarMoeda(entradasPrev);
+            document.getElementById('saidasPrevistas').textContent = formatarMoeda(saidasPrev);
+            document.getElementById('saldoProjetado').textContent = formatarMoeda(saldoProjetado);
+            document.getElementById('saldoProjetado').className = 'kpi-value ' + (saldoProjetado >= 0 ? '' : 'red');
+        }
+
+        function renderizarResumoSemanal() {
+            const hoje = new Date();
+            const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+            let html = '';
+
+            for (let i = 0; i < 7; i++) {
+                const dia = new Date(hoje);
+                dia.setDate(hoje.getDate() + i);
+                const dataStr = dia.toISOString().split('T')[0];
+                
+                const movsDia = [...movimentacoes, ...projecoes].filter(m => m.data === dataStr);
+                const entradas = movsDia.filter(m => m.tipo === 'entrada').reduce((s, m) => s + m.valor, 0);
+                const saidas = movsDia.filter(m => m.tipo === 'saida').reduce((s, m) => s + m.valor, 0);
+                const saldo = entradas - saidas;
+
+                html += `
+                    <div class="dia-card ${i === 0 ? 'hoje' : ''}" onclick="verDetalhesDia('${dataStr}')">
+                        <div class="dia-semana">${diasSemana[dia.getDay()]}</div>
+                        <div class="dia-numero">${dia.getDate()}</div>
+                        <div class="dia-valor ${saldo >= 0 ? 'positivo' : 'negativo'}">
+                            ${saldo !== 0 ? (saldo > 0 ? '+' : '') + formatarMoeda(saldo) : '-'}
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('resumoSemanal').innerHTML = html;
+        }
+
+        function renderizarProjecoes() {
+            const html = projecoes.slice(0, 6).map((p, index) => `
+                <div class="projecao-item" onclick="abrirModalEditarProjecao(${index})" title="Clique para editar">
+                    <div class="projecao-icon ${p.tipo}">
+                        <i class="fas fa-arrow-${p.tipo === 'entrada' ? 'down' : 'up'}"></i>
+                    </div>
+                    <div class="projecao-info">
+                        <h4>${p.descricao}</h4>
+                        <span>${formatarData(p.data)}</span>
+                    </div>
+                    <div class="projecao-valor ${p.tipo === 'entrada' ? 'positivo' : 'negativo'}">
+                        ${p.tipo === 'entrada' ? '+' : '-'}${formatarMoeda(p.valor)}
+                    </div>
+                </div>
+            `).join('');
+
+            document.getElementById('projecoesList').innerHTML = html;
+        }
+
+        function renderizarMovimentacoes() {
+            let saldo = saldoInicial;
+            const html = movimentacoes.map(m => {
+                saldo += m.tipo === 'entrada' ? m.valor : -m.valor;
+                return `
+                    <tr>
+                        <td>${formatarData(m.data)}</td>
+                        <td><strong>${m.descricao}</strong></td>
+                        <td>${m.categoria}</td>
+                        <td>
+                            <span class="tipo-badge ${m.tipo}">
+                                <i class="fas fa-arrow-${m.tipo === 'entrada' ? 'down' : 'up'}"></i>
+                                ${m.tipo === 'entrada' ? 'Entrada' : 'Saída'}
+                            </span>
+                        </td>
+                        <td class="valor-cell ${m.tipo === 'entrada' ? 'positivo' : 'negativo'}">
+                            ${m.tipo === 'entrada' ? '+' : '-'}${formatarMoeda(m.valor)}
+                        </td>
+                        <td><strong>${formatarMoeda(saldo)}</strong></td>
+                    </tr>
+                `;
+            }).join('');
+
+            document.getElementById('movimentacoesBody').innerHTML = html;
+        }
+
+        let fluxoChart;
+        function inicializarGrafico() {
+            const ctx = document.getElementById('fluxoChart').getContext('2d');
+            
+            // Gerar dados para o gráfico
+            const labels = [];
+            const entradasData = [];
+            const saidasData = [];
+            const saldoData = [];
+            
+            let saldo = saldoInicial;
+            const hoje = new Date();
+            
+            for (let i = -7; i <= 7; i++) {
+                const dia = new Date(hoje);
+                dia.setDate(hoje.getDate() + i);
+                const dataStr = dia.toISOString().split('T')[0];
+                
+                labels.push(dia.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }));
+                
+                const movsDia = [...movimentacoes, ...projecoes].filter(m => m.data === dataStr);
+                const entradas = movsDia.filter(m => m.tipo === 'entrada').reduce((s, m) => s + m.valor, 0);
+                const saidas = movsDia.filter(m => m.tipo === 'saida').reduce((s, m) => s + m.valor, 0);
+                
+                saldo += entradas - saidas;
+                
+                entradasData.push(entradas);
+                saidasData.push(saidas);
+                saldoData.push(saldo);
+            }
+
+            fluxoChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Saldo',
+                            data: saldoData,
+                            borderColor: '#84cc16',
+                            backgroundColor: 'rgba(132, 204, 22, 0.1)',
+                            fill: true,
+                            tension: 0.4,
+                            borderWidth: 3,
+                            pointRadius: 4,
+                            pointBackgroundColor: '#84cc16'
+                        },
+                        {
+                            label: 'Entradas',
+                            data: entradasData,
+                            borderColor: '#22c55e',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 3,
+                            borderDash: [5, 5]
+                        },
+                        {
+                            label: 'Saídas',
+                            data: saidasData,
+                            borderColor: '#ef4444',
+                            backgroundColor: 'transparent',
+                            borderWidth: 2,
+                            tension: 0.4,
+                            pointRadius: 3,
+                            borderDash: [5, 5]
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { usePointStyle: true, padding: 20 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + formatarMoeda(context.raw);
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return 'R$ ' + (value / 1000).toFixed(0) + 'k';
+                                }
+                            },
+                            grid: { color: 'rgba(0,0,0,0.05)' }
+                        },
+                        x: {
+                            grid: { display: false }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+
+        function alterarPeriodo(periodo) {
+            periodoAtual = periodo;
+            document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            // Aqui atualizaria os dados baseado no período
+            console.log('Período alterado para:', periodo);
+        }
+
+        // ========== MODAL DETALHES DO DIA ==========
+        function verDetalhesDia(data) {
+            const movsDia = [...movimentacoes, ...projecoes].filter(m => m.data === data);
+            const modal = document.getElementById('modalDetalhesDia');
+            const dataFormatada = formatarData(data);
+            
+            // Atualizar título
+            document.getElementById('diaDetalhesTitulo').textContent = dataFormatada;
+            
+            // Calcular resumo
+            const entradas = movsDia.filter(m => m.tipo === 'entrada').reduce((s, m) => s + m.valor, 0);
+            const saidas = movsDia.filter(m => m.tipo === 'saida').reduce((s, m) => s + m.valor, 0);
+            const saldo = entradas - saidas;
+            
+            document.getElementById('diaEntradas').textContent = formatarMoeda(entradas);
+            document.getElementById('diaSaidas').textContent = formatarMoeda(saidas);
+            document.getElementById('diaSaldo').textContent = formatarMoeda(saldo);
+            document.getElementById('diaSaldo').className = 'valor ' + (saldo >= 0 ? 'azul' : 'vermelho');
+            
+            // Renderizar lista de movimentações
+            const listaContainer = document.getElementById('diaMovimentacoesLista');
+            
+            if (movsDia.length > 0) {
+                listaContainer.innerHTML = movsDia.map(m => `
+                    <div class="movimentacao-item">
+                        <div class="icon ${m.tipo}">
+                            <i class="fas fa-arrow-${m.tipo === 'entrada' ? 'down' : 'up'}"></i>
+                        </div>
+                        <div class="info">
+                            <h5>${m.descricao}</h5>
+                            <span>${m.categoria || 'Projeção'}</span>
+                        </div>
+                        <div class="valor ${m.tipo === 'entrada' ? 'verde' : 'vermelho'}">
+                            ${m.tipo === 'entrada' ? '+' : '-'}${formatarMoeda(m.valor)}
+                        </div>
+                    </div>
+                `).join('');
+            } else {
+                listaContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>Nenhuma movimentação prevista para este dia</p>
+                    </div>
+                `;
+            }
+            
+            // Guardar a data selecionada para possível adição
+            modal.dataset.dataSelecionada = data;
+            
+            // Abrir modal
+            modal.classList.add('active');
+        }
+
+        function fecharModalDetalhesDia() {
+            document.getElementById('modalDetalhesDia').classList.remove('active');
+        }
+
+        function adicionarMovimentacaoDia() {
+            const modal = document.getElementById('modalDetalhesDia');
+            const data = modal.dataset.dataSelecionada;
+            fecharModalDetalhesDia();
+            // Abrir modal de editar projeção com a data pré-preenchida
+            abrirModalNovaProjecao(data);
+        }
+
+        // ========== MODAL EXPORTAR FLUXO ==========
+        let exportConfig = {
+            formato: 'excel',
+            periodo: '30d',
+            incluirProjecoes: true
+        };
+
+        function exportarFluxo() {
+            // Reset das seleções
+            exportConfig = { formato: 'excel', periodo: '30d', incluirProjecoes: true };
+            
+            // Atualizar UI
+            document.querySelectorAll('.format-option').forEach(el => el.classList.remove('selected'));
+            document.querySelector('.format-option[data-formato="excel"]').classList.add('selected');
+            
+            document.querySelectorAll('.periodo-option').forEach(el => el.classList.remove('selected'));
+            document.querySelector('.periodo-option[data-periodo="30d"]').classList.add('selected');
+            document.querySelector('input[name="periodo"][value="30d"]').checked = true;
+            
+            document.getElementById('incluirProjecoes').checked = true;
+            
+            // Abrir modal
+            document.getElementById('modalExportar').classList.add('active');
+        }
+
+        function selecionarFormato(formato) {
+            exportConfig.formato = formato;
+            document.querySelectorAll('.format-option').forEach(el => el.classList.remove('selected'));
+            document.querySelector(`.format-option[data-formato="${formato}"]`).classList.add('selected');
+        }
+
+        function selecionarPeriodo(periodo) {
+            exportConfig.periodo = periodo;
+            document.querySelectorAll('.periodo-option').forEach(el => el.classList.remove('selected'));
+            document.querySelector(`.periodo-option[data-periodo="${periodo}"]`).classList.add('selected');
+        }
+
+        function fecharModalExportar() {
+            document.getElementById('modalExportar').classList.remove('active');
+        }
+
+        function confirmarExportacao() {
+            exportConfig.incluirProjecoes = document.getElementById('incluirProjecoes').checked;
+            
+            const formatoNomes = { pdf: 'PDF', excel: 'Excel', csv: 'CSV' };
+            const periodoNomes = { '7d': '7 dias', '30d': '30 dias', '90d': '90 dias', 'ano': 'Ano completo', 'custom': 'Personalizado' };
+            
+            // Simular exportação
+            fecharModalExportar();
+            
+            // Mostrar feedback
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #22c55e; color: white; padding: 16px 24px; border-radius: 10px; font-weight: 600; z-index: 10001; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> Exportando ${formatoNomes[exportConfig.formato]} - ${periodoNomes[exportConfig.periodo]}...`;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => toast.remove(), 3000);
+            
+            console.log('Exportando:', exportConfig);
+        }
+
+        // ========== MODAL EDITAR PROJEÇÃO ==========
+        let projecaoEditandoIndex = null;
+
+        function abrirModalEditarProjecao(index) {
+            projecaoEditandoIndex = index;
+            const projecao = projecoes[index];
+            
+            // Preencher formulário
+            document.getElementById('projecaoData').value = projecao.data;
+            document.getElementById('projecaoDescricao').value = projecao.descricao;
+            document.getElementById('projecaoValor').value = projecao.valor;
+            document.getElementById('projecaoCategoria').value = projecao.categoria || '';
+            
+            // Selecionar tipo
+            document.querySelectorAll('.tipo-option').forEach(el => el.classList.remove('selected'));
+            document.querySelector(`.tipo-option[data-tipo="${projecao.tipo}"]`).classList.add('selected');
+            
+            // Mostrar botão excluir
+            document.getElementById('btnExcluirProjecao').style.display = 'inline-flex';
+            
+            // Atualizar título
+            document.querySelector('#modalEditarProjecao .modal-header h3').innerHTML = '<i class="fas fa-edit"></i> Editar Projeção';
+            
+            // Abrir modal
+            document.getElementById('modalEditarProjecao').classList.add('active');
+        }
+
+        function abrirModalNovaProjecao(dataPadrao = null) {
+            projecaoEditandoIndex = null;
+            
+            // Limpar formulário
+            document.getElementById('projecaoData').value = dataPadrao || new Date().toISOString().split('T')[0];
+            document.getElementById('projecaoDescricao').value = '';
+            document.getElementById('projecaoValor').value = '';
+            document.getElementById('projecaoCategoria').value = '';
+            
+            // Reset tipo
+            document.querySelectorAll('.tipo-option').forEach(el => el.classList.remove('selected'));
+            document.querySelector('.tipo-option[data-tipo="entrada"]').classList.add('selected');
+            
+            // Esconder botão excluir
+            document.getElementById('btnExcluirProjecao').style.display = 'none';
+            
+            // Atualizar título
+            document.querySelector('#modalEditarProjecao .modal-header h3').innerHTML = '<i class="fas fa-plus-circle"></i> Nova Projeção';
+            
+            // Abrir modal
+            document.getElementById('modalEditarProjecao').classList.add('active');
+        }
+
+        function selecionarTipoProjecao(tipo) {
+            document.querySelectorAll('.tipo-option').forEach(el => el.classList.remove('selected'));
+            document.querySelector(`.tipo-option[data-tipo="${tipo}"]`).classList.add('selected');
+        }
+
+        function fecharModalEditarProjecao() {
+            document.getElementById('modalEditarProjecao').classList.remove('active');
+            projecaoEditandoIndex = null;
+        }
+
+        function salvarProjecao() {
+            const data = document.getElementById('projecaoData').value;
+            const descricao = document.getElementById('projecaoDescricao').value;
+            const valor = parseFloat(document.getElementById('projecaoValor').value);
+            const categoria = document.getElementById('projecaoCategoria').value;
+            const tipo = document.querySelector('.tipo-option.selected').dataset.tipo;
+            
+            if (!data || !descricao || !valor) {
+                alert('Preencha todos os campos obrigatórios');
+                return;
+            }
+            
+            const novaProjecao = { data, descricao, tipo, valor, categoria };
+            
+            if (projecaoEditandoIndex !== null) {
+                // Editar existente
+                projecoes[projecaoEditandoIndex] = novaProjecao;
+            } else {
+                // Adicionar nova
+                projecoes.push(novaProjecao);
+                // Ordenar por data
+                projecoes.sort((a, b) => new Date(a.data) - new Date(b.data));
+            }
+            
+            // Atualizar interface
+            fecharModalEditarProjecao();
+            atualizarKPIs();
+            renderizarProjecoes();
+            renderizarResumoSemanal();
+            
+            // Toast de sucesso
+            const toast = document.createElement('div');
+            toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #22c55e; color: white; padding: 16px 24px; border-radius: 10px; font-weight: 600; z-index: 10001; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> Projeção ${projecaoEditandoIndex !== null ? 'atualizada' : 'adicionada'} com sucesso!`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        function excluirProjecao() {
+            if (projecaoEditandoIndex === null) return;
+            
+            if (confirm('Tem certeza que deseja excluir esta projeção?')) {
+                projecoes.splice(projecaoEditandoIndex, 1);
+                
+                // Atualizar interface
+                fecharModalEditarProjecao();
+                atualizarKPIs();
+                renderizarProjecoes();
+                renderizarResumoSemanal();
+                
+                // Toast
+                const toast = document.createElement('div');
+                toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #ef4444; color: white; padding: 16px 24px; border-radius: 10px; font-weight: 600; z-index: 10001; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
+                toast.innerHTML = '<i class="fas fa-trash"></i> Projeção excluída';
+                document.body.appendChild(toast);
+                setTimeout(() => toast.remove(), 3000);
+            }
+        }
+
+        // Fechar modais ao clicar fora
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('modal-overlay')) {
+                e.target.classList.remove('active');
+            }
+        });
+
+        // Fechar modais com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(modal => {
+                    modal.classList.remove('active');
+                });
+            }
+        });
+    </script>
+
+    <!-- MODAL: Detalhes do Dia -->
+    <div class="modal-overlay" id="modalDetalhesDia">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-calendar-day"></i> Detalhes de <span id="diaDetalhesTitulo"></span></h3>
+                <button class="modal-close" onclick="fecharModalDetalhesDia()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="dia-resumo-grid">
+                    <div class="dia-resumo-card entrada">
+                        <h4><i class="fas fa-arrow-down"></i> Entradas</h4>
+                        <div class="valor verde" id="diaEntradas">R$ 0,00</div>
+                    </div>
+                    <div class="dia-resumo-card saida">
+                        <h4><i class="fas fa-arrow-up"></i> Saídas</h4>
+                        <div class="valor vermelho" id="diaSaidas">R$ 0,00</div>
+                    </div>
+                    <div class="dia-resumo-card saldo">
+                        <h4><i class="fas fa-balance-scale"></i> Saldo</h4>
+                        <div class="valor azul" id="diaSaldo">R$ 0,00</div>
+                    </div>
+                </div>
+                <h4 style="font-size: 14px; margin-bottom: 16px; color: var(--text-secondary);"><i class="fas fa-list"></i> Movimentações</h4>
+                <div class="movimentacao-lista" id="diaMovimentacoesLista"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="fecharModalDetalhesDia()">
+                    <i class="fas fa-times"></i> Fechar
+                </button>
+                <button class="modal-btn modal-btn-primary" onclick="adicionarMovimentacaoDia()">
+                    <i class="fas fa-plus"></i> Adicionar Movimentação
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Exportar Fluxo -->
+    <div class="modal-overlay" id="modalExportar">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-download"></i> Exportar Fluxo de Caixa</h3>
+                <button class="modal-close" onclick="fecharModalExportar()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="export-options">
+                    <div class="export-section">
+                        <h4><i class="fas fa-file"></i> Formato do Arquivo</h4>
+                        <div class="format-grid">
+                            <div class="format-option" data-formato="pdf" onclick="selecionarFormato('pdf')">
+                                <i class="fas fa-file-pdf"></i>
+                                <span>PDF</span>
+                            </div>
+                            <div class="format-option selected" data-formato="excel" onclick="selecionarFormato('excel')">
+                                <i class="fas fa-file-excel"></i>
+                                <span>Excel</span>
+                            </div>
+                            <div class="format-option" data-formato="csv" onclick="selecionarFormato('csv')">
+                                <i class="fas fa-file-csv"></i>
+                                <span>CSV</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="export-section">
+                        <h4><i class="fas fa-calendar-alt"></i> Período</h4>
+                        <div class="periodo-grid">
+                            <label class="periodo-option" data-periodo="7d" onclick="selecionarPeriodo('7d')">
+                                <input type="radio" name="periodo" value="7d">
+                                <span>7 dias</span>
+                            </label>
+                            <label class="periodo-option selected" data-periodo="30d" onclick="selecionarPeriodo('30d')">
+                                <input type="radio" name="periodo" value="30d" checked>
+                                <span>30 dias</span>
+                            </label>
+                            <label class="periodo-option" data-periodo="90d" onclick="selecionarPeriodo('90d')">
+                                <input type="radio" name="periodo" value="90d">
+                                <span>90 dias</span>
+                            </label>
+                            <label class="periodo-option" data-periodo="ano" onclick="selecionarPeriodo('ano')">
+                                <input type="radio" name="periodo" value="ano">
+                                <span>Ano completo</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="export-section">
+                        <h4><i class="fas fa-cog"></i> Opções</h4>
+                        <div class="export-checkbox">
+                            <input type="checkbox" id="incluirProjecoes" checked>
+                            <label for="incluirProjecoes">Incluir projeções futuras</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-secondary" onclick="fecharModalExportar()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="modal-btn modal-btn-primary" onclick="confirmarExportacao()">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Editar Projeção -->
+    <div class="modal-overlay" id="modalEditarProjecao">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3><i class="fas fa-edit"></i> Editar Projeção</h3>
+                <button class="modal-close" onclick="fecharModalEditarProjecao()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="projecaoData"><i class="fas fa-calendar"></i> Data *</label>
+                        <input type="date" id="projecaoData" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="projecaoValor"><i class="fas fa-dollar-sign"></i> Valor *</label>
+                        <input type="number" id="projecaoValor" step="0.01" min="0" placeholder="0,00" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="projecaoDescricao"><i class="fas fa-file-alt"></i> Descrição *</label>
+                    <input type="text" id="projecaoDescricao" placeholder="Ex: Pagamento Fornecedor X" required>
+                </div>
+                <div class="form-group">
+                    <label for="projecaoCategoria"><i class="fas fa-tag"></i> Categoria</label>
+                    <select id="projecaoCategoria">
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Vendas">Vendas</option>
+                        <option value="Fornecedores">Fornecedores</option>
+                        <option value="Pessoal">Pessoal</option>
+                        <option value="Operacional">Operacional</option>
+                        <option value="Utilidades">Utilidades</option>
+                        <option value="Impostos">Impostos</option>
+                        <option value="Investimentos">Investimentos</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-exchange-alt"></i> Tipo *</label>
+                    <div class="tipo-selector">
+                        <div class="tipo-option entrada selected" data-tipo="entrada" onclick="selecionarTipoProjecao('entrada')">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>Entrada</span>
+                        </div>
+                        <div class="tipo-option saida" data-tipo="saida" onclick="selecionarTipoProjecao('saida')">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Saída</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-danger" id="btnExcluirProjecao" onclick="excluirProjecao()" style="margin-right: auto;">
+                    <i class="fas fa-trash"></i> Excluir
+                </button>
+                <button class="modal-btn modal-btn-secondary" onclick="fecharModalEditarProjecao()">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="modal-btn modal-btn-primary" onclick="salvarProjecao()">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="financeiro.js"></script>
+    <script src="public/js/financeiro-user-loader.js?v=20251227"></script>
+    
+    <!-- Sistema de Notificações Global -->
+    <script src="/public/js/notifications-manager.js?v=20251227"></script>
+    <script src="/public/js/notification-button.js?v=20251227"></script>
+    
+    <!-- Sistema de Chat e Suporte -->
+    <script src="/public/js/chat-suporte-widgets.js?v=20260103"></script>
+    
+    <!-- Sistema de Monitoramento de Conexão -->
+    <script src="../_shared/connection-monitor.js?v=20251227"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+

@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <meta charset="UTF-8">
+    <title>✅ Modal Atualizado - PCP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 700px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.3);
+            animation: slideUp 0.6s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .icon { font-size: 80px; text-align: center; margin-bottom: 24px; }
+        h1 {
+            font-size: 36px;
+            color: #1a202c;
+            margin-bottom: 16px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            text-align: center;
+            color: #718096;
+            font-size: 18px;
+            margin-bottom: 32px;
+        }
+        .steps {
+            background: #f7fafc;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        .steps h2 {
+            color: #2d3748;
+            font-size: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .step:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .step-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .step-content {
+            flex: 1;
+            padding-top: 4px;
+        }
+        .step-title {
+            color: #2d3748;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+        .step-desc {
+            color: #718096;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .key-combo {
+            display: inline-flex;
+            gap: 6px;
+            margin: 8px 0;
+        }
+        .key {
+            background: #2d3748;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+        .features {
+            background: linear-gradient(135deg, #f6f8fb 0%, #e9ecf5 100%);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+        .features h3 {
+            color: #2d3748;
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #4a5568;
+            font-size: 14px;
+        }
+        .feature-icon {
+            color: #10b981;
+            font-size: 18px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+        }
+        .btn {
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.6);
+        }
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        .btn-secondary:hover {
+            background: #f7fafc;
+            transform: translateY(-2px);
+        }
+        .alert {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 24px;
+        }
+        .alert-title {
+            color: #92400e;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .alert-text {
+            color: #78350f;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="card">
+        <div class="icon">💜</div>
+        <h1>Modal Atualizado!</h1>
+        <p class="subtitle">O modal antigo foi removido. Siga os passos abaixo para ver o novo design SaaS moderno.</p>
+        
+        <div class="steps">
+            <h2>🔄 Como Ver o Novo Modal</h2>
+            
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">Feche TODAS as abas e janelas do navegador</div>
+                    <div class="step-desc">É crucial fechar completamente o navegador para limpar o cache da memória.</div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">Limpe o cache (opcional mas recomendado)</div>
+                    <div class="step-desc">
+                        Pressione estas teclas juntas:
+                        <div class="key-combo">
+                            <span class="key">Ctrl</span>
+                            <span style="color: #cbd5e1;">+</span>
+                            <span class="key">Shift</span>
+                            <span style="color: #cbd5e1;">+</span>
+                            <span class="key">Delete</span>
+                        </div>
+                        Depois marque "Imagens e arquivos em cache" e clique em "Limpar dados"
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-title">Acesse o sistema novamente</div>
+                    <div class="step-desc">Abra o navegador e vá para http://localhost:3002</div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <div class="step-title">Forçar recarga da página</div>
+                    <div class="step-desc">
+                        Quando abrir a página, pressione:
+                        <div class="key-combo">
+                            <span class="key">Ctrl</span>
+                            <span style="color: #cbd5e1;">+</span>
+                            <span class="key">Shift</span>
+                            <span style="color: #cbd5e1;">+</span>
+                            <span class="key">R</span>
+                        </div>
+                        Ou simplesmente:
+                        <div class="key-combo">
+                            <span class="key">Ctrl</span>
+                            <span style="color: #cbd5e1;">+</span>
+                            <span class="key">F5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="features">
+            <h3>✨ Novidades do Modal</h3>
+            <div class="feature-list">
+                <div class="feature">
+                    <span class="feature-icon">✅</span>
+                    <span>Header roxo gradient</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">✅</span>
+                    <span>Design SaaS moderno</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">✅</span>
+                    <span>Cards organizados</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">✅</span>
+                    <span>Tabela de produtos</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">✅</span>
+                    <span>Geração em Excel</span>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">✅</span>
+                    <span>Cálculos automáticos</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="btn-group">
+            <a href="http://localhost:3002" class="btn btn-primary">
+                🚀 Ir para o Sistema
+            </a>
+            <button onclick="location.reload()" class="btn btn-secondary">
+                🔄 Recarregar Instruções
+            </button>
+        </div>
+        
+        <div class="alert">
+            <div class="alert-title">
+                <span>⚠️</span>
+                <span>Importante</span>
+            </div>
+            <div class="alert-text">
+                Se ainda visualizar o modal antigo (verde), repita os passos 1 e 2. O cache pode ser persistente em alguns navegadores.
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Adicionar timestamp à URL do sistema
+        document.querySelector('.btn-primary').addEventListener('click', (e) => {
+            e.preventDefault();
+            const timestamp = Date.now();
+            window.open(`http://localhost:3002?v=${timestamp}`, '_blank');
+        });
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALUFORCE - Relatórios de Compras</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --sidebar-width: 56px; --header-height: 48px; --primary-purple: #38bdf8; --primary-dark: #1a1a2e; --bg-gray: #f5f5f5; --border-color: #e5e5e5; --text-primary: #1a1a1a; --text-secondary: #666; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #ffffff; color: var(--text-primary); }
+        .app-container { display: flex; height: 100vh; }
+        .sidebar { width: var(--sidebar-width); background: var(--primary-dark); display: flex; flex-direction: column; align-items: center; padding: 12px 0; z-index: 100; }
+        .sidebar-logo { width: 36px; height: 36px; background: var(--primary-purple); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; text-decoration: none; }
+        .sidebar-logo i { color: white; font-size: 18px; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .sidebar-btn { width: 40px; height: 40px; border: none; background: transparent; color: #8b8b9a; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.2s; }
+        .sidebar-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .sidebar-btn.active { background: var(--primary-purple); color: white; }
+        .sidebar-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+        .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { height: var(--header-height); background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+        .header-left { display: flex; align-items: center; gap: 24px; }
+        .header-brand { display: flex; align-items: center; gap: 8px; }
+        .header-brand img { height: 24px; }
+        .header-brand span { font-size: 14px; font-weight: 600; color: #8b8b9a; }
+        .header-right { display: flex; align-items: center; gap: 8px; }
+        .header-btn { width: 36px; height: 36px; border: none; background: transparent; color: #8b8b9a; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; }
+        .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #38bdf8, #0ea5e9); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; cursor: pointer; margin-left: 8px; }
+        .user-greeting { display: flex; align-items: center; gap: 12px; margin-left: 16px; color: #8b8b9a; font-size: 13px; }
+        .user-greeting strong { color: white; }
+        .page-content { flex: 1; overflow-y: auto; padding: 20px; background: #ffffff; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .page-title { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .page-title i { color: var(--primary-purple); }
+        .reports-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .report-card { background: white; border-radius: 12px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: all 0.2s; cursor: pointer; border: 2px solid transparent; }
+        .report-card:hover { border-color: var(--primary-purple); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+        .report-icon { width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 16px; }
+        .report-icon.purple { background: rgba(56,189,248,0.1); color: #38bdf8; }
+        .report-icon.green { background: rgba(34,197,94,0.1); color: #22c55e; }
+        .report-icon.blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .report-icon.orange { background: rgba(249,115,22,0.1); color: #f97316; }
+        .report-icon.red { background: rgba(239,68,68,0.1); color: #ef4444; }
+        .report-icon.teal { background: rgba(20,184,166,0.1); color: #14b8a6; }
+        .report-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+        .report-card p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 16px; }
+        .report-meta { display: flex; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid var(--border-color); }
+        .report-format { display: flex; gap: 8px; }
+        .format-badge { padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; background: #f5f5f5; color: var(--text-secondary); }
+        .btn-generate { padding: 8px 16px; border-radius: 8px; border: none; background: var(--primary-purple); color: white; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+        .btn-generate:hover { background: #0ea5e9; }
+        @media (max-width: 1200px) { .reports-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { .reports-grid { grid-template-columns: 1fr; } }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <a href="/dashboard" class="sidebar-logo" title="Voltar ao Painel"><i class="fas fa-home"></i></a>
+            <nav class="sidebar-nav">
+                <button class="sidebar-btn" title="Dashboard" onclick="location.href='index.html'"><i class="fas fa-chart-line"></i></button>
+                <button class="sidebar-btn" title="Fornecedores" onclick="location.href='fornecedores.html'"><i class="fas fa-users"></i></button>
+                <button class="sidebar-btn" title="Estoque" onclick="location.href='gestao-estoque.html'"><i class="fas fa-boxes"></i></button>
+                <button class="sidebar-btn" title="Materiais" onclick="location.href='materiais.html'"><i class="fas fa-cubes"></i></button>
+                <button class="sidebar-btn" title="Pedidos" onclick="location.href='pedidos.html'"><i class="fas fa-shopping-cart"></i></button>
+                <button class="sidebar-btn" title="Cotações" onclick="location.href='cotacoes.html'"><i class="fas fa-file-invoice-dollar"></i></button>
+                <button class="sidebar-btn" title="Requisições" onclick="location.href='requisicoes.html'"><i class="fas fa-clipboard-list"></i></button>
+            </nav>
+            <div class="sidebar-bottom">
+                <button class="sidebar-btn active" title="Relatórios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
+            </div>
+        </aside>
+        <main class="main-area">
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <span>Compras</span>
+                        <span>|</span>
+                        <span style="color: white;">Relatórios</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" title="Notificações"><i class="fas fa-bell"></i></button>
+                    <div class="user-greeting">
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <div class="user-avatar"><span id="user-initial">U</span></div>
+                    </div>
+                </div>
+            </header>
+            <div class="page-content">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-chart-bar"></i> Relatórios de Compras</h1>
+                </div>
+                <div class="reports-grid">
+                    <div class="report-card">
+                        <div class="report-icon purple"><i class="fas fa-shopping-cart"></i></div>
+                        <h3>Relatório de Pedidos</h3>
+                        <p>Análise completa dos pedidos de compra por período, fornecedor e status.</p>
+                        <div class="report-meta">
+                            <div class="report-format"><span class="format-badge">PDF</span><span class="format-badge">XLSX</span></div>
+                            <button class="btn-generate"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon green"><i class="fas fa-users"></i></div>
+                        <h3>Análise de Fornecedores</h3>
+                        <p>Ranking de fornecedores por volume, preço e qualidade de entrega.</p>
+                        <div class="report-meta">
+                            <div class="report-format"><span class="format-badge">PDF</span><span class="format-badge">XLSX</span></div>
+                            <button class="btn-generate"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon blue"><i class="fas fa-boxes"></i></div>
+                        <h3>Posição de Estoque</h3>
+                        <p>Inventário atual com valorização e análise de giro de materiais.</p>
+                        <div class="report-meta">
+                            <div class="report-format"><span class="format-badge">PDF</span><span class="format-badge">XLSX</span></div>
+                            <button class="btn-generate"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon orange"><i class="fas fa-sync"></i></div>
+                        <h3>Movimentações</h3>
+                        <p>Histórico de entradas e saídas de materiais por período.</p>
+                        <div class="report-meta">
+                            <div class="report-format"><span class="format-badge">PDF</span><span class="format-badge">XLSX</span></div>
+                            <button class="btn-generate"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon red"><i class="fas fa-exclamation-triangle"></i></div>
+                        <h3>Materiais Críticos</h3>
+                        <p>Itens abaixo do estoque mínimo e necessidade de reposição.</p>
+                        <div class="report-meta">
+                            <div class="report-format"><span class="format-badge">PDF</span><span class="format-badge">XLSX</span></div>
+                            <button class="btn-generate"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                    </div>
+                    <div class="report-card">
+                        <div class="report-icon teal"><i class="fas fa-file-invoice-dollar"></i></div>
+                        <h3>Cotações x Compras</h3>
+                        <p>Comparativo entre cotações realizadas e pedidos efetivados.</p>
+                        <div class="report-meta">
+                            <div class="report-format"><span class="format-badge">PDF</span><span class="format-badge">XLSX</span></div>
+                            <button class="btn-generate"><i class="fas fa-file-export"></i> Gerar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="notifications.js"></script>
+    <script src="compras-user-loader.js?v=20251217"></script>
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+

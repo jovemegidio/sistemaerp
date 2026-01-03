@@ -1,0 +1,477 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inutilização de Números - Aluforce NFe</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="nfe-specific.css">
+    <script src="../../js/auth-unified.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #1e293b; min-height: 100vh; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar-btn:hover { background: rgba(16, 185, 129, 0.2) !important; color: white !important; }
+        
+        .inut-container { max-width: 800px; margin: 0 auto; }
+        
+        .card { background: #f8fafc; border-radius: 12px; padding: 24px; margin-bottom: 20px; border: 1px solid #e2e8f0; }
+        .card-title { font-size: 16px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #10b981; border-bottom: 1px solid #e2e8f0; padding-bottom: 12px; }
+        
+        .warning-box { background: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; padding: 16px; border-radius: 0 8px 8px 0; margin-bottom: 20px; font-size: 13px; color: #b45309; }
+        .warning-box strong { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+        
+        .info-box { background: rgba(16, 185, 129, 0.1); border-left: 4px solid #10b981; padding: 16px; border-radius: 0 8px 8px 0; margin-bottom: 20px; font-size: 13px; color: #047857; }
+        
+        .sugestao-box { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); padding: 16px; border-radius: 8px; margin-bottom: 20px; }
+        .sugestao-title { font-weight: 600; margin-bottom: 8px; color: #2563eb; display: flex; align-items: center; gap: 8px; font-size: 14px; }
+        .sugestao-box p { color: #3b82f6; font-size: 13px; }
+        
+        .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+        
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #10b981; font-size: 13px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; font-size: 14px; background: #ffffff; color: #1e293b; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #10b981; }
+        .form-group small { display: block; margin-top: 4px; color: #64748b; font-size: 11px; }
+        
+        .btn { padding: 12px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; margin-right: 10px; }
+        .btn-danger { background: #ef4444; color: white; }
+        .btn-danger:hover { background: #dc2626; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+        .btn-info { background: #3b82f6; color: white; }
+        .btn-info:hover { background: #2563eb; }
+        .btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+        
+        .alert { padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; display: none; }
+        .alert-success { background: rgba(16, 185, 129, 0.15); color: #047857; border: 1px solid rgba(16, 185, 129, 0.3); }
+        .alert-error { background: rgba(239, 68, 68, 0.15); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.3); }
+        
+        .inut-item { background: rgba(239, 68, 68, 0.05); border-left: 4px solid #ef4444; padding: 16px; margin-bottom: 12px; border-radius: 0 8px 8px 0; }
+        .inut-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .inut-faixa { font-weight: 600; color: #ef4444; font-size: 15px; }
+        .inut-data { color: #64748b; font-size: 12px; }
+        .inut-info { color: #1e293b; font-size: 13px; margin-bottom: 6px; }
+        .inut-protocolo { font-size: 11px; color: #64748b; font-family: monospace; }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Lateral (Estilo Vendas) -->
+        <aside class="sidebar" style="width: 56px; background: #1a1a2e; display: flex; flex-direction: column; align-items: center; padding: 12px 0; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100;">
+            <a href="/dashboard" style="width: 36px; height: 36px; background: #10b981; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; text-decoration: none;" title="Voltar ao Painel">
+                <i class="fas fa-file-invoice" style="color: white; font-size: 18px;"></i>
+            </a>
+            
+            <nav style="display: flex; flex-direction: column; gap: 4px; flex: 1;">
+                <a href="index.html" class="sidebar-btn" title="Dashboard" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-chart-pie" style="font-size: 18px;"></i>
+                </a>
+                <a href="emitir.html" class="sidebar-btn" title="Emitir NFe" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-file-invoice" style="font-size: 18px;"></i>
+                </a>
+                <a href="consultar.html" class="sidebar-btn" title="Consultar NFe" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-search" style="font-size: 18px;"></i>
+                </a>
+                <a href="nfse.html" class="sidebar-btn" title="NFSe" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-file-contract" style="font-size: 18px;"></i>
+                </a>
+                <a href="danfe.html" class="sidebar-btn" title="DANFE" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-print" style="font-size: 18px;"></i>
+                </a>
+                <a href="relatorios.html" class="sidebar-btn" title="Relatórios" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-chart-bar" style="font-size: 18px;"></i>
+                </a>
+                <a href="eventos.html" class="sidebar-btn" title="Eventos" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-history" style="font-size: 18px;"></i>
+                </a>
+                <a href="logistica.html" class="sidebar-btn" title="Logística" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-truck" style="font-size: 18px;"></i>
+                </a>
+                <a href="inutilizacao.html" class="sidebar-btn" title="Inutilização" style="width: 40px; height: 40px; background: #10b981; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-ban" style="font-size: 18px;"></i>
+                </a>
+            </nav>
+
+            <div style="margin-top: auto; display: flex; flex-direction: column; gap: 4px;">
+                <a href="/dashboard" class="sidebar-btn" title="Voltar ao Painel" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-home" style="font-size: 18px;"></i>
+                </a>
+            </div>
+        </aside>
+
+        <main style="flex: 1; display: flex; flex-direction: column; margin-left: 56px;">
+            <!-- Header (Estilo Vendas) -->
+            <header style="height: 48px; background: #1a1a2e; display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div style="display: flex; align-items: center; gap: 8px; color: white;">
+                    <span style="font-size: 14px; font-weight: 600; color: #8b8b9a;">NFe & Logística</span>
+                    <span style="color: #3d3d54;">|</span>
+                    <span style="font-size: 14px; font-weight: 500; color: #34d399;">Inutilização de Números</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button onclick="location.reload()" style="width: 36px; height: 36px; border: none; background: transparent; color: #8b8b9a; border-radius: 8px; cursor: pointer;" title="Atualizar">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                    <button style="width: 36px; height: 36px; border: none; background: transparent; color: #8b8b9a; border-radius: 8px; cursor: pointer;" title="Notificações">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-left: 16px; color: #8b8b9a; font-size: 13px;">
+                        <span id="user-greeting"><span id="greeting-text">Bom dia</span>, <strong style="color: white;" id="user-name">Usuário</strong></span>
+                        <div id="user-avatar" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; overflow: hidden;">
+                            <img id="user-photo" src="" alt="Foto" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                            <span id="user-initial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Conteúdo Principal -->
+            <div class="content-area" style="flex: 1; padding: 24px; overflow-y: auto; background: #ffffff;">
+                <div class="inut-container">
+                    <div id="alertContainer"></div>
+
+                    <!-- Formulário de Inutilização -->
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-edit"></i> Inutilizar Faixa de Números</div>
+                        
+                        <div class="warning-box">
+                            <strong><i class="fas fa-exclamation-triangle"></i> Atenção:</strong>
+                            A inutilização é IRREVERSÍVEL. Certifique-se de que os Números da faixa não foram utilizados e não serão necessários.
+                        </div>
+
+                        <form id="formInutilizacao">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Série *</label>
+                                    <input type="number" id="serie" required min="0" max="999" value="1">
+                                    <small>Série da NFe (0 a 999)</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Ano *</label>
+                                    <input type="number" id="ano" required min="2000" max="2099" value="2025">
+                                    <small>Ano da EMISSÃO (2 Últimos dígitos serão usados)</small>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="button" class="btn btn-info" onclick="buscarSugestao()"><i class="fas fa-lightbulb"></i> Sugerir Próxima Faixa</button>
+                            </div>
+
+                            <div id="sugestaoBox" class="sugestao-box" style="display: none;">
+                                <div class="sugestao-title"><i class="fas fa-lightbulb"></i> Sugestão Automática:</div>
+                                <p id="sugestaoTexto"></p>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Número Inicial *</label>
+                                    <input type="number" id="numeroInicial" required min="1" max="999999999">
+                                    <small>Primeiro Número da faixa</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Número Final *</label>
+                                    <input type="number" id="numeroFinal" required min="1" max="999999999">
+                                    <small>Último Número da faixa</small>
+                                </div>
+                            </div>
+
+                            <div id="infoFaixa" class="info-box" style="display: none;">
+                                <strong>Faixa selecionada:</strong> <span id="faixaInfo"></span>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>CNPJ *</label>
+                                    <input type="text" id="cnpj" required maxlength="18" placeholder="00.000.000/0000-00">
+                                    <small>CNPJ do emitente</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>UF *</label>
+                                    <select id="uf" required>
+                                        <option value="">Selecione...</option>
+                                        <option value="SP">SP - São Paulo</option>
+                                        <option value="RJ">RJ - Rio de Janeiro</option>
+                                        <option value="MG">MG - Minas Gerais</option>
+                                        <option value="RS">RS - Rio Grande do Sul</option>
+                                        <option value="PR">PR - Paraná</option>
+                                        <option value="SC">SC - Santa Catarina</option>
+                                        <option value="BA">BA - Bahia</option>
+                                        <option value="CE">CE - Ceará</option>
+                                        <option value="PE">PE - Pernambuco</option>
+                                        <option value="GO">GO - Goiás</option>
+                                        <option value="DF">DF - Distrito Federal</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Justificativa *</label>
+                                <textarea id="justificativa" rows="3" required maxlength="255" placeholder="Digite a justificativa da inutilização (Mínimo 15 caracteres)"></textarea>
+                                <small>Entre 15 e 255 caracteres. Exemplo: "Numeração pulada por falha no sistema"</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Ambiente *</label>
+                                <select id="ambiente" required>
+                                    <option value="homologacao">Homologação (Testes)</option>
+                                    <option value="producao">Produção (Real)</option>
+                                </select>
+                            </div>
+
+                            <div style="margin-top: 24px;">
+                                <button type="submit" class="btn btn-danger" id="btnInutilizar">
+                                    <i class="fas fa-ban"></i> Inutilizar Faixa
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Histórico de Inutilizações -->
+                    <div class="card">
+                        <div class="card-title"><i class="fas fa-history"></i> Histórico de Inutilizações</div>
+                        <div id="listaInutilizacoes">
+                            <p style="color: #8b8b9a; text-align: center;">Carregando Histórico...</p>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- /.content-area -->
+        </main>
+    </div><!-- /.app-container -->
+
+    <script>
+        // Formatação de CNPJ
+        document.getElementById('cnpj').addEventListener('input', function(e) {
+            let valor = e.target.value.replace(/\D/g, '');
+            if (valor.length <= 14) {
+                valor = valor.replace(/^(\d{2})(\d)/, '$1.$2');
+                valor = valor.replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3');
+                valor = valor.replace(/\.(\d{3})(\d)/, '.$1/$2');
+                valor = valor.replace(/(\d{4})(\d)/, '$1-$2');
+            }
+            e.target.value = valor;
+        });
+
+        // Atualizar info da faixa
+        function atualizarInfoFaixa() {
+            const inicio = document.getElementById('numeroInicial').value;
+            const fim = document.getElementById('numeroFinal').value;
+            const infoFaixa = document.getElementById('infoFaixa');
+            const faixaInfo = document.getElementById('faixaInfo');
+
+            if (inicio && fim) {
+                const qtd = parseInt(fim) - parseInt(inicio) + 1;
+                faixaInfo.textContent = `${inicio} a ${fim} (${qtd} Número${qtd > 1 ? 's' : ''})`;
+                infoFaixa.style.display = 'block';
+            } else {
+                infoFaixa.style.display = 'none';
+            }
+        }
+
+        document.getElementById('numeroInicial').addEventListener('input', atualizarInfoFaixa);
+        document.getElementById('numeroFinal').addEventListener('input', atualizarInfoFaixa);
+
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alertContainer');
+            alertContainer.innerHTML = `<div class="alert alert-${type}" style="display: block;">${message}</div>`;
+            setTimeout(() => alertContainer.innerHTML = '', 5000);
+        }
+
+        async function buscarSugestao() {
+            const serie = document.getElementById('serie').value;
+            const ano = document.getElementById('ano').value;
+
+            try {
+                const response = await fetch(`/api/inutilizacao/sugestao?serie=${serie}&ano=${ano}`);
+                const data = await response.json();
+
+                if (data.sucesso) {
+                    document.getElementById('sugestaoTexto').textContent = data.sugestao;
+                    document.getElementById('sugestaoBox').style.display = 'block';
+                    if (data.numeroInicial && data.numeroFinal) {
+                        document.getElementById('numeroInicial').value = data.numeroInicial;
+                        document.getElementById('numeroFinal').value = data.numeroFinal;
+                        atualizarInfoFaixa();
+                    }
+                } else {
+                    showAlert(data.mensagem || 'não foi possível obter Sugestão', 'error');
+                }
+            } catch (error) {
+                showAlert('Erro ao buscar Sugestão: ' + error.message, 'error');
+            }
+        }
+
+        document.getElementById('formInutilizacao').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const justificativa = document.getElementById('justificativa').value;
+            if (justificativa.length < 15) {
+                showAlert('Justificativa deve ter no Mínimo 15 caracteres', 'error');
+                return;
+            }
+
+            if (!confirm('Atenção: Esta ação é IRREVERSÍVEL!\n\nDeseja realmente inutilizar esta faixa de Números?')) {
+                return;
+            }
+
+            const dados = {
+                serie: document.getElementById('serie').value,
+                ano: document.getElementById('ano').value,
+                numeroInicial: document.getElementById('numeroInicial').value,
+                numeroFinal: document.getElementById('numeroFinal').value,
+                cnpj: document.getElementById('cnpj').value.replace(/\D/g, ''),
+                uf: document.getElementById('uf').value,
+                justificativa: justificativa,
+                ambiente: document.getElementById('ambiente').value
+            };
+
+            try {
+                const response = await fetch('/api/inutilizacao', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(dados)
+                });
+                const data = await response.json();
+
+                if (data.sucesso) {
+                    showAlert('Faixa inutilizada com sucesso! Protocolo: ' + data.protocolo, 'success');
+                    carregarHistorico();
+                    document.getElementById('formInutilizacao').reset();
+                    document.getElementById('ano').value = new Date().getFullYear();
+                    document.getElementById('infoFaixa').style.display = 'none';
+                    document.getElementById('sugestaoBox').style.display = 'none';
+                } else {
+                    showAlert(data.mensagem || 'Erro ao inutilizar', 'error');
+                }
+            } catch (error) {
+                showAlert('Erro ao inutilizar: ' + error.message, 'error');
+            }
+        });
+
+        async function carregarHistorico() {
+            const lista = document.getElementById('listaInutilizacoes');
+            try {
+                const response = await fetch('/api/inutilizacao/historico');
+                const data = await response.json();
+
+                if (data.inutilizacoes && data.inutilizacoes.length > 0) {
+                    lista.innerHTML = data.inutilizacoes.map(i => `
+                        <div class="inut-item">
+                            <div class="inut-header">
+                                <span class="inut-faixa">Série ${i.serie} - Números ${i.numeroInicial} a ${i.numeroFinal}</span>
+                                <span class="inut-data">${i.data}</span>
+                            </div>
+                            <div class="inut-info">${i.justificativa}</div>
+                            <div class="inut-protocolo">Protocolo: ${i.protocolo}</div>
+                        </div>
+                    `).join('');
+                } else {
+                    lista.innerHTML = '<p style="color: #8b8b9a; text-align: center;">Nenhuma inutilização registrada</p>';
+                }
+            } catch (error) {
+                lista.innerHTML = '<p style="color: #ef4444; text-align: center;">Erro ao carregar Histórico</p>';
+            }
+        }
+
+        // Carregar Histórico ao abrir
+        carregarHistorico();
+    </script>
+    <script src="dashboard-nfe-pro.js?v=20251217"></script>
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    
+    <!-- Carregar dados do usuário logado -->
+    <script>
+        async function carregarDadosUsuario() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || user.name || 'Usuário';
+                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    
+                    // Atualizar nome na saudação
+                    const userNameEl = document.getElementById('user-name');
+                    if (userNameEl) {
+                        userNameEl.textContent = primeiroNome;
+                    }
+                    
+                    // Mapeamento de avatares
+                    const avatarNameMap = {
+                        'clemerson': '/avatars/Clemerson.webp',
+                        'isabela': '/avatars/Isabela.webp',
+                        'thaina': '/avatars/Thaina.webp',
+                        'thiago': '/avatars/Thiago.webp',
+                        'nicolas': '/avatars/NicolasDaniel.webp',
+                        'nicolasdaniel': '/avatars/NicolasDaniel.webp',
+                        'rh': '/avatars/Rh.webp',
+                        'admin': '/avatars/admin.webp',
+                        'ti': '/avatars/TI.webp',
+                        'tialuforce': '/avatars/TI.webp',
+                        'antonio': '/avatars/Antonio.webp',
+                        'antônio': '/avatars/Antonio.webp',
+                        'andreia': '/avatars/Andreia.webp',
+                        'guilherme': '/avatars/Guilherme.webp',
+                        'marcelo': '/avatars/Marcelo.webp',
+                        'financeiro': '/avatars/Financeiro.webp',
+                        'douglas': '/avatars/Douglas.webp',
+                        'hellen': '/avatars/Hellen.webp',
+                        'helen': '/avatars/Hellen.webp',
+                        'marcia': '/avatars/Marcia.webp',
+                        'augusto': '/avatars/Augusto.webp',
+                        'renata': '/avatars/Renata.webp',
+                        'fabiano': '/avatars/Fabiano.webp',
+                        'fabiola': '/avatars/Fabiola.webp'
+                    };
+                    
+                    let avatarUrl = null;
+                    if (user.avatar && user.avatar !== '/avatars/default.webp') avatarUrl = user.avatar;
+                    else if (user.foto && user.foto !== '/avatars/default.webp') avatarUrl = user.foto;
+                    else if (user.email) {
+                        const username = user.email.split('@')[0].split('.')[0].toLowerCase();
+                        avatarUrl = avatarNameMap[username];
+                    }
+                    if (!avatarUrl) avatarUrl = avatarNameMap[primeiroNome.toLowerCase()];
+                    
+                    const userPhotoEl = document.getElementById('user-photo');
+                    const initialEl = document.getElementById('user-initial');
+                    
+                    if (avatarUrl && userPhotoEl) {
+                        userPhotoEl.src = avatarUrl;
+                        userPhotoEl.style.display = 'block';
+                        userPhotoEl.onerror = function() {
+                            this.style.display = 'none';
+                            if (initialEl) { initialEl.textContent = primeiroNome.charAt(0).toUpperCase(); initialEl.style.display = 'flex'; }
+                        };
+                        if (initialEl) initialEl.style.display = 'none';
+                    } else if (initialEl) {
+                        initialEl.textContent = primeiroNome.charAt(0).toUpperCase();
+                    }
+                }
+            } catch (e) { console.log('Erro ao carregar usuário:', e); }
+        }
+        document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+
+
+
+

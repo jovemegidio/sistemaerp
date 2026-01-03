@@ -1,0 +1,1034 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logística - NF-e | Aluforce</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="nfe-specific.css">
+    <script src="../../js/auth-unified.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #1e293b; min-height: 100vh; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar-btn:hover { background: rgba(139, 92, 246, 0.2) !important; color: white !important; }
+        
+        /* Cards de Resumo */
+        .overview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .stat-card { background: #f8fafc; border-radius: 12px; padding: 20px; display: flex; align-items: center; gap: 16px; border: 1px solid #e2e8f0; }
+        .stat-card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .stat-card-icon.orange { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .stat-card-icon.blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .stat-card-icon.purple { background: rgba(139, 92, 246, 0.15); color: #10b981; }
+        .stat-card-icon.pink { background: rgba(236, 72, 153, 0.15); color: #ec4899; }
+        .stat-card-icon.green { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        .stat-card-info h4 { font-size: 12px; color: #64748b; font-weight: 500; margin-bottom: 4px; }
+        .stat-card-info p { font-size: 24px; font-weight: 700; color: #1e293b; }
+        
+        /* Cards/Containers */
+        .card { background: #f8fafc; border-radius: 12px; margin-bottom: 20px; border: 1px solid #e2e8f0; overflow: hidden; }
+        .card-header { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e2e8f0; }
+        .card-header h3 { font-size: 14px; font-weight: 600; color: #10b981; display: flex; align-items: center; gap: 8px; }
+        .card-body { padding: 20px; }
+        
+        /* Filtros */
+        .filters-grid { display: flex; flex-wrap: wrap; gap: 16px; }
+        .form-group { flex: 1; min-width: 180px; }
+        .form-group label { display: block; margin-bottom: 6px; font-size: 12px; color: #64748b; font-weight: 500; }
+        .form-control { width: 100%; padding: 10px 12px; border: 1px solid #e2e8f0; border-radius: 8px; background: #ffffff; color: #1e293b; font-size: 13px; }
+        .form-control:focus { outline: none; border-color: #10b981; }
+        
+        /* Botões */
+        .btn { padding: 10px 16px; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(135deg, #10b981, #059669); color: white; }
+        .btn-primary:hover { background: linear-gradient(135deg, #059669, #047857); }
+        .btn-secondary { background: #f1f5f9; color: #1e293b; }
+        .btn-secondary:hover { background: #e2e8f0; }
+        .btn-sm { padding: 6px 12px; font-size: 12px; }
+        
+        /* Tabela */
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px 16px; text-align: left; font-size: 13px; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; color: #10b981; font-weight: 600; font-size: 12px; text-transform: uppercase; }
+        td { color: #1e293b; }
+        tr:hover { background: #f8fafc; }
+        
+        /* Status badges */
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .badge-orange { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+        .badge-blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+        .badge-purple { background: rgba(139, 92, 246, 0.15); color: #10b981; }
+        .badge-pink { background: rgba(236, 72, 153, 0.15); color: #ec4899; }
+        .badge-green { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+        
+        .priority-high { color: #ef4444; }
+        .priority-medium { color: #f59e0b; }
+        .priority-low { color: #10b981; }
+        
+        .text-muted { color: #64748b; }
+        .text-center { text-align: center; }
+        .gap-sm { gap: 8px; }
+        .flex { display: flex; }
+        
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: #ffffff; border-radius: 12px; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; }
+        .modal-header { padding: 20px; border-bottom: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h3 { font-size: 16px; color: #10b981; display: flex; align-items: center; gap: 8px; }
+        .modal-close { background: none; border: none; color: #8b8b9a; font-size: 24px; cursor: pointer; }
+        .modal-body { padding: 20px; }
+        .modal-footer { padding: 16px 20px; border-top: 1px solid rgba(139, 92, 246, 0.1); display: flex; justify-content: flex-end; gap: 12px; }
+        
+        .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        @media (max-width: 768px) { .form-grid { grid-template-columns: 1fr; } }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Lateral (Estilo Vendas) -->
+        <aside class="sidebar" style="width: 56px; background: #1a1a2e; display: flex; flex-direction: column; align-items: center; padding: 12px 0; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100;">
+            <a href="/dashboard" style="width: 36px; height: 36px; background: #10b981; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; text-decoration: none;" title="Voltar ao Painel">
+                <i class="fas fa-file-invoice" style="color: white; font-size: 18px;"></i>
+            </a>
+            
+            <nav style="display: flex; flex-direction: column; gap: 4px; flex: 1;">
+                <a href="index.html" class="sidebar-btn" title="Dashboard" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-chart-pie" style="font-size: 18px;"></i>
+                </a>
+                <a href="emitir.html" class="sidebar-btn" title="Emitir NFe" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-file-invoice" style="font-size: 18px;"></i>
+                </a>
+                <a href="consultar.html" class="sidebar-btn" title="Consultar NFe" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-search" style="font-size: 18px;"></i>
+                </a>
+                <a href="nfse.html" class="sidebar-btn" title="NFSe" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-file-contract" style="font-size: 18px;"></i>
+                </a>
+                <a href="danfe.html" class="sidebar-btn" title="DANFE" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-print" style="font-size: 18px;"></i>
+                </a>
+                <a href="relatorios.html" class="sidebar-btn" title="Relatórios" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-chart-bar" style="font-size: 18px;"></i>
+                </a>
+                <a href="eventos.html" class="sidebar-btn" title="Eventos" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-history" style="font-size: 18px;"></i>
+                </a>
+                <a href="logistica.html" class="sidebar-btn" title="Logística" style="width: 40px; height: 40px; background: #10b981; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-truck" style="font-size: 18px;"></i>
+                </a>
+            </nav>
+
+            <div style="margin-top: auto; display: flex; flex-direction: column; gap: 4px;">
+                <a href="/dashboard" class="sidebar-btn" title="Voltar ao Painel" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                    <i class="fas fa-home" style="font-size: 18px;"></i>
+                </a>
+            </div>
+        </aside>
+
+        <main style="flex: 1; display: flex; flex-direction: column; margin-left: 56px;">
+            <!-- Header (Estilo Vendas) -->
+            <header style="height: 48px; background: #1a1a2e; display: flex; align-items: center; justify-content: space-between; padding: 0 16px;">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div style="display: flex; align-items: center; gap: 8px; color: white;">
+                    <span style="font-size: 14px; font-weight: 600; color: #8b8b9a;">NFe & Logística</span>
+                    <span style="color: #3d3d54;">|</span>
+                    <span style="font-size: 14px; font-weight: 500; color: #34d399;">Logística</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button class="btn btn-secondary btn-sm" onclick="openModal('modal-transportadoras')">
+                        <i class="fas fa-shipping-fast"></i> Transportadoras
+                    </button>
+                    <button class="btn btn-primary btn-sm" onclick="openModal('modal-nova-expedicao')">
+                        <i class="fas fa-plus"></i> Nova Expedição
+                    </button>
+                    <div style="display: flex; align-items: center; gap: 12px; margin-left: 16px; color: #8b8b9a; font-size: 13px;">
+                        <span id="user-greeting"><span id="greeting-text">Bom dia</span>, <strong style="color: white;" id="user-name">Usuário</strong></span>
+                        <div id="user-avatar" style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; overflow: hidden;">
+                            <img id="user-photo" src="" alt="Foto" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                            <span id="user-initial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Conteúdo Principal -->
+            <div class="content-area" style="flex: 1; padding: 24px; overflow-y: auto; background: #ffffff;">
+                
+                <!-- Cards de Resumo -->
+                <div class="overview-grid">
+                    <div class="stat-card">
+                        <div class="stat-card-icon orange"><i class="fas fa-clock"></i></div>
+                        <div class="stat-card-info">
+                            <h4>Aguardando Separação</h4>
+                            <p id="count-aguardando">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon blue"><i class="fas fa-box-open"></i></div>
+                        <div class="stat-card-info">
+                            <h4>Em Separação</h4>
+                            <p id="count-separacao">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon purple"><i class="fas fa-truck-loading"></i></div>
+                        <div class="stat-card-info">
+                            <h4>Em Expedição</h4>
+                            <p id="count-expedicao">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon pink"><i class="fas fa-shipping-fast"></i></div>
+                        <div class="stat-card-info">
+                            <h4>Em Transporte</h4>
+                            <p id="count-transporte">0</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-icon green"><i class="fas fa-check-circle"></i></div>
+                        <div class="stat-card-info">
+                            <h4>Entregues</h4>
+                            <p id="count-entregues">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-filter"></i> Filtros de Busca</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="filters-grid">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="filtro-status" class="form-control">
+                                    <option value="todos">Todos os Status</option>
+                                    <option value="pendente">Aguardando Separação</option>
+                                    <option value="em_separacao">Em Separação</option>
+                                    <option value="em_expedicao">Em Expedição</option>
+                                    <option value="em_transporte">Em Transporte</option>
+                                    <option value="entregue">Entregue</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Transportadora</label>
+                                <select id="filtro-transportadora" class="form-control">
+                                    <option value="todas">Todas</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>NF-e / Pedido</label>
+                                <input type="text" id="filtro-nfe" class="form-control" placeholder="Digite o número">
+                            </div>
+                            <div class="form-group">
+                                <label>Data Início</label>
+                                <input type="date" id="filtro-data-inicio" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Data Fim</label>
+                                <input type="date" id="filtro-data-fim" class="form-control">
+                            </div>
+                            <div class="form-group" style="align-self: flex-end;">
+                                <button class="btn btn-primary" onclick="aplicarFiltros()">
+                                    <i class="fas fa-search"></i> Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela de Pedidos -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-list"></i> Pedidos em Logística</h3>
+                        <div class="flex gap-sm">
+                            <button class="btn btn-secondary btn-sm" onclick="exportarExcel()">
+                                <i class="fas fa-file-excel"></i> Exportar
+                            </button>
+                            <button class="btn btn-secondary btn-sm" onclick="atualizarLista()">
+                                <i class="fas fa-sync"></i> Atualizar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Prioridade</th>
+                                    <th>NF-e</th>
+                                    <th>Pedido</th>
+                                    <th>Cliente</th>
+                                    <th>Cidade/UF</th>
+                                    <th>Transportadora</th>
+                                    <th>Status</th>
+                                    <th>Previsão</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-logistica">
+                                <tr>
+                                    <td colspan="9" class="text-center">
+                                        <p class="text-muted">Nenhum pedido encontrado. Clique em "Atualizar" para carregar os dados.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div><!-- /.content-area -->
+        </main>
+    </div><!-- /.app-container -->
+
+    <!-- Modal: Nova Expedição -->
+    <div id="modal-nova-expedicao" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus"></i> Nova Expedição</h3>
+                <button class="modal-close" onclick="closeModal('modal-nova-expedicao')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-nova-expedicao">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Número NF-e *</label>
+                            <input type="text" id="exp-nfe" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Número Pedido *</label>
+                            <input type="text" id="exp-pedido" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Cliente *</label>
+                        <input type="text" id="exp-cliente" class="form-control" required>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Transportadora *</label>
+                            <select id="exp-transportadora" class="form-control" required>
+                                <option value="">Selecione...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status Inicial</label>
+                            <select id="exp-status" class="form-control">
+                                <option value="pendente">Aguardando Separação</option>
+                                <option value="separacao">Em Separação</option>
+                                <option value="expedicao">Em Expedição</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Previsão de Entrega</label>
+                            <input type="date" id="exp-previsao" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Prioridade</label>
+                            <select id="exp-prioridade" class="form-control">
+                                <option value="low">Baixa</option>
+                                <option value="medium" selected>Média</option>
+                                <option value="high">Alta</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Observações</label>
+                        <textarea id="exp-observacoes" class="form-control" rows="3"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('modal-nova-expedicao')">Cancelar</button>
+                <button class="btn btn-primary" onclick="salvarExpedicao()"><i class="fas fa-save"></i> Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Transportadoras -->
+    <div id="modal-transportadoras" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3><i class="fas fa-shipping-fast"></i> Gerenciar Transportadoras</h3>
+                <button class="modal-close" onclick="closeModal('modal-transportadoras')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 16px;">
+                    <button class="btn btn-primary btn-sm" onclick="adicionarTransportadora()">
+                        <i class="fas fa-plus"></i> Nova Transportadora
+                    </button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CNPJ</th>
+                                <th>Telefone</th>
+                                <th>Email</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-transportadoras">
+                            <tr>
+                                <td colspan="5" class="text-center">
+                                    <p class="text-muted">Carregando transportadoras...</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/toast-modal-system.js"></script>
+    <script>
+        function openModal(id) { document.getElementById(id).classList.add('active'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        // Carregar dados do dashboard
+        async function carregarDashboard() {
+            try {
+                const response = await fetch('/api/logistica/dashboard', { credentials: 'include' });
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('count-aguardando').textContent = data.aguardando_separacao || 0;
+                    document.getElementById('count-separacao').textContent = data.em_separacao || 0;
+                    document.getElementById('count-expedicao').textContent = data.em_expedicao || 0;
+                    document.getElementById('count-transporte').textContent = data.em_transporte || 0;
+                    document.getElementById('count-entregues').textContent = data.entregues || 0;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dashboard:', error);
+            }
+        }
+
+        // Carregar lista de pedidos em logística
+        async function carregarPedidos() {
+            const tbody = document.getElementById('tabela-logistica');
+            tbody.innerHTML = `<tr><td colspan="9" class="text-center"><p class="text-muted"><i class="fas fa-spinner fa-spin"></i> Carregando...</p></td></tr>`;
+            
+            try {
+                const status = document.getElementById('filtro-status')?.value || '';
+                const transportadora = document.getElementById('filtro-transportadora')?.value || '';
+                const nfe = document.getElementById('filtro-nfe')?.value || '';
+                const dataInicio = document.getElementById('filtro-data-inicio')?.value || '';
+                const dataFim = document.getElementById('filtro-data-fim')?.value || '';
+                
+                const params = new URLSearchParams();
+                if (status && status !== 'todos') params.append('status', status);
+                if (transportadora && transportadora !== 'todas') params.append('transportadora', transportadora);
+                if (nfe) params.append('nfe', nfe);
+                if (dataInicio) params.append('data_inicio', dataInicio);
+                if (dataFim) params.append('data_fim', dataFim);
+                
+                const response = await fetch(`/api/logistica/pedidos?${params}`, { credentials: 'include' });
+                if (response.ok) {
+                    const pedidos = await response.json();
+                    renderizarPedidos(pedidos);
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="9" class="text-center"><p class="text-muted">Erro ao carregar pedidos</p></td></tr>`;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar pedidos:', error);
+                tbody.innerHTML = `<tr><td colspan="9" class="text-center"><p class="text-muted">Erro de conexão</p></td></tr>`;
+            }
+        }
+
+        // Renderizar pedidos na tabela
+        function renderizarPedidos(pedidos) {
+            const tbody = document.getElementById('tabela-logistica');
+            
+            if (!pedidos || pedidos.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center">
+                            <div style="padding: 40px 20px;">
+                                <i class="fas fa-box-open" style="font-size: 48px; color: #cbd5e1; margin-bottom: 16px;"></i>
+                                <p class="text-muted">Nenhum pedido faturado encontrado para logística.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = pedidos.map(p => `
+                <tr data-id="${p.id}">
+                    <td>
+                        <span class="priority-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'high' : p.prioridade === 'normal' ? 'medium' : 'low'}">
+                            <i class="fas fa-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'exclamation-circle' : p.prioridade === 'normal' ? 'minus-circle' : 'arrow-down'}"></i>
+                            ${p.prioridade ? p.prioridade.charAt(0).toUpperCase() + p.prioridade.slice(1) : 'Normal'}
+                        </span>
+                    </td>
+                    <td>${p.nfe_numero || '-'}</td>
+                    <td><strong>#${p.pedido_id}</strong></td>
+                    <td>${p.cliente}</td>
+                    <td>${p.cidade_uf}</td>
+                    <td>${p.transportadora}</td>
+                    <td>
+                        <span class="badge ${getStatusBadge(p.status)}">${formatStatus(p.status)}</span>
+                    </td>
+                    <td>${formatPrevisao(p.previsao)}</td>
+                    <td>
+                        <div class="flex gap-sm">
+                            <button class="btn btn-sm btn-secondary" onclick="abrirModalStatus(${p.id}, '${p.status}')" title="Alterar Status">
+                                <i class="fas fa-exchange-alt"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="verDetalhes(${p.id})" title="Ver Detalhes">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function formatPrevisao(previsao) {
+            if (!previsao || previsao === '-') return '-';
+            try {
+                const data = new Date(previsao);
+                return data.toLocaleDateString('pt-BR');
+            } catch {
+                return previsao;
+            }
+        }
+
+        function getStatusBadge(status) {
+            const badges = {
+                'pendente': 'badge-orange',
+                'aguardando_separacao': 'badge-orange',
+                'em_separacao': 'badge-blue',
+                'em_expedicao': 'badge-purple',
+                'em_transporte': 'badge-pink',
+                'entregue': 'badge-green'
+            };
+            return badges[status] || 'badge-orange';
+        }
+
+        function formatStatus(status) {
+            const labels = {
+                'pendente': 'Aguardando',
+                'aguardando_separacao': 'Aguardando Separação',
+                'em_separacao': 'Em Separação',
+                'em_expedicao': 'Em Expedição',
+                'em_transporte': 'Em Transporte',
+                'entregue': 'Entregue'
+            };
+            return labels[status] || 'Aguardando';
+        }
+
+        // Alterar status usando modal profissional
+        async function abrirModalStatus(pedidoId, statusAtual) {
+            // Usar o sistema de modal profissional
+            if (typeof showStatusSelect === 'function') {
+                const novoStatus = await showStatusSelect(statusAtual, pedidoId);
+                if (novoStatus && novoStatus !== statusAtual) {
+                    await atualizarStatusPedido(pedidoId, novoStatus);
+                }
+            } else {
+                // Fallback para modal HTML
+                const modal = document.getElementById('modal-status');
+                if (modal) {
+                    document.getElementById('status-pedido-id').value = pedidoId;
+                    document.getElementById('select-novo-status').value = statusAtual;
+                    openModal('modal-status');
+                } else {
+                    // Último fallback - prompt estilizado
+                    const novoStatus = prompt(`Status atual: ${formatStatus(statusAtual)}\n\nDigite o novo status:\n1 - Aguardando Separação\n2 - Em Separação\n3 - Em Expedição\n4 - Em Transporte\n5 - Entregue`);
+                    const statusMap = { '1': 'aguardando_separacao', '2': 'em_separacao', '3': 'em_expedicao', '4': 'em_transporte', '5': 'entregue' };
+                    if (novoStatus && statusMap[novoStatus]) {
+                        await atualizarStatusPedido(pedidoId, statusMap[novoStatus]);
+                    }
+                }
+            }
+        }
+
+        async function atualizarStatusPedido(pedidoId, novoStatus) {
+            try {
+                const response = await fetch(`/api/logistica/pedidos/${pedidoId}/status`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({ status_logistica: novoStatus })
+                });
+                
+                if (response.ok) {
+                    if (typeof showToast === 'function') {
+                        showToast('Status atualizado com sucesso!', 'success');
+                    } else {
+                        alert('Status atualizado com sucesso!');
+                    }
+                    carregarDashboard();
+                    carregarPedidos();
+                } else {
+                    if (typeof showToast === 'function') {
+                        showToast('Erro ao atualizar status', 'error');
+                    } else {
+                        alert('Erro ao atualizar status');
+                    }
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                if (typeof showToast === 'function') {
+                    showToast('Erro de conexão', 'error');
+                }
+            }
+        }
+
+        function verDetalhes(pedidoId) {
+            if (typeof showAlert === 'function') {
+                showAlert(`Detalhes do pedido #${pedidoId} em desenvolvimento.`, 'Informação', 'info');
+            } else {
+                alert(`Detalhes do pedido #${pedidoId} - Em desenvolvimento`);
+            }
+        }
+
+        // Carregar transportadoras no select
+        async function carregarTransportadoras() {
+            try {
+                const response = await fetch('/api/logistica/transportadoras', { credentials: 'include' });
+                if (response.ok) {
+                    const transportadoras = await response.json();
+                    
+                    // Preencher filtro
+                    const selectFiltro = document.getElementById('filtro-transportadora');
+                    if (selectFiltro) {
+                        transportadoras.forEach(t => {
+                            const option = document.createElement('option');
+                            option.value = t.id;
+                            option.textContent = t.nome_fantasia || t.razao_social;
+                            selectFiltro.appendChild(option);
+                        });
+                    }
+                    
+                    // Preencher modal expedição
+                    const selectExp = document.getElementById('exp-transportadora');
+                    if (selectExp) {
+                        transportadoras.forEach(t => {
+                            const option = document.createElement('option');
+                            option.value = t.id;
+                            option.textContent = t.nome_fantasia || t.razao_social;
+                            selectExp.appendChild(option);
+                        });
+                    }
+                    
+                    // Preencher tabela de transportadoras
+                    const tbody = document.getElementById('tabela-transportadoras');
+                    if (tbody && transportadoras.length > 0) {
+                        tbody.innerHTML = transportadoras.map(t => `
+                            <tr>
+                                <td>${t.nome_fantasia || t.razao_social || '-'}</td>
+                                <td>${t.cnpj_cpf || '-'}</td>
+                                <td>${t.telefone || '-'}</td>
+                                <td>${t.email || '-'}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-secondary" onclick="editarTransportadora(${t.id})">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    } else if (tbody) {
+                        tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Nenhuma transportadora cadastrada</td></tr>`;
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar transportadoras:', error);
+            }
+        }
+
+        function atualizarLista() {
+            if (typeof showToast === 'function') {
+                showToast('Atualizando dados...', 'info', 2000);
+            }
+            carregarDashboard();
+            carregarPedidos();
+                    document.getElementById('count-separacao').textContent = data.em_separacao || 0;
+                    document.getElementById('count-expedicao').textContent = data.em_expedicao || 0;
+                    document.getElementById('count-transporte').textContent = data.em_transporte || 0;
+                    document.getElementById('count-entregues').textContent = data.entregues || 0;
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dashboard:', error);
+            }
+        }
+
+        // Carregar lista de pedidos em logística
+        async function carregarPedidos() {
+            try {
+                const status = document.getElementById('filtro-status')?.value || '';
+                const transportadora = document.getElementById('filtro-transportadora')?.value || '';
+                const nfe = document.getElementById('filtro-nfe')?.value || '';
+                const dataInicio = document.getElementById('filtro-data-inicio')?.value || '';
+                const dataFim = document.getElementById('filtro-data-fim')?.value || '';
+                
+                const params = new URLSearchParams();
+                if (status && status !== 'todos') params.append('status', status);
+                if (transportadora && transportadora !== 'todas') params.append('transportadora', transportadora);
+                if (nfe) params.append('nfe', nfe);
+                if (dataInicio) params.append('data_inicio', dataInicio);
+                if (dataFim) params.append('data_fim', dataFim);
+                
+                const response = await fetch(`/api/logistica/pedidos?${params}`, { credentials: 'include' });
+                if (response.ok) {
+                    const pedidos = await response.json();
+                    renderizarPedidos(pedidos);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar pedidos:', error);
+            }
+        }
+
+        // Renderizar pedidos na tabela
+        function renderizarPedidos(pedidos) {
+            const tbody = document.getElementById('tabela-logistica');
+            
+            if (pedidos.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center">
+                            <p class="text-muted">Nenhum pedido encontrado. Clique em "Atualizar" para carregar os dados.</p>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = pedidos.map(p => `
+                <tr>
+                    <td>
+                        <span class="priority-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'high' : p.prioridade === 'normal' ? 'medium' : 'low'}">
+                            <i class="fas fa-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'exclamation-circle' : p.prioridade === 'normal' ? 'minus-circle' : 'arrow-down'}"></i>
+                            ${p.prioridade || 'Normal'}
+                        </span>
+                    </td>
+                    <td>${p.nfe_numero || '-'}</td>
+                    <td>#${p.pedido_id}</td>
+                    <td>${p.cliente}</td>
+                    <td>${p.cidade_uf}</td>
+                    <td>${p.transportadora}</td>
+                    <td>
+                        <span class="badge ${getStatusBadge(p.status)}">${formatStatus(p.status)}</span>
+                    </td>
+                    <td>${p.previsao || '-'}</td>
+                    <td>
+                        <div class="flex gap-sm">
+                            <button class="btn btn-sm btn-secondary" onclick="abrirModalStatus(${p.id}, '${p.status}')" title="Alterar Status">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-secondary" onclick="verDetalhes(${p.id})" title="Ver Detalhes">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getStatusBadge(status) {
+            const badges = {
+                'pendente': 'badge-orange',
+                'aguardando_separacao': 'badge-orange',
+                'em_separacao': 'badge-blue',
+                'em_expedicao': 'badge-purple',
+                'em_transporte': 'badge-pink',
+                'entregue': 'badge-green'
+            };
+            return badges[status] || 'badge-orange';
+        }
+
+        function formatStatus(status) {
+            const labels = {
+                'pendente': 'Aguardando',
+                'aguardando_separacao': 'Aguardando Separação',
+                'em_separacao': 'Em Separação',
+                'em_expedicao': 'Em Expedição',
+                'em_transporte': 'Em Transporte',
+                'entregue': 'Entregue'
+            };
+            return labels[status] || status;
+        }
+
+        // Alterar status do pedido
+        async function abrirModalStatus(pedidoId, statusAtual) {
+            const novoStatus = prompt(`Status atual: ${formatStatus(statusAtual)}\n\nEscolha o novo status:\n1 - Aguardando Separação\n2 - Em Separação\n3 - Em Expedição\n4 - Em Transporte\n5 - Entregue\n\nDigite o número:`);
+            
+            const statusMap = {
+                '1': 'aguardando_separacao',
+                '2': 'em_separacao',
+                '3': 'em_expedicao',
+                '4': 'em_transporte',
+                '5': 'entregue'
+            };
+            
+            if (novoStatus && statusMap[novoStatus]) {
+                try {
+                    const response = await fetch(`/api/logistica/pedidos/${pedidoId}/status`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        credentials: 'include',
+                        body: JSON.stringify({ status_logistica: statusMap[novoStatus] })
+                    });
+                    
+                    if (response.ok) {
+                        alert('Status atualizado com sucesso!');
+                        carregarDashboard();
+                        carregarPedidos();
+                    } else {
+                        alert('Erro ao atualizar status');
+                    }
+                } catch (error) {
+                    console.error('Erro:', error);
+                    alert('Erro ao atualizar status');
+                }
+            }
+        }
+
+        function verDetalhes(pedidoId) {
+            alert(`Detalhes do pedido #${pedidoId} - Em desenvolvimento`);
+        }
+
+        // Carregar transportadoras no select
+        async function carregarTransportadoras() {
+            try {
+                const response = await fetch('/api/logistica/transportadoras', { credentials: 'include' });
+                if (response.ok) {
+                    const transportadoras = await response.json();
+                    
+                    // Preencher filtro
+                    const selectFiltro = document.getElementById('filtro-transportadora');
+                    if (selectFiltro) {
+                        transportadoras.forEach(t => {
+                            const option = document.createElement('option');
+                            option.value = t.id;
+                            option.textContent = t.nome_fantasia || t.razao_social;
+                            selectFiltro.appendChild(option);
+                        });
+                    }
+                    
+                    // Preencher modal expedição
+                    const selectExp = document.getElementById('exp-transportadora');
+                    if (selectExp) {
+                        transportadoras.forEach(t => {
+                            const option = document.createElement('option');
+                            option.value = t.id;
+                            option.textContent = t.nome_fantasia || t.razao_social;
+                            selectExp.appendChild(option);
+                        });
+                    }
+                    
+                    // Preencher tabela de transportadoras
+                    const tbody = document.getElementById('tabela-transportadoras');
+                    if (tbody) {
+                        tbody.innerHTML = transportadoras.map(t => `
+                            <tr>
+                                <td>${t.nome_fantasia || t.razao_social}</td>
+                                <td>${t.cnpj_cpf || '-'}</td>
+                                <td>${t.telefone || '-'}</td>
+                                <td>${t.email || '-'}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-secondary" onclick="editarTransportadora(${t.id})">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('');
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar transportadoras:', error);
+            }
+        }
+
+        function atualizarLista() {
+            carregarDashboard();
+            carregarPedidos();
+        }
+
+        function aplicarFiltros() {
+            carregarPedidos();
+        }
+
+        async function exportarExcel() {
+            if (typeof showToast === 'function') {
+                showToast('Gerando relatório Excel...', 'info', 3000);
+            }
+            // Implementar exportação futuramente
+            setTimeout(() => {
+                if (typeof showAlert === 'function') {
+                    showAlert('Funcionalidade de exportação em desenvolvimento.', 'Em Breve', 'info');
+                }
+            }, 1000);
+        }
+
+        async function salvarExpedicao() {
+            const nfe = document.getElementById('exp-nfe')?.value;
+            const pedido = document.getElementById('exp-pedido')?.value;
+            const cliente = document.getElementById('exp-cliente')?.value;
+            const transportadora = document.getElementById('exp-transportadora')?.value;
+            const status = document.getElementById('exp-status')?.value;
+            const previsao = document.getElementById('exp-previsao')?.value;
+            const prioridade = document.getElementById('exp-prioridade')?.value;
+            const observacoes = document.getElementById('exp-observacoes')?.value;
+            
+            try {
+                const response = await fetch('/api/logistica/expedicao', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        nfe, pedido, cliente, transportadora_id: transportadora,
+                        status, previsao, prioridade, observacoes
+                    })
+                });
+                
+                if (response.ok) {
+                    if (typeof showToast === 'function') {
+                        showToast('Expedição criada com sucesso!', 'success');
+                    }
+                    closeModal('modal-nova-expedicao');
+                    atualizarLista();
+                } else {
+                    const err = await response.json();
+                    if (typeof showAlert === 'function') {
+                        showAlert(err.message || 'Erro ao criar expedição', 'Erro', 'error');
+                    }
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                if (typeof showToast === 'function') {
+                    showToast('Erro ao criar expedição', 'error');
+                }
+            }
+        }
+
+        async function adicionarTransportadora() {
+            if (typeof showPrompt === 'function') {
+                const nome = await showPrompt('Digite o nome da transportadora:', '', { title: 'Nova Transportadora', placeholder: 'Nome Fantasia' });
+                if (nome) {
+                    showToast(`Transportadora "${nome}" - Cadastro em desenvolvimento`, 'info');
+                }
+            } else {
+                alert('Cadastro de transportadora em desenvolvimento');
+            }
+        }
+        
+        function editarTransportadora(id) {
+            if (typeof showAlert === 'function') {
+                showAlert(`Edição da transportadora #${id} em desenvolvimento.`, 'Em Breve', 'info');
+            }
+        }
+
+        // Click outside modal to close
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal(modal.id);
+            });
+        });
+
+        // Inicializar ao carregar página
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('📦 Módulo Logística iniciado');
+            carregarDashboard();
+            carregarTransportadoras();
+            carregarPedidos();
+        });
+    </script>
+    <script src="dashboard-nfe-pro.js?v=20251217"></script>
+    <script>
+        // Carregar dados do usuário com avatar
+        async function carregarDadosUsuario() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || user.name || 'Usuário';
+                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    
+                    // Atualizar nome na saudação
+                    const userNameEl = document.getElementById('user-name');
+                    if (userNameEl) {
+                        userNameEl.textContent = primeiroNome;
+                    }
+                    
+                    // Mapeamento de avatares
+                    const avatarNameMap = {
+                        'clemerson': '/avatars/Clemerson.webp',
+                        'isabela': '/avatars/Isabela.webp',
+                        'thaina': '/avatars/Thaina.webp',
+                        'thiago': '/avatars/Thiago.webp',
+                        'nicolas': '/avatars/NicolasDaniel.webp',
+                        'nicolasdaniel': '/avatars/NicolasDaniel.webp',
+                        'rh': '/avatars/Rh.webp',
+                        'admin': '/avatars/admin.webp',
+                        'ti': '/avatars/TI.webp',
+                        'tialuforce': '/avatars/TI.webp',
+                        'antonio': '/avatars/Antonio.webp',
+                        'antônio': '/avatars/Antonio.webp',
+                        'andreia': '/avatars/Andreia.webp',
+                        'guilherme': '/avatars/Guilherme.webp',
+                        'marcelo': '/avatars/Marcelo.webp',
+                        'financeiro': '/avatars/Financeiro.webp',
+                        'douglas': '/avatars/Douglas.webp',
+                        'hellen': '/avatars/Hellen.webp',
+                        'helen': '/avatars/Hellen.webp',
+                        'marcia': '/avatars/Marcia.webp',
+                        'augusto': '/avatars/Augusto.webp',
+                        'renata': '/avatars/Renata.webp',
+                        'fabiano': '/avatars/Fabiano.webp',
+                        'fabiola': '/avatars/Fabiola.webp'
+                    };
+                    
+                    let avatarUrl = null;
+                    if (user.avatar && user.avatar !== '/avatars/default.webp') avatarUrl = user.avatar;
+                    else if (user.foto && user.foto !== '/avatars/default.webp') avatarUrl = user.foto;
+                    else if (user.email) {
+                        const username = user.email.split('@')[0].split('.')[0].toLowerCase();
+                        avatarUrl = avatarNameMap[username];
+                    }
+                    if (!avatarUrl) avatarUrl = avatarNameMap[primeiroNome.toLowerCase()];
+                    
+                    const userPhotoEl = document.getElementById('user-photo');
+                    const initialEl = document.getElementById('user-initial');
+                    
+                    if (avatarUrl && userPhotoEl) {
+                        userPhotoEl.src = avatarUrl;
+                        userPhotoEl.style.display = 'block';
+                        userPhotoEl.onerror = function() {
+                            this.style.display = 'none';
+                            if (initialEl) { initialEl.textContent = primeiroNome.charAt(0).toUpperCase(); initialEl.style.display = 'flex'; }
+                        };
+                        if (initialEl) initialEl.style.display = 'none';
+                    } else if (initialEl) {
+                        initialEl.textContent = primeiroNome.charAt(0).toUpperCase();
+                    }
+                }
+            } catch (e) { console.log('Erro ao carregar usuário:', e); }
+        }
+        document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+    </script>
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+

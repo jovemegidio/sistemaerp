@@ -1,0 +1,625 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aluforce ERP - Guia de Instalação</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .version-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .card-icon.blue {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+        }
+
+        .card-icon.green {
+            background: linear-gradient(135deg, #16a34a, #22c55e);
+        }
+
+        .card-icon.orange {
+            background: linear-gradient(135deg, #ea580c, #f97316);
+        }
+
+        .card-icon.purple {
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #dc2626;
+            color: white;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-right: 12px;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .step-content h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .step-content p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .requirement-icon {
+            font-size: 2rem;
+        }
+
+        .requirement-info h5 {
+            font-size: 1rem;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .requirement-info p {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .download-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .code-block {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .code-block .comment {
+            color: #64748b;
+        }
+
+        .code-block .path {
+            color: #fbbf24;
+        }
+
+        .highlight-box {
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .highlight-box.danger {
+            background: #fee2e2;
+            border-color: #fca5a5;
+        }
+
+        .highlight-box.success {
+            background: #dcfce7;
+            border-color: #86efac;
+        }
+
+        .highlight-box h5 {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .table-credentials {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        .table-credentials th,
+        .table-credentials td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table-credentials th {
+            background: #f1f5f9;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .table-credentials td {
+            font-family: 'Consolas', monospace;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+        }
+
+        .faq-question {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .faq-answer {
+            color: #64748b;
+            padding-left: 28px;
+        }
+
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        .footer .contact {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        @media print {
+            .header {
+                background: #dc2626 !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .card {
+                break-inside: avoid;
+            }
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <h1>🏭 ALUFORCE ERP</h1>
+        <p>Sistema de Gestão Empresarial</p>
+        <span class="version-badge">Versão 2.0 BETA - Dezembro 2025</span>
+    </header>
+
+    <div class="container">
+        <!-- Requisitos do Sistema -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon blue">📋</div>
+                <h2 class="card-title">Requisitos do Sistema</h2>
+            </div>
+            
+            <p>Antes de iniciar a instalação, verifique se seu computador atende aos requisitos mínimos:</p>
+            
+            <div class="requirements-grid">
+                <div class="requirement-item">
+                    <span class="requirement-icon">🖥️</span>
+                    <div class="requirement-info">
+                        <h5>Sistema Operacional</h5>
+                        <p>Windows 10 ou superior (64-bit)</p>
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <span class="requirement-icon">💾</span>
+                    <div class="requirement-info">
+                        <h5>Memória RAM</h5>
+                        <p>Mínimo 4GB (recomendado 8GB)</p>
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <span class="requirement-icon">💿</span>
+                    <div class="requirement-info">
+                        <h5>Espaço em Disco</h5>
+                        <p>Mínimo 2GB livres</p>
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <span class="requirement-icon">🌐</span>
+                    <div class="requirement-info">
+                        <h5>Navegador</h5>
+                        <p>Chrome, Edge ou Firefox (atualizados)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pré-requisitos de Software -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon orange">⚙️</div>
+                <h2 class="card-title">Softwares Necessários</h2>
+            </div>
+            
+            <p>O Aluforce ERP requer os seguintes softwares instalados:</p>
+            
+            <div class="requirements-grid">
+                <div class="requirement-item">
+                    <span class="requirement-icon">📦</span>
+                    <div class="requirement-info">
+                        <h5>Node.js (v18 ou superior)</h5>
+                        <p>Motor JavaScript do sistema</p>
+                        <a href="https://nodejs.org" target="_blank" class="download-btn" style="margin-top: 10px;">
+                            ⬇️ Baixar Node.js
+                        </a>
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <span class="requirement-icon">🗄️</span>
+                    <div class="requirement-info">
+                        <h5>MySQL Server 8.0</h5>
+                        <p>Banco de dados do sistema</p>
+                        <a href="https://dev.mysql.com/downloads/mysql/" target="_blank" class="download-btn" style="margin-top: 10px;">
+                            ⬇️ Baixar MySQL
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h5>⚠️ Importante - Instalação do MySQL</h5>
+                <p>Durante a instalação do MySQL, configure a senha do usuário <strong>root</strong> como: <code style="background: #fef3c7; padding: 2px 8px; border-radius: 4px; font-weight: bold;">@dminalu</code></p>
+                <p style="margin-top: 8px; font-size: 0.9rem;">Se você usar uma senha diferente, será necessário alterar no arquivo <code>.env</code> após a instalação.</p>
+            </div>
+        </div>
+
+        <!-- Passo a Passo da Instalação -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon green">🚀</div>
+                <h2 class="card-title">Passo a Passo da Instalação</h2>
+            </div>
+            
+            <div class="step">
+                <span class="step-number">1</span>
+                <div class="step-content">
+                    <h4>Extraia os arquivos do sistema</h4>
+                    <p>Extraia a pasta <strong>"Sistema - Aluforce v.2 - BETA"</strong> para um local de fácil acesso, como <code>C:\Aluforce</code> ou <code>C:\Sistemas\Aluforce</code>.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <div class="step-content">
+                    <h4>Execute o instalador como Administrador</h4>
+                    <p>Localize o arquivo <strong>INSTALAR.bat</strong> na pasta do sistema.</p>
+                    <p style="margin-top: 8px;">Clique com o <strong>botão direito</strong> e selecione <strong>"Executar como administrador"</strong>.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">3</span>
+                <div class="step-content">
+                    <h4>Aguarde a verificação automática</h4>
+                    <p>O instalador irá verificar automaticamente:</p>
+                    <ul style="margin-top: 8px; margin-left: 20px; color: #64748b;">
+                        <li>✅ Node.js instalado</li>
+                        <li>✅ MySQL Server instalado</li>
+                        <li>✅ Conexão com banco de dados</li>
+                        <li>✅ Configurações do sistema</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">4</span>
+                <div class="step-content">
+                    <h4>Clique em "Iniciar Instalação"</h4>
+                    <p>Após a verificação, clique no botão verde para iniciar o processo de instalação.</p>
+                    <p style="margin-top: 8px; color: #64748b;">O instalador irá:</p>
+                    <ul style="margin-top: 8px; margin-left: 20px; color: #64748b;">
+                        <li>Criar o banco de dados (se necessário)</li>
+                        <li>Importar a estrutura e dados iniciais</li>
+                        <li>Instalar todas as dependências</li>
+                        <li>Criar atalhos na área de trabalho</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">5</span>
+                <div class="step-content">
+                    <h4>Inicie o sistema</h4>
+                    <p>Após a instalação, clique em <strong>"Sim"</strong> quando perguntado se deseja iniciar o sistema.</p>
+                    <p style="margin-top: 8px;">Ou use o atalho <strong>"Iniciar Aluforce Server"</strong> criado na área de trabalho.</p>
+                </div>
+            </div>
+
+            <div class="highlight-box success">
+                <h5>✅ Pronto!</h5>
+                <p>Após iniciar o servidor, acesse o sistema pelo navegador em: <strong style="font-size: 1.1rem;">http://localhost:3000</strong></p>
+            </div>
+        </div>
+
+        <!-- Credenciais de Acesso -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon purple">🔐</div>
+                <h2 class="card-title">Credenciais de Acesso</h2>
+            </div>
+
+            <h4 style="margin-bottom: 15px;">Acesso ao Sistema</h4>
+            <table class="table-credentials">
+                <tr>
+                    <th>Campo</th>
+                    <th>Valor Padrão</th>
+                </tr>
+                <tr>
+                    <td>Usuário</td>
+                    <td>admin</td>
+                </tr>
+                <tr>
+                    <td>Senha</td>
+                    <td>admin123</td>
+                </tr>
+            </table>
+
+            <h4 style="margin: 25px 0 15px;">Banco de Dados</h4>
+            <table class="table-credentials">
+                <tr>
+                    <th>Campo</th>
+                    <th>Valor</th>
+                </tr>
+                <tr>
+                    <td>Host</td>
+                    <td>localhost</td>
+                </tr>
+                <tr>
+                    <td>Porta</td>
+                    <td>3306</td>
+                </tr>
+                <tr>
+                    <td>Banco</td>
+                    <td>aluforce_vendas</td>
+                </tr>
+                <tr>
+                    <td>Usuário</td>
+                    <td>root</td>
+                </tr>
+                <tr>
+                    <td>Senha</td>
+                    <td>@dminalu</td>
+                </tr>
+            </table>
+
+            <div class="highlight-box danger" style="margin-top: 20px;">
+                <h5>🔒 Segurança</h5>
+                <p><strong>IMPORTANTE:</strong> Altere as senhas padrão após o primeiro acesso para garantir a segurança do sistema.</p>
+            </div>
+        </div>
+
+        <!-- Iniciando o Sistema -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon">▶️</div>
+                <h2 class="card-title">Iniciando o Sistema no Dia a Dia</h2>
+            </div>
+
+            <p>Para iniciar o Aluforce ERP após a instalação:</p>
+
+            <div class="step" style="margin-top: 20px;">
+                <span class="step-number">1</span>
+                <div class="step-content">
+                    <h4>Inicie o Servidor</h4>
+                    <p>Dê duplo clique no atalho <strong>"Iniciar Aluforce Server"</strong> na área de trabalho.</p>
+                    <p style="margin-top: 8px; color: #64748b;">Uma janela do terminal será aberta mostrando que o servidor está rodando.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <span class="step-number">2</span>
+                <div class="step-content">
+                    <h4>Acesse o Sistema</h4>
+                    <p>Dê duplo clique no atalho <strong>"Aluforce ERP"</strong> na área de trabalho.</p>
+                    <p style="margin-top: 8px; color: #64748b;">Ou abra o navegador e acesse: <code>http://localhost:3000</code></p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h5>💡 Dica</h5>
+                <p>Mantenha a janela do servidor (terminal preto) sempre aberta enquanto estiver usando o sistema. Fechar essa janela irá encerrar o Aluforce.</p>
+            </div>
+        </div>
+
+        <!-- Perguntas Frequentes -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon blue">❓</div>
+                <h2 class="card-title">Perguntas Frequentes</h2>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">❓ O sistema não abre no navegador</div>
+                <div class="faq-answer">Verifique se o servidor está rodando. A janela do terminal deve mostrar "Servidor rodando na porta 3000".</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">❓ Erro de conexão com banco de dados</div>
+                <div class="faq-answer">Verifique se o serviço do MySQL está rodando. Abra "Serviços" do Windows (services.msc) e procure por "MySQL80" ou similar.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">❓ Porta 3000 em uso</div>
+                <div class="faq-answer">Outro programa está usando a porta. Reinicie o computador ou altere a porta no arquivo .env (variável PORT).</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">❓ Como atualizar o sistema?</div>
+                <div class="faq-answer">Substitua os arquivos do sistema pelos novos, mantendo o arquivo .env. O banco de dados será preservado automaticamente.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">❓ Como fazer backup do banco?</div>
+                <div class="faq-answer">Use o MySQL Workbench ou o comando: <code>mysqldump -u root -p aluforce_vendas > backup.sql</code></div>
+            </div>
+        </div>
+
+        <!-- Suporte -->
+        <div class="card">
+            <div class="card-header">
+                <div class="card-icon green">📞</div>
+                <h2 class="card-title">Suporte Técnico</h2>
+            </div>
+
+            <p>Em caso de dúvidas ou problemas, entre em contato:</p>
+
+            <div class="requirements-grid" style="margin-top: 20px;">
+                <div class="requirement-item">
+                    <span class="requirement-icon">📧</span>
+                    <div class="requirement-info">
+                        <h5>E-mail</h5>
+                        <p>ti@aluforce.ind.br</p>
+                    </div>
+                </div>
+                <div class="requirement-item">
+                    <span class="requirement-icon">📱</span>
+                    <div class="requirement-info">
+                        <h5>Telefone</h5>
+                        <p>Contate o setor de TI</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p><strong>ALUFORCE ERP</strong> - Sistema de Gestão Empresarial</p>
+        <p class="contact">© 2025 Aluforce Indústria - Todos os direitos reservados</p>
+        <p class="contact" style="margin-top: 15px;">Versão 2.0 BETA | Dezembro 2025</p>
+    </footer>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

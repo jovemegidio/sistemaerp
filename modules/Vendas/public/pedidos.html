@@ -1,0 +1,1910 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>ALUFORCE - Gestão de Pedidos</title>
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sidebar-width: 56px;
+            --header-height: 48px;
+            --tab-height: 40px;
+            --primary-orange: #225cfa;
+            --primary-dark: #1a1a2e;
+            --bg-gray: #f5f5f5;
+            --border-color: #e5e5e5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --success-green: #22c55e;
+            --warning-yellow: #eab308;
+            --danger-red: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-gray);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        .app-container { display: flex; height: 100vh; }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--primary-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            width: 36px; height: 36px;
+            background: var(--primary-orange);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .sidebar-logo i { color: white; font-size: 18px; }
+
+        .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+
+        .sidebar-btn {
+            width: 40px; height: 40px;
+            border: none;
+            background: transparent;
+            color: #8b8b9a;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .sidebar-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+        .sidebar-btn.active { background: var(--primary-orange); color: white; }
+
+        .sidebar-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+
+        /* HEADER */
+        .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+        .header {
+            height: var(--header-height);
+            background: var(--primary-dark);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 16px;
+        }
+
+        .header-left { display: flex; align-items: center; gap: 24px; }
+
+        .header-brand { display: flex; align-items: center; gap: 8px; color: white; }
+        .header-brand img { height: 24px; }
+        .header-brand span { font-size: 14px; font-weight: 600; color: #8b8b9a; }
+
+        .header-right { display: flex; align-items: center; gap: 8px; }
+
+        .header-btn {
+            width: 36px; height: 36px;
+            border: none; background: transparent; color: #8b8b9a;
+            border-radius: 8px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 16px; transition: all 0.2s;
+        }
+        .header-btn:hover { background: rgba(255, 255, 255, 0.1); color: white; }
+
+        .user-avatar {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 14px; font-weight: 600;
+            cursor: pointer; margin-left: 8px;
+            overflow: hidden;
+        }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .user-avatar img.visible { display: block; }
+
+        .user-greeting {
+            display: flex; align-items: center; gap: 12px;
+            margin-left: 16px; color: #8b8b9a; font-size: 13px;
+        }
+        .user-greeting strong { color: white; }
+
+        /* TABS */
+        .tabs-bar {
+            height: var(--tab-height);
+            background: white;
+            border-bottom: 1px solid var(--border-color);
+            display: flex; align-items: center;
+            padding: 0 16px; gap: 8px;
+        }
+
+        .tab {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 16px;
+            background: #f5f5f5; border: none; border-radius: 6px;
+            color: var(--text-secondary); font-size: 13px;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .tab:hover { background: #e5e5e5; }
+        .tab.active { background: var(--primary-orange); color: white; }
+
+        .tabs-actions { margin-left: auto; display: flex; gap: 8px; }
+
+        .tab-action-btn {
+            width: 32px; height: 32px;
+            border: none; background: transparent; color: var(--text-secondary);
+            border-radius: 6px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; transition: all 0.2s;
+        }
+        .tab-action-btn:hover { background: #f5f5f5; }
+
+        /* CONTENT */
+        .content-area { flex: 1; overflow-y: auto; padding: 20px; background: var(--bg-gray); }
+
+        .page-header-section {
+            background: white; border-radius: 12px;
+            padding: 20px 24px; margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        .page-header-left h1 {
+            font-size: 24px; font-weight: 700; color: #1a1a1a;
+            margin-bottom: 4px; display: flex; align-items: center; gap: 12px;
+        }
+        .page-header-left h1 i { color: var(--primary-orange); }
+        .page-header-left p { font-size: 14px; color: #7f8c8d; }
+        .page-header-right { display: flex; gap: 12px; }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-orange), #ea580c);
+            color: white; border: none;
+            padding: 10px 20px; border-radius: 8px;
+            font-size: 14px; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3); }
+
+        .btn-secondary {
+            background: white; color: #374151;
+            border: 1px solid #e5e7eb;
+            padding: 10px 20px; border-radius: 8px;
+            font-size: 14px; font-weight: 500; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-secondary:hover { background: #f9fafb; border-color: #d1d5db; }
+
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(5, 1fr);
+            gap: 16px; margin-bottom: 20px;
+        }
+        @media (max-width: 1200px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 600px) { .stats-grid { grid-template-columns: 1fr; } }
+
+        .stat-card {
+            background: white; border-radius: 12px;
+            padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .stat-card.highlight { background: linear-gradient(135deg, #f97316, #ea580c); color: white; }
+        .stat-card.highlight .stat-label, .stat-card.highlight .stat-value { color: white; }
+
+        .stat-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+
+        .stat-icon {
+            width: 44px; height: 44px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 20px;
+        }
+        .stat-icon.orange { background: #fff7ed; color: #f97316; }
+        .stat-icon.green { background: #f0fdf4; color: #22c55e; }
+        .stat-icon.blue { background: #eff6ff; color: #3b82f6; }
+        .stat-icon.yellow { background: #fefce8; color: #eab308; }
+        .stat-icon.purple { background: #faf5ff; color: #a855f7; }
+        .stat-icon.white { background: rgba(255,255,255,0.2); color: white; }
+
+        .stat-value { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+        .stat-label { font-size: 13px; color: #7f8c8d; margin-top: 4px; }
+
+        .filters-bar {
+            background: white; border-radius: 12px;
+            padding: 16px 20px; margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+        }
+
+        .filter-group { display: flex; align-items: center; gap: 8px; }
+        .filter-group label { font-size: 13px; color: #6b7280; font-weight: 500; }
+        .filter-group input, .filter-group select {
+            padding: 8px 12px; border: 1px solid #e5e7eb;
+            border-radius: 6px; font-size: 13px; min-width: 150px;
+        }
+        .filter-group input:focus, .filter-group select:focus { outline: none; border-color: var(--primary-orange); }
+
+        .search-box {
+            display: flex; align-items: center;
+            background: #f5f5f5; border-radius: 8px;
+            padding: 0 12px; width: 250px;
+        }
+        .search-box i { color: #999; font-size: 14px; }
+        .search-box input {
+            border: none; background: transparent;
+            padding: 10px 12px; font-size: 14px; width: 100%; outline: none;
+        }
+
+        .table-container {
+            background: white; border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
+        }
+
+        .table-header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 20px; border-bottom: 1px solid #e5e7eb;
+        }
+        .table-header h3 { font-size: 16px; font-weight: 600; color: #1a1a1a; }
+
+        .table-tabs { display: flex; gap: 4px; }
+        .table-tab {
+            padding: 6px 12px; border: none; background: #f3f4f6;
+            border-radius: 6px; font-size: 12px; font-weight: 500;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .table-tab.active { background: var(--primary-orange); color: white; }
+
+        .pedidos-table { width: 100%; border-collapse: collapse; }
+        .pedidos-table th, .pedidos-table td {
+            padding: 14px 16px; text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .pedidos-table th {
+            background: #f9fafb; font-size: 12px; font-weight: 600;
+            color: #6b7280; text-transform: uppercase;
+        }
+        .pedidos-table tbody tr:hover { background: #f9fafb; }
+
+        .pedido-numero { font-weight: 600; color: var(--primary-orange); }
+        .cliente-nome {
+            font-weight: 600; color: #1a1a1a; max-width: 200px;
+            overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
+        .status-badge {
+            padding: 4px 10px; border-radius: 20px;
+            font-size: 11px; font-weight: 600; display: inline-block;
+        }
+        .status-badge.orcamento { background: #dbeafe; color: #1e40af; }
+        .status-badge.aprovado { background: #dcfce7; color: #166534; }
+        .status-badge.faturado { background: #f3e8ff; color: #7e22ce; }
+        .status-badge.pendente { background: #fef3c7; color: #92400e; }
+        .status-badge.cancelado { background: #fee2e2; color: #991b1b; }
+
+        .valor-cell { font-weight: 600; color: #059669; }
+
+        .action-btn {
+            width: 32px; height: 32px;
+            border: 1px solid #e5e7eb; background: white;
+            border-radius: 6px; cursor: pointer;
+            display: inline-flex; align-items: center; justify-content: center;
+            color: #6b7280; transition: all 0.2s; margin-right: 4px;
+        }
+        .action-btn:hover { background: #f3f4f6; color: var(--primary-orange); }
+
+        .pagination {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 16px 20px; background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+        .pagination-info { font-size: 13px; color: #6b7280; }
+        .pagination-buttons { display: flex; gap: 8px; }
+        .page-btn {
+            padding: 8px 12px; border: 1px solid #e5e7eb;
+            background: white; border-radius: 6px; font-size: 13px; cursor: pointer;
+        }
+        .page-btn.active { background: var(--primary-orange); color: white; border-color: var(--primary-orange); }
+        .page-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .loading-container { display: flex; flex-direction: column; align-items: center; padding: 60px 20px; }
+        .loading-spinner {
+            width: 48px; height: 48px;
+            border: 4px solid #e5e7eb; border-top-color: var(--primary-orange);
+            border-radius: 50%; animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { margin-top: 16px; color: #6b7280; }
+
+        .empty-state { text-align: center; padding: 60px 20px; }
+        .empty-state i { font-size: 64px; color: #d1d5db; margin-bottom: 20px; }
+        .empty-state h3 { font-size: 18px; color: #374151; margin-bottom: 8px; }
+        .empty-state p { color: #6b7280; }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f5f5f5; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #aaa; }
+        
+        /* Modal Styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .modal-overlay.active { display: flex; }
+        
+        .modal-container {
+            background: white;
+            border-radius: 12px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+        
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+        }
+        .modal-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .modal-header h2 i { color: var(--primary-orange); }
+        
+        .modal-close {
+            width: 36px; height: 36px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+        .modal-close:hover { background: rgba(255,255,255,0.2); }
+        
+        .modal-body {
+            padding: 24px;
+            overflow-y: auto;
+            max-height: calc(90vh - 140px);
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            padding: 16px 24px;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+        
+        /* Detail Grid */
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 600px) { .detail-grid { grid-template-columns: 1fr; } }
+        
+        .detail-section {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .detail-section h4 {
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .detail-section h4 i { color: var(--primary-orange); }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-row .label { color: #6b7280; }
+        .detail-row .value { font-weight: 600; color: #1f2937; }
+        
+        /* Form Styles */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+        
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .form-group label i { color: var(--primary-orange); font-size: 11px; }
+        
+        .form-control {
+            padding: 10px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 13px;
+            transition: all 0.2s;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 3px rgba(34, 92, 250, 0.1);
+        }
+        
+        textarea.form-control { resize: vertical; min-height: 80px; }
+
+        /* ===== MODAL EDITAR ESTILO OMIE ===== */
+        .modal-content-omie {
+            background: #f8f8f8;
+            border-radius: 12px;
+            width: 95%;
+            max-width: 1200px;
+            height: auto;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: scale(0.98); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal-header-omie {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            min-height: 50px;
+        }
+
+        .modal-header-omie h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .modal-header-omie .close-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: none;
+            border: none;
+            color: #555;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 8px 14px;
+            border-radius: 4px;
+            transition: all 0.15s;
+        }
+
+        .modal-header-omie .close-btn:hover {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .modal-container-omie {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            max-height: calc(90vh - 60px);
+        }
+
+        .modal-main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+            background: white;
+            border-right: 1px solid #e5e5e5;
+        }
+
+        .modal-sidebar-actions {
+            width: 160px;
+            background: white;
+            padding: 16px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow-y: auto;
+        }
+
+        .sidebar-action-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: none;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #444;
+            cursor: pointer;
+            transition: all 0.15s;
+            text-align: left;
+            width: 100%;
+        }
+
+        .sidebar-action-btn:hover {
+            background: #f5f5f5;
+            color: #222;
+        }
+
+        .sidebar-action-btn i {
+            width: 16px;
+            text-align: center;
+            color: var(--primary-orange);
+            font-size: 13px;
+        }
+
+        .sidebar-action-btn.primary {
+            background: var(--primary-orange);
+            color: white;
+            font-weight: 500;
+        }
+
+        .sidebar-action-btn.primary:hover {
+            background: #0011ac;
+        }
+
+        .sidebar-action-btn.primary i { color: white; }
+
+        .sidebar-action-btn.danger { color: #666; }
+        .sidebar-action-btn.danger i { color: #999; }
+        .sidebar-action-btn.danger:hover { background: #fef2f2; color: #dc2626; }
+        .sidebar-action-btn.danger:hover i { color: #dc2626; }
+
+        .sidebar-divider {
+            height: 1px;
+            background: #e5e5e5;
+            margin: 8px 0;
+        }
+
+        /* Seção do Cliente */
+        .cliente-section {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 20px;
+        }
+
+        .cliente-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .cliente-info { flex: 1; }
+
+        .cliente-nome-input {
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .cliente-nome-input:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+        }
+
+        /* Grid de Valores */
+        .valores-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            padding: 16px 0;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 1000px) { .valores-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 700px) { .valores-grid { grid-template-columns: repeat(2, 1fr); } }
+
+        .valor-item { display: flex; flex-direction: column; gap: 4px; }
+
+        .valor-label {
+            font-size: 11px;
+            color: #888;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .valor-input {
+            padding: 8px 10px;
+            border: 1px solid #e5e5e5;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            background: #fafafa;
+            text-align: right;
+        }
+
+        .valor-input.highlight {
+            background: #fff3cd;
+            border-color: #ffc107;
+            color: #856404;
+        }
+
+        /* Linha de Info */
+        .info-row {
+            display: flex;
+            gap: 16px;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 16px;
+        }
+
+        .info-field {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 150px;
+        }
+
+        .info-field label {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .info-field select,
+        .info-field input {
+            padding: 8px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 13px;
+            background: white;
+        }
+
+        /* Tabs do Modal */
+        .modal-tabs {
+            display: flex;
+            gap: 4px;
+            border-bottom: 2px solid #e5e5e5;
+            margin-bottom: 16px;
+            overflow-x: auto;
+        }
+
+        .modal-tab {
+            padding: 10px 16px;
+            background: transparent;
+            border: none;
+            color: #666;
+            font-size: 12px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            white-space: nowrap;
+            transition: all 0.2s;
+        }
+
+        .modal-tab:hover { color: #333; }
+
+        .modal-tab.active {
+            color: var(--primary-orange);
+            border-bottom-color: var(--primary-orange);
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .tab-content.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Tabela de Itens */
+        .items-table-container {
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        .items-table th {
+            background: #f5f5f5;
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .items-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .items-table tr:hover { background: #f9f9f9; }
+
+        /* Botões de Ação da Tabela */
+        .table-actions {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .btn-table-action {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.15s;
+        }
+
+        .btn-table-action.success {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .btn-table-action.success:hover { background: #bbf7d0; }
+
+        .btn-table-action.warning {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .btn-table-action.warning:hover { background: #fde68a; }
+
+        .btn-table-action.danger {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn-table-action.danger:hover { background: #fecaca; }
+
+        /* Form Row */
+        .form-row-omie {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-group-omie {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group-omie label {
+            font-size: 12px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group-omie input,
+        .form-group-omie select,
+        .form-group-omie textarea {
+            padding: 10px 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .form-group-omie textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Previsão Faturamento */
+        .previsao-faturamento {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .previsao-label {
+            font-size: 11px;
+            color: #888;
+        }
+
+        .previsao-badge {
+            width: 18px;
+            height: 18px;
+            background: #fef3c7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d97706;
+        }
+
+        .previsao-input {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .btn-consulta-credito {
+            padding: 8px 14px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #555;
+        }
+
+        .btn-consulta-credito:hover {
+            background: #f5f5f5;
+            border-color: #ccc;
+        }
+
+        .btn-atualizar-impostos {
+            padding: 8px 14px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            color: #555;
+            margin-left: auto;
+        }
+
+        .btn-atualizar-impostos:hover {
+            background: #f5f5f5;
+        }
+
+        .sidebar-action-btn.btn-faturar {
+            background: linear-gradient(135deg, #023197 0%, #0b58ff 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
+        }
+
+        .sidebar-action-btn.btn-faturar:hover {
+            background: linear-gradient(135deg, #0c86ea 0%, #063b80 100%);
+            transform: translateY(-2px);
+        }
+
+        .sidebar-action-btn.btn-faturar i { color: white; }
+
+        /* Empty State */
+        .empty-table-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-table-state i {
+            font-size: 40px;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <a href="/dashboard" class="sidebar-logo" title="Voltar ao Painel"><i class="fas fa-home"></i></a>
+            <nav class="sidebar-nav">
+                <button class="sidebar-btn" title="Kanban" onclick="window.location.href='index.html'"><i class="fas fa-columns"></i></button>
+                <button class="sidebar-btn active" title="Pedidos"><i class="fas fa-clipboard-list"></i></button>
+                <button class="sidebar-btn" title="Clientes" onclick="window.location.href='clientes.html'"><i class="fas fa-users"></i></button>
+                <button class="sidebar-btn" title="Estoque" onclick="window.location.href='estoque.html'"><i class="fas fa-boxes-stacked"></i></button>
+                <button class="sidebar-btn" title="Meu Dashboard" onclick="window.location.href='dashboard.html'"><i class="fas fa-chart-pie"></i></button>
+                <button class="sidebar-btn" title="Gestão de Vendas" onclick="window.location.href='dashboard-admin.html'"><i class="fas fa-chart-line"></i></button>
+                <button class="sidebar-btn" title="Relatórios" onclick="window.location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
+            </nav>
+            <div class="sidebar-bottom">
+                <button class="sidebar-btn" title="Configurações"><i class="fas fa-cog"></i></button>
+            </div>
+        </aside>
+
+        <main class="main-area">
+            <!-- Header -->
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <span>Vendas</span>
+                        <span>|</span>
+                        <span style="color: white;">Pedidos</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" title="Notificações">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div class="user-greeting">
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <div class="user-avatar" id="user-avatar">
+                            <img src="" alt="Foto do usuário" id="user-photo">
+                            <span id="user-initial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Tabs -->
+            <div class="tabs-bar">
+                <button class="tab" onclick="window.location.href='index.html'">Vendas e NF-e</button>
+                <button class="tab active">Pedidos</button>
+                <div class="tabs-actions">
+                    <button class="tab-action-btn" title="Atualizar" onclick="carregarPedidos()"><i class="fas fa-sync-alt"></i></button>
+                    <button class="tab-action-btn" title="Configurações"><i class="fas fa-cog"></i></button>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="content-area">
+                <div class="page-header-section">
+                    <div class="page-header-left">
+                        <h1><i class="fas fa-file-alt"></i> Gestão de Pedidos</h1>
+                        <p>Visualize e gerencie todos os pedidos de venda</p>
+                    </div>
+                    <div class="page-header-right">
+                        <button class="btn-secondary" onclick="exportarPedidos()"><i class="fas fa-download"></i> Exportar</button>
+                        <button class="btn-primary" onclick="window.location.href='index.html?novo=true'"><i class="fas fa-plus"></i> Incluir Orçamento</button>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card highlight">
+                        <div class="stat-card-header"><div class="stat-icon white"><i class="fas fa-dollar-sign"></i></div></div>
+                        <div class="stat-value" id="valorTotal">R$ 0</div>
+                        <div class="stat-label">Valor Total (Mês)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><div class="stat-icon blue"><i class="fas fa-file-alt"></i></div></div>
+                        <div class="stat-value" id="totalPedidos">0</div>
+                        <div class="stat-label">Total de Pedidos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><div class="stat-icon yellow"><i class="fas fa-clock"></i></div></div>
+                        <div class="stat-value" id="pedidosPendentes">0</div>
+                        <div class="stat-label">Pendentes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><div class="stat-icon green"><i class="fas fa-check-circle"></i></div></div>
+                        <div class="stat-value" id="pedidosAprovados">0</div>
+                        <div class="stat-label">Aprovados</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card-header"><div class="stat-icon purple"><i class="fas fa-file-invoice"></i></div></div>
+                        <div class="stat-value" id="pedidosFaturados">0</div>
+                        <div class="stat-label">Faturados</div>
+                    </div>
+                </div>
+
+                <div class="filters-bar">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchInput" placeholder="Buscar pedido ou cliente..." onkeyup="filtrarPedidos()">
+                    </div>
+                    <div class="filter-group">
+                        <label>Status:</label>
+                        <select id="filterStatus" onchange="filtrarPedidos()">
+                            <option value="">Todos</option>
+                            <option value="orcamento">Orçamento</option>
+                            <option value="aprovado">Aprovado</option>
+                            <option value="faturado">Faturado</option>
+                            <option value="pendente">Pendente</option>
+                            <option value="cancelado">Cancelado</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Período:</label>
+                        <select id="filterPeriodo" onchange="filtrarPedidos()">
+                            <option value="">Todos</option>
+                            <option value="7">Últimos 7 dias</option>
+                            <option value="30">Últimos 30 dias</option>
+                            <option value="90">Últimos 90 dias</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Exibir:</label>
+                        <select id="filterLimit" onchange="carregarPedidos()">
+                            <option value="25">25 por página</option>
+                            <option value="50">50 por página</option>
+                            <option value="100">100 por página</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <div class="table-header">
+                        <h3>Lista de Pedidos</h3>
+                        <div class="table-tabs">
+                            <button class="table-tab active" onclick="setTab(this, '')">Todos</button>
+                            <button class="table-tab" onclick="setTab(this, 'orcamento')">Orçamentos</button>
+                            <button class="table-tab" onclick="setTab(this, 'aprovado')">Aprovados</button>
+                            <button class="table-tab" onclick="setTab(this, 'faturado')">Faturados</button>
+                        </div>
+                    </div>
+                    <table class="pedidos-table">
+                        <thead>
+                            <tr>
+                                <th>Nº Pedido</th>
+                                <th>Cliente</th>
+                                <th>Data</th>
+                                <th>Status</th>
+                                <th>Valor</th>
+                                <th>Vendedor</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pedidosTableBody">
+                            <tr><td colspan="7"><div class="loading-container"><div class="loading-spinner"></div><div class="loading-text">Carregando pedidos...</div></div></td></tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination" id="paginationContainer" style="display: none;">
+                        <div class="pagination-info" id="paginationInfo"></div>
+                        <div class="pagination-buttons" id="paginationButtons"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        let todosPedidos = [], pedidosFiltrados = [], paginaAtual = 1, itensPorPagina = 25, tabAtiva = '';
+
+        async function carregarPedidos() {
+            const tbody = document.getElementById('pedidosTableBody');
+            tbody.innerHTML = `<tr><td colspan="7"><div class="loading-container"><div class="loading-spinner"></div><div class="loading-text">Carregando pedidos...</div></div></td></tr>`;
+            try {
+                const response = await fetch('/api/vendas/pedidos?limit=200', { credentials: 'include' });
+                if (!response.ok) throw new Error('Erro');
+                const data = await response.json();
+                // Mapear campos para compatibilidade
+                todosPedidos = (Array.isArray(data) ? data : []).map(p => ({
+                    ...p,
+                    numero: p.numero || p.id,
+                    cliente_nome: p.cliente_nome || p.cliente || 'Cliente não informado',
+                    valor_total: parseFloat(p.valor_total || p.valor) || 0,
+                    data_pedido: p.data_pedido || p.created_at,
+                    status: p.status || 'orcamento',
+                    vendedor_nome: p.vendedor_nome || p.vendedor || ''
+                }));
+                pedidosFiltrados = [...todosPedidos];
+                atualizarEstatisticas();
+                filtrarPedidos();
+            } catch (error) {
+                console.error('Erro ao carregar pedidos:', error);
+                tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h3>Erro ao carregar pedidos</h3><p>Tente novamente.</p></div></td></tr>`;
+            }
+        }
+
+        function atualizarEstatisticas() {
+            const total = todosPedidos.length;
+            const valorTotal = todosPedidos.reduce((sum, p) => sum + (parseFloat(p.valor_total) || 0), 0);
+            document.getElementById('valorTotal').textContent = `R$ ${valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}`;
+            document.getElementById('totalPedidos').textContent = total;
+            document.getElementById('pedidosPendentes').textContent = todosPedidos.filter(p => p.status === 'pendente' || p.status === 'orcamento').length;
+            document.getElementById('pedidosAprovados').textContent = todosPedidos.filter(p => p.status === 'aprovado').length;
+            document.getElementById('pedidosFaturados').textContent = todosPedidos.filter(p => p.status === 'faturado').length;
+        }
+
+        function setTab(btn, status) {
+            document.querySelectorAll('.table-tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            tabAtiva = status;
+            document.getElementById('filterStatus').value = status;
+            filtrarPedidos();
+        }
+
+        function filtrarPedidos() {
+            const busca = document.getElementById('searchInput').value.toLowerCase();
+            const statusFiltro = document.getElementById('filterStatus').value || tabAtiva;
+            itensPorPagina = parseInt(document.getElementById('filterLimit').value);
+            paginaAtual = 1;
+            pedidosFiltrados = todosPedidos.filter(p => {
+                const matchBusca = !busca || (p.numero && p.numero.toString().includes(busca)) || (p.cliente_nome && p.cliente_nome.toLowerCase().includes(busca));
+                const matchStatus = !statusFiltro || p.status === statusFiltro;
+                return matchBusca && matchStatus;
+            });
+            renderizarTabela();
+        }
+
+        function formatarData(data) { if (!data) return '-'; return new Date(data).toLocaleDateString('pt-BR'); }
+        function formatarValor(valor) { if (!valor) return 'R$ 0,00'; return `R$ ${parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`; }
+        function getStatusClass(s) { return { orcamento: 'orcamento', aprovado: 'aprovado', faturado: 'faturado', pendente: 'pendente', cancelado: 'cancelado' }[s] || 'pendente'; }
+        function getStatusLabel(s) { return { orcamento: 'Orçamento', aprovado: 'Aprovado', faturado: 'Faturado', pendente: 'Pendente', cancelado: 'Cancelado' }[s] || s; }
+
+        function renderizarTabela() {
+            const tbody = document.getElementById('pedidosTableBody');
+            const inicio = (paginaAtual - 1) * itensPorPagina;
+            const fim = Math.min(inicio + itensPorPagina, pedidosFiltrados.length);
+            const pedidosPagina = pedidosFiltrados.slice(inicio, fim);
+            if (!pedidosPagina.length) {
+                tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-file-alt"></i><h3>Nenhum pedido encontrado</h3><p>Tente alterar os filtros</p></div></td></tr>`;
+                document.getElementById('paginationContainer').style.display = 'none';
+                return;
+            }
+            tbody.innerHTML = pedidosPagina.map(p => `
+                <tr>
+                    <td><span class="pedido-numero">#${p.numero || p.id}</span></td>
+                    <td><span class="cliente-nome" title="${p.cliente_nome || ''}">${p.cliente_nome || 'Cliente não informado'}</span></td>
+                    <td>${formatarData(p.data_pedido || p.created_at)}</td>
+                    <td><span class="status-badge ${getStatusClass(p.status)}">${getStatusLabel(p.status)}</span></td>
+                    <td class="valor-cell">${formatarValor(p.valor_total)}</td>
+                    <td>${p.vendedor_nome || '-'}</td>
+                    <td>
+                        <button class="action-btn" title="Ver" onclick="verPedido(${p.id})"><i class="fas fa-eye"></i></button>
+                        <button class="action-btn" title="Editar" onclick="editarPedido(${p.id})"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn" title="Imprimir" onclick="imprimirPedido(${p.id})"><i class="fas fa-print"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+            atualizarPaginacao(inicio, fim);
+        }
+
+        function atualizarPaginacao(inicio, fim) {
+            const container = document.getElementById('paginationContainer');
+            container.style.display = 'flex';
+            document.getElementById('paginationInfo').textContent = `Exibindo ${inicio + 1}-${fim} de ${pedidosFiltrados.length} pedidos`;
+            const totalPaginas = Math.ceil(pedidosFiltrados.length / itensPorPagina);
+            if (totalPaginas <= 1) { document.getElementById('paginationButtons').innerHTML = ''; return; }
+            let html = `<button class="page-btn" onclick="mudarPagina(${paginaAtual - 1})" ${paginaAtual === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+            for (let i = Math.max(1, paginaAtual - 2); i <= Math.min(totalPaginas, paginaAtual + 2); i++) {
+                html += `<button class="page-btn ${i === paginaAtual ? 'active' : ''}" onclick="mudarPagina(${i})">${i}</button>`;
+            }
+            html += `<button class="page-btn" onclick="mudarPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+            document.getElementById('paginationButtons').innerHTML = html;
+        }
+
+        function mudarPagina(p) { const t = Math.ceil(pedidosFiltrados.length / itensPorPagina); if (p >= 1 && p <= t) { paginaAtual = p; renderizarTabela(); } }
+        
+        // ============ FUNÇÕES DE AÇÕES ============
+        
+        // Armazenar pedido atual para o modal
+        let pedidoAtualModal = null;
+        
+        // Visualizar pedido - Abre modal de detalhes
+        async function verPedido(id) {
+            const pedido = todosPedidos.find(p => p.id === id);
+            if (!pedido) {
+                alert('Pedido não encontrado');
+                return;
+            }
+            
+            pedidoAtualModal = pedido;
+            
+            // Criar modal de visualização se não existir
+            let modal = document.getElementById('modal-visualizar');
+            if (!modal) {
+                const modalHtml = `
+                <div id="modal-visualizar" class="modal-overlay">
+                    <div class="modal-container" style="max-width: 800px;">
+                        <div class="modal-header">
+                            <h2><i class="fas fa-eye"></i> Detalhes do Pedido <span id="modal-pedido-numero"></span></h2>
+                            <button class="modal-close" onclick="fecharModalVisualizar()"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="modal-body" id="modal-visualizar-body">
+                            <div class="loading-container"><div class="loading-spinner"></div></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn-secondary" onclick="fecharModalVisualizar()"><i class="fas fa-times"></i> Fechar</button>
+                            <button class="btn-primary" onclick="editarPedido(${id})"><i class="fas fa-edit"></i> Editar</button>
+                            <button class="btn-secondary" onclick="imprimirPedido(${id})"><i class="fas fa-print"></i> Imprimir</button>
+                        </div>
+                    </div>
+                </div>`;
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+                modal = document.getElementById('modal-visualizar');
+            }
+            
+            document.getElementById('modal-pedido-numero').textContent = `#${pedido.numero || pedido.id}`;
+            modal.classList.add('active');
+            
+            // Buscar itens do pedido
+            let itensHtml = '';
+            try {
+                const response = await fetch(`/api/vendas/pedidos/${id}/itens`, { credentials: 'include' });
+                if (response.ok) {
+                    const itens = await response.json();
+                    if (itens && itens.length > 0) {
+                        itensHtml = `
+                            <h4 style="margin-top: 20px; margin-bottom: 10px;"><i class="fas fa-box"></i> Itens do Pedido</h4>
+                            <table class="pedidos-table" style="font-size: 12px;">
+                                <thead>
+                                    <tr><th>Produto</th><th>Qtd</th><th>Valor Unit.</th><th>Total</th></tr>
+                                </thead>
+                                <tbody>
+                                    ${itens.map(item => `
+                                        <tr>
+                                            <td>${item.produto_nome || item.codigo || '-'}</td>
+                                            <td>${item.quantidade || 0}</td>
+                                            <td>R$ ${(parseFloat(item.valor_unitario) || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                                            <td>R$ ${(parseFloat(item.valor_total || item.total) || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        `;
+                    }
+                }
+            } catch (e) { console.log('Itens não encontrados'); }
+            
+            // Renderizar detalhes
+            document.getElementById('modal-visualizar-body').innerHTML = `
+                <div class="detail-grid">
+                    <div class="detail-section">
+                        <h4><i class="fas fa-info-circle"></i> Informações Gerais</h4>
+                        <div class="detail-row"><span class="label">Número:</span><span class="value">#${pedido.numero || pedido.id}</span></div>
+                        <div class="detail-row"><span class="label">Cliente:</span><span class="value">${pedido.cliente_nome || 'Não informado'}</span></div>
+                        <div class="detail-row"><span class="label">Data:</span><span class="value">${formatarData(pedido.data_pedido || pedido.created_at)}</span></div>
+                        <div class="detail-row"><span class="label">Status:</span><span class="value"><span class="status-badge ${getStatusClass(pedido.status)}">${getStatusLabel(pedido.status)}</span></span></div>
+                    </div>
+                    <div class="detail-section">
+                        <h4><i class="fas fa-dollar-sign"></i> Valores</h4>
+                        <div class="detail-row"><span class="label">Valor Total:</span><span class="value valor-cell">${formatarValor(pedido.valor_total)}</span></div>
+                        <div class="detail-row"><span class="label">Frete:</span><span class="value">${pedido.frete ? formatarValor(pedido.frete) : 'R$ 0,00'}</span></div>
+                        <div class="detail-row"><span class="label">Vendedor:</span><span class="value">${pedido.vendedor_nome || '-'}</span></div>
+                    </div>
+                </div>
+                ${pedido.observacao ? `<div class="detail-section" style="margin-top: 16px;"><h4><i class="fas fa-comment"></i> Observações</h4><p style="color: #666; font-size: 13px;">${pedido.observacao}</p></div>` : ''}
+                ${itensHtml}
+            `;
+        }
+        
+        function fecharModalVisualizar() {
+            const modal = document.getElementById('modal-visualizar');
+            if (modal) modal.classList.remove('active');
+        }
+        
+        // Editar pedido - Abre modal de edição estilo Omie
+        async function editarPedido(id) {
+            const pedido = todosPedidos.find(p => p.id === id);
+            if (!pedido) {
+                alert('Pedido não encontrado');
+                return;
+            }
+            
+            pedidoAtualModal = pedido;
+            fecharModalVisualizar(); // Fechar modal de visualização se estiver aberto
+            
+            // Criar modal de edição se não existir
+            let modal = document.getElementById('modal-editar');
+            if (!modal) {
+                // Vendedores ativos (nomes do banco de dados)
+                let vendedoresOptions = '<option value="">Selecione o vendedor...</option>';
+                vendedoresOptions += `
+                    <option value="Augusto Ladeira dos Santos ">Augusto Ladeira</option>
+                    <option value="Fabiano Marques de Oliveira">Fabiano Marques</option>
+                    <option value="Fabíola de Souza Santos">Fabíola Souza</option>
+                    <option value="Márcia do Nascimento Oliveira Scarcella">Márcia Scarcella</option>
+                    <option value="Renata Maria Batista do Nascimento ">Renata Nascimento</option>
+                `;
+                
+                const modalHtml = `
+                <div id="modal-editar" class="modal-overlay">
+                    <div class="modal-content-omie">
+                        <!-- Header -->
+                        <div class="modal-header-omie">
+                            <h2 id="modal-titulo-pedido">Orçamento Nº</h2>
+                            <button class="close-btn" onclick="fecharModalEditar()">
+                                Fechar <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+
+                        <!-- Container Principal -->
+                        <div class="modal-container-omie">
+                            <!-- Área de Conteúdo Principal -->
+                            <div class="modal-main-content">
+                                <!-- Seção do Cliente -->
+                                <div class="cliente-section">
+                                    <div class="cliente-avatar" id="modal-cliente-avatar">CL</div>
+                                    <div class="cliente-info">
+                                        <div class="cliente-info-header">
+                                            <label style="font-size: 11px; color: #888; margin-bottom: 0;">Cliente</label>
+                                        </div>
+                                        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 12px; flex-wrap: wrap;">
+                                            <input type="text" class="cliente-nome-input" id="edit-cliente" placeholder="Nome do cliente" readonly style="background: #f9f9f9; flex: 1;">
+                                            <div class="previsao-faturamento">
+                                                <span class="previsao-label">Previsão de Faturamento</span>
+                                                <div class="previsao-badge"><i class="fas fa-exclamation" style="font-size: 8px;"></i></div>
+                                                <input type="date" class="previsao-input" id="edit-previsao-faturamento">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Grid de Valores -->
+                                <div class="valores-grid">
+                                    <div class="valor-item">
+                                        <label class="valor-label">Total de Mercadorias</label>
+                                        <input type="text" class="valor-input" id="edit-total-mercadorias" value="0,00" readonly>
+                                    </div>
+                                    <div class="valor-item">
+                                        <label class="valor-label">Valor do Desconto <i class="fas fa-pen" style="font-size: 9px;"></i></label>
+                                        <input type="text" class="valor-input" id="edit-desconto" value="0,00">
+                                    </div>
+                                    <div class="valor-item">
+                                        <label class="valor-label">Total de IPI</label>
+                                        <input type="text" class="valor-input" id="edit-ipi" value="0,00" readonly>
+                                    </div>
+                                    <div class="valor-item">
+                                        <label class="valor-label">Total de ICMS ST</label>
+                                        <input type="text" class="valor-input" id="edit-icms-st" value="0,00" readonly>
+                                    </div>
+                                    <div class="valor-item">
+                                        <label class="valor-label">Valor Total do Pedido</label>
+                                        <input type="text" class="valor-input highlight" id="edit-valor-total" value="0,00" readonly>
+                                    </div>
+                                </div>
+
+                                <!-- Linha de Vendedor, Parcelas, Status -->
+                                <div class="info-row">
+                                    <div class="info-field">
+                                        <label>Vendedor +</label>
+                                        <select id="edit-vendedor">${vendedoresOptions}</select>
+                                    </div>
+                                    <div class="info-field">
+                                        <label>Condição de Pagamento</label>
+                                        <input type="text" id="edit-parcelas" value="28/35/42/49">
+                                    </div>
+                                    <div class="info-field">
+                                        <label>Status</label>
+                                        <select id="edit-status">
+                                            <option value="orcamento">Orçamento</option>
+                                            <option value="analise-credito">Análise de Crédito</option>
+                                            <option value="aprovado">Aprovado</option>
+                                            <option value="faturado">Faturado</option>
+                                            <option value="cancelado">Cancelado</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Tabs -->
+                                <div class="modal-tabs">
+                                    <button class="modal-tab active" data-tab="itens" onclick="switchModalTabPedidos('itens')">Itens da Venda</button>
+                                    <button class="modal-tab" data-tab="frete" onclick="switchModalTabPedidos('frete')">Frete e Outras Despesas</button>
+                                    <button class="modal-tab" data-tab="informacoes" onclick="switchModalTabPedidos('informacoes')">Informações Adicionais</button>
+                                    <button class="modal-tab" data-tab="observacoes" onclick="switchModalTabPedidos('observacoes')">Observações</button>
+                                </div>
+
+                                <!-- Tab Content: Itens da Venda -->
+                                <div class="tab-content active" id="tab-itens">
+                                    <div class="items-table-container">
+                                        <table class="items-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Produto</th>
+                                                    <th>Descrição</th>
+                                                    <th>Quantidade</th>
+                                                    <th>Preço Unitário</th>
+                                                    <th>Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="itens-pedido-tbody">
+                                                <tr>
+                                                    <td colspan="5" style="text-align: center; padding: 30px; color: #999;">
+                                                        <i class="fas fa-box-open" style="font-size: 32px; display: block; margin-bottom: 10px; opacity: 0.5;"></i>
+                                                        Nenhum item cadastrado
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Content: Frete -->
+                                <div class="tab-content" id="tab-frete">
+                                    <div class="form-row-omie">
+                                        <div class="form-group-omie">
+                                            <label>Transportadora</label>
+                                            <input type="text" id="edit-transportadora" placeholder="Nome da transportadora">
+                                        </div>
+                                        <div class="form-group-omie">
+                                            <label>Tipo de Frete</label>
+                                            <select id="edit-tipo-frete">
+                                                <option value="CIF">CIF - Por conta do remetente</option>
+                                                <option value="FOB">FOB - Por conta do destinatário</option>
+                                                <option value="Terceiros">Por conta de terceiros</option>
+                                                <option value="Sem-Frete">Sem frete</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row-omie">
+                                        <div class="form-group-omie">
+                                            <label>Valor do Frete (R$)</label>
+                                            <input type="number" id="edit-valor-frete" step="0.01" placeholder="0,00">
+                                        </div>
+                                        <div class="form-group-omie">
+                                            <label>Outras Despesas (R$)</label>
+                                            <input type="number" id="edit-outras-despesas" step="0.01" placeholder="0,00">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Content: Informações Adicionais -->
+                                <div class="tab-content" id="tab-informacoes">
+                                    <div class="form-row-omie">
+                                        <div class="form-group-omie">
+                                            <label>Nota Fiscal</label>
+                                            <input type="text" id="edit-nf" placeholder="Número da NF">
+                                        </div>
+                                        <div class="form-group-omie">
+                                            <label>Origem</label>
+                                            <select id="edit-origem">
+                                                <option value="Sistema">Sistema</option>
+                                                <option value="Omie">Omie</option>
+                                                <option value="Manual">Manual</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group-omie">
+                                        <label>Informações Complementares</label>
+                                        <textarea id="edit-info-complementar" placeholder="Informações adicionais para a nota fiscal..."></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Content: Observações -->
+                                <div class="tab-content" id="tab-observacoes">
+                                    <div class="form-group-omie">
+                                        <label>Observações Internas</label>
+                                        <textarea id="edit-observacoes" placeholder="Observações internas (não aparecem na NF)..."></textarea>
+                                    </div>
+                                    <div class="form-group-omie">
+                                        <label>Observações para o Cliente</label>
+                                        <textarea id="edit-observacoes-cliente" placeholder="Observações que aparecerão para o cliente..."></textarea>
+                                    </div>
+                                </div>
+
+                                <!-- Campo oculto para ID -->
+                                <input type="hidden" id="edit-pedido-id">
+                            </div>
+
+                            <!-- Sidebar de Ações -->
+                            <div class="modal-sidebar-actions">
+                                <button class="sidebar-action-btn primary" onclick="salvarEdicaoPedido()">
+                                    <i class="fas fa-save"></i> Salvar
+                                </button>
+                                <button class="sidebar-action-btn" onclick="imprimirPedidoModal()">
+                                    <i class="fas fa-print"></i> Imprimir
+                                </button>
+                                <button class="sidebar-action-btn" onclick="duplicarPedidoModal()">
+                                    <i class="fas fa-copy"></i> Duplicar
+                                </button>
+                                <button class="sidebar-action-btn btn-faturar" onclick="faturarPedidoModal()">
+                                    <i class="fas fa-file-invoice-dollar"></i> Faturar
+                                </button>
+                                
+                                <div class="sidebar-divider"></div>
+                                
+                                <button class="sidebar-action-btn" onclick="verHistoricoPedido()">
+                                    <i class="fas fa-history"></i> Histórico
+                                </button>
+                                
+                                <div class="sidebar-divider"></div>
+                                
+                                <button class="sidebar-action-btn danger" onclick="excluirPedidoModal()">
+                                    <i class="fas fa-trash"></i> Excluir
+                                </button>
+                                <button class="sidebar-action-btn danger" onclick="cancelarPedidoModal()">
+                                    <i class="fas fa-ban"></i> Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+                modal = document.getElementById('modal-editar');
+            }
+            
+            // Preencher dados
+            const clienteNome = pedido.cliente_nome || 'Cliente';
+            const iniciais = clienteNome.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+            
+            document.getElementById('modal-titulo-pedido').textContent = `Orçamento Nº ${pedido.numero || pedido.id}`;
+            document.getElementById('modal-cliente-avatar').textContent = iniciais;
+            document.getElementById('edit-cliente').value = clienteNome;
+            document.getElementById('edit-vendedor').value = pedido.vendedor_nome || '';
+            document.getElementById('edit-status').value = pedido.status || 'orcamento';
+            document.getElementById('edit-valor-total').value = formatarValor(pedido.valor_total).replace('R$ ', '');
+            document.getElementById('edit-total-mercadorias').value = formatarValor(pedido.valor_total).replace('R$ ', '');
+            document.getElementById('edit-observacoes').value = pedido.observacao || '';
+            document.getElementById('edit-pedido-id').value = pedido.id;
+            
+            // Carregar itens do pedido
+            await carregarItensPedidoModal(pedido.id);
+            
+            // Resetar tabs
+            document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelector('.modal-tab[data-tab="itens"]').classList.add('active');
+            document.getElementById('tab-itens').classList.add('active');
+            
+            modal.classList.add('active');
+        }
+        
+        // Carregar itens do pedido para o modal de edição
+        async function carregarItensPedidoModal(pedidoId) {
+            const tbody = document.getElementById('itens-pedido-tbody');
+            try {
+                const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+                const response = await fetch(`/api/vendas/pedidos/${pedidoId}/itens`, {
+                    headers: { 'Authorization': token ? `Bearer ${token}` : '' }
+                });
+                
+                if (!response.ok) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 30px; color: #999;">Erro ao carregar itens</td></tr>`;
+                    return;
+                }
+                
+                const itens = await response.json();
+                
+                if (!itens || itens.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 30px; color: #999;"><i class="fas fa-box-open" style="font-size: 32px; display: block; margin-bottom: 10px; opacity: 0.5;"></i>Nenhum item cadastrado</td></tr>`;
+                    return;
+                }
+                
+                tbody.innerHTML = itens.map(item => {
+                    const total = (parseFloat(item.quantidade) || 0) * (parseFloat(item.preco_unitario) || 0);
+                    return `
+                        <tr>
+                            <td>${item.codigo || '-'}</td>
+                            <td>${item.descricao || '-'}</td>
+                            <td>${parseFloat(item.quantidade || 0).toFixed(2)} ${item.unidade || 'UN'}</td>
+                            <td>R$ ${parseFloat(item.preco_unitario || 0).toFixed(2)}</td>
+                            <td>R$ ${total.toFixed(2)}</td>
+                        </tr>
+                    `;
+                }).join('');
+            } catch (error) {
+                console.error('Erro ao carregar itens:', error);
+                tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; padding: 30px; color: #ef4444;">Erro ao carregar itens</td></tr>`;
+            }
+        }
+        
+        // Trocar tabs do modal
+        function switchModalTabPedidos(tabId) {
+            document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            
+            document.querySelector(`.modal-tab[data-tab="${tabId}"]`).classList.add('active');
+            document.getElementById(`tab-${tabId}`).classList.add('active');
+        }
+        
+        function fecharModalEditar() {
+            const modal = document.getElementById('modal-editar');
+            if (modal) modal.classList.remove('active');
+        }
+        
+        async function salvarEdicaoPedido() {
+            if (!pedidoAtualModal) return;
+            
+            const dados = {
+                vendedor_nome: document.getElementById('edit-vendedor').value,
+                status: document.getElementById('edit-status').value,
+                observacao: document.getElementById('edit-observacoes').value
+            };
+            
+            try {
+                const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+                const response = await fetch(`/api/vendas/pedidos/${pedidoAtualModal.id}`, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': token ? `Bearer ${token}` : ''
+                    },
+                    body: JSON.stringify(dados)
+                });
+                
+                if (!response.ok) {
+                    const err = await response.json();
+                    throw new Error(err.message || 'Erro ao salvar');
+                }
+                
+                alert('Pedido atualizado com sucesso!');
+                fecharModalEditar();
+                await carregarPedidos(); // Recarregar lista
+            } catch (error) {
+                console.error('Erro ao salvar:', error);
+                alert('Erro ao salvar: ' + error.message);
+            }
+        }
+        
+        // Funções auxiliares do modal
+        function imprimirPedidoModal() {
+            if (pedidoAtualModal) imprimirPedido(pedidoAtualModal.id);
+        }
+        
+        function duplicarPedidoModal() {
+            alert('Funcionalidade de duplicar em desenvolvimento');
+        }
+        
+        function faturarPedidoModal() {
+            alert('Funcionalidade de faturar em desenvolvimento');
+        }
+        
+        function verHistoricoPedido() {
+            alert('Funcionalidade de histórico em desenvolvimento');
+        }
+        
+        function excluirPedidoModal() {
+            if (pedidoAtualModal && confirm('Deseja realmente excluir este pedido?')) {
+                excluirPedido(pedidoAtualModal.id);
+                fecharModalEditar();
+            }
+        }
+        
+        function cancelarPedidoModal() {
+            if (pedidoAtualModal && confirm('Deseja realmente cancelar este pedido?')) {
+                document.getElementById('edit-status').value = 'cancelado';
+                salvarEdicaoPedido();
+            }
+        }
+        
+        // Imprimir pedido - Gera PDF ou abre janela de impressão
+        function imprimirPedido(id) {
+            const pedido = todosPedidos.find(p => p.id === id);
+            if (!pedido) {
+                alert('Pedido não encontrado');
+                return;
+            }
+            
+            // Abrir janela de impressão com os dados do pedido
+            const printWindow = window.open('', '_blank', 'width=800,height=600');
+            printWindow.document.write(`
+                <!DOCTYPE html>
+                <html>
+                <head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                    <title>Pedido #${pedido.numero || pedido.id}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; max-width: 800px; margin: 0 auto; }
+                        .header { text-align: center; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 20px; }
+                        .header h1 { margin: 0; color: #333; }
+                        .header p { margin: 5px 0; color: #666; }
+                        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+                        .info-section { background: #f5f5f5; padding: 15px; border-radius: 8px; }
+                        .info-section h3 { margin: 0 0 10px 0; color: #333; font-size: 14px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+                        .info-row { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13px; }
+                        .info-row .label { color: #666; }
+                        .info-row .value { font-weight: bold; color: #333; }
+                        .valor-destaque { font-size: 18px; color: #22c55e; }
+                        .footer { margin-top: 40px; text-align: center; color: #999; font-size: 11px; border-top: 1px solid #ddd; padding-top: 20px; }
+                        .status { padding: 4px 12px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+                        .status.orcamento { background: #dbeafe; color: #1e40af; }
+                        .status.aprovado { background: #dcfce7; color: #166534; }
+                        .status.faturado { background: #f3e8ff; color: #7e22ce; }
+                        @media print { body { padding: 0; } }
+                    </style>
+                    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+                <body>
+                    <div class="header">
+                        <h1>ALUFORCE</h1>
+                        <p>Pedido #${pedido.numero || pedido.id}</p>
+                        <p>Emitido em: ${new Date().toLocaleString('pt-BR')}</p>
+                    </div>
+                    
+                    <div class="info-grid">
+                        <div class="info-section">
+                            <h3>INFORMAÇÕES DO PEDIDO</h3>
+                            <div class="info-row"><span class="label">Número:</span><span class="value">#${pedido.numero || pedido.id}</span></div>
+                            <div class="info-row"><span class="label">Data:</span><span class="value">${formatarData(pedido.data_pedido || pedido.created_at)}</span></div>
+                            <div class="info-row"><span class="label">Status:</span><span class="value"><span class="status ${getStatusClass(pedido.status)}">${getStatusLabel(pedido.status)}</span></span></div>
+                            <div class="info-row"><span class="label">Vendedor:</span><span class="value">${pedido.vendedor_nome || '-'}</span></div>
+                        </div>
+                        <div class="info-section">
+                            <h3>CLIENTE</h3>
+                            <div class="info-row"><span class="label">Nome:</span><span class="value">${pedido.cliente_nome || 'Não informado'}</span></div>
+                            <div class="info-row"><span class="label">Empresa:</span><span class="value">${pedido.empresa_nome || '-'}</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-section">
+                        <h3>VALORES</h3>
+                        <div class="info-row"><span class="label">Valor Total:</span><span class="value valor-destaque">${formatarValor(pedido.valor_total)}</span></div>
+                        <div class="info-row"><span class="label">Frete:</span><span class="value">${pedido.frete ? formatarValor(pedido.frete) : 'R$ 0,00'}</span></div>
+                    </div>
+                    
+                    ${pedido.observacao ? `<div class="info-section" style="margin-top: 20px;"><h3>OBSERVAÇÕES</h3><p style="font-size: 13px; color: #666;">${pedido.observacao}</p></div>` : ''}
+                    
+                    <div class="footer">
+                        <p>ALUFORCE - Sistema de Gestão de Pedidos</p>
+                        <p>Documento gerado automaticamente em ${new Date().toLocaleString('pt-BR')}</p>
+                    </div>
+                    
+                    <script>
+                        window.onload = function() { window.print(); }
+                    <\/script>
+                    <script src="/js/popup-confirmacao.js"></script>`n</body>
+                </html>
+            `);
+            printWindow.document.close();
+        }
+
+        function exportarPedidos() {
+            let csv = 'Número;Cliente;Data;Status;Valor;Vendedor\n';
+            pedidosFiltrados.forEach(p => { csv += `"${p.numero || p.id}";"${p.cliente_nome || ''}";"${formatarData(p.data_pedido)}";"${getStatusLabel(p.status)}";"${p.valor_total || 0}";"${p.vendedor_nome || ''}"\n`; });
+            const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `pedidos_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        // Mapeamento de avatares por nome de usuário
+        const avatarNameMap = {
+            'clemerson': '/avatars/Clemerson.webp',
+            'isabela': '/avatars/Isabela.webp',
+            'thaina': '/avatars/Thaina.webp',
+            'thiago': '/avatars/Thiago.webp',
+            'nicolas': '/avatars/NicolasDaniel.webp',
+            'nicolasdaniel': '/avatars/NicolasDaniel.webp',
+            'rh': '/avatars/Rh.webp',
+            'admin': '/avatars/admin.webp',
+            'ti': '/avatars/TI.webp',
+            'tialuforce': '/avatars/TI.webp',
+            'antonio': '/avatars/Antonio.webp',
+            'andreia': '/avatars/Andreia.webp',
+            'guilherme': '/avatars/Guilherme.webp'
+        };
+
+        function getAvatarFromEmail(email, nome) {
+            if (!email) return null;
+            const username = email.split('@')[0].split('.')[0].toLowerCase();
+            if (avatarNameMap[username]) return avatarNameMap[username];
+            if (nome) {
+                const firstName = nome.split(' ')[0].toLowerCase();
+                if (avatarNameMap[firstName]) return avatarNameMap[firstName];
+            }
+            return null;
+        }
+
+        // Carregar dados do usuário logado via API
+        async function carregarUsuarioLogado() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || 'Usuário';
+                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    if (!userAvatar) {
+                        userAvatar = getAvatarFromEmail(user.email, userName);
+                    }
+                    
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    
+                    // Atualizar nome na saudação do header
+                    const userNameEl = document.getElementById('user-name');
+                    if (userNameEl) {
+                        userNameEl.textContent = primeiroNome;
+                    }
+                    
+                    // Atualizar avatar/foto
+                    const userPhotoEl = document.getElementById('user-photo');
+                    const userInitialEl = document.getElementById('user-initial');
+                    
+                    if (userAvatar && userPhotoEl) {
+                        userPhotoEl.src = userAvatar;
+                        userPhotoEl.classList.add('visible');
+                        userPhotoEl.style.display = 'block';
+                        if (userInitialEl) userInitialEl.style.display = 'none';
+                    } else if (userInitialEl) {
+                        userInitialEl.textContent = userName.charAt(0).toUpperCase();
+                        userInitialEl.style.display = 'flex';
+                        if (userPhotoEl) userPhotoEl.style.display = 'none';
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Carregar dados do usuário logado via API
+            carregarUsuarioLogado();
+            
+            carregarPedidos();
+        });
+    </script>
+    
+    <!-- Sistema de Chat e Suporte (widgets condicionais por usuário) -->
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    
+    <!-- Sistema de Monitoramento de Conexão -->
+    <script src="/modules/_shared/connection-monitor.js?v=20251223"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+

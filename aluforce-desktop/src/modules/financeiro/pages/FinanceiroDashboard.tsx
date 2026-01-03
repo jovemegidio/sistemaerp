@@ -1,0 +1,40 @@
+import { FC } from 'react';
+import { Box, Typography, Grid, Card, CardContent, useTheme, alpha } from '@mui/material';
+import { AccountBalance, TrendingUp, TrendingDown, AccountBalanceWallet } from '@mui/icons-material';
+
+const FinanceiroDashboard: FC = () => {
+  const theme = useTheme();
+
+  const stats = [
+    { title: 'Saldo Total', value: 'R$ 234.560,00', icon: <AccountBalance />, color: theme.palette.primary.main },
+    { title: 'A Receber', value: 'R$ 89.340,00', icon: <TrendingUp />, color: theme.palette.success.main },
+    { title: 'A Pagar', value: 'R$ 45.230,00', icon: <TrendingDown />, color: theme.palette.error.main },
+    { title: 'Fluxo Mês', value: 'R$ 44.110,00', icon: <AccountBalanceWallet />, color: theme.palette.info.main },
+  ];
+
+  return (
+    <Box>
+      <Typography variant="h5" fontWeight={700} gutterBottom>Dashboard Financeiro</Typography>
+      <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>Acompanhe a saúde financeira da empresa</Typography>
+      <Grid container spacing={3}>
+        {stats.map((stat, index) => (
+          <Grid item xs={12} sm={6} md={3} key={index}>
+            <Card>
+              <CardContent sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                <Box sx={{ width: 48, height: 48, borderRadius: 2, display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: alpha(stat.color, 0.1), color: stat.color }}>
+                  {stat.icon}
+                </Box>
+                <Box>
+                  <Typography variant="body2" color="text.secondary">{stat.title}</Typography>
+                  <Typography variant="h6" fontWeight={700}>{stat.value}</Typography>
+                </Box>
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+    </Box>
+  );
+};
+
+export default FinanceiroDashboard;

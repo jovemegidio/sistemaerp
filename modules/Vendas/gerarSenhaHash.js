@@ -1,0 +1,5 @@
+const bcrypt = require('bcrypt');
+const senha = 'admin123'; // Altere aqui se quiser
+bcrypt.hash(senha, 10).then(hash => {
+    console.log('Hash gerado:', hash);
+});

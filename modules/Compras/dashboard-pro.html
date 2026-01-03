@@ -1,0 +1,347 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard de Compras - Aluforce</title>
+    
+    <link rel="stylesheet" href="compras-design-system.css">
+    <link rel="stylesheet" href="dashboard-compras-pro-v2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="container-principal">
+        <aside class="sidebar">
+            <nav id="sidebar" class="sidebar-nav" role="navigation" aria-label="Navegação principal">
+                <ul>
+                    <li>
+                        <a href="index.html" id="btn-dashboard" class="nav-link active" title="Dashboard">
+                            <span class="nav-icon"><i class="fas fa-tachometer-alt" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="requisicoes.html" id="btn-requisicoes" class="nav-link" title="Requisições">
+                            <span class="nav-icon"><i class="fas fa-file-alt" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Requisições</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="pedidos.html" id="btn-pedidos" class="nav-link" title="Pedidos">
+                            <span class="nav-icon"><i class="fas fa-shopping-cart" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Pedidos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="cotacoes.html" id="btn-cotacoes" class="nav-link" title="Cotações">
+                            <span class="nav-icon"><i class="fas fa-balance-scale" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Cotações</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="fornecedores.html" id="btn-fornecedores" class="nav-link" title="Fornecedores">
+                            <span class="nav-icon"><i class="fas fa-truck" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Fornecedores</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="gestao-estoque.html" id="btn-estoque" class="nav-link" title="Gestão de Estoque">
+                            <span class="nav-icon"><i class="fas fa-boxes" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Gestão de Estoque</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="relatorios.html" id="btn-relatorios" class="nav-link" title="Relatórios">
+                            <span class="nav-icon"><i class="fas fa-chart-bar" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Relatórios</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard" id="btn-sair" class="nav-link" title="Voltar ao Painel de Controle">
+                            <span class="nav-icon"><i class="fas fa-home" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Voltar ao Painel</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+        <main id="main-content" class="main-content" tabindex="-1">
+            <div class="app-container">
+                <header class="topbar">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                    <div class="topbar-left">
+                        <div class="logo-section">
+                            <img src="Logo Monocromatico - Azul - Aluforce.webp" alt="Aluforce" class="header-logo" />
+                        </div>
+                    </div>
+                    
+                    <div class="topbar-center">
+                        <div class="nav-icons">
+                            <button class="nav-icon-btn" title="Grid"><i class="fas fa-th"></i></button>
+                            <button class="nav-icon-btn" title="Lista"><i class="fas fa-list"></i></button>
+                            <button class="nav-icon-btn" title="Atualizar Dados" onclick="location.reload()"><i class="fas fa-sync-alt"></i></button>
+                            <button class="nav-icon-btn" title="Modo Escuro"><i class="fas fa-moon"></i></button>
+                        </div>
+                        
+                        <div class="search-wrapper" role="search">
+                            <i class="fas fa-search search-icon"></i>
+                            <input id="main-search" type="search" placeholder="Buscar..." class="search-input" autocomplete="off" />
+                        </div>
+                        
+                        <button class="menu-toggle-btn" title="Menu"><i class="fas fa-bars"></i></button>
+                    </div>
+                    
+                    <div class="topbar-right">
+                        <div class="notification-icons">
+                            <button class="notification-btn" title="Notificações"><i class="fas fa-bell"></i><span class="notification-badge">0</span></button>
+                            <button class="notification-btn" title="Mensagens"><i class="fas fa-envelope"></i></button>
+                            <button class="notification-btn" title="Configurações"><i class="fas fa-cog"></i></button>
+                        </div>
+                        
+                        <div class="user-menu">
+                            <span class="user-text">Usuário</span>
+                            <div class="user-avatar"><i class="fas fa-user"></i></div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="page-header">
+                    <div>
+                        <h1 class="page-title">Gestão de Compras</h1>
+                        <p class="page-subtitle-text">Bem-vindo ao sistema de compras</p>
+                </div>
+                <div class="header-right">
+                    <div class="header-toolbar">
+                        <button class="toolbar-btn" id="btnModoEscuro" onclick="toggleDarkMode()" title="Alternar modo escuro">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                        <button class="toolbar-btn" onclick="dashboard.atualizarDados()" title="Atualizar dados">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                        <button class="toolbar-btn" id="btnViewGrid" onclick="toggleView('grid')" title="Visualização em Grade">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="toolbar-btn active" id="btnViewList" onclick="toggleView('list')" title="Visualização em Lista">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <div class="toolbar-divider"></div>
+                        <button class="btn-primary" onclick="window.location.href='compras.html'">
+                            <i class="fas fa-plus"></i> Novo Pedido
+                        </button>
+                    </div>
+                    <div class="user-profile" onclick="toggleUserMenu()">
+                        <div class="user-avatar" id="userAvatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="user-info">
+                            <span class="user-greeting" id="userGreeting">Olá, Usuário</span>
+                            <span class="user-role" id="userRole">Administrador</span>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="user-menu" id="userMenu">
+                        <a href="#" class="user-menu-item">
+                            <i class="fas fa-user"></i> Meu Perfil
+                        </a>
+                        <a href="#" class="user-menu-item">
+                            <i class="fas fa-sign-out-alt"></i> Sair
+                        </a>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Métricas Principais -->
+            <div class="compras-metricas-grid" id="metricas-container">
+                <div class="metric-card compras-total">
+                    <div class="metric-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-label">
+                            <i class="fas fa-arrow-up metric-trend positive"></i>
+                            <span>12.3%</span>
+                        </div>
+                        <h3 class="metric-title">Total de Compras</h3>
+                        <div class="metric-value">R$ 487.320,00</div>
+                        <p class="metric-subtitle">Dezembro 2025</p>
+                    </div>
+                    <div class="metric-mini-chart">
+                        <canvas id="chartComprasTotal"></canvas>
+                    </div>
+                </div>
+
+                <div class="metric-card ordens">
+                    <div class="metric-icon">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-label">
+                            <span class="badge badge-blue">23 Pendentes</span>
+                        </div>
+                        <h3 class="metric-title">Ordens de Compra</h3>
+                        <div class="metric-value">156</div>
+                        <p class="metric-subtitle">
+                            <span class="status-dot status-aprovado"></span> 89 Aprovadas
+                            <span class="status-dot status-entregue"></span> 44 Entregues
+                        </p>
+                    </div>
+                </div>
+
+                <div class="metric-card fornecedores">
+                    <div class="metric-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-label">
+                            <span class="badge badge-warning">+5 novos</span>
+                        </div>
+                        <h3 class="metric-title">Fornecedores Ativos</h3>
+                        <div class="metric-value">89</div>
+                        <p class="metric-subtitle">34 fornecedores premium</p>
+                    </div>
+                </div>
+
+                <div class="metric-card economia">
+                    <div class="metric-icon">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="metric-content">
+                        <div class="metric-label">
+                            <i class="fas fa-arrow-down metric-trend positive"></i>
+                            <span>4.8%</span>
+                        </div>
+                        <h3 class="metric-title">Economia Obtida</h3>
+                        <div class="metric-value">R$ 23.580,00</div>
+                        <p class="metric-subtitle">Comparado ao orçamento</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Gráficos de Análise -->
+            <div class="compras-charts-grid">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <h3 class="chart-title">
+                                <i class="fas fa-chart-line"></i> Evolução das Compras
+                            </h3>
+                            <p class="chart-subtitle">Últimos 12 meses</p>
+                        </div>
+                        <div class="chart-filters">
+                            <button class="filter-btn active" data-period="12meses">12 meses</button>
+                            <button class="filter-btn" data-period="6meses">6 meses</button>
+                            <button class="filter-btn" data-period="ano">Ano atual</button>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chartEvolucaoCompras"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <div>
+                            <h3 class="chart-title">
+                                <i class="fas fa-chart-pie"></i> Compras por Categoria
+                            </h3>
+                            <p class="chart-subtitle">Distribuição por tipo</p>
+                        </div>
+                    </div>
+                    <div class="chart-container pie-chart-wrapper">
+                        <canvas id="chartCategoriasCompras"></canvas>
+                    </div>
+                    <div class="pie-legend" id="legendaCategories"></div>
+                </div>
+            </div>
+
+            <!-- Tabelas de Dados -->
+            <div class="data-tables-grid">
+                <div class="table-card">
+                    <div class="table-header">
+                        <div>
+                            <h3 class="table-title">
+                                <i class="fas fa-list-ul"></i> Ordens de Compra Recentes
+                            </h3>
+                            <p class="table-subtitle">Últimas 5 ordens cadastradas</p>
+                        </div>
+                        <button class="btn-primary-small" onclick="window.location.href='compras.html'">
+                            <i class="fas fa-plus"></i> Nova Ordem
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="tabelaOrdensRecentes">
+                            <thead>
+                                <tr>
+                                    <th>Ordem</th>
+                                    <th>Fornecedor</th>
+                                    <th>Data</th>
+                                    <th>Valor</th>
+                                    <th>Prazo</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordensTableBody">
+                                <!-- Preenchido via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="table-card">
+                    <div class="table-header">
+                        <div>
+                            <h3 class="table-title">
+                                <i class="fas fa-star"></i> Top 5 Fornecedores
+                            </h3>
+                            <p class="table-subtitle">Melhores parceiros do mês</p>
+                        </div>
+                        <button class="btn-secondary-small" onclick="window.location.href='fornecedores.html'">
+                            <i class="fas fa-eye"></i> Ver Todos
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table" id="tabelaTopFornecedores">
+                            <thead>
+                                <tr>
+                                    <th width="10%">#</th>
+                                    <th>Fornecedor</th>
+                                    <th>Compras</th>
+                                    <th>Valor Total</th>
+                                    <th>Performance</th>
+                                </tr>
+                            </thead>
+                            <tbody id="fornecedoresTableBody">
+                                <!-- Preenchido via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alertas e Notificações -->
+            <div class="alerts-section" id="alertsContainer">
+                <!-- Alertas dinâmicos -->
+            </div>
+        </main>
+    </div>
+
+    <script src="../aluforce-ui.js"></script>
+    <script src="dashboard-compras-pro-v2.js"></script>
+
+    <!-- Carregador de usuário -->
+    <script src="compras-user-loader.js?v=20251216"></script>
+
+    <!-- Sistema de Chat e Suporte (widgets condicionais por usuário) -->
+    <!-- ti@aluforce.ind.br = Central de Suporte | Outros usuários = Chat normal -->
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+
+

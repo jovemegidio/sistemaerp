@@ -1,0 +1,545 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ALUFORCE - Materiais</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --sidebar-width: 56px; --header-height: 48px; --primary-purple: #38bdf8; --primary-dark: #1a1a2e; --bg-gray: #f5f5f5; --border-color: #e5e5e5; --text-primary: #1a1a1a; --text-secondary: #666; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #ffffff; color: var(--text-primary); }
+        .app-container { display: flex; height: 100vh; }
+        .sidebar { width: var(--sidebar-width); background: var(--primary-dark); display: flex; flex-direction: column; align-items: center; padding: 12px 0; z-index: 100; }
+        .sidebar-logo { width: 36px; height: 36px; background: var(--primary-purple); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; text-decoration: none; }
+        .sidebar-logo i { color: white; font-size: 18px; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .sidebar-btn { width: 40px; height: 40px; border: none; background: transparent; color: #8b8b9a; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.2s; }
+        .sidebar-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .sidebar-btn.active { background: var(--primary-purple); color: white; }
+        .sidebar-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+        .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { height: var(--header-height); background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+        .header-left { display: flex; align-items: center; gap: 24px; }
+        .header-brand { display: flex; align-items: center; gap: 8px; }
+        .header-brand img { height: 24px; }
+        .header-brand span { font-size: 14px; font-weight: 600; color: #8b8b9a; }
+        .header-right { display: flex; align-items: center; gap: 8px; }
+        .header-btn { width: 36px; height: 36px; border: none; background: transparent; color: #8b8b9a; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; }
+        .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #38bdf8, #0ea5e9); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; cursor: pointer; margin-left: 8px; }
+        .user-greeting { display: flex; align-items: center; gap: 12px; margin-left: 16px; color: #8b8b9a; font-size: 13px; }
+        .user-greeting strong { color: white; }
+        .page-content { flex: 1; overflow-y: auto; padding: 20px; background: #ffffff; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .page-title { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .page-title i { color: var(--primary-purple); }
+        .page-actions { display: flex; gap: 12px; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: var(--primary-purple); color: white; }
+        .btn-primary:hover { background: #0ea5e9; }
+        .btn-secondary { background: white; color: var(--text-primary); border: 1px solid var(--border-color); }
+        .summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+        .summary-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 16px; }
+        .summary-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .summary-icon.purple { background: rgba(56,189,248,0.1); color: #38bdf8; }
+        .summary-icon.green { background: rgba(34,197,94,0.1); color: #22c55e; }
+        .summary-icon.blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .summary-icon.red { background: rgba(239,68,68,0.1); color: #ef4444; }
+        .summary-content h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+        .summary-value { font-size: 24px; font-weight: 700; }
+        .filters-bar { background: white; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); flex-wrap: wrap; }
+        .search-box { display: flex; align-items: center; background: #f5f5f5; border-radius: 8px; padding: 0 12px; flex: 1; max-width: 400px; }
+        .search-box i { color: #999; font-size: 14px; }
+        .search-box input { border: none; background: transparent; padding: 10px 12px; font-size: 14px; width: 100%; outline: none; }
+        .filter-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-color); background: white; color: var(--text-secondary); font-size: 13px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .filter-btn:hover { background: #f5f5f5; }
+        .filter-btn.active { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
+        .table-container { background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; }
+        .table-header { padding: 16px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .table-header h3 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: #fafafa; padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
+        .data-table td { padding: 14px 16px; border-bottom: 1px solid #f5f5f5; font-size: 13px; }
+        .data-table tr:hover { background: #fafafa; }
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .status-badge.disponivel { background: #dcfce7; color: #166534; }
+        .status-badge.baixo, .status-badge.em-cotacao { background: #dbeafe; color: #1d4ed8; }
+        .status-badge.critico, .status-badge.urgente { background: #fee2e2; color: #991b1b; }
+        .status-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+        .btn-action { width: 36px; height: 36px; border: none; border-radius: 10px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s ease; margin-right: 6px; font-size: 14px; }
+        .btn-action:last-child { margin-right: 0; }
+        .btn-action.view { background: #dcfce7; color: #16a34a; }
+        .btn-action.view:hover { background: #16a34a; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3); }
+        .btn-action.edit { background: #dbeafe; color: #2563eb; }
+        .btn-action.edit:hover { background: #2563eb; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3); }
+        .btn-action.delete { background: #fee2e2; color: #dc2626; }
+        .btn-action.delete:hover { background: #dc2626; color: white; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3); }
+        .table-pagination { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); }
+        .pagination-info { font-size: 13px; color: var(--text-secondary); }
+        .pagination-controls { display: flex; gap: 4px; }
+        .pagination-btn { width: 32px; height: 32px; border: 1px solid var(--border-color); background: white; border-radius: 6px; cursor: pointer; font-size: 12px; }
+        .pagination-btn.active { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
+        @media (max-width: 1200px) { .summary-cards { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <a href="/dashboard" class="sidebar-logo" title="Voltar ao Painel"><i class="fas fa-home"></i></a>
+            <nav class="sidebar-nav">
+                <button class="sidebar-btn" title="Dashboard" onclick="location.href='index.html'"><i class="fas fa-chart-line"></i></button>
+                <button class="sidebar-btn" title="Fornecedores" onclick="location.href='fornecedores.html'"><i class="fas fa-users"></i></button>
+                <button class="sidebar-btn" title="Estoque" onclick="location.href='gestao-estoque.html'"><i class="fas fa-boxes"></i></button>
+                <button class="sidebar-btn active" title="Materiais" onclick="location.href='materiais.html'"><i class="fas fa-cubes"></i></button>
+                <button class="sidebar-btn" title="Pedidos" onclick="location.href='pedidos.html'"><i class="fas fa-shopping-cart"></i></button>
+                <button class="sidebar-btn" title="Cotações" onclick="location.href='cotacoes.html'"><i class="fas fa-file-invoice-dollar"></i></button>
+                <button class="sidebar-btn" title="Requisições" onclick="location.href='requisicoes.html'"><i class="fas fa-clipboard-list"></i></button>
+            </nav>
+            <div class="sidebar-bottom">
+                <button class="sidebar-btn" title="Relatórios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
+            </div>
+        </aside>
+        <main class="main-area">
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <span>Compras</span>
+                        <span>|</span>
+                        <span style="color: white;">Materiais</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" title="Notificações"><i class="fas fa-bell"></i></button>
+                    <div class="user-greeting">
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <div class="user-avatar"><span id="user-initial">U</span></div>
+                    </div>
+                </div>
+            </header>
+            <div class="page-content">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-cubes"></i> Catálogo de Materiais</h1>
+                    <div class="page-actions">
+                        <button class="btn btn-secondary"><i class="fas fa-download"></i> Exportar</button>
+                        <button class="btn btn-primary"><i class="fas fa-plus"></i> Novo Material</button>
+                    </div>
+                </div>
+                <div class="summary-cards">
+                    <div class="summary-card"><div class="summary-icon purple"><i class="fas fa-cubes"></i></div><div class="summary-content"><h3>Total Materiais</h3><div class="summary-value" id="totalMateriais">0</div></div></div>
+                    <div class="summary-card"><div class="summary-icon green"><i class="fas fa-check-circle"></i></div><div class="summary-content"><h3>Disponíveis</h3><div class="summary-value" id="materiaisDisponiveis">0</div></div></div>
+                    <div class="summary-card"><div class="summary-icon blue"><i class="fas fa-exclamation-triangle"></i></div><div class="summary-content"><h3>Estoque Baixo</h3><div class="summary-value" id="materiaisBaixo">0</div></div></div>
+                    <div class="summary-card"><div class="summary-icon red"><i class="fas fa-times-circle"></i></div><div class="summary-content"><h3>Críticos</h3><div class="summary-value" id="materiaisCriticos">0</div></div></div>
+                </div>
+                <div class="filters-bar">
+                    <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Buscar por código, descrição..."></div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active"><i class="fas fa-list"></i> Todos</button>
+                        <button class="filter-btn"><i class="fas fa-check"></i> Disponíveis</button>
+                        <button class="filter-btn"><i class="fas fa-exclamation"></i> Estoque Baixo</button>
+                        <button class="filter-btn"><i class="fas fa-times"></i> Críticos</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="table-header"><h3><i class="fas fa-table"></i> Lista de Materiais</h3></div>
+                    <table class="data-table">
+                        <thead><tr><th><input type="checkbox"></th><th>Código</th><th>Descrição</th><th>Categoria</th><th>Unidade</th><th>Estoque Atual</th><th>Estoque Mín.</th><th>Status</th><th>Ações</th></tr></thead>
+                        <tbody id="materiaisTableBody">
+                            <!-- Dados serão carregados via API -->
+                        </tbody>
+                    </table>
+                    <div class="table-pagination"><div class="pagination-info">Mostrando <strong>0</strong> de <strong>0</strong></div><div class="pagination-controls"></div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Novo/Editar Material -->
+    <div class="modal-overlay" id="modalMaterial" style="display: none;">
+        <div class="modal" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-box"></i> <span id="modalTitle">Novo Material</span></h2>
+                <button class="modal-close" id="btnFecharModalMaterial"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="formMaterial">
+                    <input type="hidden" id="materialId" value="">
+                    
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 2fr; gap: 16px;">
+                        <div class="form-group">
+                            <label><i class="fas fa-barcode"></i> Código *</label>
+                            <input type="text" id="materialCodigo" placeholder="Ex: ALU-001" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-file-alt"></i> Descrição *</label>
+                            <input type="text" id="materialDescricao" placeholder="Descrição do material" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label><i class="fas fa-tags"></i> Categoria</label>
+                            <select id="materialCategoria">
+                                <option value="">Selecione...</option>
+                                <option value="Matéria Prima">Matéria Prima</option>
+                                <option value="Componentes">Componentes</option>
+                                <option value="Embalagens">Embalagens</option>
+                                <option value="Ferramentas">Ferramentas</option>
+                                <option value="Químicos">Químicos</option>
+                                <option value="Fixação">Fixação</option>
+                                <option value="Vidros">Vidros</option>
+                                <option value="Borrachas">Borrachas</option>
+                                <option value="Pintura">Pintura</option>
+                                <option value="Outros">Outros</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-ruler"></i> Unidade</label>
+                            <select id="materialUnidade">
+                                <option value="UN">UN - Unidade</option>
+                                <option value="KG">KG - Quilograma</option>
+                                <option value="M">M - Metro</option>
+                                <option value="M2">M² - Metro Quadrado</option>
+                                <option value="M3">M³ - Metro Cúbico</option>
+                                <option value="L">L - Litro</option>
+                                <option value="CX">CX - Caixa</option>
+                                <option value="PC">PC - Peça</option>
+                                <option value="RL">RL - Rolo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-truck"></i> Fornecedor</label>
+                            <select id="materialFornecedor">
+                                <option value="">Selecione...</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label><i class="fas fa-hashtag"></i> NCM</label>
+                            <input type="text" id="materialNCM" placeholder="Ex: 7606.11.90">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-hashtag"></i> CEST</label>
+                            <input type="text" id="materialCEST" placeholder="Ex: 11.031.00">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-barcode"></i> Código de Barras</label>
+                            <input type="text" id="materialCodigoBarras" placeholder="EAN/GTIN">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label><i class="fas fa-warehouse"></i> Estoque Atual</label>
+                            <input type="number" id="materialEstoqueAtual" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-arrow-down"></i> Estoque Mínimo</label>
+                            <input type="number" id="materialEstoqueMin" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-arrow-up"></i> Estoque Máximo</label>
+                            <input type="number" id="materialEstoqueMax" placeholder="0" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-clock"></i> Lead Time (dias)</label>
+                            <input type="number" id="materialLeadTime" placeholder="0" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                        <div class="form-group">
+                            <label><i class="fas fa-dollar-sign"></i> Último Preço</label>
+                            <input type="number" id="materialUltimoPreco" placeholder="0.00" min="0" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-info-circle"></i> Especificações</label>
+                            <input type="text" id="materialEspecificacao" placeholder="Especificações técnicas">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-sticky-note"></i> Observações</label>
+                        <textarea id="materialObservacoes" rows="3" placeholder="Observações gerais..."></textarea>
+                    </div>
+                    
+                    <div class="form-row" style="display: flex; gap: 24px;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="materialAtivo" checked> Material Ativo
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="materialPCP"> Sincronizar com PCP
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="padding: 20px 24px; border-top: 1px solid #e5e5e5; display: flex; justify-content: space-between;">
+                <button type="button" class="btn btn-secondary" id="btnCancelarMaterial"><i class="fas fa-times"></i> Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnSalvarMaterial"><i class="fas fa-save"></i> Salvar Material</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Visualizar Material - Design Profissional -->
+    <div class="modal-overlay" id="modalVisualizarMaterial" style="display: none;">
+        <div class="modal" style="max-width: 950px; border-radius: 16px; overflow: hidden;">
+            <!-- Header do Modal com Info Principal -->
+            <div style="background: linear-gradient(135deg, #0ea5e9, #38bdf8); padding: 24px 28px; color: white;">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                            <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-cube" style="font-size: 22px;"></i>
+                            </div>
+                            <div>
+                                <h2 id="viewMaterialTitulo" style="font-size: 20px; font-weight: 700; margin: 0;">Detalhes do Material</h2>
+                                <span id="viewMaterialCodigo" style="font-size: 13px; opacity: 0.9;">ALU-001</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button onclick="fecharModalVisualizarMaterial()" style="width: 40px; height: 40px; border: none; background: rgba(255,255,255,0.2); border-radius: 10px; color: white; cursor: pointer; font-size: 18px;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <!-- Cards de Estoque no Header -->
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px;">
+                    <div style="background: rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; text-align: center;">
+                        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px;">Estoque Atual</div>
+                        <div id="viewEstoqueAtual" style="font-size: 22px; font-weight: 700;">1.250</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; text-align: center;">
+                        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px;">Estoque Mín.</div>
+                        <div id="viewEstoqueMin" style="font-size: 22px; font-weight: 700;">200</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; text-align: center;">
+                        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px;">Estoque Máx.</div>
+                        <div id="viewEstoqueMax" style="font-size: 22px; font-weight: 700;">2.000</div>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; text-align: center;">
+                        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px;">Último Preço</div>
+                        <div id="viewUltimoPreco" style="font-size: 22px; font-weight: 700;">R$ 45,90</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Corpo do Modal com Abas -->
+            <div style="display: flex; height: 420px;">
+                <!-- Menu lateral -->
+                <div style="width: 200px; background: #f8fafc; border-right: 1px solid #e5e5e5; padding: 16px 0;">
+                    <button class="view-tab-btn active" onclick="mudarAbaVisualizacao('geral')">
+                        <i class="fas fa-info-circle"></i> Informações Gerais
+                    </button>
+                    <button class="view-tab-btn" onclick="mudarAbaVisualizacao('fiscal')">
+                        <i class="fas fa-file-invoice"></i> Dados Fiscais
+                    </button>
+                    <button class="view-tab-btn" onclick="mudarAbaVisualizacao('fornecedor')">
+                        <i class="fas fa-truck"></i> Fornecedor
+                    </button>
+                    <button class="view-tab-btn" onclick="mudarAbaVisualizacao('movimentacao')">
+                        <i class="fas fa-exchange-alt"></i> Movimentações
+                    </button>
+                    <button class="view-tab-btn" onclick="mudarAbaVisualizacao('historico')">
+                        <i class="fas fa-history"></i> Histórico de Preços
+                    </button>
+                </div>
+                
+                <!-- Conteúdo das Abas -->
+                <div style="flex: 1; overflow-y: auto; padding: 24px;">
+                    <!-- Aba Geral -->
+                    <div id="viewTab-geral" class="view-tab-content active">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="info-card">
+                                <label>Descrição</label>
+                                <span id="viewDescricao">Chapa de Alumínio 1200 H14 - 1,0mm</span>
+                            </div>
+                            <div class="info-card">
+                                <label>Categoria</label>
+                                <span id="viewCategoria">Matéria Prima</span>
+                            </div>
+                            <div class="info-card">
+                                <label>Unidade de Medida</label>
+                                <span id="viewUnidade">KG - Quilograma</span>
+                            </div>
+                            <div class="info-card">
+                                <label>Lead Time</label>
+                                <span id="viewLeadTime">7 dias</span>
+                            </div>
+                            <div class="info-card" style="grid-column: span 2;">
+                                <label>Especificações Técnicas</label>
+                                <span id="viewEspecificacoes">Liga 1200, têmpera H14, espessura 1.0mm, largura 1000mm, comprimento 2000mm</span>
+                            </div>
+                            <div class="info-card" style="grid-column: span 2;">
+                                <label>Observações</label>
+                                <span id="viewObservacoes">Material para fabricação de esquadrias standard. Verificar certificado de qualidade na entrega.</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Status e Tags -->
+                        <div style="margin-top: 24px; display: flex; gap: 12px;">
+                            <span id="viewStatusBadge" style="padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #dcfce7; color: #166534;">
+                                <i class="fas fa-check-circle"></i> Disponível
+                            </span>
+                            <span id="viewSincPCP" style="padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #dbeafe; color: #1e40af;">
+                                <i class="fas fa-sync"></i> Sincronizado com PCP
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <!-- Aba Fiscal -->
+                    <div id="viewTab-fiscal" class="view-tab-content" style="display: none;">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div class="info-card">
+                                <label>NCM</label>
+                                <span id="viewNCM">7606.11.90</span>
+                            </div>
+                            <div class="info-card">
+                                <label>CEST</label>
+                                <span id="viewCEST">-</span>
+                            </div>
+                            <div class="info-card">
+                                <label>Código de Barras (EAN/GTIN)</label>
+                                <span id="viewCodigoBarras">7891234567890</span>
+                            </div>
+                            <div class="info-card">
+                                <label>Origem</label>
+                                <span id="viewOrigem">0 - Nacional</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Aba Fornecedor -->
+                    <div id="viewTab-fornecedor" class="view-tab-content" style="display: none;">
+                        <div style="background: #f8fafc; border-radius: 12px; padding: 20px;">
+                            <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px;">
+                                <div style="width: 56px; height: 56px; background: #38bdf8; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px;">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div>
+                                    <h4 id="viewFornecedorNome" style="margin: 0 0 4px 0; font-size: 16px; font-weight: 600;">Alcoa Alumínio S.A.</h4>
+                                    <span style="font-size: 13px; color: #666;">Fornecedor Principal</span>
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                                <div class="info-card">
+                                    <label>CNPJ</label>
+                                    <span id="viewFornecedorCNPJ">00.123.456/0001-78</span>
+                                </div>
+                                <div class="info-card">
+                                    <label>Telefone</label>
+                                    <span id="viewFornecedorTelefone">(11) 3456-7890</span>
+                                </div>
+                                <div class="info-card">
+                                    <label>E-mail</label>
+                                    <span id="viewFornecedorEmail">compras@alcoa.com.br</span>
+                                </div>
+                                <div class="info-card">
+                                    <label>Prazo de Entrega</label>
+                                    <span id="viewFornecedorPrazo">5-7 dias úteis</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Aba Movimentações -->
+                    <div id="viewTab-movimentacao" class="view-tab-content" style="display: none;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f8fafc;">
+                                    <th style="padding: 12px; text-align: left; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Data</th>
+                                    <th style="padding: 12px; text-align: left; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Tipo</th>
+                                    <th style="padding: 12px; text-align: right; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Quantidade</th>
+                                    <th style="padding: 12px; text-align: left; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Documento</th>
+                                </tr>
+                            </thead>
+                            <tbody id="viewMovimentacoes">
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">15/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;"><span style="padding: 3px 10px; border-radius: 12px; font-size: 11px; background: #dcfce7; color: #166534;">Entrada</span></td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600; color: #22c55e;">+500</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">NF-e 123456</td></tr>
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">12/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;"><span style="padding: 3px 10px; border-radius: 12px; font-size: 11px; background: #fee2e2; color: #991b1b;">Saída</span></td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600; color: #ef4444;">-120</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">OP-2025-0042</td></tr>
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">10/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;"><span style="padding: 3px 10px; border-radius: 12px; font-size: 11px; background: #fee2e2; color: #991b1b;">Saída</span></td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600; color: #ef4444;">-80</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">OP-2025-0039</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Aba Histórico de Preços -->
+                    <div id="viewTab-historico" class="view-tab-content" style="display: none;">
+                        <table style="width: 100%; border-collapse: collapse;">
+                            <thead>
+                                <tr style="background: #f8fafc;">
+                                    <th style="padding: 12px; text-align: left; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Data</th>
+                                    <th style="padding: 12px; text-align: left; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Fornecedor</th>
+                                    <th style="padding: 12px; text-align: right; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Preço Unit.</th>
+                                    <th style="padding: 12px; text-align: center; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Variação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="viewHistoricoPrecos">
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">15/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">Alcoa Alumínio</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600;">R$ 45,90</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: center;"><span style="color: #22c55e; font-size: 12px;"><i class="fas fa-arrow-down"></i> -2.3%</span></td></tr>
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">02/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">Alcoa Alumínio</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600;">R$ 47,00</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: center;"><span style="color: #ef4444; font-size: 12px;"><i class="fas fa-arrow-up"></i> +5.1%</span></td></tr>
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">15/12/2024</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">Hydro Alumínio</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600;">R$ 44,70</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: center;"><span style="color: #888; font-size: 12px;">-</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer com Ações -->
+            <div style="padding: 16px 24px; border-top: 1px solid #e5e5e5; display: flex; justify-content: space-between; align-items: center; background: #fafafa;">
+                <div style="display: flex; gap: 12px;">
+                    <button onclick="imprimirMaterial()" style="padding: 10px 20px; border: 1px solid #e5e5e5; background: white; border-radius: 8px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-print" style="color: #666;"></i> Imprimir
+                    </button>
+                    <button onclick="exportarMaterialPDF()" style="padding: 10px 20px; border: 1px solid #e5e5e5; background: white; border-radius: 8px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-file-pdf" style="color: #dc2626;"></i> PDF
+                    </button>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <button onclick="editarMaterialAtual()" style="padding: 10px 24px; border: none; background: #38bdf8; color: white; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-edit"></i> Editar Material
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal { background: white; border-radius: 16px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { padding: 20px 24px; border-bottom: 1px solid #e5e5e5; display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h2 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; color: #1a1a1a; }
+        .modal-header h2 i { color: #38bdf8; }
+        .modal-close { width: 36px; height: 36px; border: none; background: #f1f5f9; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: #666; }
+        .modal-body { padding: 24px; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: #1a1a1a; margin-bottom: 8px; }
+        .form-group label i { color: #38bdf8; font-size: 12px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 14px; transition: all 0.2s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,0.1); }
+        
+        /* Estilos do Modal de Visualização */
+        .view-tab-btn { width: 100%; padding: 12px 20px; border: none; background: transparent; text-align: left; font-size: 13px; color: #666; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
+        .view-tab-btn:hover { background: #e5e5e5; color: #333; }
+        .view-tab-btn.active { background: white; color: #38bdf8; border-left: 3px solid #38bdf8; font-weight: 600; }
+        .view-tab-btn i { width: 18px; }
+        
+        .view-tab-content { display: none; }
+        .view-tab-content.active { display: block; }
+        
+        .info-card { background: #f8fafc; border-radius: 10px; padding: 14px 16px; }
+        .info-card label { display: block; font-size: 11px; color: #888; text-transform: uppercase; margin-bottom: 6px; }
+        .info-card span { font-size: 14px; color: #1a1a1a; font-weight: 500; }
+    </style>
+
+    <script src="notifications.js"></script>
+    <script src="materiais.js"></script>
+    <script src="compras-user-loader.js?v=20251217"></script>
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+

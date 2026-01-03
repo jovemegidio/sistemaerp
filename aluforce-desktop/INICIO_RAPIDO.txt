@@ -1,0 +1,56 @@
+=====================================================
+           ALUFORCE Desktop - Início Rápido
+=====================================================
+
+PRÉ-REQUISITOS
+--------------
+1. Node.js 18+ instalado (https://nodejs.org)
+2. Rust instalado (https://rustup.rs)
+3. Visual Studio Build Tools com C++ 
+   (https://visualstudio.microsoft.com/visual-cpp-build-tools/)
+
+
+DESENVOLVIMENTO
+---------------
+1. Abra o terminal no diretório aluforce-desktop
+
+2. Instale as dependências:
+   npm install
+
+3. Execute em modo desenvolvimento:
+   npm run tauri dev
+
+
+BUILD PARA PRODUÇÃO
+-------------------
+1. Execute o script de build:
+   .\build.ps1     (PowerShell)
+   ou
+   build.bat       (CMD)
+
+2. Os instaladores serão gerados em:
+   src-tauri\target\release\bundle\
+
+
+INSTALADORES GERADOS
+--------------------
+- NSIS (.exe) - Instalador wizard para usuários
+- MSI (.msi)  - Para deploy corporativo
+
+
+CREDENCIAIS PADRÃO
+------------------
+Usuário: admin
+Senha:   admin123
+
+IMPORTANTE: Altere a senha após o primeiro acesso!
+
+
+SUPORTE
+-------
+Para dúvidas ou problemas, consulte o README.md
+
+
+=====================================================
+          © 2025 ALUFORCE - Todos os direitos reservados
+=====================================================

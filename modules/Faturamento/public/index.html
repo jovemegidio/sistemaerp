@@ -1,0 +1,506 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faturamento NF-e - ALUFORCE</title>
+    <link rel="stylesheet" href="/css/modern-saas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- CSP Fix -->
+    <script src="/js/csp-fix.js"></script>
+    
+    <style>
+        .nfe-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        
+        .nfe-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .nfe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .nfe-numero {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .status-badge {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .status-pendente {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-autorizada {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-cancelada {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .nfe-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-size: 12px;
+            color: #6c757d;
+            margin-bottom: 4px;
+        }
+        
+        .info-value {
+            font-size: 16px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .stat-card.green {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        
+        .stat-card.blue {
+            background: linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%);
+        }
+        
+        .stat-card.orange {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn-small {
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 6px;
+        }
+        
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .filter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            align-items: end;
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <div class="page-header">
+            <div>
+                <h1><i class="fas fa-file-invoice"></i> Faturamento NF-e</h1>
+                <p>Gerenciamento de Notas Fiscais Eletrônicas</p>
+            </div>
+            <div>
+                <button class="btn btn-primary" onclick="abrirModalNovaNovenfe()">
+                    <i class="fas fa-plus"></i> Nova NF-e
+                </button>
+            </div>
+        </div>
+
+        <!-- Estatísticas -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <i class="fas fa-file-invoice" style="font-size: 24px; opacity: 0.8;"></i>
+                <div class="stat-value" id="statTotal">-</div>
+                <div class="stat-label">Total de NF-es</div>
+            </div>
+            <div class="stat-card green">
+                <i class="fas fa-check-circle" style="font-size: 24px; opacity: 0.8;"></i>
+                <div class="stat-value" id="statAutorizadas">-</div>
+                <div class="stat-label">Autorizadas</div>
+            </div>
+            <div class="stat-card blue">
+                <i class="fas fa-clock" style="font-size: 24px; opacity: 0.8;"></i>
+                <div class="stat-value" id="statPendentes">-</div>
+                <div class="stat-label">Pendentes</div>
+            </div>
+            <div class="stat-card orange">
+                <i class="fas fa-dollar-sign" style="font-size: 24px; opacity: 0.8;"></i>
+                <div class="stat-value" id="statValor">-</div>
+                <div class="stat-label">Faturado (Mês)</div>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters">
+            <div class="filter-row">
+                <div class="form-group">
+                    <label for="filtroStatus">Status</label>
+                    <select id="filtroStatus" class="form-control" onchange="carregarNFes()">
+                        <option value="">Todos</option>
+                        <option value="pendente">Pendente</option>
+                        <option value="autorizada">Autorizada</option>
+                        <option value="cancelada">Cancelada</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="filtroDataInicio">Data Início</label>
+                    <input type="date" id="filtroDataInicio" class="form-control" onchange="carregarNFes()">
+                </div>
+                <div class="form-group">
+                    <label for="filtroDataFim">Data Fim</label>
+                    <input type="date" id="filtroDataFim" class="form-control" onchange="carregarNFes()">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-secondary" onclick="limparFiltros()">
+                        <i class="fas fa-times"></i> Limpar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de NF-es -->
+        <div id="nfesList"></div>
+    </div>
+
+    <!-- Modal Nova NF-e -->
+    <div id="modalNovaNovenfe" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-invoice"></i> Gerar Nova NF-e</h3>
+                <span class="close" onclick="fecharModal('modalNovaNovenfe')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Pedido de Venda <span class="required">*</span></label>
+                    <input type="number" id="pedidoId" class="form-control" placeholder="ID do pedido aprovado">
+                    <small>Apenas pedidos com status "aprovado" podem gerar NF-e</small>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="gerarDanfe" checked>
+                        Gerar DANFE (PDF)
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="enviarEmail">
+                        Enviar por email ao cliente
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="fecharModal('modalNovaNovenfe')">Cancelar</button>
+                <button class="btn btn-primary" onclick="gerarNFe()">
+                    <i class="fas fa-check"></i> Gerar NF-e
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuração da API
+        const API_URL = '/api/faturamento';
+
+        // Carregar dados ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarEstatisticas();
+            carregarNFes();
+        });
+
+        // Carregar estatísticas
+        async function carregarEstatisticas() {
+            try {
+                const response = await fetch(`${API_URL}/estatisticas`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    const stats = data.data;
+                    document.getElementById('statTotal').textContent = stats.total_nfes || 0;
+                    document.getElementById('statAutorizadas').textContent = stats.autorizadas || 0;
+                    document.getElementById('statPendentes').textContent = stats.pendentes || 0;
+                    document.getElementById('statValor').textContent = formatarMoeda(stats.valor_mes_atual || 0);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar estatísticas:', error);
+            }
+        }
+
+        // Carregar lista de NF-es
+        async function carregarNFes() {
+            try {
+                const status = document.getElementById('filtroStatus').value;
+                const dataInicio = document.getElementById('filtroDataInicio').value;
+                const dataFim = document.getElementById('filtroDataFim').value;
+                
+                let url = `${API_URL}/nfes?`;
+                if (status) url += `status=${status}&`;
+                if (dataInicio) url += `data_inicio=${dataInicio}&`;
+                if (dataFim) url += `data_fim=${dataFim}&`;
+                
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderizarNFes(data.data);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar NF-es:', error);
+                alert('Erro ao carregar lista de NF-es');
+            }
+        }
+
+        // Renderizar lista de NF-es
+        function renderizarNFes(nfes) {
+            const container = document.getElementById('nfesList');
+            
+            if (nfes.length === 0) {
+                container.innerHTML = `
+                    <div class="nfe-card" style="text-align: center; padding: 40px;">
+                        <i class="fas fa-inbox" style="font-size: 48px; color: #ccc; margin-bottom: 20px;"></i>
+                        <p style="color: #999;">Nenhuma NF-e encontrada</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = nfes.map(nfe => `
+                <div class="nfe-card">
+                    <div class="nfe-header">
+                        <div>
+                            <div class="nfe-numero">NF-e ${String(nfe.numero_nfe).padStart(6, '0')}</div>
+                            <small style="color: #6c757d;">Série ${nfe.serie} - ${formatarData(nfe.data_emissao)}</small>
+                        </div>
+                        <span class="status-badge status-${nfe.status}">${nfe.status.toUpperCase()}</span>
+                    </div>
+                    
+                    <div class="nfe-info">
+                        <div class="info-item">
+                            <span class="info-label">Cliente</span>
+                            <span class="info-value">${nfe.cliente_nome}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Pedido</span>
+                            <span class="info-value">#${nfe.pedido_id}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Valor Total</span>
+                            <span class="info-value">${formatarMoeda(nfe.valor_total)}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Itens</span>
+                            <span class="info-value">${nfe.total_itens}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-small btn-primary" onclick="verDetalhes(${nfe.id})">
+                            <i class="fas fa-eye"></i> Ver Detalhes
+                        </button>
+                        ${nfe.status === 'pendente' ? `
+                            <button class="btn btn-small btn-success" onclick="enviarSEFAZ(${nfe.id})">
+                                <i class="fas fa-paper-plane"></i> Enviar SEFAZ
+                            </button>
+                        ` : ''}
+                        ${nfe.status === 'autorizada' ? `
+                            <button class="btn btn-small btn-secondary" onclick="baixarDANFE(${nfe.id})">
+                                <i class="fas fa-download"></i> DANFE
+                            </button>
+                            <button class="btn btn-small btn-danger" onclick="cancelarNFe(${nfe.id})">
+                                <i class="fas fa-times"></i> Cancelar
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Gerar nova NF-e
+        async function gerarNFe() {
+            const pedidoId = document.getElementById('pedidoId').value;
+            
+            if (!pedidoId) {
+                alert('Informe o ID do pedido');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/gerar-nfe`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        pedido_id: parseInt(pedidoId),
+                        gerar_danfe: document.getElementById('gerarDanfe').checked,
+                        enviar_email: document.getElementById('enviarEmail').checked
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(`NF-e ${data.data.numero_nfe} gerada com sucesso!`);
+                    fecharModal('modalNovaNovenfe');
+                    carregarEstatisticas();
+                    carregarNFes();
+                } else {
+                    alert('Erro: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Erro ao gerar NF-e:', error);
+                alert('Erro ao gerar NF-e');
+            }
+        }
+
+        // Cancelar NF-e
+        async function cancelarNFe(id) {
+            const motivo = prompt('Informe o motivo do cancelamento (mínimo 15 caracteres):');
+            
+            if (!motivo || motivo.length < 15) {
+                alert('Motivo inválido. Mínimo 15 caracteres.');
+                return;
+            }
+            
+            if (!confirm('Confirma o cancelamento desta NF-e?')) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/nfes/${id}/cancelar`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ motivo })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('NF-e cancelada com sucesso!');
+                    carregarEstatisticas();
+                    carregarNFes();
+                } else {
+                    alert('Erro: ' + data.message);
+                }
+            } catch (error) {
+                console.error('Erro ao cancelar NF-e:', error);
+                alert('Erro ao cancelar NF-e');
+            }
+        }
+
+        // Ver detalhes
+        async function verDetalhes(id) {
+            window.open(`/modules/Faturamento/public/detalhes.html?id=${id}`, '_blank');
+        }
+
+        // Enviar SEFAZ (placeholder)
+        function enviarSEFAZ(id) {
+            alert('Funcionalidade de envio para SEFAZ em desenvolvimento.\nRequer certificado digital A1 ou A3.');
+        }
+
+        // Baixar DANFE (placeholder)
+        function baixarDANFE(id) {
+            alert('Funcionalidade de geração de DANFE em desenvolvimento.');
+        }
+
+        // Utilidades
+        function formatarMoeda(valor) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(valor);
+        }
+
+        function formatarData(data) {
+            if (!data) return '-';
+            return new Date(data).toLocaleDateString('pt-BR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function abrirModalNovaNovenfe() {
+            document.getElementById('modalNovaNovenfe').style.display = 'flex';
+        }
+
+        function fecharModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+
+        function limparFiltros() {
+            document.getElementById('filtroStatus').value = '';
+            document.getElementById('filtroDataInicio').value = '';
+            document.getElementById('filtroDataFim').value = '';
+            carregarNFes();
+        }
+    </script>
+    
+    <!-- Sistema de Monitoramento de Conexão -->
+    <script src="../../_shared/connection-monitor.js?v=20251223"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

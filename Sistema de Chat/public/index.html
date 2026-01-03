@@ -1,0 +1,594 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema de Chat e Suporte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/styles.css">
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+  <!-- Demo Page Background -->
+  <div class="demo-page">
+    <div class="demo-content">
+      <h1>🚀 Sistema de Chat & Suporte</h1>
+      <p>Clique no botão no canto inferior direito para iniciar</p>
+    </div>
+  </div>
+
+  <!-- Chat Launcher Button -->
+  <button class="chat-launcher" id="chat-launcher" aria-label="Abrir chat">
+    <span class="launcher-icon">
+      <img src="img/Icone-Chat.png" alt="Chat" class="launcher-img">
+    </span>
+    <span class="launcher-badge hidden" id="launcher-badge">0</span>
+    <span class="launcher-pulse"></span>
+  </button>
+
+  <!-- Chat Widget Container -->
+  <div class="chat-widget hidden" id="chat-widget">
+    
+    <!-- Login Screen -->
+    <div class="screen active" id="screen-login">
+      <div class="login-container">
+        <div class="login-header">
+          <div class="login-logo">
+            <div class="logo-circle">
+              <img src="img/Icone-Chat.png" alt="Logo" class="logo-img">
+            </div>
+          </div>
+          <h2>Bem-vindo!</h2>
+          <p>Faça login para continuar</p>
+        </div>
+        <form id="login-form" class="login-form">
+          <div class="form-group">
+            <label for="input-name">Seu nome</label>
+            <div class="input-wrapper">
+              <i class="fas fa-user"></i>
+              <input type="text" id="input-name" placeholder="Digite seu nome" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="input-email">Seu e-mail</label>
+            <div class="input-wrapper">
+              <i class="fas fa-envelope"></i>
+              <input type="email" id="input-email" placeholder="Digite seu e-mail" required>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary btn-block">
+            <span>Continuar</span>
+            <i class="fas fa-arrow-right"></i>
+          </button>
+        </form>
+        <div class="login-footer">
+          <p>Ao continuar, você concorda com nossos <a href="#">Termos de Uso</a></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Home Screen -->
+    <div class="screen" id="screen-home">
+      <!-- Header -->
+      <div class="home-header">
+        <div class="header-content">
+          <div class="header-top">
+            <div class="header-title">
+              <img src="img/Icone-Chat.png" alt="Logo" class="header-logo">
+              <span>Suporte</span>
+            </div>
+            <button class="btn-icon" id="btn-close-home" aria-label="Fechar">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="user-welcome">
+            <div class="user-avatar" id="user-avatar">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="user-info">
+              <span class="greeting">Olá,</span>
+              <span class="user-name" id="user-display-name">Usuário</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="nav-tabs">
+        <button class="nav-tab active" data-tab="inicio">
+          <i class="fas fa-home"></i>
+          <span>Início</span>
+        </button>
+        <button class="nav-tab" data-tab="mensagens">
+          <i class="fas fa-comments"></i>
+          <span>Mensagens</span>
+          <span class="tab-badge hidden" id="msg-badge">0</span>
+        </button>
+        <button class="nav-tab" data-tab="ajuda">
+          <i class="fas fa-question-circle"></i>
+          <span>Ajuda</span>
+        </button>
+        <button class="nav-tab" data-tab="tickets">
+          <i class="fas fa-ticket-alt"></i>
+          <span>Tickets</span>
+        </button>
+        <button class="nav-tab" data-tab="noticias">
+          <i class="fas fa-newspaper"></i>
+          <span>Notícias</span>
+        </button>
+      </div>
+
+      <!-- Tab Contents -->
+      <div class="tab-content">
+        
+        <!-- Tab: Início -->
+        <div class="tab-pane active" id="tab-inicio">
+          <div class="content-scroll">
+            <!-- Quick Actions -->
+            <div class="section">
+              <h3 class="section-title">Como podemos ajudar?</h3>
+              <div class="action-cards">
+                <button class="action-card" id="btn-start-chat">
+                  <div class="card-icon chat-icon">
+                    <i class="fas fa-comment-dots"></i>
+                  </div>
+                  <div class="card-content">
+                    <h4>Envie uma mensagem</h4>
+                    <p>Fale com o Bob, nosso assistente</p>
+                  </div>
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+                <button class="action-card" id="btn-voice-call">
+                  <div class="card-icon call-icon">
+                    <i class="fas fa-phone-alt"></i>
+                  </div>
+                  <div class="card-content">
+                    <h4>Iniciar chamada</h4>
+                    <p>Fale por voz com um atendente</p>
+                  </div>
+                  <i class="fas fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Replies -->
+            <div class="section">
+              <h3 class="section-title">Perguntas frequentes</h3>
+              <div class="quick-topics">
+                <button class="topic-chip" data-topic="Como funciona o sistema?">
+                  <i class="fas fa-cog"></i>
+                  Como funciona o sistema?
+                </button>
+                <button class="topic-chip" data-topic="Quero contratar">
+                  <i class="fas fa-shopping-cart"></i>
+                  Quero contratar
+                </button>
+                <button class="topic-chip" data-topic="Suporte técnico">
+                  <i class="fas fa-wrench"></i>
+                  Suporte técnico
+                </button>
+                <button class="topic-chip" data-topic="Pagamentos">
+                  <i class="fas fa-credit-card"></i>
+                  Pagamentos
+                </button>
+              </div>
+            </div>
+
+            <!-- Recent Articles -->
+            <div class="section">
+              <h3 class="section-title">Artigos populares</h3>
+              <div class="article-list">
+                <a href="#" class="article-item">
+                  <div class="article-icon">
+                    <i class="fas fa-book"></i>
+                  </div>
+                  <div class="article-info">
+                    <h5>Primeiros passos</h5>
+                    <p>Aprenda a usar o sistema</p>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="#" class="article-item">
+                  <div class="article-icon">
+                    <i class="fas fa-shield-alt"></i>
+                  </div>
+                  <div class="article-info">
+                    <h5>Segurança da conta</h5>
+                    <p>Proteja suas informações</p>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="#" class="article-item">
+                  <div class="article-icon">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                  </div>
+                  <div class="article-info">
+                    <h5>Faturas e cobranças</h5>
+                    <p>Entenda sua fatura</p>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Mensagens -->
+        <div class="tab-pane" id="tab-mensagens">
+          <div class="content-scroll">
+            <div class="messages-header">
+              <h3>Suas conversas</h3>
+              <button class="btn-new-chat" id="btn-new-conv">
+                <i class="fas fa-plus"></i>
+                Nova
+              </button>
+            </div>
+            <div class="conversations-list" id="conversations-list">
+              <!-- Conversations will be inserted here -->
+              <div class="empty-state" id="empty-conversations">
+                <div class="empty-icon">
+                  <i class="fas fa-comments"></i>
+                </div>
+                <h4>Nenhuma conversa ainda</h4>
+                <p>Inicie uma nova conversa</p>
+              </div>
+            </div>
+          </div>
+          <button class="fab-new" id="fab-new-msg" aria-label="Nova mensagem">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+
+        <!-- Tab: Ajuda -->
+        <div class="tab-pane" id="tab-ajuda">
+          <div class="content-scroll">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" placeholder="Buscar na central de ajuda..." id="help-search">
+            </div>
+            
+            <div class="help-categories">
+              <h3 class="section-title">Categorias</h3>
+              
+              <div class="category-grid">
+                <a href="#" class="category-card">
+                  <div class="category-icon blue">
+                    <i class="fas fa-rocket"></i>
+                  </div>
+                  <span>Começando</span>
+                </a>
+                <a href="#" class="category-card">
+                  <div class="category-icon green">
+                    <i class="fas fa-user-cog"></i>
+                  </div>
+                  <span>Conta</span>
+                </a>
+                <a href="#" class="category-card">
+                  <div class="category-icon purple">
+                    <i class="fas fa-credit-card"></i>
+                  </div>
+                  <span>Pagamentos</span>
+                </a>
+                <a href="#" class="category-card">
+                  <div class="category-icon orange">
+                    <i class="fas fa-cogs"></i>
+                  </div>
+                  <span>Configurações</span>
+                </a>
+                <a href="#" class="category-card">
+                  <div class="category-icon red">
+                    <i class="fas fa-bug"></i>
+                  </div>
+                  <span>Problemas</span>
+                </a>
+                <a href="#" class="category-card">
+                  <div class="category-icon teal">
+                    <i class="fas fa-mobile-alt"></i>
+                  </div>
+                  <span>App Mobile</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="section">
+              <h3 class="section-title">Precisa de mais ajuda?</h3>
+              <button class="action-card compact" id="btn-help-chat">
+                <div class="card-icon chat-icon">
+                  <i class="fas fa-comment-dots"></i>
+                </div>
+                <div class="card-content">
+                  <h4>Falar com suporte</h4>
+                  <p>Converse com nosso time</p>
+                </div>
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Tickets -->
+        <div class="tab-pane" id="tab-tickets">
+          <div class="content-scroll">
+            <div class="tickets-header">
+              <h3>Seus tickets</h3>
+              <button class="btn-new-ticket" id="btn-new-ticket">
+                <i class="fas fa-plus"></i>
+                Novo ticket
+              </button>
+            </div>
+            
+            <div class="tickets-filter">
+              <button class="filter-btn active" data-filter="all">Todos</button>
+              <button class="filter-btn" data-filter="open">Abertos</button>
+              <button class="filter-btn" data-filter="closed">Fechados</button>
+            </div>
+
+            <div class="tickets-list" id="tickets-list">
+              <!-- Tickets will be inserted here -->
+              <div class="empty-state" id="empty-tickets">
+                <div class="empty-icon">
+                  <i class="fas fa-ticket-alt"></i>
+                </div>
+                <h4>Nenhum ticket ainda</h4>
+                <p>Crie um ticket para acompanhar sua solicitação</p>
+                <button class="btn-primary btn-sm" id="btn-create-ticket">
+                  <i class="fas fa-plus"></i>
+                  Criar ticket
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Notícias -->
+        <div class="tab-pane" id="tab-noticias">
+          <div class="content-scroll">
+            <div class="news-header">
+              <h3>Novidades</h3>
+              <span class="news-tag">Atualizações</span>
+            </div>
+            
+            <div class="news-list">
+              <article class="news-card">
+                <div class="news-card-header">
+                  <span class="news-date">15 Dez 2024</span>
+                  <span class="news-category">Novo recurso</span>
+                </div>
+                <h4>Nova interface de chat</h4>
+                <p>Redesenhamos completamente nossa interface para oferecer uma experiência mais intuitiva.</p>
+                <a href="#" class="news-link">Ler mais <i class="fas fa-arrow-right"></i></a>
+              </article>
+              
+              <article class="news-card">
+                <div class="news-card-header">
+                  <span class="news-date">10 Dez 2024</span>
+                  <span class="news-category">Melhoria</span>
+                </div>
+                <h4>Atendimento 24/7</h4>
+                <p>Agora você pode contar com nosso suporte a qualquer hora do dia ou da noite.</p>
+                <a href="#" class="news-link">Ler mais <i class="fas fa-arrow-right"></i></a>
+              </article>
+              
+              <article class="news-card">
+                <div class="news-card-header">
+                  <span class="news-date">05 Dez 2024</span>
+                  <span class="news-category">Integração</span>
+                </div>
+                <h4>Integração com WhatsApp</h4>
+                <p>Conecte seu WhatsApp Business e gerencie tudo em um só lugar.</p>
+                <a href="#" class="news-link">Ler mais <i class="fas fa-arrow-right"></i></a>
+              </article>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Chat Screen -->
+    <div class="screen" id="screen-chat">
+      <div class="chat-header">
+        <button class="btn-back" id="btn-chat-back" aria-label="Voltar">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="chat-agent">
+          <div class="agent-avatar">
+            <img src="img/Icone-Chat.png" alt="Bob" id="agent-avatar-img">
+            <span class="status-dot online"></span>
+          </div>
+          <div class="agent-info">
+            <h4 id="agent-name">Bob</h4>
+            <span class="agent-status" id="agent-status">Online</span>
+          </div>
+        </div>
+        <div class="chat-actions">
+          <button class="btn-icon" id="btn-chat-call" aria-label="Ligar">
+            <i class="fas fa-phone"></i>
+          </button>
+          <button class="btn-icon" id="btn-chat-menu" aria-label="Menu">
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chat-messages">
+        <!-- Messages will be inserted here -->
+      </div>
+
+      <!-- Typing Indicator -->
+      <div class="typing-indicator hidden" id="typing-indicator">
+        <div class="typing-avatar">
+          <img src="img/Icone-Chat.png" alt="Assistente">
+        </div>
+        <div class="typing-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+
+      <!-- Quick Replies -->
+      <div class="chat-quick-replies hidden" id="chat-quick-replies">
+        <button class="quick-reply-btn" data-reply="Sim, por favor">Sim, por favor</button>
+        <button class="quick-reply-btn" data-reply="Não, obrigado">Não, obrigado</button>
+        <button class="quick-reply-btn" data-reply="Falar com atendente">Falar com atendente</button>
+      </div>
+
+      <div class="chat-input-container">
+        <div class="chat-input-wrapper">
+          <button class="btn-icon input-btn" id="btn-attach" aria-label="Anexar">
+            <i class="fas fa-paperclip"></i>
+          </button>
+          <input type="text" class="chat-input" id="chat-input" placeholder="Digite sua mensagem...">
+          <button class="btn-icon input-btn" id="btn-emoji" aria-label="Emoji">
+            <i class="fas fa-smile"></i>
+          </button>
+        </div>
+        <button class="btn-send" id="btn-send" aria-label="Enviar">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+        <button class="btn-mic hidden" id="btn-mic" aria-label="Gravar áudio">
+          <i class="fas fa-microphone"></i>
+        </button>
+      </div>
+
+      <!-- Emoji Picker -->
+      <div class="emoji-picker hidden" id="emoji-picker">
+        <div class="emoji-grid">
+          <span>😀</span><span>😃</span><span>😄</span><span>😁</span><span>😅</span>
+          <span>😂</span><span>🙂</span><span>😊</span><span>😇</span><span>🥰</span>
+          <span>😍</span><span>🤩</span><span>😘</span><span>😗</span><span>😚</span>
+          <span>😋</span><span>😛</span><span>😜</span><span>🤪</span><span>😝</span>
+          <span>👍</span><span>👎</span><span>👏</span><span>🙌</span><span>🤝</span>
+          <span>❤️</span><span>🧡</span><span>💛</span><span>💚</span><span>💙</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Call Screen -->
+    <div class="screen" id="screen-call">
+      <div class="call-container">
+        <div class="call-background">
+          <div class="call-wave"></div>
+          <div class="call-wave"></div>
+          <div class="call-wave"></div>
+        </div>
+        <div class="call-content">
+          <div class="call-avatar">
+            <img src="img/Icone-Chat.png" alt="Suporte">
+            <div class="call-pulse"></div>
+          </div>
+          <h3 class="call-title" id="call-title">Conectando...</h3>
+          <p class="call-subtitle" id="call-subtitle">Aguarde enquanto conectamos você</p>
+          <div class="call-timer hidden" id="call-timer">00:00</div>
+        </div>
+        <div class="call-actions">
+          <button class="call-btn mute" id="btn-mute" aria-label="Mudo">
+            <i class="fas fa-microphone"></i>
+          </button>
+          <button class="call-btn end" id="btn-end-call" aria-label="Encerrar">
+            <i class="fas fa-phone-slash"></i>
+          </button>
+          <button class="call-btn speaker" id="btn-speaker" aria-label="Alto-falante">
+            <i class="fas fa-volume-up"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- New Ticket Screen -->
+    <div class="screen" id="screen-new-ticket">
+      <div class="screen-header">
+        <button class="btn-back" id="btn-ticket-back" aria-label="Voltar">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <h3>Novo Ticket</h3>
+        <div></div>
+      </div>
+      <div class="screen-content">
+        <form id="ticket-form" class="ticket-form">
+          <div class="form-group">
+            <label for="ticket-title">Assunto</label>
+            <input type="text" id="ticket-title" placeholder="Resumo do problema" required>
+          </div>
+          <div class="form-group">
+            <label for="ticket-category">Categoria</label>
+            <select id="ticket-category" required>
+              <option value="">Selecione uma categoria</option>
+              <option value="technical">Suporte Técnico</option>
+              <option value="billing">Financeiro</option>
+              <option value="account">Conta</option>
+              <option value="feature">Sugestão</option>
+              <option value="other">Outro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="ticket-priority">Prioridade</label>
+            <div class="priority-options">
+              <label class="priority-option">
+                <input type="radio" name="priority" value="low">
+                <span class="priority-badge low">Baixa</span>
+              </label>
+              <label class="priority-option">
+                <input type="radio" name="priority" value="medium" checked>
+                <span class="priority-badge medium">Média</span>
+              </label>
+              <label class="priority-option">
+                <input type="radio" name="priority" value="high">
+                <span class="priority-badge high">Alta</span>
+              </label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="ticket-description">Descrição</label>
+            <textarea id="ticket-description" rows="4" placeholder="Descreva detalhadamente o problema ou solicitação" required></textarea>
+          </div>
+          <button type="submit" class="btn-primary btn-block">
+            <i class="fas fa-paper-plane"></i>
+            Enviar ticket
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Ticket Detail Screen -->
+    <div class="screen" id="screen-ticket-detail">
+      <div class="screen-header">
+        <button class="btn-back" id="btn-ticket-detail-back" aria-label="Voltar">
+          <i class="fas fa-arrow-left"></i>
+        </button>
+        <h3 id="ticket-detail-title">Ticket #0000</h3>
+        <div></div>
+      </div>
+      <div class="screen-content">
+        <div class="ticket-detail">
+          <div class="ticket-detail-header">
+            <div class="ticket-status-badge" id="ticket-detail-status">Aberto</div>
+            <span class="ticket-date" id="ticket-detail-date">15/12/2024</span>
+          </div>
+          <div class="ticket-detail-body">
+            <h4 id="ticket-detail-subject">Assunto do ticket</h4>
+            <p id="ticket-detail-description">Descrição do ticket...</p>
+          </div>
+          <div class="ticket-responses" id="ticket-responses">
+            <!-- Responses will be inserted here -->
+          </div>
+          <form id="response-form" class="response-form">
+            <textarea id="response-text" placeholder="Adicionar resposta..." rows="3"></textarea>
+            <button type="submit" class="btn-primary btn-sm">
+              <i class="fas fa-reply"></i>
+              Responder
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="js/app.js"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

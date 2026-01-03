@@ -1,0 +1,642 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Sistema PCP - Demonstração Completa</title>
+    <link rel="stylesheet" href="pcp_modern_clean.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .demo-container {
+            max-width: 1200px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .demo-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .demo-section {
+            padding: 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .demo-section:last-child { border-bottom: none; }
+        .demo-section h2 {
+            color: #495057;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .feature-card {
+            padding: 20px;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            background: #f8f9fa;
+        }
+        .feature-card h3 {
+            margin-top: 0;
+            color: #6c757d;
+            font-size: 16px;
+        }
+        .btn-demo {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-demo-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .btn-demo-success {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+            color: white;
+        }
+        .btn-demo-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        .btn-demo:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .sample-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .sample-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        .sample-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        .sample-table tr:hover {
+            background: #f8f9fa;
+        }
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .status-online {
+            background: #d1fae5;
+            color: #047857;
+        }
+        .status-processing {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        .demo-highlight {
+            background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .demo-code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>✨ Sistema PCP - Demonstração Completa</h1>
+            <p>Visualização dos recursos implementados: GTIN, SKU, Modal Profissional e Modo Escuro</p>
+        </div>
+
+        <!-- Seção 1: Status do Sistema -->
+        <div class="demo-section">
+            <h2><i class="fas fa-heartbeat"></i> Status do Sistema</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🌐 Servidor</h3>
+                    <div class="status-indicator status-online">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="server-status">Online</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h3>🗄️ Base de Dados</h3>
+                    <div class="status-indicator status-online">
+                        <i class="fas fa-database"></i>
+                        <span id="db-status">Conectado</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Produtos</h3>
+                    <div class="status-indicator status-processing">
+                        <i class="fas fa-box"></i>
+                        <span id="products-total">Carregando...</span>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <h3>🏷️ SKUs Gerados</h3>
+                    <div class="status-indicator status-processing">
+                        <i class="fas fa-tags"></i>
+                        <span id="skus-count">Carregando...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 2: Demonstração da Tabela -->
+        <div class="demo-section">
+            <h2><i class="fas fa-table"></i> Tabela de Produtos com SKU e GTIN</h2>
+            <table class="sample-table estoque-table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Descrição</th>
+                        <th>SKU</th>
+                        <th>GTIN</th>
+                        <th>Estoque</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="demo-products">
+                    <!-- Produtos serão carregados aqui -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Seção 3: Recursos do Modal -->
+        <div class="demo-section">
+            <h2><i class="fas fa-window-restore"></i> Modal Profissional de Edição</h2>
+            <div class="demo-highlight">
+                <h3>🎨 Características do Modal</h3>
+                <ul>
+                    <li>✅ <strong>Design Profissional</strong> - Interface limpa e organizada</li>
+                    <li>✅ <strong>Seções Organizadas</strong> - Informações básicas, técnicas, estoque e sistema</li>
+                    <li>✅ <strong>Validação de Campos</strong> - GTIN com 13-14 dígitos, SKU único</li>
+                    <li>✅ <strong>Tags de Variação</strong> - Sistema intuitivo para adicionar variações</li>
+                    <li>✅ <strong>Formatação de Moeda</strong> - Input formatado para valores monetários</li>
+                    <li>✅ <strong>Informações do Sistema</strong> - Data de criação, ID, status</li>
+                </ul>
+            </div>
+            <button class="btn-demo btn-demo-primary" onclick="demonstrarModal()">
+                <i class="fas fa-edit"></i> Demonstrar Modal de Edição
+            </button>
+        </div>
+
+        <!-- Seção 4: Modo Escuro -->
+        <div class="demo-section">
+            <h2><i class="fas fa-moon"></i> Modo Escuro com Troca de Logo</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>🌙 Alternância de Tema</h3>
+                    <p>Sistema completo de modo escuro com persistência no localStorage</p>
+                    <button class="btn-demo btn-demo-warning" onclick="testarModoEscuro()">
+                        <i class="fas fa-adjust"></i> Alternar Modo
+                    </button>
+                </div>
+                <div class="feature-card">
+                    <h3>🖼️ Troca Automática de Logo</h3>
+                    <p>Logo azul no modo claro, logo branca no modo escuro</p>
+                    <button class="btn-demo btn-demo-success" onclick="demonstrarLogoSwitch()">
+                        <i class="fas fa-image"></i> Ver Logos
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção 5: API e Backend -->
+        <div class="demo-section">
+            <h2><i class="fas fa-server"></i> Endpoints da API</h2>
+            <div class="demo-code">
+GET /api/pcp/produtos           # Lista todos os produtos
+GET /api/pcp/produtos/:id       # Busca produto por ID
+GET /api/pcp/produtos/sku/:sku  # Busca produto por SKU
+GET /api/pcp/produtos/gtin/:gtin # Busca produto por GTIN
+POST /api/pcp/produtos          # Cria novo produto
+PUT /api/pcp/produtos/:id       # Atualiza produto
+DELETE /api/pcp/produtos/:id    # Remove produto
+            </div>
+            <button class="btn-demo btn-demo-primary" onclick="testarAPIs()">
+                <i class="fas fa-code"></i> Testar APIs
+            </button>
+        </div>
+    </div>
+
+    <!-- Modal de Edição (Importado do index.html) -->
+    <div id="product-edit-modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="product-edit-title" tabindex="-1">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-header">
+                <h3 id="product-edit-title">
+                    <i class="fas fa-edit"></i> Editar Produto
+                </h3>
+                <button id="product-edit-close" type="button" class="modal-close" aria-label="Fechar">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-edit-form" class="product-edit-form">
+                    <input type="hidden" id="edit-product-id" />
+                    
+                    <!-- Seção: Informações Básicas -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h4><i class="fas fa-info-circle"></i> Informações Básicas</h4>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-codigo">Código do Produto</label>
+                                <input type="text" id="edit-codigo" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-nome">Nome do Produto</label>
+                                <input type="text" id="edit-nome" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-sku">SKU (Stock Keeping Unit)</label>
+                                <div class="input-with-badge">
+                                    <input type="text" id="edit-sku" class="form-control" placeholder="Código interno único">
+                                    <span class="input-badge">AUTO</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-gtin">GTIN (Código de Barras)</label>
+                                <input type="text" id="edit-gtin" class="form-control" placeholder="13 ou 14 dígitos" maxlength="14">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-descricao">Descrição Detalhada</label>
+                            <textarea id="edit-descricao" class="form-control" rows="3" placeholder="Descrição completa do produto"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Seção: Especificações Técnicas -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h4><i class="fas fa-cogs"></i> Especificações Técnicas</h4>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-marca">Marca</label>
+                                <input type="text" id="edit-marca" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-unidade">Unidade de Medida</label>
+                                <select id="edit-unidade" class="form-control">
+                                    <option value="">Selecionar</option>
+                                    <option value="un">Unidade</option>
+                                    <option value="kg">Quilograma</option>
+                                    <option value="m">Metro</option>
+                                    <option value="m²">Metro Quadrado</option>
+                                    <option value="m³">Metro Cúbico</option>
+                                    <option value="l">Litro</option>
+                                    <option value="cx">Caixa</option>
+                                    <option value="pc">Peça</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="edit-variacao">Variações</label>
+                            <div class="tags-input-container">
+                                <input type="text" id="edit-variacao" class="tags-input" placeholder="Digite uma variação e pressione Enter">
+                                <div id="edit-variacao-tags" class="tags-display"></div>
+                            </div>
+                            <small class="form-help">Ex: Cor, Tamanho, Voltagem, etc.</small>
+                        </div>
+                    </div>
+
+                    <!-- Seção: Controle de Estoque -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h4><i class="fas fa-warehouse"></i> Controle de Estoque</h4>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="edit-estoque">Quantidade em Estoque</label>
+                                <input type="number" id="edit-estoque" class="form-control" step="0.01" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="edit-custo">Custo Unitário</label>
+                                <div class="input-with-currency">
+                                    <span class="currency-symbol">R$</span>
+                                    <input type="number" id="edit-custo" class="form-control" step="0.01" min="0" placeholder="0,00">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Seção: Informações Adicionais -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <h4><i class="fas fa-clock"></i> Informações do Sistema</h4>
+                        </div>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Data de Cadastro</label>
+                                <span id="edit-data-criacao" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Última Atualização</label>
+                                <span id="edit-ultima-atualizacao" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>ID do Produto</label>
+                                <span id="edit-produto-id-display" class="info-value">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Status</label>
+                                <span id="edit-status" class="info-value status-badge">Ativo</span>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="product-edit-cancel" class="btn btn-secondary">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="button" id="product-edit-duplicate" class="btn btn-info">
+                    <i class="fas fa-copy"></i> Duplicar
+                </button>
+                <button type="submit" form="product-edit-form" id="product-edit-save" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Salvar Alterações
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Carregamento inicial
+        document.addEventListener('DOMContentLoaded', async function() {
+            await verificarStatus();
+            await carregarProdutosDemonstracao();
+            configurarEventosModal();
+        });
+
+        // Verificar status do sistema
+        async function verificarStatus() {
+            try {
+                const response = await fetch('/api/pcp/produtos?limit=1');
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('products-total').textContent = `${data.total} produtos`;
+                    
+                    // Verificar SKUs
+                    const produtosResponse = await fetch('/api/pcp/produtos');
+                    if (produtosResponse.ok) {
+                        const produtosData = await produtosResponse.json();
+                        const produtos = produtosData.rows || [];
+                        const withSKU = produtos.filter(p => p.sku && p.sku.trim()).length;
+                        document.getElementById('skus-count').textContent = `${withSKU} com SKU`;
+                    }
+                } else {
+                    document.getElementById('server-status').textContent = 'Offline';
+                    document.getElementById('db-status').textContent = 'Desconectado';
+                }
+            } catch (error) {
+                console.error('Erro ao verificar status:', error);
+                document.getElementById('server-status').textContent = 'Erro';
+            }
+        }
+
+        // Carregar produtos para demonstração
+        async function carregarProdutosDemonstracao() {
+            try {
+                const response = await fetch('/api/pcp/produtos?limit=5');
+                if (response.ok) {
+                    const data = await response.json();
+                    const produtos = data.rows || [];
+                    
+                    const tbody = document.getElementById('demo-products');
+                    tbody.innerHTML = produtos.map(p => `
+                        <tr data-id="${p.id}">
+                            <td><strong>${p.codigo || ''}</strong></td>
+                            <td>${p.nome || p.descricao || ''}</td>
+                            <td><span class="sku-badge">${p.sku || '-'}</span></td>
+                            <td><span class="gtin-text">${p.gtin || '-'}</span></td>
+                            <td class="text-center">${Number(p.quantidade || 0).toFixed(2)}</td>
+                            <td class="text-center">
+                                <button class="btn-editar-prod" data-id="${p.id}">Editar</button>
+                                <button class="btn-excluir-prod" data-id="${p.id}">Excluir</button>
+                            </td>
+                        </tr>
+                    `).join('');
+
+                    // Adicionar eventos aos botões
+                    document.querySelectorAll('.btn-editar-prod').forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            const id = e.target.dataset.id;
+                            const produto = produtos.find(p => p.id == id);
+                            if (produto) {
+                                abrirModalProduto(produto);
+                            }
+                        });
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+                document.getElementById('demo-products').innerHTML = 
+                    '<tr><td colspan="6" class="text-center">Erro ao carregar produtos</td></tr>';
+            }
+        }
+
+        // Demonstrar modal
+        function demonstrarModal() {
+            const produtoDemo = {
+                id: 999,
+                codigo: 'DEMO001',
+                nome: 'Produto de Demonstração',
+                sku: 'DEMODEMO999',
+                gtin: '1234567890123',
+                descricao: 'Este é um produto de demonstração para mostrar o modal profissional.',
+                marca: 'AluForce',
+                unidade_medida: 'un',
+                quantidade: 50,
+                custo_unitario: 125.90,
+                variacao: ['Azul', 'Vermelho', '220V'],
+                data_criacao: new Date().toISOString()
+            };
+            
+            abrirModalProduto(produtoDemo);
+        }
+
+        // Abrir modal com produto
+        function abrirModalProduto(produto) {
+            const modal = document.getElementById('product-edit-modal');
+            
+            // Preencher campos
+            document.getElementById('edit-product-id').value = produto.id || '';
+            document.getElementById('edit-codigo').value = produto.codigo || '';
+            document.getElementById('edit-nome').value = produto.nome || '';
+            document.getElementById('edit-sku').value = produto.sku || '';
+            document.getElementById('edit-gtin').value = produto.gtin || '';
+            document.getElementById('edit-descricao').value = produto.descricao || '';
+            document.getElementById('edit-marca').value = produto.marca || '';
+            document.getElementById('edit-unidade').value = produto.unidade_medida || '';
+            document.getElementById('edit-estoque').value = produto.quantidade || 0;
+            document.getElementById('edit-custo').value = produto.custo_unitario || 0;
+            
+            // Informações do sistema
+            document.getElementById('edit-produto-id-display').textContent = produto.id || '-';
+            document.getElementById('edit-data-criacao').textContent = produto.data_criacao ? 
+                new Date(produto.data_criacao).toLocaleDateString('pt-BR') : '-';
+            document.getElementById('edit-ultima-atualizacao').textContent = 
+                new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR');
+            
+            // Processar variações
+            const variacaoContainer = document.getElementById('edit-variacao-tags');
+            variacaoContainer.innerHTML = '';
+            
+            let variacoes = [];
+            try {
+                if (Array.isArray(produto.variacao)) {
+                    variacoes = produto.variacao;
+                } else if (typeof produto.variacao === 'string' && produto.variacao.trim().startsWith('[')) {
+                    variacoes = JSON.parse(produto.variacao);
+                } else if (typeof produto.variacao === 'string') {
+                    variacoes = produto.variacao.split(/[,;]+/).map(s => s.trim()).filter(Boolean);
+                }
+            } catch (e) {
+                console.warn('Erro ao processar variações:', e);
+            }
+            
+            variacoes.forEach(variacao => {
+                if (variacao && variacao.trim()) {
+                    adicionarTagVariacao(variacao.trim());
+                }
+            });
+            
+            // Atualizar título
+            document.getElementById('product-edit-title').innerHTML = 
+                `<i class="fas fa-edit"></i> Editar Produto: ${produto.nome || 'Sem nome'}`;
+            
+            // Mostrar modal
+            modal.classList.remove('hidden');
+            modal.setAttribute('aria-hidden', 'false');
+        }
+
+        // Adicionar tag de variação
+        function adicionarTagVariacao(variacao) {
+            const container = document.getElementById('edit-variacao-tags');
+            const tag = document.createElement('div');
+            tag.className = 'tag-item';
+            tag.innerHTML = `
+                ${variacao}
+                <span class="tag-remove" onclick="removerTagVariacao(this)">×</span>
+            `;
+            container.appendChild(tag);
+        }
+
+        // Remover tag de variação
+        function removerTagVariacao(element) {
+            element.parentElement.remove();
+        }
+
+        // Configurar eventos do modal
+        function configurarEventosModal() {
+            const modal = document.getElementById('product-edit-modal');
+            const closeBtn = document.getElementById('product-edit-close');
+            const cancelBtn = document.getElementById('product-edit-cancel');
+            
+            [closeBtn, cancelBtn].forEach(btn => {
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        modal.classList.add('hidden');
+                        modal.setAttribute('aria-hidden', 'true');
+                    });
+                }
+            });
+            
+            // Input de variações
+            const variacaoInput = document.getElementById('edit-variacao');
+            if (variacaoInput) {
+                variacaoInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const valor = this.value.trim();
+                        if (valor) {
+                            adicionarTagVariacao(valor);
+                            this.value = '';
+                        }
+                    }
+                });
+            }
+        }
+
+        // Testar modo escuro
+        function testarModoEscuro() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            
+            // Simular troca de logo
+            alert(`Modo ${isDark ? 'escuro' : 'claro'} ativado!\n\nNa aplicação real, a logo seria trocada automaticamente.`);
+        }
+
+        // Demonstrar troca de logo
+        function demonstrarLogoSwitch() {
+            alert(`🖼️ Sistema de Troca de Logo:\n\n` +
+                  `• Modo Claro: Logo Monocromatico - Azul - Aluforce.webp\n` +
+                  `• Modo Escuro: Logo Monocromatico - Branco - Aluforce copy.webp\n\n` +
+                  `A troca é automática ao alternar o modo escuro.`);
+        }
+
+        // Testar APIs
+        async function testarAPIs() {
+            const endpoints = [
+                '/api/pcp/produtos',
+                '/api/pcp/produtos/334',
+                '/api/pcp/produtos/sku/FECHPAACE334'
+            ];
+            
+            let resultados = 'Resultados dos Testes de API:\n\n';
+            
+            for (const endpoint of endpoints) {
+                try {
+                    const response = await fetch(endpoint);
+                    resultados += `✅ ${endpoint}: ${response.status} ${response.statusText}\n`;
+                } catch (error) {
+                    resultados += `❌ ${endpoint}: ${error.message}\n`;
+                }
+            }
+            
+            alert(resultados);
+        }
+    </script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

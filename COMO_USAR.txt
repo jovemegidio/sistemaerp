@@ -1,0 +1,66 @@
+# ⚡ GUIA DE INICIALIZAÇÃO RÁPIDA - ALUFORCE v2.0
+
+## 🚀 3 Passos para Iniciar
+
+### 1️⃣ Primeira Vez? Instale as Dependências
+```
+📦 Duplo clique: INSTALAR_DEPENDENCIAS.bat
+⏱️ Aguarde 2-3 minutos
+```
+
+### 2️⃣ Iniciar o Sistema
+```
+🚀 Duplo clique: INICIAR_RAPIDO.bat
+✅ Sistema abre automaticamente no navegador em 5 segundos
+```
+
+### 3️⃣ Usar o Sistema
+```
+🌐 Navegador abre em: http://localhost:3000
+👤 Login: admin@aluforce.com.br
+🔑 Senha: admin123
+```
+
+---
+
+## 🛑 Para Parar o Sistema
+```
+Duplo clique: PARAR_SISTEMA.bat
+```
+
+---
+
+## 📋 Módulos Disponíveis
+
+Após login, acesse:
+
+| 🏭 **PCP** | Produção |
+| 💰 **Financeiro** | Contas |
+| 📊 **Vendas** | Pedidos |
+| 📦 **Estoque** | Materiais |
+| 🛒 **Compras** | Fornecedores |
+
+---
+
+## ❓ Problemas?
+
+### Sistema não inicia?
+1. Verifique se Node.js está instalado
+2. Execute: `INSTALAR_DEPENDENCIAS.bat`
+3. Tente novamente: `INICIAR_RAPIDO.bat`
+
+### Porta ocupada?
+1. Execute: `PARAR_SISTEMA.bat`
+2. Aguarde 5 segundos
+3. Execute: `INICIAR_RAPIDO.bat`
+
+### Banco não conecta?
+1. Verifique se MySQL está rodando
+2. Edite arquivo `.env` com credenciais corretas
+3. Reinicie o sistema
+
+---
+
+## 📞 Suporte
+**Email:** ti@aluforce.ind.br  
+**Sistema:** v2.0.0 - Beta

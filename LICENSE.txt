@@ -1,0 +1,45 @@
+CONTRATO DE LICENÇA DE USO DE SOFTWARE
+
+ALUFORCE SISTEMA - Sistema de Gestão Empresarial
+Versão 2.0.0
+
+Copyright © 2025 ALUFORCE. Todos os direitos reservados.
+
+Este Contrato de Licença de Usuário Final ("Contrato") é um acordo legal entre você 
+(pessoa física ou jurídica) e ALUFORCE para uso do software ALUFORCE SISTEMA.
+
+AO INSTALAR, COPIAR OU DE QUALQUER OUTRA FORMA UTILIZAR ESTE SOFTWARE, VOCÊ CONCORDA 
+EM ESTAR VINCULADO AOS TERMOS DESTE CONTRATO.
+
+1. CONCESSÃO DE LICENÇA
+A ALUFORCE concede a você uma licença não exclusiva, intransferível e limitada para 
+instalar e usar o Software de acordo com os termos deste Contrato.
+
+2. RESTRIÇÕES
+Você não pode:
+- Modificar, traduzir, adaptar ou criar obras derivadas do Software
+- Fazer engenharia reversa, descompilar ou desmontar o Software
+- Alugar, arrendar, emprestar ou sublicenciar o Software
+- Remover avisos de propriedade ou rótulos do Software
+
+3. PROPRIEDADE
+O Software é propriedade da ALUFORCE e é protegido por leis de direitos autorais.
+
+4. GARANTIA LIMITADA
+O Software é fornecido "como está", sem garantia de qualquer tipo.
+
+5. LIMITAÇÃO DE RESPONSABILIDADE
+Em nenhum caso a ALUFORCE será responsável por quaisquer danos especiais, incidentais, 
+indiretos ou consequenciais.
+
+6. TÉRMINO
+Esta licença é efetiva até ser terminada. Ela será automaticamente terminada se você 
+não cumprir com qualquer termo deste Contrato.
+
+7. LEGISLAÇÃO APLICÁVEL
+Este Contrato será regido pelas leis da República Federativa do Brasil.
+
+Para suporte: suporte@aluforce.com.br
+
+ALUFORCE - Sistema de Gestão Empresarial
+www.aluforce.com.br

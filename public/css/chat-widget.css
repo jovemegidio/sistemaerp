@@ -1,0 +1,22 @@
+/* Chat desativado globalmente */
+.chat-widget-container,
+.chat-floating-button,
+.chat-floating-btn,
+.chat-floating-btn-modern,
+.chat-widget,
+.chat-widget-omie {
+  display: none !important;
+}
+
+.notification-badge,
+.chat-bottom-nav,
+.chat-screen,
+.chat-header-omie,
+.chat-card,
+.chat-welcome,
+.chat-input-area {
+  display: none !important;
+}
+
+/* Mantem posicao livre para o seletor de fundos */
+body { --chat-disabled: 1; }

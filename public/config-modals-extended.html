@@ -1,0 +1,3395 @@
+﻿<!-- ============================================================
+     MODAIS ESTENDIDOS DE CONFIGURAÇÉO
+     Modais adicionais para configurações avançadas
+     ============================================================ -->
+
+<!-- ============================================================
+     RECURSOS HUMANOS
+     ============================================================ -->
+
+<!-- Modal: Gestão de Funcionários -->
+<div id="modal-funcionarios" class="config-detail-modal">
+    <div class="config-detail-modal-content config-modal-large">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-funcionarios')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-green">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div>
+                    <h3>Gestão de Funcionários</h3>
+                    <p>Cadastro e gerenciamento de colaboradores</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-funcionarios')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar" style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                <button class="config-btn-primary" onclick="abrirModalNovoFuncionario()">
+                    <i class="fas fa-plus"></i> Novo Funcionário
+                </button>
+                <button class="config-btn-secondary" onclick="importarFuncionarios()">
+                    <i class="fas fa-file-excel"></i> Importar
+                </button>
+                <button class="config-btn-secondary" onclick="exportarFuncionarios()">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+                <div style="flex: 1;"></div>
+                <div class="config-form-group" style="margin: 0; min-width: 200px;">
+                    <input type="text" id="busca-funcionario" class="config-input" placeholder="Buscar funcionário..." oninput="buscarFuncionarios(this.value)">
+                </div>
+                <div class="config-form-group" style="margin: 0;">
+                    <select id="filtro-status-funcionario" class="config-input" onchange="filtrarFuncionariosPorStatus(this.value)">
+                        <option value="">Todos os Status</option>
+                        <option value="ativo">Ativos</option>
+                        <option value="inativo">Inativos</option>
+                        <option value="ferias">Férias</option>
+                        <option value="afastado">Afastados</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="config-table-container" style="max-height: 500px; overflow-y: auto;">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Nome</th>
+                            <th>Cargo</th>
+                            <th>Departamento</th>
+                            <th>Admissão</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="funcionarios-list">
+                        <tr>
+                            <td colspan="6" class="text-center" style="padding: 40px; color: #6c757d;">
+                                <i class="fas fa-spinner fa-spin"></i> Carregando funcionários...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Paginação -->
+            <div style="margin-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+                <span id="funcionarios-info" style="color: #6c757d; font-size: 14px;">Carregando...</span>
+                <div id="funcionarios-paginacao" style="display: flex; gap: 5px;">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Novo/Editar Funcionário -->
+<div id="modal-form-funcionario" class="config-detail-modal">
+    <div class="config-detail-modal-content" style="max-width: 800px;">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-form-funcionario')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-green">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div>
+                    <h3 id="titulo-form-funcionario">Novo Funcionário</h3>
+                    <p>Preencha os dados do colaborador</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-form-funcionario')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <form id="form-funcionario" onsubmit="salvarFuncionario(event)">
+                <input type="hidden" id="func-id" name="id">
+                
+                <div class="config-form-section">
+                    <h4 class="config-section-title"><i class="fas fa-user"></i> Dados Pessoais</h4>
+                    <div class="config-form-grid">
+                        <div class="config-form-group">
+                            <label>Nome Completo *</label>
+                            <input type="text" id="func-nome" name="nome" class="config-input" required>
+                        </div>
+                        <div class="config-form-group">
+                            <label>CPF *</label>
+                            <input type="text" id="func-cpf" name="cpf" class="config-input" placeholder="000.000.000-00" required>
+                        </div>
+                        <div class="config-form-group">
+                            <label>RG</label>
+                            <input type="text" id="func-rg" name="rg" class="config-input">
+                        </div>
+                        <div class="config-form-group">
+                            <label>Data de Nascimento</label>
+                            <input type="date" id="func-nascimento" name="data_nascimento" class="config-input">
+                        </div>
+                        <div class="config-form-group">
+                            <label>Email</label>
+                            <input type="email" id="func-email" name="email" class="config-input">
+                        </div>
+                        <div class="config-form-group">
+                            <label>Telefone</label>
+                            <input type="text" id="func-telefone" name="telefone" class="config-input" placeholder="(00) 00000-0000">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-form-section">
+                    <h4 class="config-section-title"><i class="fas fa-briefcase"></i> Dados Profissionais</h4>
+                    <div class="config-form-grid">
+                        <div class="config-form-group">
+                            <label>Cargo *</label>
+                            <input type="text" id="func-cargo" name="cargo" class="config-input" required>
+                        </div>
+                        <div class="config-form-group">
+                            <label>Departamento *</label>
+                            <select id="func-departamento" name="departamento" class="config-input" required>
+                                <option value="">Selecione...</option>
+                                <option value="Administração">Administração</option>
+                                <option value="Comercial">Comercial</option>
+                                <option value="Financeiro">Financeiro</option>
+                                <option value="Produção">Produção</option>
+                                <option value="Logística">Logística</option>
+                                <option value="RH">RH</option>
+                                <option value="TI">TI</option>
+                                <option value="Qualidade">Qualidade</option>
+                            </select>
+                        </div>
+                        <div class="config-form-group">
+                            <label>Data de Admissão *</label>
+                            <input type="date" id="func-admissao" name="data_admissao" class="config-input" required>
+                        </div>
+                        <div class="config-form-group">
+                            <label>Salário</label>
+                            <input type="text" id="func-salario" name="salario" class="config-input" placeholder="R$ 0,00">
+                        </div>
+                        <div class="config-form-group">
+                            <label>Status</label>
+                            <select id="func-status" name="status" class="config-input">
+                                <option value="ativo">Ativo</option>
+                                <option value="inativo">Inativo</option>
+                                <option value="ferias">Férias</option>
+                                <option value="afastado">Afastado</option>
+                            </select>
+                        </div>
+                        <div class="config-form-group">
+                            <label>PIS/PASEP</label>
+                            <input type="text" id="func-pis" name="pis" class="config-input">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-form-section">
+                    <h4 class="config-section-title"><i class="fas fa-map-marker-alt"></i> Endereço</h4>
+                    <div class="config-form-grid">
+                        <div class="config-form-group" style="flex: 2;">
+                            <label>Endereço</label>
+                            <input type="text" id="func-endereco" name="endereco" class="config-input">
+                        </div>
+                        <div class="config-form-group">
+                            <label>Número</label>
+                            <input type="text" id="func-numero" name="numero" class="config-input">
+                        </div>
+                        <div class="config-form-group">
+                            <label>Bairro</label>
+                            <input type="text" id="func-bairro" name="bairro" class="config-input">
+                        </div>
+                        <div class="config-form-group">
+                            <label>Cidade</label>
+                            <input type="text" id="func-cidade" name="cidade" class="config-input">
+                        </div>
+                        <div class="config-form-group">
+                            <label>CEP</label>
+                            <input type="text" id="func-cep" name="cep" class="config-input" placeholder="00000-000">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="config-form-actions">
+                    <button type="button" class="config-btn-secondary" onclick="fecharModal('modal-form-funcionario')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="config-btn-primary">
+                        <i class="fas fa-save"></i> Salvar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Importar Funcionários -->
+<div id="modal-importar-funcionarios" class="config-detail-modal">
+    <div class="config-detail-modal-content" style="max-width: 600px;">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-importar-funcionarios')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-green">
+                    <i class="fas fa-file-excel"></i>
+                </div>
+                <div>
+                    <h3>Importar Funcionários</h3>
+                    <p>Importe dados de uma planilha Excel ou CSV</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-importar-funcionarios')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div style="text-align: center; padding: 30px; border: 2px dashed #dee2e6; border-radius: 10px; margin-bottom: 20px;">
+                <i class="fas fa-cloud-upload-alt" style="font-size: 48px; color: #6c757d; margin-bottom: 15px;"></i>
+                <p style="margin-bottom: 15px;">Arraste um arquivo Excel ou CSV aqui ou</p>
+                <input type="file" id="arquivo-importacao" accept=".xlsx,.xls,.csv" style="display: none;" onchange="processarArquivoImportacao(this)">
+                <button class="config-btn-primary" onclick="document.getElementById('arquivo-importacao').click()">
+                    <i class="fas fa-folder-open"></i> Selecionar Arquivo
+                </button>
+            </div>
+            
+            <div style="background: #f8f9fa; padding: 15px; border-radius: 8px;">
+                <h5 style="margin-bottom: 10px;"><i class="fas fa-info-circle"></i> Formato esperado:</h5>
+                <p style="font-size: 13px; color: #6c757d; margin: 0;">
+                    A planilha deve conter as colunas: <strong>Nome, CPF, Cargo, Departamento, Data Admissão, Email, Telefone</strong>
+                </p>
+                <button class="config-btn-link" style="margin-top: 10px; padding: 0;" onclick="baixarModeloImportacao()">
+                    <i class="fas fa-download"></i> Baixar modelo de planilha
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Cargos e Funções -->
+<div id="modal-cargos" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-cargos')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-green">
+                    <i class="fas fa-id-badge"></i>
+                </div>
+                <div>
+                    <h3>Cargos e Funções</h3>
+                    <p>Definir hierarquia organizacional</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-cargos')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar">
+                <button class="config-btn-primary" onclick="novoCargo()">
+                    <i class="fas fa-plus"></i> Novo Cargo
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Cargo</th>
+                            <th>Departamento</th>
+                            <th>Nível</th>
+                            <th>CBO</th>
+                            <th>Funcionários</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cargos-list">
+                        <tr>
+                            <td>Diretor Geral</td>
+                            <td>Diretoria</td>
+                            <td>Executivo</td>
+                            <td>1210-05</td>
+                            <td>1</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Gerente de Produção</td>
+                            <td>Produção</td>
+                            <td>Gerencial</td>
+                            <td>1421-05</td>
+                            <td>2</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Operador de Produção</td>
+                            <td>Produção</td>
+                            <td>Operacional</td>
+                            <td>8111-10</td>
+                            <td>15</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Folha de Pagamento -->
+<div id="modal-folha-pagamento" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-folha-pagamento')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-green">
+                    <i class="fas fa-money-check-alt"></i>
+                </div>
+                <div>
+                    <h3>Folha de Pagamento</h3>
+                    <p>Configurações de salários e benefícios</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-folha-pagamento')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-form-section">
+                <h4 class="config-section-title"><i class="fas fa-calendar-alt"></i> Configurações Gerais</h4>
+                
+                <div class="config-form-grid">
+                    <div class="config-form-group">
+                        <label>Dia de Fechamento</label>
+                        <select class="config-input">
+                            <option value="25">Dia 25</option>
+                            <option value="30">Dia 30</option>
+                            <option value="ultimo">Último dia do mês</option>
+                        </select>
+                    </div>
+                    <div class="config-form-group">
+                        <label>Dia de Pagamento</label>
+                        <select class="config-input">
+                            <option value="5">Dia 5</option>
+                            <option value="10">Dia 10</option>
+                            <option value="15">Dia 15</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-form-section">
+                <h4 class="config-section-title"><i class="fas fa-percentage"></i> Encargos e Descontos</h4>
+                
+                <div class="config-form-grid">
+                    <div class="config-form-group">
+                        <label>INSS Patronal (%)</label>
+                        <input type="number" class="config-input" value="20" step="0.01">
+                    </div>
+                    <div class="config-form-group">
+                        <label>FGTS (%)</label>
+                        <input type="number" class="config-input" value="8" step="0.01">
+                    </div>
+                    <div class="config-form-group">
+                        <label>Vale Transporte (%)</label>
+                        <input type="number" class="config-input" value="6" step="0.01">
+                    </div>
+                    <div class="config-form-group">
+                        <label>Vale Refeição (%)</label>
+                        <input type="number" class="config-input" value="20" step="0.01">
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-detail-modal-footer">
+                <button type="button" class="config-btn-cancel" onclick="fecharModal('modal-folha-pagamento')">Cancelar</button>
+                <button type="button" class="config-btn-save" onclick="saveFolhaPagamentoConfig()">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Ponto Eletrônico -->
+<div id="modal-ponto-eletronico" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-ponto-eletronico')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-green">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div>
+                    <h3>Ponto Eletrônico</h3>
+                    <p>Controle de jornada de trabalho</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-ponto-eletronico')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-form-section">
+                <h4 class="config-section-title"><i class="fas fa-business-time"></i> Jornada de Trabalho Padrão</h4>
+                
+                <div class="config-form-grid">
+                    <div class="config-form-group">
+                        <label>Entrada</label>
+                        <input type="time" class="config-input" value="08:00">
+                    </div>
+                    <div class="config-form-group">
+                        <label>Saída Almoço</label>
+                        <input type="time" class="config-input" value="12:00">
+                    </div>
+                    <div class="config-form-group">
+                        <label>Retorno Almoço</label>
+                        <input type="time" class="config-input" value="13:00">
+                    </div>
+                    <div class="config-form-group">
+                        <label>Saída</label>
+                        <input type="time" class="config-input" value="17:00">
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-form-section">
+                <h4 class="config-section-title"><i class="fas fa-cog"></i> Configurações</h4>
+                
+                <div class="config-toggle-list">
+                    <div class="config-toggle-item">
+                        <div class="config-toggle-info">
+                            <strong>Tolerância de Atraso</strong>
+                            <span>Permitir até 10 minutos de tolerância</span>
+                        </div>
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="config-toggle-item">
+                        <div class="config-toggle-info">
+                            <strong>Horas Extras Automáticas</strong>
+                            <span>Calcular horas extras automaticamente</span>
+                        </div>
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="config-toggle-item">
+                        <div class="config-toggle-info">
+                            <strong>Notificar Gestores</strong>
+                            <span>Enviar alertas de ausências</span>
+                        </div>
+                        <label class="config-toggle-switch">
+                            <input type="checkbox">
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-detail-modal-footer">
+                <button type="button" class="config-btn-cancel" onclick="fecharModal('modal-ponto-eletronico')">Cancelar</button>
+                <button type="button" class="config-btn-save" onclick="savePontoConfig()">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     CLIENTES E FORNECEDORES
+     ============================================================ -->
+
+<!-- Modal: Grupos de Clientes -->
+<div id="modal-grupos-clientes" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-grupos-clientes')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-purple">
+                    <i class="fas fa-layer-group"></i>
+                </div>
+                <div>
+                    <h3>Grupos de Clientes</h3>
+                    <p>Segmentação de clientes</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-grupos-clientes')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar">
+                <button class="config-btn-primary" onclick="novoGrupoCliente()">
+                    <i class="fas fa-plus"></i> Novo Grupo
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Nome do Grupo</th>
+                            <th>Desconto (%)</th>
+                            <th>Prazo Padrão</th>
+                            <th>Clientes</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>VIP</td>
+                            <td>15%</td>
+                            <td>30 dias</td>
+                            <td>25</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Revendedor</td>
+                            <td>10%</td>
+                            <td>21 dias</td>
+                            <td>48</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Comum</td>
+                            <td>0%</td>
+                            <td>14 dias</td>
+                            <td>156</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Regiões de Venda -->
+<div id="modal-regioes-venda" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-regioes-venda')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-purple">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div>
+                    <h3>Regiões de Venda</h3>
+                    <p>Territórios e áreas de atuação</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-regioes-venda')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar">
+                <button class="config-btn-primary" onclick="novaRegiao()">
+                    <i class="fas fa-plus"></i> Nova Região
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Região</th>
+                            <th>Estados</th>
+                            <th>Vendedor Responsável</th>
+                            <th>Clientes</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sudeste</td>
+                            <td>SP, RJ, MG, ES</td>
+                            <td>Carlos Silva</td>
+                            <td>120</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Sul</td>
+                            <td>PR, SC, RS</td>
+                            <td>Ana Souza</td>
+                            <td>85</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Nordeste</td>
+                            <td>BA, PE, CE, ...</td>
+                            <td>Pedro Santos</td>
+                            <td>45</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Tipos de Fornecedor -->
+<div id="modal-tipos-fornecedor" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-tipos-fornecedor')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-purple">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div>
+                    <h3>Tipos de Fornecedor</h3>
+                    <p>Categorização de fornecedores</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-tipos-fornecedor')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar">
+                <button class="config-btn-primary" onclick="novoTipoFornecedor()">
+                    <i class="fas fa-plus"></i> Novo Tipo
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                            <th>Fornecedores</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Matéria Prima</td>
+                            <td>Fornecedores de insumos básicos</td>
+                            <td>12</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Serviços</td>
+                            <td>Prestadores de serviço</td>
+                            <td>8</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Equipamentos</td>
+                            <td>Máquinas e equipamentos</td>
+                            <td>5</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Condições de Pagamento -->
+<div id="modal-condicoes-pagamento" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-condicoes-pagamento')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-purple">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <div>
+                    <h3>Condições de Pagamento</h3>
+                    <p>Prazos e condições comerciais</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-condicoes-pagamento')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar">
+                <button class="config-btn-primary" onclick="novaCondicao()">
+                    <i class="fas fa-plus"></i> Nova Condição
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Condição</th>
+                            <th>Parcelas</th>
+                            <th>Prazo</th>
+                            <th>Acréscimo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>À Vista</td>
+                            <td>1</td>
+                            <td>0 dias</td>
+                            <td>0%</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>30/60/90</td>
+                            <td>3</td>
+                            <td>30, 60, 90 dias</td>
+                            <td>3%</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>28 DDL</td>
+                            <td>1</td>
+                            <td>28 dias</td>
+                            <td>0%</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     VENDA DE PRODUTOS - ADICIONAIS
+     ============================================================ -->
+
+<!-- Modal: Tabelas de Preço -->
+<div id="modal-tabelas-preco" class="config-detail-modal">
+    <div class="config-detail-modal-content config-modal-large">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-tabelas-preco')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-teal">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div>
+                    <h3>Tabelas de Preço</h3>
+                    <p>Precificação e descontos</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-tabelas-preco')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar">
+                <button class="config-btn-primary" onclick="novaTabelaPreco()">
+                    <i class="fas fa-plus"></i> Nova Tabela
+                </button>
+                <button class="config-btn-secondary">
+                    <i class="fas fa-file-import"></i> Importar
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Nome da Tabela</th>
+                            <th>Tipo</th>
+                            <th>Validade</th>
+                            <th>Produtos</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativa</span></td>
+                            <td>Tabela Geral</td>
+                            <td>Padrão</td>
+                            <td>Sem prazo</td>
+                            <td>150</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Ver produtos"><i class="fas fa-list"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativa</span></td>
+                            <td>Revendedores</td>
+                            <td>Desconto 15%</td>
+                            <td>31/12/2025</td>
+                            <td>150</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Ver produtos"><i class="fas fa-list"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-badge status-inativo"><i class="fas fa-ban"></i> Inativa</span></td>
+                            <td>Promoção Black Friday</td>
+                            <td>Desconto 30%</td>
+                            <td>Expirada</td>
+                            <td>50</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Ver produtos"><i class="fas fa-list"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Unidades de Medida -->
+<div id="modal-unidades-medida" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-unidades-medida')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-teal">
+                    <i class="fas fa-ruler"></i>
+                </div>
+                <div>
+                    <h3>Unidades de Medida</h3>
+                    <p>Conversões e padrões</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-unidades-medida')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar">
+                <button class="config-btn-primary" onclick="novaUnidade()">
+                    <i class="fas fa-plus"></i> Nova Unidade
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Sigla</th>
+                            <th>Nome</th>
+                            <th>Tipo</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>M</strong></td>
+                            <td>Metro</td>
+                            <td>Comprimento</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>KG</strong></td>
+                            <td>Quilograma</td>
+                            <td>Peso</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>UN</strong></td>
+                            <td>Unidade</td>
+                            <td>Quantidade</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>CX</strong></td>
+                            <td>Caixa</td>
+                            <td>Volume</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><strong>RL</strong></td>
+                            <td>Rolo</td>
+                            <td>Volume</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Códigos NCM -->
+<div id="modal-ncm" class="config-detail-modal">
+    <div class="config-detail-modal-content config-modal-large">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-ncm')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-teal">
+                    <i class="fas fa-barcode"></i>
+                </div>
+                <div>
+                    <h3>Códigos NCM</h3>
+                    <p>Nomenclatura Comum do Mercosul</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-ncm')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Buscar NCM por código ou descrição..." id="ncm-search">
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>NCM</th>
+                            <th>Descrição</th>
+                            <th>IPI (%)</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ncm-list">
+                        <tr>
+                            <td><code>8544.49.00</code></td>
+                            <td>Outros condutores elétricos, para tensão não superior a 1.000V</td>
+                            <td>15%</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Selecionar"><i class="fas fa-check"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>8544.60.00</code></td>
+                            <td>Outros condutores elétricos, para tensão superior a 1.000V</td>
+                            <td>15%</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Selecionar"><i class="fas fa-check"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>7614.10.00</code></td>
+                            <td>Cabos de alumínio, com alma de aço</td>
+                            <td>10%</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Selecionar"><i class="fas fa-check"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>7605.21.00</code></td>
+                            <td>Fios de alumínio não ligado, seção transversal > 7mm</td>
+                            <td>12%</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Selecionar"><i class="fas fa-check"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     VENDA DE SERVIÇOS - ADICIONAIS
+     ============================================================ -->
+
+<!-- Modal: Tipos de Serviço -->
+<div id="modal-tipos-servico" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-tipos-servico')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-red">
+                    <i class="fas fa-concierge-bell"></i>
+                </div>
+                <div>
+                    <h3>Tipos de Serviço</h3>
+                    <p>Categorias de serviços prestados</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-tipos-servico')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar">
+                <button class="config-btn-primary" onclick="novoTipoServico()">
+                    <i class="fas fa-plus"></i> Novo Tipo
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Tipo de Serviço</th>
+                            <th>Código LC 116</th>
+                            <th>ISS (%)</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Instalação Elétrica</td>
+                            <td>14.01</td>
+                            <td>5%</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Manutenção Preventiva</td>
+                            <td>14.01</td>
+                            <td>5%</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Consultoria Técnica</td>
+                            <td>17.01</td>
+                            <td>5%</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Modelos de Contrato -->
+<div id="modal-contratos" class="config-detail-modal">
+    <div class="config-detail-modal-content config-modal-large">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-contratos')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-red">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <div>
+                    <h3>Modelos de Contrato</h3>
+                    <p>Templates e cláusulas padrão</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-contratos')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar">
+                <button class="config-btn-primary" onclick="novoModeloContrato()">
+                    <i class="fas fa-plus"></i> Novo Modelo
+                </button>
+            </div>
+
+            <div class="config-cards-grid">
+                <div class="config-card-item">
+                    <div class="config-card-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="config-card-content">
+                        <h4>Contrato de Prestação de Serviços</h4>
+                        <p>Modelo padrão para serviços gerais</p>
+                        <span class="config-card-meta">Atualizado em 15/12/2025</span>
+                    </div>
+                    <div class="config-card-actions">
+                        <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                        <button class="config-btn-icon" title="Duplicar"><i class="fas fa-copy"></i></button>
+                        <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="config-card-item">
+                    <div class="config-card-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="config-card-content">
+                        <h4>Contrato de Manutenção</h4>
+                        <p>Para serviços recorrentes de manutenção</p>
+                        <span class="config-card-meta">Atualizado em 10/12/2025</span>
+                    </div>
+                    <div class="config-card-actions">
+                        <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                        <button class="config-btn-icon" title="Duplicar"><i class="fas fa-copy"></i></button>
+                        <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: SLA de Atendimento -->
+<div id="modal-sla" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-sla')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-red">
+                    <i class="fas fa-stopwatch"></i>
+                </div>
+                <div>
+                    <h3>SLA de Atendimento</h3>
+                    <p>Níveis de serviço acordados</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-sla')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-toolbar">
+                <button class="config-btn-primary" onclick="novoSLA()">
+                    <i class="fas fa-plus"></i> Novo SLA
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Prioridade</th>
+                            <th>Tempo de Resposta</th>
+                            <th>Tempo de Solução</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="priority-badge priority-critical">Crítica</span></td>
+                            <td>30 minutos</td>
+                            <td>4 horas</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="priority-badge priority-high">Alta</span></td>
+                            <td>2 horas</td>
+                            <td>8 horas</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="priority-badge priority-medium">Média</span></td>
+                            <td>4 horas</td>
+                            <td>24 horas</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="priority-badge priority-low">Baixa</span></td>
+                            <td>8 horas</td>
+                            <td>48 horas</td>
+                            <td class="config-actions">
+                                <button class="config-btn-icon" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: NFS-e -->
+<div id="modal-nfse" class="config-detail-modal">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-nfse')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon config-icon-red">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </div>
+                <div>
+                    <h3>NFS-e</h3>
+                    <p>Nota Fiscal de Serviços Eletrônica</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-nfse')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div class="config-form-section">
+                <h4 class="config-section-title"><i class="fas fa-building"></i> Dados do Prestador</h4>
+                
+                <div class="config-form-grid">
+                    <div class="config-form-group">
+                        <label>Inscrição Municipal</label>
+                        <input type="text" class="config-input" placeholder="Nº Inscrição Municipal">
+                    </div>
+                    <div class="config-form-group">
+                        <label>Código do Município</label>
+                        <input type="text" class="config-input" placeholder="Código IBGE">
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-form-section">
+                <h4 class="config-section-title"><i class="fas fa-cog"></i> Configurações de Emissão</h4>
+                
+                <div class="config-form-grid">
+                    <div class="config-form-group">
+                        <label>Ambiente</label>
+                        <select class="config-input">
+                            <option value="homologacao">Homologação (Testes)</option>
+                            <option value="producao">Produção</option>
+                        </select>
+                    </div>
+                    <div class="config-form-group">
+                        <label>Regime de Tributação</label>
+                        <select class="config-input">
+                            <option value="1">Microempresa Municipal</option>
+                            <option value="2">Estimativa</option>
+                            <option value="3">Sociedade de Profissionais</option>
+                            <option value="4">Cooperativa</option>
+                            <option value="5">MEI</option>
+                            <option value="6">ME/EPP Simples Nacional</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="config-toggle-list">
+                    <div class="config-toggle-item">
+                        <div class="config-toggle-info">
+                            <strong>Envio Automático por E-mail</strong>
+                            <span>Enviar NFS-e automaticamente ao tomador</span>
+                        </div>
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                    </div>
+                    <div class="config-toggle-item">
+                        <div class="config-toggle-info">
+                            <strong>Reter ISS</strong>
+                            <span>Habilitar retenção de ISS na fonte</span>
+                        </div>
+                        <label class="config-toggle-switch">
+                            <input type="checkbox">
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="config-detail-modal-footer">
+                <button type="button" class="config-btn-cancel" onclick="fecharModal('modal-nfse')">Cancelar</button>
+                <button type="button" class="config-btn-save" onclick="saveNfseConfig()">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     MODAIS ORIGINAIS - VENDA DE PRODUTOS
+     ============================================================ -->
+
+<!-- Modal: Venda de Produtos - Configurações -->
+<div id="modal-venda-produtos" class="config-detail-modal">
+    <div class="config-detail-card">
+        <div class="config-detail-header">
+            <div class="config-detail-title">
+                <div class="config-detail-icon product">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="config-detail-title-text">
+                    <h3>Venda de Produtos</h3>
+                    <p>Configurações de etapas e tabelas de preço</p>
+                </div>
+            </div>
+            <button class="config-detail-close" onclick="closeConfigModal('modal-venda-produtos')">×</button>
+        </div>
+
+        <div class="config-detail-body">
+            <form id="form-venda-produtos" class="config-form">
+                <!-- Etapas do Pedido -->
+                <div class="config-form-section">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-tasks"></i> Etapas do Pedido de Venda + Orçamento
+                    </h4>
+                    <div class="config-checklist">
+                        <label class="config-checkbox-item">
+                            <input type="checkbox" name="etapa_orcamento" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Orçamento</span>
+                        </label>
+                        <label class="config-checkbox-item">
+                            <input type="checkbox" name="etapa_pedido_aprovado" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Pedido Aprovado</span>
+                        </label>
+                        <label class="config-checkbox-item">
+                            <input type="checkbox" name="etapa_analise_credito" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Análise de Crédito</span>
+                        </label>
+                        <label class="config-checkbox-item">
+                            <input type="checkbox" name="etapa_faturar" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Faturar</span>
+                        </label>
+                        <label class="config-checkbox-item">
+                            <input type="checkbox" name="etapa_faturado" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Faturado</span>
+                        </label>
+                        <label class="config-checkbox-item">
+                            <input type="checkbox" name="etapa_entregue" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Entregue</span>
+                        </label>
+                    </div>
+                    <small style="display: block; margin-top: 12px; color: #6b7280;">
+                        Total: 6 de 6 registros
+                    </small>
+                </div>
+
+                <!-- Tabelas de Preço -->
+                <div class="config-form-section" style="margin-top: 24px;">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-tags"></i> Tabelas de Preço dos Produtos
+                    </h4>
+                    <div class="config-toggle">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="bloquear-preco-tabela" checked>
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Não permitir alterar o preço unitário do produto se alguma tabela de preço estiver disponível</strong>
+                            <span>Tanto no cadastro do produto quanto lá no pedido de venda (mas usuários administradores podem mesmo assim).</span>
+                        </div>
+                    </div>
+                    <div class="config-toggle" style="margin-top: 16px;">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="permitir-orçamento">
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Permitir que o pedido de venda seja marcado como uma proposta (ou orçamento)</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Numeração -->
+                <div class="config-form-section" style="margin-top: 24px;">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-sort-numeric-up"></i> Alterar o número dos próximos Pedidos de Venda e Remessas de Produto
+                    </h4>
+                    <div class="config-form-row">
+                        <div class="config-form-group">
+                            <label>Próximo número de Pedido</label>
+                            <input type="number" name="próximo_numero_pedido" value="1001" min="1">
+                        </div>
+                        <div class="config-form-group">
+                            <label>Próxima Remessa</label>
+                            <input type="number" name="próxima_remessa" value="5001" min="1">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Reserva de Estoque -->
+                <div class="config-form-section" style="margin-top: 24px;">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-warehouse"></i> Reserva de Estoque
+                    </h4>
+                    <div class="config-toggle">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="habilitar-reserva-estoque">
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Habilitar a reserva de estoque em pedidos de venda e remessa</strong>
+                        </div>
+                    </div>
+                    <div class="config-toggle" style="margin-top: 16px;">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="reservar-automaticamente">
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Reservar o estoque automaticamente para novos itens</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Gestão de Frete -->
+                <div class="config-form-section" style="margin-top: 24px;">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-truck"></i> Gestão de Frete
+                    </h4>
+                    <div class="config-form-row">
+                        <div class="config-form-group">
+                            <label>Tipos de Entrega</label>
+                            <button type="button" class="btn btn-sm btn-primary">
+                                <i class="fas fa-truck"></i> Definir os Tipos de Entrega para suas Transportadoras
+                            </button>
+                        </div>
+                        <div class="config-form-group">
+                            <label>Informações de Frete</label>
+                            <button type="button" class="btn btn-sm btn-primary">
+                                <i class="fas fa-info-circle"></i> Alterar Informações de Frete e Rastreio
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="config-detail-footer">
+            <div class="config-detail-footer-left"></div>
+            <div class="config-detail-footer-right">
+                <button class="config-btn config-btn-secondary" onclick="closeConfigModal('modal-venda-produtos')">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="config-btn config-btn-primary" onclick="saveVendaProdutosConfig()">
+                    <i class="fas fa-save"></i> Salvar Configurações
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Venda de Serviços - Configurações -->
+<div id="modal-venda-servicos" class="config-detail-modal">
+    <div class="config-detail-card">
+        <div class="config-detail-header">
+            <div class="config-detail-title">
+                <div class="config-detail-icon service">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="config-detail-title-text">
+                    <h3>Venda de Serviços</h3>
+                    <p>Configurações de ordens de serviço</p>
+                </div>
+            </div>
+            <button class="config-detail-close" onclick="closeConfigModal('modal-venda-servicos')">×</button>
+        </div>
+
+        <div class="config-detail-body">
+            <form id="form-venda-servicos" class="config-form">
+                <!-- Etapas da Ordem de Serviço -->
+                <div class="config-form-section">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-tasks"></i> Etapas da Ordem de Serviço
+                    </h4>
+                    <div class="config-checklist">
+                        <label class="config-checkbox-item">
+                            <input type="checkbox" name="etapa_ordem_servico" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Ordem de Serviço</span>
+                        </label>
+                        <label class="config-checkbox-item">
+                            <input type="checkbox" name="etapa_em_execucao" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Em Execução</span>
+                        </label>
+                        <label class="config-checkbox-item">
+                            <input type="checkbox" name="etapa_executada" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Executada</span>
+                        </label>
+                        <label class="config-checkbox-item">
+                            <input type="checkbox" name="etapa_faturar_servico" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Faturar</span>
+                        </label>
+                    </div>
+                    <small style="display: block; margin-top: 12px; color: #6b7280;">
+                        Total: 1-6 de 6 registros
+                    </small>
+                </div>
+
+                <!-- Proposta/Orçamento -->
+                <div class="config-form-section" style="margin-top: 24px;">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-file-alt"></i> Proposta e Orçamento
+                    </h4>
+                    <div class="config-toggle">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="permitir-proposta-servico">
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Permitir que a ordem de serviço seja marcada como uma proposta (ou orçamento)</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Numeração de Ordens de Serviço -->
+                <div class="config-form-section" style="margin-top: 24px;">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-sort-numeric-up"></i> Alterar o número das próximas Ordens de Serviço
+                    </h4>
+                    <div class="config-form-row single">
+                        <div class="config-form-group">
+                            <label>Próximo número de Ordem de Serviço</label>
+                            <input type="number" name="próximo_numero_os" value="1001" min="1">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="config-detail-footer">
+            <div class="config-detail-footer-left"></div>
+            <div class="config-detail-footer-right">
+                <button class="config-btn config-btn-secondary" onclick="closeConfigModal('modal-venda-servicos')">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="config-btn config-btn-primary" onclick="saveVendaServicosConfig()">
+                    <i class="fas fa-save"></i> Salvar Configurações
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Clientes e Fornecedores - Configurações -->
+<div id="modal-clientes-fornecedores-config" class="config-detail-modal">
+    <div class="config-detail-card">
+        <div class="config-detail-header">
+            <div class="config-detail-title">
+                <div class="config-detail-icon client">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="config-detail-title-text">
+                    <h3>Clientes e Fornecedores</h3>
+                    <p>Configurações de cadastro e validação</p>
+                </div>
+            </div>
+            <button class="config-detail-close" onclick="closeConfigModal('modal-clientes-fornecedores-config')">×</button>
+        </div>
+
+        <div class="config-detail-body">
+            <form id="form-clientes-fornecedores" class="config-form">
+                <!-- Validações de Cadastro -->
+                <div class="config-form-section">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-check-circle"></i> Validações de Cadastro
+                    </h4>
+                    <div class="config-toggle">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="obrigar-cnpj-cpf" checked>
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Obrigar o preenchimento do CNPJ/CPF no cadastro</strong>
+                        </div>
+                    </div>
+                    <div class="config-toggle" style="margin-top: 16px;">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="obrigar-endereco" checked>
+                            <span class="checkmark"></span>
+                            <span class="label-text">Obrigar o preenchimento do Endereço no cadastro</span>
+                        </label>
+                    </div>
+                    <div class="config-toggle" style="margin-top: 16px;">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="obrigar-email" checked>
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Obrigar o preenchimento do E-mail no cadastro</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Validação de Unicidade -->
+                <div class="config-form-section" style="margin-top: 24px;">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-shield-alt"></i> Validação de Unicidade
+                    </h4>
+                    <div class="config-toggle">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="validar-cnpj-cpf" checked>
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Validar unicidade de CNPJ/CPF no cadastro</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controle de Crédito -->
+                <div class="config-form-section" style="margin-top: 24px;">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-credit-card"></i> Controle de Crédito
+                    </h4>
+                    <div class="config-toggle">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="bloquear-faturamento">
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Bloquear o faturamento para novos clientes</strong>
+                        </div>
+                    </div>
+                    <div class="config-toggle" style="margin-top: 16px;">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="definir-limite-credito">
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Definir um limite de crédito padrão para novos clientes</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tags e Características -->
+                <div class="config-form-section" style="margin-top: 24px;">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-tags"></i> Tags de Clientes e Fornecedores
+                    </h4>
+                    <div class="config-toggle">
+                        <label class="config-toggle-switch">
+                            <input type="checkbox" id="manter-tags-atualizadas" checked>
+                            <span class="config-toggle-slider"></span>
+                        </label>
+                        <div class="config-toggle-label">
+                            <strong>Manter os clientes, fornecedores e transportadoras sempre atualizados com uma tag</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Características Customizadas -->
+                <div class="config-form-section" style="margin-top: 24px;">
+                    <h4 class="config-form-section-title">
+                        <i class="fas fa-sliders-h"></i> Características de Clientes e Fornecedores
+                    </h4>
+                    <p style="color: #6b7280; font-size: 14px; margin-bottom: 12px;">
+                        Configure campos personalizados para seus cadastros
+                    </p>
+                    <button type="button" class="btn btn-sm btn-outline">
+                        <i class="fas fa-plus"></i> Adicionar Característica
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="config-detail-footer">
+            <div class="config-detail-footer-left"></div>
+            <div class="config-detail-footer-right">
+                <button class="config-btn config-btn-secondary" onclick="closeConfigModal('modal-clientes-fornecedores-config')">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button class="config-btn config-btn-primary" onclick="saveClientesFornecedoresConfig()">
+                    <i class="fas fa-save"></i> Salvar Configurações
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Configurações de Finanças -->
+<div class="config-detail-modal" id="modal-financas">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-financas')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+                    <i class="fas fa-dollar-sign"></i>
+                </div>
+                <div>
+                    <h3>Configurações de Finanças</h3>
+                    <p>Configure opções gerais de finanças</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-financas')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <!-- Contas em Atraso -->
+            <div class="config-form-group">
+                <label for="contas-atraso">
+                    <i class="fas fa-exclamation-triangle" style="color: #dc3545; margin-right: 8px;"></i>
+                    Contas em Atraso
+                </label>
+                <select id="contas-atraso" class="config-input">
+                    <option value="nao-mostrar">Não mostrar</option>
+                    <option value="mostrar-aviso">Mostrar aviso</option>
+                    <option value="bloquear-vendas">Bloquear vendas</option>
+                </select>
+                <small class="config-input-help">Defina como tratar clientes com contas em atraso</small>
+            </div>
+
+            <!-- Email para Remessa de Cobrança -->
+            <div class="config-form-group">
+                <label for="email-remessa">
+                    <i class="fas fa-envelope" style="color: #17a2b8; margin-right: 8px;"></i>
+                    Email para Remessa de Cobrança
+                </label>
+                <input 
+                    type="email" 
+                    id="email-remessa" 
+                    class="config-input"
+                    placeholder="financeiro@aluforce.com.br"
+                    value="financeiro@aluforce.com.br"
+                />
+                <small class="config-input-help">Email que receberá remessas de cobrança bancária</small>
+            </div>
+
+            <!-- Configurações de Juros e Multas -->
+            <div class="config-form-group">
+                <label>
+                    <i class="fas fa-percentage" style="color: #ffc107; margin-right: 8px;"></i>
+                    Juros e Multas
+                </label>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px;">
+                    <div>
+                        <label for="juros-mes" style="font-size: 13px; color: #666; margin-bottom: 5px; display: block;">Juros ao mês (%)</label>
+                        <input 
+                            type="number" 
+                            id="juros-mes" 
+                            class="config-input"
+                            placeholder="1.0"
+                            step="0.01"
+                            min="0"
+                            value="1.0"
+                        />
+                    </div>
+                    <div>
+                        <label for="multa-atraso" style="font-size: 13px; color: #666; margin-bottom: 5px; display: block;">Multa por atraso (%)</label>
+                        <input 
+                            type="number" 
+                            id="multa-atraso" 
+                            class="config-input"
+                            placeholder="2.0"
+                            step="0.01"
+                            min="0"
+                            value="2.0"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="config-detail-modal-footer">
+            <button type="button" class="config-btn-cancel" onclick="fecharModal('modal-financas')">
+                Cancelar
+            </button>
+            <button type="button" class="config-btn-save" onclick="saveFinanceConfig()">
+                <i class="fas fa-save"></i> Salvar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Famílias de Produtos -->
+<div class="config-detail-modal" id="modal-familias-produtos">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-familias-produtos')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <div>
+                    <h3>Famílias de Produtos</h3>
+                    <p>Gerencie famílias de produtos</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-familias-produtos')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <!-- Botões de Ação -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button class="config-btn-primary" onclick="abrirModalIncluirFamilia()">
+                    <i class="fas fa-plus"></i> Incluir
+                </button>
+                <button class="config-btn-secondary" onclick="importarPlanilhaFamilias()">
+                    <i class="fas fa-file-excel"></i> Importar Planilha
+                </button>
+                <button class="config-btn-secondary" style="margin-left: auto;">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+            </div>
+
+            <!-- Info de Agrupamento -->
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; color: #666;">
+                <i class="fas fa-info-circle" style="color: #007bff; margin-right: 8px;"></i>
+                Arraste uma ou mais colunas aqui para agrupar
+            </div>
+
+            <!-- Tabela de Famílias -->
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 40px;">
+                                <input type="checkbox" id="select-all-familias">
+                            </th>
+                            <th>Nome da Família <i class="fas fa-sort"></i></th>
+                            <th>Código da Família <i class="fas fa-sort"></i></th>
+                            <th>Inclusão <i class="fas fa-sort"></i></th>
+                            <th>Última Alteração <i class="fas fa-sort"></i></th>
+                            <th style="width: 150px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="familias-list">
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>Manutenção de máquinas</td>
+                            <td>Manutenção</td>
+                            <td>12/09/25 Sex</td>
+                            <td>12/09/25 Sex</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarFamilia(1)" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="anexosFamilia(1)" title="Anexos">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="excluirFamilia(1)" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginação -->
+            <div class="config-pagination">
+                <span>1 - 1 de 1 registros</span>
+                <div class="config-pagination-buttons">
+                    <button disabled><i class="fas fa-angle-double-left"></i></button>
+                    <button disabled><i class="fas fa-angle-left"></i></button>
+                    <span>1</span>
+                    <button disabled><i class="fas fa-angle-right"></i></button>
+                    <button disabled><i class="fas fa-angle-double-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Características de Produtos -->
+<div class="config-detail-modal" id="modal-caracteristicas-produtos">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-caracteristicas-produtos')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <div>
+                    <h3>Características de Produtos</h3>
+                    <p>Gerencie características de produtos</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-caracteristicas-produtos')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <!-- Botão de Incluir -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button class="config-btn-primary" onclick="abrirModalIncluirCaracteristica()">
+                    <i class="fas fa-plus"></i> Incluir
+                </button>
+            </div>
+
+            <!-- Info de Agrupamento -->
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; color: #666;">
+                <i class="fas fa-info-circle" style="color: #007bff; margin-right: 8px;"></i>
+                Arraste uma ou mais colunas aqui para agrupar
+            </div>
+
+            <!-- Tabela de Características -->
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>Nome da Característica <i class="fas fa-sort"></i></th>
+                            <th>Conteúdos Possíveis <i class="fas fa-sort"></i></th>
+                            <th>Inclusão <i class="fas fa-sort"></i></th>
+                            <th>Última Alteração <i class="fas fa-sort"></i></th>
+                            <th>Visualizar em... <i class="fas fa-sort"></i></th>
+                            <th>Preenchimento... <i class="fas fa-sort"></i></th>
+                            <th style="width: 150px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="caracteristicas-list">
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: #999;">
+                                Nenhum registro encontrado
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Vendedores -->
+<div class="config-detail-modal" id="modal-vendedores">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-vendedores')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #00b894 0%, #55efc4 100%);">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <div>
+                    <h3>Vendedores</h3>
+                    <p>Gerencie vendedores do sistema</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-vendedores')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <!-- Botão de Incluir -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button class="config-btn-primary" onclick="abrirModalIncluirVendedor()">
+                    <i class="fas fa-plus"></i> Incluir
+                </button>
+            </div>
+
+            <!-- Info de Agrupamento -->
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; color: #666;">
+                <i class="fas fa-info-circle" style="color: #007bff; margin-right: 8px;"></i>
+                Arraste uma ou mais colunas aqui para agrupar
+            </div>
+
+            <!-- Tabela de Vendedores -->
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Situação <i class="fas fa-sort"></i></th>
+                            <th>Nome do Vendedor <i class="fas fa-sort"></i></th>
+                            <th>% de Comissão <i class="fas fa-sort"></i></th>
+                            <th>E-mail do Vendedor <i class="fas fa-sort"></i></th>
+                            <th>Permissões <i class="fas fa-sort"></i></th>
+                            <th>Inclusão <i class="fas fa-sort"></i></th>
+                            <th style="width: 150px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vendedores-list">
+                        <!-- Dados de exemplo -->
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td>Andréia Trovão</td>
+                            <td>0%</td>
+                            <td>andreia.trovao@laboreletric...</td>
+                            <td>Visualiza qualquer pedido, mas não...</td>
+                            <td>03/10/25 Sex</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarVendedor(1)" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="anexosVendedor(1)" title="Anexos">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="transferirVendedor(1)" title="Transferir">
+                                    <i class="fas fa-exchange-alt"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="emailsVendedor(1)" title="Emails">
+                                    <i class="fas fa-envelope"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="excluirVendedor(1)" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Sidebar de Ações -->
+            <div class="config-sidebar-actions">
+                <button class="config-sidebar-btn active">
+                    <i class="fas fa-user-check"></i>
+                    <span>Ativo</span>
+                    <small>clique para inativar</small>
+                </button>
+            </div>
+
+            <!-- Paginação -->
+            <div class="config-pagination">
+                <span>1 - 15 de 15 registros</span>
+                <div class="config-pagination-buttons">
+                    <button disabled><i class="fas fa-angle-double-left"></i></button>
+                    <button disabled><i class="fas fa-angle-left"></i></button>
+                    <span>1</span>
+                    <button disabled><i class="fas fa-angle-right"></i></button>
+                    <button disabled><i class="fas fa-angle-double-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Compradores -->
+<div class="config-detail-modal" id="modal-compradores">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-compradores')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #0984e3 0%, #74b9ff 100%);">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div>
+                    <h3>Compradores</h3>
+                    <p>Gerencie compradores do sistema</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-compradores')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <!-- Botão de Incluir -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button class="config-btn-primary" onclick="abrirModalIncluirComprador()">
+                    <i class="fas fa-plus"></i> Incluir
+                </button>
+            </div>
+
+            <!-- Info de Agrupamento -->
+            <div style="background: #f8f9fa; padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; font-size: 13px; color: #666;">
+                <i class="fas fa-info-circle" style="color: #007bff; margin-right: 8px;"></i>
+                Arraste uma ou mais colunas aqui para agrupar
+            </div>
+
+            <!-- Tabela de Compradores -->
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Situação <i class="fas fa-sort"></i></th>
+                            <th>Nome do Comprador <i class="fas fa-sort"></i></th>
+                            <th>Inclusão <i class="fas fa-sort"></i></th>
+                            <th>Última Alteração <i class="fas fa-sort"></i></th>
+                            <th>Incluído por <i class="fas fa-sort"></i></th>
+                            <th style="width: 150px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="compradores-list">
+                        <!-- Dados de exemplo -->
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td>Andréia Trovão</td>
+                            <td>02/06/25 Seg</td>
+                            <td>02/06/25 Seg</td>
+                            <td>Daniel Silveira Costa</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarComprador(1)" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="anexosComprador(1)" title="Anexos">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="inativarComprador(1)" title="Inativar">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="excluirComprador(1)" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td>Guilherme Dantas</td>
+                            <td>02/06/25 Seg</td>
+                            <td>02/06/25 Seg</td>
+                            <td>Daniel Silveira Costa</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarComprador(2)" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="anexosComprador(2)" title="Anexos">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="inativarComprador(2)" title="Inativar">
+                                    <i class="fas fa-ban"></i>
+                                </button>
+                                <button class="config-btn-icon" onclick="excluirComprador(2)" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginação -->
+            <div class="config-pagination">
+                <span>1 - 2 de 2 registros</span>
+                <div class="config-pagination-buttons">
+                    <button disabled><i class="fas fa-angle-double-left"></i></button>
+                    <button disabled><i class="fas fa-angle-left"></i></button>
+                    <span>1</span>
+                    <button disabled><i class="fas fa-angle-right"></i></button>
+                    <button disabled><i class="fas fa-angle-double-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal: Plano de Contas -->
+<div class="config-detail-modal" id="modal-plano-contas">
+    <div class="config-detail-modal-content" style="max-width: 900px;">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-plano-contas')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
+                    <i class="fas fa-list-alt"></i>
+                </div>
+                <div>
+                    <h3>Plano de Contas</h3>
+                    <p>Estrutura contábil da empresa</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-plano-contas')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button class="config-btn-primary" onclick="incluirConta()">
+                    <i class="fas fa-plus"></i> Nova Conta
+                </button>
+                <button class="config-btn-secondary" onclick="expandirTodos()">
+                    <i class="fas fa-expand-alt"></i> Expandir Todos
+                </button>
+                <button class="config-btn-secondary" onclick="recolherTodos()">
+                    <i class="fas fa-compress-alt"></i> Recolher Todos
+                </button>
+            </div>
+
+            <div class="config-tree-view" id="plano-contas-tree">
+                <!-- Receitas -->
+                <div class="tree-item tree-parent">
+                    <div class="tree-item-header" onclick="toggleTreeItem(this)">
+                        <i class="fas fa-chevron-right tree-toggle"></i>
+                        <i class="fas fa-folder tree-icon" style="color: #28a745;"></i>
+                        <span class="tree-label">1 - Receitas</span>
+                        <div class="tree-actions">
+                            <button onclick="editarConta(1)" title="Editar"><i class="fas fa-edit"></i></button>
+                            <button onclick="adicionarSubconta(1)" title="Adicionar subconta"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="tree-children" style="display: none;">
+                        <div class="tree-item">
+                            <div class="tree-item-header">
+                                <i class="fas fa-file tree-icon" style="color: #28a745;"></i>
+                                <span class="tree-label">1.1 - Receita de Vendas</span>
+                                <div class="tree-actions">
+                                    <button onclick="editarConta(1.1)" title="Editar"><i class="fas fa-edit"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tree-item">
+                            <div class="tree-item-header">
+                                <i class="fas fa-file tree-icon" style="color: #28a745;"></i>
+                                <span class="tree-label">1.2 - Receita de Serviços</span>
+                                <div class="tree-actions">
+                                    <button onclick="editarConta(1.2)" title="Editar"><i class="fas fa-edit"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tree-item">
+                            <div class="tree-item-header">
+                                <i class="fas fa-file tree-icon" style="color: #28a745;"></i>
+                                <span class="tree-label">1.3 - Outras Receitas</span>
+                                <div class="tree-actions">
+                                    <button onclick="editarConta(1.3)" title="Editar"><i class="fas fa-edit"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Despesas -->
+                <div class="tree-item tree-parent">
+                    <div class="tree-item-header" onclick="toggleTreeItem(this)">
+                        <i class="fas fa-chevron-right tree-toggle"></i>
+                        <i class="fas fa-folder tree-icon" style="color: #dc3545;"></i>
+                        <span class="tree-label">2 - Despesas</span>
+                        <div class="tree-actions">
+                            <button onclick="editarConta(2)" title="Editar"><i class="fas fa-edit"></i></button>
+                            <button onclick="adicionarSubconta(2)" title="Adicionar subconta"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="tree-children" style="display: none;">
+                        <div class="tree-item">
+                            <div class="tree-item-header">
+                                <i class="fas fa-file tree-icon" style="color: #dc3545;"></i>
+                                <span class="tree-label">2.1 - Custos de Produção</span>
+                            </div>
+                        </div>
+                        <div class="tree-item">
+                            <div class="tree-item-header">
+                                <i class="fas fa-file tree-icon" style="color: #dc3545;"></i>
+                                <span class="tree-label">2.2 - Despesas Administrativas</span>
+                            </div>
+                        </div>
+                        <div class="tree-item">
+                            <div class="tree-item-header">
+                                <i class="fas fa-file tree-icon" style="color: #dc3545;"></i>
+                                <span class="tree-label">2.3 - Despesas com Pessoal</span>
+                            </div>
+                        </div>
+                        <div class="tree-item">
+                            <div class="tree-item-header">
+                                <i class="fas fa-file tree-icon" style="color: #dc3545;"></i>
+                                <span class="tree-label">2.4 - Impostos e Taxas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Transferências -->
+                <div class="tree-item tree-parent">
+                    <div class="tree-item-header" onclick="toggleTreeItem(this)">
+                        <i class="fas fa-chevron-right tree-toggle"></i>
+                        <i class="fas fa-folder tree-icon" style="color: #17a2b8;"></i>
+                        <span class="tree-label">3 - Transferências</span>
+                        <div class="tree-actions">
+                            <button onclick="editarConta(3)" title="Editar"><i class="fas fa-edit"></i></button>
+                            <button onclick="adicionarSubconta(3)" title="Adicionar subconta"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="tree-children" style="display: none;">
+                        <div class="tree-item">
+                            <div class="tree-item-header">
+                                <i class="fas fa-file tree-icon" style="color: #17a2b8;"></i>
+                                <span class="tree-label">3.1 - Transferência entre Contas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Contas Bancárias -->
+<div class="config-detail-modal" id="modal-contas-bancarias">
+    <div class="config-detail-modal-content" style="max-width: 1000px;">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-contas-bancarias')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
+                    <i class="fas fa-university"></i>
+                </div>
+                <div>
+                    <h3>Contas Bancárias</h3>
+                    <p>Gestão de contas e conciliação</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-contas-bancarias')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button class="config-btn-primary" onclick="incluirContaBancaria()">
+                    <i class="fas fa-plus"></i> Nova Conta
+                </button>
+                <button class="config-btn-secondary">
+                    <i class="fas fa-file-import"></i> Importar OFX
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Status</th>
+                            <th>Banco</th>
+                            <th>Agência</th>
+                            <th>Conta</th>
+                            <th>Tipo</th>
+                            <th>Saldo Atual</th>
+                            <th>Última Conciliação</th>
+                            <th style="width: 120px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contas-bancarias-list">
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td><img src="https://logo.clearbit.com/itau.com.br" style="width:20px;height:20px;margin-right:8px;vertical-align:middle;border-radius:4px;"> Itaú</td>
+                            <td>0123</td>
+                            <td>12345-6</td>
+                            <td>Corrente</td>
+                            <td style="color: #28a745; font-weight: 600;">R$ 45.230,00</td>
+                            <td>20/12/2025</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarContaBancaria(1)" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" onclick="conciliarConta(1)" title="Conciliar"><i class="fas fa-check-double"></i></button>
+                                <button class="config-btn-icon" onclick="excluirContaBancaria(1)" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td><img src="https://logo.clearbit.com/bradesco.com.br" style="width:20px;height:20px;margin-right:8px;vertical-align:middle;border-radius:4px;"> Bradesco</td>
+                            <td>4567</td>
+                            <td>78901-2</td>
+                            <td>Poupança</td>
+                            <td style="color: #28a745; font-weight: 600;">R$ 12.500,00</td>
+                            <td>18/12/2025</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarContaBancaria(2)" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" onclick="conciliarConta(2)" title="Conciliar"><i class="fas fa-check-double"></i></button>
+                                <button class="config-btn-icon" onclick="excluirContaBancaria(2)" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td><i class="fas fa-wallet" style="color:#6c5ce7; margin-right:8px;"></i> Caixa Interno</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>Caixa</td>
+                            <td style="color: #28a745; font-weight: 600;">R$ 3.450,00</td>
+                            <td>23/12/2025</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarContaBancaria(3)" title="Editar"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" onclick="excluirContaBancaria(3)" title="Excluir"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-weight: 600; color: #495057;">Saldo Total:</span>
+                    <span style="font-size: 1.25rem; font-weight: 700; color: #28a745;">R$ 61.180,00</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Formas de Pagamento -->
+<div class="config-detail-modal" id="modal-formas-pagamento">
+    <div class="config-detail-modal-content">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-formas-pagamento')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
+                    <i class="fas fa-credit-card"></i>
+                </div>
+                <div>
+                    <h3>Formas de Pagamento</h3>
+                    <p>Configurar métodos de pagamento</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-formas-pagamento')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                <button class="config-btn-primary" onclick="incluirFormaPagamento()">
+                    <i class="fas fa-plus"></i> Nova Forma
+                </button>
+            </div>
+
+            <div class="config-table-container">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">Status</th>
+                            <th>Forma de Pagamento</th>
+                            <th>Tipo</th>
+                            <th>Prazo (dias)</th>
+                            <th>Taxa (%)</th>
+                            <th style="width: 100px;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td><i class="fas fa-money-bill-wave" style="color:#28a745; margin-right:8px;"></i> Dinheiro</td>
+                            <td>À Vista</td>
+                            <td>0</td>
+                            <td>0%</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarFormaPagamento(1)"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" onclick="excluirFormaPagamento(1)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td><i class="fas fa-credit-card" style="color:#0984e3; margin-right:8px;"></i> Cartão de Crédito</td>
+                            <td>Parcelado</td>
+                            <td>30</td>
+                            <td>3.5%</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarFormaPagamento(2)"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" onclick="excluirFormaPagamento(2)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td><i class="fas fa-qrcode" style="color:#6c5ce7; margin-right:8px;"></i> PIX</td>
+                            <td>À Vista</td>
+                            <td>0</td>
+                            <td>0%</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarFormaPagamento(3)"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" onclick="excluirFormaPagamento(3)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td><i class="fas fa-barcode" style="color:#e17055; margin-right:8px;"></i> Boleto</td>
+                            <td>A Prazo</td>
+                            <td>28</td>
+                            <td>2.5%</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarFormaPagamento(4)"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" onclick="excluirFormaPagamento(4)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-badge status-ativo"><i class="fas fa-check-circle"></i> Ativo</span></td>
+                            <td><i class="fas fa-exchange-alt" style="color:#00b894; margin-right:8px;"></i> Transferência</td>
+                            <td>À Vista</td>
+                            <td>0</td>
+                            <td>0%</td>
+                            <td>
+                                <button class="config-btn-icon" onclick="editarFormaPagamento(5)"><i class="fas fa-edit"></i></button>
+                                <button class="config-btn-icon" onclick="excluirFormaPagamento(5)"><i class="fas fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Configuração de Impostos -->
+<div class="config-detail-modal" id="modal-impostos">
+    <div class="config-detail-modal-content" style="max-width: 900px;">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-impostos')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);">
+                    <i class="fas fa-percent"></i>
+                </div>
+                <div>
+                    <h3>Configuração de Impostos</h3>
+                    <p>Alíquotas e regimes tributários</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-impostos')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <!-- Regime Tributário -->
+            <div class="config-form-group">
+                <label><i class="fas fa-building" style="color: #0984e3; margin-right: 8px;"></i>Regime Tributário</label>
+                <select id="regime-tributario" class="config-input">
+                    <option value="simples">Simples Nacional</option>
+                    <option value="lucro-presumido">Lucro Presumido</option>
+                    <option value="lucro-real">Lucro Real</option>
+                    <option value="mei">MEI</option>
+                </select>
+            </div>
+
+            <!-- Alíquotas de Impostos -->
+            <h4 style="margin-top: 25px; margin-bottom: 15px; color: #2d3748; font-size: 15px;">
+                <i class="fas fa-percentage" style="color: #f39c12; margin-right: 8px;"></i>Alíquotas de Impostos
+            </h4>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                <div class="config-form-group">
+                    <label>ICMS (%)</label>
+                    <input type="number" class="config-input" value="18" step="0.01" min="0">
+                </div>
+                <div class="config-form-group">
+                    <label>IPI (%)</label>
+                    <input type="number" class="config-input" value="5" step="0.01" min="0">
+                </div>
+                <div class="config-form-group">
+                    <label>PIS (%)</label>
+                    <input type="number" class="config-input" value="1.65" step="0.01" min="0">
+                </div>
+                <div class="config-form-group">
+                    <label>COFINS (%)</label>
+                    <input type="number" class="config-input" value="7.6" step="0.01" min="0">
+                </div>
+                <div class="config-form-group">
+                    <label>ISS (%)</label>
+                    <input type="number" class="config-input" value="5" step="0.01" min="0">
+                </div>
+                <div class="config-form-group">
+                    <label>IRPJ (%)</label>
+                    <input type="number" class="config-input" value="15" step="0.01" min="0">
+                </div>
+            </div>
+
+            <!-- CFOP Padrão -->
+            <h4 style="margin-top: 25px; margin-bottom: 15px; color: #2d3748; font-size: 15px;">
+                <i class="fas fa-code" style="color: #6c5ce7; margin-right: 8px;"></i>CFOP Padrão
+            </h4>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                <div class="config-form-group">
+                    <label>Venda Dentro do Estado</label>
+                    <input type="text" class="config-input" value="5102" placeholder="Ex: 5102">
+                </div>
+                <div class="config-form-group">
+                    <label>Venda Fora do Estado</label>
+                    <input type="text" class="config-input" value="6102" placeholder="Ex: 6102">
+                </div>
+                <div class="config-form-group">
+                    <label>Devolução Dentro do Estado</label>
+                    <input type="text" class="config-input" value="5202" placeholder="Ex: 5202">
+                </div>
+                <div class="config-form-group">
+                    <label>Devolução Fora do Estado</label>
+                    <input type="text" class="config-input" value="6202" placeholder="Ex: 6202">
+                </div>
+            </div>
+
+            <div class="config-detail-modal-footer" style="margin-top: 25px;">
+                <button type="button" class="config-btn-cancel" onclick="fecharModal('modal-impostos')">Cancelar</button>
+                <button type="button" class="config-btn-save" onclick="saveImpostosConfig()">
+                    <i class="fas fa-save"></i> Salvar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Sobre os Lançamentos -->
+<div class="config-detail-modal" id="modal-sobre-lancamentos">
+    <div class="config-detail-modal-content" style="max-width: 700px;">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-sobre-lancamentos')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div>
+                    <h3>Sobre os Lançamentos</h3>
+                    <p>Informações sobre atualizações e melhorias</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-sobre-lancamentos')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body">
+            <!-- Versão Atual -->
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h4 style="margin: 0; font-size: 18px;">Aluforce ERP</h4>
+                        <p style="margin: 5px 0 0; opacity: 0.9;">Sistema de Gestão Empresarial</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <span style="font-size: 24px; font-weight: 700;">v11.12</span>
+                        <p style="margin: 0; font-size: 12px; opacity: 0.8;">Beta</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Atualizações Recentes -->
+            <h4 style="margin-bottom: 15px; color: #2d3748; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-check-circle" style="color: #10b981;"></i> Atualizações Recentes
+            </h4>
+
+            <div class="roadmap-list" style="margin-bottom: 25px;">
+                <div class="roadmap-item">
+                    <div class="roadmap-status" style="background: #dcfce7; color: #166534;">
+                        <i class="fas fa-check"></i> Concluído
+                    </div>
+                    <div class="roadmap-content">
+                        <h5>Módulo PCP - Interface Padronizada</h5>
+                        <p>Sidebar e header ajustados para o padrão ALUFORCE</p>
+                        <span class="roadmap-date">31/12/2025</span>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-status" style="background: #dcfce7; color: #166534;">
+                        <i class="fas fa-check"></i> Concluído
+                    </div>
+                    <div class="roadmap-content">
+                        <h5>Financeiro - Modais Profissionais</h5>
+                        <p>Contas a Pagar e Receber com novo design</p>
+                        <span class="roadmap-date">30/12/2025</span>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-status" style="background: #dcfce7; color: #166534;">
+                        <i class="fas fa-check"></i> Concluído
+                    </div>
+                    <div class="roadmap-content">
+                        <h5>Sistema de Suporte - Pop-up de Confirmação</h5>
+                        <p>Modal estilizado para fechar tickets</p>
+                        <span class="roadmap-date">31/12/2025</span>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-status" style="background: #dcfce7; color: #166534;">
+                        <i class="fas fa-check"></i> Concluído
+                    </div>
+                    <div class="roadmap-content">
+                        <h5>PCP - Geração de Ordem em Excel</h5>
+                        <p>Melhoria no preenchimento automático do template</p>
+                        <span class="roadmap-date">29/12/2025</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Próximas Atualizações -->
+            <h4 style="margin-bottom: 15px; color: #2d3748; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-rocket" style="color: #f39c12;"></i> Próximas Atualizações
+            </h4>
+
+            <div class="roadmap-list">
+                <div class="roadmap-item">
+                    <div class="roadmap-status status-in-progress">
+                        <i class="fas fa-spinner fa-spin"></i> Em Desenvolvimento
+                    </div>
+                    <div class="roadmap-content">
+                        <h5>Módulo de Logística</h5>
+                        <p>Gestão de entregas, rastreamento e rotas</p>
+                        <span class="roadmap-date">Q1 2026</span>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-status status-planned">
+                        <i class="fas fa-clock"></i> Planejado
+                    </div>
+                    <div class="roadmap-content">
+                        <h5>App Mobile</h5>
+                        <p>Aplicativo para iOS e Android</p>
+                        <span class="roadmap-date">Q2 2026</span>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-status status-planned">
+                        <i class="fas fa-clock"></i> Planejado
+                    </div>
+                    <div class="roadmap-content">
+                        <h5>BI Avançado com IA</h5>
+                        <p>Dashboards preditivos e análise inteligente</p>
+                        <span class="roadmap-date">Q3 2026</span>
+                    </div>
+                </div>
+
+                <div class="roadmap-item">
+                    <div class="roadmap-status status-planned">
+                        <i class="fas fa-clock"></i> Planejado
+                    </div>
+                    <div class="roadmap-content">
+                        <h5>Integração Bancária Open Finance</h5>
+                        <p>Conexão direta com bancos via API</p>
+                        <span class="roadmap-date">Q4 2026</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sugestões -->
+            <div style="margin-top: 25px; padding: 15px; background: #f0f9ff; border-radius: 8px; border: 1px solid #bae6fd;">
+                <p style="margin: 0; color: #0369a1; font-size: 14px;">
+                    <i class="fas fa-lightbulb" style="margin-right: 8px;"></i>
+                    Tem uma sugestão? Entre em contato pelo chat de suporte ou envie para <strong>ti@aluforce.ind.br</strong>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Histórico de Alterações -->
+<div class="config-detail-modal" id="modal-historico-alteracoes">
+    <div class="config-detail-modal-content" style="max-width: 1000px; max-height: 90vh;">
+        <div class="config-detail-modal-header">
+            <div class="config-detail-modal-header-left">
+                <button class="config-detail-modal-back" onclick="fecharModal('modal-historico-alteracoes')">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <div class="config-detail-modal-icon" style="background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div>
+                    <h3>Histórico de Alterações</h3>
+                    <p>Registro completo de atividades do sistema</p>
+                </div>
+            </div>
+            <button class="config-detail-modal-close" onclick="fecharModal('modal-historico-alteracoes')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="config-detail-modal-body" style="padding: 0;">
+            <!-- Filtros -->
+            <div style="padding: 15px 20px; background: #f8f9fa; border-bottom: 1px solid #e9ecef; display: flex; gap: 15px; flex-wrap: wrap; align-items: center;">
+                <div class="config-form-group" style="margin: 0; flex: 1; min-width: 150px;">
+                    <select id="filtro-modulo" class="config-input" style="height: 38px;" onchange="filtrarHistorico()">
+                        <option value="">Todos os Módulos</option>
+                        <option value="vendas">Vendas</option>
+                        <option value="compras">Compras</option>
+                        <option value="pcp">PCP</option>
+                        <option value="financeiro">Financeiro</option>
+                        <option value="rh">RH</option>
+                        <option value="nfe">NF-e</option>
+                        <option value="sistema">Sistema</option>
+                    </select>
+                </div>
+                <div class="config-form-group" style="margin: 0; flex: 1; min-width: 150px;">
+                    <select id="filtro-usuario" class="config-input" style="height: 38px;" onchange="filtrarHistorico()">
+                        <option value="">Todos os Colaboradores</option>
+                        <!-- Carregado dinamicamente -->
+                    </select>
+                </div>
+                <div class="config-form-group" style="margin: 0; flex: 1; min-width: 150px;">
+                    <select id="filtro-acao" class="config-input" style="height: 38px;" onchange="filtrarHistorico()">
+                        <option value="">Todas as Ações</option>
+                        <option value="criar">Criar</option>
+                        <option value="editar">Editar</option>
+                        <option value="excluir">Excluir</option>
+                        <option value="login">Login</option>
+                        <option value="config">Configuração</option>
+                    </select>
+                </div>
+                <div class="config-form-group" style="margin: 0;">
+                    <input type="date" id="filtro-data-inicio" class="config-input" style="height: 38px;">
+                </div>
+                <div class="config-form-group" style="margin: 0;">
+                    <input type="date" id="filtro-data-fim" class="config-input" style="height: 38px;">
+                </div>
+                <button class="config-btn-secondary" onclick="exportarHistorico()" style="height: 38px;">
+                    <i class="fas fa-download"></i> Exportar
+                </button>
+            </div>
+
+            <!-- Lista de Histórico -->
+            <div style="max-height: 500px; overflow-y: auto; padding: 20px;" id="historico-container">
+                <!-- Exemplo de itens do histórico -->
+                <div class="historico-item">
+                    <div class="historico-avatar" style="background: linear-gradient(135deg, #3498db, #2980b9);">AE</div>
+                    <div class="historico-content">
+                        <div class="historico-header">
+                            <span class="historico-usuario">Antonio Egidio</span>
+                            <span class="historico-badge badge-editar"><i class="fas fa-edit"></i> Editou</span>
+                            <span class="historico-modulo">Vendas</span>
+                        </div>
+                        <p class="historico-descricao">Alterou o pedido <strong>#12345</strong> - Status: Em Produção → Faturado</p>
+                        <div class="historico-detalhes">
+                            <span class="historico-time"><i class="fas fa-clock"></i> 23/12/2025 14:35</span>
+                            <span class="historico-ip"><i class="fas fa-globe"></i> 192.168.1.105</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="historico-item">
+                    <div class="historico-avatar" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">AD</div>
+                    <div class="historico-content">
+                        <div class="historico-header">
+                            <span class="historico-usuario">Administrador</span>
+                            <span class="historico-badge badge-config"><i class="fas fa-cog"></i> Configurou</span>
+                            <span class="historico-modulo">Sistema</span>
+                        </div>
+                        <p class="historico-descricao">Alterou permissões do usuário <strong>Maria Silva</strong> - Adicionou acesso ao módulo Financeiro</p>
+                        <div class="historico-detalhes">
+                            <span class="historico-time"><i class="fas fa-clock"></i> 23/12/2025 13:20</span>
+                            <span class="historico-ip"><i class="fas fa-globe"></i> 192.168.1.100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="historico-item">
+                    <div class="historico-avatar" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">MS</div>
+                    <div class="historico-content">
+                        <div class="historico-header">
+                            <span class="historico-usuario">Maria Silva</span>
+                            <span class="historico-badge badge-criar"><i class="fas fa-plus"></i> Criou</span>
+                            <span class="historico-modulo">Compras</span>
+                        </div>
+                        <p class="historico-descricao">Criou novo pedido de compra <strong>#PC-2025-0456</strong> - Fornecedor: Materiais ABC</p>
+                        <div class="historico-detalhes">
+                            <span class="historico-time"><i class="fas fa-clock"></i> 23/12/2025 11:45</span>
+                            <span class="historico-ip"><i class="fas fa-globe"></i> 192.168.1.102</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="historico-item">
+                    <div class="historico-avatar" style="background: linear-gradient(135deg, #f39c12, #e67e22);">AE</div>
+                    <div class="historico-content">
+                        <div class="historico-header">
+                            <span class="historico-usuario">Antonio Egidio</span>
+                            <span class="historico-badge badge-perfil"><i class="fas fa-user"></i> Perfil</span>
+                            <span class="historico-modulo">Sistema</span>
+                        </div>
+                        <p class="historico-descricao">Alterou foto do perfil</p>
+                        <div class="historico-detalhes">
+                            <span class="historico-time"><i class="fas fa-clock"></i> 23/12/2025 10:30</span>
+                            <span class="historico-ip"><i class="fas fa-globe"></i> 192.168.1.105</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="historico-item">
+                    <div class="historico-avatar" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">AD</div>
+                    <div class="historico-content">
+                        <div class="historico-header">
+                            <span class="historico-usuario">Administrador</span>
+                            <span class="historico-badge badge-excluir"><i class="fas fa-trash"></i> Excluiu</span>
+                            <span class="historico-modulo">PCP</span>
+                        </div>
+                        <p class="historico-descricao">Excluiu ordem de produção <strong>#OP-2025-0123</strong> - Motivo: Cancelada pelo cliente</p>
+                        <div class="historico-detalhes">
+                            <span class="historico-time"><i class="fas fa-clock"></i> 23/12/2025 09:15</span>
+                            <span class="historico-ip"><i class="fas fa-globe"></i> 192.168.1.100</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="historico-item">
+                    <div class="historico-avatar" style="background: linear-gradient(135deg, #1abc9c, #16a085);">MS</div>
+                    <div class="historico-content">
+                        <div class="historico-header">
+                            <span class="historico-usuario">Maria Silva</span>
+                            <span class="historico-badge badge-login"><i class="fas fa-sign-in-alt"></i> Login</span>
+                            <span class="historico-modulo">Sistema</span>
+                        </div>
+                        <p class="historico-descricao">Realizou login no sistema</p>
+                        <div class="historico-detalhes">
+                            <span class="historico-time"><i class="fas fa-clock"></i> 23/12/2025 08:00</span>
+                            <span class="historico-ip"><i class="fas fa-globe"></i> 192.168.1.102</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paginação -->
+            <div style="padding: 15px 20px; background: #f8f9fa; border-top: 1px solid #e9ecef; display: flex; justify-content: space-between; align-items: center;">
+                <span style="color: #6c757d; font-size: 14px;">Mostrando 1-6 de 248 registros</span>
+                <div style="display: flex; gap: 5px;">
+                    <button class="config-btn-icon" disabled><i class="fas fa-angle-double-left"></i></button>
+                    <button class="config-btn-icon" disabled><i class="fas fa-angle-left"></i></button>
+                    <button class="config-btn-icon" style="background: #3498db; color: white;">1</button>
+                    <button class="config-btn-icon">2</button>
+                    <button class="config-btn-icon">3</button>
+                    <button class="config-btn-icon">...</button>
+                    <button class="config-btn-icon">42</button>
+                    <button class="config-btn-icon"><i class="fas fa-angle-right"></i></button>
+                    <button class="config-btn-icon"><i class="fas fa-angle-double-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+/* Estilos do Tree View para Plano de Contas */
+.config-tree-view {
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tree-item {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tree-item:last-child {
+    border-bottom: none;
+}
+
+.tree-item-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.tree-item-header:hover {
+    background: #f8f9fa;
+}
+
+.tree-toggle {
+    width: 20px;
+    margin-right: 8px;
+    color: #6c757d;
+    transition: transform 0.2s;
+}
+
+.tree-toggle.expanded {
+    transform: rotate(90deg);
+}
+
+.tree-icon {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+.tree-label {
+    flex: 1;
+    font-size: 14px;
+    color: #2d3748;
+}
+
+.tree-actions {
+    display: flex;
+    gap: 5px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.tree-item-header:hover .tree-actions {
+    opacity: 1;
+}
+
+.tree-actions button {
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: #e9ecef;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #495057;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tree-actions button:hover {
+    background: #dee2e6;
+}
+
+.tree-children {
+    padding-left: 35px;
+    background: #fafafa;
+}
+
+.tree-children .tree-item-header {
+    padding-left: 10px;
+}
+
+/* Estilos do Roadmap */
+.roadmap-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.roadmap-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 1px solid #e9ecef;
+}
+
+.roadmap-status {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.roadmap-status.status-planned {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.roadmap-status.status-in-progress {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.roadmap-content h5 {
+    margin: 0 0 5px;
+    font-size: 15px;
+    color: #2d3748;
+}
+
+.roadmap-content p {
+    margin: 0 0 8px;
+    font-size: 13px;
+    color: #6c757d;
+}
+
+.roadmap-date {
+    font-size: 12px;
+    color: #adb5bd;
+    font-weight: 500;
+}
+
+/* Estilos do Histórico */
+.historico-item {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s;
+}
+
+.historico-item:hover {
+    background: #f8f9fa;
+}
+
+.historico-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.historico-content {
+    flex: 1;
+}
+
+.historico-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+}
+
+.historico-usuario {
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.historico-badge {
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.badge-criar { background: #d4edda; color: #155724; }
+.badge-editar { background: #cce5ff; color: #004085; }
+.badge-excluir { background: #f8d7da; color: #721c24; }
+.badge-login { background: #d1ecf1; color: #0c5460; }
+.badge-config { background: #e2e3e5; color: #383d41; }
+.badge-perfil { background: #fff3cd; color: #856404; }
+
+.historico-modulo {
+    padding: 2px 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    font-size: 11px;
+    color: #495057;
+}
+
+.historico-descricao {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: #495057;
+    line-height: 1.5;
+}
+
+.historico-detalhes {
+    display: flex;
+    gap: 20px;
+    font-size: 12px;
+    color: #adb5bd;
+}
+
+.historico-detalhes i {
+    margin-right: 5px;
+}
+
+/* Status badges para funcionários */
+.status-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.status-ativo {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-inativo {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.status-ferias {
+    background: #cce5ff;
+    color: #004085;
+}
+
+.status-afastado {
+    background: #fff3cd;
+    color: #856404;
+}
+
+/* Config form section styling */
+.config-form-section {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.config-form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.config-section-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.config-section-title i {
+    color: #3498db;
+}
+
+.config-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+@media (max-width: 768px) {
+    .config-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.config-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+}
+
+/* Toast animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Config button icon active state */
+.config-btn-icon.active {
+    background: #3498db !important;
+    color: white !important;
+}
+
+/* Config btn link */
+.config-btn-link {
+    background: none;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.config-btn-link:hover {
+    text-decoration: underline;
+}
+
+/* Danger button for delete actions */
+.config-btn-icon.danger:hover {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Badge info */
+.badge-info {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+</style>

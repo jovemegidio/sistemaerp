@@ -1,0 +1,712 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>ALUFORCE - Módulo de Compras</title>
+    
+    
+    
+    <!-- Modern SaaS UI Framework -->
+    <link rel="stylesheet" href="../../_shared/modern-saas.css?v=3.0">
+    
+    <!-- PCP Styles (Base) -->
+    <link rel="stylesheet" href="../../modules/PCP/pcp_modern_clean.css?v=15.0">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- CSP Fix -->
+    <script src="/js/csp-fix.js"></script>
+    
+    <style>
+        :root {
+            --compras-primary: #10b981;
+            --compras-secondary: #059669;
+            --compras-dark: #047857;
+            --header-height: 70px;
+            --largura-sidebar: 280px;
+        }
+
+        /* Reset para garantir layout limpo */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        /* Container principal - Layout flex */
+        .container-principal {
+            display: flex !important;
+            height: 100vh !important;
+            width: 100vw !important;
+            overflow: hidden !important;
+            background: #f9fafb !important;
+        }
+
+        /* Sidebar - Fixa à esquerda */
+        .sidebar {
+            position: fixed !important;
+            left: 0 !important;
+            top: 0 !important;
+            width: var(--largura-sidebar) !important;
+            height: 100vh !important;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            z-index: 1000 !important;
+            box-shadow: 4px 0 12px rgba(0,0,0,0.1) !important;
+            transition: transform 0.3s ease !important;
+        }
+
+        .sidebar-header {
+            padding: 24px !important;
+            border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .sidebar-logo {
+            max-width: 160px !important;
+            height: auto !important;
+        }
+
+        .sidebar-nav {
+            flex: 1 !important;
+            padding: 16px 12px !important;
+            overflow-y: auto !important;
+        }
+
+        .nav-item {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            padding: 12px 16px !important;
+            color: rgba(255,255,255,0.7) !important;
+            text-decoration: none !important;
+            border-radius: 10px !important;
+            margin-bottom: 8px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .nav-item:hover {
+            background: rgba(255,255,255,0.1) !important;
+            color: white !important;
+        }
+
+        .nav-item.active {
+            background: linear-gradient(135deg, var(--compras-primary), var(--compras-secondary)) !important;
+            color: white !important;
+        }
+
+        .nav-item i {
+            font-size: 18px !important;
+            width: 24px !important;
+        }
+
+        .sidebar-divider {
+            height: 1px !important;
+            background: rgba(255,255,255,0.1) !important;
+            margin: 16px 0 !important;
+        }
+
+        /* Main content - Ajustado para sidebar */
+        .main-content {
+            flex: 1 !important;
+            margin-left: var(--largura-sidebar) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            height: 100vh !important;
+            overflow: hidden !important;
+        }
+
+        /* Header PCP - Topo fixo */
+        .header-pcp {
+            height: var(--header-height) !important;
+            background: white !important;
+            border-bottom: 1px solid #e5e7eb !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 0 24px !important;
+            flex-shrink: 0 !important;
+            z-index: 100 !important;
+        }
+
+        .header-left,
+        .header-right {
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px !important;
+        }
+
+        .menu-toggle {
+            display: none !important;
+        }
+
+        .module-badge-compras {
+            background: linear-gradient(135deg, var(--compras-primary), var(--compras-secondary)) !important;
+            padding: 8px 16px !important;
+            border-radius: 8px !important;
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 12px !important;
+            letter-spacing: 0.5px !important;
+        }
+
+        .page-title {
+            font-size: 20px !important;
+            font-weight: 700 !important;
+            color: #1f2937 !important;
+            margin: 0 !important;
+        }
+
+        /* App Container - Área scrollável */
+        .app-container {
+            flex: 1 !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            background: #f9fafb !important;
+        }
+
+        /* Mobile - Mostrar botão menu */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%) !important;
+            }
+
+            .sidebar.active {
+                transform: translateX(0) !important;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+            }
+
+            .menu-toggle {
+                display: flex !important;
+            }
+        }
+
+        /* Customização do badge do módulo */
+        .module-badge-compras {
+            background: linear-gradient(135deg, var(--compras-primary), var(--compras-secondary)) !important;
+        }
+
+        /* Dashboard Grid - Responsivo */
+        .dashboard-grid,
+        .dashboard-kpis,
+        .stats-cards {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+            gap: 20px !important;
+            padding: 24px !important;
+            width: 100% !important;
+        }
+
+        /* Cards do Dashboard */
+        .kpi-card,
+        .stat-card,
+        .dashboard-card {
+            width: 100% !important;
+            max-width: none !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Tabelas e Containers */
+        .table-container,
+        .table-responsive {
+            width: 100% !important;
+            overflow-x: auto !important;
+        }
+
+        .modern-table {
+            width: 100% !important;
+            min-width: 800px !important;
+        }
+
+        /* Dashboard Content Grid */
+        .dashboard-content {
+            display: grid !important;
+            grid-template-columns: 2fr 1fr !important;
+            gap: 24px !important;
+            padding: 0 24px 24px !important;
+        }
+
+        @media (max-width: 1200px) {
+            .dashboard-content {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Seções de Conteúdo */
+        .content-section {
+            width: 100% !important;
+            padding: 0 !important;
+            display: none;
+        }
+
+        .content-section.active {
+            display: block !important;
+        }
+
+        /* Page Header */
+        .page-header-modern {
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            padding: 24px !important;
+            background: white !important;
+            border-bottom: 1px solid #e5e7eb !important;
+            margin-bottom: 24px !important;
+        }
+
+        /* Botões modernos */
+        .btn-modern {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 18px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .btn-compras-primary {
+            background: linear-gradient(135deg, var(--compras-primary), var(--compras-secondary));
+            color: white;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-compras-primary:hover {
+            background: linear-gradient(135deg, var(--compras-secondary), var(--compras-dark));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Estilos para Cards Renderizados */
+        .kpi-card,
+        .stat-card {
+            background: white !important;
+            border-radius: 16px !important;
+            padding: 24px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 20px !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .kpi-card:hover,
+        .stat-card:hover {
+            transform: translateY(-4px) !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+        }
+
+        .kpi-icon,
+        .stat-icon {
+            width: 64px !important;
+            height: 64px !important;
+            border-radius: 14px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 28px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .kpi-content,
+        .stat-content {
+            flex: 1 !important;
+        }
+
+        .kpi-label,
+        .stat-label {
+            font-size: 13px !important;
+            color: #6b7280 !important;
+            font-weight: 500 !important;
+            margin-bottom: 8px !important;
+        }
+
+        .kpi-value,
+        .stat-value {
+            font-size: 28px !important;
+            font-weight: 700 !important;
+            color: #1f2937 !important;
+        }
+
+        .kpi-trend {
+            font-size: 13px !important;
+            color: #6b7280 !important;
+            margin-top: 6px !important;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-card {
+            background: white !important;
+            border-radius: 16px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+            overflow: hidden !important;
+        }
+
+        .card-header {
+            padding: 20px 24px !important;
+            border-bottom: 1px solid #e5e7eb !important;
+        }
+
+        .card-header h3 {
+            margin: 0 !important;
+            font-size: 18px !important;
+            font-weight: 700 !important;
+            color: #1f2937 !important;
+        }
+
+        .card-body {
+            padding: 24px !important;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block !important;
+            padding: 6px 12px !important;
+            border-radius: 8px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+        }
+
+        .badge-success {
+            background: #d1fae5 !important;
+            color: #065f46 !important;
+        }
+
+        .badge-warning {
+            background: #fef3c7 !important;
+            color: #92400e !important;
+        }
+
+        .badge-danger {
+            background: #fee2e2 !important;
+            color: #991b1b !important;
+        }
+
+        .badge-info {
+            background: #dbeafe !important;
+            color: #1e40af !important;
+        }
+
+        /* Animações */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dashboard-grid .panel,
+        .kpi-card,
+        .stat-card {
+            animation: slideInUp 0.5s ease-out backwards;
+        }
+
+        .dashboard-grid .panel:nth-child(1) { animation-delay: 0.1s; }
+        .dashboard-grid .panel:nth-child(2) { animation-delay: 0.2s; }
+        .dashboard-grid .panel:nth-child(3) { animation-delay: 0.3s; }
+        .dashboard-grid .panel:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <!-- Container Principal -->
+    <div class="container-principal">
+        <!-- Sidebar Compras -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="../../modules/PCP/Logo Monocromatico - Branco - Aluforce.webp" alt="Aluforce" class="sidebar-logo">
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#pedidos" class="nav-item" data-section="pedidos">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Pedidos de Compra</span>
+                </a>
+                <a href="#cotacoes" class="nav-item" data-section="cotacoes">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                    <span>Cotações</span>
+                </a>
+                <a href="#fornecedores" class="nav-item" data-section="fornecedores">
+                    <i class="fas fa-truck"></i>
+                    <span>Fornecedores</span>
+                </a>
+                <a href="#materiais" class="nav-item" data-section="materiais">
+                    <i class="fas fa-cubes"></i>
+                    <span>Materiais</span>
+                </a>
+                <a href="#recebimento" class="nav-item" data-section="recebimento">
+                    <i class="fas fa-truck-loading"></i>
+                    <span>Recebimento</span>
+                </a>
+                <a href="#estoque" class="nav-item" data-section="estoque">
+                    <i class="fas fa-boxes"></i>
+                    <span>Estoque</span>
+                </a>
+                <a href="#relatorios" class="nav-item" data-section="relatorios">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Relatórios</span>
+                </a>
+                
+                <div class="sidebar-divider"></div>
+                
+                <a href="/" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Voltar ao Painel</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Header Compras -->
+            <header class="header-pcp">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <button class="menu-toggle" id="menuToggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title" id="pageTitle">Dashboard de Compras</h1>
+                    <span class="badge badge-compras">COMPRAS</span>
+                </div>
+                
+                <div class="header-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Buscar..." id="globalSearch">
+                    </div>
+                    
+                    <button class="header-btn" id="notificationBtn">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">3</span>
+                    </button>
+                    
+                    <div class="user-menu">
+                        <img src="/avatars/default.webp" alt="Usuário" class="user-avatar" id="userAvatar">
+                        <div class="user-info">
+                            <span class="user-name" id="userName">Carregando...</span>
+                            <span class="user-role">Compras</span>
+                        </div>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- App Container -->
+
+                <!-- Dashboard Section -->
+                <div id="dashboard-section" class="content-section active">
+                    <div class="dashboard-grid" id="dashboardContainer">
+                        <!-- Cards serão inseridos aqui via JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Pedidos Section -->
+                <div id="pedidos-section" class="content-section">
+                    <div class="page-header-modern">
+                        <h2><i class="fas fa-shopping-cart"></i> Pedidos de Compra</h2>
+                        <button class="btn-modern btn-compras-primary" onclick="novoPedido()">
+                            <i class="fas fa-plus"></i>
+                            Novo Pedido
+                        </button>
+                    </div>
+                    <div id="pedidosContainer"></div>
+                </div>
+
+                <!-- Cotações Section -->
+                <div id="cotacoes-section" class="content-section">
+                    <div class="page-header-modern">
+                        <h2><i class="fas fa-file-invoice-dollar"></i> Cotações</h2>
+                        <button class="btn-modern btn-compras-primary" onclick="novaCotacao()">
+                            <i class="fas fa-plus"></i>
+                            Nova Cotação
+                        </button>
+                    </div>
+                    <div id="cotacoesContainer"></div>
+                </div>
+
+                <!-- Fornecedores Section -->
+                <div id="fornecedores-section" class="content-section">
+                    <div class="page-header-modern">
+                        <h2><i class="fas fa-truck"></i> Fornecedores</h2>
+                        <button class="btn-modern btn-compras-primary" onclick="novoFornecedor()">
+                            <i class="fas fa-plus"></i>
+                            Novo Fornecedor
+                        </button>
+                    </div>
+                    <div id="fornecedoresContainer"></div>
+                </div>
+
+                <!-- Materiais Section -->
+                <div id="materiais-section" class="content-section">
+                    <div class="page-header-modern">
+                        <h2><i class="fas fa-cubes"></i> Materiais</h2>
+                        <button class="btn-modern btn-compras-primary" onclick="novoMaterial()">
+                            <i class="fas fa-plus"></i>
+                            Novo Material
+                        </button>
+                    </div>
+                    <div id="materiaisContainer"></div>
+                </div>
+
+                <!-- Recebimento Section -->
+                <div id="recebimento-section" class="content-section">
+                    <div class="page-header-modern">
+                        <h2><i class="fas fa-truck-loading"></i> Recebimento</h2>
+                        <button class="btn-modern btn-compras-primary" onclick="novoRecebimento()">
+                            <i class="fas fa-plus"></i>
+                            Registrar Recebimento
+                        </button>
+                    </div>
+                    <div id="recebimentoContainer"></div>
+                </div>
+
+                <!-- Estoque Section -->
+                <div id="estoque-section" class="content-section">
+                    <div class="page-header-modern">
+                        <h2><i class="fas fa-boxes"></i> Estoque</h2>
+                    </div>
+                    <div id="estoqueContainer"></div>
+                </div>
+
+                <!-- Relatórios Section -->
+                <div id="relatorios-section" class="content-section">
+                    <div class="page-header-modern">
+                        <h2><i class="fas fa-chart-bar"></i> Relatórios</h2>
+                    </div>
+                    <div id="relatoriosContainer"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+    <!-- Auth Check PCP -->
+    <script src="../../modules/PCP/auth-check-pcp.js"></script>
+    
+    <!-- Scripts do Módulo -->
+    <script src="js/compras-main.js"></script>
+    <script src="js/dashboard-compras-novo.js"></script>
+    <script src="js/pedidos-compras-novo.js"></script>
+    <script src="js/cotacoes-compras-novo.js"></script>
+    <script src="js/fornecedores-compras-novo.js"></script>
+    <script src="js/materiais-compras-novo.js"></script>
+    <script src="js/recebimento-compras-novo.js"></script>
+    <script src="js/estoque-compras-novo.js"></script>
+    <script src="js/relatorios-compras-novo.js"></script>
+    
+    <script>
+        // Carregar dados do usuário
+        function carregarDadosUsuario() {
+            try {
+                const userData = localStorage.getItem('userData');
+                if (userData) {
+                    const user = JSON.parse(userData);
+                    
+                    const userNameElement = document.getElementById('userName');
+                    if (userNameElement) {
+                        const saudacao = obterSaudacao();
+                        userNameElement.textContent = `${saudacao}, ${user.nome || user.username || 'Usuário'}`;
+                    }
+                    
+                    const avatarImg = document.getElementById('userAvatar');
+                    if (avatarImg && user.foto_perfil) {
+                        avatarImg.src = user.foto_perfil;
+                        avatarImg.onerror = function() {
+                            this.src = '/avatars/default.webp';
+                        };
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error);
+            }
+        }
+
+        function obterSaudacao() {
+            const hora = new Date().getHours();
+            if (hora >= 5 && hora < 12) return 'Bom dia';
+            if (hora >= 12 && hora < 18) return 'Boa tarde';
+            return 'Boa noite';
+        }
+
+        // Navegação entre seções
+        function setupNavigation() {
+            const navItems = document.querySelectorAll('.nav-item[data-section]');
+            const sections = document.querySelectorAll('.content-section');
+            const pageTitle = document.getElementById('pageTitle');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const sectionId = item.getAttribute('data-section');
+                    
+                    // Remove active de todos
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    sections.forEach(sec => sec.classList.remove('active'));
+                    
+                    // Adiciona active no clicado
+                    item.classList.add('active');
+                    const section = document.getElementById(`${sectionId}-section`);
+                    if (section) {
+                        section.classList.add('active');
+                    }
+                    
+                    // Atualiza título
+                    const titles = {
+                        'dashboard': 'Dashboard de Compras',
+                        'pedidos': 'Pedidos de Compra',
+                        'cotacoes': 'Cotações',
+                        'fornecedores': 'Fornecedores',
+                        'materiais': 'Materiais',
+                        'recebimento': 'Recebimento',
+                        'estoque': 'Estoque',
+                        'relatorios': 'Relatórios'
+                    };
+                    pageTitle.textContent = titles[sectionId] || 'Compras';
+                });
+            });
+        }
+
+        // Menu toggle mobile
+        document.getElementById('menuToggle')?.addEventListener('click', () => {
+            document.querySelector('.sidebar')?.classList.toggle('active');
+        });
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarDadosUsuario();
+            setupNavigation();
+        });
+    </script>
+    
+    <!-- Sistema de Chat e Suporte (widgets condicionais por usuário) -->
+    <!-- ti@aluforce.ind.br = Central de Suporte | Outros usuários = Chat normal -->
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+

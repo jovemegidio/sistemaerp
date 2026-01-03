@@ -1,0 +1,6 @@
+body { font-family: Arial, sans-serif; background: #f7f7f7; color: #222; }
+h1 { text-align: center; margin-top: 32px; }
+#stats { display: flex; flex-wrap: wrap; justify-content: center; gap: 32px; margin: 32px auto; max-width: 1200px; }
+#stats > div { background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 24px; min-width: 280px; flex: 1; }
+h2 { margin-bottom: 12px; }
+canvas { max-width: 400px; margin: 0 auto; display: block; }

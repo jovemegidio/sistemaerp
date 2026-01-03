@@ -1,0 +1,12 @@
+{
+  "timestamp": "2025-11-01T16:27:03.347Z",
+  "arquivos_corrigidos": [
+    "gestao-estoque.html",
+    "relatorios-estoque.html",
+    "historico-movimentacoes.html",
+    "integracao-fornecedores.html",
+    "index.html"
+  ],
+  "problemas": [],
+  "total_correcoes": 5
+}

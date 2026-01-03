@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-12-10T19:18:36.951Z",
+  "validFiles": 1973,
+  "problemFiles": 0,
+  "issues": {
+    "avatarPathIssues": 0,
+    "brokenLinks": 0,
+    "missingValidations": 0
+  },
+  "successPatterns": 3,
+  "details": {
+    "avatarPathIssues": [],
+    "brokenLinks": [],
+    "missingValidations": [],
+    "success": [
+      "Avatar path correto - /public/avatars/default.webp",
+      "Handler onerror com fallback",
+      "Validação robusta de avatar"
+    ]
+  }
+}

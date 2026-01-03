@@ -1,0 +1,960 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>ALUFORCE - Portal do Funcionário</title>
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sidebar-width: 56px;
+            --header-height: 48px;
+            --primary-purple: #8b5cf6;
+            --primary-purple-dark: #7c3aed;
+            --primary-dark: #1a1a2e;
+            --bg-gray: #f5f5f5;
+            --border-color: #e5e5e5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666;
+            --success-green: #22c55e;
+            --warning-yellow: #eab308;
+            --danger-red: #ef4444;
+            /* Aliases para compatibilidade */
+            --primary-orange: #8b5cf6;
+            --primary-rose: #8b5cf6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #ffffff;
+            color: var(--text-primary);
+            overflow: hidden;
+        }
+
+        /* ========================================
+           LAYOUT PRINCIPAL
+           ======================================== */
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* ========================================
+           SIDEBAR LATERAL (Estilo Omie/Vendas)
+           ======================================== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--primary-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 0;
+            z-index: 100;
+        }
+
+        .sidebar-logo {
+            width: 36px;
+            height: 36px;
+            background: var(--primary-rose);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .sidebar-logo i {
+            color: white;
+            font-size: 18px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .sidebar-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: transparent;
+            color: #8b8b9a;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+            position: relative;
+            text-decoration: none;
+        }
+
+        .sidebar-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .sidebar-btn.active {
+            background: var(--primary-rose);
+            color: white;
+        }
+
+        .sidebar-btn .badge {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: var(--danger-red);
+            color: white;
+            font-size: 10px;
+            padding: 2px 5px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        /* ========================================
+           MAIN CONTENT AREA
+           ======================================== */
+        .main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* ========================================
+           HEADER SUPERIOR
+           ======================================== */
+        .header {
+            height: var(--header-height);
+            background: var(--primary-dark);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+
+        .header-brand img {
+            height: 24px;
+        }
+
+        .header-brand span {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b8b9a;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .header-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: transparent;
+            color: #8b8b9a;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+        }
+
+        .header-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .user-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 8px;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .user-avatar img.visible {
+            display: block;
+        }
+
+        .user-greeting {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-left: 16px;
+            color: #8b8b9a;
+            font-size: 13px;
+        }
+
+        .user-greeting strong {
+            color: white;
+        }
+
+        /* ========================================
+           CONTENT AREA
+           ======================================== */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            background: #ffffff;
+        }
+
+        /* Page Header */
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .page-title i {
+            color: var(--primary-rose);
+        }
+
+        .page-subtitle {
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            border-radius: 20px;
+            padding: 32px;
+            color: white;
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .welcome-info h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .welcome-info p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .welcome-avatar {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border: 3px solid rgba(255,255,255,0.3);
+            overflow: hidden;
+        }
+
+        .welcome-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Quick Actions Grid */
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            border: 1px solid #f1f5f9;
+        }
+
+        .action-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+
+        .action-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 16px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .action-icon.rose { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+        .action-icon.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+        .action-icon.green { background: rgba(16, 185, 129, 0.1); color: #10b981; }
+        .action-icon.yellow { background: rgba(249, 115, 22, 0.1); color: #f97316; }
+        .action-icon.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+        .action-icon.cyan { background: rgba(6, 182, 212, 0.1); color: #06b6d4; }
+
+        .action-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 4px;
+        }
+
+        .action-card p {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        /* Content Grid */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 24px;
+        }
+
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Cards */
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title i {
+            color: var(--primary-rose);
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        /* Info List */
+        .info-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .info-item:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        /* Notifications */
+        .notification-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-title {
+            font-weight: 500;
+            color: #1e293b;
+            margin-bottom: 2px;
+        }
+
+        .notification-time {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* Holerite Preview */
+        .holerite-preview {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .holerite-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .holerite-month {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .holerite-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+        }
+
+        .holerite-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary-rose);
+        }
+
+        .holerite-label {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        .btn-download {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-rose);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .btn-download:hover {
+            background: #7c3aed;
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Lateral -->
+        <aside class="sidebar">
+            <a href="/dashboard" class="sidebar-logo" title="Voltar ao Painel de Controle">
+                <i class="fas fa-home"></i>
+            </a>
+            
+            <nav class="sidebar-nav">
+                <a href="funcionario.html" class="sidebar-btn active" title="Meu Portal">
+                    <i class="fas fa-th-large"></i>
+                </a>
+                <a href="pages/meus-holerites.html" class="sidebar-btn" title="Meus Holerites">
+                    <i class="fas fa-file-invoice-dollar"></i>
+                </a>
+                <a href="pages/espelho-ponto.html" class="sidebar-btn" title="Espelho de Ponto">
+                    <i class="fas fa-clock"></i>
+                </a>
+                <a href="pages/dados-cadastrais.html" class="sidebar-btn" title="Meus Dados">
+                    <i class="fas fa-user-edit"></i>
+                </a>
+                <a href="pages/beneficios.html" class="sidebar-btn" title="Benefícios">
+                    <i class="fas fa-gift"></i>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="pages/enviar-atestado.html" class="sidebar-btn" title="Enviar Atestado">
+                    <i class="fas fa-notes-medical"></i>
+                </a>
+                <a href="solicitacoes.html" class="sidebar-btn" title="Solicitações">
+                    <i class="fas fa-envelope"></i>
+                </a>
+                <!-- Botão Admin - visível apenas para RH e TI -->
+                <a href="areaadm.html" class="sidebar-btn admin-only" id="btn-admin" title="Administração RH" style="display: none;">
+                    <i class="fas fa-user-shield"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Area -->
+        <main class="main-area">
+            <!-- Header -->
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <span>RH</span>
+                        <span>|</span>
+                        <span style="color: white;">Portal do Funcionário</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" title="Notificações">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                    <div class="user-greeting">
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <div class="user-avatar" id="user-avatar">
+                            <img src="" alt="Foto do usuário" id="user-photo">
+                            <span id="user-initial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Welcome Card -->
+                <div class="welcome-card">
+                    <div class="welcome-info">
+                        <h2>Olá, <span id="welcome-name">Usuário</span>! 👋</h2>
+                        <p>Bem-vindo ao seu Portal do Funcionário</p>
+                    </div>
+                    <div class="welcome-avatar" id="welcome-avatar">
+                        <img src="" alt="" id="welcome-photo" style="display: none;">
+                        <span id="welcome-initial">U</span>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="quick-actions-grid">
+                    <a href="pages/meus-holerites.html" class="action-card">
+                        <div class="action-icon rose">
+                            <i class="fas fa-file-invoice-dollar"></i>
+                        </div>
+                        <h3>Meus Holerites</h3>
+                        <p>Ver contracheques</p>
+                    </a>
+                    <a href="pages/espelho-ponto.html" class="action-card">
+                        <div class="action-icon blue">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Espelho de Ponto</h3>
+                        <p>Consultar marcações</p>
+                    </a>
+                    <a href="pages/dados-cadastrais.html" class="action-card">
+                        <div class="action-icon green">
+                            <i class="fas fa-user-edit"></i>
+                        </div>
+                        <h3>Meus Dados</h3>
+                        <p>Atualizar cadastro</p>
+                    </a>
+                    <a href="pages/beneficios.html" class="action-card">
+                        <div class="action-icon yellow">
+                            <i class="fas fa-gift"></i>
+                        </div>
+                        <h3>Benefícios</h3>
+                        <p>Consultar benefícios</p>
+                    </a>
+                    <a href="pages/enviar-atestado.html" class="action-card">
+                        <div class="action-icon purple">
+                            <i class="fas fa-notes-medical"></i>
+                        </div>
+                        <h3>Enviar Atestado</h3>
+                        <p>Enviar documentos</p>
+                    </a>
+                    <a href="solicitacoes.html" class="action-card">
+                        <div class="action-icon cyan">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Solicitações</h3>
+                        <p>Fazer solicitações</p>
+                    </a>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="content-grid">
+                    <!-- Main Column -->
+                    <div class="main-column">
+                        <!-- Último Holerite -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-file-invoice-dollar"></i>
+                                    Último Holerite
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="holerite-preview">
+                                    <div class="holerite-header">
+                                        <span class="holerite-month">Dezembro 2025</span>
+                                        <span class="holerite-status">Disponível</span>
+                                    </div>
+                                    <div class="holerite-value">R$ 3.450,00</div>
+                                    <div class="holerite-label">Valor líquido</div>
+                                </div>
+                                <button class="btn-download" onclick="window.location.href='pages/meus-holerites.html'">
+                                    <i class="fas fa-download"></i>
+                                    Ver Detalhes
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Meus Dados -->
+                        <div class="card" style="margin-top: 24px;">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-id-card"></i>
+                                    Meus Dados
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="info-list">
+                                    <li class="info-item">
+                                        <span class="info-label">Matrícula</span>
+                                        <span class="info-value" id="info-matricula">00001</span>
+                                    </li>
+                                    <li class="info-item">
+                                        <span class="info-label">Cargo</span>
+                                        <span class="info-value" id="info-cargo">-</span>
+                                    </li>
+                                    <li class="info-item">
+                                        <span class="info-label">Departamento</span>
+                                        <span class="info-value" id="info-dept">-</span>
+                                    </li>
+                                    <li class="info-item">
+                                        <span class="info-label">Data de Admissão</span>
+                                        <span class="info-value" id="info-admissao">-</span>
+                                    </li>
+                                    <li class="info-item">
+                                        <span class="info-label">E-mail Corporativo</span>
+                                        <span class="info-value" id="info-email">-</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Side Column -->
+                    <div class="side-column">
+                        <!-- Notificações -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-bell"></i>
+                                    Notificações
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="notification-item">
+                                    <div class="notification-icon" style="background: rgba(16, 185, 129, 0.1); color: #10b981;">
+                                        <i class="fas fa-file-invoice-dollar"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <div class="notification-title">Holerite disponível</div>
+                                        <div class="notification-time">Dezembro 2025</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon" style="background: rgba(59, 130, 246, 0.1); color: #3b82f6;">
+                                        <i class="fas fa-info-circle"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <div class="notification-title">Atualização cadastral</div>
+                                        <div class="notification-time">Há 2 dias</div>
+                                    </div>
+                                </div>
+                                <div class="notification-item">
+                                    <div class="notification-icon" style="background: rgba(139, 92, 246, 0.1); color: #8b5cf6;">
+                                        <i class="fas fa-gift"></i>
+                                    </div>
+                                    <div class="notification-content">
+                                        <div class="notification-title">Benefício liberado</div>
+                                        <div class="notification-time">Há 5 dias</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Links Úteis -->
+                        <div class="card" style="margin-top: 24px;">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    <i class="fas fa-link"></i>
+                                    Links Úteis
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="info-list">
+                                    <li class="info-item">
+                                        <a href="#" style="color: var(--primary-rose); text-decoration: none;">
+                                            <i class="fas fa-question-circle"></i> Suporte
+                                        </a>
+                                    </li>
+                                    <li class="info-item">
+                                        <a href="#" style="color: var(--primary-rose); text-decoration: none;">
+                                            <i class="fas fa-book"></i> Manual do Colaborador
+                                        </a>
+                                    </li>
+                                    <li class="info-item">
+                                        <a href="#" style="color: var(--primary-rose); text-decoration: none;">
+                                            <i class="fas fa-calendar"></i> Calendário RH
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ========================================
+        // CARREGAR DADOS DO USUÁRIO LOGADO
+        // ========================================
+        const avatarNameMap = {
+            'clemerson': '/avatars/Clemerson.webp',
+            'isabela': '/avatars/Isabela.webp',
+            'thaina': '/avatars/Thaina.webp',
+            'thiago': '/avatars/Thiago.webp',
+            'nicolas': '/avatars/NicolasDaniel.webp',
+            'nicolasdaniel': '/avatars/NicolasDaniel.webp',
+            'rh': '/avatars/Rh.webp',
+            'admin': '/avatars/admin.webp',
+            'ti': '/avatars/TI.webp',
+            'tialuforce': '/avatars/TI.webp',
+            'antonio': '/avatars/Antonio.webp',
+            'antônio': '/avatars/Antonio.webp',
+            'andreia': '/avatars/Andreia.webp',
+            'guilherme': '/avatars/Guilherme.webp',
+            'marcelo': '/avatars/Marcelo.webp',
+            'financeiro': '/avatars/Financeiro.webp',
+            'douglas': '/avatars/Douglas.webp',
+            'hellen': '/avatars/Hellen.webp',
+            'helen': '/avatars/Hellen.webp'
+        };
+
+        function getAvatarFromEmail(email, nome) {
+            if (!email) return null;
+            const username = email.split('@')[0].split('.')[0].toLowerCase();
+            if (avatarNameMap[username]) return avatarNameMap[username];
+            if (nome) {
+                const firstName = nome.split(' ')[0].toLowerCase();
+                if (avatarNameMap[firstName]) return avatarNameMap[firstName];
+            }
+            return null;
+        }
+
+        async function carregarUsuarioLogado() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    
+                    // Atualizar saudação dinâmica baseada na hora
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    if (greetingTextEl) {
+                        const hour = new Date().getHours();
+                        let greeting = 'Bom dia';
+                        if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                        else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                        greetingTextEl.textContent = greeting;
+                    }
+                    
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || 'Usuário';
+                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    if (!userAvatar) {
+                        userAvatar = getAvatarFromEmail(user.email, userName);
+                    }
+                    
+                    // Header user name
+                    const userNameEl = document.getElementById('user-name');
+                    if (userNameEl) {
+                        userNameEl.textContent = primeiroNome;
+                    }
+                    
+                    // Welcome name
+                    const welcomeNameEl = document.getElementById('welcome-name');
+                    if (welcomeNameEl) {
+                        const firstName = userName.split(' ')[0];
+                        welcomeNameEl.textContent = firstName;
+                    }
+                    
+                    // Header avatar
+                    const userPhotoEl = document.getElementById('user-photo');
+                    const userInitialEl = document.getElementById('user-initial');
+                    
+                    if (userAvatar && userPhotoEl) {
+                        userPhotoEl.src = userAvatar;
+                        userPhotoEl.classList.add('visible');
+                        userPhotoEl.style.display = 'block';
+                        if (userInitialEl) userInitialEl.style.display = 'none';
+                    } else if (userInitialEl) {
+                        userInitialEl.textContent = userName.charAt(0).toUpperCase();
+                        userInitialEl.style.display = 'flex';
+                        if (userPhotoEl) userPhotoEl.style.display = 'none';
+                    }
+
+                    // Welcome avatar
+                    const welcomePhotoEl = document.getElementById('welcome-photo');
+                    const welcomeInitialEl = document.getElementById('welcome-initial');
+                    
+                    if (userAvatar && welcomePhotoEl) {
+                        welcomePhotoEl.src = userAvatar;
+                        welcomePhotoEl.style.display = 'block';
+                        if (welcomeInitialEl) welcomeInitialEl.style.display = 'none';
+                    } else if (welcomeInitialEl) {
+                        welcomeInitialEl.textContent = userName.charAt(0).toUpperCase();
+                        welcomeInitialEl.style.display = 'flex';
+                        if (welcomePhotoEl) welcomePhotoEl.style.display = 'none';
+                    }
+
+                    // Dados do funcionário
+                    if (user.email) {
+                        document.getElementById('info-email').textContent = user.email;
+                        
+                        // Mostrar botão admin apenas para usuários específicos
+                        const adminEmails = ['rh@aluforce.ind.br', 'ti@aluforce.ind.br'];
+                        const btnAdmin = document.getElementById('btn-admin');
+                        if (btnAdmin && adminEmails.includes(user.email.toLowerCase())) {
+                            btnAdmin.style.display = 'flex';
+                        }
+                    }
+                    if (user.cargo) {
+                        document.getElementById('info-cargo').textContent = user.cargo;
+                    }
+                    if (user.departamento) {
+                        document.getElementById('info-dept').textContent = user.departamento;
+                    }
+                }
+            } catch (error) {
+                console.error('Erro ao carregar usuário:', error);
+            }
+        }
+
+        // ========================================
+        // INIT
+        // ========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarUsuarioLogado();
+        });
+    </script>
+
+    <!-- Sistema de Chat e Suporte -->
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    
+    <!-- Sistema de Monitoramento de Conexão -->
+    <script src="/modules/_shared/connection-monitor.js?v=20251223"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+

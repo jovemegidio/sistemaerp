@@ -1,0 +1,1225 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>ALUFORCE - NFe &amp; Logística</title>
+    
+    <!-- Favicon -->
+    
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- PCP Standard Styles -->
+    <link rel="stylesheet" href="../_shared/pcp-standard.css?v=1.0">
+    <link rel="stylesheet" href="../_shared/pcp-components.css?v=1.0">
+    
+    <style>
+        /* Cores específicas do módulo NFe & Logística */
+        :root {
+            --nfe-primary: #10b981;
+            --nfe-secondary: #059669;
+            --nfe-accent: #34d399;
+            --nfe-success: #10b981;
+            --nfe-warning: #f59e0b;
+            --nfe-danger: #ef4444;
+            --cor-primaria: #10b981;
+            --cor-secundaria: #059669;
+        }
+        
+        /* Sobrescrever cores primárias para tema NFe */
+        .sidebar-nav a.active {
+            background: linear-gradient(135deg, var(--nfe-primary), var(--nfe-secondary)) !important;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--nfe-primary), var(--nfe-secondary)) !important;
+        }
+        
+        .stat-card::before {
+            background: linear-gradient(135deg, var(--nfe-primary), var(--nfe-secondary)) !important;
+        }
+        
+        .tab-btn.active {
+            color: var(--nfe-primary) !important;
+            border-bottom-color: var(--nfe-primary) !important;
+        }
+        
+        /* Page Header */
+        .page-header {
+            background: var(--cor-container);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--cor-borda);
+        }
+        
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--cor-texto);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .page-header h1 i {
+            color: var(--nfe-primary);
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+    
+    <div class="container-principal">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <nav id="sidebar" class="sidebar-nav" role="navigation" aria-label="Navegação principal">
+                <ul>
+                    <li>
+                        <a href="#" id="btn-dashboard" class="nav-link active" title="Dashboard NFe">
+                            <span class="nav-icon"><i class="fas fa-chart-pie" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-emitir" class="nav-link" title="Emitir NFe">
+                            <span class="nav-icon"><i class="fas fa-file-invoice" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Emitir NFe</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-consultar" class="nav-link" title="Consultar NFe">
+                            <span class="nav-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Consultar</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-certificado" class="nav-link" title="Certificado Digital">
+                            <span class="nav-icon"><i class="fas fa-certificate" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Certificado</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-logística" class="nav-link" title="Logística">
+                            <span class="nav-icon"><i class="fas fa-truck" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Logística</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-eventos" class="nav-link" title="Eventos">
+                            <span class="nav-icon"><i class="fas fa-bell" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Eventos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard" id="btn-voltar" class="nav-link" title="Voltar ao Painel">
+                            <span class="nav-icon"><i class="fas fa-home" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Voltar ao Painel</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Overlay para mobile -->
+        <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content" tabindex="-1">
+            <div class="app-container">
+                <!-- Header -->
+                <header class="topbar">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                    <div class="topbar-left">
+                        <div class="logo-section">
+                            <img src="../PCP/Logo Monocromatico - Azul - Aluforce.webp" alt="Aluforce" class="header-logo" />
+                        </div>
+                    </div>
+                    
+                    <div class="topbar-center">
+                        <div class="nav-icons">
+                            <button class="nav-icon-btn" title="Grid">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="nav-icon-btn" title="Lista">
+                                <i class="fas fa-list"></i>
+                            </button>
+                            <button class="nav-icon-btn" title="Atualizar Dados" id="btn-refresh-header">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="nav-icon-btn" title="Alternar Modo Escuro" id="btn-dark-mode-toggle">
+                                <i class="fas fa-moon" id="dark-mode-icon"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="search-wrapper" role="search" aria-label="Pesquisar">
+                            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                            <input id="main-search" type="search" placeholder="Buscar NFe, Cliente..." class="search-input" autocomplete="off" aria-label="Pesquisar notas fiscais" />
+                        </div>
+                        
+                        <button class="menu-toggle-btn" title="Menu">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="topbar-right">
+                        <div class="notification-icons">
+                            <button class="notification-btn" title="Notificações" id="notification-bell">
+                                <i class="fas fa-bell"></i>
+                                <span class="notification-badge" id="notification-count">0</span>
+                            </button>
+                            <button class="notification-btn" title="Mensagens">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                            <button class="notification-btn" title="Configurações">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="user-menu" onclick="PCPStandard.toggleUserMenu()">
+                            <span class="user-text"><span id="greeting-text">Bom dia</span>, <span id="user-name">Carregando...</span></span>
+                            <div class="avatar-circle">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                            
+                            <div class="user-menu-dropdown" id="user-menu-dropdown">
+                                <a href="/perfil"><i class="fas fa-user"></i> Meu Perfil</a>
+                                <a href="/configuracoes"><i class="fas fa-cog"></i> Configurações</a>
+                                <a href="#" onclick="logout(); return false;"><i class="fas fa-sign-out-alt"></i> Sair</a>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1><i class="fas fa-file-invoice"></i> NFe & Logística</h1>
+                    <p>Gestão completa de Notas Fiscais Eletrônicas e Logística</p>
+                </div>
+
+        /* Main content */
+        .main-content {
+            margin-left: var(--largura-sidebar);
+            margin-top: var(--header-height);
+            padding: 24px;
+            min-height: calc(100vh - var(--header-height));
+            background: var(--cor-fundo);
+        }
+
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .content-wrapper {
+            padding: 24px;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--cor-texto);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .page-header p {
+            color: var(--cor-texto-claro);
+            font-size: 1rem;
+        }
+
+        /* Dashboard Cards */
+        .nfe-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .nfe-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nfe-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transform: translate(30px, -30px);
+        }
+
+        .nfe-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nfe-card p {
+            opacity: 0.9;
+            font-size: 0.875rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nfe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .btn-novo-nfe {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-novo-nfe:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Table */
+        .nfe-table-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-top: 24px;
+        }
+
+        .nfe-table-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 24px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .nfe-table-header h2 {
+            color: #1e293b;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nfe-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .nfe-table th,
+        .nfe-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .nfe-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nfe-table td {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .nfe-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-emitida {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-cancelada {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 0 2px;
+        }
+
+        .btn-view {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .btn-view:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-download {
+            background: #f3e8ff;
+            color: #059669;
+        }
+
+        .btn-download:hover {
+            background: #10b981;
+            color: white;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 16px 16px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+        }
+
+        .close:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-body {
+            padding: 32px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .form-section h3 {
+            color: #1e293b;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 6px;
+            font-size: 0.875rem;
+        }
+
+        .form-control {
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            transition: all 0.2s ease;
+            background: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .modal-footer {
+            background: #f8fafc;
+            padding: 24px 32px;
+            border-radius: 0 0 16px 16px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-cancel {
+            padding: 12px 24px;
+            background: #e5e7eb;
+            color: #374151;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-cancel:hover {
+            background: #d1d5db;
+        }
+
+        .btn-save {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #059669, #047857);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-save:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+        }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            text-decoration: none;
+            z-index: 1000;
+        }
+
+        .skip-link:focus {
+            top: 6px;
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+    
+    <div class="container-principal">
+        <aside class="sidebar">
+            <nav id="sidebar" class="sidebar-nav" role="navigation" aria-label="Navegação principal">
+                <ul>
+                    <li>
+                        <a href="#" id="btn-dashboard" class="nav-link active" title="Dashboard">
+                            <span class="nav-icon"><i class="fas fa-tachometer-alt" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-emitir-nfe" class="nav-link" title="Emitir NFe">
+                            <span class="nav-icon"><i class="fas fa-file-invoice" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Emitir NFe</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-consultar-nfe" class="nav-link" title="Consultar NFe">
+                            <span class="nav-icon"><i class="fas fa-search" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Consultar NFe</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-nfse" class="nav-link" title="NFSe - Serviços">
+                            <span class="nav-icon"><i class="fas fa-file-contract" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">NFSe - Serviços</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-danfe" class="nav-link" title="Gerar DANFE">
+                            <span class="nav-icon"><i class="fas fa-print" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Gerar DANFE</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-xml" class="nav-link" title="Gerenciar XML">
+                            <span class="nav-icon"><i class="fas fa-file-code" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Gerenciar XML</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" id="btn-relatórios-nfe" class="nav-link" title="Relatórios">
+                            <span class="nav-icon"><i class="fas fa-chart-bar" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Relatórios</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/dashboard" class="nav-link" title="Voltar ao Painel de Controle">
+                            <span class="nav-icon"><i class="fas fa-home" aria-hidden="true"></i></span>
+                            <span class="nav-tooltip">Voltar ao Painel</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+    <!-- overlay que aparece quando o menu lateral é aberto -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+        <main id="main-content" class="main-content" tabindex="-1">
+            <div class="app-container">
+                <header class="topbar">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                    <div class="topbar-left">
+                        <div class="logo-section">
+                            <img src="Logo Monocromatico - Azul - Aluforce.webp" alt="Aluforce" class="header-logo" />
+                        </div>
+                    </div>
+                    
+                    <div class="topbar-center">
+                        <div class="nav-icons">
+                            <button class="nav-icon-btn" title="Grid">
+                                <i class="fas fa-th"></i>
+                            </button>
+                            <button class="nav-icon-btn" title="Lista">
+                                <i class="fas fa-list"></i>
+                            </button>
+                            <button class="nav-icon-btn" title="Atualizar Dados" id="btn-refresh-header">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                            <button class="nav-icon-btn" title="Alternar Modo Escuro" id="btn-dark-mode-toggle">
+                                <i class="fas fa-moon" id="dark-mode-icon"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="search-wrapper" role="search" aria-label="Pesquisar">
+                            <i class="fas fa-search search-icon" aria-hidden="true"></i>
+                            <input id="main-search" type="search" placeholder="Buscar NFe, Cliente..." class="search-input" autocomplete="off" aria-label="Pesquisar notas fiscais e clientes" />
+                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultados da busca" aria-live="polite" aria-hidden="true"></div>
+                        </div>
+                        
+                        <button class="menu-toggle-btn" title="Menu">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="topbar-right">
+                        <div class="notification-icons">
+                            <button class="notification-btn" title="Notificações" id="notification-bell">
+                                <i class="fas fa-bell"></i>
+                                <span class="notification-badge" id="notification-count">0</span>
+                            </button>
+                            <button class="notification-btn" title="Mensagens">
+                                <i class="fas fa-envelope"></i>
+                            </button>
+                            <button class="notification-btn" title="Configurações">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                        
+                        <div class="user-menu" onclick="toggleUserMenu()">
+                            <span class="user-text"><span id="greeting-text-2">Bom dia</span>, <span id="user-name-2">Carregando...</span></span>
+                            <div class="avatar-circle">
+                                <img src="/avatars/default.webp" alt="Usuário"  onerror="this.onerror=null; this.src='/avatars/default.webp';">
+                            </div>
+                        </div>
+                        
+                        <div class="user-menu-dropdown" id="user-menu-dropdown">
+                            <div style="padding: 12px 0;">
+                                <a href="#" style="display: block; padding: 8px 16px; color: #374151; text-decoration: none; font-size: 14px; transition: background 0.2s;">
+                                    <i class="fas fa-user" style="margin-right: 8px; color: #9ca3af;"></i>Meu Perfil
+                                </a>
+                                <a href="#" style="display: block; padding: 8px 16px; color: #374151; text-decoration: none; font-size: 14px; transition: background 0.2s;">
+                                    <i class="fas fa-cog" style="margin-right: 8px; color: #9ca3af;"></i>Configurações
+                                </a>
+                                <hr style="margin: 8px 0; border: none; border-top: 1px solid #e5e7eb;">
+                                <a href="/dashboard" style="display: block; padding: 8px 16px; color: #10b981; text-decoration: none; font-size: 14px; transition: background 0.2s;">
+                                    <i class="fas fa-home" style="margin-right: 8px;"></i>Voltar ao Painel
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="content-wrapper">
+                    <!-- Dashboard Cards -->
+                    <div class="nfe-dashboard">
+                        <div class="nfe-card">
+                            <h3 id="notas-emitidas">15</h3>
+                            <p>NOTAS EMITIDAS<br>ESTE MÊS</p>
+                        </div>
+                        <div class="nfe-card" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <h3 id="servicos-prestados">8</h3>
+                            <p>SERVIÇOS PRESTADOS<br>ESTE MÊS</p>
+                        </div>
+                        <div class="nfe-card" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <h3 id="pendencias">2</h3>
+                            <p>PENDÊNCIAS<br>PENDENTES</p>
+                        </div>
+                    </div>
+
+                    <!-- Tabela de NFes -->
+                    <div class="nfe-table-container">
+                        <div class="nfe-table-header">
+                            <h2>Notas Fiscais Recentes</h2>
+                        </div>
+                        <table class="nfe-table">
+                            <thead>
+                                <tr>
+                                    <th>NÚMERO</th>
+                                    <th>CLIENTE</th>
+                                    <th>DATA</th>
+                                    <th>VALOR</th>
+                                    <th>STATUS</th>
+                                    <th>AÇÕES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>001</td>
+                                    <td>Cliente Exemplo Ltda</td>
+                                    <td>30/10/2025</td>
+                                    <td>R$ 1.500,00</td>
+                                    <td><span class="status-badge status-emitida">EMITIDA</span></td>
+                                    <td>
+                                        <button class="action-btn btn-view"><i class="fas fa-eye"></i></button>
+                                        <button class="action-btn btn-download"><i class="fas fa-download"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Nova NFe -->
+    <div id="modalNovoNFe" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nova Nota Fiscal Eletrônica</h2>
+                <button class="close" onclick="fecharModalNovoNFe()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formNovoNFe">
+                    <div class="form-section">
+                        <h3>Dados do Cliente</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="cliente-nome">Nome/Razão Social:</label>
+                                <input type="text" id="cliente-nome" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cliente-cnpj">CNPJ/CPF:</label>
+                                <input type="text" id="cliente-cnpj" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cliente-email">E-mail:</label>
+                                <input type="email" id="cliente-email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="cliente-endereco">Endereço:</label>
+                                <input type="text" id="cliente-endereco" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Dados da Nota</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="tipo-operação">Tipo de Operação:</label>
+                                <select id="tipo-operação" class="form-control" required>
+                                    <option value="">Selecionar tipo</option>
+                                    <option value="venda">Venda</option>
+                                    <option value="servico">Prestação de Serviço</option>
+                                    <option value="devolucao">Devolução</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="data-emissao">Data de Emissão:</label>
+                                <input type="date" id="data-emissao" class="form-control">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="natureza-operação">Natureza da Operação:</label>
+                                <select id="natureza-operação" class="form-control">
+                                    <option value="">Selecionar natureza</option>
+                                    <option value="venda">Venda de Mercadorias</option>
+                                    <option value="servico">Prestação de Serviços</option>
+                                    <option value="industrializacao">Industrialização</option>
+                                    <option value="remessa">Remessa para Conserto</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="valor-total">Valor Total:</label>
+                                <input type="number" id="valor-total" class="form-control" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Impostos</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="icms">ICMS (%):</label>
+                                <input type="number" id="icms" class="form-control" step="0.01" min="0" max="100" value="18">
+                            </div>
+                            <div class="form-group">
+                                <label for="ipi">IPI (%):</label>
+                                <input type="number" id="ipi" class="form-control" step="0.01" min="0" max="100" value="0">
+                            </div>
+                            <div class="form-group">
+                                <label for="pis">PIS (%):</label>
+                                <input type="number" id="pis" class="form-control" step="0.01" min="0" max="100" value="1.65">
+                            </div>
+                            <div class="form-group">
+                                <label for="cofins">COFINS (%):</label>
+                                <input type="number" id="cofins" class="form-control" step="0.01" min="0" max="100" value="7.6">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="fecharModalNovoNFe()">Cancelar</button>
+                <button class="btn-save" onclick="salvarNFe()">Gerar NFe</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Novo Serviço -->
+    <div id="modalNovoServico" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Nova Nota de Serviço</h2>
+                <button class="close" onclick="fecharModalNovoServico()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="formNovoServico">
+                    <div class="form-section">
+                        <h3>Dados do Tomador</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="tomador-nome">Nome/Razão Social:</label>
+                                <input type="text" id="tomador-nome" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tomador-cnpj">CNPJ/CPF:</label>
+                                <input type="text" id="tomador-cnpj" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tomador-email">E-mail:</label>
+                                <input type="email" id="tomador-email" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="tomador-endereco">Endereço:</label>
+                                <input type="text" id="tomador-endereco" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Dados do Serviço</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="servico-descrição">Descrição do Serviço:</label>
+                                <textarea id="servico-descrição" class="form-control" rows="3" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="servico-valor">Valor do Serviço:</label>
+                                <input type="number" id="servico-valor" class="form-control" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="servico-iss">ISS (%):</label>
+                                <input type="number" id="servico-iss" class="form-control" step="0.01" min="0" max="100" value="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="servico-data">Data de Execução:</label>
+                                <input type="date" id="servico-data" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-cancel" onclick="fecharModalNovoServico()">Cancelar</button>
+                <button class="btn-save" onclick="salvarServico()">Gerar Nota de Serviço</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User menu toggle
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('user-menu-dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('user-menu-dropdown');
+            
+            if (!userMenu.contains(event.target)) {
+                dropdown.style.display = 'none';
+            }
+        });
+
+        // Modal functions
+        function abrirModalNovoNFe() {
+            document.getElementById('modalNovoNFe').style.display = 'block';
+        }
+
+        function fecharModalNovoNFe() {
+            document.getElementById('modalNovoNFe').style.display = 'none';
+        }
+
+        function abrirModalNovoServico() {
+            document.getElementById('modalNovoServico').style.display = 'block';
+        }
+
+        function fecharModalNovoServico() {
+            document.getElementById('modalNovoServico').style.display = 'none';
+        }
+
+        function salvarNFe() {
+            // Implementar lógica de salvamento
+            alert('NFe salva com sucesso!');
+            fecharModalNovoNFe();
+        }
+
+        function salvarServico() {
+            // Implementar lógica de salvamento
+            alert('Nota de Serviço salva com sucesso!');
+            fecharModalNovoServico();
+        }
+
+        // Mapeamento de avatares por nome de usuário
+        const avatarNameMap = {
+            'clemerson': '/avatars/Clemerson.webp',
+            'isabela': '/avatars/Isabela.webp',
+            'thaina': '/avatars/Thaina.webp',
+            'thiago': '/avatars/Thiago.webp',
+            'nicolas': '/avatars/NicolasDaniel.webp',
+            'nicolasdaniel': '/avatars/NicolasDaniel.webp',
+            'rh': '/avatars/Rh.webp',
+            'admin': '/avatars/admin.webp',
+            'ti': '/avatars/TI.webp',
+            'tialuforce': '/avatars/TI.webp',
+            'antonio': '/avatars/Antonio.webp',
+            'antônio': '/avatars/Antonio.webp',
+            'andreia': '/avatars/Andreia.webp',
+            'guilherme': '/avatars/Guilherme.webp',
+            'marcelo': '/avatars/Marcelo.webp',
+            'financeiro': '/avatars/Financeiro.webp',
+            'douglas': '/avatars/Douglas.webp',
+            'hellen': '/avatars/Hellen.webp',
+            'helen': '/avatars/Hellen.webp',
+            'marcia': '/avatars/Marcia.webp',
+            'augusto': '/avatars/Augusto.webp',
+            'renata': '/avatars/Renata.webp',
+            'fabiano': '/avatars/Fabiano.webp',
+            'fabiola': '/avatars/Fabiola.webp'
+        };
+
+        // Load user info
+        async function loadUserData() {
+            try {
+                // Usar API padrão
+                const response = await fetch('/api/me', {
+                    credentials: 'include',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const user = await response.json();
+                    // Usar apelido se disponível, senão primeiro nome
+                    const userName = user.apelido || user.nome || user.name || 'Usuário';
+                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    const nome = user.nome || user.name || 'Usuário';
+                    console.log('Dados do usuário:', user);
+                    
+                    // Atualizar saudação dinâmica baseada na hora
+                    const hour = new Date().getHours();
+                    let greeting = 'Bom dia';
+                    if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
+                    else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
+                    
+                    // Atualizar elementos de saudação
+                    const greetingTextEl = document.getElementById('greeting-text');
+                    const greetingTextEl2 = document.getElementById('greeting-text-2');
+                    if (greetingTextEl) greetingTextEl.textContent = greeting;
+                    if (greetingTextEl2) greetingTextEl2.textContent = greeting;
+                    
+                    const userNameEl = document.getElementById('user-name');
+                    const userNameEl2 = document.getElementById('user-name-2');
+                    if (userNameEl) userNameEl.textContent = primeiroNome;
+                    if (userNameEl2) userNameEl2.textContent = primeiroNome;
+                    
+                    // Atualizar iniciais
+                    const initials = nome.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                    const userInitials = document.getElementById('userInitials');
+                    if (userInitials) userInitials.textContent = initials;
+                    
+                    // Verificar avatar do usuário ou buscar pelo mapeamento
+                    let avatarUrl = user.avatar || user.foto;
+                    
+                    if (!avatarUrl || avatarUrl === '/avatars/default.webp') {
+                        // Tentar encontrar pelo email
+                        if (user.email) {
+                            const username = user.email.split('@')[0].split('.')[0].toLowerCase();
+                            avatarUrl = avatarNameMap[username];
+                        }
+                        // Tentar pelo primeiro nome
+                        if (!avatarUrl) {
+                            avatarUrl = avatarNameMap[primeiroNome.toLowerCase()];
+                        }
+                    }
+                    
+                    // Atualizar avatar
+                    const avatarElement = document.getElementById('userAvatar');
+                    if (avatarUrl && avatarElement) {
+                        const img = document.createElement('img');
+                        img.src = avatarUrl;
+                        img.alt = nome;
+                        img.style.cssText = 'width: 100%; height: 100%; border-radius: 50%; object-fit: cover;';
+                        img.onerror = function() {
+                            this.remove();
+                            if (userInitials) userInitials.style.display = 'flex';
+                        };
+                        avatarElement.innerHTML = '';
+                        avatarElement.appendChild(img);
+                    }
+                    
+                } else {
+                    console.log('Response status:', response.status);
+                }
+            } catch (error) {
+                console.error('Erro ao carregar dados do usuário:', error);
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            
+            // Definir data atual no campo de data de emissão
+            const dataEmissaoInput = document.getElementById('data-emissao');
+            if (dataEmissaoInput) {
+                const hoje = new Date();
+                const dataFormatada = hoje.getFullYear() + '-' + 
+                    String(hoje.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(hoje.getDate()).padStart(2, '0');
+                dataEmissaoInput.value = dataFormatada;
+            }
+
+            // Definir data atual no campo de data do serviço
+            const servicoDataInput = document.getElementById('servico-data');
+            if (servicoDataInput) {
+                const hoje = new Date();
+                const dataFormatada = hoje.getFullYear() + '-' + 
+                    String(hoje.getMonth() + 1).padStart(2, '0') + '-' + 
+                    String(hoje.getDate()).padStart(2, '0');
+                servicoDataInput.value = dataFormatada;
+            }
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modalNFe = document.getElementById('modalNovoNFe');
+            const modalServico = document.getElementById('modalNovoServico');
+            
+            if (event.target == modalNFe) {
+                modalNFe.style.display = 'none';
+            }
+            if (event.target == modalServico) {
+                modalServico.style.display = 'none';
+            }
+        }
+
+        // Dark mode toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.getElementById('dark-mode-icon');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                icon.className = 'fas fa-moon';
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        }
+
+        // Funcionalidades dos botões do header
+        function toggleUserMenu() {
+            console.log('Menu do usuário clicado');
+        }
+
+        // Variável de controle para modo de visualização
+        let isGridView = true;
+
+        // Toggle Grid/Lista
+        function toggleViewMode() {
+            const gridButton = document.querySelector('.nav-icon-btn[title="Grid"]');
+            const listButton = document.querySelector('.nav-icon-btn[title="Lista"]');
+            const nfeTable = document.querySelector('.nfe-table');
+            const nfeGrid = document.querySelector('.nfe-grid');
+            
+            if (isGridView) {
+                // Mudar para visualização em lista
+                if (nfeGrid) nfeGrid.style.display = 'none';
+                if (nfeTable) nfeTable.parentElement.style.display = 'block';
+                gridButton?.classList.remove('active');
+                listButton?.classList.add('active');
+                isGridView = false;
+            } else {
+                // Mudar para visualização em grid
+                if (nfeGrid) nfeGrid.style.display = 'grid';
+                if (nfeTable) nfeTable.parentElement.style.display = 'none';
+                listButton?.classList.remove('active');
+                gridButton?.classList.add('active');
+                isGridView = true;
+            }
+        }
+
+        // Atualizar dados
+        function refreshData() {
+            location.reload();
+        }
+
+        document.getElementById('btn-refresh-header')?.addEventListener('click', refreshData);
+        document.getElementById('btn-dark-mode-toggle')?.addEventListener('click', toggleDarkMode);
+        
+        // Adicionar eventos aos botões de visualização
+        document.querySelector('.nav-icon-btn[title="Grid"]')?.addEventListener('click', () => {
+            if (!isGridView) toggleViewMode();
+        });
+        
+        document.querySelector('.nav-icon-btn[title="Lista"]')?.addEventListener('click', () => {
+            if (isGridView) toggleViewMode();
+        });
+
+        // Carregar preferência de modo escuro
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.body.classList.add('dark-mode');
+            const icon = document.getElementById('dark-mode-icon');
+            if (icon) icon.className = 'fas fa-sun';
+        }
+
+        // Dark mode toggle
+        document.getElementById('btn-dark-mode-toggle')?.addEventListener('click', function() {
+            document.body.classList.toggle('dark-mode');
+            const icon = document.getElementById('dark-mode-icon');
+            if (document.body.classList.contains('dark-mode')) {
+                icon.className = 'fas fa-sun';
+            } else {
+                icon.className = 'fas fa-moon';
+            }
+        });
+    </script>
+
+    <!-- Dashboard NFe Pro (carregamento de usuário) -->
+    <script src="dashboard-nfe-pro.js?v=20251216"></script>
+
+    <!-- Sistema de Chat e Suporte (widgets condicionais por usuário) -->
+    <!-- ti@aluforce.ind.br = Central de Suporte | Outros usuários = Chat normal -->
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+
+

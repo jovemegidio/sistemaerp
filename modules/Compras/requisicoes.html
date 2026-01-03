@@ -1,0 +1,1083 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <title>ALUFORCE - Requisições de Compra</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --sidebar-width: 56px; --header-height: 48px; --primary-purple: #38bdf8; --primary-dark: #1a1a2e; --bg-gray: #f5f5f5; --border-color: #e5e5e5; --text-primary: #1a1a1a; --text-secondary: #666; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #ffffff; color: var(--text-primary); }
+        .app-container { display: flex; height: 100vh; }
+        .sidebar { width: var(--sidebar-width); background: var(--primary-dark); display: flex; flex-direction: column; align-items: center; padding: 12px 0; z-index: 100; }
+        .sidebar-logo { width: 36px; height: 36px; background: var(--primary-purple); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; text-decoration: none; }
+        .sidebar-logo i { color: white; font-size: 18px; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .sidebar-btn { width: 40px; height: 40px; border: none; background: transparent; color: #8b8b9a; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; transition: all 0.2s; text-decoration: none; }
+        .sidebar-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .sidebar-btn.active { background: var(--primary-purple); color: white; }
+        .sidebar-bottom { margin-top: auto; display: flex; flex-direction: column; gap: 4px; }
+        .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+        .header { height: var(--header-height); background: var(--primary-dark); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+        .header-left { display: flex; align-items: center; gap: 24px; }
+        .header-brand { display: flex; align-items: center; gap: 8px; }
+        .header-brand img { height: 24px; }
+        .header-brand span { font-size: 14px; font-weight: 600; color: #8b8b9a; }
+        .header-right { display: flex; align-items: center; gap: 8px; }
+        .header-btn { width: 36px; height: 36px; border: none; background: transparent; color: #8b8b9a; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; transition: all 0.2s; }
+        .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .user-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #38bdf8, #0ea5e9); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; font-weight: 600; cursor: pointer; margin-left: 8px; overflow: hidden; }
+        .user-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .user-avatar img.visible { display: block; }
+        .user-greeting { display: flex; align-items: center; gap: 12px; margin-left: 16px; color: #8b8b9a; font-size: 13px; }
+        .user-greeting strong { color: white; }
+        .page-content { flex: 1; overflow-y: auto; padding: 20px; background: #ffffff; }
+        .page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .page-title { font-size: 24px; font-weight: 700; display: flex; align-items: center; gap: 12px; }
+        .page-title i { color: var(--primary-purple); }
+        .page-actions { display: flex; gap: 12px; }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; transition: all 0.2s; }
+        .btn-primary { background: var(--primary-purple); color: white; }
+        .btn-primary:hover { background: #0ea5e9; }
+        .btn-secondary { background: white; color: var(--text-primary); border: 1px solid var(--border-color); }
+        .summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
+        .summary-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 16px; }
+        .summary-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .summary-icon.purple { background: rgba(56,189,248,0.1); color: #38bdf8; }
+        .summary-icon.green { background: rgba(34,197,94,0.1); color: #22c55e; }
+        .summary-icon.blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+        .summary-icon.orange { background: rgba(249,115,22,0.1); color: #f97316; }
+        .summary-content h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+        .summary-value { font-size: 24px; font-weight: 700; }
+        .filters-bar { background: white; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); flex-wrap: wrap; }
+        .search-box { display: flex; align-items: center; background: #f5f5f5; border-radius: 8px; padding: 0 12px; flex: 1; max-width: 400px; }
+        .search-box i { color: #999; font-size: 14px; }
+        .search-box input { border: none; background: transparent; padding: 10px 12px; font-size: 14px; width: 100%; outline: none; }
+        .filter-buttons { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-color); background: white; color: var(--text-secondary); font-size: 13px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .filter-btn:hover { background: #f5f5f5; }
+        .filter-btn.active { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
+        .table-container { background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; }
+        .table-header { padding: 16px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .table-header h3 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+        .data-table { width: 100%; border-collapse: collapse; }
+        .data-table th { background: #fafafa; padding: 12px 16px; text-align: left; font-size: 11px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
+        .data-table td { padding: 14px 16px; border-bottom: 1px solid #f5f5f5; font-size: 13px; }
+        .data-table tr:hover { background: #fafafa; }
+        .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+        .status-badge.aprovado { background: #dcfce7; color: #166534; }
+        .status-badge.pendente { background: #fef3c7; color: #92400e; }
+        .status-badge.cotacao { background: #dbeafe; color: #1e40af; }
+        .status-badge.urgente { background: #fee2e2; color: #991b1b; }
+        .btn-action { width: 32px; height: 32px; border: none; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; margin-right: 4px; }
+        .btn-action.view { background: #dbeafe; color: #2563eb; }
+        .btn-action.edit { background: #fef3c7; color: #d97706; }
+        .btn-action.delete { background: #fee2e2; color: #dc2626; }
+        .table-pagination { padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-color); }
+        .pagination-info { font-size: 13px; color: var(--text-secondary); }
+        .pagination-controls { display: flex; gap: 4px; }
+        .pagination-btn { width: 32px; height: 32px; border: 1px solid var(--border-color); background: white; border-radius: 6px; cursor: pointer; font-size: 12px; }
+        .pagination-btn.active { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
+        
+        /* Modal Styles */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal { background: white; border-radius: 16px; width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h2 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+        .modal-header h2 i { color: var(--primary-purple); }
+        .modal-close { width: 36px; height: 36px; border: none; background: #f1f5f9; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--text-secondary); transition: all 0.2s; }
+        .modal-close:hover { background: #e2e8f0; color: var(--text-primary); }
+        .modal-body { padding: 24px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-family: inherit; transition: all 0.2s; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-purple); box-shadow: 0 0 0 3px rgba(139,92,246,0.1); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .modal-footer { padding: 20px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 12px; }
+        
+        /* Modal Large */
+        .modal-large { max-width: 900px; max-height: 95vh; }
+        .modal-header-content { flex: 1; }
+        .modal-header-content h2 { margin-bottom: 4px; }
+        .modal-subtitle { font-size: 13px; color: var(--text-secondary); font-weight: 400; }
+        
+        /* Workflow Indicator */
+        .workflow-indicator { display: flex; align-items: center; justify-content: center; padding: 16px 24px; background: linear-gradient(135deg, #f8f4ff 0%, #f0e6ff 100%); border-bottom: 1px solid var(--border-color); gap: 12px; }
+        .workflow-step { display: flex; align-items: center; gap: 8px; opacity: 0.5; transition: all 0.3s; }
+        .workflow-step.active { opacity: 1; }
+        .workflow-step.completed { opacity: 1; }
+        .workflow-step.completed .step-number { background: #22c55e; }
+        .step-number { width: 28px; height: 28px; border-radius: 50%; background: var(--primary-purple); color: white; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+        .workflow-step span { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+        .workflow-line { width: 40px; height: 2px; background: #e5e5e5; }
+        .workflow-step.active ~ .workflow-line { background: #e5e5e5; }
+        
+        /* Form Sections */
+        .form-section { background: #fafafa; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #f0f0f0; }
+        .section-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid #e5e5e5; }
+        .section-header i { color: var(--primary-purple); font-size: 18px; }
+        .section-header h3 { font-size: 15px; font-weight: 600; flex: 1; margin: 0; }
+        .section-header .btn-sm { padding: 6px 12px; font-size: 12px; }
+        .section-header .badge-info { background: #dbeafe; color: #1d4ed8; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; }
+        
+        .form-row-3 { grid-template-columns: repeat(3, 1fr); }
+        .input-readonly { background: #f1f5f9 !important; color: #64748b; cursor: not-allowed; }
+        .form-help { font-size: 11px; color: #94a3b8; margin-top: 4px; display: block; }
+        .form-group label i { margin-right: 6px; color: var(--primary-purple); font-size: 12px; }
+        
+        /* Priority Selector */
+        .priority-selector { display: flex; gap: 8px; flex-wrap: wrap; }
+        .priority-option { cursor: pointer; }
+        .priority-option input { display: none; }
+        .priority-badge { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; border: 2px solid transparent; transition: all 0.2s; }
+        .priority-baixa { background: #f0fdf4; color: #166534; border-color: #bbf7d0; }
+        .priority-normal { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+        .priority-alta { background: #fef3c7; color: #92400e; border-color: #fde68a; }
+        .priority-urgente { background: #fee2e2; color: #991b1b; border-color: #fecaca; }
+        .priority-option input:checked + .priority-badge { border-color: var(--primary-purple); box-shadow: 0 0 0 3px rgba(139,92,246,0.2); }
+        
+        /* Items Container */
+        .items-container { max-height: 300px; overflow-y: auto; }
+        .item-card { background: white; border: 1px solid #e5e5e5; border-radius: 10px; padding: 16px; margin-bottom: 12px; position: relative; transition: all 0.2s; }
+        .item-card:hover { border-color: var(--primary-purple); box-shadow: 0 2px 8px rgba(139,92,246,0.1); }
+        .item-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .item-number { font-size: 12px; font-weight: 700; color: var(--primary-purple); background: rgba(139,92,246,0.1); padding: 4px 10px; border-radius: 6px; }
+        .item-remove { width: 28px; height: 28px; border: none; background: #fee2e2; color: #dc2626; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .item-remove:hover { background: #dc2626; color: white; }
+        .item-fields { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr; gap: 12px; align-items: end; }
+        .item-field { display: flex; flex-direction: column; gap: 4px; }
+        .item-field label { font-size: 11px; color: #64748b; font-weight: 500; }
+        .item-field input, .item-field select { padding: 8px 10px; border: 1px solid #e5e5e5; border-radius: 6px; font-size: 13px; }
+        .item-field input:focus, .item-field select:focus { border-color: var(--primary-purple); outline: none; }
+        .item-subtotal { font-weight: 700; color: var(--primary-purple); background: #f8f4ff; }
+        
+        /* Items Summary */
+        .items-summary { display: flex; justify-content: flex-end; gap: 24px; padding: 16px 20px; background: white; border-radius: 8px; margin-top: 16px; border: 1px solid #e5e5e5; }
+        .summary-row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+        .summary-row.highlight { font-size: 16px; color: var(--primary-purple); }
+        .summary-row.highlight strong { font-size: 18px; }
+        
+        /* Fornecedores Sugeridos */
+        .fornecedores-sugeridos { display: flex; flex-wrap: wrap; gap: 10px; }
+        .fornecedor-placeholder { width: 100%; text-align: center; padding: 20px; color: #94a3b8; font-size: 13px; }
+        .fornecedor-placeholder i { margin-right: 8px; }
+        .fornecedor-tag { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; background: white; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 12px; cursor: pointer; transition: all 0.2s; }
+        .fornecedor-tag:hover { border-color: var(--primary-purple); background: #f8f4ff; }
+        .fornecedor-tag.selected { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
+        .fornecedor-tag i { font-size: 14px; }
+        .fornecedor-tag .rating { color: #f59e0b; }
+        
+        /* File Upload */
+        .file-upload-area { border: 2px dashed #e5e5e5; border-radius: 10px; padding: 24px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fafafa; }
+        .file-upload-area:hover { border-color: var(--primary-purple); background: #f8f4ff; }
+        .file-upload-area i { font-size: 32px; color: var(--primary-purple); margin-bottom: 8px; display: block; }
+        .file-upload-area span { display: block; font-size: 14px; color: var(--text-primary); margin-bottom: 4px; }
+        .file-upload-area small { font-size: 12px; color: #94a3b8; }
+        .anexos-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+        .anexo-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #f1f5f9; border-radius: 6px; font-size: 12px; }
+        .anexo-item i { color: var(--primary-purple); }
+        .anexo-remove { background: none; border: none; color: #94a3b8; cursor: pointer; padding: 2px; }
+        .anexo-remove:hover { color: #dc2626; }
+        
+        /* Modal Footer Enhanced */
+        .modal-footer { justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+        .footer-info { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #64748b; }
+        .footer-info i { color: var(--primary-purple); }
+        .footer-actions { display: flex; gap: 10px; }
+        .btn-outline { background: white; color: var(--primary-purple); border: 2px solid var(--primary-purple); }
+        .btn-outline:hover { background: #f8f4ff; }
+        
+        /* Search Select */
+        .select-searchable { position: relative; }
+        .select-searchable input { width: 100%; padding: 10px 14px; border: 1px solid #e5e5e5; border-radius: 6px; font-size: 13px; }
+        .select-dropdown { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid #e5e5e5; border-radius: 8px; max-height: 200px; overflow-y: auto; z-index: 100; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .select-dropdown.active { display: block; }
+        .select-option { padding: 10px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+        .select-option:hover { background: #f8f4ff; }
+        .select-option .stock-info { font-size: 11px; color: #64748b; }
+        .select-option .price-info { font-size: 12px; color: #22c55e; font-weight: 600; }
+        
+        /* View Modal Styles */
+        .view-section { margin-bottom: 24px; }
+        .view-section-title { font-size: 14px; font-weight: 700; color: var(--text-primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .view-section-title i { color: var(--primary-purple); }
+        .view-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .view-field { background: #f8fafc; padding: 12px; border-radius: 8px; }
+        .view-field label { font-size: 11px; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        .view-field span { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+        .view-items-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        .view-items-table th { background: #f1f5f9; padding: 10px; font-size: 11px; text-align: left; text-transform: uppercase; color: #64748b; }
+        .view-items-table td { padding: 12px 10px; border-bottom: 1px solid #f1f5f9; font-size: 13px; }
+        .timeline-container { padding: 16px 0; }
+        .timeline-item { display: flex; gap: 16px; padding-bottom: 16px; position: relative; }
+        .timeline-item:not(:last-child)::before { content: ''; position: absolute; left: 15px; top: 32px; width: 2px; height: calc(100% - 16px); background: #e5e5e5; }
+        .timeline-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+        .timeline-icon.created { background: #dbeafe; color: #2563eb; }
+        .timeline-icon.pending { background: #fef3c7; color: #d97706; }
+        .timeline-icon.approved { background: #dcfce7; color: #16a34a; }
+        .timeline-icon.rejected { background: #fee2e2; color: #dc2626; }
+        .timeline-content { flex: 1; }
+        .timeline-title { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+        .timeline-date { font-size: 11px; color: #94a3b8; }
+        .timeline-desc { font-size: 12px; color: #64748b; margin-top: 4px; }
+        
+        .hidden-input { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+        
+        @media (max-width: 1200px) { .summary-cards { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 768px) { 
+            .item-fields { grid-template-columns: 1fr 1fr; }
+            .form-row, .form-row-3 { grid-template-columns: 1fr; }
+            .view-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <a href="/dashboard" class="sidebar-logo" title="Voltar ao Painel"><i class="fas fa-home"></i></a>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="sidebar-btn" title="Dashboard"><i class="fas fa-chart-line"></i></a>
+                <a href="fornecedores.html" class="sidebar-btn" title="Fornecedores"><i class="fas fa-users"></i></a>
+                <a href="gestao-estoque.html" class="sidebar-btn" title="Estoque"><i class="fas fa-boxes"></i></a>
+                <a href="materiais.html" class="sidebar-btn" title="Materiais"><i class="fas fa-cubes"></i></a>
+                <a href="pedidos.html" class="sidebar-btn" title="Pedidos"><i class="fas fa-shopping-cart"></i></a>
+                <a href="cotacoes.html" class="sidebar-btn" title="Cotações"><i class="fas fa-file-invoice-dollar"></i></a>
+                <a href="requisicoes.html" class="sidebar-btn active" title="Requisições"><i class="fas fa-clipboard-list"></i></a>
+            </nav>
+            <div class="sidebar-bottom">
+                <a href="relatorios.html" class="sidebar-btn" title="Relatórios"><i class="fas fa-chart-bar"></i></a>
+            </div>
+        </aside>
+        <main class="main-area">
+            <header class="header">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+                <div class="header-left">
+                    <div class="header-brand">
+                        <span>Compras</span>
+                        <span>|</span>
+                        <span style="color: white;">Requisições</span>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-btn" title="Notificações"><i class="fas fa-bell"></i></button>
+                    <div class="user-greeting">
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <div class="user-avatar">
+                            <img src="" alt="Foto" id="user-photo">
+                            <span id="user-initial">U</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="page-content">
+                <div class="page-header">
+                    <h1 class="page-title"><i class="fas fa-clipboard-list"></i> Requisições de Compra</h1>
+                    <div class="page-actions">
+                        <button class="btn btn-secondary"><i class="fas fa-download"></i> Exportar</button>
+                        <button class="btn btn-primary" onclick="abrirModalNovaRequisicao()"><i class="fas fa-plus"></i> Nova Requisição</button>
+                    </div>
+                </div>
+                <div class="summary-cards">
+                    <div class="summary-card"><div class="summary-icon purple"><i class="fas fa-clipboard-list"></i></div><div class="summary-content"><h3>Total Requisições</h3><div class="summary-value" id="totalRequisicoes">45</div></div></div>
+                    <div class="summary-card"><div class="summary-icon orange"><i class="fas fa-clock"></i></div><div class="summary-content"><h3>Pendentes</h3><div class="summary-value" id="requisicoesPendentes">18</div></div></div>
+                    <div class="summary-card"><div class="summary-icon green"><i class="fas fa-check-circle"></i></div><div class="summary-content"><h3>Aprovadas</h3><div class="summary-value" id="requisicoesAprovadas">20</div></div></div>
+                    <div class="summary-card"><div class="summary-icon blue"><i class="fas fa-tags"></i></div><div class="summary-content"><h3>Em Cotação</h3><div class="summary-value" id="requisicoesCotacao">7</div></div></div>
+                </div>
+                <div class="filters-bar">
+                    <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Buscar por código, material, solicitante..."></div>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active"><i class="fas fa-list"></i> Todos</button>
+                        <button class="filter-btn"><i class="fas fa-clock"></i> Pendentes</button>
+                        <button class="filter-btn"><i class="fas fa-check"></i> Aprovadas</button>
+                        <button class="filter-btn"><i class="fas fa-tags"></i> Em Cotação</button>
+                        <button class="filter-btn"><i class="fas fa-exclamation-triangle"></i> Urgentes</button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <div class="table-header"><h3><i class="fas fa-table"></i> Lista de Requisições</h3></div>
+                    <table class="data-table">
+                        <thead><tr><th><input type="checkbox"></th><th>Código</th><th>Material</th><th>Quantidade</th><th>Solicitante</th><th>Data</th><th>Necessidade</th><th>Status</th><th>Ações</th></tr></thead>
+                        <tbody id="requisicoesTableBody">
+                            <tr><td><input type="checkbox"></td><td><strong>REQ-0045</strong></td><td>Chapas de Alumínio 3mm</td><td>100 UN</td><td>João Silva</td><td>17/12/2025</td><td>25/12/2025</td><td><span class="status-badge pendente">Pendente</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
+                            <tr><td><input type="checkbox"></td><td><strong>REQ-0044</strong></td><td>Perfis Estruturais</td><td>50 UN</td><td>Maria Santos</td><td>16/12/2025</td><td>28/12/2025</td><td><span class="status-badge aprovado">Aprovada</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
+                            <tr><td><input type="checkbox"></td><td><strong>REQ-0043</strong></td><td>Parafusos Inox M8</td><td>500 UN</td><td>Pedro Costa</td><td>15/12/2025</td><td>22/12/2025</td><td><span class="status-badge cotacao">Em Cotação</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
+                            <tr><td><input type="checkbox"></td><td><strong>REQ-0042</strong></td><td>Vidros Temperados 8mm</td><td>30 M²</td><td>Ana Oliveira</td><td>14/12/2025</td><td>20/12/2025</td><td><span class="status-badge urgente">Urgente</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
+                            <tr><td><input type="checkbox"></td><td><strong>REQ-0041</strong></td><td>Silicone Estrutural</td><td>20 TB</td><td>Carlos Lima</td><td>13/12/2025</td><td>30/12/2025</td><td><span class="status-badge aprovado">Aprovada</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
+                        </tbody>
+                    </table>
+                    <div class="table-pagination"><div class="pagination-info">Mostrando <strong>1-10</strong> de <strong>45</strong></div><div class="pagination-controls"><button class="pagination-btn"><i class="fas fa-chevron-left"></i></button><button class="pagination-btn active">1</button><button class="pagination-btn">2</button><button class="pagination-btn">3</button><button class="pagination-btn"><i class="fas fa-chevron-right"></i></button></div></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Nova Requisição - Versão Profissional -->
+    <div class="modal-overlay" id="modalNovaRequisicao">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <div class="modal-header-content">
+                    <h2><i class="fas fa-clipboard-list"></i> Nova Requisição de Compra</h2>
+                    <span class="modal-subtitle">Preencha os dados da requisição para aprovação</span>
+                </div>
+                <button class="modal-close" id="btnFecharModalRequisicao"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <!-- Workflow Steps -->
+            <div class="workflow-indicator">
+                <div class="workflow-step active">
+                    <div class="step-number">1</div>
+                    <span>Dados Básicos</span>
+                </div>
+                <div class="workflow-line"></div>
+                <div class="workflow-step">
+                    <div class="step-number">2</div>
+                    <span>Itens</span>
+                </div>
+                <div class="workflow-line"></div>
+                <div class="workflow-step">
+                    <div class="step-number">3</div>
+                    <span>Revisão</span>
+                </div>
+            </div>
+            
+            <div class="modal-body">
+                <form id="formNovaRequisicao">
+                    <!-- Seção: Informações do Solicitante -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <i class="fas fa-user"></i>
+                            <h3>Informações do Solicitante</h3>
+                        </div>
+                        <div class="form-row form-row-3">
+                            <div class="form-group">
+                                <label><i class="fas fa-hashtag"></i> Nº Requisição</label>
+                                <input type="text" id="reqNumero" readonly class="input-readonly">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-user-circle"></i> Solicitante</label>
+                                <input type="text" id="reqSolicitante" readonly class="input-readonly">
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar"></i> Data Solicitação</label>
+                                <input type="text" id="reqDataSolicitacao" readonly class="input-readonly">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Seção: Dados da Requisição -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <i class="fas fa-file-alt"></i>
+                            <h3>Dados da Requisição</h3>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-building"></i> Centro de Custo *</label>
+                                <select id="reqCentroCusto" required>
+                                    <option value="">Carregando centros de custo...</option>
+                                </select>
+                                <small class="form-help">Selecione o centro de custo responsável</small>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-calendar-check"></i> Data Necessidade *</label>
+                                <input type="date" id="reqDataNecessidade" required>
+                                <small class="form-help">Quando você precisa do material</small>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label><i class="fas fa-flag"></i> Prioridade *</label>
+                                <div class="priority-selector">
+                                    <label class="priority-option">
+                                        <input type="radio" name="prioridade" value="baixa">
+                                        <span class="priority-badge priority-baixa"><i class="fas fa-arrow-down"></i> Baixa</span>
+                                    </label>
+                                    <label class="priority-option">
+                                        <input type="radio" name="prioridade" value="normal" checked>
+                                        <span class="priority-badge priority-normal"><i class="fas fa-minus"></i> Normal</span>
+                                    </label>
+                                    <label class="priority-option">
+                                        <input type="radio" name="prioridade" value="alta">
+                                        <span class="priority-badge priority-alta"><i class="fas fa-arrow-up"></i> Alta</span>
+                                    </label>
+                                    <label class="priority-option">
+                                        <input type="radio" name="prioridade" value="urgente">
+                                        <span class="priority-badge priority-urgente"><i class="fas fa-exclamation-triangle"></i> Urgente</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label><i class="fas fa-project-diagram"></i> Projeto/Obra (Opcional)</label>
+                                <input type="text" id="reqProjeto" placeholder="Ex: Obra Centro Empresarial ABC">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Seção: Itens da Requisição -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <i class="fas fa-boxes"></i>
+                            <h3>Itens da Requisição</h3>
+                            <button type="button" class="btn btn-sm btn-primary" onclick="adicionarItemReq()">
+                                <i class="fas fa-plus"></i> Adicionar Item
+                            </button>
+                        </div>
+                        
+                        <div class="items-container" id="itensContainer">
+                            <!-- Items serão adicionados aqui dinamicamente -->
+                        </div>
+                        
+                        <!-- Resumo dos Valores -->
+                        <div class="items-summary">
+                            <div class="summary-row">
+                                <span>Total de Itens:</span>
+                                <strong id="totalItens">0</strong>
+                            </div>
+                            <div class="summary-row">
+                                <span>Quantidade Total:</span>
+                                <strong id="qtdTotal">0</strong>
+                            </div>
+                            <div class="summary-row highlight">
+                                <span>Valor Estimado Total:</span>
+                                <strong id="valorTotal">R$ 0,00</strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Seção: Fornecedores Sugeridos -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <i class="fas fa-truck"></i>
+                            <h3>Fornecedores Sugeridos</h3>
+                            <span class="badge-info">Opcional</span>
+                        </div>
+                        <div class="fornecedores-sugeridos" id="fornecedoresSugeridos">
+                            <div class="fornecedor-placeholder">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Adicione itens para ver fornecedores sugeridos</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Seção: Justificativa e Anexos -->
+                    <div class="form-section">
+                        <div class="section-header">
+                            <i class="fas fa-comment-alt"></i>
+                            <h3>Justificativa e Observações</h3>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-align-left"></i> Justificativa da Compra *</label>
+                            <textarea id="reqJustificativa" rows="3" placeholder="Descreva o motivo desta requisição de compra..." required></textarea>
+                            <small class="form-help">Explique por que essa compra é necessária</small>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-sticky-note"></i> Observações Adicionais</label>
+                            <textarea id="reqObservacoes" rows="2" placeholder="Informações complementares (especificações técnicas, condições especiais, etc.)"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-paperclip"></i> Anexos</label>
+                            <div class="file-upload-area" onclick="document.getElementById('reqAnexos').click()">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Clique para anexar arquivos</span>
+                                <small>PDF, DOC, XLS, Imagens (máx. 10MB cada)</small>
+                            </div>
+                            <input type="file" id="reqAnexos" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" style="display:none" onchange="handleAnexos(this)">
+                            <div class="anexos-list" id="anexosList"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="modal-footer">
+                <div class="footer-info">
+                    <i class="fas fa-info-circle"></i>
+                    <span>A requisição será enviada para aprovação do gestor</span>
+                </div>
+                <div class="footer-actions">
+                    <button class="btn btn-secondary" id="btnCancelarRequisicao">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button class="btn btn-outline" id="btnSalvarRascunho">
+                        <i class="fas fa-save"></i> Salvar Rascunho
+                    </button>
+                    <button class="btn btn-primary" id="btnEnviarRequisicao">
+                        <i class="fas fa-paper-plane"></i> Enviar para Aprovação
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Visualizar Requisição -->
+    <div class="modal-overlay" id="modalVisualizarRequisicao">
+        <div class="modal modal-large">
+            <div class="modal-header">
+                <div class="modal-header-content">
+                    <h2><i class="fas fa-eye"></i> Detalhes da Requisição</h2>
+                    <span class="modal-subtitle" id="viewReqNumero">REQ-0000</span>
+                </div>
+                <button class="modal-close" onclick="fecharModalVisualizar()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="viewReqContent">
+                <!-- Conteúdo será carregado dinamicamente -->
+            </div>
+            <div class="modal-footer" id="viewReqFooter">
+                <button class="btn btn-secondary" onclick="fecharModalVisualizar()">Fechar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== SISTEMA DE REQUISIÇÕES DE COMPRA ====================
+        
+        const avatarNameMap = {
+            'clemerson': '/avatars/Clemerson.webp', 'isabela': '/avatars/Isabela.webp',
+            'thaina': '/avatars/Thaina.webp', 'thiago': '/avatars/Thiago.webp',
+            'nicolas': '/avatars/NicolasDaniel.webp', 'admin': '/avatars/admin.webp',
+            'ti': '/avatars/TI.webp', 'antonio': '/avatars/Antonio.webp'
+        };
+
+        let requisicoesData = [];
+        let materiaisData = [];
+        let centrosCustoData = [];
+        let usuarioLogado = { id: null, nome: 'Usuário' };
+        let filtroAtual = 'todos';
+        let termoBusca = '';
+        let itemCounter = 0;
+        let anexosFiles = [];
+
+        // ==================== INICIALIZAÇÃO ====================
+        document.addEventListener('DOMContentLoaded', async () => {
+            await carregarUsuarioLogado();
+            await carregarDadosIniciais();
+            configurarEventos();
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('action') === 'new') abrirModalNovaRequisicao();
+        });
+
+        async function carregarUsuarioLogado() {
+            try {
+                const response = await fetch('/api/me', { credentials: 'include' });
+                if (response.ok) {
+                    const user = await response.json();
+                    usuarioLogado = { id: user.id, nome: user.nome || 'Usuário', email: user.email };
+                    document.getElementById('user-name').textContent = (user.nome || 'Usuário').split(' ')[0];
+                    
+                    const avatar = user.avatar || avatarNameMap[user.email?.split('@')[0]?.toLowerCase()];
+                    if (avatar) {
+                        document.getElementById('user-photo').src = avatar;
+                        document.getElementById('user-photo').style.display = 'block';
+                        document.getElementById('user-initial').style.display = 'none';
+                    } else {
+                        document.getElementById('user-initial').textContent = (user.nome || 'U').charAt(0);
+                    }
+                }
+            } catch (e) { console.error('Erro ao carregar usuário:', e); }
+        }
+
+        async function carregarDadosIniciais() {
+            await Promise.all([carregarRequisicoes(), carregarMateriais(), carregarCentrosCusto()]);
+        }
+
+        // ==================== CARREGAR DADOS DO DB ====================
+        async function carregarRequisicoes() {
+            try {
+                const response = await fetch('/api/compras/requisicoes', { credentials: 'include' });
+                if (response.ok) {
+                    const data = await response.json();
+                    requisicoesData = data.map(r => ({
+                        id: r.id, numero: r.numero, material: r.descricao_principal || 'Vários itens',
+                        quantidade: `${r.total_itens || 0} itens`, solicitante: r.solicitante,
+                        data: formatarData(r.data_solicitacao), necessidade: formatarData(r.data_necessidade),
+                        status: r.status === 'aprovado' ? 'aprovado' : r.status === 'cotacao' ? 'cotacao' : 
+                                r.prioridade === 'urgente' ? 'urgente' : r.status,
+                        prioridade: r.prioridade, centro_custo: r.centro_custo, projeto: r.projeto,
+                        justificativa: r.justificativa, observacoes: r.observacoes, valor_estimado: r.valor_estimado
+                    }));
+                } else {
+                    requisicoesData = gerarDadosExemplo();
+                }
+            } catch (e) {
+                console.error('Erro ao carregar requisições:', e);
+                requisicoesData = gerarDadosExemplo();
+            }
+            filtrarRequisicoes();
+            atualizarContadores();
+        }
+
+        async function carregarMateriais() {
+            try {
+                const response = await fetch('/api/pcp/produtos?limit=1000', { credentials: 'include' });
+                if (response.ok) materiaisData = await response.json();
+            } catch (e) { console.error('Erro ao carregar materiais:', e); }
+        }
+
+        async function carregarCentrosCusto() {
+            try {
+                const response = await fetch('/api/financeiro/centros-custo', { credentials: 'include' });
+                if (response.ok) centrosCustoData = await response.json();
+            } catch (e) { console.error('Erro ao carregar centros de custo:', e); }
+        }
+
+        function gerarDadosExemplo() {
+            return [
+                { id: 1, numero: 'REQ-0045', material: 'Chapas de Alumínio 3mm', quantidade: '100 UN', solicitante: 'João Silva', data: '17/12/2025', necessidade: '25/12/2025', status: 'pendente' },
+                { id: 2, numero: 'REQ-0044', material: 'Perfis Estruturais', quantidade: '50 UN', solicitante: 'Maria Santos', data: '16/12/2025', necessidade: '28/12/2025', status: 'aprovado' },
+                { id: 3, numero: 'REQ-0043', material: 'Parafusos Inox M8', quantidade: '500 UN', solicitante: 'Pedro Costa', data: '15/12/2025', necessidade: '22/12/2025', status: 'cotacao' },
+                { id: 4, numero: 'REQ-0042', material: 'Vidros Temperados 8mm', quantidade: '30 M²', solicitante: 'Ana Oliveira', data: '14/12/2025', necessidade: '20/12/2025', status: 'urgente' }
+            ];
+        }
+
+        // ==================== FILTROS E TABELA ====================
+        function configurarEventos() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const t = this.textContent.trim().toLowerCase();
+                    filtroAtual = t.includes('todos') ? 'todos' : t.includes('pendentes') ? 'pendente' :
+                                  t.includes('aprovadas') ? 'aprovado' : t.includes('cotação') ? 'cotacao' :
+                                  t.includes('urgentes') ? 'urgente' : 'todos';
+                    filtrarRequisicoes();
+                });
+            });
+            document.querySelector('.search-box input').addEventListener('input', function() {
+                termoBusca = this.value;
+                filtrarRequisicoes();
+            });
+            document.querySelector('.btn-secondary').addEventListener('click', exportarDados);
+            
+            // Event Listeners do Modal
+            document.getElementById('btnFecharModalRequisicao')?.addEventListener('click', fecharModalNovaRequisicao);
+            document.getElementById('btnCancelarRequisicao')?.addEventListener('click', fecharModalNovaRequisicao);
+            document.getElementById('btnSalvarRascunho')?.addEventListener('click', salvarRascunho);
+            document.getElementById('btnEnviarRequisicao')?.addEventListener('click', enviarRequisicao);
+        }
+
+        function filtrarRequisicoes() {
+            let dados = [...requisicoesData];
+            if (filtroAtual !== 'todos') dados = dados.filter(r => r.status === filtroAtual);
+            if (termoBusca) {
+                const termo = termoBusca.toLowerCase();
+                dados = dados.filter(r => r.numero?.toLowerCase().includes(termo) || 
+                    r.material?.toLowerCase().includes(termo) || r.solicitante?.toLowerCase().includes(termo));
+            }
+            renderizarTabela(dados);
+        }
+
+        function renderizarTabela(dados) {
+            const tbody = document.getElementById('requisicoesTableBody');
+            if (dados.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:40px;color:#999;">
+                    <i class="fas fa-inbox" style="font-size:32px;display:block;margin-bottom:12px;"></i>Nenhuma requisição encontrada</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = dados.map(r => `
+                <tr>
+                    <td><input type="checkbox" data-id="${r.id}"></td>
+                    <td><strong>${r.numero}</strong></td>
+                    <td>${escapeHtml(r.material)}</td>
+                    <td>${r.quantidade}</td>
+                    <td>${escapeHtml(r.solicitante)}</td>
+                    <td>${r.data}</td>
+                    <td>${r.necessidade || '-'}</td>
+                    <td><span class="status-badge ${r.status}">${getStatusLabel(r.status)}</span></td>
+                    <td>
+                        <button class="btn-action view" onclick="visualizarRequisicao(${r.id})" title="Visualizar"><i class="fas fa-eye"></i></button>
+                        <button class="btn-action edit" onclick="editarRequisicao(${r.id})" title="Editar"><i class="fas fa-edit"></i></button>
+                        <button class="btn-action delete" onclick="excluirRequisicao(${r.id})" title="Excluir"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+            document.querySelector('.pagination-info').innerHTML = `Mostrando <strong>1-${dados.length}</strong> de <strong>${dados.length}</strong>`;
+        }
+
+        function atualizarContadores() {
+            document.getElementById('totalRequisicoes').textContent = requisicoesData.length;
+            document.getElementById('requisicoesPendentes').textContent = requisicoesData.filter(r => r.status === 'pendente' || r.status === 'urgente').length;
+            document.getElementById('requisicoesAprovadas').textContent = requisicoesData.filter(r => r.status === 'aprovado').length;
+            document.getElementById('requisicoesCotacao').textContent = requisicoesData.filter(r => r.status === 'cotacao').length;
+        }
+
+        // ==================== MODAL NOVA REQUISIÇÃO ====================
+        async function abrirModalNovaRequisicao() {
+            document.getElementById('formNovaRequisicao').reset();
+            itemCounter = 0;
+            anexosFiles = [];
+            document.getElementById('itensContainer').innerHTML = '';
+            document.getElementById('anexosList').innerHTML = '';
+            
+            // Preencher dados automáticos
+            try {
+                const resp = await fetch('/api/compras/requisicoes/proximo-numero', { credentials: 'include' });
+                const { numero } = resp.ok ? await resp.json() : { numero: `REQ-${String(requisicoesData.length + 1).padStart(4, '0')}` };
+                document.getElementById('reqNumero').value = numero;
+            } catch { document.getElementById('reqNumero').value = `REQ-${String(requisicoesData.length + 1).padStart(4, '0')}`; }
+            
+            document.getElementById('reqSolicitante').value = usuarioLogado.nome;
+            document.getElementById('reqDataSolicitacao').value = new Date().toLocaleDateString('pt-BR');
+            
+            // Preencher centros de custo
+            const selectCC = document.getElementById('reqCentroCusto');
+            selectCC.innerHTML = '<option value="">Selecione o centro de custo...</option>' +
+                centrosCustoData.map(cc => `<option value="${cc.id}">${cc.nome || cc.descricao}</option>`).join('');
+            if (centrosCustoData.length === 0) {
+                selectCC.innerHTML += '<option value="producao">Produção</option><option value="manutencao">Manutenção</option><option value="administrativo">Administrativo</option>';
+            }
+            
+            // Data mínima de necessidade
+            document.getElementById('reqDataNecessidade').min = new Date().toISOString().split('T')[0];
+            
+            adicionarItemReq();
+            atualizarResumoItens();
+            document.getElementById('modalNovaRequisicao').classList.add('active');
+        }
+
+        function fecharModalNovaRequisicao() {
+            document.getElementById('modalNovaRequisicao').classList.remove('active');
+        }
+
+        // ==================== GERENCIAMENTO DE ITENS ====================
+        function adicionarItemReq() {
+            itemCounter++;
+            const container = document.getElementById('itensContainer');
+            const div = document.createElement('div');
+            div.className = 'item-card';
+            div.id = `item-${itemCounter}`;
+            div.innerHTML = `
+                <div class="item-card-header">
+                    <span class="item-number">Item #${itemCounter}</span>
+                    <button type="button" class="item-remove" onclick="removerItem(${itemCounter})"><i class="fas fa-trash"></i></button>
+                </div>
+                <div class="item-fields">
+                    <div class="item-field">
+                        <label>Material/Descrição *</label>
+                        <input type="text" class="item-descricao" list="materiais-list" placeholder="Digite ou selecione..." onchange="buscarPrecoMaterial(this, ${itemCounter})" required>
+                    </div>
+                    <div class="item-field">
+                        <label>Qtd *</label>
+                        <input type="number" class="item-quantidade" value="1" min="0.001" step="0.001" onchange="calcularSubtotal(${itemCounter})">
+                    </div>
+                    <div class="item-field">
+                        <label>Unidade</label>
+                        <select class="item-unidade">
+                            <option value="UN">UN</option><option value="M">M</option><option value="M2">M²</option>
+                            <option value="KG">KG</option><option value="L">L</option><option value="CX">CX</option>
+                        </select>
+                    </div>
+                    <div class="item-field">
+                        <label>Valor Unit.</label>
+                        <input type="number" class="item-valor" value="0" min="0" step="0.01" onchange="calcularSubtotal(${itemCounter})">
+                    </div>
+                    <div class="item-field">
+                        <label>Subtotal</label>
+                        <input type="text" class="item-subtotal" value="R$ 0,00" readonly>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+            atualizarResumoItens();
+        }
+
+        function removerItem(id) {
+            const item = document.getElementById(`item-${id}`);
+            if (item && document.querySelectorAll('.item-card').length > 1) {
+                item.remove();
+                atualizarResumoItens();
+            } else if (document.querySelectorAll('.item-card').length <= 1) {
+                alert('Deve haver pelo menos um item na requisição');
+            }
+        }
+
+        function calcularSubtotal(id) {
+            const item = document.getElementById(`item-${id}`);
+            if (!item) return;
+            const qtd = parseFloat(item.querySelector('.item-quantidade').value) || 0;
+            const valor = parseFloat(item.querySelector('.item-valor').value) || 0;
+            const subtotal = qtd * valor;
+            item.querySelector('.item-subtotal').value = formatarMoeda(subtotal);
+            atualizarResumoItens();
+        }
+
+        function atualizarResumoItens() {
+            const itens = document.querySelectorAll('.item-card');
+            let totalQtd = 0, totalValor = 0;
+            itens.forEach(item => {
+                totalQtd += parseFloat(item.querySelector('.item-quantidade')?.value) || 0;
+                const subtotalText = item.querySelector('.item-subtotal')?.value || 'R$ 0,00';
+                totalValor += parseFloat(subtotalText.replace('R$', '').replace('.', '').replace(',', '.').trim()) || 0;
+            });
+            document.getElementById('totalItens').textContent = itens.length;
+            document.getElementById('qtdTotal').textContent = totalQtd.toFixed(2);
+            document.getElementById('valorTotal').textContent = formatarMoeda(totalValor);
+        }
+
+        function buscarPrecoMaterial(input, itemId) {
+            const material = materiaisData.find(m => m.nome === input.value || m.descricao === input.value);
+            if (material && material.preco_custo) {
+                document.getElementById(`item-${itemId}`).querySelector('.item-valor').value = material.preco_custo;
+                calcularSubtotal(itemId);
+            }
+        }
+
+        // ==================== SALVAR REQUISIÇÃO ====================
+        async function enviarRequisicao() { await salvarRequisicaoAPI('pendente'); }
+        async function salvarRascunho() { await salvarRequisicaoAPI('rascunho'); }
+
+        async function salvarRequisicaoAPI(status) {
+            const justificativa = document.getElementById('reqJustificativa').value.trim();
+            if (!justificativa) { alert('Preencha a justificativa da compra'); return; }
+            
+            const itens = [];
+            document.querySelectorAll('.item-card').forEach(item => {
+                const descricao = item.querySelector('.item-descricao').value.trim();
+                if (descricao) {
+                    itens.push({
+                        descricao,
+                        quantidade: parseFloat(item.querySelector('.item-quantidade').value) || 1,
+                        unidade: item.querySelector('.item-unidade').value,
+                        valor_estimado: parseFloat(item.querySelector('.item-valor').value) || 0,
+                        subtotal: parseFloat(item.querySelector('.item-subtotal').value.replace('R$', '').replace('.', '').replace(',', '.').trim()) || 0
+                    });
+                }
+            });
+            
+            if (itens.length === 0) { alert('Adicione pelo menos um item'); return; }
+            
+            const dados = {
+                numero: document.getElementById('reqNumero').value,
+                solicitante: document.getElementById('reqSolicitante').value,
+                solicitante_id: usuarioLogado.id,
+                centro_custo: document.getElementById('reqCentroCusto').selectedOptions[0]?.text || '',
+                centro_custo_id: document.getElementById('reqCentroCusto').value || null,
+                data_solicitacao: new Date().toISOString().split('T')[0],
+                data_necessidade: document.getElementById('reqDataNecessidade').value || null,
+                prioridade: document.querySelector('input[name="prioridade"]:checked')?.value || 'normal',
+                projeto: document.getElementById('reqProjeto').value || null,
+                justificativa,
+                observacoes: document.getElementById('reqObservacoes').value || null,
+                status,
+                itens
+            };
+            
+            try {
+                const response = await fetch('/api/compras/requisicoes', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
+                    body: JSON.stringify(dados)
+                });
+                
+                if (response.ok) {
+                    alert(status === 'rascunho' ? 'Rascunho salvo!' : 'Requisição enviada para aprovação!');
+                    fecharModalNovaRequisicao();
+                    await carregarRequisicoes();
+                } else {
+                    const err = await response.json();
+                    alert('Erro: ' + (err.message || 'Falha ao salvar'));
+                }
+            } catch (e) {
+                console.error('Erro ao salvar:', e);
+                alert('Erro de conexão');
+            }
+        }
+
+        // ==================== VISUALIZAR ====================
+        async function visualizarRequisicao(id) {
+            try {
+                const response = await fetch(`/api/compras/requisicoes/${id}`, { credentials: 'include' });
+                let req = response.ok ? await response.json() : requisicoesData.find(r => r.id === id);
+                
+                if (!req) { alert('Requisição não encontrada'); return; }
+                
+                document.getElementById('viewReqNumero').textContent = req.numero;
+                document.getElementById('viewReqContent').innerHTML = `
+                    <div class="view-section">
+                        <div class="view-section-title"><i class="fas fa-info-circle"></i> Informações Gerais</div>
+                        <div class="view-grid">
+                            <div class="view-field"><label>Número</label><span>${req.numero}</span></div>
+                            <div class="view-field"><label>Status</label><span class="status-badge ${req.status}">${getStatusLabel(req.status)}</span></div>
+                            <div class="view-field"><label>Prioridade</label><span class="priority-badge priority-${req.prioridade || 'normal'}">${(req.prioridade || 'normal').toUpperCase()}</span></div>
+                            <div class="view-field"><label>Solicitante</label><span>${req.solicitante}</span></div>
+                            <div class="view-field"><label>Data Solicitação</label><span>${formatarData(req.data_solicitacao) || req.data}</span></div>
+                            <div class="view-field"><label>Data Necessidade</label><span>${formatarData(req.data_necessidade) || req.necessidade || '-'}</span></div>
+                            <div class="view-field"><label>Centro de Custo</label><span>${req.centro_custo || '-'}</span></div>
+                            <div class="view-field"><label>Projeto</label><span>${req.projeto || '-'}</span></div>
+                            <div class="view-field"><label>Valor Estimado</label><span>${formatarMoeda(req.valor_estimado || 0)}</span></div>
+                        </div>
+                    </div>
+                    <div class="view-section">
+                        <div class="view-section-title"><i class="fas fa-boxes"></i> Itens da Requisição</div>
+                        <table class="view-items-table">
+                            <thead><tr><th>Descrição</th><th>Qtd</th><th>Unidade</th><th>Valor Unit.</th><th>Subtotal</th></tr></thead>
+                            <tbody>${(req.itens || []).map(i => `
+                                <tr>
+                                    <td>${i.descricao}</td>
+                                    <td>${i.quantidade}</td>
+                                    <td>${i.unidade}</td>
+                                    <td>${formatarMoeda(i.valor_estimado)}</td>
+                                    <td>${formatarMoeda(i.subtotal)}</td>
+                                </tr>
+                            `).join('') || '<tr><td colspan="5" style="text-align:center">Sem itens</td></tr>'}</tbody>
+                        </table>
+                    </div>
+                    ${req.justificativa ? `<div class="view-section"><div class="view-section-title"><i class="fas fa-comment"></i> Justificativa</div><p style="background:#f8fafc;padding:12px;border-radius:8px;">${req.justificativa}</p></div>` : ''}
+                `;
+                document.getElementById('modalVisualizarRequisicao').classList.add('active');
+            } catch (e) {
+                console.error('Erro ao visualizar:', e);
+                alert('Erro ao carregar detalhes');
+            }
+        }
+
+        function fecharModalVisualizar() {
+            document.getElementById('modalVisualizarRequisicao').classList.remove('active');
+        }
+
+        // ==================== EDITAR ====================
+        async function editarRequisicao(id) {
+            try {
+                const response = await fetch(`/api/compras/requisicoes/${id}`, { credentials: 'include' });
+                let req = response.ok ? await response.json() : requisicoesData.find(r => r.id === id);
+                
+                if (!req) { alert('Requisição não encontrada'); return; }
+                if (!['rascunho', 'pendente'].includes(req.status)) {
+                    alert('Apenas requisições pendentes ou em rascunho podem ser editadas');
+                    return;
+                }
+                
+                await abrirModalNovaRequisicao();
+                document.getElementById('reqNumero').value = req.numero;
+                document.getElementById('formNovaRequisicao').dataset.editId = id;
+                
+                if (req.prioridade) {
+                    const radio = document.querySelector(`input[name="prioridade"][value="${req.prioridade}"]`);
+                    if (radio) radio.checked = true;
+                }
+                if (req.data_necessidade) {
+                    document.getElementById('reqDataNecessidade').value = req.data_necessidade.split('T')[0];
+                }
+                document.getElementById('reqProjeto').value = req.projeto || '';
+                document.getElementById('reqJustificativa').value = req.justificativa || '';
+                document.getElementById('reqObservacoes').value = req.observacoes || '';
+                
+                // Carregar itens
+                document.getElementById('itensContainer').innerHTML = '';
+                itemCounter = 0;
+                if (req.itens && req.itens.length > 0) {
+                    req.itens.forEach(item => {
+                        adicionarItemReq();
+                        const itemEl = document.getElementById(`item-${itemCounter}`);
+                        itemEl.querySelector('.item-descricao').value = item.descricao;
+                        itemEl.querySelector('.item-quantidade').value = item.quantidade;
+                        itemEl.querySelector('.item-unidade').value = item.unidade || 'UN';
+                        itemEl.querySelector('.item-valor').value = item.valor_estimado || 0;
+                        calcularSubtotal(itemCounter);
+                    });
+                } else {
+                    adicionarItemReq();
+                }
+                
+            } catch (e) {
+                console.error('Erro ao editar:', e);
+                alert('Erro ao carregar requisição');
+            }
+        }
+
+        // ==================== EXCLUIR ====================
+        async function excluirRequisicao(id) {
+            const req = requisicoesData.find(r => r.id === id);
+            if (!confirm(`Deseja excluir a requisição ${req?.numero || id}?`)) return;
+            
+            try {
+                const response = await fetch(`/api/compras/requisicoes/${id}`, {
+                    method: 'DELETE',
+                    credentials: 'include'
+                });
+                
+                if (response.ok) {
+                    alert('Requisição excluída com sucesso');
+                    await carregarRequisicoes();
+                } else {
+                    const err = await response.json();
+                    alert('Erro: ' + (err.message || 'Falha ao excluir'));
+                }
+            } catch (e) {
+                console.error('Erro ao excluir:', e);
+                // Fallback local
+                requisicoesData = requisicoesData.filter(r => r.id !== id);
+                filtrarRequisicoes();
+                atualizarContadores();
+            }
+        }
+
+        // ==================== ANEXOS ====================
+        function handleAnexos(input) {
+            const files = Array.from(input.files);
+            files.forEach(file => {
+                if (file.size > 10 * 1024 * 1024) { alert(`${file.name} excede 10MB`); return; }
+                anexosFiles.push(file);
+            });
+            renderizarAnexos();
+        }
+
+        function renderizarAnexos() {
+            document.getElementById('anexosList').innerHTML = anexosFiles.map((f, i) => `
+                <div class="anexo-item">
+                    <i class="fas fa-file"></i> ${f.name}
+                    <button type="button" class="anexo-remove" onclick="removerAnexo(${i})"><i class="fas fa-times"></i></button>
+                </div>
+            `).join('');
+        }
+
+        function removerAnexo(index) {
+            anexosFiles.splice(index, 1);
+            renderizarAnexos();
+        }
+
+        // ==================== EXPORTAR ====================
+        function exportarDados() {
+            const headers = ['Código', 'Material', 'Quantidade', 'Solicitante', 'Data', 'Necessidade', 'Status'];
+            const csvContent = [headers.join(';'), ...requisicoesData.map(r => 
+                [r.numero, r.material, r.quantidade, r.solicitante, r.data, r.necessidade, getStatusLabel(r.status)].join(';')
+            )].join('\n');
+            
+            const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `requisicoes_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        // ==================== UTILITÁRIOS ====================
+        function getStatusLabel(status) {
+            return { pendente: 'Pendente', aprovado: 'Aprovada', cotacao: 'Em Cotação', urgente: 'Urgente', rascunho: 'Rascunho', rejeitado: 'Rejeitada' }[status] || status;
+        }
+        function formatarData(data) {
+            if (!data) return '';
+            const d = new Date(data);
+            return isNaN(d) ? data : d.toLocaleDateString('pt-BR');
+        }
+        function formatarMoeda(valor) {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(valor || 0);
+        }
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+    </script>
+
+    <script src="compras-user-loader.js?v=20251226"></script>
+    <script src="/js/chat-suporte-widgets.js?v=20260103"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>
+

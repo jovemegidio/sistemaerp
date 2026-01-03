@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suporte Aluforce</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/anti-copy-protection.js"></script>
+    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+<body>
+    <!-- Botão flutuante para abrir o chat -->
+    <button id="chatButton" class="chat-button">
+        <img src="../Icone-Chat.png" alt="Chat" class="chat-icon" width="32" height="32">
+        <svg class="close-icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+        <span class="notification-badge" id="notificationBadge">1</span>
+    </button>
+
+    <!-- Widget de chat -->
+    <div id="chatWidget" class="chat-widget">
+        <!-- Formulário de entrada -->
+        <div id="loginForm" class="login-form">
+            <div class="widget-header">
+                <div class="header-content">
+                    <img src="../Icone-Chat.png" alt="Aluforce" class="company-logo" width="40" height="40">
+                    <div>
+                        <h2>Olá! 👋</h2>
+                        <p>Como podemos ajudar?</p>
+                    </div>
+                </div>
+            </div>
+            <form id="userForm" class="user-form">
+                <div class="form-group">
+                    <input type="text" id="userName" required placeholder="Seu nome">
+                </div>
+                <div class="form-group">
+                    <input type="email" id="userEmail" required placeholder="seu@email.com">
+                </div>
+                <button type="submit" class="btn btn-primary">Iniciar Conversa</button>
+            </form>
+            <div class="widget-footer">
+                <p>Normalmente respondemos em alguns minutos</p>
+            </div>
+        </div>
+
+        <!-- Interface do chat -->
+        <div id="chatContainer" class="chat-container">
+            <div class="widget-header">
+                <div class="header-content">
+                    <div class="agent-avatars">
+                        <img src="../Icone-Chat.png" alt="Suporte" class="avatar" width="36" height="36">
+                    </div>
+                    <div class="header-info">
+                        <h2>Suporte Aluforce</h2>
+                        <span id="statusIndicator" class="status-text waiting">Aguardando...</span>
+                    </div>
+                </div>
+                <button id="minimizeChat" class="btn-minimize" title="Minimizar chat">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div id="chatMessages" class="chat-messages"></div>
+
+            <div class="chat-input">
+                <form id="messageForm">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Digite sua mensagem..." 
+                        autocomplete="off"
+                        disabled
+                    >
+                    <button type="submit" id="sendButton" class="btn-send" title="Enviar mensagem" disabled>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/user.js"></script>
+    <script src="/js/popup-confirmacao.js"></script>`n</body>
+</html>

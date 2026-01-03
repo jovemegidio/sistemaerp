@@ -1,0 +1,415 @@
+/* ===== PAINEL DE NOTIFICAÇÕES ===== */
+
+/* Painel de notificações lateral */
+#notifications-panel {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 400px;
+    height: 100vh;
+    background: rgba(23, 25, 35, 0.98);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
+    z-index: 10000;
+    transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+}
+
+#notifications-panel.show {
+    right: 0;
+}
+
+/* Header do painel */
+.notifications-panel-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.notifications-panel-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.notifications-panel-title i {
+    color: #00d4ff;
+}
+
+.notifications-panel-close {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 24px;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+    line-height: 1;
+}
+
+.notifications-panel-close:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+/* Tabs de filtro */
+.notifications-tabs {
+    display: flex;
+    padding: 12px 24px;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.15);
+}
+
+.notification-tab {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.notification-tab:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.notification-tab.active {
+    background: rgba(0, 212, 255, 0.15);
+    color: #00d4ff;
+}
+
+/* Lista de notificações */
+.notifications-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 0;
+}
+
+.notifications-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.notifications-list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.notifications-list::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.notifications-list::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Item de notificação */
+.notification-item {
+    padding: 16px 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    display: flex;
+    gap: 14px;
+}
+
+.notification-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.notification-item.unread {
+    background: rgba(0, 212, 255, 0.08);
+}
+
+.notification-item.unread::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #00d4ff;
+}
+
+/* Ícone da notificação */
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.notification-icon.info {
+    background: rgba(52, 152, 219, 0.2);
+    color: #3498db;
+}
+
+.notification-icon.success {
+    background: rgba(46, 204, 113, 0.2);
+    color: #2ecc71;
+}
+
+.notification-icon.warning {
+    background: rgba(243, 156, 18, 0.2);
+    color: #f39c12;
+}
+
+.notification-icon.error {
+    background: rgba(231, 76, 60, 0.2);
+    color: #e74c3c;
+}
+
+.notification-icon.system {
+    background: rgba(155, 89, 182, 0.2);
+    color: #9b59b6;
+}
+
+/* Conteúdo da notificação */
+.notification-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notification-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.notification-message {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+    margin-bottom: 6px;
+}
+
+.notification-time {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.notification-time i {
+    font-size: 10px;
+}
+
+/* Badge de nova notificação */
+.notification-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #00d4ff;
+    color: #0f0f23;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 10px;
+    line-height: 1;
+}
+
+/* Badge de nova (ponto azul) */
+.notification-new-badge {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 8px;
+    height: 8px;
+    background: #00d4ff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px rgba(0, 212, 255, 0.6);
+}
+
+/* Badge do módulo */
+.notification-module-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Meta info (módulo + tempo) */
+.notification-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+/* Cores diferentes por módulo */
+.notification-item[data-link*="Financeiro"] .notification-module-badge {
+    background: rgba(34, 197, 94, 0.2);
+    color: #4ade80;
+}
+
+.notification-item[data-link*="Vendas"] .notification-module-badge {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa;
+}
+
+.notification-item[data-link*="PCP"] .notification-module-badge {
+    background: rgba(249, 115, 22, 0.2);
+    color: #fb923c;
+}
+
+.notification-item[data-link*="Compras"] .notification-module-badge {
+    background: rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+}
+
+.notification-item[data-link*="RH"] .notification-module-badge {
+    background: rgba(236, 72, 153, 0.2);
+    color: #f472b6;
+}
+
+.notification-item[data-link*="Estoque"] .notification-module-badge {
+    background: rgba(20, 184, 166, 0.2);
+    color: #2dd4bf;
+}
+
+/* Estado vazio */
+.notifications-empty {
+    padding: 60px 24px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.notifications-empty i {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.3;
+}
+
+.notifications-empty p {
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Footer do painel */
+.notifications-panel-footer {
+    padding: 16px 24px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.2);
+    display: flex;
+    gap: 12px;
+}
+
+.notifications-footer-btn {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.8);
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.notifications-footer-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+.notifications-footer-btn.primary {
+    background: rgba(0, 212, 255, 0.15);
+    border-color: rgba(0, 212, 255, 0.3);
+    color: #00d4ff;
+}
+
+.notifications-footer-btn.primary:hover {
+    background: rgba(0, 212, 255, 0.25);
+    border-color: rgba(0, 212, 255, 0.4);
+}
+
+/* Overlay escuro */
+.notifications-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.notifications-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Animações */
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    #notifications-panel {
+        width: 100%;
+        right: -100%;
+    }
+}
+
+/* Modo escuro ajustado */
+body.dark-mode #notifications-panel {
+    background: rgba(15, 15, 23, 0.98);
+}
+
+body.dark-mode .notification-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .notification-item.unread {
+    background: rgba(0, 212, 255, 0.12);
+}

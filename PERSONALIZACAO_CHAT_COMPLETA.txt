@@ -1,0 +1,281 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║              PERSONALIZAÇÃO COMPLETA DO CHAT BOB AI - ALUFORCE              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📅 Data: 10/12/2025
+🎯 Objetivo: Personalizar chat com logo Aluforce, remover avatares e configurar funcionalidades
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ ALTERAÇÕES REALIZADAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. HEADER DO CHAT
+   ├─ ❌ Logo Omie externa removida
+   ├─ ✅ Logo Aluforce aplicada: /chat/Logo Monocromatico - Branco - Aluforce copy.webp
+   ├─ ❌ Avatares dos 3 usuários removidos
+   └─ ✅ Layout limpo com logo + botões (menu e fechar)
+
+2. TELA INÍCIO (HOME)
+   ├─ ✅ Nome dinâmico do usuário: "Olá {Nome} 👋"
+   │   └─ Detecta nome do localStorage/sessionStorage
+   ├─ ✅ Mensagem recente sem avatar
+   │   └─ "Bem-vindo ao suporte Aluforce"
+   ├─ ✅ Card "Envie uma mensagem" clicável
+   │   └─ Abre tela de mensagens ao clicar
+   └─ ✅ Campo de busca "Qual é a sua dúvida?" funcional
+       └─ Busca e abre tela de conversa
+
+3. TELA AJUDA (HELP)
+   ├─ ✅ 6 categorias de ajuda Aluforce:
+   │   ├─ 📋 Recursos Humanos (12 artigos)
+   │   ├─ 🛒 Compras (8 artigos)
+   │   ├─ 💰 Vendas (10 artigos)
+   │   ├─ 🏭 PCP - Produção (15 artigos)
+   │   ├─ 💵 Financeiro (9 artigos)
+   │   └─ 📄 NFe - Nota Fiscal (7 artigos)
+   ├─ ✅ Cada item é clicável
+   │   └─ Abre conversa com contexto do módulo
+   └─ ✅ Campo de busca funcional na ajuda
+
+4. TELA TICKETS
+   ├─ ✅ Estado vazio implementado
+   │   ├─ Ícone de documento
+   │   ├─ "Nenhum ticket ainda"
+   │   └─ "Seus tickets de suporte aparecerão aqui"
+   └─ 📌 Pronto para integração com API de tickets
+
+5. TELA NOTÍCIAS (NEWS)
+   ├─ ✅ Header: "Mais recentes" / "Da equipe Aluforce"
+   ├─ ✅ 2 notícias com ícones emoji:
+   │   ├─ 🎉 BEM-VINDO AO SISTEMA ALUFORCE
+   │   │   └─ "Seu ERP completo para gestão empresarial integrada"
+   │   └─ 🚀 NOVOS RECURSOS DISPONÍVEIS
+   │       └─ "Confira as melhorias em RH, Compras, Vendas, PCP, Financeiro e NFe"
+   └─ ✅ Timestamps: "Hoje • 09:00" / "Hoje • 08:30"
+
+6. FUNCIONALIDADES INTERATIVAS
+   ├─ ✅ Navegação entre telas (5 abas)
+   ├─ ✅ Busca na home → abre conversa
+   ├─ ✅ Busca na ajuda → filtra artigos
+   ├─ ✅ Clique em módulo de ajuda → inicia conversa
+   ├─ ✅ Clique em "Enviar mensagem" → abre chat
+   ├─ ✅ Clique em "Mensagem recente" → abre mensagens
+   └─ ✅ Detecção automática de nome do usuário
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📁 ARQUIVOS MODIFICADOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. public/js/chat-widget.js
+   Linha 59-75: Header sem avatares, logo Aluforce
+   Linha 78-111: Tela início personalizada
+   Linha 147-195: Tela ajuda com 6 módulos
+   Linha 197-208: Tela tickets estado vazio
+   Linha 210-227: Tela notícias Aluforce
+   Linha 340-420: Event listeners para interações
+   Linha 523-547: loadUserData() com atualização de nome
+
+2. public/css/chat-widget.css
+   Linha 87-89: Logo header sem filtro branco
+   Linha 91-100: Remoção de estilos de avatares
+   Linha 176-211: Estilos para estado vazio
+   Linha 212-218: Estilos para ícones de notícias
+   Linha 268-276: Estilos para botões de busca
+
+3. 44 arquivos HTML atualizados
+   └─ Timestamps: ?v=1765400557842
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎨 DESIGN FINAL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+HEADER
+┌────────────────────────────────────────────┐
+│ ←  [Logo Aluforce Branco]        ⋯  ×    │ ← Gradiente ciano
+└────────────────────────────────────────────┘
+
+TELA INÍCIO
+┌────────────────────────────────────────────┐
+│  Olá Antonio 👋                            │
+│  Como podemos ajudar?                      │
+│                                            │
+│  ┌──────────────────────────────────────┐ │
+│  │ Mensagem recente                     │ │
+│  │ Bem-vindo ao suporte Aluforce     →  │ │
+│  │ Equipe Aluforce • Agora              │ │
+│  └──────────────────────────────────────┘ │
+│                                            │
+│  ┌──────────────────────────────────────┐ │
+│  │ Envie uma mensagem                   │ │
+│  │ Normalmente respondemos em minutos → │ │
+│  └──────────────────────────────────────┘ │
+│                                            │
+│  [  Qual é a sua dúvida?         🔍  ]    │
+└────────────────────────────────────────────┘
+
+TELA AJUDA
+┌────────────────────────────────────────────┐
+│  [  Qual é a sua dúvida?         🔍  ]    │
+│                                            │
+│  6 categorias de ajuda                     │
+│                                            │
+│  📋 Recursos Humanos               →      │
+│     Gestão de funcionários...             │
+│     12 artigos                             │
+│                                            │
+│  🛒 Compras                        →      │
+│     Gestão de fornecedores...             │
+│     8 artigos                              │
+│                                            │
+│  [+ 4 categorias]                          │
+└────────────────────────────────────────────┘
+
+TELA TICKETS (VAZIA)
+┌────────────────────────────────────────────┐
+│                                            │
+│              📄                            │
+│                                            │
+│        Nenhum ticket ainda                 │
+│   Seus tickets de suporte                  │
+│      aparecerão aqui                       │
+│                                            │
+└────────────────────────────────────────────┘
+
+TELA NOTÍCIAS
+┌────────────────────────────────────────────┐
+│  Mais recentes                             │
+│  Da equipe Aluforce                        │
+│                                            │
+│  ┌──────────────────────────────────────┐ │
+│  │ 🎉                                   │ │
+│  │ BEM-VINDO AO SISTEMA ALUFORCE        │ │
+│  │ Seu ERP completo para gestão...      │ │
+│  │ Hoje • 09:00                         │ │
+│  └──────────────────────────────────────┘ │
+│                                            │
+│  ┌──────────────────────────────────────┐ │
+│  │ 🚀                                   │ │
+│  │ NOVOS RECURSOS DISPONÍVEIS           │ │
+│  │ Confira as melhorias em RH...        │ │
+│  │ Hoje • 08:30                         │ │
+│  └──────────────────────────────────────┘ │
+└────────────────────────────────────────────┘
+
+BOTTOM NAV
+┌────────────────────────────────────────────┐
+│  🏠     💬¹    ❓     📋     🔔           │
+│ Início  Msgs  Ajuda Tickets Notícias      │
+└────────────────────────────────────────────┘
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔧 FUNCIONALIDADES CONFIGURADAS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+INÍCIO (HOME)
+├─ ✅ Saudação personalizada com nome do usuário
+├─ ✅ Mensagem recente clicável → abre mensagens
+├─ ✅ Card "Enviar mensagem" → abre chat
+└─ ✅ Busca → abre conversa com texto digitado
+
+MENSAGENS
+├─ ✅ Navegação via bottom nav
+├─ ✅ Badge de notificação (1)
+└─ ✅ Conversa com IA Bob AI
+
+AJUDA
+├─ ✅ 6 módulos do sistema listados
+├─ ✅ Clique em módulo → inicia conversa contextual
+├─ ✅ Busca funcional
+└─ ✅ Contadores de artigos por categoria
+
+TICKETS
+├─ ✅ Estado vazio com mensagem amigável
+├─ ✅ Preparado para listar tickets reais
+└─ ✅ Design responsivo
+
+NOTÍCIAS
+├─ ✅ 2 notícias de exemplo
+├─ ✅ Ícones emoji para visual moderno
+├─ ✅ Timestamps formatados
+└─ ✅ Preparado para feed dinâmico
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📊 DETECÇÃO DE USUÁRIO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Fontes de dados (prioridade):
+1. localStorage.getItem('userData')
+2. sessionStorage.getItem('userData')
+3. localStorage.getItem('user')
+4. sessionStorage.getItem('user')
+
+Campos extraídos:
+├─ Nome: user.nome || user.username || user.name
+├─ Email: user.email
+└─ ID: user.id || user.usuario_id
+
+Processamento:
+└─ Extrai primeiro nome do nome completo
+    Exemplo: "Antonio Silva" → "Antonio"
+
+Resultado:
+└─ Header atualizado: "Olá Antonio 👋"
+    Fallback: "Olá 👋" (usuário não logado)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🚀 PRÓXIMOS PASSOS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. LIMPAR CACHE DO NAVEGADOR
+   └─ Ctrl + Shift + Delete → Limpar tudo
+   └─ OU Ctrl + F5 (recarga forçada)
+   └─ OU Ctrl + Shift + N (modo anônimo)
+
+2. TESTAR FUNCIONALIDADES
+   ✓ Abrir chat → verificar logo Aluforce no header
+   ✓ Verificar nome personalizado na home
+   ✓ Clicar "Enviar mensagem" → deve abrir chat
+   ✓ Digitar na busca → deve abrir conversa
+   ✓ Navegar para Ajuda → clicar em módulo
+   ✓ Verificar Tickets → estado vazio
+   ✓ Verificar Notícias → 2 notícias Aluforce
+
+3. INTEGRAÇÕES FUTURAS (OPCIONAL)
+   └─ API de tickets real
+   └─ Feed de notícias dinâmico
+   └─ Base de conhecimento expandida
+   └─ Analytics de uso do chat
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📝 RESUMO TÉCNICO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Recursos do Logo:
+└─ Caminho: /chat/Logo Monocromatico - Branco - Aluforce copy.webp
+└─ Tamanho: 28px altura
+└─ Filtro: none (logo original preservada)
+
+Avatares Removidos:
+└─ Header: 3 avatares circulares removidos
+└─ Mensagem recente: avatar removido
+└─ CSS: estilos .chat-header-avatars excluídos
+
+Estado Vazio:
+└─ Ícone SVG 48x48
+└─ Título + descrição
+└─ Centralizado e responsivo
+
+Event Listeners:
+├─ #chatSendMessage → switchScreen('messages')
+├─ #chatSearchInput + Enter → switchScreen('messages')
+├─ #chatRecentMsg → switchScreen('messages')
+├─ .chat-help-item → switchScreen('messages') + contexto
+└─ #chatHelpSearch + Enter → busca na base
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ PERSONALIZAÇÃO COMPLETA DO CHAT ALUFORCE FINALIZADA!
+
+🎨 Visual clean e profissional
+🚀 Funcionalidades interativas configuradas
+📱 Responsivo e pronto para uso

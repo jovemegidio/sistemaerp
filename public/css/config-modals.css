@@ -1,0 +1,1146 @@
+/**
+ * CSS para Modais de Configuração da Empresa
+ * Estilos completos e profissionais para cada modal de configuração
+ */
+
+/* ============================================================
+   MODAL BASE - Estrutura comum para todos os modais
+   ============================================================ */
+
+.config-detail-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(5px);
+    z-index: 100001;
+    animation: fadeIn 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Quando aberto via JavaScript */
+.config-detail-modal[style*="display: flex"],
+.config-detail-modal[style*="display:flex"] {
+    display: flex !important;
+}
+
+.config-detail-modal.active {
+    display: flex !important;
+}
+
+.config-detail-card {
+    background: #fff;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* ============================================================
+   HEADER DO MODAL
+   ============================================================ */
+
+.config-detail-header {
+    padding: 24px 32px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.config-detail-title {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.config-detail-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.config-detail-icon.company { background: linear-gradient(135deg, #3B82F6, #2563EB); }
+.config-detail-icon.category { background: linear-gradient(135deg, #F59E0B, #D97706); }
+.config-detail-icon.department { background: linear-gradient(135deg, #10B981, #059669); }
+.config-detail-icon.project { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
+.config-detail-icon.certificate { background: linear-gradient(135deg, #EF4444, #DC2626); }
+.config-detail-icon.nfe { background: linear-gradient(135deg, #06B6D4, #0891B2); }
+
+.config-detail-title-text h3 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+}
+
+.config-detail-title-text p {
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.config-detail-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: none;
+    background: #f3f4f6;
+    color: #6b7280;
+    font-size: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.config-detail-close:hover {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+/* ============================================================
+   CORPO DO MODAL
+   ============================================================ */
+
+.config-detail-body {
+    padding: 32px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.config-detail-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.config-detail-body::-webkit-scrollbar-track {
+    background: #f3f4f6;
+    border-radius: 4px;
+}
+
+.config-detail-body::-webkit-scrollbar-thumb {
+    background: #d1d5db;
+    border-radius: 4px;
+}
+
+.config-detail-body::-webkit-scrollbar-thumb:hover {
+    background: #9ca3af;
+}
+
+/* ============================================================
+   FORMULÁRIOS
+   ============================================================ */
+
+.config-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.config-form-section {
+    background: #f9fafb;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.config-form-section-title {
+    margin: 0 0 20px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.config-form-section-title i {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.config-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.config-form-row.single {
+    grid-template-columns: 1fr;
+}
+
+.config-form-row:last-child {
+    margin-bottom: 0;
+}
+
+.config-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.config-form-group label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #374151;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.config-form-group label .required {
+    color: #ef4444;
+}
+
+.config-form-group input,
+.config-form-group select,
+.config-form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1f2937;
+    background: #fff;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.config-form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.config-form-group input:focus,
+.config-form-group select:focus,
+.config-form-group textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.config-form-group input:disabled,
+.config-form-group select:disabled,
+.config-form-group textarea:disabled {
+    background: #f3f4f6;
+    cursor: not-allowed;
+}
+
+.config-form-group small {
+    font-size: 12px;
+    color: #6b7280;
+}
+
+/* ============================================================
+   INPUTS ESPECIAIS
+   ============================================================ */
+
+/* Color Picker */
+.config-color-input-wrapper {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.config-color-input-wrapper input[type="color"] {
+    width: 60px;
+    height: 40px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.config-color-input-wrapper input[type="text"] {
+    flex: 1;
+}
+
+/* Icon Picker */
+.config-icon-picker {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+    gap: 8px;
+    margin-top: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    padding: 12px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.config-icon-option {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 20px;
+    color: #6b7280;
+}
+
+.config-icon-option:hover {
+    border-color: #3b82f6;
+    background: #eff6ff;
+    color: #3b82f6;
+}
+
+.config-icon-option.selected {
+    border-color: #3b82f6;
+    background: #3b82f6;
+    color: #fff;
+}
+
+/* File Upload */
+.config-file-upload {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.config-file-upload input[type="file"] {
+    display: none;
+}
+
+.config-file-upload-btn {
+    padding: 10px 20px;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.config-file-upload-btn:hover {
+    background: #e5e7eb;
+}
+
+.config-file-upload-name {
+    font-size: 14px;
+    color: #6b7280;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Toggle Switch */
+.config-toggle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+}
+
+.config-toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.config-toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.config-toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #d1d5db;
+    transition: 0.3s;
+    border-radius: 14px;
+}
+
+.config-toggle-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
+    background: white;
+    transition: 0.3s;
+    border-radius: 50%;
+}
+
+.config-toggle-switch input:checked + .config-toggle-slider {
+    background: #10b981;
+}
+
+.config-toggle-switch input:checked + .config-toggle-slider:before {
+    transform: translateX(20px);
+}
+
+.config-toggle-label {
+    flex: 1;
+}
+
+.config-toggle-label strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 4px;
+}
+
+.config-toggle-label span {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+/* ============================================================
+   FOOTER DO MODAL (Ações)
+   ============================================================ */
+
+.config-detail-footer {
+    padding: 20px 32px;
+    border-top: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-shrink: 0;
+}
+
+.config-detail-footer-left {
+    display: flex;
+    gap: 12px;
+}
+
+.config-detail-footer-right {
+    display: flex;
+    gap: 12px;
+}
+
+.config-btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.config-btn-primary {
+    background: #3b82f6;
+    color: #fff;
+}
+
+.config-btn-primary:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.config-btn-secondary {
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.config-btn-secondary:hover {
+    background: #e5e7eb;
+}
+
+.config-btn-danger {
+    background: #ef4444;
+    color: #fff;
+}
+
+.config-btn-danger:hover {
+    background: #dc2626;
+}
+
+.config-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ============================================================
+   LISTA DE ITENS (para categorias, departamentos, projetos)
+   ============================================================ */
+
+.config-items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.config-item-card {
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: all 0.2s;
+}
+
+.config-item-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+}
+
+.config-item-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.config-item-content {
+    flex: 1;
+}
+
+.config-item-content h4 {
+    margin: 0 0 4px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.config-item-content p {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.config-item-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.config-item-action-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    background: #f3f4f6;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.config-item-action-btn:hover {
+    background: #e5e7eb;
+    color: #1f2937;
+}
+
+.config-item-action-btn.edit:hover {
+    background: #dbeafe;
+    color: #3b82f6;
+}
+
+.config-item-action-btn.delete:hover {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+/* Empty State */
+.config-empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.config-empty-state i {
+    font-size: 48px;
+    color: #d1d5db;
+    margin-bottom: 16px;
+}
+
+.config-empty-state h4 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #6b7280;
+}
+
+.config-empty-state p {
+    margin: 0;
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+
+@media (max-width: 768px) {
+    .config-detail-card {
+        width: 95%;
+        max-height: 95vh;
+    }
+
+    .config-detail-header {
+        padding: 20px;
+    }
+
+    .config-detail-body {
+        padding: 20px;
+    }
+
+    .config-detail-footer {
+        padding: 16px 20px;
+        flex-direction: column;
+    }
+
+    .config-detail-footer-left,
+    .config-detail-footer-right {
+        width: 100%;
+        justify-content: stretch;
+    }
+
+    .config-btn {
+        flex: 1;
+        justify-content: center;
+    }
+
+    .config-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .config-detail-title-text h3 {
+        font-size: 20px;
+    }
+
+    .config-icon-picker {
+        grid-template-columns: repeat(auto-fill, minmax(45px, 1fr));
+    }
+}
+
+/* ============================================================
+   ANIMAÇÕES DE LOADING
+   ============================================================ */
+
+.config-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.config-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f4f6;
+    border-top-color: #3b82f6;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Success/Error Messages */
+.config-message {
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.config-message.success {
+    background: #d1fae5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+}
+
+.config-message.error {
+    background: #fee2e2;
+    color: #991b1b;
+    border: 1px solid #fca5a5;
+}
+
+/* Tabelas de Configuração */
+.config-table-container {
+    overflow-x: auto;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.config-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.config-table thead {
+    background: #f9fafb;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.config-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #374151;
+    white-space: nowrap;
+}
+
+.config-table th i {
+    margin-left: 5px;
+    color: #9ca3af;
+    font-size: 11px;
+}
+
+.config-table tbody tr {
+    border-bottom: 1px solid #e5e7eb;
+    transition: background 0.2s;
+}
+
+.config-table tbody tr:hover {
+    background: #f9fafb;
+}
+
+.config-table td {
+    padding: 12px 16px;
+    color: #6b7280;
+}
+
+.config-btn-icon {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+    font-size: 14px;
+}
+
+.config-btn-icon:hover {
+    background: #f3f4f6;
+    color: #3b82f6;
+}
+
+.config-btn-primary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.config-btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.config-btn-secondary {
+    background: white;
+    color: #6b7280;
+    border: 1px solid #d1d5db;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.config-btn-secondary:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+/* Status Badges */
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.status-ativo {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-badge.status-inativo {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+/* Paginação */
+.config-pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.config-pagination-buttons {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.config-pagination-buttons button {
+    background: white;
+    border: 1px solid #d1d5db;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #6b7280;
+    transition: all 0.2s;
+}
+
+.config-pagination-buttons button:hover:not(:disabled) {
+    border-color: #3b82f6;
+    color: #3b82f6;
+}
+
+.config-pagination-buttons button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.config-pagination-buttons span {
+    padding: 6px 12px;
+    font-weight: 500;
+    color: #374151;
+}
+
+/* Sidebar de Ações */
+.config-sidebar-actions {
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10;
+}
+
+.config-sidebar-btn {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s;
+    min-width: 120px;
+}
+
+.config-sidebar-btn i {
+    font-size: 24px;
+    color: #6b7280;
+}
+
+.config-sidebar-btn span {
+    font-size: 13px;
+    font-weight: 600;
+    color: #374151;
+}
+
+.config-sidebar-btn small {
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.config-sidebar-btn.active {
+    border-color: #10b981;
+    background: #d1fae5;
+}
+
+.config-sidebar-btn.active i {
+    color: #10b981;
+}
+
+.config-sidebar-btn.active span {
+    color: #065f46;
+}
+
+.config-sidebar-btn:hover {
+    transform: translateX(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.config-message i {
+    font-size: 18px;
+}
+
+/* ============================================================
+   PRIORITY BADGES - Para SLA e Prioridades
+   ============================================================ */
+
+.priority-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.priority-badge.priority-critical {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: white;
+}
+
+.priority-badge.priority-high {
+    background: linear-gradient(135deg, #f97316, #ea580c);
+    color: white;
+}
+
+.priority-badge.priority-medium {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.priority-badge.priority-low {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+}
+
+/* ============================================================
+   CONFIG CARDS GRID - Para Modelos de Contrato
+   ============================================================ */
+
+.config-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 16px;
+    padding: 20px 0;
+}
+
+.config-card-item {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.config-card-item:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+    transform: translateY(-2px);
+}
+
+.config-card-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.config-card-icon i {
+    font-size: 22px;
+    color: #6b7280;
+}
+
+.config-card-content {
+    flex: 1;
+}
+
+.config-card-content h4 {
+    margin: 0 0 6px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+.config-card-content p {
+    margin: 0;
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.config-card-meta {
+    display: block;
+    margin-top: 8px;
+    font-size: 11px;
+    color: #9ca3af;
+}
+
+.config-card-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+/* ============================================================
+   SEARCH BAR - Para busca de NCM
+   ============================================================ */
+
+.config-search-bar {
+    display: flex;
+    align-items: center;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    gap: 12px;
+}
+
+.config-search-bar i {
+    color: #9ca3af;
+    font-size: 16px;
+}
+
+.config-search-bar input {
+    flex: 1;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: #1f2937;
+    outline: none;
+}
+
+.config-search-bar input::placeholder {
+    color: #9ca3af;
+}
+
+/* Estilo para código/NCM */
+.config-table code {
+    background: #f3f4f6;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: 'Fira Code', 'Consolas', monospace;
+    font-size: 13px;
+    color: #374151;
+}
+
+/* ============================================================
+   CORES DE ÍCONES POR CATEGORIA
+   ============================================================ */
+
+.config-icon-green {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+}
+
+.config-icon-purple {
+    background: linear-gradient(135deg, #8b5cf6, #7c3aed) !important;
+}
+
+.config-icon-teal {
+    background: linear-gradient(135deg, #14b8a6, #0d9488) !important;
+}
+
+.config-icon-red {
+    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+}
+
+.config-icon-blue {
+    background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+}
+
+.config-icon-orange {
+    background: linear-gradient(135deg, #f97316, #ea580c) !important;
+}
