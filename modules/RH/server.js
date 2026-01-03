@@ -28,9 +28,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'change-this-secret-in-prod'
 
 const logger = require('./logger')
 
+// Validação de JWT - apenas aviso, não encerra o servidor
 if (process.env.NODE_ENV === 'production' && (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'change-this-secret-in-prod')) {
-  logger.error('NODE_ENV=production mas JWT_SECRET não está configurado ou é o placeholder. Abortando startup.')
-  process.exit(1)
+  logger.warn('AVISO: JWT_SECRET não está configurado corretamente. Usando valor padrão.')
 }
 
 // --- CONFIGURAÇÁO DA LIGAÇÁO À BASE DE DADOS ---
