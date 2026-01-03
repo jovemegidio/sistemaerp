@@ -1,4 +1,4 @@
-Ôªø@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
 :root {
     /* Cores que combinam com a identidade visual da Aluforce */
@@ -54,7 +54,7 @@ body {
     padding: 20px;
 }
 
-/* Efeito de vidro para o formul√°rio de login */
+/* Efeito de vidro para o formul·rio de login */
 .login-form {
     background: var(--bg-overlay);
     backdrop-filter: blur(16px);
@@ -100,7 +100,7 @@ body {
     object-fit: contain;
 }
 
-/* Avatar do usu√°rio */
+/* Avatar do usu·rio */
 .user-avatar {
     width: 90px;
     height: 90px;
@@ -303,7 +303,7 @@ body {
     color: #3b82f6;
 }
 
-/* Estilos para o bot√£o de submit e o spinner de carregamento */
+/* Estilos para o bot„o de submit e o spinner de carregamento */
 button[type="submit"] {
     position: relative;
     width: 100%;
@@ -381,7 +381,7 @@ button[type="submit"]:disabled {
     to { transform: rotate(360deg); }
 }
 
-/* Controla a visibilidade do texto e do spinner no bot√£o */
+/* Controla a visibilidade do texto e do spinner no bot„o */
 button.loading .spinner {
     opacity: 1;
 }
@@ -458,7 +458,7 @@ button.loading .btn-text {
     transform: translateY(0);
 }
 
-/* √Årea de op√ß√µes (Lembrar-me e Esqueceu senha) */
+/* ¡rea de opÁıes (Lembrar-me e Esqueceu senha) */
 .login-options {
     display: flex;
     justify-content: space-between;
@@ -563,7 +563,7 @@ button.loading .btn-text {
 }
 
 /* ================================
-   MODAL DE RECUPERA√á√ÅO DE SENHA
+   MODAL DE RECUPERA«¡O DE SENHA
    ================================ */
 
 .modal-overlay {
@@ -979,7 +979,7 @@ button.loading .btn-text {
     }
 }
 
-/* Anima√ß√µes de entrada */
+/* AnimaÁıes de entrada */
 @keyframes fadeInUp {
     from {
         opacity: 0;
