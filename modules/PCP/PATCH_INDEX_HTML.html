@@ -3,22 +3,22 @@
 INSTRUÇÕES PARA INTEGRAR OTIMIZAÇÕES NO index.html
 ==============================================================================
 
-PASSO 1: Adicionar scripts de otimização ANTES do fechamento do     <script src="/js/popup-confirmacao.js"></script>`n</body>
+PASSO 1: Adicionar scripts de otimização ANTES do fechamento do     <script src="js/popup-confirmacao.js"></script>`n</body>
 
-Procure por esta linha no final do arquivo (antes de     <script src="/js/popup-confirmacao.js"></script>`n</body>):
+Procure por esta linha no final do arquivo (antes de     <script src="js/popup-confirmacao.js"></script>`n</body>):
     </script>
-    <script src="/js/popup-confirmacao.js"></script>`n</body>
+    <script src="js/popup-confirmacao.js"></script>`n</body>
 </html>
 
-E adicione ANTES de     <script src="/js/popup-confirmacao.js"></script>`n</body>, DEPOIS do último </script>:
+E adicione ANTES de     <script src="js/popup-confirmacao.js"></script>`n</body>, DEPOIS do último </script>:
 
 -->
 
 <!-- ============================================ -->
 <!-- OTIMIZAÇÕES PCP - INÍCIO -->
 <!-- ============================================ -->
-<script src="/modules/PCP/pcp-optimizations.js"></script>
-<script src="/modules/PCP/pcp-integration.js"></script>
+<script src="modules/PCP/pcp-optimizations.js"></script>
+<script src="modules/PCP/pcp-integration.js"></script>
 <!-- ============================================ -->
 <!-- OTIMIZAÇÕES PCP - FIM -->
 <!-- ============================================ -->
@@ -420,16 +420,16 @@ EXEMPLO DE LOCALIZAÇÃO NO index.html
 
 ANTES:
     </script>
-    <script src="/js/popup-confirmacao.js"></script>`n</body>
+    <script src="js/popup-confirmacao.js"></script>`n</body>
 </html>
 
 DEPOIS:
     </script>
     
     <!-- Otimizações PCP -->
-    <script src="/modules/PCP/pcp-optimizations.js"></script>
-    <script src="/modules/PCP/pcp-integration.js"></script>
-    <script src="/js/popup-confirmacao.js"></script>`n</body>
+    <script src="modules/PCP/pcp-optimizations.js"></script>
+    <script src="modules/PCP/pcp-integration.js"></script>
+    <script src="js/popup-confirmacao.js"></script>`n</body>
 </html>
 
 ==============================================================================
