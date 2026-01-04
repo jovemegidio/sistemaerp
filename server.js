@@ -74,10 +74,10 @@ const asyncHandler = fn => (req, res, next) => {
 
 // Função para iniciar servidor de chat
 function startChatServer() {
-    // Desabilitar servidor de chat separação em ambiente Railway/produção
+    // Desabilitar servidor de chat separado em ambiente Railway/produção
     // O chat é integração via Socket.io no servidor principal
     if (process.env.RAILWAY_ENVIRONMENT || process.env.NODE_ENV === 'production') {
-        console.log('⚠️  Servidor de chat separação desabilitação em produção (usa Socket.io integração)');
+        console.log('⚠️  Servidor de chat separado desabilitado em produção (usa Socket.io integrado)');
         return;
     }
     
@@ -146,7 +146,7 @@ function startChatServer() {
         
         chatServerProcess.on('exit', (code, signal) => {
             if (code !== null && code !== 0) {
-                console.log(`⚠️  Servidor de chat encerração com código ${code}`);
+                console.log(`⚠️  Servidor de chat encerrado com código ${code}`);
             }
         });
         
@@ -162,7 +162,7 @@ function stopChatServer() {
     if (chatServerProcess) {
         try {
             chatServerProcess.kill('SIGTERM');
-            console.log('🔵 Servidor de chat encerração');
+            console.log('🔵 Servidor de chat encerrado');
         } catch (error) {
             console.error('⚠️  Erro ao encerrar servidor de chat:', error.message);
         }
@@ -174,9 +174,9 @@ let supportServerProcess = null;
 
 // Função para iniciar servidor de suporte
 function startSupportServer() {
-    // Desabilitar servidor de suporte separação em ambiente Railway/produção
+    // Desabilitar servidor de suporte separado em ambiente Railway/produção
     if (process.env.RAILWAY_ENVIRONMENT || process.env.NODE_ENV === 'production') {
-        console.log('⚠️  Servidor de suporte separação desabilitação em produção');
+        console.log('⚠️  Servidor de suporte separado desabilitado em produção');
         return;
     }
     
@@ -243,7 +243,7 @@ function startSupportServer() {
         
         supportServerProcess.on('exit', (code, signal) => {
             if (code !== null && code !== 0) {
-                console.log(`⚠️  Servidor de suporte encerração com código ${code}`);
+                console.log(`⚠️  Servidor de suporte encerrado com código ${code}`);
             }
         });
         
@@ -259,7 +259,7 @@ function stopSupportServer() {
     if (supportServerProcess) {
         try {
             supportServerProcess.kill('SIGTERM');
-            console.log('🟣 Servidor de suporte encerração');
+            console.log('🟣 Servidor de suporte encerrado');
         } catch (error) {
             console.error('⚠️  Erro ao encerrar servidor de suporte:', error.message);
         }
@@ -453,7 +453,7 @@ function initEmailTransporter() {
             secure: process.env.SMTP_SECURE === 'true', // true para 465, false para outras portas
             auth: {
                 user: process.env.SMTP_USER || 'sistema@aluforce.ind.br',
-                pass: process.env.SMTP_PASS || '' // Deixe vazio se não configuração
+                pass: process.env.SMTP_PASS || '' // Deixe vazio se não configurado
             },
             tls: {
                 rejectUnauthorized: false // Para ambientes de desenvolvimento
@@ -464,14 +464,14 @@ function initEmailTransporter() {
         if (process.env.SMTP_USER && process.env.SMTP_PASS) {
             emailTransporter.verify((error, success) => {
                 if (error) {
-                    logger.warn('[EMAIL] ⚠️  SMTP não configuração ou erro na conexão:', error.message);
-                    logger.warn('[EMAIL] 📧 Emails não serão enviaçãos. Configure variáveis de ambiente SMTP_*');
+                    logger.warn('[EMAIL] ⚠️  SMTP não configurado ou erro na conexão:', error.message);
+                    logger.warn('[EMAIL] 📧 Emails não serão enviados. Configure variáveis de ambiente SMTP_*');
                 } else {
-                    logger.info('[EMAIL] ✅ Servidor SMTP configuração e pronto para enviar emails');
+                    logger.info('[EMAIL] ✅ Servidor SMTP configurado e pronto para enviar emails');
                 }
             });
         } else {
-            logger.warn('[EMAIL] ⚠️  Credenciais SMTP não configuradas. Emails não serão enviaçãos.');
+            logger.warn('[EMAIL] ⚠️  Credenciais SMTP não configuradas. Emails não serão enviados.');
             logger.warn('[EMAIL] 💡 Configure SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS no .env');
         }
     } catch (error) {
@@ -485,8 +485,8 @@ initEmailTransporter();
 // Função auxiliar para enviar emails
 async function sendEmail(to, subject, html, text) {
     if (!emailTransporter || !process.env.SMTP_USER) {
-        logger.warn(`[EMAIL] Email não enviação (SMTP não configuração): ${subject}`);
-        return { success: false, error: 'SMTP não configuração' };
+        logger.warn(`[EMAIL] Email não enviação (SMTP não configurado): ${subject}`);
+        return { success: false, error: 'SMTP não configurado' };
     }
 
     try {
@@ -692,7 +692,7 @@ setInterval(() => {
 console.log('⚡ Sistema de cache em memória ativação');
 // =================================================================
 
-// Helper: enviarEmail - tenta usar nodemailer se configuração via env, senão faz log
+// Helper: enviarEmail - tenta usar nodemailer se configurado via env, senão faz log
 async function enviarEmail(to, subject, text, html) {
     // Requer variáveis de ambiente para envio real (SMTP)
     const host = process.env.SMTP_HOST;
@@ -729,7 +729,7 @@ app.use(securityHeaders());
 app.use(generalLimiter);
 app.use(sanitizeInput);
 
-// CORS configuração para permitir GitHub Pages e Railway
+// CORS configurado para permitir GitHub Pages e Railway
 const allowedOrigins = [
     'http://localhost:3000', 
     'http://127.0.0.1:3000',
@@ -880,7 +880,7 @@ app.use(express.static(path.join(__dirname, 'public'), {
 app.use('/socket.io', express.static(path.join(__dirname, 'node_modules', 'socket.io', 'client-dist')));
 
 // Middleware específico para correção de MIME types
-// NOTA: CORS já configuração acima com cors() - não sobrescrever!
+// NOTA: CORS já configurado acima com cors() - não sobrescrever!
 app.use((req, res, next) => {
     // Adicionar headers CORS dinâmicos (compatível com credentials)
     const origin = req.headers.origin;
@@ -1722,7 +1722,7 @@ const initCronJobs = () => {
                     ]
                 );
                 
-                // Enviar email se configuração
+                // Enviar email se configurado
                 if (pedido.solicitante_email && emailTransporter) {
                     await sendEmail(
                         pedido.solicitante_email,
@@ -1924,7 +1924,7 @@ const initCronJobs = () => {
         }
     });
     
-    logger.info('✅ Todos os cron jobs configuraçãos (incluindo Compras e Estoque)');
+    logger.info('✅ Todos os cron jobs configurados (incluindo Compras e Estoque)');
 };
 
 // =================================================================
@@ -2052,7 +2052,7 @@ const loginLimiter = rateLimit({
 });
 app.use('/api/login', loginLimiter);
 
-// NOTA: authRouter desabilitação - usando rota de login otimizada do server.js (linha 11688)
+// NOTA: authRouter desabilitado - usando rota de login otimizada do server.js (linha 11688)
 // O authRouter fazia SHOW COLUMNS em cada login, causando timeouts intermitentes
 // app.use('/api', authRouter);
 
@@ -2185,7 +2185,7 @@ apiNfeRouter.get('/xml/:nfe_id', async (req, res, next) => {
     res.json({ xml: nfe.xml_arquivo });
 });
 
-// Monta o router da NF-e (separação em arquivo em routes/apiNfe.js)
+// Monta o router da NF-e (separado em arquivo em routes/apiNfe.js)
 app.use('/api/nfe', require('./src/routes/apiNfe')({ pool, authenticateToken, authorizeArea }));
 
 // Monta o router de certificação digital NFe
@@ -2491,7 +2491,7 @@ apiComprasRouter.get('/fornecedores', async (req, res, next) => {
         const params = [];
         
         if (search) {
-            whereClause += ' AND (nome LIKE  OR cnpj LIKE  OR email LIKE )';
+            whereClause += ' AND (nome LIKE ? OR cnpj LIKE ? OR email LIKE )';
             params.push(`%${search}%`, `%${search}%`, `%${search}%`);
         }
         
@@ -2504,7 +2504,7 @@ apiComprasRouter.get('/fornecedores', async (req, res, next) => {
             SELECT * FROM fornecedores 
             ${whereClause}
             ORDER BY nome 
-            LIMIT  OFFSET 
+            LIMIT ? OFFSET 
         `, [...params, parseInt(limit), offset]);
         
         const [total] = await pool.query(`
@@ -2575,7 +2575,7 @@ apiComprasRouter.get('/pedidos', async (req, res, next) => {
         }
         
         if (data_inicio && data_fim) {
-            whereClause += ' AND pc.data_pedido BETWEEN  AND ';
+            whereClause += ' AND pc.data_pedido BETWEEN ? AND ';
             params.push(data_inicio, data_fim);
         }
         
@@ -2588,7 +2588,7 @@ apiComprasRouter.get('/pedidos', async (req, res, next) => {
             LEFT JOIN fornecedores f ON pc.fornecedor_id = f.id
             ${whereClause}
             ORDER BY pc.data_pedido DESC
-            LIMIT  OFFSET 
+            LIMIT ? OFFSET 
         `, [...params, parseInt(limit), offset]);
 
         res.json({
@@ -2661,7 +2661,7 @@ apiComprasRouter.get('/relatorios/gastos-periodo', async (req, res, next) => {
         const params = [];
         
         if (data_inicio && data_fim) {
-            whereClause += ' AND pc.data_pedido BETWEEN  AND ';
+            whereClause += ' AND pc.data_pedido BETWEEN ? AND ';
             params.push(data_inicio, data_fim);
         }
         
@@ -2887,7 +2887,7 @@ apiFinanceiroRouter.get('/contas-receber', async (req, res, next) => {
         }
         
         if (vencimento_inicio && vencimento_fim) {
-            whereClause += ' AND data_vencimento BETWEEN  AND ';
+            whereClause += ' AND data_vencimento BETWEEN ? AND ';
             params.push(vencimento_inicio, vencimento_fim);
         }
         
@@ -2903,7 +2903,7 @@ apiFinanceiroRouter.get('/contas-receber', async (req, res, next) => {
             FROM contas_receber cr
             ${whereClause}
             ORDER BY cr.data_vencimento ASC
-            LIMIT  OFFSET 
+            LIMIT ? OFFSET 
         `, [...params, parseInt(limit), offset]);
 
         res.json({
@@ -2957,7 +2957,7 @@ apiFinanceiroRouter.get('/contas-pagar', async (req, res, next) => {
         }
         
         if (vencimento_inicio && vencimento_fim) {
-            whereClause += ' AND data_vencimento BETWEEN  AND ';
+            whereClause += ' AND data_vencimento BETWEEN ? AND ';
             params.push(vencimento_inicio, vencimento_fim);
         }
         
@@ -2973,7 +2973,7 @@ apiFinanceiroRouter.get('/contas-pagar', async (req, res, next) => {
             FROM contas_pagar cp
             ${whereClause}
             ORDER BY cp.data_vencimento ASC
-            LIMIT  OFFSET 
+            LIMIT ? OFFSET 
         `, [...params, parseInt(limit), offset]);
 
         res.json({
@@ -3095,7 +3095,7 @@ apiFinanceiroRouter.get('/fluxo-caixa', async (req, res, next) => {
                 descricao,
                 categoria
             FROM contas_receber 
-            WHERE data_vencimento BETWEEN  AND  AND status = 'pago'
+            WHERE data_vencimento BETWEEN ? AND ? AND status = 'pago'
             
             UNION ALL
             
@@ -3107,7 +3107,7 @@ apiFinanceiroRouter.get('/fluxo-caixa', async (req, res, next) => {
                 descricao,
                 categoria
             FROM contas_pagar 
-            WHERE data_vencimento BETWEEN  AND  AND status = 'pago'
+            WHERE data_vencimento BETWEEN ? AND ? AND status = 'pago'
             
             ORDER BY data ASC
         `, [data_inicio, data_fim, data_inicio, data_fim]);
@@ -3481,7 +3481,7 @@ apiPCPRouter.get('/ordens', async (req, res, next) => {
     try {
         const limit = parseInt(req.query.limit) || 500;
         const offset = parseInt(req.query.offset) || 0;
-        const [rows] = await pool.query('SELECT * FROM ordens_producao ORDER BY id DESC LIMIT  OFFSET ', [limit, offset]);
+        const [rows] = await pool.query('SELECT * FROM ordens_producao ORDER BY id DESC LIMIT ? OFFSET ', [limit, offset]);
         res.json(rows);
     } catch (error) { next(error); }
 });
@@ -3525,7 +3525,7 @@ apiPCPRouter.get('/materiais', async (req, res, next) => {
     try {
         const limit = parseInt(req.query.limit) || 1000;
         const offset = parseInt(req.query.offset) || 0;
-        const [rows] = await pool.query('SELECT * FROM materiais ORDER BY descricao ASC LIMIT  OFFSET ', [limit, offset]);
+        const [rows] = await pool.query('SELECT * FROM materiais ORDER BY descricao ASC LIMIT ? OFFSET ', [limit, offset]);
         res.json(rows);
     } catch (error) { next(error); }
 });
@@ -3654,7 +3654,7 @@ apiPCPRouter.get('/produtos', async (req, res, next) => {
         // Filtro por busca (código, nome, EAN-13, SKU, NCM)
         if (search) {
             const searchPattern = `%${search}%`;
-            whereConditions.push('(codigo LIKE  OR nome LIKE  OR gtin LIKE  OR sku LIKE  OR ncm LIKE )');
+            whereConditions.push('(codigo LIKE ? OR nome LIKE ? OR gtin LIKE ? OR sku LIKE ? OR ncm LIKE )');
             queryParams.push(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
         }
         
@@ -3682,7 +3682,7 @@ apiPCPRouter.get('/produtos', async (req, res, next) => {
             FROM produtos 
             ${whereClause}
             ORDER BY nome ASC
-            LIMIT  OFFSET 
+            LIMIT ? OFFSET 
         `;
         
         queryParams.push(limit, offset);
@@ -3756,7 +3756,7 @@ apiPCPRouter.get('/produtos/search', async (req, res, next) => {
         const [rows] = await pool.query(`
             SELECT * FROM produtos 
             WHERE status = "ativo" 
-            AND (codigo LIKE  OR nome LIKE  OR sku LIKE  OR gtin LIKE )
+            AND (codigo LIKE ? OR nome LIKE ? OR sku LIKE ? OR gtin LIKE )
             ORDER BY 
                 CASE 
                     WHEN codigo =  THEN 1
@@ -4226,7 +4226,7 @@ apiPCPRouter.patch('/ordens-kanban/:id', async (req, res, next) => {
         }
         
         if (produzido !== undefined || quantidade_produzida !== undefined) {
-            const qtdProduzida = produzido  quantidade_produzida;
+            const qtdProduzida = produzido ? quantidade_produzida;
             updates.push('quantidade_produzida = ');
             params.push(qtdProduzida);
             
@@ -4431,7 +4431,7 @@ app.get('/metrics', (req, res) => {
 aluforce_uptime_seconds ${metrics.process.uptime}
 aluforce_memory_used_bytes ${metrics.process.memory.heapUsed}
 aluforce_memory_total_bytes ${metrics.process.memory.heapTotal}
-aluforce_database_connected ${DB_AVAILABLE  1 : 0}
+aluforce_database_connected ${DB_AVAILABLE ? 1 : 0}
 aluforce_app_version_info{version="${metrics.application.version}",environment="${metrics.application.environment}"} 1
 `);
 });
@@ -4749,7 +4749,7 @@ app.get('/api/clientes', async (req, res) => {
         let params = [];
         
         if (termo && termo.length >= 2) {
-            query += ` AND (nome LIKE  OR cnpj LIKE  OR contato LIKE )`;
+            query += ` AND (nome LIKE ? OR cnpj LIKE ? OR contato LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike, termoLike];
         }
@@ -4924,7 +4924,7 @@ app.get('/api/pcp/materiais', async (req, res) => {
         let params = [];
         
         if (termo && termo.length >= 2) {
-            query += ` AND (codigo_material LIKE  OR descricao LIKE )`;
+            query += ` AND (codigo_material LIKE ? OR descricao LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike];
         }
@@ -5003,7 +5003,7 @@ app.get('/api/transportaçãoras', async (req, res) => {
         let params = [];
         
         if (termo && termo.length >= 2) {
-            query += ` AND (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj_cpf LIKE )`;
+            query += ` AND (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj_cpf LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike, termoLike];
         }
@@ -5081,7 +5081,7 @@ app.get('/api/empresas/buscar', async (req, res) => {
         let params = [];
         
         if (termo && termo.length >= 1) { // Funciona com 1 caractere
-            query += ` AND (nome LIKE  OR cnpj LIKE  OR contato LIKE )`;
+            query += ` AND (nome LIKE ? OR cnpj LIKE ? OR contato LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike, termoLike];
         }
@@ -5134,7 +5134,7 @@ app.get('/api/empresas', async (req, res) => {
         let query = 'SELECT id, nome, contato, cnpj, cpf, telefone, celular, email, email_nfe, endereco, lograçãouro, numero, bairro, cidade, uf, estação, cep FROM clientes WHERE ativo = 1';
         let params = [];
         if (termo && termo.length >= 1) {
-            query += ` AND (nome LIKE  OR cnpj LIKE  OR contato LIKE )`;
+            query += ` AND (nome LIKE ? OR cnpj LIKE ? OR contato LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike, termoLike];
         }
@@ -5196,7 +5196,7 @@ app.get('/api/transportaçãoras/buscar', async (req, res) => {
         let params = [];
         
         if (termo && termo.length >= 1) { // Funciona com 1 caractere
-            query += ` AND (nome LIKE  OR cnpj LIKE )`;
+            query += ` AND (nome LIKE ? OR cnpj LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike];
         }
@@ -5268,7 +5268,7 @@ app.get('/api/produtos/buscar', async (req, res) => {
             let paramsProdutos = [];
             
             if (termo && termo.length >= 1) {
-                queryProdutos += ` AND (codigo LIKE  OR nome LIKE  OR descricao LIKE )`;
+                queryProdutos += ` AND (codigo LIKE ? OR nome LIKE ? OR descricao LIKE )`;
                 const termoLike = `%${termo}%`;
                 paramsProdutos = [termoLike, termoLike, termoLike];
             }
@@ -5321,7 +5321,7 @@ app.get('/api/produtos/buscar', async (req, res) => {
             let paramsMateriais = [];
             
             if (termo && termo.length >= 1) {
-                queryMateriais += ` AND (codigo_material LIKE  OR descricao LIKE )`;
+                queryMateriais += ` AND (codigo_material LIKE ? OR descricao LIKE )`;
                 const termoLike = `%${termo}%`;
                 paramsMateriais = [termoLike, termoLike];
             }
@@ -5423,7 +5423,7 @@ app.get('/api/produtos', async (req, res) => {
         let params = [];
         
         if (termo && termo.length >= 1) { // Funciona com 1 caractere
-            query += ` AND (codigo LIKE  OR nome LIKE  OR descricao LIKE )`;
+            query += ` AND (codigo LIKE ? OR nome LIKE ? OR descricao LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike, termoLike];
         }
@@ -7069,7 +7069,7 @@ app.get('/api/configuracoes/certificação', async (req, res) => {
                 Math.ceil((new Date(cert.validade) - new Date()) / (1000 * 60 * 60 * 24)) : null;
             
             res.json({
-                configuração: true,
+                configurado: true,
                 validade: cert.validade,
                 cnpj: cert.cnpj,
                 nome: cert.nome,
@@ -7090,12 +7090,12 @@ app.get('/api/configuracoes/certificação', async (req, res) => {
         
         if (rows.length > 0) {
             res.json({
-                configuração: true,
+                configurado: true,
                 ...rows[0]
             });
         } else {
             res.json({
-                configuração: false
+                configurado: false
             });
         }
     } catch (error) {
@@ -7163,14 +7163,14 @@ app.post('/api/configuracoes/certificação', upload.single('certificação'), a
         // Criptografar senha (base64 simples - em produção usar algo mais seguro)
         const senhaCriptografada = Buffer.from(senha).toString('base64');
         
-        // Verificar se já existe configuração para a empresa na tabela nfe_configuracoes
+        // Verificar se já existe configurado para a empresa na tabela nfe_configuracoes
         const [existing] = await pool.query(
             'SELECT id FROM nfe_configuracoes WHERE empresa_id = ',
             [empresaId]
         );
         
         if (existing && existing.length > 0) {
-            // Atualizar configuração existente
+            // Atualizar configurado existente
             await pool.query(`
                 UPDATE nfe_configuracoes 
                 SET certificação_pfx = ,
@@ -7189,7 +7189,7 @@ app.post('/api/configuracoes/certificação', upload.single('certificação'), a
                 empresaId
             ]);
         } else {
-            // Criar nova configuração
+            // Criar nova configurado
             await pool.query(`
                 INSERT INTO nfe_configuracoes 
                 (empresa_id, certificação_pfx, certificação_senha, certificação_validade, certificação_cnpj, certificação_nome, ambiente, created_at, updated_at)
@@ -7238,7 +7238,7 @@ app.post('/api/configuracoes/certificação', upload.single('certificação'), a
     }
 });
 
-// GET - Buscar configuração de importação de NF-e
+// GET - Buscar configurado de importação de NF-e
 app.get('/api/configuracoes/nfe-import', async (req, res) => {
     try {
         console.log('📋 Buscando config de NF-e...');
@@ -7256,11 +7256,11 @@ app.get('/api/configuracoes/nfe-import', async (req, res) => {
         }
     } catch (error) {
         console.error('❌ Erro ao buscar config de NF-e:', error);
-        res.status(500).json({ error: 'Erro ao buscar configuração' });
+        res.status(500).json({ error: 'Erro ao buscar configurado' });
     }
 });
 
-// POST - Salvar configuração de importação de NF-e
+// POST - Salvar configurado de importação de NF-e
 app.post('/api/configuracoes/nfe-import', async (req, res) => {
     try {
         console.log('💾 Salvando config de NF-e...');
@@ -7290,7 +7290,7 @@ app.post('/api/configuracoes/nfe-import', async (req, res) => {
         
     } catch (error) {
         console.error('❌ Erro ao salvar config de NF-e:', error);
-        res.status(500).json({ error: 'Erro ao salvar configuração' });
+        res.status(500).json({ error: 'Erro ao salvar configurado' });
     }
 });
 
@@ -8274,7 +8274,7 @@ apiPCPRouter.get('/pedidos', async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10;
         const offset = (page - 1) * limit;
         
-        const [rows] = await pool.query('SELECT * FROM pedidos ORDER BY id DESC LIMIT  OFFSET ', [limit, offset]);
+        const [rows] = await pool.query('SELECT * FROM pedidos ORDER BY id DESC LIMIT ? OFFSET ', [limit, offset]);
         const [[{ total }]] = await pool.query('SELECT COUNT(*) as total FROM pedidos');
         
         res.json({ pedidos: rows, total, page, limit });
@@ -8324,7 +8324,7 @@ apiPCPRouter.get('/clientes', async (req, res, next) => {
         const [rows] = await pool.query(
             `SELECT id, nome, nome_fantasia, razao_social, cnpj, cnpj_cpf, contato, email, telefone, vendedor_responsavel 
              FROM clientes 
-             WHERE empresa_id =  AND (nome LIKE  OR nome_fantasia LIKE  OR razao_social LIKE  OR cnpj LIKE  OR cnpj_cpf LIKE ) 
+             WHERE empresa_id =  AND (nome LIKE ? OR nome_fantasia LIKE ? OR razao_social LIKE ? OR cnpj LIKE ? OR cnpj_cpf LIKE ) 
              ORDER BY nome 
              LIMIT `,
             [empresaId, searchPattern, searchPattern, searchPattern, searchPattern, searchPattern, limit]
@@ -8346,7 +8346,7 @@ apiPCPRouter.get('/transportaçãoras', async (req, res, next) => {
         
         const searchPattern = `%${query}%`;
         const [rows] = await pool.query(
-            'SELECT * FROM transportaçãoras WHERE nome LIKE  OR cnpj LIKE  OR cpf LIKE  LIMIT ',
+            'SELECT * FROM transportaçãoras WHERE nome LIKE ? OR cnpj LIKE ? OR cpf LIKE  LIMIT ',
             [searchPattern, searchPattern, searchPattern, limit]
         );
         res.json(rows);
@@ -8811,7 +8811,7 @@ apiPCPRouter.get('/ordens', async (req, res, next) => {
             params.push(`%${cliente}%`);
         }
         
-        query += ` ORDER BY data_emissao DESC LIMIT  OFFSET `;
+        query += ` ORDER BY data_emissao DESC LIMIT ? OFFSET `;
         params.push(parseInt(limit), parseInt(offset));
         
         const [ordens] = await pool.query(query, params);
@@ -8939,7 +8939,7 @@ apiPCPRouter.get('/vendedores', async (req, res, next) => {
             FROM funcionarios 
             WHERE status = 'ativo' 
             AND (cargo LIKE '%vendedor%' OR cargo LIKE '%comercial%' OR departamento LIKE '%vendas%' OR departamento LIKE '%comercial%')
-            AND (nome_completo LIKE  OR cargo LIKE )
+            AND (nome_completo LIKE ? OR cargo LIKE )
             LIMIT 
         `, [searchPattern, searchPattern, limit]);
         res.json(rows);
@@ -9313,12 +9313,12 @@ apiRHRouter.get('/funcionarios', authorizeAdmin, async (req, res, next) => {
             params.push(departamento);
         }
         if (search) {
-            sql += ' AND (nome_completo LIKE  OR email LIKE  OR cargo LIKE  OR cpf LIKE )';
+            sql += ' AND (nome_completo LIKE ? OR email LIKE ? OR cargo LIKE ? OR cpf LIKE )';
             const searchTerm = `%${search}%`;
             params.push(searchTerm, searchTerm, searchTerm, searchTerm);
         }
         
-        sql += ' ORDER BY nome_completo ASC LIMIT  OFFSET ';
+        sql += ' ORDER BY nome_completo ASC LIMIT ? OFFSET ';
         params.push(parseInt(limit), parseInt(offset));
         
         const [rows] = await pool.query(sql, params);
@@ -10368,7 +10368,7 @@ app.post('/api/notify-support', express.json(), async (req, res) => {
             success: true, 
             message: emailResult.success 
                  'Notificação enviada ao suporte técnico via email' 
-                : 'Notificação registrada (email não enviação - SMTP não configuração)',
+                : 'Notificação registrada (email não enviação - SMTP não configurado)',
             supportEmail: 'ti@aluforce.ind.br',
             emailSent: emailResult.success
         });
@@ -10886,7 +10886,7 @@ app.get('/api/vendas/produtos/autocomplete/:termo', async (req, res) => {
         const [rows] = await pool.query(
             `SELECT id, codigo, nome as descricao, unidade_medida as unidade, preco_venda, estoque_atual, localizacao as local_estoque 
              FROM produtos 
-             WHERE ativo = 1 AND (codigo LIKE  OR nome LIKE  OR gtin LIKE )
+             WHERE ativo = 1 AND (codigo LIKE ? OR nome LIKE ? OR gtin LIKE )
              ORDER BY 
                 CASE 
                     WHEN codigo =  THEN 1 
@@ -11096,7 +11096,7 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
             ${whereClause}
             ORDER BY p.id DESC
-            LIMIT  OFFSET 
+            LIMIT ? OFFSET 
         `, params);
         res.json(rows);
     } catch (error) { next(error); }
@@ -11116,8 +11116,8 @@ apiVendasRouter.get('/pedidos/search', async (req, res, next) => {
             LEFT JOIN clientes c ON p.cliente_id = c.id
             LEFT JOIN empresas e ON p.empresa_id = e.id
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
-            WHERE c.nome_fantasia LIKE  OR c.razao_social LIKE  OR c.nome LIKE  
-               OR e.nome_fantasia LIKE  OR p.id LIKE  OR u.nome LIKE 
+            WHERE c.nome_fantasia LIKE ? OR c.razao_social LIKE ? OR c.nome LIKE  
+               OR e.nome_fantasia LIKE ? OR p.id LIKE ? OR u.nome LIKE 
             ORDER BY p.id DESC
         `, [query, query, query, query, query, query]);
         res.json(rows);
@@ -11208,7 +11208,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         // Atualizar vendedor_id se vendedor_nome foi fornecido
         if (updates.vendedor_nome !== undefined && updates.vendedor_nome !== '') {
             const [vendedorRows] = await pool.query(
-                'SELECT id, nome FROM usuarios WHERE nome LIKE  OR apelido LIKE  LIMIT 1', 
+                'SELECT id, nome FROM usuarios WHERE nome LIKE ? OR apelido LIKE  LIMIT 1', 
                 [`%${updates.vendedor_nome}%`, `%${updates.vendedor_nome}%`]
             );
             if (vendedorRows.length > 0) {
@@ -11424,7 +11424,7 @@ apiVendasRouter.get('/empresas', async (req, res, next) => {
             params.push(req.user.id);
         }
         
-        query += ' ORDER BY nome_fantasia ASC LIMIT  OFFSET ';
+        query += ' ORDER BY nome_fantasia ASC LIMIT ? OFFSET ';
         params.push(parseInt(limit), offset);
         
         const [rows] = await pool.query(query, params);
@@ -11439,7 +11439,7 @@ apiVendasRouter.get('/empresas/search', async (req, res, next) => {
         // Verificar se o usuário é admin ou vendedor
         const isAdmin = req.user && (req.user.is_admin || req.user.role === 'admin' || req.user.role === 'administraçãor');
         
-        let query = `SELECT id, nome_fantasia, cnpj FROM empresas WHERE (nome_fantasia LIKE  OR razao_social LIKE  OR cnpj LIKE )`;
+        let query = `SELECT id, nome_fantasia, cnpj FROM empresas WHERE (nome_fantasia LIKE ? OR razao_social LIKE ? OR cnpj LIKE )`;
         let params = [queryStr, queryStr, queryStr];
         
         // Se não for admin, filtrar apenas empresas do vendedor
@@ -11528,7 +11528,7 @@ apiVendasRouter.get('/clientes', async (req, res, next) => {
             params.push(req.user.id);
         }
         
-        query += ' ORDER BY c.nome ASC LIMIT  OFFSET ';
+        query += ' ORDER BY c.nome ASC LIMIT ? OFFSET ';
         params.push(parseInt(limit), offset);
         
         const [rows] = await pool.query(query, params);
@@ -11823,7 +11823,7 @@ apiVendasRouter.get('/produtos/autocomplete/:termo', async (req, res, next) => {
         const [rows] = await pool.query(
             `SELECT id, codigo, descricao, unidade, preco_venda, estoque_atual, local_estoque 
              FROM produtos 
-             WHERE situacao = 'ativo' AND (codigo LIKE  OR descricao LIKE  OR ean LIKE )
+             WHERE situacao = 'ativo' AND (codigo LIKE ? OR descricao LIKE ? OR ean LIKE )
              ORDER BY 
                 CASE 
                     WHEN codigo =  THEN 1 
@@ -12838,7 +12838,7 @@ app.post('/api/auth/forgot-password', async (req, res) => {
                 `);
                 console.log('[RESET] ✅ Tabela criada! Tente novamente.');
                 return res.status(503).json({ 
-                    message: 'Sistema configuração. Por favor, tente novamente.',
+                    message: 'Sistema configurado. Por favor, tente novamente.',
                     retry: true 
                 });
             } catch (createErr) {
@@ -13758,7 +13758,7 @@ app.get('/api/compras/materiais', authenticateToken, async (req, res) => {
         }
         
         if (busca) {
-            query += ' AND (m.codigo LIKE  OR m.descricao LIKE )';
+            query += ' AND (m.codigo LIKE ? OR m.descricao LIKE )';
             params.push(`%${busca}%`, `%${busca}%`);
         }
         
@@ -16134,7 +16134,7 @@ async function stopServer() {
                         console.error('❌ Erro ao fechar servidor:', err);
                         reject(err);
                     } else {
-                        console.log('✅ Servidor HTTP encerração');
+                        console.log('✅ Servidor HTTP encerrado');
                         serverInstance = null;
                         resolve();
                     }
@@ -16150,7 +16150,7 @@ async function stopServer() {
     if (pool && typeof pool.end === 'function') {
         try {
             await pool.end();
-            console.log('✅ Pool de conexões do banco encerração');
+            console.log('✅ Pool de conexões do banco encerrado');
         } catch (err) {
             console.error('⚠️  Erro ao encerrar pool do banco:', err);
         }
@@ -16408,7 +16408,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         
         y += 62;
         
-        // Linha separaçãora dupla elegante
+        // Linha separadora dupla elegante
         doc.moveTo(leftMargin, y).lineTo(rightMargin, y).strokeColor(cores.azulPrimario).lineWidth(2.5).stroke();
         doc.moveTo(leftMargin, y + 3).lineTo(rightMargin, y + 3).strokeColor(cores.azulSecundario).lineWidth(0.5).stroke();
         
@@ -16446,7 +16446,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         doc.fontSize(9).fillColor(cores.azulPrimario).font('Helvetica-Bold')
            .text(nomeCliente.toUpperCase(), leftMargin + 10, y + 6, { width: pageWidth - 20 });
         
-        // Linha separaçãora fina
+        // Linha separadora fina
         doc.moveTo(leftMargin + 10, y + 18).lineTo(leftMargin + pageWidth - 10, y + 18).strokeColor('#e2e8f0').lineWidth(0.3).stroke();
         
         // Daçãos em duas colunas
@@ -16587,7 +16587,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         doc.text('ICMS ST:', totaisX + 10, y + 34);
         doc.text(`R$ ${icmsST.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`, totaisX + 85, y + 34, { width: 85, align: 'right' });
         
-        // Linha separaçãora elegante
+        // Linha separadora elegante
         doc.moveTo(totaisX + 8, y + 48).lineTo(totaisX + totaisWidth - 8, y + 48).strokeColor(cores.azulSecundario).lineWidth(0.8).stroke();
         
         // Total em destaque grande
@@ -16850,7 +16850,7 @@ app.get('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome LIKE  OR email LIKE  OR telefone LIKE ';
+            query += ' WHERE nome LIKE ? OR email LIKE ? OR telefone LIKE ';
             const searchTerm = `%${search}%`;
             params.push(searchTerm, searchTerm, searchTerm);
         }
@@ -16905,7 +16905,7 @@ app.get('/api/vendas/empresas', authorizeArea('vendas'), async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome_fantasia LIKE  OR razao_social LIKE  OR cnpj LIKE ';
+            query += ' WHERE nome_fantasia LIKE ? OR razao_social LIKE ? OR cnpj LIKE ';
             const searchTerm = `%${search}%`;
             params.push(searchTerm, searchTerm, searchTerm);
         }
@@ -17311,11 +17311,11 @@ app.get('/api/financeiro/categorias/estatisticas', authenticateToken, async (req
             LEFT JOIN (
                 SELECT categoria_id, valor, 'pagar' as tipo 
                 FROM contas_pagar 
-                WHERE data_vencimento BETWEEN  AND  AND status != 'cancelada'
+                WHERE data_vencimento BETWEEN ? AND ? AND status != 'cancelada'
                 UNION ALL
                 SELECT categoria_id, valor, 'receber' as tipo 
                 FROM contas_receber 
-                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
+                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelação'
             ) p ON c.nome = p.categoria
             WHERE c.ativo = TRUE
             GROUP BY c.id, c.nome, c.tipo, c.cor, c.orcamento_mensal
@@ -18240,11 +18240,11 @@ app.get('/api/financeiro/fluxo-caixa', authenticateToken, async (req, res) => {
             FROM (
                 SELECT vencimento, valor, 'receber' as tipo 
                 FROM contas_receber 
-                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
+                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelação'
                 UNION ALL
                 SELECT vencimento, valor, 'pagar' as tipo 
                 FROM contas_pagar 
-                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
+                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelação'
             ) as todas_contas
             GROUP BY DATE(vencimento)
             ORDER BY data ASC
@@ -18412,7 +18412,7 @@ app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) =>
                 SUM(cr.valor) as total
             FROM contas_receber cr
             LEFT JOIN categorias_financeiras c ON cr.categoria = c.nome
-            WHERE cr.vencimento BETWEEN  AND  AND cr.status != 'cancelação'
+            WHERE cr.vencimento BETWEEN ? AND ? AND cr.status != 'cancelação'
             GROUP BY c.nome
             ORDER BY total DESC
         `, [dataInicio, dataFim]);
@@ -18424,7 +18424,7 @@ app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) =>
                 SUM(cp.valor) as total
             FROM contas_pagar cp
             LEFT JOIN categorias_financeiras c ON cp.categoria = c.nome
-            WHERE cp.vencimento BETWEEN  AND  AND cp.status != 'cancelação'
+            WHERE cp.vencimento BETWEEN ? AND ? AND cp.status != 'cancelação'
             GROUP BY c.nome
             ORDER BY total DESC
         `, [dataInicio, dataFim]);
@@ -18512,11 +18512,11 @@ app.get('/api/financeiro/relatorios/por-categoria', authenticateToken, async (re
             LEFT JOIN (
                 SELECT categoria, valor, 'receber' as tipo_conta 
                 FROM contas_receber 
-                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
+                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelação'
                 UNION ALL
                 SELECT categoria, valor, 'pagar' as tipo_conta 
                 FROM contas_pagar 
-                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
+                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelação'
             ) t ON c.nome = t.categoria
             WHERE c.ativo = TRUE
         `;
@@ -18594,24 +18594,24 @@ app.get('/api/financeiro/relatorios/exportar', authenticateToken, async (req, re
 
         if (tipo === 'pagar') {
             const [contas] = await pool.query(
-                'SELECT * FROM contas_pagar WHERE vencimento BETWEEN  AND  ORDER BY vencimento ASC',
+                'SELECT * FROM contas_pagar WHERE vencimento BETWEEN ? AND  ORDER BY vencimento ASC',
                 [inicio, fim]
             );
             daçãos = contas;
         } else if (tipo === 'receber') {
             const [contas] = await pool.query(
-                'SELECT * FROM contas_receber WHERE vencimento BETWEEN  AND  ORDER BY vencimento ASC',
+                'SELECT * FROM contas_receber WHERE vencimento BETWEEN ? AND  ORDER BY vencimento ASC',
                 [inicio, fim]
             );
             daçãos = contas;
         } else {
             // Ambos
             const [pagar] = await pool.query(
-                'SELECT *, "pagar" as tipo_conta FROM contas_pagar WHERE vencimento BETWEEN  AND ',
+                'SELECT *, "pagar" as tipo_conta FROM contas_pagar WHERE vencimento BETWEEN ? AND ',
                 [inicio, fim]
             );
             const [receber] = await pool.query(
-                'SELECT *, "receber" as tipo_conta FROM contas_receber WHERE vencimento BETWEEN  AND ',
+                'SELECT *, "receber" as tipo_conta FROM contas_receber WHERE vencimento BETWEEN ? AND ',
                 [inicio, fim]
             );
             daçãos = [...pagar, ...receber].sort((a, b) => new Date(a.vencimento) - new Date(b.vencimento));
