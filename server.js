@@ -320,6 +320,32 @@ app.get('/api/debug-users', async (req, res) => {
     }
 });
 
+// Endpoint temporário para resetar senha de teste - REMOVER EM PRODUÇÃO
+app.get('/api/reset-test-password', async (req, res) => {
+    try {
+        if (typeof pool === 'undefined') {
+            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicializado' });
+        }
+        const bcrypt = require('bcryptjs');
+        // Senha: Aluforce2025!
+        const hashedPassword = await bcrypt.hash('Aluforce2025!', 10);
+        
+        // Atualizar o usuário ti@aluforce.ind.br
+        await pool.query(
+            'UPDATE usuarios SET senha_hash = ?, password_hash = ? WHERE email = ?',
+            [hashedPassword, hashedPassword, 'ti@aluforce.ind.br']
+        );
+        
+        res.json({ 
+            status: 'ok', 
+            message: 'Senha do usuário ti@aluforce.ind.br resetada para: Aluforce2025!',
+            email: 'ti@aluforce.ind.br'
+        });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+});
+
 // reference to the running http.Server (set when app.listen is called)
 let serverInstance = null;
 let chatServerProcess = null;
