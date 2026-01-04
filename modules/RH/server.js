@@ -612,7 +612,7 @@ app.post('/api/funcionarios/:id/holerite', authMiddleware, uploadHolerite.single
     try { await dbQuery(ensureHolerites) } catch (ee) { logger.warn('Falha ao garantir tabela holerites (prosseguindo):', ee) }
 
     // Some schemas expect mes_referencia (YYYY-MM) NOT NULL; derive it from competencia or today
-    const mesRef = competencia && String(competencia).trim()  String(competencia).trim() : (new Date()).toISOString().slice(0, 7)
+    const mesRef = competencia && String(competencia).trim() ? String(competencia).trim() : (new Date()).toISOString().slice(0, 7)
     try {
       await dbQuery('INSERT INTO holerites (funcionario_id, mes_referencia, arquivo_url, data_upload, competencia) VALUES (, , , NOW(), )', [id, mesRef, arquivoUrl, competencia])
     } catch (innerErr) {
@@ -726,7 +726,7 @@ app.get('/api/funcionarios/:id', authMiddleware, (req, res) => {
       // fetch recent holerites and latest ponto for this funcionario
       const holerites = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM holerites WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 10', [id])
       const pontoRows = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM espelhos_ponto WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 1', [id])
-      const latestPonto = (pontoRows && pontoRows.length > 0)  pontoRows[0] : null
+      const latestPonto = (pontoRows && pontoRows.length > 0) ? pontoRows[0] : null
 
       const { senha, ...daçãosSeguros } = results[0]
       // attach holerites and ponto info
@@ -908,7 +908,7 @@ app.post('/api/avisos', authMiddleware, (req, res) => {
         logger.error('Erro ao buscar aviso inserido:', sErr)
         return res.status(201).json({ message: 'Aviso criado.', id: insertedId })
       }
-      const row = (rows && rows[0])  rows[0] : null
+      const row = (rows && rows[0]) ? rows[0] : null
       const aviso = row  { id: row.id, titulo: row.titulo, mensagem: row.mensagem, created_at: row.created_at } : { id: insertedId, titulo, mensagem, created_at: new Date() }
       // broadcast to SSE clients (non-blocking) with explicit action
       try { broadcastAviso({ ...aviso, action: 'created' }) } catch (e) { logger.warn('Broadcast aviso falhou:', e) }
@@ -923,7 +923,7 @@ app.delete('/api/avisos/:id', authMiddleware, (req, res) => {
   const { id } = req.params
   // Buscar aviso antes de deletar para broadcast completo
   db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id =  LIMIT 1', [id], (fetchErr, rows) => {
-    const aviso = (rows && rows[0])  rows[0] : { id: Number(id) }
+    const aviso = (rows && rows[0]) ? rows[0] : { id: Number(id) }
     const sql = 'DELETE FROM avisos WHERE id = '
     db.query(sql, [id], (err, results) => {
       if (err) {
@@ -969,7 +969,7 @@ app.put('/api/avisos/:id', authMiddleware, (req, res) => {
         logger.error('Erro ao buscar aviso atualização:', sErr)
         return res.json({ message: 'Aviso atualização.' })
       }
-      const row = (rows && rows[0])  rows[0] : null
+      const row = (rows && rows[0]) ? rows[0] : null
       const aviso = row  { id: row.id, titulo: row.titulo, mensagem: row.mensagem, created_at: row.created_at } : null
       try { if (aviso) broadcastAviso({ ...aviso, action: 'updated' }) } catch (e) { logger.warn('Broadcast updated aviso falhou:', e) }
       res.json({ message: 'Aviso atualização.', aviso })
@@ -1134,7 +1134,7 @@ app.get('/api/dashboard/summary', authMiddleware, async (req, res) => {
       try {
         // fetch latest espelho_ponto for this user
         const pontoRows = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM espelhos_ponto WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 1', [req.user.id])
-        const latestPonto = (pontoRows && pontoRows.length > 0)  pontoRows[0] : null
+        const latestPonto = (pontoRows && pontoRows.length > 0) ? pontoRows[0] : null
         // do not include full tempoCasa aggregate for non-admins
         return res.json({ avisos, aniversariantes, atéstaçãos, espelho_ponto: latestPonto })
       } catch (e) {

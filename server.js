@@ -1124,11 +1124,11 @@ app.get('/RH/solicitacoes.html', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'solicitacoes.html'));
 });
 
-// Rotas para páginas do colaboraçãor RH (em /rh/pages/)
+// Rotas para páginas do colaborador RH (em /rh/pages/)
 app.get('/rh/pages/:page', authenticatePage, (req, res) => {
     const page = req.params.page;
     // Remove .html se vier na URL
-    const fileName = page.endsWith('.html')  page : `${page}.html`;
+    const fileName = page.endsWith('.html') ? page : `${page}.html`;
     const filePath = path.join(__dirname, 'modules', 'RH', 'public', 'pages', fileName);
     
     // Verifica se o arquivo existe
@@ -1162,7 +1162,7 @@ app.get('/rh/areaadm', authenticatePage, (req, res) => {
     }
 });
 
-// Rota para funcionário/dashboard colaboraçãor (minúsculo)
+// Rota para funcionário/dashboard colaborador (minúsculo)
 app.get('/rh/funcionario', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'funcionario.html'));
 });
@@ -7692,13 +7692,13 @@ async function gerarExcelOrdemProducaoCompleta(daçãos, ExcelJS, templatePath) 
     
     // C4 - Número do Orçamento (como número se possível)
     const numOrcamento = daçãos.numero_orcamento || '';
-    abaVendas.getCell('C4').value = isNaN(numOrcamento)  numOrcamento : parseFloat(numOrcamento);
+    abaVendas.getCell('C4').value = isNaN(numOrcamento) ? numOrcamento : parseFloat(numOrcamento);
     
     // G4 - Número do Pedido (como número se possível)
     const numPedido = daçãos.numero_pedido || daçãos.num_pedido || '0';
     // Se for vazio ou NaN, usar 0
     const numPedidoFinal = numPedido === '' || numPedido === null || numPedido === undefined ? '0' : numPedido;
-    abaVendas.getCell('G4').value = isNaN(numPedidoFinal)  numPedidoFinal : parseFloat(numPedidoFinal);
+    abaVendas.getCell('G4').value = isNaN(numPedidoFinal) ? numPedidoFinal : parseFloat(numPedidoFinal);
     
     // J4 - Data de Liberação (como objeto Date)
     if (daçãos.data_liberacao) {
@@ -10258,7 +10258,7 @@ app.get('/api/user/me', authenticateToken, async (req, res) => {
             if (user.foto_perfil_url && user.foto_perfil_url !== 'default.webp') {
                 fotoUrl = user.foto_perfil_url;
             } else if (user.avatar && user.avatar !== 'default.webp') {
-                fotoUrl = user.avatar.startsWith('/')  user.avatar : `/avatars/${user.avatar}`;
+                fotoUrl = user.avatar.startsWith('/') ? user.avatar : `/avatars/${user.avatar}`;
             } else if (avatarMap[firstName]) {
                 fotoUrl = avatarMap[firstName];
             }
@@ -11874,7 +11874,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
         // Buscar usuário na tabela usuarios primeiro
         console.log('🔍 [LOGIN DEBUG] Buscando na tabela usuarios...');
         const [rows] = await pool.query('SELECT * FROM usuarios WHERE email = ? LIMIT 1', [email]);
-        let user = (rows && rows.length)  rows[0] : null;
+        let user = (rows && rows.length) ? rows[0] : null;
         
         console.log(`🔍 [LOGIN DEBUG] Usuário encontrado em usuarios: ${user ? 'SIM' : 'NÁO'}`);
         
@@ -12375,7 +12375,7 @@ app.get('/api/me', async (req, res) => {
                     if (typeof perm === 'string') {
                         try {
                             const parsed = JSON.parse(perm);
-                            return Array.isArray(parsed)  parsed : [];
+                            return Array.isArray(parsed) ? parsed : [];
                         } catch (e) {
                             // Se não é JSON, pode ser string simples como "rh" ou "vendas"
                             return perm.trim()  [perm.trim()] : [];
@@ -12530,7 +12530,7 @@ app.put('/api/me', async (req, res) => {
         }
 
         // Limpar apelido se for string vazia
-        const apelidoFinal = (apelido && apelido.trim() !== '')  apelido.trim() : null;
+        const apelidoFinal = (apelido && apelido.trim() !== '') ? apelido.trim() : null;
         
         // Em modo DEV_MOCK, apenas retorna objeto atualização sem persistir
         if (process.env.DEV_MOCK === '1' || process.env.DEV_MOCK === 'true') {
@@ -12578,7 +12578,7 @@ app.put('/api/me', async (req, res) => {
             if (typeof perm === 'string') {
                 try {
                     const parsed = JSON.parse(perm);
-                    return Array.isArray(parsed)  parsed : [];
+                    return Array.isArray(parsed) ? parsed : [];
                 } catch (e) {
                     return perm.trim()  [perm.trim()] : [];
                 }
@@ -15314,7 +15314,7 @@ app.get('/api/chat', authenticateToken, async (req, res) => {
         }
         query += ' ORDER BY c.datahora ASC';
         const [mensagens] = await pool.query(query, params);
-        res.json(Array.isArray(mensagens)  mensagens : []);
+        res.json(Array.isArray(mensagens) ? mensagens : []);
     } catch (err) {
         res.json([]);
     }
@@ -17370,7 +17370,7 @@ app.post('/api/financeiro/bancos', authenticateToken, async (req, res) => {
 
         // Validar tipo se fornecido
         const tipoValido = ['corrente', 'poupanca', 'investimento', 'caixa'];
-        const tipoFinal = tipo && tipoValido.includes(tipo)  tipo : 'corrente';
+        const tipoFinal = tipo && tipoValido.includes(tipo) ? tipo : 'corrente';
 
         console.log('[FINANCEIRO] Criando banco:', { nome: nomeBanco, banco, tipo: tipoFinal });
 

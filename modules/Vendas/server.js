@@ -212,7 +212,7 @@ async function computeAndCacheAggregates() {
             const d = new Date(start.getFullYear(), start.getMonth() + i, 1);
             const ym = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
             labels.push(d.toLocaleString('pt-BR', { month: 'short', year: 'numeric' }));
-            const v = map.has(ym)  map.get(ym) : 0;
+            const v = map.has(ym) ? map.get(ym) : 0;
             values.push(v);
             try { await pool.query('INSERT INTO dashboard_aggregates (ym, total) VALUES (, ) ON DUPLICATE KEY UPDATE total = VALUES(total), created_at = CURRENT_TIMESTAMP', [ym, v]); } catch (e) { /* ignore per-row upsert errors */ }
         }
@@ -261,19 +261,19 @@ function sanitizeString(str) {
 
 function sanitizeNumber(value, defaultValue = 0) {
     const num = parseFloat(value);
-    return isNaN(num)  defaultValue : num;
+    return isNaN(num) ? defaultValue : num;
 }
 
 function sanitizeInt(value, defaultValue = 0) {
     const num = parseInt(value, 10);
-    return isNaN(num)  defaultValue : num;
+    return isNaN(num) ? defaultValue : num;
 }
 
 function sanitizeEmail(email) {
     if (!email) return '';
     const cleaned = String(email).trim().toLowerCase();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(cleaned)  cleaned : '';
+    return emailRegex.test(cleaned) ? cleaned : '';
 }
 
 function sanitizeCNPJ(cnpj) {
@@ -394,7 +394,7 @@ function authenticateToken(req, res, next) {
     try {
         // Verificar token do header Authorization OU do cookie authToken
         const auth = (req.headers && (req.headers.authorization || req.headers.Authorization)) || (req.query && req.query.token) || null;
-        let token = typeof auth === 'string' && auth.startsWith('Bearer ')  auth.split(' ')[1] : auth;
+        let token = typeof auth === 'string' && auth.startsWith('Bearer ') ? auth.split(' ')[1] : auth;
         
         // Se não encontrou no header, tentar pegar do cookie
         if (!token && req.cookies) {
@@ -1519,7 +1519,7 @@ async function saveAnexos(pedidoId, anexosArray) {
             let buffer = null;
             if (!a) continue;
             if (a.buffer) {
-                buffer = Buffer.isBuffer(a.buffer)  a.buffer : Buffer.from(a.buffer);
+                buffer = Buffer.isBuffer(a.buffer) ? a.buffer : Buffer.from(a.buffer);
             } else if (a.content) {
                 buffer = Buffer.from(a.content, 'base64');
             } else if (a.base64) {
@@ -2853,7 +2853,7 @@ apiVendasRouter.get('/dashboard/monthly', authorizeAdmin, async (req, res, next)
                 const d = new Date(start.getFullYear(), start.getMonth() + i, 1);
                 const ym = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
                 labels.push(d.toLocaleString('pt-BR', { month: 'short', year: 'numeric' }));
-                values.push(map.has(ym)  map.get(ym) : 0);
+                values.push(map.has(ym) ? map.get(ym) : 0);
             }
             return res.json({ labels, values });
         }
@@ -3190,7 +3190,7 @@ function appendChatLog(obj) {
 // REST endpoints to fetch/post chat messages (fallback)
 app.get('/api/chat/history', (req, res) => {
     const h = loadChatHistory();
-    appendChatLog({ type: 'rest:history', count: Array.isArray(h)  h.length : 0 });
+    appendChatLog({ type: 'rest:history', count: Array.isArray(h) ? h.length : 0 });
     res.json(h);
 });
 app.post('/api/chat/message', express.json(), (req, res) => {
@@ -3210,7 +3210,7 @@ app.post('/api/chat/message', express.json(), (req, res) => {
 // Marca mensagens como lidas (IDs no body.ids array) e broadcast para clientes
 app.post('/api/chat/mark-read', authenticateToken, express.json(), (req, res) => {
     try {
-        const ids = Array.isArray(req.body && req.body.ids)  req.body.ids.map(x => String(x)) : [];
+        const ids = Array.isArray(req.body && req.body.ids) ? req.body.ids.map(x => String(x)) : [];
         if (ids.length === 0) return res.status(400).json({ message: 'ids array required.' });
         const history = loadChatHistory();
         let changed = 0;
