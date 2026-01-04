@@ -74,6 +74,13 @@ const asyncHandler = fn => (req, res, next) => {
 
 // Função para iniciar servidor de chat
 function startChatServer() {
+    // Desabilitar servidor de chat separado em ambiente Railway/produção
+    // O chat é integrado via Socket.io no servidor principal
+    if (process.env.RAILWAY_ENVIRONMENT || process.env.NODE_ENV === 'production') {
+        console.log('⚠️  Servidor de chat separado desabilitado em produção (usa Socket.io integrado)');
+        return;
+    }
+    
     try {
         const chatServerPath = path.join(__dirname, 'chat', 'server.js');
         
@@ -167,6 +174,12 @@ let supportServerProcess = null;
 
 // Função para iniciar servidor de suporte
 function startSupportServer() {
+    // Desabilitar servidor de suporte separado em ambiente Railway/produção
+    if (process.env.RAILWAY_ENVIRONMENT || process.env.NODE_ENV === 'production') {
+        console.log('⚠️  Servidor de suporte separado desabilitado em produção');
+        return;
+    }
+    
     try {
         const supportServerPath = path.join(__dirname, 'Sistema de Suporte', 'server.js');
         
