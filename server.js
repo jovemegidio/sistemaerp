@@ -880,11 +880,29 @@ app.use(express.static(path.join(__dirname, 'public'), {
 app.use('/socket.io', express.static(path.join(__dirname, 'node_modules', 'socket.io', 'client-dist')));
 
 // Middleware específico para correção de MIME types
+// NOTA: CORS já configurado acima com cors() - não sobrescrever!
 app.use((req, res, next) => {
-    // Adicionar headers CORS e MIME type corretos
-    res.header('Access-Control-Allow-Origin', '*');
+    // Adicionar headers CORS dinâmicos (compatível com credentials)
+    const origin = req.headers.origin;
+    const allowedOrigins = [
+        'http://localhost:3000', 
+        'http://127.0.0.1:3000',
+        'https://jovemegidio.github.io',
+        'https://sistemaerp-production.up.railway.app',
+        'https://sistemaerp-production-a924.up.railway.app'
+    ];
+    
+    if (origin && allowedOrigins.includes(origin)) {
+        res.header('Access-Control-Allow-Origin', origin);
+        res.header('Access-Control-Allow-Credentials', 'true');
+    } else if (!origin) {
+        // Requests sem origin (curl, mobile, etc)
+        res.header('Access-Control-Allow-Origin', '*');
+    }
+    
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    res.header('Access-Control-Expose-Headers', 'set-cookie');
     
     // Configurar MIME types corretos baseado na extensão do arquivo
     const url = req.url.toLowerCase();
