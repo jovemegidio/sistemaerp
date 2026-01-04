@@ -309,11 +309,36 @@ app.get('/api/debug-users', async (req, res) => {
         if (typeof pool === 'undefined') {
             return res.status(500).json({ status: 'error', message: 'Pool ainda não inicializado' });
         }
-        const [usuarios] = await pool.query('SELECT id, email, nome, role, status FROM usuarios LIMIT 10');
-        const [funcionarios] = await pool.query('SELECT id, email, nome_completo, role, status FROM funcionarios WHERE email IS NOT NULL LIMIT 10');
+        const [usuarios] = await pool.query('SELECT id, email, nome, role, is_admin FROM usuarios ORDER BY id');
         res.json({ 
-            usuarios: usuarios.map(u => ({ id: u.id, email: u.email, nome: u.nome, role: u.role, status: u.status })),
-            funcionarios: funcionarios.map(f => ({ id: f.id, email: f.email, nome: f.nome_completo, role: f.role, status: f.status }))
+            total: usuarios.length,
+            usuarios: usuarios.map(u => ({ id: u.id, email: u.email, nome: u.nome, role: u.role, is_admin: u.is_admin }))
+        });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+});
+
+// Endpoint para resetar TODAS as senhas para um padrão - REMOVER EM PRODUÇÃO
+app.get('/api/reset-all-passwords', async (req, res) => {
+    try {
+        if (typeof pool === 'undefined') {
+            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicializado' });
+        }
+        const bcrypt = require('bcryptjs');
+        // Senha padrão: Aluforce2025!
+        const hashedPassword = await bcrypt.hash('Aluforce2025!', 10);
+        
+        // Atualizar todos os usuários
+        const [result] = await pool.query(
+            'UPDATE usuarios SET senha_hash = ?, password_hash = ?',
+            [hashedPassword, hashedPassword]
+        );
+        
+        res.json({ 
+            status: 'ok', 
+            message: `Senhas resetadas para ${result.affectedRows} usuários. Senha padrão: Aluforce2025!`,
+            affectedRows: result.affectedRows
         });
     } catch (error) {
         res.status(500).json({ status: 'error', message: error.message });
