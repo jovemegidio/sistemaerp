@@ -974,7 +974,18 @@ app.use('/RH', express.static(path.join(__dirname, 'modules', 'RH', 'public')));
 // Servir arquivos compartilhados dos módulos
 app.use('/_shared', express.static(path.join(__dirname, 'modules', '_shared')));
 
-// Servir módulos diretamente com rotas específicas
+// Rotas específicas para cada módulo (para URLs /modules/MODULO/...)
+// Isso garante que os caminhos funcionem corretamente no Railway
+app.use('/modules/RH/public', express.static(path.join(__dirname, 'modules', 'RH', 'public')));
+app.use('/modules/RH', express.static(path.join(__dirname, 'modules', 'RH')));
+app.use('/modules/Compras', express.static(path.join(__dirname, 'modules', 'Compras')));
+app.use('/modules/Vendas', express.static(path.join(__dirname, 'modules', 'Vendas')));
+app.use('/modules/NFe', express.static(path.join(__dirname, 'modules', 'NFe')));
+app.use('/modules/PCP', express.static(path.join(__dirname, 'modules', 'PCP')));
+app.use('/modules/Financeiro', express.static(path.join(__dirname, 'modules', 'Financeiro')));
+app.use('/modules/Faturamento', express.static(path.join(__dirname, 'modules', 'Faturamento')));
+
+// Servir módulos diretamente com rotas específicas (fallback genérico)
 app.use('/modules', express.static(path.join(__dirname, 'modules')));
 
 // Servir pasta do chat (ícones e recursos)
@@ -1378,16 +1389,41 @@ app.get('/Compras/:page', authenticatePage, (req, res) => {
 });
 
 // Rotas de acesso direto aos módulos (redirecionam para login se não autenticado)
+app.get('/modules/RH/public/dashboard.html', authenticatePage, (req, res) => {
+    res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'dashboard.html'));
+});
+
+// Rota principal para módulo RH
+app.get('/modules/RH/index.html', authenticatePage, (req, res) => {
+    res.sendFile(path.join(__dirname, 'modules', 'RH', 'index.html'));
+});
+
+app.get('/modules/RH/', authenticatePage, (req, res) => {
+    res.sendFile(path.join(__dirname, 'modules', 'RH', 'index.html'));
+});
+
 app.get('/modules/RH/public/areaadm.html', authenticatePage, (req, res) => {
-    res.redirect('/RH/areaadm.html');
+    res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'areaadm.html'));
 });
 
 app.get('/modules/RH/public/area.html', authenticatePage, (req, res) => {
-    res.redirect('/RH/funcionario.html');
+    res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'funcionario.html'));
 });
 
 app.get('/modules/RH/public/funcionario.html', authenticatePage, (req, res) => {
-    res.redirect('/RH/funcionario.html');
+    res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'funcionario.html'));
+});
+
+// Servir TODOS os arquivos HTML de /modules/RH/public/* (catch-all)
+app.get('/modules/RH/public/*.html', authenticatePage, (req, res) => {
+    const requestedPath = req.path.replace('/modules/RH/public/', '');
+    const filePath = path.join(__dirname, 'modules', 'RH', 'public', requestedPath);
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error('[RH] Arquivo não encontrado:', filePath);
+            res.status(404).send('Página não encontrada');
+        }
+    });
 });
 
 // Rota para página de teste de sincronização de estoque

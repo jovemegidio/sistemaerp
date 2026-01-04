@@ -111,13 +111,13 @@ function applyModulePermissions(user) {
                 // Configurar redirecionamento específico para RH
                 if (selector === '.rh-card' || selector === '.rh-card-premium') {
                     if (allowedAreas.includes('rh-admin')) {
-                        moduleCard.href = '/modules/RH/public/admin-dashboard.html';
+                        moduleCard.href = '/modules/RH/index.html';
                         console.log('🔗 RH: Redirecionamento para Admin');
                     } else if (allowedAreas.includes('rh-funcionario')) {
-                        moduleCard.href = '/modules/RH/public/funcionario.html';
+                        moduleCard.href = '/RH/funcionario.html';
                         console.log('🔗 RH: Redirecionamento para Funcionário');
                     } else {
-                        moduleCard.href = '/modules/RH/public/admin-dashboard.html';
+                        moduleCard.href = '/modules/RH/index.html';
                     }
                 }
                 
