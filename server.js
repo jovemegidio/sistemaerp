@@ -303,6 +303,23 @@ app.get('/api/db-check', async (req, res) => {
     }
 });
 
+// Endpoint temporário para debug - lista usuários disponíveis
+app.get('/api/debug-users', async (req, res) => {
+    try {
+        if (typeof pool === 'undefined') {
+            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicializado' });
+        }
+        const [usuarios] = await pool.query('SELECT id, email, nome, role, status FROM usuarios LIMIT 10');
+        const [funcionarios] = await pool.query('SELECT id, email, nome_completo, role, status FROM funcionarios WHERE email IS NOT NULL LIMIT 10');
+        res.json({ 
+            usuarios: usuarios.map(u => ({ id: u.id, email: u.email, nome: u.nome, role: u.role, status: u.status })),
+            funcionarios: funcionarios.map(f => ({ id: f.id, email: f.email, nome: f.nome_completo, role: f.role, status: f.status }))
+        });
+    } catch (error) {
+        res.status(500).json({ status: 'error', message: error.message });
+    }
+});
+
 // reference to the running http.Server (set when app.listen is called)
 let serverInstance = null;
 let chatServerProcess = null;
