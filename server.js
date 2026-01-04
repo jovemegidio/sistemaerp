@@ -347,10 +347,10 @@ app.get('/api/reset-test-password', async (req, res) => {
 });
 
 // Endpoint de diagnóstico de login - REMOVER EM PRODUÇÃO
-app.post('/api/test-login', async (req, res) => {
+app.post('/api/test-login', express.json(), async (req, res) => {
     const debug = [];
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body || {};
         debug.push(`1. Recebido email: ${email}`);
         
         if (!email || !password) {
