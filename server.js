@@ -283,9 +283,9 @@ app.get('/api/health', (req, res) => {
 // 🔍 Endpoint de diagnóstico do banco de dados
 app.get('/api/db-check', async (req, res) => {
     try {
-        const pool = require('./src/database').pool || global.pool;
-        if (!pool) {
-            return res.status(500).json({ status: 'error', message: 'Pool não inicializado' });
+        // O pool é definido mais abaixo no código, usar require dinâmico ou verificar se existe
+        if (typeof pool === 'undefined') {
+            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicializado - aguarde' });
         }
         const [rows] = await pool.query('SELECT COUNT(*) as total FROM usuarios');
         res.json({ 
@@ -505,6 +505,13 @@ const DB_CONFIG = {
 const pool = mysql.createPool(DB_CONFIG);
 
 console.log(`🔌 MySQL pool config -> host=${DB_CONFIG.host} user=${DB_CONFIG.user} port=${DB_CONFIG.port} database=${DB_CONFIG.database}`);
+
+// Testar conexão imediatamente
+pool.query('SELECT 1').then(() => {
+    console.log('✅ Conexão com banco de dados OK');
+}).catch(err => {
+    console.error('❌ Erro na conexão com banco:', err.message);
+});
 
 // =================================================================
 // ⚡ SISTEMA DE CACHE EM MEMÓRIA PARA PERFORMANCE
