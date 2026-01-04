@@ -1,7 +1,7 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon-aluforce.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALUFORCE - Consulta de Estoque | Compras</title>
@@ -335,8 +335,8 @@
             .stats-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
-    <script src="js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="css/popup-confirmacao.css">`n    <link rel="stylesheet" href="css/responsive.css?v=2026010401">`n</head>
+    
+        </head>
 <body>
     <div class="app-container">
         <!-- Sidebar -->
@@ -348,11 +348,11 @@
                 <button class="sidebar-btn active" title="Estoque" onclick="location.href='gestao-estoque.html'"><i class="fas fa-boxes-stacked"></i></button>
                 <button class="sidebar-btn" title="Materiais" onclick="location.href='materiais.html'"><i class="fas fa-cubes"></i></button>
                 <button class="sidebar-btn" title="Pedidos" onclick="location.href='pedidos.html'"><i class="fas fa-shopping-cart"></i></button>
-                <button class="sidebar-btn" title="Cota√ß√µes" onclick="location.href='cotacoes.html'"><i class="fas fa-file-invoice-dollar"></i></button>
-                <button class="sidebar-btn" title="Requisi√ß√µes" onclick="location.href='requisicoes.html'"><i class="fas fa-clipboard-list"></i></button>
+                <button class="sidebar-btn" title="CotaÁıes" onclick="location.href='cotacoes.html'"><i class="fas fa-file-invoice-dollar"></i></button>
+                <button class="sidebar-btn" title="RequisiÁıes" onclick="location.href='requisicoes.html'"><i class="fas fa-clipboard-list"></i></button>
             </nav>
             <div class="sidebar-bottom">
-                <button class="sidebar-btn" title="Relat√≥rios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
+                <button class="sidebar-btn" title="RelatÛrios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
             </div>
         </aside>
 
@@ -360,12 +360,12 @@
         <main class="main-area">
             <!-- Header -->
             <header class="header">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon-aluforce.webp">
                 <div class="header-left">
                     <div class="header-brand">
                         <span>Compras</span>
                         <span>|</span>
-                        <span style="color: white;">Gest√£o de Estoque</span>
+                        <span style="color: white;">Gest„o de Estoque</span>
                     </div>
                 </div>
                 <div class="header-right">
@@ -373,7 +373,7 @@
                         <i class="fas fa-sync-alt"></i>
                     </button>
                     <div class="user-greeting">
-                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usu√°rio</strong></span>
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usu·rio</strong></span>
                         <div class="user-avatar" id="user-avatar">
                             <img src="" alt="Foto" id="user-photo">
                             <span id="user-initials">U</span>
@@ -388,7 +388,7 @@
                 <div class="page-header-section">
                     <div class="page-header-left">
                         <h1><i class="fas fa-boxes-stacked"></i> Consulta de Estoque</h1>
-                        <p>Visualiza√ß√£o de cabos e materiais - Dados sincronizados com o m√≥dulo PCP</p>
+                        <p>VisualizaÁ„o de cabos e materiais - Dados sincronizados com o mÛdulo PCP</p>
                     </div>
                     <div class="page-header-right">
                         <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 4px;">
@@ -438,7 +438,7 @@
                             <div class="stat-icon red"><i class="fas fa-times-circle"></i></div>
                         </div>
                         <div class="stat-value" id="stat-zerado">0</div>
-                        <div class="stat-label">N√≠vel Cr√≠tico</div>
+                        <div class="stat-label">NÌvel CrÌtico</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-card-header">
@@ -453,7 +453,7 @@
                 <div class="filters-bar">
                     <div class="search-box">
                         <i class="fas fa-search"></i>
-                        <input type="text" id="search-input" placeholder="Buscar por c√≥digo, nome, SKU ou GTIN..." oninput="filtrarProdutos()">
+                        <input type="text" id="search-input" placeholder="Buscar por cÛdigo, nome, SKU ou GTIN..." oninput="filtrarProdutos()">
                     </div>
                     <div class="filter-group">
                         <label>Categoria:</label>
@@ -471,7 +471,7 @@
                             <option value="">Todos os Status</option>
                             <option value="disponivel">Estoque Normal</option>
                             <option value="baixo">Estoque Baixo</option>
-                            <option value="zerado">N√≠vel Cr√≠tico</option>
+                            <option value="zerado">NÌvel CrÌtico</option>
                         </select>
                     </div>
                     <button class="btn-refresh" onclick="carregarProdutos()" id="btn-atualizar">
@@ -482,12 +482,12 @@
                 <!-- Table -->
                 <div class="table-container" style="position: relative;">
                     <div class="table-header">
-                        <h3><i class="fas fa-table"></i> Cat√°logo de Produtos</h3>
+                        <h3><i class="fas fa-table"></i> Cat·logo de Produtos</h3>
                         <div class="table-tabs">
                             <button class="table-tab active" onclick="setView('todos')">Todos</button>
                             <button class="table-tab" onclick="setView('disponivel')">Normal</button>
                             <button class="table-tab" onclick="setView('baixo')">Baixo</button>
-                            <button class="table-tab" onclick="setView('critico')">Cr√≠tico</button>
+                            <button class="table-tab" onclick="setView('critico')">CrÌtico</button>
                         </div>
                     </div>
 
@@ -495,19 +495,19 @@
                         <table class="estoque-table">
                             <thead>
                                 <tr>
-                                    <th class="sortable" onclick="ordenar('codigo')">C√≥digo <i class="fas fa-sort"></i></th>
-                                    <th class="sortable" onclick="ordenar('nome')">Nome / Descri√ß√£o <i class="fas fa-sort"></i></th>
+                                    <th class="sortable" onclick="ordenar('codigo')">CÛdigo <i class="fas fa-sort"></i></th>
+                                    <th class="sortable" onclick="ordenar('nome')">Nome / DescriÁ„o <i class="fas fa-sort"></i></th>
                                     <th>SKU</th>
                                     <th>Categoria</th>
                                     <th class="sortable" onclick="ordenar('estoque')">Estoque <i class="fas fa-sort"></i></th>
-                                    <th>M√≠nimo</th>
-                                    <th class="sortable" onclick="ordenar('preco')">Pre√ßo <i class="fas fa-sort"></i></th>
+                                    <th>MÌnimo</th>
+                                    <th class="sortable" onclick="ordenar('preco')">PreÁo <i class="fas fa-sort"></i></th>
                                     <th>Status</th>
-                                    <th>A√ß√µes</th>
+                                    <th>AÁıes</th>
                                 </tr>
                             </thead>
                             <tbody id="produtos-tbody">
-                                <!-- Produtos ser√£o carregados via JS -->
+                                <!-- Produtos ser„o carregados via JS -->
                             </tbody>
                         </table>
                     </div>
@@ -529,7 +529,7 @@
                             Exibindo <strong id="items-showing">0</strong> de <strong id="items-total">0</strong> produtos
                         </div>
                         <div class="pagination" id="pagination">
-                            <!-- Pagination ser√° gerada via JS -->
+                            <!-- Pagination ser· gerada via JS -->
                         </div>
                     </div>
                 </div>
@@ -550,7 +550,7 @@
                 </button>
             </div>
             <div class="modal-body" id="modal-body">
-                <!-- Conte√∫do ser√° preenchido via JS -->
+                <!-- Conte˙do ser· preenchido via JS -->
             </div>
         </div>
     </div>
@@ -565,7 +565,7 @@
         let autoRefreshInterval = null;
         const AUTO_REFRESH_TIME = 30000;
 
-        // Inicializa√ß√£o
+        // InicializaÁ„o
         document.addEventListener('DOMContentLoaded', () => {
             carregarProdutos();
             carregarUsuario();
@@ -580,7 +580,7 @@
             }, AUTO_REFRESH_TIME);
         }
 
-        // Carregar dados do usu√°rio
+        // Carregar dados do usu·rio
         async function carregarUsuario() {
             try {
                 const response = await fetch('/api/me');
@@ -600,7 +600,7 @@
                     }
                 }
             } catch (e) {
-                console.log('Usu√°rio n√£o carregado');
+                console.log('Usu·rio n„o carregado');
             }
         }
 
@@ -662,7 +662,7 @@
         }
 
         function getStatusEstoque(estoque, estoqueMinimo = 10) {
-            if (estoque <= 0) return { status: 'critico', label: 'Cr√≠tico', class: 'danger' };
+            if (estoque <= 0) return { status: 'critico', label: 'CrÌtico', class: 'danger' };
             if (estoque <= estoqueMinimo) return { status: 'baixo', label: 'Baixo', class: 'warning' };
             return { status: 'normal', label: 'Normal', class: 'success' };
         }
@@ -798,9 +798,9 @@
             let fim = Math.min(totalPaginas, inicio + 4);
             inicio = Math.max(1, fim - 4);
             for (let i = inicio; i <= fim; i++) {
-                html += `<button onclick="irParaPagina(${i})" class="${i === paginaAtual ? 'active' : ''}" title="P√°gina ${i}">${i}</button>`;
+                html += `<button onclick="irParaPagina(${i})" class="${i === paginaAtual ? 'active' : ''}" title="P·gina ${i}">${i}</button>`;
             }
-            html += `<button onclick="irParaPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas ? 'disabled' : ''} title="Pr√≥xima"><i class="fas fa-chevron-right"></i></button>`;
+            html += `<button onclick="irParaPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas ? 'disabled' : ''} title="PrÛxima"><i class="fas fa-chevron-right"></i></button>`;
             pagination.innerHTML = html;
         }
 
@@ -823,13 +823,13 @@
 
         function formatarUnidade(unidade) {
             const u = (unidade || 'M').toUpperCase();
-            const map = { 'UN': 'Metros', 'M': 'Metros', 'MT': 'Metros', 'KG': 'Kg', 'L': 'Litros', 'PC': 'Pe√ßas', 'CX': 'Caixas' };
+            const map = { 'UN': 'Metros', 'M': 'Metros', 'MT': 'Metros', 'KG': 'Kg', 'L': 'Litros', 'PC': 'PeÁas', 'CX': 'Caixas' };
             return map[u] || unidade;
         }
 
         function formatarUnidadeAbrev(unidade) {
             const u = (unidade || 'M').toUpperCase();
-            const map = { 'UN': 'm', 'M': 'm', 'MT': 'm', 'KG': 'kg', 'L': 'L', 'PC': 'p√ß', 'CX': 'cx' };
+            const map = { 'UN': 'm', 'M': 'm', 'MT': 'm', 'KG': 'kg', 'L': 'L', 'PC': 'pÁ', 'CX': 'cx' };
             return map[u] || unidade;
         }
 
@@ -839,7 +839,7 @@
 
             const statusInfo = getStatusEstoque(produto.estoque, produto.estoque_minimo);
             const statusClass = statusInfo.status === 'normal' ? 'disponivel' : statusInfo.status;
-            const statusLabel = { 'normal': 'Dispon√≠vel', 'baixo': 'Estoque Baixo - Aten√ß√£o', 'critico': 'N√≠vel Cr√≠tico - Urgente' }[statusInfo.status];
+            const statusLabel = { 'normal': 'DisponÌvel', 'baixo': 'Estoque Baixo - AtenÁ„o', 'critico': 'NÌvel CrÌtico - Urgente' }[statusInfo.status];
             const statusIcon = { 'normal': 'fa-check-circle', 'baixo': 'fa-exclamation-triangle', 'critico': 'fa-times-circle' }[statusInfo.status];
             const estoqueMax = Math.max(produto.estoque_minimo * 5, produto.estoque, 100);
             const estoquePercent = Math.min((produto.estoque / estoqueMax) * 100, 100);
@@ -868,29 +868,29 @@
                         </div>
                         <div class="estoque-progress">
                             <div class="estoque-progress-bar"><div class="estoque-progress-fill ${statusClass}" style="width: ${estoquePercent}%"></div></div>
-                            <div class="estoque-progress-labels"><span>M√≠n: ${produto.estoque_minimo} ${unidadeAbrev}</span><span>Atual: ${produto.estoque.toFixed(2)} ${unidadeAbrev}</span></div>
+                            <div class="estoque-progress-labels"><span>MÌn: ${produto.estoque_minimo} ${unidadeAbrev}</span><span>Atual: ${produto.estoque.toFixed(2)} ${unidadeAbrev}</span></div>
                         </div>
                         <div class="modal-info-grid">
                             <div class="modal-info-item"><label>Estoque Atual</label><span>${produto.estoque.toFixed(2)} ${unidadeAbrev}</span></div>
-                            <div class="modal-info-item"><label>M√≠nimo</label><span>${produto.estoque_minimo} ${unidadeAbrev}</span></div>
+                            <div class="modal-info-item"><label>MÌnimo</label><span>${produto.estoque_minimo} ${unidadeAbrev}</span></div>
                             <div class="modal-info-item"><label>Unidade</label><span>${unidadeExibicao}</span></div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-section">
-                    <div class="modal-section-title"><i class="fas fa-money-bill-wave"></i> Informa√ß√µes de Pre√ßo</div>
-                    <div class="preco-card"><span class="preco-label">Pre√ßo de Venda</span><span class="preco-valor">R$ ${precoFormatado}</span></div>
+                    <div class="modal-section-title"><i class="fas fa-money-bill-wave"></i> InformaÁıes de PreÁo</div>
+                    <div class="preco-card"><span class="preco-label">PreÁo de Venda</span><span class="preco-valor">R$ ${precoFormatado}</span></div>
                 </div>
                 <div class="modal-section">
-                    <div class="modal-section-title"><i class="fas fa-clipboard-list"></i> Informa√ß√µes Adicionais</div>
+                    <div class="modal-section-title"><i class="fas fa-clipboard-list"></i> InformaÁıes Adicionais</div>
                     <div class="detail-grid">
-                        <div class="detail-item"><label>GTIN/EAN</label><span>${escapeHtml(produto.gtin || 'N√£o informado')}</span></div>
-                        <div class="detail-item"><label>NCM</label><span>${escapeHtml(produto.ncm || 'N√£o informado')}</span></div>
+                        <div class="detail-item"><label>GTIN/EAN</label><span>${escapeHtml(produto.gtin || 'N„o informado')}</span></div>
+                        <div class="detail-item"><label>NCM</label><span>${escapeHtml(produto.ncm || 'N„o informado')}</span></div>
                     </div>
                 </div>
                 <div class="modal-avisos">
-                    <div class="modal-aviso info"><i class="fas fa-eye"></i><div><strong>Modo Visualiza√ß√£o</strong><br><small>Esta p√°gina √© somente leitura. Para editar estoque, acesse o m√≥dulo PCP.</small></div></div>
-                    <div class="modal-aviso sync"><i class="fas fa-sync-alt"></i><div><strong>Sincroniza√ß√£o Autom√°tica</strong><br><small>Dados atualizados automaticamente a cada 30 segundos</small></div></div>
+                    <div class="modal-aviso info"><i class="fas fa-eye"></i><div><strong>Modo VisualizaÁ„o</strong><br><small>Esta p·gina È somente leitura. Para editar estoque, acesse o mÛdulo PCP.</small></div></div>
+                    <div class="modal-aviso sync"><i class="fas fa-sync-alt"></i><div><strong>SincronizaÁ„o Autom·tica</strong><br><small>Dados atualizados automaticamente a cada 30 segundos</small></div></div>
                 </div>
             `;
             document.getElementById('modal-detalhes').classList.add('active');
@@ -921,6 +921,6 @@
         });
     </script>
     <script src="compras-user-loader.js?v=20251226"></script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    </body>
 </html>
 

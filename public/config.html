@@ -1,10 +1,10 @@
-ï»¿<!doctype html>
+<!doctype html>
 <html lang="pt-br">
 <head>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ConfiguraÃ§Ãµes - ALUFORCE</title>
+  <title>Configurações - ALUFORCE</title>
   
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -414,26 +414,26 @@
     .config-section:nth-child(3) { animation-delay: 0.3s; }
     .config-section:nth-child(4) { animation-delay: 0.4s; }
   </style>
-    <script src="js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="css/popup-confirmacao.css">`n    <link rel="stylesheet" href="css/responsive.css?v=2026010401">`n</head>
+    
+    `n    `n</head>
 <body>
   <div class="config-container">
     <!-- Search Header -->
     <div class="search-header">
       <div class="search-box">
         <i class="fas fa-cog"></i>
-        <input type="text" id="searchConfig" placeholder="Buscar configuraÃ§Ã£o..." oninput="filterConfigs(this.value)">
+        <input type="text" id="searchConfig" placeholder="Buscar configuração..." oninput="filterConfigs(this.value)">
         <button class="close-btn" onclick="window.history.back()" title="Fechar">&times;</button>
       </div>
     </div>
 
     <!-- Config Content -->
     <div class="config-content">
-      <!-- APARÃŠNCIA -->
+      <!-- APARÊNCIA -->
       <div class="config-section" data-section="aparencia">
         <div class="section-title">
           <i class="fas fa-palette"></i>
-          AparÃªncia
+          Aparência
         </div>
 
         <div class="config-item" data-search="modo escuro dark theme tema">
@@ -454,7 +454,7 @@
           </div>
           <select class="config-select" id="fontSize" onchange="changeFontSize(this.value)">
             <option value="small">Pequeno (90%)</option>
-            <option value="medium" selected>MÃ©dio (100%)</option>
+            <option value="medium" selected>Médio (100%)</option>
             <option value="large">Grande (110%)</option>
             <option value="xlarge">Extra Grande (120%)</option>
           </select>
@@ -462,8 +462,8 @@
 
         <div class="config-item" data-search="contraste automatico auto">
           <div class="config-item-info">
-            <div class="config-item-title">Contraste AutomÃ¡tico</div>
-            <div class="config-item-desc">Ajusta texto/Ã­cones conforme o fundo</div>
+            <div class="config-item-title">Contraste Automático</div>
+            <div class="config-item-desc">Ajusta texto/ícones conforme o fundo</div>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="autoContrast" checked onchange="toggleAutoContrast(this.checked)">
@@ -472,17 +472,17 @@
         </div>
       </div>
 
-      <!-- NOTIFICAÃ‡Ã•ES -->
+      <!-- NOTIFICAÇÕES -->
       <div class="config-section" data-section="notificacoes">
         <div class="section-title">
           <i class="fas fa-bell"></i>
-          NotificaÃ§Ãµes
+          Notificações
         </div>
 
         <div class="config-item" data-search="notificacoes desktop alerts alertas">
           <div class="config-item-info">
-            <div class="config-item-title">NotificaÃ§Ãµes Desktop</div>
-            <div class="config-item-desc">Receba alertas na Ã¡rea de trabalho</div>
+            <div class="config-item-title">Notificações Desktop</div>
+            <div class="config-item-desc">Receba alertas na área de trabalho</div>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="desktopNotif" checked onchange="toggleDesktopNotifications(this.checked)">
@@ -492,8 +492,8 @@
 
         <div class="config-item" data-search="som audio sound notificacao">
           <div class="config-item-info">
-            <div class="config-item-title">Som de NotificaÃ§Ã£o</div>
-            <div class="config-item-desc">Reproduzir som ao receber notificaÃ§Ãµes</div>
+            <div class="config-item-title">Som de Notificação</div>
+            <div class="config-item-desc">Reproduzir som ao receber notificações</div>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="notifSound" checked onchange="toggleNotificationSound(this.checked)">
@@ -515,16 +515,16 @@
             <div class="config-item-desc">Selecione o idioma do sistema</div>
           </div>
           <select class="config-select" id="language" onchange="changeLanguage(this.value)">
-            <option value="pt-BR" selected>PortuguÃªs (Brasil)</option>
+            <option value="pt-BR" selected>Português (Brasil)</option>
             <option value="en-US">English (US)</option>
-            <option value="es">EspaÃ±ol</option>
+            <option value="es">Español</option>
           </select>
         </div>
 
         <div class="config-item" data-search="atualizacao automatica update auto">
           <div class="config-item-info">
-            <div class="config-item-title">AtualizaÃ§Ã£o AutomÃ¡tica</div>
-            <div class="config-item-desc">Verificar atualizaÃ§Ãµes automaticamente</div>
+            <div class="config-item-title">Atualização Automática</div>
+            <div class="config-item-desc">Verificar atualizações automaticamente</div>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="autoUpdate" checked onchange="toggleAutoUpdate(this.checked)">
@@ -542,8 +542,8 @@
 
         <div class="config-item" data-search="animacoes transitions effects">
           <div class="config-item-info">
-            <div class="config-item-title">AnimaÃ§Ãµes</div>
-            <div class="config-item-desc">Habilitar animaÃ§Ãµes e transiÃ§Ãµes</div>
+            <div class="config-item-title">Animações</div>
+            <div class="config-item-desc">Habilitar animações e transições</div>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="animations" checked onchange="toggleAnimations(this.checked)">
@@ -584,7 +584,7 @@
         <div class="config-item" data-search="exportar dados export backup">
           <div class="config-item-info">
             <div class="config-item-title">Exportar Dados</div>
-            <div class="config-item-desc">Baixar backup das configuraÃ§Ãµes</div>
+            <div class="config-item-desc">Baixar backup das configurações</div>
           </div>
           <button class="config-action-btn" onclick="exportData()">
             <i class="fas fa-download"></i>
@@ -595,7 +595,7 @@
         <div class="config-item" data-search="importar dados import restore">
           <div class="config-item-info">
             <div class="config-item-title">Importar Dados</div>
-            <div class="config-item-desc">Restaurar configuraÃ§Ãµes de um backup</div>
+            <div class="config-item-desc">Restaurar configurações de um backup</div>
           </div>
           <button class="config-action-btn" onclick="importData()">
             <i class="fas fa-upload"></i>
@@ -608,7 +608,7 @@
     <!-- Footer Actions -->
     <div class="config-footer">
       <button class="btn-secondary" onclick="resetDefaults()">
-        <i class="fas fa-undo"></i> Restaurar PadrÃµes
+        <i class="fas fa-undo"></i> Restaurar Padrões
       </button>
       <button class="btn-primary" onclick="saveAllSettings()">
         <i class="fas fa-save"></i> Salvar Tudo
@@ -619,7 +619,7 @@
   <!-- Toast Notification -->
   <div class="toast" id="toast">
     <i class="fas fa-check-circle"></i>
-    <span id="toastMessage">ConfiguraÃ§Ã£o salva!</span>
+    <span id="toastMessage">Configuração salva!</span>
   </div>
 
   <script>
@@ -705,7 +705,7 @@
     // Toggle Auto Contrast
     function toggleAutoContrast(enabled) {
       saveSetting('autoContrast', enabled);
-      showToast(enabled ? 'Contraste automÃ¡tico ativado' : 'Contraste automÃ¡tico desativado');
+      showToast(enabled ? 'Contraste automático ativado' : 'Contraste automático desativado');
     }
 
     // Toggle Desktop Notifications
@@ -714,28 +714,28 @@
         Notification.requestPermission().then(permission => {
           if (permission === 'granted') {
             saveSetting('desktopNotif', true);
-            showToast('NotificaÃ§Ãµes desktop ativadas');
+            showToast('Notificações desktop ativadas');
           } else {
             document.getElementById('desktopNotif').checked = false;
-            showToast('PermissÃ£o de notificaÃ§Ã£o negada', 'error');
+            showToast('Permissão de notificação negada', 'error');
           }
         });
       } else {
         saveSetting('desktopNotif', enabled);
-        showToast('NotificaÃ§Ãµes desktop desativadas');
+        showToast('Notificações desktop desativadas');
       }
     }
 
     // Toggle Notification Sound
     function toggleNotificationSound(enabled) {
       saveSetting('notifSound', enabled);
-      showToast(enabled ? 'Som de notificaÃ§Ã£o ativado' : 'Som de notificaÃ§Ã£o desativado');
+      showToast(enabled ? 'Som de notificação ativado' : 'Som de notificação desativado');
     }
 
     // Toggle Auto Update
     function toggleAutoUpdate(enabled) {
       saveSetting('autoUpdate', enabled);
-      showToast(enabled ? 'AtualizaÃ§Ã£o automÃ¡tica ativada' : 'AtualizaÃ§Ã£o automÃ¡tica desativada');
+      showToast(enabled ? 'Atualização automática ativada' : 'Atualização automática desativada');
     }
 
     // Toggle Animations
@@ -746,7 +746,7 @@
         document.body.style.setProperty('--transition-duration', '0s');
       }
       saveSetting('animations', enabled);
-      showToast(enabled ? 'AnimaÃ§Ãµes ativadas' : 'AnimaÃ§Ãµes desativadas');
+      showToast(enabled ? 'Animações ativadas' : 'Animações desativadas');
     }
 
     // Toggle Local Cache
@@ -758,12 +758,12 @@
     // Change Language
     function changeLanguage(lang) {
       saveSetting('language', lang);
-      showToast('Idioma alterado - Recarregue a pÃ¡gina');
+      showToast('Idioma alterado - Recarregue a página');
     }
 
     // Clear Cache
     function clearCache() {
-      if (confirm('Tem certeza que deseja limpar o cache? Isso nÃ£o afetarÃ¡ suas configuraÃ§Ãµes salvas.')) {
+      if (confirm('Tem certeza que deseja limpar o cache? Isso não afetará suas configurações salvas.')) {
         // Clear specific cache items but keep settings
         const settings = localStorage.getItem('aluforce-settings');
         localStorage.clear();
@@ -786,7 +786,7 @@
       a.download = 'aluforce-config-backup.json';
       a.click();
       URL.revokeObjectURL(url);
-      showToast('ConfiguraÃ§Ãµes exportadas!', 'success');
+      showToast('Configurações exportadas!', 'success');
     }
 
     // Import Data
@@ -803,7 +803,7 @@
               const settings = JSON.parse(e.target.result);
               localStorage.setItem('aluforce-settings', JSON.stringify(settings));
               loadSettings();
-              showToast('ConfiguraÃ§Ãµes importadas!', 'success');
+              showToast('Configurações importadas!', 'success');
             } catch (err) {
               showToast('Erro ao importar arquivo', 'error');
             }
@@ -816,7 +816,7 @@
 
     // Reset to Defaults
     function resetDefaults() {
-      if (confirm('Tem certeza que deseja restaurar todas as configuraÃ§Ãµes para o padrÃ£o?')) {
+      if (confirm('Tem certeza que deseja restaurar todas as configurações para o padrão?')) {
         localStorage.removeItem('aluforce-settings');
         location.reload();
       }
@@ -824,7 +824,7 @@
 
     // Save All Settings
     function saveAllSettings() {
-      showToast('Todas as configuraÃ§Ãµes foram salvas!', 'success');
+      showToast('Todas as configurações foram salvas!', 'success');
     }
 
     // Filter Configs by Search
@@ -876,6 +876,6 @@
       }, 3000);
     }
   </script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    `n</body>
 </html>
 

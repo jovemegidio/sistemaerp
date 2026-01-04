@@ -1,11 +1,11 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon-aluforce.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>ALUFORCE - Requisi√ß√µes de Compra</title>
+    <title>ALUFORCE - RequisiÁıes de Compra</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -236,8 +236,8 @@
             .view-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
-    <script src="js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="css/popup-confirmacao.css">`n    <link rel="stylesheet" href="css/responsive.css?v=2026010401">`n</head>
+    
+        </head>
 <body>
     <div class="app-container">
         <aside class="sidebar">
@@ -248,27 +248,27 @@
                 <a href="gestao-estoque.html" class="sidebar-btn" title="Estoque"><i class="fas fa-boxes"></i></a>
                 <a href="materiais.html" class="sidebar-btn" title="Materiais"><i class="fas fa-cubes"></i></a>
                 <a href="pedidos.html" class="sidebar-btn" title="Pedidos"><i class="fas fa-shopping-cart"></i></a>
-                <a href="cotacoes.html" class="sidebar-btn" title="Cota√ß√µes"><i class="fas fa-file-invoice-dollar"></i></a>
-                <a href="requisicoes.html" class="sidebar-btn active" title="Requisi√ß√µes"><i class="fas fa-clipboard-list"></i></a>
+                <a href="cotacoes.html" class="sidebar-btn" title="CotaÁıes"><i class="fas fa-file-invoice-dollar"></i></a>
+                <a href="requisicoes.html" class="sidebar-btn active" title="RequisiÁıes"><i class="fas fa-clipboard-list"></i></a>
             </nav>
             <div class="sidebar-bottom">
-                <a href="relatorios.html" class="sidebar-btn" title="Relat√≥rios"><i class="fas fa-chart-bar"></i></a>
+                <a href="relatorios.html" class="sidebar-btn" title="RelatÛrios"><i class="fas fa-chart-bar"></i></a>
             </div>
         </aside>
         <main class="main-area">
             <header class="header">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon-aluforce.webp">
                 <div class="header-left">
                     <div class="header-brand">
                         <span>Compras</span>
                         <span>|</span>
-                        <span style="color: white;">Requisi√ß√µes</span>
+                        <span style="color: white;">RequisiÁıes</span>
                     </div>
                 </div>
                 <div class="header-right">
-                    <button class="header-btn" title="Notifica√ß√µes"><i class="fas fa-bell"></i></button>
+                    <button class="header-btn" title="NotificaÁıes"><i class="fas fa-bell"></i></button>
                     <div class="user-greeting">
-                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usu√°rio</strong></span>
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usu·rio</strong></span>
                         <div class="user-avatar">
                             <img src="" alt="Foto" id="user-photo">
                             <span id="user-initial">U</span>
@@ -278,37 +278,37 @@
             </header>
             <div class="page-content">
                 <div class="page-header">
-                    <h1 class="page-title"><i class="fas fa-clipboard-list"></i> Requisi√ß√µes de Compra</h1>
+                    <h1 class="page-title"><i class="fas fa-clipboard-list"></i> RequisiÁıes de Compra</h1>
                     <div class="page-actions">
                         <button class="btn btn-secondary"><i class="fas fa-download"></i> Exportar</button>
-                        <button class="btn btn-primary" onclick="abrirModalNovaRequisicao()"><i class="fas fa-plus"></i> Nova Requisi√ß√£o</button>
+                        <button class="btn btn-primary" onclick="abrirModalNovaRequisicao()"><i class="fas fa-plus"></i> Nova RequisiÁ„o</button>
                     </div>
                 </div>
                 <div class="summary-cards">
-                    <div class="summary-card"><div class="summary-icon purple"><i class="fas fa-clipboard-list"></i></div><div class="summary-content"><h3>Total Requisi√ß√µes</h3><div class="summary-value" id="totalRequisicoes">45</div></div></div>
+                    <div class="summary-card"><div class="summary-icon purple"><i class="fas fa-clipboard-list"></i></div><div class="summary-content"><h3>Total RequisiÁıes</h3><div class="summary-value" id="totalRequisicoes">45</div></div></div>
                     <div class="summary-card"><div class="summary-icon orange"><i class="fas fa-clock"></i></div><div class="summary-content"><h3>Pendentes</h3><div class="summary-value" id="requisicoesPendentes">18</div></div></div>
                     <div class="summary-card"><div class="summary-icon green"><i class="fas fa-check-circle"></i></div><div class="summary-content"><h3>Aprovadas</h3><div class="summary-value" id="requisicoesAprovadas">20</div></div></div>
-                    <div class="summary-card"><div class="summary-icon blue"><i class="fas fa-tags"></i></div><div class="summary-content"><h3>Em Cota√ß√£o</h3><div class="summary-value" id="requisicoesCotacao">7</div></div></div>
+                    <div class="summary-card"><div class="summary-icon blue"><i class="fas fa-tags"></i></div><div class="summary-content"><h3>Em CotaÁ„o</h3><div class="summary-value" id="requisicoesCotacao">7</div></div></div>
                 </div>
                 <div class="filters-bar">
-                    <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Buscar por c√≥digo, material, solicitante..."></div>
+                    <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Buscar por cÛdigo, material, solicitante..."></div>
                     <div class="filter-buttons">
                         <button class="filter-btn active"><i class="fas fa-list"></i> Todos</button>
                         <button class="filter-btn"><i class="fas fa-clock"></i> Pendentes</button>
                         <button class="filter-btn"><i class="fas fa-check"></i> Aprovadas</button>
-                        <button class="filter-btn"><i class="fas fa-tags"></i> Em Cota√ß√£o</button>
+                        <button class="filter-btn"><i class="fas fa-tags"></i> Em CotaÁ„o</button>
                         <button class="filter-btn"><i class="fas fa-exclamation-triangle"></i> Urgentes</button>
                     </div>
                 </div>
                 <div class="table-container">
-                    <div class="table-header"><h3><i class="fas fa-table"></i> Lista de Requisi√ß√µes</h3></div>
+                    <div class="table-header"><h3><i class="fas fa-table"></i> Lista de RequisiÁıes</h3></div>
                     <table class="data-table">
-                        <thead><tr><th><input type="checkbox"></th><th>C√≥digo</th><th>Material</th><th>Quantidade</th><th>Solicitante</th><th>Data</th><th>Necessidade</th><th>Status</th><th>A√ß√µes</th></tr></thead>
+                        <thead><tr><th><input type="checkbox"></th><th>CÛdigo</th><th>Material</th><th>Quantidade</th><th>Solicitante</th><th>Data</th><th>Necessidade</th><th>Status</th><th>AÁıes</th></tr></thead>
                         <tbody id="requisicoesTableBody">
-                            <tr><td><input type="checkbox"></td><td><strong>REQ-0045</strong></td><td>Chapas de Alum√≠nio 3mm</td><td>100 UN</td><td>Jo√£o Silva</td><td>17/12/2025</td><td>25/12/2025</td><td><span class="status-badge pendente">Pendente</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
+                            <tr><td><input type="checkbox"></td><td><strong>REQ-0045</strong></td><td>Chapas de AlumÌnio 3mm</td><td>100 UN</td><td>Jo„o Silva</td><td>17/12/2025</td><td>25/12/2025</td><td><span class="status-badge pendente">Pendente</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
                             <tr><td><input type="checkbox"></td><td><strong>REQ-0044</strong></td><td>Perfis Estruturais</td><td>50 UN</td><td>Maria Santos</td><td>16/12/2025</td><td>28/12/2025</td><td><span class="status-badge aprovado">Aprovada</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
-                            <tr><td><input type="checkbox"></td><td><strong>REQ-0043</strong></td><td>Parafusos Inox M8</td><td>500 UN</td><td>Pedro Costa</td><td>15/12/2025</td><td>22/12/2025</td><td><span class="status-badge cotacao">Em Cota√ß√£o</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
-                            <tr><td><input type="checkbox"></td><td><strong>REQ-0042</strong></td><td>Vidros Temperados 8mm</td><td>30 M¬≤</td><td>Ana Oliveira</td><td>14/12/2025</td><td>20/12/2025</td><td><span class="status-badge urgente">Urgente</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
+                            <tr><td><input type="checkbox"></td><td><strong>REQ-0043</strong></td><td>Parafusos Inox M8</td><td>500 UN</td><td>Pedro Costa</td><td>15/12/2025</td><td>22/12/2025</td><td><span class="status-badge cotacao">Em CotaÁ„o</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
+                            <tr><td><input type="checkbox"></td><td><strong>REQ-0042</strong></td><td>Vidros Temperados 8mm</td><td>30 M≤</td><td>Ana Oliveira</td><td>14/12/2025</td><td>20/12/2025</td><td><span class="status-badge urgente">Urgente</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
                             <tr><td><input type="checkbox"></td><td><strong>REQ-0041</strong></td><td>Silicone Estrutural</td><td>20 TB</td><td>Carlos Lima</td><td>13/12/2025</td><td>30/12/2025</td><td><span class="status-badge aprovado">Aprovada</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
                         </tbody>
                     </table>
@@ -318,13 +318,13 @@
         </main>
     </div>
 
-    <!-- Modal Nova Requisi√ß√£o - Vers√£o Profissional -->
+    <!-- Modal Nova RequisiÁ„o - Vers„o Profissional -->
     <div class="modal-overlay" id="modalNovaRequisicao">
         <div class="modal modal-large">
             <div class="modal-header">
                 <div class="modal-header-content">
-                    <h2><i class="fas fa-clipboard-list"></i> Nova Requisi√ß√£o de Compra</h2>
-                    <span class="modal-subtitle">Preencha os dados da requisi√ß√£o para aprova√ß√£o</span>
+                    <h2><i class="fas fa-clipboard-list"></i> Nova RequisiÁ„o de Compra</h2>
+                    <span class="modal-subtitle">Preencha os dados da requisiÁ„o para aprovaÁ„o</span>
                 </div>
                 <button class="modal-close" id="btnFecharModalRequisicao"><i class="fas fa-times"></i></button>
             </div>
@@ -333,7 +333,7 @@
             <div class="workflow-indicator">
                 <div class="workflow-step active">
                     <div class="step-number">1</div>
-                    <span>Dados B√°sicos</span>
+                    <span>Dados B·sicos</span>
                 </div>
                 <div class="workflow-line"></div>
                 <div class="workflow-step">
@@ -343,21 +343,21 @@
                 <div class="workflow-line"></div>
                 <div class="workflow-step">
                     <div class="step-number">3</div>
-                    <span>Revis√£o</span>
+                    <span>Revis„o</span>
                 </div>
             </div>
             
             <div class="modal-body">
                 <form id="formNovaRequisicao">
-                    <!-- Se√ß√£o: Informa√ß√µes do Solicitante -->
+                    <!-- SeÁ„o: InformaÁıes do Solicitante -->
                     <div class="form-section">
                         <div class="section-header">
                             <i class="fas fa-user"></i>
-                            <h3>Informa√ß√µes do Solicitante</h3>
+                            <h3>InformaÁıes do Solicitante</h3>
                         </div>
                         <div class="form-row form-row-3">
                             <div class="form-group">
-                                <label><i class="fas fa-hashtag"></i> N¬∫ Requisi√ß√£o</label>
+                                <label><i class="fas fa-hashtag"></i> N∫ RequisiÁ„o</label>
                                 <input type="text" id="reqNumero" readonly class="input-readonly">
                             </div>
                             <div class="form-group">
@@ -365,17 +365,17 @@
                                 <input type="text" id="reqSolicitante" readonly class="input-readonly">
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-calendar"></i> Data Solicita√ß√£o</label>
+                                <label><i class="fas fa-calendar"></i> Data SolicitaÁ„o</label>
                                 <input type="text" id="reqDataSolicitacao" readonly class="input-readonly">
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Se√ß√£o: Dados da Requisi√ß√£o -->
+                    <!-- SeÁ„o: Dados da RequisiÁ„o -->
                     <div class="form-section">
                         <div class="section-header">
                             <i class="fas fa-file-alt"></i>
-                            <h3>Dados da Requisi√ß√£o</h3>
+                            <h3>Dados da RequisiÁ„o</h3>
                         </div>
                         <div class="form-row">
                             <div class="form-group">
@@ -383,12 +383,12 @@
                                 <select id="reqCentroCusto" required>
                                     <option value="">Carregando centros de custo...</option>
                                 </select>
-                                <small class="form-help">Selecione o centro de custo respons√°vel</small>
+                                <small class="form-help">Selecione o centro de custo respons·vel</small>
                             </div>
                             <div class="form-group">
                                 <label><i class="fas fa-calendar-check"></i> Data Necessidade *</label>
                                 <input type="date" id="reqDataNecessidade" required>
-                                <small class="form-help">Quando voc√™ precisa do material</small>
+                                <small class="form-help">Quando vocÍ precisa do material</small>
                             </div>
                         </div>
                         <div class="form-row">
@@ -420,18 +420,18 @@
                         </div>
                     </div>
                     
-                    <!-- Se√ß√£o: Itens da Requisi√ß√£o -->
+                    <!-- SeÁ„o: Itens da RequisiÁ„o -->
                     <div class="form-section">
                         <div class="section-header">
                             <i class="fas fa-boxes"></i>
-                            <h3>Itens da Requisi√ß√£o</h3>
+                            <h3>Itens da RequisiÁ„o</h3>
                             <button type="button" class="btn btn-sm btn-primary" onclick="adicionarItemReq()">
                                 <i class="fas fa-plus"></i> Adicionar Item
                             </button>
                         </div>
                         
                         <div class="items-container" id="itensContainer">
-                            <!-- Items ser√£o adicionados aqui dinamicamente -->
+                            <!-- Items ser„o adicionados aqui dinamicamente -->
                         </div>
                         
                         <!-- Resumo dos Valores -->
@@ -451,7 +451,7 @@
                         </div>
                     </div>
                     
-                    <!-- Se√ß√£o: Fornecedores Sugeridos -->
+                    <!-- SeÁ„o: Fornecedores Sugeridos -->
                     <div class="form-section">
                         <div class="section-header">
                             <i class="fas fa-truck"></i>
@@ -466,27 +466,27 @@
                         </div>
                     </div>
                     
-                    <!-- Se√ß√£o: Justificativa e Anexos -->
+                    <!-- SeÁ„o: Justificativa e Anexos -->
                     <div class="form-section">
                         <div class="section-header">
                             <i class="fas fa-comment-alt"></i>
-                            <h3>Justificativa e Observa√ß√µes</h3>
+                            <h3>Justificativa e ObservaÁıes</h3>
                         </div>
                         <div class="form-group">
                             <label><i class="fas fa-align-left"></i> Justificativa da Compra *</label>
-                            <textarea id="reqJustificativa" rows="3" placeholder="Descreva o motivo desta requisi√ß√£o de compra..." required></textarea>
-                            <small class="form-help">Explique por que essa compra √© necess√°ria</small>
+                            <textarea id="reqJustificativa" rows="3" placeholder="Descreva o motivo desta requisiÁ„o de compra..." required></textarea>
+                            <small class="form-help">Explique por que essa compra È necess·ria</small>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-sticky-note"></i> Observa√ß√µes Adicionais</label>
-                            <textarea id="reqObservacoes" rows="2" placeholder="Informa√ß√µes complementares (especifica√ß√µes t√©cnicas, condi√ß√µes especiais, etc.)"></textarea>
+                            <label><i class="fas fa-sticky-note"></i> ObservaÁıes Adicionais</label>
+                            <textarea id="reqObservacoes" rows="2" placeholder="InformaÁıes complementares (especificaÁıes tÈcnicas, condiÁıes especiais, etc.)"></textarea>
                         </div>
                         <div class="form-group">
                             <label><i class="fas fa-paperclip"></i> Anexos</label>
                             <div class="file-upload-area" onclick="document.getElementById('reqAnexos').click()">
                                 <i class="fas fa-cloud-upload-alt"></i>
                                 <span>Clique para anexar arquivos</span>
-                                <small>PDF, DOC, XLS, Imagens (m√°x. 10MB cada)</small>
+                                <small>PDF, DOC, XLS, Imagens (m·x. 10MB cada)</small>
                             </div>
                             <input type="file" id="reqAnexos" multiple accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" style="display:none" onchange="handleAnexos(this)">
                             <div class="anexos-list" id="anexosList"></div>
@@ -498,7 +498,7 @@
             <div class="modal-footer">
                 <div class="footer-info">
                     <i class="fas fa-info-circle"></i>
-                    <span>A requisi√ß√£o ser√° enviada para aprova√ß√£o do gestor</span>
+                    <span>A requisiÁ„o ser· enviada para aprovaÁ„o do gestor</span>
                 </div>
                 <div class="footer-actions">
                     <button class="btn btn-secondary" id="btnCancelarRequisicao">
@@ -508,25 +508,25 @@
                         <i class="fas fa-save"></i> Salvar Rascunho
                     </button>
                     <button class="btn btn-primary" id="btnEnviarRequisicao">
-                        <i class="fas fa-paper-plane"></i> Enviar para Aprova√ß√£o
+                        <i class="fas fa-paper-plane"></i> Enviar para AprovaÁ„o
                     </button>
                 </div>
             </div>
         </div>
     </div>
     
-    <!-- Modal Visualizar Requisi√ß√£o -->
+    <!-- Modal Visualizar RequisiÁ„o -->
     <div class="modal-overlay" id="modalVisualizarRequisicao">
         <div class="modal modal-large">
             <div class="modal-header">
                 <div class="modal-header-content">
-                    <h2><i class="fas fa-eye"></i> Detalhes da Requisi√ß√£o</h2>
+                    <h2><i class="fas fa-eye"></i> Detalhes da RequisiÁ„o</h2>
                     <span class="modal-subtitle" id="viewReqNumero">REQ-0000</span>
                 </div>
                 <button class="modal-close" onclick="fecharModalVisualizar()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body" id="viewReqContent">
-                <!-- Conte√∫do ser√° carregado dinamicamente -->
+                <!-- Conte˙do ser· carregado dinamicamente -->
             </div>
             <div class="modal-footer" id="viewReqFooter">
                 <button class="btn btn-secondary" onclick="fecharModalVisualizar()">Fechar</button>
@@ -535,7 +535,7 @@
     </div>
 
     <script>
-        // ==================== SISTEMA DE REQUISI√á√ïES DE COMPRA ====================
+        // ==================== SISTEMA DE REQUISI«’ES DE COMPRA ====================
         
         const avatarNameMap = {
             'clemerson': '/avatars/Clemerson.webp', 'isabela': '/avatars/Isabela.webp',
@@ -547,13 +547,13 @@
         let requisicoesData = [];
         let materiaisData = [];
         let centrosCustoData = [];
-        let usuarioLogado = { id: null, nome: 'Usu√°rio' };
+        let usuarioLogado = { id: null, nome: 'Usu·rio' };
         let filtroAtual = 'todos';
         let termoBusca = '';
         let itemCounter = 0;
         let anexosFiles = [];
 
-        // ==================== INICIALIZA√á√ÉO ====================
+        // ==================== INICIALIZA«√O ====================
         document.addEventListener('DOMContentLoaded', async () => {
             await carregarUsuarioLogado();
             await carregarDadosIniciais();
@@ -568,8 +568,8 @@
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
                     const user = await response.json();
-                    usuarioLogado = { id: user.id, nome: user.nome || 'Usu√°rio', email: user.email };
-                    document.getElementById('user-name').textContent = (user.nome || 'Usu√°rio').split(' ')[0];
+                    usuarioLogado = { id: user.id, nome: user.nome || 'Usu·rio', email: user.email };
+                    document.getElementById('user-name').textContent = (user.nome || 'Usu·rio').split(' ')[0];
                     
                     const avatar = user.avatar || avatarNameMap[user.email?.split('@')[0]?.toLowerCase()];
                     if (avatar) {
@@ -580,7 +580,7 @@
                         document.getElementById('user-initial').textContent = (user.nome || 'U').charAt(0);
                     }
                 }
-            } catch (e) { console.error('Erro ao carregar usu√°rio:', e); }
+            } catch (e) { console.error('Erro ao carregar usu·rio:', e); }
         }
 
         async function carregarDadosIniciais() {
@@ -594,7 +594,7 @@
                 if (response.ok) {
                     const data = await response.json();
                     requisicoesData = data.map(r => ({
-                        id: r.id, numero: r.numero, material: r.descricao_principal || 'V√°rios itens',
+                        id: r.id, numero: r.numero, material: r.descricao_principal || 'V·rios itens',
                         quantidade: `${r.total_itens || 0} itens`, solicitante: r.solicitante,
                         data: formatarData(r.data_solicitacao), necessidade: formatarData(r.data_necessidade),
                         status: r.status === 'aprovado' ? 'aprovado' : r.status === 'cotacao' ? 'cotacao' : 
@@ -606,7 +606,7 @@
                     requisicoesData = gerarDadosExemplo();
                 }
             } catch (e) {
-                console.error('Erro ao carregar requisi√ß√µes:', e);
+                console.error('Erro ao carregar requisiÁıes:', e);
                 requisicoesData = gerarDadosExemplo();
             }
             filtrarRequisicoes();
@@ -629,10 +629,10 @@
 
         function gerarDadosExemplo() {
             return [
-                { id: 1, numero: 'REQ-0045', material: 'Chapas de Alum√≠nio 3mm', quantidade: '100 UN', solicitante: 'Jo√£o Silva', data: '17/12/2025', necessidade: '25/12/2025', status: 'pendente' },
+                { id: 1, numero: 'REQ-0045', material: 'Chapas de AlumÌnio 3mm', quantidade: '100 UN', solicitante: 'Jo„o Silva', data: '17/12/2025', necessidade: '25/12/2025', status: 'pendente' },
                 { id: 2, numero: 'REQ-0044', material: 'Perfis Estruturais', quantidade: '50 UN', solicitante: 'Maria Santos', data: '16/12/2025', necessidade: '28/12/2025', status: 'aprovado' },
                 { id: 3, numero: 'REQ-0043', material: 'Parafusos Inox M8', quantidade: '500 UN', solicitante: 'Pedro Costa', data: '15/12/2025', necessidade: '22/12/2025', status: 'cotacao' },
-                { id: 4, numero: 'REQ-0042', material: 'Vidros Temperados 8mm', quantidade: '30 M¬≤', solicitante: 'Ana Oliveira', data: '14/12/2025', necessidade: '20/12/2025', status: 'urgente' }
+                { id: 4, numero: 'REQ-0042', material: 'Vidros Temperados 8mm', quantidade: '30 M≤', solicitante: 'Ana Oliveira', data: '14/12/2025', necessidade: '20/12/2025', status: 'urgente' }
             ];
         }
 
@@ -644,7 +644,7 @@
                     this.classList.add('active');
                     const t = this.textContent.trim().toLowerCase();
                     filtroAtual = t.includes('todos') ? 'todos' : t.includes('pendentes') ? 'pendente' :
-                                  t.includes('aprovadas') ? 'aprovado' : t.includes('cota√ß√£o') ? 'cotacao' :
+                                  t.includes('aprovadas') ? 'aprovado' : t.includes('cotaÁ„o') ? 'cotacao' :
                                   t.includes('urgentes') ? 'urgente' : 'todos';
                     filtrarRequisicoes();
                 });
@@ -677,7 +677,7 @@
             const tbody = document.getElementById('requisicoesTableBody');
             if (dados.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:40px;color:#999;">
-                    <i class="fas fa-inbox" style="font-size:32px;display:block;margin-bottom:12px;"></i>Nenhuma requisi√ß√£o encontrada</td></tr>`;
+                    <i class="fas fa-inbox" style="font-size:32px;display:block;margin-bottom:12px;"></i>Nenhuma requisiÁ„o encontrada</td></tr>`;
                 return;
             }
             tbody.innerHTML = dados.map(r => `
@@ -707,7 +707,7 @@
             document.getElementById('requisicoesCotacao').textContent = requisicoesData.filter(r => r.status === 'cotacao').length;
         }
 
-        // ==================== MODAL NOVA REQUISI√á√ÉO ====================
+        // ==================== MODAL NOVA REQUISI«√O ====================
         async function abrirModalNovaRequisicao() {
             document.getElementById('formNovaRequisicao').reset();
             itemCounter = 0;
@@ -715,7 +715,7 @@
             document.getElementById('itensContainer').innerHTML = '';
             document.getElementById('anexosList').innerHTML = '';
             
-            // Preencher dados autom√°ticos
+            // Preencher dados autom·ticos
             try {
                 const resp = await fetch('/api/compras/requisicoes/proximo-numero', { credentials: 'include' });
                 const { numero } = resp.ok ? await resp.json() : { numero: `REQ-${String(requisicoesData.length + 1).padStart(4, '0')}` };
@@ -730,10 +730,10 @@
             selectCC.innerHTML = '<option value="">Selecione o centro de custo...</option>' +
                 centrosCustoData.map(cc => `<option value="${cc.id}">${cc.nome || cc.descricao}</option>`).join('');
             if (centrosCustoData.length === 0) {
-                selectCC.innerHTML += '<option value="producao">Produ√ß√£o</option><option value="manutencao">Manuten√ß√£o</option><option value="administrativo">Administrativo</option>';
+                selectCC.innerHTML += '<option value="producao">ProduÁ„o</option><option value="manutencao">ManutenÁ„o</option><option value="administrativo">Administrativo</option>';
             }
             
-            // Data m√≠nima de necessidade
+            // Data mÌnima de necessidade
             document.getElementById('reqDataNecessidade').min = new Date().toISOString().split('T')[0];
             
             adicionarItemReq();
@@ -759,7 +759,7 @@
                 </div>
                 <div class="item-fields">
                     <div class="item-field">
-                        <label>Material/Descri√ß√£o *</label>
+                        <label>Material/DescriÁ„o *</label>
                         <input type="text" class="item-descricao" list="materiais-list" placeholder="Digite ou selecione..." onchange="buscarPrecoMaterial(this, ${itemCounter})" required>
                     </div>
                     <div class="item-field">
@@ -769,7 +769,7 @@
                     <div class="item-field">
                         <label>Unidade</label>
                         <select class="item-unidade">
-                            <option value="UN">UN</option><option value="M">M</option><option value="M2">M¬≤</option>
+                            <option value="UN">UN</option><option value="M">M</option><option value="M2">M≤</option>
                             <option value="KG">KG</option><option value="L">L</option><option value="CX">CX</option>
                         </select>
                     </div>
@@ -793,7 +793,7 @@
                 item.remove();
                 atualizarResumoItens();
             } else if (document.querySelectorAll('.item-card').length <= 1) {
-                alert('Deve haver pelo menos um item na requisi√ß√£o');
+                alert('Deve haver pelo menos um item na requisiÁ„o');
             }
         }
 
@@ -828,7 +828,7 @@
             }
         }
 
-        // ==================== SALVAR REQUISI√á√ÉO ====================
+        // ==================== SALVAR REQUISI«√O ====================
         async function enviarRequisicao() { await salvarRequisicaoAPI('pendente'); }
         async function salvarRascunho() { await salvarRequisicaoAPI('rascunho'); }
 
@@ -877,7 +877,7 @@
                 });
                 
                 if (response.ok) {
-                    alert(status === 'rascunho' ? 'Rascunho salvo!' : 'Requisi√ß√£o enviada para aprova√ß√£o!');
+                    alert(status === 'rascunho' ? 'Rascunho salvo!' : 'RequisiÁ„o enviada para aprovaÁ„o!');
                     fecharModalNovaRequisicao();
                     await carregarRequisicoes();
                 } else {
@@ -886,7 +886,7 @@
                 }
             } catch (e) {
                 console.error('Erro ao salvar:', e);
-                alert('Erro de conex√£o');
+                alert('Erro de conex„o');
             }
         }
 
@@ -896,18 +896,18 @@
                 const response = await fetch(`/api/compras/requisicoes/${id}`, { credentials: 'include' });
                 let req = response.ok ? await response.json() : requisicoesData.find(r => r.id === id);
                 
-                if (!req) { alert('Requisi√ß√£o n√£o encontrada'); return; }
+                if (!req) { alert('RequisiÁ„o n„o encontrada'); return; }
                 
                 document.getElementById('viewReqNumero').textContent = req.numero;
                 document.getElementById('viewReqContent').innerHTML = `
                     <div class="view-section">
-                        <div class="view-section-title"><i class="fas fa-info-circle"></i> Informa√ß√µes Gerais</div>
+                        <div class="view-section-title"><i class="fas fa-info-circle"></i> InformaÁıes Gerais</div>
                         <div class="view-grid">
-                            <div class="view-field"><label>N√∫mero</label><span>${req.numero}</span></div>
+                            <div class="view-field"><label>N˙mero</label><span>${req.numero}</span></div>
                             <div class="view-field"><label>Status</label><span class="status-badge ${req.status}">${getStatusLabel(req.status)}</span></div>
                             <div class="view-field"><label>Prioridade</label><span class="priority-badge priority-${req.prioridade || 'normal'}">${(req.prioridade || 'normal').toUpperCase()}</span></div>
                             <div class="view-field"><label>Solicitante</label><span>${req.solicitante}</span></div>
-                            <div class="view-field"><label>Data Solicita√ß√£o</label><span>${formatarData(req.data_solicitacao) || req.data}</span></div>
+                            <div class="view-field"><label>Data SolicitaÁ„o</label><span>${formatarData(req.data_solicitacao) || req.data}</span></div>
                             <div class="view-field"><label>Data Necessidade</label><span>${formatarData(req.data_necessidade) || req.necessidade || '-'}</span></div>
                             <div class="view-field"><label>Centro de Custo</label><span>${req.centro_custo || '-'}</span></div>
                             <div class="view-field"><label>Projeto</label><span>${req.projeto || '-'}</span></div>
@@ -915,9 +915,9 @@
                         </div>
                     </div>
                     <div class="view-section">
-                        <div class="view-section-title"><i class="fas fa-boxes"></i> Itens da Requisi√ß√£o</div>
+                        <div class="view-section-title"><i class="fas fa-boxes"></i> Itens da RequisiÁ„o</div>
                         <table class="view-items-table">
-                            <thead><tr><th>Descri√ß√£o</th><th>Qtd</th><th>Unidade</th><th>Valor Unit.</th><th>Subtotal</th></tr></thead>
+                            <thead><tr><th>DescriÁ„o</th><th>Qtd</th><th>Unidade</th><th>Valor Unit.</th><th>Subtotal</th></tr></thead>
                             <tbody>${(req.itens || []).map(i => `
                                 <tr>
                                     <td>${i.descricao}</td>
@@ -948,9 +948,9 @@
                 const response = await fetch(`/api/compras/requisicoes/${id}`, { credentials: 'include' });
                 let req = response.ok ? await response.json() : requisicoesData.find(r => r.id === id);
                 
-                if (!req) { alert('Requisi√ß√£o n√£o encontrada'); return; }
+                if (!req) { alert('RequisiÁ„o n„o encontrada'); return; }
                 if (!['rascunho', 'pendente'].includes(req.status)) {
-                    alert('Apenas requisi√ß√µes pendentes ou em rascunho podem ser editadas');
+                    alert('Apenas requisiÁıes pendentes ou em rascunho podem ser editadas');
                     return;
                 }
                 
@@ -988,14 +988,14 @@
                 
             } catch (e) {
                 console.error('Erro ao editar:', e);
-                alert('Erro ao carregar requisi√ß√£o');
+                alert('Erro ao carregar requisiÁ„o');
             }
         }
 
         // ==================== EXCLUIR ====================
         async function excluirRequisicao(id) {
             const req = requisicoesData.find(r => r.id === id);
-            if (!confirm(`Deseja excluir a requisi√ß√£o ${req?.numero || id}?`)) return;
+            if (!confirm(`Deseja excluir a requisiÁ„o ${req?.numero || id}?`)) return;
             
             try {
                 const response = await fetch(`/api/compras/requisicoes/${id}`, {
@@ -1004,7 +1004,7 @@
                 });
                 
                 if (response.ok) {
-                    alert('Requisi√ß√£o exclu√≠da com sucesso');
+                    alert('RequisiÁ„o excluÌda com sucesso');
                     await carregarRequisicoes();
                 } else {
                     const err = await response.json();
@@ -1045,7 +1045,7 @@
 
         // ==================== EXPORTAR ====================
         function exportarDados() {
-            const headers = ['C√≥digo', 'Material', 'Quantidade', 'Solicitante', 'Data', 'Necessidade', 'Status'];
+            const headers = ['CÛdigo', 'Material', 'Quantidade', 'Solicitante', 'Data', 'Necessidade', 'Status'];
             const csvContent = [headers.join(';'), ...requisicoesData.map(r => 
                 [r.numero, r.material, r.quantidade, r.solicitante, r.data, r.necessidade, getStatusLabel(r.status)].join(';')
             )].join('\n');
@@ -1057,9 +1057,9 @@
             link.click();
         }
 
-        // ==================== UTILIT√ÅRIOS ====================
+        // ==================== UTILIT¡RIOS ====================
         function getStatusLabel(status) {
-            return { pendente: 'Pendente', aprovado: 'Aprovada', cotacao: 'Em Cota√ß√£o', urgente: 'Urgente', rascunho: 'Rascunho', rejeitado: 'Rejeitada' }[status] || status;
+            return { pendente: 'Pendente', aprovado: 'Aprovada', cotacao: 'Em CotaÁ„o', urgente: 'Urgente', rascunho: 'Rascunho', rejeitado: 'Rejeitada' }[status] || status;
         }
         function formatarData(data) {
             if (!data) return '';
@@ -1078,7 +1078,7 @@
 
     <script src="compras-user-loader.js?v=20251226"></script>
     <script src="js/chat-suporte-widgets.js?v=20260103"></script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    </body>
 </html>
 
 

@@ -1,26 +1,26 @@
-ï»¿<!-- 
+<!-- 
 ==============================================================================
-INSTRUÃ‡Ã•ES PARA INTEGRAR OTIMIZAÃ‡Ã•ES NO index.html
+INSTRUÇÕES PARA INTEGRAR OTIMIZAÇÕES NO index.html
 ==============================================================================
 
-PASSO 1: Adicionar scripts de otimizaÃ§Ã£o ANTES do fechamento do     <script src="js/popup-confirmacao.js"></script>`n</body>
+PASSO 1: Adicionar scripts de otimização ANTES do fechamento do     `n</body>
 
-Procure por esta linha no final do arquivo (antes de     <script src="js/popup-confirmacao.js"></script>`n</body>):
+Procure por esta linha no final do arquivo (antes de     `n</body>):
     </script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    `n</body>
 </html>
 
-E adicione ANTES de     <script src="js/popup-confirmacao.js"></script>`n</body>, DEPOIS do Ãºltimo </script>:
+E adicione ANTES de     `n</body>, DEPOIS do último </script>:
 
 -->
 
 <!-- ============================================ -->
-<!-- OTIMIZAÃ‡Ã•ES PCP - INÃCIO -->
+<!-- OTIMIZAÇÕES PCP - INÍCIO -->
 <!-- ============================================ -->
 <script src="modules/PCP/pcp-optimizations.js"></script>
 <script src="modules/PCP/pcp-integration.js"></script>
 <!-- ============================================ -->
-<!-- OTIMIZAÃ‡Ã•ES PCP - FIM -->
+<!-- OTIMIZAÇÕES PCP - FIM -->
 <!-- ============================================ -->
 
 <!--
@@ -28,7 +28,7 @@ E adicione ANTES de     <script src="js/popup-confirmacao.js"></script>`n</body>
 PASSO 2: Adicionar modal de preview de Excel
 ==============================================================================
 
-Procure pela seÃ§Ã£o de modais (geralmente apÃ³s <!-- MODALS --> ou similar)
+Procure pela seção de modais (geralmente após <!-- MODALS --> ou similar)
 e adicione este modal:
 
 -->
@@ -38,7 +38,7 @@ e adicione este modal:
     <div class="modal-backdrop"></div>
     <div class="modal-content" style="max-width: 900px; max-height: 90vh; display: flex; flex-direction: column;">
         <div class="modal-header" style="flex-shrink: 0;">
-            <h2><i class="fas fa-file-excel"></i> Preview - Ordem de ProduÃ§Ã£o</h2>
+            <h2><i class="fas fa-file-excel"></i> Preview - Ordem de Produção</h2>
             <button class="modal-close" onclick="closeModal('modal-excel-preview')">&times;</button>
         </div>
         
@@ -95,15 +95,15 @@ e adicione este modal:
 
 <!--
 ==============================================================================
-PASSO 3: Adicionar Centro de NotificaÃ§Ãµes no Header
+PASSO 3: Adicionar Centro de Notificações no Header
 ==============================================================================
 
-Procure pelo elemento .pcp-topbar ou header principal e adicione este cÃ³digo
-ANTES do elemento de usuÃ¡rio (geralmente .user-menu ou similar):
+Procure pelo elemento .pcp-topbar ou header principal e adicione este código
+ANTES do elemento de usuário (geralmente .user-menu ou similar):
 
 -->
 
-<!-- Centro de NotificaÃ§Ãµes -->
+<!-- Centro de Notificações -->
 <div class="notification-center" style="margin-right: 16px;">
     <button id="notification-bell" class="notification-bell">
         <i class="fas fa-bell"></i>
@@ -112,12 +112,12 @@ ANTES do elemento de usuÃ¡rio (geralmente .user-menu ou similar):
     
     <div id="notification-dropdown" class="notification-dropdown">
         <div class="notification-header">
-            <h3>NotificaÃ§Ãµes</h3>
+            <h3>Notificações</h3>
             <button onclick="window.notificationCenter?.marcarTodasLidas?.()">Marcar todas como lidas</button>
         </div>
         
         <div id="notification-list" class="notification-list">
-            <div class="no-notifications">Nenhuma notificaÃ§Ã£o</div>
+            <div class="no-notifications">Nenhuma notificação</div>
         </div>
         
         <div class="notification-footer">
@@ -131,13 +131,13 @@ ANTES do elemento de usuÃ¡rio (geralmente .user-menu ou similar):
 PASSO 4: Adicionar CSS das novas funcionalidades
 ==============================================================================
 
-Procure pela seÃ§Ã£o <style> ou arquivo CSS principal e adicione:
+Procure pela seção <style> ou arquivo CSS principal e adicione:
 
 -->
 
 <style>
 /* ============================================ */
-/* CENTRO DE NOTIFICAÃ‡Ã•ES */
+/* CENTRO DE NOTIFICAÇÕES */
 /* ============================================ */
 .notification-center {
     position: relative;
@@ -359,11 +359,11 @@ Procure pela seÃ§Ã£o <style> ou arquivo CSS principal e adicione:
 /* LOADING OVERLAY (adicionado automaticamente) */
 /* ============================================ */
 #pcp-loading-overlay {
-    /* Estilos jÃ¡ aplicados via JavaScript */
+    /* Estilos já aplicados via JavaScript */
 }
 
 /* ============================================ */
-/* ANIMAÃ‡Ã•ES MELHORADAS */
+/* ANIMAÇÕES MELHORADAS */
 /* ============================================ */
 .pcp-view {
     animation: fadeIn 0.3s ease-out;
@@ -401,35 +401,35 @@ Procure pela seÃ§Ã£o <style> ou arquivo CSS principal e adicione:
 
 <!--
 ==============================================================================
-PASSO 5: VerificaÃ§Ã£o Final
+PASSO 5: Verificação Final
 ==============================================================================
 
-ApÃ³s fazer as modificaÃ§Ãµes, verifique:
+Após fazer as modificações, verifique:
 
-1. âœ… Scripts pcp-optimizations.js e pcp-integration.js carregam
-2. âœ… Console mostra mensagem "âœ… OtimizaÃ§Ãµes PCP carregadas com sucesso!"
-3. âœ… Console mostra "âœ… IntegraÃ§Ã£o PCP concluÃ­da!"
-4. âœ… NotificaÃ§Ã£o toast aparece: "OtimizaÃ§Ãµes PCP ativadas!"
-5. âœ… Todas as 7 pÃ¡ginas continuam funcionando
-6. âœ… Centro de notificaÃ§Ãµes aparece no header
-7. âœ… Atalhos de teclado funcionam (Ctrl+K, Ctrl+N, Esc)
+1. ? Scripts pcp-optimizations.js e pcp-integration.js carregam
+2. ? Console mostra mensagem "? Otimizações PCP carregadas com sucesso!"
+3. ? Console mostra "? Integração PCP concluída!"
+4. ? Notificação toast aparece: "Otimizações PCP ativadas!"
+5. ? Todas as 7 páginas continuam funcionando
+6. ? Centro de notificações aparece no header
+7. ? Atalhos de teclado funcionam (Ctrl+K, Ctrl+N, Esc)
 
 ==============================================================================
-EXEMPLO DE LOCALIZAÃ‡ÃƒO NO index.html
+EXEMPLO DE LOCALIZAÇÃO NO index.html
 ==============================================================================
 
 ANTES:
     </script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    `n</body>
 </html>
 
 DEPOIS:
     </script>
     
-    <!-- OtimizaÃ§Ãµes PCP -->
+    <!-- Otimizações PCP -->
     <script src="modules/PCP/pcp-optimizations.js"></script>
     <script src="modules/PCP/pcp-integration.js"></script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    `n</body>
 </html>
 
 ==============================================================================

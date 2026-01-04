@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -497,7 +497,7 @@
         .chat-input button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
     </style>
     <script src="/js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+    `n</head>
 <body>
     <!-- Widget Button -->
     <button class="widget-btn" onclick="toggleWidget()">
@@ -520,7 +520,7 @@
         <div class="login-screen" id="loginScreen">
             <i class="bi bi-person-badge"></i>
             <h3>Central de Atendimento</h3>
-            <p>Identifique-se para começar a atender</p>
+            <p>Identifique-se para come�ar a atender</p>
             <input type="text" id="attendantName" placeholder="Seu nome" onkeypress="if(event.key==='Enter')login()">
             <button onclick="login()"><i class="bi bi-box-arrow-in-right"></i> Entrar</button>
         </div>
@@ -895,7 +895,7 @@
         // Browser notification
         function showBrowserNotification(ticket) {
             if (Notification.permission === 'granted') {
-                new Notification('🔔 Novo cliente aguardando!', {
+                new Notification('?? Novo cliente aguardando!', {
                     body: `${ticket.clientName || 'Visitante'} precisa de atendimento`,
                     icon: '/Icone-Chat.png'
                 });
@@ -930,5 +930,5 @@
             }
         });
     </script>
-    <script src="/js/popup-confirmacao.js"></script>`n</body>
+    `n</body>
 </html>

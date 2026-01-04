@@ -1,4 +1,4 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -137,7 +137,7 @@
             color: #475569;
         }
 
-        /* Part√≠culas decorativas */
+        /* PartÌculas decorativas */
         .particles {
             position: absolute;
             top: 0;
@@ -181,7 +181,7 @@
         }
     </style>
     <script src="/js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+    </head>
 <body>
     <div class="splash-container">
         <div class="glow"></div>
@@ -200,7 +200,7 @@
         </div>
         
         <h1 class="app-name">Aluforce</h1>
-        <p class="app-subtitle">Sistema de Gest√£o Empresarial</p>
+        <p class="app-subtitle">Sistema de Gest„o Empresarial</p>
         
         <div class="loader-container">
             <div class="loader">
@@ -216,7 +216,7 @@
     <script>
         const { ipcRenderer } = require('electron');
         
-        // Receber atualiza√ß√µes de status
+        // Receber atualizaÁıes de status
         ipcRenderer.on('status-update', (event, message) => {
             const statusElement = document.getElementById('status');
             if (statusElement) {
@@ -227,14 +227,14 @@
         // Lista de mensagens de status
         const statusMessages = [
             'Iniciando servidor...',
-            'Carregando m√≥dulos...',
+            'Carregando mÛdulos...',
             'Conectando ao banco de dados...',
             'Preparando interface...'
         ];
 
         let currentIndex = 0;
 
-        // Alternar mensagens automaticamente se n√£o receber do main
+        // Alternar mensagens automaticamente se n„o receber do main
         const autoStatus = setInterval(() => {
             const statusElement = document.getElementById('status');
             if (statusElement) {
@@ -248,5 +248,5 @@
             clearInterval(autoStatus);
         });
     </script>
-    <script src="/js/popup-confirmacao.js"></script>`n</body>
+    </body>
 </html>

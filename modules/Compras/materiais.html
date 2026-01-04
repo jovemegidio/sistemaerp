@@ -1,7 +1,7 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon-aluforce.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALUFORCE - Materiais</title>
@@ -86,8 +86,8 @@
         .pagination-btn.active { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
         @media (max-width: 1200px) { .summary-cards { grid-template-columns: repeat(2, 1fr); } }
     </style>
-    <script src="js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="css/popup-confirmacao.css">`n    <link rel="stylesheet" href="css/responsive.css?v=2026010401">`n</head>
+    
+        </head>
 <body>
     <div class="app-container">
         <aside class="sidebar">
@@ -98,16 +98,16 @@
                 <button class="sidebar-btn" title="Estoque" onclick="location.href='gestao-estoque.html'"><i class="fas fa-boxes"></i></button>
                 <button class="sidebar-btn active" title="Materiais" onclick="location.href='materiais.html'"><i class="fas fa-cubes"></i></button>
                 <button class="sidebar-btn" title="Pedidos" onclick="location.href='pedidos.html'"><i class="fas fa-shopping-cart"></i></button>
-                <button class="sidebar-btn" title="CotaÃ§Ãµes" onclick="location.href='cotacoes.html'"><i class="fas fa-file-invoice-dollar"></i></button>
-                <button class="sidebar-btn" title="RequisiÃ§Ãµes" onclick="location.href='requisicoes.html'"><i class="fas fa-clipboard-list"></i></button>
+                <button class="sidebar-btn" title="Cotações" onclick="location.href='cotacoes.html'"><i class="fas fa-file-invoice-dollar"></i></button>
+                <button class="sidebar-btn" title="Requisições" onclick="location.href='requisicoes.html'"><i class="fas fa-clipboard-list"></i></button>
             </nav>
             <div class="sidebar-bottom">
-                <button class="sidebar-btn" title="RelatÃ³rios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
+                <button class="sidebar-btn" title="Relatórios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
             </div>
         </aside>
         <main class="main-area">
             <header class="header">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon-aluforce.webp">
                 <div class="header-left">
                     <div class="header-brand">
                         <span>Compras</span>
@@ -116,16 +116,16 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <button class="header-btn" title="NotificaÃ§Ãµes"><i class="fas fa-bell"></i></button>
+                    <button class="header-btn" title="Notificações"><i class="fas fa-bell"></i></button>
                     <div class="user-greeting">
-                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">UsuÃ¡rio</strong></span>
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
                         <div class="user-avatar"><span id="user-initial">U</span></div>
                     </div>
                 </div>
             </header>
             <div class="page-content">
                 <div class="page-header">
-                    <h1 class="page-title"><i class="fas fa-cubes"></i> CatÃ¡logo de Materiais</h1>
+                    <h1 class="page-title"><i class="fas fa-cubes"></i> Catálogo de Materiais</h1>
                     <div class="page-actions">
                         <button class="btn btn-secondary"><i class="fas fa-download"></i> Exportar</button>
                         <button class="btn btn-primary"><i class="fas fa-plus"></i> Novo Material</button>
@@ -133,25 +133,25 @@
                 </div>
                 <div class="summary-cards">
                     <div class="summary-card"><div class="summary-icon purple"><i class="fas fa-cubes"></i></div><div class="summary-content"><h3>Total Materiais</h3><div class="summary-value" id="totalMateriais">0</div></div></div>
-                    <div class="summary-card"><div class="summary-icon green"><i class="fas fa-check-circle"></i></div><div class="summary-content"><h3>DisponÃ­veis</h3><div class="summary-value" id="materiaisDisponiveis">0</div></div></div>
+                    <div class="summary-card"><div class="summary-icon green"><i class="fas fa-check-circle"></i></div><div class="summary-content"><h3>Disponíveis</h3><div class="summary-value" id="materiaisDisponiveis">0</div></div></div>
                     <div class="summary-card"><div class="summary-icon blue"><i class="fas fa-exclamation-triangle"></i></div><div class="summary-content"><h3>Estoque Baixo</h3><div class="summary-value" id="materiaisBaixo">0</div></div></div>
-                    <div class="summary-card"><div class="summary-icon red"><i class="fas fa-times-circle"></i></div><div class="summary-content"><h3>CrÃ­ticos</h3><div class="summary-value" id="materiaisCriticos">0</div></div></div>
+                    <div class="summary-card"><div class="summary-icon red"><i class="fas fa-times-circle"></i></div><div class="summary-content"><h3>Críticos</h3><div class="summary-value" id="materiaisCriticos">0</div></div></div>
                 </div>
                 <div class="filters-bar">
-                    <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Buscar por cÃ³digo, descriÃ§Ã£o..."></div>
+                    <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Buscar por código, descrição..."></div>
                     <div class="filter-buttons">
                         <button class="filter-btn active"><i class="fas fa-list"></i> Todos</button>
-                        <button class="filter-btn"><i class="fas fa-check"></i> DisponÃ­veis</button>
+                        <button class="filter-btn"><i class="fas fa-check"></i> Disponíveis</button>
                         <button class="filter-btn"><i class="fas fa-exclamation"></i> Estoque Baixo</button>
-                        <button class="filter-btn"><i class="fas fa-times"></i> CrÃ­ticos</button>
+                        <button class="filter-btn"><i class="fas fa-times"></i> Críticos</button>
                     </div>
                 </div>
                 <div class="table-container">
                     <div class="table-header"><h3><i class="fas fa-table"></i> Lista de Materiais</h3></div>
                     <table class="data-table">
-                        <thead><tr><th><input type="checkbox"></th><th>CÃ³digo</th><th>DescriÃ§Ã£o</th><th>Categoria</th><th>Unidade</th><th>Estoque Atual</th><th>Estoque MÃ­n.</th><th>Status</th><th>AÃ§Ãµes</th></tr></thead>
+                        <thead><tr><th><input type="checkbox"></th><th>Código</th><th>Descrição</th><th>Categoria</th><th>Unidade</th><th>Estoque Atual</th><th>Estoque Mín.</th><th>Status</th><th>Ações</th></tr></thead>
                         <tbody id="materiaisTableBody">
-                            <!-- Dados serÃ£o carregados via API -->
+                            <!-- Dados serão carregados via API -->
                         </tbody>
                     </table>
                     <div class="table-pagination"><div class="pagination-info">Mostrando <strong>0</strong> de <strong>0</strong></div><div class="pagination-controls"></div></div>
@@ -173,12 +173,12 @@
                     
                     <div class="form-row" style="display: grid; grid-template-columns: 1fr 2fr; gap: 16px;">
                         <div class="form-group">
-                            <label><i class="fas fa-barcode"></i> CÃ³digo *</label>
+                            <label><i class="fas fa-barcode"></i> Código *</label>
                             <input type="text" id="materialCodigo" placeholder="Ex: ALU-001" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-file-alt"></i> DescriÃ§Ã£o *</label>
-                            <input type="text" id="materialDescricao" placeholder="DescriÃ§Ã£o do material" required>
+                            <label><i class="fas fa-file-alt"></i> Descrição *</label>
+                            <input type="text" id="materialDescricao" placeholder="Descrição do material" required>
                         </div>
                     </div>
                     
@@ -187,12 +187,12 @@
                             <label><i class="fas fa-tags"></i> Categoria</label>
                             <select id="materialCategoria">
                                 <option value="">Selecione...</option>
-                                <option value="MatÃ©ria Prima">MatÃ©ria Prima</option>
+                                <option value="Matéria Prima">Matéria Prima</option>
                                 <option value="Componentes">Componentes</option>
                                 <option value="Embalagens">Embalagens</option>
                                 <option value="Ferramentas">Ferramentas</option>
-                                <option value="QuÃ­micos">QuÃ­micos</option>
-                                <option value="FixaÃ§Ã£o">FixaÃ§Ã£o</option>
+                                <option value="Químicos">Químicos</option>
+                                <option value="Fixação">Fixação</option>
                                 <option value="Vidros">Vidros</option>
                                 <option value="Borrachas">Borrachas</option>
                                 <option value="Pintura">Pintura</option>
@@ -205,11 +205,11 @@
                                 <option value="UN">UN - Unidade</option>
                                 <option value="KG">KG - Quilograma</option>
                                 <option value="M">M - Metro</option>
-                                <option value="M2">MÂ² - Metro Quadrado</option>
-                                <option value="M3">MÂ³ - Metro CÃºbico</option>
+                                <option value="M2">M² - Metro Quadrado</option>
+                                <option value="M3">M³ - Metro Cúbico</option>
                                 <option value="L">L - Litro</option>
                                 <option value="CX">CX - Caixa</option>
-                                <option value="PC">PC - PeÃ§a</option>
+                                <option value="PC">PC - Peça</option>
                                 <option value="RL">RL - Rolo</option>
                             </select>
                         </div>
@@ -231,7 +231,7 @@
                             <input type="text" id="materialCEST" placeholder="Ex: 11.031.00">
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-barcode"></i> CÃ³digo de Barras</label>
+                            <label><i class="fas fa-barcode"></i> Código de Barras</label>
                             <input type="text" id="materialCodigoBarras" placeholder="EAN/GTIN">
                         </div>
                     </div>
@@ -242,11 +242,11 @@
                             <input type="number" id="materialEstoqueAtual" placeholder="0" min="0" step="0.01">
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-arrow-down"></i> Estoque MÃ­nimo</label>
+                            <label><i class="fas fa-arrow-down"></i> Estoque Mínimo</label>
                             <input type="number" id="materialEstoqueMin" placeholder="0" min="0" step="0.01">
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-arrow-up"></i> Estoque MÃ¡ximo</label>
+                            <label><i class="fas fa-arrow-up"></i> Estoque Máximo</label>
                             <input type="number" id="materialEstoqueMax" placeholder="0" min="0" step="0.01">
                         </div>
                         <div class="form-group">
@@ -257,18 +257,18 @@
                     
                     <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                         <div class="form-group">
-                            <label><i class="fas fa-dollar-sign"></i> Ãšltimo PreÃ§o</label>
+                            <label><i class="fas fa-dollar-sign"></i> Último Preço</label>
                             <input type="number" id="materialUltimoPreco" placeholder="0.00" min="0" step="0.01">
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-info-circle"></i> EspecificaÃ§Ãµes</label>
-                            <input type="text" id="materialEspecificacao" placeholder="EspecificaÃ§Ãµes tÃ©cnicas">
+                            <label><i class="fas fa-info-circle"></i> Especificações</label>
+                            <input type="text" id="materialEspecificacao" placeholder="Especificações técnicas">
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label><i class="fas fa-sticky-note"></i> ObservaÃ§Ãµes</label>
-                        <textarea id="materialObservacoes" rows="3" placeholder="ObservaÃ§Ãµes gerais..."></textarea>
+                        <label><i class="fas fa-sticky-note"></i> Observações</label>
+                        <textarea id="materialObservacoes" rows="3" placeholder="Observações gerais..."></textarea>
                     </div>
                     
                     <div class="form-row" style="display: flex; gap: 24px;">
@@ -317,15 +317,15 @@
                         <div id="viewEstoqueAtual" style="font-size: 22px; font-weight: 700;">1.250</div>
                     </div>
                     <div style="background: rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; text-align: center;">
-                        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px;">Estoque MÃ­n.</div>
+                        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px;">Estoque Mín.</div>
                         <div id="viewEstoqueMin" style="font-size: 22px; font-weight: 700;">200</div>
                     </div>
                     <div style="background: rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; text-align: center;">
-                        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px;">Estoque MÃ¡x.</div>
+                        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px;">Estoque Máx.</div>
                         <div id="viewEstoqueMax" style="font-size: 22px; font-weight: 700;">2.000</div>
                     </div>
                     <div style="background: rgba(255,255,255,0.15); border-radius: 10px; padding: 14px; text-align: center;">
-                        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px;">Ãšltimo PreÃ§o</div>
+                        <div style="font-size: 10px; text-transform: uppercase; opacity: 0.85; margin-bottom: 4px;">Último Preço</div>
                         <div id="viewUltimoPreco" style="font-size: 22px; font-weight: 700;">R$ 45,90</div>
                     </div>
                 </div>
@@ -336,7 +336,7 @@
                 <!-- Menu lateral -->
                 <div style="width: 200px; background: #f8fafc; border-right: 1px solid #e5e5e5; padding: 16px 0;">
                     <button class="view-tab-btn active" onclick="mudarAbaVisualizacao('geral')">
-                        <i class="fas fa-info-circle"></i> InformaÃ§Ãµes Gerais
+                        <i class="fas fa-info-circle"></i> Informações Gerais
                     </button>
                     <button class="view-tab-btn" onclick="mudarAbaVisualizacao('fiscal')">
                         <i class="fas fa-file-invoice"></i> Dados Fiscais
@@ -345,25 +345,25 @@
                         <i class="fas fa-truck"></i> Fornecedor
                     </button>
                     <button class="view-tab-btn" onclick="mudarAbaVisualizacao('movimentacao')">
-                        <i class="fas fa-exchange-alt"></i> MovimentaÃ§Ãµes
+                        <i class="fas fa-exchange-alt"></i> Movimentações
                     </button>
                     <button class="view-tab-btn" onclick="mudarAbaVisualizacao('historico')">
-                        <i class="fas fa-history"></i> HistÃ³rico de PreÃ§os
+                        <i class="fas fa-history"></i> Histórico de Preços
                     </button>
                 </div>
                 
-                <!-- ConteÃºdo das Abas -->
+                <!-- Conteúdo das Abas -->
                 <div style="flex: 1; overflow-y: auto; padding: 24px;">
                     <!-- Aba Geral -->
                     <div id="viewTab-geral" class="view-tab-content active">
                         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                             <div class="info-card">
-                                <label>DescriÃ§Ã£o</label>
-                                <span id="viewDescricao">Chapa de AlumÃ­nio 1200 H14 - 1,0mm</span>
+                                <label>Descrição</label>
+                                <span id="viewDescricao">Chapa de Alumínio 1200 H14 - 1,0mm</span>
                             </div>
                             <div class="info-card">
                                 <label>Categoria</label>
-                                <span id="viewCategoria">MatÃ©ria Prima</span>
+                                <span id="viewCategoria">Matéria Prima</span>
                             </div>
                             <div class="info-card">
                                 <label>Unidade de Medida</label>
@@ -374,19 +374,19 @@
                                 <span id="viewLeadTime">7 dias</span>
                             </div>
                             <div class="info-card" style="grid-column: span 2;">
-                                <label>EspecificaÃ§Ãµes TÃ©cnicas</label>
-                                <span id="viewEspecificacoes">Liga 1200, tÃªmpera H14, espessura 1.0mm, largura 1000mm, comprimento 2000mm</span>
+                                <label>Especificações Técnicas</label>
+                                <span id="viewEspecificacoes">Liga 1200, têmpera H14, espessura 1.0mm, largura 1000mm, comprimento 2000mm</span>
                             </div>
                             <div class="info-card" style="grid-column: span 2;">
-                                <label>ObservaÃ§Ãµes</label>
-                                <span id="viewObservacoes">Material para fabricaÃ§Ã£o de esquadrias standard. Verificar certificado de qualidade na entrega.</span>
+                                <label>Observações</label>
+                                <span id="viewObservacoes">Material para fabricação de esquadrias standard. Verificar certificado de qualidade na entrega.</span>
                             </div>
                         </div>
                         
                         <!-- Status e Tags -->
                         <div style="margin-top: 24px; display: flex; gap: 12px;">
                             <span id="viewStatusBadge" style="padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #dcfce7; color: #166534;">
-                                <i class="fas fa-check-circle"></i> DisponÃ­vel
+                                <i class="fas fa-check-circle"></i> Disponível
                             </span>
                             <span id="viewSincPCP" style="padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #dbeafe; color: #1e40af;">
                                 <i class="fas fa-sync"></i> Sincronizado com PCP
@@ -406,7 +406,7 @@
                                 <span id="viewCEST">-</span>
                             </div>
                             <div class="info-card">
-                                <label>CÃ³digo de Barras (EAN/GTIN)</label>
+                                <label>Código de Barras (EAN/GTIN)</label>
                                 <span id="viewCodigoBarras">7891234567890</span>
                             </div>
                             <div class="info-card">
@@ -424,7 +424,7 @@
                                     <i class="fas fa-building"></i>
                                 </div>
                                 <div>
-                                    <h4 id="viewFornecedorNome" style="margin: 0 0 4px 0; font-size: 16px; font-weight: 600;">Alcoa AlumÃ­nio S.A.</h4>
+                                    <h4 id="viewFornecedorNome" style="margin: 0 0 4px 0; font-size: 16px; font-weight: 600;">Alcoa Alumínio S.A.</h4>
                                     <span style="font-size: 13px; color: #666;">Fornecedor Principal</span>
                                 </div>
                             </div>
@@ -443,13 +443,13 @@
                                 </div>
                                 <div class="info-card">
                                     <label>Prazo de Entrega</label>
-                                    <span id="viewFornecedorPrazo">5-7 dias Ãºteis</span>
+                                    <span id="viewFornecedorPrazo">5-7 dias úteis</span>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
-                    <!-- Aba MovimentaÃ§Ãµes -->
+                    <!-- Aba Movimentações -->
                     <div id="viewTab-movimentacao" class="view-tab-content" style="display: none;">
                         <table style="width: 100%; border-collapse: collapse;">
                             <thead>
@@ -462,34 +462,34 @@
                             </thead>
                             <tbody id="viewMovimentacoes">
                                 <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">15/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;"><span style="padding: 3px 10px; border-radius: 12px; font-size: 11px; background: #dcfce7; color: #166534;">Entrada</span></td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600; color: #22c55e;">+500</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">NF-e 123456</td></tr>
-                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">12/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;"><span style="padding: 3px 10px; border-radius: 12px; font-size: 11px; background: #fee2e2; color: #991b1b;">SaÃ­da</span></td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600; color: #ef4444;">-120</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">OP-2025-0042</td></tr>
-                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">10/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;"><span style="padding: 3px 10px; border-radius: 12px; font-size: 11px; background: #fee2e2; color: #991b1b;">SaÃ­da</span></td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600; color: #ef4444;">-80</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">OP-2025-0039</td></tr>
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">12/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;"><span style="padding: 3px 10px; border-radius: 12px; font-size: 11px; background: #fee2e2; color: #991b1b;">Saída</span></td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600; color: #ef4444;">-120</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">OP-2025-0042</td></tr>
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">10/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;"><span style="padding: 3px 10px; border-radius: 12px; font-size: 11px; background: #fee2e2; color: #991b1b;">Saída</span></td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600; color: #ef4444;">-80</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">OP-2025-0039</td></tr>
                             </tbody>
                         </table>
                     </div>
                     
-                    <!-- Aba HistÃ³rico de PreÃ§os -->
+                    <!-- Aba Histórico de Preços -->
                     <div id="viewTab-historico" class="view-tab-content" style="display: none;">
                         <table style="width: 100%; border-collapse: collapse;">
                             <thead>
                                 <tr style="background: #f8fafc;">
                                     <th style="padding: 12px; text-align: left; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Data</th>
                                     <th style="padding: 12px; text-align: left; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Fornecedor</th>
-                                    <th style="padding: 12px; text-align: right; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">PreÃ§o Unit.</th>
-                                    <th style="padding: 12px; text-align: center; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">VariaÃ§Ã£o</th>
+                                    <th style="padding: 12px; text-align: right; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Preço Unit.</th>
+                                    <th style="padding: 12px; text-align: center; font-size: 11px; font-weight: 600; color: #666; border-bottom: 1px solid #e5e5e5;">Variação</th>
                                 </tr>
                             </thead>
                             <tbody id="viewHistoricoPrecos">
-                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">15/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">Alcoa AlumÃ­nio</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600;">R$ 45,90</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: center;"><span style="color: #22c55e; font-size: 12px;"><i class="fas fa-arrow-down"></i> -2.3%</span></td></tr>
-                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">02/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">Alcoa AlumÃ­nio</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600;">R$ 47,00</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: center;"><span style="color: #ef4444; font-size: 12px;"><i class="fas fa-arrow-up"></i> +5.1%</span></td></tr>
-                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">15/12/2024</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">Hydro AlumÃ­nio</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600;">R$ 44,70</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: center;"><span style="color: #888; font-size: 12px;">-</span></td></tr>
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">15/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">Alcoa Alumínio</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600;">R$ 45,90</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: center;"><span style="color: #22c55e; font-size: 12px;"><i class="fas fa-arrow-down"></i> -2.3%</span></td></tr>
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">02/01/2025</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">Alcoa Alumínio</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600;">R$ 47,00</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: center;"><span style="color: #ef4444; font-size: 12px;"><i class="fas fa-arrow-up"></i> +5.1%</span></td></tr>
+                                <tr><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">15/12/2024</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0;">Hydro Alumínio</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: right; font-weight: 600;">R$ 44,70</td><td style="padding: 12px; border-bottom: 1px solid #f0f0f0; text-align: center;"><span style="color: #888; font-size: 12px;">-</span></td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
             
-            <!-- Footer com AÃ§Ãµes -->
+            <!-- Footer com Ações -->
             <div style="padding: 16px 24px; border-top: 1px solid #e5e5e5; display: flex; justify-content: space-between; align-items: center; background: #fafafa;">
                 <div style="display: flex; gap: 12px;">
                     <button onclick="imprimirMaterial()" style="padding: 10px 20px; border: 1px solid #e5e5e5; background: white; border-radius: 8px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 8px;">
@@ -522,7 +522,7 @@
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 1px solid #e5e5e5; border-radius: 8px; font-size: 14px; transition: all 0.2s; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: #38bdf8; box-shadow: 0 0 0 3px rgba(56,189,248,0.1); }
         
-        /* Estilos do Modal de VisualizaÃ§Ã£o */
+        /* Estilos do Modal de Visualização */
         .view-tab-btn { width: 100%; padding: 12px 20px; border: none; background: transparent; text-align: left; font-size: 13px; color: #666; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.2s; }
         .view-tab-btn:hover { background: #e5e5e5; color: #333; }
         .view-tab-btn.active { background: white; color: #38bdf8; border-left: 3px solid #38bdf8; font-weight: 600; }
@@ -540,7 +540,7 @@
     <script src="materiais.js"></script>
     <script src="compras-user-loader.js?v=20251217"></script>
     <script src="js/chat-suporte-widgets.js?v=20260103"></script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    </body>
 </html>
 
 

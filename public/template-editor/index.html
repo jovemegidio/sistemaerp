@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
@@ -231,8 +231,8 @@
 
         .pulse { animation: pulse 2s infinite; }
     </style>
-    <script src="js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="css/popup-confirmacao.css">`n    <link rel="stylesheet" href="css/responsive.css?v=2026010401">`n</head>
+    
+    `n    `n</head>
 <body>
     <div class="container-fluid py-4">
         <div class="editor-container">
@@ -244,7 +244,7 @@
                         Editor de Templates
                     </h3>
 
-                    <!-- NavegaÃ§Ã£o por Abas -->
+                    <!-- Navegação por Abas -->
                     <ul class="nav nav-pills flex-column mb-4">
                         <li class="nav-item">
                             <a class="nav-link active" href="#" onclick="showTab('templates')">
@@ -273,15 +273,15 @@
                         <h5>Selecionar Template Base</h5>
                         <div class="mb-3">
                             <select class="form-select" id="templateType">
-                                <option value="ordem-produÃ§Ã£o">Ordem de ProduÃ§Ã£o</option>
-                                <option value="orÃ§amento">OrÃ§amento</option>
+                                <option value="ordem-produção">Ordem de Produção</option>
+                                <option value="orçamento">Orçamento</option>
                                 <option value="pedido-compras">Pedido de Compras</option>
                                 <option value="nota-entrega">Nota de Entrega</option>
                             </select>
                         </div>
                         
                         <div id="templateList">
-                            <!-- Templates serÃ£o carregados aqui -->
+                            <!-- Templates serão carregados aqui -->
                         </div>
 
                         <button class="btn btn-gradient w-100 mt-3" onclick="createNewTemplate()">
@@ -292,14 +292,14 @@
                     <!-- Aba Mapeamento -->
                     <div id="tab-mapping" class="tab-content">
                         <h5>Mapeamento de Campos</h5>
-                        <small class="text-muted">Clique nas cÃ©lulas para mapear os dados</small>
+                        <small class="text-muted">Clique nas células para mapear os dados</small>
                         
                         <div class="mt-3">
                             <label class="form-label">Campo a Mapear:</label>
                             <select class="form-select" id="fieldToMap">
-                                <option value="nÃºmero_orcamento">NÃºmero do OrÃ§amento</option>
-                                <option value="nÃºmero_pedido">NÃºmero do Pedido</option>
-                                <option value="data_liberacao">Data de LiberaÃ§Ã£o</option>
+                                <option value="número_orcamento">Número do Orçamento</option>
+                                <option value="número_pedido">Número do Pedido</option>
+                                <option value="data_liberacao">Data de Liberação</option>
                                 <option value="vendedor">Vendedor</option>
                                 <option value="cliente">Cliente</option>
                                 <option value="total_geral">Total Geral</option>
@@ -307,7 +307,7 @@
                         </div>
 
                         <div class="mt-3" id="mappedFields">
-                            <!-- Campos mapeados aparecerÃ£o aqui -->
+                            <!-- Campos mapeados aparecerão aqui -->
                         </div>
 
                         <button class="btn btn-outline-danger btn-sm w-100 mt-3" onclick="clearMapping()">
@@ -317,12 +317,12 @@
 
                     <!-- Aba Estilo -->
                     <div id="tab-styling" class="tab-content">
-                        <h5>PersonalizaÃ§Ã£o Visual</h5>
+                        <h5>Personalização Visual</h5>
                         
                         <div class="properties-panel">
                             <h6>Cores</h6>
                             <div class="mb-3">
-                                <label class="form-label">Cor do CabeÃ§alho:</label>
+                                <label class="form-label">Cor do Cabeçalho:</label>
                                 <input type="color" class="color-picker" id="headerColor" value="#2c5aa0">
                             </div>
                             <div class="mb-3">
@@ -334,7 +334,7 @@
                         <div class="properties-panel">
                             <h6>Fonte</h6>
                             <div class="mb-3">
-                                <label class="form-label">FamÃ­lia:</label>
+                                <label class="form-label">Família:</label>
                                 <select class="form-select" id="fontFamily">
                                     <option value="Arial">Arial</option>
                                     <option value="Calibri">Calibri</option>
@@ -356,7 +356,7 @@
                                 <input type="file" class="form-control" id="logoUpload" accept="image/*">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">PosiÃ§Ã£o:</label>
+                                <label class="form-label">Posição:</label>
                                 <select class="form-select" id="logoPosition">
                                     <option value="top-left">Superior Esquerda</option>
                                     <option value="top-right">Superior Direita</option>
@@ -368,8 +368,8 @@
 
                     <!-- Aba Preview -->
                     <div id="tab-preview" class="tab-content">
-                        <h5>VisualizaÃ§Ã£o</h5>
-                        <p class="text-muted">Veja como seu template ficarÃ¡:</p>
+                        <h5>Visualização</h5>
+                        <p class="text-muted">Veja como seu template ficará:</p>
                         
                         <button class="btn btn-gradient w-100 mb-3" onclick="generatePreview()">
                             <i class="fas fa-eye"></i> Gerar Preview
@@ -385,12 +385,12 @@
                     </div>
                 </div>
 
-                <!-- Ãrea Principal -->
+                <!-- Área Principal -->
                 <div class="col-lg-9 main-content p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4>
                             <span id="currentTemplateName">Novo Template</span>
-                            <small class="text-muted" id="templateStatus">NÃ£o salvo</small>
+                            <small class="text-muted" id="templateStatus">Não salvo</small>
                         </h4>
                         <div>
                             <button class="btn btn-outline-secondary me-2" onclick="undoAction()">
@@ -402,14 +402,14 @@
                         </div>
                     </div>
 
-                    <!-- Ãrea de EdiÃ§Ã£o -->
+                    <!-- Área de Edição -->
                     <div class="template-preview" id="templatePreview">
                         <div class="excel-grid" id="excelGrid">
-                            <!-- Grid do Excel serÃ¡ gerado aqui -->
+                            <!-- Grid do Excel será gerado aqui -->
                         </div>
                     </div>
 
-                    <!-- InformaÃ§Ãµes de Ajuda -->
+                    <!-- Informações de Ajuda -->
                     <div class="mt-4">
                         <div class="alert alert-info">
                             <h6><i class="fas fa-info-circle"></i> Como usar o Editor:</h6>
@@ -445,7 +445,7 @@
             currentStep: 0
         };
 
-        // ConfiguraÃ§Ã£o da API
+        // Configuração da API
         const apiConfig = {
             baseUrl: window.location.origin,
             endpoints: {
@@ -526,7 +526,7 @@
         }
 
         function selectCell(cellElement) {
-            // Limpar seleÃ§Ã£o anterior se nÃ£o estiver segurando Ctrl
+            // Limpar seleção anterior se não estiver segurando Ctrl
             if (!event.ctrlKey) {
                 document.querySelectorAll('.excel-cell.selected').forEach(cell => {
                     cell.classList.remove('selected');
@@ -534,7 +534,7 @@
                 editorState.selectedCells = [];
             }
 
-            // Adicionar/remover cÃ©lula da seleÃ§Ã£o
+            // Adicionar/remover célula da seleção
             if (cellElement.classList.contains('selected')) {
                 cellElement.classList.remove('selected');
                 editorState.selectedCells = editorState.selectedCells.filter(
@@ -545,7 +545,7 @@
                 editorState.selectedCells.push(cellElement.dataset.address);
             }
 
-            console.log('CÃ©lulas selecionadas:', editorState.selectedCells);
+            console.log('Células selecionadas:', editorState.selectedCells);
         }
 
         function showTab(tabName) {
@@ -569,7 +569,7 @@
             const selectedCells = editorState.selectedCells;
 
             if (selectedCells.length === 0) {
-                alert('Selecione pelo menos uma cÃ©lula para mapear');
+                alert('Selecione pelo menos uma célula para mapear');
                 return;
             }
 
@@ -584,11 +584,11 @@
                 }
             });
 
-            // Atualizar visualizaÃ§Ã£o
+            // Atualizar visualização
             updateMappingDisplay();
             updateCellsDisplay();
 
-            // Limpar seleÃ§Ã£o
+            // Limpar seleção
             editorState.selectedCells = [];
             document.querySelectorAll('.excel-cell.selected').forEach(cell => {
                 cell.classList.remove('selected');
@@ -618,12 +618,12 @@
         }
 
         function updateCellsDisplay() {
-            // Resetar classes das cÃ©lulas
+            // Resetar classes das células
             document.querySelectorAll('.excel-cell').forEach(cell => {
                 cell.classList.remove('mapped');
             });
 
-            // Marcar cÃ©lulas mapeadas
+            // Marcar células mapeadas
             Object.values(editorState.cellMappings).flat().forEach(cellAddr => {
                 const cell = document.querySelector(`[data-address="${cellAddr}"]`);
                 if (cell) {
@@ -634,9 +634,9 @@
 
         function getFieldDisplayName(field) {
             const fieldNames = {
-                'nÃºmero_orcamento': 'NÃºmero do OrÃ§amento',
-                'nÃºmero_pedido': 'NÃºmero do Pedido',
-                'data_liberacao': 'Data de LiberaÃ§Ã£o',
+                'número_orcamento': 'Número do Orçamento',
+                'número_pedido': 'Número do Pedido',
+                'data_liberacao': 'Data de Liberação',
                 'vendedor': 'Vendedor',
                 'cliente': 'Cliente',
                 'total_geral': 'Total Geral'
@@ -659,14 +659,14 @@
         }
 
         function setupEventListeners() {
-            // Mapear campo quando cÃ©lula for clicada
+            // Mapear campo quando célula for clicada
             document.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter' && editorState.selectedCells.length > 0) {
                     mapFieldToCells();
                 }
             });
 
-            // Auto-save durante ediÃ§Ã£o
+            // Auto-save durante edição
             setInterval(function() {
                 if (editorState.currentTemplate) {
                     localStorage.setItem('template-editor-state', JSON.stringify(editorState));
@@ -685,7 +685,7 @@
                     console.error('Erro ao carregar templates:', data.error);
                 }
             } catch (error) {
-                console.error('Erro na comunicaÃ§Ã£o com API:', error);
+                console.error('Erro na comunicação com API:', error);
             }
         }
 
@@ -706,7 +706,7 @@
                     <p class="text-muted small">${template.description}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <small class="text-muted">${template.company}</small>
-                        ${template.isDefault ? '<span class="badge bg-primary">PadrÃ£o</span>' : ''}
+                        ${template.isDefault ? '<span class="badge bg-primary">Padrão</span>' : ''}
                     </div>
                 `;
                 
@@ -719,7 +719,7 @@
         }
 
         function selectTemplate(template) {
-            // Remover seleÃ§Ã£o anterior
+            // Remover seleção anterior
             document.querySelectorAll('.template-card').forEach(card => {
                 card.classList.remove('selected');
             });
@@ -731,7 +731,7 @@
             document.getElementById('currentTemplateName').textContent = template.name;
             document.getElementById('templateStatus').textContent = 'Template carregado';
 
-            // Carregar configuraÃ§Ãµes do template
+            // Carregar configurações do template
             if (template.customizations) {
                 editorState.cellMappings = template.customizations.cellMappings || {};
                 editorState.styling = { ...editorState.styling, ...template.customizations.styling };
@@ -757,7 +757,7 @@
             };
 
             document.getElementById('currentTemplateName').textContent = templateName;
-            document.getElementById('templateStatus').textContent = 'Novo template (nÃ£o salvo)';
+            document.getElementById('templateStatus').textContent = 'Novo template (não salvo)';
 
             // Limpar estado
             editorState.cellMappings = {};
@@ -769,15 +769,15 @@
 
         function generatePreview() {
             const previewData = {
-                nÃºmero_orcamento: 'ORC-PREVIEW-001',
-                nÃºmero_pedido: 'PED-PREVIEW-001',
+                número_orcamento: 'ORC-PREVIEW-001',
+                número_pedido: 'PED-PREVIEW-001',
                 data_liberacao: new Date().toLocaleDateString('pt-BR'),
                 vendedor: 'Vendedor Exemplo',
                 cliente: 'Cliente Preview Ltda',
                 total_geral: 1500.00
             };
 
-            // Simular preenchimento das cÃ©lulas mapeadas
+            // Simular preenchimento das células mapeadas
             Object.entries(editorState.cellMappings).forEach(([field, cells]) => {
                 const value = previewData[field] || '[' + getFieldDisplayName(field) + ']';
                 
@@ -791,7 +791,7 @@
                 });
             });
 
-            alert('Preview gerado! As cÃ©lulas mapeadas foram preenchidas com dados de exemplo.');
+            alert('Preview gerado! As células mapeadas foram preenchidas com dados de exemplo.');
         }
 
         function updatePreview() {
@@ -803,7 +803,7 @@
                 cell.style.color = editorState.styling.textColor;
             });
 
-            // Aplicar cor do cabeÃ§alho (primeiras 3 linhas)
+            // Aplicar cor do cabeçalho (primeiras 3 linhas)
             for (let row = 1; row <= 3; row++) {
                 const headerCells = document.querySelectorAll(`[data-row="${row}"]`);
                 headerCells.forEach(cell => {
@@ -855,7 +855,7 @@
                     alert('Erro ao salvar template: ' + result.error);
                 }
             } catch (error) {
-                alert('Erro na comunicaÃ§Ã£o com servidor: ' + error.message);
+                alert('Erro na comunicação com servidor: ' + error.message);
             }
         }
 
@@ -891,12 +891,12 @@
 
         function undoAction() {
             // Implementar sistema de desfazer
-            console.log('Desfazer aÃ§Ã£o');
+            console.log('Desfazer ação');
         }
 
         function redoAction() {
             // Implementar sistema de refazer
-            console.log('Refazer aÃ§Ã£o');
+            console.log('Refazer ação');
         }
 
         // Carregar estado salvo ao inicializar
@@ -915,5 +915,5 @@
             }
         });
     </script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    `n</body>
 </html>

@@ -1,7 +1,7 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon-aluforce.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ALUFORCE - Pedidos de Compra</title>
@@ -82,8 +82,8 @@
         .pagination-btn.active { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
         @media (max-width: 1200px) { .summary-cards { grid-template-columns: repeat(2, 1fr); } }
     </style>
-    <script src="js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="css/popup-confirmacao.css">`n    <link rel="stylesheet" href="css/responsive.css?v=2026010401">`n</head>
+    
+        </head>
 <body>
     <div class="app-container">
         <aside class="sidebar">
@@ -94,16 +94,16 @@
                 <button class="sidebar-btn" title="Estoque" onclick="location.href='gestao-estoque.html'"><i class="fas fa-boxes"></i></button>
                 <button class="sidebar-btn" title="Materiais" onclick="location.href='materiais.html'"><i class="fas fa-cubes"></i></button>
                 <button class="sidebar-btn active" title="Pedidos" onclick="location.href='pedidos.html'"><i class="fas fa-shopping-cart"></i></button>
-                <button class="sidebar-btn" title="CotaÃ§Ãµes" onclick="location.href='cotacoes.html'"><i class="fas fa-file-invoice-dollar"></i></button>
-                <button class="sidebar-btn" title="RequisiÃ§Ãµes" onclick="location.href='requisicoes.html'"><i class="fas fa-clipboard-list"></i></button>
+                <button class="sidebar-btn" title="Cotações" onclick="location.href='cotacoes.html'"><i class="fas fa-file-invoice-dollar"></i></button>
+                <button class="sidebar-btn" title="Requisições" onclick="location.href='requisicoes.html'"><i class="fas fa-clipboard-list"></i></button>
             </nav>
             <div class="sidebar-bottom">
-                <button class="sidebar-btn" title="RelatÃ³rios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
+                <button class="sidebar-btn" title="Relatórios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
             </div>
         </aside>
         <main class="main-area">
             <header class="header">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="favicon-aluforce.webp">
                 <div class="header-left">
                     <div class="header-brand">
                         <span>Compras</span>
@@ -112,9 +112,9 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <button class="header-btn" title="NotificaÃ§Ãµes"><i class="fas fa-bell"></i></button>
+                    <button class="header-btn" title="Notificações"><i class="fas fa-bell"></i></button>
                     <div class="user-greeting">
-                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">UsuÃ¡rio</strong></span>
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
                         <div class="user-avatar"><span id="user-initial">U</span></div>
                     </div>
                 </div>
@@ -134,7 +134,7 @@
                     <div class="summary-card"><div class="summary-icon blue"><i class="fas fa-truck"></i></div><div class="summary-content"><h3>Recebidos</h3><div class="summary-value" id="pedidosRecebidos">0</div></div></div>
                 </div>
                 <div class="filters-bar">
-                    <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Buscar por nÃºmero, fornecedor..."></div>
+                    <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Buscar por número, fornecedor..."></div>
                     <div class="filter-buttons">
                         <button class="filter-btn active"><i class="fas fa-list"></i> Todos</button>
                         <button class="filter-btn"><i class="fas fa-clock"></i> Pendentes</button>
@@ -145,9 +145,9 @@
                 <div class="table-container">
                     <div class="table-header"><h3><i class="fas fa-table"></i> Lista de Pedidos</h3></div>
                     <table class="data-table">
-                        <thead><tr><th><input type="checkbox"></th><th>NÂº Pedido</th><th>Fornecedor</th><th>Data</th><th>Valor Total</th><th>Prazo Entrega</th><th>Status</th><th>AÃ§Ãµes</th></tr></thead>
+                        <thead><tr><th><input type="checkbox"></th><th>Nº Pedido</th><th>Fornecedor</th><th>Data</th><th>Valor Total</th><th>Prazo Entrega</th><th>Status</th><th>Ações</th></tr></thead>
                         <tbody id="pedidosTableBody">
-                            <tr><td><input type="checkbox"></td><td><strong>PC-2024-001</strong></td><td>AlumÃ­nio Brasil LTDA</td><td>15/01/2024</td><td>R$ 15.750,00</td><td>30/01/2024</td><td><span class="status-badge aprovado">Aprovado</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
+                            <tr><td><input type="checkbox"></td><td><strong>PC-2024-001</strong></td><td>Alumínio Brasil LTDA</td><td>15/01/2024</td><td>R$ 15.750,00</td><td>30/01/2024</td><td><span class="status-badge aprovado">Aprovado</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
                             <tr><td><input type="checkbox"></td><td><strong>PC-2024-002</strong></td><td>Metais SA</td><td>18/01/2024</td><td>R$ 8.320,00</td><td>02/02/2024</td><td><span class="status-badge pendente">Pendente</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
                         </tbody>
                     </table>
@@ -160,7 +160,7 @@
     <script src="pedidos.js"></script>
     <script src="compras-user-loader.js?v=20251217"></script>
     <script src="js/chat-suporte-widgets.js?v=20260103"></script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    </body>
 </html>
 
 

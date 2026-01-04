@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Limpar Sessão - ALUFORCE</title>
+    <title>Limpar Sess�o - ALUFORCE</title>
     
     <style>
         body {
@@ -74,14 +74,14 @@
             background: #5568d3;
         }
     </style>
-    <script src="js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="css/popup-confirmacao.css">`n    <link rel="stylesheet" href="css/responsive.css?v=2026010401">`n</head>
+    
+    `n    `n</head>
 <body>
     <div class="container">
-        <div class="icon">🧹</div>
-        <h1>Limpar Sessão</h1>
+        <div class="icon">??</div>
+        <h1>Limpar Sess�o</h1>
         <div id="status" class="status">
-            Pronto para limpar dados de autenticação...
+            Pronto para limpar dados de autentica��o...
         </div>
         <div id="log" class="log"></div>
         <button onclick="clearSession()">Limpar e Ir para Login</button>
@@ -91,7 +91,7 @@
         const logEl = document.getElementById('log');
         const statusEl = document.getElementById('status');
 
-        function addLog(message, icon = '📝') {
+        function addLog(message, icon = '??') {
             const div = document.createElement('div');
             div.className = 'log-item';
             div.textContent = icon + ' ' + message;
@@ -100,16 +100,16 @@
         }
 
         function clearSession() {
-            addLog('Iniciando limpeza de dados...', '🔄');
+            addLog('Iniciando limpeza de dados...', '??');
 
             // Verificar authToken
             const authToken = localStorage.getItem('authToken');
             if (authToken) {
-                addLog('authToken encontrado: ' + authToken.substring(0, 20) + '...', '📦');
+                addLog('authToken encontrado: ' + authToken.substring(0, 20) + '...', '??');
                 localStorage.removeItem('authToken');
-                addLog('authToken removido', '✅');
+                addLog('authToken removido', '?');
             } else {
-                addLog('authToken não encontrado', 'ℹ️');
+                addLog('authToken n�o encontrado', '??');
             }
 
             // Verificar userData
@@ -117,51 +117,51 @@
             if (userData) {
                 try {
                     const user = JSON.parse(userData);
-                    addLog('userData encontrado: ' + (user.nome || user.email || 'Usuário'), '👤');
+                    addLog('userData encontrado: ' + (user.nome || user.email || 'Usu�rio'), '??');
                 } catch (e) {
-                    addLog('userData encontrado (malformado)', '⚠️');
+                    addLog('userData encontrado (malformado)', '??');
                 }
                 localStorage.removeItem('userData');
-                addLog('userData removido', '✅');
+                addLog('userData removido', '?');
             } else {
-                addLog('userData não encontrado', 'ℹ️');
+                addLog('userData n�o encontrado', '??');
             }
 
             // Limpar sessionStorage
             sessionStorage.removeItem('userData');
             sessionStorage.removeItem('authToken');
-            addLog('sessionStorage limpo', '✅');
+            addLog('sessionStorage limpo', '?');
 
-            // Limpar configurações
+            // Limpar configura��es
             const appSettings = localStorage.getItem('appSettings');
             if (appSettings) {
                 localStorage.removeItem('appSettings');
-                addLog('appSettings removido', '✅');
+                addLog('appSettings removido', '?');
             }
 
             const headerDark = localStorage.getItem('headerDark');
             if (headerDark) {
                 localStorage.removeItem('headerDark');
-                addLog('headerDark removido', '✅');
+                addLog('headerDark removido', '?');
             }
 
-            addLog('Limpeza concluída com sucesso!', '✨');
-            statusEl.textContent = '✅ Sessão limpa! Redirecionando...';
+            addLog('Limpeza conclu�da com sucesso!', '?');
+            statusEl.textContent = '? Sess�o limpa! Redirecionando...';
             statusEl.className = 'status success';
 
             setTimeout(() => {
-                addLog('Redirecionando para login...', '🔄');
+                addLog('Redirecionando para login...', '??');
                 window.location.href = '/login.html';
             }, 2000);
         }
 
-        // Auto-executar na carga da página se houver parâmetro ?auto=true
+        // Auto-executar na carga da p�gina se houver par�metro ?auto=true
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('auto') === 'true') {
             setTimeout(() => clearSession(), 500);
         }
     </script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    `n</body>
 </html>
 
 

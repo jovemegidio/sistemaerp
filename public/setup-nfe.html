@@ -1,11 +1,11 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Setup NFe &amp; Log√≠stica - ALUFORCE</title>
+    <title>Setup NFe &amp; LogÌstica - ALUFORCE</title>
     <style>
         * {
             margin: 0;
@@ -188,12 +188,12 @@
             transition: width 0.5s;
         }
     </style>
-    <script src="js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="css/popup-confirmacao.css">`n    <link rel="stylesheet" href="css/responsive.css?v=2026010401">`n</head>
+    
+    `n    `n</head>
 <body>
     <div class="container">
-        <h1>üöÄ Setup M√≥dulo NFe & Log√≠stica</h1>
-        <p class="subtitle">Configura√ß√£o e instala√ß√£o do banco de dados</p>
+        <h1>?? Setup MÛdulo NFe & LogÌstica</h1>
+        <p class="subtitle">ConfiguraÁ„o e instalaÁ„o do banco de dados</p>
         
         <div class="status-box" id="statusBox">
             <div class="status-item">
@@ -214,8 +214,8 @@
             <div class="progress-fill" id="progressBar" style="width: 0%">0%</div>
         </div>
         
-        <button id="checkBtn" onclick="checkStatus()">üîç Verificar Status</button>
-        <button id="createBtn" onclick="createSchema()" disabled>‚ú® Criar Schema NFe & Log√≠stica</button>
+        <button id="checkBtn" onclick="checkStatus()">?? Verificar Status</button>
+        <button id="createBtn" onclick="createSchema()" disabled>? Criar Schema NFe & LogÌstica</button>
         
         <div class="log" id="logBox"></div>
         
@@ -250,7 +250,7 @@
         async function checkStatus() {
             try {
                 checkBtn.disabled = true;
-                log('üîç Verificando status do banco de dados...', 'info');
+                log('?? Verificando status do banco de dados...', 'info');
                 
                 const response = await fetch('/api/admin/nfe-schema-status');
                 const data = await response.json();
@@ -266,15 +266,15 @@
                     if (percentage === 100) {
                         schemaStatus.textContent = 'Completo';
                         schemaStatus.className = 'badge badge-success';
-                        log('‚úÖ Schema completamente instalado!', 'success');
-                        createBtn.textContent = '‚úÖ Schema J√° Instalado';
+                        log('? Schema completamente instalado!', 'success');
+                        createBtn.textContent = '? Schema J· Instalado';
                     } else {
                         schemaStatus.textContent = 'Incompleto';
                         schemaStatus.className = 'badge badge-warning';
-                        log(`‚ö†Ô∏è  Schema incompleto: ${missing} tabelas faltando`, 'error');
+                        log(`??  Schema incompleto: ${missing} tabelas faltando`, 'error');
                         log(`Tabelas faltando: ${data.tables_missing.join(', ')}`, 'info');
                         createBtn.disabled = false;
-                        createBtn.textContent = '‚ú® Criar Schema NFe & Log√≠stica';
+                        createBtn.textContent = '? Criar Schema NFe & LogÌstica';
                     }
                     
                     // Mostrar tabelas existentes
@@ -293,25 +293,25 @@
                         });
                     }
                 } else {
-                    log('‚ùå Erro ao verificar status: ' + data.error, 'error');
+                    log('? Erro ao verificar status: ' + data.error, 'error');
                 }
                 
             } catch (error) {
-                log('‚ùå Erro na requisi√ß√£o: ' + error.message, 'error');
+                log('? Erro na requisiÁ„o: ' + error.message, 'error');
             } finally {
                 checkBtn.disabled = false;
             }
         }
         
         async function createSchema() {
-            if (!confirm('‚ö†Ô∏è  Isso ir√° criar todas as tabelas do m√≥dulo NFe & Log√≠stica. Continuar?')) {
+            if (!confirm('??  Isso ir· criar todas as tabelas do mÛdulo NFe & LogÌstica. Continuar?')) {
                 return;
             }
             
             try {
                 createBtn.disabled = true;
-                createBtn.textContent = '‚è≥ Criando Schema...';
-                log('üöÄ Iniciando cria√ß√£o do schema...', 'info');
+                createBtn.textContent = '? Criando Schema...';
+                log('?? Iniciando criaÁ„o do schema...', 'info');
                 
                 const response = await fetch('/api/admin/create-nfe-schema', {
                     method: 'POST',
@@ -323,8 +323,8 @@
                 const data = await response.json();
                 
                 if (data.success) {
-                    log(`‚úÖ Schema criado com sucesso!`, 'success');
-                    log(`üìä Total de ${data.total_tables} tabelas criadas/verificadas`, 'success');
+                    log(`? Schema criado com sucesso!`, 'success');
+                    log(`?? Total de ${data.total_tables} tabelas criadas/verificadas`, 'success');
                     
                     // Mostrar tabelas criadas
                     data.tables.forEach(table => {
@@ -335,25 +335,25 @@
                     await checkStatus();
                     
                 } else {
-                    log('‚ùå Erro ao criar schema: ' + data.error, 'error');
+                    log('? Erro ao criar schema: ' + data.error, 'error');
                     if (data.code) {
-                        log(`   C√≥digo do erro: ${data.code}`, 'error');
+                        log(`   CÛdigo do erro: ${data.code}`, 'error');
                     }
                 }
                 
             } catch (error) {
-                log('‚ùå Erro na requisi√ß√£o: ' + error.message, 'error');
+                log('? Erro na requisiÁ„o: ' + error.message, 'error');
             } finally {
                 createBtn.disabled = false;
-                createBtn.textContent = '‚ú® Criar Schema NFe & Log√≠stica';
+                createBtn.textContent = '? Criar Schema NFe & LogÌstica';
             }
         }
         
-        // Verificar status ao carregar a p√°gina
+        // Verificar status ao carregar a p·gina
         window.addEventListener('load', () => {
             checkStatus();
         });
     </script>
-    <script src="js/popup-confirmacao.js"></script>`n</body>
+    `n</body>
 </html>
 

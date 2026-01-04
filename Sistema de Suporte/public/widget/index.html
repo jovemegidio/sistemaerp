@@ -1,4 +1,4 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -72,7 +72,7 @@
             font-size: 12px;
         }
 
-        /* Navega√ß√£o em Tabs */
+        /* NavegaÁ„o em Tabs */
         .nav-tabs-custom {
             display: flex;
             background: white;
@@ -130,7 +130,7 @@
             flex: 1;
         }
 
-        /* Conte√∫do */
+        /* Conte˙do */
         .content-area {
             flex: 1;
             overflow-y: auto;
@@ -634,7 +634,7 @@
         }
 
         /* ============================================
-           MODAL DE CONFIRMA√á√ÉO - FECHAR TICKET
+           MODAL DE CONFIRMA«√O - FECHAR TICKET
            ============================================ */
         .confirm-modal-overlay {
             position: fixed;
@@ -784,20 +784,20 @@
         }
     </style>
     <script src="/js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+    `n</head>
 <body>
     <!-- Login Modal -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-modal">
             <i class="bi bi-headset" style="font-size:40px;color:var(--primary);margin-bottom:12px"></i>
             <h3>Central de Suporte</h3>
-            <p>Digite seu nome para come√ßar</p>
+            <p>Digite seu nome para comeÁar</p>
             <input type="text" id="adminNameInput" placeholder="Seu nome" autofocus>
             <button onclick="doLogin()">Entrar</button>
         </div>
     </div>
 
-    <!-- Modal de Confirma√ß√£o - Fechar Ticket -->
+    <!-- Modal de ConfirmaÁ„o - Fechar Ticket -->
     <div class="confirm-modal-overlay" id="closeTicketModalOverlay">
         <div class="confirm-modal">
             <div class="confirm-modal-header">
@@ -807,7 +807,7 @@
                 <h3>Fechar Ticket</h3>
             </div>
             <div class="confirm-modal-body">
-                <p>Tem certeza que deseja encerrar este atendimento? Esta a√ß√£o n√£o pode ser desfeita.</p>
+                <p>Tem certeza que deseja encerrar este atendimento? Esta aÁ„o n„o pode ser desfeita.</p>
                 <div class="ticket-info">
                     <i class="bi bi-ticket"></i>
                     <span id="closeTicketModalId">Ticket #---</span>
@@ -893,7 +893,7 @@
                         <div class="stat-icon purple"><i class="bi bi-clock"></i></div>
                         <div class="stat-info">
                             <div class="stat-value"><span id="statAvg">0</span>m</div>
-                            <div class="stat-label">Tempo M√©dio</div>
+                            <div class="stat-label">Tempo MÈdio</div>
                         </div>
                     </div>
                 </div>
@@ -941,7 +941,7 @@
                     <div class="empty-state">
                         <i class="bi bi-book"></i>
                         <h4>Base vazia</h4>
-                        <p>Adicione artigos pela vers√£o completa</p>
+                        <p>Adicione artigos pela vers„o completa</p>
                     </div>
                 </div>
             </div>
@@ -1068,7 +1068,7 @@
         function initSocket() {
             // Prevent double initialization
             if (socketInitialized) {
-                console.log('‚ö†Ô∏è Socket already initialized');
+                console.log('?? Socket already initialized');
                 return;
             }
             socketInitialized = true;
@@ -1085,12 +1085,12 @@
             });
             
             socket.on('connect', () => {
-                console.log('‚úÖ Socket connected to support server');
+                console.log('? Socket connected to support server');
                 socket.emit('identify', { type: 'admin', name: adminName });
             });
 
             socket.on('connect_error', (error) => {
-                console.error('‚ùå Socket connection error:', error);
+                console.error('? Socket connection error:', error);
             });
 
             setupSocketEvents();
@@ -1129,7 +1129,7 @@
             currentView = view;
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
             
-            // S√≥ atualizar nav-tab se existir (chat n√£o tem nav-tab)
+            // SÛ atualizar nav-tab se existir (chat n„o tem nav-tab)
             const navTab = document.querySelector(`.nav-tab[data-view="${view}"]`);
             if (navTab) {
                 navTab.classList.add('active');
@@ -1307,7 +1307,7 @@
         }
 
         function closeTicketModal() {
-            // Mostrar modal de confirma√ß√£o estilizado
+            // Mostrar modal de confirmaÁ„o estilizado
             const overlay = document.getElementById('closeTicketModalOverlay');
             const ticketIdSpan = document.getElementById('closeTicketModalId');
             
@@ -1354,5 +1354,5 @@
             }
         }
     </script>
-    <script src="/js/popup-confirmacao.js"></script>`n</body>
+    `n</body>
 </html>

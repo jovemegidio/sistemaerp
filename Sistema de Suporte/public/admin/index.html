@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -633,15 +633,15 @@
         }
     </style>
     <script src="/js/anti-copy-protection.js"></script>
-    <link rel="stylesheet" href="/css/popup-confirmacao.css">`n</head>
+    `n</head>
 <body>
     <!-- Modal para nome do admin -->
     <div class="modal fade" id="adminNameModal" tabindex="-1" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body p-4">
-                    <h4 class="mb-3"><i class="bi bi-person-badge me-2"></i>IdentificaÃ§Ã£o</h4>
-                    <p class="text-muted mb-3">Digite seu nome para comeÃ§ar a atender:</p>
+                    <h4 class="mb-3"><i class="bi bi-person-badge me-2"></i>Identificação</h4>
+                    <p class="text-muted mb-3">Digite seu nome para começar a atender:</p>
                     <input type="text" class="form-control form-control-lg mb-3" id="adminNameInput" placeholder="Seu nome">
                     <button type="button" class="btn btn-lg w-100" style="background:var(--primary-color);color:white" onclick="setAdminName()">
                         Entrar
@@ -726,7 +726,7 @@
                         <i class="bi bi-clock-history"></i>
                     </div>
                     <div class="stat-value"><span id="statAvgTime">0</span>min</div>
-                    <div class="stat-label">Tempo MÃ©dio</div>
+                    <div class="stat-label">Tempo Médio</div>
                 </div>
             </div>
 
@@ -847,7 +847,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <label class="form-label">ResoluÃ§Ã£o:</label>
+                    <label class="form-label">Resolução:</label>
                     <textarea class="form-control" id="resolutionInput" rows="3" placeholder="Descreva como o problema foi resolvido..."></textarea>
                 </div>
                 <div class="modal-footer">
@@ -863,13 +863,13 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Adicionar Ã  Base de Conhecimento</h5>
+                    <h5 class="modal-title">Adicionar à Base de Conhecimento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Pergunta</label>
-                        <input type="text" class="form-control" id="kbQuestion" placeholder="Ex: Como faÃ§o para...">
+                        <input type="text" class="form-control" id="kbQuestion" placeholder="Ex: Como faço para...">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Resposta</label>
@@ -877,7 +877,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="form-label">Palavras-chave (separadas por vÃ­rgula)</label>
+                            <label class="form-label">Palavras-chave (separadas por vírgula)</label>
                             <input type="text" class="form-control" id="kbKeywords" placeholder="senha, login, acesso">
                         </div>
                         <div class="col-md-6">
@@ -999,7 +999,7 @@
             });
 
             socket.on('ticket_needs_attention', (data) => {
-                showNotification('AtenÃ§Ã£o!', `Ticket precisa de atendimento: ${data.reason}`);
+                showNotification('Atenção!', `Ticket precisa de atendimento: ${data.reason}`);
             });
 
             socket.on('client_disconnected', (data) => {
@@ -1259,5 +1259,5 @@
             Notification.requestPermission();
         }
     </script>
-    <script src="/js/popup-confirmacao.js"></script>`n</body>
+    `n</body>
 </html>
