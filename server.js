@@ -10983,6 +10983,92 @@ apiVendasRouter.get('/me', async (req, res) => {
     }
 });
 
+// VENDEDORES - Listar todos os vendedores
+apiVendasRouter.get('/vendedores', async (req, res, next) => {
+    try {
+        const [rows] = await pool.query(`
+            SELECT u.id, u.nome, u.email, u.role, u.avatar, u.foto,
+                   COALESCE(v.total_pedidos, 0) as total_pedidos,
+                   COALESCE(v.total_vendas, 0) as total_vendas
+            FROM usuarios u
+            LEFT JOIN (
+                SELECT vendedor_id, 
+                       COUNT(*) as total_pedidos,
+                       SUM(valor_total) as total_vendas
+                FROM pedidos 
+                WHERE MONTH(created_at) = MONTH(CURDATE()) 
+                  AND YEAR(created_at) = YEAR(CURDATE())
+                GROUP BY vendedor_id
+            ) v ON u.id = v.vendedor_id
+            WHERE u.permissoes_vendas IS NOT NULL 
+               OR u.role = 'vendedor' 
+               OR u.role = 'admin'
+            ORDER BY v.total_vendas DESC, u.nome ASC
+        `);
+        res.json(rows);
+    } catch (error) {
+        console.error('[API/VENDAS/VENDEDORES] Erro:', error);
+        next(error);
+    }
+});
+
+// Dashboard - Top vendedores
+apiVendasRouter.get('/dashboard/top-vendedores', async (req, res, next) => {
+    try {
+        const limit = parseInt(req.query.limit) || 5;
+        const [rows] = await pool.query(`
+            SELECT u.id, u.nome, u.avatar, u.foto,
+                   COUNT(p.id) as total_pedidos,
+                   SUM(p.valor_total) as total_vendas
+            FROM usuarios u
+            INNER JOIN pedidos p ON u.id = p.vendedor_id
+            WHERE p.status != 'cancelado'
+              AND MONTH(p.created_at) = MONTH(CURDATE()) 
+              AND YEAR(p.created_at) = YEAR(CURDATE())
+            GROUP BY u.id, u.nome, u.avatar, u.foto
+            ORDER BY total_vendas DESC
+            LIMIT ?
+        `, [limit]);
+        res.json(rows);
+    } catch (error) {
+        console.error('[API/VENDAS/TOP-VENDEDORES] Erro:', error);
+        next(error);
+    }
+});
+
+// Dashboard - Gráficos
+apiVendasRouter.get('/dashboard/graficos', async (req, res, next) => {
+    try {
+        // Vendas por mês (últimos 6 meses)
+        const [vendasMensais] = await pool.query(`
+            SELECT DATE_FORMAT(created_at, '%Y-%m') as mes,
+                   SUM(valor_total) as total
+            FROM pedidos
+            WHERE status != 'cancelado'
+              AND created_at >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+            GROUP BY DATE_FORMAT(created_at, '%Y-%m')
+            ORDER BY mes ASC
+        `);
+        
+        // Vendas por status
+        const [vendasStatus] = await pool.query(`
+            SELECT status, COUNT(*) as quantidade
+            FROM pedidos
+            WHERE MONTH(created_at) = MONTH(CURDATE())
+              AND YEAR(created_at) = YEAR(CURDATE())
+            GROUP BY status
+        `);
+        
+        res.json({
+            vendasMensais,
+            vendasStatus
+        });
+    } catch (error) {
+        console.error('[API/VENDAS/GRAFICOS] Erro:', error);
+        next(error);
+    }
+});
+
 // PEDIDOS
 apiVendasRouter.get('/pedidos', async (req, res, next) => {
     try {
@@ -16135,15 +16221,16 @@ app.get('/api/vendas/dashboard/admin', authorizeArea('vendas'), async (req, res)
 app.get('/api/vendas/dashboard/vendedor', authorizeArea('vendas'), async (req, res) => {
     try {
         const userId = req.user.id;
-        const [results] = await vendasPool.query(`
+        const periodo = parseInt(req.query.periodo) || 30;
+        const [results] = await pool.query(`
             SELECT 
                 COUNT(p.id) as meus_pedidos,
-                SUM(CASE WHEN p.status = 'convertido' THEN 1 ELSE 0 END) as minhas_vendas,
-                SUM(CASE WHEN p.status = 'convertido' THEN p.valor_total ELSE 0 END) as meu_faturamento
+                SUM(CASE WHEN p.status = 'faturado' OR p.status = 'convertido' THEN 1 ELSE 0 END) as minhas_vendas,
+                SUM(CASE WHEN p.status = 'faturado' OR p.status = 'convertido' THEN p.valor_total ELSE 0 END) as meu_faturamento
             FROM pedidos p
-            WHERE p.vendedor_id = ? AND p.data_criacao >= DATE_SUB(NOW(), INTERVAL 30 DAY)
-        `, [userId]);
-        res.json(results[0]);
+            WHERE p.vendedor_id = ? AND p.created_at >= DATE_SUB(NOW(), INTERVAL ? DAY)
+        `, [userId, periodo]);
+        res.json(results[0] || { meus_pedidos: 0, minhas_vendas: 0, meu_faturamento: 0 });
     } catch (error) {
         console.error('Erro dashboard vendedor:', error);
         res.status(500).json({ error: 'Erro ao carregar dashboard do vendedor' });
@@ -16905,14 +16992,24 @@ app.post('/api/vendas/empresas/:id/reativar', authorizeArea('vendas'), async (re
 app.get('/api/vendas/notificacoes', authorizeArea('vendas'), async (req, res) => {
     try {
         const userId = req.user.id;
-        const [notificacoes] = await vendasPool.query(`
-            SELECT * FROM notificacoes 
-            WHERE usuario_id = ? 
-            ORDER BY data_criacao DESC 
-            LIMIT 20
-        `, [userId]);
         
-        res.json(notificacoes);
+        // Verificar se a tabela notificacoes existe
+        try {
+            const [notificacoes] = await pool.query(`
+                SELECT * FROM notificacoes 
+                WHERE usuario_id = ? 
+                ORDER BY created_at DESC 
+                LIMIT 20
+            `, [userId]);
+            res.json(notificacoes);
+        } catch (tableError) {
+            // Se a tabela não existir, retornar array vazio
+            if (tableError.code === 'ER_NO_SUCH_TABLE') {
+                console.log('[API/VENDAS/NOTIFICACOES] Tabela notificacoes não existe, retornando vazio');
+                return res.json([]);
+            }
+            throw tableError;
+        }
     } catch (error) {
         console.error('Erro ao listar notificações:', error);
         res.status(500).json({ error: 'Erro ao listar notificações' });
