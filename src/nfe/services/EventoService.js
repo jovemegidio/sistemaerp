@@ -7,7 +7,9 @@
 
 const xml2js = require('xml2js');
 const moment = require('moment-timezone');
-const soap = require('soap');
+// Módulo soap é opcional - NFe não funciona sem ele
+let soap = null;
+try { soap = require('soap'); } catch (e) { console.warn('[EventoService] ⚠️  Módulo soap não instalado.'); }
 
 class EventoService {
     constructor(pool, certificadoService) {
