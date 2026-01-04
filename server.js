@@ -1967,8 +1967,10 @@ const loginLimiter = rateLimit({
     legacyHeaders: false, // Disable X-RateLimit-* headers
 });
 app.use('/api/login', loginLimiter);
-// Monta o router de autenticação (fornece /api/login e /api/logout entre outros)
-app.use('/api', authRouter);
+
+// NOTA: authRouter desabilitado - usando rota de login otimizada do server.js (linha 11688)
+// O authRouter fazia SHOW COLUMNS em cada login, causando timeouts intermitentes
+// app.use('/api', authRouter);
 
 // ===================== ROTAS CONFIGURAÇÕES DA EMPRESA =====================
 const { authenticateToken: authToken, requireAdmin: reqAdmin } = require('./middleware/auth');
