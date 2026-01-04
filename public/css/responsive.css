@@ -1,0 +1,751 @@
+/**
+ * ALUFORCE - Sistema de Responsividade Global
+ * Breakpoints:
+ * - Mobile: até 480px
+ * - Mobile Large: 481px - 767px
+ * - Tablet: 768px - 1023px
+ * - Desktop: 1024px - 1399px
+ * - Desktop Large: 1400px+
+ */
+
+/* ========================================
+   1. VARIÁVEIS E CONFIGURAÇÕES BASE
+   ======================================== */
+
+:root {
+    /* Breakpoints em variáveis CSS */
+    --breakpoint-mobile: 480px;
+    --breakpoint-tablet: 768px;
+    --breakpoint-desktop: 1024px;
+    --breakpoint-desktop-lg: 1400px;
+    
+    /* Espaçamentos responsivos */
+    --spacing-mobile: 12px;
+    --spacing-tablet: 16px;
+    --spacing-desktop: 24px;
+    
+    /* Tamanhos de fonte responsivos */
+    --font-size-mobile: 14px;
+    --font-size-tablet: 15px;
+    --font-size-desktop: 16px;
+}
+
+/* ========================================
+   2. CONFIGURAÇÕES GLOBAIS
+   ======================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Imagens responsivas */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Tabelas responsivas */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ========================================
+   3. LAYOUT PRINCIPAL
+   ======================================== */
+
+/* Container principal */
+.main-content,
+.content-area,
+.dashboard-content {
+    width: 100%;
+    max-width: 100%;
+    padding: var(--spacing-desktop);
+    transition: padding 0.3s ease;
+}
+
+/* Sidebar */
+.sidebar {
+    transition: width 0.3s ease, transform 0.3s ease;
+}
+
+/* ========================================
+   4. MOBILE (até 480px)
+   ======================================== */
+
+@media screen and (max-width: 480px) {
+    html {
+        font-size: 14px;
+    }
+    
+    body {
+        font-size: var(--font-size-mobile);
+    }
+    
+    /* Layout */
+    .main-content,
+    .content-area,
+    .dashboard-content {
+        padding: var(--spacing-mobile);
+    }
+    
+    /* Sidebar - esconder e mostrar como menu overlay */
+    .sidebar {
+        position: fixed;
+        left: -280px;
+        top: 0;
+        height: 100vh;
+        width: 260px;
+        z-index: 1000;
+        transform: translateX(0);
+    }
+    
+    .sidebar.active,
+    .sidebar.open {
+        left: 0;
+        transform: translateX(0);
+    }
+    
+    /* Header */
+    .header,
+    .navbar,
+    .top-bar {
+        padding: 10px 15px;
+    }
+    
+    .header h1,
+    .page-title {
+        font-size: 1.2rem;
+    }
+    
+    /* Cards */
+    .card,
+    .dashboard-card,
+    .stat-card {
+        padding: 15px;
+        margin-bottom: 12px;
+    }
+    
+    /* Grid - 1 coluna */
+    .grid,
+    .card-grid,
+    .dashboard-grid,
+    .modules-grid {
+        grid-template-columns: 1fr !important;
+        gap: 12px;
+    }
+    
+    /* Botões */
+    .btn,
+    button {
+        padding: 10px 16px;
+        font-size: 0.875rem;
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    
+    .btn-group {
+        flex-direction: column;
+    }
+    
+    /* Formulários */
+    .form-group,
+    .input-group {
+        margin-bottom: 12px;
+    }
+    
+    input,
+    select,
+    textarea {
+        font-size: 16px; /* Previne zoom no iOS */
+        padding: 12px;
+    }
+    
+    /* Tabelas */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+    
+    th, td {
+        padding: 8px 10px;
+        font-size: 0.75rem;
+    }
+    
+    /* Modais */
+    .modal-content,
+    .modal-dialog {
+        width: 95%;
+        max-width: none;
+        margin: 10px auto;
+        max-height: 90vh;
+    }
+    
+    .modal-body {
+        padding: 15px;
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+    
+    /* Login */
+    .login-container {
+        padding: 15px;
+    }
+    
+    .login-form {
+        padding: 25px 20px;
+    }
+    
+    .login-logo {
+        max-width: 140px;
+        max-height: 56px;
+    }
+    
+    /* Ocultar em mobile */
+    .hide-mobile,
+    .desktop-only {
+        display: none !important;
+    }
+    
+    /* Menu toggle visível */
+    .menu-toggle,
+    .hamburger-menu,
+    .mobile-menu-btn {
+        display: flex !important;
+    }
+}
+
+/* ========================================
+   5. MOBILE LARGE (481px - 767px)
+   ======================================== */
+
+@media screen and (min-width: 481px) and (max-width: 767px) {
+    html {
+        font-size: 15px;
+    }
+    
+    .main-content,
+    .content-area,
+    .dashboard-content {
+        padding: 14px;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        position: fixed;
+        left: -300px;
+        width: 280px;
+        z-index: 1000;
+    }
+    
+    .sidebar.active,
+    .sidebar.open {
+        left: 0;
+    }
+    
+    /* Grid - 2 colunas */
+    .grid,
+    .card-grid,
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+    
+    .modules-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Cards */
+    .card,
+    .dashboard-card {
+        padding: 18px;
+    }
+    
+    /* Botões em linha */
+    .btn-group {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+    
+    .btn {
+        width: auto;
+        flex: 1 1 45%;
+    }
+    
+    /* Tabelas */
+    th, td {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+    }
+    
+    /* Modal */
+    .modal-content {
+        width: 90%;
+        max-width: 500px;
+    }
+    
+    /* Ocultar em mobile */
+    .hide-mobile {
+        display: none !important;
+    }
+    
+    .menu-toggle,
+    .hamburger-menu {
+        display: flex !important;
+    }
+}
+
+/* ========================================
+   6. TABLET (768px - 1023px)
+   ======================================== */
+
+@media screen and (min-width: 768px) and (max-width: 1023px) {
+    html {
+        font-size: 15px;
+    }
+    
+    .main-content,
+    .content-area,
+    .dashboard-content {
+        padding: var(--spacing-tablet);
+    }
+    
+    /* Sidebar - mini sidebar ou toggle */
+    .sidebar {
+        width: 70px;
+        overflow: hidden;
+    }
+    
+    .sidebar:hover,
+    .sidebar.expanded {
+        width: 260px;
+    }
+    
+    .sidebar .nav-text,
+    .sidebar .menu-text {
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+    
+    .sidebar:hover .nav-text,
+    .sidebar:hover .menu-text,
+    .sidebar.expanded .nav-text,
+    .sidebar.expanded .menu-text {
+        opacity: 1;
+    }
+    
+    /* Ajustar margem do conteúdo para sidebar mini */
+    .main-content,
+    .content-wrapper {
+        margin-left: 70px;
+        transition: margin-left 0.3s;
+    }
+    
+    /* Grid - 2-3 colunas */
+    .grid,
+    .card-grid,
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    
+    .modules-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    /* Cards */
+    .card,
+    .dashboard-card {
+        padding: 20px;
+    }
+    
+    /* Formulários em linha */
+    .form-row,
+    .form-inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+    
+    .form-row .form-group {
+        flex: 1 1 45%;
+    }
+    
+    /* Modal */
+    .modal-content {
+        width: 80%;
+        max-width: 600px;
+    }
+    
+    /* Ocultar em tablet */
+    .hide-tablet {
+        display: none !important;
+    }
+    
+    /* Mostrar em tablet */
+    .show-tablet {
+        display: block !important;
+    }
+}
+
+/* ========================================
+   7. DESKTOP (1024px - 1399px)
+   ======================================== */
+
+@media screen and (min-width: 1024px) and (max-width: 1399px) {
+    html {
+        font-size: 16px;
+    }
+    
+    .main-content,
+    .content-area,
+    .dashboard-content {
+        padding: var(--spacing-desktop);
+    }
+    
+    /* Sidebar fixa */
+    .sidebar {
+        width: 260px;
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+    }
+    
+    .main-content,
+    .content-wrapper {
+        margin-left: 260px;
+    }
+    
+    /* Grid - 3-4 colunas */
+    .grid,
+    .card-grid,
+    .dashboard-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+    
+    .modules-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    /* Cards */
+    .card,
+    .dashboard-card {
+        padding: 24px;
+    }
+    
+    /* Modal */
+    .modal-content {
+        width: 70%;
+        max-width: 800px;
+    }
+    
+    /* Ocultar menu toggle */
+    .menu-toggle,
+    .hamburger-menu,
+    .mobile-menu-btn {
+        display: none !important;
+    }
+    
+    /* Mostrar elementos desktop */
+    .desktop-only {
+        display: block !important;
+    }
+}
+
+/* ========================================
+   8. DESKTOP LARGE (1400px+)
+   ======================================== */
+
+@media screen and (min-width: 1400px) {
+    html {
+        font-size: 16px;
+    }
+    
+    .main-content,
+    .content-area,
+    .dashboard-content {
+        padding: 28px 32px;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        width: 280px;
+    }
+    
+    .main-content,
+    .content-wrapper {
+        margin-left: 280px;
+    }
+    
+    /* Grid - 4-5 colunas */
+    .grid,
+    .card-grid,
+    .dashboard-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+    
+    .modules-grid {
+        grid-template-columns: repeat(5, 1fr);
+    }
+    
+    /* Containers maiores */
+    .container-xl {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+    
+    /* Modal */
+    .modal-content {
+        max-width: 900px;
+    }
+}
+
+/* ========================================
+   9. UTILITÁRIOS RESPONSIVOS
+   ======================================== */
+
+/* Flexbox responsivo */
+.flex-responsive {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+@media (max-width: 768px) {
+    .flex-responsive {
+        flex-direction: column;
+    }
+}
+
+/* Grid responsivo automático */
+.auto-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+@media (max-width: 480px) {
+    .auto-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+}
+
+/* Texto responsivo */
+.text-responsive {
+    font-size: clamp(0.875rem, 2vw, 1rem);
+}
+
+.title-responsive {
+    font-size: clamp(1.25rem, 4vw, 2rem);
+}
+
+/* Espaçamento responsivo */
+.p-responsive {
+    padding: clamp(12px, 3vw, 24px);
+}
+
+.m-responsive {
+    margin: clamp(8px, 2vw, 16px);
+}
+
+/* ========================================
+   10. TOUCH & ACESSIBILIDADE
+   ======================================== */
+
+/* Áreas de toque maiores em dispositivos móveis */
+@media (pointer: coarse) {
+    button,
+    .btn,
+    a.nav-link,
+    .clickable {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    input[type="checkbox"],
+    input[type="radio"] {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Reduzir animações para usuários que preferem */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ========================================
+   11. ORIENTAÇÃO DE TELA
+   ======================================== */
+
+/* Landscape em dispositivos móveis */
+@media screen and (max-height: 500px) and (orientation: landscape) {
+    .sidebar {
+        height: 100vh;
+        overflow-y: auto;
+    }
+    
+    .modal-content {
+        max-height: 95vh;
+    }
+    
+    .login-form {
+        padding: 20px;
+    }
+    
+    .login-logo {
+        max-height: 50px;
+    }
+}
+
+/* ========================================
+   12. PRINT STYLES
+   ======================================== */
+
+@media print {
+    .sidebar,
+    .navbar,
+    .header,
+    .no-print,
+    .menu-toggle,
+    .btn-group,
+    button:not(.print-btn) {
+        display: none !important;
+    }
+    
+    .main-content,
+    .content-wrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+    }
+    
+    body {
+        font-size: 12pt;
+        color: #000;
+        background: #fff;
+    }
+    
+    a {
+        text-decoration: none;
+        color: #000;
+    }
+    
+    .card,
+    .dashboard-card {
+        box-shadow: none;
+        border: 1px solid #ddd;
+    }
+}
+
+/* ========================================
+   13. COMPONENTES ESPECÍFICOS
+   ======================================== */
+
+/* Login responsivo */
+@media (max-width: 480px) {
+    .login-container {
+        padding: 10px;
+    }
+    
+    .login-form {
+        padding: 20px 15px;
+        border-radius: 12px;
+    }
+    
+    .login-form h2 {
+        font-size: 1.3rem;
+    }
+    
+    .login-form input {
+        padding: 14px 12px;
+    }
+}
+
+/* Dashboard KPIs */
+@media (max-width: 768px) {
+    .kpi-grid,
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .kpi-card .kpi-value,
+    .stat-value {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .kpi-grid,
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Chat Widget */
+@media (max-width: 768px) {
+    .chat-widget {
+        width: calc(100vw - 20px);
+        height: calc(100vh - 100px);
+        right: 10px;
+        bottom: 70px;
+        max-width: none;
+    }
+    
+    .chat-fab {
+        width: 50px;
+        height: 50px;
+        bottom: 10px;
+        right: 10px;
+    }
+}
+
+/* Notificações */
+@media (max-width: 480px) {
+    .notification-panel,
+    .notifications-dropdown {
+        width: calc(100vw - 20px);
+        right: 10px;
+        left: 10px;
+    }
+}
+
+/* Overlay para sidebar mobile */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+@media (max-width: 767px) {
+    .sidebar-overlay.active {
+        display: block;
+    }
+}
