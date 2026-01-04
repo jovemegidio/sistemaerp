@@ -3,7 +3,9 @@ const cors = require('cors')
 const path = require('path')
 const mysql = require('mysql2')
 const multer = require('multer') // upload de arquivos
-const sharp = require('sharp')
+// Sharp é opcional - usado apenas para thumbnails
+let sharp = null;
+try { sharp = require('sharp'); } catch (e) { console.warn('[RH] ⚠️  Módulo sharp não instalado. Thumbnails desabilitados.'); }
 const fs = require('fs')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')

@@ -5,7 +5,13 @@
  * @module SEFAZService
  */
 
-const soap = require('soap');
+// Módulo soap é opcional - NFe SEFAZ não funciona sem ele
+let soap = null;
+try {
+    soap = require('soap');
+} catch (e) {
+    console.warn('[SEFAZ] ⚠️  Módulo soap não instalado. Integração NFe/SEFAZ desabilitada.');
+}
 const fs = require('fs').promises;
 const https = require('https');
 

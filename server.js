@@ -9446,21 +9446,24 @@ apiRHRouter.post('/funcionarios/:id/foto', [
         const ext = path.extname(nomeArquivo).toLowerCase();
         const caminhoFoto = `/uploads/RH/fotos/${nomeArquivo}`;
         
-        // Criar thumbnail (200x200)
-        const sharp = require('sharp');
+        // Criar thumbnail (200x200) - sharp é opcional
+        let sharp = null;
+        try { sharp = require('sharp'); } catch (e) { /* sharp não disponível */ }
         const thumbName = nomeArquivo.replace(ext, `-thumb${ext}`);
         const pastaFotos = path.dirname(req.file.path);
         const thumbPath = path.join(pastaFotos, thumbName);
         const thumbUrl = `/uploads/RH/fotos/${thumbName}`;
         
-        try {
-            await sharp(req.file.path)
-                .resize(200, 200, { fit: 'cover' })
-                .toFile(thumbPath);
-            console.log('✅ Thumbnail criado:', thumbPath);
-        } catch (sharpErr) {
-            console.error('⚠️ Erro ao criar thumbnail:', sharpErr);
-            // Continua mesmo se thumbnail falhar
+        if (sharp) {
+            try {
+                await sharp(req.file.path)
+                    .resize(200, 200, { fit: 'cover' })
+                    .toFile(thumbPath);
+                console.log('✅ Thumbnail criado:', thumbPath);
+            } catch (sharpErr) {
+                console.error('⚠️ Erro ao criar thumbnail:', sharpErr);
+                // Continua mesmo se thumbnail falhar
+            }
         }
         
         // Atualizar foto no banco (apenas colunas que existem: foto_perfil_url e foto_thumb_url)
