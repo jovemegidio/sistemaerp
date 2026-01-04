@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>ALUFORCE: Painel de Controle </title>
@@ -10,12 +10,12 @@
     <!-- Fonte Poppins para Flat Design -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <!-- Configuração do Sistema (GitHub Pages / Railway) -->
+    <!-- Configuraï¿½ï¿½o do Sistema (GitHub Pages / Railway) -->
     <script src="js/config.js"></script>
     <script src="js/responsive-loader.js"></script>
     
     <script>
-    // Função para configurar avatar
+    // Funï¿½ï¿½o para configurar avatar
     function setupAvatar(firstName, email, avatarElement) {
         if (!avatarElement) return;
         
@@ -79,30 +79,30 @@
         tryNextFormat();
     }
     
-    // Função para configurar dropdown do usuário
+    // Funï¿½ï¿½o para configurar dropdown do usuï¿½rio
     function setupUserDropdown(firstName, email) {
         var dropdownName = document.querySelector('.dropdown-user-name');
         var dropdownEmail = document.querySelector('.dropdown-user-email');
         
-        if (dropdownName) dropdownName.textContent = firstName || 'Usuário';
+        if (dropdownName) dropdownName.textContent = firstName || 'Usuï¿½rio';
         if (dropdownEmail) dropdownEmail.textContent = email || '';
     }
 
-    // Verificação de autenticação obrigatória via cookie
+    // Verificaï¿½ï¿½o de autenticaï¿½ï¿½o obrigatï¿½ria via cookie
     document.addEventListener('DOMContentLoaded', async function() {
         const dashboard = document.getElementById('dashboard-area');
         try {
             const resp = await fetch('/api/me', { credentials: 'include' });
-            if (!resp.ok) throw new Error('Não autenticado');
+            if (!resp.ok) throw new Error('Nï¿½o autenticado');
             const user = await resp.json();
             if (dashboard) dashboard.style.display = 'block';
-            // Salva dados do usuário localmente para personalização
+            // Salva dados do usuï¿½rio localmente para personalizaï¿½ï¿½o
             localStorage.setItem('userData', JSON.stringify(user));
             // Update UI immediately with authenticated user
             if (typeof updateUserUI === 'function') updateUserUI(user);
         } catch (e) {
-            // Redirecionar para a tela de login se não autenticado
-            console.log('??”’ Não autenticado - redirecionando para login...');
+            // Redirecionar para a tela de login se nï¿½o autenticado
+            console.log('??ï¿½ï¿½ Nï¿½o autenticado - redirecionando para login...');
             localStorage.removeItem('userData');
             localStorage.removeItem('authToken');
             sessionStorage.removeItem('userData');
@@ -130,15 +130,15 @@
             localStorage.setItem('userData', JSON.stringify(mergedUser));
             
             // Extract name - try multiple fields
-            const fullName = mergedUser.nome || mergedUser.nome_completo || mergedUser.email || 'Usuário';
-            const firstName = fullName.split(' ')[0] || 'Usuário';
+            const fullName = mergedUser.nome || mergedUser.nome_completo || mergedUser.email || 'Usuï¿½rio';
+            const firstName = fullName.split(' ')[0] || 'Usuï¿½rio';
             const displayName = mergedUser.apelido || firstName;
             
-            // Update greeting premium (usa apelido se disponível)
+            // Update greeting premium (usa apelido se disponï¿½vel)
             const greetingName = document.getElementById('greeting-name');
             if (greetingName) greetingName.textContent = displayName;
             
-            // Inicializar saudação premium
+            // Inicializar saudaï¿½ï¿½o premium
             if (typeof initPremiumGreeting === 'function') initPremiumGreeting();
             
             // Update user name in header
@@ -155,23 +155,23 @@
             // Setup dropdown
             setupUserDropdown(firstName, mergedUser.email || '');
             
-            // Aplicar permissões de acesso aos módulos
+            // Aplicar permissï¿½es de acesso aos mï¿½dulos
             applyModulePermissions(mergedUser);
         } catch (err) { 
             console.error('updateUserUI error', err); 
         }
     }
     
-    // Função para aplicar permissões aos módulos
+    // Funï¿½ï¿½o para aplicar permissï¿½es aos mï¿½dulos
     function applyModulePermissions(user) {
         if (!user) {
-            console.log('âš ï¸ Nenhum usuário fornecido para applyModulePermissions');
+            console.log('âš ï¸ Nenhum usuï¿½rio fornecido para applyModulePermissions');
             return;
         }
         
-        console.log('??” DEBUG - Dados do usuário:', user);
+        console.log('??ï¿½ï¿½ DEBUG - Dados do usuï¿½rio:', user);
         
-        // Mapear áreas permitidas
+        // Mapear ï¿½reas permitidas
         let allowedAreas = user.permissoes || user.areas || [];
         
         // Se permissoes for string JSON, parse
@@ -184,12 +184,12 @@
             }
         }
         
-        // Garantir que é array
+        // Garantir que ï¿½ array
         if (!Array.isArray(allowedAreas)) {
             allowedAreas = [];
         }
         
-        // Verificação aprimorada de admin (múltiplos campos possíveis)
+        // Verificaï¿½ï¿½o aprimorada de admin (mï¿½ltiplos campos possï¿½veis)
         const isAdmin = user.is_admin === 1 || 
                        user.is_admin === true || 
                        user.is_admin === '1' ||
@@ -198,15 +198,15 @@
                        user.role === 'admin' ||
                        user.role === 'administrador';
         
-        console.log('??” DEBUG - Áreas permitidas:', allowedAreas);
-        console.log('??” DEBUG - Á‰ admin?', isAdmin);
-        console.log('??” DEBUG - user.is_admin:', user.is_admin);
-        console.log('??” DEBUG - user.admin:', user.admin);
-        console.log('??” DEBUG - user.role:', user.role);
+        console.log('??ï¿½ï¿½ DEBUG - ï¿½ï¿½reas permitidas:', allowedAreas);
+        console.log('??ï¿½ï¿½ DEBUG - ï¿½ï¿½ admin?', isAdmin);
+        console.log('??ï¿½ï¿½ DEBUG - user.is_admin:', user.is_admin);
+        console.log('??ï¿½ï¿½ DEBUG - user.admin:', user.admin);
+        console.log('??ï¿½ï¿½ DEBUG - user.role:', user.role);
         
         // Se for admin, permite tudo
         if (isAdmin) {
-            console.log('??‘‘ Usuário é administrador - acesso total liberado');
+            console.log('??ï¿½ï¿½ Usuï¿½rio ï¿½ administrador - acesso total liberado');
             // Mostrar todos os cards
             document.querySelectorAll('.module-card').forEach(card => {
                 card.style.display = '';
@@ -215,7 +215,7 @@
             return;
         }
         
-        // Lista de todos os módulos possíveis
+        // Lista de todos os mï¿½dulos possï¿½veis
         const allModules = {
             'compras': '.compras-card',
             'nfe': '.nfe-card',
@@ -226,13 +226,13 @@
             'ti': '.ti-card'
         };
         
-        // Ocultar módulos não permitidos
+        // Ocultar mï¿½dulos nï¿½o permitidos
         let visibleCount = 0;
         for (const [area, selector] of Object.entries(allModules)) {
             const moduleCard = document.querySelector(selector);
             if (moduleCard) {
                 const hasAccess = allowedAreas.includes(area);
-                console.log(`??” Módulo ${area}: ${hasAccess ? '? PERMITIDO' : 'âŒ BLOQUEADO'}`);
+                console.log(`??ï¿½ï¿½ Mï¿½dulo ${area}: ${hasAccess ? '? PERMITIDO' : 'âŒ BLOQUEADO'}`);
                 
                 if (hasAccess) {
                     moduleCard.style.display = '';
@@ -244,7 +244,7 @@
             }
         }
         
-        console.log(`? Total de módulos visíveis: ${visibleCount}/${Object.keys(allModules).length}`);
+        console.log(`? Total de mï¿½dulos visï¿½veis: ${visibleCount}/${Object.keys(allModules).length}`);
     }
     </script>
     <!-- Favicon -->
@@ -253,17 +253,17 @@
     
     
     
-    <!-- CSS Crítico - Carrega primeiro -->
+    <!-- CSS Crï¿½tico - Carrega primeiro -->
     <link rel="stylesheet" href="css/style.css?v=2025010320">
     <link rel="stylesheet" href="css/flat-design.css?v=2025010320">
     <link rel="stylesheet" href="css/cards-solid.css?v=2025010320">
     <link rel="stylesheet" href="css/backgrounds.css?v=2025010320">
     <link rel="stylesheet" href="css/greeting-premium.css?v=2025010320">
     
-    <!-- Font Awesome - Carregamento Crítico para Ícones -->
+    <!-- Font Awesome - Carregamento Crï¿½tico para ï¿½cones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" crossorigin="anonymous">
     
-    <!-- CSS Secundário - Carregamento Diferido -->
+    <!-- CSS Secundï¿½rio - Carregamento Diferido -->
     <link rel="stylesheet" href="css/modal-configuracoes.css?v=2026010301">
     <link rel="stylesheet" href="css/config-modals.css?v=2025010320">
     <link rel="stylesheet" href="css/config-modals-professional.css?v=2025010320">
@@ -282,7 +282,7 @@
     <script src="js/permissions.js" defer></script>
     <script src="js/background-manager.js" defer></script>
     
-    <!-- JavaScript Não-Crítico - Carregamento Diferido -->
+    <!-- JavaScript Nï¿½o-Crï¿½tico - Carregamento Diferido -->
     <script src="js/chat-widget.js?v=20251208autologin" defer></script>
     <script src="js/profile-manager.js" defer></script>
     <script src="js/admin-permissions.js" defer></script>
@@ -327,7 +327,7 @@
                             <i class="fas fa-camera"></i> Escolher Foto
                         </button>
                         <div class="profile-avatar-info">
-                            <small>JPG, PNG, GIF ou WEBP (Máx: 2MB)</small>
+                            <small>JPG, PNG, GIF ou WEBP (Mï¿½x: 2MB)</small>
                         </div>
                     </div>
                 </div>
@@ -335,7 +335,7 @@
                 <!-- Personal Info Section -->
                 <div class="profile-section">
                     <h4 class="profile-section-title">
-                        <i class="fas fa-user-circle"></i> Informações Pessoais
+                        <i class="fas fa-user-circle"></i> Informaï¿½ï¿½es Pessoais
                     </h4>
                     <div class="profile-row">
                         <div class="profile-col">
@@ -372,12 +372,12 @@
                 <!-- Additional Info Section -->
                 <div class="profile-section">
                     <h4 class="profile-section-title">
-                        <i class="fas fa-info-circle"></i> Informações Adicionais
+                        <i class="fas fa-info-circle"></i> Informaï¿½ï¿½es Adicionais
                     </h4>
                     <div class="profile-row">
                         <div class="profile-col full">
                             <label>Bio / Notas</label>
-                            <textarea id="profile-bio" rows="3" placeholder="Conte um pouco sobre você, suas habilidades e experiências..."></textarea>
+                            <textarea id="profile-bio" rows="3" placeholder="Conte um pouco sobre vocï¿½, suas habilidades e experiï¿½ncias..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -385,7 +385,7 @@
                 <!-- Security Section -->
                 <div class="profile-section">
                     <h4 class="profile-section-title">
-                        <i class="fas fa-shield-alt"></i> Segurança
+                        <i class="fas fa-shield-alt"></i> Seguranï¿½a
                     </h4>
                     <div class="profile-row">
                         <div class="profile-col full">
@@ -401,28 +401,28 @@
                         <i class="fas fa-times"></i> Cancelar
                     </button>
                     <button type="button" id="profile-save" class="btn-primary">
-                        <i class="fas fa-check"></i> Salvar Alterações
+                        <i class="fas fa-check"></i> Salvar Alteraï¿½ï¿½es
                     </button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Preferences Modal (Para todos os usuários) -->
+    <!-- Preferences Modal (Para todos os usuï¿½rios) -->
     <div id="preferences-modal" class="settings-modal" aria-hidden="true">
         <div class="settings-modal-card preferences-modal">
             <div class="settings-modal-header">
                 <div class="pref-search-wrapper">
                     <span class="pref-search-icon"><i class="fas fa-cog"></i></span>
-                    <input type="text" class="pref-search-input" placeholder="Buscar configuração..." id="pref-search">
+                    <input type="text" class="pref-search-input" placeholder="Buscar configuraï¿½ï¿½o..." id="pref-search">
                 </div>
                 <button id="preferences-modal-close" class="settings-modal-close" aria-label="Fechar">&times;</button>
             </div>
             <div class="settings-modal-body">
-                <!-- Aparência -->
+                <!-- Aparï¿½ncia -->
                 <div class="settings-section">
                     <h4 class="settings-section-title">
-                        <i class="fas fa-palette"></i> Aparência
+                        <i class="fas fa-palette"></i> Aparï¿½ncia
                     </h4>
                     <div class="settings-items-container">
                         <div class="settings-item">
@@ -442,15 +442,15 @@
                             </div>
                             <select class="settings-select" id="setting-font-size">
                                 <option value="small">Pequeno (90%)</option>
-                                <option value="medium" selected>Médio (100%)</option>
+                                <option value="medium" selected>Mï¿½dio (100%)</option>
                                 <option value="large">Grande (110%)</option>
                                 <option value="xlarge">Extra Grande (120%)</option>
                             </select>
                         </div>
                         <div class="settings-item">
                             <div class="settings-item-info">
-                                <div class="settings-item-label">Contraste Automático</div>
-                                <div class="settings-item-description">Ajusta texto/ícones conforme o fundo</div>
+                                <div class="settings-item-label">Contraste Automï¿½tico</div>
+                                <div class="settings-item-description">Ajusta texto/ï¿½cones conforme o fundo</div>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="setting-auto-contrast" checked>
@@ -460,16 +460,16 @@
                     </div>
                 </div>
 
-                <!-- Notificações -->
+                <!-- Notificaï¿½ï¿½es -->
                 <div class="settings-section">
                     <h4 class="settings-section-title">
-                        <i class="fas fa-bell"></i> Notificações
+                        <i class="fas fa-bell"></i> Notificaï¿½ï¿½es
                     </h4>
                     <div class="settings-items-container">
                         <div class="settings-item">
                             <div class="settings-item-info">
-                                <div class="settings-item-label">Notificações Desktop</div>
-                                <div class="settings-item-description">Receba alertas na área de trabalho</div>
+                                <div class="settings-item-label">Notificaï¿½ï¿½es Desktop</div>
+                                <div class="settings-item-description">Receba alertas na ï¿½rea de trabalho</div>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="setting-desktop-notifications" checked>
@@ -478,8 +478,8 @@
                         </div>
                         <div class="settings-item">
                             <div class="settings-item-info">
-                                <div class="settings-item-label">Som de Notificação</div>
-                                <div class="settings-item-description">Reproduzir som ao receber notificações</div>
+                                <div class="settings-item-label">Som de Notificaï¿½ï¿½o</div>
+                                <div class="settings-item-description">Reproduzir som ao receber notificaï¿½ï¿½es</div>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="setting-notification-sound" checked>
@@ -501,15 +501,15 @@
                                 <div class="settings-item-description">Selecione o idioma do sistema</div>
                             </div>
                             <select class="settings-select" id="setting-language">
-                                <option value="pt-BR" selected>Português (Brasil)</option>
+                                <option value="pt-BR" selected>Portuguï¿½s (Brasil)</option>
                                 <option value="en-US">English (US)</option>
-                                <option value="es-ES">Español</option>
+                                <option value="es-ES">Espaï¿½ol</option>
                             </select>
                         </div>
                         <div class="settings-item">
                             <div class="settings-item-info">
-                                <div class="settings-item-label">Atualização Automática</div>
-                                <div class="settings-item-description">Verificar atualizações automaticamente</div>
+                                <div class="settings-item-label">Atualizaï¿½ï¿½o Automï¿½tica</div>
+                                <div class="settings-item-description">Verificar atualizaï¿½ï¿½es automaticamente</div>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="setting-auto-update" checked>
@@ -527,8 +527,8 @@
                     <div class="settings-items-container">
                         <div class="settings-item">
                             <div class="settings-item-info">
-                                <div class="settings-item-label">Animações</div>
-                                <div class="settings-item-description">Habilitar animações e transições</div>
+                                <div class="settings-item-label">Animaï¿½ï¿½es</div>
+                                <div class="settings-item-description">Habilitar animaï¿½ï¿½es e transiï¿½ï¿½es</div>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="setting-animations" checked>
@@ -548,13 +548,13 @@
                     </div>
                 </div>
 
-                <!-- Ações (Hidden - Auto save) -->
+                <!-- Aï¿½ï¿½es (Hidden - Auto save) -->
                 <div class="preferences-actions">
                     <button id="preferences-save" class="btn-primary">
-                        <i class="fas fa-save"></i> Salvar Preferências
+                        <i class="fas fa-save"></i> Salvar Preferï¿½ncias
                     </button>
                     <button id="preferences-reset" class="btn-secondary">
-                        <i class="fas fa-undo"></i> Restaurar Padrões
+                        <i class="fas fa-undo"></i> Restaurar Padrï¿½es
                     </button>
                 </div>
             </div>
@@ -565,11 +565,11 @@
     <div id="dashboard-area" class="dashboard-area" style="display:none;">
         <!-- Header -->
         <header class="main-header" style="background: linear-gradient(135deg, #1a1f2e 0%, #2d3548 100%) !important; backdrop-filter: none !important;">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
             <div class="header-content">
                 <div class="header-left">
                     <div class="logo-section">
-                        <img src="images/Logo Monocromatico - Branco - Aluforce.png" alt="ALUFORCE" class="header-logo">
+                        <img src="/Logo Monocromatico - Branco - Aluforce.webp" alt="ALUFORCE" class="header-logo">
                     </div>
                 </div>
                 <div class="header-right">
@@ -582,14 +582,14 @@
                                 <i class="fas fa-search"></i>
                             </button>
                             <div id="header-search-container" class="header-search-container" aria-hidden="true">
-                                <input id="header-search-input" type="search" placeholder="O que você deseja pesquisar?" autocomplete="off" />
+                                <input id="header-search-input" type="search" placeholder="O que vocï¿½ deseja pesquisar?" autocomplete="off" />
                                 <div id="header-search-results" class="header-search-results" aria-live="polite"></div>
                             </div>
                         </div>
-                        <button class="header-icon-btn" title="Configurações" id="settings-btn">
+                        <button class="header-icon-btn" title="Configuraï¿½ï¿½es" id="settings-btn">
                             <i class="fas fa-cog"></i>
                         </button>
-                        <button class="header-icon-btn notification-btn" title="Notificações" id="notifications-btn">
+                        <button class="header-icon-btn notification-btn" title="Notificaï¿½ï¿½es" id="notifications-btn">
                             <i class="fas fa-bell"></i>
                             <span class="notification-dot">3</span>
                         </button>
@@ -597,14 +597,14 @@
                             <i class="fas fa-question-circle"></i>
                         </button>
                         <div class="user-profile-header" id="user-profile">
-                            <span class="user-name">Usuário</span>
+                            <span class="user-name">Usuï¿½rio</span>
                             <div class="user-avatar-header">U</div>
-                            <!-- Menu Dropdown do Usuário -->
+                            <!-- Menu Dropdown do Usuï¿½rio -->
                             <div class="user-dropdown-menu" id="user-dropdown">
                                 <div class="dropdown-header">
                                     <div class="dropdown-avatar">U</div>
                                     <div class="dropdown-info">
-                                        <span class="dropdown-user-name">Usuário</span>
+                                        <span class="dropdown-user-name">Usuï¿½rio</span>
                                         <span class="dropdown-user-email">usuario@aluforce.ind.br</span>
                                     </div>
                                 </div>
@@ -616,11 +616,11 @@
                                     </div>
                                     <div class="dropdown-item" id="preferences-option">
                                         <i class="fas fa-sliders-h"></i>
-                                        <span>Preferências</span>
+                                        <span>Preferï¿½ncias</span>
                                     </div>
                                     <div class="dropdown-item" id="settings-option" style="display: none;">
                                         <i class="fas fa-cog"></i>
-                                        <span>Configurações</span>
+                                        <span>Configuraï¿½ï¿½es</span>
                                     </div>
                                     <div class="dropdown-item" id="help-option" style="display: none;">
                                         <i class="fas fa-question-circle"></i>
@@ -649,7 +649,7 @@
                 </div>
                 <div class="greeting-main">
                     <span class="greeting-time-label" id="greeting-time-label">Bom dia</span>
-                    <h1 class="greeting-title-premium" id="greeting-name">Usuário</h1>
+                    <h1 class="greeting-title-premium" id="greeting-name">Usuï¿½rio</h1>
                 </div>
                 <p class="greeting-subtitle-premium" id="greeting-message">Pronto para mais um dia produtivo?</p>
                 <div class="greeting-stats">
@@ -672,9 +672,9 @@
                         <h2 class="kpis-title"><i class="fas fa-chart-pie"></i> Indicadores do Dia</h2>
                         <div class="kpis-modal-actions">
                             <select id="kpis-periodo" class="kpis-periodo-select">
-                                <option value="7">Últimos 7 dias</option>
-                                <option value="30" selected>Últimos 30 dias</option>
-                                <option value="90">Últimos 90 dias</option>
+                                <option value="7">ï¿½ltimos 7 dias</option>
+                                <option value="30" selected>ï¿½ltimos 30 dias</option>
+                                <option value="90">ï¿½ltimos 90 dias</option>
                             </select>
                             <button class="kpis-refresh-btn" onclick="carregarKPIs()" title="Atualizar">
                                 <i class="fas fa-sync-alt"></i>
@@ -721,7 +721,7 @@
                     </div>
                 </div>
 
-                <!-- KPIs por Módulo -->
+                <!-- KPIs por Mï¿½dulo -->
                 <div class="kpis-modulos-grid">
                     <!-- Vendas -->
                     <div class="kpi-modulo-card" data-modulo="vendas">
@@ -731,8 +731,8 @@
                         </div>
                         <div class="kpi-modulo-body">
                             <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-vendas-pedidos">0</span><span class="kpi-mini-label">Pedidos</span></div>
-                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-vendas-conversao">0%</span><span class="kpi-mini-label">Conversão</span></div>
-                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-vendas-ticket">R$ 0</span><span class="kpi-mini-label">Ticket Médio</span></div>
+                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-vendas-conversao">0%</span><span class="kpi-mini-label">Conversï¿½o</span></div>
+                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-vendas-ticket">R$ 0</span><span class="kpi-mini-label">Ticket Mï¿½dio</span></div>
                         </div>
                     </div>
                     
@@ -749,15 +749,15 @@
                         </div>
                     </div>
                     
-                    <!-- Produção -->
+                    <!-- Produï¿½ï¿½o -->
                     <div class="kpi-modulo-card" data-modulo="pcp">
                         <div class="kpi-modulo-header pcp">
                             <i class="fas fa-industry"></i>
-                            <span>Produção</span>
+                            <span>Produï¿½ï¿½o</span>
                         </div>
                         <div class="kpi-modulo-body">
                             <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-pcp-ordens">0</span><span class="kpi-mini-label">Ordens</span></div>
-                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-pcp-eficiencia">0%</span><span class="kpi-mini-label">Eficiência</span></div>
+                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-pcp-eficiencia">0%</span><span class="kpi-mini-label">Eficiï¿½ncia</span></div>
                             <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-pcp-estoque">0</span><span class="kpi-mini-label">Alertas Estoque</span></div>
                         </div>
                     </div>
@@ -769,16 +769,16 @@
                             <span>RH</span>
                         </div>
                         <div class="kpi-modulo-body">
-                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-rh-funcionarios">0</span><span class="kpi-mini-label">Funcionários</span></div>
-                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-rh-ferias">0</span><span class="kpi-mini-label">Em Férias</span></div>
-                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-rh-aniversarios">0</span><span class="kpi-mini-label">Aniversários</span></div>
+                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-rh-funcionarios">0</span><span class="kpi-mini-label">Funcionï¿½rios</span></div>
+                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-rh-ferias">0</span><span class="kpi-mini-label">Em Fï¿½rias</span></div>
+                            <div class="kpi-mini"><span class="kpi-mini-value" id="kpi-rh-aniversarios">0</span><span class="kpi-mini-label">Aniversï¿½rios</span></div>
                         </div>
                     </div>
                 </div>
 
                     <!-- Alertas -->
                     <div class="kpis-alertas" id="kpis-alertas">
-                        <!-- Alertas serão inseridos via JavaScript -->
+                        <!-- Alertas serï¿½o inseridos via JavaScript -->
                     </div>
                 </div>
             </div>
@@ -792,7 +792,7 @@
                     </div>
                     <div class="module-text">
                         <span class="module-title">Compras</span>
-                        <span class="module-desc">Gestão de pedidos e fornecedores</span>
+                        <span class="module-desc">Gestï¿½o de pedidos e fornecedores</span>
                     </div>
                 </a>
                 <a href="modules/Vendas/index.html" class="module-card vendas-card" data-area="vendas">
@@ -801,7 +801,7 @@
                     </div>
                     <div class="module-text">
                         <span class="module-title">Vendas</span>
-                        <span class="module-desc">Orçamentos e pedidos de venda</span>
+                        <span class="module-desc">Orï¿½amentos e pedidos de venda</span>
                     </div>
                 </a>
                 <a href="modules/NFe/index.html" class="module-card nfe-card" data-area="nfe">
@@ -809,8 +809,8 @@
                         <i class="fas fa-file-invoice"></i>
                     </div>
                     <div class="module-text">
-                        <span class="module-title">NF-e & Logística</span>
-                        <span class="module-desc">Notas fiscais e expedição</span>
+                        <span class="module-title">NF-e & Logï¿½stica</span>
+                        <span class="module-desc">Notas fiscais e expediï¿½ï¿½o</span>
                     </div>
                 </a>
                 <a href="modules/PCP/index.html" class="module-card pcp-card" data-area="pcp">
@@ -818,8 +818,8 @@
                         <i class="fas fa-cogs"></i>
                     </div>
                     <div class="module-text">
-                        <span class="module-title">Planejamento e Controle de Produção</span>
-                        <span class="module-desc">Gestão da produção industrial</span>
+                        <span class="module-title">Planejamento e Controle de Produï¿½ï¿½o</span>
+                        <span class="module-desc">Gestï¿½o da produï¿½ï¿½o industrial</span>
                     </div>
                 </a>
                     
@@ -839,7 +839,7 @@
                     </div>
                     <div class="module-text">
                         <span class="module-title">Recursos Humanos</span>
-                        <span class="module-desc">Gestão de colaboradores</span>
+                        <span class="module-desc">Gestï¿½o de colaboradores</span>
                     </div>
                 </a>
                 </div>
@@ -856,7 +856,7 @@
     <script src="js/header-controls.js"></script>
     <script src="js/admin-permissions.js"></script>
     
-    <!-- Carregar modais de forma assíncrona -->
+    <!-- Carregar modais de forma assï¿½ncrona -->
     <script>
         // Flag para indicar que os modais foram carregados
         window.configModalsReady = false;
@@ -872,9 +872,9 @@
             container.id = 'config-modals-container';
             container.innerHTML = html;
             document.body.appendChild(container);
-            console.log('? Modais de configuração carregados');
+            console.log('? Modais de configuraï¿½ï¿½o carregados');
             
-            // Inicializar CompanySettings se disponível
+            // Inicializar CompanySettings se disponï¿½vel
             if (typeof CompanySettings !== 'undefined') {
                 CompanySettings.init();
                 console.log('? CompanySettings inicializado');
@@ -900,20 +900,20 @@
         .catch(err => console.error('? Erro ao carregar modais estendidos:', err));
     </script>
 
-    <!-- Modal de Configurações do Sistema -->
+    <!-- Modal de Configuraï¿½ï¿½es do Sistema -->
     <div id="modal-configuracoes" class="modal-config">
         <div class="modal-config-content">
             <!-- Header do Modal -->
             <div class="modal-config-header">
                 <div class="modal-config-brand">
                     <img src="images/Logo Monocromatico - Azul - Aluforce.webp" alt="Aluforce" class="modal-config-logo" onerror="this.style.display='none'">
-                    <span class="modal-config-title">Configurações do Sistema</span>
+                    <span class="modal-config-title">Configuraï¿½ï¿½es do Sistema</span>
                 </div>
                 <div class="modal-config-search">
                     <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Buscar configuração..." id="config-search-input">
+                    <input type="text" placeholder="Buscar configuraï¿½ï¿½o..." id="config-search-input">
                 </div>
-                <button class="modal-config-settings-btn modal-config-tooltip" data-tooltip="Atalhos" title="Configurações gerais">
+                <button class="modal-config-settings-btn modal-config-tooltip" data-tooltip="Atalhos" title="Configuraï¿½ï¿½es gerais">
                     <i class="fas fa-cog"></i>
                 </button>
                 <button class="modal-config-close modal-config-tooltip" data-tooltip="Fechar (ESC)" id="btn-fechar-config" title="Fechar">
@@ -921,17 +921,17 @@
                 </button>
             </div>
 
-            <!-- Abas de navegação -->
+            <!-- Abas de navegaï¿½ï¿½o -->
             <div class="modal-config-tabs">
                 <button class="modal-config-tab active" data-tab="principais">Principais</button>
                 <button class="modal-config-tab" data-tab="recursos-humanos">Recursos Humanos</button>
-                <button class="modal-config-tab" data-tab="financas">Finanças</button>
+                <button class="modal-config-tab" data-tab="financas">Finanï¿½as</button>
                 <button class="modal-config-tab" data-tab="clientes-fornecedores">Clientes e Fornecedores</button>
                 <button class="modal-config-tab" data-tab="venda-produtos">Venda de Produtos</button>
-                <button class="modal-config-tab" data-tab="venda-servicos">Venda de Serviços</button>
+                <button class="modal-config-tab" data-tab="venda-servicos">Venda de Serviï¿½os</button>
             </div>
 
-            <!-- Conteúdo das Abas -->
+            <!-- Conteï¿½do das Abas -->
             <div class="modal-config-body">
                 <!-- Aba Principais -->
                 <div class="modal-config-tab-content active" id="tab-principais">
@@ -942,7 +942,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Dados da Minha Empresa</h3>
-                                <p class="modal-config-card-subtitle">Informações cadastrais e dados fiscais</p>
+                                <p class="modal-config-card-subtitle">Informaï¿½ï¿½es cadastrais e dados fiscais</p>
                             </div>
                         </div>
 
@@ -952,7 +952,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Categorias</h3>
-                                <p class="modal-config-card-subtitle">Organize produtos e serviços por categoria</p>
+                                <p class="modal-config-card-subtitle">Organize produtos e serviï¿½os por categoria</p>
                             </div>
                         </div>
 
@@ -972,7 +972,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Projetos</h3>
-                                <p class="modal-config-card-subtitle">Gestão e acompanhamento de projetos</p>
+                                <p class="modal-config-card-subtitle">Gestï¿½o e acompanhamento de projetos</p>
                             </div>
                         </div>
 
@@ -982,7 +982,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Certificado Digital (Modelo A1)</h3>
-                                <p class="modal-config-card-subtitle">Upload e validação do certificado</p>
+                                <p class="modal-config-card-subtitle">Upload e validaï¿½ï¿½o do certificado</p>
                             </div>
                         </div>
 
@@ -991,8 +991,8 @@
                                 <i class="fas fa-file-invoice"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Importação da NF-e do Fornecedor</h3>
-                                <p class="modal-config-card-subtitle">Configurações de importação automática</p>
+                                <h3>Importaï¿½ï¿½o da NF-e do Fornecedor</h3>
+                                <p class="modal-config-card-subtitle">Configuraï¿½ï¿½es de importaï¿½ï¿½o automï¿½tica</p>
                             </div>
                         </div>
                     </div>
@@ -1006,7 +1006,7 @@
                                 <i class="fas fa-users"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Gestão de Funcionários</h3>
+                                <h3>Gestï¿½o de Funcionï¿½rios</h3>
                                 <p class="modal-config-card-subtitle">Cadastro e gerenciamento de colaboradores</p>
                             </div>
                         </div>
@@ -1016,7 +1016,7 @@
                                 <i class="fas fa-id-badge"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Cargos e Funções</h3>
+                                <h3>Cargos e Funï¿½ï¿½es</h3>
                                 <p class="modal-config-card-subtitle">Definir hierarquia organizacional</p>
                             </div>
                         </div>
@@ -1027,7 +1027,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Folha de Pagamento</h3>
-                                <p class="modal-config-card-subtitle">Configurações de salários e benefícios</p>
+                                <p class="modal-config-card-subtitle">Configuraï¿½ï¿½es de salï¿½rios e benefï¿½cios</p>
                             </div>
                         </div>
 
@@ -1036,14 +1036,14 @@
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Ponto Eletrônico</h3>
+                                <h3>Ponto Eletrï¿½nico</h3>
                                 <p class="modal-config-card-subtitle">Controle de jornada de trabalho</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Aba Finanças -->
+                <!-- Aba Finanï¿½as -->
                 <div class="modal-config-tab-content" id="tab-financas">
                     <div class="modal-config-grid">
                         <div class="modal-config-card" onclick="abrirConfiguracao('financas')">
@@ -1051,8 +1051,8 @@
                                 <i class="fas fa-dollar-sign"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Configurações Gerais</h3>
-                                <p class="modal-config-card-subtitle">Juros, multas e cobrança</p>
+                                <h3>Configuraï¿½ï¿½es Gerais</h3>
+                                <p class="modal-config-card-subtitle">Juros, multas e cobranï¿½a</p>
                             </div>
                         </div>
 
@@ -1062,7 +1062,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Plano de Contas</h3>
-                                <p class="modal-config-card-subtitle">Estrutura contábil da empresa</p>
+                                <p class="modal-config-card-subtitle">Estrutura contï¿½bil da empresa</p>
                             </div>
                         </div>
 
@@ -1071,8 +1071,8 @@
                                 <i class="fas fa-university"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Contas Bancárias</h3>
-                                <p class="modal-config-card-subtitle">Gestão de contas e conciliação</p>
+                                <h3>Contas Bancï¿½rias</h3>
+                                <p class="modal-config-card-subtitle">Gestï¿½o de contas e conciliaï¿½ï¿½o</p>
                             </div>
                         </div>
 
@@ -1082,7 +1082,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Formas de Pagamento</h3>
-                                <p class="modal-config-card-subtitle">Configurar métodos de pagamento</p>
+                                <p class="modal-config-card-subtitle">Configurar mï¿½todos de pagamento</p>
                             </div>
                         </div>
 
@@ -1091,8 +1091,8 @@
                                 <i class="fas fa-percent"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Configuração de Impostos</h3>
-                                <p class="modal-config-card-subtitle">Alíquotas e regimes tributários</p>
+                                <h3>Configuraï¿½ï¿½o de Impostos</h3>
+                                <p class="modal-config-card-subtitle">Alï¿½quotas e regimes tributï¿½rios</p>
                             </div>
                         </div>
                     </div>
@@ -1106,8 +1106,8 @@
                                 <i class="fas fa-cogs"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Configurações Gerais</h3>
-                                <p class="modal-config-card-subtitle">Validações, crédito e tags</p>
+                                <h3>Configuraï¿½ï¿½es Gerais</h3>
+                                <p class="modal-config-card-subtitle">Validaï¿½ï¿½es, crï¿½dito e tags</p>
                             </div>
                         </div>
 
@@ -1117,7 +1117,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Grupos de Clientes</h3>
-                                <p class="modal-config-card-subtitle">Segmentação de clientes</p>
+                                <p class="modal-config-card-subtitle">Segmentaï¿½ï¿½o de clientes</p>
                             </div>
                         </div>
 
@@ -1126,8 +1126,8 @@
                                 <i class="fas fa-map-marked-alt"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Regiões de Venda</h3>
-                                <p class="modal-config-card-subtitle">Territórios e áreas de atuação</p>
+                                <h3>Regiï¿½es de Venda</h3>
+                                <p class="modal-config-card-subtitle">Territï¿½rios e ï¿½reas de atuaï¿½ï¿½o</p>
                             </div>
                         </div>
 
@@ -1137,7 +1137,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Tipos de Fornecedor</h3>
-                                <p class="modal-config-card-subtitle">Categorização de fornecedores</p>
+                                <p class="modal-config-card-subtitle">Categorizaï¿½ï¿½o de fornecedores</p>
                             </div>
                         </div>
 
@@ -1146,8 +1146,8 @@
                                 <i class="fas fa-handshake"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Condições de Pagamento</h3>
-                                <p class="modal-config-card-subtitle">Prazos e condições comerciais</p>
+                                <h3>Condiï¿½ï¿½es de Pagamento</h3>
+                                <p class="modal-config-card-subtitle">Prazos e condiï¿½ï¿½es comerciais</p>
                             </div>
                         </div>
 
@@ -1166,8 +1166,8 @@
                                 <i class="fas fa-cog"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Configurações Gerais</h3>
-                                <p class="modal-config-card-subtitle">Validações e controles</p>
+                                <h3>Configuraï¿½ï¿½es Gerais</h3>
+                                <p class="modal-config-card-subtitle">Validaï¿½ï¿½es e controles</p>
                             </div>
                         </div>
                     </div>
@@ -1181,8 +1181,8 @@
                                 <i class="fas fa-cogs"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Configurações Gerais</h3>
-                                <p class="modal-config-card-subtitle">Etapas, preços e estoque</p>
+                                <h3>Configuraï¿½ï¿½es Gerais</h3>
+                                <p class="modal-config-card-subtitle">Etapas, preï¿½os e estoque</p>
                             </div>
                         </div>
 
@@ -1191,8 +1191,8 @@
                                 <i class="fas fa-boxes"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Famílias de Produtos</h3>
-                                <p class="modal-config-card-subtitle">Organização por categorias</p>
+                                <h3>Famï¿½lias de Produtos</h3>
+                                <p class="modal-config-card-subtitle">Organizaï¿½ï¿½o por categorias</p>
                             </div>
                         </div>
 
@@ -1201,8 +1201,8 @@
                                 <i class="fas fa-tags"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Características de Produtos</h3>
-                                <p class="modal-config-card-subtitle">Atributos e especificações</p>
+                                <h3>Caracterï¿½sticas de Produtos</h3>
+                                <p class="modal-config-card-subtitle">Atributos e especificaï¿½ï¿½es</p>
                             </div>
                         </div>
 
@@ -1212,7 +1212,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Vendedores</h3>
-                                <p class="modal-config-card-subtitle">Equipe de vendas e comissões</p>
+                                <p class="modal-config-card-subtitle">Equipe de vendas e comissï¿½es</p>
                             </div>
                         </div>
 
@@ -1221,8 +1221,8 @@
                                 <i class="fas fa-dollar-sign"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Tabelas de Preço</h3>
-                                <p class="modal-config-card-subtitle">Precificação e descontos</p>
+                                <h3>Tabelas de Preï¿½o</h3>
+                                <p class="modal-config-card-subtitle">Precificaï¿½ï¿½o e descontos</p>
                             </div>
                         </div>
 
@@ -1232,7 +1232,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Unidades de Medida</h3>
-                                <p class="modal-config-card-subtitle">Conversões e padrões</p>
+                                <p class="modal-config-card-subtitle">Conversï¿½es e padrï¿½es</p>
                             </div>
                         </div>
 
@@ -1241,14 +1241,14 @@
                                 <i class="fas fa-barcode"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Códigos NCM</h3>
+                                <h3>Cï¿½digos NCM</h3>
                                 <p class="modal-config-card-subtitle">Nomenclatura Comum do Mercosul</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Aba Venda de Serviços -->
+                <!-- Aba Venda de Serviï¿½os -->
                 <div class="modal-config-tab-content" id="tab-venda-servicos">
                     <div class="modal-config-grid">
                         <div class="modal-config-card" onclick="abrirConfiguracao('venda-servicos')">
@@ -1256,8 +1256,8 @@
                                 <i class="fas fa-cogs"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Configurações Gerais</h3>
-                                <p class="modal-config-card-subtitle">Etapas de OS e numeração</p>
+                                <h3>Configuraï¿½ï¿½es Gerais</h3>
+                                <p class="modal-config-card-subtitle">Etapas de OS e numeraï¿½ï¿½o</p>
                             </div>
                         </div>
 
@@ -1266,8 +1266,8 @@
                                 <i class="fas fa-concierge-bell"></i>
                             </div>
                             <div class="modal-config-card-content">
-                                <h3>Tipos de Serviço</h3>
-                                <p class="modal-config-card-subtitle">Categorias de serviços prestados</p>
+                                <h3>Tipos de Serviï¿½o</h3>
+                                <p class="modal-config-card-subtitle">Categorias de serviï¿½os prestados</p>
                             </div>
                         </div>
 
@@ -1277,7 +1277,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Modelos de Contrato</h3>
-                                <p class="modal-config-card-subtitle">Templates e cláusulas padrão</p>
+                                <p class="modal-config-card-subtitle">Templates e clï¿½usulas padrï¿½o</p>
                             </div>
                         </div>
 
@@ -1287,7 +1287,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>SLA de Atendimento</h3>
-                                <p class="modal-config-card-subtitle">Níveis de serviço acordados</p>
+                                <p class="modal-config-card-subtitle">Nï¿½veis de serviï¿½o acordados</p>
                             </div>
                         </div>
 
@@ -1297,7 +1297,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>NFS-e</h3>
-                                <p class="modal-config-card-subtitle">Nota Fiscal de Serviços Eletrônica</p>
+                                <p class="modal-config-card-subtitle">Nota Fiscal de Serviï¿½os Eletrï¿½nica</p>
                             </div>
                         </div>
                     </div>
@@ -1308,25 +1308,25 @@
             <div class="modal-config-footer">
                 <a href="#" class="modal-config-footer-link" onclick="abrirSobreLancamentos(event)">
                     <i class="fas fa-info-circle"></i>
-                    Sobre os Lançamentos
+                    Sobre os Lanï¿½amentos
                 </a>
                 <a href="#" class="modal-config-footer-link" onclick="abrirHistoricoAlteracoes(event)">
                     <i class="fas fa-history"></i>
-                    Histórico de alterações
+                    Histï¿½rico de alteraï¿½ï¿½es
                 </a>
             </div>
         </div>
     </div>
 
     <script>
-        // Funções do Modal de Configurações - Premium Version
+        // Funï¿½ï¿½es do Modal de Configuraï¿½ï¿½es - Premium Version
         function abrirModalConfig() {
-            console.log('?? Abrindo modal de configurações...');
+            console.log('?? Abrindo modal de configuraï¿½ï¿½es...');
             const modal = document.getElementById('modal-configuracoes');
             console.log('Modal encontrado:', modal);
             
             if (modal) {
-                // Adiciona modal à tela
+                // Adiciona modal ï¿½ tela
                 modal.classList.add('active');
                 modal.style.display = 'flex';
                 document.body.style.overflow = 'hidden';
@@ -1345,7 +1345,7 @@
                     }
                 }, 100);
 
-                // Adiciona classe para animação de entrada dos cards
+                // Adiciona classe para animaï¿½ï¿½o de entrada dos cards
                 setTimeout(() => {
                     const cards = modal.querySelectorAll('.modal-config-card');
                     cards.forEach((card, index) => {
@@ -1356,12 +1356,12 @@
                     });
                 }, 200);
             } else {
-                console.error('? Modal não encontrado! ID: modal-configuracoes');
-                alert('Erro: Modal de configurações não encontrado');
+                console.error('? Modal nï¿½o encontrado! ID: modal-configuracoes');
+                alert('Erro: Modal de configuraï¿½ï¿½es nï¿½o encontrado');
             }
         }
 
-        // Adiciona estilos de animação para cards
+        // Adiciona estilos de animaï¿½ï¿½o para cards
         const cardAnimStyle = document.createElement('style');
         cardAnimStyle.textContent = `
             .modal-config-card {
@@ -1385,13 +1385,13 @@
         `;
         document.head.appendChild(cardAnimStyle);
 
-        // Função global para fechar o modal de configurações
+        // Funï¿½ï¿½o global para fechar o modal de configuraï¿½ï¿½es
         window.fecharModalConfig = function() {
             console.log('?? fecharModalConfig executado');
             const modal = document.getElementById('modal-configuracoes');
             if (modal) {
                 console.log('? Modal encontrado, fechando...');
-                // Adiciona animação de saída
+                // Adiciona animaï¿½ï¿½o de saï¿½da
                 const content = modal.querySelector('.modal-config-content');
                 if (content) {
                     content.style.animation = 'slideDown 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -1406,7 +1406,7 @@
                     }
                 }, 280);
             } else {
-                console.log('? Modal não encontrado');
+                console.log('? Modal nï¿½o encontrado');
             }
         }
 
@@ -1433,7 +1433,7 @@
                     }, 50);
                 });
 
-                // Adiciona suporte para navegação por teclado
+                // Adiciona suporte para navegaï¿½ï¿½o por teclado
                 tab.addEventListener('keydown', function(e) {
                     if (e.key === 'Enter' || e.key === ' ') {
                         e.preventDefault();
@@ -1465,7 +1465,7 @@
                 if (!activeTab) return;
                 
                 if (touchEndX < touchStartX - swipeThreshold) {
-                    // Swipe left - próxima tab
+                    // Swipe left - prï¿½xima tab
                     const nextTab = activeTab.nextElementSibling;
                     if (nextTab && nextTab.classList.contains('modal-config-tab')) {
                         nextTab.click();
@@ -1482,7 +1482,7 @@
             }
         }
 
-        // Adiciona animação keyframe para saída
+        // Adiciona animaï¿½ï¿½o keyframe para saï¿½da
         const style = document.createElement('style');
         style.textContent = `
             @keyframes slideDown {
@@ -1502,27 +1502,27 @@
         // EVENT LISTENERS - CSP Compliant
         // ============================================
         document.addEventListener('DOMContentLoaded', function() {
-            // Botão de Configurações
+            // Botï¿½o de Configuraï¿½ï¿½es
             const settingsBtn = document.getElementById('settings-btn');
             if (settingsBtn) {
                 settingsBtn.addEventListener('click', function() {
                     abrirModalConfig();
                 });
-                console.log('? Event listener do botão de configurações adicionado');
+                console.log('? Event listener do botï¿½o de configuraï¿½ï¿½es adicionado');
             }
             
-            // Botão de Fechar Modal de Configurações - usar event delegation no documento
+            // Botï¿½o de Fechar Modal de Configuraï¿½ï¿½es - usar event delegation no documento
             document.addEventListener('click', function(e) {
                 const btnFechar = e.target.closest('#btn-fechar-config');
                 if (btnFechar) {
                     e.preventDefault();
                     e.stopPropagation();
-                    console.log('?? Botão fechar clicado');
+                    console.log('?? Botï¿½o fechar clicado');
                     fecharModalConfig();
                 }
             }, true); // Capture phase para garantir que captura o evento
             
-            // Botão de Ajuda
+            // Botï¿½o de Ajuda
             const helpBtn = document.getElementById('help-btn');
             if (helpBtn) {
                 helpBtn.addEventListener('click', function() {
@@ -1550,7 +1550,7 @@
                 }
             });
             
-            // Event delegation para cards de configuração
+            // Event delegation para cards de configuraï¿½ï¿½o
             // Isso funciona mesmo com onclick no HTML (captura antes do CSP bloquear)
             document.addEventListener('click', function(e) {
                 const card = e.target.closest('.modal-config-card');
@@ -1572,12 +1572,12 @@
             }, true); // Capture phase
         });
 
-        // Função abrirConfiguracao agora está em /js/config-modals.js
-        // Mantida aqui apenas para referência/fallback
+        // Funï¿½ï¿½o abrirConfiguracao agora estï¿½ em /js/config-modals.js
+        // Mantida aqui apenas para referï¿½ncia/fallback
         if (typeof window.abrirConfiguracao !== 'function') {
             window.abrirConfiguracao = function(tipo) {
-                console.log('Abrindo configuração:', tipo);
-                alert('Configuração "' + tipo + '" será implementada em breve!');
+                console.log('Abrindo configuraï¿½ï¿½o:', tipo);
+                alert('Configuraï¿½ï¿½o "' + tipo + '" serï¿½ implementada em breve!');
             };
         }
 
@@ -1600,7 +1600,7 @@
             }
         }
         
-        // Função para carregar histórico do servidor
+        // Funï¿½ï¿½o para carregar histï¿½rico do servidor
         async function carregarHistoricoAlteracoes() {
             try {
                 const response = await fetch('/api/audit-log?limite=50');
@@ -1611,7 +1611,7 @@
                     }
                 }
             } catch (error) {
-                console.log('Usando dados de exemplo do histórico');
+                console.log('Usando dados de exemplo do histï¿½rico');
             }
         }
         
@@ -1628,7 +1628,7 @@
                         <div class="historico-avatar" style="background: ${getAvatarGradient(log.usuario)}">${initials}</div>
                         <div class="historico-content">
                             <div class="historico-header">
-                                <span class="historico-usuario">${log.usuario || 'Usuário'}</span>
+                                <span class="historico-usuario">${log.usuario || 'Usuï¿½rio'}</span>
                                 <span class="historico-badge ${badgeClass}"><i class="${getActionIcon(log.acao)}"></i> ${log.acao}</span>
                                 <span class="historico-modulo">${log.modulo || 'Sistema'}</span>
                             </div>
@@ -1692,10 +1692,10 @@
         }
         
         function exportarHistorico() {
-            alert('Exportando histórico para Excel...');
+            alert('Exportando histï¿½rico para Excel...');
         }
         
-        // Funções auxiliares para tree view
+        // Funï¿½ï¿½es auxiliares para tree view
         function toggleTreeItem(header) {
             const children = header.parentElement.querySelector('.tree-children');
             const toggle = header.querySelector('.tree-toggle');
@@ -1717,7 +1717,7 @@
             document.querySelectorAll('.tree-toggle').forEach(el => el.classList.remove('expanded'));
         }
         
-        // Função global para fechar modais
+        // Funï¿½ï¿½o global para fechar modais
         function fecharModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) {
@@ -1754,7 +1754,7 @@
                     }
                 });
 
-                // Mostra mensagem se não houver resultados
+                // Mostra mensagem se nï¿½o houver resultados
                 const tabContents = document.querySelectorAll('.modal-config-tab-content.active');
                 tabContents.forEach(content => {
                     let emptyState = content.querySelector('.modal-config-empty-search');
@@ -1794,7 +1794,7 @@
             });
         }
 
-        // Adiciona animação de destaque
+        // Adiciona animaï¿½ï¿½o de destaque
         const highlightStyle = document.createElement('style');
         highlightStyle.textContent = `
             @keyframes highlightCard {
@@ -1840,25 +1840,22 @@
     <!-- Chat Widget Bob AI -->
     <script src="js/chat-widget.js?v=20251208autologin"></script>
     
-    <!-- Sistema de Chat e Suporte (widgets condicionais por usuário) -->
-    <script src="js/chat-suporte-widgets.js?v=20260103"></script>
-    
-    <!-- Sistema de Monitoramento de Conexão -->
-    <script src="modules/_shared/connection-monitor.js?v=20251223"></script>
+    <!-- Sistema de Chat e Suporte (widgets condicionais por usuï¿½rio) -->
+    <!-- Sistema de Monitoramento de Conexï¿½o -->
     `n</body>
 
 </html>
 <script>
-// --- Código movido do final do arquivo para dentro de <script> ---
-// Autenticação e funcionalidades
+// --- Cï¿½digo movido do final do arquivo para dentro de <script> ---
+// Autenticaï¿½ï¿½o e funcionalidades
 document.addEventListener('DOMContentLoaded', function() {
-    // A autenticação já foi feita no script do <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    // A autenticaï¿½ï¿½o jï¿½ foi feita no script do <head>
+    <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
     // Aqui apenas aplicamos as funcionalidades
     var dashboard = document.getElementById('dashboard-area');
     if (dashboard) dashboard.style.display = 'block';
     // ...existing code...
-    // Função para configurar avatar
+    // Funï¿½ï¿½o para configurar avatar
     function setupAvatar(firstName, avatarElement) {
         if (!avatarElement) return;
         
@@ -1899,15 +1896,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (user.avatar) {
                     avatarElement.innerHTML = `<img src="${user.avatar}" alt="${firstName}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
                 } else {
-                    // Tentar carregar avatar por nome com webp prioritário
+                    // Tentar carregar avatar por nome com webp prioritï¿½rio
                     const avatarPath = `/avatars/${avatarFileName}.webp`;
                     const img = new Image();
                     img.onload = function() {
                         avatarElement.innerHTML = `<img src="${avatarPath}" alt="${firstName}" style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">`;
                     };
                     img.onerror = function() {
-                        // Mantém as iniciais se não encontrar o avatar
-                        console.log('Avatar não encontrado, usando iniciais');
+                        // Mantï¿½m as iniciais se nï¿½o encontrar o avatar
+                        console.log('Avatar nï¿½o encontrado, usando iniciais');
                     };
                     img.src = avatarPath;
                 }
@@ -1916,7 +1913,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     }
-    // Função para configurar dropdown do usuário
+    // Funï¿½ï¿½o para configurar dropdown do usuï¿½rio
     function setupUserDropdown(firstName, email) {
         var dropdownName = document.querySelector('.dropdown-user-name');
         var dropdownEmail = document.querySelector('.dropdown-user-email');
@@ -1928,7 +1925,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         if (dropdownName) {
-            dropdownName.textContent = firstName || 'Usuário';
+            dropdownName.textContent = firstName || 'Usuï¿½rio';
             console.log('? Nome atualizado no dropdown:', dropdownName.textContent);
         }
         if (dropdownEmail) {
@@ -1936,28 +1933,28 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('? Email atualizado no dropdown:', dropdownEmail.textContent);
         }
     }
-    // Personalização do nome do usuário e avatar
+    // Personalizaï¿½ï¿½o do nome do usuï¿½rio e avatar
     var userData = localStorage.getItem('userData');
     if (userData) {
         try {
             var user = JSON.parse(userData);
             var nome = (user.nome || '').trim();
             var parts = nome.split(/\s+/).filter(Boolean);
-            // Controle de acesso por usuário
+            // Controle de acesso por usuï¿½rio
             var firstName = parts[0] || 'Admin';
             var displayName = parts.length > 1 ? parts[0] + ' ' + parts[parts.length - 1] : firstName;
-            // Aplicar controle de permissões por área
+            // Aplicar controle de permissï¿½es por ï¿½rea
             if (window.UserPermissions) {
                 applyUserPermissions(firstName);
             }
             var greetingTitle = document.querySelector('.greeting-title');
             var userName = document.querySelector('.user-name');
             var userAvatar = document.querySelector('.user-avatar-header');
-            // Atualizar saudação
+            // Atualizar saudaï¿½ï¿½o
             if (greetingTitle) {
-                greetingTitle.textContent = 'Olá, ' + firstName + '!';
+                greetingTitle.textContent = 'Olï¿½, ' + firstName + '!';
             }
-            // Atualizar nome do usuário no header
+            // Atualizar nome do usuï¿½rio no header
             if (userName) {
                 userName.textContent = firstName;
             }
@@ -1965,36 +1962,36 @@ document.addEventListener('DOMContentLoaded', function() {
             if (userAvatar) {
                 setupAvatar(firstName, user.email, userAvatar);
             }
-            // Configurar dropdown do usuário
+            // Configurar dropdown do usuï¿½rio
             setupUserDropdown(firstName, user.email);
-            // Salvar informações do último acesso
+            // Salvar informaï¿½ï¿½es do ï¿½ltimo acesso
             try {
                 var agora = new Date();
                 var dataFormatada = agora.toLocaleDateString('pt-BR');
                 var horaFormatada = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                var ultimoAcesso = dataFormatada + ' Á s ' + horaFormatada;
+                var ultimoAcesso = dataFormatada + ' ï¿½ï¿½s ' + horaFormatada;
                 user.last_login = ultimoAcesso;
                 localStorage.setItem('userData', JSON.stringify(user));
                 sessionStorage.setItem('userData', JSON.stringify(user));
             } catch (e) { 
-                console.log('Erro ao salvar último acesso'); 
+                console.log('Erro ao salvar ï¿½ltimo acesso'); 
             }
-            // Função para aplicar controle de permissões por usuário
+            // Funï¿½ï¿½o para aplicar controle de permissï¿½es por usuï¿½rio
             function applyUserPermissions(userName) {
                 if (!window.UserPermissions) return;
-                console.log('??” Aplicando permissÁµes para usuário:', userName);
-                // Obter áreas permitidas para o usuário
+                console.log('??ï¿½ï¿½ Aplicando permissï¿½ï¿½es para usuï¿½rio:', userName);
+                // Obter ï¿½reas permitidas para o usuï¿½rio
                 var userAreas = window.UserPermissions.getUserAreas(userName);
                 var isAdmin = window.UserPermissions.isAdmin(userName);
-                console.log('??“‹ Áreas disponíveis:', userAreas);
-                console.log('??‘‘ Admin:', isAdmin);
-                // Verificar cada card de módulo
+                console.log('??ï¿½ï¿½ ï¿½ï¿½reas disponï¿½veis:', userAreas);
+                console.log('??ï¿½ï¿½ Admin:', isAdmin);
+                // Verificar cada card de mï¿½dulo
                 var cards = document.querySelectorAll('.module-card[data-area]');
                 var visibleCount = 0;
                 cards.forEach(function(card) {
                     var area = card.getAttribute('data-area');
                     if (area) {
-                        // Verificar se o usuário tem acesso Á  área
+                        // Verificar se o usuï¿½rio tem acesso ï¿½ï¿½ ï¿½rea
                         var hasAccess = window.UserPermissions.hasAccess(userName, area);
                         if (!hasAccess) {
                             card.style.display = 'none';
@@ -2002,7 +1999,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         } else {
                             card.style.display = '';
                             visibleCount++;
-                            // Configurar URL específica para RH baseado no tipo de usuário
+                            // Configurar URL especï¿½fica para RH baseado no tipo de usuï¿½rio
                             if (area === 'rh') {
                                 var rhType = window.UserPermissions.getRHType(userName);
                                 var rhURL = rhType === 'areaadm' ? '/modules/RH/public/areaadm.html' : '/modules/RH/public/funcionario.html';
@@ -2014,24 +2011,24 @@ document.addEventListener('DOMContentLoaded', function() {
                         }
                     }
                 });
-                console.log('??“Š Total de módulos visíveis:', visibleCount + '/' + cards.length);
+                console.log('??ï¿½ï¿½ Total de mï¿½dulos visï¿½veis:', visibleCount + '/' + cards.length);
             }
         } catch (e) {
-            console.log('Erro ao processar dados do usuário:', e);
-            // Fallback para dados padrão
+            console.log('Erro ao processar dados do usuï¿½rio:', e);
+            // Fallback para dados padrï¿½o
             setDefaultUserData();
         }
     } else {
-        // Se não há dados do usuário, usar padrão
+        // Se nï¿½o hï¿½ dados do usuï¿½rio, usar padrï¿½o
         setDefaultUserData();
     }
-    // Função para definir dados padrão do usuário
+    // Funï¿½ï¿½o para definir dados padrï¿½o do usuï¿½rio
     function setDefaultUserData() {
         var greetingTitle = document.querySelector('.greeting-title');
         var userName = document.querySelector('.user-name');
         var userAvatar = document.querySelector('.user-avatar-header');
         if (greetingTitle) {
-            greetingTitle.textContent = 'Olá, Admin!';
+            greetingTitle.textContent = 'Olï¿½, Admin!';
         }
         if (userName) {
             userName.textContent = 'Admin';
@@ -2041,17 +2038,17 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Função para controlar dropdown do usuário
+    // Funï¿½ï¿½o para controlar dropdown do usuï¿½rio
     function initializeUserDropdown() {
         const userProfile = document.getElementById('user-profile');
         const userDropdown = document.getElementById('user-dropdown');
         
         if (userProfile && userDropdown) {
-            // Adicionar evento de clique no perfil do usuário
+            // Adicionar evento de clique no perfil do usuï¿½rio
             userProfile.addEventListener('click', function(e) {
                 e.stopPropagation();
                 userDropdown.classList.toggle('show');
-                console.log('??–±ï¸ Dropdown toggled, show:', userDropdown.classList.contains('show'));
+                console.log('??ï¿½ï¿½ï¸ Dropdown toggled, show:', userDropdown.classList.contains('show'));
             });
             
             // Fechar dropdown ao clicar fora
@@ -2061,19 +2058,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            console.log('? Dropdown do usuário inicializado');
+            console.log('? Dropdown do usuï¿½rio inicializado');
         } else {
-            console.warn('âš ï¸ Elementos do dropdown não encontrados');
+            console.warn('âš ï¸ Elementos do dropdown nï¿½o encontrados');
         }
     }
     
-    // Inicializar dropdown após carregar a página
+    // Inicializar dropdown apï¿½s carregar a pï¿½gina
     initializeUserDropdown();
     
-    // NOTA: Funcionalidades dos botões do header foram movidas para /js/header-controls.js
+    // NOTA: Funcionalidades dos botï¿½es do header foram movidas para /js/header-controls.js
     // ...existing code...
 });
 
-// ...restante do código movido do final do arquivo...
+// ...restante do cï¿½digo movido do final do arquivo...
 </script>
 

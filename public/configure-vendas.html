@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurar Permissões - Vendas</title>
+    <title>Configurar Permissï¿½es - Vendas</title>
     
     <style>
         body {
@@ -78,10 +78,10 @@
     `n    `n</head>
 <body>
     <div class="container">
-        <h1>?? Configurar Permissões de Vendas</h1>
-        <p>Este utilitário configura permissões de acesso ao módulo de Vendas para os usuários especificados.</p>
+        <h1>?? Configurar Permissï¿½es de Vendas</h1>
+        <p>Este utilitï¿½rio configura permissï¿½es de acesso ao mï¿½dulo de Vendas para os usuï¿½rios especificados.</p>
         
-        <p><strong>Usuários que receberão permissões:</strong></p>
+        <p><strong>Usuï¿½rios que receberï¿½o permissï¿½es:</strong></p>
         <ul>
             <li>ti@aluforce.ind.br</li>
             <li>douglas@aluforce.ind.br</li>
@@ -97,7 +97,7 @@
         </ul>
 
         <button id="configureBtn" onclick="configurePermissions()">
-            Configurar Permissões
+            Configurar Permissï¿½es
         </button>
 
         <div id="result" class="hidden"></div>
@@ -125,7 +125,7 @@
 
                 if (response.ok && data.success) {
                     let html = '<div class="success">';
-                    html += '<h3>? Permissões configuradas com sucesso!</h3>';
+                    html += '<h3>? Permissï¿½es configuradas com sucesso!</h3>';
                     html += '<div class="user-list">';
                     
                     data.results.forEach(result => {
@@ -137,7 +137,7 @@
                                 statusText = `? Atualizado (${result.affected} registros)`;
                                 break;
                             case 'not_found':
-                                statusText = '?? Usuário não encontrado no banco';
+                                statusText = '?? Usuï¿½rio nï¿½o encontrado no banco';
                                 break;
                             case 'error':
                                 statusText = `? Erro: ${result.message}`;
@@ -163,27 +163,27 @@
             } catch (error) {
                 resultDiv.className = '';
                 resultDiv.classList.add('error');
-                resultDiv.innerHTML = `<h3>? Erro de Comunicação</h3><p>${error.message}</p>`;
+                resultDiv.innerHTML = `<h3>? Erro de Comunicaï¿½ï¿½o</h3><p>${error.message}</p>`;
                 resultDiv.style.display = 'block';
             } finally {
                 btn.disabled = false;
-                btn.textContent = 'Configurar Permissões';
+                btn.textContent = 'Configurar Permissï¿½es';
             }
         }
 
-        // Verificar se está autenticado ao carregar
+        // Verificar se estï¿½ autenticado ao carregar
         window.addEventListener('DOMContentLoaded', async () => {
             try {
                 const resp = await fetch('/api/me', { credentials: 'include' });
                 if (!resp.ok) {
-                    alert('Você precisa estar logado como administrador!');
+                    alert('Vocï¿½ precisa estar logado como administrador!');
                     window.location.href = '/login.html';
                     return;
                 }
                 
                 const user = await resp.json();
                 if (!user.is_admin && user.role !== 'admin') {
-                    alert('Acesso negado - apenas administradores podem acessar está página');
+                    alert('Acesso negado - apenas administradores podem acessar estï¿½ pï¿½gina');
                     window.location.href = '/';
                 }
             } catch (e) {

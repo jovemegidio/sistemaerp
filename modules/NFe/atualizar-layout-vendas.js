@@ -55,7 +55,7 @@ const headerTemplate = `
             <header class="header">
                 <div class="header-left">
                     <div class="header-brand">
-                        <img src="/images/Logo Monocromatico - Branco - Aluforce.png" alt="ALUFORCE" onerror="this.style.display='none'">
+                        <img src="/Logo Monocromatico - Branco - Aluforce.webp" alt="ALUFORCE" onerror="this.style.display='none'">
                         <span>|</span>
                         <span>NFe & Logística</span>
                     </div>

@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerenciador de Impressão - ALUFORCE v2.0</title>
+    <title>Gerenciador de Impressï¿½o - ALUFORCE v2.0</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -218,14 +218,14 @@
                 <div class="col-lg-3 sidebar p-4">
                     <h3 class="mb-4">
                         <i class="fas fa-print text-primary"></i>
-                        Gerenciador de Impressão
+                        Gerenciador de Impressï¿½o
                     </h3>
 
-                    <!-- Navegação -->
+                    <!-- Navegaï¿½ï¿½o -->
                     <ul class="nav nav-pills flex-column mb-4">
                         <li class="nav-item">
                             <a class="nav-link active" href="#" onclick="showTab('queue')">
-                                <i class="fas fa-list"></i> Fila de Impressão
+                                <i class="fas fa-list"></i> Fila de Impressï¿½o
                             </a>
                         </li>
                         <li class="nav-item">
@@ -235,17 +235,17 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" onclick="showTab('print')">
-                                <i class="fas fa-plus-circle"></i> Nova Impressão
+                                <i class="fas fa-plus-circle"></i> Nova Impressï¿½o
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" onclick="showTab('history')">
-                                <i class="fas fa-history"></i> Histórico
+                                <i class="fas fa-history"></i> Histï¿½rico
                             </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" onclick="showTab('settings')">
-                                <i class="fas fa-cog"></i> Configurações
+                                <i class="fas fa-cog"></i> Configuraï¿½ï¿½es
                             </a>
                         </li>
                     </ul>
@@ -267,9 +267,9 @@
                         </div>
                     </div>
 
-                    <!-- Ações Rápidas -->
+                    <!-- Aï¿½ï¿½es Rï¿½pidas -->
                     <div class="print-settings">
-                        <h6>Ações Rápidas</h6>
+                        <h6>Aï¿½ï¿½es Rï¿½pidas</h6>
                         <button class="btn btn-print btn-sm w-100 mb-2" onclick="refreshQueue()">
                             <i class="fas fa-sync"></i> Atualizar Fila
                         </button>
@@ -282,9 +282,9 @@
                     </div>
                 </div>
 
-                <!-- Conteúdo Principal -->
+                <!-- Conteï¿½do Principal -->
                 <div class="col-lg-9 main-content p-4">
-                    <!-- Métricas -->
+                    <!-- Mï¿½tricas -->
                     <div class="metrics-grid">
                         <div class="metric-card">
                             <div class="metric-value" id="totalJobs">0</div>
@@ -295,7 +295,7 @@
                         <div class="metric-card" style="background: linear-gradient(135deg, var(--success-color), #34ce57);">
                             <div class="metric-value" id="completedJobs">0</div>
                             <div class="metric-label">
-                                <i class="fas fa-check-circle"></i> Concluídos
+                                <i class="fas fa-check-circle"></i> Concluï¿½dos
                             </div>
                         </div>
                         <div class="metric-card" style="background: linear-gradient(135deg, var(--warning-color), #ffca2c);">
@@ -312,37 +312,37 @@
                         </div>
                     </div>
 
-                    <!-- Aba Fila de Impressão -->
+                    <!-- Aba Fila de Impressï¿½o -->
                     <div id="tab-queue" class="tab-content active">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4>Fila de Impressão</h4>
+                            <h4>Fila de Impressï¿½o</h4>
                             <button class="btn btn-outline-primary" onclick="refreshQueue()">
                                 <i class="fas fa-sync"></i> Atualizar
                             </button>
                         </div>
 
                         <div id="queueList">
-                            <!-- Itens da fila serão carregados aqui -->
+                            <!-- Itens da fila serï¿½o carregados aqui -->
                         </div>
                     </div>
 
                     <!-- Aba Impressoras -->
                     <div id="tab-printers" class="tab-content">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4>Impressoras Disponíveis</h4>
+                            <h4>Impressoras Disponï¿½veis</h4>
                             <button class="btn btn-outline-primary" onclick="detectPrinters()">
                                 <i class="fas fa-search"></i> Detectar Impressoras
                             </button>
                         </div>
 
                         <div id="printersList">
-                            <!-- Lista de impressoras será carregada aqui -->
+                            <!-- Lista de impressoras serï¿½ carregada aqui -->
                         </div>
                     </div>
 
-                    <!-- Aba Nova Impressão -->
+                    <!-- Aba Nova Impressï¿½o -->
                     <div id="tab-print" class="tab-content">
-                        <h4 class="mb-4">Nova Impressão</h4>
+                        <h4 class="mb-4">Nova Impressï¿½o</h4>
 
                         <!-- Zona de Upload -->
                         <div class="drag-drop-zone mb-4" id="dropZone">
@@ -352,9 +352,9 @@
                             <input type="file" id="fileInput" class="d-none" multiple accept=".xlsx,.xls,.pdf,.jpg,.png">
                         </div>
 
-                        <!-- Configurações de Impressão -->
+                        <!-- Configuraï¿½ï¿½es de Impressï¿½o -->
                         <div class="print-settings">
-                            <h6>Configurações de Impressão</h6>
+                            <h6>Configuraï¿½ï¿½es de Impressï¿½o</h6>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-label">Impressora:</label>
@@ -363,7 +363,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Número de Cópias:</label>
+                                    <label class="form-label">Nï¿½mero de Cï¿½pias:</label>
                                     <input type="number" class="form-control" id="copies" value="1" min="1" max="10">
                                 </div>
                             </div>
@@ -377,7 +377,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Orientação:</label>
+                                    <label class="form-label">Orientaï¿½ï¿½o:</label>
                                     <select class="form-select" id="orientation">
                                         <option value="portrait">Retrato</option>
                                         <option value="landscape">Paisagem</option>
@@ -405,23 +405,23 @@
 
                         <!-- Lista de Arquivos Selecionados -->
                         <div id="selectedFiles" class="mt-4">
-                            <!-- Arquivos selecionados aparecerão aqui -->
+                            <!-- Arquivos selecionados aparecerï¿½o aqui -->
                         </div>
 
-                        <!-- Botão de Impressão -->
+                        <!-- Botï¿½o de Impressï¿½o -->
                         <button class="btn btn-print btn-lg w-100 mt-4" onclick="startPrinting()" disabled id="printButton">
-                            <i class="fas fa-print"></i> Adicionar à Fila de Impressão
+                            <i class="fas fa-print"></i> Adicionar ï¿½ Fila de Impressï¿½o
                         </button>
                     </div>
 
-                    <!-- Aba Histórico -->
+                    <!-- Aba Histï¿½rico -->
                     <div id="tab-history" class="tab-content">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <h4>Histórico de Impressões</h4>
+                            <h4>Histï¿½rico de Impressï¿½es</h4>
                             <div>
                                 <select class="form-select d-inline-block w-auto me-2" id="historyFilter">
                                     <option value="all">Todos</option>
-                                    <option value="completed">Concluídos</option>
+                                    <option value="completed">Concluï¿½dos</option>
                                     <option value="failed">Falhas</option>
                                     <option value="cancelled">Cancelados</option>
                                 </select>
@@ -432,20 +432,20 @@
                         </div>
 
                         <div id="historyList">
-                            <!-- Histórico será carregado aqui -->
+                            <!-- Histï¿½rico serï¿½ carregado aqui -->
                         </div>
                     </div>
 
-                    <!-- Aba Configurações -->
+                    <!-- Aba Configuraï¿½ï¿½es -->
                     <div id="tab-settings" class="tab-content">
-                        <h4 class="mb-4">Configurações do Sistema</h4>
+                        <h4 class="mb-4">Configuraï¿½ï¿½es do Sistema</h4>
 
                         <div class="print-settings">
-                            <h6>Impressora Padrão</h6>
+                            <h6>Impressora Padrï¿½o</h6>
                             <div class="row">
                                 <div class="col-md-8">
                                     <select class="form-select" id="defaultPrinter">
-                                        <option value="">Selecione impressora padrão</option>
+                                        <option value="">Selecione impressora padrï¿½o</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4">
@@ -457,13 +457,13 @@
                         </div>
 
                         <div class="print-settings">
-                            <h6>Configurações de PDF</h6>
+                            <h6>Configuraï¿½ï¿½es de PDF</h6>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-label">Qualidade PDF:</label>
                                     <select class="form-select" id="pdfQuality">
                                         <option value="high">Alta</option>
-                                        <option value="medium">Média</option>
+                                        <option value="medium">Mï¿½dia</option>
                                         <option value="low">Baixa</option>
                                     </select>
                                 </div>
@@ -475,7 +475,7 @@
                         </div>
 
                         <div class="print-settings">
-                            <h6>Configurações da Fila</h6>
+                            <h6>Configuraï¿½ï¿½es da Fila</h6>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label class="form-label">Intervalo de Processamento:</label>
@@ -486,14 +486,14 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Máximo de Tentativas:</label>
+                                    <label class="form-label">Mï¿½ximo de Tentativas:</label>
                                     <input type="number" class="form-control" id="maxRetries" value="3" min="1" max="10">
                                 </div>
                             </div>
                         </div>
 
                         <button class="btn btn-success w-100 mt-4" onclick="saveSettings()">
-                            <i class="fas fa-save"></i> Salvar Configurações
+                            <i class="fas fa-save"></i> Salvar Configuraï¿½ï¿½es
                         </button>
                     </div>
                 </div>
@@ -516,7 +516,7 @@
             }
         };
 
-        // Configuração da API
+        // Configuraï¿½ï¿½o da API
         const apiConfig = {
             baseUrl: window.location.origin,
             endpoints: {
@@ -539,19 +539,19 @@
         });
 
         function initializePrintManager() {
-            console.log('??? Inicializando Gerenciador de Impressão...');
+            console.log('??? Inicializando Gerenciador de Impressï¿½o...');
             
             // Configurar drag and drop
             setupDragAndDrop();
             
-            console.log('? Gerenciador de Impressão inicializado');
+            console.log('? Gerenciador de Impressï¿½o inicializado');
         }
 
         function setupEventListeners() {
             // Upload de arquivos
             document.getElementById('fileInput').addEventListener('change', handleFileSelect);
             
-            // Filtro de histórico
+            // Filtro de histï¿½rico
             document.getElementById('historyFilter').addEventListener('change', filterHistory);
         }
 
@@ -696,7 +696,7 @@
                     displayHistory();
                 }
             } catch (error) {
-                console.error('Erro ao carregar histórico:', error);
+                console.error('Erro ao carregar histï¿½rico:', error);
             }
         }
 
@@ -709,7 +709,7 @@
                     updateMetrics(data.stats);
                 }
             } catch (error) {
-                console.error('Erro ao carregar estatísticas:', error);
+                console.error('Erro ao carregar estatï¿½sticas:', error);
             }
         }
 
@@ -718,7 +718,7 @@
             container.innerHTML = '';
 
             if (printSystemState.queue.length === 0) {
-                container.innerHTML = '<p class="text-muted">Fila de impressão vazia</p>';
+                container.innerHTML = '<p class="text-muted">Fila de impressï¿½o vazia</p>';
                 return;
             }
 
@@ -730,7 +730,7 @@
                         <div>
                             <strong>${job.metadata.documentName}</strong>
                             <small class="text-muted d-block">
-                                ${job.printer} • ${job.copies} cópia(s) • ${job.paperSize}
+                                ${job.printer} ï¿½ ${job.copies} cï¿½pia(s) ï¿½ ${job.paperSize}
                             </small>
                             <small class="text-muted">
                                 ${new Date(job.createdAt).toLocaleString('pt-BR')}
@@ -765,12 +765,12 @@
                         <div>
                             <h6>${printer.name}</h6>
                             <small class="text-muted">${printer.status}</small>
-                            ${printer.isDefault ? '<span class="badge bg-success ms-2">Padrão</span>' : ''}
+                            ${printer.isDefault ? '<span class="badge bg-success ms-2">Padrï¿½o</span>' : ''}
                         </div>
                         <div>
                             ${!printer.isDefault ? 
                                 `<button class="btn btn-sm btn-outline-primary" onclick="setAsDefault('${printer.name}')">
-                                    <i class="fas fa-star"></i> Definir como Padrão
+                                    <i class="fas fa-star"></i> Definir como Padrï¿½o
                                 </button>` : ''
                             }
                         </div>
@@ -792,11 +792,11 @@
             container.innerHTML = '';
 
             if (filteredHistory.length === 0) {
-                container.innerHTML = '<p class="text-muted">Nenhum item no histórico</p>';
+                container.innerHTML = '<p class="text-muted">Nenhum item no histï¿½rico</p>';
                 return;
             }
 
-            filteredHistory.slice(0, 50).forEach(job => { // Mostrar apenas últimos 50
+            filteredHistory.slice(0, 50).forEach(job => { // Mostrar apenas ï¿½ltimos 50
                 const historyItem = document.createElement('div');
                 historyItem.className = `queue-item ${job.status}`;
                 historyItem.innerHTML = `
@@ -804,7 +804,7 @@
                         <div>
                             <strong>${job.metadata.documentName}</strong>
                             <small class="text-muted d-block">
-                                ${job.printer} • ${job.copies} cópia(s)
+                                ${job.printer} ï¿½ ${job.copies} cï¿½pia(s)
                             </small>
                             <small class="text-muted">
                                 ${new Date(job.createdAt).toLocaleString('pt-BR')}
@@ -833,7 +833,7 @@
                     const option = document.createElement('option');
                     option.value = printer.name;
                     option.textContent = `${printer.name} (${printer.status})`;
-                    if (printer.isDefault) option.textContent += ' - Padrão';
+                    if (printer.isDefault) option.textContent += ' - Padrï¿½o';
                     select.appendChild(option);
                 });
                 
@@ -864,7 +864,7 @@
             const statusTexts = {
                 'pending': 'Pendente',
                 'processing': 'Processando',
-                'completed': 'Concluído',
+                'completed': 'Concluï¿½do',
                 'failed': 'Falhou',
                 'cancelled': 'Cancelado'
             };
@@ -920,9 +920,9 @@
                     }
                 }
 
-                alert(`${printSystemState.selectedFiles.length} arquivo(s) adicionado(s) à fila de impressão!`);
+                alert(`${printSystemState.selectedFiles.length} arquivo(s) adicionado(s) ï¿½ fila de impressï¿½o!`);
                 
-                // Limpar seleção
+                // Limpar seleï¿½ï¿½o
                 printSystemState.selectedFiles = [];
                 document.getElementById('fileInput').value = '';
                 displaySelectedFiles();
@@ -932,8 +932,8 @@
                 await loadQueue();
 
             } catch (error) {
-                alert('Erro ao adicionar à fila: ' + error.message);
-                console.error('Erro na impressão:', error);
+                alert('Erro ao adicionar ï¿½ fila: ' + error.message);
+                console.error('Erro na impressï¿½o:', error);
             }
         }
 
@@ -957,7 +957,7 @@
                     alert('Erro ao cancelar job: ' + result.error);
                 }
             } catch (error) {
-                alert('Erro na comunicação: ' + error.message);
+                alert('Erro na comunicaï¿½ï¿½o: ' + error.message);
             }
         }
 
@@ -977,7 +977,7 @@
             displayHistory();
         }
 
-        // Funções de configuração
+        // Funï¿½ï¿½es de configuraï¿½ï¿½o
         async function setAsDefault(printerName) {
             try {
                 const response = await fetch(apiConfig.baseUrl + apiConfig.endpoints.settings + '/default-printer', {
@@ -993,10 +993,10 @@
                 if (result.success) {
                     await loadPrinters();
                 } else {
-                    alert('Erro ao definir impressora padrão: ' + result.error);
+                    alert('Erro ao definir impressora padrï¿½o: ' + result.error);
                 }
             } catch (error) {
-                alert('Erro na comunicação: ' + error.message);
+                alert('Erro na comunicaï¿½ï¿½o: ' + error.message);
             }
         }
 
@@ -1015,7 +1015,7 @@
                     alert('Erro ao detectar impressoras: ' + result.error);
                 }
             } catch (error) {
-                alert('Erro na comunicação: ' + error.message);
+                alert('Erro na comunicaï¿½ï¿½o: ' + error.message);
             }
         }
 
@@ -1036,20 +1036,20 @@
                     alert('Erro ao limpar fila: ' + result.error);
                 }
             } catch (error) {
-                alert('Erro na comunicação: ' + error.message);
+                alert('Erro na comunicaï¿½ï¿½o: ' + error.message);
             }
         }
 
         function exportHistory() {
             const data = printSystemState.history;
             const csv = convertToCSV(data);
-            downloadCSV(csv, 'histórico-impressao.csv');
+            downloadCSV(csv, 'histï¿½rico-impressao.csv');
         }
 
         function convertToCSV(data) {
             if (data.length === 0) return '';
 
-            const headers = ['Data', 'Documento', 'Impressora', 'Status', 'Cópias'];
+            const headers = ['Data', 'Documento', 'Impressora', 'Status', 'Cï¿½pias'];
             const rows = data.map(job => [
                 new Date(job.createdAt).toLocaleString('pt-BR'),
                 job.metadata.documentName,

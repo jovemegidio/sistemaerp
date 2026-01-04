@@ -1,13 +1,13 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>ALUFORCE - Módulo de Compras</title>
+    <title>ALUFORCE - Mï¿½dulo de Compras</title>
     
     
     
@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <!-- CSP Fix -->
-    <script src="js/csp-fix.js"></script>
-    
     <style>
         :root {
             --compras-primary: #10b981;
@@ -51,7 +49,7 @@
             background: #f9fafb !important;
         }
 
-        /* Sidebar - Fixa à esquerda */
+        /* Sidebar - Fixa ï¿½ esquerda */
         .sidebar {
             position: fixed !important;
             left: 0 !important;
@@ -169,7 +167,7 @@
             margin: 0 !important;
         }
 
-        /* App Container - Área scrollável */
+        /* App Container - ï¿½rea scrollï¿½vel */
         .app-container {
             flex: 1 !important;
             overflow-y: auto !important;
@@ -177,7 +175,7 @@
             background: #f9fafb !important;
         }
 
-        /* Mobile - Mostrar botão menu */
+        /* Mobile - Mostrar botï¿½o menu */
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%) !important;
@@ -196,7 +194,7 @@
             }
         }
 
-        /* Customização do badge do módulo */
+        /* Customizaï¿½ï¿½o do badge do mï¿½dulo */
         .module-badge-compras {
             background: linear-gradient(135deg, var(--compras-primary), var(--compras-secondary)) !important;
         }
@@ -247,7 +245,7 @@
             }
         }
 
-        /* Seções de Conteúdo */
+        /* Seï¿½ï¿½es de Conteï¿½do */
         .content-section {
             width: 100% !important;
             padding: 0 !important;
@@ -269,7 +267,7 @@
             margin-bottom: 24px !important;
         }
 
-        /* Botões modernos */
+        /* Botï¿½es modernos */
         .btn-modern {
             display: flex;
             align-items: center;
@@ -405,7 +403,7 @@
             color: #1e40af !important;
         }
 
-        /* Animações */
+        /* Animaï¿½ï¿½es */
         @keyframes slideInUp {
             from {
                 opacity: 0;
@@ -450,7 +448,7 @@
                 </a>
                 <a href="#cotacoes" class="nav-item" data-section="cotacoes">
                     <i class="fas fa-file-invoice-dollar"></i>
-                    <span>Cotações</span>
+                    <span>Cotaï¿½ï¿½es</span>
                 </a>
                 <a href="#fornecedores" class="nav-item" data-section="fornecedores">
                     <i class="fas fa-truck"></i>
@@ -470,7 +468,7 @@
                 </a>
                 <a href="#relatorios" class="nav-item" data-section="relatorios">
                     <i class="fas fa-chart-bar"></i>
-                    <span>Relatórios</span>
+                    <span>Relatï¿½rios</span>
                 </a>
                 
                 <div class="sidebar-divider"></div>
@@ -482,11 +480,11 @@
             </nav>
         </aside>
 
-        <!-- Conteúdo Principal -->
+        <!-- Conteï¿½do Principal -->
         <main class="main-content">
             <!-- Header Compras -->
             <header class="header-pcp">
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
                 <div class="header-left">
                     <button class="menu-toggle" id="menuToggle">
                         <i class="fas fa-bars"></i>
@@ -507,7 +505,7 @@
                     </button>
                     
                     <div class="user-menu">
-                        <img src="avatars/default.webp" alt="Usuário" class="user-avatar" id="userAvatar">
+                        <img src="avatars/default.webp" alt="Usuï¿½rio" class="user-avatar" id="userAvatar">
                         <div class="user-info">
                             <span class="user-name" id="userName">Carregando...</span>
                             <span class="user-role">Compras</span>
@@ -522,7 +520,7 @@
                 <!-- Dashboard Section -->
                 <div id="dashboard-section" class="content-section active">
                     <div class="dashboard-grid" id="dashboardContainer">
-                        <!-- Cards serão inseridos aqui via JavaScript -->
+                        <!-- Cards serï¿½o inseridos aqui via JavaScript -->
                     </div>
                 </div>
 
@@ -538,13 +536,13 @@
                     <div id="pedidosContainer"></div>
                 </div>
 
-                <!-- Cotações Section -->
+                <!-- Cotaï¿½ï¿½es Section -->
                 <div id="cotacoes-section" class="content-section">
                     <div class="page-header-modern">
-                        <h2><i class="fas fa-file-invoice-dollar"></i> Cotações</h2>
+                        <h2><i class="fas fa-file-invoice-dollar"></i> Cotaï¿½ï¿½es</h2>
                         <button class="btn-modern btn-compras-primary" onclick="novaCotacao()">
                             <i class="fas fa-plus"></i>
-                            Nova Cotação
+                            Nova Cotaï¿½ï¿½o
                         </button>
                     </div>
                     <div id="cotacoesContainer"></div>
@@ -594,10 +592,10 @@
                     <div id="estoqueContainer"></div>
                 </div>
 
-                <!-- Relatórios Section -->
+                <!-- Relatï¿½rios Section -->
                 <div id="relatorios-section" class="content-section">
                     <div class="page-header-modern">
-                        <h2><i class="fas fa-chart-bar"></i> Relatórios</h2>
+                        <h2><i class="fas fa-chart-bar"></i> Relatï¿½rios</h2>
                     </div>
                     <div id="relatoriosContainer"></div>
                 </div>
@@ -609,7 +607,7 @@
     <!-- Auth Check PCP -->
     <script src="../../modules/PCP/auth-check-pcp.js"></script>
     
-    <!-- Scripts do Módulo -->
+    <!-- Scripts do Mï¿½dulo -->
     <script src="js/compras-main.js"></script>
     <script src="js/dashboard-compras-novo.js"></script>
     <script src="js/pedidos-compras-novo.js"></script>
@@ -621,7 +619,7 @@
     <script src="js/relatorios-compras-novo.js"></script>
     
     <script>
-        // Carregar dados do usuário
+        // Carregar dados do usuï¿½rio
         function carregarDadosUsuario() {
             try {
                 const userData = localStorage.getItem('userData');
@@ -631,7 +629,7 @@
                     const userNameElement = document.getElementById('userName');
                     if (userNameElement) {
                         const saudacao = obterSaudacao();
-                        userNameElement.textContent = `${saudacao}, ${user.nome || user.username || 'Usuário'}`;
+                        userNameElement.textContent = `${saudacao}, ${user.nome || user.username || 'Usuï¿½rio'}`;
                     }
                     
                     const avatarImg = document.getElementById('userAvatar');
@@ -643,7 +641,7 @@
                     }
                 }
             } catch (error) {
-                console.error('Erro ao carregar dados do usuário:', error);
+                console.error('Erro ao carregar dados do usuï¿½rio:', error);
             }
         }
 
@@ -654,7 +652,7 @@
             return 'Boa noite';
         }
 
-        // Navegação entre seções
+        // Navegaï¿½ï¿½o entre seï¿½ï¿½es
         function setupNavigation() {
             const navItems = document.querySelectorAll('.nav-item[data-section]');
             const sections = document.querySelectorAll('.content-section');
@@ -676,16 +674,16 @@
                         section.classList.add('active');
                     }
                     
-                    // Atualiza título
+                    // Atualiza tï¿½tulo
                     const titles = {
                         'dashboard': 'Dashboard de Compras',
                         'pedidos': 'Pedidos de Compra',
-                        'cotacoes': 'Cotações',
+                        'cotacoes': 'Cotaï¿½ï¿½es',
                         'fornecedores': 'Fornecedores',
                         'materiais': 'Materiais',
                         'recebimento': 'Recebimento',
                         'estoque': 'Estoque',
-                        'relatorios': 'Relatórios'
+                        'relatorios': 'Relatï¿½rios'
                     };
                     pageTitle.textContent = titles[sectionId] || 'Compras';
                 });
@@ -704,9 +702,8 @@
         });
     </script>
     
-    <!-- Sistema de Chat e Suporte (widgets condicionais por usuário) -->
-    <!-- ti@aluforce.ind.br = Central de Suporte | Outros usuários = Chat normal -->
-    <script src="js/chat-suporte-widgets.js?v=20260103"></script>
+    <!-- Sistema de Chat e Suporte (widgets condicionais por usuï¿½rio) -->
+    <!-- ti@aluforce.ind.br = Central de Suporte | Outros usuï¿½rios = Chat normal -->
     </body>
 </html>
 

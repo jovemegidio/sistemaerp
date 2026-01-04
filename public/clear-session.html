@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Limpar Sessão - ALUFORCE</title>
+    <title>Limpar Sessï¿½o - ALUFORCE</title>
     
     <style>
         body {
@@ -79,9 +79,9 @@
 <body>
     <div class="container">
         <div class="icon">??</div>
-        <h1>Limpar Sessão</h1>
+        <h1>Limpar Sessï¿½o</h1>
         <div id="status" class="status">
-            Pronto para limpar dados de autenticação...
+            Pronto para limpar dados de autenticaï¿½ï¿½o...
         </div>
         <div id="log" class="log"></div>
         <button onclick="clearSession()">Limpar e Ir para Login</button>
@@ -109,7 +109,7 @@
                 localStorage.removeItem('authToken');
                 addLog('authToken removido', '?');
             } else {
-                addLog('authToken não encontrado', '??');
+                addLog('authToken nï¿½o encontrado', '??');
             }
 
             // Verificar userData
@@ -117,14 +117,14 @@
             if (userData) {
                 try {
                     const user = JSON.parse(userData);
-                    addLog('userData encontrado: ' + (user.nome || user.email || 'Usuário'), '??');
+                    addLog('userData encontrado: ' + (user.nome || user.email || 'Usuï¿½rio'), '??');
                 } catch (e) {
                     addLog('userData encontrado (malformado)', '??');
                 }
                 localStorage.removeItem('userData');
                 addLog('userData removido', '?');
             } else {
-                addLog('userData não encontrado', '??');
+                addLog('userData nï¿½o encontrado', '??');
             }
 
             // Limpar sessionStorage
@@ -132,7 +132,7 @@
             sessionStorage.removeItem('authToken');
             addLog('sessionStorage limpo', '?');
 
-            // Limpar configurações
+            // Limpar configuraï¿½ï¿½es
             const appSettings = localStorage.getItem('appSettings');
             if (appSettings) {
                 localStorage.removeItem('appSettings');
@@ -145,8 +145,8 @@
                 addLog('headerDark removido', '?');
             }
 
-            addLog('Limpeza concluída com sucesso!', '?');
-            statusEl.textContent = '? Sessão limpa! Redirecionando...';
+            addLog('Limpeza concluï¿½da com sucesso!', '?');
+            statusEl.textContent = '? Sessï¿½o limpa! Redirecionando...';
             statusEl.className = 'status success';
 
             setTimeout(() => {
@@ -155,7 +155,7 @@
             }, 2000);
         }
 
-        // Auto-executar na carga da página se houver parâmetro ?auto=true
+        // Auto-executar na carga da pï¿½gina se houver parï¿½metro ?auto=true
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('auto') === 'true') {
             setTimeout(() => clearSession(), 500);
