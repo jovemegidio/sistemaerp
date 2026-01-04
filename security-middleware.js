@@ -13,18 +13,24 @@ const validator = require('validator');
 
 /**
  * Rate limiter geral para todas as rotas
- * DESABILITADO EM DESENVOLVIMENTO
+ * RELAXADO - ERP precisa de muitos requests por sessão
  */
 const generalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutos
-    max: process.env.NODE_ENV === 'production' ? 100 : 10000, // 10000 em dev = praticamente desabilitado
+    max: process.env.NODE_ENV === 'production' ? 1000 : 10000, // 1000 em prod, 10000 em dev
     message: { 
         error: 'Muitas requisições deste IP, tente novamente mais tarde.',
         retryAfter: '15 minutos'
     },
     standardHeaders: true,
     legacyHeaders: false,
-    skip: (req) => process.env.NODE_ENV !== 'production', // Pula em desenvolvimento
+    skip: (req) => {
+        // Pula rate limit para arquivos estáticos
+        if (req.path.match(/\.(js|css|png|jpg|jpeg|gif|webp|ico|woff|woff2|ttf|svg)$/)) {
+            return true;
+        }
+        return process.env.NODE_ENV !== 'production';
+    },
 });
 
 /**

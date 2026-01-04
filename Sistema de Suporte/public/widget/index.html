@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -72,7 +72,7 @@
             font-size: 12px;
         }
 
-        /* Navegação em Tabs */
+        /* Navegaï¿½ï¿½o em Tabs */
         .nav-tabs-custom {
             display: flex;
             background: white;
@@ -130,7 +130,7 @@
             flex: 1;
         }
 
-        /* Conteúdo */
+        /* Conteï¿½do */
         .content-area {
             flex: 1;
             overflow-y: auto;
@@ -634,7 +634,7 @@
         }
 
         /* ============================================
-           MODAL DE CONFIRMAÇÃO - FECHAR TICKET
+           MODAL DE CONFIRMAï¿½ï¿½O - FECHAR TICKET
            ============================================ */
         .confirm-modal-overlay {
             position: fixed;
@@ -783,21 +783,20 @@
             box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
         }
     </style>
-    <script src="/js/anti-copy-protection.js"></script>
-    `n</head>
+    <script src="/js/anti-copy-protection.js"></script></head>
 <body>
     <!-- Login Modal -->
     <div class="login-overlay" id="loginOverlay">
         <div class="login-modal">
             <i class="bi bi-headset" style="font-size:40px;color:var(--primary);margin-bottom:12px"></i>
             <h3>Central de Suporte</h3>
-            <p>Digite seu nome para começar</p>
+            <p>Digite seu nome para comeï¿½ar</p>
             <input type="text" id="adminNameInput" placeholder="Seu nome" autofocus>
             <button onclick="doLogin()">Entrar</button>
         </div>
     </div>
 
-    <!-- Modal de Confirmação - Fechar Ticket -->
+    <!-- Modal de Confirmaï¿½ï¿½o - Fechar Ticket -->
     <div class="confirm-modal-overlay" id="closeTicketModalOverlay">
         <div class="confirm-modal">
             <div class="confirm-modal-header">
@@ -807,7 +806,7 @@
                 <h3>Fechar Ticket</h3>
             </div>
             <div class="confirm-modal-body">
-                <p>Tem certeza que deseja encerrar este atendimento? Esta ação não pode ser desfeita.</p>
+                <p>Tem certeza que deseja encerrar este atendimento? Esta aï¿½ï¿½o nï¿½o pode ser desfeita.</p>
                 <div class="ticket-info">
                     <i class="bi bi-ticket"></i>
                     <span id="closeTicketModalId">Ticket #---</span>
@@ -893,7 +892,7 @@
                         <div class="stat-icon purple"><i class="bi bi-clock"></i></div>
                         <div class="stat-info">
                             <div class="stat-value"><span id="statAvg">0</span>m</div>
-                            <div class="stat-label">Tempo Médio</div>
+                            <div class="stat-label">Tempo Mï¿½dio</div>
                         </div>
                     </div>
                 </div>
@@ -941,7 +940,7 @@
                     <div class="empty-state">
                         <i class="bi bi-book"></i>
                         <h4>Base vazia</h4>
-                        <p>Adicione artigos pela versão completa</p>
+                        <p>Adicione artigos pela versï¿½o completa</p>
                     </div>
                 </div>
             </div>
@@ -1129,7 +1128,7 @@
             currentView = view;
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
             
-            // Só atualizar nav-tab se existir (chat não tem nav-tab)
+            // Sï¿½ atualizar nav-tab se existir (chat nï¿½o tem nav-tab)
             const navTab = document.querySelector(`.nav-tab[data-view="${view}"]`);
             if (navTab) {
                 navTab.classList.add('active');
@@ -1307,7 +1306,7 @@
         }
 
         function closeTicketModal() {
-            // Mostrar modal de confirmação estilizado
+            // Mostrar modal de confirmaï¿½ï¿½o estilizado
             const overlay = document.getElementById('closeTicketModalOverlay');
             const ticketIdSpan = document.getElementById('closeTicketModalId');
             
@@ -1353,6 +1352,5 @@
                 console.log('Knowledge not available');
             }
         }
-    </script>
-    `n</body>
+    </script></body>
 </html>

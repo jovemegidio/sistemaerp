@@ -1,26 +1,25 @@
-<!-- 
+ï»¿<!-- 
 ==============================================================================
-INSTRUÇÕES PARA INTEGRAR OTIMIZAÇÕES NO index.html
+INSTRUï¿½ï¿½ES PARA INTEGRAR OTIMIZAï¿½ï¿½ES NO index.html
 ==============================================================================
 
-PASSO 1: Adicionar scripts de otimização ANTES do fechamento do     `n</body>
+PASSO 1: Adicionar scripts de otimizaï¿½ï¿½o ANTES do fechamento do</body>
 
-Procure por esta linha no final do arquivo (antes de     `n</body>):
-    </script>
-    `n</body>
+Procure por esta linha no final do arquivo (antes de</body>):
+    </script></body>
 </html>
 
-E adicione ANTES de     `n</body>, DEPOIS do último </script>:
+E adicione ANTES de</body>, DEPOIS do ï¿½ltimo </script>:
 
 -->
 
 <!-- ============================================ -->
-<!-- OTIMIZAÇÕES PCP - INÍCIO -->
+<!-- OTIMIZAï¿½ï¿½ES PCP - INï¿½CIO -->
 <!-- ============================================ -->
 <script src="modules/PCP/pcp-optimizations.js"></script>
 <script src="modules/PCP/pcp-integration.js"></script>
 <!-- ============================================ -->
-<!-- OTIMIZAÇÕES PCP - FIM -->
+<!-- OTIMIZAï¿½ï¿½ES PCP - FIM -->
 <!-- ============================================ -->
 
 <!--
@@ -28,7 +27,7 @@ E adicione ANTES de     `n</body>, DEPOIS do último </script>:
 PASSO 2: Adicionar modal de preview de Excel
 ==============================================================================
 
-Procure pela seção de modais (geralmente após <!-- MODALS --> ou similar)
+Procure pela seï¿½ï¿½o de modais (geralmente apï¿½s <!-- MODALS --> ou similar)
 e adicione este modal:
 
 -->
@@ -38,7 +37,7 @@ e adicione este modal:
     <div class="modal-backdrop"></div>
     <div class="modal-content" style="max-width: 900px; max-height: 90vh; display: flex; flex-direction: column;">
         <div class="modal-header" style="flex-shrink: 0;">
-            <h2><i class="fas fa-file-excel"></i> Preview - Ordem de Produção</h2>
+            <h2><i class="fas fa-file-excel"></i> Preview - Ordem de Produï¿½ï¿½o</h2>
             <button class="modal-close" onclick="closeModal('modal-excel-preview')">&times;</button>
         </div>
         
@@ -95,15 +94,15 @@ e adicione este modal:
 
 <!--
 ==============================================================================
-PASSO 3: Adicionar Centro de Notificações no Header
+PASSO 3: Adicionar Centro de Notificaï¿½ï¿½es no Header
 ==============================================================================
 
-Procure pelo elemento .pcp-topbar ou header principal e adicione este código
-ANTES do elemento de usuário (geralmente .user-menu ou similar):
+Procure pelo elemento .pcp-topbar ou header principal e adicione este cï¿½digo
+ANTES do elemento de usuï¿½rio (geralmente .user-menu ou similar):
 
 -->
 
-<!-- Centro de Notificações -->
+<!-- Centro de Notificaï¿½ï¿½es -->
 <div class="notification-center" style="margin-right: 16px;">
     <button id="notification-bell" class="notification-bell">
         <i class="fas fa-bell"></i>
@@ -112,12 +111,12 @@ ANTES do elemento de usuário (geralmente .user-menu ou similar):
     
     <div id="notification-dropdown" class="notification-dropdown">
         <div class="notification-header">
-            <h3>Notificações</h3>
+            <h3>Notificaï¿½ï¿½es</h3>
             <button onclick="window.notificationCenter?.marcarTodasLidas?.()">Marcar todas como lidas</button>
         </div>
         
         <div id="notification-list" class="notification-list">
-            <div class="no-notifications">Nenhuma notificação</div>
+            <div class="no-notifications">Nenhuma notificaï¿½ï¿½o</div>
         </div>
         
         <div class="notification-footer">
@@ -131,13 +130,13 @@ ANTES do elemento de usuário (geralmente .user-menu ou similar):
 PASSO 4: Adicionar CSS das novas funcionalidades
 ==============================================================================
 
-Procure pela seção <style> ou arquivo CSS principal e adicione:
+Procure pela seï¿½ï¿½o <style> ou arquivo CSS principal e adicione:
 
 -->
 
 <style>
 /* ============================================ */
-/* CENTRO DE NOTIFICAÇÕES */
+/* CENTRO DE NOTIFICAï¿½ï¿½ES */
 /* ============================================ */
 .notification-center {
     position: relative;
@@ -359,11 +358,11 @@ Procure pela seção <style> ou arquivo CSS principal e adicione:
 /* LOADING OVERLAY (adicionado automaticamente) */
 /* ============================================ */
 #pcp-loading-overlay {
-    /* Estilos já aplicados via JavaScript */
+    /* Estilos jï¿½ aplicados via JavaScript */
 }
 
 /* ============================================ */
-/* ANIMAÇÕES MELHORADAS */
+/* ANIMAï¿½ï¿½ES MELHORADAS */
 /* ============================================ */
 .pcp-view {
     animation: fadeIn 0.3s ease-out;
@@ -401,35 +400,33 @@ Procure pela seção <style> ou arquivo CSS principal e adicione:
 
 <!--
 ==============================================================================
-PASSO 5: Verificação Final
+PASSO 5: Verificaï¿½ï¿½o Final
 ==============================================================================
 
-Após fazer as modificações, verifique:
+Apï¿½s fazer as modificaï¿½ï¿½es, verifique:
 
 1. ? Scripts pcp-optimizations.js e pcp-integration.js carregam
-2. ? Console mostra mensagem "? Otimizações PCP carregadas com sucesso!"
-3. ? Console mostra "? Integração PCP concluída!"
-4. ? Notificação toast aparece: "Otimizações PCP ativadas!"
-5. ? Todas as 7 páginas continuam funcionando
-6. ? Centro de notificações aparece no header
+2. ? Console mostra mensagem "? Otimizaï¿½ï¿½es PCP carregadas com sucesso!"
+3. ? Console mostra "? Integraï¿½ï¿½o PCP concluï¿½da!"
+4. ? Notificaï¿½ï¿½o toast aparece: "Otimizaï¿½ï¿½es PCP ativadas!"
+5. ? Todas as 7 pï¿½ginas continuam funcionando
+6. ? Centro de notificaï¿½ï¿½es aparece no header
 7. ? Atalhos de teclado funcionam (Ctrl+K, Ctrl+N, Esc)
 
 ==============================================================================
-EXEMPLO DE LOCALIZAÇÃO NO index.html
+EXEMPLO DE LOCALIZAï¿½ï¿½O NO index.html
 ==============================================================================
 
 ANTES:
-    </script>
-    `n</body>
+    </script></body>
 </html>
 
 DEPOIS:
     </script>
     
-    <!-- Otimizações PCP -->
+    <!-- Otimizaï¿½ï¿½es PCP -->
     <script src="modules/PCP/pcp-optimizations.js"></script>
-    <script src="modules/PCP/pcp-integration.js"></script>
-    `n</body>
+    <script src="modules/PCP/pcp-integration.js"></script></body>
 </html>
 
 ==============================================================================

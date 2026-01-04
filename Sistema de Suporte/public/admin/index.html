@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -632,16 +632,15 @@
             color: #9ca3af;
         }
     </style>
-    <script src="/js/anti-copy-protection.js"></script>
-    `n</head>
+    <script src="/js/anti-copy-protection.js"></script></head>
 <body>
     <!-- Modal para nome do admin -->
     <div class="modal fade" id="adminNameModal" tabindex="-1" data-bs-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body p-4">
-                    <h4 class="mb-3"><i class="bi bi-person-badge me-2"></i>Identificação</h4>
-                    <p class="text-muted mb-3">Digite seu nome para começar a atender:</p>
+                    <h4 class="mb-3"><i class="bi bi-person-badge me-2"></i>Identificaï¿½ï¿½o</h4>
+                    <p class="text-muted mb-3">Digite seu nome para comeï¿½ar a atender:</p>
                     <input type="text" class="form-control form-control-lg mb-3" id="adminNameInput" placeholder="Seu nome">
                     <button type="button" class="btn btn-lg w-100" style="background:var(--primary-color);color:white" onclick="setAdminName()">
                         Entrar
@@ -726,7 +725,7 @@
                         <i class="bi bi-clock-history"></i>
                     </div>
                     <div class="stat-value"><span id="statAvgTime">0</span>min</div>
-                    <div class="stat-label">Tempo Médio</div>
+                    <div class="stat-label">Tempo Mï¿½dio</div>
                 </div>
             </div>
 
@@ -847,7 +846,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <label class="form-label">Resolução:</label>
+                    <label class="form-label">Resoluï¿½ï¿½o:</label>
                     <textarea class="form-control" id="resolutionInput" rows="3" placeholder="Descreva como o problema foi resolvido..."></textarea>
                 </div>
                 <div class="modal-footer">
@@ -863,13 +862,13 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Adicionar à Base de Conhecimento</h5>
+                    <h5 class="modal-title">Adicionar ï¿½ Base de Conhecimento</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Pergunta</label>
-                        <input type="text" class="form-control" id="kbQuestion" placeholder="Ex: Como faço para...">
+                        <input type="text" class="form-control" id="kbQuestion" placeholder="Ex: Como faï¿½o para...">
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Resposta</label>
@@ -877,7 +876,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label class="form-label">Palavras-chave (separadas por vírgula)</label>
+                            <label class="form-label">Palavras-chave (separadas por vï¿½rgula)</label>
                             <input type="text" class="form-control" id="kbKeywords" placeholder="senha, login, acesso">
                         </div>
                         <div class="col-md-6">
@@ -999,7 +998,7 @@
             });
 
             socket.on('ticket_needs_attention', (data) => {
-                showNotification('Atenção!', `Ticket precisa de atendimento: ${data.reason}`);
+                showNotification('Atenï¿½ï¿½o!', `Ticket precisa de atendimento: ${data.reason}`);
             });
 
             socket.on('client_disconnected', (data) => {
@@ -1258,6 +1257,5 @@
         if ('Notification' in window) {
             Notification.requestPermission();
         }
-    </script>
-    `n</body>
+    </script></body>
 </html>
