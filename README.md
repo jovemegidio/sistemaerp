@@ -1,125 +1,183 @@
-# 🏭 ALUFORCE ERP - Sistema de Gestão Empresarial
+<p align="center">
+  <img src="public/images/Logo Monocromatico - Azul - Aluforce.webp" alt="ALUFORCE ERP" width="200"/>
+</p>
 
-![Versão](https://img.shields.io/badge/versão-11.12-blue)
-![Status](https://img.shields.io/badge/status-Produção-green)
-![Node.js](https://img.shields.io/badge/Node.js-18.x-brightgreen)
-![MySQL](https://img.shields.io/badge/MySQL-8.0-orange)
+<h1 align="center">🏭 ALUFORCE ERP</h1>
 
-## 📋 Sobre o Sistema
+<p align="center">
+  <strong>Sistema Completo de Gestão Empresarial para Indústria</strong>
+</p>
 
-O **Aluforce ERP** é um sistema completo de gestão empresarial desenvolvido para a indústria de alumínio, oferecendo módulos integrados para controle de todas as operações da empresa.
+<p align="center">
+  <img src="https://img.shields.io/badge/versão-11.12-0066cc?style=for-the-badge" alt="Versão"/>
+  <img src="https://img.shields.io/badge/status-Produção-00cc66?style=for-the-badge" alt="Status"/>
+  <img src="https://img.shields.io/badge/Node.js-18.x-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js"/>
+  <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL"/>
+</p>
+
+<p align="center">
+  <a href="#-sobre">Sobre</a> •
+  <a href="#-módulos">Módulos</a> •
+  <a href="#-tecnologias">Tecnologias</a> •
+  <a href="#-instalação">Instalação</a> •
+  <a href="#-screenshots">Screenshots</a> •
+  <a href="#-licença">Licença</a>
+</p>
 
 ---
 
-## 🚀 Módulos do Sistema
+## 📋 Sobre
 
-### 📊 Dashboard Executivo
-- KPIs em tempo real
-- Indicadores de performance
-- Gráficos de vendas e produção
-- Alertas e notificações
+O **ALUFORCE ERP** é uma solução empresarial completa e integrada, desenvolvida especialmente para a **indústria de alumínio e metalurgia**. O sistema oferece controle total sobre todas as operações da empresa, desde vendas e compras até produção e financeiro.
 
-### 🛒 Módulo de Vendas
+### ✨ Destaques
+
+- 🔄 **Integração Total** — Todos os módulos conectados em tempo real
+- 📊 **Dashboard Executivo** — KPIs e indicadores de performance
+- 🔐 **Segurança Avançada** — Autenticação JWT + controle de permissões
+- 📱 **Interface Responsiva** — Funciona em desktop, tablet e mobile
+- 🌐 **100% Web** — Acesse de qualquer lugar, sem instalação
+- 🤖 **IA Integrada** — Assistente virtual para suporte e consultas
+
+---
+
+## 🚀 Módulos
+
+<table>
+<tr>
+<td width="50%">
+
+### 🛒 Vendas
 - Gestão de pedidos e orçamentos
-- Kanban de vendas
+- Kanban visual de vendas
 - Controle de comissões
-- Tabelas de preço dinâmicas
-- Análise de crédito
+- Tabelas de preços dinâmicas
+- Análise de crédito do cliente
 
-### 📦 Módulo de Compras
-- Requisições de compra
-- Cotações de fornecedores
+</td>
+<td width="50%">
+
+### 📦 Compras
+- Requisições e cotações
+- Gestão de fornecedores
 - Pedidos de compra
 - Entrada de notas fiscais
-- Gestão de fornecedores
+- Controle de materiais
 
-### 🏭 Módulo PCP (Planejamento e Controle de Produção)
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 🏭 PCP - Produção
 - Ordens de produção
 - Programação de faturamento
-- Controle de materiais
 - Apontamentos de produção
-- Geração de relatórios Excel
+- Controle de materiais
+- Relatórios Excel automáticos
 
-### 💰 Módulo Financeiro
-- Contas a pagar
-- Contas a receber
+</td>
+<td width="50%">
+
+### 💰 Financeiro
+- Contas a pagar e receber
 - Fluxo de caixa
 - Conciliação bancária
 - DRE e relatórios gerenciais
 - Plano de contas
 
-### 👥 Módulo de RH
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### 👥 Recursos Humanos
 - Cadastro de funcionários
 - Cargos e funções
 - Folha de pagamento
 - Ponto eletrônico
-- Gestão de férias
+- Gestão de férias e benefícios
 
-### 🧾 Módulo Fiscal (NF-e/NFS-e)
-- Emissão de NF-e
-- Emissão de NFS-e
+</td>
+<td width="50%">
+
+### 🧾 NF-e & Logística
+- Emissão de NF-e e NFS-e
 - Importação de XML
 - Configuração de impostos
 - Manifestação do destinatário
+- Controle de expedição
 
-### 📦 Módulo de Estoque
-- Controle de inventário
-- Movimentações
-- Requisições de materiais
-- Rastreabilidade
-
-### 🤖 Assistente Virtual (Bob AI)
-- Chat integrado com IA
-- Consultas ao sistema
-- Suporte automatizado
-- Treinamento por prompts
+</td>
+</tr>
+</table>
 
 ---
 
-## 🔧 Requisitos do Sistema
+## 🛠️ Tecnologias
 
-### Software
-- **Node.js** 18.x ou superior
-- **MySQL** 8.0 ou superior
-- **NPM** ou **Yarn**
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white" alt="Node.js"/>
+  <img src="https://img.shields.io/badge/Express-000000?style=flat-square&logo=express&logoColor=white" alt="Express"/>
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white" alt="MySQL"/>
+  <img src="https://img.shields.io/badge/Socket.io-010101?style=flat-square&logo=socket.io&logoColor=white" alt="Socket.io"/>
+  <img src="https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white" alt="JWT"/>
+  <img src="https://img.shields.io/badge/Chart.js-FF6384?style=flat-square&logo=chart.js&logoColor=white" alt="Chart.js"/>
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white" alt="HTML5"/>
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white" alt="CSS3"/>
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black" alt="JavaScript"/>
+</p>
 
-### Hardware Recomendado
-- CPU: 4 cores
-- RAM: 8GB
-- SSD: 50GB disponível
+### Stack Principal
+
+| Camada | Tecnologia |
+|--------|------------|
+| **Backend** | Node.js 18+ com Express.js |
+| **Banco de Dados** | MySQL 8.0 |
+| **Autenticação** | JWT (JSON Web Tokens) |
+| **Real-time** | Socket.io |
+| **Frontend** | HTML5, CSS3, JavaScript ES6+ |
+| **Gráficos** | Chart.js |
+| **PDF/Excel** | PDFKit, ExcelJS |
+| **Deploy** | Railway (API) + GitHub Pages (Frontend) |
 
 ---
 
 ## 📥 Instalação
 
-### 1. Clone ou Baixe o Repositório
-```bash
-git clone https://github.com/aluforce/erp-sistema.git
-cd erp-sistema
-```
+### Pré-requisitos
 
-### 2. Instale as Dependências
+- **Node.js** 18.x ou superior
+- **MySQL** 8.0 ou superior
+- **Git**
+
+### Passo a Passo
+
 ```bash
+# 1. Clone o repositório
+git clone https://github.com/jovemegidio/sistemaerp.git
+cd sistemaerp
+
+# 2. Instale as dependências
 npm install
-```
 
-### 3. Configure o Banco de Dados
-Crie um banco MySQL:
-```sql
-CREATE DATABASE aluforce_vendas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-### 4. Configure as Variáveis de Ambiente
-Copie o arquivo de exemplo:
-```bash
+# 3. Configure as variáveis de ambiente
 cp .env.example .env
+# Edite o arquivo .env com suas configurações
+
+# 4. Execute as migrações do banco
+npm run migrate
+
+# 5. Inicie o servidor
+npm start
 ```
 
-Edite o arquivo `.env`:
+### Variáveis de Ambiente
+
 ```env
 # Servidor
 PORT=3000
-HOST=localhost
+NODE_ENV=production
 
 # Banco de Dados
 DB_HOST=localhost
@@ -130,317 +188,121 @@ DB_NAME=aluforce_vendas
 # Segurança
 JWT_SECRET=sua_chave_secreta_muito_segura
 SESSION_SECRET=outra_chave_secreta
-
-# Ambiente
-NODE_ENV=production
 ```
-
-### 5. Execute as Migrações
-```bash
-npm run migrate
-```
-
-### 6. Inicie o Sistema
-```bash
-# Desenvolvimento
-npm run dev
-
-# Produção
-npm start
-```
-
-O sistema estará disponível em: `http://localhost:3000`
 
 ---
 
-## 🛠️ Modo de Desenvolvimento
+## 🔐 Acesso ao Sistema
 
-### Modo Mock (sem MySQL)
-Para testes rápidos sem banco de dados:
+### Credenciais Padrão
 
-```powershell
-$Env:DEV_MOCK='1'; node server.js
-```
-
-Ou via npm:
-```powershell
-npm run start:mock
-```
-
-### Health & Status
-- `GET /status` — retorna JSON com uptime e flag `dbAvailable`
-- Header `X-DB-Available: 0|1`
-
----
-
-## 🔐 Credenciais Padrão
-
-| Usuário | Senha | Perfil |
-|---------|-------|--------|
-| admin@aluforce.com.br | admin123 | Administrador |
+| Perfil | Usuário | Senha |
+|--------|---------|-------|
+| Administrador | admin@aluforce.com.br | Aluforce2025! |
 
 > ⚠️ **Importante**: Altere a senha após o primeiro acesso!
 
+### URLs de Acesso
+
+| Ambiente | URL |
+|----------|-----|
+| **Frontend (GitHub Pages)** | https://jovemegidio.github.io/sistemaerp/ |
+| **API (Railway)** | https://sistemaerp-production-a924.up.railway.app |
+
 ---
 
-## 📁 Estrutura de Diretórios
+## 📁 Estrutura do Projeto
 
 ```
-Sistema-ALUFORCE-V.2/
-├── api/                    # Rotas de API
-├── modules/                # Módulos do sistema
-│   ├── Vendas/
-│   ├── Compras/
-│   ├── PCP/
-│   ├── Financeiro/
-│   ├── RH/
-│   ├── NFe/
-│   └── _shared/           # Componentes compartilhados
-├── public/                 # Arquivos estáticos
-│   ├── css/
-│   ├── js/
-│   ├── images/
-│   └── avatars/
-├── src/                    # Código fonte
-│   ├── routes/
-│   └── middleware/
-├── templates/              # Templates de documentos
-├── temp_excel/             # Arquivos Excel temporários
-├── backups/                # Backups do sistema
-├── logs/                   # Logs do sistema
-├── server.js               # Servidor principal
-└── package.json            # Dependências
-```
-
----
-
-## ⚙️ Configurações do Sistema
-
-### Acessando as Configurações
-1. Clique no ícone ⚙️ (engrenagem) no header
-2. Ou pressione `Alt + C`
-
-### Categorias de Configuração
-
-#### 🏢 Principais
-- Dados da Empresa
-- Categorias
-- Departamentos
-- Projetos
-- Certificado Digital
-- Importação de NF-e
-
-#### 👥 Recursos Humanos
-- Gestão de Funcionários
-- Cargos e Funções
-- Folha de Pagamento
-- Ponto Eletrônico
-
-#### 💰 Finanças
-- Configurações Gerais
-- Plano de Contas
-- Contas Bancárias
-- Formas de Pagamento
-- Impostos
-
-#### 🤝 Clientes e Fornecedores
-- Configurações de Cadastro
-- Grupos de Clientes
-- Regiões de Venda
-- Tipos de Fornecedor
-- Condições de Pagamento
-- Compradores
-
-#### 📦 Venda de Produtos
-- Etapas do Pedido
-- Famílias de Produtos
-- Características
-- Vendedores
-- Tabelas de Preço
-- Unidades de Medida
-- Códigos NCM
-
-#### 🔧 Venda de Serviços
-- Etapas da OS
-- Tipos de Serviço
-- Modelos de Contrato
-- SLA de Atendimento
-- NFS-e
-
----
-
-## 🔗 Integrações
-
-### APIs Disponíveis
-- **REST API** completa
-- **Webhook** para eventos
-- **Exportação** para Excel/PDF
-
-### Integrações Nativas
-- Omie (ERP)
-- WhatsApp Business
-- Email (SMTP)
-- Open Finance (em desenvolvimento)
-
----
-
-## 📊 Relatórios
-
-### Relatórios Disponíveis
-- Vendas por período
-- Comissões de vendedores
-- Fluxo de caixa
-- DRE - Demonstrativo de Resultados
-- Estoque atual
-- Produção por período
-- Inadimplência
-
-### Exportação
-- Excel (.xlsx)
-- PDF
-- CSV
-
----
-
-## 🛡️ Segurança
-
-### Recursos de Segurança
-- Autenticação JWT
-- Controle de permissões por ACL
-- Logs de auditoria
-- Criptografia de senhas (bcrypt)
-- HTTPS obrigatório em produção
-- Proteção contra CSRF/XSS
-
-### Perfis de Acesso
-- **Administrador**: Acesso total
-- **Gerente**: Acesso gerencial
-- **Vendedor**: Módulo de vendas
-- **Comprador**: Módulo de compras
-- **Financeiro**: Módulo financeiro
-- **Produção**: Módulo PCP
-- **Visualizador**: Apenas consultas
-
----
-
-## 🧪 Testes
-
-### Executar Testes
-```powershell
-# Teste básico de login
-node tests/test-login.js
-
-# Teste estendido
-node tests/test-login-extended.js
-
-# Teste de degradação de BD
-node tests/test-db-degraded.js
-
-# Todos os testes (CI)
-npm run test:ci
-```
-
-### Linting
-```powershell
-npm run lint
+ALUFORCE-V.2/
+├── 📂 api/                     # Rotas de API
+├── 📂 modules/                 # Módulos do sistema
+│   ├── 📂 Vendas/             # Módulo de vendas
+│   ├── 📂 Compras/            # Módulo de compras
+│   ├── 📂 PCP/                # Produção
+│   ├── 📂 Financeiro/         # Financeiro
+│   ├── 📂 RH/                 # Recursos Humanos
+│   ├── 📂 NFe/                # Notas Fiscais
+│   └── 📂 _shared/            # Componentes compartilhados
+├── 📂 public/                  # Arquivos estáticos
+│   ├── 📂 css/                # Estilos
+│   ├── 📂 js/                 # Scripts
+│   └── 📂 images/             # Imagens
+├── 📂 src/                     # Código fonte
+│   ├── 📂 middleware/         # Middlewares
+│   ├── 📂 nfe/                # Serviços NF-e
+│   └── 📂 routes/             # Rotas
+├── 📄 server.js               # Servidor principal
+├── 📄 package.json            # Dependências
+└── 📄 .env                    # Configurações
 ```
 
 ---
 
-## 🔄 Backup e Recuperação
+## 📊 Screenshots
 
-### Backup Automático
-O sistema realiza backups automáticos diários.
-
-### Backup Manual
-1. Acesse: Configurações > Sistema > Backup
-2. Clique em "Realizar Backup Agora"
-
-### Restauração
-1. Acesse: Configurações > Sistema > Backup
-2. Selecione o arquivo de backup
-3. Clique em "Restaurar"
+<p align="center">
+  <img src="docs/screenshots/dashboard.png" alt="Dashboard" width="80%"/>
+  <br/>
+  <em>Dashboard Executivo com KPIs em tempo real</em>
+</p>
 
 ---
 
-## 🐛 Solução de Problemas
+## 🔧 Scripts Disponíveis
 
-### Sistema não inicia
 ```bash
-# Verifique os logs
-npm run logs
+# Iniciar em produção
+npm start
 
-# Verifique a conexão com o banco
-mysql -u root -p -e "SELECT 1"
+# Iniciar em desenvolvimento (com hot-reload)
+npm run dev
+
+# Executar migrações
+npm run migrate
+
+# Executar testes
+npm test
+
+# Build para produção
+npm run build
 ```
 
-### Erro de conexão com banco
-- Verifique as credenciais no `.env`
-- Confirme que o MySQL está rodando
-- Teste a conexão manualmente
-
-### Erro de permissão
-- Limpe o cache do navegador
-- Faça logout e login novamente
-- Verifique as permissões do usuário
-
-### Modo Degradado
-- O servidor pode iniciar mesmo sem BD disponível
-- Em modo degradado, a maioria das APIs retorna 503
-- Endpoints liberados: `/api/me`, `/api/permissions`, `/api/login`, `/api/logout`
-
 ---
 
-## 📝 Changelog
+## 🤝 Contribuição
 
-### v11.12 (24/12/2025)
-- ✅ Modais de configuração profissionais
-- ✅ Sistema de auditoria completo
-- ✅ Histórico de alterações
-- ✅ Sobre os lançamentos
-- ✅ Integração de todos os módulos
+Contribuições são bem-vindas! Sinta-se à vontade para abrir issues e pull requests.
 
-### v11.11 (23/12/2025)
-- ✅ Monitoramento de conexão
-- ✅ Backup automático
-- ✅ Módulo RH completo
-
-### v11.10 (20/12/2025)
-- ✅ NF-e completo
-- ✅ Módulo de Compras
-- ✅ PCP com Excel
-
----
-
-## 📞 Suporte
-
-### Canais de Suporte
-- **Chat**: Assistente Bob AI integrado
-- **Email**: suporte@aluforce.com.br
-- **Documentação**: [docs.aluforce.com.br](https://docs.aluforce.com.br)
-
-### Horário de Atendimento
-- Segunda a Sexta: 08h às 18h
-- Sábado: 08h às 12h
+1. Faça um Fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add: nova funcionalidade'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
 
 ---
 
 ## 📄 Licença
 
-Este software é proprietário da **Aluforce Indústria e Comércio de Condutores**.
-
-Todos os direitos reservados © 2025
+Este projeto está sob a licença **MIT**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
 
 ---
 
-## 🏢 Desenvolvido por
+## 👨‍💻 Autor
 
-**Aluforce Tecnologia**
-- CNPJ: 68.192.475/0001-60
-- Telefone: (11) 91793-9089
-- Email: contato@aluforce.com.br
-- Website: www.aluforce.com.br
+<p align="center">
+  <strong>ALUFORCE Indústria de Alumínio</strong><br/>
+  Desenvolvido com ❤️ para otimizar processos industriais
+</p>
+
+<p align="center">
+  <a href="https://github.com/jovemegidio/sistemaerp">
+    <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
+  </a>
+</p>
 
 ---
 
-*Última atualização: 24/12/2025*
+<p align="center">
+  <sub>© 2024-2026 ALUFORCE ERP. Todos os direitos reservados.</sub>
+</p>
