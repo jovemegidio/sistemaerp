@@ -557,7 +557,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const rememberCheckbox = document.getElementById('remember-me');
   
   // Ao carregar a página, verifica se existe token de lembrar-me
+  // Não funciona em ambiente cross-origin (GitHub Pages)
   async function checkRememberToken() {
+    // Pular em ambiente cross-origin (cookies não funcionam)
+    if (window.location.hostname.includes('github.io')) {
+      console.log('[LOGIN/REMEMBER] Ambiente cross-origin, pulando verificação de token...');
+      return;
+    }
+    
     try {
       const response = await apiFetch('/api/auth/validate-remember-token', {
         method: 'POST',
@@ -668,12 +675,25 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('[LOGIN] ✅ Token salvo no localStorage');
       }
 
+      // *** VERIFICAÇÃO CROSS-ORIGIN PRIMEIRO ***
+      // Em ambiente cross-origin (GitHub Pages → Railway), cookies não funcionam
+      // Redirecionar IMEDIATAMENTE usando token JWT, sem fazer mais nenhuma chamada
+      const isGitHubPages = window.location.hostname.includes('github.io');
+      
+      if (isGitHubPages && data.token) {
+        console.log('[LOGIN] ✅ Ambiente cross-origin detectado (GitHub Pages). Usando token JWT.');
+        const railwayBase = window.ALUFORCE_CONFIG?.API_BASE_URL || 'https://sistemaerp-production-a924.up.railway.app';
+        console.log('[LOGIN] Redirecionando para Railway com token...');
+        window.location.href = railwayBase + '/dashboard?token=' + encodeURIComponent(data.token);
+        return;
+      }
+
       // Login bem-sucedido: se o servidor já sugeriu um redirect, siga-o imediatamente.
       if (data && data.redirectTo) {
         const redirectTo = data.redirectTo;
         console.log('[LOGIN] ✅ Login bem-sucedido! Servidor sugeriu redirect:', redirectTo);
 
-        // Se "Lembrar-me" estiver marcado, cria token persistente
+        // Se "Lembrar-me" estiver marcado, cria token persistente (só funciona em same-origin)
         if (rememberCheckbox && rememberCheckbox.checked && data.user) {
           console.log('[LOGIN] Criando token de lembrar-me...');
           try {
@@ -695,21 +715,6 @@ document.addEventListener('DOMContentLoaded', () => {
           } catch (e) {
             console.warn('[LOGIN] ⚠️ Erro ao criar token de lembrar-me:', e.message);
           }
-        }
-
-        // Em ambiente cross-origin (GitHub Pages → Railway), cookies não funcionam
-        // Usar token JWT salvo no localStorage para autenticação
-        const isGitHubPages = window.location.hostname.includes('github.io');
-        
-        if (isGitHubPages && data.token) {
-          // Cross-origin: redirecionar diretamente usando token JWT
-          console.log('[LOGIN] ✅ Ambiente cross-origin detectado. Usando token JWT.');
-          console.log('[LOGIN] Token salvo, redirecionando para:', redirectTo);
-          
-          // Redirecionar para o dashboard no Railway (onde o token será usado)
-          const railwayBase = window.ALUFORCE_CONFIG?.API_BASE_URL || 'https://sistemaerp-production-a924.up.railway.app';
-          window.location.href = railwayBase + '/dashboard?token=' + encodeURIComponent(data.token);
-          return;
         }
 
         // Ambiente same-origin: verificar sessão via cookie
