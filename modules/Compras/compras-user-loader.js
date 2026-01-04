@@ -70,7 +70,7 @@
     function getUserDataFromStorage() {
         try {
             const userData = localStorage.getItem('userData');
-            return userData  JSON.parse(userData) : null;
+            return userData ? JSON.parse(userData) : null;
         } catch (e) {
             return null;
         }
@@ -82,7 +82,7 @@
     function updateUserHeader(userData) {
         // Usar apelido se disponível, senão primeiro nome
         const userName = userData.apelido || userData.nome || 'Usuário';
-        const primeiroNome = userData.apelido || (userData.nome  userData.nome.split(' ')[0] : 'Usuário');
+        const primeiroNome = userData.apelido || (userData.nome ? userData.nome.split(' ')[0] : 'Usuário');
         const fotoUrl = userData.foto || userData.avatar || '/avatars/default.webp';
         const inicial = primeiroNome  primeiroNome[0].toUpperCase() : 'U';
         

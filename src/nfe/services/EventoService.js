@@ -39,7 +39,7 @@ class EventoService {
      * @param {number} nfeId - ID da NFe no banco
      * @param {string} justificativa - Justificativa (mínimo 15 caracteres)
      * @param {number} empresaId - ID da empresa
-     * @returns {Promise<Object>} Resultação do cancelamento
+     * @returns {Promise<Object>} Resultado do cancelamento
      */
     async cancelarNFe(nfeId, justificativa, empresaId = 1) {
         try {
@@ -158,7 +158,7 @@ class EventoService {
      * @param {number} nfeId - ID da NFe no banco
      * @param {string} correcao - Texto da correção
      * @param {number} empresaId - ID da empresa
-     * @returns {Promise<Object>} Resultação da CCe
+     * @returns {Promise<Object>} Resultado da CCe
      */
     async registrarCCe(nfeId, correcao, empresaId = 1) {
         try {

@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // menu click handlers: Home and Logout
         menu.addEventListener('click', (e) => {
             e.stopPropagation();
-            const targetId = e.target && e.target.id  e.target.id : '';
+            const targetId = e.target && e.target.id ? e.target.id : '';
             if (targetId === 'avatar-logout') {
                 localStorage.clear();
                 safeRedirectToLogin();
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (ul && Array.isArray(data) && data.length) {
                         ul.innerHTML = data.map(a => `<li><strong>${a.nome}</strong> - ${formatDayMonth(a.nascimento)}</li>`).join('');
                     } else if (ul) {
-                        ul.innerHTML = '<li>Nenhum aniversariante encontração.</li>';
+                        ul.innerHTML = '<li>Nenhum aniversariante encontrado.</li>';
                     }
                 })
                 .catch(() => {
@@ -475,7 +475,7 @@ function setBtnLoading(btn, loading, text) {
         btn.setAttribute('aria-busy', 'true');
         const spinnerHtml = `<span class="btn-spinner" aria-hidden="true"></span>`;
         if (text) btn.innerHTML = spinnerHtml + ' ' + text;
-        else btn.innerHTML = spinnerHtml + ' ' + (btn.dataset && btn.dataset.origText  btn.dataset.origText : 'Enviando...');
+        else btn.innerHTML = spinnerHtml + ' ' + (btn.dataset && btn.dataset.origText ? btn.dataset.origText : 'Enviando...');
     } else {
         btn.disabled = false;
         btn.removeAttribute('aria-busy');
@@ -748,7 +748,7 @@ function initAdminPage() {
             return;
         }
         
-        showToast("Acesso negação. Apenas administraçãores podem aceder a está página.", 'error');
+        showToast("Acesso negação. Apenas administradores podem aceder a está página.", 'error');
         window.location.href = '/login.html';
         return;
     }
@@ -783,7 +783,7 @@ function initAdminPage() {
                 // Use first and last name only
                 const parts = (me.nome_completo || '').trim().split(/\s+/);
                 const first = parts[0] || '';
-                const last = parts.length > 1  parts[parts.length-1] : '';
+                const last = parts.length > 1 ? parts[parts.length-1] : '';
                 const display = `${first}${last  ' ' + last : ''}`.trim();
                 greeting.textContent = display  `Olá, ${display}` : 'Olá, Usuário';
             }
@@ -810,7 +810,7 @@ function initAdminPage() {
 
             tabelaCorpo.innerHTML = '';
             if (!Array.isArray(funcionarios) || funcionarios.length === 0) {
-                tabelaCorpo.innerHTML = `<tr><td colspan="6">Nenhum funcionário encontração.</td></tr>`;
+                tabelaCorpo.innerHTML = `<tr><td colspan="6">Nenhum funcionário encontrado.</td></tr>`;
                 return;
             }
 
@@ -1020,7 +1020,7 @@ function initAdminPage() {
             // render list into all present targets
             targets.forEach(ul => { ul.innerHTML = ''; });
             if (!list || list.length === 0) {
-                targets.forEach(ul => { ul.innerHTML = '<li>Nenhum aniversariante encontração.</li>'; });
+                targets.forEach(ul => { ul.innerHTML = '<li>Nenhum aniversariante encontrado.</li>'; });
                 return;
             }
             list.forEach(f => {
@@ -1065,7 +1065,7 @@ function initAdminPage() {
             if (ul) {
                 ul.innerHTML = '';
                 const list = summary.aniversariantes || [];
-                if (!list || list.length === 0) ul.innerHTML = '<li>Nenhum aniversariante encontração.</li>';
+                if (!list || list.length === 0) ul.innerHTML = '<li>Nenhum aniversariante encontrado.</li>';
                 else list.forEach(f => {
                     const li = document.createElement('li');
                     li.className = 'aniver-item';
@@ -1181,7 +1181,7 @@ function initAdminPage() {
                             dias = total % 30;
                         }
                         let tempoStr = t.dias !== null && t.dias !== undefined
-                             `${anos > 0  anos + 'a ' : ''}${meses > 0  meses + 'm ' : ''}${dias > 0  dias + 'd' : ''}`.trim() || '0d'
+                             `${anos > 0 ? anos + 'a ' : ''}${meses > 0 ? meses + 'm ' : ''}${dias > 0 ? dias + 'd' : ''}`.trim() || '0d'
                             : 'Data adm. não informada';
                         item.innerHTML = `<span class="medalha">${medalhas[idx] || ''}</span> <strong>${t.nome}</strong><div>${tempoStr}</div>`;
                         tempoDiv.appendChild(item);
@@ -1258,7 +1258,7 @@ function initAdminPage() {
             if (modalNome) modalNome.value = func.nome_completo || '';
             if (modalCargo) modalCargo.value = func.cargo || func.role || '';
             if (modalEmail) modalEmail.value = func.email || '';
-            if (modalDataNasc) modalDataNasc.value = func.data_nascimento  func.data_nascimento.substring(0,10) : '';
+            if (modalDataNasc) modalDataNasc.value = func.data_nascimento ? func.data_nascimento.substring(0,10) : '';
             if (modalCpf) modalCpf.value = func.cpf || '';
             if (modalRg) modalRg.value = func.rg || '';
             if (modalTelefone) modalTelefone.value = func.telefone || '';
@@ -1310,7 +1310,7 @@ function initAdminPage() {
 
             // Preenche data de nascimento (edição rápida pelo admin)
             const modalNascimento = document.getElementById('modal-data-nascimento');
-            if (modalNascimento) modalNascimento.value = func.data_nascimento  func.data_nascimento.substring(0,10) : '';
+            if (modalNascimento) modalNascimento.value = func.data_nascimento ? func.data_nascimento.substring(0,10) : '';
 
             // preencher exibição legível de data de nascimento (ex: "05 de agosto")
             const dobDisplay = document.getElementById('modal-dob-display');
@@ -1360,7 +1360,7 @@ function initAdminPage() {
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             const href = link.getAttribute && link.getAttribute('href')  link.getAttribute('href') : '';
             const id = href && href.startsWith('#')  href.substring(1) : href;
-            const targetSection = id  document.getElementById(id) : null;
+            const targetSection = id ? document.getElementById(id) : null;
             if (targetSection) targetSection.classList.add('active');
             link.classList.add('active');
             // close sidebar when navigating (for better UX on desktop/mobile)
@@ -1474,7 +1474,7 @@ function initAdminPage() {
             fields.forEach(id => {
                 const el = document.getElementById(id);
                 if (!el) return;
-                const val = el.value === ''  null : el.value.trim  el.value.trim() : el.value;
+                const val = el.value === ''  null : el.value.trim ? el.value.trim() : el.value;
                 // map ids to payload keys
                 const map = {
                     'modal-nome': 'nome_completo', 'modal-cargo': 'cargo', 'modal-email': 'email', 'modal-data_nascimento': 'data_nascimento',
@@ -1597,7 +1597,7 @@ function initAdminPage() {
         modalNascimentoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('modal-data-nascimento');
-            if (!input) return showToast('Campo de data não encontração.', 'error');
+            if (!input) return showToast('Campo de data não encontrado.', 'error');
             const val = input.value || null;
             try {
                 const resp = await fetch(`${API_URL}/${currentFuncionarioId}`, {
@@ -1711,7 +1711,7 @@ function initAdminPage() {
     // Modal-based avisos management
     function openAvisosModal() {
         const modal = document.getElementById('modal-avisos');
-    if (!modal) return showToast('Modal de avisos não encontração.', 'error');
+    if (!modal) return showToast('Modal de avisos não encontrado.', 'error');
     openModal(modal);
         // ensure tab default
         document.querySelectorAll('#modal-avisos .tab-content').forEach(t => t.style.display = 'none');
@@ -1903,7 +1903,7 @@ async function initEmployeePage() {
     let localUserData = JSON.parse(localStorage.getItem('userData'));
 
     // Diagnostic: log initial localStorage state to help debug white-screen reports
-    try { console.log('initEmployeePage start', { authTokenPresent: !!(localStorage.getItem('authToken') || localStorage.getItem('token')), userDataPresent: !!localUserData, bodyVisibility: document && document.body && document.body.style  document.body.style.visibility : null }); } catch (e) {}
+    try { console.log('initEmployeePage start', { authTokenPresent: !!(localStorage.getItem('authToken') || localStorage.getItem('token')), userDataPresent: !!localUserData, bodyVisibility: document && document.body && document.body.style ? document.body.style.visibility : null }); } catch (e) {}
 
     // Debug: verificar se usuário deveria ir para área admin
     console.log('🔍 DEBUG initEmployeePage - Verificando redirecionamento admin:', {
@@ -1974,7 +1974,7 @@ async function initEmployeePage() {
                         const t = localStorage.getItem('authToken') || localStorage.getItem('token');
                         const u = JSON.parse(localStorage.getItem('userData') || 'null');
                         if (t && u && u.id) {
-                            console.log('initEmployeePage: detected token/userData via polling', { tokenPresent: !!t, userId: u && u.id  u.id : null, elapsed: Date.now() - start });
+                            console.log('initEmployeePage: detected token/userData via polling', { tokenPresent: !!t, userId: u && u.id ? u.id : null, elapsed: Date.now() - start });
                             clearInterval(iv);
                             // remove overlay
                             try { const o = document.getElementById('auth-overlay'); if (o) o.remove(); } catch (e) {}
@@ -2040,7 +2040,7 @@ async function initEmployeePage() {
                                     const diagObj = {
                                         tokenPresent: !!rawToken,
                                         tokenMasked: rawToken  (String(rawToken).substring(0,8) + '...') : null,
-                                        userData: (function(){ try { return userRaw  JSON.parse(userRaw) : null; } catch(e) { return userRaw; } })(),
+                                        userData: (function(){ try { return userRaw ? JSON.parse(userRaw) : null; } catch(e) { return userRaw; } })(),
                                         ua: (typeof navigator !== 'undefined' && navigator.userAgent)  navigator.userAgent : '(no navigator)'
                                     };
                                     // small helper to escape HTML
@@ -2306,7 +2306,7 @@ function subscribeAvisosSSE() {
             es.addEventListener('novo_aviso', (ev) => {
                 try {
                     const aviso = JSON.parse(ev.data);
-                    const action = aviso && aviso.action  aviso.action : 'created';
+                    const action = aviso && aviso.action ? aviso.action : 'created';
 
                     // Handle deleted avisos: remove from DOM
                     if (action === 'deleted') {
@@ -2464,7 +2464,7 @@ function markAvisoRead(id) {
                 const avisosCard = document.getElementById('card-avisos');
                 const avisosBox = document.getElementById('dashboard-avisos-list');
                 const adminBox = document.getElementById('avisos-list');
-                const countLeft = (avisosBox  avisosBox.querySelectorAll('.aviso-card').length : 0) + (adminBox  adminBox.querySelectorAll('.aviso-card').length : 0);
+                const countLeft = (avisosBox ? avisosBox.querySelectorAll('.aviso-card').length : 0) + (adminBox ? adminBox.querySelectorAll('.aviso-card').length : 0);
                 if (countLeft === 0 && avisosCard) {
                     avisosCard.classList.add('avisos-collapsed');
                 }
@@ -2509,7 +2509,7 @@ function populateUserData(userData) {
     if (headerGreeting) {
         const parts = (userData.nome_completo || '').trim().split(/\s+/);
         const first = parts[0] || '';
-        const last = parts.length > 1  parts[parts.length-1] : '';
+        const last = parts.length > 1 ? parts[parts.length-1] : '';
         const display = `${first}${last  ' ' + last : ''}`.trim();
         headerGreeting.textContent = display  `Olá, ${display}` : 'Olá, Usuário';
     }
@@ -2691,8 +2691,8 @@ function setupEmployeeEventListeners(userData) {
             const formData = new FormData();
             formData.append('atéstação', fileInput.files[0]);
             // append optional description if provided
-            const descEl = document.getElementById('atéstação-descrição');
-            if (descEl && descEl.value && descEl.value.trim()) formData.append('descrição', descEl.value.trim());
+            const descEl = document.getElementById('atéstação-descricao');
+            if (descEl && descEl.value && descEl.value.trim()) formData.append('descricao', descEl.value.trim());
             statusDiv.textContent = 'A enviar...';
             try {
                 const response = await fetch(`/api/funcionarios/${userData.id}/atéstação`, {
@@ -2704,7 +2704,7 @@ function setupEmployeeEventListeners(userData) {
                 statusDiv.textContent = result.message;
                 showToast(result.message, 'success');
                 atéstaçãoForm.reset();
-                const desc = document.getElementById('atéstação-descrição'); if (desc) desc.value = '';
+                const desc = document.getElementById('atéstação-descricao'); if (desc) desc.value = '';
             } catch (error) {
                 statusDiv.textContent = `Erro: ${error.message}`;
                 showToast(`Erro ao enviar atéstação: ${error.message}`, 'error');

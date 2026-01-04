@@ -45,7 +45,7 @@
         }
         
         // Usar apelido se disponível, senão primeiro nome
-        const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+        const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
         
         // Atualizar nome na saudação principal (header)
         const userNameEl = document.getElementById('user-name');
@@ -68,7 +68,7 @@
             
             // Fallback para quando a imagem não carregar
             img.onerror = function() {
-                console.log(`⚠️ Avatar não encontração para ${user.nome}, usando fallback`);
+                console.log(`⚠️ Avatar não encontrado para ${user.nome}, usando fallback`);
                 this.style.display = 'none';
                 
                 // Criar avatar com iniciais se não existe

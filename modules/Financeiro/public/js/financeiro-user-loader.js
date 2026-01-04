@@ -17,7 +17,7 @@
     function getUserDataFromStorage() {
         try {
             const userData = localStorage.getItem('userData');
-            return userData  JSON.parse(userData) : null;
+            return userData ? JSON.parse(userData) : null;
         } catch (e) {
             return null;
         }

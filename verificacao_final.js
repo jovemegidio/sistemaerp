@@ -80,7 +80,7 @@ console.log('  ✅ Formulários bem estruturaçãos');
 console.log('\n🔗 Integrações verificadas:');
 console.log('  ✅ API de materiais (/api/pcp/materiais)');
 console.log('  ✅ Autenticação via token');
-console.log('  ✅ Persistência no banco de daçãos');
+console.log('  ✅ Persistência no banco de dados');
 console.log('  ✅ Histórico de movimentações');
 
 console.log('\n🛡️ Validações e segurança:');

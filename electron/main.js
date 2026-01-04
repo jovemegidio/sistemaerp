@@ -335,7 +335,7 @@ async function startServer() {
     console.log('Server path:', serverPath);
     
     if (!fs.existsSync(serverPath)) {
-        throw new Error('Arquivo server.js não encontração em: ' + serverPath);
+        throw new Error('Arquivo server.js não encontrado em: ' + serverPath);
     }
     
     return new Promise((resolve, reject) => {
@@ -406,7 +406,7 @@ if (!gotTheLock) {
         }
     });
 
-    app.on('activate', () => { mainWindow  mainWindow.show() : createMainWindow(); });
+    app.on('activate', () => { mainWindow ? mainWindow.show() : createMainWindow(); });
     app.on('window-all-closed', () => { if (process.platform !== 'darwin') { isQuitting = true; app.quit(); } });
     app.on('before-quit', () => { isQuitting = true; saveWindowState(); stopServer(); });
     app.on('quit', () => { stopServer(); if (tray) tray.destroy(); });

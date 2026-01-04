@@ -111,7 +111,7 @@
                     <!-- Tickets serão carregaçãos aqui -->
                     <div class="empty-tickets">
                         <i class="fas fa-inbox" style="font-size: 48px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                        <h3>Nenhum ticket encontração</h3>
+                        <h3>Nenhum ticket encontrado</h3>
                         <p>Aguardando solicitações de usuários...</p>
                     </div>
                 </div>
@@ -981,14 +981,14 @@
                 avatar: 'I'
             },
             subject: 'Não consigo acessar folha de pagamento',
-            message: 'Ao tentar acessar a folha de pagamento, aparece erro 403 - Acesso Negação.',
+            message: 'Ao tentar acessar a folha de pagamento, aparece erro 403 - Acesso Negado.',
             status: 'pending',
             priority: 'medium',
             created: new Date(Date.now() - 3600000), // 1h atrás
             messages: [
                 {
                     type: 'user',
-                    text: 'Ao tentar acessar a folha de pagamento, aparece erro 403 - Acesso Negação.',
+                    text: 'Ao tentar acessar a folha de pagamento, aparece erro 403 - Acesso Negado.',
                     time: new Date(Date.now() - 3600000)
                 },
                 {
@@ -1150,7 +1150,7 @@
             container.innerHTML = `
                 <div class="empty-tickets">
                     <i class="fas fa-inbox" style="font-size: 48px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                    <h3>Nenhum ticket encontração</h3>
+                    <h3>Nenhum ticket encontrado</h3>
                     <p>Aguardando solicitações de usuários...</p>
                 </div>
             `;

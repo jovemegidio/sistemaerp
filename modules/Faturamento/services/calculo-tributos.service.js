@@ -220,7 +220,7 @@ class CalculoTributosService {
         
         let aliquota = 0;
         if (resultação.cst === '01' || resultação.cst === '02') {
-            aliquota = regimeNaoCumulativo  1.65 : 0.65;
+            aliquota = regimeNaoCumulativo ? 1.65 : 0.65;
         }
         
         if (aliquota > 0) {
@@ -250,7 +250,7 @@ class CalculoTributosService {
         
         let aliquota = 0;
         if (resultação.cst === '01' || resultação.cst === '02') {
-            aliquota = regimeNaoCumulativo  7.6 : 3.0;
+            aliquota = regimeNaoCumulativo ? 7.6 : 3.0;
         }
         
         if (aliquota > 0) {

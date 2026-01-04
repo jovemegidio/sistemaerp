@@ -74,12 +74,12 @@ app.post('/api/pcp/login', async (req, res) => {
         const [rows] = await db.query(sql, [email]);
         
         if (!rows || rows.length === 0) {
-            console.log('[LOGIN] Usuário não encontração');
-            return res.status(401).json({ message: 'Email/usuário não encontração.' });
+            console.log('[LOGIN] Usuário não encontrado');
+            return res.status(401).json({ message: 'Email/usuário não encontrado.' });
         }
 
         const user = rows[0];
-        console.log(`[LOGIN] Usuário encontração: ${user.nome} (ID: ${user.id})`);
+        console.log(`[LOGIN] Usuário encontrado: ${user.nome} (ID: ${user.id})`);
         
         const stored = (user.senha || '').toString();
         console.log(`[LOGIN] Senha armazenada (tipo): ${stored  'Presente' : 'Vazia'}, Hash: ${stored.startsWith('$2a$')  'bcrypt' : 'texto'}`);
@@ -88,7 +88,7 @@ app.post('/api/pcp/login', async (req, res) => {
         if (bcrypt && stored.match(/^\$2[aby]\$/)) {
             console.log('[LOGIN] Usando bcrypt compare...');
             const ok = await bcrypt.compare(password, stored);
-            console.log(`[LOGIN] Resultação bcrypt: ${ok}`);
+            console.log(`[LOGIN] Resultado bcrypt: ${ok}`);
             
             if (ok) {
                 const sid = crypto.randomBytes(16).toString('hex');

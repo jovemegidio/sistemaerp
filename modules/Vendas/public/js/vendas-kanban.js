@@ -9,7 +9,7 @@ let usuarioLogação = null;
 // Fallback para VendasAuth caso não exista
 const VendasAuth = window.VendasAuth || {
     isAdmin: (user) => user && (user.role === 'admin' || user.cargo === 'admin'),
-    obterPrimeiroNome: (nome) => nome  nome.split(' ')[0] : '',
+    obterPrimeiroNome: (nome) => nome ? nome.split(' ')[0] : '',
     podeMoverPedido: () => true, // Por padrão permite mover
     inicializarAuth: async () => null
 };
@@ -272,7 +272,7 @@ async function carregarPedidosDaAPI() {
         let todosPedidos = (Array.isArray(data) && data.length  data : [...pedidosSeed]).map(p => ({
             ...p,
             vendedor: p.vendedor_nome || p.vendedor || '',
-            data: p.data_criacao  p.data_criacao.slice(0, 10) : p.data || '',
+            data: p.data_criacao ? p.data_criacao.slice(0, 10) : p.data || '',
             faturamento: p.faturamento || p.observacoes || '',
             valor: p.valor || p.valor_total || 0
         }));
@@ -648,8 +648,8 @@ function abrirModalNovoPedido(tipo = 'orcamento') {
     const modal = document.getElementById('modal-novo-pedido');
     const form = document.getElementById('form-novo-pedido');
     
-    console.log('[Kanban] Modal encontração:', !!modal);
-    console.log('[Kanban] Form encontração:', !!form);
+    console.log('[Kanban] Modal encontrado:', !!modal);
+    console.log('[Kanban] Form encontrado:', !!form);
     
     if (form) {
         form.reset();
@@ -688,8 +688,8 @@ function abrirModalNovoPedido(tipo = 'orcamento') {
         modal.classList.add('aberto');
         console.log('[Kanban] Modal aberto com sucesso!');
     } else {
-        console.error('[Kanban] Modal #modal-novo-pedido não encontração no DOM!');
-        alert('Erro: Modal não encontração. Verifique o HTML.');
+        console.error('[Kanban] Modal #modal-novo-pedido não encontrado no DOM!');
+        alert('Erro: Modal não encontrado. Verifique o HTML.');
     }
 }
 
@@ -712,11 +712,11 @@ function fecharModalNovoPedido() {
 
 function popularFormPedido(pedido) {
     const form = document.getElementById('form-novo-pedido');
-    console.log('[Kanban] popularFormPedido - Form encontração:', !!form);
+    console.log('[Kanban] popularFormPedido - Form encontrado:', !!form);
     console.log('[Kanban] popularFormPedido - Daçãos recebidos:', pedido);
     
     if (!form) {
-        console.error('[Kanban] Form não encontração!');
+        console.error('[Kanban] Form não encontrado!');
         return;
     }
     
@@ -733,7 +733,7 @@ function popularFormPedido(pedido) {
     // Campos do formulário - com verificação de existência
     const setInputValue = (name, value) => {
         const input = form.querySelector(`[name="${name}"]`);
-        console.log(`[Kanban] setInputValue - ${name}:`, value, '- Input encontração:', !!input);
+        console.log(`[Kanban] setInputValue - ${name}:`, value, '- Input encontrado:', !!input);
         if (input) {
             input.value = value  '';
         }
@@ -847,7 +847,7 @@ async function abrirModalEditarPedido(id) {
         
         // Primeiro busca os daçãos locais do kanban (sempre disponíveis)
         const pedidoLocal = pedidos.find(p => p.id == id);
-        console.log('[Kanban] Pedido local encontração:', pedidoLocal);
+        console.log('[Kanban] Pedido local encontrado:', pedidoLocal);
         
         // Tenta buscar daçãos atualizaçãos da API
         let pedidoDetalhe = pedidoLocal || {};

@@ -35,7 +35,7 @@ async function run() {
     await conn.end();
     process.exit(0);
   } catch (err) {
-    console.error('Erro durante a migração:', err && err.message  err.message : err);
+    console.error('Erro durante a migração:', err && err.message ? err.message : err);
     try { await conn.end(); } catch(e){}
     process.exit(2);
   }

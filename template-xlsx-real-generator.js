@@ -20,7 +20,7 @@ class TemplateXlsxRealGenerator {
         try {
             // Verificar se template existe
             if (!fs.existsSync(templatePath)) {
-                throw new Error(`Template não encontração: ${templatePath}`);
+                throw new Error(`Template não encontrado: ${templatePath}`);
             }
 
             // Carregar template original

@@ -11,7 +11,7 @@ require('dotenv').config();
 const NOVA_SENHA = 'aluvendas01';
 const SALT_ROUNDS = 10;
 
-// Configuração do banco de daçãos
+// Configuração do banco de dados
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -49,7 +49,7 @@ async function resetarSenhas() {
         }
         
         if (!passwordField) {
-            throw new Error('❌ Nenhum campo de senha encontração na tabela usuarios');
+            throw new Error('❌ Nenhum campo de senha encontrado na tabela usuarios');
         }
         
         console.log(`🔑 Campo de senha identificação: ${passwordField}\n`);
@@ -66,11 +66,11 @@ async function resetarSenhas() {
         );
         
         if (usuarios.length === 0) {
-            console.log('⚠️  Nenhum usuário encontração no banco de daçãos');
+            console.log('⚠️  Nenhum usuário encontrado no banco de dados');
             return;
         }
         
-        console.log(`📊 Total de usuários encontraçãos: ${usuarios.length}\n`);
+        console.log(`📊 Total de usuários encontrados: ${usuarios.length}\n`);
         
         // Mostrar usuários antes de atualizar
         console.log('👤 Usuários que terão a senha atualizada:');

@@ -17,7 +17,7 @@ class IntegracaoVendasFaturamento {
      * Gera NF-e a partir de um pedido de venda
      * @param {number} pedidoId - ID do pedido em Vendas
      * @param {object} opcoes - Opções de faturamento
-     * @returns {Promise<object>} Resultação da operação
+     * @returns {Promise<object>} Resultado da operação
      */
     async faturarPedido(pedidoId, opcoes = {}) {
         const {
@@ -37,7 +37,7 @@ class IntegracaoVendasFaturamento {
             const pedido = await this.buscarPedidoVendas(pedidoId, token);
             
             if (!pedido) {
-                throw new Error(`Pedido ${pedidoId} não encontração`);
+                throw new Error(`Pedido ${pedidoId} não encontrado`);
             }
 
             // 2. Validar se pode ser faturação

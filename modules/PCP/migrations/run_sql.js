@@ -13,12 +13,12 @@ async function run(file) {
       try {
         await conn.query(p);
       } catch (e) {
-        console.warn('Statement failed (continuing):', e && e.message  e.message : e);
+        console.warn('Statement failed (continuing):', e && e.message ? e.message : e);
       }
     }
     console.log('Migration finished');
   } catch (err) {
-    console.error('Migration error:', err && err.message  err.message : err);
+    console.error('Migration error:', err && err.message ? err.message : err);
     process.exitCode = 2;
   } finally {
     await conn.end();

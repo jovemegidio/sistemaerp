@@ -47,14 +47,14 @@ module.exports = function({ pool, authenticateToken }) {
                 if (rows.length === 0) {
                     return res.status(403).json({ 
                         success: false, 
-                        message: 'Usuário não encontração' 
+                        message: 'Usuário não encontrado' 
                     });
                 }
                 
                 const usuario = rows[0];
                 
                 // Verificar áreas bloqueadas
-                const bloqueadas = usuario.areas_bloqueadas  JSON.parse(usuario.areas_bloqueadas) : [];
+                const bloqueadas = usuario.areas_bloqueadas ? JSON.parse(usuario.areas_bloqueadas) : [];
                 if (bloqueadas.includes(modulo)) {
                     return res.status(403).json({ 
                         success: false, 
@@ -63,7 +63,7 @@ module.exports = function({ pool, authenticateToken }) {
                 }
                 
                 // Primeiro verificar permissões customizadas
-                const customPermissoes = usuario.permissoes_custom  JSON.parse(usuario.permissoes_custom) : null;
+                const customPermissoes = usuario.permissoes_custom ? JSON.parse(usuario.permissoes_custom) : null;
                 if (customPermissoes && customPermissoes[modulo]) {
                     if (customPermissoes[modulo].includes(acao)) {
                         return next();
@@ -71,7 +71,7 @@ module.exports = function({ pool, authenticateToken }) {
                 }
                 
                 // Verificar permissões do perfil
-                const perfilPermissoes = usuario.perfil_permissoes  JSON.parse(usuario.perfil_permissoes) : {};
+                const perfilPermissoes = usuario.perfil_permissoes ? JSON.parse(usuario.perfil_permissoes) : {};
                 if (perfilPermissoes[modulo] && perfilPermissoes[modulo].includes(acao)) {
                     return next();
                 }
@@ -106,7 +106,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (req.user.is_admin !== 1 && req.user.role !== 'admin') {
                 return res.status(403).json({ 
                     success: false, 
-                    message: 'Apenas administraçãores podem gerenciar perfis' 
+                    message: 'Apenas administradores podem gerenciar perfis' 
                 });
             }
             
@@ -148,7 +148,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!perfil) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Perfil não encontração' 
+                    message: 'Perfil não encontrado' 
                 });
             }
             
@@ -173,7 +173,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (req.user.is_admin !== 1 && req.user.role !== 'admin') {
                 return res.status(403).json({ 
                     success: false, 
-                    message: 'Apenas administraçãores podem criar perfis' 
+                    message: 'Apenas administradores podem criar perfis' 
                 });
             }
             
@@ -216,7 +216,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (req.user.is_admin !== 1 && req.user.role !== 'admin') {
                 return res.status(403).json({ 
                     success: false, 
-                    message: 'Apenas administraçãores podem editar perfis' 
+                    message: 'Apenas administradores podem editar perfis' 
                 });
             }
             
@@ -243,7 +243,7 @@ module.exports = function({ pool, authenticateToken }) {
                     permissoes = COALESCE(, permissoes),
                     ativo = COALESCE(, ativo)
                 WHERE id = 
-            `, [nome, descricao, nivel, permissoes  JSON.stringify(permissoes) : null, ativo, id]);
+            `, [nome, descricao, nivel, permissoes ? JSON.stringify(permissoes) : null, ativo, id]);
             
             res.json({ 
                 success: true, 
@@ -293,14 +293,14 @@ module.exports = function({ pool, authenticateToken }) {
             if (!usuario) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Usuário não encontração' 
+                    message: 'Usuário não encontrado' 
                 });
             }
             
             // Calcular permissões efetivas (perfil + custom)
-            const perfilPermissoes = usuario.perfil_permissoes  JSON.parse(usuario.perfil_permissoes) : {};
-            const customPermissoes = usuario.permissoes_custom  JSON.parse(usuario.permissoes_custom) : {};
-            const bloqueadas = usuario.areas_bloqueadas  JSON.parse(usuario.areas_bloqueadas) : [];
+            const perfilPermissoes = usuario.perfil_permissoes ? JSON.parse(usuario.perfil_permissoes) : {};
+            const customPermissoes = usuario.permissoes_custom ? JSON.parse(usuario.permissoes_custom) : {};
+            const bloqueadas = usuario.areas_bloqueadas ? JSON.parse(usuario.areas_bloqueadas) : [];
             
             // Merge permissões
             const permissoesEfetivas = { ...perfilPermissoes };
@@ -353,7 +353,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (req.user.is_admin !== 1 && req.user.role !== 'admin') {
                 return res.status(403).json({ 
                     success: false, 
-                    message: 'Apenas administraçãores podem alterar perfis' 
+                    message: 'Apenas administradores podem alterar perfis' 
                 });
             }
             
@@ -369,7 +369,7 @@ module.exports = function({ pool, authenticateToken }) {
                 if (!perfil) {
                     return res.status(400).json({ 
                         success: false, 
-                        message: 'Perfil não encontração' 
+                        message: 'Perfil não encontrado' 
                     });
                 }
             }
@@ -402,7 +402,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (req.user.is_admin !== 1 && req.user.role !== 'admin') {
                 return res.status(403).json({ 
                     success: false, 
-                    message: 'Apenas administraçãores podem alterar permissões' 
+                    message: 'Apenas administradores podem alterar permissões' 
                 });
             }
             
@@ -477,12 +477,12 @@ module.exports = function({ pool, authenticateToken }) {
                 return res.json({ 
                     success: true, 
                     permitido: false,
-                    motivo: 'Usuário não encontração' 
+                    motivo: 'Usuário não encontrado' 
                 });
             }
             
             // Verificar áreas bloqueadas
-            const bloqueadas = usuario.areas_bloqueadas  JSON.parse(usuario.areas_bloqueadas) : [];
+            const bloqueadas = usuario.areas_bloqueadas ? JSON.parse(usuario.areas_bloqueadas) : [];
             if (bloqueadas.includes(modulo)) {
                 return res.json({ 
                     success: true, 
@@ -492,7 +492,7 @@ module.exports = function({ pool, authenticateToken }) {
             }
             
             // Verificar permissões customizadas
-            const customPermissoes = usuario.permissoes_custom  JSON.parse(usuario.permissoes_custom) : {};
+            const customPermissoes = usuario.permissoes_custom ? JSON.parse(usuario.permissoes_custom) : {};
             if (customPermissoes[modulo].includes(acao)) {
                 return res.json({ 
                     success: true, 
@@ -502,7 +502,7 @@ module.exports = function({ pool, authenticateToken }) {
             }
             
             // Verificar permissões do perfil
-            const perfilPermissoes = usuario.perfil_permissoes  JSON.parse(usuario.perfil_permissoes) : {};
+            const perfilPermissoes = usuario.perfil_permissoes ? JSON.parse(usuario.perfil_permissoes) : {};
             if (perfilPermissoes[modulo].includes(acao)) {
                 return res.json({ 
                     success: true, 
@@ -560,9 +560,9 @@ module.exports = function({ pool, authenticateToken }) {
                 WHERE u.id = 
             `, [userId]);
             
-            const perfilPermissoes = usuario.perfil_permissoes  JSON.parse(usuario.perfil_permissoes) : {};
-            const customPermissoes = usuario.permissoes_custom  JSON.parse(usuario.permissoes_custom) : {};
-            const bloqueadas = usuario.areas_bloqueadas  JSON.parse(usuario.areas_bloqueadas) : [];
+            const perfilPermissoes = usuario.perfil_permissoes ? JSON.parse(usuario.perfil_permissoes) : {};
+            const customPermissoes = usuario.permissoes_custom ? JSON.parse(usuario.permissoes_custom) : {};
+            const bloqueadas = usuario.areas_bloqueadas ? JSON.parse(usuario.areas_bloqueadas) : [];
             
             // Merge e calcular permissões efetivas
             const permissoesEfetivas = { ...perfilPermissoes };

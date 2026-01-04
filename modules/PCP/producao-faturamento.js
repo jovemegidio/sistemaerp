@@ -233,7 +233,7 @@
             container.innerHTML = `
                 <div style="text-align: center; padding: 40px 20px; color: #64748b;">
                     <i class="fas fa-inbox" style="font-size: 36px; margin-bottom: 12px; opacity: 0.5;"></i>
-                    <p>Nenhum faturamento encontração</p>
+                    <p>Nenhum faturamento encontrado</p>
                 </div>
             `;
             return;
@@ -680,8 +680,8 @@
         document.getElementById('editar-ordem-quantidade').value = ordem.quantidade;
         document.getElementById('editar-ordem-unidade').value = ordem.unidade;
         document.getElementById('editar-ordem-prioridade').value = ordem.prioridade;
-        document.getElementById('editar-ordem-data-inicio').value = ordem.data_inicio  ordem.data_inicio.split('T')[0] : '';
-        document.getElementById('editar-ordem-data-prevista').value = ordem.data_prevista  ordem.data_prevista.split('T')[0] : '';
+        document.getElementById('editar-ordem-data-inicio').value = ordem.data_inicio ? ordem.data_inicio.split('T')[0] : '';
+        document.getElementById('editar-ordem-data-prevista').value = ordem.data_prevista ? ordem.data_prevista.split('T')[0] : '';
         document.getElementById('editar-ordem-responsavel').value = ordem.responsavel || '';
         document.getElementById('editar-ordem-observacoes').value = ordem.observacoes || '';
         

@@ -1242,7 +1242,7 @@ class OmieLayoutManager {
         
         // Detectar seção ativa para busca contextual
         const activeSection = document.querySelector('.content-section.active');
-        const sectionId = activeSection  activeSection.id : '';
+        const sectionId = activeSection ? activeSection.id : '';
         
         // Chamar função de busca do app.js se existir
         if (window.app && window.app.performSearch) {
@@ -1261,19 +1261,19 @@ class OmieLayoutManager {
             
             switch(sectionId) {
                 case 'dashboard-section':
-                    contextMessage = `${resultCount} colaboraçãor(es) encontração(s)`;
+                    contextMessage = `${resultCount} colaboraçãor(es) encontrado(s)`;
                     break;
                 case 'holerite':
-                    contextMessage = `${resultCount} holerite(s) encontração(s)`;
+                    contextMessage = `${resultCount} holerite(s) encontrado(s)`;
                     break;
                 case 'ponto':
-                    contextMessage = `${resultCount} registro(s) de ponto encontração(s)`;
+                    contextMessage = `${resultCount} registro(s) de ponto encontrado(s)`;
                     break;
                 case 'atéstação':
-                    contextMessage = `${resultCount} atéstação(s) encontração(s)`;
+                    contextMessage = `${resultCount} atéstação(s) encontrado(s)`;
                     break;
                 default:
-                    contextMessage = `${resultCount} resultação(s) encontração(s)`;
+                    contextMessage = `${resultCount} resultação(s) encontrado(s)`;
             }
             
             this.showToast('Busca', contextMessage, 'success');
@@ -1507,7 +1507,7 @@ class OmieLayoutManager {
     updateNotificationsCount() {
         // Buscar notificações reais do servidor
         fetch('/api/notifications/count', {
-            headers: window.app  window.app.getAuthHeaders() : {}
+            headers: window.app ? window.app.getAuthHeaders() : {}
         })
         .then(response => response.json())
         .then(data => {

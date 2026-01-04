@@ -66,10 +66,10 @@ try {
     let funcoesOK = 0;
     funcoesParaVerificar.forEach(funcao => {
         if (pcpContent.includes(funcao)) {
-            console.log(`   ✅ Seletor dual encontração`);
+            console.log(`   ✅ Seletor dual encontrado`);
             funcoesOK++;
         } else {
-            console.log(`   ❌ Seletor dual não encontração`);
+            console.log(`   ❌ Seletor dual não encontrado`);
         }
     });
     
@@ -78,7 +78,7 @@ try {
     console.log(`   ❌ Erro ao ler pcp.js: ${error.message}\n`);
 }
 
-// 4. Verificar estrutura do banco de daçãos de produtos local
+// 4. Verificar estrutura do banco de dados de produtos local
 console.log('4️⃣ Verificando produtos locais...');
 try {
     const indexContent = fs.readFileSync('index.html', 'utf8');
@@ -88,7 +88,7 @@ try {
     if (produtosMatch) {
         const produtosText = produtosMatch[1];
         const produtoLines = produtosText.split('\n').filter(line => line.includes('codigo:'));
-        console.log(`   ✅ ${produtoLines.length} produtos encontraçãos no array local`);
+        console.log(`   ✅ ${produtoLines.length} produtos encontrados no array local`);
         
         // Mostrar alguns exemplos
         produtoLines.slice(0, 3).forEach(line => {
@@ -98,7 +98,7 @@ try {
             }
         });
     } else {
-        console.log(`   ❌ Array de produtos não encontração`);
+        console.log(`   ❌ Array de produtos não encontrado`);
     }
 } catch (error) {
     console.log(`   ❌ Erro ao verificar produtos: ${error.message}`);
@@ -134,9 +134,9 @@ try {
 console.log('📋 RESUMO DA VERIFICAÇÃO');
 console.log('========================');
 
-const totalChecks = arquivosOK + (arquivosOK > 0  1 : 0); // Simplificação para demonstração
+const totalChecks = arquivosOK + (arquivosOK > 0 ? 1 : 0); // Simplificação para demonstração
 if (arquivosOK === arquivos.length) {
-    console.log('✅ SISTEMA PARECE OK - Arquivos principais encontraçãos');
+    console.log('✅ SISTEMA PARECE OK - Arquivos principais encontrados');
     console.log('✅ CLASSES DUAIS IMPLEMENTADAS - Compatibilidade garantida');
     console.log('✅ SELETORES DUAIS NO PCP.JS - Coleta de daçãos funcionando');
     console.log('✅ PRODUTOS LOCAIS DISPONÍVEIS - Fallback implementação');

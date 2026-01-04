@@ -44,7 +44,7 @@ function configurarHTTPS(config) {
             const pfxPath = path.resolve(SSL_PFX_PATH);
             
             if (!fs.existsSync(pfxPath)) {
-                console.error(`❌ ERRO: Certificação PFX não encontração: ${pfxPath}`);
+                console.error(`❌ ERRO: Certificação PFX não encontrado: ${pfxPath}`);
                 console.error('   Execute: .\\gerar_certificação_pfx.ps1');
                 process.exit(1);
             }
@@ -61,7 +61,7 @@ function configurarHTTPS(config) {
             const keyPath = path.resolve(SSL_KEY_PATH);
             
             if (!fs.existsSync(certPath)) {
-                console.error(`❌ ERRO: Certificação SSL não encontração: ${certPath}`);
+                console.error(`❌ ERRO: Certificação SSL não encontrado: ${certPath}`);
                 process.exit(1);
             }
             

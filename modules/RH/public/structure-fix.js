@@ -122,7 +122,7 @@
 
                 // Obter ID da seção target
                 const href = link.getAttribute('href');
-                const targetId = href  href.replace('#', '') : null;
+                const targetId = href ? href.replace('#', '') : null;
                 
                 if (targetId) {
                     navigateToSection(targetId);
@@ -228,9 +228,9 @@
         });
 
         if (duplicateIds.length > 0) {
-            console.warn('IDs duplicaçãos encontraçãos:', duplicateIds);
+            console.warn('IDs duplicaçãos encontrados:', duplicateIds);
         } else {
-            console.log('✅ Nenhum ID duplicação encontração');
+            console.log('✅ Nenhum ID duplicação encontrado');
         }
     };
 

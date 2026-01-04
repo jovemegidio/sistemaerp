@@ -440,7 +440,7 @@ class DANFEService {
     formatarCNPJCPF(valor) {
         if (!valor) return '';
         valor = valor.replace(/\D/g, '');
-        return valor.length === 14  this.formatarCNPJ(valor) : this.formatarCPF(valor);
+        return valor.length === 14 ? this.formatarCNPJ(valor) : this.formatarCPF(valor);
     }
 
     formatarCEP(cep) {

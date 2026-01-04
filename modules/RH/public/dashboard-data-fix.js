@@ -48,9 +48,9 @@ async function loadDashboardData() {
 function updateDashboardCounters(data) {
     // Calcular totais baseaçãos nos daçãos recebidos
     const totals = {
-        funcionarios: data.tempoCasa  data.tempoCasa.length : 0,
-        aniversariantes: data.aniversariantes  data.aniversariantes.length : 0,
-        avisos: data.avisos  data.avisos.length : 0,
+        funcionarios: data.tempoCasa ? data.tempoCasa.length : 0,
+        aniversariantes: data.aniversariantes ? data.aniversariantes.length : 0,
+        avisos: data.avisos ? data.avisos.length : 0,
         relatórios: 12, // Valor fixo por enquanto
         admissoes: 0    // Valor fixo por enquanto
     };
@@ -285,7 +285,7 @@ window.debugDashboardData = function() {
     console.log('=== 🎯 DEBUG DO DASHBOARD ===');
     console.log('Token presente:', !!localStorage.getItem('authToken'));
     console.log('Dashboard section:', document.getElementById('dashboard-home'));
-    console.log('Widgets encontraçãos:', document.querySelectorAll('.widget').length);
+    console.log('Widgets encontrados:', document.querySelectorAll('.widget').length);
     loadDashboardData().then(data => {
         console.log('Daçãos carregaçãos:', data);
     });

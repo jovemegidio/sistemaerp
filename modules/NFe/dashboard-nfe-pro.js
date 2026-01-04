@@ -748,7 +748,7 @@ async function fetchUserData() {
 function getUserDataFromStorage() {
     try {
         const userData = localStorage.getItem('userData');
-        return userData  JSON.parse(userData) : null;
+        return userData ? JSON.parse(userData) : null;
     } catch (e) {
         return null;
     }
@@ -762,7 +762,7 @@ function updateUserHeader(userData) {
     const userTextElements = document.querySelectorAll('.user-text');
     userTextElements.forEach(el => {
         // Usar primeiro nome para saudação
-        const primeiroNome = userData.nome  userData.nome.split(' ')[0] : 'Usuário';
+        const primeiroNome = userData.nome ? userData.nome.split(' ')[0] : 'Usuário';
         el.textContent = primeiroNome;
     });
     

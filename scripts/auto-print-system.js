@@ -286,7 +286,7 @@ class AutoPrintSystem {
         try {
             await fs.access(filePath);
         } catch (error) {
-            throw new Error(`Arquivo não encontração: ${filePath}`);
+            throw new Error(`Arquivo não encontrado: ${filePath}`);
         }
 
         // Verificar impressora
@@ -422,7 +422,7 @@ class AutoPrintSystem {
     async cancelJob(jobId) {
         const jobIndex = this.printQueue.findIndex(j => j.id === jobId);
         if (jobIndex === -1) {
-            throw new Error('Job não encontração na fila');
+            throw new Error('Job não encontrado na fila');
         }
 
         const job = this.printQueue[jobIndex];

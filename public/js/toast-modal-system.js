@@ -606,8 +606,8 @@
                                     align-items: center;
                                     gap: 12px;
                                     padding: 12px 16px;
-                                    border: 2px solid ${currentStatus === opt.value  opt.color : '#e2e8f0'};
-                                    background: ${currentStatus === opt.value  opt.color + '10' : '#ffffff'};
+                                    border: 2px solid ${currentStatus === opt.value ? opt.color : '#e2e8f0'};
+                                    background: ${currentStatus === opt.value ? opt.color + '10' : '#ffffff'};
                                     border-radius: 10px;
                                     cursor: pointer;
                                     transition: all 0.2s;
@@ -670,8 +670,8 @@
                 });
                 btn.addEventListener('mouseleave', () => {
                     const opt = statusOptions.find(o => o.value === btn.dataset.value);
-                    btn.style.borderColor = currentStatus === btn.dataset.value  opt.color : '#e2e8f0';
-                    btn.style.background = currentStatus === btn.dataset.value  opt.color + '10' : '#ffffff';
+                    btn.style.borderColor = currentStatus === btn.dataset.value ? opt.color : '#e2e8f0';
+                    btn.style.background = currentStatus === btn.dataset.value ? opt.color + '10' : '#ffffff';
                 });
             });
 

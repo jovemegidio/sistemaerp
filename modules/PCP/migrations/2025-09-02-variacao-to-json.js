@@ -34,7 +34,7 @@ const mysql = require('mysql2/promise');
     console.log('Migration complete. Updated rows:', updated);
     process.exit(0);
   } catch (err) {
-    console.error('Migration failed:', err && err.message  err.message : err);
+    console.error('Migration failed:', err && err.message ? err.message : err);
     process.exit(2);
   } finally {
     if (conn) await conn.end();

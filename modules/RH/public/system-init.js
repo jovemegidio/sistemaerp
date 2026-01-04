@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('✅ Sistema Aluforce RH iniciação com sucesso!');
             
         } else {
-            console.warn('⚠️ Header Controls não encontração, tentando novamente...');
+            console.warn('⚠️ Header Controls não encontrado, tentando novamente...');
             
             // Tentar novamente após 1 segundo
             setTimeout(() => {
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (typeof loadPage === 'function') {
             console.log('✅ Sistema de páginas carregação');
         } else {
-            console.error('❌ Erro: Sistema de páginas não encontração');
+            console.error('❌ Erro: Sistema de páginas não encontrado');
         }
         
     }, 500);
@@ -74,7 +74,7 @@ window.testSystem = function() {
         console.log('✅ Teste concluído: Sistema funcionando corretamente');
         console.log('ℹ️ Para testar notificações, clique no sino ou na carta');
     } else {
-        console.error('❌ Teste falhou: headerControls não encontração');
+        console.error('❌ Teste falhou: headerControls não encontrado');
     }
 };
 

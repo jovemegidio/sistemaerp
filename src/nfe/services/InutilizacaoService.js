@@ -36,7 +36,7 @@ class InutilizacaoService {
     /**
      * Inutiliza faixa de números de NFe
      * @param {Object} daçãos - Daçãos da inutilização
-     * @returns {Promise<Object>} Resultação da inutilização
+     * @returns {Promise<Object>} Resultado da inutilização
      */
     async inutilizarFaixa(daçãos) {
         try {

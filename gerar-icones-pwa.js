@@ -20,7 +20,7 @@ async function generateIcons() {
 
   // Verificar se o favicon existe
   if (!fs.existsSync(SOURCE_ICO)) {
-    console.error('❌ Favicon.ico não encontração em:', SOURCE_ICO);
+    console.error('❌ Favicon.ico não encontrado em:', SOURCE_ICO);
     console.log('🔄 Criando ícones placeholder...\n');
     await createPlaceholderIcons();
     return;

@@ -42,7 +42,7 @@ router.post('/gerar-pagar', async (req, res) => {
         if (pedidos.length === 0) {
             return res.status(404).json({ 
                 success: false, 
-                message: 'Pedido de compra não encontração' 
+                message: 'Pedido de compra não encontrado' 
             });
         }
         

@@ -52,7 +52,7 @@ router.get('/:id', async (req, res) => {
         const fornecedor = await get('SELECT * FROM fornecedores WHERE id = ', [req.params.id]);
         
         if (!fornecedor) {
-            return res.status(404).json({ error: 'Fornecedor não encontração' });
+            return res.status(404).json({ error: 'Fornecedor não encontrado' });
         }
         
         res.json(fornecedor);
@@ -139,7 +139,7 @@ router.put('/:id', async (req, res) => {
         ]);
         
         if (result.changes === 0) {
-            return res.status(404).json({ error: 'Fornecedor não encontração' });
+            return res.status(404).json({ error: 'Fornecedor não encontrado' });
         }
         
         res.json({ message: 'Fornecedor atualização com sucesso' });
@@ -155,7 +155,7 @@ router.delete('/:id', async (req, res) => {
         const result = await run('DELETE FROM fornecedores WHERE id = ', [req.params.id]);
         
         if (result.changes === 0) {
-            return res.status(404).json({ error: 'Fornecedor não encontração' });
+            return res.status(404).json({ error: 'Fornecedor não encontrado' });
         }
         
         res.json({ message: 'Fornecedor excluído com sucesso' });

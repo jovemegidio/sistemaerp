@@ -75,7 +75,7 @@ let dbAvailable = false;
 try {
     pool = mysql.createPool(DB_CONFIG);
 } catch (e) {
-    console.warn('mysql.createPool failed', e && e.message  e.message : e);
+    console.warn('mysql.createPool failed', e && e.message ? e.message : e);
     pool = null;
 }
 
@@ -90,7 +90,7 @@ try {
         await ensureAuditTable().catch(() => {});
     } catch (err) {
         dbAvailable = false;
-        console.warn('⚠️ AVISO: Não foi possível conectar ao banco de daçãos.', err && err.message  err.message : err);
+        console.warn('⚠️ AVISO: Não foi possível conectar ao banco de dados.', err && err.message ? err.message : err);
     }
 })();
 
@@ -99,7 +99,7 @@ const REDIS_URL = process.env.REDIS_URL || null;
 if (Redis && REDIS_URL) {
     try {
         redisClient = new Redis(REDIS_URL);
-        redisClient.on('error', (err) => console.warn('Redis error:', err && err.message  err.message : err));
+        redisClient.on('error', (err) => console.warn('Redis error:', err && err.message ? err.message : err));
     } catch (e) { redisClient = null; }
 }
 
@@ -134,7 +134,7 @@ async function getCacheAsync(key) {
         if (redisClient) {
             const raw = await redisClient.get(key);
             if (!raw) return null;
-            try { const p = JSON.parse(raw); return p && p.v !== undefined  p.v : p; } catch (e) { return JSON.parse(raw); }
+            try { const p = JSON.parse(raw); return p && p.v !== undefined ? p.v : p; } catch (e) { return JSON.parse(raw); }
         }
         return getCache(key);
     } catch (e) { return null; }
@@ -164,15 +164,15 @@ async function ensureAuditTable() {
                 INDEX idx_created_at (created_at)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
         `);
-    } catch (e) { console.warn('ensureAuditTable failed', e && e.message  e.message : e); }
+    } catch (e) { console.warn('ensureAuditTable failed', e && e.message ? e.message : e); }
 }
 
 async function logAudit(userId, action, resourceType = null, resourceId = null, meta = null) {
     try {
         if (!dbAvailable) return;
         await ensureAuditTable();
-        await pool.query('INSERT INTO audit_logs (user_id, action, resource_type, resource_id, meta) VALUES (, , , , )', [userId || null, action, resourceType || null, resourceId === undefined || resourceId === null  null : String(resourceId), meta  JSON.stringify(meta) : null]);
-    } catch (e) { console.warn('logAudit error', e && e.message  e.message : e); }
+        await pool.query('INSERT INTO audit_logs (user_id, action, resource_type, resource_id, meta) VALUES (, , , , )', [userId || null, action, resourceType || null, resourceId === undefined || resourceId === null ? null : String(resourceId), meta ? JSON.stringify(meta) : null]);
+    } catch (e) { console.warn('logAudit error', e && e.message ? e.message : e); }
 }
 
 // --- Background job: compute and cache dashboard aggregates periodically ---
@@ -235,7 +235,7 @@ async function computeAndCacheAggregates() {
         );
         setCache('dashboard:top_vendedores', topRows.map(r => ({ id: r.id, nome: r.nome, valor: Number(r.valor || 0) })), 60 * 60 * 1000);
     } catch (e) {
-        console.warn('computeAndCacheAggregates failed', e && e.message  e.message : e);
+        console.warn('computeAndCacheAggregates failed', e && e.message ? e.message : e);
     }
 }
 
@@ -319,7 +319,7 @@ app.get('/api/admin/audit-logs', authorizeAdmin, async (req, res) => {
         const offset = (page - 1) * per;
         await ensureAuditTable();
         const [rows] = await pool.query('SELECT id, user_id, action, resource_type, resource_id, meta, created_at FROM audit_logs ORDER BY created_at DESC LIMIT  OFFSET ', [per, offset]);
-        res.json(rows.map(r => ({ id: r.id, user_id: r.user_id, action: r.action, resource_type: r.resource_type, resource_id: r.resource_id, meta: r.meta  JSON.parse(r.meta) : null, created_at: r.created_at })));
+        res.json(rows.map(r => ({ id: r.id, user_id: r.user_id, action: r.action, resource_type: r.resource_type, resource_id: r.resource_id, meta: r.meta ? JSON.parse(r.meta) : null, created_at: r.created_at })));
     } catch (e) { res.status(500).json({ error: 'server_error' }); }
 });
 
@@ -334,7 +334,7 @@ app.post('/api/admin/compute-aggregates', authorizeAdmin, express.json(), async 
             if (QueueClass) {
                 const connection = { connectionString: process.env.REDIS_URL || REDIS_URL };
                 const q = new QueueClass('aggregates', { connection });
-                await q.add('compute', { requestedBy: req.user && req.user.id  req.user.id : null }, { removeOnComplete: true, removeOnFail: 100 });
+                await q.add('compute', { requestedBy: req.user && req.user.id ? req.user.id : null }, { removeOnComplete: true, removeOnFail: 100 });
                 return res.status(202).json({ enqueued: true });
             }
         }
@@ -344,7 +344,7 @@ app.post('/api/admin/compute-aggregates', authorizeAdmin, express.json(), async 
         await computeAndCacheAggregates();
         return res.json({ ok: true });
     } catch (e) {
-        console.error('compute-aggregates error', e && e.message  e.message : e);
+        console.error('compute-aggregates error', e && e.message ? e.message : e);
         return res.status(500).json({ error: 'server_error' });
     }
 });
@@ -741,7 +741,7 @@ apiVendasRouter.get('/vendedores', async (req, res) => {
         
         // Se não encontrou no banco, retornar lista fixa com IDs simulaçãos
         if (rows.length === 0) {
-            console.log('⚠️ Vendedores não encontraçãos no banco, retornando lista fixa');
+            console.log('⚠️ Vendedores não encontrados no banco, retornando lista fixa');
             return res.json([
                 { id: 1, nome: 'Márcia Scarcella', email: 'marcia@aluforce.com.br' },
                 { id: 2, nome: 'Augusto Ladeira', email: 'augusto@aluforce.com.br' },
@@ -751,7 +751,7 @@ apiVendasRouter.get('/vendedores', async (req, res) => {
             ]);
         }
         
-        console.log(`👤 Vendedores comerciais ativos: ${rows.length} encontraçãos`);
+        console.log(`👤 Vendedores comerciais ativos: ${rows.length} encontrados`);
         res.json(rows);
         
     } catch (err) {
@@ -864,7 +864,7 @@ apiVendasRouter.post('/pedidos/:id/historico', async (req, res, next) => {
         
         await pool.query(
             'INSERT INTO pedido_historico (pedido_id, user_id, user_name, action, descricao, meta) VALUES (, , , , , )',
-            [id, null, usuario || 'Sistema', tipo || action || 'status', descricao || '', meta  JSON.stringify(meta) : null]
+            [id, null, usuario || 'Sistema', tipo || action || 'status', descricao || '', meta ? JSON.stringify(meta) : null]
         );
         
         res.status(201).json({ message: 'Histórico registração com sucesso!' });
@@ -891,7 +891,7 @@ apiVendasRouter.get('/dashboard/admin', async (req, res, next) => {
         }
         const user = req.user;
         const isAdmin = user.is_admin === true || user.is_admin === 1 || (user.role && user.role.toString().toLowerCase() === 'admin');
-        if (!isAdmin) return res.status(403).json({ message: 'Acesso negação: apenas administraçãores.' });
+        if (!isAdmin) return res.status(403).json({ message: 'Acesso negação: apenas administradores.' });
 
         const período = req.query.período || '30'; // dias
 
@@ -1321,7 +1321,7 @@ apiVendasRouter.get('/pedidos/:id', async (req, res, next) => {
         const { id } = req.params;
         const [rows] = await pool.query('SELECT * FROM pedidos WHERE id = ', [id]);
         if (rows.length === 0) {
-            return res.status(404).json({ message: "Pedido não encontração." });
+            return res.status(404).json({ message: "Pedido não encontrado." });
         }
         // Restrição de visualização: usuários não-admin não podem ver pedidos de outro vendedor
         const pedido = rows[0];
@@ -1343,7 +1343,7 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
         const empresa_id = req.body.empresa_id || req.body.empresaId || null;
         const cliente_nome = req.body.cliente_nome || req.body.clienteNome || null;
         const valor = req.body.valor  parseFloat(req.body.valor) : 0;
-        const descrição = req.body.descrição || req.body.descricao || null;
+        const descricao = req.body.descricao || req.body.descricao || null;
         const frete = req.body.frete  parseFloat(req.body.frete) : 0.00;
         const redespacho = req.body.redespacho === '1' || req.body.redespacho === true || req.body.redespacho === 'true';
         const observacao = req.body.observacao || req.body.observacoes || null;
@@ -1355,7 +1355,7 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
         const itens = req.body.itens || [];
         
         // Vendedor: usa o informação ou o usuário logação
-        const vendedor_id = req.body.vendedor_id || req.body.vendedorId || (req.user  req.user.id : null);
+        const vendedor_id = req.body.vendedor_id || req.body.vendedorId || (req.user ? req.user.id : null);
         
         // Validação flexível - aceita empresa_id OU cliente_nome
         if (!empresa_id && !cliente_nome) {
@@ -1386,7 +1386,7 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
         const [result] = await pool.query(
             `INSERT INTO pedidos (empresa_id, vendedor_id, valor, descricao, frete, redespacho, observacao, status, condicao_pagamento, cenario_fiscal, data_previsao, departamento) 
              VALUES (, , , , , , , , , , , )`,
-            [empresaFinalId, vendedor_id, valor, descrição, frete || 0.00, redespacho || false, observacao, status, condicao_pagamento, cenario_fiscal, previsao_faturamento, departamento]
+            [empresaFinalId, vendedor_id, valor, descricao, frete || 0.00, redespacho || false, observacao, status, condicao_pagamento, cenario_fiscal, previsao_faturamento, departamento]
         );
 
         const insertedId = result.insertId;
@@ -1457,7 +1457,7 @@ apiVendasRouter.put('/pedidos/:id', upload.array('anexos', 8), async (req, res, 
     // parse básico para multipart compat
     const empresa_id = req.body.empresa_id || req.body.empresaId;
     const valor = req.body.valor  parseFloat(req.body.valor) : null;
-    const descrição = req.body.descrição;
+    const descricao = req.body.descricao;
     const frete = req.body.frete  parseFloat(req.body.frete) : 0.00;
     const redespacho = req.body.redespacho === '1' || req.body.redespacho === true || req.body.redespacho === 'true';
     const observacao = req.body.observacao;
@@ -1467,7 +1467,7 @@ apiVendasRouter.put('/pedidos/:id', upload.array('anexos', 8), async (req, res, 
         }
 
         const [existingRows] = await pool.query('SELECT vendedor_id FROM pedidos WHERE id = ', [id]);
-        if (existingRows.length === 0) return res.status(404).json({ message: 'Pedido não encontração.' });
+        if (existingRows.length === 0) return res.status(404).json({ message: 'Pedido não encontrado.' });
         const existing = existingRows[0];
         const user = req.user || {};
         const isAdmin = user.is_admin === true || user.is_admin === 1 || (user.role && user.role.toString().toLowerCase() === 'admin');
@@ -1478,11 +1478,11 @@ apiVendasRouter.put('/pedidos/:id', upload.array('anexos', 8), async (req, res, 
         const vendedorParaAtualizar = isAdmin && vendedor_id  vendedor_id : existing.vendedor_id;
 
         const [result] = await pool.query(
-            `UPDATE pedidos SET empresa_id = , valor = , descrição = , frete = , redespacho = , observacao = , vendedor_id =  WHERE id = `,
-            [empresa_id, valor, descrição || null, frete || 0.00, redespacho || false, observacao || null, vendedorParaAtualizar, id]
+            `UPDATE pedidos SET empresa_id = , valor = , descricao = , frete = , redespacho = , observacao = , vendedor_id =  WHERE id = `,
+            [empresa_id, valor, descricao || null, frete || 0.00, redespacho || false, observacao || null, vendedorParaAtualizar, id]
         );
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Pedido não encontração.' });
+            return res.status(404).json({ message: 'Pedido não encontrado.' });
         }
         // Se foram enviaçãos arquivos via multipart (req.files), salvá-los
         if (req.files && Array.isArray(req.files) && req.files.length > 0) {
@@ -1529,7 +1529,7 @@ async function saveAnexos(pedidoId, anexosArray) {
             const tamanho = a.size || buffer.length;
             await pool.query('INSERT INTO pedido_anexos (pedido_id, nome, tipo, tamanho, conteudo) VALUES (, , , , )', [pedidoId, a.name || null, a.type || null, tamanho, buffer]);
         } catch (err) {
-            console.error('Falha ao salvar anexo:', err && err.message  err.message : err);
+            console.error('Falha ao salvar anexo:', err && err.message ? err.message : err);
         }
     }
 }
@@ -1542,7 +1542,7 @@ apiVendasRouter.get('/pedidos/:id/anexos', async (req, res, next) => {
         const user = req.user || {};
         // Busca pedido para checar permissões
         const [pedidoRows] = await pool.query('SELECT id, vendedor_id FROM pedidos WHERE id = ', [id]);
-        if (!pedidoRows || pedidoRows.length === 0) return res.status(404).json({ message: 'Pedido não encontração.' });
+        if (!pedidoRows || pedidoRows.length === 0) return res.status(404).json({ message: 'Pedido não encontrado.' });
         const pedido = pedidoRows[0];
         const isAdmin = user.is_admin === true || user.is_admin === 1 || (user.role && user.role.toString().toLowerCase() === 'admin');
         if (!isAdmin && Number(pedido.vendedor_id) !== Number(user.id)) {
@@ -1577,7 +1577,7 @@ apiVendasRouter.get('/pedidos/:id/anexos/:anexoId', async (req, res, next) => {
             [anexoId, id]
         );
 
-        if (!rows || rows.length === 0) return res.status(404).json({ message: 'Anexo não encontração.' });
+        if (!rows || rows.length === 0) return res.status(404).json({ message: 'Anexo não encontrado.' });
         const anexo = rows[0];
         const isAdmin = user.is_admin === true || user.is_admin === 1 || (user.role && user.role.toString().toLowerCase() === 'admin');
         if (!isAdmin && Number(anexo.vendedor_id) !== Number(user.id)) {
@@ -1590,12 +1590,12 @@ apiVendasRouter.get('/pedidos/:id/anexos/:anexoId', async (req, res, next) => {
 
     res.setHeader('Content-Type', contentType);
     // Use buffer.length (bytes) for content length
-    res.setHeader('Content-Length', buffer  buffer.length : 0);
+    res.setHeader('Content-Length', buffer ? buffer.length : 0);
     res.setHeader('Content-Disposition', `attachment; filename="${filename.replace(/"/g, '')}"`);
     return res.send(buffer);
     } catch (error) {
         // Se a tabela não existir, responde 404
-        if (error && error.code === 'ER_NO_SUCH_TABLE') return res.status(404).json({ message: 'Nenhum anexo encontração.' });
+        if (error && error.code === 'ER_NO_SUCH_TABLE') return res.status(404).json({ message: 'Nenhum anexo encontrado.' });
         next(error);
     }
 });
@@ -1611,7 +1611,7 @@ apiVendasRouter.delete('/pedidos/:id/anexos/:anexoId', async (req, res, next) =>
             `SELECT pa.id, p.vendedor_id FROM pedido_anexos pa JOIN pedidos p ON p.id = pa.pedido_id WHERE pa.id =  AND pa.pedido_id =  LIMIT 1`,
             [anexoId, id]
         );
-        if (!rows || rows.length === 0) return res.status(404).json({ message: 'Anexo não encontração.' });
+        if (!rows || rows.length === 0) return res.status(404).json({ message: 'Anexo não encontrado.' });
         const anexo = rows[0];
         const isAdmin = user.is_admin === true || user.is_admin === 1 || (user.role && user.role.toString().toLowerCase() === 'admin');
         if (!isAdmin && Number(anexo.vendedor_id) !== Number(user.id)) {
@@ -1619,10 +1619,10 @@ apiVendasRouter.delete('/pedidos/:id/anexos/:anexoId', async (req, res, next) =>
         }
 
         const [result] = await pool.query('DELETE FROM pedido_anexos WHERE id = ', [anexoId]);
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Anexo não encontração.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Anexo não encontrado.' });
         res.status(204).send();
     } catch (error) {
-        if (error && error.code === 'ER_NO_SUCH_TABLE') return res.status(404).json({ message: 'Nenhum anexo encontração.' });
+        if (error && error.code === 'ER_NO_SUCH_TABLE') return res.status(404).json({ message: 'Nenhum anexo encontrado.' });
         next(error);
     }
 });
@@ -1632,7 +1632,7 @@ apiVendasRouter.delete('/pedidos/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         const [rows] = await pool.query('SELECT vendedor_id FROM pedidos WHERE id = ', [id]);
-        if (rows.length === 0) return res.status(404).json({ message: 'Pedido não encontração.' });
+        if (rows.length === 0) return res.status(404).json({ message: 'Pedido não encontrado.' });
         const pedido = rows[0];
         const user = req.user || {};
         const isAdmin = user.is_admin === true || user.is_admin === 1 || (user.role && user.role.toString().toLowerCase() === 'admin');
@@ -1641,7 +1641,7 @@ apiVendasRouter.delete('/pedidos/:id', async (req, res, next) => {
         }
 
         const [result] = await pool.query('DELETE FROM pedidos WHERE id = ', [id]);
-        if (result.affectedRows === 0) return res.status(404).json({ message: "Pedido não encontração." });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "Pedido não encontrado." });
         res.status(204).send();
     } catch (error) {
         next(error);
@@ -1698,13 +1698,13 @@ apiVendasRouter.put('/pedidos/:id/status', async (req, res, next) => {
             // Vendedor só pode definir status até "analise"
             const allowedForVendedor = ['orcamento', 'orçamento', 'analise', 'analise-credito'];
             if (!allowedForVendedor.includes(status)) {
-                return res.status(403).json({ message: 'Apenas administraçãores podem mover pedidos após "Análise de Crédito".' });
+                return res.status(403).json({ message: 'Apenas administradores podem mover pedidos após "Análise de Crédito".' });
             }
         }
 
         const [result] = await pool.query('UPDATE pedidos SET status =  WHERE id = ', [status, id]);
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: "Pedido não encontração." });
+            return res.status(404).json({ message: "Pedido não encontrado." });
         }
         res.json({ message: 'Status atualização com sucesso.' });
     } catch (error) {
@@ -1723,7 +1723,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         // Verificar se pedido existe
         const [existingRows] = await pool.query('SELECT * FROM pedidos WHERE id = ', [id]);
         if (existingRows.length === 0) {
-            return res.status(404).json({ message: 'Pedido não encontração.' });
+            return res.status(404).json({ message: 'Pedido não encontrado.' });
         }
         
         const existing = existingRows[0];
@@ -1750,9 +1750,9 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
             if (vendedorRows.length > 0) {
                 fieldsToUpdate.push('vendedor_id = ');
                 values.push(vendedorRows[0].id);
-                console.log(`✅ Vendedor encontração: "${updates.vendedor_nome}" -> ID ${vendedorRows[0].id} (${vendedorRows[0].nome})`);
+                console.log(`✅ Vendedor encontrado: "${updates.vendedor_nome}" -> ID ${vendedorRows[0].id} (${vendedorRows[0].nome})`);
             } else {
-                console.log(`⚠️ Vendedor não encontração: "${updates.vendedor_nome}"`);
+                console.log(`⚠️ Vendedor não encontrado: "${updates.vendedor_nome}"`);
             }
         }
         
@@ -1839,7 +1839,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         const [result] = await pool.query(query, values);
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Pedido não encontração.' });
+            return res.status(404).json({ message: 'Pedido não encontrado.' });
         }
         
         console.log(`✅ Pedido ${id} atualização com sucesso! (${result.affectedRows} linha(s) afetada(s))`);
@@ -1913,7 +1913,7 @@ apiVendasRouter.post('/pedidos/:id/itens', async (req, res, next) => {
         const { codigo, descricao, quantidade, quantidade_parcial, unidade, local_estoque, preco_unitario, desconto } = req.body;
         
         if (!codigo || !descricao) {
-            return res.status(400).json({ message: 'Código e descrição são obrigatórios.' });
+            return res.status(400).json({ message: 'Código e descricao são obrigatórios.' });
         }
         
         const qty = parseFloat(quantidade) || 1;
@@ -1959,7 +1959,7 @@ apiVendasRouter.put('/pedidos/:pedidoId/itens/:itemId', async (req, res, next) =
         );
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Item não encontração.' });
+            return res.status(404).json({ message: 'Item não encontrado.' });
         }
         
         // Atualizar valor total do pedido
@@ -1985,7 +1985,7 @@ apiVendasRouter.get('/pedidos/:pedidoId/itens/:itemId', async (req, res, next) =
         );
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Item não encontração.' });
+            return res.status(404).json({ message: 'Item não encontrado.' });
         }
         
         res.json(rows[0]);
@@ -2006,7 +2006,7 @@ apiVendasRouter.delete('/pedidos/:pedidoId/itens/:itemId', async (req, res, next
         );
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Item não encontração.' });
+            return res.status(404).json({ message: 'Item não encontrado.' });
         }
         
         // Atualizar valor total do pedido
@@ -2060,7 +2060,7 @@ async function registrarHistorico(pedidoId, userId, userName, action, descricao,
         await ensurePedidoHistoricoTable();
         await pool.query(
             'INSERT INTO pedido_historico (pedido_id, user_id, user_name, action, descricao, meta) VALUES (, , , , , )',
-            [pedidoId, userId || null, userName || 'Sistema', action, descricao, meta  JSON.stringify(meta) : null]
+            [pedidoId, userId || null, userName || 'Sistema', action, descricao, meta ? JSON.stringify(meta) : null]
         );
     } catch (e) {
         console.warn('Erro ao registrar histórico:', e.message);
@@ -2093,7 +2093,7 @@ apiVendasRouter.post('/pedidos/:id/historico', async (req, res, next) => {
         
         await pool.query(
             'INSERT INTO pedido_historico (pedido_id, user_id, user_name, action, descricao, meta) VALUES (, , , , , )',
-            [id, user.id || null, user.nome || user.name || 'Usuário', action || 'manual', descricao || '', meta  JSON.stringify(meta) : null]
+            [id, user.id || null, user.nome || user.name || 'Usuário', action || 'manual', descricao || '', meta ? JSON.stringify(meta) : null]
         );
         
         res.status(201).json({ message: 'Histórico registração com sucesso!' });
@@ -2112,7 +2112,7 @@ apiVendasRouter.post('/pedidos/:id/faturar', async (req, res, next) => {
         // Verificar se pedido existe
         const [pedidoRows] = await pool.query('SELECT * FROM pedidos WHERE id = ', [id]);
         if (pedidoRows.length === 0) {
-            return res.status(404).json({ message: 'Pedido não encontração.' });
+            return res.status(404).json({ message: 'Pedido não encontrado.' });
         }
         
         const pedido = pedidoRows[0];
@@ -2425,7 +2425,7 @@ apiVendasRouter.get('/clientes/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         const [rows] = await pool.query('SELECT * FROM clientes WHERE id = ', [id]);
-        if (rows.length === 0) return res.status(404).json({ message: 'Cliente não encontração.' });
+        if (rows.length === 0) return res.status(404).json({ message: 'Cliente não encontrado.' });
         res.json(rows[0]);
     } catch (error) {
         next(error);
@@ -2443,7 +2443,7 @@ apiVendasRouter.get('/clientes/:id/details', async (req, res, next) => {
         ]);
 
         const cliente = clienteResult[0][0];
-        if (!cliente) return res.status(404).json({ message: 'Cliente não encontração.' });
+        if (!cliente) return res.status(404).json({ message: 'Cliente não encontrado.' });
 
         res.json({
             details: cliente,
@@ -2480,7 +2480,7 @@ apiVendasRouter.put('/clientes/:id', async (req, res, next) => {
             `UPDATE clientes SET nome = , email = , email_2 = , telefone = , telefone_2 = , empresa_id =  WHERE id = `,
             [nome, email, email_2, telefone, telefone_2, empresa_id, id]
         );
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontração.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontrado.' });
         res.json({ message: 'Cliente atualização com sucesso.' });
     } catch (error) {
         next(error);
@@ -2491,7 +2491,7 @@ apiVendasRouter.delete('/clientes/:id', authorizeAdmin, async (req, res, next) =
     try {
         const { id } = req.params;
         const [result] = await pool.query('DELETE FROM clientes WHERE id = ', [id]);
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontração.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontrado.' });
         res.status(204).send();
     } catch (error) {
         next(error);
@@ -2650,7 +2650,7 @@ apiVendasRouter.get('/produtos/:id', async (req, res, next) => {
         await ensureProdutosTable();
         const { id } = req.params;
         const [rows] = await pool.query('SELECT * FROM produtos WHERE id = ', [id]);
-        if (rows.length === 0) return res.status(404).json({ message: 'Produto não encontração.' });
+        if (rows.length === 0) return res.status(404).json({ message: 'Produto não encontrado.' });
         res.json(rows[0]);
     } catch (error) {
         next(error);
@@ -2724,7 +2724,7 @@ apiVendasRouter.put('/produtos/:id', async (req, res, next) => {
         );
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Produto não encontração.' });
+            return res.status(404).json({ message: 'Produto não encontrado.' });
         }
         
         await logAudit(req.user.id, 'update_produto', 'produto', id, { codigo, descricao });
@@ -2744,7 +2744,7 @@ apiVendasRouter.delete('/produtos/:id', authorizeAdmin, async (req, res, next) =
         const { id } = req.params;
         const [result] = await pool.query('DELETE FROM produtos WHERE id = ', [id]);
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Produto não encontração.' });
+            return res.status(404).json({ message: 'Produto não encontrado.' });
         }
         
         await logAudit(req.user.id, 'delete_produto', 'produto', id, null);
@@ -2780,7 +2780,7 @@ apiVendasRouter.get('/me', async (req, res, next) => {
         if (!userId) return res.status(401).json({ message: 'Usuário não autenticação.' });
         // Evita referenciar coluna 'foto' caso não exista no schema atual
         const [rows] = await pool.query('SELECT id, nome, email, role, is_admin FROM usuarios WHERE id =  LIMIT 1', [userId]);
-        if (!rows || rows.length === 0) return res.status(404).json({ message: 'Usuário não encontração.' });
+        if (!rows || rows.length === 0) return res.status(404).json({ message: 'Usuário não encontrado.' });
         
         const user = rows[0];
         // Calcular isAdmin usando a função global
@@ -3245,7 +3245,7 @@ if (process.env.NODE_ENV === 'development') {
             if (!userId) return res.status(400).json({ message: 'userId é obrigatório.' });
             if (dbAvailable) {
                 const [rows] = await pool.query('SELECT id, nome, email, role, is_admin FROM usuarios WHERE id =  LIMIT 1', [userId]);
-                if (!rows || rows.length === 0) return res.status(404).json({ message: 'Usuário não encontração.' });
+                if (!rows || rows.length === 0) return res.status(404).json({ message: 'Usuário não encontrado.' });
                 const user = rows[0];
                 const tokenPayload = { id: user.id, nome: user.nome, email: user.email, role: user.role, is_admin: user.is_admin };
                 const token = jwt.sign(tokenPayload, JWT_SECRET, { expiresIn: '8h' });
@@ -3304,7 +3304,7 @@ app.get('/health', async (req, res) => {
             status.ok = false;
         }
     } catch (e) {
-        status.checks.db = { connected: false, reason: e && e.message  e.message : String(e) };
+        status.checks.db = { connected: false, reason: e && e.message ? e.message : String(e) };
         status.ok = false;
     }
 
@@ -3318,7 +3318,7 @@ app.get('/health', async (req, res) => {
             status.checks.redis = { connected: false, reason: 'redis_not_configured' };
         }
     } catch (e) {
-        status.checks.redis = { connected: false, reason: e && e.message  e.message : String(e) };
+        status.checks.redis = { connected: false, reason: e && e.message ? e.message : String(e) };
         status.ok = false;
     }
 
@@ -3329,7 +3329,7 @@ app.get('/health', async (req, res) => {
         status.checks.static = { vendas_js_exists: exists };
         if (!exists) status.ok = false;
     } catch (e) {
-        status.checks.static = { vendas_js_exists: false, reason: e && e.message  e.message : String(e) };
+        status.checks.static = { vendas_js_exists: false, reason: e && e.message ? e.message : String(e) };
         status.ok = false;
     }
 
@@ -3352,16 +3352,16 @@ const startServer = async () => {
     try {
         await pool.query('SELECT 1');
         dbAvailable = true;
-        console.log('✅ Conexão com o banco de daçãos estabelecida com sucesso.');
+        console.log('✅ Conexão com o banco de dados estabelecida com sucesso.');
     } catch (error) {
         dbAvailable = false;
-        console.error('⚠️ AVISO: Não foi possível conectar ao banco de daçãos.');
-        console.error(error && error.message  error.message : error);
+        console.error('⚠️ AVISO: Não foi possível conectar ao banco de dados.');
+        console.error(error && error.message ? error.message : error);
         if (process.env.NODE_ENV !== 'development') {
             console.error('❌ ERRO FATAL: em produção a conexão com o DB é obrigatória. Encerrando.');
             process.exit(1);
         } else {
-            console.warn('Continuando em modo de desenvolvimento sem o banco de daçãos. Algumas rotas estarão limitadas.');
+            console.warn('Continuando em modo de desenvolvimento sem o banco de dados. Algumas rotas estarão limitadas.');
         }
     }
 
@@ -3419,7 +3419,7 @@ const startServer = async () => {
                         // broadcast to all connected clients
                         try { io && io.emit && io.emit('chat:message', item); } catch(e){}
                     } catch (err) {
-                        console.error('Erro ao processar chat:message:', err && err.message  err.message : err);
+                        console.error('Erro ao processar chat:message:', err && err.message ? err.message : err);
                     }
                 });
 
@@ -3428,12 +3428,12 @@ const startServer = async () => {
                 });
 
             } catch (err) {
-                console.error('Erro no handler de conexao socket:', err && err.message  err.message : err);
+                console.error('Erro no handler de conexao socket:', err && err.message ? err.message : err);
                 try { socket.disconnect(true); } catch(e){}
             }
         });
     } catch (err) {
-        console.error('Falha ao inicializar Socket.IO:', err && err.message  err.message : err);
+        console.error('Falha ao inicializar Socket.IO:', err && err.message ? err.message : err);
         io = null;
     }
 

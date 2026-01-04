@@ -420,7 +420,7 @@ function renderizarTabelaFiltrada(daçãos, container, tipo) {
         container.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-search"></i>
-                <h3>Nenhum resultação encontração</h3>
+                <h3>Nenhum resultação encontrado</h3>
                 <p>Tente ajustar os filtros de busca</p>
             </div>
         `;

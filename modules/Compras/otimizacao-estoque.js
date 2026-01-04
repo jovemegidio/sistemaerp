@@ -737,7 +737,7 @@ function inicializarUsuario() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     
     // Usar apelido se disponível, senão primeiro nome
-    const primeiroNome = userData.apelido || (userData.nome  userData.nome.split(' ')[0] : 'Usuário');
+    const primeiroNome = userData.apelido || (userData.nome ? userData.nome.split(' ')[0] : 'Usuário');
     
     const userGreeting = document.getElementById('userGreeting');
     if (userGreeting) {

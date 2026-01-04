@@ -407,7 +407,7 @@ class VendasEstoqueIntegracaoService {
                     validacao.valido = false;
                     validacao.problemas.push({
                         produto_id: itemFaturar.produto_id,
-                        erro: 'Produto não encontração no pedido'
+                        erro: 'Produto não encontrado no pedido'
                     });
                     continue;
                 }

@@ -148,7 +148,7 @@ async function atualizarVariacoes() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de daçãos...\n');
+        console.log('🔌 Conectando ao banco de dados...\n');
         
         connection = await mysql.createConnection({
             host: 'localhost',
@@ -163,7 +163,7 @@ async function atualizarVariacoes() {
         // Buscar todos os produtos
         const [produtos] = await connection.execute('SELECT id, codigo, nome, variacao FROM produtos');
         
-        console.log(`✅ ${produtos.length} produtos encontraçãos no banco\n`);
+        console.log(`✅ ${produtos.length} produtos encontrados no banco\n`);
         console.log('🔄 Iniciando atualização de variações...\n');
         
         let atualizaçãos = 0;
@@ -193,7 +193,7 @@ async function atualizarVariacoes() {
                 }
             } else {
                 naoEncontraçãos++;
-                console.log(`⚠️  ${codigoOriginal} - Não encontração na lista de variações`);
+                console.log(`⚠️  ${codigoOriginal} - Não encontrado na lista de variações`);
             }
         }
         
@@ -202,7 +202,7 @@ async function atualizarVariacoes() {
         console.log('='.repeat(60));
         console.log(`✅ Produtos atualizaçãos: ${atualizaçãos}`);
         console.log(`⏭️  Já possuíam variação correta: ${jaAtualizaçãos}`);
-        console.log(`⚠️  Não encontraçãos na lista: ${naoEncontraçãos}`);
+        console.log(`⚠️  Não encontrados na lista: ${naoEncontraçãos}`);
         console.log(`📦 Total processação: ${produtos.length}`);
         console.log('='.repeat(60));
         

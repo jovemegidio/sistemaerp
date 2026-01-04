@@ -29,7 +29,7 @@ async function verificarEAdicionarCampos() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de daçãos...');
+        console.log('🔌 Conectando ao banco de dados...');
         connection = await mysql.createConnection(dbConfig);
         console.log('✅ Conectação com sucesso!\n');
         

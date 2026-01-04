@@ -103,7 +103,7 @@ class DanfeService {
         doc.text('1 - SAÍDA', 470, 100);
         
         // Checkbox tipo operação
-        const tipoOp = daçãos.tipoOperacao === 1  470 : 360;
+        const tipoOp = daçãos.tipoOperacao === 1 ? 470 : 360;
         doc.fontSize(12).text('X', tipoOp + 60, 98);
         
         // Chave de acesso
@@ -183,7 +183,7 @@ class DanfeService {
         doc.fontSize(7).font('Helvetica');
         doc.text('CNPJ / CPF', 405, y + 2);
         doc.fontSize(9);
-        const cnpjCpf = destinatario.cnpj  this.formatarCNPJ(destinatario.cnpj) : this.formatarCPF(destinatario.cpf);
+        const cnpjCpf = destinatario.cnpj ? this.formatarCNPJ(destinatario.cnpj) : this.formatarCPF(destinatario.cpf);
         doc.text(cnpjCpf, 405, y + 10);
         
         // Data de emissão

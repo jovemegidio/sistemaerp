@@ -86,7 +86,7 @@ async function importarDump() {
         dumpContent = correctedLines.join('\n');
         
         // Conectar ao banco
-        console.log('\n🔌 Conectando ao banco de daçãos...');
+        console.log('\n🔌 Conectando ao banco de dados...');
         connection = await mysql.createConnection({
             ...dbConfig,
             multipleStatements: false
@@ -247,7 +247,7 @@ async function importarDump() {
         console.log(`   - Total de registros: ${totalRegistros}`);
         
         if (errors.length > 0) {
-            console.log('\n⚠️ Erros encontraçãos (primeiros 10):');
+            console.log('\n⚠️ Erros encontrados (primeiros 10):');
             for (const e of errors.slice(0, 10)) {
                 console.log(`   - ${e.type} ${e.table || ''}: ${e.error}`);
             }

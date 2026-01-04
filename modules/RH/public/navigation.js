@@ -65,7 +65,7 @@ function loadPageDirect(pageName, event) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(html, 'text/html');
             var bodyContent = doc.querySelector('body');
-            var content = bodyContent  bodyContent.innerHTML : html;
+            var content = bodyContent ? bodyContent.innerHTML : html;
             
             contentArea.innerHTML = content;
             
@@ -129,9 +129,9 @@ function diagnosticarMenus() {
     menus.forEach(function(menu) {
         var elemento = document.getElementById(menu.id);
         if (elemento) {
-            console.log('✅ Menu ' + menu.nome + ' encontração');
+            console.log('✅ Menu ' + menu.nome + ' encontrado');
         } else {
-            console.log('❌ Menu ' + menu.nome + ' NÁO encontração');
+            console.log('❌ Menu ' + menu.nome + ' NÁO encontrado');
         }
     });
 }

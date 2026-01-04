@@ -6,7 +6,7 @@
 const mysql = require('mysql2/promise');
 const path = require('path');
 
-// Configuração do banco de daçãos
+// Configuração do banco de dados
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -22,7 +22,7 @@ async function runMigration() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de daçãos...');
+        console.log('🔌 Conectando ao banco de dados...');
         connection = await mysql.createConnection(dbConfig);
         console.log('✅ Conectação com sucesso!\n');
 
@@ -126,5 +126,5 @@ async function runMigration() {
 }
 
 // Executar migração
-console.log('🚀 Iniciando migração do banco de daçãos...\n');
+console.log('🚀 Iniciando migração do banco de dados...\n');
 runMigration();

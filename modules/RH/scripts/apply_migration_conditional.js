@@ -54,7 +54,7 @@ async function main () {
     }
     console.log('Migration script finished.')
   } catch (err) {
-    console.error('Migration failed:', err && err.message  err.message : err)
+    console.error('Migration failed:', err && err.message ? err.message : err)
     process.exitCode = 2
   } finally {
     try { await conn.end() } catch (e) {}

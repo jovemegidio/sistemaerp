@@ -65,7 +65,7 @@ class ProductionSetup {
     }
 
     async setupDatabase() {
-        console.log('\n🗃️  Configurando banco de daçãos...');
+        console.log('\n🗃️  Configurando banco de dados...');
         
         try {
             // Verificar conectividade do banco
@@ -119,7 +119,7 @@ class ProductionSetup {
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="${this.backupDir}/backup_aluforce_$DATE.sql"
 
-# Backup do banco de daçãos
+# Backup do banco de dados
 mysqldump -u ${process.env.DB_USER} -p${process.env.DB_PASSWORD} ${process.env.DB_NAME} > $BACKUP_FILE
 
 # Compressão do backup
@@ -156,8 +156,8 @@ echo "Backup concluído: $BACKUP_FILE.gz"
             console.log('   ✅ Backup do template criação');
             
         } catch (error) {
-            console.log(`   ❌ Template não encontração: ${templatePath}`);
-            throw new Error('Template Excel obrigatório não encontração');
+            console.log(`   ❌ Template não encontrado: ${templatePath}`);
+            throw new Error('Template Excel obrigatório não encontrado');
         }
     }
 

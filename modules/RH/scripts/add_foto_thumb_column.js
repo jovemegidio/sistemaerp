@@ -35,7 +35,7 @@ require('dotenv').config();
         const fileName = url.split('/').pop()
         const filePath = path.join(uploadDir, fileName)
         if (!fs.existsSync(filePath)) {
-          console.log(`Arquivo não encontração para id=${r.id}: ${filePath}`)
+          console.log(`Arquivo não encontrado para id=${r.id}: ${filePath}`)
           continue
         }
         const ext = path.extname(fileName)
@@ -62,7 +62,7 @@ require('dotenv').config();
     console.log('Processo concluído.')
     process.exit(0)
   } catch (err) {
-    console.error('Erro durante a migração:', err && err.message  err.message : err)
+    console.error('Erro durante a migração:', err && err.message ? err.message : err)
     process.exit(2)
   } finally {
     await connection.end()

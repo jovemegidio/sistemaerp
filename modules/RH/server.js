@@ -438,7 +438,7 @@ app.post('/api/funcionarios',
         daçãos.naturalidade || null,
         daçãos.filiacao_mae || null,
         daçãos.filiacao_pai || null,
-        daçãos.daçãos_conjuge || null,
+        dados.dados_conjuge || null,
         daçãos.zona_eleitoral || null,
         daçãos.seção_eleitoral || null,
         daçãos.ctps_numero || null,
@@ -454,7 +454,7 @@ app.post('/api/funcionarios',
           if (process.env.NODE_ENV !== 'production') {
             try { logger.error('Erro ao cadastrar funcionário (detalhe): ' + (err && (err.stack || err.message)  (err.stack || err.message) : String(err))) } catch (e) {}
           } else {
-            logger.error('Erro ao cadastrar funcionário:', err && err.message  err.message : err)
+            logger.error('Erro ao cadastrar funcionário:', err && err.message ? err.message : err)
           }
           if (err && err.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'Entrada duplicada.' })
           return res.status(500).json({ message: 'Erro interno no servidor ao tentar cadastrar.' })
@@ -502,7 +502,7 @@ app.post('/api/funcionarios/:id/foto', authMiddleware, upload.single('foto'), (r
                 logger.error('Erro ao guardar foto (fallback):', fErr)
                 return res.status(500).json({ message: 'Erro ao guardar a foto.' })
               }
-              if (fResults.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
+              if (fResults.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
               return res.json({ message: 'Foto atualizada com sucesso!', foto_url: fotoUrl, foto_thumb_url: thumbUrl })
             })
           } else {
@@ -510,7 +510,7 @@ app.post('/api/funcionarios/:id/foto', authMiddleware, upload.single('foto'), (r
             return res.status(500).json({ message: 'Erro ao guardar a foto.' })
           }
         } else {
-          if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
+          if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
           return res.json({ message: 'Foto atualizada com sucesso!', foto_url: fotoUrl, foto_thumb_url: thumbUrl })
         }
       })
@@ -524,7 +524,7 @@ app.post('/api/funcionarios/:id/foto', authMiddleware, upload.single('foto'), (r
           logger.error('Erro ao guardar foto após falha no thumbnail:', fErr)
           return res.status(500).json({ message: 'Erro ao guardar a foto.' })
         }
-        if (fResults.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
+        if (fResults.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
         return res.json({ message: 'Foto enviada, thumbnail falhou.', foto_url: fotoUrl })
       })
     })
@@ -556,13 +556,13 @@ app.post('/api/funcionarios/:id/atéstação', authMiddleware, uploadAtestação
   if (!req.file) return res.status(400).json({ message: 'Nenhum ficheiro enviação.' })
 
   const arquivoUrl = `/uploads/atéstaçãos/${req.file.filename}`
-  const descrição = req.body.descrição || req.body.motivo || null
+  const descricao = req.body.descricao || req.body.motivo || null
   const dataAtestação = req.body.data_atestação || null
   const dias = req.body.dias  Number(req.body.dias) : 0
 
   try {
     const sql = 'INSERT INTO atéstaçãos (funcionario_id, data_atestação, dias_afastação, motivo, arquivo_url, data_upload) VALUES (, , , , , NOW())'
-    await dbQuery(sql, [id, dataAtestação, dias, descrição, arquivoUrl])
+    await dbQuery(sql, [id, dataAtestação, dias, descricao, arquivoUrl])
     return res.json({ message: 'Atéstação enviação com sucesso.', url: arquivoUrl })
   } catch (e) {
     logger.error('Erro ao gravar atéstação:', e)
@@ -626,7 +626,7 @@ app.post('/api/funcionarios/:id/holerite', authMiddleware, uploadHolerite.single
 
     return res.json({ message: 'Holerite enviação com sucesso.', url: arquivoUrl })
   } catch (e) {
-    logger.error('Erro ao gravar holerite:', e && e.stack  e.stack : e)
+    logger.error('Erro ao gravar holerite:', e && e.stack ? e.stack : e)
     return res.status(500).json({ message: 'Erro interno ao gravar holerite.' })
   }
 })
@@ -678,7 +678,7 @@ app.get('/api/funcionarios', authMiddleware, (req, res) => {
   const q = (req.query.q || '').trim()
   const birthMonth = req.query.birth_month  Number(req.query.birth_month) : null
   const noFoto = req.query.no_foto  String(req.query.no_foto) === '1' : false
-  const limit = req.query.limit  Math.min(200, Math.max(1, parseInt(req.query.limit, 10) || 10)) : null
+  const limit = req.query.limit ? Math.min(200, Math.max(1, parseInt(req.query.limit, 10) || 10)) : null
   let sql; let params = []
 
   if (birthMonth && Number.isInteger(birthMonth) && birthMonth >= 1 && birthMonth <= 12) {
@@ -716,7 +716,7 @@ app.get('/api/funcionarios/:id', authMiddleware, (req, res) => {
       logger.error('Erro ao buscar funcionario:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
-    if (!results || results.length === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
+    if (!results || results.length === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
     // Permitir que o próprio usuário busque seus daçãos ou admin
     if (!isAdminUser(req.user) && Number(req.user.id) !== Number(id)) {
       return res.status(403).json({ message: 'Acesso negação.' })
@@ -800,7 +800,7 @@ app.put('/api/funcionarios/:id', authMiddleware, (req, res) => {
       logger.error('Erro ao atualizar funcionario:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
-    if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
+    if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
     res.json({ message: 'Daçãos atualizaçãos com sucesso!', updatedData: req.body })
   })
 })
@@ -850,7 +850,7 @@ app.get('/api/user-data', authMiddleware, async (req, res) => {
         
         res.json({ success: true, userData })
       } else {
-        res.status(404).json({ success: false, message: 'Usuário não encontração.' })
+        res.status(404).json({ success: false, message: 'Usuário não encontrado.' })
       }
     })
   } catch (error) {
@@ -930,7 +930,7 @@ app.delete('/api/avisos/:id', authMiddleware, (req, res) => {
         logger.error('Erro ao apagar aviso:', err)
         return res.status(500).json({ message: 'Erro interno no servidor.' })
       }
-      if (results.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontração.' })
+      if (results.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontrado.' })
       // Garantir created_at como string ISO
       if (aviso.created_at && typeof aviso.created_at !== 'string') {
         try { aviso.created_at = new Date(aviso.created_at).toISOString() } catch (e) {}
@@ -962,7 +962,7 @@ app.put('/api/avisos/:id', authMiddleware, (req, res) => {
       logger.error('Erro ao atualizar aviso:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
-    if (results.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontração.' })
+    if (results.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontrado.' })
     // return the updated aviso
     db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id =  LIMIT 1', [id], (sErr, rows) => {
       if (sErr) {
@@ -991,7 +991,7 @@ app.get('/api/avisos/:id', authMiddleware, (req, res) => {
       logger.error('Erro ao buscar aviso por id:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
-    if (!results || results.length === 0) return res.status(404).json({ message: 'Aviso não encontração.' })
+    if (!results || results.length === 0) return res.status(404).json({ message: 'Aviso não encontrado.' })
     const r = results[0]
     // normalize lido
     r.lido = r.lido === 1
@@ -1020,7 +1020,7 @@ app.post('/api/funcionarios/:id/senha',
           logger.error('Erro ao atualizar senha:', err)
           return res.status(500).json({ message: 'Erro interno no servidor.' })
         }
-        if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
+        if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
         res.json({ message: 'Senha atualizada com sucesso.' })
       })
     } catch (hashErr) {
@@ -1038,7 +1038,7 @@ app.get('/api/me', authMiddleware, (req, res) => {
       logger.error('Erro ao buscar usuário:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
-    if (!results || results.length === 0) return res.status(404).json({ message: 'Usuário não encontração.' })
+    if (!results || results.length === 0) return res.status(404).json({ message: 'Usuário não encontrado.' })
     const { senha, ...safeUser } = results[0]
     res.json(safeUser)
   })
@@ -1115,7 +1115,7 @@ app.get('/api/dashboard/summary', authMiddleware, async (req, res) => {
   const funcionarios = await dbQuery('SELECT id, COALESCE(nome_completo, email) AS nome, data_admissao FROM funcionarios')
     const tempoCasa = funcionarios.map(f => {
       const adm = f.data_admissao  new Date(f.data_admissao) : null
-      const dias = adm  Math.floor((Date.now() - adm.getTime()) / (1000 * 60 * 60 * 24)) : null
+      const dias = adm ? Math.floor((Date.now() - adm.getTime()) / (1000 * 60 * 60 * 24)) : null
       return { id: f.id, nome: f.nome, data_admissao: f.data_admissao, dias }
     }).sort((a, b) => (b.dias || 0) - (a.dias || 0)).slice(0, 50)
 
@@ -1146,7 +1146,7 @@ app.get('/api/dashboard/summary', authMiddleware, async (req, res) => {
     res.json({ avisos, aniversariantes, tempoCasa, atéstaçãos, semFoto })
   } catch (err) {
     // Log full stack for server-side diagnostics, but do not leak internals to the client
-    logger.error('Erro ao gerar dashboard summary:', err && err.stack  err.stack : err)
+    logger.error('Erro ao gerar dashboard summary:', err && err.stack ? err.stack : err)
     res.status(500).json({ message: 'Erro interno ao compilar resumo do dashboard.' })
   }
 })
@@ -1210,7 +1210,7 @@ app.get('/api/avisos/stream', (req, res) => {
     try { logger.info('[SSE] token recebido (mascaração): ' + maskToken(token)) } catch (e) {}
     const payload = jwt.verify(token, JWT_SECRET)
     // log a compact payload summary for diagnostics (do not print full token)
-    try { logger.info(`[SSE] token payload: id=${payload && payload.id  payload.id : 'unknown'} role=${payload && payload.role  payload.role : 'unknown'} sse=${payload && payload.sse  '1' : '0'}`) } catch (e) {}
+    try { logger.info(`[SSE] token payload: id=${payload && payload.id ? payload.id : 'unknown'} role=${payload && payload.role ? payload.role : 'unknown'} sse=${payload && payload.sse ? '1' : '0'}`) } catch (e) {}
     // attach minimal user info for this connection
     const user = { id: payload.id, role: payload.role }
 
@@ -1243,7 +1243,7 @@ app.get('/api/avisos/stream', (req, res) => {
       sseClients.delete(client)
     })
   } catch (e) {
-    try { logger.warn('[SSE] jwt verify failed for token (masked): ' + maskToken(token) + ' error: ' + (e && e.message  e.message : String(e))) } catch (logErr) {}
+    try { logger.warn('[SSE] jwt verify failed for token (masked): ' + maskToken(token) + ' error: ' + (e && e.message ? e.message : String(e))) } catch (logErr) {}
     return res.status(401).json({ message: 'Token inválido para SSE.' })
   }
 })
@@ -1271,8 +1271,8 @@ app.get('/api/rh/dashboard/kpis', authMiddleware, async (req, res) => {
     const hoje = new Date();
     const mesAtual = hoje.getMonth() + 1;
     const anoAtual = hoje.getFullYear();
-    const mesAnterior = mesAtual === 1  12 : mesAtual - 1;
-    const anoMesAnterior = mesAtual === 1  anoAtual - 1 : anoAtual;
+    const mesAnterior = mesAtual === 1 ? 12 : mesAtual - 1;
+    const anoMesAnterior = mesAtual === 1 ? anoAtual - 1 : anoAtual;
 
     // Total de funcionários ativos
     const [totalAtivos] = await dbQuery(
@@ -1399,15 +1399,15 @@ app.get('/api/rh/centro-custo', authMiddleware, async (req, res) => {
 // POST /api/rh/centro-custo - Criar centro de custo
 app.post('/api/rh/centro-custo', authMiddleware, async (req, res) => {
   try {
-    const { código, descrição, departamento, responsavel_id, orçamento_mensal } = req.body;
+    const { código, descricao, departamento, responsavel_id, orçamento_mensal } = req.body;
     
-    if (!código || !descrição) {
-      return res.status(400).json({ message: 'Código e descrição são obrigatórios' });
+    if (!código || !descricao) {
+      return res.status(400).json({ message: 'Código e descricao são obrigatórios' });
     }
 
     const result = await dbQuery(
-      'INSERT INTO centro_custo (código, descrição, departamento, responsavel_id, orçamento_mensal, ativo) VALUES (, , , , , TRUE)',
-      [código, descrição, departamento || null, responsavel_id || null, orçamento_mensal || null]
+      'INSERT INTO centro_custo (código, descricao, departamento, responsavel_id, orçamento_mensal, ativo) VALUES (, , , , , TRUE)',
+      [código, descricao, departamento || null, responsavel_id || null, orçamento_mensal || null]
     );
 
     res.status(201).json({ id: result.insertId, message: 'Centro de custo criação com sucesso' });
@@ -1906,7 +1906,7 @@ app.post('/api/rh/jornadas', authMiddleware, async (req, res) => {
   try {
     const {
       nome,
-      descrição,
+      descricao,
       entrada_manha,
       saida_almoco,
       entrada_tarde,
@@ -1924,9 +1924,9 @@ app.post('/api/rh/jornadas', authMiddleware, async (req, res) => {
 
     const result = await dbQuery(
       `INSERT INTO jornada_trabalho 
-       (nome, descrição, entrada_manha, saida_almoco, entrada_tarde, saida_final, carga_horaria_diaria, carga_horaria_semanal, tolerancia_atraso, tolerancia_saida, dias_trabalho)
+       (nome, descricao, entrada_manha, saida_almoco, entrada_tarde, saida_final, carga_horaria_diaria, carga_horaria_semanal, tolerancia_atraso, tolerancia_saida, dias_trabalho)
        VALUES (, , , , , , , , , , )`,
-      [nome, descrição || null, entrada_manha, saida_almoco || null, entrada_tarde || null, saida_final, carga_horaria_diaria || 8, carga_horaria_semanal || 40, tolerancia_atraso || 10, tolerancia_saida || 10, dias_trabalho  JSON.stringify(dias_trabalho) : null]
+      [nome, descricao || null, entrada_manha, saida_almoco || null, entrada_tarde || null, saida_final, carga_horaria_diaria || 8, carga_horaria_semanal || 40, tolerancia_atraso || 10, tolerancia_saida || 10, dias_trabalho ? JSON.stringify(dias_trabalho) : null]
     );
 
     res.status(201).json({ id: result.insertId, message: 'Jornada criada com sucesso' });
@@ -1957,7 +1957,7 @@ app.get('/api/rh/ferias/saldo/:funcionarioId', authMiddleware, async (req, res) 
     res.json({
       períodos,
       total_dias_disponivel: totalDisponivel,
-      próximo_vencimento: próximoVencimento  próximoVencimento.data_limite_gozo : null
+      próximo_vencimento: próximoVencimento ? próximoVencimento.data_limite_gozo : null
     });
   } catch (error) {
     logger.error('Erro ao consultar saldo:', error);
@@ -2000,7 +2000,7 @@ app.post('/api/rh/ferias/solicitar', authMiddleware, async (req, res) => {
     );
 
     if (!período.length) {
-      return res.status(404).json({ message: 'Período aquisitivo não encontração' });
+      return res.status(404).json({ message: 'Período aquisitivo não encontrado' });
     }
 
     const diasNecessarios = diasCorridos + (dias_abono || 0);
@@ -2379,25 +2379,25 @@ function calcularINSS(salarioBase, ano = 2025) {
     { inicio: 4000.04, fim: 7786.02, aliquota: 0.14 }
   ];
   
-  let inssAcumulação = 0;
+  let inssAcumulado = 0;
   let salarioRestante = salarioBase;
   
   for (const faixa of faixas) {
     if (salarioRestante <= 0) break;
     
     if (salarioBase <= faixa.fim) {
-      inssAcumulação += salarioRestante * faixa.aliquota;
+      inssAcumulado += salarioRestante * faixa.aliquota;
       salarioRestante = 0;
     } else {
       const valorFaixa = faixa.fim - faixa.inicio + 0.01;
-      inssAcumulação += valorFaixa * faixa.aliquota;
+      inssAcumulado += valorFaixa * faixa.aliquota;
       salarioRestante -= valorFaixa;
     }
   }
   
   return {
-    valor: Math.round(inssAcumulação * 100) / 100,
-    aliquota: salarioBase > 0  Math.round((inssAcumulação / salarioBase) * 10000) / 10000 : 0
+    valor: Math.round(inssAcumulado * 100) / 100,
+    aliquota: salarioBase > 0 ? Math.round((inssAcumulado / salarioBase) * 10000) / 10000 : 0
   };
 }
 
@@ -2426,7 +2426,7 @@ function calcularIRRF(baseCalculo, dependentes = 0, ano = 2025) {
   const irrfValor = Math.round(((baseTributavel * faixa.aliquota) - faixa.parcela) * 100) / 100;
   
   return {
-    valor: irrfValor > 0  irrfValor : 0,
+    valor: irrfValor > 0 ? irrfValor : 0,
     aliquota: faixa.aliquota
   };
 }
@@ -2611,7 +2611,7 @@ app.get('/api/rh/holerite/:id', authMiddleware, async (req, res) => {
     `, [req.params.id]);
     
     if (holerite.length === 0) {
-      return res.status(404).json({ error: 'Holerite não encontração' });
+      return res.status(404).json({ error: 'Holerite não encontrado' });
     }
     
     // Buscar itens adicionais
@@ -2692,16 +2692,16 @@ app.put('/api/rh/holerite/:id', authMiddleware, async (req, res) => {
 
 // POST /api/rh/holerite/:id/item - Adicionar item ao holerite
 app.post('/api/rh/holerite/:id/item', authMiddleware, async (req, res) => {
-  const { tipo, código, descrição, referencia, valor } = req.body;
+  const { tipo, código, descricao, referencia, valor } = req.body;
   
-  if (!tipo || !descrição || !valor) {
-    return res.status(400).json({ error: 'tipo, descrição e valor são obrigatórios' });
+  if (!tipo || !descricao || !valor) {
+    return res.status(400).json({ error: 'tipo, descricao e valor são obrigatórios' });
   }
   
   try {
     await pool.query(
-      'INSERT INTO rh_holerite_itens (holerite_id, tipo, código, descrição, referencia, valor) VALUES (, , , , , )',
-      [req.params.id, tipo, código, descrição, referencia, valor]
+      'INSERT INTO rh_holerite_itens (holerite_id, tipo, código, descricao, referencia, valor) VALUES (, , , , , )',
+      [req.params.id, tipo, código, descricao, referencia, valor]
     );
     
     res.json({ success: true });
@@ -2846,7 +2846,7 @@ app.get('/api/rh/rescisao/:funcionario_id', authMiddleware, async (req, res) => 
       [req.params.funcionario_id]
     );
     
-    res.json(rescisao.length > 0  rescisao[0] : null);
+    res.json(rescisao.length > 0 ? rescisao[0] : null);
   } catch (error) {
     logger.error('Erro ao buscar rescisão:', error);
     res.status(500).json({ error: 'Erro ao buscar rescisão' });
@@ -2979,7 +2979,7 @@ app.post('/api/rh/beneficios/vincular', authMiddleware, async (req, res) => {
 app.get('/api/rh/beneficios/funcionario/:id', authMiddleware, async (req, res) => {
   try {
     const [beneficios] = await pool.query(`
-      SELECT fb.*, bt.nome AS beneficio_nome, bt.código, bt.descrição
+      SELECT fb.*, bt.nome AS beneficio_nome, bt.código, bt.descricao
       FROM rh_funcionarios_beneficios fb
       INNER JOIN rh_beneficios_tipos bt ON fb.beneficio_tipo_id = bt.id
       WHERE fb.funcionario_id =  AND fb.ativo = TRUE
@@ -3195,7 +3195,7 @@ app.get('/api/rh/vale-transporte/:funcionario_id', authMiddleware, async (req, r
       [req.params.funcionario_id]
     );
     
-    res.json(vt.length > 0  vt[0] : null);
+    res.json(vt.length > 0 ? vt[0] : null);
   } catch (error) {
     logger.error('Erro ao buscar VT:', error);
     res.status(500).json({ error: 'Erro ao buscar vale transporte' });
@@ -3369,17 +3369,17 @@ app.put('/api/rh/avaliacoes/:id/finalizar', authMiddleware, async (req, res) => 
 // 7. Criar meta
 app.post('/api/rh/metas/criar', authMiddleware, async (req, res) => {
   const { 
-    funcionario_id, período_id, titulo, descrição, categoria, tipo, 
+    funcionario_id, período_id, titulo, descricao, categoria, tipo, 
     valor_meta, unidade_medida, data_inicio, data_fim, responsavel_id 
   } = req.body;
   
   try {
     const [result] = await pool.query(`
       INSERT INTO rh_metas 
-      (funcionario_id, período_id, titulo, descrição, categoria, tipo, valor_meta, 
+      (funcionario_id, período_id, titulo, descricao, categoria, tipo, valor_meta, 
        unidade_medida, data_inicio, data_fim, status, responsavel_id)
       VALUES (, , , , , , , , , , 'PLANEJADA', )
-    `, [funcionario_id, período_id, titulo, descrição, categoria, tipo, valor_meta, unidade_medida, data_inicio, data_fim, responsavel_id]);
+    `, [funcionario_id, período_id, titulo, descricao, categoria, tipo, valor_meta, unidade_medida, data_inicio, data_fim, responsavel_id]);
     
     res.json({ success: true, id: result.insertId });
   } catch (error) {
@@ -3615,7 +3615,7 @@ app.get('/api/rh/promocoes/funcionario/:id', authMiddleware, async (req, res) =>
 
 // Error handler (Multer and general)
 app.use((err, req, res, next) => {
-  logger.error('Unhandled error:', err && err.message  err.message : err)
+  logger.error('Unhandled error:', err && err.message ? err.message : err)
   if (err instanceof multer.MulterError) {
     return res.status(400).json({ message: err.message })
   }
@@ -3637,8 +3637,8 @@ function tryStartServer(port, retryCount = 0) {
   const server = app.listen(port, LISTEN_ADDR, () => {
     // Sucesso: servidor iniciação
     const addr = server.address && server.address()
-    const boundHost = addr && addr.address  addr.address : LISTEN_ADDR
-    const boundPort = addr && addr.port  addr.port : port
+    const boundHost = addr && addr.address ? addr.address : LISTEN_ADDR
+    const boundPort = addr && addr.port ? addr.port : port
     
     // Log de sucesso com destaque se não for a porta 3000
     if (boundPort !== 3000) {
@@ -3756,11 +3756,11 @@ async function gracefulShutdown (reason) {
 process.on('SIGINT', () => gracefulShutdown('SIGINT'))
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
 process.on('uncaughtException', (err) => {
-  try { logger.error('uncaughtException - iniciando shutdown:', err && err.stack  err.stack : err) } catch (_) {}
+  try { logger.error('uncaughtException - iniciando shutdown:', err && err.stack ? err.stack : err) } catch (_) {}
   // give a moment to log then shutdown
   setTimeout(() => gracefulShutdown('uncaughtException'), 50)
 })
 process.on('unhandledRejection', (reason) => {
-  try { logger.warn('unhandledRejection - iniciando shutdown:', reason && reason.stack  reason.stack : reason) } catch (_) {}
+  try { logger.warn('unhandledRejection - iniciando shutdown:', reason && reason.stack ? reason.stack : reason) } catch (_) {}
   setTimeout(() => gracefulShutdown('unhandledRejection'), 50)
 })

@@ -151,7 +151,7 @@ app.get('/api/support/tickets/:ticketId', (req, res) => {
   const { ticketId } = req.params;
   const ticket = supportTickets.get(ticketId);
   if (!ticket) {
-    return res.status(404).json({ error: 'Ticket não encontração' });
+    return res.status(404).json({ error: 'Ticket não encontrado' });
   }
   res.json(ticket);
 });
@@ -162,7 +162,7 @@ app.put('/api/support/tickets/:ticketId', (req, res) => {
   const ticket = supportTickets.get(ticketId);
   
   if (!ticket) {
-    return res.status(404).json({ error: 'Ticket não encontração' });
+    return res.status(404).json({ error: 'Ticket não encontrado' });
   }
   
   if (status) ticket.status = status;
@@ -180,7 +180,7 @@ app.post('/api/support/tickets/:ticketId/responses', (req, res) => {
   const ticket = supportTickets.get(ticketId);
   
   if (!ticket) {
-    return res.status(404).json({ error: 'Ticket não encontração' });
+    return res.status(404).json({ error: 'Ticket não encontrado' });
   }
   
   const response = {

@@ -49,7 +49,7 @@ async function getJson (path, token) {
         // generate debug token for existing user
         const dbg = await postJson('/api/debug/generate-token', { id: Number(existing.id), role: 'funcionario' }, adminToken)
         const token = dbg && dbg.body  (dbg.body.token || (dbg.body.url  new URL(dbg.body.url, API).searchParams.get('token') : null)) : null
-        console.log('Debug token:', token  token.slice(0, 12) + '...' : '(none)')
+        console.log('Debug token:', token ? token.slice(0, 12) + '...' : '(none)')
         const me = await getJson('/api/me', token)
         console.log('/api/me ->', me.status, JSON.stringify(me.body))
         continue
@@ -63,7 +63,7 @@ async function getJson (path, token) {
         console.log(`Criação id=${newId}`)
         const dbg = await postJson('/api/debug/generate-token', { id: Number(newId), role: 'funcionario' }, adminToken)
         const token = dbg && dbg.body  (dbg.body.token || (dbg.body.url  new URL(dbg.body.url, API).searchParams.get('token') : null)) : null
-        console.log('Debug token:', token  token.slice(0, 12) + '...' : '(none)')
+        console.log('Debug token:', token ? token.slice(0, 12) + '...' : '(none)')
         const me = await getJson('/api/me', token)
         console.log('/api/me ->', me.status, JSON.stringify(me.body))
       } else {
@@ -73,7 +73,7 @@ async function getJson (path, token) {
     process.exitCode = 0
     return
   } catch (e) {
-    console.error('Error:', e && e.stack  e.stack : e)
+    console.error('Error:', e && e.stack ? e.stack : e)
     process.exitCode = 1
     return
   }

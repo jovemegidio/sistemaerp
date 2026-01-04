@@ -83,7 +83,7 @@ if (serverContent.includes("app.get('/avatars/:filename'")) {
     console.log('   ❌ Rota /avatars/:filename NÃO encontrada\n');
 }
 
-// Resultação final
+// Resultado final
 console.log('═'.repeat(60));
 if (incorrectRefs === 0 && correctRefs > 0) {
     console.log('✅ TUDO CORRETO! Todas as referências estão usando /avatars/');

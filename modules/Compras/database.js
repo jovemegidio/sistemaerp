@@ -11,7 +11,7 @@ const DB_PATH = path.join(__dirname, 'compras.db');
 let db;
 
 /**
- * Inicializar banco de daçãos
+ * Inicializar banco de dados
  */
 function initDatabase() {
     return new Promise((resolve, reject) => {
@@ -20,7 +20,7 @@ function initDatabase() {
                 console.error('❌ Erro ao conectar ao banco:', err);
                 reject(err);
             } else {
-                console.log('✅ Conectação ao banco de daçãos de Compras');
+                console.log('✅ Conectação ao banco de dados de Compras');
                 createTables()
                     .then(() => resolve(db))
                     .catch(reject);
@@ -230,7 +230,7 @@ function close() {
             db.close((err) => {
                 if (err) reject(err);
                 else {
-                    console.log('📦 Conexão com banco de daçãos fechada');
+                    console.log('📦 Conexão com banco de dados fechada');
                     resolve();
                 }
             });

@@ -127,7 +127,7 @@ class GeraçãorPDF {
         </table>
     </div>
 
-    ${incluirValores  this.renderTotais(pedido) : ''}
+    ${incluirValores ? this.renderTotais(pedido) : ''}
 
     ${pedido.observacoes  `
     <div class="secao">
@@ -423,7 +423,7 @@ class GeraçãorPDF {
             <tfoot>
                 <tr class="totais">
                     ${colunas.map(col => `
-                        <td class="${col.align || 'left'} total">${totais[col.campo] !== undefined  this.formatarCelula(totais[col.campo], col.tipo) : ''}</td>
+                        <td class="${col.align || 'left'} total">${totais[col.campo] !== undefined ? this.formatarCelula(totais[col.campo], col.tipo) : ''}</td>
                     `).join('')}
                 </tr>
             </tfoot>

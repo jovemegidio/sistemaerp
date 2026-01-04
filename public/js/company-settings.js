@@ -245,7 +245,7 @@ const CompanySettings = {
                 </div>
                 <div style="flex: 1; min-width: 0;">
                     <h4 style="margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #1f2937;">${cat.nome}</h4>
-                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cat.descrição || cat.descricao || 'Sem descrição'}</p>
+                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cat.descricao || cat.descricao || 'Sem descricao'}</p>
                 </div>
                 <div style="display: flex; gap: 8px;">
                     <button onclick="CompanySettings.editCategoria(${cat.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
@@ -311,7 +311,7 @@ const CompanySettings = {
                 </div>
                 <div style="flex: 1; min-width: 0;">
                     <h4 style="margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #1f2937;">${dept.nome} ${dept.sigla  `<span style="font-weight: 400; color: #6b7280;">(${dept.sigla})</span>` : ''}</h4>
-                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${dept.descrição || dept.descricao || (dept.responsavel_nome  `Responsável: ${dept.responsavel_nome}` : 'Sem descrição')}</p>
+                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${dept.descricao || dept.descricao || (dept.responsavel_nome  `Responsável: ${dept.responsavel_nome}` : 'Sem descricao')}</p>
                 </div>
                 <div style="display: flex; gap: 8px;">
                     <button onclick="CompanySettings.editDepartamento(${dept.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
@@ -387,7 +387,7 @@ const CompanySettings = {
                         <h4 style="margin: 0; font-size: 15px; font-weight: 600; color: #1f2937;">${proj.nome}</h4>
                         <span style="padding: 3px 10px; background: ${status.cor}20; color: ${status.cor}; border-radius: 20px; font-size: 11px; font-weight: 600;">${status.texto}</span>
                     </div>
-                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${proj.descrição || proj.descricao || (proj.departamento_nome  proj.departamento_nome : 'Sem descrição')}</p>
+                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${proj.descricao || proj.descricao || (proj.departamento_nome ? proj.departamento_nome : 'Sem descricao')}</p>
                 </div>
                 <div style="display: flex; gap: 8px;">
                     <button onclick="CompanySettings.editProjeto(${proj.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">

@@ -35,7 +35,7 @@
         try {
             const countDisplay = document.getElementById('materials-count-display');
             if (!countDisplay) {
-                console.log('⚠️ Elemento materials-count-display não encontração');
+                console.log('⚠️ Elemento materials-count-display não encontrado');
                 return;
             }
 
@@ -110,7 +110,7 @@
             const statOk = document.getElementById('stat-produtos-ok-gestao');
 
             if (!statTotal) {
-                console.log('⚠️ Elementos de estatísticas de produtos não encontraçãos');
+                console.log('⚠️ Elementos de estatísticas de produtos não encontrados');
                 return;
             }
 

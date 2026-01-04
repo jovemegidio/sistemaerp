@@ -45,7 +45,7 @@ async function ajustarPermissoes() {
             await connection.query('DELETE FROM usuarios WHERE email = ', ['isabela@aluforce.ind.br']);
             console.log(`   ✅ Usuário removido: ${isabelaCheck[0].nome} (${isabelaCheck[0].email})\n`);
         } else {
-            console.log('   ℹ️  Usuário isabela@aluforce.ind.br não encontração\n');
+            console.log('   ℹ️  Usuário isabela@aluforce.ind.br não encontrado\n');
         }
 
         // 3. Garantir que isabela.oliveira@aluforce.ind.br está ativa
@@ -72,13 +72,13 @@ async function ajustarPermissoes() {
         );
         
         if (rhUser.length > 0) {
-            console.log(`   ✅ Usuário RH encontração:`);
+            console.log(`   ✅ Usuário RH encontrado:`);
             console.log(`      Nome: ${rhUser[0].nome}`);
             console.log(`      Admin: ${rhUser[0].is_admin  'SIM' : 'NÃO'}`);
             console.log(`      Permissões RH: ${rhUser[0].permissoes_rh}`);
             console.log('      📌 NOTA: Como é ADMIN, tem acesso à área admin do RH automaticamente\n');
         } else {
-            console.log('   ⚠️  rh@aluforce.ind.br não encontração no sistema\n');
+            console.log('   ⚠️  rh@aluforce.ind.br não encontrado no sistema\n');
         }
 
         // Resumo final

@@ -27,7 +27,7 @@
             return;
         }
     } catch (err) {
-        console.debug('[auth-redirect] probe error', err && err.message  err.message : err);
+        console.debug('[auth-redirect] probe error', err && err.message ? err.message : err);
         // network/probe error – treat as unauthenticated and continue to redirect below
     }
 

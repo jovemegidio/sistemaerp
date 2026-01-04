@@ -99,7 +99,7 @@ class FornecedoresManager {
                 <tr>
                     <td colspan="8" style="text-align: center; padding: 40px; color: #666;">
                         <i class="fas fa-users" style="font-size: 48px; color: #ddd; margin-bottom: 16px; display: block;"></i>
-                        Nenhum fornecedor encontração
+                        Nenhum fornecedor encontrado
                     </td>
                 </tr>
             `;

@@ -9,7 +9,7 @@ arquivos.forEach(arquivo => {
     const filePath = path.join(__dirname, 'modules', 'NFe', arquivo);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`⚠️  ${arquivo} não encontração`);
+        console.log(`⚠️  ${arquivo} não encontrado`);
         return;
     }
     

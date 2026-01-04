@@ -39,7 +39,7 @@ async function login() {
                         return;
                     }
                 }
-                reject(new Error('Token não encontração'));
+                reject(new Error('Token não encontrado'));
             });
         });
 
@@ -97,7 +97,7 @@ async function main() {
         
         if (result.success) {
             console.log('✅ Permissões configuradas com sucesso!\n');
-            console.log('📊 Resultaçãos:\n');
+            console.log('📊 Resultados:\n');
             
             result.results.forEach(r => {
                 let status = '';
@@ -106,7 +106,7 @@ async function main() {
                         status = `✅ Atualização (${r.affected} registros)`;
                         break;
                     case 'not_found':
-                        status = '⚠️  Usuário não encontração no banco';
+                        status = '⚠️  Usuário não encontrado no banco';
                         break;
                     case 'error':
                         status = `❌ Erro: ${r.message}`;

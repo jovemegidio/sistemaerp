@@ -37,7 +37,7 @@ filesToFix.forEach(file => {
     const filePath = path.join(__dirname, '..', file);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`⚠️  Arquivo não encontração: ${file}`);
+        console.log(`⚠️  Arquivo não encontrado: ${file}`);
         return;
     }
     

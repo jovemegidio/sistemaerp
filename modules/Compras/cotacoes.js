@@ -137,7 +137,7 @@ class CotacoesManager {
             // Ordenar propostas por valor (menor primeiro)
             propostas.sort((a, b) => a.total - b.total);
 
-            const melhorProposta = propostas.length > 0  propostas[0] : null;
+            const melhorProposta = propostas.length > 0 ? propostas[0] : null;
             const dataCotacao = this.gerarDataAleatoria();
             const prazoResposta = this.gerarDataFutura(15, dataCotacao);
 
@@ -855,7 +855,7 @@ class CotacoesManager {
                 c.materiais.length,
                 c.fornecedores.length,
                 c.propostas.length,
-                c.melhorProposta  c.melhorProposta.total.toFixed(2) : '0'
+                c.melhorProposta ? c.melhorProposta.total.toFixed(2) : '0'
             ].join(';'))
         ].join('\n');
 

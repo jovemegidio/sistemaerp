@@ -24,11 +24,11 @@
         const notificationBtns = document.querySelectorAll('#notification-bell, .notification-btn[title="Notificações"]');
         
         if (notificationBtns.length === 0) {
-            console.warn('⚠️ Botão de notificações não encontração');
+            console.warn('⚠️ Botão de notificações não encontrado');
             return;
         }
 
-        // Adicionar event listener em todos os botões encontraçãos
+        // Adicionar event listener em todos os botões encontrados
         notificationBtns.forEach((btn, index) => {
             // Adicionar ID se não tiver
             if (!btn.id) {

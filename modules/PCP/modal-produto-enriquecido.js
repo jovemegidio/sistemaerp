@@ -273,7 +273,7 @@
         
         let soma = 0;
         for (let i = 0; i < 12; i++) {
-            soma += parseInt(gtin[i]) * (i % 2 === 0  1 : 3);
+            soma += parseInt(gtin[i]) * (i % 2 === 0 ? 1 : 3);
         }
         
         const digitoVerificaçãor = (10 - (soma % 10)) % 10;

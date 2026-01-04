@@ -42,7 +42,7 @@
 
     console.log(JSON.stringify({ created: true, id: result.insertId, email, password: plain }));
   } catch (err) {
-    console.error('ERROR', err && err.message  err.message : err);
+    console.error('ERROR', err && err.message ? err.message : err);
     process.exitCode = 2;
   } finally {
     await pool.end();

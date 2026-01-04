@@ -73,6 +73,6 @@ async function run () {
 }
 
 run().catch(err => {
-  console.error('Erro na migração:', err && err.message  err.message : err)
+  console.error('Erro na migração:', err && err.message ? err.message : err)
   process.exit(1)
 })

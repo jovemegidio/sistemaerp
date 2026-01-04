@@ -117,7 +117,7 @@ app.use((req, res) => {
 // Inicializar servidor
 async function startServer() {
     try {
-        // Inicializar banco de daçãos
+        // Inicializar banco de dados
         await initDatabase();
         console.log('✅ Banco de daçãos inicialização');
         

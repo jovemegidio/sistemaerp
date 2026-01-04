@@ -201,7 +201,7 @@ ${signedInfo}
         
         const getCN = (subject) => {
             const cn = subject.attributes.find(attr => attr.name === 'commonName');
-            return cn  cn.value : '';
+            return cn ? cn.value : '';
         };
         
         return {

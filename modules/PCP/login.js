@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     
-    // 5. Mapeamento direto para nomes específicos (fallback para casos não encontraçãos)
+    // 5. Mapeamento direto para nomes específicos (fallback para casos não encontrados)
     const nomesMapeaçãos = {
       'guilherme': 'guilherme@aluforce.ind.br',
       'andreia': 'andreia@aluforce.ind.br', 
@@ -127,11 +127,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     if (user) {
-      // Usuário encontração no sistema
+      // Usuário encontrado no sistema
       const avatarUrl = obterURLAvatar(user);
       const userName = user.nome || 'Usuário';
       
-      console.log(`👤 Avatar encontração para: ${userName} (input: "${input}")`);
+      console.log(`👤 Avatar encontrado para: ${userName} (input: "${input}")`);
       
       if (user.foto_url || avatarUrl.includes('.jpg')) {
         // Tentar mostrar foto
@@ -169,12 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(`🌐 Email externo: ${input}`);
       
     } else if (inputLower.length >= 3) {
-      // Nome digitação mas não encontração - mostra iniciais baseadas no input
+      // Nome digitação mas não encontrado - mostra iniciais baseadas no input
       const initials = input.substring(0, 2).toUpperCase();
       const cor = gerarCorAvatar(input);
       userAvatar.innerHTML = `<div class="avatar-placeholder" style="background: ${cor};">${initials}</div>`;
       
-      console.log(`❓ Nome não encontração: ${input}`);
+      console.log(`❓ Nome não encontrado: ${input}`);
     } else {
       // Input muito curto - não mostra avatar
       hideUserAvatar();
@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const cor = gerarCorAvatar(name);
     userAvatar.innerHTML = `<div class="avatar-placeholder" style="background: ${cor};">${initials}</div>`;
     
-    console.log(`⚠️ Avatar não encontração para ${name} (${email}), usando iniciais: ${initials}`);
+    console.log(`⚠️ Avatar não encontrado para ${name} (${email}), usando iniciais: ${initials}`);
   };
 
   // Funcionalidade de mostrar/ocultar senha
@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Abrir modal
   function openForgotPasswordModal() {
-    const email = emailInput  emailInput.value.trim() : '';
+    const email = emailInput ? emailInput.value.trim() : '';
     
     // Pre-preenche email se já digitação
     const verifyEmailInput = document.getElementById('verify-email');
@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
         userVerificationData.userId = data.userId;
         showStep(2);
       } else {
-        showModalMessage(data.message || 'Email não encontração no sistema.', 'error');
+        showModalMessage(data.message || 'Email não encontrado no sistema.', 'error');
       }
     } catch (error) {
       console.error('Erro ao verificar email:', error);
@@ -735,8 +735,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const usernameEl = document.getElementById('email');
     const passwordEl = document.getElementById('password');
-    const username = usernameEl  usernameEl.value.trim() : '';
-    const password = passwordEl  passwordEl.value : '';
+    const username = usernameEl ? usernameEl.value.trim() : '';
+    const password = passwordEl ? passwordEl.value : '';
 
     if (!username || !password) {
       if (errorMessageDiv) {
@@ -807,7 +807,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.location.href = '/index.html';
     } catch (error) {
       if (errorMessageDiv) {
-        const msg = error && error.message  error.message : 'Erro ao efetuar login';
+        const msg = error && error.message ? error.message : 'Erro ao efetuar login';
         errorMessageDiv.textContent = msg;
         errorMessageDiv.classList.add('visible');
         // focus the email field so user can retry quickly

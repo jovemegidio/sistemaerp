@@ -41,7 +41,7 @@ class CorrecaoCompleta {
                 const caminhoArquivo = path.join(this.basePath, arquivo);
                 
                 if (!fs.existsSync(caminhoArquivo)) {
-                    console.log(`⚠️ ${arquivo}: Arquivo não encontração`);
+                    console.log(`⚠️ ${arquivo}: Arquivo não encontrado`);
                     continue;
                 }
                 
@@ -158,7 +158,7 @@ class CorrecaoCompleta {
                 const caminhoArquivo = path.join(this.basePath, arquivo);
                 
                 if (!fs.existsSync(caminhoArquivo)) {
-                    console.log(`⚠️ ${arquivo}: Arquivo não encontração`);
+                    console.log(`⚠️ ${arquivo}: Arquivo não encontrado`);
                     continue;
                 }
                 

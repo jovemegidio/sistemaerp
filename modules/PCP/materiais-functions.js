@@ -172,7 +172,7 @@
         const container = document.getElementById('tabela-produtos-container') 
                        || document.getElementById('tabela-produtos-gestao-container');
         if (!container) {
-            console.warn('⚠️ Container de produtos não encontração');
+            console.warn('⚠️ Container de produtos não encontrado');
             return;
         }
         
@@ -298,7 +298,7 @@
         const tbody = document.getElementById('materiais-tbody');
         
         if (!tbody) {
-            console.error('❌ Elemento materiais-tbody não encontração!');
+            console.error('❌ Elemento materiais-tbody não encontrado!');
             return;
         }
 
@@ -307,7 +307,7 @@
                 <tr class="empty-row">
                     <td colspan="7" class="text-center" style="padding: 48px 20px;">
                         <i class="fas fa-inbox" style="font-size: 48px; color: #d1d5db; margin-bottom: 16px;"></i>
-                        <p style="color: #6b7280; font-size: 16px; margin: 0;">Nenhum material encontração</p>
+                        <p style="color: #6b7280; font-size: 16px; margin: 0;">Nenhum material encontrado</p>
                     </td>
                 </tr>
             `;
@@ -352,7 +352,7 @@
             container.innerHTML = `
                 <div style="grid-column: 1/-1; text-align: center; padding: 48px;">
                     <i class="fas fa-inbox" style="font-size: 64px; color: #d1d5db; margin-bottom: 16px;"></i>
-                    <p style="color: #6b7280; font-size: 18px; margin: 0;">Nenhum material encontração</p>
+                    <p style="color: #6b7280; font-size: 18px; margin: 0;">Nenhum material encontrado</p>
                 </div>
             `;
             return;
@@ -480,14 +480,14 @@
             statMateriais.textContent = materiaisData.length;
             console.log('✅ Contaçãor de materiais atualização');
         } else {
-            console.warn('⚠️ Elemento stat-materiais não encontração');
+            console.warn('⚠️ Elemento stat-materiais não encontrado');
         }
         
         if (statProdutos) {
             statProdutos.textContent = produtosData.length;
             console.log('✅ Contaçãor de produtos atualização');
         } else {
-            console.warn('⚠️ Elemento stat-produtos não encontração');
+            console.warn('⚠️ Elemento stat-produtos não encontrado');
         }
         
         // Calcular alertas de estoque baixo
@@ -499,7 +499,7 @@
             statAlertas.textContent = totalAlertas;
             console.log('✅ Contaçãor de alertas atualização:', totalAlertas);
         } else {
-            console.warn('⚠️ Elemento stat-alertas não encontração');
+            console.warn('⚠️ Elemento stat-alertas não encontrado');
         }
         
         console.log('📊 Estatísticas atualizadas:', {
@@ -664,18 +664,18 @@
             window.abrirModalEditarProduto(id);
         } else {
             console.error('❌ Função abrirModalEditarProduto não encontrada');
-            alert('Erro: Modal de edição não encontração');
+            alert('Erro: Modal de edição não encontrado');
         }
         
         // Código antigo removido (usava prompts)
         /*
         const material = materiaisData.find(m => m.id === id);
         if (!material) {
-            showError('Material não encontração');
+            showError('Material não encontrado');
             return;
         }
         
-        const descricao = prompt('Nova descrição:', material.descricao || '');
+        const descricao = prompt('Nova descricao:', material.descricao || '');
         if (descricao === null) return; // Cancelou
         
         const quantidade = prompt('Nova quantidade:', material.quantidade_estoque || 0);
@@ -746,7 +746,7 @@
         /* Função antiga - não usar
         const produto = produtosData.find(p => p.id === id);
         if (!produto) {
-            showError('Produto não encontração');
+            showError('Produto não encontrado');
             return;
         }
         

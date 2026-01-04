@@ -19,7 +19,7 @@ const cfg = {
   try {
     const [rows] = await conn.execute(`SELECT id, email, nome_completo FROM funcionarios WHERE (nome_completo IS NULL OR nome_completo = '') AND email IS NOT NULL`)
     if (!rows || rows.length === 0) {
-      console.log('Nenhum funcionário com nome_completo vazio encontração.')
+      console.log('Nenhum funcionário com nome_completo vazio encontrado.')
       await conn.end()
       process.exit(0)
     }
@@ -47,7 +47,7 @@ const cfg = {
     await conn.end()
     process.exit(0)
   } catch (e) {
-    console.error('Erro:', e && e.stack  e.stack : e)
+    console.error('Erro:', e && e.stack ? e.stack : e)
     try { await conn.end() } catch (_) {}
     process.exit(1)
   }

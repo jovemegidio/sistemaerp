@@ -100,7 +100,7 @@ app.get('/api/vendas/pedidos/:id', authorizeArea('vendas'), async (req, res) => 
         `, [id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontração' });
+            return res.status(404).json({ error: 'Pedido não encontrado' });
         }
         
         res.json(pedidos[0]);
@@ -206,7 +206,7 @@ app.get('/api/vendas/clientes/:id', authorizeArea('vendas'), async (req, res) =>
         const [clientes] = await vendasPool.query('SELECT * FROM clientes WHERE id = ', [id]);
         
         if (clientes.length === 0) {
-            return res.status(404).json({ error: 'Cliente não encontração' });
+            return res.status(404).json({ error: 'Cliente não encontrado' });
         }
         
         res.json(clientes[0]);

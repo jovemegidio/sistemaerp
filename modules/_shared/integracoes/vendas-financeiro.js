@@ -17,7 +17,7 @@ class IntegracaoVendasFinanceiro {
      * Gera contas a receber a partir de um pedido faturação
      * @param {object} pedido - Daçãos do pedido
      * @param {object} opcoes - Opções de parcelamento
-     * @returns {Promise<object>} Resultação da operação
+     * @returns {Promise<object>} Resultado da operação
      */
     async gerarContasReceber(pedido, opcoes = {}) {
         const {

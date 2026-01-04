@@ -56,7 +56,7 @@ async function main() {
         }, loginData);
         
         const cookies = loginResponse.headers['set-cookie'];
-        const authToken = cookies  cookies.find(c => c.startsWith('authToken=')) : null;
+        const authToken = cookies ? cookies.find(c => c.startsWith('authToken=')) : null;
         
         if (!authToken) {
             throw new Error('Token não obtido no login');
@@ -110,7 +110,7 @@ async function main() {
             }
         }
         
-        console.log('   Resultação:', reason);
+        console.log('   Resultado:', reason);
         console.log('   Acesso:', accessGranted  '✅ PERMITIDO' : '❌ NEGADO');
         
         // Passo 4: Conclusão

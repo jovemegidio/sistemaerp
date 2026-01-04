@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Script para configurar roles de administraçãores
+ * Script para configurar roles de administradores
  * Administraçãores: Andreia, Douglas, TI
  * Demais: Colaboraçãores (role: user)
  */
@@ -8,7 +8,7 @@
 const mysql = require('mysql2/promise');
 require('dotenv').config();
 
-// Configuração do banco de daçãos
+// Configuração do banco de dados
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -45,7 +45,7 @@ async function configurarRoles() {
         
         console.log(`📊 Total de usuários: ${usuarios.length}\n`);
         
-        // Separar administraçãores e colaboraçãores
+        // Separar administradores e colaboraçãores
         let admins = [];
         let colaboraçãores = [];
         
@@ -75,7 +75,7 @@ async function configurarRoles() {
         
         console.log('\n🔄 Atualizando roles...\n');
         
-        // Atualizar administraçãores para role = 'admin'
+        // Atualizar administradores para role = 'admin'
         let adminUpdates = 0;
         for (const user of admins) {
             try {
@@ -133,7 +133,7 @@ async function configurarRoles() {
             console.log(`  ${emoji} ${row.role}: ${row.total} usuários`);
         });
         
-        // Listar administraçãores finais
+        // Listar administradores finais
         const [adminsFinais] = await connection.query(
             "SELECT id, nome, email FROM usuarios WHERE role = 'admin' ORDER BY nome"
         );

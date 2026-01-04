@@ -1,7 +1,7 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
  *  ALUFORCE ERP - Script de Setup do MySQL
- *  Configura banco de daçãos automaticamente
+ *  Configura banco de dados automaticamente
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -113,10 +113,10 @@ async function connectAsRoot(password = '') {
     }
 }
 
-// Criar banco de daçãos e usuário
+// Criar banco de dados e usuário
 async function setupDatabase(connection) {
     try {
-        log('Criando banco de daçãos...', 'info');
+        log('Criando banco de dados...', 'info');
         
         // Criar banco
         await connection.query(`
@@ -221,7 +221,7 @@ async function runMigrations() {
     const migrationsPath = path.join(process.cwd(), 'scripts', 'migrate.js');
     
     if (!fs.existsSync(migrationsPath)) {
-        log('Script de migração não encontração, pulando...', 'warning');
+        log('Script de migração não encontrado, pulando...', 'warning');
         return true;
     }
     
@@ -247,7 +247,7 @@ async function main() {
     const mysqlInstalled = await checkMySQLInstalled();
     
     if (!mysqlInstalled) {
-        log('MySQL não encontração no sistema!', 'error');
+        log('MySQL não encontrado no sistema!', 'error');
         console.log(`
 ${colors.yellow}Para instalar o MySQL:${colors.reset}
 1. Baixe em: https://dev.mysql.com/downloads/installer/
@@ -320,12 +320,12 @@ ${colors.yellow}Inicie o serviço manualmente:${colors.reset}
         }
     }
     
-    // 4. Configurar banco de daçãos
+    // 4. Configurar banco de dados
     const dbSetup = await setupDatabase(connection);
     await connection.end();
     
     if (!dbSetup) {
-        log('Falha ao configurar banco de daçãos', 'error');
+        log('Falha ao configurar banco de dados', 'error');
         process.exit(1);
     }
     

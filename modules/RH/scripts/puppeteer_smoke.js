@@ -78,7 +78,7 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
     try { console.log('PAGE-LOG:', msg.type(), msg.text()) } catch (e) {}
   })
   page.on('pageerror', err => {
-    try { console.log('PAGE-ERROR-STACK:', err && err.stack  err.stack : String(err)) } catch (e) {}
+    try { console.log('PAGE-ERROR-STACK:', err && err.stack ? err.stack : String(err)) } catch (e) {}
   })
   page.setDefaultNavigationTimeout(10000)
   try {
@@ -148,7 +148,7 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
           else if (j && j.token === undefined && j.user && j.user.token) dbgEmployee = j.user.token
         }
       } catch (err) {
-        console.warn('Employee login fallback failed:', err && err.message  err.message : err)
+        console.warn('Employee login fallback failed:', err && err.message ? err.message : err)
       }
     }
 
@@ -245,9 +245,9 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
       })
       console.log('PAGE-SCRIPTS-COUNT:', scripts.length)
       scripts.forEach((s, i) => {
-        try { console.log(`PAGE-SCRIPT[${i}] src=${s.src || '<inline>'} sample=${s.inlineSample  JSON.stringify(s.inlineSample).slice(0, 200) : '<external>'}`) } catch (e) {}
+        try { console.log(`PAGE-SCRIPT[${i}] src=${s.src || '<inline>'} sample=${s.inlineSample ? JSON.stringify(s.inlineSample).slice(0, 200) : '<external>'}`) } catch (e) {}
       })
-    } catch (e) { console.warn('Failed to enumerate scripts for diagnostics', e && e.message  e.message : e) }
+    } catch (e) { console.warn('Failed to enumerate scripts for diagnostics', e && e.message ? e.message : e) }
     try {
       const rect = await page.evaluate(() => {
         const el = document.querySelector('body')
@@ -257,13 +257,13 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
       }).catch(() => ({ w: 0, h: 0 }))
       if (rect.w > 0 && rect.h > 0) await page.screenshot({ path: 'screenshots/dashboard.png', fullPage: true })
       else console.warn('dashboard screenshot skipped due to zero width/height', rect)
-    } catch (e) { console.warn('dashboard screenshot failed', e && e.message  e.message : e) }
+    } catch (e) { console.warn('dashboard screenshot failed', e && e.message ? e.message : e) }
 
     // Try to open the 'Funcionários' section (menu exists as .sidebar-nav -> 'Funcionários')
     try {
       const funcLink = await findElementByText(page, '.sidebar-nav a, .sidebar-nav .nav-link', 'funcionários')
       if (funcLink) {
-        try { await page.evaluate(el => el.click(), funcLink) } catch (e) { console.warn('funcionarios click error', e && e.message  e.message : e) }
+        try { await page.evaluate(el => el.click(), funcLink) } catch (e) { console.warn('funcionarios click error', e && e.message ? e.message : e) }
         await page.waitForSelector('#dashboard-section, #funcionarios, .funcionarios-list, .funcionarios-table', { visible: true, timeout: 8000 }).catch(() => {})
         await page.screenshot({ path: 'screenshots/funcionarios_section.png', fullPage: true }).catch(() => {})
         console.log('funcionarios section: captured')
@@ -271,7 +271,7 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
         console.log('funcionarios link not found')
       }
     } catch (e) {
-      console.warn('funcionarios section detection failed', e && e.message  e.message : e)
+      console.warn('funcionarios section detection failed', e && e.message ? e.message : e)
     }
 
     // go to holerite section and capture (defensive clicks)
@@ -284,22 +284,22 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
     }
     if (!holeriteLink) holeriteLink = await findElementByText(page, 'a,button', 'holerite')
     if (holeriteLink) {
-      try { await page.evaluate(el => el.click(), holeriteLink) } catch (e) { console.warn('holerite click error', e && e.message  e.message : e) }
+      try { await page.evaluate(el => el.click(), holeriteLink) } catch (e) { console.warn('holerite click error', e && e.message ? e.message : e) }
       await page.waitForSelector('#holerite, [data-section="holerite"], .holerite-section', { visible: true, timeout: 8000 }).catch(() => {})
       console.log('holerite section: found and attempted to open')
     } else {
       console.warn('holerite nav link not found (tried multiple selectors and text)')
     }
-    try { await page.screenshot({ path: 'screenshots/holerite_section.png', fullPage: true }) } catch (e) { console.warn('holerite_section screenshot failed', e && e.message  e.message : e) }
+    try { await page.screenshot({ path: 'screenshots/holerite_section.png', fullPage: true }) } catch (e) { console.warn('holerite_section screenshot failed', e && e.message ? e.message : e) }
 
     // attempt to click view holerite if enabled
     const viewEnabled = await page.$eval('#view-holerite', btn => !btn.disabled).catch(() => false)
     if (viewEnabled) {
       const viewBtn = await page.$('#view-holerite')
       if (viewBtn) {
-        try { await page.evaluate(el => el.click(), viewBtn) } catch (e) { console.warn('view-holerite click error', e && e.message  e.message : e) }
+        try { await page.evaluate(el => el.click(), viewBtn) } catch (e) { console.warn('view-holerite click error', e && e.message ? e.message : e) }
         await page.waitForSelector('#holerite-viewer iframe, #holerite-viewer img', { timeout: 5000 }).catch(() => {})
-        try { await page.screenshot({ path: 'screenshots/holerite_view.png', fullPage: true }) } catch (e) { console.warn('holerite_view screenshot failed', e && e.message  e.message : e) }
+        try { await page.screenshot({ path: 'screenshots/holerite_view.png', fullPage: true }) } catch (e) { console.warn('holerite_view screenshot failed', e && e.message ? e.message : e) }
       }
     }
 
@@ -312,20 +312,20 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
     }
     if (!pontoLink) pontoLink = await findElementByText(page, 'a,button', 'ponto')
     if (pontoLink) {
-      try { await page.evaluate(el => el.click(), pontoLink) } catch (e) { console.warn('ponto click error', e && e.message  e.message : e) }
+      try { await page.evaluate(el => el.click(), pontoLink) } catch (e) { console.warn('ponto click error', e && e.message ? e.message : e) }
       await page.waitForSelector('#ponto, [data-section="ponto"], .ponto-section', { visible: true, timeout: 8000 }).catch(() => {})
       console.log('ponto section: found and attempted to open')
     } else {
       console.warn('ponto nav link not found (tried multiple selectors and text)')
     }
-    try { await page.screenshot({ path: 'screenshots/ponto_section.png', fullPage: true }) } catch (e) { console.warn('ponto_section screenshot failed', e && e.message  e.message : e) }
+    try { await page.screenshot({ path: 'screenshots/ponto_section.png', fullPage: true }) } catch (e) { console.warn('ponto_section screenshot failed', e && e.message ? e.message : e) }
     const pontoEnabled = await page.$eval('#view-ponto', btn => !btn.disabled).catch(() => false)
     if (pontoEnabled) {
       const viewPonto = await page.$('#view-ponto')
       if (viewPonto) {
-        try { await page.evaluate(el => el.click(), viewPonto) } catch (e) { console.warn('view-ponto click error', e && e.message  e.message : e) }
+        try { await page.evaluate(el => el.click(), viewPonto) } catch (e) { console.warn('view-ponto click error', e && e.message ? e.message : e) }
         await page.waitForSelector('#ponto-viewer iframe, #ponto-viewer img', { timeout: 5000 }).catch(() => {})
-        try { await page.screenshot({ path: 'screenshots/ponto_view.png', fullPage: true }) } catch (e) { console.warn('ponto_view screenshot failed', e && e.message  e.message : e) }
+        try { await page.screenshot({ path: 'screenshots/ponto_view.png', fullPage: true }) } catch (e) { console.warn('ponto_view screenshot failed', e && e.message ? e.message : e) }
       }
     }
 
@@ -357,14 +357,14 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
       // allow animations
       await sleep(900)
     } catch (e) {
-      console.warn('menu heuristics failed', e && e.message  e.message : e)
+      console.warn('menu heuristics failed', e && e.message ? e.message : e)
     }
 
     // Fallback: always capture a full-page dashboard screenshot and try a text-based click
     try {
       await page.screenshot({ path: 'screenshots/dashboard_fallback.png', fullPage: true })
     } catch (e) {
-      console.warn('fallback dashboard screenshot failed', e && e.message  e.message : e)
+      console.warn('fallback dashboard screenshot failed', e && e.message ? e.message : e)
     }
 
     try {
@@ -391,7 +391,7 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
         console.log('Puppeteer smoke: fallback did not find keywords in DOM')
       }
     } catch (e) {
-      console.warn('Fallback evaluation failed', e && e.message  e.message : e)
+      console.warn('Fallback evaluation failed', e && e.message ? e.message : e)
     }
 
     console.log('Puppeteer smoke finished.')
@@ -406,7 +406,7 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
           try { console.log('PAGE-LOG:', msg.type(), msg.text()) } catch (e) {}
         })
         pageEmp.on('pageerror', err => {
-          try { console.log('PAGE-ERROR:', err && err.stack  err.stack : String(err)) } catch (e) {}
+          try { console.log('PAGE-ERROR:', err && err.stack ? err.stack : String(err)) } catch (e) {}
         })
         // inject token and userData before any script runs
         // inject token and a rich user object that includes holerite and espelho_ponto
@@ -492,8 +492,8 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
             try {
               const resp = await fetch('/api/funcionarios/' + (JSON.parse(window.localStorage.getItem('userData') || '{}').id || 0), { headers: token  { Authorization: 'Bearer ' + token } : {} })
               const txt = await resp.text().catch(() => '')
-              fetchInfo = { status: resp.status, ok: resp.ok, textSnippet: txt  txt.substring(0, 2000) : '' }
-            } catch (fe) { fetchInfo = { error: String(fe && fe.message  fe.message : fe) } }
+              fetchInfo = { status: resp.status, ok: resp.ok, textSnippet: txt ? txt.substring(0, 2000) : '' }
+            } catch (fe) { fetchInfo = { error: String(fe && fe.message ? fe.message : fe) } }
             return {
               token,
               userData: window.localStorage.getItem('userData'),
@@ -506,12 +506,12 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
         const holState = await pageEmp.evaluate(() => {
           const el = document.getElementById('widget-holerite-link') || document.querySelector('.widget-link[href="#holerite"]') || document.querySelector('#view-holerite')
           if (!el) return { present: false }
-          return { present: true, disabled: el.classList  el.classList.contains('disabled') : !!el.disabled, href: el.getAttribute && el.getAttribute('href') }
+          return { present: true, disabled: el.classList ? el.classList.contains('disabled') : !!el.disabled, href: el.getAttribute && el.getAttribute('href') }
         }).catch(() => ({ present: false }))
         const pontoState = await pageEmp.evaluate(() => {
           const el = document.getElementById('widget-ponto-link') || document.querySelector('.widget-link[href="#ponto"]') || document.querySelector('#view-ponto')
           if (!el) return { present: false }
-          return { present: true, disabled: el.classList  el.classList.contains('disabled') : !!el.disabled, href: el.getAttribute && el.getAttribute('href'), dataUrl: el.getAttribute && el.getAttribute('data-url') }
+          return { present: true, disabled: el.classList ? el.classList.contains('disabled') : !!el.disabled, href: el.getAttribute && el.getAttribute('href'), dataUrl: el.getAttribute && el.getAttribute('data-url') }
         }).catch(() => ({ present: false }))
         console.log('Employee widget holerite:', holState, 'ponto:', pontoState)
         await pageEmp.screenshot({ path: 'screenshots/employee_widgets.png', fullPage: false }).catch(() => {})
@@ -525,7 +525,7 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
         const pontoDisabled = await page.$eval('#widget-ponto-link', el => el.classList.contains('disabled')).catch(() => null)
         console.log('Employee widgets - holerite.disabled=', holDisabled, 'ponto.disabled=', pontoDisabled)
       }
-    } catch (e) { console.warn('employee area check failed', e && e.message  e.message : e) }
+    } catch (e) { console.warn('employee area check failed', e && e.message ? e.message : e) }
   } catch (e) {
     console.error('Puppeteer smoke error:', e)
     process.exit(2)

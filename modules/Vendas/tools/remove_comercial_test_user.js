@@ -15,7 +15,7 @@ const mysql = require('mysql2/promise');
     const email = 'comercial.test@local';
     const [rows] = await pool.query('SELECT id, email FROM usuarios WHERE email = ', [email]);
     if (rows.length === 0) {
-      console.log('Usuário não encontração:', email);
+      console.log('Usuário não encontrado:', email);
       process.exit(0);
     }
 

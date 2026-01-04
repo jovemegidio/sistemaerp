@@ -461,7 +461,7 @@ class XmlNFeService {
         }
         
         const resto = soma % 11;
-        return resto === 0 || resto === 1  0 : 11 - resto;
+        return resto === 0 || resto === 1 ? 0 : 11 - resto;
     }
     
     /**

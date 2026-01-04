@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         console.log('[Header] ✅ Dark mode toggle configuração');
     } else {
-        console.warn('[Header] ⚠️ Botão dark mode não encontração');
+        console.warn('[Header] ⚠️ Botão dark mode não encontrado');
     }
 
     // ========== SEARCH ==========
@@ -105,13 +105,13 @@ document.addEventListener('DOMContentLoaded', function() {
                             (json.resultaçãos || []).slice(0, 10).forEach(item => {
                                 const div = document.createElement('div');
                                 div.className = 'search-result-item';
-                                div.textContent = (item.tipo  item.tipo + ': ' : '') + 
+                                div.textContent = (item.tipo ? item.tipo + ': ' : '') + 
                                                  (item.nome || item.número || item.valor || JSON.stringify(item));
                                 headerSearchResults.appendChild(div);
                             });
                             
                             if ((json.resultaçãos || []).length === 0) {
-                                headerSearchResults.innerHTML = '<div class="search-no-results">Nenhum resultação encontração</div>';
+                                headerSearchResults.innerHTML = '<div class="search-no-results">Nenhum resultação encontrado</div>';
                             }
                         }
                     } catch (error) {
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('[Header] ✅ Busca configurada');
     } else {
-        console.warn('[Header] ⚠️ Botão de busca não encontração');
+        console.warn('[Header] ⚠️ Botão de busca não encontrado');
     }
 
     // ========== NOTIFICATIONS ==========
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         console.log('[Header] ✅ Notificações configuradas');
     } else {
-        console.warn('[Header] ⚠️ Botão de notificações não encontração');
+        console.warn('[Header] ⚠️ Botão de notificações não encontrado');
     }
 
     // ========== PROFILE DROPDOWN ==========
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('[Header] ✅ Profile dropdown configuração');
     } else {
-        console.warn('[Header] ⚠️ Profile dropdown não encontração');
+        console.warn('[Header] ⚠️ Profile dropdown não encontrado');
     }
 
     // ========== PROFILE MODAL ==========
@@ -233,7 +233,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         console.log('[Header] ✅ Logout configuração');
     } else {
-        console.warn('[Header] ⚠️ Botão de logout não encontração');
+        console.warn('[Header] ⚠️ Botão de logout não encontrado');
     }
 
     console.log('[Header] ✅ Todos os controles inicializaçãos');

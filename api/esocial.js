@@ -272,7 +272,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!evento) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Evento não encontração' 
+                    message: 'Evento não encontrado' 
                 });
             }
 
@@ -329,7 +329,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!funcionario) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Funcionário não encontração' 
+                    message: 'Funcionário não encontrado' 
                 });
             }
 
@@ -438,7 +438,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!funcionario) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Funcionário não encontração' 
+                    message: 'Funcionário não encontrado' 
                 });
             }
 
@@ -642,7 +642,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!codigo || !descricao) {
                 return res.status(400).json({ 
                     success: false, 
-                    message: 'Código e descrição são obrigatórios' 
+                    message: 'Código e descricao são obrigatórios' 
                 });
             }
 

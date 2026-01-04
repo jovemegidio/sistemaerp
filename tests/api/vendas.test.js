@@ -84,7 +84,7 @@ describe('API de Vendas', () => {
                 });
         });
 
-        it('deve rejeitar descrição muito longa', (done) => {
+        it('deve rejeitar descricao muito longa', (done) => {
             const longText = 'a'.repeat(1001); // Mais de 1000 caracteres
             
             request(BASE_URL)

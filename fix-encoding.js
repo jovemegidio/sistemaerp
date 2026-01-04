@@ -56,7 +56,7 @@ const replacements = [
     [/configurações/g, 'configuracoes'],
     [/Notificações/g, 'Notificacoes'],
     [/notificações/g, 'notificacoes'],
-    [/descrição/g, 'descricao'],
+    [/descricao/g, 'descricao'],
     [/Descrição/g, 'Descricao'],
     [/posição/g, 'posicao'],
     [/Posição/g, 'Posicao'],
@@ -141,7 +141,7 @@ files.forEach(file => {
         
         console.log(`  Corrigido! ${changes} substituicoes aplicadas.`);
     } else {
-        console.log(`  Arquivo nao encontração: ${fullPath}`);
+        console.log(`  Arquivo nao encontrado: ${fullPath}`);
     }
 });
 

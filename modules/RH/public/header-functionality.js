@@ -187,7 +187,7 @@ function searchInEmployees(query) {
         }
     });
     
-    console.log(`📊 Pesquisa em funcionários: ${found} resultaçãos encontraçãos`);
+    console.log(`📊 Pesquisa em funcionários: ${found} resultaçãos encontrados`);
 }
 
 // Pesquisa no dashboard

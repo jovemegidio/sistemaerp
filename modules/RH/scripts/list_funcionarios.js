@@ -49,7 +49,7 @@ async function getJson (path, token) {
     process.exitCode = 0
     return
   } catch (e) {
-    console.error('Error during listing:', e && e.stack  e.stack : e)
+    console.error('Error during listing:', e && e.stack ? e.stack : e)
     process.exitCode = 1
     return
   }

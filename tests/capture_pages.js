@@ -50,7 +50,7 @@ const fetch = (...args) => import('node-fetch').then(({default: f}) => f(...args
       console.log('Saved', u, '->', filePath);
     } catch (err) {
       report.captures.push({ url: u, error: String(err) });
-      console.error('Failed', u, err && err.message  err.message : err);
+      console.error('Failed', u, err && err.message ? err.message : err);
     }
   }
 

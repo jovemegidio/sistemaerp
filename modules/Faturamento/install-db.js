@@ -1,4 +1,4 @@
-// Script para instalar o schema do banco de daçãos
+// Script para instalar o schema do banco de dados
 require('dotenv').config();
 const mysql = require('mysql2/promise');
 const fs = require('fs');
@@ -20,8 +20,8 @@ async function installDatabase() {
     
     console.log('✅ Conectação com sucesso!');
     
-    // Criar banco de daçãos se não existir
-    console.log(`📦 Criando banco de daçãos ${process.env.DB_NAME}...`);
+    // Criar banco de dados se não existir
+    console.log(`📦 Criando banco de dados ${process.env.DB_NAME}...`);
     await connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
     console.log('✅ Banco de daçãos criação/verificação!');
     
@@ -46,7 +46,7 @@ async function installDatabase() {
       console.log(`   ✓ ${tableName}`);
     });
     
-    console.log('\n🎉 Instalação do banco de daçãos concluída com sucesso!');
+    console.log('\n🎉 Instalação do banco de dados concluída com sucesso!');
     
   } catch (error) {
     console.error('❌ Erro durante a instalação:', error.message);

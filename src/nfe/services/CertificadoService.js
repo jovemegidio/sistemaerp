@@ -44,7 +44,7 @@ class CertificaçãoService {
             // Criptografar senha
             const senhaCriptografada = this.criptografarSenha(senha);
             
-            // Salvar no banco de daçãos
+            // Salvar no banco de dados
             await this.salvarNoBanco(empresaId, pfxBuffer, senhaCriptografada, info);
             
             // Salvar arquivo físico (backup)
@@ -89,7 +89,7 @@ class CertificaçãoService {
             const pkeyBags = p12.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag });
             
             if (!certBags || !certBags[forge.pki.oids.certBag] || certBags[forge.pki.oids.certBag].length === 0) {
-                throw new Error('Certificação não encontração no arquivo .pfx');
+                throw new Error('Certificação não encontrado no arquivo .pfx');
             }
             
             if (!pkeyBags || !pkeyBags[forge.pki.oids.pkcs8ShroudedKeyBag] || pkeyBags[forge.pki.oids.pkcs8ShroudedKeyBag].length === 0) {
@@ -134,7 +134,7 @@ class CertificaçãoService {
         
         // Extrair CN (Common Name) - geralmente contém CNPJ e razão social
         const cn = cert.subject.getField('CN');
-        const cnValue = cn  cn.value : '';
+        const cnValue = cn ? cn.value : '';
         
         // Extrair CNPJ do CN (formato: RAZAO SOCIAL:CNPJ)
         let cnpj = '';
@@ -150,7 +150,7 @@ class CertificaçãoService {
         
         // Extrair emissor
         const issuerCN = cert.issuer.getField('CN');
-        const emissor = issuerCN  issuerCN.value : 'Desconhecido';
+        const emissor = issuerCN ? issuerCN.value : 'Desconhecido';
         
         return {
             cnpj: cnpj,
@@ -216,7 +216,7 @@ class CertificaçãoService {
         const tagName = tagMatch[1];
         const idMatch = xml.match(new RegExp(`<${tagName}[^>]*Id="([^"]+)"`));
         if (!idMatch) {
-            throw new Error('Atributo Id não encontração na tag de assinatura');
+            throw new Error('Atributo Id não encontrado na tag de assinatura');
         }
         
         const id = idMatch[1];
@@ -225,7 +225,7 @@ class CertificaçãoService {
         const regex = new RegExp(`(<${tagName}[^>]*>.*</${tagName}>)`, 's');
         const contentMatch = xml.match(regex);
         if (!contentMatch) {
-            throw new Error('Conteúdo para assinatura não encontração');
+            throw new Error('Conteúdo para assinatura não encontrado');
         }
         
         const contentToSign = contentMatch[1];
@@ -282,7 +282,7 @@ class CertificaçãoService {
     }
 
     /**
-     * Salva certificação no banco de daçãos
+     * Salva certificação no banco de dados
      */
     async salvarNoBanco(empresaId, pfxBuffer, senhaCriptografada, info) {
         const [existing] = await this.pool.query(

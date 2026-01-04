@@ -5,9 +5,9 @@ async function buscarProdutosGestao(page = 1, limit = 20) {
     const categoriaSelect = document.getElementById('filter-categoria-gestao');
     const estoqueSelect = document.getElementById('filter-estoque-gestao');
 
-    const query = searchInput  searchInput.value.trim() : '';
-    const categoria = categoriaSelect  categoriaSelect.value : '';
-    const estoque = estoqueSelect  estoqueSelect.value : '';
+    const query = searchInput ? searchInput.value.trim() : '';
+    const categoria = categoriaSelect ? categoriaSelect.value : '';
+    const estoque = estoqueSelect ? estoqueSelect.value : '';
 
     // Monta parâmetros para API/paginação
     const params = new URLSearchParams();
@@ -47,7 +47,7 @@ async function buscarProdutosGestao(page = 1, limit = 20) {
         if (baixoEl) baixoEl.textContent = baixo;
 
         if (!Array.isArray(produtos) || produtos.length === 0) {
-            container.innerHTML = '<div class="pad-12 muted">Nenhum produto encontração.</div>';
+            container.innerHTML = '<div class="pad-12 muted">Nenhum produto encontrado.</div>';
             return;
         }
 
@@ -555,7 +555,7 @@ async function searchProductsAndDisplay(query) {
             searchResults.innerHTML = `
                 <div class="search-no-results">
                     <i class="fas fa-search"></i>
-                    <p>Nenhum produto encontração para "${query}"</p>
+                    <p>Nenhum produto encontrado para "${query}"</p>
                     <small>Tente usar códigos ou descrições diferentes</small>
                 </div>
             `;
@@ -1089,7 +1089,7 @@ function initializeHeaderButtons() {
             }
         }
     } catch (e) {
-        console.warn('Could not wire Quick Actions new product button:', e && e.message  e.message : e);
+        console.warn('Could not wire Quick Actions new product button:', e && e.message ? e.message : e);
     }
     
     // User menu items
@@ -1793,7 +1793,7 @@ async function carregarMateriais() {
         // Atualizar info dos materiais
         const materiaisInfo = document.getElementById('materiais-info');
         if (materiaisInfo) {
-            materiaisInfo.textContent = `${materiais.length} materiais encontraçãos`;
+            materiaisInfo.textContent = `${materiais.length} materiais encontrados`;
         }
         
         showToast(`${materiais.length} materiais carregaçãos`, 'success');
@@ -1927,7 +1927,7 @@ async function carregarProdutos(page = 1, limit = 20) {
         // Atualizar info dos produtos
         const produtosInfo = document.getElementById('produtos-info');
         if (produtosInfo) {
-            produtosInfo.textContent = `${total} produtos encontraçãos`;
+            produtosInfo.textContent = `${total} produtos encontrados`;
         }
         
     showToast(`${produtos.length} produtos carregaçãos`, 'success');
@@ -1958,7 +1958,7 @@ async function updateCounters() {
 
                 const total = Array.isArray(materiais)  materiais.length : 0;
                 const inStock = Array.isArray(materiais)  materiais.filter(m => Number(m.quantidade_estoque || m.estoque || 0) > 0).length : 0;
-                const percentInStock = total > 0  Math.round((inStock / total) * 100) : 0;
+                const percentInStock = total > 0 ? Math.round((inStock / total) * 100) : 0;
 
                 if (totalMateriaisElement) animateCounter(totalMateriaisElement, total, 1500);
                 if (materiaisCountEl) animateCounter(materiaisCountEl, total, 1200);
@@ -1984,7 +1984,7 @@ async function updateCounters() {
                     return gt.length >= 8; // treat 8+ digits as present (covers EAN/UPC/GTIN variants)
                 }).length;
 
-                const percentWithGTIN = totalFromBody > 0  Math.round((withGTIN / totalFromBody) * 100) : 0;
+                const percentWithGTIN = totalFromBody > 0 ? Math.round((withGTIN / totalFromBody) * 100) : 0;
 
                 const totalProdutosElement = document.getElementById('total-produtos');
                 const produtosCountEl = document.getElementById('produtos-count');
@@ -2022,7 +2022,7 @@ function initializeMaterialsView() {
     
     if (!materiaisContainer || !produtosContainer) {
         console.error('Containers not found!');
-        showToast('Erro: Containers não encontraçãos', 'error');
+        showToast('Erro: Containers não encontrados', 'error');
         return;
     }
     
@@ -2037,7 +2037,7 @@ window.editarMaterial = function(id) {
     if (typeof window.abrirModalEditarProduto === 'function') {
         window.abrirModalEditarProduto(id);
     } else {
-        showToast(`Erro: Modal de edição não encontração`, 'error');
+        showToast(`Erro: Modal de edição não encontrado`, 'error');
         console.error('❌ Função abrirModalEditarProduto não encontrada');
     }
 };
@@ -2063,7 +2063,7 @@ window.editarProduto = function(id) {
     /* CÓDIGO ANTIGO REMOVIDO - Buscar daçãos e preencher campos
     fetch(`/api/pcp/produtos/${id}`)
         .then(response => {
-            if (!response.ok) throw new Error('Produto não encontração');
+            if (!response.ok) throw new Error('Produto não encontrado');
             return response.json();
         })
         .then(produto => {
@@ -2079,7 +2079,7 @@ window.editarProduto_OLD_BACKUP = function(id) {
     /* Backup da função antiga - não usar
     fetch(`/api/pcp/produtos/${id}`)
         .then(response => {
-            if (!response.ok) throw new Error('Produto não encontração');
+            if (!response.ok) throw new Error('Produto não encontrado');
             return response.json();
         })
         .then(produto => {
@@ -2199,7 +2199,7 @@ window.excluirProduto = function(id) {
     if (confirmacao) {
         // Busca o botão que foi clicação para adicionar indicaçãor de carregamento
         const btnExcluir = document.querySelector(`button[onclick="excluirProduto(${id})"]`);
-        const textoOriginal = btnExcluir  btnExcluir.innerHTML : '';
+        const textoOriginal = btnExcluir ? btnExcluir.innerHTML : '';
         
         if (btnExcluir) {
             btnExcluir.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
@@ -2426,7 +2426,7 @@ window.testMateriais = async function() {
             
             const container = document.getElementById('tabela-materiais-container');
             if (container) {
-                container.innerHTML = `<h3>Teste - ${data.length} materiais encontraçãos</h3>`;
+                container.innerHTML = `<h3>Teste - ${data.length} materiais encontrados</h3>`;
                 console.log('Container updated');
             } else {
                 console.error('Container not found!');
@@ -2465,7 +2465,7 @@ async function searchProducts(query) {
 async function getProductDetails(productId) {
     try {
         const response = await fetch(`${API_BASE_URL}/produtos/${productId}`);
-        if (!response.ok) throw new Error('Produto não encontração');
+        if (!response.ok) throw new Error('Produto não encontrado');
         
         const product = await response.json();
         return product;
@@ -2671,7 +2671,7 @@ function initializeProductSearch() {
 // Function to display search results
 function displaySearchResults(products, container) {
     if (!products || products.length === 0) {
-        container.innerHTML = '<div class="search-no-results">Nenhum produto encontração</div>';
+        container.innerHTML = '<div class="search-no-results">Nenhum produto encontrado</div>';
         container.classList.add('visible');
         container.setAttribute('aria-hidden', 'false');
         return;
@@ -2907,7 +2907,7 @@ function abrirModalNovoProduto() {
                     const digits = this.value.split('').map(Number);
                     let sum = 0;
                     for (let i = 0; i < 12; i++) {
-                        sum += digits[i] * (i % 2 === 0  1 : 3);
+                        sum += digits[i] * (i % 2 === 0 ? 1 : 3);
                     }
                     const checkDigit = (10 - (sum % 10)) % 10;
                     this.value = this.value + checkDigit;
@@ -3043,7 +3043,7 @@ window.testOpenNewProductModal = function() {
         const codigo = modal.querySelector('#produto-codigo');
         const sku = modal.querySelector('#produto-sku');
         const gtin = modal.querySelector('#produto-gtin');
-        console.log('Modal opened. Fields:', { codigo: codigo  codigo.value : null, sku: sku  sku.value : null, gtin: gtin  gtin.value : null });
+        console.log('Modal opened. Fields:', { codigo: codigo ? codigo.value : null, sku: sku ? sku.value : null, gtin: gtin ? gtin.value : null });
     } catch (e) {
         console.error('testOpenNewProductModal error:', e);
     }
@@ -3684,7 +3684,7 @@ function atualizarStatusEstoque(quantidade, minimo, maximo) {
     if (!statusFill || !statusText || !statusPercentage) return;
     
     // Calcula a porcentagem baseada no máximo
-    const porcentagem = maximo > 0  Math.min((quantidade / maximo) * 100, 100) : 0;
+    const porcentagem = maximo > 0 ? Math.min((quantidade / maximo) * 100, 100) : 0;
     
     // Determina o status
     let status = 'normal';
@@ -3773,7 +3773,7 @@ function abrirModalNovoMaterial() {
         // Configurar validação em tempo real
         setupMaterialValidation();
     } else {
-        console.error('Modal de material não encontração');
+        console.error('Modal de material não encontrado');
     }
 }
 
@@ -3796,7 +3796,7 @@ async function salvarNovoMaterial() {
     
     const form = document.getElementById('form-novo-material');
     if (!form) {
-        console.error('Formulário de material não encontração');
+        console.error('Formulário de material não encontrado');
         return;
     }
     

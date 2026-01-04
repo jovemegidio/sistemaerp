@@ -128,7 +128,7 @@ function adicionarItemRequisicao(itemData = null) {
         </td>
         <td>
             <input type="number" class="itemReq-valor" 
-                   value="${itemData.valor_estimação || 0}" 
+                   value="${itemData.valor_estimado || 0}" 
                    min="0" step="0.01"
                    placeholder="0.00"
                    onchange="calcularItemReqTotal(${itemReqCounter}); calcularTotaisRequisicao()">
@@ -218,7 +218,7 @@ function salvarRequisicao(status) {
         data_necessaria: document.getElementById('dataNecessaria').value || null,
         justificativa: justificativa,
         status: status,
-        valor_estimação: total,
+        valor_estimado: total,
         itens: itens,
         historico_aprovacao: requisicaoId  
             requisicoes.find(r => r.id === requisicaoId).historico_aprovacao || [] : [],
@@ -262,7 +262,7 @@ function coletarItensRequisicao() {
             descricao: descricao,
             quantidade: quantidade,
             unidade: row.querySelector('.itemReq-unidade').value,
-            valor_estimação: valor,
+            valor_estimado: valor,
             total_estimação: quantidade * valor
         });
     });
@@ -356,7 +356,7 @@ function visualizarRequisicao(requisicaoId) {
                         <td style="padding: 12px;">${item.descricao}</td>
                         <td style="padding: 12px; text-align: center;">${item.quantidade}</td>
                         <td style="padding: 12px; text-align: center;">${item.unidade}</td>
-                        <td style="padding: 12px; text-align: right;">${formatarMoeda(item.valor_estimação)}</td>
+                        <td style="padding: 12px; text-align: right;">${formatarMoeda(item.valor_estimado)}</td>
                         <td style="padding: 12px; text-align: right; font-weight: 600;">${formatarMoeda(item.total_estimação)}</td>
                     </tr>
                 `).join('')}
@@ -366,7 +366,7 @@ function visualizarRequisicao(requisicaoId) {
         <div style="background: #f9fafb; padding: 16px; border-radius: 12px; margin-top: 16px;">
             <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; color: #8b5cf6;">
                 <span>Valor Total Estimação:</span>
-                <span>${formatarMoeda(req.valor_estimação)}</span>
+                <span>${formatarMoeda(req.valor_estimado)}</span>
             </div>
         </div>
         
@@ -531,7 +531,7 @@ function renderizarTabelaRequisicoes() {
             <td>${req.departamento}</td>
             <td>${formatarData(req.data)}</td>
             <td><span class="priority-badge priority-${req.prioridade}">${req.prioridade}</span></td>
-            <td><strong>${formatarMoeda(req.valor_estimação)}</strong></td>
+            <td><strong>${formatarMoeda(req.valor_estimado)}</strong></td>
             <td><span class="badge-status badge-${req.status}">${getStatusLabelReq(req.status)}</span></td>
             <td>
                 <div style="display: flex; gap: 8px;">
@@ -632,10 +632,10 @@ function gerarRequisicoesExemplo() {
             data_necessaria: '2025-12-20',
             justificativa: 'Reposição de material para produção',
             status: 'aguardando_aprovacao',
-            valor_estimação: 15000,
+            valor_estimado: 15000,
             itens: [
-                { descricao: 'Cabo Triplex 10mm²', quantidade: 500, unidade: 'M', valor_estimação: 25, total_estimação: 12500 },
-                { descricao: 'Conectores', quantidade: 100, unidade: 'UN', valor_estimação: 25, total_estimação: 2500 }
+                { descricao: 'Cabo Triplex 10mm²', quantidade: 500, unidade: 'M', valor_estimado: 25, total_estimação: 12500 },
+                { descricao: 'Conectores', quantidade: 100, unidade: 'UN', valor_estimado: 25, total_estimação: 2500 }
             ],
             historico_aprovacao: [],
             created_at: '2025-12-10T10:00:00Z'
@@ -649,9 +649,9 @@ function gerarRequisicoesExemplo() {
             prioridade: 'normal',
             justificativa: 'Ferramentas para manutenção preventiva',
             status: 'aprovada',
-            valor_estimação: 8500,
+            valor_estimado: 8500,
             itens: [
-                { descricao: 'Jogo de chaves', quantidade: 5, unidade: 'UN', valor_estimação: 350, total_estimação: 1750 }
+                { descricao: 'Jogo de chaves', quantidade: 5, unidade: 'UN', valor_estimado: 350, total_estimação: 1750 }
             ],
             historico_aprovacao: [
                 {

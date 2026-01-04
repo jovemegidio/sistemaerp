@@ -7,7 +7,7 @@ const daçãosClientes = `Cliente;51.604.560/0001-96;"CONSORCIO SMART CITY SP";"
 Cliente;04.528.571/0001-54;"M.S. COMERCIO DE MATERIAIS E MANUTENCOES ELETRICAS LTDA";"ELETTRO PONTO MATERIAIS ELETRICOS";" (15) 3251-1444";;elettroponto@hotmail.com;"Tatuí (SP)";SP;"RUA QUINZE DE NOVEMBRO, 601";CENTRO;18270-310;;;;687.156.661.116;Sim;;;;"Augusto Santos";;Não;Não;,00;11015,00;;" ";;;"2025-02-13 17:29:09";"2025-05-30 09:56:53";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitoração"
 Cliente;44.711.104/0001-80;"CASA DA ELETRICIDADE LTDA";"CASA DA ELETRICIDADE";" (34) 3427-2612";;casadaeletricidadeplanura@hotmail.com;"Planura (MG)";MG;"RUA FRONTEIRA, 334";"VILA PAIVA";38220-000;;;;004.231.492/0066;Sim;;Industrial;;;;Não;Não;,00;2745,00;;" ";;;"2025-02-13 17:29:10";"2025-11-28 11:26:08";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitoração"`;
 
-// Configuração do banco de daçãos
+// Configuração do banco de dados
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -54,9 +54,9 @@ async function importarClientes() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de daçãos...');
+        console.log('🔌 Conectando ao banco de dados...');
         connection = await mysql.createConnection(dbConfig);
-        console.log('✅ Conectação ao banco de daçãos!\n');
+        console.log('✅ Conectação ao banco de dados!\n');
 
         // Processar linhas
         const linhas = daçãosClientes.trim().split('\n');
@@ -246,7 +246,7 @@ async function importarClientes() {
     } finally {
         if (connection) {
             await connection.end();
-            console.log('\n🔌 Conexão com banco de daçãos encerrada.');
+            console.log('\n🔌 Conexão com banco de dados encerrada.');
         }
     }
 }

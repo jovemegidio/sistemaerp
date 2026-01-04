@@ -622,7 +622,7 @@ class ChatSupportApp {
     // Criar nova conversa
     const conversation = {
       id: 'conv_' + Date.now(),
-      userId: this.user  this.user.id : 'anonymous',
+      userId: this.user ? this.user.id : 'anonymous',
       messages: [],
       createdAt: new Date().toISOString(),
       lastMessage: '',
@@ -665,7 +665,7 @@ class ChatSupportApp {
     // Registrar no servidor se socket disponível
     if (this.socket) {
       this.socket.emit('room:create', {
-        userId: this.user  this.user.id : 'anonymous',
+        userId: this.user ? this.user.id : 'anonymous',
         roomId: conversation.id
       });
     }
@@ -718,7 +718,7 @@ class ChatSupportApp {
       this.socket.emit('message:send', {
         roomId: this.currentConversation.id,
         content: content,
-        userId: this.user  this.user.id : 'anonymous'
+        userId: this.user ? this.user.id : 'anonymous'
       });
     }
     
@@ -835,11 +835,11 @@ class ChatSupportApp {
     
     // Preparar daçãos para transferência
     const transferData = {
-      userId: this.user  this.user.id : 'anonymous',
-      userName: this.user  this.user.username : 'Visitante',
-      userEmail: this.user  this.user.email : '',
-      conversationId: this.currentConversation  this.currentConversation.id : null,
-      messages: this.currentConversation  this.currentConversation.messages : [],
+      userId: this.user ? this.user.id : 'anonymous',
+      userName: this.user ? this.user.username : 'Visitante',
+      userEmail: this.user ? this.user.email : '',
+      conversationId: this.currentConversation ? this.currentConversation.id : null,
+      messages: this.currentConversation ? this.currentConversation.messages : [],
       reason: 'Solicitação de atendente humano'
     };
     
@@ -878,7 +878,7 @@ class ChatSupportApp {
         if (this.socket) {
           this.socket.emit('room:transfer', {
             roomId: this.currentConversation.id,
-            userId: this.user  this.user.id : 'anonymous',
+            userId: this.user ? this.user.id : 'anonymous',
             ticketId: result.ticket.id
           });
         }
@@ -1309,7 +1309,7 @@ class ChatSupportApp {
       priority,
       description,
       status: 'open',
-      userId: this.user  this.user.id : 'anonymous',
+      userId: this.user ? this.user.id : 'anonymous',
       createdAt: new Date().toISOString(),
       responses: []
     };
@@ -1450,7 +1450,7 @@ class ChatSupportApp {
     const response = {
       id: 'resp_' + Date.now(),
       content,
-      author: this.user  this.user.username : 'Você',
+      author: this.user ? this.user.username : 'Você',
       createdAt: new Date().toISOString()
     };
     

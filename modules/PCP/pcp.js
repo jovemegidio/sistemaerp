@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderTodosFaturaçãos(list) {
         if (!todosFaturaçãosBody) return; // nothing to render into
         if (!Array.isArray(list) || list.length === 0) {
-            todosFaturaçãosBody.innerHTML = '<div class="text-sm text-center pad-24 muted">Nenhum pedido faturação encontração.</div>';
+            todosFaturaçãosBody.innerHTML = '<div class="text-sm text-center pad-24 muted">Nenhum pedido faturação encontrado.</div>';
             return;
         }
         todosFaturaçãosBody.innerHTML = list.map(p => `
@@ -290,10 +290,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (materiaisVisible) carregarMateriais();
                 if (ordemCompraVisible) carregarMateriaisParaSelect();
                 if (materiaisVisible) carregarProdutos();
-            } catch (e) { console.warn('materials_changed handler error:', e && e.message  e.message : e); }
+            } catch (e) { console.warn('materials_changed handler error:', e && e.message ? e.message : e); }
         });
         socket.on('products_changed', (products) => {
-            try { if (views.materiais && !views.materiais.classList.contains('hidden')) carregarProdutos(); } catch (e) { console.warn('products_changed handler error:', e && e.message  e.message : e); }
+            try { if (views.materiais && !views.materiais.classList.contains('hidden')) carregarProdutos(); } catch (e) { console.warn('products_changed handler error:', e && e.message ? e.message : e); }
         });
     } catch (err) {
         console.warn('Socket.IO não disponível:', err.message);
@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Verificar se o container existe (compatibilidade com nova view)
             if (!containers.materiais) {
-                console.log('⚠️ Container de materiais não encontração - usando nova view de materiais');
+                console.log('⚠️ Container de materiais não encontrado - usando nova view de materiais');
                 return;
             }
             
@@ -610,7 +610,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Verificar se o container existe (compatibilidade com nova view)
             if (!containers.produtos) {
-                console.log('⚠️ Container de produtos não encontração - usando nova view de materiais');
+                console.log('⚠️ Container de produtos não encontrado - usando nova view de materiais');
                 return;
             }
             
@@ -652,7 +652,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     variacoes = variacaoRaw.split(/[,;]+/).map(s=>s.trim()).filter(Boolean);
                                 }
                             } catch (e) { variacoes = [] }
-                            const variacaoHtml = variacoes.length  variacoes.map(v => `<span class="var-badge">${v}</span>`).join(' ') : '';
+                            const variacaoHtml = variacoes.length ? variacoes.map(v => `<span class="var-badge">${v}</span>`).join(' ') : '';
                             const custo = (typeof p.custo_unitario !== 'undefined'  parseFloat(p.custo_unitario) : (p.custo || 0)) || 0;
                             return `
                             <tr data-id="${p.id}">
@@ -704,7 +704,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const del = await fetch(`${API_BASE_URL}/produtos/${id}`, { method: 'DELETE' });
                         if (!del || !del.ok) {
                             const b = del  await del.json().catch(()=>null) : null;
-                            const m = b && b.message  b.message : 'Falha ao excluir produto';
+                            const m = b && b.message ? b.message : 'Falha ao excluir produto';
                             showToast(m, 'error');
                             return;
                         }
@@ -745,7 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function carregarMaterialParaEdicao(id) {
         try {
             const resp = await fetch(`${API_BASE_URL}/materiais/${id}`);
-            if (!resp.ok) throw new Error('Material não encontração');
+            if (!resp.ok) throw new Error('Material não encontrado');
             const m = await resp.json();
             // Preencher formulário
             document.getElementById('codigo_material_form').value = m.codigo_material || '';
@@ -850,7 +850,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try { cols = JSON.parse(containers.produtos.dataset.columns || '[]'); } catch (e) { cols = []; }
         const schema = fieldSchemas.produto || {};
         // Build a list of keys: prefer server columns, but keep schema order for known fields
-        let keys = Array.isArray(cols) && cols.length  cols.slice() : Object.keys(schema);
+        let keys = Array.isArray(cols) && cols.length ? cols.slice() : Object.keys(schema);
         // Ensure common product fields are present and in a friendly order
         const preferred = ['codigo','descricao','unidade_medida','quantidade_estoque','custo_unitario'];
         keys = preferred.concat(keys.filter(k => !preferred.includes(k)));
@@ -894,7 +894,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     tagContainer.innerHTML = '';
                     cleaned.forEach((t) => {
                         if (!t) return;
-                        const display = t.length > 60  t.slice(0,57) + '...' : t;
+                        const display = t.length > 60 ? t.slice(0,57) + '...' : t;
                         const span = document.createElement('span');
                         span.className = 'tag';
                         span.innerText = display;
@@ -920,7 +920,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     } catch (e) {
                         // fallthrough to legacy CSV
                     }
-                    return v  v.split(/[,;]+/).map(s => s.trim()).filter(Boolean) : [];
+                    return v ? v.split(/[,;]+/).map(s => s.trim()).filter(Boolean) : [];
                 }
 
                 tagInput.addEventListener('keydown', (ev) => {
@@ -1013,8 +1013,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const qEl = document.getElementById('product-quantidade_estoque') || document.getElementById('product-quantidade') || document.getElementById('product-quantidadeEstoque');
         const cEl = document.getElementById('product-custo_unitario') || document.getElementById('product-custo') || document.getElementById('product-custoUnitario');
         const totalEl = document.getElementById('product-custo-total');
-        const q = parseFloat(qEl  qEl.value : 0) || 0;
-        const c = parseFloat(cEl  cEl.value : 0) || 0;
+        const q = parseFloat(qEl ? qEl.value : 0) || 0;
+        const c = parseFloat(cEl ? cEl.value : 0) || 0;
         if (totalEl) totalEl.value = (q * c).toFixed(2);
     }
 
@@ -1023,8 +1023,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const qEl = document.getElementById('order-quantidade');
         const uEl = document.getElementById('order-valor_unitario');
         const totalEl = document.getElementById('order-valor_total');
-        const q = parseFloat(qEl  qEl.value : 0) || 0;
-        const u = parseFloat(uEl  uEl.value : 0) || 0;
+        const q = parseFloat(qEl ? qEl.value : 0) || 0;
+        const u = parseFloat(uEl ? uEl.value : 0) || 0;
         if (totalEl) {
             // keep two decimals, handle NaN gracefully
             totalEl.value = (q * u).toFixed(2);
@@ -1100,11 +1100,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const parsed = JSON.parse(raw);
             payload.variacao = Array.isArray(parsed)  parsed.map(s=>String(s).trim()).filter(Boolean) : [];
         } catch (e) {
-            payload.variacao = raw  raw.split(/[,;]+/).map(s=>s.trim()).filter(Boolean) : [];
+            payload.variacao = raw ? raw.split(/[,;]+/).map(s=>s.trim()).filter(Boolean) : [];
         }
     }
         // minimal validation
-    if (!payload.codigo || !payload.descricao) { showToast('Preencha código e descrição', 'warning'); return; }
+    if (!payload.codigo || !payload.descricao) { showToast('Preencha código e descricao', 'warning'); return; }
         try {
             let resp;
             if (id) {
@@ -1200,7 +1200,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Verificar se produtos têm daçãos válidos
                 const itemsValidos = items.filter(item => item.codigo && item.descricao && item.quantidade > 0);
                 if (itemsValidos.length === 0) {
-                    errors.push('Preencha código, descrição e quantidade para pelo menos um produto');
+                    errors.push('Preencha código, descricao e quantidade para pelo menos um produto');
                 }
             }
             
@@ -1268,7 +1268,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             // 5. MOSTRAR ERROS SE HOUVER
             if (errors.length > 0) {
-                console.warn('❌ [VALIDAÇÃO] Erros encontraçãos:', errors);
+                console.warn('❌ [VALIDAÇÃO] Erros encontrados:', errors);
                 
                 // Criar resumo de validação
                 const existingSummary = document.querySelector('.validation-summary');
@@ -1292,7 +1292,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalBody.scrollTop = 0;
                 }
                 
-                showToast(`${errors.length} erro(s) de validação encontração(s)`, 'warning');
+                showToast(`${errors.length} erro(s) de validação encontrado(s)`, 'warning');
                 return;
             }
             
@@ -1318,26 +1318,26 @@ document.addEventListener('DOMContentLoaded', () => {
                 items: items,
                 quantidade_total: items.reduce((sum, item) => sum + item.quantidade, 0),
                 valor_total: parseFloat(valorTotal.value) || items.reduce((sum, item) => sum + (item.quantidade * item.valor_unitario), 0),
-                data_previsao_entrega: dataPrevisao  dataPrevisao.value || null : null,
-                observacoes: (observacoes  observacoes.value || '' : '').toString().trim(),
-                cliente: (cliente  cliente.value || '' : '').toString().trim(),
-                cliente_id: (clienteId  clienteId.value : '') || null,
-                contato: (contato  contato.value || '' : '').toString().trim(),
-                email: (email  email.value || '' : '').toString().trim(),
-                telefone: (telefone  telefone.value || '' : '').toString().trim(),
-                frete: (frete  frete.value || '' : '').toString().trim(),
-                vendedor: (vendedor  vendedor.value || '' : '').toString().trim(),
-                numero_orcamento: (numeroOrcamento  numeroOrcamento.value || '' : '').toString().trim(),
-                revisao: (revisao  revisao.value || '' : '').toString().trim(),
-                pedido_referencia: (pedidoReferencia  pedidoReferencia.value || '' : '').toString().trim(),
+                data_previsao_entrega: dataPrevisao ? dataPrevisao.value || null : null,
+                observacoes: (observacoes ? observacoes.value || '' : '').toString().trim(),
+                cliente: (cliente ? cliente.value || '' : '').toString().trim(),
+                cliente_id: (clienteId ? clienteId.value : '') || null,
+                contato: (contato ? contato.value || '' : '').toString().trim(),
+                email: (email ? email.value || '' : '').toString().trim(),
+                telefone: (telefone ? telefone.value || '' : '').toString().trim(),
+                frete: (frete ? frete.value || '' : '').toString().trim(),
+                vendedor: (vendedor ? vendedor.value || '' : '').toString().trim(),
+                numero_orcamento: (numeroOrcamento ? numeroOrcamento.value || '' : '').toString().trim(),
+                revisao: (revisao ? revisao.value || '' : '').toString().trim(),
+                pedido_referencia: (pedidoReferencia ? pedidoReferencia.value || '' : '').toString().trim(),
                 data_liberacao: document.getElementById('order-data_liberacao').value || null
             };
             // new fields: variacao (array), embalagem, lances (array), transportaçãora (object)
             const rawVariacao = (document.getElementById('order-variacao').value || '').toString().trim();
-            payload.variacao = rawVariacao  rawVariacao.split(/[;,]+/).map(s=>s.trim()).filter(Boolean) : [];
+            payload.variacao = rawVariacao ? rawVariacao.split(/[;,]+/).map(s=>s.trim()).filter(Boolean) : [];
             payload.embalagem = (document.getElementById('order-embalagem').value || '').toString().trim();
             const rawLances = (document.getElementById('order-lances').value || '').toString().trim();
-            payload.lances = rawLances  rawLances.split(/[;,]+/).map(s=> { const n=parseFloat(s); return Number.isFinite(n) n: s; }).filter(()=>true) : [];
+            payload.lances = rawLances ? rawLances.split(/[;,]+/).map(s=> { const n=parseFloat(s); return Number.isFinite(n) n: s; }).filter(()=>true) : [];
             payload.transportaçãora = {
                 nome: (document.getElementById('order-transportaçãora_nome').value || '').toString().trim(),
                 fone: (document.getElementById('order-transportaçãora_fone').value || '').toString().trim(),
@@ -1503,11 +1503,11 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 previewEl.innerHTML = '<span class="pcp-spinner" aria-hidden="true"></span> Consultando produto...';
                 const resp = await fetch(`${API_BASE_URL}/produtosq=${encodeURIComponent(code)}&limit=1`);
-                if (!resp.ok) { previewEl.innerText = 'Produto não encontração'; return; }
+                if (!resp.ok) { previewEl.innerText = 'Produto não encontrado'; return; }
                 const body = await resp.json();
                 const list = Array.isArray(body)  body : (body.rows || []);
                 const prod = list[0];
-                if (!prod) { previewEl.innerText = 'Produto não encontração'; return; }
+                if (!prod) { previewEl.innerText = 'Produto não encontrado'; return; }
                 const estoque = Number(prod.quantidade_estoque || prod.quantidade || prod.estoque || 0).toFixed(2);
                 previewEl.innerHTML = `<strong>${escapeHtml(prod.codigo || prod.codigo_produto || prod.descricao || 'Produto')}</strong> — ${escapeHtml(prod.descricao || prod.descricao_produto || '')} <div class="text-sm muted">Estoque: ${estoque}</div>`;
             } catch (err) { if (previewEl) previewEl.innerText = 'Erro ao buscar produto'; }
@@ -1531,7 +1531,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!clientInput || !clientDatalist) return;
         
         let timer = null;
-        let clientesCache = []; // Cache dos clientes encontraçãos
+        let clientesCache = []; // Cache dos clientes encontrados
         
         clientInput.addEventListener('input', (e)=>{
             clearTimeout(timer);
@@ -1639,7 +1639,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function handleEditProduct(id) {
       try {
         const res = await fetch(`${API_BASE_URL}/produtos/${id}`);
-        if (!res.ok) throw new Error('Produto não encontração');
+        if (!res.ok) throw new Error('Produto não encontrado');
         const prod = await res.json();
         openProductModal(prod);
     } catch (err) { showToast('Não foi possível obter o produto para edição', 'error'); }
@@ -1856,7 +1856,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
                     // Include pedidos in inline results (search by empresa, pedido id, product code/name)
                     pedidos.forEach(pd => items.push({ type: 'Pedido', title: `Pedido #${pd.id}`, subtitle: pd.cliente || '', meta: `${pd.produto_codigo||pd.produto_descricao||''} • Qtd:${pd.quantidade||0}`, id: pd.id }));
                     if (items.length === 0) {
-                        if (searchInline) { searchInline.innerHTML = '<div class="pad-12 text-sm muted">Nenhum resultação encontração</div>'; searchInline.classList.add('visible'); }
+                        if (searchInline) { searchInline.innerHTML = '<div class="pad-12 text-sm muted">Nenhum resultação encontrado</div>'; searchInline.classList.add('visible'); }
                         return;
                     }
                     if (searchInline) {
@@ -1902,7 +1902,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
         const materias = data.results.materiais || [];
         const produtos = data.results.produtos || [];
     const pedidos = data.results.pedidos || [];
-        let html = `<div class="pad-8 muted">Resultaçãos para <strong>"${q}"</strong></div>`;
+        let html = `<div class="pad-8 muted">Resultados para <strong>"${q}"</strong></div>`;
         if (ordens.length) {
             html += '<h4>Ordens</h4>' + ordens.map(o=>`<div class="list-row pad-8"><div><strong>OP-${o.id} ${o.codigo_produto||''}</strong> — ${o.descricao_produto||''}</div><div class="text-sm muted">${o.status||''} • ${new Date(o.data_previsao_entrega||o.data_pedido||Date.now()).toLocaleDateString()}</div></div>`).join('');
         }
@@ -1915,7 +1915,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
         if (produtos.length) {
             html += '<h4>Produtos</h4>' + produtos.map(p=>`<div class="list-row pad-8"><div><strong>${p.codigo||p.descricao}</strong> — ${p.descricao||''}</div><div class="text-sm muted">Est: ${p.quantidade_estoque || 0}</div></div>`).join('');
         }
-    if (!ordens.length && !materias.length && !produtos.length) html += '<div class="pad-12 muted">Nenhum resultação encontração</div>';
+    if (!ordens.length && !materias.length && !produtos.length) html += '<div class="pad-12 muted">Nenhum resultação encontrado</div>';
         searchResultsBody.innerHTML = html;
         // attach handlers for opening pedido
         setTimeout(() => {
@@ -1925,7 +1925,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
                     const id = ev.currentTarget.dataset.id;
                     try {
                         const resp = await fetch(`${API_BASE_URL}/pedidos/${id}`);
-                        if (!resp.ok) throw new Error('Pedido não encontração');
+                        if (!resp.ok) throw new Error('Pedido não encontrado');
                         const pedido = await resp.json();
                         // show in item-edit-modal
                         const editModal = document.getElementById('item-edit-modal');
@@ -1954,7 +1954,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
     async function openPedidoQuickView(id) {
         try {
             const resp = await fetch(`${API_BASE_URL}/pedidos/${encodeURIComponent(id)}`);
-            if (!resp.ok) throw new Error('Pedido não encontração');
+            if (!resp.ok) throw new Error('Pedido não encontrado');
             const pedido = await resp.json();
             const editModal = document.getElementById('item-edit-modal');
             const editTitle = document.getElementById('item-edit-title');
@@ -2085,7 +2085,7 @@ async function loadCurrentUser(retries = 3, delayMs = 500) {
             return null;
         }
         const data = await res.json().catch(()=>null);
-        const user = data && data.user  data.user : null;
+        const user = data && data.user ? data.user : null;
         if (user) setCurrentUserUI(user);
         return user;
     } catch (err) {
@@ -2129,7 +2129,7 @@ async function renderPainelCustos() {
     try {
         console.log('🔍 Renderizando painel de custos...');
         if (!panelCustos) {
-            console.warn('⚠️ Elemento panel-custos/painel-custos não encontração');
+            console.warn('⚠️ Elemento panel-custos/painel-custos não encontrado');
             return;
         }
         const resp = await fetch(`${API_BASE_URL}/produtos`);
@@ -2141,7 +2141,7 @@ async function renderPainelCustos() {
     const labels = top.map(p=>p.descricao.slice(0,20) || p.codigo || '');
     const dataVals = top.map(p=> (parseFloat(p.quantidade_estoque||0)*parseFloat(p.custo_unitario||0)).toFixed(2));
     if (!panelCustos) {
-        console.warn('⚠️ Elemento painel-custos não encontração');
+        console.warn('⚠️ Elemento painel-custos não encontrado');
         return;
     }
     panelCustos.innerHTML = `<div class="w-100"><div class="text-center"><h3 class="mt-0">Custo total em estoque</h3><div class="fw-700 kpi-number">R$ ${totalCusto.toFixed(2)}</div></div><div class="mt-8"><canvas id="chart-custos" class="chart-small" ></canvas></div></div>`;
@@ -2171,7 +2171,7 @@ async function renderPainelDashboard() {
         const ords = normalizeListResponse(ordsRaw);
         const totalProds = prods.count || 0;
         const totalMats = mats.count || 0;
-        const ordItems = ords.items && ords.items.length  ords.items : [];
+        const ordItems = ords.items && ords.items.length ? ords.items : [];
         const ordensAFazer = ordItems.filter(isOrderActive).length;
 
         if (!panelDashboard) return;
@@ -2196,7 +2196,7 @@ async function renderPainelDashboard() {
                     options: { plugins: { legend: { position: 'bottom' } } }
                 });
             } catch (chartErr) {
-                console.warn('Erro ao desenhar chart-kpis:', chartErr && chartErr.message  chartErr.message : chartErr);
+                console.warn('Erro ao desenhar chart-kpis:', chartErr && chartErr.message ? chartErr.message : chartErr);
             }
         }
     } catch (err) {
@@ -2211,9 +2211,9 @@ async function renderPainelPedidos() {
         // On the dashboard we want to show approved/invoiced orders by default
         pedidosFilter = 'faturação';
         const resp = await fetch(`${API_BASE_URL}/pedidos`);
-        if (!resp.ok) { panelPedidos.innerHTML = '<div>Nenhum pedido encontração</div>'; return; }
+        if (!resp.ok) { panelPedidos.innerHTML = '<div>Nenhum pedido encontrado</div>'; return; }
         const pedidos = await resp.json();
-        if (!Array.isArray(pedidos) || pedidos.length === 0) { panelPedidos.innerHTML = '<div>Nenhum pedido encontração</div>'; return; }
+        if (!Array.isArray(pedidos) || pedidos.length === 0) { panelPedidos.innerHTML = '<div>Nenhum pedido encontrado</div>'; return; }
 
         // filter controls - use CSS utility classes instead of inline styles
     const controls = document.createElement('div'); controls.classList.add('controls-row');
@@ -2313,7 +2313,7 @@ async function renderPainelFaturaçãos() {
         const panel = document.getElementById('panel-pedidos');
         if (!panel) return;
         if (!Array.isArray(faturaçãos) || faturaçãos.length === 0) {
-            panel.innerHTML = '<div class="pad-12 muted">Nenhum pedido faturação encontração.</div>';
+            panel.innerHTML = '<div class="pad-12 muted">Nenhum pedido faturação encontrado.</div>';
             return;
         }
         // render table
@@ -2347,7 +2347,7 @@ async function openTodosFaturaçãosModal(page = 1, limit = 20) {
         const data = await resp.json();
         const rows = data.rows || [];
         const total = Number(data.total || 0);
-    if (!rows.length) { body.innerHTML = '<div class="muted">Nenhum pedido encontração.</div>'; return; }
+    if (!rows.length) { body.innerHTML = '<div class="muted">Nenhum pedido encontrado.</div>'; return; }
         body.innerHTML = rows.map(p=>{
             const dt = p.created_at  new Date(p.created_at).toLocaleString() : (p.data_prevista new Date(p.data_prevista).toLocaleString(): '');
             const produtos = (p.produtos_preview && Array.isArray(p.produtos_preview))  p.produtos_preview.map(x=>`${x.codigo} x${x.quantidade}`).join(', ') : '';
@@ -2401,7 +2401,7 @@ async function openTodosPrazosModal(page = 1, limit = 20) {
         const data = await resp.json();
         const rows = data.rows || [];
         const total = Number(data.total || 0);
-    if (!rows.length) { body.innerHTML = '<div class="muted">Nenhum prazo encontração.</div>'; return; }
+    if (!rows.length) { body.innerHTML = '<div class="muted">Nenhum prazo encontrado.</div>'; return; }
         body.innerHTML = rows.map(p=>{
             const dt = p.data_prevista  new Date(p.data_prevista).toLocaleString() : (p.prazo_entrega `${p.prazo_entrega} dias`:'');
             const produtos = (p.produtos_preview && Array.isArray(p.produtos_preview))  p.produtos_preview.map(x=>`${x.codigo} x${x.quantidade}`).join(', ') : '';
@@ -2579,7 +2579,7 @@ async function renderPCPKPIs() {
         const totalProds = prodsRes.count || 0;
         const totalMats = matRes.count || 0;
         // determine active orders (not faturação / concluido) by heuristic
-        const ordItems = ordRes.items.length  ordRes.items : [];
+        const ordItems = ordRes.items.length ? ordRes.items : [];
         const ordensAFazer = ordItems.filter(o=> {
             const st = (o && (o.status || o.estação || '')).toString().toLowerCase();
             if (!st) return true; // unknown status treated as active
@@ -2596,7 +2596,7 @@ async function renderPCPKPIs() {
 
         // Prepare sparkline data from ordRes by counting orders per day (last 7 days)
         try {
-            const ordersArray = ordRes.items && ordRes.items.length  ordRes.items : [];
+            const ordersArray = ordRes.items && ordRes.items.length ? ordRes.items : [];
             const days = 7;
             const labels = [];
             const counts = [];
@@ -2640,7 +2640,7 @@ async function renderPCPKPIs() {
                 }
             } else {
                 // no canvas or Chart, render fallback bar
-                const wrapper = canvasEl  canvasEl.parentElement : el;
+                const wrapper = canvasEl ? canvasEl.parentElement : el;
                 if (wrapper) {
                     const total = counts.reduce((s,n)=>s+n,0) || 0;
                     const barHtml = `<div class="kpi-spark-fallback"><div class="kpi-spark-bar"><div class="kpi-spark-fill" style="width:${Math.min(100, total)}%"></div></div></div>`;
@@ -2660,7 +2660,7 @@ async function renderPCPRecentOrders(limit = 6) {
         if (!resp.ok) {
             // fallback: try non-paginated endpoint
             const fallbackResp = await fetch(`${API_BASE_URL}/pedidos`);
-            if (!fallbackResp.ok) { el.innerHTML = '<div class="muted">Nenhum pedido encontração</div>'; return; }
+            if (!fallbackResp.ok) { el.innerHTML = '<div class="muted">Nenhum pedido encontrado</div>'; return; }
             const fallbackData = await fallbackResp.json();
             var pedidos = Array.isArray(fallbackData)  fallbackData : (fallbackData.rows || []);
         } else {
@@ -2824,7 +2824,7 @@ async function renderMateriaisModalList() {
                                             };
                                             try {
                                                 const editForm = document.getElementById('form-novo-material');
-                                                const editingId = editForm && editForm.dataset && editForm.dataset.editingId  editForm.dataset.editingId : null;
+                                                const editingId = editForm && editForm.dataset && editForm.dataset.editingId ? editForm.dataset.editingId : null;
                                                 if (!editingId) {
                                                     // create new material
                                                     const r = await fetch(`${API_BASE_URL}/materiais`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });

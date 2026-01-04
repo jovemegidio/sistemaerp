@@ -187,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Abrir modal
   function openForgotPasswordModal() {
-    const email = emailInput  emailInput.value.trim() : '';
+    const email = emailInput ? emailInput.value.trim() : '';
     
     // Pre-preenche email se já digitação
     const verifyEmailInput = document.getElementById('verify-email');
@@ -634,8 +634,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const usernameEl = document.getElementById('email');
     const passwordEl = document.getElementById('password');
-    const username = usernameEl  usernameEl.value.trim() : '';
-    const password = passwordEl  passwordEl.value : '';
+    const username = usernameEl ? usernameEl.value.trim() : '';
+    const password = passwordEl ? passwordEl.value : '';
 
     if (!username || !password) {
       if (errorMessageDiv) {
@@ -783,7 +783,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (error) {
       if (errorMessageDiv) {
-        const msg = error && error.message  error.message : 'Erro ao efetuar login';
+        const msg = error && error.message ? error.message : 'Erro ao efetuar login';
         errorMessageDiv.textContent = msg;
         errorMessageDiv.classList.add('visible');
         // focus the email field so user can retry quickly

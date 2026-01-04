@@ -1,4 +1,4 @@
-// Script para inserir produtos de teste no banco de daçãos
+// Script para inserir produtos de teste no banco de dados
 const mysql = require('mysql2/promise');
 
 const db = mysql.createPool({

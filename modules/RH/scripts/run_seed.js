@@ -28,7 +28,7 @@ const path = require('path');
     await conn.end()
     process.exit(0)
   } catch (err) {
-    console.error('Error running seed:', err && err.message  err.message : err)
+    console.error('Error running seed:', err && err.message ? err.message : err)
     console.error(err.stack || 'no stack')
     process.exit(3)
   }

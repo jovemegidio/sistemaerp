@@ -287,7 +287,7 @@ async function executarSeed() {
             try {
                 const [result] = await connection.execute(`SELECT COUNT(*) as total FROM ${tabela}`);
                 const total = result[0].total;
-                const status = total > 0  colors.green + '✅' : colors.yellow + '⚠️';
+                const status = total > 0 ? colors.green + '✅' : colors.yellow + '⚠️';
                 console.log(`   ${status} ${tabela.padEnd(25)} ${total.toString().padStart(5)} registros${colors.reset}`);
             } catch (err) {
                 console.log(`   ${colors.red}❌ ${tabela.padEnd(25)} ERRO${colors.reset}`);

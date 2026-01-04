@@ -21,7 +21,7 @@ function request(options, body) {
   const login = await request({ hostname: baseHost, port: basePort, path: '/api/pcp/login', method: 'POST', headers: { 'Content-Type': 'application/json' } }, JSON.stringify({ email: 'clemerson.silva@aluforce.ind.br', password: 'admin123' }));
   console.log('Login headers:', login.headers);
   const setCookie = login.headers['set-cookie'] || login.headers['Set-Cookie'] || [];
-  const cookie = Array.isArray(setCookie) && setCookie.length>0  setCookie[0].split(';')[0] : (typeof setCookie === 'string'  setCookie.split(';')[0] : '');
+  const cookie = Array.isArray(setCookie) && setCookie.length>0 ? setCookie[0].split(';')[0] : (typeof setCookie === 'string'  setCookie.split(';')[0] : '');
   console.log('Login status', login.status, 'cookie', cookie);
 
   // get produto (use cookie if present)

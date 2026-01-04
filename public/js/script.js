@@ -269,7 +269,7 @@ function initPCPPage() {
     card.dataset.id = ordem.id;
     card.innerHTML = `
         <div class="card-id">OP-${String(ordem.id).padStart(4, '0')}</div>
-        <div class="card-desc">${ordem.descrição_produto}</div>
+        <div class="card-desc">${ordem.descricao_produto}</div>
         <div class="card-footer">
             <span>Qtd: ${ordem.quantidade}</span>
             <span class="date">${new Date(ordem.data_previsao_entrega).toLocaleDateString()}</span>
@@ -325,7 +325,7 @@ function initPCPPage() {
         e.preventDefault();
         const novaOrdem = {
             código_produto: document.getElementById('código_produto').value,
-            descrição_produto: document.getElementById('descrição_produto').value,
+            descricao_produto: document.getElementById('descricao_produto').value,
             quantidade: document.getElementById('quantidade').value,
             data_previsao_entrega: document.getElementById('data_previsao_entrega').value,
             observacoes: document.getElementById('observacoes').value
@@ -347,7 +347,7 @@ function initPCPPage() {
         e.preventDefault();
         const novoMaterial = {
              código_material: document.getElementById('código_material_form').value,
-             descrição: document.getElementById('descrição_material_form').value,
+             descricao: document.getElementById('descricao_material_form').value,
              unidade_medida: document.getElementById('unidade_medida_form').value,
              quantidade_estoque: parseFloat(document.getElementById('estoque_inicial_form').value) || 0
         };
@@ -406,7 +406,7 @@ function initPCPPage() {
                         ${materiais.map(m => `
                             <tr>
                                 <td>${m.código_material}</td>
-                                <td>${m.descrição}</td>
+                                <td>${m.descricao}</td>
                                 <td>${m.quantidade_estoque.toFixed(2)}</td>
                                 <td>${m.unidade_medida}</td>
                             </tr>
@@ -437,7 +437,7 @@ function initPCPPage() {
                         ${ordens.map(o => `
                             <tr>
                                 <td>${o.código_material}</td>
-                                <td>${o.descrição}</td>
+                                <td>${o.descricao}</td>
                                 <td>${o.quantidade}</td>
                                 <td>${new Date(o.data_pedido).toLocaleDateString()}</td>
                                 <td>${new Date(o.previsao_entrega).toLocaleDateString()}</td>
@@ -463,7 +463,7 @@ function initPCPPage() {
             materiais.forEach(m => {
                 const option = document.createElement('option');
                 option.value = m.id;
-                option.textContent = `${m.código_material} - ${m.descrição}`;
+                option.textContent = `${m.código_material} - ${m.descricao}`;
                 containers.materialSelect.appendChild(option);
             });
         } catch (error) {
@@ -637,7 +637,7 @@ function initDashboardPage() {
 
     // --- DARK MODE ---
         const darkModeBtn = document.querySelector('.header-icons .dark-mode-btn');
-        const darkModeIcon = darkModeBtn  darkModeBtn.querySelector('i') : null;
+        const darkModeIcon = darkModeBtn ? darkModeBtn.querySelector('i') : null;
 
     function toggleDarkMode() {
         const isDark = document.body.classList.toggle('dark-mode');
@@ -709,7 +709,7 @@ function initDashboardPage() {
                         e.preventDefault();
                         try {
                             const raw = localStorage.getItem('userData');
-                            const user = raw  JSON.parse(raw) : {};
+                            const user = raw ? JSON.parse(raw) : {};
                             const email = (user.email || '').toLowerCase();
                             const adminEmails = ['simplesadmin@aluforce.ind.br','andreia@aluforce.ind.br','douglas@aluforce.ind.br'];
                             if (adminEmails.includes(email) || user.role === 'admin' || user.permissions.includes('admin_all')) {

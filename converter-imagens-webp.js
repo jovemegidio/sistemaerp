@@ -137,7 +137,7 @@ async function main() {
     try {
         require.resolve('sharp');
     } catch {
-        console.error('❌ Pacote "sharp" não encontração!');
+        console.error('❌ Pacote "sharp" não encontrado!');
         console.log('📦 Execute: npm install sharp');
         process.exit(1);
     }
@@ -173,7 +173,7 @@ async function main() {
         console.log(`
 <picture>
   <source srcset="imagem.webp" type="image/webp">
-  <img src="imagem.png" alt="descrição">
+  <img src="imagem.png" alt="descricao">
 </picture>
         `);
     }

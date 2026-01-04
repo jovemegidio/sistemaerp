@@ -14,7 +14,7 @@ async function main() {
       console.log('\nNo produtos table found or no columns returned.');
     }
   } catch (err) {
-    console.error('DB INSPECT ERROR:', err && err.message  err.message : err);
+    console.error('DB INSPECT ERROR:', err && err.message ? err.message : err);
     process.exitCode = 2;
   } finally {
     await conn.end();

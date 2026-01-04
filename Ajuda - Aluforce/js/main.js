@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="search-results-overlay"></div>
             <div class="search-results-modal">
                 <div class="search-results-header">
-                    <h3>Resultaçãos da Busca</h3>
+                    <h3>Resultados da Busca</h3>
                     <button class="search-close-btn"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="search-results-list"></div>
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
             listEl.innerHTML = `
                 <div class="search-no-results">
                     <i class="fas fa-search"></i>
-                    <p>Nenhum resultação encontração para "<strong>${query}</strong>"</p>
+                    <p>Nenhum resultação encontrado para "<strong>${query}</strong>"</p>
                     <span>Tente usar termos diferentes ou navegue pelas coleções</span>
                 </div>
             `;

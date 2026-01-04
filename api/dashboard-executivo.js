@@ -1,7 +1,7 @@
 /**
  * API CONSOLIDADA DO DASHBOARD EXECUTIVO
  * Agrega KPIs de todos os módulos em uma única resposta
- * Integração com daçãos reais do banco de daçãos
+ * Integração com daçãos reais do banco de dados
  * 
  * @author Aluforce ERP
  * @version 2.0.0

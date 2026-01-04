@@ -14,7 +14,7 @@ async function call (url, token) {
     const txt = await r.text()
     console.log(`\n==> ${url} status=${r.status} ok=${r.ok}`)
     console.log(txt.substring(0, 1200))
-  } catch (e) { console.error('ERR', url, e && e.message  e.message : e) }
+  } catch (e) { console.error('ERR', url, e && e.message ? e.message : e) }
 }
 
 ;(async () => {

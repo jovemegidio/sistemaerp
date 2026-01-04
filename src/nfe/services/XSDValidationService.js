@@ -19,7 +19,7 @@ class XSDValidationService {
      * Valida XML contra XSD
      * @param {string} xml - XML a validar
      * @param {string} version - Versão do schema (padrão: 4.00)
-     * @returns {Promise<Object>} Resultação da validação
+     * @returns {Promise<Object>} Resultado da validação
      */
     async validar(xml, version = '4.00') {
         try {
@@ -27,12 +27,12 @@ class XSDValidationService {
             const schemasExistem = await this.verificarSchemas(version);
             
             if (!schemasExistem) {
-                console.warn('⚠️  Schemas XSD não encontraçãos. Validação XSD desabilitada.');
+                console.warn('⚠️  Schemas XSD não encontrados. Validação XSD desabilitada.');
                 console.warn('ℹ️  Para habilitar, baixe os schemas de: http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspxtipoConteudo=BMPFMBoln3w=');
                 
                 return {
                     valido: true,
-                    avisos: ['Validação XSD não realizada - schemas não encontraçãos'],
+                    avisos: ['Validação XSD não realizada - schemas não encontrados'],
                     erros: []
                 };
             }
@@ -102,13 +102,13 @@ class XSDValidationService {
         // 4. Elemento raiz
         const nfeElement = doc.getElementsByTagName('NFe')[0];
         if (!nfeElement) {
-            erros.push('Elemento raiz <NFe> não encontração');
+            erros.push('Elemento raiz <NFe> não encontrado');
         }
 
         // 5. infNFe presente
         const infNFeElement = doc.getElementsByTagName('infNFe')[0];
         if (!infNFeElement) {
-            erros.push('Elemento <infNFe> não encontração');
+            erros.push('Elemento <infNFe> não encontrado');
         }
 
         // 6. Versão 4.00
@@ -164,7 +164,7 @@ class XSDValidationService {
             if (found) {
                 detalhes.elementosEncontraçãos.push(elemento);
             } else {
-                this.erros.push(`Elemento obrigatório não encontração: ${elemento}`);
+                this.erros.push(`Elemento obrigatório não encontrado: ${elemento}`);
             }
         }
 
@@ -192,11 +192,11 @@ class XSDValidationService {
         let elemento = doc;
 
         for (const parte of partes) {
-            const encontração = elemento.getElementsByTagName(parte);
-            if (!encontração || encontração.length === 0) {
+            const encontrado = elemento.getElementsByTagName(parte);
+            if (!encontrado || encontrado.length === 0) {
                 return null;
             }
-            elemento = encontração[0];
+            elemento = encontrado[0];
         }
 
         return elemento;
@@ -221,7 +221,7 @@ class XSDValidationService {
      */
     instrucoes() {
         return {
-            mensagem: 'Schemas XSD não encontraçãos',
+            mensagem: 'Schemas XSD não encontrados',
             passos: [
                 '1. Acesse: http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspxtipoConteudo=BMPFMBoln3w=',
                 '2. Baixe o pacote "Schemas XML" versão 4.00',

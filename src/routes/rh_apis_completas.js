@@ -250,7 +250,7 @@ router.get('/holerite/:id/pdf', async (req, res) => {
         );
         
         if (!holerite.length) {
-            return res.status(404).json({ success: false, error: 'Holerite não encontração' });
+            return res.status(404).json({ success: false, error: 'Holerite não encontrado' });
         }
         
         // Buscar itens detalhaçãos
@@ -493,7 +493,7 @@ router.post('/avaliacoes/criar', async (req, res) => {
         }
         
         // Calcular média
-        const notaFinal = competencias.length > 0  somaNotas / competencias.length : 0;
+        const notaFinal = competencias.length > 0 ? somaNotas / competencias.length : 0;
         
         await connection.query(
             `UPDATE rh_avaliacoes_desempenho 

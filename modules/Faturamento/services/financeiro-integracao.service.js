@@ -160,7 +160,7 @@ class FinanceiroIntegracaoService {
             
             // Calcular juros e multa se houver atraso
             const diasAtraso = this.calcularDiasAtraso(parcelaData.data_vencimento, data_pagamento);
-            const juros = diasAtraso > 0  valorOriginal * 0.01 : 0; // 1% de multa
+            const juros = diasAtraso > 0 ? valorOriginal * 0.01 : 0; // 1% de multa
             const mora = diasAtraso > 0  (valorOriginal * 0.001 * diasAtraso) : 0; // 0,1% ao dia
             
             const valorTotal = valorOriginal + juros + mora;
@@ -184,7 +184,7 @@ class FinanceiroIntegracaoService {
                 valorPago,
                 juros,
                 mora,
-                desconto > 0  desconto : 0,
+                desconto > 0 ? desconto : 0,
                 data_pagamento,
                 forma_pagamento,
                 observacoes
@@ -220,7 +220,7 @@ class FinanceiroIntegracaoService {
                 valor_pago: valorPago,
                 juros,
                 mora,
-                desconto: desconto > 0  desconto : 0,
+                desconto: desconto > 0 ? desconto : 0,
                 dias_atraso: diasAtraso
             };
             
@@ -433,7 +433,7 @@ class FinanceiroIntegracaoService {
         const pag = new Date(dataPagamento);
         const diff = pag.getTime() - venc.getTime();
         const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-        return dias > 0  dias : 0;
+        return dias > 0 ? dias : 0;
     }
     
     gerarNossoNumero(banco, id) {
@@ -491,7 +491,7 @@ class FinanceiroIntegracaoService {
         }
         
         const resto = soma % 11;
-        const dv = resto === 0 || resto === 1  1 : 11 - resto;
+        const dv = resto === 0 || resto === 1 ? 1 : 11 - resto;
         
         return dv;
     }

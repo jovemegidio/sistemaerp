@@ -71,7 +71,7 @@ async function buscarCentrosCusto() {
             id: 1,
             código: 'ADM001',
             nome: 'Administrativo',
-            descrição: 'Despesas administrativas gerais',
+            descricao: 'Despesas administrativas gerais',
             responsavel: 'João Silva',
             status: 'ativo',
             centro_pai_id: null,
@@ -83,7 +83,7 @@ async function buscarCentrosCusto() {
             id: 2,
             código: 'COM001',
             nome: 'Comercial',
-            descrição: 'Departamento comercial e vendas',
+            descricao: 'Departamento comercial e vendas',
             responsavel: 'Maria Santos',
             status: 'ativo',
             centro_pai_id: null,
@@ -95,7 +95,7 @@ async function buscarCentrosCusto() {
             id: 3,
             código: 'COM002',
             nome: 'Marketing',
-            descrição: 'Marketing e publicidade',
+            descricao: 'Marketing e publicidade',
             responsavel: 'Carlos Oliveira',
             status: 'ativo',
             centro_pai_id: 2,
@@ -107,7 +107,7 @@ async function buscarCentrosCusto() {
             id: 4,
             código: 'OPE001',
             nome: 'Operacional',
-            descrição: 'Operações e produção',
+            descricao: 'Operações e produção',
             responsavel: 'Ana Paula',
             status: 'ativo',
             centro_pai_id: null,
@@ -119,7 +119,7 @@ async function buscarCentrosCusto() {
             id: 5,
             código: 'FIN001',
             nome: 'Financeiro',
-            descrição: 'Departamento financeiro',
+            descricao: 'Departamento financeiro',
             responsavel: 'Pedro Costa',
             status: 'ativo',
             centro_pai_id: 1,
@@ -166,7 +166,7 @@ function criarCardCentroCusto(centro) {
             </div>
 
             <div class="card-info">
-                ${centro.descrição  `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${centro.descrição}</p>` : ''}
+                ${centro.descricao  `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${centro.descricao}</p>` : ''}
                 
                 <div class="info-row">
                     <span class="info-label">Responsável:</span>
@@ -230,7 +230,7 @@ function abrirModalCentro(id = null) {
             document.getElementById('centro-status').value = centro.status;
             document.getElementById('centro-pai').value = centro.centro_pai_id || '';
             document.getElementById('centro-responsavel').value = centro.responsavel || '';
-            document.getElementById('centro-descrição').value = centro.descrição || '';
+            document.getElementById('centro-descricao').value = centro.descricao || '';
         }
     }
 
@@ -247,7 +247,7 @@ async function salvarCentroCusto(event) {
         status: document.getElementById('centro-status').value,
         centro_pai_id: document.getElementById('centro-pai').value || null,
         responsavel: document.getElementById('centro-responsavel').value,
-        descrição: document.getElementById('centro-descrição').value
+        descricao: document.getElementById('centro-descricao').value
     };
 
     try {
@@ -364,7 +364,7 @@ async function buscarCategorias() {
             tipo: 'receita',
             cor: '#10b981',
             icone: 'fa-shopping-cart',
-            descrição: 'Receitas de vendas de produtos e serviços',
+            descricao: 'Receitas de vendas de produtos e serviços',
             status: 'ativo',
             categoria_pai_id: null,
             total_movimentacoes: 15,
@@ -376,7 +376,7 @@ async function buscarCategorias() {
             tipo: 'receita',
             cor: '#3b82f6',
             icone: 'fa-globe',
-            descrição: 'Vendas através do e-commerce',
+            descricao: 'Vendas através do e-commerce',
             status: 'ativo',
             categoria_pai_id: 1,
             total_movimentacoes: 8,
@@ -388,7 +388,7 @@ async function buscarCategorias() {
             tipo: 'despesa',
             cor: '#ef4444',
             icone: 'fa-cart-shopping',
-            descrição: 'Compras de mercaçãorias e matérias-primas',
+            descricao: 'Compras de mercaçãorias e matérias-primas',
             status: 'ativo',
             categoria_pai_id: null,
             total_movimentacoes: 12,
@@ -400,7 +400,7 @@ async function buscarCategorias() {
             tipo: 'despesa',
             cor: '#f59e0b',
             icone: 'fa-money-bill',
-            descrição: 'Pagamentos de salários e encargos',
+            descricao: 'Pagamentos de salários e encargos',
             status: 'ativo',
             categoria_pai_id: null,
             total_movimentacoes: 20,
@@ -412,7 +412,7 @@ async function buscarCategorias() {
             tipo: 'despesa',
             cor: '#8b5cf6',
             icone: 'fa-pencil',
-            descrição: 'Materiais de consumo do escritório',
+            descricao: 'Materiais de consumo do escritório',
             status: 'ativo',
             categoria_pai_id: null,
             total_movimentacoes: 5,
@@ -424,7 +424,7 @@ async function buscarCategorias() {
             tipo: 'despesa',
             cor: '#dc2626',
             icone: 'fa-file-invoice-dollar',
-            descrição: 'Impostos e taxas governamentais',
+            descricao: 'Impostos e taxas governamentais',
             status: 'ativo',
             categoria_pai_id: null,
             total_movimentacoes: 18,
@@ -470,7 +470,7 @@ function criarCardCategoria(cat) {
             </div>
 
             <div class="card-info">
-                ${cat.descrição  `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${cat.descrição}</p>` : ''}
+                ${cat.descricao  `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${cat.descricao}</p>` : ''}
                 
                 <div class="info-row">
                     <span class="info-label">Status:</span>
@@ -525,7 +525,7 @@ function abrirModalCategoria(id = null) {
             document.getElementById('categoria-pai').value = cat.categoria_pai_id || '';
             document.getElementById('categoria-cor').value = cat.cor;
             document.getElementById('categoria-icone').value = cat.icone || '';
-            document.getElementById('categoria-descrição').value = cat.descrição || '';
+            document.getElementById('categoria-descricao').value = cat.descricao || '';
         }
     }
 
@@ -543,7 +543,7 @@ async function salvarCategoria(event) {
         categoria_pai_id: document.getElementById('categoria-pai').value || null,
         cor: document.getElementById('categoria-cor').value,
         icone: document.getElementById('categoria-icone').value,
-        descrição: document.getElementById('categoria-descrição').value
+        descricao: document.getElementById('categoria-descricao').value
     };
 
     try {
@@ -633,12 +633,12 @@ function formatarMoeda(valor) {
 
 function obterNomeCentro(id) {
     const centro = centrosCusto.find(c => c.id == id);
-    return centro  centro.nome : '-';
+    return centro ? centro.nome : '-';
 }
 
 function obterNomeCategoria(id) {
     const cat = categorias.find(c => c.id == id);
-    return cat  cat.nome : '-';
+    return cat ? cat.nome : '-';
 }
 
 function mostrarModal(modalId) {

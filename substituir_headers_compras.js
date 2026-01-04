@@ -29,7 +29,7 @@ const topbarPadrao = `                <header class="topbar">
                         <div class="search-wrapper" role="search" aria-label="Pesquisar">
                             <i class="fas fa-search search-icon" aria-hidden="true"></i>
                             <input id="main-search" type="search" placeholder="Buscar..." class="search-input" autocomplete="off" aria-label="Pesquisar" />
-                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultaçãos da busca" aria-live="polite" aria-hidden="true"></div>
+                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultados da busca" aria-live="polite" aria-hidden="true"></div>
                         </div>
                         
                         <button class="menu-toggle-btn" title="Menu">
@@ -90,7 +90,7 @@ arquivos.forEach(arquivo => {
     const filePath = path.join(__dirname, 'modules', 'Compras', arquivo);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`⚠️  ${arquivo} não encontração`);
+        console.log(`⚠️  ${arquivo} não encontrado`);
         return;
     }
     

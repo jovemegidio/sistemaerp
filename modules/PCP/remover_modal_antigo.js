@@ -13,16 +13,16 @@ const startIdx = html.indexOf(startMarker);
 const endIdx = html.indexOf(endMarker);
 
 if (startIdx === -1) {
-    console.log('❌ Modal antigo não encontração (já foi removido)');
+    console.log('❌ Modal antigo não encontrado (já foi removido)');
     process.exit(0);
 }
 
 if (endIdx === -1) {
-    console.log('❌ Fim do modal não encontração');
+    console.log('❌ Fim do modal não encontrado');
     process.exit(1);
 }
 
-console.log(`📍 Modal antigo encontração:`);
+console.log(`📍 Modal antigo encontrado:`);
 console.log(`   Início: posição ${startIdx}`);
 console.log(`   Fim: posição ${endIdx}`);
 console.log(`   Tamanho: ${endIdx - startIdx} caracteres`);

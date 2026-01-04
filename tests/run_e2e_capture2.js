@@ -61,13 +61,13 @@ function request(opts, body) {
 
     report.ok = true;
   } catch (err) {
-    report.error = err && err.message  err.message : String(err);
+    report.error = err && err.message ? err.message : String(err);
   }
 
   try {
     fs.writeFileSync(__dirname + '/e2e_report2.json', JSON.stringify(report, null, 2));
     console.log('WROTE e2e_report2.json');
   } catch (e) {
-    console.error('failed to write report:', e && e.message  e.message : e);
+    console.error('failed to write report:', e && e.message ? e.message : e);
   }
 })();

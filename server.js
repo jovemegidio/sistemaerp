@@ -280,7 +280,7 @@ app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// 🔍 Endpoint de diagnóstico do banco de daçãos
+// 🔍 Endpoint de diagnóstico do banco de dados
 app.get('/api/db-check', async (req, res) => {
     try {
         // O pool é definido mais abaixo no código, usar require dinâmico ou verificar se existe
@@ -545,7 +545,7 @@ const pedidoValidation = [
     validate
 ];
 
-// Middleware para autorizar apenas administraçãores ou RH (usação em RH)
+// Middleware para autorizar apenas administradores ou RH (usação em RH)
 const authorizeAdmin = (req, res, next) => {
     const userRole = req.user.role.toLowerCase() || '';
     const isAdmin = userRole === 'admin' || req.user.is_admin === 1 || req.user.is_admin === true;
@@ -629,7 +629,7 @@ console.log(`🔌 MySQL pool config -> host=${DB_CONFIG.host} user=${DB_CONFIG.u
 
 // Testar conexão imediatamente
 pool.query('SELECT 1').then(() => {
-    console.log('✅ Conexão com banco de daçãos OK');
+    console.log('✅ Conexão com banco de dados OK');
 }).catch(err => {
     console.error('❌ Erro na conexão com banco:', err.message);
 });
@@ -1086,13 +1086,13 @@ app.get('/RecursosHumanos', authenticatePage, (req, res) => {
 app.get('/RH/areaadm.html', authenticatePage, (req, res) => {
     if (req.user && (req.user.nome || req.user.email)) {
         // Verificar por nome e também por email (prefixo antes do @)
-        const firstName = req.user.nome  req.user.nome.split(' ')[0].toLowerCase() : '';
-        const emailPrefix = req.user.email  req.user.email.split('@')[0].toLowerCase() : '';
+        const firstName = req.user.nome ? req.user.nome.split(' ')[0].toLowerCase() : '';
+        const emailPrefix = req.user.email ? req.user.email.split('@')[0].toLowerCase() : '';
         
         if (userPermissions.isAdmin(firstName) || userPermissions.isAdmin(emailPrefix)) {
             res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'areaadm.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Esta área é restrita a administraçãores.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Esta área é restrita a administradores.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1149,13 +1149,13 @@ app.get('/rh/solicitacoes', authenticatePage, (req, res) => {
 app.get('/rh/areaadm', authenticatePage, (req, res) => {
     if (req.user && (req.user.nome || req.user.email)) {
         // Verificar por nome e também por email (prefixo antes do @)
-        const firstName = req.user.nome  req.user.nome.split(' ')[0].toLowerCase() : '';
-        const emailPrefix = req.user.email  req.user.email.split('@')[0].toLowerCase() : '';
+        const firstName = req.user.nome ? req.user.nome.split(' ')[0].toLowerCase() : '';
+        const emailPrefix = req.user.email ? req.user.email.split('@')[0].toLowerCase() : '';
         
         if (userPermissions.isAdmin(firstName) || userPermissions.isAdmin(emailPrefix)) {
             res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'areaadm.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Esta área é restrita a administraçãores.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Esta área é restrita a administradores.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1196,7 +1196,7 @@ app.get('/Vendas/', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'kanban.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1210,7 +1210,7 @@ app.get('/Vendas/kanban.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'kanban.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1228,7 +1228,7 @@ app.get('/Vendas/pedidos.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'pedidos.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1241,7 +1241,7 @@ app.get('/Vendas/clientes.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'clientes.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1254,7 +1254,7 @@ app.get('/Vendas/dashboard.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'dashboard.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1267,7 +1267,7 @@ app.get('/Vendas/dashboard-admin.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'dashboard-admin.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1280,7 +1280,7 @@ app.get('/Vendas/relatorios.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'relatorios.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1298,7 +1298,7 @@ app.get('/PCP/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'pcp')) {
             res.sendFile(path.join(__dirname, 'modules', 'PCP', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de PCP.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de PCP.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1311,7 +1311,7 @@ app.get('/modules/PCP/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'pcp')) {
             res.sendFile(path.join(__dirname, 'modules', 'PCP', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de PCP.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de PCP.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1325,7 +1325,7 @@ app.get('/CRM/crm.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'crm')) {
             res.sendFile(path.join(__dirname, 'modules', 'CRM', 'crm.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de CRM.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de CRM.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1339,7 +1339,7 @@ app.get('/NFe/nfe.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'nfe')) {
             res.sendFile(path.join(__dirname, 'modules', 'NFe', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de NF-e.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de NF-e.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1353,7 +1353,7 @@ app.get('/Compras/compras.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'compras')) {
             res.sendFile(path.join(__dirname, 'modules', 'Compras', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1367,7 +1367,7 @@ app.get('/Compras', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'compras')) {
             res.sendFile(path.join(__dirname, 'modules', 'Compras', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1381,7 +1381,7 @@ app.get('/Compras/:page', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'compras')) {
             res.sendFile(path.join(__dirname, 'modules', 'Compras', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1458,7 +1458,7 @@ app.get('/modules/Compras/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'compras')) {
             res.sendFile(path.join(__dirname, 'modules', 'Compras', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1475,7 +1475,7 @@ app.get('/modules/Compras/public/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'compras')) {
             res.sendFile(path.join(__dirname, 'modules', 'Compras', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1523,7 +1523,7 @@ app.get('/modules/Financeiro/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'financeiro')) {
             res.sendFile(path.join(__dirname, 'modules', 'Financeiro', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1562,7 +1562,7 @@ app.get('/modules/NFe/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'nfe')) {
             res.sendFile(path.join(__dirname, 'modules', 'NFe', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de NF-e.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de NF-e.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1597,7 +1597,7 @@ app.get('/modules/Faturamento/index.html', authenticatePage, (req, res) => {
     if (req.user && req.user.permissoes && req.user.permissoes.includes('nfe')) {
         res.sendFile(path.join(__dirname, 'modules', 'Faturamento', 'public', 'index.html'));
     } else {
-        res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Faturamento.</p>');
+        res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Faturamento.</p>');
     }
 });
 
@@ -1645,11 +1645,11 @@ const initCronJobs = () => {
             await enviarEmail('diretoria@empresa.com', 'Relatório Diário de Vendas', texto);
             console.log('Relatório diário enviação por email.');
         } catch (err) {
-            console.warn('Erro no cron diário:', err && err.message  err.message : err);
+            console.warn('Erro no cron diário:', err && err.message ? err.message : err);
         }
     });
 
-    // 2. Backup automático do banco de daçãos (simples)
+    // 2. Backup automático do banco de dados (simples)
     cron.schedule('0 2 * * *', async () => {
         if (!DB_AVAILABLE) return;
         try {
@@ -1658,7 +1658,7 @@ const initCronJobs = () => {
             await enviarEmail('ti@empresa.com', 'Backup Automático', `Backup geração: ${backupFile}`);
             console.log('Backup automático realização e notificação.');
         } catch (err) {
-            console.warn('Erro no cron de backup:', err && err.message  err.message : err);
+            console.warn('Erro no cron de backup:', err && err.message ? err.message : err);
         }
     });
 
@@ -1672,7 +1672,7 @@ const initCronJobs = () => {
             }
             console.log('Notificações de cobrança enviadas.');
         } catch (err) {
-            console.warn('Erro no cron de cobranças:', err && err.message  err.message : err);
+            console.warn('Erro no cron de cobranças:', err && err.message ? err.message : err);
         }
     });
     
@@ -2009,7 +2009,7 @@ function setDbAvailable(val) {
     DB_AVAILABLE = !!val;
 }
 
-// Middleware para proteger rotas /api quando o banco de daçãos estiver indisponível.
+// Middleware para proteger rotas /api quando o banco de dados estiver indisponível.
 // Deve ser montação ANTES dos routers da API para garantir que chamadas a endpoints
 // dependentes do banco sejam interceptadas em modo degradação.
 const apiDbGuard = (req, res, next) => {
@@ -2030,7 +2030,7 @@ const apiDbGuard = (req, res, next) => {
 
     // Para todas as outras rotas da API, retornar 503 (service unavailable)
     return res.status(503).json({
-        message: 'Serviço temporariamente indisponível: conexão com o banco de daçãos indisponível. Tente novamente mais tarde.'
+        message: 'Serviço temporariamente indisponível: conexão com o banco de dados indisponível. Tente novamente mais tarde.'
     });
 };
 
@@ -3865,8 +3865,8 @@ apiPCPRouter.put('/produtos/:id', [
 
         // Usar valores compatíveis - priorizar campos específicos
         const custoFinal = custo_unitario || preco_custo || 0;
-        const precoVendaFinal = preco_venda !== undefined  preco_venda : (preco || 0);
-        const estoqueFinal = estoque !== undefined  estoque : (quantidade_estoque || 0);
+        const precoVendaFinal = preco_venda !== undefined ? preco_venda : (preco || 0);
+        const estoqueFinal = estoque !== undefined ? estoque : (quantidade_estoque || 0);
         const unidadeFinal = unidade_medida || unidade || 'UN';
         const observacoesFinal = observacoes || obs_internas || null;
 
@@ -3897,7 +3897,7 @@ apiPCPRouter.put('/produtos/:id', [
             norma || null, cor || null, fornecedor_principal || null,
             prazo_entrega || 0, qtd_minima_compra || 1,
             observacoesFinal, obs_fornecedor || null, obs_venda || null,
-            ativo !== undefined  ativo : 1, tipo_produto || 'produto',
+            ativo !== undefined ? ativo : 1, tipo_produto || 'produto',
             id
         ]);
 
@@ -4884,7 +4884,7 @@ app.get('/api/pcp/users-list', async (req, res) => {
         
         // Retornar daçãos sanitizaçãos (sem senhas)
         const sanitizedUsers = users.map(user => {
-            const firstName = user.nome  user.nome.split(' ')[0].toLowerCase() : '';
+            const firstName = user.nome ? user.nome.split(' ')[0].toLowerCase() : '';
             let fotoUrl = user.foto_perfil_url || user.avatar || avatarMap[firstName] || '/avatars/default.webp';
             
             return {
@@ -4898,7 +4898,7 @@ app.get('/api/pcp/users-list', async (req, res) => {
         
         res.json({ users: sanitizedUsers });
     } catch (err) {
-        console.error('/api/pcp/users-list error:', err && err.message  err.message : err);
+        console.error('/api/pcp/users-list error:', err && err.message ? err.message : err);
         res.status(500).json({ message: 'Erro ao obter lista de usuários.', users: [] });
     }
 });
@@ -5129,7 +5129,7 @@ app.get('/api/empresas', async (req, res) => {
     try {
         console.log('🔄 Alias compatível /api/empresas chamação');
         const { termo } = req.query;
-        const limit = req.query.limit  Math.max(1, Math.min(1000, parseInt(req.query.limit))) : 500;
+        const limit = req.query.limit ? Math.max(1, Math.min(1000, parseInt(req.query.limit))) : 500;
 
         let query = 'SELECT id, nome, contato, cnpj, cpf, telefone, celular, email, email_nfe, endereco, lograçãouro, numero, bairro, cidade, uf, estação, cep FROM clientes WHERE ativo = 1';
         let params = [];
@@ -5965,7 +5965,7 @@ app.post('/api/configuracoes/upload-logo', upload.single('logo'), async (req, re
         
         const logoPath = '/uploads/empresa/' + req.file.filename;
         
-        // Atualizar URL do logo no banco de daçãos
+        // Atualizar URL do logo no banco de dados
         const [existing] = await pool.query('SELECT id FROM configuracoes_empresa LIMIT 1');
         
         if (existing.length > 0) {
@@ -6003,7 +6003,7 @@ app.post('/api/configuracoes/upload-favicon', upload.single('favicon'), async (r
         
         const faviconPath = '/uploads/empresa/' + req.file.filename;
         
-        // Atualizar URL do favicon no banco de daçãos
+        // Atualizar URL do favicon no banco de dados
         const [existing] = await pool.query('SELECT id FROM configuracoes_empresa LIMIT 1');
         
         if (existing.length > 0) {
@@ -7136,7 +7136,7 @@ app.post('/api/configuracoes/certificação', upload.single('certificação'), a
                 
                 // Extrair informações
                 const cn = cert.subject.getField('CN');
-                const cnValue = cn  cn.value : '';
+                const cnValue = cn ? cn.value : '';
                 const cnpjMatch = cnValue.match(/(\d{14})/);
                 
                 certInfo = {
@@ -7183,9 +7183,9 @@ app.post('/api/configuracoes/certificação', upload.single('certificação'), a
             `, [
                 pfxBuffer,
                 senhaCriptografada,
-                certInfo  certInfo.validade : null,
-                certInfo  certInfo.cnpj : null,
-                certInfo  certInfo.razaoSocial : req.file.originalname,
+                certInfo ? certInfo.validade : null,
+                certInfo ? certInfo.cnpj : null,
+                certInfo ? certInfo.razaoSocial : req.file.originalname,
                 empresaId
             ]);
         } else {
@@ -7198,9 +7198,9 @@ app.post('/api/configuracoes/certificação', upload.single('certificação'), a
                 empresaId,
                 pfxBuffer,
                 senhaCriptografada,
-                certInfo  certInfo.validade : null,
-                certInfo  certInfo.cnpj : null,
-                certInfo  certInfo.razaoSocial : req.file.originalname
+                certInfo ? certInfo.validade : null,
+                certInfo ? certInfo.cnpj : null,
+                certInfo ? certInfo.razaoSocial : req.file.originalname
             ]);
         }
         
@@ -7216,7 +7216,7 @@ app.post('/api/configuracoes/certificação', upload.single('certificação'), a
         `, [
             req.file.originalname, 
             senhaCriptografada, 
-            certInfo  certInfo.validade : new Date(Date.now() + 365*24*60*60*1000)
+            certInfo ? certInfo.validade : new Date(Date.now() + 365*24*60*60*1000)
         ]);
         
         console.log('✅ Certificação salvo com sucesso nas tabelas nfe_configuracoes e certificaçãos_digitais');
@@ -7870,7 +7870,7 @@ async function gerarExcelOrdemProducaoCompleta(daçãos, ExcelJS, templatePath) 
     // └─────────┴────────────────────────────────────────────────────────┘
     // 
     // ⚠️ IMPORTANTE: 
-    // - Coluna C tem FÓRMULA VLOOKUP que busca descrição pelo código
+    // - Coluna C tem FÓRMULA VLOOKUP que busca descricao pelo código
     // - Colunas C-E estão MESCLADAS no template
     // - NÃO existe coluna de "Variação" no template VENDAS_PCP
     // - Produtos começam na LINHA 18 (não 19!)
@@ -7928,7 +7928,7 @@ async function gerarExcelOrdemProducaoCompleta(daçãos, ExcelJS, templatePath) 
             // B - Código do produto (usação pelo VLOOKUP da coluna C)
             abaVendas.getCell(`B${linhaAtual}`).value = codigoProd;
             
-            // C - Atualizar o RESULT da fórmula VLOOKUP para garantir que aparece a descrição
+            // C - Atualizar o RESULT da fórmula VLOOKUP para garantir que aparece a descricao
             // Preservar a fórmula mas forçar o resultação
             const cellC = abaVendas.getCell(`C${linhaAtual}`);
             if (cellC.value && typeof cellC.value === 'object' && cellC.value.formula) {
@@ -8691,7 +8691,7 @@ apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
             console.log(`💰 Total: R$ ${resultação.totalGeral.toFixed(2)}`);
             console.log(`📦 Produtos: ${resultação.produtosProcessaçãos}`);
             
-            // Salvar ordem no banco de daçãos
+            // Salvar ordem no banco de dados
             try {
                 const [insertResult] = await pool.query(`
                     INSERT INTO ordens_producao (
@@ -8733,7 +8733,7 @@ apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
                     filename,
                     outputPath,
                     'pendente',
-                    req.user  req.user.id : null
+                    req.user ? req.user.id : null
                 ]);
                 
                 console.log(`✅ Ordem salva no banco: ID ${insertResult.insertId}`);
@@ -8756,7 +8756,7 @@ apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
                     totalGeral: resultação.totalGeral,
                     produtosProcessaçãos: resultação.produtosProcessaçãos,
                     mensagem: 'Ordem de produção gerada com sucesso! (Erro ao registrar no banco)',
-                    avisoDb: 'Falha ao salvar no banco de daçãos'
+                    avisoDb: 'Falha ao salvar no banco de dados'
                 });
             }
         } else {
@@ -8998,7 +8998,7 @@ apiPCPRouter.post('/gerar-pedido-compra', async (req, res, next) => {
             prioridade,
             data_entrega_prevista,
             observacoes,
-            req.user  req.user.id : null
+            req.user ? req.user.id : null
         ]);
 
         const pedidoId = result.insertId;
@@ -9117,7 +9117,7 @@ apiPCPRouter.patch('/notificacoes-estoque/:id', async (req, res, next) => {
                 resolvido_por = ,
                 observacoes = 
             WHERE id = 
-        `, [status, req.user  req.user.id : null, observacoes, id]);
+        `, [status, req.user ? req.user.id : null, observacoes, id]);
 
         res.json({ sucesso: true, mensagem: 'Notificação atualizada' });
 
@@ -10081,7 +10081,7 @@ apiRHRouter.post('/solicitacoes', upload.single('anexo'), async (req, res, next)
             assuntoFinal = tipo;
         }
         
-        const anexoFile = req.file  req.file.filename : null;
+        const anexoFile = req.file ? req.file.filename : null;
         
         const [result] = await pool.query(`
             INSERT INTO rh_solicitacoes 
@@ -10239,7 +10239,7 @@ app.get('/api/user/me', authenticateToken, async (req, res) => {
         if (rows.length > 0) {
             const user = rows[0];
             // Determinar avatar baseação no nome (fallback)
-            const firstName = user.nome  user.nome.split(' ')[0].toLowerCase() : '';
+            const firstName = user.nome ? user.nome.split(' ')[0].toLowerCase() : '';
             const avatarMap = {
                 'douglas': '/avatars/douglas.webp',
                 'andreia': '/avatars/andreia.webp',
@@ -11339,7 +11339,7 @@ apiVendasRouter.put('/pedidos/:id/status', async (req, res, next) => {
             const allowedForVendedor = ['orcamento', 'orçamento', 'analise', 'analise-credito'];
             if (!allowedForVendedor.includes(status)) {
                 console.log(`❌ Vendedor tentou mover para status ${status} - apenas admin pode`);
-                return res.status(403).json({ message: 'Apenas administraçãores podem mover pedidos após "Análise de Crédito".' });
+                return res.status(403).json({ message: 'Apenas administradores podem mover pedidos após "Análise de Crédito".' });
             }
         }
         
@@ -11388,13 +11388,13 @@ apiVendasRouter.post('/pedidos/:id/historico', async (req, res, next) => {
         try {
             await pool.query(
                 'INSERT INTO pedido_historico (pedido_id, usuario_id, usuario_nome, acao, descricao, meta) VALUES (, , , , , )',
-                [id, user.id || null, usuario || user.nome || 'Sistema', tipo || action || 'status', descricao || '', meta  JSON.stringify(meta) : null]
+                [id, user.id || null, usuario || user.nome || 'Sistema', tipo || action || 'status', descricao || '', meta ? JSON.stringify(meta) : null]
             );
         } catch (e) {
             // Fallback para colunas alternativas
             await pool.query(
                 'INSERT INTO pedido_historico (pedido_id, descricao, acao, meta) VALUES (, , , )',
-                [id, `${usuario || user.nome || 'Sistema'}: ${descricao || ''}`, tipo || action || 'status', meta  JSON.stringify(meta) : null]
+                [id, `${usuario || user.nome || 'Sistema'}: ${descricao || ''}`, tipo || action || 'status', meta ? JSON.stringify(meta) : null]
             );
         }
         
@@ -11493,7 +11493,7 @@ apiVendasRouter.post('/empresas', [
         const { cnpj, nome_fantasia, razao_social, email, telefone, cep, lograçãouro, numero, bairro, municipio, uf } = req.body;
         
         // Associar o vendedor que está cadastrando a empresa
-        const vendedor_id = req.user  req.user.id : null;
+        const vendedor_id = req.user ? req.user.id : null;
         
         await pool.query(
             `INSERT INTO empresas (cnpj, nome_fantasia, razao_social, email, telefone, cep, lograçãouro, numero, bairro, municipio, uf, vendedor_id, created_by) VALUES (, , , , , , , , , , , , )`,
@@ -11740,7 +11740,7 @@ apiVendasRouter.post('/pedidos/:id/itens', async (req, res, next) => {
         const { codigo, descricao, quantidade, quantidade_parcial, unidade, local_estoque, preco_unitario, desconto } = req.body;
         
         if (!codigo || !descricao) {
-            return res.status(400).json({ message: 'Código e descrição são obrigatórios.' });
+            return res.status(400).json({ message: 'Código e descricao são obrigatórios.' });
         }
         
         const qty = parseFloat(quantidade) || 1;
@@ -12008,7 +12008,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
 // SISTEMA DE SUPORTE - APIs de Tickets
 // ============================================================================
 
-// Daçãos em memória para tickets de suporte (em produção usar banco de daçãos)
+// Daçãos em memória para tickets de suporte (em produção usar banco de dados)
 let suporteTickets = [];
 let suporteKnowledge = [
     { id: 1, titulo: 'Como criar um novo orçamento', categoria: 'Vendas', conteudo: 'Para criar um novo orçamento, acesse o módulo Vendas e clique no botão "+ Novo Orçamento".' },
@@ -12183,7 +12183,7 @@ app.get('/api/suporte/tickets/user/:userId', (req, res) => {
 // SISTEMA DE AUDIT LOG - HISTÓRICO DE ALTERAÇÕES
 // ============================================================================
 
-// Armazenamento em memória (pode migrar para banco de daçãos depois)
+// Armazenamento em memória (pode migrar para banco de dados depois)
 let auditLogs = [];
 
 /**
@@ -12501,8 +12501,8 @@ app.get('/api/permissions', (req, res) => {
     
     try {
         const user = jwt.verify(token, JWT_SECRET);
-        const firstName = user.nome  user.nome.split(' ')[0].toLowerCase() : '';
-        const emailPrefix = user.email  user.email.split('@')[0].toLowerCase() : '';
+        const firstName = user.nome ? user.nome.split(' ')[0].toLowerCase() : '';
+        const emailPrefix = user.email ? user.email.split('@')[0].toLowerCase() : '';
         
         const permissions = {
             areas: userPermissions.getUserAreas(firstName) || userPermissions.getUserAreas(emailPrefix),
@@ -12634,7 +12634,7 @@ app.put('/api/me', async (req, res) => {
         
         return res.json(response);
     } catch (err) {
-        console.error('Erro em PUT /api/me:', err && err.stack  err.stack : err);
+        console.error('Erro em PUT /api/me:', err && err.stack ? err.stack : err);
         return res.status(500).json({ message: 'Erro ao atualizar perfil' });
     }
 });
@@ -12694,7 +12694,7 @@ app.post('/api/upload-avatar', (req, res, next) => {
 
         const avatarUrl = `/avatars/${req.file.filename}`;
         
-        // Atualizar banco de daçãos com o caminho do avatar
+        // Atualizar banco de dados com o caminho do avatar
         try {
             await pool.query(
                 'UPDATE usuarios SET avatar =  WHERE id = ',
@@ -13038,7 +13038,7 @@ app.get('/Financeiro/financeiro.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'financeiro')) {
             res.sendFile(path.join(__dirname, 'modules', 'Financeiro', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -13051,7 +13051,7 @@ app.get('/Financeiro/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'financeiro')) {
             res.sendFile(path.join(__dirname, 'modules', 'Financeiro', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
+            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -13837,7 +13837,7 @@ app.post('/api/compras/materiais', authenticateToken, async (req, res) => {
         } = req.body;
 
         if (!codigo || !descricao) {
-            return res.status(400).json({ message: 'Código e descrição são obrigatórios' });
+            return res.status(400).json({ message: 'Código e descricao são obrigatórios' });
         }
 
         const [result] = await pool.query(
@@ -14387,7 +14387,7 @@ app.get('/api/compras/historico-precos', authenticateToken, async (req, res) => 
                 justificativa TEXT,
                 observacoes TEXT,
                 status ENUM('rascunho', 'pendente', 'aprovação', 'rejeitação', 'cotacao', 'cancelação') DEFAULT 'pendente',
-                valor_estimação DECIMAL(15,2) DEFAULT 0,
+                valor_estimado DECIMAL(15,2) DEFAULT 0,
                 aprovaçãor_id INT,
                 data_aprovacao DATETIME,
                 motivo_rejeicao TEXT,
@@ -14404,7 +14404,7 @@ app.get('/api/compras/historico-precos', authenticateToken, async (req, res) => 
                 descricao VARCHAR(255) NOT NULL,
                 quantidade DECIMAL(15,3) NOT NULL,
                 unidade VARCHAR(10) DEFAULT 'UN',
-                valor_estimação DECIMAL(15,2) DEFAULT 0,
+                valor_estimado DECIMAL(15,2) DEFAULT 0,
                 subtotal DECIMAL(15,2) DEFAULT 0,
                 observacao TEXT,
                 FOREIGN KEY (requisicao_id) REFERENCES requisicoes_compra(id) ON DELETE CASCADE
@@ -14522,19 +14522,19 @@ app.post('/api/compras/requisicoes', authenticateToken, async (req, res) => {
         }
 
         // Calcular valor total
-        const valor_estimação = itens  itens.reduce((sum, item) => sum + parseFloat(item.subtotal || 0), 0) : 0;
+        const valor_estimado = itens ? itens.reduce((sum, item) => sum + parseFloat(item.subtotal || 0), 0) : 0;
 
         // Inserir requisição
         const [result] = await connection.query(
             `INSERT INTO requisicoes_compra (
                 numero, solicitante, solicitante_id, centro_custo_id, centro_custo,
                 data_solicitacao, data_necessidade, prioridade, projeto,
-                justificativa, observacoes, status, valor_estimação
+                justificativa, observacoes, status, valor_estimado
             ) VALUES (, , , , , , , , , , , , )`,
             [
                 numero, solicitante, solicitante_id || null, centro_custo_id || null, centro_custo || null,
                 data_solicitacao || new Date(), data_necessidade || null, prioridade || 'normal', projeto || null,
-                justificativa || null, observacoes || null, status || 'pendente', valor_estimação
+                justificativa || null, observacoes || null, status || 'pendente', valor_estimado
             ]
         );
 
@@ -14545,11 +14545,11 @@ app.post('/api/compras/requisicoes', authenticateToken, async (req, res) => {
             for (const item of itens) {
                 await connection.query(
                     `INSERT INTO itens_requisicao (
-                        requisicao_id, produto_id, descricao, quantidade, unidade, valor_estimação, subtotal, observacao
+                        requisicao_id, produto_id, descricao, quantidade, unidade, valor_estimado, subtotal, observacao
                     ) VALUES (, , , , , , , )`,
                     [
                         requisicaoId, item.produto_id || null, item.descricao, item.quantidade,
-                        item.unidade || 'UN', item.valor_estimação || 0, item.subtotal || 0, item.observacao || null
+                        item.unidade || 'UN', item.valor_estimado || 0, item.subtotal || 0, item.observacao || null
                     ]
                 );
             }
@@ -14591,17 +14591,17 @@ app.put('/api/compras/requisicoes/:id', authenticateToken, async (req, res) => {
         }
 
         // Calcular valor total
-        const valor_estimação = itens  itens.reduce((sum, item) => sum + parseFloat(item.subtotal || 0), 0) : existing[0].valor_estimação;
+        const valor_estimado = itens ? itens.reduce((sum, item) => sum + parseFloat(item.subtotal || 0), 0) : existing[0].valor_estimado;
 
         // Atualizar requisição
         await connection.query(
             `UPDATE requisicoes_compra SET
                 centro_custo_id = , centro_custo = , data_necessidade = , prioridade = ,
-                projeto = , justificativa = , observacoes = , status = , valor_estimação = 
+                projeto = , justificativa = , observacoes = , status = , valor_estimado = 
             WHERE id = `,
             [
                 centro_custo_id || null, centro_custo || null, data_necessidade || null, prioridade || 'normal',
-                projeto || null, justificativa || null, observacoes || null, status || existing[0].status, valor_estimação,
+                projeto || null, justificativa || null, observacoes || null, status || existing[0].status, valor_estimado,
                 req.params.id
             ]
         );
@@ -14613,11 +14613,11 @@ app.put('/api/compras/requisicoes/:id', authenticateToken, async (req, res) => {
             for (const item of itens) {
                 await connection.query(
                     `INSERT INTO itens_requisicao (
-                        requisicao_id, produto_id, descricao, quantidade, unidade, valor_estimação, subtotal, observacao
+                        requisicao_id, produto_id, descricao, quantidade, unidade, valor_estimado, subtotal, observacao
                     ) VALUES (, , , , , , , )`,
                     [
                         req.params.id, item.produto_id || null, item.descricao, item.quantidade,
-                        item.unidade || 'UN', item.valor_estimação || 0, item.subtotal || 0, item.observacao || null
+                        item.unidade || 'UN', item.valor_estimado || 0, item.subtotal || 0, item.observacao || null
                     ]
                 );
             }
@@ -14834,7 +14834,7 @@ app.post('/api/compras/cotacoes', authenticateToken, async (req, res) => {
 
         if (!numero || !descricao) {
             await connection.rollback();
-            return res.status(400).json({ message: 'Número e descrição são obrigatórios' });
+            return res.status(400).json({ message: 'Número e descricao são obrigatórios' });
         }
 
         const [result] = await connection.query(
@@ -14991,17 +14991,17 @@ app.get('/api/compras/cotacoes-stats', authenticateToken, async (req, res) => {
 // Observação: não definir rotas públicas here para /dashboard ou /index.html —
 // elas já estão protegidas acima usando `requireAuthPage`.
 
-// Rota para tela de configurações — somente administraçãores
+// Rota para tela de configurações — somente administradores
 app.get('/config.html', authenticatePage, (req, res) => {
     // Se não autenticação, redirecionar para raiz (front-end mostrará o login se necessário)
     if (!req.user) return res.redirect('/');
-    const firstName = req.user.nome  req.user.nome.split(' ')[0].toLowerCase() : '';
-    const emailPrefix = req.user.email  req.user.email.split('@')[0].toLowerCase() : '';
-    // Usa userPermissions.isAdmin para verificar lista de administraçãores
+    const firstName = req.user.nome ? req.user.nome.split(' ')[0].toLowerCase() : '';
+    const emailPrefix = req.user.email ? req.user.email.split('@')[0].toLowerCase() : '';
+    // Usa userPermissions.isAdmin para verificar lista de administradores
     if (userPermissions.isAdmin(firstName) || userPermissions.isAdmin(emailPrefix)) {
         return res.sendFile(path.join(__dirname, 'public', 'config.html'));
     }
-    return res.status(403).send('<h1>Acesso Negação</h1><p>Esta área é restrita a administraçãores.</p>');
+    return res.status(403).send('<h1>Acesso Negado</h1><p>Esta área é restrita a administradores.</p>');
 });
 
 // Endpoint administrativo para configurar permissões de vendas
@@ -15009,7 +15009,7 @@ app.post('/api/admin/configure-vendas-permissions', authenticateToken, async (re
     try {
         // Verificar se é admin
         if (!req.user.is_admin && req.user.role !== 'admin') {
-            return res.status(403).json({ error: 'Acesso negação - apenas administraçãores' });
+            return res.status(403).json({ error: 'Acesso negação - apenas administradores' });
         }
 
         const permissoesVendas = JSON.stringify({
@@ -15060,7 +15060,7 @@ app.post('/api/admin/configure-vendas-by-names', authenticateToken, async (req, 
     try {
         // Verificar se é admin
         if (!req.user.is_admin && req.user.role !== 'admin') {
-            return res.status(403).json({ error: 'Acesso negação - apenas administraçãores' });
+            return res.status(403).json({ error: 'Acesso negação - apenas administradores' });
         }
 
         const permissoesVendas = JSON.stringify({
@@ -15160,7 +15160,7 @@ app.post('/api/admin/remove-vendas-permission', authenticateToken, async (req, r
     try {
         // Verificar se é admin
         if (!req.user.is_admin && req.user.role !== 'admin') {
-            return res.status(403).json({ error: 'Acesso negação - apenas administraçãores' });
+            return res.status(403).json({ error: 'Acesso negação - apenas administradores' });
         }
 
         const { userId } = req.body;
@@ -15203,7 +15203,7 @@ app.post('/api/admin/fix-vendas-permissions', authenticateToken, async (req, res
     try {
         // Verificar se é admin
         if (!req.user.is_admin && req.user.role !== 'admin') {
-            return res.status(403).json({ error: 'Acesso negação - apenas administraçãores' });
+            return res.status(403).json({ error: 'Acesso negação - apenas administradores' });
         }
 
         // Permissões corretas em formato JSON
@@ -15348,7 +15348,7 @@ app.get('/status', async (req, res) => {
             info.dbPing = true;
         } catch (err) {
             info.dbPing = false;
-            info.dbError = String(err && err.message  err.message : err).slice(0, 200);
+            info.dbError = String(err && err.message ? err.message : err).slice(0, 200);
         }
     }
 
@@ -15369,14 +15369,14 @@ const startServer = async () => {
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     
     try {
-        // Testa a conexão com o banco de daçãos antes de iniciar o servidor
+        // Testa a conexão com o banco de dados antes de iniciar o servidor
         if (process.env.DEV_MOCK === '1' || process.env.DEV_MOCK === 'true') {
             DB_AVAILABLE = false;
             console.log('⚠️  Iniciando em modo DEV_MOCK — pulando checagem/criação de tabelas no MySQL.');
         } else {
             try {
                 await pool.query('SELECT 1');
-                console.log('✅ Conexão com o banco de daçãos estabelecida com sucesso.');
+                console.log('✅ Conexão com o banco de dados estabelecida com sucesso.');
                 console.log(`⚡ Conexão DB em ${Date.now() - startupTime}ms`);
 
                 // ⚡ OTIMIZAÇÃO: Pular migrações se SKIP_MIGRATIONS=1
@@ -15814,7 +15814,7 @@ const startServer = async () => {
 
             } catch (err) {
                 DB_AVAILABLE = false;
-                console.error('❌ Não foi possível conectar ao banco de daçãos MySQL:', err && err.message  err.message : err);
+                console.error('❌ Não foi possível conectar ao banco de dados MySQL:', err && err.message ? err.message : err);
                 console.log('Continuando a inicialização do servidor em modo degradação (DB indisponível).');
             }
         }
@@ -15983,7 +15983,7 @@ app.post('/api/admin/describe-tabelas-financeiro', authenticateToken, async (req
 
 app.post('/api/admin/migration-financeiro', authenticateToken, async (req, res) => {
     if (req.user.role !== 'admin' && req.user.is_admin !== 1) {
-        return res.status(403).json({ error: 'Apenas administraçãores' });
+        return res.status(403).json({ error: 'Apenas administradores' });
     }
 
     try {
@@ -16110,7 +16110,7 @@ app.post('/api/admin/migration-financeiro', authenticateToken, async (req, res) 
         }
     } catch (error) {
         // Erros inesperaçãos aqui não devem impedir o servidor de iniciar — tentamos seguir em modo degradação
-        console.error('❌ ERRO INESPERADO AO INICIAR:', error && error.stack  error.stack : error);
+        console.error('❌ ERRO INESPERADO AO INICIAR:', error && error.stack ? error.stack : error);
         process.exit(1);
     }
 };
@@ -16146,7 +16146,7 @@ async function stopServer() {
         });
     }
     
-    // Fechar pool de conexões do banco de daçãos
+    // Fechar pool de conexões do banco de dados
     if (pool && typeof pool.end === 'function') {
         try {
             await pool.end();
@@ -16522,7 +16522,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         
         if (itens.length > 0) {
             itens.forEach((item, idx) => {
-                const bgColor = idx % 2 === 0  cores.branco : cores.cinzaClaro;
+                const bgColor = idx % 2 === 0 ? cores.branco : cores.cinzaClaro;
                 doc.rect(leftMargin, y, pageWidth, 15).fillColor(bgColor).fill();
                 doc.rect(leftMargin, y, pageWidth, 15).strokeColor('#edf2f7').lineWidth(0.2).stroke();
                 
@@ -16571,7 +16571,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         doc.rect(totaisX, y, totaisWidth, 72).fillColor('#f0f9ff').fill();
         doc.rect(totaisX, y, totaisWidth, 72).strokeColor(cores.azulSecundario).lineWidth(1).stroke();
         
-        const valorTotal = totalProdutos > 0  totalProdutos : (parseFloat(pedido.valor_total) || 0);
+        const valorTotal = totalProdutos > 0 ? totalProdutos : (parseFloat(pedido.valor_total) || 0);
         const frete = parseFloat(pedido.frete) || 0;
         const ipi = parseFloat(pedido.total_ipi) || 0;
         const icmsST = parseFloat(pedido.total_icms_st) || 0;
@@ -19043,7 +19043,7 @@ integracaoRouter.post('/estoque/reservar', [
             data: {
                 pedido_id,
                 reservas: reservasCriadas,
-                erros: erros.length > 0  erros : undefined
+                erros: erros.length > 0 ? erros : undefined
             }
         });
 

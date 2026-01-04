@@ -15,7 +15,7 @@ const dbConfig = {
 };
 
 async function aplicarOtimizacoes() {
-    console.log('🚀 Iniciando otimizações de banco de daçãos...\n');
+    console.log('🚀 Iniciando otimizações de banco de dados...\n');
     
     const connection = await mysql.createConnection(dbConfig);
     

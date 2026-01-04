@@ -18,7 +18,7 @@ modulesWithOnclick.forEach(modulePath => {
     const fullPath = path.join(__dirname, modulePath);
     
     if (!fs.existsSync(fullPath)) {
-        console.log(`⚠️  Arquivo não encontração: ${modulePath}`);
+        console.log(`⚠️  Arquivo não encontrado: ${modulePath}`);
         return;
     }
     

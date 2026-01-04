@@ -10,7 +10,7 @@ async function generateFromTemplate(daçãosOrdem) {
         const templatePath = 'C:\\Users\\Administrator\\Documents\\Sistema - Aluforce v.2 - BETA\\modules\\PCP\\Ordem de Produção.xlsx';
         
         if (!fs.existsSync(templatePath)) {
-            throw new Error(`Template não encontração: ${templatePath}`);
+            throw new Error(`Template não encontrado: ${templatePath}`);
         }
         
         const templateBuffer = fs.readFileSync(templatePath);

@@ -51,7 +51,7 @@ setTimeout(() => {
     console.log('============================');
     
     const navLinks = document.querySelectorAll('.nav-link');
-    console.log(`🔗 Links de navegação encontraçãos: ${navLinks.length}`);
+    console.log(`🔗 Links de navegação encontrados: ${navLinks.length}`);
     
     navLinks.forEach((link, index) => {
         const href = link.getAttribute('href') || link.getAttribute('onclick');
@@ -75,7 +75,7 @@ setTimeout(() => {
         console.log('============================');
         
         const widgets = document.querySelectorAll('.widget');
-        console.log(`🏷️ Widgets encontraçãos: ${widgets.length}`);
+        console.log(`🏷️ Widgets encontrados: ${widgets.length}`);
         
         widgets.forEach((widget, index) => {
             const title = widget.querySelector('.widget-title').textContent || 'Sem título';
@@ -110,7 +110,7 @@ setTimeout(() => {
         const reportCards = document.querySelectorAll('.report-card');
         
         console.log(`📋 Grid de relatórios: ${reportsGrid  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
-        console.log(`🏷️ Cards de relatórios: ${reportCards.length} encontraçãos`);
+        console.log(`🏷️ Cards de relatórios: ${reportCards.length} encontrados`);
     }
     
     // Resumo final
@@ -121,13 +121,13 @@ setTimeout(() => {
     const totalSections = sections.length;
     
     console.log(`✅ Seções funcionando: ${foundSections}/${totalSections}`);
-    console.log(`🧭 Navegação: ${navLinks.length} links encontraçãos`);
+    console.log(`🧭 Navegação: ${navLinks.length} links encontrados`);
     console.log(`👁️ Seções ativas: ${activeSections.length} (ideal: 1)`);
     
     if (foundSections === totalSections && activeSections.length === 1) {
         console.log('🎉 TODOS OS TESTES PASSARAM! Sistema funcionando corretamente.');
     } else {
-        console.log('⚠️ Alguns problemas encontraçãos, mas sistema funcional.');
+        console.log('⚠️ Alguns problemas encontrados, mas sistema funcional.');
     }
     
 }, 2000);

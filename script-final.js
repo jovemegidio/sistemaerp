@@ -43,7 +43,7 @@ setTimeout(() => {
                     console.log('   ✅ ' + id);
                     return true;
                 }
-                console.warn('   ⚠️ ' + id + ' não encontração');
+                console.warn('   ⚠️ ' + id + ' não encontrado');
                 return false;
             };
             
@@ -104,7 +104,7 @@ setTimeout(() => {
                             }
                         }, 500);
                     } else {
-                        console.error('   ❌ checkbox não encontração!');
+                        console.error('   ❌ checkbox não encontrado!');
                     }
                     
                     setTimeout(() => {
@@ -197,7 +197,7 @@ setTimeout(() => {
                                                             console.log('%c📥 Excel baixação! Verifique a formatação do template', 'color:#f59e0b;font-weight:bold');
                                                         }, 3000);
                                                     } else {
-                                                        console.error('❌ Botão emitir não encontração');
+                                                        console.error('❌ Botão emitir não encontrado');
                                                     }
                                                 }, 1000);
                                             }
@@ -206,7 +206,7 @@ setTimeout(() => {
                                 }, 500);
                             }, 500);
                         } else {
-                            console.error('   ❌ checkbox não encontração!');
+                            console.error('   ❌ checkbox não encontrado!');
                         }
                     }, 800);
                 }, 800);

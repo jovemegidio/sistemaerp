@@ -589,7 +589,7 @@ function inicializarUsuario() {
         else if (hora >= 18 || hora < 5) saudacao = 'Boa noite';
         
         // Usar apelido se disponível, senão primeiro nome
-        const primeiroNome = usuario.apelido || (usuario.nome  usuario.nome.split(' ')[0] : 'Usuário');
+        const primeiroNome = usuario.apelido || (usuario.nome ? usuario.nome.split(' ')[0] : 'Usuário');
         userGreeting.textContent = `${saudacao}, ${primeiroNome}`;
     }
 

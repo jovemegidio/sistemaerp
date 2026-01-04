@@ -18,7 +18,7 @@ const mysql = require('mysql2/promise');
     console.log(JSON.stringify(out, null, 2));
     await conn.end();
   } catch (err) {
-    console.error('ERROR', err && err.message  err.message : err);
+    console.error('ERROR', err && err.message ? err.message : err);
     process.exit(1);
   }
 })();

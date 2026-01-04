@@ -274,7 +274,7 @@ class SearchOptimizer {
         // Usar cache se disponível
         const cacheKey = `search:${endpoint}:${query}`;
         if (this.searchCache.has(cacheKey)) {
-            console.log(`✅ Resultação de busca em cache: "${query}"`);
+            console.log(`✅ Resultado de busca em cache: "${query}"`);
             return this.searchCache.get(cacheKey);
         }
 

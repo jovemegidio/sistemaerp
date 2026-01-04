@@ -25,13 +25,13 @@ async function resetAllPasswords() {
     let connection;
     try {
         connection = await pool.getConnection();
-        console.log("Conectação ao banco de daçãos para resetar todas as senhas.");
+        console.log("Conectação ao banco de dados para resetar todas as senhas.");
 
         // 1. Busca todos os usuários
         const [users] = await connection.query("SELECT id, email FROM usuarios");
 
         if (users.length === 0) {
-            console.log("Nenhum usuário encontração no banco de daçãos.");
+            console.log("Nenhum usuário encontrado no banco de dados.");
             return;
         }
 

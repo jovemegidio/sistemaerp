@@ -353,7 +353,7 @@ router.put('/departamentos/:id', authenticateToken, requireAdmin, async (req, re
         `, [nome, sigla, descricao, responsavel_id, cor, icone, ativo, id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Departamento não encontração' });
+            return res.status(404).json({ error: 'Departamento não encontrado' });
         }
 
         res.json({ 
@@ -377,7 +377,7 @@ router.delete('/departamentos/:id', authenticateToken, requireAdmin, async (req,
         const [result] = await pool.execute('DELETE FROM departamentos WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Departamento não encontração' });
+            return res.status(404).json({ error: 'Departamento não encontrado' });
         }
 
         res.json({ 
@@ -508,7 +508,7 @@ router.put('/projetos/:id', authenticateToken, requireAdmin, async (req, res) =>
         ]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Projeto não encontração' });
+            return res.status(404).json({ error: 'Projeto não encontrado' });
         }
 
         res.json({ 
@@ -532,7 +532,7 @@ router.delete('/projetos/:id', authenticateToken, requireAdmin, async (req, res)
         const [result] = await pool.execute('DELETE FROM projetos WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Projeto não encontração' });
+            return res.status(404).json({ error: 'Projeto não encontrado' });
         }
 
         res.json({ 

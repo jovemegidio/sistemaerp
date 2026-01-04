@@ -20,7 +20,7 @@ async function main(){
   // Machine-friendly output: print the filepath on the last line only
   console.log(file);
   } catch (err) {
-    console.error('Backup failed:', err && err.message  err.message : err);
+    console.error('Backup failed:', err && err.message ? err.message : err);
     process.exitCode = 2;
   } finally {
     await db.end();

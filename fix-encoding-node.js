@@ -16,7 +16,7 @@ const replacements = {
     'Ú': 'Ú', 'Ù': 'Ù', 'Û': 'Û', 'Ü': 'Ü',
     'ç': 'ç', 'Ç': 'Ç',
     
-    // Padrões específicos encontraçãos
+    // Padrões específicos encontrados
     '': '', // Remove caractere de substituição
     'configurao': 'configuração',
     'Configurao': 'Configuração',

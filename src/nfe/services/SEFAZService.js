@@ -80,7 +80,7 @@ class SEFAZService {
      * @param {string} xmlAssinação - XML da NFe já assinação
      * @param {string} uf - UF do emitente
      * @param {string} ambiente - 'homologacao' ou 'producao'
-     * @returns {Promise<Object>} Resultação da autorização
+     * @returns {Promise<Object>} Resultado da autorização
      */
     async autorizarNFe(xmlAssinação, uf, ambiente = 'homologacao') {
         try {
@@ -144,7 +144,7 @@ class SEFAZService {
      * @param {string} numeroRecibo - Número do recibo
      * @param {string} uf - UF do emitente
      * @param {string} ambiente - 'homologacao' ou 'producao'
-     * @returns {Promise<Object>} Resultação da consulta
+     * @returns {Promise<Object>} Resultado da consulta
      */
     async consultarRetornoAutorizacao(numeroRecibo, uf, ambiente = 'homologacao') {
         try {

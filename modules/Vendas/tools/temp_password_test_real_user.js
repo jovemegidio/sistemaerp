@@ -22,7 +22,7 @@
   try {
     const [rows] = await pool.query('SELECT id, email, senha_hash FROM usuarios WHERE email =  LIMIT 1', [email]);
     if (rows.length === 0) {
-      console.error('Usuário não encontração:', email);
+      console.error('Usuário não encontrado:', email);
       process.exit(1);
     }
     userId = rows[0].id;
@@ -72,14 +72,14 @@
     }
 
   } catch (err) {
-    console.error('ERROR', err && err.message  err.message : err);
+    console.error('ERROR', err && err.message ? err.message : err);
   } finally {
     try {
       // restaurar hash original
       await pool.query('UPDATE usuarios SET senha_hash =  WHERE id = ', [originalHash, userId]);
       console.log('Hash original restauração.');
     } catch (restoreErr) {
-      console.error('Falha ao restaurar hash original:', restoreErr && restoreErr.message  restoreErr.message : restoreErr);
+      console.error('Falha ao restaurar hash original:', restoreErr && restoreErr.message ? restoreErr.message : restoreErr);
       console.error('Backup está em:', backupFile);
     }
     await pool.end();

@@ -79,7 +79,7 @@ require('dotenv').config();
     console.log(`Total: ${total}, Skipped(existing thumbs): ${skipped}, Recovered: ${recovered}, Failed: ${failed}`)
     process.exit(0)
   } catch (err) {
-    console.error('Erro ao gerar relatório:', err && err.message  err.message : err)
+    console.error('Erro ao gerar relatório:', err && err.message ? err.message : err)
     ws.end()
     process.exit(2)
   } finally {

@@ -33,7 +33,7 @@ function checkFile(filePath, referencedIn) {
 function checkHtmlFile(htmlPath) {
     const fullPath = path.join(projectRoot, htmlPath);
     if (!fs.existsSync(fullPath)) {
-        warnings.push(`⚠️  Arquivo HTML não encontração: ${htmlPath}`);
+        warnings.push(`⚠️  Arquivo HTML não encontrado: ${htmlPath}`);
         return;
     }
 
@@ -171,7 +171,7 @@ criticalFiles.forEach(file => {
         success.push(`✅ ${file}`);
     } else {
         if (file === '.env') {
-            warnings.push(`⚠️  ${file} não encontração (não é crítico se usar variáveis de ambiente)`);
+            warnings.push(`⚠️  ${file} não encontrado (não é crítico se usar variáveis de ambiente)`);
         } else {
             issues.push(`❌ ${file} NÁO EXISTE`);
         }
@@ -211,4 +211,4 @@ if (issues.length > 0) {
 console.log('\n' + '='.repeat(70));
 
 // Exit code
-process.exit(issues.length > 0  1 : 0);
+process.exit(issues.length > 0 ? 1 : 0);

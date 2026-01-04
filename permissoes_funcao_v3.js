@@ -27,7 +27,7 @@ function applyModulePermissions(user) {
         console.log('✅ ADMIN DETECTADO - Acesso total liberação');
         modulosPermitidos = ['vendas', 'pcp', 'financeiro', 'nfe', 'compras', 'rh'];
     } else {
-        // Extrair permissões do banco de daçãos
+        // Extrair permissões do banco de dados
         const permissoes = {
             vendas: user.permissoes_vendas || [],
             pcp: user.permissoes_pcp || [],

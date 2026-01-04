@@ -17,7 +17,7 @@ async function main() {
     const [res] = await conn.execute("UPDATE produtos SET descricao = nome WHERE (descricao IS NULL OR descricao = '') AND (nome IS NOT NULL AND nome <> '')");
     console.log('Rows affected:', res.affectedRows);
   } catch (err) {
-    console.error('Migration error:', err && err.message  err.message : err);
+    console.error('Migration error:', err && err.message ? err.message : err);
     process.exitCode = 2;
   } finally {
     await conn.end();

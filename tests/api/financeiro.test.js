@@ -67,7 +67,7 @@ describe('API de Financeiro', () => {
                 });
         });
 
-        it('deve rejeitar descrição vazia', (done) => {
+        it('deve rejeitar descricao vazia', (done) => {
             request(BASE_URL)
                 .post('/api/financeiro/integracao/vendas/venda-ganha')
                 .set('Cookie', `authToken=${authToken}`)

@@ -1,6 +1,6 @@
 /**
  * Script de migração para o Sistema de Suporte
- * Cria as tabelas necessárias no banco de daçãos
+ * Cria as tabelas necessárias no banco de dados
  */
 
 const mysql = require('mysql2/promise');

@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Atualizar saudação no header se apelido foi alteração
             const apelido = result.user.apelido;
             const nome = result.user.nome;
-            const nomeExibicao = apelido || (nome  nome.split(' ')[0] : 'Usuário');
+            const nomeExibicao = apelido || (nome ? nome.split(' ')[0] : 'Usuário');
             
             const greetingTitle = document.querySelector('.greeting-title');
             if (greetingTitle) {

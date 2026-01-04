@@ -239,7 +239,7 @@
         Object.keys(results.content || {}).forEach(section => {
             const sectionData = results.content[section];
             const elementCount = Object.values(sectionData.elements || {}).reduce((a, b) => a + b, 0);
-            console.log(`   📁 ${section}: ${elementCount} elementos encontraçãos`);
+            console.log(`   📁 ${section}: ${elementCount} elementos encontrados`);
         });
 
         // Criar resumo visual na página

@@ -1,8 +1,8 @@
-// Script Node.js para criar usuários administrativos diretamente no banco de daçãos
+// Script Node.js para criar usuários administrativos diretamente no banco de dados
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 
-// Configuração do banco de daçãos (use as mesmas credenciais do server.js)
+// Configuração do banco de dados (use as mesmas credenciais do server.js)
 const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',  
@@ -64,7 +64,7 @@ const adminUsers = [
 
 async function createAdminUsers() {
   try {
-    console.log('Conectando ao banco de daçãos...');
+    console.log('Conectando ao banco de dados...');
     
     // Hash da senha padrão
     const defaultPassword = 'admin123';

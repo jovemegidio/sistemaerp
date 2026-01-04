@@ -55,7 +55,7 @@ window.buscarClientesAutoComplete = function(termo) {
     
     const container = document.getElementById('client-suggestions');
     if (!container) {
-        console.error('❌ Container client-suggestions não encontração!');
+        console.error('❌ Container client-suggestions não encontrado!');
         return;
     }
     
@@ -72,7 +72,7 @@ window.buscarClientesAutoComplete = function(termo) {
     console.log('✅ Encontraçãos:', clientes.length, 'clientes');
     
     if (clientes.length === 0) {
-        container.innerHTML = '<div style="padding: 12px; color: #6b7280;">Nenhum cliente encontração</div>';
+        container.innerHTML = '<div style="padding: 12px; color: #6b7280;">Nenhum cliente encontrado</div>';
         container.style.display = 'block';
         return;
     }
@@ -122,7 +122,7 @@ window.buscarTransportaçãorasAutoComplete = function(termo) {
     
     const container = document.getElementById('transport-suggestions');
     if (!container) {
-        console.error('❌ Container transport-suggestions não encontração!');
+        console.error('❌ Container transport-suggestions não encontrado!');
         return;
     }
     
@@ -189,7 +189,7 @@ window.buscarProdutosAutoComplete = function(termo) {
     
     const container = document.getElementById('product-suggestions');
     if (!container) {
-        console.error('❌ Container product-suggestions não encontração!');
+        console.error('❌ Container product-suggestions não encontrado!');
         return;
     }
     
@@ -207,7 +207,7 @@ window.buscarProdutosAutoComplete = function(termo) {
     console.log('✅ Encontraçãos:', produtos.length, 'produtos');
     
     if (produtos.length === 0) {
-        container.innerHTML = '<div style="padding: 12px; color: #6b7280;">Nenhum produto encontração</div>';
+        container.innerHTML = '<div style="padding: 12px; color: #6b7280;">Nenhum produto encontrado</div>';
         container.style.display = 'block';
         return;
     }

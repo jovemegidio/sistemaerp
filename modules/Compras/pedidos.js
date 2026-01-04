@@ -286,7 +286,7 @@ async function salvarPedido() {
         frete: frete,
         valor_final: valorFinal,
         itens: itens,
-        created_at: pedidoId  pedidos.find(p => p.id === pedidoId).created_at : new Date().toISOString(),
+        created_at: pedidoId ? pedidos.find(p => p.id === pedidoId).created_at : new Date().toISOString(),
         updated_at: new Date().toISOString()
     };
     
@@ -373,7 +373,7 @@ function renderizarTabelaPedidos() {
             <tr>
                 <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
                     <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
-                    <p>Nenhum pedido encontração</p>
+                    <p>Nenhum pedido encontrado</p>
                 </td>
             </tr>
         `;

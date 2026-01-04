@@ -1,6 +1,6 @@
 /**
  * Sistema de Backup Automático
- * Backup do banco de daçãos MySQL
+ * Backup do banco de dados MySQL
  * @author Aluforce ERP
  * @version 1.0.0
  */
@@ -41,7 +41,7 @@ module.exports = function({ pool, authenticateToken }) {
         if (req.user.is_admin !== 1 && req.user.role !== 'admin') {
             return res.status(403).json({ 
                 success: false, 
-                message: 'Apenas administraçãores podem gerenciar backups' 
+                message: 'Apenas administradores podem gerenciar backups' 
             });
         }
         next();
@@ -157,7 +157,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!fs.existsSync(filepath)) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Arquivo não encontração' 
+                    message: 'Arquivo não encontrado' 
                 });
             }
             
@@ -187,7 +187,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!fs.existsSync(filepath)) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Arquivo não encontração' 
+                    message: 'Arquivo não encontrado' 
                 });
             }
             
@@ -229,7 +229,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!fs.existsSync(filepath)) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Arquivo não encontração' 
+                    message: 'Arquivo não encontrado' 
                 });
             }
             
@@ -282,7 +282,7 @@ module.exports = function({ pool, authenticateToken }) {
                 SELECT * FROM configuracoes_sistema WHERE chave = 'backup_automatico'
             `);
             
-            const configuracao = config.valor  JSON.parse(config.valor) : {
+            const configuracao = config.valor ? JSON.parse(config.valor) : {
                 ativo: false,
                 horario: '03:00',
                 dias_semana: [0, 1, 2, 3, 4, 5, 6],

@@ -410,12 +410,12 @@ class SectionOrganizer {
     // Criar cards de relatórios
     createRelatorioCards() {
         const relatórios = [
-            { nome: 'Folha de Pagamento', descrição: 'Relatório mensal completo', tipo: 'Financeiro', status: 'active' },
-            { nome: 'Funcionários Ativos', descrição: 'Lista de colaboraçãores ativos', tipo: 'RH', status: 'active' },
-            { nome: 'Aniversariantes', descrição: 'Colaboraçãores aniversariantes do mês', tipo: 'RH', status: 'active' },
-            { nome: 'Férias e Licenças', descrição: 'Controle de ausências', tipo: 'RH', status: 'pending' },
-            { nome: 'Custos por Departamento', descrição: 'Análise de custos', tipo: 'Financeiro', status: 'active' },
-            { nome: 'Produtividade', descrição: 'Métricas de performance', tipo: 'Gestão', status: 'active' }
+            { nome: 'Folha de Pagamento', descricao: 'Relatório mensal completo', tipo: 'Financeiro', status: 'active' },
+            { nome: 'Funcionários Ativos', descricao: 'Lista de colaboraçãores ativos', tipo: 'RH', status: 'active' },
+            { nome: 'Aniversariantes', descricao: 'Colaboraçãores aniversariantes do mês', tipo: 'RH', status: 'active' },
+            { nome: 'Férias e Licenças', descricao: 'Controle de ausências', tipo: 'RH', status: 'pending' },
+            { nome: 'Custos por Departamento', descricao: 'Análise de custos', tipo: 'Financeiro', status: 'active' },
+            { nome: 'Produtividade', descricao: 'Métricas de performance', tipo: 'Gestão', status: 'active' }
         ];
 
         return relatórios.map(rel => `
@@ -426,7 +426,7 @@ class SectionOrganizer {
                     </div>
                     <div class="item-info">
                         <h4>${rel.nome}</h4>
-                        <p>${rel.descrição}</p>
+                        <p>${rel.descricao}</p>
                         <p>Categoria: ${rel.tipo}</p>
                     </div>
                 </div>

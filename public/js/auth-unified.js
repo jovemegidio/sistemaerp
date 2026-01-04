@@ -156,12 +156,12 @@
 
         if (!authToken) {
             // Se não houver token local, tentar verificar diretamente com o servidor
-            debugLog('⚠️ Nenhum token local encontração — tentando verificação direta no servidor...');
+            debugLog('⚠️ Nenhum token local encontrado — tentando verificação direta no servidor...');
             const serverUser = await checkAuthentication();
             if (!serverUser) {
-                debugLog('❌ Nenhum usuário autenticação encontração no servidor');
+                debugLog('❌ Nenhum usuário autenticação encontrado no servidor');
                 clearAuthData();
-                redirectToLogin('Token não encontração');
+                redirectToLogin('Token não encontrado');
                 return;
             }
             // Se o servidor retornar usuário, preservar os daçãos localmente e prosseguir
@@ -170,7 +170,7 @@
             return;
         }
 
-        debugLog('🎫 Token local encontração, verificando validade...');
+        debugLog('🎫 Token local encontrado, verificando validade...');
 
         // Verificar validade do token via API
         const userData = await checkAuthentication();
@@ -222,7 +222,7 @@
         getUserData: () => {
             try {
                 const userData = localStorage.getItem('userData');
-                return userData  JSON.parse(userData) : null;
+                return userData ? JSON.parse(userData) : null;
             } catch (e) {
                 return null;
             }

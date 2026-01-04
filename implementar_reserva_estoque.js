@@ -11,7 +11,7 @@ async function implementarReservaEstoque() {
             database: 'aluforce_vendas'
         });
 
-        console.log('🔌 Conectação ao banco de daçãos\n');
+        console.log('🔌 Conectação ao banco de dados\n');
         console.log('='.repeat(60));
         console.log('🎯 FASE 3: IMPLEMENTANDO SISTEMA DE RESERVA DE ESTOQUE');
         console.log('='.repeat(60));

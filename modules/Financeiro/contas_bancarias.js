@@ -297,7 +297,7 @@ async function salvarMovimentacao(event) {
     const tipo = document.getElementById('mov-tipo').value;
     const valor = parseFloat(document.getElementById('mov-valor').value);
     const data = document.getElementById('mov-data').value;
-    const descrição = document.getElementById('mov-descrição').value;
+    const descricao = document.getElementById('mov-descricao').value;
     const contaDestinoId = document.getElementById('mov-conta-destino').value;
     
     // Validações
@@ -311,7 +311,7 @@ async function salvarMovimentacao(event) {
         // const response = await fetch('/api/financeiro/movimentacoes', {
         //     method: 'POST',
         //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ conta_bancaria_id: contaId, tipo, valor, data, descrição, conta_destino_id: contaDestinoId })
+        //     body: JSON.stringify({ conta_bancaria_id: contaId, tipo, valor, data, descricao, conta_destino_id: contaDestinoId })
         // });
         
         // Mock: atualizar saldo

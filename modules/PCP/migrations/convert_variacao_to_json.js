@@ -82,7 +82,7 @@ const APPLY = process.argv.includes('--apply');
       console.log('All updates committed successfully.');
     } catch (e) {
       await conn.rollback();
-      console.error('Error while applying updates, rolled back:', e && e.message  e.message : e);
+      console.error('Error while applying updates, rolled back:', e && e.message ? e.message : e);
       process.exit(2);
     } finally {
       conn.release();
@@ -90,7 +90,7 @@ const APPLY = process.argv.includes('--apply');
 
     process.exit(0);
   } catch (err) {
-    console.error('Migration failed:', err && err.message  err.message : err);
+    console.error('Migration failed:', err && err.message ? err.message : err);
     process.exit(1);
   } finally {
     try { await pool.end(); } catch(e){}

@@ -12,7 +12,7 @@ async function configurarPermissoes() {
         if (response.ok) {
             console.log('✅ Servidor está rodando na porta 3001\n');
             console.log('📋 Para configurar as permissões, execute os seguintes comandos SQL manualmente:\n');
-            console.log('1. Abra o MySQL Workbench ou outra ferramenta de banco de daçãos');
+            console.log('1. Abra o MySQL Workbench ou outra ferramenta de banco de dados');
             console.log('2. Conecte ao banco "aluforce_vendas"');
             console.log('3. Execute o conteúdo do arquivo: database/setup_permissoes_financeiro.sql\n');
             console.log('Alternativamente, você pode executar os UPDATE diretamente:');

@@ -39,7 +39,7 @@ async function login() {
                         return;
                     }
                 }
-                reject(new Error('Token não encontração'));
+                reject(new Error('Token não encontrado'));
             });
         });
 

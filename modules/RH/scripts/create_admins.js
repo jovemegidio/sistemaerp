@@ -54,7 +54,7 @@ async function main () {
     }
     console.log('Done. Change the passwords immediately in production and remove default ADMIN_PASSWORD.')
   } catch (err) {
-    console.error('Error creating admins:', err && err.message  err.message : err)
+    console.error('Error creating admins:', err && err.message ? err.message : err)
     process.exitCode = 2
   } finally {
     try { await conn.end() } catch (e) {}

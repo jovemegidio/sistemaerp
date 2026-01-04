@@ -296,7 +296,7 @@ pages.forEach(page => {
     const filePath = path.join(NFE_DIR, page.file);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`[SKIP] ${page.file} - arquivo não encontração`);
+        console.log(`[SKIP] ${page.file} - arquivo não encontrado`);
         return;
     }
 

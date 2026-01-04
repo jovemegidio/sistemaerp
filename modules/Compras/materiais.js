@@ -268,7 +268,7 @@ class MateriaisManager {
                 <tr>
                     <td colspan="9" style="text-align: center; padding: 40px; color: #666;">
                         <i class="fas fa-cubes" style="font-size: 48px; color: #ddd; margin-bottom: 16px; display: block;"></i>
-                        Nenhum material encontração
+                        Nenhum material encontrado
                     </td>
                 </tr>
             `;
@@ -381,7 +381,7 @@ class MateriaisManager {
     async editar(id) {
         try {
             const response = await fetch(`/api/compras/materiais/${id}`);
-            if (!response.ok) throw new Error('Material não encontração');
+            if (!response.ok) throw new Error('Material não encontrado');
             
             const m = await response.json();
 
@@ -415,7 +415,7 @@ class MateriaisManager {
     async visualizar(id) {
         try {
             const response = await fetch(`/api/compras/materiais/${id}`);
-            if (!response.ok) throw new Error('Material não encontração');
+            if (!response.ok) throw new Error('Material não encontrado');
             
             const m = await response.json();
             
@@ -527,7 +527,7 @@ class MateriaisManager {
         };
 
         if (!daçãos.codigo || !daçãos.descricao) {
-            alert('Código e descrição são obrigatórios!');
+            alert('Código e descricao são obrigatórios!');
             return;
         }
 
@@ -605,7 +605,7 @@ function inicializarUsuario() {
     if (greetingEl) greetingEl.textContent = saudacao;
     
     const userData = JSON.parse(localStorage.getItem('user') || '{}');
-    const nome = userData.apelido || (userData.nome  userData.nome.split(' ')[0] : 'Usuário');
+    const nome = userData.apelido || (userData.nome ? userData.nome.split(' ')[0] : 'Usuário');
     
     const userNameEl = document.getElementById('user-name');
     if (userNameEl) userNameEl.textContent = nome;

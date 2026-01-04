@@ -55,7 +55,7 @@
                     atualizarInterfaceUsuario(currentUser);
                     return currentUser;
                 } else {
-                    console.error('❌ Campo "user" não encontração na resposta');
+                    console.error('❌ Campo "user" não encontrado na resposta');
                     return null;
                 }
             } else {
@@ -85,7 +85,7 @@
         const userTexts = document.querySelectorAll('.user-text');
         console.log(`📝 Encontraçãos ${userTexts.length} elementos .user-text`);
         userTexts.forEach(element => {
-            const primeiroNome = user.nome  user.nome.split(' ')[0] : 'Usuário';
+            const primeiroNome = user.nome ? user.nome.split(' ')[0] : 'Usuário';
             element.textContent = `Olá, ${primeiroNome}`;
             console.log(`✏️ Atualização .user-text: "${element.textContent}"`);
         });

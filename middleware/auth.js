@@ -45,7 +45,7 @@ function requireAdmin(req, res, next) {
     const isAdmin = req.user.role === 'admin' || adminEmails.includes(req.user.email);
 
     if (!isAdmin) {
-        return res.status(403).json({ error: 'Acesso negação. Apenas administraçãores.' });
+        return res.status(403).json({ error: 'Acesso negação. Apenas administradores.' });
     }
 
     next();

@@ -26,6 +26,6 @@
     const [result] = await pool.query(sql, values);
     console.log(JSON.stringify({ created: true, id: result.insertId, email, password: plain }));
   } catch (err) {
-    console.error('ERROR', err && err.message  err.message : err);
+    console.error('ERROR', err && err.message ? err.message : err);
   } finally { await pool.end(); }
 })();

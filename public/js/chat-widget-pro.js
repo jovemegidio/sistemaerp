@@ -133,7 +133,7 @@
                 "✓ Contas a Receber\n" +
                 "✓ Fluxo de Caixa\n" +
                 "✓ Conciliação Bancária\n" +
-                "✓ DRE - Demonstração de Resultaçãos\n" +
+                "✓ DRE - Demonstração de Resultados\n" +
                 "✓ Relatórios Financeiros\n\n" +
                 "Qual operação financeira você precisa realizar"
             ]

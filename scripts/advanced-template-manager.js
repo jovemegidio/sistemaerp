@@ -109,7 +109,7 @@ class AdvancedTemplateManager {
     async createCustomTemplate(baseTemplateId, customizations, userInfo) {
         const baseTemplate = this.config.templates[baseTemplateId];
         if (!baseTemplate) {
-            throw new Error('Template base não encontração');
+            throw new Error('Template base não encontrado');
         }
 
         const customTemplateId = await this.registerTemplate({
@@ -275,7 +275,7 @@ class AdvancedTemplateManager {
     async getTemplate(templateId) {
         const template = this.config.templates[templateId];
         if (!template) {
-            throw new Error('Template não encontração');
+            throw new Error('Template não encontrado');
         }
 
         return template;
@@ -296,7 +296,7 @@ class AdvancedTemplateManager {
             template.metadata.isDefault = true;
             await this.saveTemplateConfig();
         } else {
-            throw new Error('Template não encontração');
+            throw new Error('Template não encontrado');
         }
     }
 

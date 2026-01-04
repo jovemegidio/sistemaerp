@@ -38,7 +38,7 @@ class XMLService {
                 mod: nfeData.modelo || '55',
                 serie: config.serie,
                 nNF: numeroNFe,
-                tpEmis: config.contingencia_ativa  config.tipo_contingencia : '1',
+                tpEmis: config.contingencia_ativa ? config.tipo_contingencia : '1',
                 cNF: codigoNumerico
             });
 
@@ -100,12 +100,12 @@ class XMLService {
             serie: config.serie,
             nNF: numeroNFe,
             dhEmi: dataEmissao.format('YYYY-MM-DDTHH:mm:ssZ'),
-            dhSaiEnt: nfeData.dataSaida  moment.tz(nfeData.dataSaida, 'America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ssZ') : null,
+            dhSaiEnt: nfeData.dataSaida ? moment.tz(nfeData.dataSaida, 'America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ssZ') : null,
             tpNF: nfeData.tipoOperacao || '1', // 0=Entrada, 1=Saída
             idDest: this.determinarIdDest(nfeData.emitente.uf, nfeData.destinatario.uf),
             cMunFG: nfeData.emitente.codigoMunicipio,
             tpImp: '1', // 1=DANFE Retrato
-            tpEmis: config.contingencia_ativa  config.tipo_contingencia : '1',
+            tpEmis: config.contingencia_ativa ? config.tipo_contingencia : '1',
             cDV: chaveAcesso.substr(43, 1),
             tpAmb: config.ambiente === 'producao'  '1' : '2',
             finNFe: nfeData.finalidade || '1', // 1=Normal, 2=Complementar, 3=Ajuste, 4=Devolução
@@ -135,7 +135,7 @@ class XMLService {
                 CEP: emitente.cep.replace(/\D/g, ''),
                 cPais: '1058',
                 xPais: 'BRASIL',
-                fone: emitente.telefone  emitente.telefone.replace(/\D/g, '') : null
+                fone: emitente.telefone ? emitente.telefone.replace(/\D/g, '') : null
             },
             IE: emitente.ie,
             CRT: emitente.regimeTributario || '1' // 1=Simples Nacional
@@ -164,7 +164,7 @@ class XMLService {
                 CEP: destinatario.cep.replace(/\D/g, ''),
                 cPais: '1058',
                 xPais: 'BRASIL',
-                fone: destinatario.telefone  destinatario.telefone.replace(/\D/g, '') : null
+                fone: destinatario.telefone ? destinatario.telefone.replace(/\D/g, '') : null
             },
             indIEDest: destinatario.ie  '1' : '9', // 1=Contribuinte, 9=Não contribuinte
             IE: destinatario.ie || null,
@@ -193,8 +193,8 @@ class XMLService {
                 uTrib: item.unidade,
                 qTrib: this.formatDecimal(item.quantidade, 4),
                 vUnTrib: this.formatDecimal(item.valorUnitario, 10),
-                vDesc: item.desconto  this.formatDecimal(item.desconto, 2) : null,
-                vFrete: item.frete  this.formatDecimal(item.frete, 2) : null,
+                vDesc: item.desconto ? this.formatDecimal(item.desconto, 2) : null,
+                vFrete: item.frete ? this.formatDecimal(item.frete, 2) : null,
                 indTot: '1' // 1=Compõe total da NFe
             },
             imposto: this.montarImpostoItem(item)

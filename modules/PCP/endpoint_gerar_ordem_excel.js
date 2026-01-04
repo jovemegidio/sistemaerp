@@ -42,8 +42,8 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         const templatePath = path.join(__dirname, 'Ordem de Produção.xlsx');
         
         if (!fs.existsSync(templatePath)) {
-            logger.error('[GERAR ORDEM EXCEL] Template não encontração:', templatePath);
-            return res.status(500).json({ message: 'Template Excel não encontração no servidor' });
+            logger.error('[GERAR ORDEM EXCEL] Template não encontrado:', templatePath);
+            return res.status(500).json({ message: 'Template Excel não encontrado no servidor' });
         }
         
         const workbook = new ExcelJS.Workbook();

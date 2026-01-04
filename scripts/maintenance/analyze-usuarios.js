@@ -16,7 +16,7 @@ async function analyzeUsersTable() {
     let pool;
     try {
         pool = mysql.createPool(DB_CONFIG);
-        console.log('✅ Conectação ao banco de daçãos\n');
+        console.log('✅ Conectação ao banco de dados\n');
 
         // Verificar estrutura da tabela
         console.log('📋 Estrutura da tabela usuarios:');
@@ -33,7 +33,7 @@ async function analyzeUsersTable() {
             col.Field.toLowerCase().includes('hash')
         );
 
-        console.log(`\n🔐 Campos de senha encontraçãos: ${passwordColumns.length}`);
+        console.log(`\n🔐 Campos de senha encontrados: ${passwordColumns.length}`);
         passwordColumns.forEach(col => {
             console.log(`   🔑 ${col.Field} (${col.Type})`);
         });
@@ -119,7 +119,7 @@ async function analyzeUsersTable() {
             }
 
             // Verificar avatar
-            const firstName = user.nome  user.nome.split(' ')[0].toLowerCase() : '';
+            const firstName = user.nome ? user.nome.split(' ')[0].toLowerCase() : '';
             const avatarFile = avatarMapping[firstName];
             
             if (avatarFile) {
@@ -167,7 +167,7 @@ async function analyzeUsersTable() {
             Object.keys(exampleUser).forEach(key => {
                 const value = exampleUser[key];
                 const type = typeof value;
-                const display = type === 'string' && value.length > 50  value.substring(0, 50) + '...' : value;
+                const display = type === 'string' && value.length > 50 ? value.substring(0, 50) + '...' : value;
                 console.log(`   ${key}: ${display} (${type})`);
             });
         }

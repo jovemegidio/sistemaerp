@@ -56,13 +56,13 @@ async function verificacaoCompleta() {
         }
         
         console.log(`\n🎯 RESULTADO DA VERIFICAÇÁO:`);
-        console.log(`   📊 Daçãos encontraçãos: ${daçãosEncontraçãos}`);
+        console.log(`   📊 Daçãos encontrados: ${daçãosEncontraçãos}`);
         
         if (daçãosEncontraçãos > 0) {
             console.log('   ✅ DADOS ESTÁO SENDO APLICADOS AO EXCEL!');
             console.log('   ✅ Mapeamento funcionando corretamente!');
         } else {
-            console.log('   ❌ Nenhum dação de teste encontração');
+            console.log('   ❌ Nenhum dação de teste encontrado');
             console.log('   ⚠️ Verificar se daçãos estão sendo aplicaçãos');
         }
         

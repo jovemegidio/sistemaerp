@@ -42,9 +42,9 @@ function loadPage(pageName) {
   const mainContent = document.querySelector('.content-area') || document.querySelector('main') || document.querySelector('.main-content')
   
   if (!mainContent) {
-    console.error('Contêiner principal não encontração para carregar a página')
+    console.error('Contêiner principal não encontrado para carregar a página')
     if (window.headerControls) {
-      window.headerControls.showToast('Erro: Contêiner não encontração', 'error')
+      window.headerControls.showToast('Erro: Contêiner não encontrado', 'error')
     }
     return
   }
@@ -81,7 +81,7 @@ function loadPage(pageName) {
       
       // Verificar se existe body, senão usar o conteúdo completo
       const bodyElement = tempDiv.querySelector('body')
-      const pageContent = bodyElement  bodyElement.innerHTML : html
+      const pageContent = bodyElement ? bodyElement.innerHTML : html
       
       mainContent.innerHTML = pageContent
       
@@ -291,8 +291,8 @@ function initAdminPage () {
       const func = await response.json()
 
       const dataAdmissao = func.data_admissao  new Date(func.data_admissao).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : 'N/A'
-      const atéstaçãos = func.atéstaçãos && func.atéstaçãos.length > 0  func.atéstaçãos.map(a => `<li>${a}</li>`).join('') : '<li>Nenhum atéstação registração.</li>'
-      const holerites = func.holerites && func.holerites.length > 0  func.holerites.map(h => `<li>${h}</li>`).join('') : '<li>Nenhum holerite registração.</li>'
+      const atéstaçãos = func.atéstaçãos && func.atéstaçãos.length > 0 ? func.atéstaçãos.map(a => `<li>${a}</li>`).join('') : '<li>Nenhum atéstação registração.</li>'
+      const holerites = func.holerites && func.holerites.length > 0 ? func.holerites.map(h => `<li>${h}</li>`).join('') : '<li>Nenhum holerite registração.</li>'
 
       detalhesContent.innerHTML = `
                 <p><strong>ID:</strong> ${func.id}</p>

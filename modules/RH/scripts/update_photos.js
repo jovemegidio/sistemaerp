@@ -32,7 +32,7 @@ async function main () {
       // Update matching records where nome_completo contains the fragment (case-insensitive)
       const [rows] = await db.execute('SELECT id, nome_completo FROM funcionarios WHERE LOWER(nome_completo) LIKE ', [`%${nameFrag}%`])
       if (!rows || rows.length === 0) {
-        console.warn(`Nenhum funcionário encontração com nome contendo: ${nameFrag}`)
+        console.warn(`Nenhum funcionário encontrado com nome contendo: ${nameFrag}`)
         continue
       }
       for (const r of rows) {

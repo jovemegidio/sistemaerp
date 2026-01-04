@@ -144,7 +144,7 @@ const Popup = (function() {
 
             // Event listeners
             confirmBtn.addEventListener('click', () => {
-                const value = input  input.value : true;
+                const value = input ? input.value : true;
                 if (config.onConfirm) config.onConfirm(value);
                 close({ confirmed: true, value });
             });

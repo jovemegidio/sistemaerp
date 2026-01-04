@@ -17,7 +17,7 @@ function removerDOMDuplicaçãos(filePath) {
         return false;
     }
     
-    console.log(`   🔧 ${nomeArquivo}: ${matches.length} blocos encontraçãos`);
+    console.log(`   🔧 ${nomeArquivo}: ${matches.length} blocos encontrados`);
     
     // Estratégia: Manter o MAIOR bloco, remover os menores
     const blocos = [];
@@ -108,7 +108,7 @@ for (const arquivo of arquivos) {
         removerDOMDuplicaçãos(fullPath);
         console.log('');
     } else {
-        console.log(`❌ Não encontração: ${arquivo}\n`);
+        console.log(`❌ Não encontrado: ${arquivo}\n`);
     }
 }
 

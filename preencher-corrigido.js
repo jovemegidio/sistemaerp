@@ -11,7 +11,7 @@ setTimeout(() => {
             console.log('✅ ' + id + ' = ' + valor);
             return true;
         } else {
-            console.warn('⚠️ Não encontração: ' + id);
+            console.warn('⚠️ Não encontrado: ' + id);
             return false;
         }
     };

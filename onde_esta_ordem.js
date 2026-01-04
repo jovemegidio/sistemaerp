@@ -65,7 +65,7 @@ console.log('');
 console.log('📖 MÉTODO 3 - GERAÇÁO DE EXCEL:');
 console.log('   POST /api/gerar-ordem-excel');
 console.log('   Função: Gera arquivo Excel/CSV');
-console.log('   Resultação: Download automático');
+console.log('   Resultado: Download automático');
 console.log('   Status: ✅ Funcionando');
 console.log('');
 

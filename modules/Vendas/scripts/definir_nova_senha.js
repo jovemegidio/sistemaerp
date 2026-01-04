@@ -33,16 +33,16 @@ async function setNewPassword() {
 
         connection = await pool.getConnection();
 
-        // Atualiza a senha no banco de daçãos
+        // Atualiza a senha no banco de dados
         const [result] = await connection.query(
             "UPDATE usuarios SET senha =  WHERE email = ",
             [hashedPassword, userEmail]
         );
 
         if (result.affectedRows === 0) {
-            console.error(`ERRO: Nenhum usuário encontração com o e-mail: ${userEmail}`);
+            console.error(`ERRO: Nenhum usuário encontrado com o e-mail: ${userEmail}`);
         } else {
-            console.log(`\n🎉 Senha para ${userEmail} foi atualizada com sucesso no banco de daçãos!`);
+            console.log(`\n🎉 Senha para ${userEmail} foi atualizada com sucesso no banco de dados!`);
             console.log(`O usuário agora pode fazer login com a senha: ${newPlainPassword}`);
         }
 

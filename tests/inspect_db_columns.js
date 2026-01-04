@@ -8,7 +8,7 @@ const fs = require('fs');
     console.log('WROTE schema_direct.json');
     process.exit(0);
   } catch (e) {
-    console.error('ERR', e && e.message  e.message : e);
+    console.error('ERR', e && e.message ? e.message : e);
     process.exit(2);
   }
 })();

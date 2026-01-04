@@ -412,7 +412,7 @@ app.post('/api/pcp/login', authLimiter, validateRequired(['email', 'password']),
         
         if (!rows || rows.length === 0) {
             logger.debug('[LOGIN] user not found for email=', email);
-            return res.status(401).json({ message: 'Email/usuário não encontração.' });
+            return res.status(401).json({ message: 'Email/usuário não encontrado.' });
         }
 
         const user = rows[0];
@@ -434,7 +434,7 @@ app.post('/api/pcp/login', authLimiter, validateRequired(['email', 'password']),
                     return res.json({ message: 'Login bem-sucedido!', userData: user });
                 }
             } catch (e) {
-                logger.error('[LOGIN] bcrypt compare error:', e && e.message  e.message : e);
+                logger.error('[LOGIN] bcrypt compare error:', e && e.message ? e.message : e);
             }
             // If bcrypt compare fails, authentication fails
             logger.debug('[LOGIN] bcrypt compare failed or not matched');
@@ -496,12 +496,12 @@ app.post('/api/auth/verify-email', async (req, res) => {
         
         if (!user) {
             console.log(`[PASSWORD_RESET] email not found: ${email}`);
-            return res.status(404).json({ message: 'Email não encontração no sistema.' });
+            return res.status(404).json({ message: 'Email não encontrado no sistema.' });
         }
         
         console.log(`[PASSWORD_RESET] email found, user id: ${user.id}`);
         res.json({ 
-            message: 'Email encontração.',
+            message: 'Email encontrado.',
             userId: user.id 
         });
         
@@ -529,7 +529,7 @@ app.post('/api/auth/verify-user-data', async (req, res) => {
         );
         
         if (!rows || rows.length === 0) {
-            return res.status(404).json({ message: 'Usuário não encontração.' });
+            return res.status(404).json({ message: 'Usuário não encontrado.' });
         }
         
         const user = rows[0];
@@ -585,7 +585,7 @@ app.post('/api/auth/change-password', async (req, res) => {
         );
         
         if (!userRows || userRows.length === 0) {
-            return res.status(404).json({ message: 'Usuário não encontração.' });
+            return res.status(404).json({ message: 'Usuário não encontrado.' });
         }
         
         // Criptografar nova senha se bcrypt estiver disponível
@@ -625,7 +625,7 @@ app.post('/api/auth/change-password', async (req, res) => {
         
         if (!updated) {
             console.error(`[PASSWORD_RESET] no password column found or update failed for user ${userId}`);
-            return res.status(500).json({ message: 'Erro ao atualizar senha no banco de daçãos.' });
+            return res.status(500).json({ message: 'Erro ao atualizar senha no banco de dados.' });
         }
         
         // Log da alteração para auditoria
@@ -706,7 +706,7 @@ app.get('/api/pcp/produtos/codigo/:codigo', async (req, res) => {
         );
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Produto não encontração' });
+            return res.status(404).json({ message: 'Produto não encontrado' });
         }
         
         res.json(rows[0]);
@@ -726,7 +726,7 @@ app.get('/api/pcp/produtos/gtin/:gtin', async (req, res) => {
         );
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Produto não encontração com este GTIN' });
+            return res.status(404).json({ message: 'Produto não encontrado com este GTIN' });
         }
         
         res.json(rows[0]);
@@ -746,7 +746,7 @@ app.get('/api/pcp/produtos/sku/:sku', async (req, res) => {
         );
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Produto não encontração com este SKU' });
+            return res.status(404).json({ message: 'Produto não encontrado com este SKU' });
         }
         
         res.json(rows[0]);
@@ -776,7 +776,7 @@ app.post('/api/pcp/ordens', async (req, res) => {
             tableColsCache[tableName] = names;
             return names;
         } catch (e) {
-            console.error('Erro ao consultar information_schema para', tableName, e && e.message  e.message : e);
+            console.error('Erro ao consultar information_schema para', tableName, e && e.message ? e.message : e);
             return [];
         }
     }
@@ -869,7 +869,7 @@ app.post('/api/pcp/ordens', async (req, res) => {
         const [result] = await db.query(sql, values);
         res.status(201).json({ message: 'Ordem criada com sucesso!', id: result.insertId });
     } catch (error) {
-        console.error('Erro ao criar ordem:', error && error.message  error.message : error);
+        console.error('Erro ao criar ordem:', error && error.message ? error.message : error);
         res.status(500).json({ message: 'Erro ao criar ordem.' });
     }
 });
@@ -945,7 +945,7 @@ app.get('/api/pcp/produtos', async (req, res) => {
             console.log('[API_PRODUTOS] Colunas encontradas:', columns.length);
         } catch (e) {
             // if table missing or permission issues, respond gracefully
-            console.error('[API_PRODUTOS] Erro ao buscar colunas:', e && e.message  e.message : e);
+            console.error('[API_PRODUTOS] Erro ao buscar colunas:', e && e.message ? e.message : e);
             return res.status(500).json({ message: 'Erro ao acessar tabela produtos.' });
         }
 
@@ -1025,7 +1025,7 @@ app.get('/api/pcp/produtos', async (req, res) => {
     });
     res.json({ page, limit, total, rows: normalizedRows, columns });
     } catch (error) {
-        console.error('[API_PRODUTOS] ERRO FATAL:', error && error.message  error.message : error);
+        console.error('[API_PRODUTOS] ERRO FATAL:', error && error.message ? error.message : error);
         console.error('[API_PRODUTOS] Stack:', error.stack);
         // Provide minimal debug info in a separate endpoint for local troubleshooting
         res.status(500).json({ message: 'Erro ao buscar produtos.', error: error.message });
@@ -1731,9 +1731,9 @@ app.put('/api/pcp/produtos/:id', async (req, res) => {
         }
         
         // Usar preco_venda se preco não foi fornecido diretamente
-        const precoVendaFinal = preco_venda !== undefined  preco_venda : (preco || 0);
-        const estoqueAtualFinal = estoque !== undefined  estoque : 0;
-        const estoqueMinimoFinal = estoque_minimo !== undefined  estoque_minimo : 0;
+        const precoVendaFinal = preco_venda !== undefined ? preco_venda : (preco || 0);
+        const estoqueAtualFinal = estoque !== undefined ? estoque : 0;
+        const estoqueMinimoFinal = estoque_minimo !== undefined ? estoque_minimo : 0;
         
         console.log('[UPDATE_PRODUCT] Valores finais:', { precoVendaFinal, estoqueAtualFinal, estoqueMinimoFinal });
         
@@ -1785,7 +1785,7 @@ app.put('/api/pcp/produtos/:id', async (req, res) => {
             res.json({ message: 'Produto atualização com sucesso' });
             broadcastProducts();
         } else {
-            res.status(404).json({ message: 'Produto não encontração' });
+            res.status(404).json({ message: 'Produto não encontrado' });
         }
     } catch (err) {
         console.error('[UPDATE_PRODUCT] ❌ Erro ao atualizar produto:', err.message, err.sql);
@@ -1813,7 +1813,7 @@ app.delete('/api/pcp/produtos/:id', async (req, res) => {
             res.json({ message: 'Produto excluído' });
             broadcastProducts();
         } else {
-            res.status(404).json({ message: 'Produto não encontração' });
+            res.status(404).json({ message: 'Produto não encontrado' });
         }
     } catch (err) {
         console.error('Erro ao excluir produto:', err.message);
@@ -2008,7 +2008,7 @@ async function gerarCatalogoMateriais() {
             return `
             <div class="material-card">
                 <div class="material-codigo">${material.codigo || 'N/A'}</div>
-                <div class="material-descricao">${material.descricao || 'Sem descrição'}</div>
+                <div class="material-descricao">${material.descricao || 'Sem descricao'}</div>
                 <div class="material-info">Categoria: ${material.categoria || 'N/A'}</div>
                 <div class="material-info">Tipo: ${material.tipo || 'N/A'}</div>
                 <div class="material-info">Unidade: ${material.unidade || 'UN'}</div>
@@ -2049,7 +2049,7 @@ app.get('/api/pcp/materiais/:id', async (req, res) => {
         if (rows.length > 0) {
             res.json(rows[0]);
         } else {
-            res.status(404).json({ message: 'Material não encontração.' });
+            res.status(404).json({ message: 'Material não encontrado.' });
         }
     } catch (error) {
         console.error('Erro ao buscar material por id:', error.message);
@@ -2066,7 +2066,7 @@ app.delete('/api/pcp/materiais/:id', async (req, res) => {
             res.json({ message: 'Material excluído com sucesso.' });
             broadcastMaterials();
         } else {
-            res.status(404).json({ message: 'Material não encontração.' });
+            res.status(404).json({ message: 'Material não encontrado.' });
         }
     } catch (error) {
         console.error('Erro ao excluir material:', error.message);
@@ -2085,7 +2085,7 @@ app.put('/api/pcp/materiais/:id', async (req, res) => {
             res.json({ message: "Material atualização com sucesso!" });
             broadcastMaterials();
         } else {
-            res.status(404).json({ message: "Material não encontração." });
+            res.status(404).json({ message: "Material não encontrado." });
         }
     } catch (error) {
         console.error("Erro ao atualizar material:", error);
@@ -2148,7 +2148,7 @@ app.get('/api/pcp/pedidos', async (req, res) => {
 
         res.json({ page, limit, rows: normalized });
     } catch (err) {
-        console.error('Erro ao buscar pedidos:', err && err.message  err.message : err);
+        console.error('Erro ao buscar pedidos:', err && err.message ? err.message : err);
         // Return empty array so frontend can continue working even if table layout differs
         res.json([]);
     }
@@ -2175,7 +2175,7 @@ app.get('/api/pcp/pedidos/faturaçãos', async (req, res) => {
     const total = countRows && countRows[0]  countRows[0].total : 0;
     res.json({ page, limit, total, rows: normalized });
     } catch (err) {
-        console.error('Erro ao buscar pedidos faturaçãos:', err && err.message  err.message : err);
+        console.error('Erro ao buscar pedidos faturaçãos:', err && err.message ? err.message : err);
         res.json([]);
     }
 });
@@ -2194,7 +2194,7 @@ app.get('/api/pcp/pedidos/prazos', async (req, res) => {
     const total = countRows && countRows[0]  countRows[0].total : 0;
     res.json({ page, limit, total, rows: normalized });
     } catch (err) {
-        console.error('Erro ao buscar prazos de pedidos:', err && err.message  err.message : err);
+        console.error('Erro ao buscar prazos de pedidos:', err && err.message ? err.message : err);
         res.json([]);
     }
 });
@@ -2209,7 +2209,7 @@ app.get('/api/pcp/acompanhamento', async (req, res) => {
     const normalized = (recent || []).map(r => { try { if (r.produtos_preview && typeof r.produtos_preview === 'string') r.produtos_preview = JSON.parse(r.produtos_preview); } catch(e){} return r; });
     res.json({ totals, recentPedidos: normalized });
     } catch (err) {
-        console.error('Erro no acompanhamento:', err && err.message  err.message : err);
+        console.error('Erro no acompanhamento:', err && err.message ? err.message : err);
         res.status(500).json({ totals: { total_pedidos: 0 }, recentPedidos: [] });
     }
 });
@@ -2236,7 +2236,7 @@ app.put('/api/pcp/pedidos/:id', async (req, res) => {
             res.json({ message: 'Pedido atualização' });
             broadcastMaterials();
         } else {
-            res.status(404).json({ message: 'Pedido não encontração' });
+            res.status(404).json({ message: 'Pedido não encontrado' });
         }
     } catch (err) {
         console.error('Erro ao atualizar pedido:', err.message);
@@ -2285,8 +2285,8 @@ app.get('/api/pcp/ordens-compra/:id/pdf', async (req, res) => {
         doc.fontSize(16).text('Ordem de Compra', { align: 'center' });
         doc.moveDown();
         doc.fontSize(11).text(`Número: ${ord.id}`);
-        doc.text(`Data do Pedido: ${ord.data_pedido  ord.data_pedido.toISOString().slice(0,10) : ord.data_pedido}`);
-        doc.text(`Previsão de Entrega: ${ord.previsao_entrega  ord.previsao_entrega.toISOString().slice(0,10) : ord.previsao_entrega}`);
+        doc.text(`Data do Pedido: ${ord.data_pedido ? ord.data_pedido.toISOString().slice(0,10) : ord.data_pedido}`);
+        doc.text(`Previsão de Entrega: ${ord.previsao_entrega ? ord.previsao_entrega.toISOString().slice(0,10) : ord.previsao_entrega}`);
         doc.moveDown();
         doc.fontSize(12).text('Material:', { underline: true });
         doc.fontSize(11).text(`Código: ${ord.codigo_material}`);
@@ -2300,7 +2300,7 @@ app.get('/api/pcp/ordens-compra/:id/pdf', async (req, res) => {
     doc.pipe(res);
     doc.end();
     } catch (err) {
-        console.error('Erro ao gerar PDF da ordem de compra:', err && err.message  err.message : err);
+        console.error('Erro ao gerar PDF da ordem de compra:', err && err.message ? err.message : err);
         res.status(500).json({ message: 'Erro ao gerar PDF.' });
     }
 });
@@ -2336,8 +2336,8 @@ app.get('/api/pcp/ordens-compra/:id/excel', async (req, res) => {
         // Order details
         worksheet.addRow([]);
         worksheet.addRow(['Número da Ordem:', ord.id]);
-        worksheet.addRow(['Data do Pedido:', ord.data_pedido  ord.data_pedido.toISOString().slice(0,10) : '']);
-        worksheet.addRow(['Previsão de Entrega:', ord.previsao_entrega  ord.previsao_entrega.toISOString().slice(0,10) : '']);
+        worksheet.addRow(['Data do Pedido:', ord.data_pedido ? ord.data_pedido.toISOString().slice(0,10) : '']);
+        worksheet.addRow(['Previsão de Entrega:', ord.previsao_entrega ? ord.previsao_entrega.toISOString().slice(0,10) : '']);
         worksheet.addRow(['Status:', ord.status || 'Pendente']);
         
         // Material section
@@ -2360,7 +2360,7 @@ app.get('/api/pcp/ordens-compra/:id/excel', async (req, res) => {
         res.end();
 
     } catch (err) {
-        console.error('Erro ao gerar Excel da ordem de compra:', err && err.message  err.message : err);
+        console.error('Erro ao gerar Excel da ordem de compra:', err && err.message ? err.message : err);
         res.status(500).json({ message: 'Erro ao gerar Excel.' });
     }
 });
@@ -2403,9 +2403,9 @@ app.get('/api/pcp/relatorio/ordens-excel', authRequired, async (req, res) => {
                 ordem.codigo_produto,
                 ordem.descricao_produto,
                 ordem.quantidade,
-                ordem.data_previsao_entrega  ordem.data_previsao_entrega.toISOString().slice(0,10) : '',
+                ordem.data_previsao_entrega ? ordem.data_previsao_entrega.toISOString().slice(0,10) : '',
                 ordem.status,
-                ordem.data_criacao  ordem.data_criacao.toISOString().slice(0,10) : '',
+                ordem.data_criacao ? ordem.data_criacao.toISOString().slice(0,10) : '',
                 ordem.observacoes
             ]);
         });
@@ -2524,7 +2524,7 @@ app.post('/api/pcp/estoque/movimentacao', authRequired, async (req, res) => {
         // Buscar quantidade atual do material
         const [material] = await db.query('SELECT quantidade_estoque FROM materiais WHERE id = ', [material_id]);
         if (!material || material.length === 0) {
-            return res.status(404).json({ message: 'Material não encontração' });
+            return res.status(404).json({ message: 'Material não encontrado' });
         }
         
         const quantidadeAnterior = material[0].quantidade_estoque;
@@ -2723,8 +2723,8 @@ app.get('/api/pcp/export/completo-excel', authRequired, async (req, res) => {
                 ordem.descricao_produto,
                 ordem.quantidade,
                 ordem.status,
-                ordem.data_previsao_entrega  ordem.data_previsao_entrega.toISOString().slice(0,10) : '',
-                ordem.data_criacao  ordem.data_criacao.toISOString().slice(0,10) : ''
+                ordem.data_previsao_entrega ? ordem.data_previsao_entrega.toISOString().slice(0,10) : '',
+                ordem.data_criacao ? ordem.data_criacao.toISOString().slice(0,10) : ''
             ]);
         });
 
@@ -2759,8 +2759,8 @@ app.get('/api/pcp/export/completo-excel', authRequired, async (req, res) => {
                 compra.codigo_material,
                 compra.material_descricao,
                 compra.quantidade,
-                compra.data_pedido  compra.data_pedido.toISOString().slice(0,10) : '',
-                compra.previsao_entrega  compra.previsao_entrega.toISOString().slice(0,10) : '',
+                compra.data_pedido ? compra.data_pedido.toISOString().slice(0,10) : '',
+                compra.previsao_entrega ? compra.previsao_entrega.toISOString().slice(0,10) : '',
                 compra.status
             ]);
         });
@@ -2806,7 +2806,7 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
                 await workbook.xlsx.readFile(templatePath);
                 console.log('[EXCEL] Template carregação:', templatePath);
             } else {
-                throw new Error('Template não encontração');
+                throw new Error('Template não encontrado');
             }
         } catch (err) {
             console.log('[EXCEL] Criando novo template...');
@@ -3172,7 +3172,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         console.log('[MODAL-EXCEL] === PROCESSANDO ORDEM DO MODAL ===');
         console.log('[MODAL-EXCEL] Content-Type:', req.headers['content-type']);
         console.log('[MODAL-EXCEL] Body recebido:', req.body);
-        console.log('[MODAL-EXCEL] Body keys:', req.body  Object.keys(req.body) : 'UNDEFINED');
+        console.log('[MODAL-EXCEL] Body keys:', req.body ? Object.keys(req.body) : 'UNDEFINED');
 
         // Verificar se req.body existe
         if (!req.body) {
@@ -3294,7 +3294,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             });
             console.log('[MODAL-EXCEL] Template carregação com sucesso');
         } else {
-            return res.status(500).json({ message: 'Template Ordem de Produção.xlsx não encontração' });
+            return res.status(500).json({ message: 'Template Ordem de Produção.xlsx não encontrado' });
         }
 
         // Buscar a primeira planilha (VENDAS_PCP)
@@ -3601,7 +3601,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
                         descricao = nomeCompleto;
                         console.log(`[EXCEL] ✅ Produto ${codigo}: Nome completo = ${descricao}`);
                     } else {
-                        console.log(`[EXCEL] ⚠️ Produto ${codigo} não encontração na base`);
+                        console.log(`[EXCEL] ⚠️ Produto ${codigo} não encontrado na base`);
                         descricao = descricao || codigo;
                     }
                 } catch (error) {
@@ -3953,11 +3953,11 @@ app.get('/api/pcp/produtos/buscar/:codigo', async (req, res) => {
                 sku: produto.sku
             };
             
-            console.log(`[PRODUTOS] ✅ Produto encontração: ${produto.codigo} - ${produto.descricao}`);
+            console.log(`[PRODUTOS] ✅ Produto encontrado: ${produto.codigo} - ${produto.descricao}`);
             res.json(produtoCompleto);
         } else {
-            console.log(`[PRODUTOS] ❌ Produto não encontração: ${codigo}`);
-            res.status(404).json({ message: 'Produto não encontração' });
+            console.log(`[PRODUTOS] ❌ Produto não encontrado: ${codigo}`);
+            res.status(404).json({ message: 'Produto não encontrado' });
         }
         
     } catch (error) {
@@ -3977,7 +3977,7 @@ app.get('/api/pcp/produtos/autocomplete', async (req, res) => {
         
         console.log(`[PRODUTOS] Autocomplete: ${q}`);
         
-        // Buscar produtos que contenham o termo no código, nome ou descrição
+        // Buscar produtos que contenham o termo no código, nome ou descricao
         const [produtos] = await db.execute(`
             SELECT 
                 codigo,
@@ -4193,7 +4193,7 @@ function tryListen(startPort, maxTries = 10) {
                     process.exit(1);
                 }
             } else {
-                logger.error('❌ Erro ao iniciar o servidor:', err && err.message  err.message : err);
+                logger.error('❌ Erro ao iniciar o servidor:', err && err.message ? err.message : err);
                 process.exit(1);
             }
         });
@@ -4224,7 +4224,7 @@ app.get('/api/pcp/produtos/:id', async (req, res) => {
                 }
             } catch (e) { /* ignore parse errors */ }
             res.json(r);
-        } else res.status(404).json({ message: 'Produto não encontração' });
+        } else res.status(404).json({ message: 'Produto não encontrado' });
     } catch (err) {
         console.error('Erro ao buscar produto:', err.message);
         res.status(500).json({ message: 'Erro ao buscar produto.' });
@@ -4352,7 +4352,7 @@ app.get('/health', async (req, res) => {
             pid: process.pid
         };
         
-        // Testar banco de daçãos
+        // Testar banco de dados
         try {
             await db.query('SELECT 1');
             health.database = 'connected';
@@ -4432,7 +4432,7 @@ app.get('/api/pcp/me', authRequired, async (req, res) => {
         };
         res.json({ user: safe });
     } catch (err) {
-        console.error('/api/pcp/me error:', err && err.message  err.message : err);
+        console.error('/api/pcp/me error:', err && err.message ? err.message : err);
         res.status(500).json({ message: 'Erro ao obter daçãos do usuário.' });
     }
 });
@@ -4459,7 +4459,7 @@ app.get('/api/pcp/users-list', async (req, res) => {
         
         res.json({ users: sanitizedUsers });
     } catch (err) {
-        console.error('/api/pcp/users-list error:', err && err.message  err.message : err);
+        console.error('/api/pcp/users-list error:', err && err.message ? err.message : err);
         res.status(500).json({ message: 'Erro ao obter lista de usuários.' });
     }
 });
@@ -4473,7 +4473,7 @@ app.post('/api/pcp/logout', (req, res) => {
         res.setHeader('Set-Cookie', 'pcp_session=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax');
         return res.json({ message: 'Logged out' });
     } catch (err) {
-        console.error('Logout error:', err && err.message  err.message : err);
+        console.error('Logout error:', err && err.message ? err.message : err);
         return res.status(500).json({ message: 'Erro ao deslogar' });
     }
 });
@@ -4486,16 +4486,16 @@ app.get('/api/pcp/pedidos/:id', async (req, res) => {
     try {
         // Query the pedidos table directly - no JOIN since produto_id column doesn't exist
         const [rows] = await db.query('SELECT * FROM pedidos WHERE id = ', [id]);
-        console.log(`[DEBUG] Query resultação: ${rows  rows.length : 0} linhas`);
+        console.log(`[DEBUG] Query resultação: ${rows ? rows.length : 0} linhas`);
         
         if (!rows || rows.length === 0) {
-            console.log(`[DEBUG] Pedido ${id} não encontração`);
-            return res.status(404).json({ message: 'Pedido não encontração' });
+            console.log(`[DEBUG] Pedido ${id} não encontrado`);
+            return res.status(404).json({ message: 'Pedido não encontrado' });
         }
         
         // Return the pedido with produtos_preview field (which contains product info as JSON)
         const pedido = rows[0];
-        console.log(`[DEBUG] Pedido encontração:`, pedido.descricao);
+        console.log(`[DEBUG] Pedido encontrado:`, pedido.descricao);
         
         // Parse produtos_preview if it exists and is valid JSON
         if (pedido.produtos_preview) {
@@ -4514,7 +4514,7 @@ app.get('/api/pcp/pedidos/:id', async (req, res) => {
         console.log(`[DEBUG] Retornando pedido completo`);
         res.json(pedido);
     } catch (err) {
-        console.error('Erro ao buscar pedido ID', id, ':', err && err.message  err.message : err);
+        console.error('Erro ao buscar pedido ID', id, ':', err && err.message ? err.message : err);
         res.status(500).json({ message: 'Erro ao buscar pedido.', error: err.message });
     }
 });
@@ -4538,7 +4538,7 @@ app.post('/api/pcp/locations', authRequired, async (req, res) => {
         const [r] = await db.query('INSERT INTO locations (code, name, description) VALUES (, , )', [code, name, description]);
         res.status(201).json({ id: r.insertId, code, name });
     } catch (e) {
-        console.error('Erro ao criar location:', e && e.message  e.message : e);
+        console.error('Erro ao criar location:', e && e.message ? e.message : e);
         res.status(500).json({ message: 'Erro ao criar location.' });
     }
 });
@@ -4549,7 +4549,7 @@ app.get('/api/pcp/locations', authRequired, async (req, res) => {
         const [rows] = await db.query('SELECT id, code, name, description FROM locations ORDER BY name ASC');
         res.json(rows);
     } catch (e) {
-        console.error('Erro ao listar locations:', e && e.message  e.message : e);
+        console.error('Erro ao listar locations:', e && e.message ? e.message : e);
         res.status(500).json({ message: 'Erro ao listar locations.' });
     }
 });
@@ -4570,11 +4570,11 @@ app.post('/api/pcp/stock_movements', authRequired, async (req, res) => {
             if (saldo < quantidade) return res.status(400).json({ message: `Saldo insuficiente na localização ${location_from}. Saldo atual: ${saldo}` });
         }
         const sql = 'INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (, , , , , , , )';
-        const created_by = req.user  req.user.id : null;
+        const created_by = req.user ? req.user.id : null;
         const [r] = await db.query(sql, [produto_id, location_from || null, location_to || null, quantidade, tipo, referencia || null, lote || null, created_by]);
         res.status(201).json({ id: r.insertId });
     } catch (e) {
-        console.error('Erro ao gravar movimento:', e && e.message  e.message : e);
+        console.error('Erro ao gravar movimento:', e && e.message ? e.message : e);
         res.status(500).json({ message: 'Erro ao gravar movimento.' });
     }
 });
@@ -4592,11 +4592,11 @@ app.post('/api/pcp/transfer', authRequired, async (req, res) => {
         const saldo = rows && rows[0]  parseFloat(rows[0].saldo) : 0;
         if (saldo < quantidade) return res.status(400).json({ message: `Saldo insuficiente na localização ${from_location}. Saldo atual: ${saldo}` });
         // Insert transfer as two entries or as a single transfer record depending on your accounting; we'll use single transfer record
-        const created_by = req.user  req.user.id : null;
+        const created_by = req.user ? req.user.id : null;
         const [r] = await db.query('INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (, , , , , , , )', [produto_id, from_location, to_location, quantidade, 'TRANSFER', referencia || null, lote || null, created_by]);
         res.status(201).json({ id: r.insertId });
     } catch (e) {
-        console.error('Erro ao executar transfer:', e && e.message  e.message : e);
+        console.error('Erro ao executar transfer:', e && e.message ? e.message : e);
         res.status(500).json({ message: 'Erro ao executar transfer.' });
     }
 });
@@ -4616,7 +4616,7 @@ app.get('/api/pcp/stock_balance/:produto_id', authRequired, async (req, res) => 
         );
         res.json({ produto_id, balances: rows });
     } catch (e) {
-        console.error('Erro ao calcular saldo:', e && e.message  e.message : e);
+        console.error('Erro ao calcular saldo:', e && e.message ? e.message : e);
         res.status(500).json({ message: 'Erro ao calcular saldo.' });
     }
 });
@@ -4647,8 +4647,8 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         const templatePath = path.join(__dirname, 'Ordem de Produção Aluforce - Copia.xlsx');
         
         if (!fs.existsSync(templatePath)) {
-            logger.error('[GERAR ORDEM EXCEL] Template não encontração:', templatePath);
-            return res.status(400).json({ message: 'Template Excel não encontração: ' + templatePath });
+            logger.error('[GERAR ORDEM EXCEL] Template não encontrado:', templatePath);
+            return res.status(400).json({ message: 'Template Excel não encontrado: ' + templatePath });
         }
         
         const ExcelJS = require('exceljs');

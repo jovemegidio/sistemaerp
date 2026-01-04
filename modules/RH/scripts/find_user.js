@@ -14,7 +14,7 @@ async function find (email) {
   try {
     const [rows] = await conn.execute('SELECT id, email, senha, role, nome_completo FROM funcionarios WHERE email =  LIMIT 1', [email])
     if (!rows || rows.length === 0) {
-      console.log(`Nenhum utilizaçãor encontração para email='${email}'`)
+      console.log(`Nenhum utilizaçãor encontrado para email='${email}'`)
       return
     }
     const u = rows[0]

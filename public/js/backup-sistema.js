@@ -63,7 +63,7 @@ const BackupSistema = {
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-database"></i>
-                    <p>Nenhum backup encontração</p>
+                    <p>Nenhum backup encontrado</p>
                     <button class="btn btn-primary" onclick="BackupSistema.criarBackup()">
                         <i class="fas fa-plus"></i> Criar Primeiro Backup
                     </button>

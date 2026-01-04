@@ -80,7 +80,7 @@
             renderProdutosFiltraçãos(produtosFiltraçãos);
             
             if (typeof showToast === 'function') {
-                showToast(`${produtosFiltraçãos.length} produtos encontraçãos`, 'success');
+                showToast(`${produtosFiltraçãos.length} produtos encontrados`, 'success');
             }
             
         } catch (error) {
@@ -125,7 +125,7 @@
             container.innerHTML = `
                 <div style="text-align: center; padding: 60px 20px; color: #64748b;">
                     <i class="fas fa-search" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
-                    <p style="font-size: 16px;">Nenhum produto encontração</p>
+                    <p style="font-size: 16px;">Nenhum produto encontrado</p>
                     <button onclick="filtrarRapido('todos')" style="margin-top: 12px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer;">
                         Limpar Filtros
                     </button>
@@ -134,7 +134,7 @@
             return;
         }
         
-        const infoLine = `<div class="info-line" style="padding: 12px; background: #f9fafb; border-radius: 8px; margin-bottom: 12px; font-weight: 600; color: #374151;">${produtos.length} produto(s) encontração(s)</div>`;
+        const infoLine = `<div class="info-line" style="padding: 12px; background: #f9fafb; border-radius: 8px; margin-bottom: 12px; font-weight: 600; color: #374151;">${produtos.length} produto(s) encontrado(s)</div>`;
         
         let tableHTML = `
             ${infoLine}
@@ -474,7 +474,7 @@
             container.innerHTML = `
                 <div style="text-align: center; padding: 60px 20px; color: #9ca3af;">
                     <i class="fas fa-search" style="font-size: 48px; margin-bottom: 16px;"></i>
-                    <p style="font-size: 16px; margin: 0;">Nenhum produto encontração</p>
+                    <p style="font-size: 16px; margin: 0;">Nenhum produto encontrado</p>
                 </div>
             `;
             return;

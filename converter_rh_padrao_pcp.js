@@ -216,7 +216,7 @@ paginas.forEach(pagina => {
         const arquivoOriginal = path.join(baseDir, pagina.arquivo);
         
         if (!fs.existsSync(arquivoOriginal)) {
-            console.log(`⚠️  Arquivo não encontração: ${pagina.arquivo}`);
+            console.log(`⚠️  Arquivo não encontrado: ${pagina.arquivo}`);
             return;
         }
         

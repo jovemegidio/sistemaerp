@@ -71,7 +71,7 @@ module.exports = (pool, authenticateToken) => {
             `, [pedido_id]);
 
             if (pedidos.length === 0) {
-                throw new Error('Pedido não encontração ou não está aprovação');
+                throw new Error('Pedido não encontrado ou não está aprovação');
             }
 
             const pedido = pedidos[0];

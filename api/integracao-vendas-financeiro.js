@@ -42,7 +42,7 @@ router.post('/gerar-receber', async (req, res) => {
         if (pedidos.length === 0) {
             return res.status(404).json({ 
                 success: false, 
-                message: 'Pedido não encontração' 
+                message: 'Pedido não encontrado' 
             });
         }
         

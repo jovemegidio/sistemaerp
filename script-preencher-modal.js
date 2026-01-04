@@ -19,7 +19,7 @@ setTimeout(() => {
             console.log(`   ✅ ${id} = ${valor}`);
             return true;
         } else {
-            console.warn(`   ⚠️ Elemento não encontração: ${id}`);
+            console.warn(`   ⚠️ Elemento não encontrado: ${id}`);
             return false;
         }
     };
@@ -57,7 +57,7 @@ setTimeout(() => {
                     preencher('metodo-transferencia-percent', '50');
                 }, 200);
             } else {
-                console.warn('   ⚠️ Checkbox TRANSFERÊNCIA não encontração');
+                console.warn('   ⚠️ Checkbox TRANSFERÊNCIA não encontrado');
             }
 
             // MÉTODO 2: DEPÓSITO 50%
@@ -110,7 +110,7 @@ setTimeout(() => {
                         }, 500);
                     }, 200);
                 } else {
-                    console.warn('   ⚠️ Checkbox DEPÓSITO não encontração');
+                    console.warn('   ⚠️ Checkbox DEPÓSITO não encontrado');
                 }
             }, 400);
             

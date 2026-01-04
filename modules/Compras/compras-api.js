@@ -47,7 +47,7 @@ async function obterFornecedor(id) {
         const response = await fetch(`${API_BASE_URL}/api/compras/fornecedores/${id}`, {
             headers: getAuthHeaders()
         });
-        if (!response.ok) throw new Error('Fornecedor não encontração');
+        if (!response.ok) throw new Error('Fornecedor não encontrado');
         return await response.json();
     } catch (error) {
         console.error('Erro ao obter fornecedor:', error);
@@ -128,7 +128,7 @@ async function obterPedido(id) {
         const response = await fetch(`${API_BASE_URL}/api/compras/pedidos/${id}`, {
             headers: getAuthHeaders()
         });
-        if (!response.ok) throw new Error('Pedido não encontração');
+        if (!response.ok) throw new Error('Pedido não encontrado');
         return await response.json();
     } catch (error) {
         console.error('Erro ao obter pedido:', error);
@@ -470,7 +470,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Verificar autenticação
     if (!getAuthToken()) {
-        console.warn('Token não encontração. Usuário precisa fazer login.');
+        console.warn('Token não encontrado. Usuário precisa fazer login.');
         // return;
     }
 

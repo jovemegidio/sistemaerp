@@ -101,7 +101,7 @@
         if (!avatarElement) return;
         
         // Iniciais como fallback
-        const initials = firstName  firstName.substring(0, 1).toUpperCase() : 'U';
+        const initials = firstName ? firstName.substring(0, 1).toUpperCase() : 'U';
         avatarElement.textContent = initials;
         
         // Determinar nome do arquivo
@@ -219,7 +219,7 @@
         let visibleCount = 0;
         
         if (cards.length === 0) {
-            console.warn('⚠️ Nenhum card encontração! Verificando DOM...');
+            console.warn('⚠️ Nenhum card encontrado! Verificando DOM...');
             return;
         }
         
@@ -277,7 +277,7 @@
         const userDropdown = document.getElementById('user-dropdown');
         
         if (!userProfile || !userDropdown) {
-            console.warn('⚠️ Elementos do dropdown não encontraçãos');
+            console.warn('⚠️ Elementos do dropdown não encontrados');
             return;
         }
         

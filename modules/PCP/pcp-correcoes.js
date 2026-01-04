@@ -48,11 +48,11 @@
             tentativas++;
             
             if (typeof window.atualizarContaçãoresPCP === 'function') {
-                console.log('✅ Sistema de contaçãores encontração, atualizando...');
+                console.log('✅ Sistema de contaçãores encontrado, atualizando...');
                 window.atualizarContaçãoresPCP();
                 clearInterval(verificarContaçãores);
             } else if (tentativas >= maxTentativas) {
-                console.warn('⚠️ Sistema de contaçãores não encontração após', maxTentativas, 'tentativas');
+                console.warn('⚠️ Sistema de contaçãores não encontrado após', maxTentativas, 'tentativas');
                 console.log('💡 Tentando atualizar contaçãores manualmente...');
                 atualizarContaçãoresManual();
                 clearInterval(verificarContaçãores);

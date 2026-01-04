@@ -1,4 +1,4 @@
-// Script para salvar ordem de produção no banco de daçãos
+// Script para salvar ordem de produção no banco de dados
 // Data: 03/11/2025
 
 const http = require('http');
@@ -89,7 +89,7 @@ async function salvarOrdemProducaoCompleta() {
         const produtosResponse = await makeGetRequest('/api/produtos/buscartermo=ALU');
         
         if (produtosResponse.statusCode !== 200 || !Array.isArray(produtosResponse.data) || produtosResponse.data.length === 0) {
-            console.log('❌ Nenhum produto encontração!');
+            console.log('❌ Nenhum produto encontrado!');
             return;
         }
         
@@ -181,7 +181,7 @@ async function main() {
     await salvarOrdemProducaoCompleta();
     
     console.log('\n🎯 PRÓXIMOS PASSOS:');
-    console.log('1. ✅ Ordem salva permanentemente no banco de daçãos');
+    console.log('1. ✅ Ordem salva permanentemente no banco de dados');
     console.log('2. 🔍 Verificar em: http://localhost:3000/modules/PCP');
     console.log('3. 📋 Listar ordens via: GET /api/pcp/ordens');
     console.log('4. 📊 Acompanhar progresso da produção');

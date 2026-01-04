@@ -60,7 +60,7 @@ async function testVendasAccess() {
     const authCookie = cookies.find(c => c.startsWith('authToken='));
     
     if (!authCookie) {
-        console.log('❌ ERRO: Cookie de autenticação não encontração');
+        console.log('❌ ERRO: Cookie de autenticação não encontrado');
         return;
     }
 
@@ -110,7 +110,7 @@ async function testVendasAccess() {
         
         // Verificar se tem o script de autenticação
         if (vendasPageRes.body.includes('DOMContentLoaded')) {
-            console.log('✅ Script de autenticação encontração na página');
+            console.log('✅ Script de autenticação encontrado na página');
         }
         
         if (vendasPageRes.body.includes('VENDAS_AUTHENTICATED')) {

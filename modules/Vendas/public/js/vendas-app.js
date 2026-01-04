@@ -58,13 +58,13 @@ async function verificarAuth() {
     // Se não houver nenhum token, apenas carregar sem autenticação
     // (permite acesso público ao Kanban)
     if (!authToken && !userInfo) {
-        console.log('⚠️ Nenhum token encontração - modo visitante');
+        console.log('⚠️ Nenhum token encontrado - modo visitante');
         atualizarUserUI({ nome: 'Visitante' });
         return;
     }
     
     try {
-        const userData = userInfo  JSON.parse(userInfo) : { nome: 'Usuário' };
+        const userData = userInfo ? JSON.parse(userInfo) : { nome: 'Usuário' };
         atualizarUserUI(userData);
     } catch (error) {
         console.error('Erro ao parsear daçãos do usuário:', error);
@@ -87,7 +87,7 @@ function atualizarUserUI(user) {
             }
             if (span) span.style.display = 'none';
         } else if (span) {
-            span.textContent = user.nome  user.nome.charAt(0).toUpperCase() : 'U';
+            span.textContent = user.nome ? user.nome.charAt(0).toUpperCase() : 'U';
         }
     }
     
@@ -412,7 +412,7 @@ function preencherFormPedido(pedido) {
     // Avatar
     const avatar = document.querySelector('#modalEditarPedido .cliente-avatar');
     if (avatar) {
-        avatar.textContent = pedido.cliente  pedido.cliente.charAt(0).toUpperCase() : 'C';
+        avatar.textContent = pedido.cliente ? pedido.cliente.charAt(0).toUpperCase() : 'C';
     }
     
     // Valores

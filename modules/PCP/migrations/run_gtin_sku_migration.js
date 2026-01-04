@@ -34,7 +34,7 @@ async function runMigration() {
                 console.log(`[MIGRATION] Executando comando ${i + 1}/${commands.length}...`);
                 const [result] = await db.query(command);
                 if (result && Array.isArray(result) && result.length > 0) {
-                    console.log('[MIGRATION] Resultação:', result);
+                    console.log('[MIGRATION] Resultado:', result);
                 }
             } catch (error) {
                 if (error.message.includes('already exists')) {

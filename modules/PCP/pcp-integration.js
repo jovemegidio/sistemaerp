@@ -160,7 +160,7 @@
 
         const canvas = document.getElementById(canvasId);
         if (!canvas) {
-            console.error(`❌ Canvas ${canvasId} não encontração`);
+            console.error(`❌ Canvas ${canvasId} não encontrado`);
             return null;
         }
 

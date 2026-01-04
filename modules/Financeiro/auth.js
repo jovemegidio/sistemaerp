@@ -107,17 +107,17 @@ const PERMISSOES_FINANCEIRO = {
 const PERFIS = {
     'admin': {
         nome: 'Administraçãor',
-        descrição: 'Acesso total ao módulo financeiro',
+        descricao: 'Acesso total ao módulo financeiro',
         cor: '#e74c3c'
     },
     'contas_pagar': {
         nome: 'Contas a Pagar',
-        descrição: 'Acesso apenas a contas a pagar e fornecedores',
+        descricao: 'Acesso apenas a contas a pagar e fornecedores',
         cor: '#e67e22'
     },
     'contas_receber': {
         nome: 'Contas a Receber',
-        descrição: 'Acesso apenas a contas a receber e clientes',
+        descricao: 'Acesso apenas a contas a receber e clientes',
         cor: '#27ae60'
     }
 };
@@ -168,7 +168,7 @@ class SistemaAutenticacao {
 
         // Se não encontrou de jeito nenhum, usa um usuário padrão para desenvolvimento
         if (!usuarioSistema) {
-            console.warn('⚠️ Usuário não encontração no sistema principal. Usando modo de desenvolvimento.');
+            console.warn('⚠️ Usuário não encontrado no sistema principal. Usando modo de desenvolvimento.');
             // TODO: Remover em produção - apenas para desenvolvimento
             usuarioSistema = { usuario: 'ti', nome: 'TI (Dev Mode)' };
         }
@@ -297,7 +297,7 @@ class SistemaAutenticacao {
         const log = {
             timestamp: new Date().toISOString(),
             tipo: tipo,
-            usuario: this.usuarioAtual  this.usuarioAtual.nome : 'Sistema',
+            usuario: this.usuarioAtual ? this.usuarioAtual.nome : 'Sistema',
             mensagem: mensagem
         };
 
@@ -358,7 +358,7 @@ class SistemaAutenticacao {
             <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-family: 'Segoe UI', sans-serif;">
                 <div style="background: white; padding: 40px; border-radius: 15px; box-shaçãow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; max-width: 500px;">
                     <i class="fas fa-ban" style="font-size: 80px; color: #e74c3c; margin-bottom: 20px;"></i>
-                    <h1 style="color: #2c3e50; margin-bottom: 10px;">Acesso Negação</h1>
+                    <h1 style="color: #2c3e50; margin-bottom: 10px;">Acesso Negado</h1>
                     <p style="color: #7f8c8d; margin-bottom: 30px;">
                         Você não tem permissão para acessar está página.
                     </p>

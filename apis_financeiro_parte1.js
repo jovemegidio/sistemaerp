@@ -32,7 +32,7 @@ function checkFinanceiroPermission(area) {
             }
 
             if (!userData) {
-                return res.status(403).json({ message: 'Usuário não encontração' });
+                return res.status(403).json({ message: 'Usuário não encontrado' });
             }
 
             // Admin tem acesso total

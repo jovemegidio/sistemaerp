@@ -77,7 +77,7 @@ const userPermissions = {
             );
             
             if (users.length === 0) {
-                console.log(`⚠️  Usuário não encontração: ${username}`);
+                console.log(`⚠️  Usuário não encontrado: ${username}`);
                 continue;
             }
             
@@ -126,7 +126,7 @@ const userPermissions = {
             Admin: u.is_admin  '✓' : '',
             'RH Admin': u.rh_admin  '✓' : '',
             Setor: u.setor,
-            Áreas: u.permissoes  JSON.parse(u.permissoes).join(', ') : 'N/A'
+            Áreas: u.permissoes ? JSON.parse(u.permissoes).join(', ') : 'N/A'
         })));
         
     } catch (error) {

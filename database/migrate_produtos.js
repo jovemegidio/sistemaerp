@@ -13,7 +13,7 @@ async function migrateProdutosTable() {
             multipleStatements: true
         });
 
-        console.log('✅ Conectação ao banco de daçãos aluforce_vendas');
+        console.log('✅ Conectação ao banco de dados aluforce_vendas');
         console.log('🔄 Iniciando migração da tabela produtos...\n');
 
         // Lista de colunas para adicionar
@@ -174,7 +174,7 @@ async function migrateProdutosTable() {
     } finally {
         if (connection) {
             await connection.end();
-            console.log('\n🔌 Conexão com o banco de daçãos encerrada');
+            console.log('\n🔌 Conexão com o banco de dados encerrada');
         }
     }
 }

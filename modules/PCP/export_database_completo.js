@@ -2,7 +2,7 @@ const mysql = require('mysql2/promise');
 const fs = require('fs').promises;
 const path = require('path');
 
-// Configuração do banco de daçãos
+// Configuração do banco de dados
 const dbConfig = {
     host: 'localhost',
     user: 'root',
@@ -16,7 +16,7 @@ async function checkConnection() {
     let connection;
     
     try {
-        console.log('🔗 Verificando conexão com o banco de daçãos...');
+        console.log('🔗 Verificando conexão com o banco de dados...');
         connection = await mysql.createConnection(dbConfig);
         
         const [result] = await connection.execute('SELECT 1 as test');
@@ -125,7 +125,7 @@ async function checkDataIntegrity() {
         `);
         
         if (semNome[0].count > 0) {
-            console.log(`⚠️  ${semNome[0].count} produtos sem nome encontraçãos.`);
+            console.log(`⚠️  ${semNome[0].count} produtos sem nome encontrados.`);
         } else {
             console.log(`✅ Todos os produtos têm nome.`);
         }
@@ -172,7 +172,7 @@ async function backupDatabase() {
     let connection;
     
     try {
-        console.log('\n💾 Iniciando backup completo do banco de daçãos...');
+        console.log('\n💾 Iniciando backup completo do banco de dados...');
         connection = await mysql.createConnection(dbConfig);
         
         // Obter lista de todas as tabelas

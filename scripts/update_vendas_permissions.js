@@ -12,7 +12,7 @@ async function updateVendasPermissions() {
         database: 'aluforce_vendas'
     });
 
-    console.log('✅ Conectação ao banco de daçãos');
+    console.log('✅ Conectação ao banco de dados');
 
     // Usuários que devem ter acesso ao módulo de vendas
     const usuariosVendas = [
@@ -68,7 +68,7 @@ async function updateVendasPermissions() {
             }
 
             if (!usuarioAtualização) {
-                console.log(`⚠️  ${email} - Usuário não encontração no banco`);
+                console.log(`⚠️  ${email} - Usuário não encontrado no banco`);
             }
 
         } catch (error) {
@@ -86,7 +86,7 @@ async function updateVendasPermissions() {
     );
 
     usuarios.forEach(user => {
-        const perms = user.permissoes_vendas  JSON.parse(user.permissoes_vendas) : null;
+        const perms = user.permissoes_vendas ? JSON.parse(user.permissoes_vendas) : null;
         const access = user.is_admin  '👑 Admin (acesso total)' : (perms  '✅ Acesso concedido' : '❌ Sem acesso');
         console.log(`${user.nome} (${user.email || user.login}) - ${access}`);
     });

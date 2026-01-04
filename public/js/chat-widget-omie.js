@@ -603,7 +603,7 @@
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-ticket-alt" style="font-size: 48px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                    <h3>Nenhum ticket encontração</h3>
+                    <h3>Nenhum ticket encontrado</h3>
                     <p>Você não possui tickets abertos no momento</p>
                 </div>
             `;

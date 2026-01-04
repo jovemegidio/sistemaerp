@@ -106,7 +106,7 @@ function otimizarModulo(nome, caminho) {
     console.log('─'.repeat(50));
     
     if (!fs.existsSync(caminho)) {
-        console.log(`   ❌ Caminho não encontração`);
+        console.log(`   ❌ Caminho não encontrado`);
         return;
     }
     

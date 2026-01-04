@@ -44,7 +44,7 @@ const authenticateToken = (req, res, next) => {
     const token = req.cookies.authToken || req.cookies.token || req.headers.authorization.replace('Bearer ', '');
     
     if (!token) {
-        console.log('❌ Token não encontração - cookies:', Object.keys(req.cookies || {}));
+        console.log('❌ Token não encontrado - cookies:', Object.keys(req.cookies || {}));
         return res.status(401).json({ error: 'Token não fornecido' });
     }
     
@@ -200,7 +200,7 @@ router.get('/pedidos/:id', authenticateToken, async (req, res) => {
         `, [id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontração' });
+            return res.status(404).json({ error: 'Pedido não encontrado' });
         }
         
         // Formatar o pedido para compatibilidade com o frontend
@@ -335,13 +335,13 @@ router.post('/pedidos/:id/historico', authenticateToken, async (req, res) => {
         // Verificar se o pedido existe
         const [existing] = await pool.query('SELECT id FROM pedidos WHERE id = ', [id]);
         if (existing.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontração' });
+            return res.status(404).json({ error: 'Pedido não encontrado' });
         }
         
         // Tentar inserir no log de auditoria
         try {
             await pool.query(`
-                INSERT INTO audit_log (tabela, registro_id, acao, daçãos_novos, usuario_id, created_at)
+                INSERT INTO audit_log (tabela, registro_id, acao, dados_novos, usuario_id, created_at)
                 VALUES ('pedidos', , , , , NOW())
             `, [id, tipo || 'historico', JSON.stringify({ descricao, usuario }), req.user.id || null]);
         } catch (auditError) {
@@ -601,7 +601,7 @@ router.put('/pedidos/:id/status', authenticateToken, async (req, res) => {
         // Verificar se o pedido existe
         const [existing] = await pool.query('SELECT id, status FROM pedidos WHERE id = ', [id]);
         if (existing.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontração' });
+            return res.status(404).json({ error: 'Pedido não encontrado' });
         }
         
         const statusAnterior = existing[0].status;
@@ -612,7 +612,7 @@ router.put('/pedidos/:id/status', authenticateToken, async (req, res) => {
         // Registrar no log de auditoria se existir
         try {
             await pool.query(`
-                INSERT INTO audit_log (tabela, registro_id, acao, daçãos_anteriores, daçãos_novos, usuario_id, created_at)
+                INSERT INTO audit_log (tabela, registro_id, acao, dados_anteriores, dados_novos, usuario_id, created_at)
                 VALUES ('pedidos', , 'status_change', , , , NOW())
             `, [id, JSON.stringify({ status: statusAnterior }), JSON.stringify({ status }), req.user.id || null]);
         } catch (auditError) {
@@ -877,7 +877,7 @@ router.get('/impostos/cenarios/:codigo', authenticateToken, async (req, res) => 
         if (cenario) {
             res.json({ success: true, cenario });
         } else {
-            res.status(404).json({ success: false, message: 'Cenário não encontração' });
+            res.status(404).json({ success: false, message: 'Cenário não encontrado' });
         }
     } catch (error) {
         console.error('Error getting cenário fiscal:', error);
@@ -912,14 +912,14 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
         
         // Aplicar alíquotas customizadas se fornecidas
         const aliquotas = {
-            icms: icms_aliquota_custom !== undefined  parseFloat(icms_aliquota_custom) : cenario.icms_aliquota,
-            icms_reducao: icms_reducao_custom !== undefined  parseFloat(icms_reducao_custom) : cenario.icms_reducao_base,
-            icms_st: icms_st_aliquota_custom !== undefined  parseFloat(icms_st_aliquota_custom) : cenario.icms_st_aliquota,
-            icms_st_mva: icms_st_mva_custom !== undefined  parseFloat(icms_st_mva_custom) : cenario.icms_st_mva,
-            ipi: ipi_aliquota_custom !== undefined  parseFloat(ipi_aliquota_custom) : cenario.ipi_aliquota,
-            pis: pis_aliquota_custom !== undefined  parseFloat(pis_aliquota_custom) : cenario.pis_aliquota,
-            cofins: cofins_aliquota_custom !== undefined  parseFloat(cofins_aliquota_custom) : cenario.cofins_aliquota,
-            iss: iss_aliquota_custom !== undefined  parseFloat(iss_aliquota_custom) : cenario.iss_aliquota
+            icms: icms_aliquota_custom !== undefined ? parseFloat(icms_aliquota_custom) : cenario.icms_aliquota,
+            icms_reducao: icms_reducao_custom !== undefined ? parseFloat(icms_reducao_custom) : cenario.icms_reducao_base,
+            icms_st: icms_st_aliquota_custom !== undefined ? parseFloat(icms_st_aliquota_custom) : cenario.icms_st_aliquota,
+            icms_st_mva: icms_st_mva_custom !== undefined ? parseFloat(icms_st_mva_custom) : cenario.icms_st_mva,
+            ipi: ipi_aliquota_custom !== undefined ? parseFloat(ipi_aliquota_custom) : cenario.ipi_aliquota,
+            pis: pis_aliquota_custom !== undefined ? parseFloat(pis_aliquota_custom) : cenario.pis_aliquota,
+            cofins: cofins_aliquota_custom !== undefined ? parseFloat(cofins_aliquota_custom) : cenario.cofins_aliquota,
+            iss: iss_aliquota_custom !== undefined ? parseFloat(iss_aliquota_custom) : cenario.iss_aliquota
         };
         
         // Calcular base de cálculo
@@ -941,10 +941,10 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
         const baseIPI = valorProdutos;
         
         // Calcular IPI primeiro (se aplicável)
-        const valorIPI = aliquotas.ipi > 0  baseIPI * (aliquotas.ipi / 100) : 0;
+        const valorIPI = aliquotas.ipi > 0 ? baseIPI * (aliquotas.ipi / 100) : 0;
         
         // Calcular ICMS
-        const valorICMS = aliquotas.icms > 0  baseICMS * (aliquotas.icms / 100) : 0;
+        const valorICMS = aliquotas.icms > 0 ? baseICMS * (aliquotas.icms / 100) : 0;
         
         // Calcular ICMS ST (se aplicável)
         let valorICMSST = 0;
@@ -961,12 +961,12 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
         const basePISCOFINS = valorProdutos - valorDesconto + valorFrete + valorSeguro + valorOutras;
         
         // Calcular PIS e COFINS
-        const valorPIS = aliquotas.pis > 0  basePISCOFINS * (aliquotas.pis / 100) : 0;
-        const valorCOFINS = aliquotas.cofins > 0  basePISCOFINS * (aliquotas.cofins / 100) : 0;
+        const valorPIS = aliquotas.pis > 0 ? basePISCOFINS * (aliquotas.pis / 100) : 0;
+        const valorCOFINS = aliquotas.cofins > 0 ? basePISCOFINS * (aliquotas.cofins / 100) : 0;
         
         // Calcular ISS (para serviços)
         const baseISS = valorProdutos - valorDesconto;
-        const valorISS = aliquotas.iss > 0  baseISS * (aliquotas.iss / 100) : 0;
+        const valorISS = aliquotas.iss > 0 ? baseISS * (aliquotas.iss / 100) : 0;
         
         // Total de impostos destacaçãos
         const totalImpostos = valorICMS + valorICMSST + valorIPI + valorPIS + valorCOFINS + valorISS;
@@ -1048,7 +1048,7 @@ router.post('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
         // Verificar se pedido existe
         const [existing] = await pool.query('SELECT id FROM pedidos WHERE id = ', [id]);
         if (existing.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontração' });
+            return res.status(404).json({ error: 'Pedido não encontrado' });
         }
         
         // Atualizar total_impostos no pedido
@@ -1201,7 +1201,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
         `, [id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontração' });
+            return res.status(404).json({ error: 'Pedido não encontrado' });
         }
         
         const pedido = pedidos[0];

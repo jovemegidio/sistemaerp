@@ -35,7 +35,7 @@ async function main () {
     console.log('Now run: node scripts/generate_jwt.js')
     process.exit(0)
   } catch (e) {
-    console.error('Error:', e && e.message  e.message : e)
+    console.error('Error:', e && e.message ? e.message : e)
     process.exit(1)
   } finally {
     conn.end()

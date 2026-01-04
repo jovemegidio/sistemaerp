@@ -78,7 +78,7 @@ router.post('/login', async (req, res) => {
         } catch (err) {
             console.error('Erro ao inspecionar colunas da tabela usuarios:', err.stack || err);
             if (err && err.code === 'ER_NO_SUCH_TABLE') {
-                return res.status(500).json({ message: 'Tabela `usuarios` não encontrada no banco de daçãos. Verifique a configuração do DB.' });
+                return res.status(500).json({ message: 'Tabela `usuarios` não encontrada no banco de dados. Verifique a configuração do DB.' });
             }
             return res.status(500).json({ message: 'Erro ao verificar esquema de usuários.', error: (err && err.message)  err.message : String(err) });
         }
@@ -86,7 +86,7 @@ router.post('/login', async (req, res) => {
         // Seleciona o usuário
         const [rows] = await pool.query('SELECT * FROM usuarios WHERE email =  ORDER BY id ASC LIMIT 1', [email]);
         if (!rows.length) {
-            return res.status(401).json({ message: 'Usuário não encontração.' });
+            return res.status(401).json({ message: 'Usuário não encontrado.' });
         }
         const user = rows[0];
 
@@ -102,7 +102,7 @@ router.post('/login', async (req, res) => {
             }
         }
         if (!hashField) {
-            return res.status(500).json({ message: 'Nenhum campo de senha encontração na tabela `usuarios`. Verifique o esquema.' });
+            return res.status(500).json({ message: 'Nenhum campo de senha encontrado na tabela `usuarios`. Verifique o esquema.' });
         }
 
         // Decide se deve usar bcrypt: se o nome do campo indica hash ou termina com '_hash'
@@ -225,11 +225,11 @@ router.post('/auth/verify-email', async (req, res) => {
         const [rows] = await pool.query('SELECT id, nome, email, setor FROM usuarios WHERE email =  LIMIT 1', [email]);
         
         if (!rows.length) {
-            return res.status(404).json({ message: 'Email não encontração no sistema.' });
+            return res.status(404).json({ message: 'Email não encontrado no sistema.' });
         }
         
         const user = rows[0];
-        console.log('[AUTH/VERIFY-EMAIL] ✅ Email encontração, userId:', user.id);
+        console.log('[AUTH/VERIFY-EMAIL] ✅ Email encontrado, userId:', user.id);
         
         res.json({ 
             success: true, 
@@ -259,7 +259,7 @@ router.post('/auth/verify-user-data', async (req, res) => {
         const [rows] = await pool.query('SELECT id, nome, setor FROM usuarios WHERE id =  LIMIT 1', [userId]);
         
         if (!rows.length) {
-            return res.status(404).json({ message: 'Usuário não encontração.' });
+            return res.status(404).json({ message: 'Usuário não encontrado.' });
         }
         
         const user = rows[0];
@@ -311,7 +311,7 @@ router.post('/auth/change-password', async (req, res) => {
         const [rows] = await pool.query('SELECT id FROM usuarios WHERE id =  LIMIT 1', [userId]);
         
         if (!rows.length) {
-            return res.status(404).json({ message: 'Usuário não encontração.' });
+            return res.status(404).json({ message: 'Usuário não encontrado.' });
         }
         
         // Gera hash bcrypt da nova senha (salt rounds = 10)
@@ -405,7 +405,7 @@ router.post('/auth/create-remember-token', async (req, res) => {
         const [rows] = await pool.query('SELECT id, nome, email, role, setor FROM usuarios WHERE id =  AND email =  LIMIT 1', [userId, email]);
         
         if (!rows.length) {
-            return res.status(404).json({ message: 'Usuário não encontração.' });
+            return res.status(404).json({ message: 'Usuário não encontrado.' });
         }
         
         const user = rows[0];
@@ -459,7 +459,7 @@ router.post('/auth/validate-remember-token', async (req, res) => {
         console.log('[AUTH/VALIDATE-REMEMBER] Validando token...');
         
         if (!rememberToken) {
-            return res.status(401).json({ message: 'Token não encontração.' });
+            return res.status(401).json({ message: 'Token não encontrado.' });
         }
         
         // Busca token no banco

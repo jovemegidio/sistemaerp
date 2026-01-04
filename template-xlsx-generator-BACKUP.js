@@ -292,7 +292,7 @@ class TemplateXLSXGenerator {
                 size: stats.size
             };
         } else {
-            throw new Error('Template não encontração');
+            throw new Error('Template não encontrado');
         }
     }
 
@@ -357,7 +357,7 @@ class TemplateXLSXGenerator {
                 size: stats.size
             };
         } else {
-            throw new Error('Template não encontração');
+            throw new Error('Template não encontrado');
         }
     }
 
@@ -699,7 +699,7 @@ class TemplateXLSXGenerator {
                     size: stats.size
                 };
             } else {
-                throw new Error('Template não encontração');
+                throw new Error('Template não encontrado');
             }
 
         } catch (error) {

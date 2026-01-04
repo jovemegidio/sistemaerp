@@ -63,7 +63,7 @@ files.forEach(file => {
         
         console.log(`  Total: ${changes} substituicoes aplicadas.`);
     } else {
-        console.log(`  Arquivo nao encontração: ${fullPath}`);
+        console.log(`  Arquivo nao encontrado: ${fullPath}`);
     }
 });
 

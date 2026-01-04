@@ -251,7 +251,7 @@ class GestorAnexos {
                     opacity: 0.6;
                 }
 
-                .anexo-descrição {
+                .anexo-descricao {
                     background: white;
                     padding: 8px;
                     border-radius: 4px;
@@ -471,7 +471,7 @@ class GestorAnexos {
                 nome: 'nota_fiscal_123.pdf',
                 tamanho: 245678,
                 tipo: 'application/pdf',
-                descrição: 'Nota fiscal do fornecedor ABC',
+                descricao: 'Nota fiscal do fornecedor ABC',
                 data_upload: '2025-12-01T10:30:00',
                 usuario: 'João Silva'
             },
@@ -480,7 +480,7 @@ class GestorAnexos {
                 nome: 'comprovante_pagamento.jpg',
                 tamanho: 189234,
                 tipo: 'image/jpeg',
-                descrição: 'Comprovante de transferência',
+                descricao: 'Comprovante de transferência',
                 data_upload: '2025-12-05T14:20:00',
                 usuario: 'Maria Santos'
             }
@@ -505,7 +505,7 @@ class GestorAnexos {
     renderizarAnexo(anexo) {
         const icone = this.obterIcone(anexo.tipo);
         const tamanhoFormatação = this.formatarTamanho(anexo.tamanho);
-        const dataFormatada = anexo.data_upload  this.formatarData(anexo.data_upload) : '';
+        const dataFormatada = anexo.data_upload ? this.formatarData(anexo.data_upload) : '';
 
         return `
             <div class="anexo-item ${anexo.uploading  'uploading' : ''}" data-anexo-id="${anexo.id}">
@@ -519,7 +519,7 @@ class GestorAnexos {
                         ${dataFormatada  `<span><i class="fas fa-calendar"></i> ${dataFormatada}</span>` : ''}
                         ${anexo.usuario  `<span><i class="fas fa-user"></i> ${anexo.usuario}</span>` : ''}
                     </div>
-                    ${anexo.descrição  `<div class="anexo-descrição">${anexo.descrição}</div>` : ''}
+                    ${anexo.descricao  `<div class="anexo-descricao">${anexo.descricao}</div>` : ''}
                     ${anexo.uploading  `
                         <div class="upload-progress">
                             <div class="upload-progress-bar" style="width: ${anexo.progresso || 0}%"></div>

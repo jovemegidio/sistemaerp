@@ -60,7 +60,7 @@ async function abrirConfiguracao(tipo) {
     const modalId = modalMap[tipo];
     
     if (!modalId) {
-        console.error('Tipo de configuração não encontração:', tipo);
+        console.error('Tipo de configuração não encontrado:', tipo);
         if (typeof showNotification === 'function') {
             showNotification('Configuração não encontrada', 'error');
         } else {
@@ -73,18 +73,18 @@ async function abrirConfiguracao(tipo) {
     let modal = document.getElementById(modalId);
     
     if (!modal) {
-        console.warn('Modal não encontração imediatamente, aguardando carregamento:', modalId);
+        console.warn('Modal não encontrado imediatamente, aguardando carregamento:', modalId);
         // Aguardar um pouco para os modais carregarem via fetch
         await new Promise(resolve => setTimeout(resolve, 500));
         modal = document.getElementById(modalId);
     }
     
     if (!modal) {
-        console.error('Modal não encontração após aguardar:', modalId);
+        console.error('Modal não encontrado após aguardar:', modalId);
         if (typeof showNotification === 'function') {
-            showNotification('Modal de configuração não encontração. Tente novamente.', 'error');
+            showNotification('Modal de configuração não encontrado. Tente novamente.', 'error');
         } else {
-            alert('Modal não encontração: ' + modalId);
+            alert('Modal não encontrado: ' + modalId);
         }
         return;
     }
@@ -582,7 +582,7 @@ function displayCategorias(categorias) {
             </div>
             <div style="flex: 1; min-width: 0;">
                 <h4 style="margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #1f2937;">${cat.nome}</h4>
-                <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cat.descrição || cat.descricao || 'Sem descrição'}</p>
+                <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cat.descricao || cat.descricao || 'Sem descricao'}</p>
             </div>
             <div style="display: flex; gap: 8px;">
                 <button onclick="editarCategoria(${cat.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
@@ -760,7 +760,7 @@ function displayDepartamentos(departamentos) {
             </div>
             <div style="flex: 1; min-width: 0;">
                 <h4 style="margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #1f2937;">${dept.nome}</h4>
-                <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${dept.descrição || dept.descricao || 'Sem descrição'}</p>
+                <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${dept.descricao || dept.descricao || 'Sem descricao'}</p>
             </div>
             <div style="display: flex; gap: 8px;">
                 <button onclick="editarDepartamento(${dept.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
@@ -810,7 +810,7 @@ async function editarDepartamento(id) {
         // Preencher campos
         document.getElementById('departamento-id').value = departamento.id;
         document.getElementById('departamento-nome').value = departamento.nome || '';
-        document.getElementById('departamento-descricao').value = departamento.descrição || departamento.descricao || '';
+        document.getElementById('departamento-descricao').value = departamento.descricao || departamento.descricao || '';
         document.getElementById('departamento-responsavel').value = departamento.responsavel || '';
         
         // Atualizar título
@@ -953,7 +953,7 @@ function displayProjetos(projetos) {
                     <h4 style="margin: 0; font-size: 15px; font-weight: 600; color: #1f2937;">${proj.nome}</h4>
                     <span style="padding: 3px 10px; background: ${cor}20; color: ${cor}; border-radius: 20px; font-size: 11px; font-weight: 600;">${statusTexto[proj.status] || 'Ativo'}</span>
                 </div>
-                <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${proj.descrição || proj.descricao || 'Sem descrição'}</p>
+                <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${proj.descricao || proj.descricao || 'Sem descricao'}</p>
             </div>
             <div style="display: flex; gap: 8px;">
                 <button onclick="editarProjeto(${proj.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
@@ -1005,9 +1005,9 @@ async function editarProjeto(id) {
         // Preencher campos
         document.getElementById('projeto-id').value = projeto.id;
         document.getElementById('projeto-nome').value = projeto.nome || '';
-        document.getElementById('projeto-descricao').value = projeto.descrição || projeto.descricao || '';
-        document.getElementById('projeto-data-inicio').value = projeto.data_inicio  projeto.data_inicio.split('T')[0] : '';
-        document.getElementById('projeto-data-fim').value = projeto.data_fim  projeto.data_fim.split('T')[0] : '';
+        document.getElementById('projeto-descricao').value = projeto.descricao || projeto.descricao || '';
+        document.getElementById('projeto-data-inicio').value = projeto.data_inicio ? projeto.data_inicio.split('T')[0] : '';
+        document.getElementById('projeto-data-fim').value = projeto.data_fim ? projeto.data_fim.split('T')[0] : '';
         document.getElementById('projeto-status').value = projeto.status || 'ativo';
         
         // Atualizar título
@@ -1288,7 +1288,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logoInput) {
         logoInput.addEventListener('change', function() {
             const file = this.files[0];
-            const fileName = file  file.name : 'Nenhum arquivo selecionação';
+            const fileName = file ? file.name : 'Nenhum arquivo selecionação';
             const label = this.parentElement.querySelector('.config-file-upload-name');
             if (label) label.textContent = fileName;
             
@@ -1312,7 +1312,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (faviconInput) {
         faviconInput.addEventListener('change', function() {
             const file = this.files[0];
-            const fileName = file  file.name : 'Nenhum arquivo selecionação';
+            const fileName = file ? file.name : 'Nenhum arquivo selecionação';
             const label = this.parentElement.querySelector('.config-file-upload-name');
             if (label) label.textContent = fileName;
             
@@ -2226,7 +2226,7 @@ function displayNCM(ncms) {
         <tr>
             <td><strong>${n.codigo || ''}</strong></td>
             <td>${n.descricao || ''}</td>
-            <td>${n.aliquota_ipi  n.aliquota_ipi + '%' : '-'}</td>
+            <td>${n.aliquota_ipi ? n.aliquota_ipi + '%' : '-'}</td>
             <td class="config-actions">
                 <button class="config-btn-icon" onclick="editarNCM(${n.id})" title="Editar"><i class="fas fa-edit"></i></button>
                 <button class="config-btn-icon danger" onclick="excluirNCM(${n.id})" title="Excluir"><i class="fas fa-trash"></i></button>
@@ -2480,7 +2480,7 @@ function renderizarFuncionarios(lista = null) {
     
     if (!daçãos.length) {
         tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 40px; color: #6c757d;">Nenhum funcionário cadastração</td></tr>';
-        if (info) info.textContent = '0 funcionários encontraçãos';
+        if (info) info.textContent = '0 funcionários encontrados';
         return;
     }
     
@@ -2597,12 +2597,12 @@ async function editarFuncionario(id) {
         document.getElementById('func-nome').value = funcionario.nome_completo || funcionario.nome || '';
         document.getElementById('func-cpf').value = funcionario.cpf || '';
         document.getElementById('func-rg').value = funcionario.rg || '';
-        document.getElementById('func-nascimento').value = funcionario.data_nascimento  funcionario.data_nascimento.split('T')[0] : '';
+        document.getElementById('func-nascimento').value = funcionario.data_nascimento ? funcionario.data_nascimento.split('T')[0] : '';
         document.getElementById('func-email').value = funcionario.email || '';
         document.getElementById('func-telefone').value = funcionario.telefone || '';
         document.getElementById('func-cargo').value = funcionario.cargo || '';
         document.getElementById('func-departamento').value = funcionario.departamento || '';
-        document.getElementById('func-admissao').value = funcionario.data_admissao  funcionario.data_admissao.split('T')[0] : '';
+        document.getElementById('func-admissao').value = funcionario.data_admissao ? funcionario.data_admissao.split('T')[0] : '';
         document.getElementById('func-salario').value = funcionario.salario || '';
         document.getElementById('func-status').value = funcionario.status || 'ativo';
         document.getElementById('func-pis').value = funcionario.pis_pasep || funcionario.pis || '';
@@ -2873,7 +2873,7 @@ function renderizarHistorico(lista = null) {
     const daçãos = lista || historicoCache;
     
     if (!daçãos.length) {
-        container.innerHTML = '<div style="text-align: center; padding: 40px; color: #6c757d;">Nenhum registro encontração</div>';
+        container.innerHTML = '<div style="text-align: center; padding: 40px; color: #6c757d;">Nenhum registro encontrado</div>';
         atualizarPaginacaoHistorico(0);
         return;
     }
@@ -2931,7 +2931,7 @@ function atualizarPaginacaoHistorico(total) {
         html += `<button class="config-btn-icon" onclick="historicoPagina--; renderizarHistorico()" ${historicoPagina === 1  'disabled' : ''}><i class="fas fa-angle-left"></i></button>`;
         
         for (let i = 1; i <= Math.min(5, totalPaginas); i++) {
-            const pagina = i <= 3  i : (i === 4  totalPaginas - 1 : totalPaginas);
+            const pagina = i <= 3  i : (i === 4 ? totalPaginas - 1 : totalPaginas);
             if (i === 4 && totalPaginas > 5) {
                 html += `<button class="config-btn-icon" disabled>...</button>`;
             }

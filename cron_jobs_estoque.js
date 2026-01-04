@@ -15,7 +15,7 @@ async function expirarReservas() {
             database: 'aluforce_vendas'
         });
 
-        console.log('🔌 Conectação ao banco de daçãos');
+        console.log('🔌 Conectação ao banco de dados');
         console.log('⏰ Iniciando verificação de reservas expiradas...\n');
 
         await connection.beginTransaction();
@@ -132,7 +132,7 @@ async function alertasEstoqueBaixo() {
             database: 'aluforce_vendas'
         });
 
-        console.log('\n🔌 Conectação ao banco de daçãos');
+        console.log('\n🔌 Conectação ao banco de dados');
         console.log('📊 Verificando alertas de estoque baixo...\n');
 
         // 1. Buscar produtos com estoque abaixo do mínimo
@@ -198,7 +198,7 @@ async function alertasEstoqueBaixo() {
                 SELECT id FROM produtos WHERE codigo =  COLLATE utf8mb4_general_ci
             `, [produto.codigo_material]);
 
-            const produto_id = produtoInfo.length > 0  produtoInfo[0].id : null;
+            const produto_id = produtoInfo.length > 0 ? produtoInfo[0].id : null;
 
             if (produto_id) {
                 const [alertaExistente] = await connection.query(`

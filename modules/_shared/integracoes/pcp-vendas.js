@@ -17,7 +17,7 @@ class IntegracaoPCPVendas {
      * Gera Ordem de Produção a partir de um pedido de venda
      * @param {number} pedidoId - ID do pedido em Vendas
      * @param {object} opcoes - Opções de geração
-     * @returns {Promise<object>} Resultação da operação
+     * @returns {Promise<object>} Resultado da operação
      */
     async gerarOrdemProducao(pedidoId, opcoes = {}) {
         const {
@@ -32,7 +32,7 @@ class IntegracaoPCPVendas {
             const pedido = await this.buscarPedidoVendas(pedidoId, token);
             
             if (!pedido) {
-                throw new Error(`Pedido ${pedidoId} não encontração`);
+                throw new Error(`Pedido ${pedidoId} não encontrado`);
             }
 
             // 2. Validar pedido

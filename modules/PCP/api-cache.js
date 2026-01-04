@@ -19,7 +19,7 @@ class APICache {
      */
     _generateKey(url, options = {}) {
         const method = options.method || 'GET';
-        const body = options.body  JSON.stringify(options.body) : '';
+        const body = options.body ? JSON.stringify(options.body) : '';
         return `${method}:${url}:${body}`;
     }
 

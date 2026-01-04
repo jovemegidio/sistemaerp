@@ -142,12 +142,12 @@ async function buscarMovimentacoesSistema(contaId, dataInicio, dataFim) {
     
     // Mock data
     return [
-        { id: 1, data: '2025-12-01', descrição: 'Recebimento Cliente ABC Ltda', valor: 5000.00, tipo: 'entrada', categoria: 'Vendas', origem: 'contas_receber' },
-        { id: 2, data: '2025-12-03', descrição: 'Pagamento Fornecedor XYZ', valor: -2500.00, tipo: 'saida', categoria: 'Compras', origem: 'contas_pagar' },
-        { id: 3, data: '2025-12-05', descrição: 'Pagamento Salários', valor: -8500.00, tipo: 'saida', categoria: 'Folha de Pagamento', origem: 'contas_pagar' },
-        { id: 4, data: '2025-12-08', descrição: 'Recebimento Cliente DEF S/A', valor: 12000.00, tipo: 'entrada', categoria: 'Vendas', origem: 'contas_receber' },
-        { id: 5, data: '2025-12-10', descrição: 'Pagamento Aluguel', valor: -3500.00, tipo: 'saida', categoria: 'Despesas Fixas', origem: 'contas_pagar' },
-        { id: 6, data: '2025-12-10', descrição: 'Recebimento Cliente GHI ME', valor: 7800.00, tipo: 'entrada', categoria: 'Vendas', origem: 'contas_receber' }
+        { id: 1, data: '2025-12-01', descricao: 'Recebimento Cliente ABC Ltda', valor: 5000.00, tipo: 'entrada', categoria: 'Vendas', origem: 'contas_receber' },
+        { id: 2, data: '2025-12-03', descricao: 'Pagamento Fornecedor XYZ', valor: -2500.00, tipo: 'saida', categoria: 'Compras', origem: 'contas_pagar' },
+        { id: 3, data: '2025-12-05', descricao: 'Pagamento Salários', valor: -8500.00, tipo: 'saida', categoria: 'Folha de Pagamento', origem: 'contas_pagar' },
+        { id: 4, data: '2025-12-08', descricao: 'Recebimento Cliente DEF S/A', valor: 12000.00, tipo: 'entrada', categoria: 'Vendas', origem: 'contas_receber' },
+        { id: 5, data: '2025-12-10', descricao: 'Pagamento Aluguel', valor: -3500.00, tipo: 'saida', categoria: 'Despesas Fixas', origem: 'contas_pagar' },
+        { id: 6, data: '2025-12-10', descricao: 'Recebimento Cliente GHI ME', valor: 7800.00, tipo: 'entrada', categoria: 'Vendas', origem: 'contas_receber' }
     ];
 }
 
@@ -157,14 +157,14 @@ async function buscarExtratoImportação(contaId, dataInicio, dataFim) {
     
     // Mock data - Extrato bancário (algumas movimentações coincidem, outras não)
     return [
-        { id: 'E1', data: '2025-12-01', descrição: 'TED RECEBIDA ABC LTDA', valor: 5000.00, tipo: 'entrada' },
-        { id: 'E2', data: '2025-12-02', descrição: 'TARIFA BANCARIA', valor: -15.00, tipo: 'saida' },
-        { id: 'E3', data: '2025-12-03', descrição: 'PIX ENVIADO XYZ COMERCIO', valor: -2500.00, tipo: 'saida' },
-        { id: 'E4', data: '2025-12-05', descrição: 'TED ENVIADA FOLHA PGTO', valor: -8500.00, tipo: 'saida' },
-        { id: 'E5', data: '2025-12-08', descrição: 'TED RECEBIDA DEF SA', valor: 12000.00, tipo: 'entrada' },
-        { id: 'E6', data: '2025-12-10', descrição: 'DEBITO AUTOMATICO ALUGUEL', valor: -3500.00, tipo: 'saida' },
-        { id: 'E7', data: '2025-12-10', descrição: 'PIX RECEBIDO GHI', valor: 7800.00, tipo: 'entrada' },
-        { id: 'E8', data: '2025-12-10', descrição: 'IOF OPERACAO', valor: -8.50, tipo: 'saida' }
+        { id: 'E1', data: '2025-12-01', descricao: 'TED RECEBIDA ABC LTDA', valor: 5000.00, tipo: 'entrada' },
+        { id: 'E2', data: '2025-12-02', descricao: 'TARIFA BANCARIA', valor: -15.00, tipo: 'saida' },
+        { id: 'E3', data: '2025-12-03', descricao: 'PIX ENVIADO XYZ COMERCIO', valor: -2500.00, tipo: 'saida' },
+        { id: 'E4', data: '2025-12-05', descricao: 'TED ENVIADA FOLHA PGTO', valor: -8500.00, tipo: 'saida' },
+        { id: 'E5', data: '2025-12-08', descricao: 'TED RECEBIDA DEF SA', valor: 12000.00, tipo: 'entrada' },
+        { id: 'E6', data: '2025-12-10', descricao: 'DEBITO AUTOMATICO ALUGUEL', valor: -3500.00, tipo: 'saida' },
+        { id: 'E7', data: '2025-12-10', descricao: 'PIX RECEBIDO GHI', valor: 7800.00, tipo: 'entrada' },
+        { id: 'E8', data: '2025-12-10', descricao: 'IOF OPERACAO', valor: -8.50, tipo: 'saida' }
     ];
 }
 
@@ -261,7 +261,7 @@ function criarItemMovimentacao(mov, origem, conciliada) {
                 <span class="mov-data">${formatarData(mov.data)}</span>
                 <span class="mov-valor ${mov.tipo}">${formatarMoeda(mov.valor)}</span>
             </div>
-            <div class="mov-descrição">${mov.descrição}</div>
+            <div class="mov-descricao">${mov.descricao}</div>
             ${mov.categoria  `<span class="mov-categoria">${mov.categoria}</span>` : ''}
             ${conciliada  '<span class="mov-categoria" style="background: #10b981; color: white;">✓ Conciliada</span>' : ''}
         </div>
@@ -579,7 +579,7 @@ async function processarCSV(arquivo) {
 
                     daçãos.push({
                         data: colunas[0].trim(),
-                        descrição: colunas[1].trim(),
+                        descricao: colunas[1].trim(),
                         valor: parseFloat(colunas[2].trim()),
                         tipo: parseFloat(colunas[2].trim()) >= 0  'entrada' : 'saida'
                     });

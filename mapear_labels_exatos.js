@@ -64,7 +64,7 @@ async function mapearLabelsExatos() {
                         });
                     }
                 } else {
-                    console.log(`❌ Label "${label}" não encontração nos shared strings`);
+                    console.log(`❌ Label "${label}" não encontrado nos shared strings`);
                 }
             });
             

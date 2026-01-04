@@ -43,7 +43,7 @@ module.exports = function({ pool, authenticateToken, io }) {
         'ordem_producao': {
             nome: 'Ordem de Produção',
             tabela: 'ordens_producao',
-            campo_valor: 'valor_estimação',
+            campo_valor: 'valor_estimado',
             campo_status: 'aprovacao_status',
             status_pendente: 'pendente',
             status_aprovação: 'aprovação',
@@ -140,7 +140,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             if (!registro) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Registro não encontração' 
+                    message: 'Registro não encontrado' 
                 });
             }
             

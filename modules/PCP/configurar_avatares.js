@@ -15,7 +15,7 @@ async function configurarAvatares() {
             database: 'aluforce_vendas'
         });
         
-        console.log('✅ Conectação ao banco de daçãos\n');
+        console.log('✅ Conectação ao banco de dados\n');
         
         // Adicionar campo foto_url se não existir
         console.log('🔧 Verificando/adicionando campo foto_url...');
@@ -70,7 +70,7 @@ async function configurarAvatares() {
                     console.log(`   ✅ Avatar configuração: ${avatar.foto}`);
                     sucessos++;
                 } else {
-                    console.log(`   ⚠️ Usuário não encontração: ${avatar.email}`);
+                    console.log(`   ⚠️ Usuário não encontrado: ${avatar.email}`);
                 }
                 
             } catch (error) {
@@ -120,7 +120,7 @@ async function configurarAvatares() {
         console.log('📊 RELATÓRIO FINAL DE AVATARES');
         console.log('='.repeat(60));
         console.log(`✅ Avatares configuraçãos: ${sucessos}`);
-        console.log(`❌ Erros encontraçãos: ${erros}`);
+        console.log(`❌ Erros encontrados: ${erros}`);
         
         // Mostrar status final de todos os usuários
         const [todosUsuarios] = await connection.execute(`
@@ -161,7 +161,7 @@ async function configurarAvatares() {
                 if (user.foto_url) {
                     const nomeArquivo = user.foto_url.replace('/avatars/', '');
                     const existe = arquivos.includes(nomeArquivo);
-                    const status = existe  '✅ Existe' : '❌ Arquivo não encontração';
+                    const status = existe  '✅ Existe' : '❌ Arquivo não encontrado';
                     console.log(`   ${user.nome}: ${status}`);
                 }
             }

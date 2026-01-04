@@ -144,7 +144,7 @@ function getRHType(userName) {
     const userKey = userName.toLowerCase().trim();
     const userPerms = userPermissions[userKey];
     
-    return userPerms  userPerms.rhType : 'area';
+    return userPerms ? userPerms.rhType : 'area';
 }
 
 // Função para obter todas as áreas do usuário
@@ -154,7 +154,7 @@ function getUserAreas(userName) {
     const userKey = userName.toLowerCase().trim();
     const userPerms = userPermissions[userKey];
     
-    return userPerms  userPerms.areas : ['rh'];
+    return userPerms ? userPerms.areas : ['rh'];
 }
 
 // Função para verificar se o usuário é admin

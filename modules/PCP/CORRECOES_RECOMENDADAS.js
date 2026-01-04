@@ -90,7 +90,7 @@ app.get('/health', async (req, res) => {
             pid: process.pid
         };
         
-        // Testar banco de daçãos
+        // Testar banco de dados
         try {
             await db.query('SELECT 1');
             health.database = 'connected';

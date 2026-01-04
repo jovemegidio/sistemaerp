@@ -48,15 +48,15 @@ async function logAcao(pool, usuarioId, acao, entidadeTipo, entidadeId, daçãos
     try {
         await pool.execute(
             `INSERT INTO compras_logs 
-            (usuario_id, acao, entidade_tipo, entidade_id, daçãos_anteriores, daçãos_novos, ip_address, user_agent)
+            (usuario_id, acao, entidade_tipo, entidade_id, dados_anteriores, dados_novos, ip_address, user_agent)
             VALUES (, , , , , , , )`,
             [
                 usuarioId,
                 acao,
                 entidadeTipo,
                 entidadeId,
-                daçãosAnteriores  JSON.stringify(daçãosAnteriores) : null,
-                daçãosNovos  JSON.stringify(daçãosNovos) : null,
+                daçãosAnteriores ? JSON.stringify(daçãosAnteriores) : null,
+                daçãosNovos ? JSON.stringify(daçãosNovos) : null,
                 req.ip,
                 req.get('user-agent')
             ]
@@ -198,7 +198,7 @@ module.exports = (pool, authenticateToken, logger) => {
             );
             
             if (fornecedor.length === 0) {
-                return res.status(404).json({ error: 'Fornecedor não encontração' });
+                return res.status(404).json({ error: 'Fornecedor não encontrado' });
             }
             
             // Buscar contatos
@@ -358,7 +358,7 @@ module.exports = (pool, authenticateToken, logger) => {
             const [anterior] = await connection.execute('SELECT * FROM fornecedores WHERE id = ', [fornecedorId]);
             if (anterior.length === 0) {
                 await connection.rollback();
-                return res.status(404).json({ error: 'Fornecedor não encontração' });
+                return res.status(404).json({ error: 'Fornecedor não encontrado' });
             }
             
             const campos = [];
@@ -511,7 +511,7 @@ module.exports = (pool, authenticateToken, logger) => {
             );
             
             if (pedido.length === 0) {
-                return res.status(404).json({ error: 'Pedido não encontração' });
+                return res.status(404).json({ error: 'Pedido não encontrado' });
             }
             
             // Buscar itens do pedido

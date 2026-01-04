@@ -30,7 +30,7 @@ async function configurePermissions() {
         }
 
         if (!connection) {
-            throw new Error('Não foi possível conectar ao banco de daçãos com nenhuma senha');
+            throw new Error('Não foi possível conectar ao banco de dados com nenhuma senha');
         }
 
         // Permissões completas de vendas
@@ -104,7 +104,7 @@ async function configurePermissions() {
                     continue;
                 }
 
-                console.log(`⚠️  ${usuario.nome} (${usuario.email}) - Usuário não encontração`);
+                console.log(`⚠️  ${usuario.nome} (${usuario.email}) - Usuário não encontrado`);
 
             } catch (error) {
                 console.error(`❌ Erro ao atualizar ${usuario.email}:`, error.message);

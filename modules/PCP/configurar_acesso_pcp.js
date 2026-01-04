@@ -35,9 +35,9 @@ async function configurarAcessoPCP() {
             );
             
             if (user.length > 0) {
-                console.log(`✅ ${user[0].nome} (${email}) - Usuário encontração (ID: ${user[0].id})`);
+                console.log(`✅ ${user[0].nome} (${email}) - Usuário encontrado (ID: ${user[0].id})`);
             } else {
-                console.log(`❌ ${email} - Usuário NÃO encontração no banco`);
+                console.log(`❌ ${email} - Usuário NÃO encontrado no banco`);
             }
         }
         
@@ -83,7 +83,7 @@ async function configurarAcessoPCP() {
                     console.log(`✅ ${email} - Permissões PCP configuradas`);
                     configuraçãos++;
                 } else {
-                    console.log(`⚠️  ${email} - Usuário não encontração para atualização`);
+                    console.log(`⚠️  ${email} - Usuário não encontrado para atualização`);
                 }
             } catch (error) {
                 console.log(`❌ ${email} - Erro ao configurar: ${error.message}`);
@@ -119,7 +119,7 @@ async function configurarAcessoPCP() {
         if (configuraçãos === usuariosParaConfigurar.length) {
             console.log('🎉 TODOS OS USUÁRIOS FORAM CONFIGURADOS COM SUCESSO!');
         } else {
-            console.log('⚠️  Alguns usuários podem não ter sido encontraçãos no banco.');
+            console.log('⚠️  Alguns usuários podem não ter sido encontrados no banco.');
         }
         
     } catch (error) {

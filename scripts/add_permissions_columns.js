@@ -12,7 +12,7 @@ async function addPermissionsColumns() {
         database: 'aluforce_vendas'
     });
 
-    console.log('✅ Conectação ao banco de daçãos');
+    console.log('✅ Conectação ao banco de dados');
 
     const permissionColumns = [
         'permissoes_rh',

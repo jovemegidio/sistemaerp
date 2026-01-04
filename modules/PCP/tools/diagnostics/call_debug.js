@@ -7,5 +7,5 @@ const req = http.request(opts, (res) => {
   res.on('data', (c) => b += c);
   res.on('end', () => { console.log('STATUS', res.statusCode); console.log('BODY', b); });
 });
-req.on('error', (e) => { console.error('ERR', e && e.message  e.message : e); process.exitCode = 2; });
+req.on('error', (e) => { console.error('ERR', e && e.message ? e.message : e); process.exitCode = 2; });
 req.end();

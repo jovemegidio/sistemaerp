@@ -24,7 +24,7 @@ async function main(){
       }
       console.log('Acquired migration lock.');
     } catch (err) {
-      console.error('Failed to acquire migration lock:', err && err.message  err.message : err);
+      console.error('Failed to acquire migration lock:', err && err.message ? err.message : err);
       throw err;
     }
 
@@ -102,7 +102,7 @@ async function main(){
         const [r] = await db.query("UPDATE produtos SET descricao = nome WHERE (descricao IS NULL OR descricao = '') AND (nome IS NOT NULL AND nome <> '')");
         console.log('Rows updated for descricao:', r.affectedRows || 0);
       } catch (err) {
-        console.warn('Failed to populate `descricao` (continuing):', err && err.message  err.message : err);
+        console.warn('Failed to populate `descricao` (continuing):', err && err.message ? err.message : err);
       }
     });
 
@@ -132,7 +132,7 @@ async function main(){
         console.log('Backup script finished but no backup filename detected.');
         return null;
       } catch (err) {
-        console.warn('Pre-migration backup failed:', err && err.message  err.message : err);
+        console.warn('Pre-migration backup failed:', err && err.message ? err.message : err);
         return null;
       }
     }
@@ -170,14 +170,14 @@ async function main(){
 
     console.log('\nAll migrations run (idempotent runner).');
   } catch (err) {
-    console.error('Migration error:', err && err.message  err.message : err);
+    console.error('Migration error:', err && err.message ? err.message : err);
   } finally {
     try {
       // Release lock if held
       await db.query("SELECT RELEASE_LOCK()", [lockName]);
       console.log('Released migration lock.');
     } catch (e) {
-      console.warn('Failed to release migration lock:', e && e.message  e.message : e);
+      console.warn('Failed to release migration lock:', e && e.message ? e.message : e);
     }
     await db.end();
   }

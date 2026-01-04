@@ -437,7 +437,7 @@ app.get('/api/financeiro/fluxo-caixa/projecao', authenticateToken, async (req, r
 // RELATÓRIOS
 // ============================================================
 
-// DRE (Demonstração de Resultaçãos do Exercício)
+// DRE (Demonstração de Resultados do Exercício)
 app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) => {
     try {
         const { mes, ano } = req.query;

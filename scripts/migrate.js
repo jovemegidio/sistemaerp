@@ -11,12 +11,12 @@ const DB_CONFIG = {
 };
 
 async function runMigrations() {
-    console.log('🔄 Executando migrações do banco de daçãos...\n');
+    console.log('🔄 Executando migrações do banco de dados...\n');
     
     let connection;
     try {
         connection = await mysql.createConnection(DB_CONFIG);
-        console.log('✅ Conectação ao banco de daçãos');
+        console.log('✅ Conectação ao banco de dados');
         
         // Migração: Tabela produtos_ordem_producao
         console.log('📋 Verificando tabela produtos_ordem_producao...');

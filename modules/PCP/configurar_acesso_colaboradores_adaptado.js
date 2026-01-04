@@ -15,7 +15,7 @@ async function configurarAcessoPCPAdaptação() {
             database: 'aluforce_vendas'
         });
         
-        console.log('✅ Conectação ao banco de daçãos\n');
+        console.log('✅ Conectação ao banco de dados\n');
         
         // Lista de colaboraçãores que precisam de acesso
         const colaboraçãores = [
@@ -189,7 +189,7 @@ async function configurarAcessoPCPAdaptação() {
         console.log('='.repeat(60));
         console.log(`✅ Novos usuários criaçãos: ${sucessos}`);
         console.log(`🔄 Usuários atualizaçãos: ${atualizacoes}`);
-        console.log(`❌ Erros encontraçãos: ${erros}`);
+        console.log(`❌ Erros encontrados: ${erros}`);
         
         // Mostrar status final de todos os usuários PCP
         const [todosUsuarios] = await connection.execute(`
@@ -221,7 +221,7 @@ async function configurarAcessoPCPAdaptação() {
         // Instruções para próximos passos
         console.log('\n📋 PRÓXIMOS PASSOS:');
         console.log('='.repeat(50));
-        console.log('1. ✅ Usuários configuraçãos no banco de daçãos');
+        console.log('1. ✅ Usuários configuraçãos no banco de dados');
         console.log('2. 🔑 Senhas temporárias definidas (ver logs acima)');
         console.log('3. 🔐 Usuários devem alterar senha no primeiro login');
         console.log('4. 📧 Enviar credenciais por canal seguro');

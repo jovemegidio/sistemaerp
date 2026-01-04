@@ -23,7 +23,7 @@ class DashboardExecutivo {
 
     async inicializar() {
         if (!this.container) {
-            console.error('[DashboardExecutivo] Container não encontração');
+            console.error('[DashboardExecutivo] Container não encontrado');
             return;
         }
 
@@ -87,7 +87,7 @@ class DashboardExecutivo {
                     <div class="kpi-card kpi-lucro">
                         <div class="kpi-icon"><i class="fas fa-chart-pie"></i></div>
                         <div class="kpi-content">
-                            <span class="kpi-label">Resultação</span>
+                            <span class="kpi-label">Resultado</span>
                             <span class="kpi-valor" id="kpi-lucro">R$ 0,00</span>
                             <span class="kpi-trend" id="kpi-margem"></span>
                         </div>

@@ -33,7 +33,7 @@ const bcrypt = require('bcrypt');
       const rec = { id: u.id, nome: u.nome, email: u.email, fields: {}, matches: [] };
       for (const f of ['senha_hash','password_hash','senha','pass','passwd','password']) {
         if (u.hasOwnProperty(f) && u[f] !== null && u[f] !== undefined) {
-          rec.fields[f] = (typeof u[f] === 'string')  (u[f].length > 200  u[f].slice(0,200) + '...' : u[f]) : String(u[f]);
+          rec.fields[f] = (typeof u[f] === 'string')  (u[f].length > 200 ? u[f].slice(0,200) + '...' : u[f]) : String(u[f]);
         }
       }
       // pick the hash field preference for verification

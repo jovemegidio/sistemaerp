@@ -66,9 +66,9 @@ class SistemaParcelamento {
 
                                 <div class="form-group full-width">
                                     <label>Descrição *</label>
-                                    <input type="text" id="parcelamento-descrição" 
+                                    <input type="text" id="parcelamento-descricao" 
                                            placeholder="Ex: Compra de equipamento"
-                                           value="${daçãos.descrição || ''}">
+                                           value="${daçãos.descricao || ''}">
                                 </div>
                             </div>
                         </div>
@@ -633,7 +633,7 @@ class SistemaParcelamento {
         document.getElementById('resumo-total-parcelas').textContent = totalParcelas;
         document.getElementById('resumo-valor-parcela').textContent = this.formatarMoeda(valorParcela);
         document.getElementById('resumo-total-juros').textContent = this.formatarMoeda(totalJuros);
-        document.getElementById('resumo-data-primeira').textContent = primeira  this.formatarData(primeira.vencimento) : '-';
+        document.getElementById('resumo-data-primeira').textContent = primeira ? this.formatarData(primeira.vencimento) : '-';
         document.getElementById('resumo-data-última').textContent = this.formatarData(última.vencimento);
 
         // Renderizar tabela
@@ -656,10 +656,10 @@ class SistemaParcelamento {
     async confirmarParcelamento() {
         // Validações
         const tipo = document.getElementById('parcelamento-tipo').value;
-        const descrição = document.getElementById('parcelamento-descrição').value;
+        const descricao = document.getElementById('parcelamento-descricao').value;
 
-        if (!descrição.trim()) {
-            alert('Preencha a descrição');
+        if (!descricao.trim()) {
+            alert('Preencha a descricao');
             return;
         }
 
@@ -670,7 +670,7 @@ class SistemaParcelamento {
 
         const daçãos = {
             tipo: tipo,
-            descrição: descrição,
+            descricao: descricao,
             categoria_id: document.getElementById('parcelamento-categoria').value,
             centro_custo_id: document.getElementById('parcelamento-centro-custo').value,
             entidade_id: document.getElementById('parcelamento-entidade').value,

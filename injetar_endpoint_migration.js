@@ -8,7 +8,7 @@ const endpointMigration = `
 // ============================================================
 app.post('/api/admin/migration-financeiro', authenticateToken, async (req, res) => {
     if (req.user.role !== 'admin') {
-        return res.status(403).json({ error: 'Apenas administraçãores' });
+        return res.status(403).json({ error: 'Apenas administradores' });
     }
 
     try {

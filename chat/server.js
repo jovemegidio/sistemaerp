@@ -29,7 +29,7 @@ initDB();
 app.use(express.static('public'));
 app.use(express.json());
 
-// Armazenar conversas ativas (em produção, usar banco de daçãos)
+// Armazenar conversas ativas (em produção, usar banco de dados)
 const activeChats = new Map();
 const chatHistory = new Map();
 const waitingUsers = new Set();

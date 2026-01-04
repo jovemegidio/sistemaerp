@@ -221,7 +221,7 @@ function aplicarFiltros() {
     // Filtrar daçãos
     let daçãosFiltraçãos = daçãosTabela.filter(item => {
         // Busca
-        if (busca && !item.descrição.toLowerCase().includes(busca) && 
+        if (busca && !item.descricao.toLowerCase().includes(busca) && 
             !item.fornecedor.toLowerCase().includes(busca) &&
             !item.cliente.toLowerCase().includes(busca)) {
             return false;
@@ -280,7 +280,7 @@ function renderizarTabela(daçãos) {
             <div class="empty-state">
                 <i class="fas fa-inbox"></i>
                 <p style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">
-                    Nenhum registro encontração
+                    Nenhum registro encontrado
                 </p>
                 <p>Altere os filtros ou adicione novos registros</p>
             </div>
@@ -298,7 +298,7 @@ function renderizarTabela(daçãos) {
     // Colunas conforme a aba
     if (abaAtual === 'pagar' || abaAtual === 'receber') {
         html += `
-            <th onclick="ordenar('descrição')">Descrição <i class="fas fa-sort"></i></th>
+            <th onclick="ordenar('descricao')">Descrição <i class="fas fa-sort"></i></th>
             <th onclick="ordenar('${abaAtual === 'pagar'  'fornecedor' : 'cliente'}')">
                 ${abaAtual === 'pagar'  'Fornecedor' : 'Cliente'} <i class="fas fa-sort"></i>
             </th>
@@ -336,7 +336,7 @@ function renderizarTabela(daçãos) {
 
         if (abaAtual === 'pagar' || abaAtual === 'receber') {
             // Descrição
-            html += `<td><strong>${item.descrição || '-'}</strong></td>`;
+            html += `<td><strong>${item.descricao || '-'}</strong></td>`;
             
             // Fornecedor/Cliente
             html += `<td>${item.fornecedor || item.cliente || '-'}</td>`;
@@ -645,7 +645,7 @@ function abrirModalParcelamento(id) {
     // Buscar o item nos daçãos da tabela
     const item = daçãosTabela.find(i => i.id === id);
     if (!item) {
-        alert('Item não encontração');
+        alert('Item não encontrado');
         return;
     }
     
@@ -660,7 +660,7 @@ function abrirModalParcelamento(id) {
     
     // Abrir modal com os daçãos da conta
     sistemaParcelamento.abrirModal({
-        descrição: item.descrição,
+        descricao: item.descricao,
         valor: item.valor,
         tipo: abaAtual, // 'pagar' ou 'receber'
         callback: (parcelas) => {

@@ -2,7 +2,7 @@ const mysql = require('mysql2/promise');
 const fs = require('fs').promises;
 const path = require('path');
 
-// Configuração do banco de daçãos
+// Configuração do banco de dados
 const dbConfig = {
     host: 'localhost',
     user: 'root',
@@ -15,10 +15,10 @@ async function exportDatabase() {
     let connection;
     
     try {
-        console.log('🔄 Conectando ao banco de daçãos...');
+        console.log('🔄 Conectando ao banco de dados...');
         connection = await mysql.createConnection(dbConfig);
         
-        console.log('✅ Conectação ao banco de daçãos: aluforce_vendas');
+        console.log('✅ Conectação ao banco de dados: aluforce_vendas');
         
         // Obter lista de todas as tabelas
         const [tables] = await connection.execute(`
@@ -66,7 +66,7 @@ async function exportDatabase() {
             const totalRecords = countResult[0].total;
             
             if (totalRecords > 0) {
-                console.log(`   💾 ${totalRecords} registros encontraçãos`);
+                console.log(`   💾 ${totalRecords} registros encontrados`);
                 
                 // Obter daçãos
                 const [rows] = await connection.execute(`SELECT * FROM \`${tableName}\``);
@@ -176,7 +176,7 @@ async function exportDatabase() {
         }
         
     } catch (error) {
-        console.error('❌ Erro ao exportar banco de daçãos:', error.message);
+        console.error('❌ Erro ao exportar banco de dados:', error.message);
         throw error;
     } finally {
         if (connection) {
@@ -220,7 +220,7 @@ async function checkDataIntegrity() {
         `);
         
         if (semNome[0].count > 0) {
-            console.log(`⚠️  ${semNome[0].count} produtos sem nome encontraçãos.`);
+            console.log(`⚠️  ${semNome[0].count} produtos sem nome encontrados.`);
         } else {
             console.log(`✅ Todos os produtos têm nome.`);
         }

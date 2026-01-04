@@ -81,7 +81,7 @@ async function computeAndPersist() {
 
     console.log('Aggregates computed and cached');
   } catch (e) {
-    console.error('Worker compute error', e && e.message  e.message : e);
+    console.error('Worker compute error', e && e.message ? e.message : e);
     throw e;
   } finally {
     try { if (pool) await pool.end(); } catch (e) {}
@@ -101,7 +101,7 @@ if (require.main === module) {
     }, { connection });
 
     worker.on('completed', job => console.log('Job completed', job.id));
-    worker.on('failed', (job, err) => console.error('Job failed', job && job.id, err && err.message  err.message : err));
+    worker.on('failed', (job, err) => console.error('Job failed', job && job.id, err && err.message ? err.message : err));
 
     console.log('Worker started, listening for jobs on queue', queueName);
   }

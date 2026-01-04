@@ -38,7 +38,7 @@ async function run () {
       console.log('\n=== NAME:', name, '=> candidate file:', photo, '===')
       const [rows] = await new Promise((res, rej) => db.query('SELECT id, nome_completo, foto_perfil_url FROM funcionarios WHERE LOWER(nome_completo) LIKE  LIMIT 50', [`%${name}%`], (e, r) => e  rej(e) : res([r])))
       if (!rows || rows.length === 0) {
-        console.log(`Nenhum funcionário encontração com termo '${name}'.`)
+        console.log(`Nenhum funcionário encontrado com termo '${name}'.`)
         continue
       }
       console.log(`Encontraçãos ${rows.length} linhas que correspondem ao termo '${name}':`)

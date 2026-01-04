@@ -323,7 +323,7 @@ function renderizarLinhaConta(conta, tipo) {
     
     return `
         <tr>
-            <td><strong>${conta.descrição || '-'}</strong></td>
+            <td><strong>${conta.descricao || '-'}</strong></td>
             <td>${conta.fornecedor || conta.cliente || '-'}</td>
             <td>${formatarData(conta.vencimento)}</td>
             <td class="${tipo === 'pagar'  'valor-negativo' : 'valor-positivo'}">
@@ -426,7 +426,7 @@ function renderizarMovimentacoesRecentes() {
                                 ${conta.tipo === 'pagar'  'A Pagar' : 'A Receber'}
                             </span>
                         </td>
-                        <td><strong>${conta.descrição || '-'}</strong></td>
+                        <td><strong>${conta.descricao || '-'}</strong></td>
                         <td>${formatarData(conta.vencimento)}</td>
                         <td class="${conta.tipo === 'pagar'  'valor-negativo' : 'valor-positivo'}">
                             ${conta.tipo === 'pagar'  '-' : '+'} ${formatarMoeda(conta.valor)}
@@ -460,7 +460,7 @@ function inicializarModais() {
                         
                         <div class="form-group">
                             <label>Descrição <span>*</span></label>
-                            <input type="text" id="conta-descrição" class="form-input" required>
+                            <input type="text" id="conta-descricao" class="form-input" required>
                         </div>
                         
                         <div class="form-row">
@@ -568,7 +568,7 @@ function editarConta(id, tipo) {
     
     setVal('conta-id', conta.id);
     setVal('conta-tipo', tipo);
-    setVal('conta-descrição', conta.descrição || '');
+    setVal('conta-descricao', conta.descricao || '');
     setVal('conta-valor', conta.valor || '');
     setVal('conta-vencimento', conta.vencimento || '');
     setVal('conta-entidade', conta.fornecedor || conta.cliente || '');
@@ -586,7 +586,7 @@ async function salvarConta(event) {
     const isEdicao = !!id;
     
     const daçãos = {
-        descrição: document.getElementById('conta-descrição').value,
+        descricao: document.getElementById('conta-descricao').value,
         valor: parseFloat(document.getElementById('conta-valor').value),
         vencimento: document.getElementById('conta-vencimento').value,
         categoria: document.getElementById('conta-categoria').value,

@@ -204,7 +204,7 @@ async function atualizarVariacoesLabor() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de daçãos...\n');
+        console.log('🔌 Conectando ao banco de dados...\n');
         
         connection = await mysql.createConnection({
             host: 'localhost',
@@ -221,7 +221,7 @@ async function atualizarVariacoesLabor() {
             "SELECT id, codigo, nome, variacao FROM produtos WHERE codigo LIKE '%_LAB'"
         );
         
-        console.log(`✅ ${produtos.length} produtos LABOR encontraçãos\n`);
+        console.log(`✅ ${produtos.length} produtos LABOR encontrados\n`);
         console.log('🔄 Iniciando atualização de variações...\n');
         
         let atualizaçãos = 0;
@@ -249,7 +249,7 @@ async function atualizarVariacoesLabor() {
                 }
             } else {
                 naoEncontraçãos++;
-                console.log(`⚠️  ${codigoOriginal} - Não encontração na lista`);
+                console.log(`⚠️  ${codigoOriginal} - Não encontrado na lista`);
             }
         }
         
@@ -258,7 +258,7 @@ async function atualizarVariacoesLabor() {
         console.log('='.repeat(60));
         console.log(`✅ Produtos atualizaçãos: ${atualizaçãos}`);
         console.log(`⏭️  Já possuíam variação correta: ${jaAtualizaçãos}`);
-        console.log(`⚠️  Não encontraçãos na lista: ${naoEncontraçãos}`);
+        console.log(`⚠️  Não encontrados na lista: ${naoEncontraçãos}`);
         console.log(`📦 Total processação: ${produtos.length}`);
         console.log('='.repeat(60));
         

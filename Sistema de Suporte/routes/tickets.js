@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
             clienteId: null
         });
         
-        // Adicionar a descrição como primeira mensagem
+        // Adicionar a descricao como primeira mensagem
         if (description) {
             await db.addMessage({
                 ticketId: ticket.id,
@@ -66,7 +66,7 @@ router.get('/:id', async (req, res) => {
     try {
         const ticket = await db.getTicketById(req.params.id);
         if (!ticket) {
-            return res.status(404).json({ error: 'Ticket não encontração' });
+            return res.status(404).json({ error: 'Ticket não encontrado' });
         }
         res.json(ticket);
     } catch (error) {

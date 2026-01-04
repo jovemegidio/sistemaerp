@@ -50,6 +50,6 @@ async function main () {
 }
 
 main().catch(err => {
-  console.error('Error in map_photos:', err && err.message  err.message : err)
+  console.error('Error in map_photos:', err && err.message ? err.message : err)
   process.exit(1)
 })
