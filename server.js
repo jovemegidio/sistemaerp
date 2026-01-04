@@ -3357,6 +3357,9 @@ apiFinanceiroRouter.get('/balanco', async (req, res, next) => {
     } catch (error) { next(error); }
 });
 
+// Montar o apiFinanceiroRouter para rotas profissionais (centros-custo, transacoes-recorrentes, etc.)
+app.use('/api/financeiro', apiFinanceiroRouter);
+
 // ===== ROTAS FINANCEIRO COM CONTROLE DE ACESSO =====
 // Importar rotas do financeiro com controle granular de permissões
 const financeiroRoutes = require('./src/routes/financeiro');
