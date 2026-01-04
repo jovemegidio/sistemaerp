@@ -11,7 +11,7 @@ const cfg = {
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 3306
+  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
 }
 
 ;(async () => {

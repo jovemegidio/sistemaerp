@@ -103,7 +103,7 @@ try {
 }
 
 const app = express();
-const PORT = process.env.PORT_PCP  parseInt(process.env.PORT_PCP, 10) : 3001;
+const PORT = process.env.PORT_PCP ? parseInt(process.env.PORT_PCP, 10) : 3001;
 
 // 🚀 PERFORMANCE: Compression para respostas HTTP (reduz ~70% do tamanho)
 let compression;

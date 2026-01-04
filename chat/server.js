@@ -15,7 +15,7 @@ const dbConfig = {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
     database: process.env.DB_NAME || 'railway',
-    port: process.env.DB_PORT  parseInt(process.env.DB_PORT) : 19396
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 19396
 };
 
 let pool;

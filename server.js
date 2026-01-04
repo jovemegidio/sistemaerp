@@ -85,7 +85,7 @@ function startChatServer() {
         const chatServerPath = path.join(__dirname, 'chat', 'server.js');
         
         if (!fs.existsSync(chatServerPath)) {
-            console.log('⚠️  Servidor de chat não encontração em:', chatServerPath);
+            console.log('⚠️  Servidor de chat não encontrado em:', chatServerPath);
             return;
         }
         
@@ -184,7 +184,7 @@ function startSupportServer() {
         const supportServerPath = path.join(__dirname, 'Sistema de Suporte', 'server.js');
         
         if (!fs.existsSync(supportServerPath)) {
-            console.log('⚠️  Servidor de suporte não encontração em:', supportServerPath);
+            console.log('⚠️  Servidor de suporte não encontrado em:', supportServerPath);
             return;
         }
         
@@ -608,7 +608,7 @@ const DB_CONFIG = {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
     database: process.env.DB_NAME || 'railway',
-    port: process.env.DB_PORT  parseInt(process.env.DB_PORT) : 19396,
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 19396,
     waitForConnections: true,
     connectionLimit: parseInt(process.env.DB_CONN_LIMIT) || 30, // Pool maior
     queueLimit: 0,
@@ -829,7 +829,7 @@ app.use(compression({
     memLevel: 8  // Otimizar uso de memória
 }));
 
-// Middleware para servir avatar padrão quando não encontração
+// Middleware para servir avatar padrão quando não encontrado
 app.get('/avatars/:filename', (req, res, next) => {
     const avatarPath = path.join(__dirname, 'public', 'avatars', req.params.filename);
     const defaultAvatar = path.join(__dirname, 'public', 'avatars', 'default.webp');
@@ -1135,7 +1135,7 @@ app.get('/rh/pages/:page', authenticatePage, (req, res) => {
     if (require('fs').existsSync(filePath)) {
         res.sendFile(filePath);
     } else {
-        console.log(`[RH] Arquivo não encontração: ${filePath}`);
+        console.log(`[RH] Arquivo não encontrado: ${filePath}`);
         res.status(404).send('<h1>Página não encontrada</h1>');
     }
 });
@@ -1420,7 +1420,7 @@ app.get('/modules/RH/public/*.html', authenticatePage, (req, res) => {
     const filePath = path.join(__dirname, 'modules', 'RH', 'public', requestedPath);
     res.sendFile(filePath, (err) => {
         if (err) {
-            console.error('[RH] Arquivo não encontração:', filePath);
+            console.error('[RH] Arquivo não encontrado:', filePath);
             res.status(404).send('Página não encontrada');
         }
     });
@@ -1964,7 +1964,7 @@ const authenticateToken = (req, res, next) => {
     });
     
     if (!token) {
-        console.log('[AUTH] Nenhum token encontração');
+        console.log('[AUTH] Nenhum token encontrado');
         return res.status(401).json({ message: 'Token de autenticação não fornecido.' });
     }
 
@@ -2241,7 +2241,7 @@ apiLogisticaRouter.get('/dashboard', async (req, res, next) => {
             em_transporte: transporte.total || 0,
             entregues: entregues.total || 0
         };
-        console.log('[LOGISTICA/DASHBOARD] Resultação:', result);
+        console.log('[LOGISTICA/DASHBOARD] Resultado:', result);
         res.json(result);
     } catch (error) {
         console.error('[LOGISTICA/DASHBOARD] Erro:', error);
@@ -2319,7 +2319,7 @@ apiLogisticaRouter.get('/pedidos', async (req, res, next) => {
         console.log('[LOGISTICA/PEDIDOS] Params:', params);
         
         const [rows] = await pool.query(query, params);
-        console.log('[LOGISTICA/PEDIDOS] Rows encontraçãos:', rows.length);
+        console.log('[LOGISTICA/PEDIDOS] Rows encontrados:', rows.length);
         
         // Formatar daçãos para o frontend
         const pedidos = rows.map(row => ({
@@ -3390,7 +3390,7 @@ apiPCPRouter.get('/me', async (req, res) => {
         );
         
         if (!dbUser) {
-            return res.status(404).json({ message: 'Usuário não encontração' });
+            return res.status(404).json({ message: 'Usuário não encontrado' });
         }
         
         // Parse permissões
@@ -3565,7 +3565,7 @@ apiPCPRouter.put('/materiais/:id', [
         if (result.affectedRows > 0) {
             res.json({ message: 'Material atualização com sucesso!' });
         } else {
-            res.status(404).json({ message: 'Material não encontração.' });
+            res.status(404).json({ message: 'Material não encontrado.' });
         }
     } catch (error) { next(error); }
 });
@@ -3580,7 +3580,7 @@ apiPCPRouter.delete('/materiais/:id', [
         // Verificar se material existe
         const [existing] = await pool.query('SELECT id FROM materiais WHERE id = ', [id]);
         if (existing.length === 0) {
-            return res.status(404).json({ message: 'Material não encontração.' });
+            return res.status(404).json({ message: 'Material não encontrado.' });
         }
         
         // Verificar se há dependências (ordens de compra)
@@ -3777,7 +3777,7 @@ apiPCPRouter.get('/produtos/:id', async (req, res, next) => {
         const [rows] = await pool.query('SELECT * FROM produtos WHERE id = ', [id]);
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Produto não encontração' });
+            return res.status(404).json({ message: 'Produto não encontrado' });
         }
         
         res.json(rows[0]);
@@ -3902,7 +3902,7 @@ apiPCPRouter.put('/produtos/:id', [
         ]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Produto não encontração' });
+            return res.status(404).json({ message: 'Produto não encontrado' });
         }
 
         console.log('[SERVER.JS PUT /produtos/:id] ✅ Produto atualização com sucesso:', { id, estoqueFinal, precoVendaFinal });
@@ -3936,7 +3936,7 @@ apiPCPRouter.delete('/produtos/:id', async (req, res, next) => {
         const [result] = await pool.query('DELETE FROM produtos WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Produto não encontração' });
+            return res.status(404).json({ message: 'Produto não encontrado' });
         }
 
         // Emitir evento WebSocket para sincronização em tempo real
@@ -3981,7 +3981,7 @@ apiPCPRouter.get('/faturamentos/:id', async (req, res, next) => {
         const [rows] = await pool.query('SELECT * FROM programacao_faturamento WHERE id = ', [id]);
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Faturamento não encontração' });
+            return res.status(404).json({ message: 'Faturamento não encontrado' });
         }
         
         res.json(rows[0]);
@@ -4048,7 +4048,7 @@ apiPCPRouter.put('/faturamentos/:id', async (req, res, next) => {
         ]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Faturamento não encontração' });
+            return res.status(404).json({ message: 'Faturamento não encontrado' });
         }
 
         res.json({ 
@@ -4065,7 +4065,7 @@ apiPCPRouter.delete('/faturamentos/:id', async (req, res, next) => {
         const [result] = await pool.query('DELETE FROM programacao_faturamento WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Faturamento não encontração' });
+            return res.status(404).json({ message: 'Faturamento não encontrado' });
         }
 
         res.json({ 
@@ -4845,7 +4845,7 @@ app.put('/api/clientes/:id', async (req, res) => {
         ]);
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Cliente não encontração' });
+            return res.status(404).json({ error: 'Cliente não encontrado' });
         }
         
         console.log(`✅ Cliente ${id} atualização com sucesso`);
@@ -5361,7 +5361,7 @@ app.get('/api/produtos/buscar', async (req, res) => {
             return a.nome.localeCompare(b.nome);
         });
         
-        console.log(`✅ Total de produtos+materiais encontraçãos: ${produtosCombinaçãos.length}`);
+        console.log(`✅ Total de produtos+materiais encontrados: ${produtosCombinaçãos.length}`);
         res.json(produtosCombinaçãos);
         
     } catch (error) {
@@ -5630,7 +5630,7 @@ app.put('/api/produtos/:id', async (req, res) => {
         // Verificar se produto existe
         const [produto] = await pool.query('SELECT id FROM produtos WHERE id = ', [id]);
         if (produto.length === 0) {
-            return res.status(404).json({ error: 'Produto não encontração' });
+            return res.status(404).json({ error: 'Produto não encontrado' });
         }
         
         // Obter colunas existentes na tabela produtos
@@ -5749,7 +5749,7 @@ app.get('/api/produtos/:id', async (req, res) => {
         const [produtos] = await pool.query('SELECT * FROM produtos WHERE id = ', [id]);
         
         if (produtos.length === 0) {
-            return res.status(404).json({ error: 'Produto não encontração' });
+            return res.status(404).json({ error: 'Produto não encontrado' });
         }
         
         res.json(produtos[0]);
@@ -5825,7 +5825,7 @@ app.get('/api/alertas-estoque', async (req, res) => {
         // Filtrar apenas produtos com status baixo ou crítico
         const alertasFiltraçãos = alertasFormataçãos.filter(a => a.status === 'baixo' || a.status === 'critico');
         
-        console.log(`✅ ${alertasFiltraçãos.length} alertas de estoque encontraçãos`);
+        console.log(`✅ ${alertasFiltraçãos.length} alertas de estoque encontrados`);
         res.json({
             total: alertasFiltraçãos.length,
             alertas: alertasFiltraçãos
@@ -6587,7 +6587,7 @@ app.post('/api/test-session/result', async (req, res) => {
         res.json({
             success: true,
             testId,
-            message: 'Resultação de teste registração com sucesso'
+            message: 'Resultado de teste registração com sucesso'
         });
     } catch (error) {
         res.status(500).json({
@@ -6900,7 +6900,7 @@ app.get('/api/configuracoes/departamentos/:id', async (req, res) => {
         `, [id]);
         
         if (departamentos.length === 0) {
-            return res.status(404).json({ error: 'Departamento não encontração' });
+            return res.status(404).json({ error: 'Departamento não encontrado' });
         }
         
         res.json(departamentos[0]);
@@ -7006,7 +7006,7 @@ app.get('/api/configuracoes/projetos/:id', async (req, res) => {
         `, [id]);
         
         if (projetos.length === 0) {
-            return res.status(404).json({ error: 'Projeto não encontração' });
+            return res.status(404).json({ error: 'Projeto não encontrado' });
         }
         
         res.json(projetos[0]);
@@ -7619,7 +7619,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
             
             // Verificar se template existe
             if (!fs.existsSync(templatePath)) {
-                throw new Error(`Template não encontração: ${templatePath}`);
+                throw new Error(`Template não encontrado: ${templatePath}`);
             }
             
             // Usar função existente que carrega e preenche o template
@@ -9218,7 +9218,7 @@ apiRHRouter.get('/me', async (req, res) => {
         );
         
         if (!dbUser) {
-            return res.status(404).json({ message: 'Usuário não encontração' });
+            return res.status(404).json({ message: 'Usuário não encontrado' });
         }
         
         // Parse permissões
@@ -9444,7 +9444,7 @@ apiRHRouter.get('/funcionarios/:id', async (req, res, next) => {
             `, [id]);
             
             if (userRows.length === 0) {
-                return res.status(404).json({ message: 'Funcionário não encontração' });
+                return res.status(404).json({ message: 'Funcionário não encontrado' });
             }
             
             return res.json(userRows[0]);
@@ -9472,7 +9472,7 @@ apiRHRouter.delete('/funcionarios/:id', [
             // Tenta verificar na tabela usuarios
             const [usuario] = await pool.query('SELECT id FROM usuarios WHERE id = ', [id]);
             if (usuario.length === 0) {
-                return res.status(404).json({ message: 'Funcionário não encontração.' });
+                return res.status(404).json({ message: 'Funcionário não encontrado.' });
             }
             // Deleta da tabela usuarios
             await pool.query('DELETE FROM usuarios WHERE id = ', [id]);
@@ -9503,7 +9503,7 @@ apiRHRouter.delete('/funcionarios/:id', [
         // Agora deleta o funcionário
         const [result] = await pool.query('DELETE FROM funcionarios WHERE id = ', [id]);
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Funcionário não encontração.' });
+            return res.status(404).json({ message: 'Funcionário não encontrado.' });
         }
         
         res.status(204).send();
@@ -9576,7 +9576,7 @@ apiRHRouter.put('/funcionarios/:id', [
         ]);
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Funcionário não encontração.' });
+            return res.status(404).json({ message: 'Funcionário não encontrado.' });
         }
         
         res.json({ message: 'Funcionário atualização com sucesso!' });
@@ -9979,7 +9979,7 @@ apiRHRouter.delete('/avisos/:id', [
 ], async (req, res, next) => {
     try {
         const [result] = await pool.query('DELETE FROM avisos WHERE id = ', [req.params.id]);
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontração.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontrado.' });
         res.status(204).send();
     } catch (e) { next(e); }
 });
@@ -10392,7 +10392,7 @@ app.get('/api/verificar-sessao', async (req, res) => {
                      req.cookies.token || 
                      req.query.token;
         
-        console.log('[VERIFICAR-SESSAO] Token encontração:', !!token);
+        console.log('[VERIFICAR-SESSAO] Token encontrado:', !!token);
         
         if (!token) {
             console.log('[VERIFICAR-SESSAO] Nenhum token - retornando não autenticação');
@@ -10847,7 +10847,7 @@ app.get('/api/vendas/kanban/pedidos', async (req, res) => {
         }
         
         if (!pedidos || pedidos.length === 0) {
-            console.log('📋 Nenhum pedido encontração, usando daçãos de exemplo');
+            console.log('📋 Nenhum pedido encontrado, usando daçãos de exemplo');
             return res.json(pedidosExemplo);
         }
         
@@ -10946,7 +10946,7 @@ apiVendasRouter.get('/me', async (req, res) => {
         );
         
         if (!dbUser) {
-            return res.status(404).json({ message: 'Usuário não encontração' });
+            return res.status(404).json({ message: 'Usuário não encontrado' });
         }
         
         // Parse permissões
@@ -11138,7 +11138,7 @@ apiVendasRouter.get('/pedidos/:id', async (req, res, next) => {
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
             WHERE p.id = 
         `, [id]);
-        if (!pedido) return res.status(404).json({ message: "Pedido não encontração." });
+        if (!pedido) return res.status(404).json({ message: "Pedido não encontrado." });
         res.json(pedido);
     } catch (error) { next(error); }
 });
@@ -11174,7 +11174,7 @@ apiVendasRouter.put('/pedidos/:id', [
             `UPDATE pedidos SET empresa_id = , valor = , descricao =  WHERE id = `,
             [empresa_id, valor, descricao || null, id]
         );
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Pedido não encontração.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Pedido não encontrado.' });
         res.json({ message: 'Pedido atualização com sucesso.' });
     } catch (error) { next(error); }
 });
@@ -11182,7 +11182,7 @@ apiVendasRouter.delete('/pedidos/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         const [result] = await pool.query('DELETE FROM pedidos WHERE id = ', [id]);
-        if (result.affectedRows === 0) return res.status(404).json({ message: "Pedido não encontração." });
+        if (result.affectedRows === 0) return res.status(404).json({ message: "Pedido não encontrado." });
         res.status(204).send();
     } catch (error) { next(error); }
 });
@@ -11198,7 +11198,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         // Verificar se pedido existe
         const [existingRows] = await pool.query('SELECT * FROM pedidos WHERE id = ', [id]);
         if (existingRows.length === 0) {
-            return res.status(404).json({ message: 'Pedido não encontração.' });
+            return res.status(404).json({ message: 'Pedido não encontrado.' });
         }
         
         // Construir query de atualização dinâmica
@@ -11267,7 +11267,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         const [result] = await pool.query(query, values);
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Pedido não encontração.' });
+            return res.status(404).json({ message: 'Pedido não encontrado.' });
         }
         
         console.log(`✅ Pedido ${id} atualização com sucesso!`);
@@ -11347,8 +11347,8 @@ apiVendasRouter.put('/pedidos/:id/status', async (req, res, next) => {
         const [result] = await pool.query('UPDATE pedidos SET status =  WHERE id = ', [status, id]);
         
         if (result.affectedRows === 0) {
-            console.log(`❌ Pedido ${id} não encontração`);
-            return res.status(404).json({ message: "Pedido não encontração." });
+            console.log(`❌ Pedido ${id} não encontrado`);
+            return res.status(404).json({ message: "Pedido não encontrado." });
         }
         
         console.log(`✅ Status do pedido ${id} atualização para: ${status} por ${user.nome || user.email} (Admin: ${isAdmin})`);
@@ -11539,7 +11539,7 @@ apiVendasRouter.get('/clientes/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         const [[cliente]] = await pool.query('SELECT * FROM clientes WHERE id = ', [id]);
-        if (!cliente) return res.status(404).json({ message: 'Cliente não encontração.' });
+        if (!cliente) return res.status(404).json({ message: 'Cliente não encontrado.' });
         res.json(cliente);
     } catch (error) { next(error); }
 });
@@ -11570,7 +11570,7 @@ apiVendasRouter.put('/clientes/:id', async (req, res, next) => {
             `UPDATE clientes SET nome = , email = , telefone = , empresa_id =  WHERE id = `,
             [nome, email, telefone, empresa_id, id]
         );
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontração.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontrado.' });
         res.json({ message: 'Cliente atualização com sucesso.' });
     } catch (error) { next(error); }
 });
@@ -11578,7 +11578,7 @@ apiVendasRouter.delete('/clientes/:id', authorizeAdmin, async (req, res, next) =
     try {
         const { id } = req.params;
         const [result] = await pool.query('DELETE FROM clientes WHERE id = ', [id]);
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontração.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontrado.' });
         res.status(204).send();
     } catch (error) { next(error); }
 });
@@ -11794,7 +11794,7 @@ apiVendasRouter.get('/pedidos/:pedidoId/itens/:itemId', async (req, res, next) =
         );
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Item não encontração.' });
+            return res.status(404).json({ message: 'Item não encontrado.' });
         }
         
         res.json(rows[0]);
@@ -11873,10 +11873,10 @@ app.post('/api/login', authLimiter, async (req, res) => {
 
         // Buscar usuário na tabela usuarios primeiro
         console.log('🔍 [LOGIN DEBUG] Buscando na tabela usuarios...');
-        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email =  LIMIT 1', [email]);
+        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email = ? LIMIT 1', [email]);
         let user = (rows && rows.length)  rows[0] : null;
         
-        console.log(`🔍 [LOGIN DEBUG] Usuário encontração em usuarios: ${user  'SIM' : 'NÁO'}`);
+        console.log(`🔍 [LOGIN DEBUG] Usuário encontrado em usuarios: ${user  'SIM' : 'NÁO'}`);
         
         // Verificar se usuário está inativo
         if (user && user.status && user.status.toLowerCase() === 'inativo') {
@@ -11884,14 +11884,14 @@ app.post('/api/login', authLimiter, async (req, res) => {
             return res.status(403).json({ message: 'Sua conta está inativa. Entre em contato com o administraçãor.' });
         }
 
-        // Se não encontração em usuarios, tentar na tabela funcionarios
+        // Se não encontrado em usuarios, tentar na tabela funcionarios
         if (!user) {
             console.log('🔍 [LOGIN DEBUG] Buscando na tabela funcionarios...');
             try {
-                const [frows] = await pool.query('SELECT * FROM funcionarios WHERE email =  LIMIT 1', [email]);
+                const [frows] = await pool.query('SELECT * FROM funcionarios WHERE email = ? LIMIT 1', [email]);
                 if (frows && frows.length) {
                     const f = frows[0];
-                    console.log(`🔍 [LOGIN DEBUG] Funcionário encontração: ${f.nome_completo || f.nome}`);
+                    console.log(`🔍 [LOGIN DEBUG] Funcionário encontrado: ${f.nome_completo || f.nome}`);
                     console.log(`🔍 [LOGIN DEBUG] Funcionário tem senha: ${f.senha  'SIM' : 'NÁO'}`);
                     console.log(`🔍 [LOGIN DEBUG] Funcionário tem senha_hash: ${f.senha_hash  'SIM' : 'NÁO'}`);
                     
@@ -11914,7 +11914,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
                         senha: f.senha || null
                     };
                 } else {
-                    console.log('❌ [LOGIN DEBUG] Funcionário não encontração');
+                    console.log('❌ [LOGIN DEBUG] Funcionário não encontrado');
                 }
             } catch (e) {
                 console.error('❌ [LOGIN DEBUG] Erro ao buscar funcionario:', e);
@@ -11922,7 +11922,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
         }
 
         if (!user) {
-            console.log('❌ [LOGIN DEBUG] Usuário não encontração em nenhuma tabela');
+            console.log('❌ [LOGIN DEBUG] Usuário não encontrado em nenhuma tabela');
             return res.status(401).json({ message: 'Credenciais inválidas.' });
         }
 
@@ -12110,7 +12110,7 @@ app.get('/api/suporte/tickets/:id', (req, res) => {
         const ticket = suporteTickets.find(t => t.id === ticketId);
         
         if (!ticket) {
-            return res.status(404).json({ success: false, message: 'Ticket não encontração' });
+            return res.status(404).json({ success: false, message: 'Ticket não encontrado' });
         }
         
         res.json({ success: true, ticket });
@@ -12127,7 +12127,7 @@ app.put('/api/suporte/tickets/:id', (req, res) => {
         const ticketIndex = suporteTickets.findIndex(t => t.id === ticketId);
         
         if (ticketIndex === -1) {
-            return res.status(404).json({ success: false, message: 'Ticket não encontração' });
+            return res.status(404).json({ success: false, message: 'Ticket não encontrado' });
         }
         
         const { status, resposta, atendente } = req.body;
@@ -12313,7 +12313,7 @@ app.get('/api/me', async (req, res) => {
         return res.json(cachedUser);
     }
     
-    console.log('[API/ME] ✅ Token encontração:', token  `${token.substring(0, 20)}...` : 'null');
+    console.log('[API/ME] ✅ Token encontrado:', token  `${token.substring(0, 20)}...` : 'null');
     try {
         const user = jwt.verify(token, JWT_SECRET);
         console.log('[API/ME] JWT válido para usuário:', user && user.email);
@@ -12339,7 +12339,7 @@ app.get('/api/me', async (req, res) => {
             
             // Se não encontrou em usuarios, buscar em funcionarios
             if (!dbUser) {
-                console.log('[API/ME] Usuário não encontração em usuarios, tentando funcionarios...');
+                console.log('[API/ME] Usuário não encontrado em usuarios, tentando funcionarios...');
                 const [frows] = await pool.query(
                     'SELECT id, nome_completo as nome, email, role, foto_perfil_url as avatar FROM funcionarios WHERE id = ',
                     [user.id]
@@ -12363,7 +12363,7 @@ app.get('/api/me', async (req, res) => {
                         permissoes_financeiro: null,
                         permissoes_nfe: null
                     };
-                    console.log('[API/ME] Funcionário encontração:', func.nome, '- role:', func.role, '- is_admin:', dbUser.is_admin);
+                    console.log('[API/ME] Funcionário encontrado:', func.nome, '- role:', func.role, '- is_admin:', dbUser.is_admin);
                 }
             }
             
@@ -13013,7 +13013,7 @@ function authenticatePage(req, res, next) {
     const token = req.headers['authorization'].replace('Bearer ', '') || req.query.token || req.cookies.authToken;
     console.log('[AUTH] Cookie recebido:', req.cookies.authToken);
     if (!token) {
-        console.log('[AUTH] Nenhum token JWT encontração.');
+        console.log('[AUTH] Nenhum token JWT encontrado.');
         return next(); // continue and serve the page; front-end will check auth
     }
     jwt.verify(token, JWT_SECRET, (err, user) => {
@@ -13089,7 +13089,7 @@ function checkFinanceiroPermission(requiredPermission) {
                 );
                 
                 if (!usuarios || usuarios.length === 0) {
-                    return res.status(403).json({ message: 'Usuário não encontração' });
+                    return res.status(403).json({ message: 'Usuário não encontrado' });
                 }
                 
                 userData = usuarios[0];
@@ -13176,7 +13176,7 @@ app.get('/api/financeiro/permissoes', async (req, res) => {
             );
             
             if (!usuarios || usuarios.length === 0) {
-                return res.status(403).json({ message: 'Usuário não encontração' });
+                return res.status(403).json({ message: 'Usuário não encontrado' });
             }
             
             userData = usuarios[0];
@@ -13642,7 +13642,7 @@ app.get('/api/compras/fornecedores/:id', authenticateToken, async (req, res) => 
     try {
         const [fornecedor] = await pool.query('SELECT * FROM fornecedores WHERE id = ', [req.params.id]);
         if (fornecedor.length === 0) {
-            return res.status(404).json({ message: 'Fornecedor não encontração' });
+            return res.status(404).json({ message: 'Fornecedor não encontrado' });
         }
         res.json(fornecedor[0]);
     } catch (err) {
@@ -13818,7 +13818,7 @@ app.get('/api/compras/materiais/:id', authenticateToken, async (req, res) => {
         `, [req.params.id]);
         
         if (material.length === 0) {
-            return res.status(404).json({ message: 'Material não encontração' });
+            return res.status(404).json({ message: 'Material não encontrado' });
         }
         res.json(material[0]);
     } catch (err) {
@@ -13974,7 +13974,7 @@ app.get('/api/compras/pedidos/:id', authenticateToken, async (req, res) => {
         `, [req.params.id]);
 
         if (pedido.length === 0) {
-            return res.status(404).json({ message: 'Pedido não encontração' });
+            return res.status(404).json({ message: 'Pedido não encontrado' });
         }
 
         const [itens] = await pool.query('SELECT * FROM itens_pedido WHERE pedido_id = ', [req.params.id]);
@@ -15124,7 +15124,7 @@ app.post('/api/admin/configure-vendas-by-names', authenticateToken, async (req, 
                         }
                     }
                 } else {
-                    console.log(`⚠️  ${nomeBase} - Não encontração`);
+                    console.log(`⚠️  ${nomeBase} - Não encontrado`);
                     results.push({
                         name: nomeBase,
                         status: 'not_found'
@@ -15176,7 +15176,7 @@ app.post('/api/admin/remove-vendas-permission', authenticateToken, async (req, r
         );
 
         if (!usuario) {
-            return res.status(404).json({ error: 'Usuário não encontração' });
+            return res.status(404).json({ error: 'Usuário não encontrado' });
         }
 
         // Remover permissões (setar como NULL)
@@ -15249,7 +15249,7 @@ app.post('/api/admin/fix-vendas-permissions', authenticateToken, async (req, res
                     });
                     fixed++;
                 } else {
-                    console.log(`⚠️  ID ${id} - Não encontração`);
+                    console.log(`⚠️  ID ${id} - Não encontrado`);
                     results.push({
                         status: 'not_found',
                         id: id
@@ -15850,7 +15850,7 @@ const startServer = async () => {
                         };
                         console.log('🔒 HTTPS habilitação (PEM)');
                     } else {
-                        console.warn('⚠️  ENABLE_HTTPS=true mas certificaçãos não encontraçãos. Usando HTTP.');
+                        console.warn('⚠️  ENABLE_HTTPS=true mas certificaçãos não encontrados. Usando HTTP.');
                     }
                     
                     if (credentials) {
@@ -16317,7 +16317,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         `, [id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontração' });
+            return res.status(404).json({ error: 'Pedido não encontrado' });
         }
         
         const pedido = pedidos[0];
@@ -16735,7 +16735,7 @@ app.get('/api/vendas/pedidos/:id', authenticateToken, authorizeArea('vendas'), a
         `, [id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontração' });
+            return res.status(404).json({ error: 'Pedido não encontrado' });
         }
         
         // Formatar o pedido para compatibilidade com o frontend
@@ -16871,7 +16871,7 @@ app.get('/api/vendas/clientes/:id', authorizeArea('vendas'), async (req, res) =>
         const [clientes] = await vendasPool.query('SELECT * FROM clientes WHERE id = ', [id]);
         
         if (clientes.length === 0) {
-            return res.status(404).json({ error: 'Cliente não encontração' });
+            return res.status(404).json({ error: 'Cliente não encontrado' });
         }
         
         res.json(clientes[0]);
@@ -17107,7 +17107,7 @@ function checkFinanceiroPermission(area) {
             }
 
             if (!userData) {
-                return res.status(403).json({ message: 'Usuário não encontração' });
+                return res.status(403).json({ message: 'Usuário não encontrado' });
             }
 
             // Admin tem acesso total
@@ -18395,7 +18395,7 @@ app.get('/api/financeiro/fluxo-caixa/projecao', authenticateToken, async (req, r
 // RELATÓRIOS
 // ============================================================
 
-// DRE (Demonstração de Resultaçãos do Exercício)
+// DRE (Demonstração de Resultados do Exercício)
 app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) => {
     try {
         const { mes, ano } = req.query;
@@ -18988,7 +18988,7 @@ integracaoRouter.post('/estoque/reservar', [
                 `, [item.codigo_material]);
 
                 if (estoque.length === 0) {
-                    erros.push(`Material ${item.codigo_material} não encontração no estoque`);
+                    erros.push(`Material ${item.codigo_material} não encontrado no estoque`);
                     continue;
                 }
 
@@ -19226,7 +19226,7 @@ integracaoRouter.post('/vendas/aprovar-pedido', [
         `, [pedido_id]);
 
         if (pedidos.length === 0) {
-            throw new Error('Pedido não encontração');
+            throw new Error('Pedido não encontrado');
         }
 
         const pedido = pedidos[0];
@@ -19393,7 +19393,7 @@ integracaoRouter.post('/compras/receber-pedido', [
         `, [pedido_compra_id]);
 
         if (pedidos.length === 0) {
-            throw new Error('Pedido de compra não encontração');
+            throw new Error('Pedido de compra não encontrado');
         }
 
         const pedido = pedidos[0];

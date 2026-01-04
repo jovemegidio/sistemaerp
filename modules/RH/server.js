@@ -41,7 +41,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
   database: process.env.DB_NAME || 'railway',
-  port: process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 19396
+  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 19396
 })
 
 db.connect((err) => {

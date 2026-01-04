@@ -30,7 +30,7 @@ try { Redis = require('ioredis'); } catch (e) { Redis = null; }
 const app = express();
 // Configuração de portas com fallback
 const PORTS_TO_TRY = [3000, 3001, 3002];
-let port = process.env.PORT  Number(process.env.PORT) : PORTS_TO_TRY[0];
+let port = process.env.PORT ? Number(process.env.PORT) : PORTS_TO_TRY[0];
 
 // Middleware para cookies
 app.use(cookieParser());
@@ -64,7 +64,7 @@ const DB_CONFIG = {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
     database: process.env.DB_NAME || 'railway',
-    port: process.env.DB_PORT  parseInt(process.env.DB_PORT) : 19396,
+    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 19396,
     waitForConnections: true,
     connectionLimit: Number(process.env.DB_CONN_LIMIT || 10),
     queueLimit: 0
