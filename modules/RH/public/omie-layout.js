@@ -710,7 +710,7 @@ class OmieLayoutManager {
             console.warn(`Seção ${sectionId} não encontrada`);
         }
         
-        // Atualizar placeholder de busca baseação na seção
+        // Atualizar placeholder de busca baseado na seção
         this.updateSearchPlaceholder(sectionId);
         
         // Toast de navegação
@@ -912,7 +912,7 @@ class OmieLayoutManager {
         
         this.showToast('Sistema', 'Atualizando daçãos...', 'info');
         
-        // Simular refresh baseação na seção
+        // Simular refresh baseado na seção
         setTimeout(() => {
             refreshBtn.classList.remove('loading');
             refreshBtn.querySelector('i').style.animation = '';
@@ -946,7 +946,7 @@ class OmieLayoutManager {
     goToDashboard() {
         // Detectar se é admin ou funcionário
         const isAdmin = window.location.pathname.includes('areaadm');
-        const dashboardId = isAdmin  'dashboard-home' : 'dashboard';
+        const dashboardId = isAdmin ? 'dashboard-home' : 'dashboard';
         
         // Navegar para dashboard
         this.navigateToSection(dashboardId);
@@ -1192,9 +1192,9 @@ class OmieLayoutManager {
     }
 
     updateUserAvatar() {
-        // Simular daçãos do usuário baseação na página
+        // Simular daçãos do usuário baseado na página
         const isAdmin = window.location.pathname.includes('areaadm');
-        const userName = isAdmin  'Administraçãor' : 'Funcionário';
+        const userName = isAdmin ? 'Administraçãor' : 'Funcionário';
         const userText = document.querySelector('.header-user-text');
         
         if (userText) {

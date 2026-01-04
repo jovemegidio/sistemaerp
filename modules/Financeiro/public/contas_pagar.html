@@ -2201,7 +2201,7 @@
 
             try {
                 const url = id  `/api/financeiro/contas-pagar/${id}` : '/api/financeiro/contas-pagar';
-                const method = id  'PUT' : 'POST';
+                const method = id ? 'PUT' : 'POST';
 
                 const response = await fetch(url, {
                     method,
@@ -2313,7 +2313,7 @@
             const btnClear = input.parentElement.querySelector('.btn-clear-search');
             
             // Mostrar/ocultar botão limpar
-            btnClear.style.display = input.value  'flex' : 'none';
+            btnClear.style.display = input.value ? 'flex' : 'none';
             
             pesquisaTimeout = setTimeout(() => {
                 filtrarContas();
@@ -2636,7 +2636,7 @@
             const naoLidas = notificacoes.filter(n => !n.lida).length;
             
             if (naoLidas > 0) {
-                badge.textContent = naoLidas > 9  '9+' : naoLidas;
+                badge.textContent = naoLidas > 9 ? '9+' : naoLidas;
                 badge.style.display = 'flex';
             } else {
                 badge.style.display = 'none';

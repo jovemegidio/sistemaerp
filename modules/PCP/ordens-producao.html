@@ -2321,8 +2321,8 @@
                 const countEl = document.getElementById(`count-${status}`);
                 if (countEl) {
                     const count = ordens.length;
-                    countEl.textContent = count === 0  'Nenhuma ordem de produção' : 
-                                         count === 1  '1 ordem de produção' : 
+                    countEl.textContent = count === 0 ? 'Nenhuma ordem de produção' : 
+                                         count === 1 ? '1 ordem de produção' : 
                                          `${count} ordens de produção`;
                 }
             });
@@ -2486,7 +2486,7 @@
                 previsaoInput.value = data.toISOString().split('T')[0];
             }
             
-            // Atualizar ícone de alerta baseação no status
+            // Atualizar ícone de alerta baseado no status
             const alertaIcon = document.querySelector('.previsao-alerta');
             if (ordem.statusTexto === 'Atrasada') {
                 alertaIcon.style.display = 'inline';
@@ -2560,7 +2560,7 @@
             const tbody = document.getElementById('modal-itens-tbody');
             tbody.innerHTML = '';
             
-            // Itens simulaçãos baseaçãos na ordem (em produção real, viria da API)
+            // Itens simulaçãos baseados na ordem (em produção real, viria da API)
             const itensExemplo = [
                 { descricao: ordem.produto, codigo: ordem.codigo || 'PROD001', quantidade: ordem.quantidade, estoque: 0, local: 'ALMOXARIFADO', tipo: 'Produto Acabação', principal: true },
                 { descricao: 'Matéria-prima 1', codigo: 'MP001', quantidade: ordem.quantidade * 0.5, estoque: 1000, local: 'DEPÓSITO A', tipo: 'Matéria-Prima', principal: false },

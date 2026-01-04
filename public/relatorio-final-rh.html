@@ -131,7 +131,7 @@
             const results = document.getElementById('testResults');
             const div = document.createElement('div');
             div.className = `fix-item`;
-            div.style.background = success  '#d4edda' : '#f8d7da';
+            div.style.background = success ? '#d4edda' : '#f8d7da';
             div.innerHTML = `
                 <span class="fix-icon">${success  '' : ''}</span>
                 <div>
@@ -218,7 +218,7 @@
                         
                         addTestResult(test.name, 
                             response.status === 200 || response.status === 401, 
-                            `Status: ${response.status} (${response.status === 401  'Auth requerida - OK' : 'Funcionando'})`);
+                            `Status: ${response.status} (${response.status === 401 ? 'Auth requerida - OK' : 'Funcionando'})`);
                     } catch (error) {
                         addTestResult(test.name, false, `Erro: ${error.message}`);
                     }

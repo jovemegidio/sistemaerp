@@ -205,7 +205,7 @@ class ViewLoader {
             return window.pcpCache.get('faturamento');
         }
 
-        const response = await fetch('/api/pcp/pedidos/faturaçãos');
+        const response = await fetch('/api/pcp/pedidos/faturados');
         const data = await response.json();
         window.pcpCache.set('faturamento', data, 5 * 60 * 1000); // 5 minutos
         return data;
@@ -552,7 +552,7 @@ class PerformanceMonitor {
         this.metrics.delete(label);
 
         if (logToConsole) {
-            const emoji = duration < 100  '✅' : duration < 500  '⚠️' : '❌';
+            const emoji = duration < 100 ? '✅' : duration < 500 ? '⚠️' : '❌';
             console.log(`${emoji} ${label}: ${duration.toFixed(2)}ms`);
         }
 

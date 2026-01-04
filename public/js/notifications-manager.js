@@ -227,7 +227,7 @@ const NotificationsManager = (function() {
                         </span>
                     </div>
                 </div>
-                ${!notif.read  '<span class="notification-new-badge"></span>' : ''}
+                ${!notif.read ? '<span class="notification-new-badge"></span>' : ''}
             </div>
         `}).join('');
 
@@ -373,7 +373,7 @@ const NotificationsManager = (function() {
         badge = document.querySelector('.notification-dot');
         if (badge) {
             if (unreadCount > 0) {
-                badge.textContent = unreadCount > 99  '99+' : unreadCount;
+                badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
                 badge.style.display = 'flex';
             } else {
                 badge.style.display = 'none';

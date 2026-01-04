@@ -87,7 +87,7 @@ async function analyzeUsersTable() {
 
             if (passwordValue) {
                 usersWithPassword++;
-                console.log(`   🔐 Senha em ${passwordField}: ${isHashed  'Hash bcrypt' : 'Texto plano'}`);
+                console.log(`   🔐 Senha em ${passwordField}: ${isHashed ? 'Hash bcrypt' : 'Texto plano'}`);
                 
                 if (isHashed) {
                     // Testar senhas comuns contra hash

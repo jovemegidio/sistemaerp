@@ -668,7 +668,7 @@
         .column-indicator.analise { background: #f59e0b; }
         .column-indicator.aprovação { background: #10b981; }
         .column-indicator.faturar { background: #f97316; }
-        .column-indicator.faturação { background: #22c55e; }
+        .column-indicator.faturado { background: #22c55e; }
         .column-indicator.recibo { background: #06b6d4; }
 
         .kanban-column-content {
@@ -903,7 +903,7 @@
             color: #dc2626;
         }
 
-        .card-status.faturação {
+        .card-status.faturado {
             background: #f0fdf4;
             color: #16a34a;
         }
@@ -4702,15 +4702,15 @@
                     </div>
 
                     <!-- Coluna: Faturação -->
-                    <div class="kanban-column" data-status="faturação">
+                    <div class="kanban-column" data-status="faturado">
                         <div class="kanban-column-header">
                             <div>
                                 <div class="column-title">Faturação</div>
-                                <div class="column-count" id="count-faturação">52 registros</div>
+                                <div class="column-count" id="count-faturado">52 registros</div>
                             </div>
-                            <div class="column-indicator faturação"></div>
+                            <div class="column-indicator faturado"></div>
                         </div>
-                        <div class="kanban-column-content" id="col-faturação">
+                        <div class="kanban-column-content" id="col-faturado">
                             <!-- Cards -->
                         </div>
                         <div class="kanban-column-footer">
@@ -5322,14 +5322,14 @@
                             <input type="checkbox" id="toggle-cancelaçãos">
                             <span class="toggle-slider"></span>
                         </label>
-                        <span class="toggle-label">Exibir Cancelaçãos</span>
+                        <span class="toggle-label">Exibir Cancelados</span>
                     </div>
                     <div class="toggle-item">
                         <label class="toggle-switch">
                             <input type="checkbox" id="toggle-denegaçãos">
                             <span class="toggle-slider"></span>
                         </label>
-                        <span class="toggle-label">Exibir Denegaçãos</span>
+                        <span class="toggle-label">Exibir Denegados</span>
                     </div>
                     <div class="toggle-item">
                         <label class="toggle-switch">
@@ -5341,7 +5341,7 @@
                 </div>
 
                 <div class="filtros-info-box">
-                    <p>Para localizar pedidos de venda faturaçãos antes desse período utilize a opção <strong>"Exibir Todos"</strong> em <strong>"Venda de Produto"</strong> no menu.</p>
+                    <p>Para localizar pedidos de venda faturados antes desse período utilize a opção <strong>"Exibir Todos"</strong> em <strong>"Venda de Produto"</strong> no menu.</p>
                 </div>
             </div>
             <div class="modal-filtros-footer">
@@ -6610,7 +6610,7 @@
                 <div id="sefaz-inicial">
                     <i class="fas fa-building" style="font-size: 48px; color: #06b6d4; margin-bottom: 20px;"></i>
                     <h3 style="margin-bottom: 10px;">Transmitir Notas Fiscais</h3>
-                    <p id="sefaz-info" style="color: #666; margin-bottom: 20px;">X notas fiscais prontas para transmissão.</p>
+                    <p id="sefaz-info" style="color: #666; margin-bottom: 20px;">X notas fiscais prontas para transmissao.</p>
                     <div id="sefaz-lista" style="text-align: left; max-height: 200px; overflow-y: auto; background: #f5f5f5; border-radius: 8px; padding: 12px; margin-bottom: 20px;"></div>
                 </div>
                 <div id="sefaz-resultação" style="display: none;">
@@ -7608,7 +7608,7 @@
             faturar: [
                 { id: 3, cliente: 'ILUMINACAO PAULISTANA SPE S/A', status: 'Faturamento atrasação', valor: 529.00, parcelas: 'p/ 11/06 Qua', origem: 'Omie' },
             ],
-            faturação: [
+            faturado: [
                 { id: 1341, cliente: 'ATUALLED', status: 'Faturação', valor: 1944.25, parcelas: 'em 3x', origem: 'Omie', nf: '00000248' },
             ],
             recibo: []
@@ -7626,7 +7626,7 @@
             'pedido-aprovação': 'aprovação',
             'aprovação': 'aprovação',
             'faturar': 'faturar',
-            'faturação': 'faturação',
+            'faturado': 'faturado',
             'entregue': 'recibo',
             'recibo': 'recibo'
         };
@@ -7637,7 +7637,7 @@
             'analise': 'analise-credito',
             'aprovação': 'pedido-aprovação',
             'faturar': 'faturar',
-            'faturação': 'faturação',
+            'faturado': 'faturado',
             'recibo': 'recibo'
         };
         
@@ -7667,9 +7667,9 @@
                     if (filtros.projeto && filtros.projeto !== 'todos') {
                         params.append('projeto', filtros.projeto);
                     }
-                    params.append('exibirCancelaçãos', filtros.exibirCancelaçãos  'true' : 'false');
-                    params.append('exibirDenegaçãos', filtros.exibirDenegaçãos  'true' : 'false');
-                    params.append('exibirEncerraçãos', filtros.exibirEncerraçãos  'true' : 'false');
+                    params.append('exibirCancelados', filtros.exibirCancelados ? 'true' : 'false');
+                    params.append('exibirDenegados', filtros.exibirDenegados ? 'true' : 'false');
+                    params.append('exibirEncerraçãos', filtros.exibirEncerraçãos ? 'true' : 'false');
                     
                     const queryString = params.toString();
                     if (queryString) url += '' + queryString;
@@ -7692,7 +7692,7 @@
                     analise: [],
                     aprovação: [],
                     faturar: [],
-                    faturação: [],
+                    faturado: [],
                     recibo: []
                 };
                 
@@ -7769,7 +7769,7 @@
         // RENDER CARDS
         // ========================================
         function renderCard(item) {
-            const statusClass = item.status === 'Faturação'  'faturação' : 'atrasação';
+            const statusClass = item.status === 'Faturação'  'faturado' : 'atrasação';
             
             let nfBadge = '';
             if (item.nf) {
@@ -7792,7 +7792,7 @@
             }
 
             const parcelas = item.parcelas || item.tipo || 'a vista';
-            const valorFormatação = (item.valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            const valorFormatado = (item.valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
             const origem = item.origem || 'Omie';
             
             return `
@@ -7806,7 +7806,7 @@
                     </div>
                     <div class="card-title">${item.cliente || 'Cliente não informação'}</div>
                     <span class="card-status ${statusClass}">${item.status || 'Aguardando'}</span>
-                    <div class="card-value">$ ${valorFormatação} ${parcelas}</div>
+                    <div class="card-value">$ ${valorFormatado} ${parcelas}</div>
                     <div class="card-origin">
                         <i class="fas fa-check-circle"></i>
                         Origem: ${origem}
@@ -7835,8 +7835,8 @@
             colFaturar.innerHTML = daçãosVendas.faturar.map(renderCard).join('');
 
             // Faturação
-            const colFaturação = document.getElementById('col-faturação');
-            colFaturação.innerHTML = daçãosVendas.faturação.map(renderCard).join('');
+            const colFaturação = document.getElementById('col-faturado');
+            colFaturação.innerHTML = daçãosVendas.faturado.map(renderCard).join('');
 
             // Recibo
             const colRecibo = document.getElementById('col-recibo');
@@ -7913,8 +7913,8 @@
                 // ========================================
                 // VERIFICAÇÃO DE PERMISSÕES
                 // ========================================
-                // Etapas em ordem: orcamento -> analise -> aprovação -> faturar -> faturação -> recibo
-                const etapasOrdem = ['orcamento', 'analise', 'aprovação', 'faturar', 'faturação', 'recibo'];
+                // Etapas em ordem: orcamento -> analise -> aprovação -> faturar -> faturado -> recibo
+                const etapasOrdem = ['orcamento', 'analise', 'aprovação', 'faturar', 'faturado', 'recibo'];
                 const etapaOrigemIdx = etapasOrdem.indexOf(colunaOrigemId);
                 const etapaDestinoIdx = etapasOrdem.indexOf(colunaDestino);
                 
@@ -7951,7 +7951,7 @@
                     'col-analise': 'Em análise',
                     'col-aprovação': 'Aprovação',
                     'col-faturar': 'Faturar',
-                    'col-faturação': 'Faturação',
+                    'col-faturado': 'Faturação',
                     'col-recibo': 'Recibo Enviação'
                 };
                 
@@ -8021,7 +8021,7 @@
                 'col-analise': 'count-analise',
                 'col-aprovação': 'count-aprovação',
                 'col-faturar': 'count-faturar',
-                'col-faturação': 'count-faturação',
+                'col-faturado': 'count-faturado',
                 'col-recibo': 'count-recibo'
             };
 
@@ -8030,7 +8030,7 @@
                 const counter = document.getElementById(countId);
                 if (col && counter) {
                     const count = col.querySelectorAll('.kanban-card').length;
-                    counter.textContent = count === 0  'Nenhum registro' : `${count} registro${count > 1  's' : ''}`;
+                    counter.textContent = count === 0 ? 'Nenhum registro' : `${count} registro${count > 1 ? 's' : ''}`;
                 }
             });
         }
@@ -8097,7 +8097,7 @@
                 statusAlert.className = 'status-alert';
                 if (pedido.status.toLowerCase().includes('atrasação')) {
                     statusAlert.classList.add('warning');
-                } else if (pedido.status.toLowerCase().includes('faturação') || pedido.status.toLowerCase().includes('aprovação')) {
+                } else if (pedido.status.toLowerCase().includes('faturado') || pedido.status.toLowerCase().includes('aprovação')) {
                     statusAlert.classList.add('success');
                 } else {
                     statusAlert.classList.add('info');
@@ -8464,8 +8464,8 @@
             if (!pedidoAtual) return;
             
             // Modal de confirmação com opção de gerar NFe
-            const valorFormatação = formatarMoeda(pedidoAtual.valor);
-            const gerarNFe = confirm(`Deseja faturar o Orçamento Nº ${pedidoAtual.id}\n\nValor: ${valorFormatação}\nCliente: ${pedidoAtual.cliente}\n\n✅ NFe será gerada automaticamente no módulo fiscal`);
+            const valorFormatado = formatarMoeda(pedidoAtual.valor);
+            const gerarNFe = confirm(`Deseja faturar o Orçamento Nº ${pedidoAtual.id}\n\nValor: ${valorFormatado}\nCliente: ${pedidoAtual.cliente}\n\n✅ NFe será gerada automaticamente no módulo fiscal`);
             if (!gerarNFe) return;
             
             try {
@@ -8495,10 +8495,10 @@
                     pedidoAtual.nf = result.nf_numero;
                     pedidoAtual.nfe_chave = result.nfe_data.chave;
                     pedidoAtual.nfe_protocolo = result.nfe_data.protocolo;
-                    pedidoAtual._coluna = 'faturação';
+                    pedidoAtual._coluna = 'faturado';
                     
-                    if (!daçãosVendas.faturação) daçãosVendas.faturação = [];
-                    daçãosVendas.faturação.push(pedidoAtual);
+                    if (!daçãosVendas.faturado) daçãosVendas.faturado = [];
+                    daçãosVendas.faturado.push(pedidoAtual);
                     
                     // Re-renderizar kanban
                     renderKanban();
@@ -8508,7 +8508,7 @@
                     
                     // Mensagem de sucesso diferenciada
                     if (result.nfe_gerada) {
-                        showNotification(`✅ Pedido faturação com sucesso!\n📄 NFe ${result.nf_numero} gerada automaticamente\n🔑 Chave: ${result.nfe_data.chave.substring(0, 20)}...`, 'success');
+                        showNotification(`✅ Pedido faturado com sucesso!\n📄 NFe ${result.nf_numero} gerada automaticamente\n🔑 Chave: ${result.nfe_data.chave.substring(0, 20)}...`, 'success');
                         
                         // Opção para visualizar NFe
                         setTimeout(() => {
@@ -8517,7 +8517,7 @@
                             }
                         }, 1500);
                     } else {
-                        showNotification(`Pedido faturação! NF: ${result.nf_numero}\n⚠️ NFe não foi gerada automaticamente - verifique o módulo fiscal`, 'warning');
+                        showNotification(`Pedido faturado! NF: ${result.nf_numero}\n⚠️ NFe não foi gerada automaticamente - verifique o módulo fiscal`, 'warning');
                     }
                 } else {
                     const error = await response.json();
@@ -8536,15 +8536,15 @@
                 
                 pedidoAtual.status = 'Faturação';
                 pedidoAtual.nf = '0000' + Math.floor(Math.random() * 9000 + 1000);
-                pedidoAtual._coluna = 'faturação';
+                pedidoAtual._coluna = 'faturado';
                 
-                if (!daçãosVendas.faturação) daçãosVendas.faturação = [];
-                daçãosVendas.faturação.push(pedidoAtual);
+                if (!daçãosVendas.faturado) daçãosVendas.faturado = [];
+                daçãosVendas.faturado.push(pedidoAtual);
                 
                 renderKanban();
                 fecharModalEditar();
                 
-                showNotification(`Pedido faturação! NF: ${pedidoAtual.nf}\n⚠️ Erro na conexão - NFe não foi gerada`, 'warning');
+                showNotification(`Pedido faturado! NF: ${pedidoAtual.nf}\n⚠️ Erro na conexão - NFe não foi gerada`, 'warning');
             }
         }
         
@@ -8710,7 +8710,7 @@
             // Fechar modal
             fecharModalEditar();
             
-            showNotification(`Pedido Nº ${pedidoAtual.id} criação com sucesso!`, 'success');
+            showNotification(`Pedido Nº ${pedidoAtual.id} criado com sucesso!`, 'success');
             
             // TODO: Salvar no backend
             // await criarPedidoAPI(pedidoAtual);
@@ -9023,7 +9023,7 @@
             { id: 'analise', nome: 'Análise de Crédito', status: 'analise' },
             { id: 'aprovação', nome: 'Pedido Aprovação', status: 'aprovação' },
             { id: 'faturar', nome: 'Faturar', status: 'faturar' },
-            { id: 'faturação', nome: 'Faturação', status: 'faturação', destaque: true },
+            { id: 'faturado', nome: 'Faturação', status: 'faturado', destaque: true },
             { id: 'recibo', nome: 'Recibo', status: 'recibo' }
         ];
 
@@ -9042,7 +9042,7 @@
             const ordinais = ['Primeira', 'Segunda', 'Terceira', 'Quarta', 'Quinta', 'Sexta', 'Sétima', 'Oitava', 'Nona', 'Décima'];
             
             container.innerHTML = etapasTemp.map((etapa, index) => `
-                <div class="etapa-item ${etapa.destaque  'etapa-destaque' : ''}" 
+                <div class="etapa-item ${etapa.destaque ? 'etapa-destaque' : ''}" 
                      data-index="${index}" 
                      draggable="true"
                      ondragstart="handleEtapaDragStart(event)"
@@ -9076,7 +9076,7 @@
         function atualizarContaçãorEtapas() {
             const counter = document.getElementById('etapas-counter');
             const total = etapasTemp.length;
-            counter.textContent = `${total} etapa${total !== 1  's' : ''} configurada${total !== 1  's' : ''}`;
+            counter.textContent = `${total} etapa${total !== 1 ? 's' : ''} configurada${total !== 1 ? 's' : ''}`;
         }
 
         function atualizarNomeEtapa(index, novoNome) {
@@ -9242,7 +9242,7 @@
             // Limpar o board
             kanbanBoard.innerHTML = '';
             
-            // Reconstruir colunas baseação nas etapas
+            // Reconstruir colunas baseado nas etapas
             etapasKanban.forEach((etapa, index) => {
                 const cor = coresKanban[index % coresKanban.length];
                 const isFirstColumn = index === 0;
@@ -9257,7 +9257,7 @@
                         <div class="kanban-column-header">
                             <div>
                                 <div class="column-title">${etapa.nome}</div>
-                                <div class="column-count" id="count-${etapa.status}">${hasCards  'Carregando...' : 'Nenhum registro'}</div>
+                                <div class="column-count" id="count-${etapa.status}">${hasCards ? 'Carregando...' : 'Nenhum registro'}</div>
                             </div>
                             <div class="column-indicator" style="background: ${cor};"></div>
                         </div>
@@ -9290,7 +9290,7 @@
         }
 
         function atualizarTitulosKanban() {
-            // Atualizar cada coluna baseação nas etapas ou reconstruir se necessário
+            // Atualizar cada coluna baseado nas etapas ou reconstruir se necessário
             const colunasAtuais = document.querySelectorAll('.kanban-column').length;
             
             if (colunasAtuais !== etapasKanban.length) {
@@ -9414,7 +9414,7 @@
                             { id: 'analise', nome: parsed.analise || 'Análise de Crédito', status: 'analise' },
                             { id: 'aprovação', nome: parsed.aprovação || 'Pedido Aprovação', status: 'aprovação' },
                             { id: 'faturar', nome: parsed.faturar || 'Faturar', status: 'faturar' },
-                            { id: 'faturação', nome: parsed.faturação || 'Faturação', status: 'faturação', destaque: true },
+                            { id: 'faturado', nome: parsed.faturado || 'Faturação', status: 'faturado', destaque: true },
                             { id: 'recibo', nome: parsed.recibo || 'Recibo', status: 'recibo' }
                         ];
                     }
@@ -9445,8 +9445,8 @@
             vendedorNome: 'Todos os Vendedores',
             projeto: 'todos',
             projetoNome: 'Todos os Projetos',
-            exibirCancelaçãos: false,
-            exibirDenegaçãos: false,
+            exibirCancelados: false,
+            exibirDenegados: false,
             exibirEncerraçãos: false
         };
 
@@ -9481,8 +9481,8 @@
             filtrosState.vendedorNome = 'Todos os Vendedores';
             filtrosState.projeto = 'todos';
             filtrosState.projetoNome = 'Todos os Projetos';
-            filtrosState.exibirCancelaçãos = false;
-            filtrosState.exibirDenegaçãos = false;
+            filtrosState.exibirCancelados = false;
+            filtrosState.exibirDenegados = false;
             filtrosState.exibirEncerraçãos = false;
             
             // Atualizar link de filtro
@@ -9503,8 +9503,8 @@
             filtrosState.dataInclusao = document.getElementById('filtro-data-inclusao').value;
             filtrosState.dataPrevisao = document.getElementById('filtro-data-previsao').value;
             filtrosState.dataFaturamento = document.getElementById('filtro-data-faturamento').value;
-            filtrosState.exibirCancelaçãos = document.getElementById('toggle-cancelaçãos').checked;
-            filtrosState.exibirDenegaçãos = document.getElementById('toggle-denegaçãos').checked;
+            filtrosState.exibirCancelados = document.getElementById('toggle-cancelaçãos').checked;
+            filtrosState.exibirDenegados = document.getElementById('toggle-denegaçãos').checked;
             filtrosState.exibirEncerraçãos = document.getElementById('toggle-encerraçãos').checked;
             
             // Atualizar texto do link de filtro
@@ -9515,8 +9515,8 @@
                 if (filtrosState.dataPrevisao !== 'tudo') filtrosAtivos.push('Data Previsão');
                 if (filtrosState.vendedor !== 'todos') filtrosAtivos.push(filtrosState.vendedorNome);
                 if (filtrosState.projeto !== 'todos') filtrosAtivos.push('Projeto');
-                if (filtrosState.exibirCancelaçãos) filtrosAtivos.push('Cancelaçãos');
-                if (filtrosState.exibirDenegaçãos) filtrosAtivos.push('Denegaçãos');
+                if (filtrosState.exibirCancelados) filtrosAtivos.push('Cancelados');
+                if (filtrosState.exibirDenegados) filtrosAtivos.push('Denegados');
                 if (filtrosState.exibirEncerraçãos) filtrosAtivos.push('Encerraçãos');
                 
                 if (filtrosAtivos.length > 0) {
@@ -9549,7 +9549,7 @@
                         lista.innerHTML = `
                             <div class="vendedor-item ${filtrosState.vendedor === 'todos'  'selected' : ''}" data-id="todos">Todos os Vendedores</div>
                             ${vendedores.map(v => `
-                                <div class="vendedor-item ${filtrosState.vendedor == v.id  'selected' : ''}" data-id="${v.id}">${v.nome}</div>
+                                <div class="vendedor-item ${filtrosState.vendedor == v.id ? 'selected' : ''}" data-id="${v.id}">${v.nome}</div>
                             `).join('')}
                         `;
                         
@@ -9773,7 +9773,7 @@
                     created_at: new Date().toISOString(),
                     user_name: localStorage.getItem('userName') || 'Usuário',
                     action: 'criacao',
-                    descricao: 'Pedido criação no sistema'
+                    descricao: 'Pedido criado no sistema'
                 }
             ];
             
@@ -9801,7 +9801,7 @@
                 'item_updated': 'edicao',
                 'item_deleted': 'edicao',
                 'criacao': 'criacao',
-                'pedido_criação': 'criacao'
+                'pedido_criado': 'criacao'
             };
             return tipos[action] || 'edicao';
         }
@@ -9817,7 +9817,7 @@
                 'item_updated': '<span class="historico-badge badge-item"><i class="fas fa-edit"></i> Item</span>',
                 'item_deleted': '<span class="historico-badge badge-item"><i class="fas fa-trash"></i> Item</span>',
                 'criacao': '<span class="historico-badge badge-criacao"><i class="fas fa-file-alt"></i> Criação</span>',
-                'pedido_criação': '<span class="historico-badge badge-criacao"><i class="fas fa-file-alt"></i> Criação</span>'
+                'pedido_criado': '<span class="historico-badge badge-criacao"><i class="fas fa-file-alt"></i> Criação</span>'
             };
             return badges[action] || '<span class="historico-badge badge-edicao"><i class="fas fa-info"></i> Alteração</span>';
         }
@@ -9876,8 +9876,8 @@
             }
             
             container.innerHTML = tarefas.map((tarefa, idx) => `
-                <div class="tarefa-item ${tarefa.concluida  'concluida' : ''}">
-                    <input type="checkbox" class="tarefa-checkbox" ${tarefa.concluida  'checked' : ''} onchange="toggleTarefa(${idx})">
+                <div class="tarefa-item ${tarefa.concluida ? 'concluida' : ''}">
+                    <input type="checkbox" class="tarefa-checkbox" ${tarefa.concluida ? 'checked' : ''} onchange="toggleTarefa(${idx})">
                     <span class="tarefa-texto">${tarefa.texto}</span>
                     <button class="tarefa-delete" onclick="excluirTarefa(${idx})"><i class="fas fa-trash"></i></button>
                 </div>
@@ -9964,7 +9964,7 @@
         function cancelarPedido() {
             if (!pedidoAtual) return;
             
-            const confirmar = confirm(em certeza que deseja cancelar o Orçamento Nº ${pedidoAtual.id}\n\nO pedido será marcação como cancelação.`);
+            const confirmar = confirm(em certeza que deseja cancelar o Orçamento Nº ${pedidoAtual.id}\n\nO pedido será marcado como cancelação.`);
             if (!confirmar) return;
             
             // Atualizar status do pedido
@@ -10004,7 +10004,7 @@
             
             if (!input || !dropdown) return;
 
-            // Evento de digitação
+            // Evento de digitado
             input.addEventListener('input', function(e) {
                 const termo = e.target.value.trim();
                 
@@ -10512,7 +10512,7 @@
                 }
                 
                 if (response.ok) {
-                    showNotification(modoEdicaoItem  'Item atualização com sucesso!' : 'Item adicionação com sucesso!', 'success');
+                    showNotification(modoEdicaoItem ? 'Item atualização com sucesso!' : 'Item adicionação com sucesso!', 'success');
                     
                     // Verificar se deve continuar incluindo
                     const continuarIncluindo = document.getElementById('item-continuar-incluindo').checked;
@@ -10808,10 +10808,10 @@
             const vendedorAtualId = document.getElementById('novo-vendedor-id').value;
             
             dropdown.innerHTML = vendedoresLista.map(v => `
-                <div class="dropdown-item ${v.id == vendedorAtualId  'selected' : ''}" 
+                <div class="dropdown-item ${v.id == vendedorAtualId ? 'selected' : ''}" 
                      onclick="selecionarVendedorOrcamento(${v.id}, '${v.nome.replace(/'/g, "\\'")}')"
-                     style="padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #eee; ${v.id == vendedorAtualId  'background: #fff7ed;' : ''}"
-                     onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='${v.id == vendedorAtualId  '#fff7ed' : '#fff'}'">
+                     style="padding: 10px 12px; cursor: pointer; border-bottom: 1px solid #eee; ${v.id == vendedorAtualId ? 'background: #fff7ed;' : ''}"
+                     onmouseover="this.style.background='#f5f5f5'" onmouseout="this.style.background='${v.id == vendedorAtualId ? '#fff7ed' : '#fff'}'">
                     <i class="fas fa-user" style="color: #f97316; margin-right: 8px;"></i>
                     ${v.nome}
                 </div>
@@ -11685,7 +11685,7 @@
         
         function toggleEnderecoEntrega() {
             const usarMesmo = document.getElementById('usar-endereco-cliente').checked;
-            document.getElementById('form-endereco-entrega').style.display = usarMesmo  'none' : 'block';
+            document.getElementById('form-endereco-entrega').style.display = usarMesmo ? 'none' : 'block';
         }
         
         async function buscarCepEntrega() {
@@ -11758,7 +11758,7 @@
             const aviso = document.getElementById('aviso-conta-corrente');
             
             if (aviso) {
-                aviso.style.display = contaCorrente  'none' : 'block';
+                aviso.style.display = contaCorrente ? 'none' : 'block';
             }
         }
         
@@ -11925,7 +11925,7 @@
                 // Limpar daçãos de impostos calculaçãos
                 impostosCalculaçãos = null;
                 
-                showNotification(`Orçamento Nº ${pedidoLocal.id} criação com sucesso!`, 'success');
+                showNotification(`Orçamento Nº ${pedidoLocal.id} criado com sucesso!`, 'success');
                 
             } catch (error) {
                 console.error('Erro ao salvar orçamento:', error);
@@ -12077,7 +12077,7 @@
             
             // Atualizar info do modal
             document.getElementById('faturar-info').textContent = 
-                `Você está prestes a faturar ${count} pedido${count > 1  's' : ''}.`;
+                `Você está prestes a faturar ${count} pedido${count > 1 ? 's' : ''}.`;
             
             // Calcular total
             let total = 0;
@@ -12088,14 +12088,14 @@
             let listaHTML = '';
             daçãosVendas.faturar.forEach((p, index) => {
                 listaHTML += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: ${index % 2 === 0  '#ffffff' : '#f9fafb'}; border-bottom: 1px solid #f3f4f6; transition: background 0.2s;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: ${index % 2 === 0 ? '#ffffff' : '#f9fafb'}; border-bottom: 1px solid #f3f4f6; transition: background 0.2s;">
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-file-alt" style="font-size: 14px; color: #2563eb;"></i>
                             </div>
                             <div>
                                 <div style="font-weight: 600; color: #1f2937; font-size: 14px;">Nº ${p.id}</div>
-                                <div style="font-size: 12px; color: #6b7280;">${p.cliente.substring(0, 28)}${p.cliente.length > 28  '...' : ''}</div>
+                                <div style="font-size: 12px; color: #6b7280;">${p.cliente.substring(0, 28)}${p.cliente.length > 28 ? '...' : ''}</div>
                             </div>
                         </div>
                         <div style="text-align: right;">
@@ -12123,15 +12123,15 @@
                 return;
             }
             
-            // Mover pedidos para coluna "faturação"
+            // Mover pedidos para coluna "faturado"
             pedidosParaFaturar.forEach(pedido => {
                 // Gerar número de NF fictício
                 const nfNumero = String(Math.floor(Math.random() * 900000) + 100000).padStart(8, '0');
                 pedido.status = 'Faturação';
                 pedido.nf = nfNumero;
                 
-                // Adicionar na coluna faturação
-                daçãosVendas.faturação.unshift(pedido);
+                // Adicionar na coluna faturado
+                daçãosVendas.faturado.unshift(pedido);
             });
             
             // Limpar coluna faturar
@@ -12142,7 +12142,7 @@
             
             // Fechar modal e notificar
             fecharModalFaturar();
-            showNotification(`${count} pedido${count > 1  's' : ''} faturação${count > 1  's' : ''} com sucesso!`, 'success');
+            showNotification(`${count} pedido${count > 1 ? 's' : ''} faturado${count > 1 ? 's' : ''} com sucesso!`, 'success');
             
             // TODO: Salvar no backend via API
             // faturarPedidosAPI(pedidosParaFaturar);
@@ -12157,7 +12157,7 @@
         // AÇÕES - COMUNICAR SEFAZ
         // ========================================
         function comunicarSefaz() {
-            const notasFaturadas = daçãosVendas.faturação.filter(p => p.nf);
+            const notasFaturadas = daçãosVendas.faturado.filter(p => p.nf);
             const count = notasFaturadas.length;
             
             if (count === 0) {
@@ -12173,7 +12173,7 @@
             
             // Atualizar info
             document.getElementById('sefaz-info').textContent = 
-                `${count} nota${count > 1  's' : ''} fiscal${count > 1  'is' : ''} pronta${count > 1  's' : ''} para transmissão.`;
+                `${count} nota${count > 1 ? 's' : ''} fiscal${count > 1 ? 'is' : ''} pronta${count > 1 ? 's' : ''} para transmissao.`;
             
             // Listar notas
             let listaHTML = '';
@@ -12181,7 +12181,7 @@
                 listaHTML += `
                     <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e5e5;">
                         <span><i class="fas fa-file-invoice" style="color: #06b6d4; margin-right: 8px;"></i> NF ${p.nf}</span>
-                        <span>${p.cliente.substring(0, 25)}${p.cliente.length > 25  '...' : ''}</span>
+                        <span>${p.cliente.substring(0, 25)}${p.cliente.length > 25 ? '...' : ''}</span>
                     </div>
                 `;
             });
@@ -12201,16 +12201,16 @@
             document.getElementById('sefaz-loading').style.display = 'block';
             document.getElementById('btn-transmitir-sefaz').style.display = 'none';
             
-            // Simular transmissão (2-3 segundos)
+            // Simular transmissao (2-3 segundos)
             setTimeout(() => {
-                const notasFaturadas = daçãosVendas.faturação.filter(p => p.nf);
+                const notasFaturadas = daçãosVendas.faturado.filter(p => p.nf);
                 const count = notasFaturadas.length;
                 
                 // Esconder loading, mostrar resultação
                 document.getElementById('sefaz-loading').style.display = 'none';
                 document.getElementById('sefaz-resultação').style.display = 'block';
                 document.getElementById('sefaz-resultação-info').textContent = 
-                    `${count} nota${count > 1  's' : ''} fiscal${count > 1  'is' : ''} transmitida${count > 1  's' : ''} com sucesso para a SEFAZ!`;
+                    `${count} nota${count > 1 ? 's' : ''} fiscal${count > 1 ? 'is' : ''} transmitida${count > 1 ? 's' : ''} com sucesso para a SEFAZ!`;
                 
                 // Marcar notas como transmitidas (adicionar protocolo fictício)
                 notasFaturadas.forEach(p => {
@@ -12223,7 +12223,7 @@
                 // Re-renderizar para atualizar visual
                 renderKanban();
                 
-                showNotification(ransmissão SEFAZ concluída! ${count} NF-e${count > 1  's' : ''} autorizadas.`, 'success');
+                showNotification(ransmissão SEFAZ concluída! ${count} NF-e${count > 1 ? 's' : ''} autorizadas.`, 'success');
                 
                 // TODO: Enviar para SEFAZ real via API
                 // transmitirSefazAPI(notasFaturadas);
@@ -12434,7 +12434,7 @@
                         if (userPhotoEl) userPhotoEl.style.display = 'none';
                     }
                     
-                    console.log('👤 Usuário Vendas:', primeiroNome, '| Foto:', userAvatar  'Sim' : 'Não');
+                    console.log('👤 Usuário Vendas:', primeiroNome, '| Foto:', userAvatar ? 'Sim' : 'Não');
                 }
             } catch (error) {
                 console.error('Erro ao carregar usuário:', error);
@@ -12733,7 +12733,7 @@
                             <div>
                                 <div style="font-weight: 600; color: #1e293b; margin-bottom: 4px;">${c.razao_social || c.nome || 'Sem nome'}</div>
                                 <div style="font-size: 12px; color: #64748b;">
-                                    ${c.cnpj || c.cpf || '-'} • ${c.cidade || ''}${c.uf  '/' + c.uf : ''}
+                                    ${c.cnpj || c.cpf || '-'} • ${c.cidade || ''}${c.uf ? '/' + c.uf : ''}
                                 </div>
                             </div>
                             <button style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; border: none; padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer;">
@@ -13331,7 +13331,7 @@
             }
             
             lista.innerHTML = notificacoes.map(notif => `
-                <div class="notification-item ${notif.lida  '' : 'unread'} ${notif.importante  'important' : ''}" 
+                <div class="notification-item ${notif.lida  '' : 'unread'} ${notif.importante ? 'important' : ''}" 
                      onclick="marcarComoLida(${notif.id})">
                     <div class="notification-icon ${notif.tipo}">
                         <i class="fas ${notif.icone}"></i>
@@ -13339,7 +13339,7 @@
                     <div class="notification-content">
                         <div class="notification-title">
                             ${notif.titulo}
-                            ${!notif.lida  '<span class="badge-new">NOVO</span>' : ''}
+                            ${!notif.lida ? '<span class="badge-new">NOVO</span>' : ''}
                         </div>
                         <div class="notification-message">${notif.mensagem}</div>
                         <div class="notification-time">
@@ -13360,9 +13360,9 @@
             const dias = Math.floor(diff / 86400000);
             
             if (minutos < 1) return 'Agora mesmo';
-            if (minutos < 60) return `há ${minutos} minuto${minutos > 1  's' : ''}`;
-            if (horas < 24) return `há ${horas} hora${horas > 1  's' : ''}`;
-            if (dias < 7) return `há ${dias} dia${dias > 1  's' : ''}`;
+            if (minutos < 60) return `há ${minutos} minuto${minutos > 1 ? 's' : ''}`;
+            if (horas < 24) return `há ${horas} hora${horas > 1 ? 's' : ''}`;
+            if (dias < 7) return `há ${dias} dia${dias > 1 ? 's' : ''}`;
             return data.toLocaleDateString('pt-BR');
         }
         
@@ -13434,7 +13434,7 @@
             const badge = document.getElementById('notification-count');
             
             if (naoLidas > 0) {
-                badge.textContent = naoLidas > 99  '99+' : naoLidas;
+                badge.textContent = naoLidas > 99 ? '99+' : naoLidas;
                 badge.classList.remove('hidden');
             } else {
                 badge.classList.add('hidden');
@@ -13566,7 +13566,7 @@
                     ...window.daçãosVendas.analise || [],
                     ...window.daçãosVendas.aprovação || [],
                     ...window.daçãosVendas.faturar || [],
-                    ...window.daçãosVendas.faturação || [],
+                    ...window.daçãosVendas.faturado || [],
                     ...window.daçãosVendas.recibo || []
                 ];
                 
@@ -13608,7 +13608,7 @@
                     ...window.daçãosVendas.analise || [],
                     ...window.daçãosVendas.aprovação || [],
                     ...window.daçãosVendas.faturar || [],
-                    ...window.daçãosVendas.faturação || []
+                    ...window.daçãosVendas.faturado || []
                 ];
                 
                 conteudo.push(`<h2>Relatório de Pedidos</h2>`);

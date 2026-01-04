@@ -17,11 +17,11 @@ window.ActionNotifications = (function() {
      */
     function registrar(action, modulo, item, options = {}) {
         const acaoConfig = {
-            'criar': { icon: 'fa-plus-circle', type: 'success', verbo: 'criação' },
+            'criar': { icon: 'fa-plus-circle', type: 'success', verbo: 'criado' },
             'editar': { icon: 'fa-edit', type: 'info', verbo: 'editação' },
             'salvar': { icon: 'fa-save', type: 'success', verbo: 'salvo' },
             'excluir': { icon: 'fa-trash', type: 'warning', verbo: 'excluído' },
-            'faturar': { icon: 'fa-file-invoice-dollar', type: 'success', verbo: 'faturação' },
+            'faturar': { icon: 'fa-file-invoice-dollar', type: 'success', verbo: 'faturado' },
             'aprovar': { icon: 'fa-check', type: 'success', verbo: 'aprovação' },
             'cancelar': { icon: 'fa-times', type: 'error', verbo: 'cancelação' },
             'atualizar': { icon: 'fa-sync', type: 'info', verbo: 'atualização' },

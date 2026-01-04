@@ -1971,7 +1971,7 @@
                 tbody.innerHTML = `
                     <tr><td colspan="7" style="text-align: center; padding: 60px; color: #9ca3af;">
                         <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
-                        ${termoPesquisa  'Nenhum resultação encontração para "' + termoPesquisa + '"' : 'Nenhuma conta encontrada'}
+                        ${termoPesquisa ? 'Nenhum resultação encontração para "' + termoPesquisa + '"' : 'Nenhuma conta encontrada'}
                     </td></tr>
                 `;
                 return;
@@ -2118,7 +2118,7 @@
 
             try {
                 const url = id  `/api/financeiro/contas-receber/${id}` : '/api/financeiro/contas-receber';
-                const method = id  'PUT' : 'POST';
+                const method = id ? 'PUT' : 'POST';
 
                 const response = await fetch(url, {
                     method,
@@ -2555,7 +2555,7 @@
             const naoLidas = notificacoes.filter(n => !n.lida).length;
             
             if (naoLidas > 0) {
-                badge.textContent = naoLidas > 9  '9+' : naoLidas;
+                badge.textContent = naoLidas > 9 ? '9+' : naoLidas;
                 badge.style.display = 'flex';
             } else {
                 badge.style.display = 'none';

@@ -146,11 +146,11 @@ function renderizarTabela(tipo) {
                             ${item.email || '-'}<br>
                             <small style="color: #64748b;">${item.telefone || '-'}</small>
                         </td>
-                        <td>${item.cidade || '-'}${item.estação  ' / ' + item.estação : ''}</td>
+                        <td>${item.cidade || '-'}${item.estação ? ' / ' + item.estação : ''}</td>
                         <td>
-                            <span class="status-badge ${item.ativo  'ativo' : 'inativo'}">
+                            <span class="status-badge ${item.ativo ? 'ativo' : 'inativo'}">
                                 <i class="fas fa-circle" style="font-size: 8px;"></i>
-                                ${item.ativo  'Ativo' : 'Inativo'}
+                                ${item.ativo ? 'Ativo' : 'Inativo'}
                             </span>
                         </td>
                         <td>
@@ -272,7 +272,7 @@ async function salvarEntidade(event) {
         // TODO: Substituir por chamada real à API
         // const endpoint = tipo === 'fornecedor'  'fornecedores' : 'clientes';
         // const url = isEdicao  `/api/financeiro/${endpoint}/${id}` : `/api/financeiro/${endpoint}`;
-        // const method = isEdicao  'PUT' : 'POST';
+        // const method = isEdicao ? 'PUT' : 'POST';
         // const response = await fetch(url, {
         //     method: method,
         //     headers: { 'Content-Type': 'application/json' },
@@ -305,7 +305,7 @@ async function salvarEntidade(event) {
         
         mostrarAlerta(
             isEdicao  `${tipo === 'fornecedor'  'Fornecedor' : 'Cliente'} atualização com sucesso!` 
-                     : `${tipo === 'fornecedor'  'Fornecedor' : 'Cliente'} criação com sucesso!`,
+                     : `${tipo === 'fornecedor'  'Fornecedor' : 'Cliente'} criado com sucesso!`,
             'success'
         );
         
@@ -366,7 +366,7 @@ function verDetalhes(id, tipo) {
         <strong>Cidade/UF:</strong> ${item.cidade || '-'} / ${item.estação || '-'}<br>
         <strong>Limite de Crédito:</strong> R$ ${formatarMoeda(item.limite_credito)}<br>
         <strong>Prazo de Pagamento:</strong> ${item.prazo_pagamento} dias<br>
-        <strong>Status:</strong> ${item.ativo  'Ativo' : 'Inativo'}
+        <strong>Status:</strong> ${item.ativo ? 'Ativo' : 'Inativo'}
     `;
     
     mostrarAlerta(detalhes, 'info');
@@ -453,11 +453,11 @@ function renderizarTabelaFiltrada(daçãos, container, tipo) {
                             ${item.email || '-'}<br>
                             <small style="color: #64748b;">${item.telefone || '-'}</small>
                         </td>
-                        <td>${item.cidade || '-'}${item.estação  ' / ' + item.estação : ''}</td>
+                        <td>${item.cidade || '-'}${item.estação ? ' / ' + item.estação : ''}</td>
                         <td>
-                            <span class="status-badge ${item.ativo  'ativo' : 'inativo'}">
+                            <span class="status-badge ${item.ativo ? 'ativo' : 'inativo'}">
                                 <i class="fas fa-circle" style="font-size: 8px;"></i>
-                                ${item.ativo  'Ativo' : 'Inativo'}
+                                ${item.ativo ? 'Ativo' : 'Inativo'}
                             </span>
                         </td>
                         <td>

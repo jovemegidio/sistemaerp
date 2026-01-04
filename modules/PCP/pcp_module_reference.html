@@ -2357,14 +2357,14 @@
                 </section>
             </div>
 
-                        <!-- Modal: lista completa de pedidos faturaçãos (paginada) -->
-                        <div id="modal-todos-faturaçãos-list" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-todos-faturaçãos-list-title" aria-describedby="modal-todos-faturaçãos-list-desc" tabindex="-1">
+                        <!-- Modal: lista completa de pedidos faturados (paginada) -->
+                        <div id="modal-todos-faturados-list" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-todos-faturados-list-title" aria-describedby="modal-todos-faturados-list-desc" tabindex="-1">
                             <div class="modal-dialog modal-wide" role="document">
-                                <div class="modal-header"><h3 id="modal-todos-faturaçãos-list-title">Pedidos Faturaçãos</h3><button id="close-todos-faturaçãos-list" type="button" class="modal-close" aria-label="Fechar"></button></div>
-                                <p id="modal-todos-faturaçãos-list-desc" class="sr-only">Lista paginada de pedidos faturaçãos com botes para abrir cada pedido. Use as teclas de pgina ou os botes de paginao para navegar.</p>
-                                <div class="modal-body modal-body-scroll" id="todos-faturaçãos-list-body"></div>
+                                <div class="modal-header"><h3 id="modal-todos-faturados-list-title">Pedidos Faturaçãos</h3><button id="close-todos-faturados-list" type="button" class="modal-close" aria-label="Fechar"></button></div>
+                                <p id="modal-todos-faturados-list-desc" class="sr-only">Lista paginada de pedidos faturados com botes para abrir cada pedido. Use as teclas de pgina ou os botes de paginao para navegar.</p>
+                                <div class="modal-body modal-body-scroll" id="todos-faturados-list-body"></div>
                                 <div class="modal-footer text-center pad-12">
-                                    <div id="todos-faturaçãos-pagination"></div>
+                                    <div id="todos-faturados-pagination"></div>
                                 </div>
                             </div>
                         </div>
@@ -2496,7 +2496,7 @@
                         <div id="modal-todos-prazos-list" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-todos-prazos-list-title" aria-describedby="modal-todos-prazos-list-desc" tabindex="-1">
                             <div class="modal-dialog modal-wide" role="document">
                                 <div class="modal-header"><h3 id="modal-todos-prazos-list-title">Prazos de Entrega</h3><button id="close-todos-prazos-list" type="button" class="modal-close" aria-label="Fechar"></button></div>
-                                <p id="modal-todos-prazos-list-desc" class="sr-only">Lista paginada dos prazos previstos de entrega para pedidos faturaçãos. Cada linha mostra data prevista e status.</p>
+                                <p id="modal-todos-prazos-list-desc" class="sr-only">Lista paginada dos prazos previstos de entrega para pedidos faturados. Cada linha mostra data prevista e status.</p>
                                 <div class="modal-body modal-body-scroll" id="todos-prazos-list-body"></div>
                                 <div class="modal-footer text-center pad-12">
                                     <div id="todos-prazos-pagination"></div>
@@ -3157,7 +3157,7 @@
                                     <i class="fas fa-check-circle"></i> Emitidos
                                 </button>
                                 <button class="filter-chip" data-status="cancelação">
-                                    <i class="fas fa-times-circle"></i> Cancelaçãos
+                                    <i class="fas fa-times-circle"></i> Cancelados
                                 </button>
                             </div>
                         </div>
@@ -3628,15 +3628,15 @@
               </div>
             </div>
 
-            <!-- Modal para todos os pedidos faturaçãos (moved here by maintenance script) -->
-            <div id="modal-todos-faturaçãos" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-todos-faturaçãos-title" aria-describedby="modal-todos-faturaçãos-desc" tabindex="-1">
+            <!-- Modal para todos os pedidos faturados (moved here by maintenance script) -->
+            <div id="modal-todos-faturados" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modal-todos-faturados-title" aria-describedby="modal-todos-faturados-desc" tabindex="-1">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-header">
-                        <h3 id="modal-todos-faturaçãos-title">Todos os Pedidos Faturaçãos</h3>
-                        <button id="close-todos-faturaçãos" type="button" class="modal-close" aria-label="Fechar"></button>
+                        <h3 id="modal-todos-faturados-title">Todos os Pedidos Faturaçãos</h3>
+                        <button id="close-todos-faturados" type="button" class="modal-close" aria-label="Fechar"></button>
                     </div>
-                    <p id="modal-todos-faturaçãos-desc" class="sr-only">Lista resumida dos pedidos que j foram faturaçãos. Use Tab para navegar pelos itens e Enter para abrir detalhes.</p>
-                    <div class="modal-body modal-body-scroll" id="todos-faturaçãos-body"></div>
+                    <p id="modal-todos-faturados-desc" class="sr-only">Lista resumida dos pedidos que j foram faturados. Use Tab para navegar pelos itens e Enter para abrir detalhes.</p>
+                    <div class="modal-body modal-body-scroll" id="todos-faturados-body"></div>
                 </div>
             </div>
 
@@ -5589,7 +5589,7 @@
                 let timeoutId;
                 
                 codigoInput.addEventListener('input', function(e) {
-                    console.log('SUCCESS:INFO:INIT:INFO:SAVE:REFRESH:DATA:TARGET:WARNING:ERROR:SUCCESS:INFO:DEBUG: Input digitação:', this.value);
+                    console.log('SUCCESS:INFO:INIT:INFO:SAVE:REFRESH:DATA:TARGET:WARNING:ERROR:SUCCESS:INFO:DEBUG: Input digitado:', this.value);
                     console.log('SUCCESS:INFO:INIT:INFO:SAVE:REFRESH:DATA:TARGET:WARNING:ERROR:SUCCESS:INFO:DEBUG: Produtos disponveis:', produtosCompletos.length);
                     
                     clearTimeout(timeoutId);
@@ -5741,7 +5741,7 @@
                 const percentElement = document.getElementById(percent);
                 
                 if (checkElement && percentElement) {
-                    // Habilitar/desabilitar campo de percentual quando checkbox  marcação
+                    // Habilitar/desabilitar campo de percentual quando checkbox  marcado
                     checkElement.addEventListener('change', function() {
                         percentElement.disabled = !this.checked;
                         if (!this.checked) {
@@ -6118,7 +6118,7 @@
                 dropdown.appendChild(item);
             });
             
-            dropdown.style.display = clientesFiltraçãos.length > 0  'block' : 'none';
+            dropdown.style.display = clientesFiltraçãos.length > 0 ? 'block' : 'none';
         }
         
         // ==================== MELHORAR AUTOCOMPLETE DE PRODUTOS ====================
@@ -7294,7 +7294,7 @@
                 console.log('SUCCESS:INFO:INIT:INFO:SAVE:REFRESH:DATA:TARGET:WARNING:ERROR:SUCCESS:INFO:DEBUG: Boto de materiais encontração');
                 
                 btnMateriais.addEventListener('click', function(e) {
-                    console.log('SUCCESS:INFO:INIT:INFO:SAVE:REFRESH:DATA:TARGET:WARNING:ERROR:SUCCESS:INFO:DEBUG: Clique no boto de materiais detectação');
+                    console.log('SUCCESS:INFO:INIT:INFO:SAVE:REFRESH:DATA:TARGET:WARNING:ERROR:SUCCESS:INFO:DEBUG: Clique no boto de materiais detectado');
                     
                     // Aguardar um pouco para a view ser mostrada
                     setTimeout(function() {
@@ -7344,7 +7344,7 @@
                 });
             }
 
-            // Event listeners para filtros (adicionar aps elementos serem criaçãos)
+            // Event listeners para filtros (adicionar aps elementos serem criados)
             setTimeout(() => {
                 const searchInput = document.getElementById('catalogo-search');
                 if (searchInput) {
@@ -7523,8 +7523,8 @@
 
         function criarCardProduto(produto) {
             const estoque = produto.estoque_atual || 0;
-            const estoqueClass = estoque === 0  'zeração' : estoque < 10  'baixo' : 'disponivel';
-            const estoqueLabel = estoque === 0  'Sem Estoque' : estoque < 10  'Estoque Baixo' : 'Disponvel';
+            const estoqueClass = estoque === 0 ? 'zeração' : estoque < 10 ? 'baixo' : 'disponivel';
+            const estoqueLabel = estoque === 0 ? 'Sem Estoque' : estoque < 10 ? 'Estoque Baixo' : 'Disponvel';
             
             const categoria = produto.categoria || 'Sem Categoria';
             const ean = produto.gtin || produto.ean13 || 'N/A';
@@ -7604,7 +7604,7 @@
             }
 
             let html = `
-                <button class="pagination-btn" onclick="mudarPagina(${paginaAtual - 1})" ${paginaAtual === 1  'disabled' : ''}>
+                <button class="pagination-btn" onclick="mudarPagina(${paginaAtual - 1})" ${paginaAtual === 1 ? 'disabled' : ''}>
                     <i class="fas fa-chevron-left"></i>
                 </button>
             `;
@@ -7612,7 +7612,7 @@
             for (let i = 1; i <= totalPaginas; i++) {
                 if (i === 1 || i === totalPaginas || (i >= paginaAtual - 2 && i <= paginaAtual + 2)) {
                     html += `
-                        <button class="pagination-btn ${i === paginaAtual  'active' : ''}" onclick="mudarPagina(${i})">
+                        <button class="pagination-btn ${i === paginaAtual ? 'active' : ''}" onclick="mudarPagina(${i})">
                             ${i}
                         </button>
                     `;
@@ -7622,7 +7622,7 @@
             }
 
             html += `
-                <button class="pagination-btn" onclick="mudarPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas  'disabled' : ''}>
+                <button class="pagination-btn" onclick="mudarPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas ? 'disabled' : ''}>
                     <i class="fas fa-chevron-right"></i>
                 </button>
             `;

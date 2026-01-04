@@ -23,7 +23,7 @@ async function computeAndPersist() {
     const startStr = `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, '0')}-01`;
 
     const [rows] = await pool.query(
-      `SELECT DATE_FORMAT(created_at, '%Y-%m') AS ym, COALESCE(SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS total
+      `SELECT DATE_FORMAT(created_at, '%Y-%m') AS ym, COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS total
        FROM pedidos
        WHERE created_at >= 
        GROUP BY ym
@@ -59,7 +59,7 @@ async function computeAndPersist() {
     const startTop = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (periodDays - 1));
     const startTopStr = `${startTop.getFullYear()}-${String(startTop.getMonth() + 1).padStart(2, '0')}-${String(startTop.getDate()).padStart(2, '0')}`;
     const [topRows] = await pool.query(
-      `SELECT u.id, u.nome, COALESCE(SUM(CASE WHEN p.status = 'faturação' THEN p.valor ELSE 0 END), 0) AS valor
+      `SELECT u.id, u.nome, COALESCE(SUM(CASE WHEN p.status = 'faturado' THEN p.valor ELSE 0 END), 0) AS valor
        FROM pedidos p
        JOIN usuarios u ON p.vendedor_id = u.id
        WHERE p.created_at >= 

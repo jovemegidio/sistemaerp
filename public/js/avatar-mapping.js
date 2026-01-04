@@ -42,7 +42,7 @@ function getAvatarPath(user) {
         return `avatars/${avatarMapping[firstName]}`;
     }
     
-    // Tenta formatos padrão baseação no primeiro nome
+    // Tenta formatos padrão baseado no primeiro nome
     const formats = ['jpg', 'png', 'svg'];
     for (const format of formats) {
         const path = `avatars/${firstName}.${format}`;

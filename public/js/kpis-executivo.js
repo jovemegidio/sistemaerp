@@ -233,13 +233,13 @@ function atualizarResumoFinanceiro(daçãos) {
     if (lucroEl) {
         const lucro = daçãos.lucro_estimação || (daçãos.receitas - daçãos.despesas);
         lucroEl.textContent = formatarMoeda(lucro);
-        lucroEl.style.color = lucro >= 0  '#22c55e' : '#ef4444';
+        lucroEl.style.color = lucro >= 0 ? '#22c55e' : '#ef4444';
     }
     
     const margemEl = document.getElementById('kpi-margem');
     if (margemEl) {
         margemEl.textContent = `Margem: ${daçãos.margem_percentual || 0}%`;
-        margemEl.className = 'kpi-trend ' + (daçãos.margem_percentual > 20  'up' : 'neutral');
+        margemEl.className = 'kpi-trend ' + (daçãos.margem_percentual > 20 ? 'up' : 'neutral');
     }
     
     // Faturamento
@@ -297,7 +297,7 @@ function atualizarKPIsPCP(daçãos) {
     const estoqueEl = document.getElementById('kpi-pcp-estoque');
     if (estoqueEl) {
         estoqueEl.textContent = daçãos.alertas_estoque || 0;
-        estoqueEl.style.color = daçãos.alertas_estoque > 5  '#ef4444' : '';
+        estoqueEl.style.color = daçãos.alertas_estoque > 5 ? '#ef4444' : '';
     }
 }
 

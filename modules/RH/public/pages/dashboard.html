@@ -1373,7 +1373,7 @@ Equipe de Recursos Humanos
             }
         }
 
-        // Controlar visibilidade dos campos baseação no tipo de geração
+        // Controlar visibilidade dos campos baseado no tipo de geração
         function controlarCamposFiltro() {
             const tipoGeracao = document.getElementById('tipo_geracao').value;
             const depGroup = document.getElementById('departamento_group');
@@ -1616,7 +1616,7 @@ Equipe de Recursos Humanos
                 // Adicionar event listener alternativo
                 btnFuncionario.addEventListener('click', function(e) {
                     e.preventDefault();
-                    console.log('Clique detectação no botão Novo Funcionário');
+                    console.log('Clique detectado no botão Novo Funcionário');
                     window.openNovoFuncionarioModal();
                 });
             } else {
@@ -1628,7 +1628,7 @@ Equipe de Recursos Humanos
                 // Adicionar event listener alternativo
                 btnHolerites.addEventListener('click', function(e) {
                     e.preventDefault();
-                    console.log('Clique detectação no botão Gerar Holerites');
+                    console.log('Clique detectado no botão Gerar Holerites');
                     window.openGerarHoleritesModal();
                 });
             } else {
@@ -1752,7 +1752,7 @@ Equipe de Recursos Humanos
                     if (formatoSaida === 'email') {
                         alert(`✅ Holerites enviaçãos por email com sucesso!\n📧 ${resultação.emails_enviaçãos || 0} emails enviaçãos`);
                     } else {
-                        alert(`✅ Holerites geraçãos com sucesso!\n📄 ${resultação.arquivos_geraçãos || 0} arquivos criaçãos`);
+                        alert(`✅ Holerites geraçãos com sucesso!\n📄 ${resultação.arquivos_geraçãos || 0} arquivos criados`);
                         
                         // Se houver arquivo para download
                         if (resultação.download_url) {

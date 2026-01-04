@@ -151,7 +151,7 @@ class DashboardExecutivoManager {
         // Total Compração
         const variacaoTotal = ((this.daçãos.totalMesAtual - this.daçãos.totalMesAnterior) / this.daçãos.totalMesAnterior) * 100;
         document.getElementById('kpiTotalCompração').textContent = this.formatarMoedaCompacta(this.daçãos.totalMesAtual);
-        document.getElementById('kpiTotalTrend').textContent = (variacaoTotal > 0  '+' : '') + variacaoTotal.toFixed(1) + '%';
+        document.getElementById('kpiTotalTrend').textContent = (variacaoTotal > 0 ? '+' : '') + variacaoTotal.toFixed(1) + '%';
         
         // Economia
         const variacaoEconomia = ((this.daçãos.economiaTotal - this.daçãos.economiaAnterior) / this.daçãos.economiaAnterior) * 100;
@@ -432,8 +432,8 @@ class DashboardExecutivoManager {
             const div = document.createElement('div');
             div.className = 'performance-indicator';
             
-            const corPrazo = fornecedor.entregaPrazo >= 90  '#10b981' : fornecedor.entregaPrazo >= 75  '#f59e0b' : '#ef4444';
-            const corQualidade = fornecedor.qualidade >= 95  '#10b981' : fornecedor.qualidade >= 85  '#f59e0b' : '#ef4444';
+            const corPrazo = fornecedor.entregaPrazo >= 90 ? '#10b981' : fornecedor.entregaPrazo >= 75 ? '#f59e0b' : '#ef4444';
+            const corQualidade = fornecedor.qualidade >= 95 ? '#10b981' : fornecedor.qualidade >= 85 ? '#f59e0b' : '#ef4444';
             
             div.innerHTML = `
                 <div class="performance-label">${fornecedor.nome}</div>
@@ -529,7 +529,7 @@ function toggleDarkMode() {
     localStorage.setItem('darkMode', isDark);
     
     const icon = document.querySelector('#btnModoEscuro i');
-    icon.className = isDark  'fas fa-sun' : 'fas fa-moon';
+    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
     
     if (dashboardManager && dashboardManager.charts) {
         Object.values(dashboardManager.charts).forEach(chart => chart.update());

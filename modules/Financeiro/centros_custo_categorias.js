@@ -190,7 +190,7 @@ function criarCardCentroCusto(centro) {
 
                 <div class="info-row">
                     <span class="info-label">Saldo Líquido:</span>
-                    <span class="info-value" style="color: ${saldoLiquido >= 0  '#10b981' : '#ef4444'};">R$ ${formatarMoeda(Math.abs(saldoLiquido))}</span>
+                    <span class="info-value" style="color: ${saldoLiquido >= 0 ? '#10b981' : '#ef4444'};">R$ ${formatarMoeda(Math.abs(saldoLiquido))}</span>
                 </div>
 
                 ${centro.centro_pai_id  `
@@ -209,7 +209,7 @@ function criarCardCentroCusto(centro) {
 // ============================================================================
 
 function abrirModalCentro(id = null) {
-    document.getElementById('modal-centro-titulo').textContent = id  'Editar Centro de Custo' : 'Novo Centro de Custo';
+    document.getElementById('modal-centro-titulo').textContent = id ? 'Editar Centro de Custo' : 'Novo Centro de Custo';
     document.getElementById('form-centro-custo').reset();
     document.getElementById('centro-id').value = '';
 
@@ -263,7 +263,7 @@ async function salvarCentroCusto(event) {
             // TODO: Substituir por chamada real à API
             const novo = await criarCentroCusto(daçãos);
             centrosCusto.push(novo);
-            mostrarMensagem('Centro de custo criação com sucesso!', 'success');
+            mostrarMensagem('Centro de custo criado com sucesso!', 'success');
         }
 
         fecharModal('modal-centro-custo');
@@ -503,7 +503,7 @@ function criarCardCategoria(cat) {
 // ============================================================================
 
 function abrirModalCategoria(id = null) {
-    document.getElementById('modal-categoria-titulo').textContent = id  'Editar Categoria' : 'Nova Categoria';
+    document.getElementById('modal-categoria-titulo').textContent = id ? 'Editar Categoria' : 'Nova Categoria';
     document.getElementById('form-categoria').reset();
     document.getElementById('categoria-id').value = '';
 

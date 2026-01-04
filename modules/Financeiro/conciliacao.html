@@ -496,7 +496,7 @@
             // Sistema
             const listaSistema = document.getElementById('listaSistema');
             listaSistema.innerHTML = lancamentosSistema.map(item => `
-                <li class="item-row ${item.conciliação  'conciliação' : ''} ${sistemasSelecionaçãos.includes(item.id)  'selected' : ''}" 
+                <li class="item-row ${item.conciliação ? 'conciliação' : ''} ${sistemasSelecionaçãos.includes(item.id)  'selected' : ''}" 
                     onclick="toggleSelecaoSistema(${item.id})" style="position: relative;">
                     <div class="item-check ${sistemasSelecionaçãos.includes(item.id)  'checked' : ''}">
                         ${sistemasSelecionaçãos.includes(item.id)  '<i class="fas fa-check" style="font-size:12px;"></i>' : ''}
@@ -514,7 +514,7 @@
             // Extrato
             const listaExtrato = document.getElementById('listaExtrato');
             listaExtrato.innerHTML = lancamentosExtrato.map(item => `
-                <li class="item-row ${item.conciliação  'conciliação' : ''} ${extratosSelecionaçãos.includes(item.id)  'selected' : ''}"
+                <li class="item-row ${item.conciliação ? 'conciliação' : ''} ${extratosSelecionaçãos.includes(item.id)  'selected' : ''}"
                     onclick="toggleSelecaoExtrato(${item.id})" style="position: relative;">
                     <div class="item-check ${extratosSelecionaçãos.includes(item.id)  'checked' : ''}">
                         ${extratosSelecionaçãos.includes(item.id)  '<i class="fas fa-check" style="font-size:12px;"></i>' : ''}

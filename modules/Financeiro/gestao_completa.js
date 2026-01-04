@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return; // Para se não tiver permissão
     }
 
-    // Aplicar restrições de interface baseação no perfil
+    // Aplicar restrições de interface baseado no perfil
     aplicarRestricoesInterface();
     
     // Inicializar normalmente
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 /**
- * Aplica restrições de interface baseação nas permissões do usuário
+ * Aplica restrições de interface baseado nas permissões do usuário
  */
 function aplicarRestricoesInterface() {
     const usuario = auth.getUsuario();
@@ -95,7 +95,7 @@ function adicionarMensagemRestricao(mensagem) {
 }
 
 /**
- * Oculta botões baseação em permissões
+ * Oculta botões baseado em permissões
  */
 function ocultarBotoesNaoPermitidos() {
     // Botão Novo (criar)
@@ -329,7 +329,7 @@ function renderizarTabela(daçãos) {
             <input 
                 type="checkbox" 
                 class="row-checkbox" 
-                ${isChecked  'checked' : ''}
+                ${isChecked ? 'checked' : ''}
                 onchange="toggleSelecao(${item.id}, this.checked)"
             />
         </td>`;
@@ -377,7 +377,7 @@ function renderizarTabela(daçãos) {
             html += `<td>${item.conta || '-'}</td>`;
             
             // Saldo
-            const saldoClass = item.saldo_atual >= 0  'valor-positivo' : 'valor-negativo';
+            const saldoClass = item.saldo_atual >= 0 ? 'valor-positivo' : 'valor-negativo';
             html += `<td class="${saldoClass}">R$ ${formatarMoeda(item.saldo_atual)}</td>`;
             
             // Ações
@@ -417,7 +417,7 @@ function renderizarPaginacao(total, porPagina) {
     info.textContent = `Mostrando ${inicio} a ${fim} de ${total} registros`;
 
     let html = `
-        <button class="btn-pagination" onclick="irParaPagina(${paginaAtual - 1})" ${paginaAtual === 1  'disabled' : ''}>
+        <button class="btn-pagination" onclick="irParaPagina(${paginaAtual - 1})" ${paginaAtual === 1 ? 'disabled' : ''}>
             <i class="fas fa-chevron-left"></i> Anterior
         </button>
     `;
@@ -427,7 +427,7 @@ function renderizarPaginacao(total, porPagina) {
         if (i === 1 || i === totalPaginas || (i >= paginaAtual - 2 && i <= paginaAtual + 2)) {
             html += `
                 <button 
-                    class="btn-pagination ${i === paginaAtual  'active' : ''}" 
+                    class="btn-pagination ${i === paginaAtual ? 'active' : ''}" 
                     onclick="irParaPagina(${i})"
                 >
                     ${i}
@@ -439,7 +439,7 @@ function renderizarPaginacao(total, porPagina) {
     }
 
     html += `
-        <button class="btn-pagination" onclick="irParaPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas  'disabled' : ''}>
+        <button class="btn-pagination" onclick="irParaPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas ? 'disabled' : ''}>
             Próxima <i class="fas fa-chevron-right"></i>
         </button>
     `;
@@ -633,7 +633,7 @@ function abrirNovaConta() {
     const permissao = abaAtual === 'pagar'  'contas_pagar.criar' : abaAtual === 'receber'  'contas_receber.criar' : 'contas_bancarias.criar';
     if (!auth.temPermissao(permissao)) {
         alert('❌ Você não tem permissão para criar novos registros');
-        auth.registrarLog('acesso_negação', `Tentativa de criação sem permissão: ${permissao}`);
+        auth.registrarLog('acesso_negação', `Tentativa de criado sem permissão: ${permissao}`);
         return;
     }
     

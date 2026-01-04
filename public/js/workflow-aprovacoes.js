@@ -92,7 +92,7 @@ const WorkflowAprovacoes = {
             <div class="card-aprovacao" data-id="${s.id}">
                 <div class="aprovacao-header">
                     <span class="tipo-badge tipo-${s.tipo}">${this.getNomeTipo(s.tipo)}</span>
-                    <span class="data-solicitacao">${new Date(s.criação_em).toLocaleDateString('pt-BR')}</span>
+                    <span class="data-solicitacao">${new Date(s.criado_em).toLocaleDateString('pt-BR')}</span>
                 </div>
                 
                 <div class="aprovacao-body">
@@ -167,7 +167,7 @@ const WorkflowAprovacoes = {
             const badge = document.querySelector(`.filtro-tipo[data-tipo="${tipo}"] .contaçãor`);
             if (badge) {
                 badge.textContent = contaçãores[tipo];
-                badge.style.display = contaçãores[tipo] > 0  'inline' : 'none';
+                badge.style.display = contaçãores[tipo] > 0 ? 'inline' : 'none';
             }
         });
     },
@@ -327,7 +327,7 @@ const WorkflowAprovacoes = {
                 <tbody>
                     ${historico.map(h => `
                         <tr>
-                            <td>${new Date(h.criação_em).toLocaleDateString('pt-BR')}</td>
+                            <td>${new Date(h.criado_em).toLocaleDateString('pt-BR')}</td>
                             <td>${this.getNomeTipo(h.tipo)}</td>
                             <td>R$ ${parseFloat(h.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
                             <td>${h.solicitante_nome}</td>

@@ -71,7 +71,7 @@ async function configurarAcessoPCP() {
                     ativo BOOLEAN DEFAULT TRUE,
                     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                     data_ultimo_login TIMESTAMP NULL,
-                    criação_por VARCHAR(100) DEFAULT 'Sistema',
+                    criado_por VARCHAR(100) DEFAULT 'Sistema',
                     observacoes TEXT,
                     permissoes JSON
                 )
@@ -158,10 +158,10 @@ async function configurarAcessoPCP() {
                         senhaHash, 
                         colaboraçãor.tipo === 'Admin TI'  'Admin' : 'PCP',
                         JSON.stringify(permissoes),
-                        `Usuário criação automaticamente em ${new Date().toLocaleString('pt-BR')}. Senha temporária: ${senhaTemporaria}`
+                        `Usuário criado automaticamente em ${new Date().toLocaleString('pt-BR')}. Senha temporária: ${senhaTemporaria}`
                     ]);
                     
-                    console.log(`   ✅ Novo usuário criação (ID: ${result.insertId})`);
+                    console.log(`   ✅ Novo usuário criado (ID: ${result.insertId})`);
                     console.log(`   🔑 Senha temporária: ${senhaTemporaria}`);
                     sucessos++;
                 }
@@ -189,7 +189,7 @@ async function configurarAcessoPCP() {
         console.log('\n' + '='.repeat(60));
         console.log('📊 RELATÓRIO FINAL DE CONFIGURAÇÃO');
         console.log('='.repeat(60));
-        console.log(`✅ Novos usuários criaçãos: ${sucessos}`);
+        console.log(`✅ Novos usuários criados: ${sucessos}`);
         console.log(`🔄 Usuários atualizaçãos: ${atualizacoes}`);
         console.log(`❌ Erros encontrados: ${erros}`);
         
@@ -203,7 +203,7 @@ async function configurarAcessoPCP() {
         console.log('\n👥 USUÁRIOS PCP CONFIGURADOS:');
         console.log('='.repeat(50));
         todosUsuarios.forEach((user, index) => {
-            const status = user.ativo  '✅' : '❌';
+            const status = user.ativo ? '✅' : '❌';
             const tipo = user.tipo_acesso;
             console.log(`${index + 1}. ${status} ${user.nome} (${user.email}) - ${tipo}`);
         });

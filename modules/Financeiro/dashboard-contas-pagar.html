@@ -575,7 +575,7 @@
                         <div class="vencimento-item ${statusClass}">
                             <div class="vencimento-info">
                                 <h4>${statusIcon} ${c.fornecedor || c.descricao || 'Sem descrição'}</h4>
-                                <span>${venc.toLocaleDateString('pt-BR')} ${isVencida  '- VENCIDA' : isHoje  '- VENCE HOJE' : ''}</span>
+                                <span>${venc.toLocaleDateString('pt-BR')} ${isVencida ? '- VENCIDA' : isHoje ? '- VENCE HOJE' : ''}</span>
                             </div>
                             <div class="vencimento-valor">
                                 ${formatarMoeda(c.valor)}

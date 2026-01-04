@@ -615,7 +615,7 @@
                                 ">
                                     <span style="font-size: 20px;">${opt.icon}</span>
                                     <span style="font-size: 14px; font-weight: 500; color: #1e293b;">${opt.label}</span>
-                                    ${currentStatus === opt.value  '<span style="margin-left: auto; font-size: 12px; color: ' + opt.color + '; font-weight: 600;">ATUAL</span>' : ''}
+                                    ${currentStatus === opt.value ? '<span style="margin-left: auto; font-size: 12px; color: ' + opt.color + '; font-weight: 600;">ATUAL</span>' : ''}
                                 </button>
                             `).join('')}
                         </div>

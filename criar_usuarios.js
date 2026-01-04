@@ -1,5 +1,5 @@
 /**
- * Criar usuários baseaçãos nos funcionários
+ * Criar usuários baseados nos funcionários
  * TI, Andreia e Douglas = admin
  * Demais = user (colaboraçãor)
  */
@@ -18,7 +18,7 @@ function gerarSenha(nome) {
     return primeiro.substring(0, 6) + '123';
 }
 
-// Determinar role baseação no nome/email
+// Determinar role baseado no nome/email
 function determinarRole(nome, email, cargo) {
     const nomeUpper = nome.toUpperCase();
     const emailLower = email.toLowerCase();
@@ -127,7 +127,7 @@ async function criarUsuarios() {
             ]);
         }
         
-        console.log(`   ✅ ${usuarios.length} usuários criaçãos`);
+        console.log(`   ✅ ${usuarios.length} usuários criados`);
         
         // 4. Resumo
         console.log('\n' + '='.repeat(60));
@@ -154,7 +154,7 @@ async function criarUsuarios() {
             console.log(`${u.email} | ${u.senha} | ${u.role}`);
         }
         
-        // 6. Verificar criação
+        // 6. Verificar criado
         console.log('\n' + '='.repeat(60));
         console.log('✅ VERIFICAÇÃO FINAL');
         console.log('='.repeat(60));

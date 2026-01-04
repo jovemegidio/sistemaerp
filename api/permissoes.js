@@ -193,7 +193,7 @@ module.exports = function({ pool, authenticateToken }) {
             
             res.status(201).json({ 
                 success: true, 
-                message: 'Perfil criação com sucesso',
+                message: 'Perfil criado com sucesso',
                 data: { id: result.insertId }
             });
         } catch (error) {

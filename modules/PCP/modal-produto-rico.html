@@ -830,7 +830,7 @@ async function salvarProdutoRico() {
             return;
         }
 
-        // Determinar se é criação ou atualização
+        // Determinar se é criado ou atualização
         const id = window.currentProductId || null;
         const API_BASE_URL = window.API_BASE_URL || '/api/pcp';
         
@@ -859,7 +859,7 @@ async function salvarProdutoRico() {
 
         // Sucesso
         if (typeof window.showToast === 'function') {
-            window.showToast(id  'Produto atualização com sucesso!' : 'Produto criação com sucesso!', 'success');
+            window.showToast(id ? 'Produto atualização com sucesso!' : 'Produto criado com sucesso!', 'success');
         }
         
         fecharModalProdutoRico();

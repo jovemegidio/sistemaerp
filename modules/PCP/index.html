@@ -3357,7 +3357,7 @@
                             <i class="fas fa-times-circle"></i>
                         </div>
                         <div class="stat-content">
-                            <div class="stat-label">Cancelaçãos</div>
+                            <div class="stat-label">Cancelados</div>
                             <div class="stat-value" id="fat-cancelaçãos">0</div>
                         </div>
                     </div>
@@ -3375,7 +3375,7 @@
                         <i class="fas fa-check-circle"></i> Emitidos
                     </button>
                     <button class="tab-btn" data-tab-fat="cancelaçãos">
-                        <i class="fas fa-times-circle"></i> Cancelaçãos
+                        <i class="fas fa-times-circle"></i> Cancelados
                     </button>
                 </div>
 
@@ -4273,7 +4273,7 @@
                         <option value="analise_credito">Análise de Crédito</option>
                         <option value="pedido_aprovação">Pedido Aprovação</option>
                         <option value="faturar">A Faturar</option>
-                        <option value="faturação">Faturação</option>
+                        <option value="faturado">Faturação</option>
                         <option value="entregue">Entregue</option>
                     </select>
                     <button onclick="exportarOrdensExcel()" class="btn btn-secondary" style="padding: 10px 16px;">
@@ -4433,7 +4433,7 @@
                 btn.classList.remove('active');
             });
             
-            // Marca o botão correto como ativo baseação no data-view
+            // Marca o botão correto como ativo baseado no data-view
             document.querySelectorAll('.sidebar-nav .sidebar-btn[data-view]').forEach(btn => {
                 if (btn.dataset.view === viewId || btn.dataset.view === 'view-' + cleanViewName) {
                     btn.classList.add('active');
@@ -4539,7 +4539,7 @@
                 'pedido_aprovação': { cor: '#3b82f6', bg: '#dbeafe', texto: 'Pedido Aprovação' },
                 'aprovação': { cor: '#3b82f6', bg: '#dbeafe', texto: 'Pedido Aprovação' },
                 'faturar': { cor: '#f97316', bg: '#ffedd5', texto: 'A Faturar' },
-                'faturação': { cor: '#22c55e', bg: '#dcfce7', texto: 'Faturação' },
+                'faturado': { cor: '#22c55e', bg: '#dcfce7', texto: 'Faturação' },
                 'entregue': { cor: '#8b5cf6', bg: '#ede9fe', texto: 'Entregue' },
                 'cancelação': { cor: '#ef4444', bg: '#fee2e2', texto: 'Cancelação' }
             };
@@ -4550,8 +4550,8 @@
                 tbody.innerHTML = ordensPagina.map(ordem => {
                     const st = statusConfig[ordem.status] || statusConfig.orcamento;
                     
-                    // Pedidos faturar ou faturação podem gerar OP (mesma lógica do Ordens Recentes)
-                    const podeGerarOP = ordem.status === 'faturação' || ordem.status === 'faturar';
+                    // Pedidos faturar ou faturado podem gerar OP (mesma lógica do Ordens Recentes)
+                    const podeGerarOP = ordem.status === 'faturado' || ordem.status === 'faturar';
                     const botaoAcao = podeGerarOP 
                          `<button onclick="abrirOrdemProducaoDePedido(${ordem.id})" style="width: 32px; height: 32px; border: none; border-radius: 6px; background: #22c55e; color: white; cursor: pointer;" title="Gerar Ordem de Produção">
                             <i class="fas fa-industry"></i>
@@ -4601,7 +4601,7 @@
                 for (let i = 1; i <= Math.min(totalPaginas, 5); i++) {
                     const btn = document.createElement('button');
                     btn.textContent = i;
-                    btn.style.cssText = `width: 32px; height: 32px; border: 1px solid ${i === paginaAtualOrdens  '#dc2626' : '#e5e5e5'}; background: ${i === paginaAtualOrdens  '#dc2626' : 'white'}; color: ${i === paginaAtualOrdens  'white' : '#333'}; border-radius: 6px; cursor: pointer; margin: 0 2px;`;
+                    btn.style.cssText = `width: 32px; height: 32px; border: 1px solid ${i === paginaAtualOrdens ? '#dc2626' : '#e5e5e5'}; background: ${i === paginaAtualOrdens ? '#dc2626' : 'white'}; color: ${i === paginaAtualOrdens ? 'white' : '#333'}; border-radius: 6px; cursor: pointer; margin: 0 2px;`;
                     btn.onclick = () => { paginaAtualOrdens = i; renderizarOrdensModal(); };
                     btnContainer.appendChild(btn);
                 }
@@ -4784,8 +4784,8 @@
                 });
                 
                 return `
-                    <div class="notification-item ${notif.lida  'read' : ''}" 
-                         style="padding: 12px; border-bottom: 1px solid var(--dark-border); cursor: pointer; ${!notif.lida  'background: rgba(220, 38, 38, 0.05);' : ''}"
+                    <div class="notification-item ${notif.lida ? 'read' : ''}" 
+                         style="padding: 12px; border-bottom: 1px solid var(--dark-border); cursor: pointer; ${!notif.lida ? 'background: rgba(220, 38, 38, 0.05);' : ''}"
                          onclick="marcarNotificacaoLida(${notif.id})">
                         <div style="display: flex; align-items: flex-start; gap: 12px;">
                             <div style="width: 32px; height: 32px; border-radius: 50%; background: ${coresPorTipo[notif.tipo]}20; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -4794,7 +4794,7 @@
                             <div style="flex: 1; min-width: 0;">
                                 <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
                                     <span style="font-weight: 500; color: var(--gray-100); font-size: 13px;">${notif.titulo}</span>
-                                    ${!notif.lida  '<div style="width: 6px; height: 6px; background: #dc2626; border-radius: 50%; flex-shrink: 0;"></div>' : ''}
+                                    ${!notif.lida ? '<div style="width: 6px; height: 6px; background: #dc2626; border-radius: 50%; flex-shrink: 0;"></div>' : ''}
                                 </div>
                                 <p style="color: var(--gray-400); font-size: 12px; margin: 4px 0; line-height: 1.4;">${notif.mensagem}</p>
                                 <span style="color: var(--gray-500); font-size: 11px;">${dataFormatada}</span>
@@ -4823,7 +4823,7 @@
             
             if (badge) {
                 if (naoLidas > 0) {
-                    badge.textContent = naoLidas > 99  '99+' : naoLidas;
+                    badge.textContent = naoLidas > 99 ? '99+' : naoLidas;
                     badge.style.display = 'flex';
                 } else {
                     badge.style.display = 'none';
@@ -5406,7 +5406,7 @@
             document.getElementById('prod-total-preview').textContent = $ ${total.toFixed(2)}`;
         }
 
-        // Calcular valores de pagamento baseação nos percentuais
+        // Calcular valores de pagamento baseado nos percentuais
         function calcularValoresPagamento() {
             // Calcular total dos produtos
             let totalProdutos = 0;
@@ -5433,18 +5433,18 @@
             document.getElementById('op-valor-pagamento-3').textContent = formatMoeda(valor3);
             
             // Cores baseadas no valor
-            document.getElementById('op-valor-pagamento-1').style.color = valor1 > 0  '#16a34a' : '#64748b';
-            document.getElementById('op-valor-pagamento-2').style.color = valor2 > 0  '#16a34a' : '#64748b';
-            document.getElementById('op-valor-pagamento-3').style.color = valor3 > 0  '#16a34a' : '#64748b';
+            document.getElementById('op-valor-pagamento-1').style.color = valor1 > 0 ? '#16a34a' : '#64748b';
+            document.getElementById('op-valor-pagamento-2').style.color = valor2 > 0 ? '#16a34a' : '#64748b';
+            document.getElementById('op-valor-pagamento-3').style.color = valor3 > 0 ? '#16a34a' : '#64748b';
             
             // Atualizar total percentual
             document.getElementById('op-percent-total').textContent = totalPercent + '%';
-            document.getElementById('op-percent-total').style.color = totalPercent === 100  '#16a34a' : '#dc2626';
+            document.getElementById('op-percent-total').style.color = totalPercent === 100 ? '#16a34a' : '#dc2626';
             
             // Mostrar/ocultar alerta
             const alertEl = document.getElementById('op-percent-alert');
             if (alertEl) {
-                alertEl.style.display = totalPercent !== 100  'block' : 'none';
+                alertEl.style.display = totalPercent !== 100 ? 'block' : 'none';
             }
             
             // Atualizar valor total
@@ -6643,7 +6643,7 @@
                 tituloEl.textContent = titulo;
                 mensagemEl.textContent = mensagem;
                 
-                // Configurar ícone e cores baseação no tipo
+                // Configurar ícone e cores baseado no tipo
                 const configs = {
                     'warning': { icon: 'fa-exclamation-triangle', bg: '#fef3c7', color: '#f59e0b', btnBg: 'linear-gradient(135deg, #f59e0b, #d97706)' },
                     'danger': { icon: 'fa-trash-alt', bg: '#fee2e2', color: '#dc2626', btnBg: 'linear-gradient(135deg, #dc2626, #b91c1c)' },
@@ -6825,7 +6825,7 @@
             
             try {
                 const url = produtoId  `/api/pcp/produtos/${produtoId}` : '/api/pcp/produtos';
-                const method = produtoId  'PUT' : 'POST';
+                const method = produtoId ? 'PUT' : 'POST';
                 
                 const response = await fetch(url, {
                     method: method,
@@ -6835,7 +6835,7 @@
                 });
                 
                 if (response.ok) {
-                    showNotification(produtoId  'Produto atualização com sucesso!' : 'Produto cadastração com sucesso!', 'success');
+                    showNotification(produtoId ? 'Produto atualização com sucesso!' : 'Produto cadastração com sucesso!', 'success');
                     fecharModalProdutoPCP();
                     buscarProdutos(); // Recarregar lista
                 } else {
@@ -6983,7 +6983,7 @@
                 document.getElementById('ocFornCnpj').textContent = fornecedor.cnpj || '-';
                 document.getElementById('ocFornTelefone').textContent = fornecedor.telefone || '-';
                 document.getElementById('ocFornEmail').textContent = fornecedor.email || '-';
-                document.getElementById('ocFornCidade').textContent = (fornecedor.cidade || '-') + (fornecedor.estação  '/' + fornecedor.estação : '');
+                document.getElementById('ocFornCidade').textContent = (fornecedor.cidade || '-') + (fornecedor.estação ? '/' + fornecedor.estação : '');
                 infoDiv.style.display = 'block';
             } else {
                 infoDiv.style.display = 'none';
@@ -7377,7 +7377,7 @@
                     'aprovação': { label: 'Aprovação', class: 'status-badge blue' },
                     'analise_credito': { label: 'Análise de Crédito', class: 'status-badge yellow' },
                     'faturar': { label: 'A Faturar', class: 'status-badge orange' },
-                    'faturação': { label: 'Faturação', class: 'status-badge green' },
+                    'faturado': { label: 'Faturação', class: 'status-badge green' },
                     'entregue': { label: 'Entregue', class: 'status-badge purple' },
                     'cancelação': { label: 'Cancelação', class: 'status-badge red' }
                 };
@@ -7399,13 +7399,13 @@
                     const data = pedido.created_at  new Date(pedido.created_at).toLocaleDateString('pt-BR') : '-';
                     const valor = pedido.valor  $ ${parseFloat(pedido.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : '-';
                     
-                    // Pedidos faturação ou faturar podem gerar OP
-                    const podeGerarOP = pedido.status === 'faturação' || pedido.status === 'faturar';
+                    // Pedidos faturado ou faturar podem gerar OP
+                    const podeGerarOP = pedido.status === 'faturado' || pedido.status === 'faturar';
                     const acaoBotao = podeGerarOP 
                          `onclick="abrirOrdemProducaoDePedido(${pedido.id})" title="Gerar Ordem de Produção"`
                         : `onclick="visualizarPedido(${pedido.id})" title="Visualizar Pedido"`;
-                    const iconeBotao = podeGerarOP  'fa-industry' : 'fa-eye';
-                    const classeBotao = podeGerarOP  'btn btn-sm btn-success' : 'btn btn-sm btn-secondary';
+                    const iconeBotao = podeGerarOP ? 'fa-industry' : 'fa-eye';
+                    const classeBotao = podeGerarOP ? 'btn btn-sm btn-success' : 'btn btn-sm btn-secondary';
                     
                     return `
                         <tr>

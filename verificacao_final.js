@@ -8,7 +8,7 @@ console.log('🧪 Verificando Gestão de Materiais...\n');
 console.log('1️⃣ Verificando estrutura de modais...');
 
 const requiredModals = [
-    'Material Modal (criação/edição)',
+    'Material Modal (criado/edição)',
     'Details Modal (visualização)',
     'Stock Modal (ajuste de estoque)', 
     'Delete Modal (confirmação de exclusão)'
@@ -84,7 +84,7 @@ console.log('  ✅ Persistência no banco de dados');
 console.log('  ✅ Histórico de movimentações');
 
 console.log('\n🛡️ Validações e segurança:');
-console.log('  ✅ Campos obrigatórios marcaçãos');
+console.log('  ✅ Campos obrigatórios marcados');
 console.log('  ✅ Confirmação antes de excluir');
 console.log('  ✅ Validação de tipos de daçãos');
 console.log('  ✅ Tratamento de erros');

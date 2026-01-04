@@ -73,7 +73,7 @@ const ConciliacaoBancaria = {
         }
 
         container.innerHTML = contas.map(conta => `
-            <div class="conta-bancaria-card ${this.contaAtual.id === conta.id  'ativa' : ''}" 
+            <div class="conta-bancaria-card ${this.contaAtual.id === conta.id ? 'ativa' : ''}" 
                  data-id="${conta.id}" 
                  onclick="ConciliacaoBancaria.selecionarConta(${conta.id})">
                 <div class="conta-header">
@@ -86,7 +86,7 @@ const ConciliacaoBancaria = {
                 </div>
                 <div class="conta-saldo">
                     <span class="label">Saldo Atual:</span>
-                    <span class="valor ${parseFloat(conta.saldo_atual) >= 0  'positivo' : 'negativo'}">
+                    <span class="valor ${parseFloat(conta.saldo_atual) >= 0 ? 'positivo' : 'negativo'}">
                         R$ ${parseFloat(conta.saldo_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                     </span>
                 </div>

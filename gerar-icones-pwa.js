@@ -103,7 +103,7 @@ async function createPlaceholderIcons() {
       console.log(`✅ Criação: icon-${size}x${size}.png (placeholder)`);
     }
     
-    console.log('\n✨ Ícones placeholder criaçãos com sucesso!');
+    console.log('\n✨ Ícones placeholder criados com sucesso!');
     console.log('📝 Substitua por seu logo real depois\n');
   } catch (error) {
     console.error('❌ Erro ao criar placeholders:', error.message);

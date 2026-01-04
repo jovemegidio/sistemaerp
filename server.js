@@ -11,7 +11,7 @@ console.log('🚀 Iniciando ALUFORCE v2.0...\n');
 // Detectar se está rodando em modo empacotação (Electron)
 const isPackaged = __dirname.includes('app.asar') || process.env.NODE_ENV === 'production';
 if (isPackaged) {
-    console.log('📦 Modo empacotação detectação');
+    console.log('📦 Modo empacotação detectado');
 }
 
 // =================================================================
@@ -557,7 +557,7 @@ const authorizeAdmin = (req, res, next) => {
     return res.status(403).json({ message: 'Acesso negação. Requer privilégios de administraçãor ou RH.' });
 };
 
-// Middleware para controle de acesso por área baseação em permissões de usuário
+// Middleware para controle de acesso por área baseado em permissões de usuário
 const authorizeArea = (area) => {
     return (req, res, next) => {
         if (!req.user || !req.user.nome) {
@@ -904,7 +904,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     res.header('Access-Control-Expose-Headers', 'set-cookie');
     
-    // Configurar MIME types corretos baseação na extensão do arquivo
+    // Configurar MIME types corretos baseado na extensão do arquivo
     const url = req.url.toLowerCase();
     if (url.endsWith('.css')) {
         res.setHeader('Content-Type', 'text/css');
@@ -1078,7 +1078,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'modules', 'RH', 'public
 app.get('/RecursosHumanos', authenticatePage, (req, res) => {
     // SEMPRE serve o index.html, que fará o redirecionamento inteligente no cliente
     // Isso permite que o JavaScript verifique cookies e localStorage antes de decidir
-    console.log('[RH] Servindo index.html - JavaScript fará redirecionamento baseação em autenticação');
+    console.log('[RH] Servindo index.html - JavaScript fará redirecionamento baseado em autenticação');
     res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'index.html'));
 });
 
@@ -1640,8 +1640,8 @@ const initCronJobs = () => {
     cron.schedule('0 7 * * *', async () => {
         if (!DB_AVAILABLE) return;
         try {
-            const [rows] = await pool.query('SELECT COUNT(*) AS total, SUM(valor) AS faturação FROM vendas WHERE DATE(data) = CURDATE()');
-            const texto = `Relatório diário:\nTotal de vendas: ${rows[0].total}\nFaturamento: R$ ${rows[0].faturação}`;
+            const [rows] = await pool.query('SELECT COUNT(*) AS total, SUM(valor) AS faturado FROM vendas WHERE DATE(data) = CURDATE()');
+            const texto = `Relatório diário:\nTotal de vendas: ${rows[0].total}\nFaturamento: R$ ${rows[0].faturado}`;
             await enviarEmail('diretoria@empresa.com', 'Relatório Diário de Vendas', texto);
             console.log('Relatório diário enviação por email.');
         } catch (err) {
@@ -1960,7 +1960,7 @@ const authenticateToken = (req, res, next) => {
         hasCookie: !!req.cookies.token, 
         hasAuthCookie: !!req.cookies.authToken,
         tokenExists: !!token,
-        tokenSource: token  (req.cookies.authToken  'cookie' : authHeader  'header' : 'query') : 'none'
+        tokenSource: token  (req.cookies.authToken ? 'cookie' : authHeader ? 'header' : 'query') : 'none'
     });
     
     if (!token) {
@@ -2036,7 +2036,7 @@ const apiDbGuard = (req, res, next) => {
 
 // Expor um header útil em todas as respostas indicando disponibilidade do DB
 app.use((req, res, next) => {
-    res.setHeader('X-DB-Available', DB_AVAILABLE  '1' : '0');
+    res.setHeader('X-DB-Available', DB_AVAILABLE ? '1' : '0');
     next();
 });
 
@@ -2101,7 +2101,7 @@ apiNfeRouter.post('/validar-cliente', async (req, res, next) => {
     const { cnpj, cpf, inscricao_municipal } = req.body;
     // Em produção, integrar com APIs públicas
     const valido = (cnpj || cpf) && inscricao_municipal;
-    res.json({ valido, mensagem: valido  'Daçãos válidos.' : 'Daçãos inválidos.' });
+    res.json({ valido, mensagem: valido ? 'Daçãos válidos.' : 'Daçãos inválidos.' });
 });
 
 // 4. Emissão de NF-e (com integração ao Financeiro)
@@ -2206,32 +2206,32 @@ const apiLogisticaRouter = express.Router();
 apiLogisticaRouter.get('/dashboard', async (req, res, next) => {
     console.log('[LOGISTICA/DASHBOARD] Requisição recebida');
     try {
-        // Contar pedidos faturaçãos que ainda não foram despachaçãos (status_logistica IS NULL ou 'pendente')
+        // Contar pedidos faturados que ainda não foram despachaçãos (status_logistica IS NULL ou 'pendente')
         const [[aguardando]] = await pool.query(`
             SELECT COUNT(*) as total FROM pedidos 
-            WHERE status = 'faturação' 
+            WHERE status = 'faturado' 
             AND (status_logistica IS NULL OR status_logistica = 'pendente' OR status_logistica = 'aguardando_separacao' OR status_logistica = '')
         `);
         console.log('[LOGISTICA/DASHBOARD] Aguardando:', aguardando);
         
         const [[separacao]] = await pool.query(`
             SELECT COUNT(*) as total FROM pedidos 
-            WHERE status = 'faturação' AND status_logistica = 'em_separacao'
+            WHERE status = 'faturado' AND status_logistica = 'em_separacao'
         `);
         
         const [[expedicao]] = await pool.query(`
             SELECT COUNT(*) as total FROM pedidos 
-            WHERE status = 'faturação' AND status_logistica = 'em_expedicao'
+            WHERE status = 'faturado' AND status_logistica = 'em_expedicao'
         `);
         
         const [[transporte]] = await pool.query(`
             SELECT COUNT(*) as total FROM pedidos 
-            WHERE status = 'faturação' AND status_logistica = 'em_transporte'
+            WHERE status = 'faturado' AND status_logistica = 'em_transporte'
         `);
         
         const [[entregues]] = await pool.query(`
             SELECT COUNT(*) as total FROM pedidos 
-            WHERE status = 'faturação' AND status_logistica = 'entregue'
+            WHERE status = 'faturado' AND status_logistica = 'entregue'
         `);
         
         const result = {
@@ -2271,7 +2271,7 @@ apiLogisticaRouter.get('/pedidos', async (req, res, next) => {
                 p.status_logistica,
                 p.prioridade,
                 p.created_at,
-                p.faturação_em,
+                p.faturado_em,
                 p.data_prevista,
                 p.prazo_entrega,
                 p.observacao,
@@ -2282,7 +2282,7 @@ apiLogisticaRouter.get('/pedidos', async (req, res, next) => {
                 c.estação as cliente_uf
             FROM pedidos p
             LEFT JOIN clientes c ON p.cliente_id = c.id
-            WHERE p.status = 'faturação'
+            WHERE p.status = 'faturado'
         `;
         
         const params = [];
@@ -2413,7 +2413,7 @@ apiLogisticaRouter.post('/expedicao', async (req, res, next) => {
     try {
         const { nfe, pedido, cliente, transportaçãora_id, status, previsao, prioridade, observacoes } = req.body;
         
-        // Se for baseação em um pedido existente, atualizar
+        // Se for baseado em um pedido existente, atualizar
         if (pedido) {
             await pool.query(`
                 UPDATE pedidos SET 
@@ -2541,7 +2541,7 @@ apiComprasRouter.post('/fornecedores', fornecedorValidation, asyncHandler(async 
 
         res.status(201).json({
             success: true,
-            message: 'Fornecedor criação com sucesso',
+            message: 'Fornecedor criado com sucesso',
             data: { id: result.insertId }
         });
     } catch (error) {
@@ -2638,7 +2638,7 @@ apiComprasRouter.post('/pedidos', pedidoValidation, asyncHandler(async (req, res
             
             res.status(201).json({
                 success: true,
-                message: 'Pedido de compra criação com sucesso',
+                message: 'Pedido de compra criado com sucesso',
                 data: { id: pedido_id }
             });
         } catch (error) {
@@ -2776,7 +2776,7 @@ apiFinanceiroRouter.get('/centros-custo', async (req, res, next) => {
     res.json([{ id: 1, nome: 'Vendas' }, { id: 2, nome: 'Marketing' }, { id: 3, nome: 'Filial SP' }]);
 });
 apiFinanceiroRouter.post('/centros-custo', async (req, res, next) => {
-    res.status(201).json({ message: 'Centro de custo criação.' });
+    res.status(201).json({ message: 'Centro de custo criado.' });
 });
 
 // 4. Gestão de Transações Recorrentes
@@ -3223,8 +3223,8 @@ apiFinanceiroRouter.post('/integracao/vendas/venda-ganha', [
     try {
         const { pedido_id, cliente_id, valor, descricao } = req.body;
         await pool.query('INSERT INTO contas_receber (pedido_id, cliente_id, valor, descricao, status) VALUES (, , , , "pendente")', [pedido_id, cliente_id, valor, descricao]);
-        await pool.query('UPDATE pedidos SET status = "faturação" WHERE id = ', [pedido_id]);
-        res.json({ message: 'Conta a receber e pedido faturação geraçãos.' });
+        await pool.query('UPDATE pedidos SET status = "faturado" WHERE id = ', [pedido_id]);
+        res.json({ message: 'Conta a receber e pedido faturado geraçãos.' });
     } catch (error) { next(error); }
 });
 
@@ -3305,7 +3305,7 @@ apiFinanceiroRouter.get('/audit-trail', authorizeACL('ver_auditoria'), async (re
 
 // Gestão de Orçamento
 apiFinanceiroRouter.post('/orcamentos', authorizeACL('criar_orcamento'), async (req, res, next) => {
-    res.status(201).json({ message: 'Orçamento criação (simulação).' });
+    res.status(201).json({ message: 'Orçamento criado (simulação).' });
 });
 apiFinanceiroRouter.get('/orcamentos', authorizeACL('ver_orcamento'), async (req, res, next) => {
     res.json([{ categoria: 'Marketing', limite: 10000, gasto: 5000 }]);
@@ -3345,7 +3345,7 @@ apiFinanceiroRouter.get('/busca-global', async (req, res, next) => {
 // Endpoints básicos mantidos para compatibilidade
 apiFinanceiroRouter.get('/faturamento', async (req, res, next) => {
     try {
-        const [rows] = await pool.query('SELECT SUM(valor) AS total FROM pedidos WHERE status = "faturação"');
+        const [rows] = await pool.query('SELECT SUM(valor) AS total FROM pedidos WHERE status = "faturado"');
         res.json({ total: rows[0].total || 0 });
     } catch (error) { next(error); }
 });
@@ -3544,7 +3544,7 @@ apiPCPRouter.post('/materiais', [
         const { codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao } = req.body;
         const sql = 'INSERT INTO materiais (codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao) VALUES (, , , , )';
         const [result] = await pool.query(sql, [codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao]);
-        res.status(201).json({ message: 'Material criação com sucesso!', id: result.insertId });
+        res.status(201).json({ message: 'Material criado com sucesso!', id: result.insertId });
     } catch (error) { next(error); }
 });
 apiPCPRouter.put('/materiais/:id', [
@@ -3658,7 +3658,7 @@ apiPCPRouter.get('/produtos', async (req, res, next) => {
             queryParams.push(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
         }
         
-        const whereClause = whereConditions.length > 0  'WHERE ' + whereConditions.join(' AND ') : '';
+        const whereClause = whereConditions.length > 0 ? 'WHERE ' + whereConditions.join(' AND ') : '';
         
         // Query principal com todos os campos necessários
         const query = `
@@ -3830,12 +3830,12 @@ apiPCPRouter.post('/produtos', [
         // Broadcast para todos os clientes conectaçãos
         if (global.io) {
             global.io.emit('product-created', newProduct);
-            console.log('🔄 WebSocket: Produto criação emitido para todos os clientes');
+            console.log('🔄 WebSocket: Produto criado emitido para todos os clientes');
         }
 
         res.json({ 
             success: true, 
-            message: 'Produto criação com sucesso',
+            message: 'Produto criado com sucesso',
             id: result.insertId 
         });
     } catch (error) { next(error); }
@@ -4022,7 +4022,7 @@ apiPCPRouter.post('/faturamentos', [
 
         res.status(201).json({ 
             success: true, 
-            message: 'Faturamento criação com sucesso',
+            message: 'Faturamento criado com sucesso',
             id: result.insertId 
         });
     } catch (error) { next(error); }
@@ -4172,7 +4172,7 @@ apiPCPRouter.post('/ordens-kanban', async (req, res, next) => {
             ) VALUES (, , , , 'ativa', , , , , 0, 0, NOW(), NOW())
         `, [
             codigoOrdem,
-            `${nomeProduto}${codigoProduto  ' - ' + codigoProduto : ''}`,
+            `${nomeProduto}${codigoProduto ? ' - ' + codigoProduto : ''}`,
             qtd,
             und,
             prioridade || 'media',
@@ -4392,7 +4392,7 @@ app.get('/health', (req, res) => {
         },
         version: require('./package.json').version || '2.0.0',
         environment: process.env.NODE_ENV || 'development',
-        database: DB_AVAILABLE  'connected' : 'disconnected',
+        database: DB_AVAILABLE ? 'connected' : 'disconnected',
         features: {
             excel_generation: true,
             pdf_generation: false,
@@ -4421,8 +4421,8 @@ app.get('/metrics', (req, res) => {
             environment: process.env.NODE_ENV || 'development'
         },
         database: {
-            status: DB_AVAILABLE  'connected' : 'disconnected',
-            pool_connections: DB_AVAILABLE  'active' : 'inactive'
+            status: DB_AVAILABLE ? 'connected' : 'disconnected',
+            pool_connections: DB_AVAILABLE ? 'active' : 'inactive'
         }
     };
 
@@ -4519,7 +4519,7 @@ app.post('/api/templates/create', async (req, res) => {
         res.json({
             success: true,
             templateId,
-            message: 'Template criação com sucesso'
+            message: 'Template criado com sucesso'
         });
     } catch (error) {
         res.status(500).json({
@@ -4573,7 +4573,7 @@ app.post('/api/templates/customize', async (req, res) => {
         res.json({
             success: true,
             customTemplateId,
-            message: 'Template personalização criação com sucesso'
+            message: 'Template personalização criado com sucesso'
         });
     } catch (error) {
         res.status(500).json({
@@ -4804,8 +4804,8 @@ app.post('/api/clientes', async (req, res) => {
             ativo !== undefined  (ativo  1 : 0) : 1
         ]);
         
-        console.log(`✅ Cliente criação com ID: ${result.insertId}`);
-        res.status(201).json({ id: result.insertId, message: 'Cliente criação com sucesso' });
+        console.log(`✅ Cliente criado com ID: ${result.insertId}`);
+        res.status(201).json({ id: result.insertId, message: 'Cliente criado com sucesso' });
         
     } catch (error) {
         console.error('❌ Erro ao criar cliente:', error);
@@ -5388,7 +5388,7 @@ app.get('/api/produtos/buscar', async (req, res) => {
     }
 });
 
-console.log('✅ Endpoints de compatibilidade criaçãos:');
+console.log('✅ Endpoints de compatibilidade criados:');
 console.log('   📍 /api/empresas/buscar -> /api/clientes');
 console.log('   📍 /api/transportaçãoras/buscar -> /api/transportaçãoras');  
 console.log('   📍 /api/produtos/buscar -> /api/pcp/materiais');
@@ -5601,14 +5601,14 @@ app.post('/api/produtos', async (req, res) => {
         
         const [result] = await pool.query(query, valores);
         
-        console.log(`✅ Produto criação com ID: ${result.insertId}`);
+        console.log(`✅ Produto criado com ID: ${result.insertId}`);
         
         res.json({
             success: true,
             id: result.insertId,
             codigo: daçãos.codigo,
             nome: daçãos.nome,
-            message: 'Produto criação com sucesso'
+            message: 'Produto criado com sucesso'
         });
         
     } catch (error) {
@@ -6862,7 +6862,7 @@ app.post('/api/configuracoes/departamentos', async (req, res) => {
             VALUES (, , , 1, NOW(), NOW())
         `, [nome, descricao, responsavel || null]);
         
-        console.log('✅ Departamento criação com sucesso');
+        console.log('✅ Departamento criado com sucesso');
         res.json({ success: true, id: result.insertId });
         
     } catch (error) {
@@ -6968,7 +6968,7 @@ app.post('/api/configuracoes/projetos', async (req, res) => {
             VALUES (, , , , , 1, NOW(), NOW())
         `, [nome, descricao, data_inicio || null, data_fim || null, dbStatus]);
         
-        console.log('✅ Projeto criação com sucesso');
+        console.log('✅ Projeto criado com sucesso');
         res.json({ success: true, id: result.insertId });
         
     } catch (error) {
@@ -7074,7 +7074,7 @@ app.get('/api/configuracoes/certificação', async (req, res) => {
                 cnpj: cert.cnpj,
                 nome: cert.nome,
                 diasRestantes: diasRestantes,
-                status: diasRestantes > 30  'valido' : diasRestantes > 0  'expirando' : 'expiração',
+                status: diasRestantes > 30 ? 'valido' : diasRestantes > 0 ? 'expirando' : 'expiração',
                 created_at: cert.created_at,
                 updated_at: cert.updated_at
             });
@@ -7697,7 +7697,7 @@ async function gerarExcelOrdemProducaoCompleta(daçãos, ExcelJS, templatePath) 
     // G4 - Número do Pedido (como número se possível)
     const numPedido = daçãos.numero_pedido || daçãos.num_pedido || '0';
     // Se for vazio ou NaN, usar 0
-    const numPedidoFinal = numPedido === '' || numPedido === null || numPedido === undefined  '0' : numPedido;
+    const numPedidoFinal = numPedido === '' || numPedido === null || numPedido === undefined ? '0' : numPedido;
     abaVendas.getCell('G4').value = isNaN(numPedidoFinal)  numPedidoFinal : parseFloat(numPedidoFinal);
     
     // J4 - Data de Liberação (como objeto Date)
@@ -8282,9 +8282,9 @@ apiPCPRouter.get('/pedidos', async (req, res, next) => {
 });
 
 // PEDIDOS FATURADOS
-apiPCPRouter.get('/pedidos/faturaçãos', async (req, res, next) => {
+apiPCPRouter.get('/pedidos/faturados', async (req, res, next) => {
     try {
-        const [rows] = await pool.query("SELECT * FROM pedidos WHERE status = 'faturação' ORDER BY id DESC LIMIT 10");
+        const [rows] = await pool.query("SELECT * FROM pedidos WHERE status = 'faturado' ORDER BY id DESC LIMIT 10");
         res.json(rows);
     } catch (error) { next(error); }
 });
@@ -8703,7 +8703,7 @@ apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
                         produtos, total_geral, quantidade_produtos,
                         observacoes, observacoes_pedido,
                         arquivo_xlsx, caminho_arquivo,
-                        status, criação_por
+                        status, criado_por
                     ) VALUES (, , , , , , , , , , , , , , , , , , , , , , , , , , , )
                 `, [
                     numeroOrdem,
@@ -8785,7 +8785,7 @@ apiPCPRouter.get('/ordens', async (req, res, next) => {
                 vendedor_nome, cliente_nome,
                 total_geral, quantidade_produtos,
                 status, arquivo_xlsx,
-                criação_em, atualização_em
+                criado_em, atualização_em
             FROM ordens_producao
             WHERE 1=1
         `;
@@ -8819,7 +8819,7 @@ apiPCPRouter.get('/ordens', async (req, res, next) => {
         // Contar total de ordens (para paginação)
         const [countResult] = await pool.query(`
             SELECT COUNT(*) as total FROM ordens_producao WHERE 1=1
-            ${status  'AND status = ' : ''}
+            ${status ? 'AND status = ' : ''}
         `, status  [status] : []);
         
         res.json({
@@ -9044,7 +9044,7 @@ apiPCPRouter.post('/gerar-pedido-compra', async (req, res, next) => {
             sucesso: true,
             pedido_id: pedidoId,
             valor_total: valorTotal,
-            mensagem: 'Pedido de compra criação com sucesso'
+            mensagem: 'Pedido de compra criado com sucesso'
         });
 
     } catch (error) {
@@ -9088,7 +9088,7 @@ apiPCPRouter.get('/notificacoes-estoque', async (req, res, next) => {
                 WHEN 'estoque_critico' THEN 2
                 WHEN 'estoque_baixo' THEN 3
             END,
-            n.criação_em DESC
+            n.criado_em DESC
         `;
 
         const [notificacoes] = await pool.query(query, params);
@@ -9174,7 +9174,7 @@ apiPCPRouter.get('/ordens/:id/materiais-necessarios', async (req, res, next) => 
                         quantidade_necessaria: quantidadeNecessaria,
                         estoque_atual: p.estoque_atual,
                         deficit: deficit,
-                        criticidade: p.estoque_atual === 0  'critico' : 'atencao'
+                        criticidade: p.estoque_atual === 0 ? 'critico' : 'atencao'
                     });
                 }
             }
@@ -9638,7 +9638,7 @@ apiRHRouter.post('/funcionarios/novo', [
         
         res.status(201).json({ 
             id: result.insertId,
-            message: 'Funcionário criação com sucesso!'
+            message: 'Funcionário criado com sucesso!'
         });
     } catch (error) {
         if (error.code === 'ER_DUP_ENTRY') {
@@ -9683,7 +9683,7 @@ apiRHRouter.post('/funcionarios/:id/foto', [
                 await sharp(req.file.path)
                     .resize(200, 200, { fit: 'cover' })
                     .toFile(thumbPath);
-                console.log('✅ Thumbnail criação:', thumbPath);
+                console.log('✅ Thumbnail criado:', thumbPath);
             } catch (sharpErr) {
                 console.error('⚠️ Erro ao criar thumbnail:', sharpErr);
                 // Continua mesmo se thumbnail falhar
@@ -10238,7 +10238,7 @@ app.get('/api/user/me', authenticateToken, async (req, res) => {
 
         if (rows.length > 0) {
             const user = rows[0];
-            // Determinar avatar baseação no nome (fallback)
+            // Determinar avatar baseado no nome (fallback)
             const firstName = user.nome ? user.nome.split(' ')[0].toLowerCase() : '';
             const avatarMap = {
                 'douglas': '/avatars/douglas.webp',
@@ -10613,11 +10613,11 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
                  ((resumoFinanceiro.lucro_estimação / resumoFinanceiro.receitas) * 100).toFixed(1)
                 : 0;
             
-            // Faturamento (pedidos faturaçãos)
+            // Faturamento (pedidos faturados)
             const [faturamentoResult] = await pool.query(`
                 SELECT COALESCE(SUM(valor), 0) as total, COUNT(*) as nfes
                 FROM pedidos 
-                WHERE status = 'faturação' AND data_criacao >= 
+                WHERE status = 'faturado' AND data_criacao >= 
             `, [dataInicioStr]);
             resumoFinanceiro.faturamento_periodo = faturamentoResult[0].total || 0;
             resumoFinanceiro.nfes_emitidas = faturamentoResult[0].nfes || 0;
@@ -10631,7 +10631,7 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
             const [vendasResult] = await pool.query(`
                 SELECT COUNT(*) as total,
                        COALESCE(AVG(valor), 0) as ticket,
-                       SUM(CASE WHEN status IN ('aprovação', 'faturar', 'faturação', 'entregue') THEN 1 ELSE 0 END) as convertidos
+                       SUM(CASE WHEN status IN ('aprovação', 'faturar', 'faturado', 'entregue') THEN 1 ELSE 0 END) as convertidos
                 FROM pedidos 
                 WHERE data_criacao >= 
             `, [dataInicioStr]);
@@ -10823,8 +10823,8 @@ app.get('/api/vendas/kanban/pedidos', async (req, res) => {
             { id: 106, cliente: 'COMERCIAL MARTINS LTDA', valor: 11540.00, status: 'aprovação', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 2x', transportaçãora: 'TRANSVALEN TRANSPORTES LTDA' },
             { id: 107, cliente: 'ILUMINACAO PAULISTANA SPE S/A', valor: 529.00, status: 'faturar', origem: 'Omie', vendedor: 'Vendedor 2', parcelas: 'a vista' },
             { id: 108, cliente: 'BELLA ELETRICA E HIDRAULICA LTDA', valor: 7224.00, status: 'faturar', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'a vista' },
-            { id: 109, cliente: 'SARAIVA MATERIAIS ELETRICOS', valor: 34325.00, status: 'faturação', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 4x', nf: '00000251' },
-            { id: 110, cliente: 'LF ELETRIFICACOES', valor: 3185.00, status: 'faturação', origem: 'Omie', vendedor: 'Vendedor 2', parcelas: 'em 3x', nf: '00000249', transportaçãora: 'DLT LOGISTICA EM TRANSPORTES LTDA' },
+            { id: 109, cliente: 'SARAIVA MATERIAIS ELETRICOS', valor: 34325.00, status: 'faturado', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 4x', nf: '00000251' },
+            { id: 110, cliente: 'LF ELETRIFICACOES', valor: 3185.00, status: 'faturado', origem: 'Omie', vendedor: 'Vendedor 2', parcelas: 'em 3x', nf: '00000249', transportaçãora: 'DLT LOGISTICA EM TRANSPORTES LTDA' },
         ];
         
         try {
@@ -11156,7 +11156,7 @@ apiVendasRouter.post('/pedidos', [
             'INSERT INTO pedidos (empresa_id, vendedor_id, valor, descricao, status) VALUES (, , , , )',
             [empresa_id, vendedor_id, valor, descricao || null, 'orcamento']
         );
-        res.status(201).json({ message: 'Pedido criação com sucesso!' });
+        res.status(201).json({ message: 'Pedido criado com sucesso!' });
     } catch (error) { next(error); }
 });
 apiVendasRouter.put('/pedidos/:id', [
@@ -11300,7 +11300,7 @@ apiVendasRouter.put('/pedidos/:id/status', async (req, res, next) => {
         
         console.log(`📝 Atualizando status do pedido ${id} para: ${status}`);
         
-        const validStatuses = ['orcamento', 'orçamento', 'analise', 'analise-credito', 'aprovação', 'pedido-aprovação', 'faturar', 'faturação', 'entregue', 'cancelação', 'recibo'];
+        const validStatuses = ['orcamento', 'orçamento', 'analise', 'analise-credito', 'aprovação', 'pedido-aprovação', 'faturar', 'faturado', 'entregue', 'cancelação', 'recibo'];
         if (!status || !validStatuses.includes(status)) {
             console.log(`❌ Status inválido: ${status}`);
             return res.status(400).json({ message: 'Status inválido.' });
@@ -11467,7 +11467,7 @@ apiVendasRouter.get('/empresas/:id/details', async (req, res, next) => {
         const { id } = req.params;
         const [empresaResult, kpisResult, pedidosResult, clientesResult] = await Promise.all([
             pool.query('SELECT * FROM empresas WHERE id = ', [id]),
-            pool.query(`SELECT COUNT(*) AS totalPedidos, COALESCE(SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS totalFaturação, COALESCE(AVG(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS ticketMedio FROM pedidos WHERE empresa_id = `, [id]),
+            pool.query(`SELECT COUNT(*) AS totalPedidos, COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturação, COALESCE(AVG(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS ticketMedio FROM pedidos WHERE empresa_id = `, [id]),
             pool.query('SELECT id, valor, status, created_at FROM pedidos WHERE empresa_id =  ORDER BY created_at DESC', [id]),
             pool.query('SELECT id, nome, email, telefone FROM clientes WHERE empresa_id =  ORDER BY nome ASC', [id])
         ]);
@@ -11628,7 +11628,7 @@ apiVendasRouter.get('/metas/progresso', authorizeAdminOrComercial, async (req, r
         const [metas] = await pool.query('SELECT * FROM metas_vendas');
         const progresso = [];
         for (const meta of metas) {
-            let where = 'status = "faturação" AND DATE_FORMAT(created_at, "%Y-%m") = ';
+            let where = 'status = "faturado" AND DATE_FORMAT(created_at, "%Y-%m") = ';
             let params = [meta.periodo];
             if (meta.vendedor_id) {
                 where += ' AND vendedor_id = ';
@@ -11643,7 +11643,7 @@ apiVendasRouter.get('/metas/progresso', authorizeAdminOrComercial, async (req, r
 apiVendasRouter.get('/comissoes', authorizeAdminOrComercial, async (req, res, next) => {
     try {
         const { periodo } = req.query; // Ex: '2025-08'
-        let where = 'p.status = "faturação"';
+        let where = 'p.status = "faturado"';
         let params = [];
         if (periodo) {
             where += ' AND DATE_FORMAT(p.created_at, "%Y-%m") = ';
@@ -11695,11 +11695,11 @@ apiVendasRouter.get('/relatorios/funil', authorizeAdminOrComercial, async (req, 
 // Alias para dashboard-stats
 apiVendasRouter.get('/dashboard', authorizeAdminOrComercial, async (req, res, next) => {
     try {
-        const [faturaçãoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturaçãoMes FROM pedidos WHERE status = 'faturação' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
+        const [faturadoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturaçãoMes FROM pedidos WHERE status = 'faturado' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
         const [pendentesResult] = await pool.query(`SELECT COUNT(*) AS pedidosPendentes FROM pedidos WHERE status IN ('orcamento', 'analise', 'aprovação')`);
         const [clientesResult] = await pool.query(`SELECT COUNT(*) AS novosClientesMes FROM empresas WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
         res.json({
-            totalFaturaçãoMes: faturaçãoResult[0].totalFaturaçãoMes,
+            totalFaturaçãoMes: faturadoResult[0].totalFaturaçãoMes,
             pedidosPendentes: pendentesResult[0].pedidosPendentes,
             novosClientesMes: clientesResult[0].novosClientesMes
         });
@@ -11707,11 +11707,11 @@ apiVendasRouter.get('/dashboard', authorizeAdminOrComercial, async (req, res, ne
 });
 apiVendasRouter.get('/dashboard-stats', authorizeAdminOrComercial, async (req, res, next) => {
     try {
-        const [faturaçãoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturaçãoMes FROM pedidos WHERE status = 'faturação' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
+        const [faturadoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturaçãoMes FROM pedidos WHERE status = 'faturado' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
         const [pendentesResult] = await pool.query(`SELECT COUNT(*) AS pedidosPendentes FROM pedidos WHERE status IN ('orcamento', 'analise', 'aprovação')`);
         const [clientesResult] = await pool.query(`SELECT COUNT(*) AS novosClientesMes FROM empresas WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
         res.json({
-            totalFaturaçãoMes: faturaçãoResult[0].totalFaturaçãoMes,
+            totalFaturaçãoMes: faturadoResult[0].totalFaturaçãoMes,
             pedidosPendentes: pendentesResult[0].pedidosPendentes,
             novosClientesMes: clientesResult[0].novosClientesMes
         });
@@ -11876,7 +11876,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
         const [rows] = await pool.query('SELECT * FROM usuarios WHERE email = ? LIMIT 1', [email]);
         let user = (rows && rows.length)  rows[0] : null;
         
-        console.log(`🔍 [LOGIN DEBUG] Usuário encontrado em usuarios: ${user  'SIM' : 'NÁO'}`);
+        console.log(`🔍 [LOGIN DEBUG] Usuário encontrado em usuarios: ${user ? 'SIM' : 'NÁO'}`);
         
         // Verificar se usuário está inativo
         if (user && user.status && user.status.toLowerCase() === 'inativo') {
@@ -11892,8 +11892,8 @@ app.post('/api/login', authLimiter, async (req, res) => {
                 if (frows && frows.length) {
                     const f = frows[0];
                     console.log(`🔍 [LOGIN DEBUG] Funcionário encontrado: ${f.nome_completo || f.nome}`);
-                    console.log(`🔍 [LOGIN DEBUG] Funcionário tem senha: ${f.senha  'SIM' : 'NÁO'}`);
-                    console.log(`🔍 [LOGIN DEBUG] Funcionário tem senha_hash: ${f.senha_hash  'SIM' : 'NÁO'}`);
+                    console.log(`🔍 [LOGIN DEBUG] Funcionário tem senha: ${f.senha ? 'SIM' : 'NÁO'}`);
+                    console.log(`🔍 [LOGIN DEBUG] Funcionário tem senha_hash: ${f.senha_hash ? 'SIM' : 'NÁO'}`);
                     
                     // Converter role para is_admin (tabela funcionarios não tem is_admin)
                     const roleAdmin = (f.role === 'admin' || f.role === 'administraçãor');
@@ -11937,7 +11937,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
                 console.log('🔍 [LOGIN DEBUG] Tentando verificação com bcrypt...');
                 const bcrypt = require('bcryptjs');
                 senhaValida = await bcrypt.compare(password, user.senha_hash);
-                console.log(`🔍 [LOGIN DEBUG] Bcrypt resultação: ${senhaValida  'VÁLIDA' : 'INVÁLIDA'}`);
+                console.log(`🔍 [LOGIN DEBUG] Bcrypt resultação: ${senhaValida ? 'VÁLIDA' : 'INVÁLIDA'}`);
             } catch (e) {
                 console.error('❌ [LOGIN DEBUG] Erro bcrypt:', e);
             }
@@ -11947,7 +11947,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
         if (!senhaValida && user.senha) {
             console.log('🔍 [LOGIN DEBUG] Tentando verificação com senha em texto plano...');
             senhaValida = (user.senha === password);
-            console.log(`🔍 [LOGIN DEBUG] Texto plano resultação: ${senhaValida  'VÁLIDA' : 'INVÁLIDA'}`);
+            console.log(`🔍 [LOGIN DEBUG] Texto plano resultação: ${senhaValida ? 'VÁLIDA' : 'INVÁLIDA'}`);
             console.log(`🔍 [LOGIN DEBUG] Senha fornecida: "${password}" vs Armazenada: "${user.senha}"`);
         }
 
@@ -12085,7 +12085,7 @@ app.post('/api/suporte/tickets', (req, res) => {
             status: 'aberto',
             userId: userId || null,
             userName: userName || 'Usuário',
-            criaçãoEm: new Date().toISOString(),
+            criadoEm: new Date().toISOString(),
             atualizaçãoEm: new Date().toISOString(),
             respostas: []
         };
@@ -12094,7 +12094,7 @@ app.post('/api/suporte/tickets', (req, res) => {
         
         res.json({
             success: true,
-            message: 'Ticket criação com sucesso!',
+            message: 'Ticket criado com sucesso!',
             ticket: novoTicket
         });
     } catch (error) {
@@ -12141,7 +12141,7 @@ app.put('/api/suporte/tickets/:id', (req, res) => {
                 id: Date.now(),
                 texto: resposta,
                 atendente: atendente || 'Suporte',
-                criaçãoEm: new Date().toISOString()
+                criadoEm: new Date().toISOString()
             });
         }
         
@@ -12808,7 +12808,7 @@ app.post('/api/auth/forgot-password', async (req, res) => {
             console.log(`[RESET] ✅ Email de reset enviação para: ${email}`);
         } catch (emailErr) {
             console.error('[RESET] ❌ Erro ao enviar email:', emailErr);
-            // Mesmo que o email falhe, retornar sucesso (o token foi criação)
+            // Mesmo que o email falhe, retornar sucesso (o token foi criado)
             // Em produção, você pode querer logar isso e tentar reenviar
         }
 
@@ -12831,7 +12831,7 @@ app.post('/api/auth/forgot-password', async (req, res) => {
                         token VARCHAR(255) NOT NULL UNIQUE,
                         expira_em DATETIME NOT NULL,
                         usação TINYINT(1) DEFAULT 0,
-                        criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                         INDEX idx_token (token),
                         INDEX idx_email (email)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
@@ -13418,7 +13418,7 @@ app.post('/api/financeiro/contas-receber', checkFinanceiroPermission('contas_rec
         const { cliente_id, valor, descricao, vencimento, categoria } = req.body;
 
         const [result] = await pool.query(
-            'INSERT INTO contas_receber (cliente_id, valor, descricao, vencimento, categoria, status, criação_por) VALUES (, , , , , "pendente", )',
+            'INSERT INTO contas_receber (cliente_id, valor, descricao, vencimento, categoria, status, criado_por) VALUES (, , , , , "pendente", )',
             [cliente_id, valor, descricao, vencimento, categoria, req.user.id]
         );
 
@@ -13679,7 +13679,7 @@ app.post('/api/compras/fornecedores', authenticateToken, async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: 'Fornecedor criação com sucesso',
+            message: 'Fornecedor criado com sucesso',
             id: result.insertId
         });
     } catch (err) {
@@ -13778,8 +13778,8 @@ app.get('/api/compras/materiais', authenticateToken, async (req, res) => {
         // Calcular status de cada material
         const materiaisComStatus = materiais.map(m => ({
             ...m,
-            status: m.estoque_atual === 0  'critico' : 
-                    m.estoque_atual <= m.estoque_min  'baixo' : 'disponivel'
+            status: m.estoque_atual === 0 ? 'critico' : 
+                    m.estoque_atual <= m.estoque_min ? 'baixo' : 'disponivel'
         }));
         
         res.json(materiaisComStatus);
@@ -14057,14 +14057,14 @@ app.post('/api/compras/pedidos', authenticateToken, async (req, res) => {
         // Registrar no histórico de aprovações
         await connection.query(
             `INSERT INTO historico_aprovacoes (pedido_id, usuario_id, acao, observacoes)
-             VALUES (, , 'solicitação', 'Pedido criação')`,
+             VALUES (, , 'solicitação', 'Pedido criado')`,
             [pedido_id, req.user.id]
         );
 
         await connection.commit();
         res.status(201).json({
             success: true,
-            message: 'Pedido criação com sucesso',
+            message: 'Pedido criado com sucesso',
             id: pedido_id
         });
     } catch (err) {
@@ -14134,7 +14134,7 @@ app.post('/api/compras/pedidos/:id/aprovar', authenticateToken, async (req, res)
                     descricao, fornecedor, valor_original, valor_restante, 
                     data_vencimento, data_emissao, categoria_id, forma_pagamento,
                     status, numero_documento, observacoes, pedido_compra_id,
-                    criação_por, criação_em
+                    criado_por, criado_em
                 ) VALUES (, , , , , NOW(), , , 'pendente', , , , , NOW())`,
                 [
                     descricaoCompleta,
@@ -14164,7 +14164,7 @@ app.post('/api/compras/pedidos/:id/aprovar', authenticateToken, async (req, res)
                     await connection.query(
                         `INSERT INTO parcelas_financeiras (
                             conta_pagar_id, numero_parcela, valor_parcela, 
-                            data_vencimento, status, criação_em
+                            data_vencimento, status, criado_em
                         ) VALUES (, , , , 'pendente', NOW())`,
                         [contaId, i, valorParcela, dataVencParcela.toISOString().split('T')[0]]
                     );
@@ -14245,7 +14245,7 @@ app.post('/api/compras/pedidos/:id/receber', authenticateToken, async (req, res)
             parseFloat(item.quantidade_recebida) >= parseFloat(item.quantidade)
         );
 
-        const novoStatus = todosRecebidos  'recebido' : 'parcial';
+        const novoStatus = todosRecebidos ? 'recebido' : 'parcial';
 
         await connection.query(
             'UPDATE pedidos_compra SET status = , data_entrega_real =  WHERE id = ',
@@ -14255,7 +14255,7 @@ app.post('/api/compras/pedidos/:id/receber', authenticateToken, async (req, res)
         await connection.commit();
         res.json({
             success: true,
-            message: todosRecebidos  'Pedido recebido completamente' : 'Recebimento parcial registração'
+            message: todosRecebidos ? 'Pedido recebido completamente' : 'Recebimento parcial registração'
         });
     } catch (err) {
         await connection.rollback();
@@ -14661,7 +14661,7 @@ app.delete('/api/compras/requisicoes/:id', authenticateToken, async (req, res) =
 app.post('/api/compras/requisicoes/:id/aprovar', authenticateToken, async (req, res) => {
     try {
         const { aprovação, motivo } = req.body;
-        const novoStatus = aprovação  'aprovação' : 'rejeitação';
+        const novoStatus = aprovação ? 'aprovação' : 'rejeitação';
 
         await pool.query(
             `UPDATE requisicoes_compra SET 
@@ -14670,7 +14670,7 @@ app.post('/api/compras/requisicoes/:id/aprovar', authenticateToken, async (req, 
             [novoStatus, req.user.id, aprovação  null : motivo, req.params.id]
         );
 
-        res.json({ message: aprovação  'Requisição aprovada' : 'Requisição rejeitada' });
+        res.json({ message: aprovação ? 'Requisição aprovada' : 'Requisição rejeitada' });
     } catch (err) {
         console.error('[COMPRAS] Erro ao aprovar/rejeitar requisição:', err);
         res.status(500).json({ message: 'Erro ao processar aprovação' });
@@ -14717,7 +14717,7 @@ app.get('/api/compras/requisicoes-stats', authenticateToken, async (req, res) =>
                 melhor_preco DECIMAL(15,2) DEFAULT 0,
                 fornecedor_vencedor_id INT,
                 status ENUM('aberta', 'analise', 'finalizada', 'cancelada') DEFAULT 'aberta',
-                criação_por INT,
+                criado_por INT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )
@@ -14840,7 +14840,7 @@ app.post('/api/compras/cotacoes', authenticateToken, async (req, res) => {
         const [result] = await connection.query(
             `INSERT INTO cotacoes_compra (
                 numero, descricao, requisicao_id, data_abertura, data_validade,
-                quantidade, unidade, especificacoes, observacoes, criação_por
+                quantidade, unidade, especificacoes, observacoes, criado_por
             ) VALUES (, , , , , , , , , )`,
             [
                 numero, descricao, requisicao_id || null, data_abertura || new Date(),
@@ -15055,7 +15055,7 @@ app.post('/api/admin/configure-vendas-permissions', authenticateToken, async (re
     }
 });
 
-// Endpoint para configurar permissões baseação em nomes da tabela funcionarios
+// Endpoint para configurar permissões baseado em nomes da tabela funcionarios
 app.post('/api/admin/configure-vendas-by-names', authenticateToken, async (req, res) => {
     try {
         // Verificar se é admin
@@ -15353,7 +15353,7 @@ app.get('/status', async (req, res) => {
     }
 
     // status code 200 when service up (even if DB down); use X-DB-Available header to signal
-    res.setHeader('X-DB-Available', DB_AVAILABLE  '1' : '0');
+    res.setHeader('X-DB-Available', DB_AVAILABLE ? '1' : '0');
     return res.json(info);
 });
 
@@ -15372,7 +15372,7 @@ const startServer = async () => {
         // Testa a conexão com o banco de dados antes de iniciar o servidor
         if (process.env.DEV_MOCK === '1' || process.env.DEV_MOCK === 'true') {
             DB_AVAILABLE = false;
-            console.log('⚠️  Iniciando em modo DEV_MOCK — pulando checagem/criação de tabelas no MySQL.');
+            console.log('⚠️  Iniciando em modo DEV_MOCK — pulando checagem/criado de tabelas no MySQL.');
         } else {
             try {
                 await pool.query('SELECT 1');
@@ -15510,19 +15510,19 @@ const startServer = async () => {
                     if (rows[0].count === 0) {
                         // Inserir funcionário exemplo com senha e cpf obrigatórios usando INSERT IGNORE para evitar duplicação
                         await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, departamento, cargo, data_nascimento, cpf) VALUES (6, 'Funcionário Exemplo', 'exemplo@aluforce.ind.br', 'aluvendas01', 'comercial', 'vendedor', '1990-01-01', '00000000000')`);
-                        console.log('✅ Funcionário id=6 criação automaticamente.');
+                        console.log('✅ Funcionário id=6 criado automaticamente.');
                         
                         // Inserir usuário admin para testes
                         const bcryptAdmin = require('bcryptjs');
                         const adminHash = await bcryptAdmin.hash('admin123', 10);
                         await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, senha_hash, departamento, cargo, data_nascimento, cpf, role, is_admin) VALUES (1, 'Administraçãor', 'admin@aluforce.com', 'admin123', , 'ti', 'administraçãor', '1985-01-01', '11111111111', 'admin', 1)`, [adminHash]);
-                        console.log('✅ Usuário admin criação automaticamente.');
+                        console.log('✅ Usuário admin criado automaticamente.');
                         
                         // Inserir usuários de teste adicionais
                         const testHash = await bcryptAdmin.hash('123456', 10);
                         await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, senha_hash, departamento, cargo, data_nascimento, cpf, role, is_admin) VALUES (2, 'Thiago Scarcella', 'thiago@aluforce.com', '123456', , 'gestao', 'gerente', '1990-05-15', '22222222222', 'user', 0)`, [testHash]);
                         await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, senha_hash, departamento, cargo, data_nascimento, cpf, role, is_admin) VALUES (3, 'Guilherme Silva', 'guilherme@aluforce.com', '123456', , 'pcp', 'analista', '1992-08-20', '33333333333', 'user', 0)`, [testHash]);
-                        console.log('✅ Usuários de teste criaçãos automaticamente.');
+                        console.log('✅ Usuários de teste criados automaticamente.');
                     } else {
                         console.log('✅ Funcionário id=6 já existe (verificação).');
                     }
@@ -15530,7 +15530,7 @@ const startServer = async () => {
                     // Tenta criar com INSERT IGNORE como fallback
                     try {
                         await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, departamento, cargo, data_nascimento, cpf) VALUES (6, 'Funcionário Exemplo', 'exemplo@aluforce.ind.br', 'aluvendas01', 'comercial', 'vendedor', '1990-01-01', '00000000000')`);
-                        console.log('✅ Funcionário id=6 criação com INSERT IGNORE.');
+                        console.log('✅ Funcionário id=6 criado com INSERT IGNORE.');
                     } catch (e2) {
                         console.warn('⚠️ Falha ao verificar/inserir funcionário id=6:', e2.message || e2);
                     }
@@ -15592,7 +15592,7 @@ const startServer = async () => {
                 for (const index of produtosIndexes) {
                     try {
                         await pool.query(index.sql);
-                        console.log(`✅ Índice '${index.name}' criação`);
+                        console.log(`✅ Índice '${index.name}' criado`);
                     } catch (e) {
                         if (e.code === 'ER_DUP_KEYNAME') {
                             // Índice já existe, tudo bem
@@ -15629,7 +15629,7 @@ const startServer = async () => {
                             token VARCHAR(255) NOT NULL UNIQUE,
                             expira_em DATETIME NOT NULL,
                             usação TINYINT(1) DEFAULT 0,
-                            criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                             INDEX idx_token (token),
                             INDEX idx_email (email),
                             INDEX idx_expira_em (expira_em)
@@ -15730,7 +15730,7 @@ const startServer = async () => {
                             ordem_producao_id INT NULL COMMENT 'Ordem que gerou a necessidade',
                             pedido_compra_id INT NULL COMMENT 'Pedido de compra geração',
                             status ENUM('pendente', 'em_compra', 'resolvido', 'ignoração') DEFAULT 'pendente',
-                            criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                             resolvido_em TIMESTAMP NULL,
                             resolvido_por INT NULL,
                             observacoes TEXT,
@@ -15822,7 +15822,7 @@ const startServer = async () => {
         // Função para tentar iniciar o servidor com HOST e PORT
         const tryPort = async (portToTry) => {
             return new Promise((resolve, reject) => {
-                // Criar servidor HTTP/HTTPS baseação no .env
+                // Criar servidor HTTP/HTTPS baseado no .env
                 let httpServer;
                 const ENABLE_HTTPS = process.env.ENABLE_HTTPS === 'true';
                 
@@ -15927,7 +15927,7 @@ const startServer = async () => {
                     });
 
                     socket.on('agent-typing', (data) => {
-                        // Envia indicaçãor de digitação para o usuário específico
+                        // Envia indicaçãor de digitado para o usuário específico
                         io.emit('agent-typing', { userId: data.userId, isTyping: data.isTyping });
                     });
 
@@ -16069,7 +16069,7 @@ app.post('/api/admin/migration-financeiro', authenticateToken, async (req, res) 
                 console.log(`🚀 Servidor ALUFORCE v2.0 iniciação com sucesso!`);
                 console.log('='.repeat(60));
                 console.log(`📍 URL: http://${HOST}:${actualPort}`);
-                console.log(`🔌 Banco de Daçãos: ${DB_AVAILABLE  '✅ Conectação' : '❌ Modo Degradação (sem DB)'}`);
+                console.log(`🔌 Banco de Daçãos: ${DB_AVAILABLE ? '✅ Conectação' : '❌ Modo Degradação (sem DB)'}`);
                 console.log(`🌐 Ambiente: ${process.env.NODE_ENV || 'development'}`);
                 
                 if (actualPort !== PORT) {
@@ -16225,8 +16225,8 @@ app.get('/api/vendas/dashboard/vendedor', authorizeArea('vendas'), async (req, r
         const [results] = await pool.query(`
             SELECT 
                 COUNT(p.id) as meus_pedidos,
-                SUM(CASE WHEN p.status = 'faturação' OR p.status = 'convertido' THEN 1 ELSE 0 END) as minhas_vendas,
-                SUM(CASE WHEN p.status = 'faturação' OR p.status = 'convertido' THEN p.valor_total ELSE 0 END) as meu_faturamento
+                SUM(CASE WHEN p.status = 'faturado' OR p.status = 'convertido' THEN 1 ELSE 0 END) as minhas_vendas,
+                SUM(CASE WHEN p.status = 'faturado' OR p.status = 'convertido' THEN p.valor_total ELSE 0 END) as meu_faturamento
             FROM pedidos p
             WHERE p.vendedor_id =  AND p.created_at >= DATE_SUB(NOW(), INTERVAL  DAY)
         `, [userId, periodo]);
@@ -16781,7 +16781,7 @@ app.post('/api/vendas/pedidos', authenticateToken, authorizeArea('vendas'), asyn
             prazo_entrega, endereco_entrega, municipio_entrega, metodo_envio
         ]);
         
-        res.json({ success: true, id: result.insertId, message: 'Pedido criação com sucesso' });
+        res.json({ success: true, id: result.insertId, message: 'Pedido criado com sucesso' });
     } catch (error) {
         console.error('Erro ao criar pedido:', error);
         res.status(500).json({ error: 'Erro ao criar pedido' });
@@ -16890,7 +16890,7 @@ app.post('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
             VALUES (, , , , , NOW())
         `, [nome, email, telefone, cpf, endereco]);
         
-        res.json({ success: true, id: result.insertId, message: 'Cliente criação com sucesso' });
+        res.json({ success: true, id: result.insertId, message: 'Cliente criado com sucesso' });
     } catch (error) {
         console.error('Erro ao criar cliente:', error);
         res.status(500).json({ error: 'Erro ao criar cliente' });
@@ -17119,7 +17119,7 @@ function checkFinanceiroPermission(area) {
                     excluir: true,
                     aprovar: true
                 };
-                console.log(`[FINANCEIRO/PERM] Admin detectação: ${user.email}`);
+                console.log(`[FINANCEIRO/PERM] Admin detectado: ${user.email}`);
                 return next();
             }
 
@@ -17380,7 +17380,7 @@ app.post('/api/financeiro/bancos', authenticateToken, async (req, res) => {
             [nomeBanco, banco || null, agencia || null, conta || null, tipoFinal, saldo_inicial || 0, saldo_inicial || 0]
         );
 
-        console.log('[FINANCEIRO] Banco criação com ID:', result.insertId);
+        console.log('[FINANCEIRO] Banco criado com ID:', result.insertId);
 
         res.status(201).json({
             success: true,
@@ -17469,8 +17469,8 @@ app.get('/api/financeiro/bancos/:id/extrato', authenticateToken, async (req, res
             `SELECT 'despesa' as tipo, fornecedor as descricao, valor, data_pagamento as data
              FROM contas_pagar 
              WHERE banco_id =  AND status = 'paga'
-             ${inicio  'AND data_pagamento >= ' : ''}
-             ${fim  'AND data_pagamento <= ' : ''}`,
+             ${inicio ? 'AND data_pagamento >= ' : ''}
+             ${fim ? 'AND data_pagamento <= ' : ''}`,
             [id, inicio, fim].filter(Boolean)
         );
 
@@ -17478,8 +17478,8 @@ app.get('/api/financeiro/bancos/:id/extrato', authenticateToken, async (req, res
             `SELECT 'receita' as tipo, cliente as descricao, valor, data_recebimento as data
              FROM contas_receber 
              WHERE banco_id =  AND status = 'recebida'
-             ${inicio  'AND data_recebimento >= ' : ''}
-             ${fim  'AND data_recebimento <= ' : ''}`,
+             ${inicio ? 'AND data_recebimento >= ' : ''}
+             ${fim ? 'AND data_recebimento <= ' : ''}`,
             [id, inicio, fim].filter(Boolean)
         );
 
@@ -17656,7 +17656,7 @@ app.post('/api/financeiro/parcelas/:id/pagar', authenticateToken, async (req, re
              SET status = , valor_pago = , data_pagamento = 
              WHERE id = `,
             [
-                valor_pago >= (await pool.query('SELECT valor FROM parcelas WHERE id = ', [id]))[0][0].valor  'pago' : 'pendente',
+                valor_pago >= (await pool.query('SELECT valor FROM parcelas WHERE id = ', [id]))[0][0].valor ? 'pago' : 'pendente',
                 valor_pago,
                 data_pagamento || new Date().toISOString().split('T')[0],
                 id
@@ -17817,7 +17817,7 @@ app.post('/api/financeiro/recorrencias/:id/pausar', authenticateToken, async (re
 
         res.json({ 
             success: true, 
-            message: ativo  'Recorrência reativada' : 'Recorrência pausada'
+            message: ativo ? 'Recorrência reativada' : 'Recorrência pausada'
         });
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao pausar/reativar recorrência:', err);
@@ -17914,7 +17914,7 @@ app.post('/api/financeiro/contas-pagar/:id/pagar', checkFinanceiroPermission('co
         }
 
         const valorTotal = conta[0].valor + (conta[0].valor_juros || 0) + (conta[0].valor_multa || 0) - (conta[0].valor_desconto || 0);
-        const status = valor_pago >= valorTotal  'pago' : 'pendente';
+        const status = valor_pago >= valorTotal ? 'pago' : 'pendente';
 
         await pool.query(
             `UPDATE contas_pagar 
@@ -18067,7 +18067,7 @@ app.post('/api/financeiro/contas-receber/:id/receber', checkFinanceiroPermission
         }
 
         const valorTotal = conta[0].valor + (conta[0].valor_juros || 0) + (conta[0].valor_multa || 0) - (conta[0].valor_desconto || 0);
-        const status = valor_recebido >= valorTotal  'recebido' : 'pendente';
+        const status = valor_recebido >= valorTotal ? 'recebido' : 'pendente';
 
         await pool.query(
             `UPDATE contas_receber 
@@ -18694,10 +18694,10 @@ app.post('/api/financeiro/migrar-integracao-setup', async (req, res) => {
                 usuario_id INT NULL,
                 status ENUM('sucesso', 'erro') DEFAULT 'sucesso',
                 mensagem TEXT NULL,
-                criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 INDEX idx_origem (tipo_origem, origem_id),
                 INDEX idx_destino (tipo_destino, destino_id),
-                INDEX idx_data (criação_em)
+                INDEX idx_data (criado_em)
             )
         `);
         logs.push('   ✅ Tabela criada');
@@ -18738,7 +18738,7 @@ app.post('/api/financeiro/migrar-integracao-setup', async (req, res) => {
                 IF NEW.pedido_compra_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor, NEW.criação_por, 'sucesso');
+                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor, NEW.criado_por, 'sucesso');
                 END IF;
             END
         `);
@@ -18752,11 +18752,11 @@ app.post('/api/financeiro/migrar-integracao-setup', async (req, res) => {
                 IF NEW.venda_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor, NEW.criação_por, 'sucesso');
+                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor, NEW.criado_por, 'sucesso');
                 END IF;
             END
         `);
-        logs.push('   ✅ Triggers criaçãos');
+        logs.push('   ✅ Triggers criados');
 
         await connection.commit();
         logs.push('\n✅ MIGRAÇÃO CONCLUÍDA!');
@@ -18839,10 +18839,10 @@ app.post('/api/financeiro/migrar-integracao', authenticateToken, async (req, res
                 usuario_id INT NULL,
                 status ENUM('sucesso', 'erro') DEFAULT 'sucesso',
                 mensagem TEXT NULL,
-                criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 INDEX idx_origem (tipo_origem, origem_id),
                 INDEX idx_destino (tipo_destino, destino_id),
-                INDEX idx_data (criação_em)
+                INDEX idx_data (criado_em)
             )
         `);
         logs.push('   ✅ Tabela criada');
@@ -18883,7 +18883,7 @@ app.post('/api/financeiro/migrar-integracao', authenticateToken, async (req, res
                 IF NEW.pedido_compra_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor, NEW.criação_por, 'sucesso');
+                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor, NEW.criado_por, 'sucesso');
                 END IF;
             END
         `);
@@ -18897,11 +18897,11 @@ app.post('/api/financeiro/migrar-integracao', authenticateToken, async (req, res
                 IF NEW.venda_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor, NEW.criação_por, 'sucesso');
+                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor, NEW.criado_por, 'sucesso');
                 END IF;
             END
         `);
-        logs.push('   ✅ Triggers criaçãos');
+        logs.push('   ✅ Triggers criados');
 
         await connection.commit();
         logs.push('\n✅ MIGRAÇÃO CONCLUÍDA!');
@@ -19291,7 +19291,7 @@ integracaoRouter.post('/vendas/aprovar-pedido', [
         const [contaReceber] = await connection.query(`
             INSERT INTO contas_receber 
             (cliente_id, valor, vencimento, categoria_id, forma_pagamento_id, 
-             descricao, documento, venda_id, status, criação_por, data_criacao)
+             descricao, documento, venda_id, status, criado_por, data_criacao)
             VALUES (, , DATE_ADD(CURDATE(), INTERVAL 30 DAY), 
                     (SELECT id FROM categorias_financeiras WHERE tipo = 'receita' AND nome LIKE '%Venda%' LIMIT 1),
                     1, , , , 'pendente', , NOW())
@@ -19461,7 +19461,7 @@ integracaoRouter.post('/compras/receber-pedido', [
         const [contaPagar] = await connection.query(`
             INSERT INTO contas_pagar 
             (fornecedor_id, valor, vencimento, categoria_id, forma_pagamento_id,
-             descricao, documento, pedido_compra_id, status, criação_por, data_criacao)
+             descricao, documento, pedido_compra_id, status, criado_por, data_criacao)
             VALUES (, , DATE_ADD(CURDATE(), INTERVAL 30 DAY),
                     (SELECT id FROM categorias_financeiras WHERE tipo = 'despesa' AND nome LIKE '%Compra%' LIMIT 1),
                     1, , , , 'pendente', , NOW())

@@ -77,7 +77,7 @@ async function executarSeedCorrigido() {
                     ('PCP', 'pcp@aluforce.com', SHA2('pcp123', 256), 0, 'pcp', NOW())
                     ON DUPLICATE KEY UPDATE nome = VALUES(nome)
                 `);
-                console.log(`   ${colors.green}✅ 4 usuários criaçãos${colors.reset}`);
+                console.log(`   ${colors.green}✅ 4 usuários criados${colors.reset}`);
             } else {
                 console.log(`   ${colors.yellow}⚠️  Coluna de senha não encontrada${colors.reset}`);
             }
@@ -112,7 +112,7 @@ async function executarSeedCorrigido() {
                     ON DUPLICATE KEY UPDATE nome = VALUES(nome)
                 `);
             }
-            console.log(`   ${colors.green}✅ 5 clientes criaçãos${colors.reset}`);
+            console.log(`   ${colors.green}✅ 5 clientes criados${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  Clientes: ${err.message}${colors.reset}`);
         }
@@ -138,7 +138,7 @@ async function executarSeedCorrigido() {
                     ('Lucas Oliveira', 'lucas@aluforce.com', 'Supervisor de Produção', 'PCP', '2021-02-15', 5000.00, 1)
                     ON DUPLICATE KEY UPDATE ${nomeCol} = VALUES(${nomeCol})
                 `);
-                console.log(`   ${colors.green}✅ 5 funcionários criaçãos${colors.reset}`);
+                console.log(`   ${colors.green}✅ 5 funcionários criados${colors.reset}`);
             } else {
                 console.log(`   ${colors.yellow}⚠️  Estrutura incompatível${colors.reset}`);
             }

@@ -74,7 +74,7 @@ async function ajustarPermissoes() {
         if (rhUser.length > 0) {
             console.log(`   ✅ Usuário RH encontrado:`);
             console.log(`      Nome: ${rhUser[0].nome}`);
-            console.log(`      Admin: ${rhUser[0].is_admin  'SIM' : 'NÃO'}`);
+            console.log(`      Admin: ${rhUser[0].is_admin ? 'SIM' : 'NÃO'}`);
             console.log(`      Permissões RH: ${rhUser[0].permissoes_rh}`);
             console.log('      📌 NOTA: Como é ADMIN, tem acesso à área admin do RH automaticamente\n');
         } else {

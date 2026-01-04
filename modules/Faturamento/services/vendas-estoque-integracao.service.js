@@ -347,7 +347,7 @@ class VendasEstoqueIntegracaoService {
                 status: ordem.status,
                 produzido,
                 percentual: (ordem.itens_concluidos / ordem.total_itens) * 100,
-                mensagem: produzido  'Ordem de produção concluída' : 'Ordem de produção em andamento'
+                mensagem: produzido ? 'Ordem de produção concluída' : 'Ordem de produção em andamento'
             };
             
         } catch (error) {
@@ -356,14 +356,14 @@ class VendasEstoqueIntegracaoService {
     }
     
     /**
-     * Bloquear edição de pedido faturação
+     * Bloquear edição de pedido faturado
      */
     async bloquearPedidoFaturação(pedido_id) {
         try {
             await this.pool.query(`
                 UPDATE pedidos
                 SET bloqueação_edicao = 1,
-                    motivo_bloqueio = 'Pedido faturação - NFe emitida',
+                    motivo_bloqueio = 'Pedido faturado - NFe emitida',
                     data_bloqueio = NOW()
                 WHERE id = 
             `, [pedido_id]);
@@ -491,7 +491,7 @@ class VendasEstoqueIntegracaoService {
     }
     
     /**
-     * Relatório de produtos mais faturaçãos
+     * Relatório de produtos mais faturados
      */
     async relatorioProdutosMaisFaturaçãos(filtros = {}) {
         const { data_inicio, data_fim, limite = 20 } = filtros;
@@ -503,7 +503,7 @@ class VendasEstoqueIntegracaoService {
                 p.descricao,
                 SUM(ni.quantidade) as quantidade_total,
                 COUNT(DISTINCT n.id) as total_nfes,
-                SUM(ni.valor_total) as valor_total_faturação,
+                SUM(ni.valor_total) as valor_total_faturado,
                 AVG(ni.valor_unitario) as preco_medio
             FROM nfe_itens ni
             INNER JOIN nfe n ON ni.nfe_id = n.id
@@ -523,7 +523,7 @@ class VendasEstoqueIntegracaoService {
             params.push(data_fim);
         }
         
-        query += ` GROUP BY p.id ORDER BY valor_total_faturação DESC LIMIT `;
+        query += ` GROUP BY p.id ORDER BY valor_total_faturado DESC LIMIT `;
         params.push(parseInt(limite));
         
         const [produtos] = await this.pool.query(query, params);

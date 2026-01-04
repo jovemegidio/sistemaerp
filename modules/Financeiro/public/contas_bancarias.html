@@ -946,7 +946,7 @@
             }
 
             grid.innerHTML = daçãos.map(conta => {
-                const saldoColor = conta.saldo >= 0  '#1e40af' : '#ef4444';
+                const saldoColor = conta.saldo >= 0 ? '#1e40af' : '#ef4444';
                 const bancoNome = {
                     '001': 'Banco do Brasil',
                     '237': 'Bradesco',
@@ -1074,7 +1074,7 @@
 
             try {
                 const url = id  `/api/financeiro/contas-bancarias/${id}` : '/api/financeiro/contas-bancarias';
-                const method = id  'PUT' : 'POST';
+                const method = id ? 'PUT' : 'POST';
 
                 const response = await fetch(url, {
                     method,
@@ -1257,8 +1257,8 @@
                                     <td style="padding: 14px 12px; text-align: center;">
                                         <span style="background: ${tipoLabel.bg}; color: ${tipoLabel.color}; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600;">${tipoLabel.text}</span>
                                     </td>
-                                    <td style="padding: 14px 12px; text-align: right; font-size: 14px; font-weight: 600; color: ${isEntrada  '#10b981' : '#ef4444'};">
-                                        ${isEntrada  '+' : '-'} R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                                    <td style="padding: 14px 12px; text-align: right; font-size: 14px; font-weight: 600; color: ${isEntrada ? '#10b981' : '#ef4444'};">
+                                        ${isEntrada ? '+' : '-'} R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                                     </td>
                                 </tr>
                             `;
@@ -1271,7 +1271,7 @@
             document.getElementById('extrato-total-entradas').textContent = $ ${totalEntradas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('extrato-total-saidas').textContent = $ ${totalSaidas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('extrato-saldo-periodo').textContent = $ ${saldoPeriodo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-            document.getElementById('extrato-saldo-periodo').style.color = saldoPeriodo >= 0  '#1e40af' : '#ef4444';
+            document.getElementById('extrato-saldo-periodo').style.color = saldoPeriodo >= 0 ? '#1e40af' : '#ef4444';
         }
 
         function exportarExtratoPDF() {
@@ -1289,7 +1289,7 @@
             
             // Preencher selects com contas
             selectOrigem.innerHTML = '<option value="">Selecione a conta de origem...</option>' +
-                contas.map(c => `<option value="${c.id}" ${c.id === contaOrigemId  'selected' : ''}>${c.nome} (R$ ${parseFloat(c.saldo || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})})</option>`).join('');
+                contas.map(c => `<option value="${c.id}" ${c.id === contaOrigemId ? 'selected' : ''}>${c.nome} (R$ ${parseFloat(c.saldo || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})})</option>`).join('');
             
             selectDestino.innerHTML = '<option value="">Selecione a conta de destino...</option>' +
                 contas.filter(c => c.id !== contaOrigemId).map(c => `<option value="${c.id}">${c.nome}</option>`).join('');
@@ -1431,7 +1431,7 @@
             const saldo = parseFloat(visualizarContaAtual.saldo || 0);
             const saldoEl = document.getElementById('visualizar-saldo');
             saldoEl.textContent = $ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-            saldoEl.style.color = saldo >= 0  '#1e40af' : '#ef4444';
+            saldoEl.style.color = saldo >= 0 ? '#1e40af' : '#ef4444';
             
             document.getElementById('visualizar-agencia').textContent = visualizarContaAtual.agencia || '-';
             document.getElementById('visualizar-numero').textContent = visualizarContaAtual.numero_conta || '-';
@@ -1616,7 +1616,7 @@
             const badge = document.getElementById('notification-count');
             if (badge) {
                 if (notificacoesNaoLidas > 0) {
-                    badge.textContent = notificacoesNaoLidas > 9  '9+' : notificacoesNaoLidas;
+                    badge.textContent = notificacoesNaoLidas > 9 ? '9+' : notificacoesNaoLidas;
                     badge.style.display = 'block';
                 } else {
                     badge.style.display = 'none';

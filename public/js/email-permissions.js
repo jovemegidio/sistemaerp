@@ -3,7 +3,7 @@
  * Define permissões específicas para cada usuário do sistema
  */
 
-// Função para aplicar permissões aos módulos baseação em emails
+// Função para aplicar permissões aos módulos baseado em emails
 function applyModulePermissions(user) {
     if (!user) {
         console.log('⚠️ Nenhum usuário fornecido para applyModulePermissions');
@@ -98,7 +98,7 @@ function applyModulePermissions(user) {
             const hasAccess = requiredPermissions.some(perm => allowedAreas.includes(perm));
             
             const moduleName = selector.replace('.', '').replace('-card', '');
-            console.log(`🔍 Módulo ${moduleName}: ${hasAccess  '✅ PERMITIDO' : '❌ BLOQUEADO'}`);
+            console.log(`🔍 Módulo ${moduleName}: ${hasAccess ? '✅ PERMITIDO' : '❌ BLOQUEADO'}`);
             
             if (hasAccess) {
                 moduleCard.classList.add('allowed');
@@ -167,7 +167,7 @@ function applyAdminPermissions(userEmail, allowedAreas) {
     ];
     
     const isAdmin = adminEmails.includes(userEmail);
-    console.log(`🔧 Controle de Admin: ${isAdmin  'PERMITIDO' : 'BLOQUEADO'} para ${userEmail}`);
+    console.log(`🔧 Controle de Admin: ${isAdmin ? 'PERMITIDO' : 'BLOQUEADO'} para ${userEmail}`);
     
     // Controlar botão de configurações
     const settingsBtn = document.getElementById('settings-btn');

@@ -10,7 +10,7 @@ const http = require('http');
 const path = require('path');
 
 /**
- * Cria servidor HTTP e/ou HTTPS baseação nas configurações do .env
+ * Cria servidor HTTP e/ou HTTPS baseado nas configurações do .env
  * @param {Object} config - Configurações do servidor
  * @param {Express} config.app - Aplicação Express
  * @param {number} config.port - Porta do servidor

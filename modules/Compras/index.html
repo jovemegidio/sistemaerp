@@ -1392,7 +1392,7 @@
                 document.getElementById('fornCnpj').textContent = fornecedor.cnpj || '-';
                 document.getElementById('fornTelefone').textContent = fornecedor.telefone || '-';
                 document.getElementById('fornEmail').textContent = fornecedor.email || '-';
-                document.getElementById('fornCidade').textContent = (fornecedor.cidade || '-') + (fornecedor.estação  '/' + fornecedor.estação : '');
+                document.getElementById('fornCidade').textContent = (fornecedor.cidade || '-') + (fornecedor.estação ? '/' + fornecedor.estação : '');
                 infoDiv.style.display = 'block';
             } else {
                 infoDiv.style.display = 'none';

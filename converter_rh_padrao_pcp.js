@@ -238,7 +238,7 @@ paginas.forEach(pagina => {
         
         // Marcar menu ativo
         paginas.forEach(p => {
-            novoHtml = novoHtml.replace(`{{${p.active}}}`, p.nome === pagina.nome  'active' : '');
+            novoHtml = novoHtml.replace(`{{${p.active}}}`, p.nome === pagina.nome ? 'active' : '');
         });
         
         // Salvar arquivo atualização

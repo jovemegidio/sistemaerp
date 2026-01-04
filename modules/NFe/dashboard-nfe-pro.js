@@ -165,8 +165,8 @@ class NFeDashboard {
                             <i class="fas fa-file-invoice"></i>
                         </div>
                     </div>
-                    <div class="metric-trend trend-${nfesEmitidas.variacao >= 0  'positive' : 'negative'}">
-                        <i class="fas fa-arrow-${nfesEmitidas.variacao >= 0  'up' : 'down'}"></i>
+                    <div class="metric-trend trend-${nfesEmitidas.variacao >= 0 ? 'positive' : 'negative'}">
+                        <i class="fas fa-arrow-${nfesEmitidas.variacao >= 0 ? 'up' : 'down'}"></i>
                         <span>${Math.abs(nfesEmitidas.variacao).toFixed(1)}%</span>
                     </div>
                 </div>
@@ -188,8 +188,8 @@ class NFeDashboard {
                             <i class="fas fa-dollar-sign"></i>
                         </div>
                     </div>
-                    <div class="metric-trend trend-${valorTotal.variacao >= 0  'positive' : 'negative'}">
-                        <i class="fas fa-arrow-${valorTotal.variacao >= 0  'up' : 'down'}"></i>
+                    <div class="metric-trend trend-${valorTotal.variacao >= 0 ? 'positive' : 'negative'}">
+                        <i class="fas fa-arrow-${valorTotal.variacao >= 0 ? 'up' : 'down'}"></i>
                         <span>${Math.abs(valorTotal.variacao).toFixed(1)}%</span>
                     </div>
                 </div>
@@ -239,8 +239,8 @@ class NFeDashboard {
                             <i class="fas fa-clock"></i>
                         </div>
                     </div>
-                    <div class="metric-trend trend-${tempoMedioEmissao.variacao <= 0  'positive' : 'negative'}">
-                        <i class="fas fa-arrow-${tempoMedioEmissao.variacao <= 0  'down' : 'up'}"></i>
+                    <div class="metric-trend trend-${tempoMedioEmissao.variacao <= 0 ? 'positive' : 'negative'}">
+                        <i class="fas fa-arrow-${tempoMedioEmissao.variacao <= 0 ? 'down' : 'up'}"></i>
                         <span>${Math.abs(tempoMedioEmissao.variacao).toFixed(1)}%</span>
                     </div>
                 </div>

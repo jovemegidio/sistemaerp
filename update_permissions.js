@@ -104,8 +104,8 @@ const userPermissions = {
             
             console.log(`✅ ${user.nome} (${user.email})`);
             console.log(`   - Role: ${config.role}`);
-            console.log(`   - Admin: ${config.is_admin  'Sim' : 'Não'}`);
-            console.log(`   - RH Admin: ${config.rh_admin  'Sim' : 'Não'}`);
+            console.log(`   - Admin: ${config.is_admin ? 'Sim' : 'Não'}`);
+            console.log(`   - RH Admin: ${config.rh_admin ? 'Sim' : 'Não'}`);
             console.log(`   - Áreas: ${config.areas.join(', ')}`);
             console.log('');
         }
@@ -123,8 +123,8 @@ const userPermissions = {
             Nome: u.nome,
             Email: u.email,
             Role: u.role,
-            Admin: u.is_admin  '✓' : '',
-            'RH Admin': u.rh_admin  '✓' : '',
+            Admin: u.is_admin ? '✓' : '',
+            'RH Admin': u.rh_admin ? '✓' : '',
             Setor: u.setor,
             Áreas: u.permissoes ? JSON.parse(u.permissoes).join(', ') : 'N/A'
         })));

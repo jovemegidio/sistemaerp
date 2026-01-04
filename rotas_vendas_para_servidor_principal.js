@@ -132,7 +132,7 @@ app.post('/api/vendas/pedidos', authorizeArea('vendas'), async (req, res) => {
         res.json({
             success: true,
             id: result.insertId,
-            message: 'Pedido criação com sucesso'
+            message: 'Pedido criado com sucesso'
         });
     } catch (error) {
         console.error('Erro ao criar pedido:', error);
@@ -228,7 +228,7 @@ app.post('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
         res.json({
             success: true,
             id: result.insertId,
-            message: 'Cliente criação com sucesso'
+            message: 'Cliente criado com sucesso'
         });
     } catch (error) {
         console.error('Erro ao criar cliente:', error);

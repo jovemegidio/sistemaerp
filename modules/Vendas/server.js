@@ -185,7 +185,7 @@ async function computeAndCacheAggregates() {
         const startStr = `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, '0')}-01`;
 
         const [rows] = await pool.query(
-            `SELECT DATE_FORMAT(created_at, '%Y-%m') AS ym, COALESCE(SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS total
+            `SELECT DATE_FORMAT(created_at, '%Y-%m') AS ym, COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS total
              FROM pedidos
              WHERE created_at >= 
              GROUP BY ym
@@ -224,7 +224,7 @@ async function computeAndCacheAggregates() {
         const startTop = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (periodDays - 1));
         const startTopStr = `${startTop.getFullYear()}-${String(startTop.getMonth() + 1).padStart(2, '0')}-${String(startTop.getDate()).padStart(2, '0')}`;
         const [topRows] = await pool.query(
-            `SELECT u.id, u.nome, COALESCE(SUM(CASE WHEN p.status = 'faturação' THEN p.valor ELSE 0 END), 0) AS valor
+            `SELECT u.id, u.nome, COALESCE(SUM(CASE WHEN p.status = 'faturado' THEN p.valor ELSE 0 END), 0) AS valor
              FROM pedidos p
              JOIN usuarios u ON p.vendedor_id = u.id
              WHERE p.created_at >= 
@@ -480,8 +480,8 @@ apiVendasRouter.get('/kanban/pedidos', async (req, res) => {
             dataFaturamento,
             vendedor,
             projeto,
-            exibirCancelaçãos,
-            exibirDenegaçãos,
+            exibirCancelados,
+            exibirDenegados,
             exibirEncerraçãos
         } = req.query;
         
@@ -498,8 +498,8 @@ apiVendasRouter.get('/kanban/pedidos', async (req, res) => {
         
         // Filtro de status base (cancelaçãos, denegaçãos, encerraçãos)
         const statusExcluidos = [];
-        if (exibirCancelaçãos !== 'true') statusExcluidos.push('cancelação');
-        if (exibirDenegaçãos !== 'true') statusExcluidos.push('denegação');
+        if (exibirCancelados !== 'true') statusExcluidos.push('cancelação');
+        if (exibirDenegados !== 'true') statusExcluidos.push('denegação');
         if (exibirEncerraçãos !== 'true') statusExcluidos.push('encerração', 'arquivação');
         
         if (statusExcluidos.length > 0) {
@@ -613,18 +613,18 @@ apiVendasRouter.get('/kanban/pedidos', async (req, res) => {
             }
         }
         
-        // Filtro de data de faturamento (para pedidos faturaçãos)
+        // Filtro de data de faturamento (para pedidos faturados)
         if (dataFaturamento && dataFaturamento !== 'tudo') {
             const dataLimite = calcularData(dataFaturamento, 'passação');
             if (dataLimite) {
-                whereConditions.push('(p.data_faturamento >=  OR (p.status IN ("faturação", "recibo") AND p.updated_at >= ))');
+                whereConditions.push('(p.data_faturamento >=  OR (p.status IN ("faturado", "recibo") AND p.updated_at >= ))');
                 const dataStr = dataLimite.toISOString().split('T')[0];
                 queryParams.push(dataStr, dataStr);
             }
         }
         
         // Montar query final
-        const whereClause = whereConditions.length > 0  'WHERE ' + whereConditions.join(' AND ') : '';
+        const whereClause = whereConditions.length > 0 ? 'WHERE ' + whereConditions.join(' AND ') : '';
         
         const query = `
             SELECT 
@@ -898,8 +898,8 @@ apiVendasRouter.get('/dashboard/admin', async (req, res, next) => {
         // Métricas gerais
         const [metricsRows] = await pool.query(`
             SELECT 
-                COUNT(CASE WHEN status = 'faturação' THEN 1 END) as total_faturação,
-                SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END) as valor_faturação,
+                COUNT(CASE WHEN status = 'faturado' THEN 1 END) as total_faturado,
+                SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END) as valor_faturado,
                 COUNT(CASE WHEN status = 'orçamento' THEN 1 END) as total_orcamentos,
                 SUM(CASE WHEN status = 'orçamento' THEN valor ELSE 0 END) as valor_orcamentos,
                 COUNT(CASE WHEN status = 'analise' THEN 1 END) as total_analise,
@@ -916,13 +916,13 @@ apiVendasRouter.get('/dashboard/admin', async (req, res, next) => {
             SELECT 
                 u.id, u.nome, u.email,
                 COUNT(p.id) as total_vendas,
-                SUM(CASE WHEN p.status = 'faturação' THEN p.valor ELSE 0 END) as valor_faturação,
+                SUM(CASE WHEN p.status = 'faturado' THEN p.valor ELSE 0 END) as valor_faturado,
                 SUM(p.valor) as valor_total
             FROM usuarios u
             LEFT JOIN pedidos p ON u.id = p.vendedor_id AND p.created_at >= CURDATE() - INTERVAL  DAY
             WHERE u.role = 'vendedor' OR u.is_admin = 0
             GROUP BY u.id, u.nome, u.email
-            ORDER BY valor_faturação DESC
+            ORDER BY valor_faturado DESC
             LIMIT 10
         `, [parseInt(período)]);
 
@@ -930,8 +930,8 @@ apiVendasRouter.get('/dashboard/admin', async (req, res, next) => {
         const [faturamentoMensal] = await pool.query(`
             SELECT 
                 DATE_FORMAT(created_at, '%Y-%m') as mes,
-                COUNT(CASE WHEN status = 'faturação' THEN 1 END) as qtd_faturação,
-                SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END) as valor_faturação
+                COUNT(CASE WHEN status = 'faturado' THEN 1 END) as qtd_faturado,
+                SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END) as valor_faturado
             FROM pedidos
             WHERE created_at >= CURDATE() - INTERVAL 12 MONTH
             GROUP BY DATE_FORMAT(created_at, '%Y-%m')
@@ -954,17 +954,17 @@ apiVendasRouter.get('/dashboard/admin', async (req, res, next) => {
             SELECT 
                 e.id, e.nome_fantasia, e.cnpj,
                 COUNT(p.id) as total_pedidos,
-                SUM(CASE WHEN p.status = 'faturação' THEN p.valor ELSE 0 END) as valor_faturação
+                SUM(CASE WHEN p.status = 'faturado' THEN p.valor ELSE 0 END) as valor_faturado
             FROM empresas e
             LEFT JOIN pedidos p ON e.id = p.empresa_id AND p.created_at >= CURDATE() - INTERVAL  DAY
             GROUP BY e.id, e.nome_fantasia, e.cnpj
-            ORDER BY valor_faturação DESC
+            ORDER BY valor_faturado DESC
             LIMIT 10
         `, [parseInt(período)]);
 
         // Taxa de conversão
         const totalOrcamentos = metricsRows[0].total_orcamentos || 0;
-        const totalFaturação = metricsRows[0].total_faturação || 0;
+        const totalFaturação = metricsRows[0].total_faturado || 0;
         const taxaConversao = totalOrcamentos > 0  ((totalFaturação / totalOrcamentos) * 100).toFixed(2) : 0;
 
         res.json({
@@ -994,8 +994,8 @@ apiVendasRouter.get('/dashboard/vendedor', async (req, res, next) => {
         // Métricas pessoais do vendedor
         const [metricsRows] = await pool.query(`
             SELECT 
-                COUNT(CASE WHEN status = 'faturação' THEN 1 END) as total_faturação,
-                SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END) as valor_faturação,
+                COUNT(CASE WHEN status = 'faturado' THEN 1 END) as total_faturado,
+                SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END) as valor_faturado,
                 COUNT(CASE WHEN status = 'orçamento' THEN 1 END) as total_orcamentos,
                 SUM(CASE WHEN status = 'orçamento' THEN valor ELSE 0 END) as valor_orcamentos,
                 COUNT(CASE WHEN status = 'analise' THEN 1 END) as total_analise,
@@ -1021,8 +1021,8 @@ apiVendasRouter.get('/dashboard/vendedor', async (req, res, next) => {
         const [históricoMensal] = await pool.query(`
             SELECT 
                 DATE_FORMAT(created_at, '%Y-%m') as mes,
-                COUNT(CASE WHEN status = 'faturação' THEN 1 END) as qtd_faturação,
-                SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END) as valor_faturação
+                COUNT(CASE WHEN status = 'faturado' THEN 1 END) as qtd_faturado,
+                SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END) as valor_faturado
             FROM pedidos
             WHERE vendedor_id =  AND created_at >= CURDATE() - INTERVAL 6 MONTH
             GROUP BY DATE_FORMAT(created_at, '%Y-%m')
@@ -1034,24 +1034,24 @@ apiVendasRouter.get('/dashboard/vendedor', async (req, res, next) => {
             SELECT 
                 e.id, e.nome_fantasia,
                 COUNT(p.id) as total_pedidos,
-                SUM(CASE WHEN p.status = 'faturação' THEN p.valor ELSE 0 END) as valor_faturação,
+                SUM(CASE WHEN p.status = 'faturado' THEN p.valor ELSE 0 END) as valor_faturado,
                 MAX(p.created_at) as último_pedido
             FROM empresas e
             INNER JOIN pedidos p ON e.id = p.empresa_id
             WHERE p.vendedor_id =  AND p.created_at >= CURDATE() - INTERVAL  DAY
             GROUP BY e.id, e.nome_fantasia
-            ORDER BY valor_faturação DESC
+            ORDER BY valor_faturado DESC
             LIMIT 10
         `, [vendedorId, parseInt(período)]);
 
         // Taxa de conversão pessoal
         const totalOrcamentos = metricsRows[0].total_orcamentos || 0;
-        const totalFaturação = metricsRows[0].total_faturação || 0;
+        const totalFaturação = metricsRows[0].total_faturado || 0;
         const taxaConversao = totalOrcamentos > 0  ((totalFaturação / totalOrcamentos) * 100).toFixed(2) : 0;
 
         // Meta simulada (pode vir de tabela de metas futuramente)
         const metaMensal = 100000; // R$ 100k como exemplo
-        const valorFaturação = metricsRows[0].valor_faturação || 0;
+        const valorFaturação = metricsRows[0].valor_faturado || 0;
         const percentualMeta = ((valorFaturação / metaMensal) * 100).toFixed(2);
 
         res.json({
@@ -1093,7 +1093,7 @@ apiVendasRouter.get('/notificacoes', async (req, res, next) => {
             LEFT JOIN empresas e ON p.empresa_id = e.id
             WHERE p.status = 'analise' 
             AND p.created_at < CURDATE() - INTERVAL 7 DAY
-            ${!isAdmin  'AND p.vendedor_id = ' : ''}
+            ${!isAdmin ? 'AND p.vendedor_id = ' : ''}
             ORDER BY p.created_at ASC
             LIMIT 10
         `, !isAdmin  [user.id] : []);
@@ -1104,7 +1104,7 @@ apiVendasRouter.get('/notificacoes', async (req, res, next) => {
             titulo: `Pedido ${p.id} em análise há ${p.dias_espera} dias`,
             mensagem: `Empresa: ${p.empresa_nome} - Valor: R$ ${parseFloat(p.valor).toFixed(2)}`,
             data: p.created_at,
-            prioridade: p.dias_espera > 14  'alta' : 'media'
+            prioridade: p.dias_espera > 14 ? 'alta' : 'media'
         })));
 
         // Orçamentos sem follow-up (mais de 3 dias)
@@ -1117,7 +1117,7 @@ apiVendasRouter.get('/notificacoes', async (req, res, next) => {
             LEFT JOIN empresas e ON p.empresa_id = e.id
             WHERE p.status = 'orçamento'
             AND p.created_at < CURDATE() - INTERVAL 3 DAY
-            ${!isAdmin  'AND p.vendedor_id = ' : ''}
+            ${!isAdmin ? 'AND p.vendedor_id = ' : ''}
             ORDER BY p.created_at ASC
             LIMIT 10
         `, !isAdmin  [user.id] : []);
@@ -1226,7 +1226,7 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
         const vendedor_id = req.query.vendedor_id || null;
         const data_inicio = req.query.data_inicio || null;
         const data_fim = req.query.data_fim || null;
-        const status = req.query.status || null; // Filtro por status (novo, em_negociacao, faturação, entregue, perdido)
+        const status = req.query.status || null; // Filtro por status (novo, em_negociacao, faturado, entregue, perdido)
 
         // Identificar usuário logação (igual ao Kanban - lê do cookie)
         let currentUser = null;
@@ -1286,7 +1286,7 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
             params.push(data_fim);
         }
         
-        // Filtro por status (novo, em_negociacao, faturação, entregue, perdido)
+        // Filtro por status (novo, em_negociacao, faturado, entregue, perdido)
         if (status) {
             where.push('p.status = ');
             params.push(status);
@@ -1430,20 +1430,20 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
             );
         }
 
-        console.log(`✅ Pedido ${insertedId} criação por vendedor ${vendedor_id}`);
+        console.log(`✅ Pedido ${insertedId} criado por vendedor ${vendedor_id}`);
         
         // Criar notificação de novo pedido
         if (global.createNotification) {
-            const valorFormatação = (parseFloat(valor) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const valorFormatado = (parseFloat(valor) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
             global.createNotification(
                 'order',
                 'Novo Pedido Recebido',
-                `${cliente_nome || 'Cliente'} fez um pedido de ${valorFormatação}`,
+                `${cliente_nome || 'Cliente'} fez um pedido de ${valorFormatado}`,
                 { pedido_id: insertedId, cliente: cliente_nome, valor: valor }
             );
         }
         
-        res.status(201).json({ message: 'Pedido criação com sucesso!', id: insertedId, insertId: insertedId });
+        res.status(201).json({ message: 'Pedido criado com sucesso!', id: insertedId, insertId: insertedId });
     } catch (error) {
         console.error('Erro ao criar pedido:', error);
         next(error);
@@ -1509,7 +1509,7 @@ async function saveAnexos(pedidoId, anexosArray) {
             tipo VARCHAR(100),
             tamanho BIGINT,
             conteudo LONGBLOB,
-            criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
@@ -1551,7 +1551,7 @@ apiVendasRouter.get('/pedidos/:id/anexos', async (req, res, next) => {
 
         // Se a tabela não existir, retorna lista vazia
         try {
-            const [rows] = await pool.query('SELECT id, nome, tipo, tamanho, criação_em FROM pedido_anexos WHERE pedido_id =  ORDER BY criação_em DESC', [id]);
+            const [rows] = await pool.query('SELECT id, nome, tipo, tamanho, criado_em FROM pedido_anexos WHERE pedido_id =  ORDER BY criado_em DESC', [id]);
             return res.json(rows || []);
         } catch (err) {
             if (err && err.code === 'ER_NO_SUCH_TABLE') return res.json([]);
@@ -1658,7 +1658,7 @@ apiVendasRouter.put('/pedidos/:id/status', async (req, res, next) => {
             'analise', 'analise-credito', 
             'aprovação', 'pedido-aprovação', 
             'faturar',
-            'faturação', 
+            'faturado', 
             'entregue', 
             'cancelação',
             'recibo'
@@ -1818,7 +1818,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
             if (extraInfo.length > 0 && !updates.observacao) {
                 // Adicionar aos daçãos existentes da observação
                 const obsAtual = existing.observacao || '';
-                const novaObs = obsAtual + (obsAtual  '\n---\n' : '') + extraInfo.join(' | ');
+                const novaObs = obsAtual + (obsAtual ? '\n---\n' : '') + extraInfo.join(' | ');
                 fieldsToUpdate.push('observacao = ');
                 values.push(novaObs);
             }
@@ -2020,7 +2020,7 @@ apiVendasRouter.delete('/pedidos/:pedidoId/itens/:itemId', async (req, res, next
     }
 });
 
-// Helper: atualizar valor total do pedido baseação nos itens
+// Helper: atualizar valor total do pedido baseado nos itens
 async function atualizarTotalPedido(pedidoId) {
     try {
         const [rows] = await pool.query(
@@ -2195,7 +2195,7 @@ apiVendasRouter.post('/pedidos/:id/faturar', async (req, res, next) => {
         // Atualizar pedido
         await pool.query(
             'UPDATE pedidos SET status = , nf_numero = , data_faturamento = NOW(), nfe_chave = , nfe_protocolo =  WHERE id = ',
-            ['faturação', novaNf, nfeData.chave || null, nfeData.protocolo || null, id]
+            ['faturado', novaNf, nfeData.chave || null, nfeData.protocolo || null, id]
         );
         
         // Registrar no histórico
@@ -2204,23 +2204,23 @@ apiVendasRouter.post('/pedidos/:id/faturar', async (req, res, next) => {
             user.id,
             user.nome || user.name || 'Usuário',
             'faturamento',
-            nfeData  `Pedido faturação - NFe ${novaNf} emitida automaticamente` : `Pedido faturação - NF ${novaNf}`,
+            nfeData  `Pedido faturado - NFe ${novaNf} emitida automaticamente` : `Pedido faturado - NF ${novaNf}`,
             { nf_numero: novaNf, valor: pedido.valor, nfe_gerada: !!nfeData }
         );
         
         // Criar notificação de faturamento
         if (global.createNotification) {
-            const valorFormatação = (parseFloat(pedido.valor) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            const valorFormatado = (parseFloat(pedido.valor) || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
             global.createNotification(
                 'payment',
-                nfeData  'Pedido Faturação + NFe Gerada' : 'Pedido Faturação',
-                `Pedido #${id} - ${nfeData  'NFe' : 'NF'} ${novaNf} - ${valorFormatação}`,
+                nfeData ? 'Pedido Faturação + NFe Gerada' : 'Pedido Faturação',
+                `Pedido #${id} - ${nfeData ? 'NFe' : 'NF'} ${novaNf} - ${valorFormatado}`,
                 { pedido_id: id, nf_numero: novaNf, valor: pedido.valor, nfe_data: nfeData }
             );
         }
         
         res.json({ 
-            message: nfeData  'Pedido faturação e NFe gerada com sucesso!' : 'Pedido faturação com sucesso!',
+            message: nfeData ? 'Pedido faturado e NFe gerada com sucesso!' : 'Pedido faturado com sucesso!',
             nf_numero: novaNf,
             nfe_gerada: !!nfeData,
             nfe_data: nfeData
@@ -2276,8 +2276,8 @@ apiVendasRouter.get('/empresas/:id/details', async (req, res, next) => {
             pool.query('SELECT * FROM empresas WHERE id = ', [id]),
             pool.query(`SELECT 
                 COUNT(*) AS totalPedidos, 
-                COALESCE(SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS totalFaturação, 
-                COALESCE(AVG(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS ticketMedio 
+                COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturação, 
+                COALESCE(AVG(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS ticketMedio 
                 FROM pedidos WHERE empresa_id = `, [id]),
             pool.query('SELECT id, valor, status, created_at FROM pedidos WHERE empresa_id =  ORDER BY created_at DESC', [id]),
             pool.query('SELECT id, nome, email, telefone FROM clientes WHERE empresa_id =  ORDER BY nome ASC', [id])
@@ -2596,7 +2596,7 @@ apiVendasRouter.get('/produtos', async (req, res, next) => {
             params.push(`%${search}%`, `%${search}%`);
         }
         
-        const whereClause = whereConditions.length > 0  'WHERE ' + whereConditions.join(' AND ') : '';
+        const whereClause = whereConditions.length > 0 ? 'WHERE ' + whereConditions.join(' AND ') : '';
         
         const [rows] = await pool.query(
             `SELECT * FROM produtos ${whereClause} ORDER BY descricao ASC LIMIT  OFFSET `,
@@ -2807,7 +2807,7 @@ apiVendasRouter.get('/dashboard-stats', authorizeAdmin, async (req, res, next) =
 
         const query = `
             SELECT 
-                COALESCE(SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS totalFaturaçãoMes,
+                COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturaçãoMes,
                 COUNT(CASE WHEN status IN ('orçamento', 'analise', 'aprovação') THEN 1 END) AS pedidosPendentes,
                 COUNT(CASE WHEN status = 'orçamento' THEN 1 END) AS orçamentosAberto,
                 (SELECT COUNT(*) FROM empresas WHERE created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')) AS novosClientesMes
@@ -2835,7 +2835,7 @@ apiVendasRouter.get('/dashboard/monthly', authorizeAdmin, async (req, res, next)
 
         if (dbAvailable) {
             const [rows] = await pool.query(
-                `SELECT DATE_FORMAT(created_at, '%Y-%m') AS ym, COALESCE(SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS total
+                `SELECT DATE_FORMAT(created_at, '%Y-%m') AS ym, COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS total
                  FROM pedidos
                  WHERE created_at >= 
                  GROUP BY ym
@@ -2896,7 +2896,7 @@ apiVendasRouter.get('/dashboard/top-vendedores', authenticateToken, async (req, 
                     u.id, 
                     u.nome, 
                     COUNT(p.id) as vendas,
-                    COALESCE(SUM(CASE WHEN p.status = 'faturação' THEN p.valor ELSE 0 END), 0) AS valor
+                    COALESCE(SUM(CASE WHEN p.status = 'faturado' THEN p.valor ELSE 0 END), 0) AS valor
                  FROM pedidos p
                  JOIN usuarios u ON p.vendedor_id = u.id
                  WHERE p.created_at >=  AND p.created_at <= DATE_ADD(, INTERVAL 1 DAY)
@@ -2931,7 +2931,7 @@ apiVendasRouter.get('/dashboard/top-vendedores', authenticateToken, async (req, 
     } catch (err) { next(err); }
 });
 
-// GET: top produtos mais vendidos (baseação nos itens dos pedidos)
+// GET: top produtos mais vendidos (baseado nos itens dos pedidos)
 apiVendasRouter.get('/dashboard/top-produtos', async (req, res, next) => {
     try {
         const limit = Math.max(parseInt(req.query.limit || '5'), 1);

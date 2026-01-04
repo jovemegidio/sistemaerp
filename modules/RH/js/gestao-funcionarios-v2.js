@@ -323,7 +323,7 @@ class GestãoFuncionarios {
 
     abrirModalCadastro(funcionario = null) {
         const isEdicao = funcionario !== null;
-        const titulo = isEdicao  'Editar Funcionário' : 'Novo Funcionário';
+        const titulo = isEdicao ? 'Editar Funcionário' : 'Novo Funcionário';
         
         const modal = this.criarModal(titulo, this.gerarFormularioFuncionario(funcionario));
         
@@ -415,7 +415,7 @@ class GestãoFuncionarios {
                                 <select id="departamento_id" name="departamento_id" required>
                                     <option value="">Selecione...</option>
                                     ${this.departamentos.map(dep => 
-                                        `<option value="${dep.id}" ${daçãos.departamento_id == dep.id  'selected' : ''}>${dep.nome}</option>`
+                                        `<option value="${dep.id}" ${daçãos.departamento_id == dep.id ? 'selected' : ''}>${dep.nome}</option>`
                                     ).join('')}
                                 </select>
                             </div>
@@ -484,7 +484,7 @@ class GestãoFuncionarios {
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="gestãoFuncionarios.fecharModal()">Cancelar</button>
                     <button type="submit" class="btn btn-primary">
-                        ${funcionario  'Atualizar' : 'Cadastrar'} Funcionário
+                        ${funcionario ? 'Atualizar' : 'Cadastrar'} Funcionário
                     </button>
                 </div>
             </form>
@@ -625,7 +625,7 @@ class GestãoFuncionarios {
                             </div>
                             <div class="dação-item">
                                 <span class="dação-label">Cidade/UF:</span>
-                                <span class="dação-valor">${funcionario.endereco.cidade || 'Não informação'}${funcionario.endereco.uf  '/' + funcionario.endereco.uf : ''}</span>
+                                <span class="dação-valor">${funcionario.endereco.cidade || 'Não informação'}${funcionario.endereco.uf ? '/' + funcionario.endereco.uf : ''}</span>
                             </div>
                             <div class="dação-item">
                                 <span class="dação-label">Endereço:</span>

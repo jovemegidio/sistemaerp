@@ -40,10 +40,10 @@ class IntegracaoVendasFaturamento {
                 throw new Error(`Pedido ${pedidoId} não encontrado`);
             }
 
-            // 2. Validar se pode ser faturação
+            // 2. Validar se pode ser faturado
             const validacao = this.validarPedidoParaFaturamento(pedido);
             if (!validacao.valido) {
-                throw new Error(`Pedido não pode ser faturação: ${validacao.erros.join(', ')}`);
+                throw new Error(`Pedido não pode ser faturado: ${validacao.erros.join(', ')}`);
             }
 
             // 3. Chamar API de faturamento
@@ -83,7 +83,7 @@ class IntegracaoVendasFaturamento {
             }
 
             // 4. Atualizar status do pedido em Vendas
-            await this.atualizarStatusPedido(pedidoId, 'faturação', {
+            await this.atualizarStatusPedido(pedidoId, 'faturado', {
                 nfe_id: resultação.nfe_id,
                 numero_nf: resultação.numero_nf,
                 chave_acesso: resultação.chave_acesso
@@ -132,7 +132,7 @@ class IntegracaoVendasFaturamento {
     }
 
     /**
-     * Valida se o pedido pode ser faturação
+     * Valida se o pedido pode ser faturado
      */
     validarPedidoParaFaturamento(pedido) {
         const erros = [];
@@ -152,9 +152,9 @@ class IntegracaoVendasFaturamento {
             erros.push('Pedido sem itens');
         }
 
-        // Não pode já ter sido faturação
-        if (pedido.nfe_id || pedido.status === 'faturação') {
-            erros.push('Pedido já foi faturação');
+        // Não pode já ter sido faturado
+        if (pedido.nfe_id || pedido.status === 'faturado') {
+            erros.push('Pedido já foi faturado');
         }
 
         // Valor deve ser maior que zero
@@ -184,7 +184,7 @@ class IntegracaoVendasFaturamento {
                     nfe_id: daçãosNfe.nfe_id,
                     numero_nf: daçãosNfe.numero_nf,
                     chave_acesso: daçãosNfe.chave_acesso,
-                    faturação_em: new Date().toISOString()
+                    faturado_em: new Date().toISOString()
                 })
             });
 

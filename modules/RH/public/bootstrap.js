@@ -13,7 +13,7 @@
     return null;
   }
 
-  // Helper: redireciona para a página correta baseação no role do usuário
+  // Helper: redireciona para a página correta baseado no role do usuário
   function redirectToCorrectPage(userData) {
     const currentPath = window.location.pathname;
     const isAdminPage = currentPath.includes('areaadm.html');
@@ -31,11 +31,11 @@
     // Se está no index, redireciona para a página correta
     if (isIndexPage) {
       if (userData.role === 'admin' || userData.is_admin || userData.rh_admin) {
-        console.log('👤 Usuário admin detectação, redirecionando para areaadm.html');
+        console.log('👤 Usuário admin detectado, redirecionando para areaadm.html');
         window.location.href = '/RecursosHumanos/areaadm.html';
         return true;
       } else {
-        console.log('👤 Usuário funcionário detectação, redirecionando para area.html');
+        console.log('👤 Usuário funcionário detectado, redirecionando para area.html');
         window.location.href = '/RecursosHumanos/area.html';
         return true;
       }

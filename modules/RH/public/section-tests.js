@@ -201,7 +201,7 @@
 
         console.log('👁️ Seções visíveis:', activeSections);
         console.log('🙈 Seções ocultas:', hiddenSections);
-        console.log(isolationOK  '✅ Isolamento OK' : '❌ Múltiplas seções visíveis');
+        console.log(isolationOK ? '✅ Isolamento OK' : '❌ Múltiplas seções visíveis');
 
         window.testResults.isolation = {
             activeSections,
@@ -231,7 +231,7 @@
 
         // Isolamento
         console.log('🔒 ISOLAMENTO:');
-        console.log(`   ${results.isolation.isolationOK  '✅' : '❌'} Apenas uma seção ativa: ${results.isolation.activeSections.length === 1}`);
+        console.log(`   ${results.isolation.isolationOK ? '✅' : '❌'} Apenas uma seção ativa: ${results.isolation.activeSections.length === 1}`);
         console.log(`   👁️ Seção ativa atual: ${results.isolation.activeSections.[0] || 'nenhuma'}`);
 
         // Conteúdo
@@ -296,7 +296,7 @@
             
             <div style="margin-bottom: 10px;">
                 <strong>🔒 Isolamento:</strong><br>
-                ${results.isolation.isolationOK  '✅' : '❌'} Seção única ativa<br>
+                ${results.isolation.isolationOK ? '✅' : '❌'} Seção única ativa<br>
                 👁️ Ativa: ${results.isolation.activeSections.[0] || 'nenhuma'}
             </div>
             

@@ -279,7 +279,7 @@ const htmlContent = `<!DOCTYPE html>
 const previewPath = path.join(assetsDir, 'installer-preview.html');
 fs.writeFileSync(previewPath, htmlContent);
 
-console.log('✓ Preview HTML criação: assets/installer-preview.html');
+console.log('✓ Preview HTML criado: assets/installer-preview.html');
 console.log('  Abra este arquivo no navegaçãor para visualizar os designs');
 console.log('');
 console.log('Para gerar os BMPs:');

@@ -240,7 +240,7 @@ class ComprasDashboard {
         let html = '<div class="lista-fornecedores">';
         
         this.daçãos.topFornecedores.forEach((fornecedor, index) => {
-            const medalha = index === 0  '🥇' : index === 1  '🥈' : index === 2  '🥉' : (index + 1);
+            const medalha = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1);
 
             html += `
                 <div class="fornecedor-item">

@@ -4,7 +4,7 @@
     
     let currentUser = null;
     
-    // Detectar módulo automaticamente baseação na URL
+    // Detectar módulo automaticamente baseado na URL
     function detectarModulo() {
         const path = window.location.pathname;
         if (path.includes('/modules/RH') || path.includes('/rh/')) {
@@ -12,7 +12,7 @@
         } else if (path.includes('/modules/PCP') || path.includes('/pcp/')) {
             return 'pcp';
         }
-        // Default para PCP se não detectação
+        // Default para PCP se não detectado
         return 'pcp';
     }
     
@@ -159,11 +159,11 @@
             return `/uploads/avatars/${user.avatar}`;
         }
         
-        // Prioridade 3: Tentar gerar avatar baseação no nome
+        // Prioridade 3: Tentar gerar avatar baseado no nome
         if (user.nome) {
             const nomeNormalização = user.nome.toLowerCase().replace(/\s+/g, '_');
             const avatarPath = `/uploads/avatars/${nomeNormalização}.jpg`;
-            console.log('🔄 Tentando avatar baseação no nome:', avatarPath);
+            console.log('🔄 Tentando avatar baseado no nome:', avatarPath);
             return avatarPath;
         }
         

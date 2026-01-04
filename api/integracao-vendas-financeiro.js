@@ -1,6 +1,6 @@
 /**
  * API DE INTEGRAÇÃO: VENDAS → FINANCEIRO
- * Gera contas a receber automaticamente a partir de pedidos faturaçãos
+ * Gera contas a receber automaticamente a partir de pedidos faturados
  * 
  * @author Aluforce ERP
  * @version 1.0.0
@@ -12,7 +12,7 @@ const router = express.Router();
 
 /**
  * POST /api/integracao/vendas-financeiro/gerar-receber
- * Gera contas a receber a partir de um pedido de venda faturação
+ * Gera contas a receber a partir de um pedido de venda faturado
  */
 router.post('/gerar-receber', async (req, res) => {
     const { pedido_id, parcelas, condicao_pagamento, observacoes } = req.body;

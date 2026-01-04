@@ -224,7 +224,7 @@ async function importarClientes() {
                 const [result] = await connection.query(query, values);
                 sucessos++;
                 
-                const acao = result.affectedRows === 1  'Inserido' : 'Atualização';
+                const acao = result.affectedRows === 1 ? 'Inserido' : 'Atualização';
                 console.log(`✅ [${i + 1}/${linhas.length}] ${nome_fantasia || razao_social || nome} - ${acao}`);
                 
             } catch (error) {

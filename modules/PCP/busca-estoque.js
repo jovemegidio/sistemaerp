@@ -305,7 +305,7 @@
                 console.log(mensagem);
                 
                 if (typeof showToast === 'function') {
-                    showToast(`${totalAlertas} alertas de estoque detectaçãos!`, 'warning');
+                    showToast(`${totalAlertas} alertas de estoque detectados!`, 'warning');
                 }
             } else {
                 console.log('✅ Nenhum alerta de estoque');

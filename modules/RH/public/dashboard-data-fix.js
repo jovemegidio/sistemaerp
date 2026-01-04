@@ -46,7 +46,7 @@ async function loadDashboardData() {
 
 // Função para atualizar contaçãores dos widgets
 function updateDashboardCounters(data) {
-    // Calcular totais baseaçãos nos daçãos recebidos
+    // Calcular totais baseados nos daçãos recebidos
     const totals = {
         funcionarios: data.tempoCasa ? data.tempoCasa.length : 0,
         aniversariantes: data.aniversariantes ? data.aniversariantes.length : 0,
@@ -168,7 +168,7 @@ function loadFallbackData() {
     console.log('⚠️ Usando daçãos fallback para o dashboard');
     
     const fallbackData = {
-        funcionarios: 6,  // Sabemos que temos 6 usuários criaçãos
+        funcionarios: 6,  // Sabemos que temos 6 usuários criados
         aniversariantes: 2,
         avisos: 3,
         relatórios: 12,

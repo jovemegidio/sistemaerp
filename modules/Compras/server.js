@@ -95,7 +95,7 @@ app.post('/api/pedidos', (req, res) => {
 
     res.json({
         success: true,
-        message: 'Pedido criação com sucesso',
+        message: 'Pedido criado com sucesso',
         pedido: novoPedido
     });
 });

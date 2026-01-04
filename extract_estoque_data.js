@@ -47,4 +47,4 @@ SET FOREIGN_KEY_CHECKS=1;
 `;
 
 fs.writeFileSync(outputPath, sql, 'utf8');
-console.log(`Arquivo ${outputPath} criação com sucesso!`);
+console.log(`Arquivo ${outputPath} criado com sucesso!`);

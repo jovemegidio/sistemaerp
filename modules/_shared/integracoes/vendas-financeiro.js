@@ -1,6 +1,6 @@
 /**
  * INTEGRAÇÃO: VENDAS → FINANCEIRO
- * Gera contas a receber automaticamente a partir de pedidos faturaçãos
+ * Gera contas a receber automaticamente a partir de pedidos faturados
  * 
  * @author Aluforce ERP
  * @version 1.0.0
@@ -14,7 +14,7 @@ class IntegracaoVendasFinanceiro {
     }
 
     /**
-     * Gera contas a receber a partir de um pedido faturação
+     * Gera contas a receber a partir de um pedido faturado
      * @param {object} pedido - Daçãos do pedido
      * @param {object} opcoes - Opções de parcelamento
      * @returns {Promise<object>} Resultado da operação

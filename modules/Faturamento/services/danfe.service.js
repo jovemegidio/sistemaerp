@@ -79,7 +79,7 @@ class DanfeService {
         doc.text(emitente.razaoSocial, 120, 20, { width: 220 });
         
         doc.fontSize(8).font('Helvetica');
-        const enderecoEmitente = `${emitente.lograçãouro}, ${emitente.numero}${emitente.complemento  ' - ' + emitente.complemento : ''}`;
+        const enderecoEmitente = `${emitente.lograçãouro}, ${emitente.numero}${emitente.complemento ? ' - ' + emitente.complemento : ''}`;
         doc.text(enderecoEmitente, 120, 40, { width: 220 });
         doc.text(`${emitente.bairro} - ${emitente.municipio}/${emitente.uf}`, 120, 52);
         doc.text(`CEP: ${this.formatarCEP(emitente.cep)}`, 120, 64);

@@ -278,7 +278,7 @@ router.get('/alertas', async (req, res) => {
                         modulo: 'Sistema',
                         icone: 'fa-chart-line',
                         titulo: 'Atividade do Dia',
-                        mensagem: `${info.pedidos_hoje || 0} pedido(s) e ${info.ordens_hoje || 0} ordem(ns) de produção criaçãos hoje`,
+                        mensagem: `${info.pedidos_hoje || 0} pedido(s) e ${info.ordens_hoje || 0} ordem(ns) de produção criados hoje`,
                         link: '/modules/Vendas/index.html',
                         prioridade: 4
                     });

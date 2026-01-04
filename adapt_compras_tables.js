@@ -87,7 +87,7 @@ async function adaptTables() {
                     (, 'ALU-002', 'Chapa de alumínio 1mm', 50, 'UN', 50.00, 2500.00)
                 `, [pedido[0].id, pedido[0].id]);
 
-                console.log(`✅ Pedido ${numero_pedido} criação com 2 itens`);
+                console.log(`✅ Pedido ${numero_pedido} criado com 2 itens`);
             }
         }
 

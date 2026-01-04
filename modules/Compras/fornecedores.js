@@ -44,7 +44,7 @@ class FornecedoresManager {
                 pedidos: f.total_pedidos || 0,
                 totalCompração: f.valor_total_compras || 0,
                 avaliacao: f.avaliacao || 4.0,
-                status: f.ativo == 1 || f.ativo === true  'ativo' : 'inativo',
+                status: f.ativo == 1 || f.ativo === true ? 'ativo' : 'inativo',
                 ultimaCompra: f.ultima_compra || null,
                 dataCadastro: f.data_cadastro || null
             }));
@@ -259,7 +259,7 @@ function toggleDarkMode() {
     localStorage.setItem('darkMode', isDark);
     
     const btn = document.getElementById('btnModoEscuro');
-    btn.querySelector('i').className = isDark  'fas fa-sun' : 'fas fa-moon';
+    btn.querySelector('i').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
 }
 
 function toggleView(mode) {

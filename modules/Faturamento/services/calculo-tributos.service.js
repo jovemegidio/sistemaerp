@@ -95,7 +95,7 @@ class CalculoTributosService {
         
         const resultação = {
             origem: item.origem || '0',
-            cst: item.cst || (emitente.regimeTributario === 1  '102' : '00'),
+            cst: item.cst || (emitente.regimeTributario === 1 ? '102' : '00'),
             modalidadeBC: 3, // Valor da operação
             baseCalculo: 0,
             aliquota: 0,

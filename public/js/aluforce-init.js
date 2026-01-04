@@ -225,7 +225,7 @@
         
         // Se não há sistema de permissões ou é admin, mostrar tudo
         if (!window.UserPermissions || user.role === 'admin' || user.is_admin) {
-            console.log('✅ Admin detectação - mostrando todos os módulos');
+            console.log('✅ Admin detectado - mostrando todos os módulos');
             cards.forEach(card => {
                 card.style.display = '';
                 visibleCount++;

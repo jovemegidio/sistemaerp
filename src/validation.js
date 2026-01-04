@@ -105,7 +105,7 @@ const pedidoSchema = Joi.object({
       'string.max': 'Descrição não pode ter mais de 500 caracteres'
     }),
   status: Joi.string()
-    .valid('orcamento', 'analise', 'aprovação', 'faturação', 'entregue', 'cancelação')
+    .valid('orcamento', 'analise', 'aprovação', 'faturado', 'entregue', 'cancelação')
     .default('orcamento')
 });
 

@@ -111,7 +111,7 @@ async function main() {
         }
         
         console.log('   Resultado:', reason);
-        console.log('   Acesso:', accessGranted  '✅ PERMITIDO' : '❌ NEGADO');
+        console.log('   Acesso:', accessGranted ? '✅ PERMITIDO' : '❌ NEGADO');
         
         // Passo 4: Conclusão
         console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');

@@ -5,7 +5,7 @@ console.log('🏗️  Criando páginas restantes do Módulo de Compras...\n');
 
 const comprasDir = path.join(__dirname, 'modules', 'Compras');
 
-// Ler o template base do index.html já criação
+// Ler o template base do index.html já criado
 const indexPath = path.join(comprasDir, 'index.html');
 let baseTemplate = fs.readFileSync(indexPath, 'utf8');
 

@@ -89,7 +89,7 @@ class RealtimeSync {
         // ========== EVENTOS DE PRODUTOS ==========
         
         this.socket.on('product-created', (product) => {
-            console.log('📦 Produto criação:', product);
+            console.log('📦 Produto criado:', product);
             this.handleProductCreated(product);
         });
 
@@ -118,7 +118,7 @@ class RealtimeSync {
         // ========== EVENTOS DE PEDIDOS ==========
         
         this.socket.on('order-created', (order) => {
-            console.log('🛒 Pedido criação:', order);
+            console.log('🛒 Pedido criado:', order);
             this.handleOrderCreated(order);
         });
 
@@ -398,7 +398,7 @@ class RealtimeSync {
         if (indicator) {
             indicator.classList.toggle('connected', connected);
             indicator.classList.toggle('disconnected', !connected);
-            indicator.title = connected  'Sincronização em tempo real ativa' : 'Desconectação';
+            indicator.title = connected ? 'Sincronização em tempo real ativa' : 'Desconectação';
         }
     }
 
@@ -454,7 +454,7 @@ class RealtimeSync {
     }
 
     /**
-     * Ícone do toast baseação no tipo
+     * Ícone do toast baseado no tipo
      */
     getToastIcon(type) {
         const icons = {

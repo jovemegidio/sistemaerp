@@ -245,7 +245,7 @@ function renderizarListaExtrato() {
 
 function criarItemMovimentacao(mov, origem, conciliada) {
     const div = document.createElement('div');
-    div.className = `movimentacao-item ${origem} ${conciliada  'conciliada' : ''}`;
+    div.className = `movimentacao-item ${origem} ${conciliada ? 'conciliada' : ''}`;
     div.dataset.id = mov.id;
     div.dataset.origem = origem;
 
@@ -263,7 +263,7 @@ function criarItemMovimentacao(mov, origem, conciliada) {
             </div>
             <div class="mov-descricao">${mov.descricao}</div>
             ${mov.categoria  `<span class="mov-categoria">${mov.categoria}</span>` : ''}
-            ${conciliada  '<span class="mov-categoria" style="background: #10b981; color: white;">✓ Conciliada</span>' : ''}
+            ${conciliada ? '<span class="mov-categoria" style="background: #10b981; color: white;">✓ Conciliada</span>' : ''}
         </div>
     `;
 
@@ -335,7 +335,7 @@ function filtrarMovimentacoes(origem, tipo, evt) {
         else if (tipo === 'pendentes') mostrar = !conciliada;
         else if (tipo === 'conciliadas') mostrar = conciliada;
 
-        item.style.display = mostrar  'flex' : 'none';
+        item.style.display = mostrar ? 'flex' : 'none';
     });
 }
 
@@ -380,7 +380,7 @@ function conciliarSelecionadas() {
     document.getElementById('conciliar-valor-sistema').textContent = formatarMoeda(totalSistema);
     document.getElementById('conciliar-valor-extrato').textContent = formatarMoeda(totalExtrato);
     document.getElementById('conciliar-diferenca').textContent = formatarMoeda(diferenca);
-    document.getElementById('conciliar-diferenca').style.color = Math.abs(diferenca) < 0.01  '#10b981' : '#ef4444';
+    document.getElementById('conciliar-diferenca').style.color = Math.abs(diferenca) < 0.01 ? '#10b981' : '#ef4444';
 
     // Mostrar modal
     mostrarModal('modal-conciliar');
@@ -581,7 +581,7 @@ async function processarCSV(arquivo) {
                         data: colunas[0].trim(),
                         descricao: colunas[1].trim(),
                         valor: parseFloat(colunas[2].trim()),
-                        tipo: parseFloat(colunas[2].trim()) >= 0  'entrada' : 'saida'
+                        tipo: parseFloat(colunas[2].trim()) >= 0 ? 'entrada' : 'saida'
                     });
                 }
 
@@ -649,7 +649,7 @@ function atualizarEstatisticas() {
     document.getElementById('count-pendentes').textContent = pendentes;
     document.getElementById('count-divergentes').textContent = divergentes;
     document.getElementById('diferenca-total').textContent = formatarMoeda(diferenca);
-    document.getElementById('diferenca-total').style.color = Math.abs(diferenca) < 0.01  '#10b981' : '#ef4444';
+    document.getElementById('diferenca-total').style.color = Math.abs(diferenca) < 0.01 ? '#10b981' : '#ef4444';
 }
 
 // ============================================================================

@@ -77,7 +77,7 @@ async function executarSeedFinal() {
                 ('PCP', 'pcp@aluforce.com', SHA2('pcp123', 256), SHA2('pcp123', 256), 0, 'pcp', NOW())
                 ON DUPLICATE KEY UPDATE nome = VALUES(nome)
             `);
-            console.log(`   ${colors.green}✅ 4 usuários criaçãos${colors.reset}`);
+            console.log(`   ${colors.green}✅ 4 usuários criados${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  ${err.message}${colors.reset}`);
         }
@@ -92,7 +92,7 @@ async function executarSeedFinal() {
                 ('Pedro Oliveira', 'PEDRO OLIVEIRA EPP', 'PO Esquadrias', '33.333.333/0001-33', 'pedro@email.com', '(11) 99999-3333', 'Rua do Comércio, 300', 'Guarulhos', 'SP', '07000-001', 1, 1)
                 ON DUPLICATE KEY UPDATE nome = VALUES(nome)
             `);
-            console.log(`   ${colors.green}✅ 3 clientes criaçãos${colors.reset}`);
+            console.log(`   ${colors.green}✅ 3 clientes criados${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  ${err.message}${colors.reset}`);
         }
@@ -111,7 +111,7 @@ async function executarSeedFinal() {
                 ('Roberto Costa', 'roberto@aluforce.com', SHA2('roberto123', 256), SHA2('roberto123', 256), 'vendedor', 'Vendedor', 'Comercial', '333.333.333-33', '33.333.333-3', '2022-06-10', 3000.00, 1)
                 ON DUPLICATE KEY UPDATE nome_completo = VALUES(nome_completo)
             `);
-            console.log(`   ${colors.green}✅ 3 funcionários criaçãos${colors.reset}`);
+            console.log(`   ${colors.green}✅ 3 funcionários criados${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  ${err.message}${colors.reset}`);
         }

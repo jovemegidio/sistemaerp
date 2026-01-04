@@ -40,7 +40,7 @@ async function aplicarOtimizacoes() {
         { tabela: 'clientes', nome: 'idx_clientes_cnpj', colunas: 'cnpj_cpf' }
     ];
     
-    let criaçãos = 0;
+    let criados = 0;
     let erros = 0;
     let existentes = 0;
     
@@ -62,8 +62,8 @@ async function aplicarOtimizacoes() {
             await connection.query(
                 `CREATE INDEX ${idx.nome} ON ${idx.tabela}(${idx.colunas})`
             );
-            console.log(`  ✅ ${idx.nome} criação`);
-            criaçãos++;
+            console.log(`  ✅ ${idx.nome} criado`);
+            criados++;
             
         } catch (err) {
             if (err.code === 'ER_NO_SUCH_TABLE') {
@@ -95,7 +95,7 @@ async function aplicarOtimizacoes() {
     
     console.log('\n' + '='.repeat(50));
     console.log(`📈 RESULTADO:`);
-    console.log(`   Índices criaçãos: ${criaçãos}`);
+    console.log(`   Índices criados: ${criados}`);
     console.log(`   Índices existentes: ${existentes}`);
     console.log(`   Erros: ${erros}`);
     console.log('='.repeat(50));

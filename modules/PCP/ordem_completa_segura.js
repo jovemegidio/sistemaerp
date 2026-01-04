@@ -103,7 +103,7 @@ function preencherCelulasSeguro(worksheet, cellAddresses, value, label = '') {
                 cell.value = value;
                 preenchidas++;
                 if (preenchidas === 1 && label) {
-                    console.log(`   ✅ ${label}: ${cellAddr} = ${value.toString().substring(0, 50)}${value.toString().length > 50  '...' : ''}`);
+                    console.log(`   ✅ ${label}: ${cellAddr} = ${value.toString().substring(0, 50)}${value.toString().length > 50 ? '...' : ''}`);
                 }
             }
         } catch (e) {

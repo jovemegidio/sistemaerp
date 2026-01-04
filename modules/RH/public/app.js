@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const willOpen = !sidebarGlobal.classList.contains('open');
             sidebarGlobal.classList.toggle('open');
             localStorage.setItem('sidebarOpen', sidebarGlobal.classList.contains('open'));
-            menuToggleGlobal.setAttribute('aria-expanded', willOpen  'true' : 'false');
+            menuToggleGlobal.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
             // swap icon between bars and times for clearer UX
             const icon = menuToggleGlobal.querySelector('i');
             if (icon) {
@@ -739,7 +739,7 @@ function initAdminPage() {
     
     if (!localUserData || localUserData.role !== 'admin') {
         console.log('❌ DEBUG initAdminPage - Acesso negação. Redirecionando para login.');
-        console.log('❌ Motivo:', !localUserData  'Sem userData' : `Role inválido: ${localUserData.role}`);
+        console.log('❌ Motivo:', !localUserData ? 'Sem userData' : `Role inválido: ${localUserData.role}`);
         
         // Se o usuário tem role de funcionário, redirecionar para area.html ao invés de login
         if (localUserData && localUserData.role === 'funcionario') {
@@ -784,7 +784,7 @@ function initAdminPage() {
                 const parts = (me.nome_completo || '').trim().split(/\s+/);
                 const first = parts[0] || '';
                 const last = parts.length > 1 ? parts[parts.length-1] : '';
-                const display = `${first}${last  ' ' + last : ''}`.trim();
+                const display = `${first}${last ? ' ' + last : ''}`.trim();
                 greeting.textContent = display  `Olá, ${display}` : 'Olá, Usuário';
             }
         } catch (err) {
@@ -1099,12 +1099,12 @@ function initAdminPage() {
                                 <div class="aviso-body">
                                     <div class="aviso-title">${escapeHtml(a.titulo || '')}</div>
                                     <div class="aviso-desc">${escapeHtml(a.mensagem || '')}</div>
-                                    <div class="aviso-meta small">${a.created_by  'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
+                                    <div class="aviso-meta small">${a.created_by ? 'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
                                 </div>
                             </div>
                         `;
                         const actions = document.createElement('div'); actions.className = 'aviso-actions';
-                        const btnMark = document.createElement('button'); btnMark.className='btn btn-secondary marcar-lido action-mark'; btnMark.setAttribute('aria-label', a.lido  'Lido' : 'Marcar como lido'); btnMark.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido  'Lido' : 'Marcar como lido'}</span>`;
+                        const btnMark = document.createElement('button'); btnMark.className='btn btn-secondary marcar-lido action-mark'; btnMark.setAttribute('aria-label', a.lido ? 'Lido' : 'Marcar como lido'); btnMark.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido ? 'Lido' : 'Marcar como lido'}</span>`;
                         if (a.lido) { btnMark.disabled = true; node.classList.add('lido'); }
                         btnMark.addEventListener('click', async (e) => { e.stopPropagation(); await markAvisoRead(a.id); btnMark.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">Lido</span>`; btnMark.disabled = true; node.classList.add('lido'); });
                         actions.appendChild(btnMark);
@@ -1650,7 +1650,7 @@ function initAdminPage() {
                         <div class="aviso-body">
                             <div class="aviso-title">${escapeHtml(a.titulo || '')}</div>
                             <div class="aviso-desc">${escapeHtml(a.mensagem || '')}</div>
-                            <div class="aviso-meta small">${a.created_by  'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
+                            <div class="aviso-meta small">${a.created_by ? 'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
                         </div>
                     </div>
                 `;
@@ -1674,8 +1674,8 @@ function initAdminPage() {
                 });
                 const mark = document.createElement('button');
                 mark.className = 'btn btn-primary marcar-lido action-mark';
-                mark.setAttribute('aria-label', a.lido  'Lido' : 'Marcar como lido');
-                mark.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido  'Lido' : 'Marcar como lido'}</span>`;
+                mark.setAttribute('aria-label', a.lido ? 'Lido' : 'Marcar como lido');
+                mark.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido ? 'Lido' : 'Marcar como lido'}</span>`;
                 if (a.lido) { mark.disabled = true; card.classList.add('lido'); }
                 mark.addEventListener('click', async (e) => {
                     e.stopPropagation();
@@ -1796,7 +1796,7 @@ function initAdminPage() {
                         <div class="aviso-body">
                             <div class="aviso-title">${escapeHtml(a.titulo)}</div>
                             <div class="aviso-desc muted">${escapeHtml(a.mensagem)}</div>
-                            <div class="aviso-meta small">${a.created_by  'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
+                            <div class="aviso-meta small">${a.created_by ? 'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
                         </div>
                     </div>
                 `;
@@ -1861,7 +1861,7 @@ function initAdminPage() {
                 } else {
                     const resp = await fetch('/api/avisos', { method: 'POST', headers: getAuthHeaders({ 'Content-Type': 'application/json' }), body: JSON.stringify({ titulo, mensagem }) });
                     const j = await resp.json(); if (!resp.ok) throw new Error(j.message || 'Erro');
-                    showToast('Aviso criação.', 'success');
+                    showToast('Aviso criado.', 'success');
                 }
                 document.getElementById('aviso-titulo').value = '';
                 document.getElementById('aviso-mensagem').value = '';
@@ -2024,7 +2024,7 @@ async function initEmployeePage() {
                                         try { initEmployeePage(); } catch(e) { console.warn('retry initEmployeePage failed', e); }
                                     } else {
                                         // leave message in place; user may click login
-                                        try { showToast('Ainda não há token detectação. Você pode ir ao login.', 'error'); } catch (e) {}
+                                        try { showToast('Ainda não há token detectado. Você pode ir ao login.', 'error'); } catch (e) {}
                                     }
                                 } catch(e) { console.warn('rePoll failed', e); }
                             })();
@@ -2116,7 +2116,7 @@ async function initEmployeePage() {
                     const willOpen = !sidebar.classList.contains('open');
                     sidebar.classList.toggle('open');
                     localStorage.setItem('sidebarOpen', sidebar.classList.contains('open'));
-                    menuToggle.setAttribute('aria-expanded', willOpen  'true' : 'false');
+                    menuToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
                 });
                 window._menuToggleInit = true;
             }
@@ -2173,7 +2173,7 @@ async function carregarEmployeeDashboard(userData) {
                         </div>
                     `;
                         // add mark-as-read button
-                        const btn = document.createElement('button'); btn.className = 'btn btn-secondary marcar-lido action-mark'; btn.setAttribute('aria-label', a.lido  'Lido' : 'Marcar como lido'); btn.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido  'Lido' : 'Marcar como lido'}</span>`;
+                        const btn = document.createElement('button'); btn.className = 'btn btn-secondary marcar-lido action-mark'; btn.setAttribute('aria-label', a.lido ? 'Lido' : 'Marcar como lido'); btn.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido ? 'Lido' : 'Marcar como lido'}</span>`;
                         if (a.lido) { btn.disabled = true; node.classList.add('lido'); }
                         btn.addEventListener('click', async () => { await markAvisoRead(a.id); btn.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">Lido</span>`; btn.disabled = true; node.classList.add('lido'); });
                         node.appendChild(btn);
@@ -2336,7 +2336,7 @@ function subscribeAvisosSSE() {
                                 const meta = node.querySelector('.aviso-meta');
                                 if (title) title.textContent = aviso.titulo || '';
                                 if (desc) desc.textContent = aviso.mensagem || aviso.conteudo || '';
-                                if (meta) meta.textContent = (aviso.created_by  'Criação por: ' + aviso.created_by + ' ' : '') + (aviso.created_at  new Date(aviso.created_at).toLocaleString() : '');
+                                if (meta) meta.textContent = (aviso.created_by ? 'Criação por: ' + aviso.created_by + ' ' : '') + (aviso.created_at  new Date(aviso.created_at).toLocaleString() : '');
                             });
                             showToast('Aviso atualização.', 'success', 1800);
                         } catch (e) { console.warn('Erro ao atualizar aviso SSE', e); }
@@ -2510,7 +2510,7 @@ function populateUserData(userData) {
         const parts = (userData.nome_completo || '').trim().split(/\s+/);
         const first = parts[0] || '';
         const last = parts.length > 1 ? parts[parts.length-1] : '';
-        const display = `${first}${last  ' ' + last : ''}`.trim();
+        const display = `${first}${last ? ' ' + last : ''}`.trim();
         headerGreeting.textContent = display  `Olá, ${display}` : 'Olá, Usuário';
     }
     const lastLoginEl = document.getElementById('last-login');
@@ -2789,11 +2789,11 @@ function setupEmployeeEventListeners(userData) {
 
         container.innerHTML = this.funcionarios.map(func => `
             <div class="employee-card">
-                <div class="employee-avatar" style="background-image: url('${func.foto  'uploads/' + func.foto : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23d1d5db"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'}')"></div>
+                <div class="employee-avatar" style="background-image: url('${func.foto ? 'uploads/' + func.foto : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23d1d5db"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'}')"></div>
                 <div class="employee-name">${func.nome}</div>
                 <div class="employee-role">${func.cargo || 'Funcionário'}</div>
                 <div class="employee-email">${func.email}</div>
-                <div class="employee-status ${func.status || 'active'}">${func.status === 'active' || !func.status  'Ativo' : 'Inativo'}</div>
+                <div class="employee-status ${func.status || 'active'}">${func.status === 'active' || !func.status ? 'Ativo' : 'Inativo'}</div>
                 <div class="employee-actions">
                     <button class="btn btn-secondary btn-sm" onclick="app.visualizarFuncionario(${func.id})">
                         <i class="fas fa-eye"></i> Ver

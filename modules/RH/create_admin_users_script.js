@@ -120,7 +120,7 @@ async function createAdminUsers() {
               console.error(`Erro ao inserir ${user.email}:`, err.message);
               reject(err);
             } else {
-              console.log(`✅ Usuário ${user.email} criação com ID ${result.insertId}`);
+              console.log(`✅ Usuário ${user.email} criado com ID ${result.insertId}`);
               resolve();
             }
           });
@@ -130,8 +130,8 @@ async function createAdminUsers() {
       }
     }
 
-    // Verificar os usuários criaçãos
-    console.log('\n📋 Verificando usuários criaçãos:');
+    // Verificar os usuários criados
+    console.log('\n📋 Verificando usuários criados:');
     const selectSql = `SELECT id, nome_completo, email, role, cargo, status 
                        FROM funcionarios 
                        WHERE email IN (${deleteEmails.map(() => '').join(',')})

@@ -86,7 +86,7 @@ class ModernDashboardVisuals {
                 });
             }
         } else {
-            // Cria stats cards baseação nos daçãos visíveis
+            // Cria stats cards baseado nos daçãos visíveis
             this.createModernStatsFromData();
         }
     }
@@ -114,7 +114,7 @@ class ModernDashboardVisuals {
         if (!card.classList.contains('stat-card')) {
             card.classList.add('stat-card');
             
-            // Define cores baseação no índice
+            // Define cores baseado no índice
             const colors = ['blue', 'green', 'yellow', 'red', 'purple'];
             card.classList.add(colors[index % colors.length]);
             
@@ -169,7 +169,7 @@ class ModernDashboardVisuals {
         let statsContainer = document.createElement('div');
         statsContainer.className = 'stats-row';
         
-        // Daçãos padrão baseaçãos na imagem
+        // Daçãos padrão baseados na imagem
         const statsData = [
             {
                 title: 'Total Funcionários',
@@ -498,7 +498,7 @@ class ModernDashboardVisuals {
             box-shaçãow: 0 8px 32px rgba(0, 0, 0, 0.15);
         `;
 
-        // Define cor baseação no tipo
+        // Define cor baseado no tipo
         switch(type) {
             case 'success':
                 notification.style.background = 'linear-gradient(135deg, #10b981 0%, #34d399 100%)';

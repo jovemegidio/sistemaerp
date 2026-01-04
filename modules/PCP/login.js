@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!loginForm) return;
 
-  // Funcionalidade de avatar dinâmico baseação no email (busca dinâmica)
+  // Funcionalidade de avatar dinâmico baseado no email (busca dinâmica)
   if (emailInput && userAvatar) {
     let avatarTimeout;
     let usersCache = null;
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(`🌐 Email externo: ${input}`);
       
     } else if (inputLower.length >= 3) {
-      // Nome digitação mas não encontrado - mostra iniciais baseadas no input
+      // Nome digitado mas não encontrado - mostra iniciais baseadas no input
       const initials = input.substring(0, 2).toUpperCase();
       const cor = gerarCorAvatar(input);
       userAvatar.innerHTML = `<div class="avatar-placeholder" style="background: ${cor};">${initials}</div>`;
@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function openForgotPasswordModal() {
     const email = emailInput ? emailInput.value.trim() : '';
     
-    // Pre-preenche email se já digitação
+    // Pre-preenche email se já digitado
     const verifyEmailInput = document.getElementById('verify-email');
     if (verifyEmailInput && email) {
       verifyEmailInput.value = email;
@@ -695,7 +695,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => showUserAvatar(savedEmail.toLowerCase()), 100);
     }
     
-    // Salva/remove email baseação no checkbox
+    // Salva/remove email baseado no checkbox
     rememberCheckbox.addEventListener('change', () => {
       if (rememberCheckbox.checked) {
         const email = emailInput.value.trim();
@@ -712,12 +712,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function setLoading(loading) {
   if (!submitBtn) return;
   submitBtn.disabled = loading;
-  submitBtn.setAttribute('aria-busy', loading  'true' : 'false');
+  submitBtn.setAttribute('aria-busy', loading ? 'true' : 'false');
   // Toggle the loading class; CSS controls spinner visibility and layout
   submitBtn.classList.toggle('loading', loading);
   // Ensure the visible text is still present for screen readers
   const textEl = submitBtn.querySelector('.btn-text');
-  if (textEl) textEl.setAttribute('aria-hidden', loading  'true' : 'false');
+  if (textEl) textEl.setAttribute('aria-hidden', loading ? 'true' : 'false');
   // Avoid inline style manipulation so CSS can manage layout and animation
   }
 

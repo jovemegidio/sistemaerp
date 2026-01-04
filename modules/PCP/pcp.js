@@ -33,20 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) { console.warn('showToast error', e); }
     };
     window.clearToasts = function() { try { if (!toastContainer) return; toastContainer.querySelectorAll('.pcp-toast').forEach(n=>n.remove()); } catch(e){} };
-    // Modal de todos os pedidos faturaçãos (com busca local e abertura para edição)
-    const btnVerTodosFaturaçãos = document.getElementById('btn-ver-todos-faturaçãos');
-    const modalTodosFaturaçãos = document.getElementById('modal-todos-faturaçãos');
-    const closeTodosFaturaçãos = document.getElementById('close-todos-faturaçãos');
-    const todosFaturaçãosBody = document.getElementById('todos-faturaçãos-body');
+    // Modal de todos os pedidos faturados (com busca local e abertura para edição)
+    const btnVerTodosFaturaçãos = document.getElementById('btn-ver-todos-faturados');
+    const modalTodosFaturaçãos = document.getElementById('modal-todos-faturados');
+    const closeTodosFaturaçãos = document.getElementById('close-todos-faturados');
+    const todosFaturaçãosBody = document.getElementById('todos-faturados-body');
     // create a search input inside the modal header if not present (guard when modal missing)
     let searchTodosInput = null;
     if (modalTodosFaturaçãos) {
-        searchTodosInput = document.getElementById('search-todos-faturaçãos');
+        searchTodosInput = document.getElementById('search-todos-faturados');
         if (!searchTodosInput) {
             const header = modalTodosFaturaçãos.querySelector('.modal-header');
             if (header) {
                 const input = document.createElement('input');
-                input.id = 'search-todos-faturaçãos';
+                input.id = 'search-todos-faturados';
                 input.placeholder = 'Buscar por cliente, produto...';
                 // prefer CSS classes over inline styles
                 input.classList.add('js-input-full');
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderTodosFaturaçãos(list) {
         if (!todosFaturaçãosBody) return; // nothing to render into
         if (!Array.isArray(list) || list.length === 0) {
-            todosFaturaçãosBody.innerHTML = '<div class="text-sm text-center pad-24 muted">Nenhum pedido faturação encontrado.</div>';
+            todosFaturaçãosBody.innerHTML = '<div class="text-sm text-center pad-24 muted">Nenhum pedido faturado encontrado.</div>';
             return;
         }
         todosFaturaçãosBody.innerHTML = list.map(p => `
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
 
         // attach click handlers to open item edit
-        todosFaturaçãosBody.querySelectorAll('.faturação-item').forEach(el => {
+        todosFaturaçãosBody.querySelectorAll('.faturado-item').forEach(el => {
             el.addEventListener('click', () => {
                 const id = el.dataset.id;
                 // open item edit modal for the order
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
             allFaturaçãos = (Array.isArray(pedidos)  pedidos.filter(p => p && p.status && p.status.toLowerCase().includes('fatur')) : []);
             renderTodosFaturaçãos(allFaturaçãos);
         } catch (err) {
-            todosFaturaçãosBody.innerHTML = '<div class="text-error pad-24">Erro ao carregar pedidos faturaçãos.</div>';
+            todosFaturaçãosBody.innerHTML = '<div class="text-error pad-24">Erro ao carregar pedidos faturados.</div>';
         }
     });
 
@@ -573,7 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             containers.materiais.innerHTML = `<div class="materiais-area"><div class="estoque-card estoque-section"><h3>Estoque Atual de Fios e Materiais</h3>${tableHTML}</div></div>`;
 
-            // Anexar eventos aos botões recém-criaçãos
+            // Anexar eventos aos botões recém-criados
             document.querySelectorAll('.btn-sm.btn-editar').forEach(btn => {
                 btn.addEventListener('click', async (e) => {
                     const id = e.target.dataset.id;
@@ -945,7 +945,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 // init from provided values: accept array, JSON string or legacy CSV
-                const rawVal = typeof values[key] !== 'undefined'  values[key] : (values[key] === 0  '0' : values[key] || '');
+                const rawVal = typeof values[key] !== 'undefined'  values[key] : (values[key] === 0 ? '0' : values[key] || '');
                 if (Array.isArray(rawVal)) {
                     hidden.value = JSON.stringify(rawVal);
                     setTagsFromArray(rawVal);
@@ -995,7 +995,7 @@ document.addEventListener('DOMContentLoaded', () => {
             input.name = key;
             input.placeholder = cfg.placeholder || '';
             if (cfg.required) input.required = true;
-            input.value = typeof values[key] !== 'undefined'  values[key] : (values[key] === 0  '0' : values[key] || '');
+            input.value = typeof values[key] !== 'undefined'  values[key] : (values[key] === 0 ? '0' : values[key] || '');
             wrapper.appendChild(label);
             wrapper.appendChild(input);
             productFormBody.appendChild(wrapper);
@@ -1118,7 +1118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast(msg, 'error');
                 return;
             }
-            showToast(id  'Produto atualização com sucesso' : 'Produto criação com sucesso', 'success');
+            showToast(id ? 'Produto atualização com sucesso' : 'Produto criado com sucesso', 'success');
             closeProductModal();
             carregarProdutos();
         } catch (err) {
@@ -2205,11 +2205,11 @@ async function renderPainelDashboard() {
     }
 }
 
-let pedidosFilter = 'all'; // 'all' | 'pendente' | 'faturação'
+let pedidosFilter = 'all'; // 'all' | 'pendente' | 'faturado'
 async function renderPainelPedidos() {
     try {
         // On the dashboard we want to show approved/invoiced orders by default
-        pedidosFilter = 'faturação';
+        pedidosFilter = 'faturado';
         const resp = await fetch(`${API_BASE_URL}/pedidos`);
         if (!resp.ok) { panelPedidos.innerHTML = '<div>Nenhum pedido encontrado</div>'; return; }
         const pedidos = await resp.json();
@@ -2217,7 +2217,7 @@ async function renderPainelPedidos() {
 
         // filter controls - use CSS utility classes instead of inline styles
     const controls = document.createElement('div'); controls.classList.add('controls-row');
-        ['all','pendente','faturação'].forEach(k=>{
+        ['all','pendente','faturado'].forEach(k=>{
             const btn = document.createElement('button'); btn.className = 'btn btn-filter'; btn.innerText = k === 'all'  'Todos' : (k === 'pendente'  'Pendentes' : 'Faturaçãos');
             if (k === pedidosFilter) { btn.classList.add('active'); }
             btn.addEventListener('click', ()=>{ pedidosFilter = k; renderPainelPedidos(); });
@@ -2255,7 +2255,7 @@ async function renderPainelPedidos() {
         content.querySelectorAll('button[data-action="faturar"]').forEach(b=>{
             b.addEventListener('click', async (e)=>{
                 const id = e.currentTarget.dataset.id;
-                if (!confirm('Marcar este pedido como faturação')) return;
+                if (!confirm('Marcar este pedido como faturado')) return;
                 try {
                     const upd = await fetch(`${API_BASE_URL}/pedidos/${id}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ status: 'Faturação' }) });
                     if (!upd.ok) throw new Error('Falha');
@@ -2281,7 +2281,7 @@ async function renderPainelPedidos() {
 function renderEmptyPedidosCard(targetEl, title='Pedidos Faturaçãos') {
     targetEl.innerHTML = `<div class="empty-card">
         <h3 class="mt-0">${title}</h3>
-        <div class="muted">Nenhum pedido faturação no momento.</div>
+        <div class="muted">Nenhum pedido faturado no momento.</div>
     </div>`;
 }
 
@@ -2307,42 +2307,42 @@ async function renderPainelPrazos() {
 // New: render Pedidos Faturaçãos panel
 async function renderPainelFaturaçãos() {
     try {
-        const resp = await fetch(`${API_BASE_URL}/pedidos/faturaçãos`);
-        if (!resp.ok) throw new Error('Falha ao carregar pedidos faturaçãos');
-        const faturaçãos = await resp.json();
+        const resp = await fetch(`${API_BASE_URL}/pedidos/faturados`);
+        if (!resp.ok) throw new Error('Falha ao carregar pedidos faturados');
+        const faturados = await resp.json();
         const panel = document.getElementById('panel-pedidos');
         if (!panel) return;
-        if (!Array.isArray(faturaçãos) || faturaçãos.length === 0) {
-            panel.innerHTML = '<div class="pad-12 muted">Nenhum pedido faturação encontrado.</div>';
+        if (!Array.isArray(faturados) || faturados.length === 0) {
+            panel.innerHTML = '<div class="pad-12 muted">Nenhum pedido faturado encontrado.</div>';
             return;
         }
         // render table
-        const rows = faturaçãos.slice(0,8).map(p => {
+        const rows = faturados.slice(0,8).map(p => {
             const cliente = p.cliente || '';
             const prod = p.produto_descricao || p.produto_codigo || '';
             const data = p.data_pedido  new Date(p.data_pedido).toLocaleDateString() : (p.previsao_entrega  new Date(p.previsao_entrega).toLocaleDateString() : '');
             const status = p.status || '';
             return `<div class="list-row"><div class="flex-1"><strong>${cliente}</strong><div class="text-sm muted">${prod} • ${data}</div></div><div class="text-right"><div class="text-success">${status}</div></div></div>`;
         }).join('');
-    panel.innerHTML = rows + `<div class="mt-8 text-right"><button id="btn-ver-todos-faturaçãos" class="btn">Ver todos</button></div>`;
+    panel.innerHTML = rows + `<div class="mt-8 text-right"><button id="btn-ver-todos-faturados" class="btn">Ver todos</button></div>`;
         // rebind the button if present
-        const btn = document.getElementById('btn-open-todos-faturaçãos');
+        const btn = document.getElementById('btn-open-todos-faturados');
         if (btn) btn.addEventListener('click', () => openTodosFaturaçãosModal());
     } catch (err) {
-        console.error('Erro ao renderizar faturaçãos:', err);
+        console.error('Erro ao renderizar faturados:', err);
     }
 }
 
-// Modal controller: list all faturaçãos with pagination
+// Modal controller: list all faturados with pagination
 async function openTodosFaturaçãosModal(page = 1, limit = 20) {
-    const modal = document.getElementById('modal-todos-faturaçãos-list');
-    const body = document.getElementById('todos-faturaçãos-list-body');
-    const pagEl = document.getElementById('todos-faturaçãos-pagination');
+    const modal = document.getElementById('modal-todos-faturados-list');
+    const body = document.getElementById('todos-faturados-list-body');
+    const pagEl = document.getElementById('todos-faturados-pagination');
     if (!modal || !body) return;
     openAccessibleModal(modal);
     body.innerHTML = '<div class="pad-12 muted"><span class="pcp-spinner" aria-hidden="true"></span> Carregando...</div>';
     try {
-        const resp = await fetch(`${API_BASE_URL}/pedidos/faturaçãospage=${page}&limit=${limit}`);
+        const resp = await fetch(`${API_BASE_URL}/pedidos/faturadospage=${page}&limit=${limit}`);
         if (!resp.ok) throw new Error('Falha');
         const data = await resp.json();
         const rows = data.rows || [];
@@ -2351,7 +2351,7 @@ async function openTodosFaturaçãosModal(page = 1, limit = 20) {
         body.innerHTML = rows.map(p=>{
             const dt = p.created_at  new Date(p.created_at).toLocaleString() : (p.data_prevista new Date(p.data_prevista).toLocaleString(): '');
             const produtos = (p.produtos_preview && Array.isArray(p.produtos_preview))  p.produtos_preview.map(x=>`${x.codigo} x${x.quantidade}`).join(', ') : '';
-            return `<div class="faturação-item list-row" data-id="${p.id}"><div class="flex-1"><strong>#${p.id} ${p.descricao||''}</strong><div class="text-sm muted">${p.cliente_id 'Cliente ID: '+p.cliente_id : ''} ${produtos}</div></div><div class="list-row-right"><div class="text-success fw-700">${p.status||''}</div><div class="muted small-note">${dt}</div><div class="mt-6"><button class="btn-sm abrir-pedido" data-id="${p.id}">Abrir</button></div></div></div>`;
+            return `<div class="faturado-item list-row" data-id="${p.id}"><div class="flex-1"><strong>#${p.id} ${p.descricao||''}</strong><div class="text-sm muted">${p.cliente_id 'Cliente ID: '+p.cliente_id : ''} ${produtos}</div></div><div class="list-row-right"><div class="text-success fw-700">${p.status||''}</div><div class="muted small-note">${dt}</div><div class="mt-6"><button class="btn-sm abrir-pedido" data-id="${p.id}">Abrir</button></div></div></div>`;
         }).join('');
         // pagination
         const totalPages = Math.max(1, Math.ceil(total / limit));
@@ -2379,15 +2379,15 @@ async function openTodosFaturaçãosModal(page = 1, limit = 20) {
             } catch (err) { showToast('Erro ao abrir pedido', 'error'); }
         }));
     } catch (err) {
-        console.error('Erro ao carregar lista completa de faturaçãos', err);
+        console.error('Erro ao carregar lista completa de faturados', err);
         body.innerHTML = '<div class="text-error">Erro ao carregar.</div>';
     }
 }
 
 // close modal handler
-const closeTodosFaturaçãosList = document.getElementById('close-todos-faturaçãos-list');
-if (closeTodosFaturaçãosList) closeTodosFaturaçãosList.addEventListener('click', ()=>{ const m=document.getElementById('modal-todos-faturaçãos-list'); if (m) closeAccessibleModal(m); });
-// Prazos modal: similar to faturaçãos
+const closeTodosFaturaçãosList = document.getElementById('close-todos-faturados-list');
+if (closeTodosFaturaçãosList) closeTodosFaturaçãosList.addEventListener('click', ()=>{ const m=document.getElementById('modal-todos-faturados-list'); if (m) closeAccessibleModal(m); });
+// Prazos modal: similar to faturados
 async function openTodosPrazosModal(page = 1, limit = 20) {
     const modal = document.getElementById('modal-todos-prazos-list');
     const body = document.getElementById('todos-prazos-list-body');
@@ -2424,7 +2424,7 @@ if (btnOpenPrazos) btnOpenPrazos.addEventListener('click', ()=> openTodosPrazosM
 const closeTodosPrazosList = document.getElementById('close-todos-prazos-list');
 if (closeTodosPrazosList) closeTodosPrazosList.addEventListener('click', ()=>{ const m=document.getElementById('modal-todos-prazos-list'); if (m) closeAccessibleModal(m); });
 
-// New: render Prazos panel (deadline list for faturaçãos)
+// New: render Prazos panel (deadline list for faturados)
 async function renderPainelPrazosLista() {
     try {
         const resp = await fetch(`${API_BASE_URL}/pedidos/prazos`);
@@ -2578,7 +2578,7 @@ async function renderPCPKPIs() {
         const ordRes = normalizeListResponse(ordResRaw);
         const totalProds = prodsRes.count || 0;
         const totalMats = matRes.count || 0;
-        // determine active orders (not faturação / concluido) by heuristic
+        // determine active orders (not faturado / concluido) by heuristic
         const ordItems = ordRes.items.length ? ordRes.items : [];
         const ordensAFazer = ordItems.filter(o=> {
             const st = (o && (o.status || o.estação || '')).toString().toLowerCase();
@@ -2707,7 +2707,7 @@ async function renderPCPRecentOrders(limit = 6) {
             }
             const status = p.status || p.estação || '';
             const dateStr = p.data_pedido  new Date(p.data_pedido).toLocaleDateString() : (p.created_at  new Date(p.created_at).toLocaleDateString() : '');
-            return `<div class="list-row"><div class="flex-1"><strong>${escapeHtml(cliente)}</strong> — ${escapeHtml(produtosText)}<div class="text-sm muted">${dateStr}${dateStr  ' • ' : ''}${escapeHtml(status)}</div></div></div>`;
+            return `<div class="list-row"><div class="flex-1"><strong>${escapeHtml(cliente)}</strong> — ${escapeHtml(produtosText)}<div class="text-sm muted">${dateStr}${dateStr ? ' • ' : ''}${escapeHtml(status)}</div></div></div>`;
         }).join('');
         el.innerHTML = rows;
     } catch (err) { console.error('renderPCPRecentOrders error', err); el.innerHTML = '<div class="text-error">Erro ao carregar ordens</div>'; }

@@ -1907,7 +1907,7 @@
 
         // ==== POPUP CREDENCIAIS ====
         function mostrarCredenciais(nome) {
-            // Gerar email corporativo baseação no nome
+            // Gerar email corporativo baseado no nome
             const nomePartes = nome.toLowerCase().trim().split(/\s+/);
             const primeiroNome = nomePartes[0] || '';
             const ultimoNome = nomePartes.length > 1  nomePartes[nomePartes.length - 1] : '';
@@ -2024,7 +2024,7 @@
                 if (departamento && !cardDepartamento.includes(departamento)) show = false;
                 if (cargo && !cardCargo.includes(cargo)) show = false;
                 
-                card.style.display = show  'block' : 'none';
+                card.style.display = show ? 'block' : 'none';
                 if (show) visiveis++;
             });
             

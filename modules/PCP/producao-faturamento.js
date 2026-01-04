@@ -290,10 +290,10 @@
             const isToday = date.toDateString() === today.toDateString();
             
             html += `
-                <div class="calendar-day ${isToday  'today' : ''} ${hasBilling  'has-billing' : ''}"
+                <div class="calendar-day ${isToday ? 'today' : ''} ${hasBilling ? 'has-billing' : ''}"
                      onclick="window.verFaturamentosDia('${dateStr}')">
                     ${day}
-                    ${hasBilling  '<span class="calendar-day-badge"></span>' : ''}
+                    ${hasBilling ? '<span class="calendar-day-badge"></span>' : ''}
                 </div>
             `;
         }

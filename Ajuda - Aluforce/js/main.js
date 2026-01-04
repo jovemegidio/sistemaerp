@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Detect base path
     const isInSubfolder = window.location.pathname.includes('/colecoes/') || window.location.pathname.includes('/artigos/');
-    const basePath = isInSubfolder  '../' : '';
+    const basePath = isInSubfolder ? '../' : '';
 
     // Search functionality
     const headerSearch = document.getElementById('header-search');

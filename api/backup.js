@@ -61,11 +61,11 @@ module.exports = function({ pool, authenticateToken }) {
                         nome: filename,
                         tamanho: stats.size,
                         tamanho_formatação: formatBytes(stats.size),
-                        criação_em: stats.birthtime,
+                        criado_em: stats.birthtime,
                         modificação_em: stats.mtime
                     };
                 })
-                .sort((a, b) => new Date(b.criação_em) - new Date(a.criação_em));
+                .sort((a, b) => new Date(b.criado_em) - new Date(a.criado_em));
             
             res.json({ 
                 success: true, 
@@ -97,9 +97,9 @@ module.exports = function({ pool, authenticateToken }) {
             
             await execPromise(cmd, { windowsHide: true });
             
-            // Verificar se o arquivo foi criação
+            // Verificar se o arquivo foi criado
             if (!fs.existsSync(filepath)) {
-                throw new Error('Arquivo de backup não foi criação');
+                throw new Error('Arquivo de backup não foi criado');
             }
             
             const stats = fs.statSync(filepath);
@@ -114,11 +114,11 @@ module.exports = function({ pool, authenticateToken }) {
             await pool.query(`
                 INSERT INTO logs_auditoria (usuario_id, usuario_nome, acao, modulo, entidade_tipo, descricao)
                 VALUES (, , 'BACKUP_CRIAR', 'sistema', 'backup', )
-            `, [req.user.id, req.user.nome, `Backup criação: ${filename}`]).catch(() => {});
+            `, [req.user.id, req.user.nome, `Backup criado: ${filename}`]).catch(() => {});
             
             res.json({
                 success: true,
-                message: 'Backup criação com sucesso',
+                message: 'Backup criado com sucesso',
                 data: {
                     arquivo: filename,
                     tamanho: formatBytes(stats.size),
@@ -340,7 +340,7 @@ module.exports = function({ pool, authenticateToken }) {
                     u.nome as usuario_nome
                 FROM backups_log bl
                 LEFT JOIN usuarios u ON bl.usuario_id = u.id
-                ORDER BY bl.criação_em DESC
+                ORDER BY bl.criado_em DESC
                 LIMIT 50
             `);
             

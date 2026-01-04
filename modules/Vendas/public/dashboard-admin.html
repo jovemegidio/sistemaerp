@@ -1257,8 +1257,8 @@
             const diffHoras = Math.floor(diffMs / 3600000);
             const diffDias = Math.floor(diffMs / 86400000);
 
-            if (diffMin < 60) return `Há ${diffMin} minuto${diffMin !== 1  's' : ''}`;
-            if (diffHoras < 24) return `Há ${diffHoras} hora${diffHoras !== 1  's' : ''}`;
+            if (diffMin < 60) return `Há ${diffMin} minuto${diffMin !== 1 ? 's' : ''}`;
+            if (diffHoras < 24) return `Há ${diffHoras} hora${diffHoras !== 1 ? 's' : ''}`;
             if (diffDias === 1) return 'Há 1 dia';
             if (diffDias < 7) return `Há ${diffDias} dias`;
             return dataVenda.toLocaleDateString('pt-BR');
@@ -1289,14 +1289,14 @@
                 }
 
                 // Calcular valores reais
-                const pedidosFaturaçãos = pedidos.filter(p => p.status === 'faturação');
+                const pedidosFaturaçãos = pedidos.filter(p => p.status === 'faturado');
                 const faturamentoTotal = pedidosFaturaçãos.reduce((sum, p) => sum + (parseFloat(p.valor) || 0), 0);
                 const totalPedidos = pedidos.length;
-                const pedidosAprovaçãos = pedidos.filter(p => ['faturação', 'aprovação', 'pedido_aprovação', 'faturar'].includes(p.status)).length;
+                const pedidosAprovaçãos = pedidos.filter(p => ['faturado', 'aprovação', 'pedido_aprovação', 'faturar'].includes(p.status)).length;
                 const ticketMedioAtual = totalPedidos > 0  faturamentoTotal / pedidosFaturaçãos.length || 0 : 0;
                 const taxaConversao = totalPedidos > 0  ((pedidosAprovaçãos / totalPedidos) * 100) : 0;
 
-                // Clientes novos no mês (criaçãos este mês)
+                // Clientes novos no mês (criados este mês)
                 const clientesNovosMes = clientes.filter(c => {
                     const created = new Date(c.created_at || c.data_cadastro);
                     return created >= new Date(inicioMes);
@@ -1445,9 +1445,9 @@
                 
                 const trendVendas = document.getElementById('trendVendasMes');
                 const isUpVendas = parseFloat(variacaoVendas) >= 0;
-                trendVendas.className = `stat-trend ${isUpVendas  'up' : 'down'}`;
+                trendVendas.className = `stat-trend ${isUpVendas ? 'up' : 'down'}`;
                 trendVendas.innerHTML = `
-                    <i class="fas fa-arrow-${isUpVendas  'up' : 'down'}"></i>
+                    <i class="fas fa-arrow-${isUpVendas ? 'up' : 'down'}"></i>
                     <span>${Math.abs(variacaoVendas)}% vs mês anterior</span>
                 `;
 
@@ -1459,9 +1459,9 @@
                 document.getElementById('metaEquipe').textContent = `${percentualMeta}%`;
                 
                 const trendMeta = document.getElementById('trendMetaEquipe');
-                trendMeta.className = `stat-trend ${percentualMeta >= 80  'up' : 'down'}`;
+                trendMeta.className = `stat-trend ${percentualMeta >= 80 ? 'up' : 'down'}`;
                 trendMeta.innerHTML = `
-                    <i class="fas fa-arrow-${percentualMeta >= 80  'up' : 'down'}"></i>
+                    <i class="fas fa-arrow-${percentualMeta >= 80 ? 'up' : 'down'}"></i>
                     <span>${formatarMoeda(metaTotal)} objetivo</span>
                 `;
 
@@ -1486,9 +1486,9 @@
                 
                 const trendPedidos = document.getElementById('trendPedidosMes');
                 const isUpPedidos = parseFloat(variacaoPedidos) >= 0;
-                trendPedidos.className = `stat-trend ${isUpPedidos  'up' : 'down'}`;
+                trendPedidos.className = `stat-trend ${isUpPedidos ? 'up' : 'down'}`;
                 trendPedidos.innerHTML = `
-                    <i class="fas fa-arrow-${isUpPedidos  'up' : 'down'}"></i>
+                    <i class="fas fa-arrow-${isUpPedidos ? 'up' : 'down'}"></i>
                     <span>${Math.abs(variacaoPedidos)}% vs mês anterior</span>
                 `;
 
@@ -1633,11 +1633,11 @@
                            <div class="vendedor-avatar" style="display:none;">${iniciais}</div>`
                         : `<div class="vendedor-avatar">${iniciais}</div>`;
                     
-                    const badgeClass = v.posicao === 1  'gold' : v.posicao === 2  'silver' : v.posicao === 3  'bronze' : '';
-                    const badgeStyle = v.posicao > 3  'background: #f3f4f6; color: #6b7280;' : '';
+                    const badgeClass = v.posicao === 1 ? 'gold' : v.posicao === 2 ? 'silver' : v.posicao === 3 ? 'bronze' : '';
+                    const badgeStyle = v.posicao > 3 ? 'background: #f3f4f6; color: #6b7280;' : '';
                     
-                    const progressColor = v.progresso >= 100  '#22c55e' : v.progresso >= 80  '#f97316' : '#ef4444';
-                    const progressClass = v.progresso >= 100  'success' : '';
+                    const progressColor = v.progresso >= 100 ? '#22c55e' : v.progresso >= 80 ? '#f97316' : '#ef4444';
+                    const progressClass = v.progresso >= 100 ? 'success' : '';
                     const progressWidth = Math.min(100, v.progresso);
 
                     return `

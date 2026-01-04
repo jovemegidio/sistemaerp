@@ -1036,7 +1036,7 @@ Object.entries(pages).forEach(([filename, page]) => {
     const filePath = path.join(comprasDir, filename);
     const html = getBaseTemplate(page.title, page.id, page.content);
     fs.writeFileSync(filePath, html, 'utf8');
-    console.log(`✅ ${filename} criação`);
+    console.log(`✅ ${filename} criado`);
 });
 
 console.log(`\n✅ ${Object.keys(pages).length} página(s) criada(s) com sucesso!`);

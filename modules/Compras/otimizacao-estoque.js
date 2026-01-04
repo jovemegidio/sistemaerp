@@ -303,7 +303,7 @@ class OtimizacaoEstoqueManager {
                 valorPedido: valorPedido,
                 diasCobertura: material.diasCobertura,
                 classeABC: material.classeABC,
-                urgencia: material.estoqueAtual < material.estoqueMinimo  'Alta' : 'Média'
+                urgencia: material.estoqueAtual < material.estoqueMinimo ? 'Alta' : 'Média'
             });
         });
 
@@ -504,7 +504,7 @@ class OtimizacaoEstoqueManager {
             `).join('');
 
             const actionsHTML = sugestao.actions.map((action, index) => `
-                <button class="suggestion-btn ${index === 0  'suggestion-btn-primary' : 'suggestion-btn-secondary'}" 
+                <button class="suggestion-btn ${index === 0 ? 'suggestion-btn-primary' : 'suggestion-btn-secondary'}" 
                         onclick="otimizacaoManager.handleAction('${sugestao.actionHandlers[index]}', ${sugestao.id})">
                     ${action}
                 </button>
@@ -621,7 +621,7 @@ class OtimizacaoEstoqueManager {
                 break;
             case 'anticipateOrders':
                 if (confirm('Antecipar pedidos para materiais com lead time longo')) {
-                    alert('Pedidos antecipaçãos criaçãos com sucesso!');
+                    alert('Pedidos antecipaçãos criados com sucesso!');
                 }
                 break;
             case 'findSupplier':
@@ -637,14 +637,14 @@ class OtimizacaoEstoqueManager {
         const valorTotal = this.recomendacoes.reduce((sum, r) => sum + r.valorPedido, 0);
 
         if (confirm(`Gerar ${pedidosGeraçãos} pedidos automáticos\n\nValor total: ${this.formatarMoeda(valorTotal)}`)) {
-            alert(`✅ ${pedidosGeraçãos} pedidos criaçãos com sucesso!\n\nOs pedidos estão aguardando aprovação no módulo de Pedidos de Compra.`);
+            alert(`✅ ${pedidosGeraçãos} pedidos criados com sucesso!\n\nOs pedidos estão aguardando aprovação no módulo de Pedidos de Compra.`);
             
             // Notificar sistema
             if (window.notificationSystem) {
                 window.notificationSystem.addNotification({
                     type: 'pedido_aprovacao',
                     title: 'Pedidos Automáticos Geraçãos',
-                    message: `${pedidosGeraçãos} pedidos criaçãos pela otimização de estoque`,
+                    message: `${pedidosGeraçãos} pedidos criados pela otimização de estoque`,
                     icon: 'fas fa-robot',
                     color: '#8b5cf6',
                     priority: 'medium',
@@ -708,7 +708,7 @@ function toggleDarkMode() {
     localStorage.setItem('darkMode', isDark);
     
     const icon = document.querySelector('#btnModoEscuro i');
-    icon.className = isDark  'fas fa-sun' : 'fas fa-moon';
+    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
     
     if (otimizacaoManager && otimizacaoManager.charts) {
         Object.values(otimizacaoManager.charts).forEach(chart => chart.update());

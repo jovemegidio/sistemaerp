@@ -1121,7 +1121,7 @@
                     <td>${formatarDocumento(c.cnpj, c.cpf)}</td>
                     <td>${formatarTelefone(c.telefone)}</td>
                     <td>${c.email || '-'}</td>
-                    <td><span class="client-status ${c.ativo  'ativo' : 'inativo'}">${c.ativo  'Ativo' : 'Inativo'}</span></td>
+                    <td><span class="client-status ${c.ativo ? 'ativo' : 'inativo'}">${c.ativo ? 'Ativo' : 'Inativo'}</span></td>
                     <td>
                         <button class="action-btn" title="Editar" onclick="editarCliente(${c.id})"><i class="fas fa-edit"></i></button>
                         <button class="action-btn" title="Novo Pedido" onclick="novoPedido(${c.id})"><i class="fas fa-plus"></i></button>
@@ -1137,11 +1137,11 @@
             document.getElementById('paginationInfo').textContent = `Exibindo ${inicio + 1}-${fim} de ${clientesFiltraçãos.length} clientes`;
             const totalPaginas = Math.ceil(clientesFiltraçãos.length / itensPorPagina);
             if (totalPaginas <= 1) { document.getElementById('paginationButtons').innerHTML = ''; return; }
-            let html = `<button class="page-btn" onclick="mudarPagina(${paginaAtual - 1})" ${paginaAtual === 1  'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+            let html = `<button class="page-btn" onclick="mudarPagina(${paginaAtual - 1})" ${paginaAtual === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
             for (let i = Math.max(1, paginaAtual - 2); i <= Math.min(totalPaginas, paginaAtual + 2); i++) {
-                html += `<button class="page-btn ${i === paginaAtual  'active' : ''}" onclick="mudarPagina(${i})">${i}</button>`;
+                html += `<button class="page-btn ${i === paginaAtual ? 'active' : ''}" onclick="mudarPagina(${i})">${i}</button>`;
             }
-            html += `<button class="page-btn" onclick="mudarPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas  'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+            html += `<button class="page-btn" onclick="mudarPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
             document.getElementById('paginationButtons').innerHTML = html;
         }
 
@@ -1356,12 +1356,12 @@
             try {
                 const url = id  `/api/clientes/${id}` : '/api/clientes';
                 const response = await fetch(url, { 
-                    method: id  'PUT' : 'POST', 
+                    method: id ? 'PUT' : 'POST', 
                     headers: { 'Content-Type': 'application/json' }, 
                     body: JSON.stringify(cliente) 
                 });
                 if (!response.ok) throw new Error('Erro');
-                mostrarToast(id  'Cliente atualização!' : 'Cliente criação!', 'success');
+                mostrarToast(id ? 'Cliente atualização!' : 'Cliente criado!', 'success');
                 fecharModal();
                 carregarClientes();
             } catch (error) { 
@@ -1481,7 +1481,7 @@
 
         function exportarClientes() {
             let csv = 'Nome;CNPJ;CPF;Contato;Telefone;Email;Status\n';
-            clientesFiltraçãos.forEach(c => { csv += `"${c.nome || ''}";"${c.cnpj || ''}";"${c.cpf || ''}";"${c.contato || ''}";"${c.telefone || ''}";"${c.email || ''}";"${c.ativo  'Ativo' : 'Inativo'}"\n`; });
+            clientesFiltraçãos.forEach(c => { csv += `"${c.nome || ''}";"${c.cnpj || ''}";"${c.cpf || ''}";"${c.contato || ''}";"${c.telefone || ''}";"${c.email || ''}";"${c.ativo ? 'Ativo' : 'Inativo'}"\n`; });
             const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);

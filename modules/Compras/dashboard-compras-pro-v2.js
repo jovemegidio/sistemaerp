@@ -544,7 +544,7 @@ function toggleDarkMode() {
     
     const btn = document.getElementById('btnModoEscuro');
     if (btn) {
-        btn.querySelector('i').className = isDark  'fas fa-sun' : 'fas fa-moon';
+        btn.querySelector('i').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
     }
 }
 

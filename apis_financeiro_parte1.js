@@ -477,7 +477,7 @@ app.post('/api/financeiro/parcelas/:id/pagar', authenticateToken, async (req, re
              SET status = , valor_pago = , data_pagamento = 
              WHERE id = `,
             [
-                valor_pago >= (await pool.query('SELECT valor FROM parcelas WHERE id = ', [id]))[0][0].valor  'pago' : 'pendente',
+                valor_pago >= (await pool.query('SELECT valor FROM parcelas WHERE id = ', [id]))[0][0].valor ? 'pago' : 'pendente',
                 valor_pago,
                 data_pagamento || new Date().toISOString().split('T')[0],
                 id

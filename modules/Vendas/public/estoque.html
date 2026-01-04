@@ -1236,7 +1236,7 @@
             }
 
             let html = `
-                <button onclick="irParaPagina(${paginaAtual - 1})" ${paginaAtual === 1  'disabled' : ''}>
+                <button onclick="irParaPagina(${paginaAtual - 1})" ${paginaAtual === 1 ? 'disabled' : ''}>
                     <i class="fas fa-chevron-left"></i>
                 </button>
             `;
@@ -1248,14 +1248,14 @@
 
             for (let i = inicio; i <= fim; i++) {
                 html += `
-                    <button onclick="irParaPagina(${i})" class="${i === paginaAtual  'active' : ''}">
+                    <button onclick="irParaPagina(${i})" class="${i === paginaAtual ? 'active' : ''}">
                         ${i}
                     </button>
                 `;
             }
 
             html += `
-                <button onclick="irParaPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas  'disabled' : ''}>
+                <button onclick="irParaPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas ? 'disabled' : ''}>
                     <i class="fas fa-chevron-right"></i>
                 </button>
             `;
@@ -1336,7 +1336,7 @@
                 'critico': 'fa-times-circle'
             }[statusInfo.status];
 
-            // Calcular porcentagem do estoque (baseação em estoque mínimo * 5 como máximo referência)
+            // Calcular porcentagem do estoque (baseado em estoque mínimo * 5 como máximo referência)
             const estoqueMax = Math.max(produto.estoque_minimo * 5, produto.estoque, 100);
             const estoquePercent = Math.min((produto.estoque / estoqueMax) * 100, 100);
             

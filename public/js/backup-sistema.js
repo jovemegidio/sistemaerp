@@ -90,7 +90,7 @@ const BackupSistema = {
                                 ${b.nome}
                             </td>
                             <td>${b.tamanho_formatação}</td>
-                            <td>${new Date(b.criação_em).toLocaleString('pt-BR')}</td>
+                            <td>${new Date(b.criado_em).toLocaleString('pt-BR')}</td>
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <button class="btn btn-outline-primary" 
@@ -137,7 +137,7 @@ const BackupSistema = {
             const result = await response.json();
             
             if (result.success) {
-                showNotification(`Backup criação: ${result.data.arquivo} (${result.data.tamanho})`, 'success');
+                showNotification(`Backup criado: ${result.data.arquivo} (${result.data.tamanho})`, 'success');
                 await this.carregarBackups();
             } else {
                 showNotification('Erro ao criar backup: ' + result.message, 'error');

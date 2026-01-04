@@ -640,10 +640,10 @@ class SistemaParcelamento {
         const tbody = document.querySelector('#tabela-preview-parcelas tbody');
         tbody.innerHTML = this.parcelas.map(parcela => `
             <tr>
-                <td><strong>${parcela.número === 0  'Entrada' : parcela.número + '/' + (totalParcelas - (document.getElementById('parcelamento-entrada').checked  1 : 0))}</strong></td>
+                <td><strong>${parcela.número === 0 ? 'Entrada' : parcela.número + '/' + (totalParcelas - (document.getElementById('parcelamento-entrada').checked  1 : 0))}</strong></td>
                 <td>${this.formatarData(parcela.vencimento)}</td>
                 <td>${this.formatarMoeda(parcela.valorPrincipal)}</td>
-                <td style="color: ${parcela.juros > 0  '#ef4444' : '#6b7280'}">${this.formatarMoeda(parcela.juros)}</td>
+                <td style="color: ${parcela.juros > 0 ? '#ef4444' : '#6b7280'}">${this.formatarMoeda(parcela.juros)}</td>
                 <td><strong>${this.formatarMoeda(parcela.valorTotal)}</strong></td>
             </tr>
         `).join('');

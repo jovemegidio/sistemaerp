@@ -121,7 +121,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
         irrf: 0.015
       };
       
-      // Ajustes baseaçãos no tipo de serviço
+      // Ajustes baseados no tipo de serviço
       if (tipo_servico === 'construcao') {
         aliquotas.iss = 0.02; // ISS reduzido para construção
       }
@@ -233,7 +233,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
         data: {
           valido: todas_validas,
           validacoes,
-          mensagem: todas_validas  'Todos os daçãos são válidos' : 'Alguns daçãos precisam ser corrigidos'
+          mensagem: todas_validas ? 'Todos os daçãos são válidos' : 'Alguns daçãos precisam ser corrigidos'
         }
       });
     } catch (error) {

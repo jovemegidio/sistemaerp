@@ -162,7 +162,7 @@ function toggleDarkMode() {
     const isDark = document.body.classList.contains('dark-mode');
     localStorage.setItem('darkMode', isDark);
     const btn = document.getElementById('btnModoEscuro');
-    btn.querySelector('i').className = isDark  'fas fa-sun' : 'fas fa-moon';
+    btn.querySelector('i').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
 }
 
 function toggleView(mode) {

@@ -654,8 +654,8 @@ const jsPath = path.join(__dirname, 'public', 'js', 'chat-omie.js');
 fs.writeFileSync(cssPath, chatOmieCSS, 'utf8');
 fs.writeFileSync(jsPath, chatOmieJS, 'utf8');
 
-console.log('   ✅ chat-omie.css criação');
-console.log('   ✅ chat-omie.js criação\n');
+console.log('   ✅ chat-omie.css criado');
+console.log('   ✅ chat-omie.js criado\n');
 
 // ============================================================================
 // 2. ATUALIZAR TODOS OS ARQUIVOS HTML
@@ -744,7 +744,7 @@ console.log('   • Design verde/branco (padrão Omie)');
 console.log('   • Botão flutuante com animação pulse');
 console.log('   • Interface limpa e profissional');
 console.log('   • Quick replies para respostas rápidas');
-console.log('   • Indicaçãor de digitação');
+console.log('   • Indicaçãor de digitado');
 console.log('   • Badge de notificações');
 console.log('   • Totalmente responsivo');
 

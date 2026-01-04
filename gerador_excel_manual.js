@@ -153,7 +153,7 @@ class ExcelManualGenerator {
         });
         
         fs.writeFileSync(filename, buffer);
-        console.log(`✅ Arquivo criação: ${buffer.length} bytes`);
+        console.log(`✅ Arquivo criado: ${buffer.length} bytes`);
         
         return buffer;
     }
@@ -177,14 +177,14 @@ async function testeGeraçãorManual() {
         const arquivo = 'TESTE_MANUAL_XLSX.xlsx';
         await geraçãor.createXLSX(arquivo);
         
-        // Verificar se arquivo foi criação
+        // Verificar se arquivo foi criado
         if (fs.existsSync(arquivo)) {
             const stats = fs.statSync(arquivo);
             console.log(`\n✅ SUCESSO! Arquivo: ${stats.size} bytes`);
             console.log('📋 Abra o arquivo no Excel para verificar se os daçãos estão corretos');
             return true;
         } else {
-            console.log('\n❌ Arquivo não foi criação');
+            console.log('\n❌ Arquivo não foi criado');
             return false;
         }
         

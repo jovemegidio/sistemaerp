@@ -333,9 +333,9 @@
                     const withGTIN = produtos.filter(p => p.gtin && p.gtin.trim() !== '').length;
                     
                     document.getElementById('sku-count').innerHTML = 
-                        `<span class="status-badge badge-${withSKU > 0  'online' : 'offline'}">${withSKU} com SKU</span>`;
+                        `<span class="status-badge badge-${withSKU > 0 ? 'online' : 'offline'}">${withSKU} com SKU</span>`;
                     document.getElementById('gtin-count').innerHTML = 
-                        `<span class="status-badge badge-${withGTIN > 0  'online' : 'offline'}">${withGTIN} com GTIN</span>`;
+                        `<span class="status-badge badge-${withGTIN > 0 ? 'online' : 'offline'}">${withGTIN} com GTIN</span>`;
                 }
             } catch (error) {
                 console.error('Erro ao verificar SKUs/GTINs:', error);
@@ -360,15 +360,15 @@
             }
         }
 
-        // Testar criação de produto
+        // Testar criado de produto
         async function testCreateProduct() {
             try {
-                addResult('api', 'Testando criação de produto...', 'info');
+                addResult('api', 'Testando criado de produto...', 'info');
                 
                 const testProduct = {
                     codigo: 'TEST_' + Date.now(),
                     nome: 'Produto de Teste',
-                    descricao: 'Produto criação para teste',
+                    descricao: 'Produto criado para teste',
                     sku: 'TEST_' + Date.now(),
                     marca: 'Teste',
                     unidade_medida: 'un',
@@ -386,7 +386,7 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    addResult('api', `Produto criação com sucesso! ID: ${data.id}`, 'success');
+                    addResult('api', `Produto criado com sucesso! ID: ${data.id}`, 'success');
                     
                     // Tentar excluir o produto de teste
                     const deleteResponse = await fetch(`/api/pcp/produtos/${data.id}`, {
@@ -401,7 +401,7 @@
                     addResult('api', `Erro ao criar produto: ${errorData.message || response.status}`, 'error');
                 }
             } catch (error) {
-                addResult('api', `Erro na criação: ${error.message}`, 'error');
+                addResult('api', `Erro na criado: ${error.message}`, 'error');
             }
         }
 
@@ -440,9 +440,9 @@
             const deleteButtons = document.querySelectorAll('.btn-excluir-prod');
             
             addResult('frontend', `Encontraçãos ${editButtons.length} botões de editar`, 
-                editButtons.length > 0  'success' : 'warning');
+                editButtons.length > 0 ? 'success' : 'warning');
             addResult('frontend', `Encontraçãos ${deleteButtons.length} botões de excluir`, 
-                deleteButtons.length > 0  'success' : 'warning');
+                deleteButtons.length > 0 ? 'success' : 'warning');
         }
 
         // Testar estilos CSS
@@ -459,8 +459,8 @@
                 if (elements.length > 0) {
                     const style = window.getComputedStyle(elements[0]);
                     const hasBackground = style.backgroundColor !== 'rgba(0, 0, 0, 0)';
-                    addResult('frontend', `${test.description}: ${hasBackground  'Estilização' : 'Sem estilo'}`, 
-                        hasBackground  'success' : 'warning');
+                    addResult('frontend', `${test.description}: ${hasBackground ? 'Estilização' : 'Sem estilo'}`, 
+                        hasBackground ? 'success' : 'warning');
                 } else {
                     addResult('frontend', `${test.description}: Elementos não encontraçãos`, 'warning');
                 }
@@ -504,7 +504,7 @@
         function testLogoSwitch() {
             const logos = document.querySelectorAll('.header-logo');
             addResult('frontend', `Encontradas ${logos.length} logos`, 
-                logos.length > 0  'success' : 'warning');
+                logos.length > 0 ? 'success' : 'warning');
             
             logos.forEach((logo, index) => {
                 const src = logo.src || logo.getAttribute('src');
@@ -534,8 +534,8 @@
         async function testFileExists(filename) {
             try {
                 const response = await fetch(filename, { method: 'HEAD' });
-                addResult('files', `${filename}: ${response.ok  'Existe' : 'Não encontração'}`, 
-                    response.ok  'success' : 'error');
+                addResult('files', `${filename}: ${response.ok ? 'Existe' : 'Não encontração'}`, 
+                    response.ok ? 'success' : 'error');
             } catch (error) {
                 addResult('files', `${filename}: Erro ao verificar`, 'error');
             }

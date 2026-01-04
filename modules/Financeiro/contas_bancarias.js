@@ -96,8 +96,8 @@ function renderizarContas() {
         
         return `
             <div class="conta-card">
-                <span class="conta-status ${conta.ativo  'ativo' : 'inativo'}">
-                    ${conta.ativo  'Ativa' : 'Inativa'}
+                <span class="conta-status ${conta.ativo ? 'ativo' : 'inativo'}">
+                    ${conta.ativo ? 'Ativa' : 'Inativa'}
                 </span>
                 
                 <div class="conta-header">
@@ -112,7 +112,7 @@ function renderizarContas() {
                 
                 <div class="conta-saldo">
                     <div class="conta-saldo-label">Saldo Atual</div>
-                    <div class="conta-saldo-valor" style="color: ${conta.saldo_atual >= 0  '#10b981' : '#ef4444'}">
+                    <div class="conta-saldo-valor" style="color: ${conta.saldo_atual >= 0 ? '#10b981' : '#ef4444'}">
                         ${formatarMoeda(Math.abs(conta.saldo_atual))}
                     </div>
                 </div>
@@ -225,7 +225,7 @@ async function salvarConta(event) {
     try {
         // TODO: Substituir por chamada real à API
         // const url = isEdicao  `/api/financeiro/contas-bancarias/${id}` : '/api/financeiro/contas-bancarias';
-        // const method = isEdicao  'PUT' : 'POST';
+        // const method = isEdicao ? 'PUT' : 'POST';
         // const response = await fetch(url, {
         //     method: method,
         //     headers: { 'Content-Type': 'application/json' },
@@ -249,7 +249,7 @@ async function salvarConta(event) {
         }
         
         mostrarAlerta(
-            isEdicao  'Conta atualizada com sucesso!' : 'Conta criada com sucesso!',
+            isEdicao ? 'Conta atualizada com sucesso!' : 'Conta criada com sucesso!',
             'success'
         );
         

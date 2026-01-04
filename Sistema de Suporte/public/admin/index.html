@@ -1064,7 +1064,7 @@
             });
 
             return `
-                <div class="ticket-item ${currentTicketId === ticket.id  'active' : ''}" onclick="selectTicket(${ticket.id})">
+                <div class="ticket-item ${currentTicketId === ticket.id ? 'active' : ''}" onclick="selectTicket(${ticket.id})">
                     <div class="ticket-avatar">${initial}</div>
                     <div class="ticket-content">
                         <div class="ticket-header">
@@ -1136,10 +1136,10 @@
             const isHandling = ticket.status === 'human_handling' && ticket.assignedTo === adminName;
             const canTake = ticket.status === 'waiting_human' || ticket.status === 'ai_handling';
             
-            document.getElementById('btnTake').style.display = canTake  'inline-flex' : 'none';
-            document.getElementById('btnClose').style.display = isHandling  'inline-flex' : 'none';
-            document.getElementById('btnReopen').style.display = isClosed  'inline-flex' : 'none';
-            document.getElementById('chatInputArea').style.display = isHandling  'flex' : 'none';
+            document.getElementById('btnTake').style.display = canTake ? 'inline-flex' : 'none';
+            document.getElementById('btnClose').style.display = isHandling ? 'inline-flex' : 'none';
+            document.getElementById('btnReopen').style.display = isClosed ? 'inline-flex' : 'none';
+            document.getElementById('chatInputArea').style.display = isHandling ? 'flex' : 'none';
         }
 
         function createMessageHTML(message) {
@@ -1155,7 +1155,7 @@
             const senderClass = message.sender === 'ai'  ' ai' : '';
 
             return `
-                <div class="message ${isReceived  'received' : 'sent'}${senderClass}">
+                <div class="message ${isReceived ? 'received' : 'sent'}${senderClass}">
                     ${message.senderName  `<div class="sender-name">${message.senderName}</div>` : ''}
                     <div class="bubble">${message.message}</div>
                     <div class="time">${time}</div>

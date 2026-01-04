@@ -728,7 +728,7 @@ class ChatSupportApp {
   }
   
   processAIResponse(userMessage) {
-    // Mostrar indicaçãor de digitação
+    // Mostrar indicaçãor de digitado
     this.showTypingIndicator();
     
     // Verificar se é pedido de transferência
@@ -886,7 +886,7 @@ class ChatSupportApp {
         setTimeout(() => {
           const systemMessage = {
             id: 'msg_system_' + Date.now(),
-            content: `✅ Ticket #${result.ticket.protocolo} criação com sucesso!\n\nSeu atendimento foi registração e um de nossos atendentes entrará em contato em breve.\n\nAcompanhe pelo protocolo: ${result.ticket.protocolo}`,
+            content: `✅ Ticket #${result.ticket.protocolo} criado com sucesso!\n\nSeu atendimento foi registração e um de nossos atendentes entrará em contato em breve.\n\nAcompanhe pelo protocolo: ${result.ticket.protocolo}`,
             sender: 'system',
             timestamp: new Date().toISOString()
           };
@@ -1094,7 +1094,7 @@ class ChatSupportApp {
         </div>
         <div class="conv-info">
           <div class="conv-header">
-            <span class="conv-name">${conv.isWithAI  'Assistente Virtual' : 'Suporte'}</span>
+            <span class="conv-name">${conv.isWithAI ? 'Assistente Virtual' : 'Suporte'}</span>
             <span class="conv-time">${this.formatTime(conv.createdAt)}</span>
           </div>
           <p class="conv-last-msg">${conv.lastMessage || 'Nova conversa'}</p>

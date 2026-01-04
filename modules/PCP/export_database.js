@@ -122,7 +122,7 @@ async function exportDatabase() {
         
         await fs.writeFile(filepath, sqlDump, 'utf8');
         
-        console.log(`\n✅ Dump criação com sucesso!`);
+        console.log(`\n✅ Dump criado com sucesso!`);
         console.log(`📁 Arquivo: ${filename}`);
         console.log(`📍 Local: ${filepath}`);
         console.log(`📊 Tamanho: ${(Buffer.byteLength(sqlDump, 'utf8') / 1024 / 1024).toFixed(2)} MB`);

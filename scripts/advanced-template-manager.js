@@ -114,7 +114,7 @@ class AdvancedTemplateManager {
 
         const customTemplateId = await this.registerTemplate({
             name: `${baseTemplate.name} - Personalização (${userInfo.company || 'Custom'})`,
-            description: `Template personalização baseação em ${baseTemplate.name}`,
+            description: `Template personalização baseado em ${baseTemplate.name}`,
             type: baseTemplate.type,
             filePath: await this.copyAndCustomizeTemplate(baseTemplate.filePath, customizations),
             createdBy: userInfo.userId || 'user',

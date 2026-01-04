@@ -88,7 +88,7 @@ async function testVendasAccess() {
     console.log('✅ Daçãos do usuário recebidos:');
     console.log(`   Nome: ${userData.nome}`);
     console.log(`   Email: ${userData.email}`);
-    console.log(`   Admin: ${userData.is_admin  '👑 SIM' : '❌ NÁO'}`);
+    console.log(`   Admin: ${userData.is_admin ? '👑 SIM' : '❌ NÁO'}`);
     console.log(`   Permissões Vendas: ${JSON.stringify(userData.permissoes_vendas || 'null')}`);
 
     // 3. Verificar acesso à página de vendas
@@ -117,7 +117,7 @@ async function testVendasAccess() {
             console.log('✅ Flag de autenticação encontrada');
         }
     } else if (vendasPageRes.statusCode === 302 || vendasPageRes.statusCode === 301) {
-        console.log('⚠️  REDIRECIONAMENTO detectação');
+        console.log('⚠️  REDIRECIONAMENTO detectado');
         console.log(`   Location: ${vendasPageRes.headers.location}`);
     } else {
         console.log('❌ ERRO ao carregar página:', vendasPageRes.statusCode);

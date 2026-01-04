@@ -712,7 +712,7 @@
                 else if (isHandling) statusBadge = '<span class="status-badge handling">Atendendo</span>';
 
                 return `
-                    <div class="ticket-item ${isWaiting  'waiting' : ''} ${isActive  'active' : ''}" onclick="openTicket(${ticket.id})">
+                    <div class="ticket-item ${isWaiting ? 'waiting' : ''} ${isActive ? 'active' : ''}" onclick="openTicket(${ticket.id})">
                         <div class="avatar">${initial}</div>
                         <div class="content">
                             <div class="top-row">
@@ -783,7 +783,7 @@
                     const icon = m.sender === 'ai'  '<i class="bi bi-robot"></i>' : 
                                  m.sender === 'client'  '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
                     return `
-                        <div class="message ${type} ${isAI  'ai' : ''}">
+                        <div class="message ${type} ${isAI ? 'ai' : ''}">
                             <div class="sender">${icon} ${senderName}</div>
                             <div class="bubble">${m.message}</div>
                             <div class="time">${time}</div>
@@ -808,8 +808,8 @@
             const isHandling = currentTicket.status === 'human_handling' && currentTicket.assignedTo === attendantName;
             const isClosed = currentTicket.status === 'closed';
 
-            document.getElementById('btnTake').style.display = isWaiting  'flex' : 'none';
-            document.getElementById('btnClose').style.display = isHandling  'flex' : 'none';
+            document.getElementById('btnTake').style.display = isWaiting ? 'flex' : 'none';
+            document.getElementById('btnClose').style.display = isHandling ? 'flex' : 'none';
             document.getElementById('messageInput').disabled = !isHandling;
             document.getElementById('sendBtn').disabled = !isHandling;
             
@@ -856,11 +856,11 @@
         function addMessage(text, type, sender, isAI = false) {
             const container = document.getElementById('messages');
             const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            const icon = isAI  '<i class="bi bi-robot"></i>' : 
+            const icon = isAI ? '<i class="bi bi-robot"></i>' : 
                          type === 'received'  '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
             
             const div = document.createElement('div');
-            div.className = `message ${type} ${isAI  'ai' : ''}`;
+            div.className = `message ${type} ${isAI ? 'ai' : ''}`;
             div.innerHTML = `
                 <div class="sender">${icon} ${sender}</div>
                 <div class="bubble">${text}</div>

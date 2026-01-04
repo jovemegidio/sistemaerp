@@ -88,7 +88,7 @@ setTimeout(() => {
                     if (c1) {
                         c1.checked = true;
                         c1.dispatchEvent(new Event('change', {bubbles: true}));
-                        console.log('   ✅ TRANSFERÊNCIA marcação');
+                        console.log('   ✅ TRANSFERÊNCIA marcado');
                         
                         setTimeout(() => {
                             console.log('   🔍 Percentual TRANSFERÊNCIA...');
@@ -116,7 +116,7 @@ setTimeout(() => {
                         if (c2) {
                             c2.checked = true;
                             c2.dispatchEvent(new Event('change', {bubbles: true}));
-                            console.log('   ✅ DEPÓSITO marcação');
+                            console.log('   ✅ DEPÓSITO marcado');
                             
                             setTimeout(() => {
                                 console.log('   🔍 Percentual DEPÓSITO...');

@@ -1,6 +1,6 @@
 /**
  * PEDIDOS DE COMPRA - Gerenciamento Completo
- * Sistema completo de criação, edição, aprovação e acompanhamento de pedidos
+ * Sistema completo de criado, edição, aprovação e acompanhamento de pedidos
  */
 
 let pedidos = [];
@@ -293,7 +293,7 @@ async function salvarPedido() {
     try {
         // Tentar salvar no backend
         const response = await fetch('/api/compras/pedidos', {
-            method: pedidoId  'PUT' : 'POST',
+            method: pedidoId ? 'PUT' : 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(pedido)
         });
@@ -321,7 +321,7 @@ async function salvarPedido() {
     atualizarCards();
     fecharModalPedido();
     
-    mostrarNotificacao(pedidoId  'Pedido atualização com sucesso!' : 'Pedido criação com sucesso!', 'success');
+    mostrarNotificacao(pedidoId ? 'Pedido atualização com sucesso!' : 'Pedido criado com sucesso!', 'success');
 }
 
 function coletarItens() {

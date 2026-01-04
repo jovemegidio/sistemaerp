@@ -165,7 +165,7 @@ class AutoPrintSystem {
                 row.eachCell((cell, colNumber) => {
                     const value = cell.value || '';
                     const isHeader = rowNumber <= 3;
-                    const cellClass = isHeader  'header' : 
+                    const cellClass = isHeader ? 'header' : 
                                     (typeof value === 'number'  'number' : '');
                     
                     html += `<td class="${cellClass}">${value}</td>`;

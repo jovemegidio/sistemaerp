@@ -81,7 +81,7 @@
 
         // Atualizar badge
         if (unreadCount > 0) {
-            badge.textContent = unreadCount > 99  '99+' : unreadCount;
+            badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
             badge.style.display = 'flex';
             btn.classList.add('has-notification');
         } else {
@@ -98,7 +98,7 @@
 
         window.NotificationsManager.addNotification({
             title: '💬 Nova Mensagem do Chat',
-            message: message || `Você tem ${count} nova${count > 1  's' : ''} mensagem${count > 1  'ns' : ''}`,
+            message: message || `Você tem ${count} nova${count > 1 ? 's' : ''} mensagem${count > 1 ? 'ns' : ''}`,
             type: 'info',
             icon: 'fa-comments',
             time: new Date().toISOString()

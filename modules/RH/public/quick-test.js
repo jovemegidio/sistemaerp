@@ -23,7 +23,7 @@ function testSection(sectionId) {
     // Verificar se está visível
     const isVisible = section.classList.contains('active') || 
                      window.getComputedStyle(section).display !== 'none';
-    console.log(`👁️ Visível: ${isVisible  'SIM' : 'NÁO'}`);
+    console.log(`👁️ Visível: ${isVisible ? 'SIM' : 'NÁO'}`);
     
     return true;
 }
@@ -84,7 +84,7 @@ setTimeout(() => {
         });
         
         const dashboardGrid = document.querySelector('.dashboard-grid');
-        console.log(`📋 Grid do dashboard: ${dashboardGrid  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
+        console.log(`📋 Grid do dashboard: ${dashboardGrid ? 'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
     }
     
     // Verificar funcionários
@@ -96,9 +96,9 @@ setTimeout(() => {
         const employeeTable = document.getElementById('employees-list-view');
         const searchInput = document.getElementById('search-input');
         
-        console.log(`📋 Grid de funcionários: ${employeeGrid  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
-        console.log(`📊 Tabela de funcionários: ${employeeTable  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
-        console.log(`🔍 Campo de busca: ${searchInput  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
+        console.log(`📋 Grid de funcionários: ${employeeGrid ? 'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
+        console.log(`📊 Tabela de funcionários: ${employeeTable ? 'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
+        console.log(`🔍 Campo de busca: ${searchInput ? 'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
     }
     
     // Verificar relatórios
@@ -109,7 +109,7 @@ setTimeout(() => {
         const reportsGrid = document.querySelector('.reports-grid');
         const reportCards = document.querySelectorAll('.report-card');
         
-        console.log(`📋 Grid de relatórios: ${reportsGrid  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
+        console.log(`📋 Grid de relatórios: ${reportsGrid ? 'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
         console.log(`🏷️ Cards de relatórios: ${reportCards.length} encontrados`);
     }
     

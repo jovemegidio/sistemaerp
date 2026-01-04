@@ -613,7 +613,7 @@
             const resultação = (daçãos.receitas || 0) - (daçãos.despesas || 0);
             document.getElementById('stat-resultação').textContent = 
                 $ ${resultação.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-            document.getElementById('stat-resultação').style.color = resultação >= 0  '#1e40af' : '#ef4444';
+            document.getElementById('stat-resultação').style.color = resultação >= 0 ? '#1e40af' : '#ef4444';
             
             const margem = daçãos.receitas > 0  ((resultação / daçãos.receitas) * 100).toFixed(1) : 0;
             document.getElementById('stat-margem').textContent = `${margem}%`;

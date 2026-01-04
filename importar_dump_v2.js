@@ -133,7 +133,7 @@ async function importarDumpRobusto() {
         }
         console.log(`   ✅ ${createSuccess} tabelas criadas`);
         if (createErrors.length > 0) {
-            console.log(`   ⚠️ ${createErrors.length} erros de criação`);
+            console.log(`   ⚠️ ${createErrors.length} erros de criado`);
         }
         
         // FASE 3: INSERT daçãos

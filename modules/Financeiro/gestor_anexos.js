@@ -54,7 +54,7 @@ class GestorAnexos {
                 </div>
 
                 <div class="dropzone" id="dropzone">
-                    <input type="file" id="file-input" ${this.opções.permiteMultiplos  'multiple' : ''} 
+                    <input type="file" id="file-input" ${this.opções.permiteMultiplos ? 'multiple' : ''} 
                            style="display: none;" onchange="gestorAnexos.handleFileSelect(event)">
                     <i class="fas fa-cloud-upload-alt"></i>
                     <p>Arraste arquivos aqui ou clique para selecionar</p>
@@ -508,7 +508,7 @@ class GestorAnexos {
         const dataFormatada = anexo.data_upload ? this.formatarData(anexo.data_upload) : '';
 
         return `
-            <div class="anexo-item ${anexo.uploading  'uploading' : ''}" data-anexo-id="${anexo.id}">
+            <div class="anexo-item ${anexo.uploading ? 'uploading' : ''}" data-anexo-id="${anexo.id}">
                 <div class="anexo-icone">
                     <i class="fas ${icone}"></i>
                 </div>

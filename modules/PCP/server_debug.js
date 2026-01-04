@@ -82,7 +82,7 @@ app.post('/api/pcp/login', async (req, res) => {
         console.log(`[LOGIN] Usuário encontrado: ${user.nome} (ID: ${user.id})`);
         
         const stored = (user.senha || '').toString();
-        console.log(`[LOGIN] Senha armazenada (tipo): ${stored  'Presente' : 'Vazia'}, Hash: ${stored.startsWith('$2a$')  'bcrypt' : 'texto'}`);
+        console.log(`[LOGIN] Senha armazenada (tipo): ${stored ? 'Presente' : 'Vazia'}, Hash: ${stored.startsWith('$2a$')  'bcrypt' : 'texto'}`);
 
         // Verificar senha com bcrypt
         if (bcrypt && stored.match(/^\$2[aby]\$/)) {

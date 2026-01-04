@@ -43,7 +43,7 @@ async function executarSeed() {
                 ('PCP', 'pcp@aluforce.com', SHA2('pcp123', 256), SHA2('pcp123', 256), 0, 'user', NOW())
                 ON DUPLICATE KEY UPDATE nome = VALUES(nome)
             `);
-            console.log(`   ${colors.green}✅ 4 usuários criaçãos${colors.reset}`);
+            console.log(`   ${colors.green}✅ 4 usuários criados${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  ${err.message}${colors.reset}`);
         }

@@ -51,7 +51,7 @@
     const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
     
     /**
-     * Obtém daçãos da saudação baseação na hora atual
+     * Obtém daçãos da saudação baseado na hora atual
      */
     function getGreetingData() {
         const hora = new Date().getHours();

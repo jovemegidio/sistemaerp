@@ -596,7 +596,7 @@
                         <div class="banco-body">
                             <div class="banco-saldo">
                                 <div class="banco-saldo-label">Saldo Atual</div>
-                                <div class="banco-saldo-valor ${banco.saldo >= 0  'positivo' : 'negativo'}">${formatarMoeda(banco.saldo)}</div>
+                                <div class="banco-saldo-valor ${banco.saldo >= 0 ? 'positivo' : 'negativo'}">${formatarMoeda(banco.saldo)}</div>
                             </div>
                             <div class="banco-details">
                                 <div class="banco-detail">
@@ -723,7 +723,7 @@
             fecharModal('modalBanco');
             atualizarKPIs();
             renderizarBancos();
-            alert(id  'Banco atualização com sucesso!' : 'Banco cadastração com sucesso!');
+            alert(id ? 'Banco atualização com sucesso!' : 'Banco cadastração com sucesso!');
         }
 
         function editarBanco(id) {

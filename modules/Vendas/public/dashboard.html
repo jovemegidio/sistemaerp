@@ -1110,18 +1110,18 @@
                             const nomesMeses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
                             return nomesMeses[parseInt(mes) - 1];
                         });
-                        const valores = data.históricoMensal.map(h => h.valor_faturação || 0);
+                        const valores = data.históricoMensal.map(h => h.valor_faturado || 0);
                         atualizarGraficoVendas(meses, valores);
                     }
                     
                     // Atualizar gráfico de status com pipeline real
                     if (data.pipeline && data.pipeline.length > 0) {
                         const statusMap = {
-                            'faturação': { label: 'Faturaçãos', color: '#10b981' },
+                            'faturado': { label: 'Faturaçãos', color: '#10b981' },
                             'analise': { label: 'Em Negociação', color: '#f59e0b' },
                             'aprovação': { label: 'Aprovaçãos', color: '#3b82f6' },
                             'orçamento': { label: 'Pedidos', color: '#8b5cf6' },
-                            'cancelação': { label: 'Cancelaçãos', color: '#ef4444' }
+                            'cancelação': { label: 'Cancelados', color: '#ef4444' }
                         };
                         const labels = [];
                         const valores = [];
@@ -1167,9 +1167,9 @@
                         container.innerHTML = vendedores.map((v, i) => {
                             const isCurrentUser = v.nome && v.nome.toLowerCase().includes(currentUserName);
                             return `
-                                <div class="ranking-item ${isCurrentUser  'destaque' : ''}">
+                                <div class="ranking-item ${isCurrentUser ? 'destaque' : ''}">
                                     <div class="ranking-posicao">${i + 1}</div>
-                                    <div class="ranking-nome">${isCurrentUser  'Você' : (v.nome || 'Vendedor')}</div>
+                                    <div class="ranking-nome">${isCurrentUser ? 'Você' : (v.nome || 'Vendedor')}</div>
                                     <div class="ranking-valor">${formatarMoeda(v.valor || 0)}</div>
                                 </div>
                             `;
@@ -1252,19 +1252,19 @@
                     <div class="venda-item">
                         <div class="venda-info">
                             <span class="venda-cliente">${cliente.nome_fantasia || cliente.cliente_nome || cliente.empresa || 'Cliente'}</span>
-                            <span class="venda-data">${dataFormatada}${dataFormatada && infoPedido  ' - ' : ''}${infoPedido}</span>
+                            <span class="venda-data">${dataFormatada}${dataFormatada && infoPedido ? ' - ' : ''}${infoPedido}</span>
                         </div>
-                        <div class="venda-valor">${formatarMoeda(cliente.valor_faturação || cliente.valor || 0)}</div>
+                        <div class="venda-valor">${formatarMoeda(cliente.valor_faturado || cliente.valor || 0)}</div>
                     </div>
                 `;
             }).join('');
         }
         
-        // Função para carregar vendas recentes do vendedor logação (pedidos faturaçãos)
+        // Função para carregar vendas recentes do vendedor logação (pedidos faturados)
         async function carregarMinhasVendasRecentes() {
             try {
-                // Buscar pedidos faturaçãos do vendedor atual
-                const response = await fetch('/api/vendas/pedidosstatus=faturação&limit=5', { credentials: 'include' });
+                // Buscar pedidos faturados do vendedor atual
+                const response = await fetch('/api/vendas/pedidosstatus=faturado&limit=5', { credentials: 'include' });
                 if (response.ok) {
                     const data = await response.json();
                     const pedidos = Array.isArray(data)  data : (data.pedidos || []);
@@ -1281,7 +1281,7 @@
                                 <div class="venda-item">
                                     <div class="venda-info">
                                         <span class="venda-cliente">${pedido.cliente_nome || pedido.empresa_nome || 'Cliente'}</span>
-                                        <span class="venda-data">${dataFormatada}${dataFormatada  ' - ' : ''}Pedido #${numeroPedido}</span>
+                                        <span class="venda-data">${dataFormatada}${dataFormatada ? ' - ' : ''}Pedido #${numeroPedido}</span>
                                     </div>
                                     <div class="venda-valor">${formatarMoeda(pedido.valor || pedido.valor_total || 0)}</div>
                                 </div>

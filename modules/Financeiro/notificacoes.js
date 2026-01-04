@@ -212,7 +212,7 @@ class SistemaNotificacoes {
         
         if (badge) {
             badge.textContent = naoLidas;
-            badge.style.display = naoLidas > 0  'flex' : 'none';
+            badge.style.display = naoLidas > 0 ? 'flex' : 'none';
         }
     }
 
@@ -231,7 +231,7 @@ class SistemaNotificacoes {
         }
 
         lista.innerHTML = this.notificacoes.map(n => `
-            <div class="notificação-item ${n.lida  'lida' : ''}" onclick="notificacoes.clicar(${n.id})">
+            <div class="notificação-item ${n.lida ? 'lida' : ''}" onclick="notificacoes.clicar(${n.id})">
                 <div class="notificação-icon ${n.cor}">
                     <i class="fas ${n.icone}"></i>
                 </div>
@@ -240,7 +240,7 @@ class SistemaNotificacoes {
                     <div class="notificação-mensagem">${n.mensagem}</div>
                     <div class="notificação-data">${this.formatarDataRelativa(n.data_criacao)}</div>
                 </div>
-                ${!n.lida  '<div class="notificação-bolinha"></div>' : ''}
+                ${!n.lida ? '<div class="notificação-bolinha"></div>' : ''}
             </div>
         `).join('');
     }
@@ -320,8 +320,8 @@ class SistemaNotificacoes {
 
         if (diffMins < 1) return 'Agora';
         if (diffMins < 60) return `Há ${diffMins} min`;
-        if (diffHoras < 24) return `Há ${diffHoras} hora${diffHoras > 1  's' : ''}`;
-        if (diffDias < 7) return `Há ${diffDias} dia${diffDias > 1  's' : ''}`;
+        if (diffHoras < 24) return `Há ${diffHoras} hora${diffHoras > 1 ? 's' : ''}`;
+        if (diffDias < 7) return `Há ${diffDias} dia${diffDias > 1 ? 's' : ''}`;
         
         return dataNotificacao.toLocaleDateString('pt-BR');
     }

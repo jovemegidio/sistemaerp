@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             try { 
                 const isDark = bodyEl && bodyEl.classList.contains('dark-mode');
-                localStorage.setItem('darkMode', isDark  '1' : '0');
-                console.log('[Header] Dark mode:', isDark  'ON' : 'OFF');
+                localStorage.setItem('darkMode', isDark ? '1' : '0');
+                console.log('[Header] Dark mode:', isDark ? 'ON' : 'OFF');
             } catch(e) {
                 console.error('[Header] Erro ao salvar dark mode:', e);
             }
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
             dropdownOpen = !dropdownOpen;
             profileDropdown.classList.toggle('show', dropdownOpen);
-            console.log('[Header] Profile dropdown:', dropdownOpen  'ABERTO' : 'FECHADO');
+            console.log('[Header] Profile dropdown:', dropdownOpen ? 'ABERTO' : 'FECHADO');
         });
         
         // Fechar ao clicar fora

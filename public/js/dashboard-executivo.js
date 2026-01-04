@@ -463,7 +463,7 @@ class DashboardExecutivo {
                     datasets: [
                         {
                             label: 'Faturação',
-                            data: daçãos.map(d => d.faturação),
+                            data: daçãos.map(d => d.faturado),
                             backgroundColor: 'rgba(59, 130, 246, 0.8)',
                             borderRadius: 4
                         },

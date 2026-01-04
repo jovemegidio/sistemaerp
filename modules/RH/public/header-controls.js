@@ -541,7 +541,7 @@ class HeaderControls {
         notificationCount.textContent = count;
         
         // Mostrar/ocultar badge
-        notificationCount.style.display = count > 0  'block' : 'none';
+        notificationCount.style.display = count > 0 ? 'block' : 'none';
     }
 
     // Fazer sino piscar
@@ -866,7 +866,7 @@ function updateNotificationCount() {
 
     const count = notificationsList.children.length;
     notificationCount.textContent = count;
-    notificationCount.style.display = count > 0  'block' : 'none';
+    notificationCount.style.display = count > 0 ? 'block' : 'none';
 }
 
 // Fechar painel ao clicar fora

@@ -166,14 +166,14 @@ async function configurarAcessoPCPAdaptação() {
                             WHERE id = 
                         `, [
                             JSON.stringify(permissoes),
-                            `Usuário criação automaticamente em ${new Date().toLocaleString('pt-BR')}. Senha temporária: ${senhaTemporaria}`,
+                            `Usuário criado automaticamente em ${new Date().toLocaleString('pt-BR')}. Senha temporária: ${senhaTemporaria}`,
                             result.insertId
                         ]);
                     } catch (e) {
                         console.log(`   ⚠️ Campos extras não definidos: ${e.message}`);
                     }
                     
-                    console.log(`   ✅ Novo usuário criação (ID: ${result.insertId})`);
+                    console.log(`   ✅ Novo usuário criado (ID: ${result.insertId})`);
                     console.log(`   🔑 Senha temporária: ${senhaTemporaria}`);
                     sucessos++;
                 }
@@ -187,7 +187,7 @@ async function configurarAcessoPCPAdaptação() {
         console.log('\n' + '='.repeat(60));
         console.log('📊 RELATÓRIO FINAL DE CONFIGURAÇÃO');
         console.log('='.repeat(60));
-        console.log(`✅ Novos usuários criaçãos: ${sucessos}`);
+        console.log(`✅ Novos usuários criados: ${sucessos}`);
         console.log(`🔄 Usuários atualizaçãos: ${atualizacoes}`);
         console.log(`❌ Erros encontrados: ${erros}`);
         

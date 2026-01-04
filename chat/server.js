@@ -149,10 +149,10 @@ app.get('/api/user-info', (req, res) => {
     // Tentar obter nome completo do Windows (se disponível)
     let fullName = userName;
     
-    // Gerar email baseação no usuário (pode ser customização)
+    // Gerar email baseado no usuário (pode ser customização)
     const email = `${userName.toLowerCase()}@empresa.com`;
     
-    // Avatar baseação nas iniciais
+    // Avatar baseado nas iniciais
     const initials = userName.substring(0, 2).toUpperCase();
     
     res.json({

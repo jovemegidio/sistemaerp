@@ -166,7 +166,7 @@
 
         const chart = new Chart(canvas, config);
         chartInstances.set(canvasId, chart);
-        console.log(`✅ Chart ${canvasId} criação`);
+        console.log(`✅ Chart ${canvasId} criado`);
         
         return chart;
     }
@@ -181,7 +181,7 @@
     // 7. INVALIDAR CACHE EM MUTAÇÕES
     // ============================================
     function setupCacheInvalidation() {
-        // Interceptar requisições de criação/atualização
+        // Interceptar requisições de criado/atualização
         const originalFetch = window.fetch;
         
         window.fetch = async function(...args) {
@@ -192,7 +192,7 @@
             if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method.toUpperCase())) {
                 const url = args[0];
                 
-                // Determinar qual cache invalidar baseação na URL
+                // Determinar qual cache invalidar baseado na URL
                 if (url.includes('/materiais')) {
                     window.pcpViewLoader.markViewAsStale('materiais');
                     window.pcpCache.cache.delete('materiais-loaded');
@@ -216,7 +216,7 @@
                     console.log('🔄 Cache de ordens invalidação');
                 }
                 
-                if (url.includes('/pedidos') || url.includes('/faturaçãos')) {
+                if (url.includes('/pedidos') || url.includes('/faturados')) {
                     window.pcpViewLoader.markViewAsStale('faturamento');
                     console.log('🔄 Cache de faturamento invalidação');
                 }

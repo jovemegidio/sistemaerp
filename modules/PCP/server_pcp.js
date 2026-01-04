@@ -900,7 +900,7 @@ app.post('/api/pcp/materiais', async (req, res) => {
     const sql = "INSERT INTO materiais (codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao) VALUES (, , , , )";
     try {
         const [result] = await db.query(sql, [codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao]);
-    res.status(201).json({ message: "Material criação com sucesso!", id: result.insertId });
+    res.status(201).json({ message: "Material criado com sucesso!", id: result.insertId });
     // Broadcast para clientes conectaçãos
     broadcastMaterials();
     } catch (error) {
@@ -1103,7 +1103,7 @@ app.post('/api/pcp/ordens-kanban', async (req, res) => {
         // Verificar se está atrasada
         const hoje = new Date();
         const dataConc = new Date(dataConclusao);
-        const statusTexto = dataConc < hoje  'Atrasada' : 'Em dia';
+        const statusTexto = dataConc < hoje ? 'Atrasada' : 'Em dia';
 
         const [result] = await db.query(`
             INSERT INTO ordens_producao_kanban 
@@ -1520,10 +1520,10 @@ app.post('/api/pcp/faturamentos', async (req, res) => {
             VALUES (, , , , , , )
         `, [numero, cliente_nome, valor, status, tipo, data_programada, observacoes]);
 
-        console.log('[API_FATURAMENTOS] Faturamento criação com ID:', result.insertId);
+        console.log('[API_FATURAMENTOS] Faturamento criado com ID:', result.insertId);
         res.status(201).json({ 
             success: true, 
-            message: 'Faturamento criação com sucesso',
+            message: 'Faturamento criado com sucesso',
             id: result.insertId 
         });
 
@@ -1654,7 +1654,7 @@ app.post('/api/pcp/produtos', async (req, res) => {
         
         const [result] = await db.query(sql, values);
         
-        console.log('[CREATE_PRODUCT] Produto criação com sucesso:', {
+        console.log('[CREATE_PRODUCT] Produto criado com sucesso:', {
             id: result.insertId,
             codigo,
             sku,
@@ -1662,7 +1662,7 @@ app.post('/api/pcp/produtos', async (req, res) => {
         });
         
         res.status(201).json({ 
-            message: 'Produto criação com sucesso', 
+            message: 'Produto criado com sucesso', 
             id: result.insertId,
             sku: sku,
             gtin: gtin
@@ -2155,7 +2155,7 @@ app.get('/api/pcp/pedidos', async (req, res) => {
 });
 
 // Return only approved / billed orders (flexible matching on status)
-app.get('/api/pcp/pedidos/faturaçãos', async (req, res) => {
+app.get('/api/pcp/pedidos/faturados', async (req, res) => {
     try {
     // support pagination: page=1&limit=50
     let page = parseInt(req.query.page,10) || 1;
@@ -2175,7 +2175,7 @@ app.get('/api/pcp/pedidos/faturaçãos', async (req, res) => {
     const total = countRows && countRows[0]  countRows[0].total : 0;
     res.json({ page, limit, total, rows: normalized });
     } catch (err) {
-        console.error('Erro ao buscar pedidos faturaçãos:', err && err.message ? err.message : err);
+        console.error('Erro ao buscar pedidos faturados:', err && err.message ? err.message : err);
         res.json([]);
     }
 });
@@ -2218,7 +2218,7 @@ app.post('/api/pcp/pedidos', async (req, res) => {
     const { cliente, produto_id, quantidade, status } = req.body;
     try {
         const [result] = await db.query('INSERT INTO pedidos (cliente, produto_id, quantidade, data_pedido, status) VALUES (, , , CURDATE(), )', [cliente, produto_id, quantidade, status || 'Pendente']);
-        res.status(201).json({ message: 'Pedido criação', id: result.insertId });
+        res.status(201).json({ message: 'Pedido criado', id: result.insertId });
         // atualizar materiais se necessário
         broadcastMaterials();
     } catch (err) {
@@ -2897,7 +2897,7 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
                         cell.value = value;
                         preenchidas++;
                         if (preenchidas === 1 && label) {
-                            console.log(`[EXCEL] ${label}: ${cellAddr} = ${value.toString().substring(0, 50)}${value.toString().length > 50  '...' : ''}`);
+                            console.log(`[EXCEL] ${label}: ${cellAddr} = ${value.toString().substring(0, 50)}${value.toString().length > 50 ? '...' : ''}`);
                         }
                     }
                 } catch (e) {
@@ -3043,11 +3043,11 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
 
         console.log(`[EXCEL] Total de campos preenchidos: ${camposPreenchidos}`);
 
-        // PREENCHER CÉLULAS ESPECÍFICAS DA TABELA DE PRODUTOS (linhas 18-32 baseação nas imagens)
+        // PREENCHER CÉLULAS ESPECÍFICAS DA TABELA DE PRODUTOS (linhas 18-32 baseado nas imagens)
         try {
             console.log('[EXCEL] Preenchendo tabela de produtos...');
             
-            // Linha 18 (primeira linha de daçãos da tabela) - baseação na análise das imagens
+            // Linha 18 (primeira linha de daçãos da tabela) - baseado na análise das imagens
             const linhaProduto = 18; // Ajustar conforme a linha real da tabela
             
             // Preencher primeira linha da tabela de produtos
@@ -3610,7 +3610,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
                 }
             }
             
-            // 🔧 CORREÇÃO 3: Mapeamento correto dos produtos baseação na análise real
+            // 🔧 CORREÇÃO 3: Mapeamento correto dos produtos baseado na análise real
             // A18: Número sequencial (1, 2, 3...)
             // B18: Código
             // C18: Produto/Descrição (ocupa C, D, E)
@@ -3925,10 +3925,10 @@ app.get('/api/pcp/produtos/buscar/:codigo', async (req, res) => {
         if (produtos.length > 0) {
             const produto = produtos[0];
             
-            // Simular preço baseação no código (enquanto não temos tabela de preços)
+            // Simular preço baseado no código (enquanto não temos tabela de preços)
             let preco_unitario = 10.00; // Preço padrão
             
-            // Lógica para determinar preço baseação no tipo de cabo
+            // Lógica para determinar preço baseado no tipo de cabo
             if (produto.codigo.includes('10mm')) preco_unitario = 15.50;
             else if (produto.codigo.includes('16mm')) preco_unitario = 22.30;
             else if (produto.codigo.includes('25mm')) preco_unitario = 35.80;
@@ -4519,8 +4519,8 @@ app.get('/api/pcp/pedidos/:id', async (req, res) => {
     }
 });
 
-// Debug endpoint: return raw rows or error for faturaçãos query (temporary)
-app.get('/api/pcp/debug/pedidos-faturaçãos', async (req, res) => {
+// Debug endpoint: return raw rows or error for faturados query (temporary)
+app.get('/api/pcp/debug/pedidos-faturados', async (req, res) => {
     try {
         const sql = `SELECT id, valor, descricao, status, created_at, data_prevista, prazo_entrega, cliente_id, empresa_id, produtos_preview, endereco_entrega, municipio_entrega FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%') ORDER BY created_at DESC LIMIT 50`;
         const [rows] = await db.query(sql);
@@ -4734,9 +4734,9 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         
         // PRODUTOS na planilha VENDAS_PCP (Linhas 18-32)
         // IMPORTANTE: Apenas preenchemos B (código), F, G, H, I
-        // As colunas C, D, E têm fórmulas VLOOKUP que buscam nome do produto baseação no código
+        // As colunas C, D, E têm fórmulas VLOOKUP que buscam nome do produto baseado no código
         // A coluna J tem fórmula =I*H para calcular valor total
-        // A planilha PRODUÇÃO usa VLOOKUP para buscar código de cores baseação no código (coluna P)
+        // A planilha PRODUÇÃO usa VLOOKUP para buscar código de cores baseado no código (coluna P)
         
         let linhaVendas = 18;
         let itemNum = 1;

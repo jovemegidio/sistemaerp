@@ -420,7 +420,7 @@
                 // Verificar se é um erro de rede
                 if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
                     consecutiveFailures++;
-                    console.warn(`⚠️ Erro de fetch detectação ${consecutiveFailures}/${CONFIG.MAX_FAILURES}`);
+                    console.warn(`⚠️ Erro de fetch detectado ${consecutiveFailures}/${CONFIG.MAX_FAILURES}`);
                     
                     if (consecutiveFailures >= CONFIG.MAX_FAILURES && !isPopupShown) {
                         showDisconnectionPopup();

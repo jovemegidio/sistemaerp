@@ -23,7 +23,7 @@ class SefazService {
             const xmlAssinação = await certificaçãoService.assinarXML(xmlEnvio, 'infNFe');
             
             // Obter URL do webservice
-            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
             const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
             const url = nfeConfig.webservices[ambiente][autorizaçãor].autorizacao;
             
@@ -60,7 +60,7 @@ class SefazService {
             const xmlConsulta = this.criarConsultaRecibo(numeroRecibo);
             const xmlAssinação = await certificaçãoService.assinarXML(xmlConsulta);
             
-            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
             const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
             const url = nfeConfig.webservices[ambiente][autorizaçãor].retAutorizacao;
             
@@ -81,7 +81,7 @@ class SefazService {
             const xmlConsulta = this.criarConsultaNFe(chaveAcesso);
             const xmlAssinação = await certificaçãoService.assinarXML(xmlConsulta);
             
-            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
             const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
             const url = nfeConfig.webservices[ambiente][autorizaçãor].consulta;
             
@@ -162,7 +162,7 @@ class SefazService {
             
             const xmlAssinação = await certificaçãoService.assinarXML(xmlInutilizacao, 'infInut');
             
-            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
             const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
             const url = nfeConfig.webservices[ambiente][autorizaçãor].inutilizacao;
             
@@ -182,7 +182,7 @@ class SefazService {
         try {
             const xmlConsulta = this.criarConsultaStatus();
             
-            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
             const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
             const url = nfeConfig.webservices[ambiente][autorizaçãor].statusServico;
             
@@ -204,7 +204,7 @@ class SefazService {
             
             const xmlEnvio = this.criarEnvioEvento(xmlAssinação);
             
-            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
             const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
             const url = nfeConfig.webservices[ambiente][autorizaçãor].eventos;
             

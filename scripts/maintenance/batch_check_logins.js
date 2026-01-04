@@ -37,7 +37,7 @@ const bcrypt = require('bcrypt');
         }
       }
       // pick the hash field preference for verification
-      const hashField = u.senha_hash  'senha_hash' : (u.password_hash  'password_hash' : (u.senha  'senha' : (u.pass  'pass' : (u.passwd  'passwd' : (u.password  'password' : null)))));
+      const hashField = u.senha_hash ? 'senha_hash' : (u.password_hash ? 'password_hash' : (u.senha ? 'senha' : (u.pass ? 'pass' : (u.passwd ? 'passwd' : (u.password ? 'password' : null)))));
       rec.detectedHashField = hashField;
       if (hashField) {
         const value = String(u[hashField] || '');

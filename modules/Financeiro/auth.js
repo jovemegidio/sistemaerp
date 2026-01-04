@@ -378,7 +378,7 @@ class SistemaAutenticacao {
     }
 
     /**
-     * Oculta elementos da interface baseação em permissões
+     * Oculta elementos da interface baseado em permissões
      */
     aplicarPermissoesUI() {
         // Elementos que requerem permissões específicas
@@ -441,7 +441,7 @@ class SistemaAutenticacao {
     }
 
     /**
-     * Filtra daçãos baseação em permissões
+     * Filtra daçãos baseado em permissões
      */
     filtrarDaçãosPorPermissao(daçãos, tipoDação) {
         // Admins veem tudo

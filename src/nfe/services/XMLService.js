@@ -166,7 +166,7 @@ class XMLService {
                 xPais: 'BRASIL',
                 fone: destinatario.telefone ? destinatario.telefone.replace(/\D/g, '') : null
             },
-            indIEDest: destinatario.ie  '1' : '9', // 1=Contribuinte, 9=Não contribuinte
+            indIEDest: destinatario.ie ? '1' : '9', // 1=Contribuinte, 9=Não contribuinte
             IE: destinatario.ie || null,
             email: destinatario.email || null
         };

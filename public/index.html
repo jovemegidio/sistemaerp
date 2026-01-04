@@ -23,10 +23,10 @@
         var initials = firstName  firstName.substring(0, 1).toUpperCase() : 'U';
         avatarElement.textContent = initials;
         
-        // Determinar nome do arquivo do avatar baseação no email ou nome
+        // Determinar nome do arquivo do avatar baseado no email ou nome
         let avatarFileName = '';
         
-        // Mapeamento especial para nomes de arquivo de avatar baseação no email
+        // Mapeamento especial para nomes de arquivo de avatar baseado no email
         if (email) {
             const emailUser = email.split('@')[0].toLowerCase();
             const emailAvatarMap = {
@@ -232,7 +232,7 @@
             const moduleCard = document.querySelector(selector);
             if (moduleCard) {
                 const hasAccess = allowedAreas.includes(area);
-                console.log(` Mdulo ${area}: ${hasAccess  ' PERMITIDO' : '❌ BLOQUEADO'}`);
+                console.log(` Mdulo ${area}: ${hasAccess ? ' PERMITIDO' : '❌ BLOQUEADO'}`);
                 
                 if (hasAccess) {
                     moduleCard.style.display = '';
@@ -1700,7 +1700,7 @@
             
             if (children) {
                 const isVisible = children.style.display !== 'none';
-                children.style.display = isVisible  'none' : 'block';
+                children.style.display = isVisible ? 'none' : 'block';
                 toggle.classList.toggle('expanded', !isVisible);
             }
         }
@@ -1866,7 +1866,7 @@ document.addEventListener('DOMContentLoaded', function() {
             try {
                 var user = JSON.parse(userData);
                 
-                // Tentar carregar avatar baseação no nome ou email
+                // Tentar carregar avatar baseado no nome ou email
                 let avatarFileName = firstName;
                 
                 // Nomes especiais
@@ -1996,7 +1996,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         } else {
                             card.style.display = '';
                             visibleCount++;
-                            // Configurar URL especfica para RH baseação no tipo de usurio
+                            // Configurar URL especfica para RH baseado no tipo de usurio
                             if (area === 'rh') {
                                 var rhType = window.UserPermissions.getRHType(userName);
                                 var rhURL = rhType === 'areaadm'  '/modules/RH/public/areaadm.html' : '/modules/RH/public/funcionario.html';

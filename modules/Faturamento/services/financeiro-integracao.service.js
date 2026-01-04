@@ -459,8 +459,8 @@ class FinanceiroIntegracaoService {
         codigo += fatorVencimento.toString().padStart(4, '0');
         
         // Valor (10 dígitos)
-        const valorFormatação = Math.floor(parseFloat(valor) * 100).toString().padStart(10, '0');
-        codigo += valorFormatação;
+        const valorFormatado = Math.floor(parseFloat(valor) * 100).toString().padStart(10, '0');
+        codigo += valorFormatado;
         
         // Campo livre (25 dígitos) - específico de cada banco
         codigo += '0'.repeat(25);

@@ -505,7 +505,7 @@ class NFeController {
                 });
             }
 
-            // Atualizar status (transmissão SEFAZ será implementada em Sprint 3)
+            // Atualizar status (transmissao SEFAZ será implementada em Sprint 3)
             await this.pool.query(
                 'UPDATE nfes SET status = , justificativa_cancelamento =  WHERE id = ',
                 ['cancelada', justificativa, nfeId]

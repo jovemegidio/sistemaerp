@@ -230,7 +230,7 @@
             const counter = document.getElementById(counterId);
             const length = textarea.value.length;
             counter.textContent = `${length}/${max}`;
-            counter.className = 'char-counter' + (length > max  ' error' : length > max * 0.9  ' warning' : '');
+            counter.className = 'char-counter' + (length > max ? ' error' : length > max * 0.9 ? ' warning' : '');
         }
 
         async function carregarNFe() {

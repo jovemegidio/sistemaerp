@@ -342,7 +342,7 @@ async function startServer() {
         try {
             // Configurar variáveis de ambiente
             process.env.PORT = CONFIG.SERVER_PORT.toString();
-            process.env.NODE_ENV = isPackaged  'production' : 'development';
+            process.env.NODE_ENV = isPackaged ? 'production' : 'development';
             process.env.APP_BASE_PATH = appPath;
             
             // Carregar e executar o servidor

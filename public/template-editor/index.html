@@ -704,7 +704,7 @@
                     <p class="text-muted small">${template.description}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <small class="text-muted">${template.company}</small>
-                        ${template.isDefault  '<span class="badge bg-primary">Padro</span>' : ''}
+                        ${template.isDefault ? '<span class="badge bg-primary">Padro</span>' : ''}
                     </div>
                 `;
                 
@@ -762,7 +762,7 @@
             updateMappingDisplay();
             updateCellsDisplay();
 
-            console.log('Novo template criação:', editorState.currentTemplate);
+            console.log('Novo template criado:', editorState.currentTemplate);
         }
 
         function generatePreview() {

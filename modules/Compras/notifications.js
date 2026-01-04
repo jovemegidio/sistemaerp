@@ -202,7 +202,7 @@ class NotificationSystem {
         if (!badge) return;
 
         if (this.unreadCount > 0) {
-            badge.textContent = this.unreadCount > 99  '99+' : this.unreadCount;
+            badge.textContent = this.unreadCount > 99 ? '99+' : this.unreadCount;
             badge.style.display = 'flex';
         } else {
             badge.style.display = 'none';
@@ -219,7 +219,7 @@ class NotificationSystem {
         // Atualizar contaçãor no header
         const countSpan = header.querySelector('.notification-count');
         if (countSpan) {
-            countSpan.textContent = this.unreadCount > 0  `${this.unreadCount} nova${this.unreadCount > 1  's' : ''}` : 'Nenhuma nova';
+            countSpan.textContent = this.unreadCount > 0  `${this.unreadCount} nova${this.unreadCount > 1 ? 's' : ''}` : 'Nenhuma nova';
         }
 
         // Renderizar notificações
@@ -277,7 +277,7 @@ class NotificationSystem {
         const timeAgo = this.getTimeAgo(notification.createdAt);
         
         const div = document.createElement('div');
-        div.className = 'notification-item' + (notification.read  ' read' : '');
+        div.className = 'notification-item' + (notification.read ? ' read' : '');
         div.innerHTML = `
             <div class="notification-icon" style="background-color: ${notification.color};">
                 <i class="${notification.icon}"></i>

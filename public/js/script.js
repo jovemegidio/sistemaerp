@@ -550,7 +550,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     // Se não detectou nenhum contexto conhecido
-    console.warn("Nenhum contexto (Financeiro, PCP, Dashboard, RH, NF-e) detectação. O script não foi totalmente inicialização.");
+    console.warn("Nenhum contexto (Financeiro, PCP, Dashboard, RH, NF-e) detectado. O script não foi totalmente inicialização.");
 });
 
 // ================= UNIFICAÇÁO: SCRIPT PRINCIPAL + RH =====================
@@ -652,7 +652,7 @@ function initDashboardPage() {
                 darkModeBtn.title = 'Modo escuro';
             }
         }
-        localStorage.setItem('darkMode', isDark  '1' : '0');
+        localStorage.setItem('darkMode', isDark ? '1' : '0');
     }
 
     if (localStorage.getItem('darkMode') === '1') {

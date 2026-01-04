@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Redirecionamento baseação em permissões do usuário
+        // Redirecionamento baseado em permissões do usuário
         (async function() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
@@ -409,7 +409,7 @@
                         if (inicialEl) inicialEl.style.display = 'flex';
                     }
                     
-                    console.log('👤 Usuário Financeiro:', primeiroNome, '| Foto:', fotoUrl  'Sim' : 'Não');
+                    console.log('👤 Usuário Financeiro:', primeiroNome, '| Foto:', fotoUrl ? 'Sim' : 'Não');
                 }
             } catch (e) { console.log('Erro ao carregar usuário:', e); }
         }
@@ -468,7 +468,7 @@
                 document.getElementById('kpi-receber').textContent = formatarMoeda(totalReceber);
                 document.getElementById('kpi-pagar').textContent = formatarMoeda(totalPagar);
                 document.getElementById('kpi-saldo').textContent = formatarMoeda(saldo);
-                document.getElementById('kpi-saldo').className = 'value ' + (saldo >= 0  'success' : 'danger');
+                document.getElementById('kpi-saldo').className = 'value ' + (saldo >= 0 ? 'success' : 'danger');
                 document.getElementById('kpi-vencidos').textContent = vencidos;
             } catch (e) { console.log('Erro ao carregar KPIs'); }
         }

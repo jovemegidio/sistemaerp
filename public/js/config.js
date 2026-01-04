@@ -6,7 +6,7 @@
 (function() {
     'use strict';
     
-    // Detectar ambiente baseação no hostname
+    // Detectar ambiente baseado no hostname
     const hostname = window.location.hostname;
     const isGitHubPages = hostname.includes('github.io');
     const isLocalhost = hostname === 'localhost' || hostname === '127.0.0.1';

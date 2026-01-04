@@ -421,7 +421,7 @@
                                     <option value="all">Todos</option>
                                     <option value="completed">Concludos</option>
                                     <option value="failed">Falhas</option>
-                                    <option value="cancelled">Cancelaçãos</option>
+                                    <option value="cancelled">Cancelados</option>
                                 </select>
                                 <button class="btn btn-outline-secondary" onclick="exportHistory()">
                                     <i class="fas fa-download"></i> Exportar
@@ -757,13 +757,13 @@
 
             printSystemState.printers.forEach(printer => {
                 const printerCard = document.createElement('div');
-                printerCard.className = `printer-card ${printer.isDefault  'default' : ''} ${printer.status !== 'IDLE'  'offline' : ''}`;
+                printerCard.className = `printer-card ${printer.isDefault ? 'default' : ''} ${printer.status !== 'IDLE'  'offline' : ''}`;
                 printerCard.innerHTML = `
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6>${printer.name}</h6>
                             <small class="text-muted">${printer.status}</small>
-                            ${printer.isDefault  '<span class="badge bg-success ms-2">Padro</span>' : ''}
+                            ${printer.isDefault ? '<span class="badge bg-success ms-2">Padro</span>' : ''}
                         </div>
                         <div>
                             ${!printer.isDefault  

@@ -129,7 +129,7 @@ class CotacoesManager {
                         validade: this.gerarDataFutura(30),
                         itens: itensPropostos,
                         total: totalProposta,
-                        observacoes: Math.random() > 0.5  'Proposta conforme solicitação' : ''
+                        observacoes: Math.random() > 0.5 ? 'Proposta conforme solicitação' : ''
                     });
                 }
             }
@@ -156,7 +156,7 @@ class CotacoesManager {
                 prazoEntrega: `${Math.floor(Math.random() * 30) + 10} dias`,
                 formaPagamento: ['Boleto', 'Transferência', 'Não especificação'][Math.floor(Math.random() * 3)],
                 localEntrega: 'Matriz - São Paulo/SP',
-                observacoes: Math.random() > 0.7  'Cotação urgente' : '',
+                observacoes: Math.random() > 0.7 ? 'Cotação urgente' : '',
                 pedidoGeração: statusCotacao === 'Aprovada'  `PC-2024-${String(Math.floor(Math.random() * 234) + 1).padStart(4, '0')}` : null
             });
         }
@@ -289,11 +289,11 @@ class CotacoesManager {
                 <td>${this.formatarData(cotacao.data)}</td>
                 <td>${cotacao.solicitante}</td>
                 <td>
-                    <span class="badge badge-info">${numMateriais} ${numMateriais === 1  'material' : 'materiais'}</span>
+                    <span class="badge badge-info">${numMateriais} ${numMateriais === 1 ? 'material' : 'materiais'}</span>
                 </td>
                 <td>
                     <span class="badge badge-purple">${numFornecedores} selecionaçãos</span>
-                    ${numPropostas > 0  `<br><span class="badge badge-success" style="margin-top: 3px;">${numPropostas} ${numPropostas === 1  'proposta' : 'propostas'}</span>` : ''}
+                    ${numPropostas > 0  `<br><span class="badge badge-success" style="margin-top: 3px;">${numPropostas} ${numPropostas === 1 ? 'proposta' : 'propostas'}</span>` : ''}
                 </td>
                 <td><strong>${melhorOferta}</strong></td>
                 <td>${statusBadge}</td>
@@ -364,7 +364,7 @@ class CotacoesManager {
                 (i >= this.paginaAtual - 2 && i <= this.paginaAtual + 2)
             ) {
                 const btnPage = document.createElement('button');
-                btnPage.className = 'btn-pagination' + (i === this.paginaAtual  ' active' : '');
+                btnPage.className = 'btn-pagination' + (i === this.paginaAtual ? ' active' : '');
                 btnPage.textContent = i;
                 btnPage.onclick = () => {
                     this.paginaAtual = i;
@@ -504,7 +504,7 @@ class CotacoesManager {
                 <tr>
                     <td>
                         <select class="form-control material-select">
-                            ${this.materiais.map(m => `<option value="${m.id}" data-unidade="${m.unidade}" ${m.id === mat.materialId  'selected' : ''}>${m.codigo} - ${m.descricao}</option>`).join('')}
+                            ${this.materiais.map(m => `<option value="${m.id}" data-unidade="${m.unidade}" ${m.id === mat.materialId ? 'selected' : ''}>${m.codigo} - ${m.descricao}</option>`).join('')}
                         </select>
                     </td>
                     <td><input type="number" class="form-control material-quantidade" min="1" value="${mat.quantidade}"></td>
@@ -682,7 +682,7 @@ class CotacoesManager {
                                     const precos = cotacao.propostas.map(prop => parseFloat(prop.itens[idx].precoUnitario));
                                     const menorPreco = Math.min(...precos);
                                     const isMelhor = preco === menorPreco;
-                                    return `<td class="${isMelhor  'melhor-preco' : ''}">${this.formatarMoeda(preco)}<br><small>Total: ${this.formatarMoeda(item.total)}</small></td>`;
+                                    return `<td class="${isMelhor ? 'melhor-preco' : ''}">${this.formatarMoeda(preco)}<br><small>Total: ${this.formatarMoeda(item.total)}</small></td>`;
                                 }).join('')}
                             </tr>
                         `).join('')}
@@ -692,7 +692,7 @@ class CotacoesManager {
                             <td colspan="2"><strong>TOTAL GERAL</strong></td>
                             ${cotacao.propostas.map(p => {
                                 const isMelhor = p === cotacao.melhorProposta;
-                                return `<td class="${isMelhor  'melhor-total' : ''}"><strong>${this.formatarMoeda(p.total)}</strong></td>`;
+                                return `<td class="${isMelhor ? 'melhor-total' : ''}"><strong>${this.formatarMoeda(p.total)}</strong></td>`;
                             }).join('')}
                         </tr>
                         <tr>
@@ -887,7 +887,7 @@ function toggleDarkMode() {
     localStorage.setItem('darkMode', isDark);
     
     const icon = document.querySelector('#btnModoEscuro i');
-    icon.className = isDark  'fas fa-sun' : 'fas fa-moon';
+    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
 }
 
 function toggleView(mode) {

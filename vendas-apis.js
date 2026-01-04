@@ -86,7 +86,7 @@ app.get('/api/vendas/dashboard/vendedor', authenticateToken, async (req, res) =>
         const pedidosStats = await db.query(
             `SELECT 
                 COUNT(*) as total,
-                SUM(CASE WHEN status IN ('pedido_aprovação', 'faturar', 'faturação', 'recibo') THEN 1 ELSE 0 END) as aprovaçãos,
+                SUM(CASE WHEN status IN ('pedido_aprovação', 'faturar', 'faturado', 'recibo') THEN 1 ELSE 0 END) as aprovaçãos,
                 SUM(CASE WHEN status = 'analise_credito' THEN 1 ELSE 0 END) as em_analise,
                 SUM(CASE WHEN status = 'rejeitação' THEN 1 ELSE 0 END) as rejeitaçãos,
                 SUM(valor_total) as valor_total,
@@ -146,7 +146,7 @@ app.get('/api/vendas/dashboard/admin', authenticateToken, async (req, res) => {
                 SUM(valor_total) as faturamento_total,
                 COUNT(*) as pedidos_total,
                 AVG(valor_total) as ticket_medio,
-                (SUM(CASE WHEN status IN ('pedido_aprovação', 'faturar', 'faturação', 'recibo') THEN 1 ELSE 0 END) / COUNT(*) * 100) as taxa_conversao
+                (SUM(CASE WHEN status IN ('pedido_aprovação', 'faturar', 'faturado', 'recibo') THEN 1 ELSE 0 END) / COUNT(*) * 100) as taxa_conversao
              FROM pedidos_vendas
              WHERE MONTH(data_pedido) =  AND YEAR(data_pedido) = `,
             [mesAtual, anoAtual]

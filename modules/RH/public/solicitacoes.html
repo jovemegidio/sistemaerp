@@ -608,7 +608,7 @@
                 const statusIcon = getStatusIcon(sol.status);
                 const statusLabel = getStatusLabel(sol.status);
                 const titulo = sol.assunto || sol.tipo || 'Solicitação';
-                const descricao = sol.descricao  sol.descricao.substring(0, 100) + (sol.descricao.length > 100  '...' : '') : (sol.categoria || '');
+                const descricao = sol.descricao  sol.descricao.substring(0, 100) + (sol.descricao.length > 100 ? '...' : '') : (sol.categoria || '');
                 
                 return `
                     <div class="request-item">

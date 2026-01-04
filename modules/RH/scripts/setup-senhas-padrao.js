@@ -123,7 +123,7 @@ async function criarUsuariosTeste() {
         if (insertErr) {
           console.error(`❌ Erro ao criar usuário ${usuario.email}:`, insertErr);
         } else {
-          console.log(`✅ Usuário criação: ${usuario.email} | ${SENHA_PADRAO} | ${usuario.role}`);
+          console.log(`✅ Usuário criado: ${usuario.email} | ${SENHA_PADRAO} | ${usuario.role}`);
         }
       });
     });
@@ -135,4 +135,4 @@ console.log('🚀 Configurando senhas padrão do sistema...\n');
 criarUsuariosTeste();
 setTimeout(() => {
   atualizarSenhasPadrao();
-}, 2000); // Aguarda 2 segundos para criação dos usuários
+}, 2000); // Aguarda 2 segundos para criado dos usuários

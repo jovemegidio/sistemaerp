@@ -56,7 +56,7 @@ async function checkMySQLInstalled() {
             if (error) {
                 resolve(false);
             } else {
-                log(`MySQL detectação: ${stdout.trim()}`, 'success');
+                log(`MySQL detectado: ${stdout.trim()}`, 'success');
                 resolve(true);
             }
         });
@@ -124,7 +124,7 @@ async function setupDatabase(connection) {
             CHARACTER SET utf8mb4 
             COLLATE utf8mb4_unicode_ci
         `);
-        log(`Banco '${CONFIG.DB_NAME}' criação/verificação`, 'success');
+        log(`Banco '${CONFIG.DB_NAME}' criado/verificação`, 'success');
         
         // Criar usuário local
         try {
@@ -146,7 +146,7 @@ async function setupDatabase(connection) {
             // Usuário pode já existir
         }
         
-        log(`Usuário '${CONFIG.DB_USER}' criação/verificação`, 'success');
+        log(`Usuário '${CONFIG.DB_USER}' criado/verificação`, 'success');
         
         // Conceder privilégios
         await connection.query(`
@@ -208,7 +208,7 @@ SMTP_PASS=
     
     try {
         fs.writeFileSync(envPath, envContent);
-        log('Arquivo .env criação', 'success');
+        log('Arquivo .env criado', 'success');
         return true;
     } catch (error) {
         log(`Erro ao criar .env: ${error.message}`, 'error');

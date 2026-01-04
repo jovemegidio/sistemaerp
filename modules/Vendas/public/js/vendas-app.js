@@ -247,7 +247,7 @@ function criarCardPedido(pedido) {
         <div class="card-title">${pedido.cliente || 'Cliente não informação'}</div>
         <span class="card-status ${statusClass}">${statusText}</span>
         <div class="card-value">${formatarMoeda(pedido.valor_total || 0)}</div>
-        <div class="card-meta">${pedido.itens_count || 0} ${(pedido.itens_count || 0) === 1  'item' : 'itens'}</div>
+        <div class="card-meta">${pedido.itens_count || 0} ${(pedido.itens_count || 0) === 1 ? 'item' : 'itens'}</div>
         ${pedido.origem  `
         <div class="card-origin">
             <i class="fas fa-check-circle"></i>
@@ -267,7 +267,7 @@ function criarCardPedido(pedido) {
 
 function getStatusClass(pedido) {
     if (pedido.atrasação) return 'atrasação';
-    if (pedido.etapa === 'Faturação') return 'faturação';
+    if (pedido.etapa === 'Faturação') return 'faturado';
     return 'em-dia';
 }
 
@@ -536,7 +536,7 @@ async function criarNovoOrcamento(e) {
             body: JSON.stringify(daçãos)
         });
         
-        mostrarNotificacao('Orçamento criação com sucesso!', 'success');
+        mostrarNotificacao('Orçamento criado com sucesso!', 'success');
         fecharModal('modalNovoOrcamento');
         carregarDaçãosKanban();
         
@@ -822,7 +822,7 @@ async function faturarPedido() {
             method: 'POST'
         });
         
-        mostrarNotificacao('Pedido faturação com sucesso!', 'success');
+        mostrarNotificacao('Pedido faturado com sucesso!', 'success');
         fecharModal('modalSefaz');
         fecharModal('modalEditarPedido');
         carregarDaçãosKanban();
@@ -978,7 +978,7 @@ function formatarData(data) {
 function mostrarLoading(show) {
     const loading = document.getElementById('loading');
     if (loading) {
-        loading.style.display = show  'flex' : 'none';
+        loading.style.display = show ? 'flex' : 'none';
     }
 }
 

@@ -135,7 +135,7 @@ function filterEmployees(searchTerm) {
                        position.includes(searchTerm) || 
                        email.includes(searchTerm);
         
-        card.style.display = matches  'block' : 'none';
+        card.style.display = matches ? 'block' : 'none';
     });
     
     // Filter table view rows

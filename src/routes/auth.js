@@ -33,7 +33,7 @@ if (DEV_MOCK) {
                 const rows = mockUsers.filter(u => u.email.toLowerCase() === String(email).toLowerCase());
                 return [rows];
             }
-            // Comandos de criação/checagem podem ser ignoraçãos no mock
+            // Comandos de criado/checagem podem ser ignoraçãos no mock
             return [[]];
         }
     };
@@ -191,7 +191,7 @@ router.post('/login', async (req, res) => {
 router.post('/logout', (req, res) => {
     console.log('[AUTH/LOGOUT] 🚪 Logout requisitação');
     
-    // Limpar cookie com as mesmas opções que foi criação
+    // Limpar cookie com as mesmas opções que foi criado
     const cookieOptions = {
         httpOnly: true,
         path: '/'
@@ -421,7 +421,7 @@ router.post('/auth/create-remember-token', async (req, res) => {
             [userId, rememberToken, expiresAt]
         );
         
-        console.log('[AUTH/REMEMBER-TOKEN] ✅ Token criação e salvo no banco');
+        console.log('[AUTH/REMEMBER-TOKEN] ✅ Token criado e salvo no banco');
         
         // Define cookie httpOnly com o token
         const cookieOptions = {
@@ -441,7 +441,7 @@ router.post('/auth/create-remember-token', async (req, res) => {
         
         res.json({ 
             success: true, 
-            message: 'Token de lembrar-me criação com sucesso.'
+            message: 'Token de lembrar-me criado com sucesso.'
         });
     } catch (error) {
         console.error('[AUTH/REMEMBER-TOKEN] Erro:', error.stack || error);

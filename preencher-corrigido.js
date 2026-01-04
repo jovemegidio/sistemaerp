@@ -33,7 +33,7 @@ setTimeout(() => {
         if (checkTransf) {
             checkTransf.checked = true;
             checkTransf.dispatchEvent(new Event('change', { bubbles: true }));
-            console.log('✅ TRANSFERÊNCIA marcação');
+            console.log('✅ TRANSFERÊNCIA marcado');
             
             setTimeout(() => setarValor('metodo-transferencia-percent', '50'), 300);
         }
@@ -43,7 +43,7 @@ setTimeout(() => {
             setTimeout(() => {
                 checkDep.checked = true;
                 checkDep.dispatchEvent(new Event('change', { bubbles: true }));
-                console.log('✅ DEPÓSITO marcação');
+                console.log('✅ DEPÓSITO marcado');
                 
                 setTimeout(() => {
                     setarValor('metodo-deposito-percent', '50');

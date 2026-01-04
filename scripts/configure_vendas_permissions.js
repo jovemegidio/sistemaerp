@@ -125,7 +125,7 @@ async function configurePermissions() {
         usuarios.forEach(u => {
             const name = (u.nome || '').padEnd(20).substring(0, 20);
             const emailLogin = (u.email || u.login || '').padEnd(30).substring(0, 30);
-            const admin = u.is_admin  '👑' : '  ';
+            const admin = u.is_admin ? '👑' : '  ';
             console.log(`${u.id}\t${name}\t${emailLogin}\t${admin}\t${u.vendas_perm}`);
         });
 

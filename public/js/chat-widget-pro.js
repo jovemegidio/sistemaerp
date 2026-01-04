@@ -429,7 +429,7 @@
             updateVoiceButton();
             
             showNotification(
-                state.ui.voiceEnabled  '🔊 Voz ativada' : '🔇 Voz desativada',
+                state.ui.voiceEnabled ? '🔊 Voz ativada' : '🔇 Voz desativada',
                 'info'
             );
         }
@@ -485,7 +485,7 @@
             voiceBtn.innerHTML = state.ui.voiceEnabled 
                  '<i class="fas fa-volume-up"></i>' 
                 : '<i class="fas fa-volume-mute"></i>';
-            voiceBtn.title = state.ui.voiceEnabled  'Desativar voz' : 'Ativar voz';
+            voiceBtn.title = state.ui.voiceEnabled ? 'Desativar voz' : 'Ativar voz';
         }
     }
 

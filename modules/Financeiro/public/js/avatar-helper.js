@@ -27,7 +27,7 @@ const avatarNameMap = {
 };
 
 /**
- * Obtém o caminho do avatar baseação no email ou nome
+ * Obtém o caminho do avatar baseado no email ou nome
  */
 function getAvatarFromEmail(email, nome) {
     if (!email && !nome) return null;

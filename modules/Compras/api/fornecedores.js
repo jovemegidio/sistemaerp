@@ -27,8 +27,8 @@ router.get('/', async (req, res) => {
         const fornecedores = await query(sql, params);
         
         const countSql = 'SELECT COUNT(*) as total FROM fornecedores WHERE 1=1' + 
-            (search  ' AND (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj LIKE )' : '') +
-            (ativo !== undefined  ' AND ativo = ' : '');
+            (search ? ' AND (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj LIKE )' : '') +
+            (ativo !== undefined ? ' AND ativo = ' : '');
         const countParams = search  [searchParam, searchParam, searchParam] : [];
         if (ativo !== undefined) countParams.push(ativo === 'true'  1 : 0);
         
@@ -101,7 +101,7 @@ router.post('/', async (req, res) => {
         
         res.status(201).json({
             id: result.id,
-            message: 'Fornecedor criação com sucesso'
+            message: 'Fornecedor criado com sucesso'
         });
     } catch (error) {
         console.error('Erro ao criar fornecedor:', error);

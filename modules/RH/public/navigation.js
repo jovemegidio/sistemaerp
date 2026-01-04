@@ -158,7 +158,7 @@ function setupMenuListeners() {
         dashboardMenu.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ Clique no menu Dashboard detectação');
+            console.log('🖱️ Clique no menu Dashboard detectado');
             loadPageDirect('dashboard', e);
         });
         console.log('✅ Menu Dashboard configuração');
@@ -170,7 +170,7 @@ function setupMenuListeners() {
         funcionariosMenu.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ Clique no menu Funcionários detectação');
+            console.log('🖱️ Clique no menu Funcionários detectado');
             loadPageDirect('funcionarios', e);
         });
         console.log('✅ Menu Funcionários configuração');
@@ -182,7 +182,7 @@ function setupMenuListeners() {
         holeritesMenu.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ Clique no menu Holerites detectação');
+            console.log('🖱️ Clique no menu Holerites detectado');
             loadPageDirect('holerites', e);
         });
         console.log('✅ Menu Holerites configuração');
@@ -194,7 +194,7 @@ function setupMenuListeners() {
         relatóriosMenu.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ Clique no menu Relatórios detectação');
+            console.log('🖱️ Clique no menu Relatórios detectado');
             loadPageDirect('relatórios', e);
         });
         console.log('✅ Menu Relatórios configuração');
@@ -213,7 +213,7 @@ function setupMenuListeners() {
             if (link) {
                 var pageName = link.getAttribute('data-page');
                 if (pageName) {
-                    console.log('🖱️ Clique no ícone detectação: ' + pageName);
+                    console.log('🖱️ Clique no ícone detectado: ' + pageName);
                     loadPageDirect(pageName, e);
                 }
             }

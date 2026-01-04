@@ -156,7 +156,7 @@ class XmlNFeService {
         if (destinatario.telefone) enderDest.ele('fone').txt(destinatario.telefone.replace(/\D/g, ''));
         enderDest.up();
         
-        dest.ele('indIEDest').txt(destinatario.ie  '1' : '9'); // 1=Contribuinte, 9=Não Contribuinte
+        dest.ele('indIEDest').txt(destinatario.ie ? '1' : '9'); // 1=Contribuinte, 9=Não Contribuinte
         if (destinatario.ie && destinatario.ie !== 'ISENTO') {
             dest.ele('IE').txt(destinatario.ie.replace(/\D/g, ''));
         }
@@ -476,7 +476,7 @@ class XmlNFeService {
      */
     static identificarDestinatario(ufEmitente, ufDestinatario) {
         if (!ufDestinatario || ufDestinatario === 'EX') return '3';
-        return ufEmitente === ufDestinatario  '1' : '2';
+        return ufEmitente === ufDestinatario ? '1' : '2';
     }
     
     /**
@@ -487,7 +487,7 @@ class XmlNFeService {
         const offset = -3; // UTC-3 (Brasília)
         const pad = (n) => n.toString().padStart(2, '0');
         
-        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${offset >= 0  '+' : ''}${pad(Math.abs(offset))}:00`;
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${offset >= 0 ? '+' : ''}${pad(Math.abs(offset))}:00`;
     }
     
     /**

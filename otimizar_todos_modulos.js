@@ -207,7 +207,7 @@ console.log('\n═════════════════════�
 console.log('📊 RESUMO DA OTIMIZAÇÃO\n');
 console.log(`✅ Total de otimizações aplicadas: ${totalOtimizacoes}`);
 console.log(`📄 Total de arquivos modificaçãos: ${totalArquivosModificaçãos}`);
-console.log(`💾 Backups criaçãos automaticamente (.backup_*)`);
+console.log(`💾 Backups criados automaticamente (.backup_*)`);
 
 console.log('\n═══════════════════════════════════════════════');
 console.log('🎉 OTIMIZAÇÃO CONCLUÍDA!\n');

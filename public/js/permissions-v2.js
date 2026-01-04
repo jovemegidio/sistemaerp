@@ -178,7 +178,7 @@ const areaURLs = {
 };
 
 /**
- * Obtém URL do módulo baseação no tipo de RH do usuário
+ * Obtém URL do módulo baseado no tipo de RH do usuário
  * @param {string} modulo - Nome do módulo
  * @param {Object} user - Objeto do usuário
  * @returns {string} - URL do módulo
@@ -233,7 +233,7 @@ function aplicarPermissoesDOM(user) {
         }
     });
 
-    // Atualizar link do RH baseação no tipo
+    // Atualizar link do RH baseado no tipo
     const rhCard = document.querySelector('[data-module="rh"]');
     if (rhCard) {
         const rhLink = rhCard.querySelector('a');

@@ -146,7 +146,7 @@ function createCertificaçãoController(pool) {
                     emissao: info.emissao,
                     diasRestantes: diasRestantes,
                     emissor: info.emissor,
-                    status: diasRestantes > 30  'valido' : diasRestantes > 0  'expirando' : 'expiração'
+                    status: diasRestantes > 30 ? 'valido' : diasRestantes > 0 ? 'expirando' : 'expiração'
                 }
             });
 

@@ -519,7 +519,7 @@
             const saldo = (daçãos.total_entradas || 0) - (daçãos.total_saidas || 0);
             document.getElementById('saldo-periodo').textContent = 
                 $ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-            document.getElementById('saldo-periodo').style.color = saldo >= 0  '#1e40af' : '#ef4444';
+            document.getElementById('saldo-periodo').style.color = saldo >= 0 ? '#1e40af' : '#ef4444';
             
             document.getElementById('saldo-projetação').textContent = 
                 $ ${(daçãos.saldo_projetação || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
@@ -630,10 +630,10 @@
                         <td><strong>${mov.descricao}</strong></td>
                         <td>${mov.categoria || '-'}</td>
                         <td><span class="badge badge-${tipo}">${tipo.toUpperCase()}</span></td>
-                        <td class="text-right ${valorLiquido >= 0  'valor-positivo' : 'valor-negativo'}">
-                            ${valorLiquido >= 0  '+' : ''}R$ ${Math.abs(valorLiquido).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                        <td class="text-right ${valorLiquido >= 0 ? 'valor-positivo' : 'valor-negativo'}">
+                            ${valorLiquido >= 0 ? '+' : ''}R$ ${Math.abs(valorLiquido).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                         </td>
-                        <td class="text-right ${saldoAcumulação >= 0  'valor-positivo' : 'valor-negativo'}">
+                        <td class="text-right ${saldoAcumulação >= 0 ? 'valor-positivo' : 'valor-negativo'}">
                             R$ ${saldoAcumulação.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                         </td>
                     </tr>

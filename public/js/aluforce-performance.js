@@ -195,7 +195,7 @@
             this.marks.delete(label);
 
             if (log) {
-                const emoji = duration < 100  '✅' : duration < 500  '⚠️' : '❌';
+                const emoji = duration < 100 ? '✅' : duration < 500 ? '⚠️' : '❌';
                 console.log(`${emoji} ${label}: ${duration.toFixed(2)}ms`);
             }
 

@@ -19,7 +19,7 @@ app.post('/api/financeiro/contas-pagar/:id/pagar', checkFinanceiroPermission('co
         }
 
         const valorTotal = conta[0].valor + (conta[0].valor_juros || 0) + (conta[0].valor_multa || 0) - (conta[0].valor_desconto || 0);
-        const status = valor_pago >= valorTotal  'pago' : 'pendente';
+        const status = valor_pago >= valorTotal ? 'pago' : 'pendente';
 
         await pool.query(
             `UPDATE contas_pagar 
@@ -172,7 +172,7 @@ app.post('/api/financeiro/contas-receber/:id/receber', checkFinanceiroPermission
         }
 
         const valorTotal = conta[0].valor + (conta[0].valor_juros || 0) + (conta[0].valor_multa || 0) - (conta[0].valor_desconto || 0);
-        const status = valor_recebido >= valorTotal  'recebido' : 'pendente';
+        const status = valor_recebido >= valorTotal ? 'recebido' : 'pendente';
 
         await pool.query(
             `UPDATE contas_receber 

@@ -321,7 +321,7 @@ router.post('/beneficios/tipos', async (req, res) => {
         res.json({
             success: true,
             id: result.insertId,
-            message: 'Tipo de benefício criação com sucesso'
+            message: 'Tipo de benefício criado com sucesso'
         });
     } catch (error) {
         console.error('❌ Erro ao criar tipo de benefício:', error);

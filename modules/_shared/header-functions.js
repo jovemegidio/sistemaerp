@@ -34,7 +34,7 @@ function toggleUserMenu() {
     const dropdown = document.getElementById('user-menu-dropdown');
     if (dropdown) {
         const isVisible = dropdown.style.display === 'block';
-        dropdown.style.display = isVisible  'none' : 'block';
+        dropdown.style.display = isVisible ? 'none' : 'block';
     }
 }
 
@@ -49,7 +49,7 @@ function toggleDarkMode() {
     // Atualizar ícone
     const icon = document.getElementById('dark-mode-icon');
     if (icon) {
-        icon.className = isDark  'fas fa-sun' : 'fas fa-moon';
+        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
     }
 }
 

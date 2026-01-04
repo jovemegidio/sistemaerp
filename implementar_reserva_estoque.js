@@ -58,7 +58,7 @@ async function implementarReservaEstoque() {
                 END IF;
             END
         `);
-        console.log('✅ Trigger trg_after_insert_reserva criação');
+        console.log('✅ Trigger trg_after_insert_reserva criado');
 
         // Trigger AFTER UPDATE em estoque_reservas
         await connection.query(`DROP TRIGGER IF EXISTS trg_after_update_reserva`);
@@ -82,7 +82,7 @@ async function implementarReservaEstoque() {
                 END IF;
             END
         `);
-        console.log('✅ Trigger trg_after_update_reserva criação');
+        console.log('✅ Trigger trg_after_update_reserva criado');
 
         // Trigger AFTER DELETE em estoque_reservas
         await connection.query(`DROP TRIGGER IF EXISTS trg_after_delete_reserva`);
@@ -98,7 +98,7 @@ async function implementarReservaEstoque() {
                 END IF;
             END
         `);
-        console.log('✅ Trigger trg_after_delete_reserva criação');
+        console.log('✅ Trigger trg_after_delete_reserva criado');
 
         // 3. Criar view para consultar reservas
         console.log('\n📊 Criando view de reservas ativas...');

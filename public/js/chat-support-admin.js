@@ -20,7 +20,7 @@
         return;
     }
 
-    console.log('🛠️ Usuário TI detectação - carregando área de suporte');
+    console.log('🛠️ Usuário TI detectado - carregando área de suporte');
 
     // ===== ESTADO DO SUPORTE =====
     const supportState = {
@@ -1056,11 +1056,11 @@
                         message: t.mensagem || t.descricao || '',
                         status: mapStatus(t.status),
                         priority: t.prioridade || 'medium',
-                        created: new Date(t.criaçãoEm || Date.now()),
+                        created: new Date(t.criadoEm || Date.now()),
                         messages: (t.respostas || []).map(r => ({
-                            type: r.atendente  'support' : 'user',
+                            type: r.atendente ? 'support' : 'user',
                             text: r.texto || r.mensagem,
-                            time: new Date(r.criaçãoEm || Date.now())
+                            time: new Date(r.criadoEm || Date.now())
                         })),
                         unread: t.status === 'pendente' || t.status === 'aberto'
                     }));
@@ -1188,7 +1188,7 @@
                         <div class="ticket-time">
                             <i class="fas fa-clock"></i> ${timeAgo}
                         </div>
-                        ${ticket.unread  '<span class="ticket-unread">Nova</span>' : ''}
+                        ${ticket.unread ? '<span class="ticket-unread">Nova</span>' : ''}
                     </div>
                 </div>
             `;
@@ -1330,7 +1330,7 @@
         openTicketDetail(supportState.activeTicket.id);
         renderTickets();
 
-        alert('Ticket marcação como resolvido!');
+        alert('Ticket marcado como resolvido!');
     }
 
     function getAvatarColor(initial) {

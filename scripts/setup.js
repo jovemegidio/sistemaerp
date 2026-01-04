@@ -20,7 +20,7 @@ dirs.forEach(dir => {
     const fullPath = path.join(process.cwd(), dir);
     if (!fs.existsSync(fullPath)) {
         fs.mkdirSync(fullPath, { recursive: true });
-        console.log(`✅ Diretório criação: ${dir}`);
+        console.log(`✅ Diretório criado: ${dir}`);
     }
 });
 
@@ -30,7 +30,7 @@ if (!fs.existsSync(envPath)) {
     const envExample = path.join(process.cwd(), '.env.example');
     if (fs.existsSync(envExample)) {
         fs.copyFileSync(envExample, envPath);
-        console.log('✅ Arquivo .env criação a partir do .env.example');
+        console.log('✅ Arquivo .env criado a partir do .env.example');
     }
 }
 

@@ -59,11 +59,11 @@ function calcularTempoCasa(dataAdmissao) {
     }
     
     if (anos > 0 && meses > 0) {
-        return `${anos} ${anos === 1  'ano' : 'anos'} e ${meses} ${meses === 1  'mês' : 'meses'}`;
+        return `${anos} ${anos === 1 ? 'ano' : 'anos'} e ${meses} ${meses === 1 ? 'mês' : 'meses'}`;
     } else if (anos > 0) {
-        return `${anos} ${anos === 1  'ano' : 'anos'}`;
+        return `${anos} ${anos === 1 ? 'ano' : 'anos'}`;
     } else if (meses > 0) {
-        return `${meses} ${meses === 1  'mês' : 'meses'}`;
+        return `${meses} ${meses === 1 ? 'mês' : 'meses'}`;
     } else {
         return 'Menos de 1 mês';
     }

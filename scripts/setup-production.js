@@ -81,7 +81,7 @@ class ProductionSetup {
             
             // Criar banco se não existir
             await connection.execute(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME}`);
-            console.log(`   ✅ Banco ${process.env.DB_NAME} verificação/criação`);
+            console.log(`   ✅ Banco ${process.env.DB_NAME} verificação/criado`);
             
             await connection.end();
             
@@ -136,7 +136,7 @@ echo "Backup concluído: $BACKUP_FILE.gz"
             backupScript
         );
 
-        console.log('   ✅ Script de backup criação');
+        console.log('   ✅ Script de backup criado');
         console.log(`   📅 Retenção: ${process.env.BACKUP_RETENTION_DAYS || 30} dias`);
     }
 
@@ -153,7 +153,7 @@ echo "Backup concluído: $BACKUP_FILE.gz"
             // Criar backup do template
             const backupPath = path.join(this.templateDir, 'Ordem de Produção.backup.xlsx');
             await fs.copyFile(templatePath, backupPath);
-            console.log('   ✅ Backup do template criação');
+            console.log('   ✅ Backup do template criado');
             
         } catch (error) {
             console.log(`   ❌ Template não encontrado: ${templatePath}`);
@@ -222,7 +222,7 @@ healthCheck();
             healthCheckScript
         );
 
-        console.log('   ✅ Script de health check criação');
+        console.log('   ✅ Script de health check criado');
     }
 
     async validateSetup() {

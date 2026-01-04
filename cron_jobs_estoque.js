@@ -205,14 +205,14 @@ async function alertasEstoqueBaixo() {
                     SELECT id FROM notificacoes_estoque
                     WHERE produto_id = 
                     AND tipo = 'estoque_baixo'
-                    AND criação_em >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+                    AND criado_em >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
                 `, [produto_id]);
 
                 if (alertaExistente.length === 0) {
                     // Criar nova notificação
                     await connection.query(`
                         INSERT INTO notificacoes_estoque
-                        (produto_id, tipo, quantidade_atual, quantidade_minima, status, criação_em)
+                        (produto_id, tipo, quantidade_atual, quantidade_minima, status, criado_em)
                         VALUES (, 'estoque_baixo', , , 'pendente', NOW())
                     `, [
                         produto_id,

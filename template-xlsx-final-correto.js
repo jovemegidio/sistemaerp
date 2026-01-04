@@ -29,7 +29,7 @@ async function generateFromTemplate(daçãosOrdem) {
         // Ler worksheet
         const worksheetXml = await zip.files['xl/worksheets/sheet1.xml'].async('text');
         
-        // MAPEAMENTO CORRETO baseação na análise real
+        // MAPEAMENTO CORRETO baseado na análise real
         const mapeamentoCorretoFinal = {
             orcamento: 'B1',      // Label "Orçamento:" está em A1
             pedido: 'H4',         // Label "Pedido:" está em G4  

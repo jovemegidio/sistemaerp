@@ -148,7 +148,7 @@ class TemplateXlsxRealGenerator {
             throw new Error('Nenhuma worksheet encontrada no template');
         }
 
-        // === CABEÇALHO PRINCIPAL (baseação nas imagens) ===
+        // === CABEÇALHO PRINCIPAL (baseado nas imagens) ===
         console.log('\n📋 DADOS PRINCIPAIS:');
         
         // Linha do Orçamento/Pedido (primeira linha de daçãos)
@@ -201,7 +201,7 @@ class TemplateXlsxRealGenerator {
             }
         }
         
-        // Produtos de exemplo baseaçãos nas imagens se não houver
+        // Produtos de exemplo baseados nas imagens se não houver
         if (!produtos || produtos.length === 0) {
             produtos = [
                 {
@@ -249,7 +249,7 @@ class TemplateXlsxRealGenerator {
             console.log(`   📦 Item ${index + 1}: ${codigo} - ${descricao}`);
             console.log(`      Qtd: ${quantidade} x R$ ${valorUnitario.toFixed(2)} = R$ ${total.toFixed(2)}`);
             
-            // Mapeamento baseação nas imagens das tabelas
+            // Mapeamento baseado nas imagens das tabelas
             this.setCellValue(worksheet, `A${linhaProduto}`, codigo);
             this.setCellValue(worksheet, `B${linhaProduto}`, descricao);
             this.setCellValue(worksheet, `F${linhaProduto}`, embalagem);

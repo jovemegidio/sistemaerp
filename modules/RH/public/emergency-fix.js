@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Log para debugging
     console.log('✅ Correções aplicadas');
     console.log('Seções encontradas:', sections.length);
-    console.log('Dashboard ativo:', dashboardSection  'Sim' : 'Não');
+    console.log('Dashboard ativo:', dashboardSection ? 'Sim' : 'Não');
 });
 
 function setupSidebarNavigation() {

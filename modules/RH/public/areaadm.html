@@ -870,7 +870,7 @@
                         if (userPhotoEl) userPhotoEl.style.display = 'none';
                     }
                     
-                    console.log('👤 Usuário RH:', primeiroNome, '| Foto:', userAvatar  'Sim' : 'Não');
+                    console.log('👤 Usuário RH:', primeiroNome, '| Foto:', userAvatar ? 'Sim' : 'Não');
                 }
             } catch (error) {
                 console.error('Erro ao carregar usuário:', error);
@@ -1084,8 +1084,8 @@
             const diffDias = Math.floor(diffHoras / 24);
             
             if (diffMin < 1) return 'Agora';
-            if (diffMin < 60) return `Há ${diffMin} minuto${diffMin > 1  's' : ''}`;
-            if (diffHoras < 24) return `Há ${diffHoras} hora${diffHoras > 1  's' : ''}`;
+            if (diffMin < 60) return `Há ${diffMin} minuto${diffMin > 1 ? 's' : ''}`;
+            if (diffHoras < 24) return `Há ${diffHoras} hora${diffHoras > 1 ? 's' : ''}`;
             if (diffDias === 1) return 'Ontem';
             if (diffDias < 30) return `Há ${diffDias} dias`;
             if (diffDias < 365) return `Há ${Math.floor(diffDias / 30)} mês(es)`;

@@ -104,8 +104,8 @@ window.debugSections = function() {
     const contentArea = document.querySelector('.content-area');
     const mainContent = document.querySelector('.main-content');
     
-    console.log('🏠 Content Area:', contentArea  'Encontrada' : 'NÁO ENCONTRADA');
-    console.log('🏗️ Main Content:', mainContent  'Encontrada' : 'NÁO ENCONTRADA');
+    console.log('🏠 Content Area:', contentArea ? 'Encontrada' : 'NÁO ENCONTRADA');
+    console.log('🏗️ Main Content:', mainContent ? 'Encontrada' : 'NÁO ENCONTRADA');
     
     if (contentArea) {
         console.log('Content Area Display:', getComputedStyle(contentArea).display);

@@ -459,7 +459,7 @@
         .column-indicator.analise { background: #f59e0b; }
         .column-indicator.aprovação { background: #10b981; }
         .column-indicator.faturar { background: #f97316; }
-        .column-indicator.faturação { background: #22c55e; }
+        .column-indicator.faturado { background: #22c55e; }
         .column-indicator.entregue { background: #06b6d4; }
 
         .kanban-column-content {
@@ -601,7 +601,7 @@
             color: #dc2626;
         }
 
-        .card-status.faturação {
+        .card-status.faturado {
             background: #f0fdf4;
             color: #16a34a;
         }
@@ -617,7 +617,7 @@
         }
 
         /* Cards na coluna Faturação têm borda verde à direita */
-        .kanban-column[data-status="faturação"] .kanban-card {
+        .kanban-column[data-status="faturado"] .kanban-card {
             border-right: 4px solid #22c55e;
         }
 
@@ -3907,15 +3907,15 @@
                     </div>
 
                     <!-- Coluna: Faturação -->
-                    <div class="kanban-column" data-status="faturação">
+                    <div class="kanban-column" data-status="faturado">
                         <div class="kanban-column-header">
                             <div>
                                 <div class="column-title">Faturação</div>
-                                <div class="column-count" id="count-faturação">52 registros</div>
+                                <div class="column-count" id="count-faturado">52 registros</div>
                             </div>
-                            <div class="column-indicator faturação"></div>
+                            <div class="column-indicator faturado"></div>
                         </div>
-                        <div class="kanban-column-content" id="col-faturação">
+                        <div class="kanban-column-content" id="col-faturado">
                             <!-- Cards -->
                         </div>
                         <div class="kanban-column-footer">
@@ -4543,14 +4543,14 @@
                             <input type="checkbox" id="toggle-cancelaçãos">
                             <span class="toggle-slider"></span>
                         </label>
-                        <span class="toggle-label">Exibir Cancelaçãos</span>
+                        <span class="toggle-label">Exibir Cancelados</span>
                     </div>
                     <div class="toggle-item">
                         <label class="toggle-switch">
                             <input type="checkbox" id="toggle-denegaçãos">
                             <span class="toggle-slider"></span>
                         </label>
-                        <span class="toggle-label">Exibir Denegaçãos</span>
+                        <span class="toggle-label">Exibir Denegados</span>
                     </div>
                     <div class="toggle-item">
                         <label class="toggle-switch">
@@ -4562,7 +4562,7 @@
                 </div>
 
                 <div class="filtros-info-box">
-                    <p>Para localizar pedidos de venda faturaçãos antes desse período utilize a opção <strong>"Exibir Todos"</strong> em <strong>"Venda de Produto"</strong> no menu.</p>
+                    <p>Para localizar pedidos de venda faturados antes desse período utilize a opção <strong>"Exibir Todos"</strong> em <strong>"Venda de Produto"</strong> no menu.</p>
                 </div>
             </div>
             <div class="modal-filtros-footer">
@@ -5316,7 +5316,7 @@ Atenciosamente,
                 <div id="sefaz-inicial">
                     <i class="fas fa-building" style="font-size: 48px; color: #06b6d4; margin-bottom: 20px;"></i>
                     <h3 style="margin-bottom: 10px;">Transmitir Notas Fiscais</h3>
-                    <p id="sefaz-info" style="color: #666; margin-bottom: 20px;">X notas fiscais prontas para transmissão.</p>
+                    <p id="sefaz-info" style="color: #666; margin-bottom: 20px;">X notas fiscais prontas para transmissao.</p>
                     <div id="sefaz-lista" style="text-align: left; max-height: 200px; overflow-y: auto; background: #f5f5f5; border-radius: 8px; padding: 12px; margin-bottom: 20px;"></div>
                 </div>
                 <div id="sefaz-resultação" style="display: none;">
@@ -5418,7 +5418,7 @@ Atenciosamente,
             analise: [],
             aprovação: [],
             faturar: [],
-            faturação: [],
+            faturado: [],
             entregue: []
         };
         
@@ -5437,7 +5437,7 @@ Atenciosamente,
             faturar: [
                 { id: 3, cliente: 'ILUMINACAO PAULISTANA SPE S/A', status: 'Faturamento atrasação', valor: 529.00, parcelas: 'p/ 11/06 Qua', origem: 'Omie' },
             ],
-            faturação: [
+            faturado: [
                 { id: 1387, cliente: 'SARAIVA MATERIAIS ELETRICOS', status: 'Faturação', valor: 34325.00, parcelas: 'em 4x', origem: 'Omie', nf: '00000251' },
             ],
             entregue: []
@@ -5454,7 +5454,7 @@ Atenciosamente,
             'pedido_aprovação': 'aprovação',
             'faturar': 'faturar',
             'a_faturar': 'faturar',
-            'faturação': 'faturação',
+            'faturado': 'faturado',
             'entregue': 'entregue',
             'recibo': 'entregue',
             'rejeitação': 'orcamento',
@@ -5494,7 +5494,7 @@ Atenciosamente,
                         analise: [],
                         aprovação: [],
                         faturar: [],
-                        faturação: [],
+                        faturado: [],
                         entregue: []
                     };
                     
@@ -5529,7 +5529,7 @@ Atenciosamente,
                         analise: daçãosVendas.analise.length,
                         aprovação: daçãosVendas.aprovação.length,
                         faturar: daçãosVendas.faturar.length,
-                        faturação: daçãosVendas.faturação.length,
+                        faturado: daçãosVendas.faturado.length,
                         entregue: daçãosVendas.entregue.length
                     });
                     
@@ -5555,7 +5555,7 @@ Atenciosamente,
         // ========================================
         function renderCard(item) {
             let statusClass = 'atrasação';
-            if (item.status === 'Faturação') statusClass = 'faturação';
+            if (item.status === 'Faturação') statusClass = 'faturado';
             else if (item.status === 'Cancelação') statusClass = 'cancelação';
             
             // Ícone para status Cancelação
@@ -5630,8 +5630,8 @@ Atenciosamente,
             colFaturar.innerHTML = daçãosVendas.faturar.map(renderCard).join('');
 
             // Faturação
-            const colFaturação = document.getElementById('col-faturação');
-            colFaturação.innerHTML = daçãosVendas.faturação.map(renderCard).join('');
+            const colFaturação = document.getElementById('col-faturado');
+            colFaturação.innerHTML = daçãosVendas.faturado.map(renderCard).join('');
 
             // Adicionar eventos de drag
             initDragAndDrop();
@@ -5697,7 +5697,7 @@ Atenciosamente,
                     'col-analise': 'Em análise',
                     'col-aprovação': 'Aprovação',
                     'col-faturar': 'Faturar',
-                    'col-faturação': 'Faturação',
+                    'col-faturado': 'Faturação',
                     'col-entregue': 'Entregue'
                 };
                 
@@ -5707,7 +5707,7 @@ Atenciosamente,
                     'col-analise': 'analise',
                     'col-aprovação': 'aprovação',
                     'col-faturar': 'faturar',
-                    'col-faturação': 'faturação',
+                    'col-faturado': 'faturado',
                     'col-entregue': 'entregue'
                 };
                 
@@ -5793,7 +5793,7 @@ Atenciosamente,
                 'col-analise': 'count-analise',
                 'col-aprovação': 'count-aprovação',
                 'col-faturar': 'count-faturar',
-                'col-faturação': 'count-faturação',
+                'col-faturado': 'count-faturado',
                 'col-entregue': 'count-entregue'
             };
 
@@ -5802,7 +5802,7 @@ Atenciosamente,
                     const col = document.getElementById(colId);
                     const counter = document.getElementById(countId);
                     const count = col.querySelectorAll('.kanban-card').length;
-                    counter.textContent = count === 0  'Nenhum registro' : `${count} registro${count > 1  's' : ''}`;
+                    counter.textContent = count === 0 ? 'Nenhum registro' : `${count} registro${count > 1 ? 's' : ''}`;
                 }
             });
         }
@@ -5869,7 +5869,7 @@ Atenciosamente,
                 statusAlert.className = 'status-alert';
                 if (pedido.status.toLowerCase().includes('atrasação')) {
                     statusAlert.classList.add('warning');
-                } else if (pedido.status.toLowerCase().includes('faturação') || pedido.status.toLowerCase().includes('aprovação')) {
+                } else if (pedido.status.toLowerCase().includes('faturado') || pedido.status.toLowerCase().includes('aprovação')) {
                     statusAlert.classList.add('success');
                 } else {
                     statusAlert.classList.add('info');
@@ -6075,7 +6075,7 @@ Atenciosamente,
             
             showNotification(`Preparando ${tipoImpressao}...`, 'info');
             
-            // Criar conteúdo para impressão baseação no tipo
+            // Criar conteúdo para impressão baseado no tipo
             setTimeout(() => {
                 const printWindow = window.open('', '_blank');
                 printWindow.document.write(`
@@ -6148,8 +6148,8 @@ Atenciosamente,
             if (!pedidoAtual) return;
             
             // Modal de confirmação personalização
-            const valorFormatação = formatarMoeda(pedidoAtual.valor);
-            const confirmar = confirm(`Deseja faturar o Orçamento Nº ${pedidoAtual.id}\n\nValor: ${valorFormatação}\nCliente: ${pedidoAtual.cliente}`);
+            const valorFormatado = formatarMoeda(pedidoAtual.valor);
+            const confirmar = confirm(`Deseja faturar o Orçamento Nº ${pedidoAtual.id}\n\nValor: ${valorFormatado}\nCliente: ${pedidoAtual.cliente}`);
             if (!confirmar) return;
             
             try {
@@ -6175,10 +6175,10 @@ Atenciosamente,
                     
                     pedidoAtual.status = 'Faturação';
                     pedidoAtual.nf = result.nf_numero;
-                    pedidoAtual._coluna = 'faturação';
+                    pedidoAtual._coluna = 'faturado';
                     
-                    if (!daçãosVendas.faturação) daçãosVendas.faturação = [];
-                    daçãosVendas.faturação.push(pedidoAtual);
+                    if (!daçãosVendas.faturado) daçãosVendas.faturado = [];
+                    daçãosVendas.faturado.push(pedidoAtual);
                     
                     // Re-renderizar kanban
                     renderKanban();
@@ -6186,7 +6186,7 @@ Atenciosamente,
                     // Fechar modal
                     fecharModalEditar();
                     
-                    showNotification(`Pedido faturação com sucesso! NF: ${result.nf_numero}`, 'success');
+                    showNotification(`Pedido faturado com sucesso! NF: ${result.nf_numero}`, 'success');
                 } else {
                     const error = await response.json();
                     showNotification(error.message || 'Erro ao faturar pedido', 'error');
@@ -6204,15 +6204,15 @@ Atenciosamente,
                 
                 pedidoAtual.status = 'Faturação';
                 pedidoAtual.nf = '0000' + Math.floor(Math.random() * 9000 + 1000);
-                pedidoAtual._coluna = 'faturação';
+                pedidoAtual._coluna = 'faturado';
                 
-                if (!daçãosVendas.faturação) daçãosVendas.faturação = [];
-                daçãosVendas.faturação.push(pedidoAtual);
+                if (!daçãosVendas.faturado) daçãosVendas.faturado = [];
+                daçãosVendas.faturado.push(pedidoAtual);
                 
                 renderKanban();
                 fecharModalEditar();
                 
-                showNotification(`Pedido faturação! NF: ${pedidoAtual.nf}`, 'success');
+                showNotification(`Pedido faturado! NF: ${pedidoAtual.nf}`, 'success');
             }
         }
         
@@ -6346,7 +6346,7 @@ Atenciosamente,
             const dropdown = document.getElementById('cliente-autocomplete-dropdown');
             
             if (inputCliente && dropdown) {
-                // Evento de digitação
+                // Evento de digitado
                 inputCliente.addEventListener('input', function(e) {
                     const query = e.target.value.trim();
                     
@@ -6707,7 +6707,7 @@ Atenciosamente,
             { id: 'aprovação', nome: 'Pedido Aprovação', status: 'aprovação' },
             { id: 'analise', nome: 'Análise de Crédito', status: 'analise' },
             { id: 'faturar', nome: 'Faturar', status: 'faturar' },
-            { id: 'faturação', nome: 'Faturação', status: 'faturação', destaque: true },
+            { id: 'faturado', nome: 'Faturação', status: 'faturado', destaque: true },
             { id: 'entregue', nome: 'Entregue', status: 'entregue' }
         ];
 
@@ -6725,7 +6725,7 @@ Atenciosamente,
             const ordinais = ['Primeira', 'Segunda', 'Terceira', 'Quarta', 'Quinta', 'Sexta', 'Sétima', 'Oitava', 'Nona', 'Décima'];
             
             container.innerHTML = etapasTemp.map((etapa, index) => `
-                <div class="etapa-item ${etapa.destaque  'etapa-destaque' : ''}" 
+                <div class="etapa-item ${etapa.destaque ? 'etapa-destaque' : ''}" 
                      data-index="${index}" 
                      draggable="true"
                      ondragstart="handleEtapaDragStart(event)"
@@ -6759,7 +6759,7 @@ Atenciosamente,
         function atualizarContaçãorEtapas() {
             const counter = document.getElementById('etapas-counter');
             const total = etapasTemp.length;
-            counter.textContent = `${total} etapa${total !== 1  's' : ''} configurada${total !== 1  's' : ''}`;
+            counter.textContent = `${total} etapa${total !== 1 ? 's' : ''} configurada${total !== 1 ? 's' : ''}`;
         }
 
         function atualizarNomeEtapa(index, novoNome) {
@@ -6927,7 +6927,7 @@ Atenciosamente,
             // Limpar o board
             kanbanBoard.innerHTML = '';
             
-            // Reconstruir colunas baseação nas etapas
+            // Reconstruir colunas baseado nas etapas
             etapasKanban.forEach((etapa, index) => {
                 const cor = coresKanban[index % coresKanban.length];
                 const isFirstColumn = index === 0;
@@ -6942,7 +6942,7 @@ Atenciosamente,
                         <div class="kanban-column-header">
                             <div>
                                 <div class="column-title">${etapa.nome}</div>
-                                <div class="column-count" id="count-${etapa.status}">${hasCards  'Carregando...' : 'Nenhum registro'}</div>
+                                <div class="column-count" id="count-${etapa.status}">${hasCards ? 'Carregando...' : 'Nenhum registro'}</div>
                             </div>
                             <div class="column-indicator" style="background: ${cor};"></div>
                         </div>
@@ -6975,7 +6975,7 @@ Atenciosamente,
         }
 
         function atualizarTitulosKanban() {
-            // Atualizar cada coluna baseação nas etapas ou reconstruir se necessário
+            // Atualizar cada coluna baseado nas etapas ou reconstruir se necessário
             const colunasAtuais = document.querySelectorAll('.kanban-column').length;
             
             if (colunasAtuais !== etapasKanban.length) {
@@ -7099,7 +7099,7 @@ Atenciosamente,
                             { id: 'aprovação', nome: parsed.aprovação || 'Pedido Aprovação', status: 'aprovação' },
                             { id: 'analise', nome: parsed.analise || 'Análise de Crédito', status: 'analise' },
                             { id: 'faturar', nome: parsed.faturar || 'Faturar', status: 'faturar' },
-                            { id: 'faturação', nome: parsed.faturação || 'Faturação', status: 'faturação', destaque: true },
+                            { id: 'faturado', nome: parsed.faturado || 'Faturação', status: 'faturado', destaque: true },
                             { id: 'entregue', nome: parsed.entregue || parsed.recibo || 'Entregue', status: 'entregue' }
                         ];
                     }
@@ -7130,8 +7130,8 @@ Atenciosamente,
             vendedorNome: 'Todos os Vendedores',
             projeto: 'todos',
             projetoNome: 'Todos os Projetos',
-            exibirCancelaçãos: false,
-            exibirDenegaçãos: false,
+            exibirCancelados: false,
+            exibirDenegados: false,
             exibirEncerraçãos: false
         };
 
@@ -7164,8 +7164,8 @@ Atenciosamente,
             filtrosState.vendedorNome = 'Todos os Vendedores';
             filtrosState.projeto = 'todos';
             filtrosState.projetoNome = 'Todos os Projetos';
-            filtrosState.exibirCancelaçãos = false;
-            filtrosState.exibirDenegaçãos = false;
+            filtrosState.exibirCancelados = false;
+            filtrosState.exibirDenegados = false;
             filtrosState.exibirEncerraçãos = false;
             
             showToast('Filtros restauraçãos para os valores padrão', 'info');
@@ -7176,8 +7176,8 @@ Atenciosamente,
             filtrosState.dataInclusao = document.getElementById('filtro-data-inclusao').value;
             filtrosState.dataPrevisao = document.getElementById('filtro-data-previsao').value;
             filtrosState.dataFaturamento = document.getElementById('filtro-data-faturamento').value;
-            filtrosState.exibirCancelaçãos = document.getElementById('toggle-cancelaçãos').checked;
-            filtrosState.exibirDenegaçãos = document.getElementById('toggle-denegaçãos').checked;
+            filtrosState.exibirCancelados = document.getElementById('toggle-cancelaçãos').checked;
+            filtrosState.exibirDenegados = document.getElementById('toggle-denegaçãos').checked;
             filtrosState.exibirEncerraçãos = document.getElementById('toggle-encerraçãos').checked;
             
             // Atualizar texto do link de filtro
@@ -7417,7 +7417,7 @@ Atenciosamente,
                     created_at: new Date().toISOString(),
                     user_name: localStorage.getItem('userName') || 'Usuário',
                     action: 'criacao',
-                    descricao: 'Pedido criação no sistema'
+                    descricao: 'Pedido criado no sistema'
                 }
             ];
             
@@ -7445,7 +7445,7 @@ Atenciosamente,
                 'item_updated': 'edicao',
                 'item_deleted': 'edicao',
                 'criacao': 'criacao',
-                'pedido_criação': 'criacao'
+                'pedido_criado': 'criacao'
             };
             return tipos[action] || 'edicao';
         }
@@ -7461,7 +7461,7 @@ Atenciosamente,
                 'item_updated': '<span class="historico-badge badge-item"><i class="fas fa-edit"></i> Item</span>',
                 'item_deleted': '<span class="historico-badge badge-item"><i class="fas fa-trash"></i> Item</span>',
                 'criacao': '<span class="historico-badge badge-criacao"><i class="fas fa-file-alt"></i> Criação</span>',
-                'pedido_criação': '<span class="historico-badge badge-criacao"><i class="fas fa-file-alt"></i> Criação</span>'
+                'pedido_criado': '<span class="historico-badge badge-criacao"><i class="fas fa-file-alt"></i> Criação</span>'
             };
             return badges[action] || '<span class="historico-badge badge-edicao"><i class="fas fa-info"></i> Alteração</span>';
         }
@@ -7519,8 +7519,8 @@ Atenciosamente,
             }
             
             container.innerHTML = tarefas.map((tarefa, idx) => `
-                <div class="tarefa-item ${tarefa.concluida  'concluida' : ''}">
-                    <input type="checkbox" class="tarefa-checkbox" ${tarefa.concluida  'checked' : ''} onchange="toggleTarefa(${idx})">
+                <div class="tarefa-item ${tarefa.concluida ? 'concluida' : ''}">
+                    <input type="checkbox" class="tarefa-checkbox" ${tarefa.concluida ? 'checked' : ''} onchange="toggleTarefa(${idx})">
                     <span class="tarefa-texto">${tarefa.texto}</span>
                     <button class="tarefa-delete" onclick="excluirTarefa(${idx})"><i class="fas fa-trash"></i></button>
                 </div>
@@ -7607,7 +7607,7 @@ Atenciosamente,
         async function cancelarPedido() {
             if (!pedidoAtual) return;
             
-            const confirmar = confirm(em certeza que deseja cancelar o Orçamento Nº ${pedidoAtual.id}\n\nO pedido será marcação como cancelação.`);
+            const confirmar = confirm(em certeza que deseja cancelar o Orçamento Nº ${pedidoAtual.id}\n\nO pedido será marcado como cancelação.`);
             if (!confirmar) return;
             
             try {
@@ -7861,7 +7861,7 @@ Atenciosamente,
                 }
                 
                 if (response.ok) {
-                    showNotification(modoEdicaoItem  'Item atualização com sucesso!' : 'Item adicionação com sucesso!', 'success');
+                    showNotification(modoEdicaoItem ? 'Item atualização com sucesso!' : 'Item adicionação com sucesso!', 'success');
                     fecharModalItemPedido();
                     // Recarregar itens
                     await carregarItensPedido(pedidoAtual.id);
@@ -8234,7 +8234,7 @@ Atenciosamente,
             
             // Fechar modal e notificar
             fecharModalNovoOrcamento();
-            showNotification(`Orçamento Nº ${novoId} criação com sucesso!`, 'success');
+            showNotification(`Orçamento Nº ${novoId} criado com sucesso!`, 'success');
             
             // TODO: Salvar no backend via API
             // salvarOrcamentoAPI(novoOrc);
@@ -8384,7 +8384,7 @@ Atenciosamente,
             
             // Atualizar info do modal
             document.getElementById('faturar-info').textContent = 
-                `Você está prestes a faturar ${count} pedido${count > 1  's' : ''}.`;
+                `Você está prestes a faturar ${count} pedido${count > 1 ? 's' : ''}.`;
             
             // Calcular total
             let total = 0;
@@ -8395,14 +8395,14 @@ Atenciosamente,
             let listaHTML = '';
             daçãosVendas.faturar.forEach((p, index) => {
                 listaHTML += `
-                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: ${index % 2 === 0  '#ffffff' : '#f9fafb'}; border-bottom: 1px solid #f3f4f6; transition: background 0.2s;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background: ${index % 2 === 0 ? '#ffffff' : '#f9fafb'}; border-bottom: 1px solid #f3f4f6; transition: background 0.2s;">
                         <div style="display: flex; align-items: center; gap: 12px;">
                             <div style="width: 32px; height: 32px; background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
                                 <i class="fas fa-file-alt" style="font-size: 14px; color: #2563eb;"></i>
                             </div>
                             <div>
                                 <div style="font-weight: 600; color: #1f2937; font-size: 14px;">Nº ${p.id}</div>
-                                <div style="font-size: 12px; color: #6b7280;">${p.cliente.substring(0, 28)}${p.cliente.length > 28  '...' : ''}</div>
+                                <div style="font-size: 12px; color: #6b7280;">${p.cliente.substring(0, 28)}${p.cliente.length > 28 ? '...' : ''}</div>
                             </div>
                         </div>
                         <div style="text-align: right;">
@@ -8430,15 +8430,15 @@ Atenciosamente,
                 return;
             }
             
-            // Mover pedidos para coluna "faturação"
+            // Mover pedidos para coluna "faturado"
             pedidosParaFaturar.forEach(pedido => {
                 // Gerar número de NF fictício
                 const nfNumero = String(Math.floor(Math.random() * 900000) + 100000).padStart(8, '0');
                 pedido.status = 'Faturação';
                 pedido.nf = nfNumero;
                 
-                // Adicionar na coluna faturação
-                daçãosVendas.faturação.unshift(pedido);
+                // Adicionar na coluna faturado
+                daçãosVendas.faturado.unshift(pedido);
             });
             
             // Limpar coluna faturar
@@ -8449,7 +8449,7 @@ Atenciosamente,
             
             // Fechar modal e notificar
             fecharModalFaturar();
-            showNotification(`${count} pedido${count > 1  's' : ''} faturação${count > 1  's' : ''} com sucesso!`, 'success');
+            showNotification(`${count} pedido${count > 1 ? 's' : ''} faturado${count > 1 ? 's' : ''} com sucesso!`, 'success');
             
             // TODO: Salvar no backend via API
             // faturarPedidosAPI(pedidosParaFaturar);
@@ -8464,7 +8464,7 @@ Atenciosamente,
         // AÇÕES - COMUNICAR SEFAZ
         // ========================================
         function comunicarSefaz() {
-            const notasFaturadas = daçãosVendas.faturação.filter(p => p.nf);
+            const notasFaturadas = daçãosVendas.faturado.filter(p => p.nf);
             const count = notasFaturadas.length;
             
             if (count === 0) {
@@ -8480,7 +8480,7 @@ Atenciosamente,
             
             // Atualizar info
             document.getElementById('sefaz-info').textContent = 
-                `${count} nota${count > 1  's' : ''} fiscal${count > 1  'is' : ''} pronta${count > 1  's' : ''} para transmissão.`;
+                `${count} nota${count > 1 ? 's' : ''} fiscal${count > 1 ? 'is' : ''} pronta${count > 1 ? 's' : ''} para transmissao.`;
             
             // Listar notas
             let listaHTML = '';
@@ -8488,7 +8488,7 @@ Atenciosamente,
                 listaHTML += `
                     <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #e5e5e5;">
                         <span><i class="fas fa-file-invoice" style="color: #06b6d4; margin-right: 8px;"></i> NF ${p.nf}</span>
-                        <span>${p.cliente.substring(0, 25)}${p.cliente.length > 25  '...' : ''}</span>
+                        <span>${p.cliente.substring(0, 25)}${p.cliente.length > 25 ? '...' : ''}</span>
                     </div>
                 `;
             });
@@ -8508,16 +8508,16 @@ Atenciosamente,
             document.getElementById('sefaz-loading').style.display = 'block';
             document.getElementById('btn-transmitir-sefaz').style.display = 'none';
             
-            // Simular transmissão (2-3 segundos)
+            // Simular transmissao (2-3 segundos)
             setTimeout(() => {
-                const notasFaturadas = daçãosVendas.faturação.filter(p => p.nf);
+                const notasFaturadas = daçãosVendas.faturado.filter(p => p.nf);
                 const count = notasFaturadas.length;
                 
                 // Esconder loading, mostrar resultação
                 document.getElementById('sefaz-loading').style.display = 'none';
                 document.getElementById('sefaz-resultação').style.display = 'block';
                 document.getElementById('sefaz-resultação-info').textContent = 
-                    `${count} nota${count > 1  's' : ''} fiscal${count > 1  'is' : ''} transmitida${count > 1  's' : ''} com sucesso para a SEFAZ!`;
+                    `${count} nota${count > 1 ? 's' : ''} fiscal${count > 1 ? 'is' : ''} transmitida${count > 1 ? 's' : ''} com sucesso para a SEFAZ!`;
                 
                 // Marcar notas como transmitidas (adicionar protocolo fictício)
                 notasFaturadas.forEach(p => {
@@ -8530,7 +8530,7 @@ Atenciosamente,
                 // Re-renderizar para atualizar visual
                 renderKanban();
                 
-                showNotification(ransmissão SEFAZ concluída! ${count} NF-e${count > 1  's' : ''} autorizadas.`, 'success');
+                showNotification(ransmissão SEFAZ concluída! ${count} NF-e${count > 1 ? 's' : ''} autorizadas.`, 'success');
                 
                 // TODO: Enviar para SEFAZ real via API
                 // transmitirSefazAPI(notasFaturadas);

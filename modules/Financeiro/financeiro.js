@@ -308,10 +308,10 @@ function renderizarLinhaConta(conta, tipo) {
     const vencido = vencimento < hoje && conta.status !== 'pago';
     
     const statusBadge = conta.status === 'pago'  'badge-pago' :
-                        vencido  'badge-atrasação' : 'badge-pendente';
+                        vencido ? 'badge-atrasação' : 'badge-pendente';
     
     const statusTexto = conta.status === 'pago'  'Pago' :
-                        vencido  'Atrasação' : 'Pendente';
+                        vencido ? 'Atrasação' : 'Pendente';
     
     const podeEditar = tipo === 'pagar'  
         permissoesFinanceiro.contas_pagar.editar : 
@@ -604,7 +604,7 @@ async function salvarConta(event) {
             `/api/financeiro/contas-${tipo}/${id}` : 
             `/api/financeiro/contas-${tipo}`;
         
-        const method = isEdicao  'PUT' : 'POST';
+        const method = isEdicao ? 'PUT' : 'POST';
         
         const response = await fetch(url, {
             method: method,
@@ -620,7 +620,7 @@ async function salvarConta(event) {
         const result = await response.json();
         
         mostrarAlerta(
-            isEdicao  'Conta atualizada com sucesso!' : 'Conta criada com sucesso!',
+            isEdicao ? 'Conta atualizada com sucesso!' : 'Conta criada com sucesso!',
             'success'
         );
         

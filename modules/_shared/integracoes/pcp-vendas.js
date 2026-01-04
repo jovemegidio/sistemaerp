@@ -138,7 +138,7 @@ class IntegracaoPCPVendas {
     }
 
     /**
-     * Atualiza status do pedido baseação no progresso da OP
+     * Atualiza status do pedido baseado no progresso da OP
      */
     async sincronizarStatusOP(opId, novoStatus, token) {
         try {

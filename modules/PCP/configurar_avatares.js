@@ -93,7 +93,7 @@ async function configurarAvatares() {
         
         for (const usuario of usuariosSemFoto) {
             try {
-                // Gerar URL do avatar baseação no nome
+                // Gerar URL do avatar baseado no nome
                 const nomeSimplificação = usuario.nome
                     .toLowerCase()
                     .replace(/\s+/g, '')
@@ -161,7 +161,7 @@ async function configurarAvatares() {
                 if (user.foto_url) {
                     const nomeArquivo = user.foto_url.replace('/avatars/', '');
                     const existe = arquivos.includes(nomeArquivo);
-                    const status = existe  '✅ Existe' : '❌ Arquivo não encontrado';
+                    const status = existe ? '✅ Existe' : '❌ Arquivo não encontrado';
                     console.log(`   ${user.nome}: ${status}`);
                 }
             }

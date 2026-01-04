@@ -146,7 +146,7 @@ router.get('/grafico/faturamento', async (req, res) => {
             const data = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
             daçãos.push({
                 mes: data.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' }),
-                faturação: Math.random() * 500000 + 100000,
+                faturado: Math.random() * 500000 + 100000,
                 meta: 400000,
                 anterior: Math.random() * 450000 + 80000
             });
@@ -315,7 +315,7 @@ async function buscarKPIsFinanceiro(dataInicio) {
                 contas_receber: parseFloat(daçãosReceber.a_receber) || 150000,
                 contas_pagar: parseFloat(daçãosPagar.a_pagar) || 100000,
                 vencimentos_hoje: parseInt(daçãosPagar.vencendo_hoje) || 3,
-                tendencia: receitas > despesas  'alta' : 'baixa'
+                tendencia: receitas > despesas ? 'alta' : 'baixa'
             };
         }
     } catch (error) {

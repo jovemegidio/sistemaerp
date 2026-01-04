@@ -354,7 +354,7 @@ class CertificaçãoService {
             razaoSocial: config.certificação_nome,
             validade: validade,
             diasRestantes: diasRestantes,
-            status: diasRestantes > 30  'valido' : diasRestantes > 0  'expirando' : 'expiração'
+            status: diasRestantes > 30 ? 'valido' : diasRestantes > 0 ? 'expirando' : 'expiração'
         };
     }
 

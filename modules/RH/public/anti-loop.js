@@ -34,7 +34,7 @@
             // Prevent redirect loops
             if (redirectCount > maxRedirects) {
                 console.error('🚨 REDIRECT LOOP DETECTED! Preventing redirect to:', url);
-                alert(`ERRO: Loop de redirecionamento detectação!\n\nTentativa de ir para: ${url}\nContaçãor: ${redirectCount}/${maxRedirects}\n\nVerifique o console para mais detalhes.`);
+                alert(`ERRO: Loop de redirecionamento detectado!\n\nTentativa de ir para: ${url}\nContaçãor: ${redirectCount}/${maxRedirects}\n\nVerifique o console para mais detalhes.`);
                 return;
             }
             

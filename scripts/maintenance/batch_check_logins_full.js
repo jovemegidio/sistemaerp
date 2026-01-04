@@ -31,7 +31,7 @@ const fs = require('fs');
     for (const u of rows) {
       const rec = { id: u.id, nome: u.nome, email: u.email, detected: null, isBcrypt: false, matches: [] };
       // Detect hash field
-      const hashField = u.senha_hash  'senha_hash' : (u.password_hash  'password_hash' : (u.senha  'senha' : (u.pass  'pass' : (u.passwd  'passwd' : (u.password  'password' : null)))));
+      const hashField = u.senha_hash ? 'senha_hash' : (u.password_hash ? 'password_hash' : (u.senha ? 'senha' : (u.pass ? 'pass' : (u.passwd ? 'passwd' : (u.password ? 'password' : null)))));
       rec.detected = hashField;
       if (!hashField) { results.push(rec); continue; }
       const value = String(u[hashField] || '');

@@ -82,7 +82,7 @@
                     Todos (${materiais.length})
                 </button>
                 ${categorias.map(cat => `
-                    <button class="btn-filter ${filtroCategoria === cat  'active' : ''}" onclick="filtrarPorCategoria('${cat}')">
+                    <button class="btn-filter ${filtroCategoria === cat ? 'active' : ''}" onclick="filtrarPorCategoria('${cat}')">
                         ${cat} (${materiais.filter(m => m.categoria === cat).length})
                     </button>
                 `).join('')}
@@ -110,7 +110,7 @@
                                 <td>${m.nome}</td>
                                 <td><span class="badge badge-info">${m.categoria}</span></td>
                                 <td>
-                                    <strong class="${m.estoqueAtual < m.estoqueMinimo  'text-danger' : 'text-success'}">
+                                    <strong class="${m.estoqueAtual < m.estoqueMinimo ? 'text-danger' : 'text-success'}">
                                         ${m.estoqueAtual} ${m.unidade}
                                     </strong>
                                 </td>

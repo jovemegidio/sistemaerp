@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('Inicializando o Portal do Funcionário...')
     initEmployeePage()
   } else {
-    console.warn('Nenhum contexto (Admin ou Funcionário) detectação. O script não foi totalmente inicialização.')
+    console.warn('Nenhum contexto (Admin ou Funcionário) detectado. O script não foi totalmente inicialização.')
   }
 })
 

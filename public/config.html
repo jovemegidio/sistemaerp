@@ -684,7 +684,7 @@
         document.body.classList.remove('dark-mode');
       }
       saveSetting('darkMode', enabled);
-      showToast(enabled  'Modo escuro ativação' : 'Modo claro ativação');
+      showToast(enabled ? 'Modo escuro ativação' : 'Modo claro ativação');
     }
 
     // Change Font Size
@@ -703,7 +703,7 @@
     // Toggle Auto Contrast
     function toggleAutoContrast(enabled) {
       saveSetting('autoContrast', enabled);
-      showToast(enabled  'Contraste automtico ativação' : 'Contraste automtico desativação');
+      showToast(enabled ? 'Contraste automtico ativação' : 'Contraste automtico desativação');
     }
 
     // Toggle Desktop Notifications
@@ -727,13 +727,13 @@
     // Toggle Notification Sound
     function toggleNotificationSound(enabled) {
       saveSetting('notifSound', enabled);
-      showToast(enabled  'Som de notificao ativação' : 'Som de notificao desativação');
+      showToast(enabled ? 'Som de notificao ativação' : 'Som de notificao desativação');
     }
 
     // Toggle Auto Update
     function toggleAutoUpdate(enabled) {
       saveSetting('autoUpdate', enabled);
-      showToast(enabled  'Atualizao automtica ativada' : 'Atualizao automtica desativada');
+      showToast(enabled ? 'Atualizao automtica ativada' : 'Atualizao automtica desativada');
     }
 
     // Toggle Animations
@@ -744,13 +744,13 @@
         document.body.style.setProperty('--transition-duration', '0s');
       }
       saveSetting('animations', enabled);
-      showToast(enabled  'Animaes ativadas' : 'Animaes desativadas');
+      showToast(enabled ? 'Animaes ativadas' : 'Animaes desativadas');
     }
 
     // Toggle Local Cache
     function toggleLocalCache(enabled) {
       saveSetting('localCache', enabled);
-      showToast(enabled  'Cache local ativação' : 'Cache local desativação');
+      showToast(enabled ? 'Cache local ativação' : 'Cache local desativação');
     }
 
     // Change Language
@@ -855,7 +855,7 @@
           }
         });
 
-        section.style.display = hasVisibleItems  'block' : 'none';
+        section.style.display = hasVisibleItems ? 'block' : 'none';
       });
     }
 

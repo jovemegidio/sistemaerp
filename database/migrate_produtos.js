@@ -138,7 +138,7 @@ async function migrateProdutosTable() {
         for (const index of indexes) {
             try {
                 await connection.query(index.sql);
-                console.log(`✅ Índice '${index.name}' criação`);
+                console.log(`✅ Índice '${index.name}' criado`);
             } catch (error) {
                 if (error.code === 'ER_DUP_KEYNAME') {
                     console.log(`⏭️  Índice '${index.name}' já existe`);

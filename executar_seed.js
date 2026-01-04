@@ -42,14 +42,14 @@ async function executarSeed() {
             const colNames = cols.map(c => c.Field);
             console.log(`   Colunas disponíveis: ${colNames.slice(0, 10).join(', ')}...`);
             
-            // Inserir usuário admin baseação nas colunas existentes
+            // Inserir usuário admin baseado nas colunas existentes
             if (colNames.includes('email') && colNames.includes('senha')) {
                 await connection.execute(`
                     INSERT INTO usuarios (nome, email, senha, cargo, ativo, data_criacao) 
                     VALUES ('Administraçãor', 'admin@aluforce.com', SHA2('admin123', 256), 'Administraçãor', 1, NOW())
                     ON DUPLICATE KEY UPDATE nome = VALUES(nome)
                 `);
-                console.log(`   ${colors.green}✅ Usuário admin criação (email: admin@aluforce.com, senha: admin123)${colors.reset}`);
+                console.log(`   ${colors.green}✅ Usuário admin criado (email: admin@aluforce.com, senha: admin123)${colors.reset}`);
             }
             
             // Criar mais usuários
@@ -60,7 +60,7 @@ async function executarSeed() {
                 ('Operaçãor PCP', 'pcp@aluforce.com', SHA2('pcp123', 256), 'PCP', 1, NOW())
                 ON DUPLICATE KEY UPDATE nome = VALUES(nome)
             `);
-            console.log(`   ${colors.green}✅ Usuários adicionais criaçãos${colors.reset}`);
+            console.log(`   ${colors.green}✅ Usuários adicionais criados${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  Usuários: ${err.message}${colors.reset}`);
         }

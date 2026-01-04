@@ -50,8 +50,8 @@ async function configurarAcessoPCP() {
         const hasSetor = columns.some(col => col.Field === 'setor');
         
         console.log(`📋 Estrutura da tabela:`);
-        console.log(`   - Campo 'permissoes': ${hasPermissoes  'Existe' : 'NÃO existe'}`);
-        console.log(`   - Campo 'setor': ${hasSetor  'Existe' : 'NÃO existe'}`);
+        console.log(`   - Campo 'permissoes': ${hasPermissoes ? 'Existe' : 'NÃO existe'}`);
+        console.log(`   - Campo 'setor': ${hasSetor ? 'Existe' : 'NÃO existe'}`);
         
         // Se não existir coluna de permissões, criar
         if (!hasPermissoes) {

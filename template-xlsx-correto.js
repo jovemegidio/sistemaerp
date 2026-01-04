@@ -249,7 +249,7 @@ class TemplateXlsxRealGeneratorCorreto {
             console.log(`   📦 Item ${index + 1}: ${codigo} - ${descricao}`);
             console.log(`      Qtd: ${quantidade} x R$ ${valorUnitario.toFixed(2)} = R$ ${total.toFixed(2)}`);
             
-            // Mapeamento baseação nas colunas identificadas
+            // Mapeamento baseado nas colunas identificadas
             this.setCellValue(worksheet, `H${linhaProduto}`, codigo); // Coluna H (Cod.)
             this.setCellValue(worksheet, `C${linhaProduto}`, descricao); // Coluna C (Produto)
             this.setCellValue(worksheet, `E${linhaProduto}`, embalagem); // Embalagem

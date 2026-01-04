@@ -77,7 +77,7 @@ console.log('   ✅ Design roxo premium (#6B5CE7)');
 console.log('   ✅ Socket.io em tempo real');
 console.log('   ✅ Dark mode');
 console.log('   ✅ Upload de arquivos');
-console.log('   ✅ Indicaçãor de digitação');
+console.log('   ✅ Indicaçãor de digitado');
 console.log('   ✅ Reações e emojis');
 console.log('   ✅ Busca de mensagens');
 console.log('   ✅ 1144 linhas de código');

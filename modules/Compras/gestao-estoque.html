@@ -793,14 +793,14 @@
             const pagination = document.getElementById('pagination');
             if (totalPaginas <= 1) { pagination.innerHTML = ''; return; }
 
-            let html = `<button onclick="irParaPagina(${paginaAtual - 1})" ${paginaAtual === 1  'disabled' : ''} title="Anterior"><i class="fas fa-chevron-left"></i></button>`;
+            let html = `<button onclick="irParaPagina(${paginaAtual - 1})" ${paginaAtual === 1 ? 'disabled' : ''} title="Anterior"><i class="fas fa-chevron-left"></i></button>`;
             let inicio = Math.max(1, paginaAtual - 2);
             let fim = Math.min(totalPaginas, inicio + 4);
             inicio = Math.max(1, fim - 4);
             for (let i = inicio; i <= fim; i++) {
-                html += `<button onclick="irParaPagina(${i})" class="${i === paginaAtual  'active' : ''}" title="Pgina ${i}">${i}</button>`;
+                html += `<button onclick="irParaPagina(${i})" class="${i === paginaAtual ? 'active' : ''}" title="Pgina ${i}">${i}</button>`;
             }
-            html += `<button onclick="irParaPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas  'disabled' : ''} title="Prxima"><i class="fas fa-chevron-right"></i></button>`;
+            html += `<button onclick="irParaPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas ? 'disabled' : ''} title="Prxima"><i class="fas fa-chevron-right"></i></button>`;
             pagination.innerHTML = html;
         }
 

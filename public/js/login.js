@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'guilherme': 'Guilherme.webp'
   };
 
-  // Função para obter o avatar de um usuário baseação no email
+  // Função para obter o avatar de um usuário baseado no email
   function getUserAvatar(username) {
     const formats = ['webp', 'svg', 'jpg', 'png'];
     
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     return null;
   }
 
-  // Funcionalidade de avatar dinâmico baseação no email
+  // Funcionalidade de avatar dinâmico baseado no email
   if (emailInput && userAvatar) {
     let avatarTimeout;
     
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Funcionalidade de mostrar/ocultar senha
   if (passwordToggle && passwordInput) {
     passwordToggle.addEventListener('click', () => {
-      const type = passwordInput.getAttribute('type') === 'password'  'text' : 'password';
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
       passwordInput.setAttribute('type', type);
       
       // Atualiza o ícone
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function openForgotPasswordModal() {
     const email = emailInput ? emailInput.value.trim() : '';
     
-    // Pre-preenche email se já digitação
+    // Pre-preenche email se já digitado
     const verifyEmailInput = document.getElementById('verify-email');
     if (verifyEmailInput && email) {
       verifyEmailInput.value = email;
@@ -611,12 +611,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function setLoading(loading) {
   if (!submitBtn) return;
   submitBtn.disabled = loading;
-  submitBtn.setAttribute('aria-busy', loading  'true' : 'false');
+  submitBtn.setAttribute('aria-busy', loading ? 'true' : 'false');
   // Toggle the loading class; CSS controls spinner visibility and layout
   submitBtn.classList.toggle('loading', loading);
   // Ensure the visible text is still present for screen readers
   const textEl = submitBtn.querySelector('.btn-text');
-  if (textEl) textEl.setAttribute('aria-hidden', loading  'true' : 'false');
+  if (textEl) textEl.setAttribute('aria-hidden', loading ? 'true' : 'false');
   // Avoid inline style manipulation so CSS can manage layout and animation
   }
 
@@ -681,10 +681,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const isGitHubPages = window.location.hostname.includes('github.io');
       
       if (isGitHubPages && data.token) {
-        console.log('[LOGIN] ✅ Ambiente cross-origin detectação (GitHub Pages). Usando token JWT.');
+        console.log('[LOGIN] ✅ Ambiente cross-origin detectado (GitHub Pages). Usando token JWT.');
         const railwayBase = window.ALUFORCE_CONFIG.API_BASE_URL || 'https://sistemaerp-production-a924.up.railway.app';
         console.log('[LOGIN] Redirecionando para Railway com token...');
-        window.location.href = railwayBase + '/dashboardtoken=' + encodeURIComponent(data.token);
+        window.location.href = railwayBase + '/dashboard?token=' + encodeURIComponent(data.token);
         return;
       }
 
@@ -693,7 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const redirectTo = data.redirectTo;
         console.log('[LOGIN] ✅ Login bem-sucedido! Servidor sugeriu redirect:', redirectTo);
 
-        // Se "Lembrar-me" estiver marcação, cria token persistente (só funciona em same-origin)
+        // Se "Lembrar-me" estiver marcado, cria token persistente (só funciona em same-origin)
         if (rememberCheckbox && rememberCheckbox.checked && data.user) {
           console.log('[LOGIN] Criando token de lembrar-me...');
           try {
@@ -708,7 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             if (rememberResp.ok) {
-              console.log('[LOGIN] ✅ Token de lembrar-me criação');
+              console.log('[LOGIN] ✅ Token de lembrar-me criado');
             } else {
               console.warn('[LOGIN] ⚠️ Falha ao criar token de lembrar-me');
             }
@@ -747,7 +747,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Caso não haja redirect sugerido, confirme a sessão via /api/me antes de redirecionar para o dashboard.
       
-      // Se "Lembrar-me" estiver marcação, cria token persistente
+      // Se "Lembrar-me" estiver marcado, cria token persistente
       if (rememberCheckbox && rememberCheckbox.checked && data.user) {
         console.log('[LOGIN] Criando token de lembrar-me...');
         try {
@@ -762,7 +762,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           
           if (rememberResp.ok) {
-            console.log('[LOGIN] ✅ Token de lembrar-me criação');
+            console.log('[LOGIN] ✅ Token de lembrar-me criado');
           } else {
             console.warn('[LOGIN] ⚠️ Falha ao criar token de lembrar-me');
           }

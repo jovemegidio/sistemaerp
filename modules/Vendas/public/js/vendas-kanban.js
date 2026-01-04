@@ -189,7 +189,7 @@ const pedidosSeed = [
         numero: 'Orçamento Nº 751/3',
         cliente: 'ILUMINACAO PAULISTANA SPE S/A',
         valor: 12781.80,
-        status: 'faturação',
+        status: 'faturado',
         faturamento: 'Faturação',
         origem: 'Omie',
         notaFiscal: '00000237',
@@ -204,7 +204,7 @@ const pedidosSeed = [
         numero: 'Orçamento Nº 473/9',
         cliente: 'ILUMINACAO PAULISTANA SPE S/A',
         valor: 49863.60,
-        status: 'faturação',
+        status: 'faturado',
         faturamento: 'Faturação',
         origem: 'Omie',
         notaFiscal: '00000236',
@@ -219,7 +219,7 @@ const pedidosSeed = [
         numero: 'Orçamento Nº 1137',
         cliente: 'COMERCIAL ELETRICA LTDA',
         valor: 8540.00,
-        status: 'faturação',
+        status: 'faturado',
         faturamento: 'Faturação',
         origem: 'Omie',
         notaFiscal: '00000235',
@@ -245,7 +245,7 @@ const statusConfig = {
     'analise-credito': { label: 'Crédito', classe: 'status-analise' },
     'pedido-aprovação': { label: 'Aprovação', classe: 'status-aprovação' },
     faturar: { label: 'Faturar', classe: 'status-faturar' },
-    faturação: { label: 'Faturação', classe: 'status-faturação' },
+    faturado: { label: 'Faturação', classe: 'status-faturado' },
     recibo: { label: 'Recibo', classe: 'status-recibo' }
 };
 
@@ -311,7 +311,7 @@ function getFaturamentoClasse(faturamento) {
     if (lower.includes('atrasação')) return 'atrasação';
     if (lower.includes('previsto')) return 'previsto';
     if (lower.includes('aguardando')) return 'aguardando';
-    if (lower.includes('faturação')) return 'faturação-ok';
+    if (lower.includes('faturado')) return 'faturado-ok';
     return '';
 }
 
@@ -324,12 +324,12 @@ function criarCardHTML(pedido) {
         : '';
 
     // Valor com cifrão e tipo de pagamento
-    const valorFormatação = formatarValorOmie(pedido.valor);
+    const valorFormatado = formatarValorOmie(pedido.valor);
     const tipoHTML = pedido.tipo  ` ${pedido.tipo}` : '';
 
     // Vencimento (ex: "p/ 11/06 Qua")
     const vencimentoHTML = pedido.vencimento 
-         `<div class="card-vencimento">$ ${valorFormatação} ${pedido.vencimento}</div>`
+         `<div class="card-vencimento">$ ${valorFormatado} ${pedido.vencimento}</div>`
         : '';
 
     // Transportaçãora
@@ -337,7 +337,7 @@ function criarCardHTML(pedido) {
          `<div class="card-transportaçãora">Transportaçãora: ${pedido.transportaçãora}</div>`
         : '';
 
-    // Nota Fiscal (para faturaçãos)
+    // Nota Fiscal (para faturados)
     const notaFiscalHTML = pedido.notaFiscal
          `<div class="card-nf">Nota Fiscal: ${pedido.notaFiscal}</div>`
         : '';
@@ -364,7 +364,7 @@ function criarCardHTML(pedido) {
             </div>
             <div class="card-cliente">${pedido.cliente}</div>
             ${faturamentoHTML}
-            ${pedido.vencimento  vencimentoHTML : `<div class="card-valor-row"><span class="card-valor-cifrao">$</span><span class="card-valor">${valorFormatação}</span><span class="card-tipo">${tipoHTML}</span></div>`}
+            ${pedido.vencimento  vencimentoHTML : `<div class="card-valor-row"><span class="card-valor-cifrao">$</span><span class="card-valor">${valorFormatado}</span><span class="card-tipo">${tipoHTML}</span></div>`}
             ${transportaçãoraHTML}
             ${notaFiscalHTML}
             ${manifestacaoHTML}
@@ -382,7 +382,7 @@ function renderizarKanban() {
     document.getElementById('col-analise-credito').innerHTML = '';
     document.getElementById('col-pedido-aprovação').innerHTML = '';
     document.getElementById('col-faturar').innerHTML = '';
-    document.getElementById('col-faturação').innerHTML = '';
+    document.getElementById('col-faturado').innerHTML = '';
     document.getElementById('col-recibo').innerHTML = '';
 
     // Contaçãores e totais
@@ -391,7 +391,7 @@ function renderizarKanban() {
         'analise-credito': { qnt: 0, total: 0 },
         'pedido-aprovação': { qnt: 0, total: 0 },
         faturar: { qnt: 0, total: 0 },
-        faturação: { qnt: 0, total: 0 },
+        faturado: { qnt: 0, total: 0 },
         recibo: { qnt: 0, total: 0 }
     };
 
@@ -423,7 +423,7 @@ function atualizarContaçãores(contaçãores) {
         'analise-credito': 'count-analise',
         'pedido-aprovação': 'count-aprovação',
         'faturar': 'count-faturar',
-        'faturação': 'count-faturação',
+        'faturado': 'count-faturado',
         'recibo': 'count-recibo'
     };
 
@@ -432,7 +432,7 @@ function atualizarContaçãores(contaçãores) {
         { status: 'analise-credito', texto: 'Análise de Crédito' },
         { status: 'pedido-aprovação', texto: 'Pedido Aprovação' },
         { status: 'faturar', texto: 'Faturar' },
-        { status: 'faturação', texto: 'Faturação' },
+        { status: 'faturado', texto: 'Faturação' },
         { status: 'recibo', texto: 'Recibo' }
     ];
 
@@ -445,7 +445,7 @@ function atualizarContaçãores(contaçãores) {
             if (info.qnt === 0) {
                 colunaCount.textContent = 'Nenhum registro';
             } else {
-                colunaCount.textContent = `${info.qnt} registro${info.qnt !== 1  's' : ''}`;
+                colunaCount.textContent = `${info.qnt} registro${info.qnt !== 1 ? 's' : ''}`;
             }
         }
     });
@@ -657,7 +657,7 @@ function abrirModalNovoPedido(tipo = 'orcamento') {
         form.dataset.pedidoId = '';
         form.dataset.tipo = tipo;
         
-        // Define título baseação no tipo
+        // Define título baseado no tipo
         const tituloH3 = modal.querySelector('.modal-head h3');
         const eyebrow = modal.querySelector('.modal-eyebrow');
         
@@ -722,7 +722,7 @@ function popularFormPedido(pedido) {
     
     // Definir IDs e modo
     form.dataset.pedidoId = pedido.id || '';
-    form.dataset.modo = pedido.id  'editar' : 'novo';
+    form.dataset.modo = pedido.id ? 'editar' : 'novo';
     
     // Campos hidden
     const clienteIdInput = form.querySelector('[name="cliente_id"]');
@@ -899,7 +899,7 @@ function safeParseJSON(txt, fallback) {
 
 async function salvarPedidoAPI(payload, id) {
     const url = id  `/api/vendas/pedidos/${id}` : '/api/vendas/pedidos';
-    const method = id  'PUT' : 'POST';
+    const method = id ? 'PUT' : 'POST';
     const resp = await fetch(url, {
         method,
         credentials: 'include',
@@ -965,7 +965,7 @@ function salvarNovoPedido(event) {
             
             // Recarregar daçãos do servidor para garantir sincronização
             carregarPedidosDaAPI();
-            mostrarNotificacao(id  'Pedido atualização com sucesso!' : 'Pedido criação com sucesso!', 'success');
+            mostrarNotificacao(id ? 'Pedido atualização com sucesso!' : 'Pedido criado com sucesso!', 'success');
         })
         .catch((err) => {
             console.error('Erro ao salvar:', err);

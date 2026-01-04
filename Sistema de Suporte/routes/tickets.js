@@ -213,7 +213,7 @@ router.post('/transfer', async (req, res) => {
             });
         }
         
-        console.log(`✅ Transferência recebida: Ticket #${ticket.protocolo} criação para ${userName}`);
+        console.log(`✅ Transferência recebida: Ticket #${ticket.protocolo} criado para ${userName}`);
         
         res.json({ 
             success: true, 

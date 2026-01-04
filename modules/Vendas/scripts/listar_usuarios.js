@@ -29,7 +29,7 @@ async function listarUsuarios() {
                 id: u.id,
                 nome: u.nome,
                 email: u.email,
-                tipo: isAdmin  'ADMIN' : 'VENDEDOR'
+                tipo: isAdmin ? 'ADMIN' : 'VENDEDOR'
             };
             
             if (isAdmin) {
@@ -67,10 +67,10 @@ async function listarUsuarios() {
         if (ariel || thaina) {
             console.log('⭐ USUÁRIOS DESTACADOS PARA TESTE:\n');
             if (ariel) {
-                console.log(`   ✓ Ariel: ${ariel.email} (${ariel.is_admin  'Admin' : 'Vendedor'})`);
+                console.log(`   ✓ Ariel: ${ariel.email} (${ariel.is_admin ? 'Admin' : 'Vendedor'})`);
             }
             if (thaina) {
-                console.log(`   ✓ Thainá: ${thaina.email} (${thaina.is_admin  'Admin' : 'Vendedor'})`);
+                console.log(`   ✓ Thainá: ${thaina.email} (${thaina.is_admin ? 'Admin' : 'Vendedor'})`);
             }
             console.log('');
         }

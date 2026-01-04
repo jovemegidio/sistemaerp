@@ -23,7 +23,7 @@ const TABELAS_ESSENCIAIS = {
     },
     'Vendas': {
         essenciais: ['clientes', 'pedidos', 'pedido_itens'],
-        opcionais: ['cliente_interacoes', 'cliente_tags', 'cliente_tags_relacao', 'pedidos_faturaçãos', 'pedidos_faturaçãos_linhas']
+        opcionais: ['cliente_interacoes', 'cliente_tags', 'cliente_tags_relacao', 'pedidos_faturados', 'pedidos_faturados_linhas']
     },
     'Produtos': {
         essenciais: ['produtos'],

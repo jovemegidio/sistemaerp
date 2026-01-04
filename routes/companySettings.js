@@ -329,7 +329,7 @@ router.post('/departamentos', authenticateToken, requireAdmin, async (req, res) 
         res.status(201).json({ 
             success: true, 
             id: result.insertId,
-            message: 'Departamento criação com sucesso' 
+            message: 'Departamento criado com sucesso' 
         });
     } catch (error) {
         console.error('Erro ao criar departamento:', error);
@@ -455,7 +455,7 @@ router.post('/projetos', authenticateToken, requireAdmin, async (req, res) => {
         res.status(201).json({ 
             success: true, 
             id: result.insertId,
-            message: 'Projeto criação com sucesso' 
+            message: 'Projeto criado com sucesso' 
         });
     } catch (error) {
         console.error('Erro ao criar projeto:', error);

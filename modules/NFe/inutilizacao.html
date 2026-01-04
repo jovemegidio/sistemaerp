@@ -266,7 +266,7 @@
 
             if (inicio && fim) {
                 const qtd = parseInt(fim) - parseInt(inicio) + 1;
-                faixaInfo.textContent = `${inicio} a ${fim} (${qtd} Número${qtd > 1  's' : ''})`;
+                faixaInfo.textContent = `${inicio} a ${fim} (${qtd} Número${qtd > 1 ? 's' : ''})`;
                 infoFaixa.style.display = 'block';
             } else {
                 infoFaixa.style.display = 'none';

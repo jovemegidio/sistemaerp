@@ -518,7 +518,7 @@
 
             try {
                 const url = id  `/api/compras/fornecedores/${id}` : '/api/compras/fornecedores';
-                const method = id  'PUT' : 'POST';
+                const method = id ? 'PUT' : 'POST';
                 const resp = await fetch(url, {
                     method,
                     headers: { 'Content-Type': 'application/json' },
@@ -526,7 +526,7 @@
                 });
                 const result = await resp.json();
                 if (resp.ok) {
-                    alert(id  'Fornecedor atualização!' : 'Fornecedor cadastração!');
+                    alert(id ? 'Fornecedor atualização!' : 'Fornecedor cadastração!');
                     fecharModalFornecedor();
                     fornecedoresManager.carregarFornecedores().then(() => fornecedoresManager.renderizarTabela());
                 } else {
@@ -556,7 +556,7 @@
                 document.getElementById('bairro').value = f.bairro || '';
                 document.getElementById('cidade').value = f.cidade || '';
                 document.getElementById('estação').value = f.estação || '';
-                document.getElementById('statusForn').value = f.ativo  '1' : '0';
+                document.getElementById('statusForn').value = f.ativo ? '1' : '0';
                 document.getElementById('contatoPrincipal').value = f.contato_principal || '';
                 document.getElementById('cargoContato').value = f.cargo_contato || '';
                 document.getElementById('telefone').value = f.telefone || '';
@@ -607,7 +607,7 @@
                             <div class="view-item"><label>CNPJ</label><span>${formatarCNPJ(f.cnpj) || '-'}</span></div>
                             <div class="view-item"><label>Inscrio Estadual</label><span>${f.inscricao_estadual || '-'}</span></div>
                             <div class="view-item"><label>Categoria</label><span>${f.categoria || '-'}</span></div>
-                            <div class="view-item"><label>Status</label><span style="color: ${f.ativo  '#22c55e' : '#ef4444'}">${f.ativo  ' Ativo' : ' Inativo'}</span></div>
+                            <div class="view-item"><label>Status</label><span style="color: ${f.ativo ? '#22c55e' : '#ef4444'}">${f.ativo ? ' Ativo' : ' Inativo'}</span></div>
                         </div>
                     </div>
                     <div class="view-section">

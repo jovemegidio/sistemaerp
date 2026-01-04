@@ -353,7 +353,7 @@ async function renderizarTabelaFornecedores() {
                 <td>${f.cnpj || '-'}</td>
                 <td>${f.telefone || '-'}</td>
                 <td>${f.cidade || '-'}${f.estação  `/${f.estação}` : ''}</td>
-                <td><span class="status-badge ${f.ativo  'status-aprovação' : 'status-cancelação'}">${f.ativo  'Ativo' : 'Inativo'}</span></td>
+                <td><span class="status-badge ${f.ativo ? 'status-aprovação' : 'status-cancelação'}">${f.ativo ? 'Ativo' : 'Inativo'}</span></td>
                 <td>
                     <div class="table-actions">
                         <button class="action-btn" onclick="verFornecedor(${f.id})" title="Ver">

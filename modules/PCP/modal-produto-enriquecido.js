@@ -50,10 +50,10 @@
         const infoStatus = document.getElementById('info-status');
         if (infoStatus) {
             const ativo = produto.ativo !== false;
-            infoStatus.className = `status-badge ${ativo  'status-ativo' : 'status-inativo'}`;
+            infoStatus.className = `status-badge ${ativo ? 'status-ativo' : 'status-inativo'}`;
             infoStatus.innerHTML = `
-                <i class="fas fa-${ativo  'check-circle' : 'times-circle'}"></i>
-                ${ativo  'Ativo' : 'Inativo'}
+                <i class="fas fa-${ativo ? 'check-circle' : 'times-circle'}"></i>
+                ${ativo ? 'Ativo' : 'Inativo'}
             `;
         }
     }
@@ -198,7 +198,7 @@
                 <td>${forn.contato || '—'}</td>
                 <td>${forn.prazo || '—'} dias</td>
                 <td>
-                    ${forn.preferencial  '<span class="status-badge status-ativo"><i class="fas fa-star"></i> Preferencial</span>' : '<span class="status-badge status-alerta">Alternativo</span>'}
+                    ${forn.preferencial ? '<span class="status-badge status-ativo"><i class="fas fa-star"></i> Preferencial</span>' : '<span class="status-badge status-alerta">Alternativo</span>'}
                 </td>
             </tr>
         `).join('');
@@ -252,7 +252,7 @@
             });
         }
         
-        // Atualização dinâmica dos cards conforme digitação
+        // Atualização dinâmica dos cards conforme digitado
         const camposMonitoraçãos = ['edit-quantidade', 'edit-custo', 'edit-preco', 'edit-estoque-minimo', 'edit-estoque-maximo'];
         
         camposMonitoraçãos.forEach(id => {

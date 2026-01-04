@@ -743,7 +743,7 @@
                         </div>
                         <div class="history-content">
                             <div class="history-title">${a.tipo_atestação || a.observacoes || 'Atestação Médico'}</div>
-                            <div class="history-date">${dataInicio} - ${dias} dia${dias > 1  's' : ''}</div>
+                            <div class="history-date">${dataInicio} - ${dias} dia${dias > 1 ? 's' : ''}</div>
                         </div>
                         <span class="history-status ${statusClass}">${statusLabel}</span>
                     </div>

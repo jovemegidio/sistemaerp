@@ -98,7 +98,7 @@
                 keywords: ['venda', 'vendas', 'pedido', 'pedidos', 'cliente', 'clientes', 'orcamento', 'orçamento', 'proposta'],
                 responses: [
                     'No módulo Vendas você pode: 📊 Criar orçamentos e propostas 📋 Gerenciar pedidos 👥 Administrar clientes 💰 Acompanhar o funil de vendas. O que você precisa fazer',
-                    'O sistema de Vendas permite controle total do processo comercial! Posso te ajudar com: criação de pedidos, cadastro de clientes, geração de orçamentos ou acompanhamento de vendas'
+                    'O sistema de Vendas permite controle total do processo comercial! Posso te ajudar com: criado de pedidos, cadastro de clientes, geração de orçamentos ou acompanhamento de vendas'
                 ]
             },
             financeiro: {
@@ -238,7 +238,7 @@
 
     // ===== CRIAR TICKET DE SUPORTE =====
     function createSupportTicket(userMessage) {
-        // Simular criação de ticket para o TI
+        // Simular criado de ticket para o TI
         const ticketNumber = '#' + Math.floor(Math.random() * 90000000 + 10000000);
         
         const userData = JSON.parse(localStorage.getItem('userData') || '{}');
@@ -254,12 +254,12 @@
             mensagem: userMessage,
             status: 'open',
             prioridade: 'medium',
-            criação_em: new Date().toISOString(),
+            criado_em: new Date().toISOString(),
             conversationHistory: state.bobAI.conversationContext
         };
         
         // Aqui você faria um POST para a API: /api/tickets
-        console.log('🎫 Ticket criação:', ticketData);
+        console.log('🎫 Ticket criado:', ticketData);
         
         // Simular salvamento
         if (typeof localStorage !== 'undefined') {
@@ -552,7 +552,7 @@
         if (!container) return;
 
         container.innerHTML = sampleMessages.map(msg => `
-            <div class="message-item ${msg.unread  'unread' : ''}" data-message-id="${msg.id}">
+            <div class="message-item ${msg.unread ? 'unread' : ''}" data-message-id="${msg.id}">
                 <div class="message-avatar" style="background: ${getAvatarColor(msg.avatar)};">
                     ${msg.avatar}
                 </div>
@@ -560,7 +560,7 @@
                     <div class="message-subject">${msg.subject}</div>
                     <div class="message-preview">${msg.sender} • ${msg.time}</div>
                 </div>
-                ${msg.unread  '<div class="message-unread-dot"></div>' : ''}
+                ${msg.unread ? '<div class="message-unread-dot"></div>' : ''}
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="color: #9ca3af;">
                     <path d="M7 10l5 5 5-5H7z"/>
                 </svg>
@@ -848,7 +848,7 @@
 
         // Analisar mensagem com BobAI
         setTimeout(() => {
-            // Remover indicaçãor de digitação
+            // Remover indicaçãor de digitado
             const indicator = document.getElementById('typingIndicator');
             if (indicator) indicator.remove();
 
@@ -895,7 +895,7 @@
                         <div class="message-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🎫</div>
                         <div class="message-content">
                             <div class="message-text">
-                                <strong>✅ Ticket criação com sucesso!</strong><br><br>
+                                <strong>✅ Ticket criado com sucesso!</strong><br><br>
                                 <strong>Número:</strong> ${ticketNumber}<br>
                                 <strong>Status:</strong> Aguardando atendimento<br><br>
                                 Um membro da equipe de suporte TI irá te atender em breve! 
@@ -911,7 +911,7 @@
                     state.bobAI.transferRequests = 0;
                 }, 1500);
             }
-        }, 1500); // Simular tempo de "digitação"
+        }, 1500); // Simular tempo de "digitado"
     }
 
     // ===== INICIALIZAÇÃO =====

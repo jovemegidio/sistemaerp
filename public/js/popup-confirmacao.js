@@ -45,7 +45,7 @@ const Popup = (function() {
 
         const config = { ...defaults, ...options };
 
-        // Determinar ícone baseação no tipo
+        // Determinar ícone baseado no tipo
         const icons = {
             question: 'fas fa-question',
             warning: 'fas fa-exclamation-triangle',

@@ -51,7 +51,7 @@ setTimeout(() => {
             if (checkTransf) {
                 checkTransf.checked = true;
                 checkTransf.dispatchEvent(new Event('change', { bubbles: true }));
-                console.log('   ✅ Checkbox TRANSFERÊNCIA marcação');
+                console.log('   ✅ Checkbox TRANSFERÊNCIA marcado');
                 
                 setTimeout(() => {
                     preencher('metodo-transferencia-percent', '50');
@@ -66,7 +66,7 @@ setTimeout(() => {
                 if (checkDep) {
                     checkDep.checked = true;
                     checkDep.dispatchEvent(new Event('change', { bubbles: true }));
-                    console.log('   ✅ Checkbox DEPÓSITO marcação');
+                    console.log('   ✅ Checkbox DEPÓSITO marcado');
                     
                     setTimeout(() => {
                         preencher('metodo-deposito-percent', '50');

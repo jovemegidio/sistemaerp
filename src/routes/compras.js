@@ -299,7 +299,7 @@ module.exports = (pool, authenticateToken, logger) => {
                         lograçãouro, numero, complemento, bairro, cidade, estação, cep,
                         prazo_entrega_padrao, prazo_pagamento_padrao, condicoes_pagamento,
                         valor_minimo_pedido, categoria, tipo_fornecedor, observacoes,
-                        criação_por
+                        criado_por
                     ) VALUES (, , , , , , , , , , , , , , , , , , , , , , , , , , )`,
                     [
                         codigo, razao_social, nome_fantasia, cnpj.replace(/[^\d]+/g, ''), inscricao_estadual,
@@ -333,7 +333,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 
                 await connection.commit();
                 
-                logger.info(`Fornecedor criação: ${codigo} - ${razao_social}`);
+                logger.info(`Fornecedor criado: ${codigo} - ${razao_social}`);
                 res.json({ success: true, id: fornecedorId, codigo });
                 
             } catch (error) {
@@ -593,7 +593,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     prioridade, valor_produtos, desconto, frete, seguro, outras_despesas,
                     condicoes_pagamento, prazo_entrega_dias, local_entrega, forma_frete,
                     origem, pcp_ordem_id, observacoes, observacoes_internas,
-                    usuario_solicitante, criação_por, status
+                    usuario_solicitante, criado_por, status
                 ) VALUES (, , CURDATE(), , , , , , , , , , , , , , , , , , 'pendente')`,
                 [
                     numero_pedido, fornecedor_id, data_entrega_prevista,
@@ -674,7 +674,7 @@ module.exports = (pool, authenticateToken, logger) => {
             
             await connection.commit();
             
-            logger.info(`Pedido criação: ${numero_pedido}`);
+            logger.info(`Pedido criado: ${numero_pedido}`);
             res.json({ success: true, id: pedidoId, numero_pedido });
             
         } catch (error) {
@@ -712,7 +712,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 return res.status(403).json({ error: 'Você não tem permissão para aprovar este pedido' });
             }
             
-            const novoStatus = aprovar  'aprovação' : 'rejeitação';
+            const novoStatus = aprovar ? 'aprovação' : 'rejeitação';
             
             // Atualizar workflow
             await connection.execute(
@@ -785,7 +785,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 );
             }
             
-            await logAcao(connection, req.user.userId, aprovar  'aprovar_pedido' : 'rejeitar_pedido', 'pedido_compra', pedidoId, null, { comentario }, req);
+            await logAcao(connection, req.user.userId, aprovar ? 'aprovar_pedido' : 'rejeitar_pedido', 'pedido_compra', pedidoId, null, { comentario }, req);
             
             await connection.commit();
             res.json({ success: true });
@@ -884,7 +884,7 @@ module.exports = (pool, authenticateToken, logger) => {
             const [cotacao] = await connection.execute(
                 `INSERT INTO cotacoes (
                     numero_cotacao, titulo, descricao, data_abertura, data_encerramento,
-                    tipo, usuario_responsavel, criação_por, status
+                    tipo, usuario_responsavel, criado_por, status
                 ) VALUES (, , , CURDATE(), , , , , 'aberta')`,
                 [numero_cotacao, titulo, descricao, data_encerramento, tipo || 'preco', req.user.userId, req.user.userId]
             );
@@ -1029,7 +1029,7 @@ module.exports = (pool, authenticateToken, logger) => {
             
             await connection.commit();
             
-            logger.info(`Recebimento criação: ${numero_recebimento}`);
+            logger.info(`Recebimento criado: ${numero_recebimento}`);
             res.json({ success: true, id: recebimentoId, numero_recebimento });
             
         } catch (error) {

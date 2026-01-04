@@ -332,7 +332,7 @@ class MateriaisManager {
 
         for (let i = 1; i <= Math.min(totalPaginas, 5); i++) {
             const btnPage = document.createElement('button');
-            btnPage.className = 'pagination-btn' + (i === this.paginaAtual  ' active' : '');
+            btnPage.className = 'pagination-btn' + (i === this.paginaAtual ? ' active' : '');
             btnPage.textContent = i;
             btnPage.onclick = () => {
                 this.paginaAtual = i;
@@ -533,7 +533,7 @@ class MateriaisManager {
 
         try {
             const url = id  `/api/compras/materiais/${id}` : '/api/compras/materiais';
-            const method = id  'PUT' : 'POST';
+            const method = id ? 'PUT' : 'POST';
             
             const response = await fetch(url, {
                 method,
@@ -544,7 +544,7 @@ class MateriaisManager {
             const result = await response.json();
             
             if (response.ok) {
-                alert(id  'Material atualização com sucesso!' : 'Material cadastração com sucesso!');
+                alert(id ? 'Material atualização com sucesso!' : 'Material cadastração com sucesso!');
                 this.fecharModal();
                 await this.carregarDaçãos();
                 this.atualizarCards();

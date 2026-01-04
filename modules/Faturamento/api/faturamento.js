@@ -219,7 +219,7 @@ module.exports = (pool, authenticateToken) => {
             // 8. Atualizar pedido com NF-e gerada
             await connection.query(`
                 UPDATE pedidos 
-                SET nfe_id = , faturação_em = NOW()
+                SET nfe_id = , faturado_em = NOW()
                 WHERE id = 
             `, [nfe_id, pedido_id]);
 
@@ -250,7 +250,7 @@ module.exports = (pool, authenticateToken) => {
 
             res.json({
                 success: true,
-                message: integracoes.avisos.length === 0  'NF-e gerada com sucesso' : 'NF-e gerada com avisos de integração',
+                message: integracoes.avisos.length === 0 ? 'NF-e gerada com sucesso' : 'NF-e gerada com avisos de integração',
                 data: {
                     nfe_id,
                     numero_nfe: proximoNumero,
@@ -434,7 +434,7 @@ module.exports = (pool, authenticateToken) => {
             if (nfe.pedido_id) {
                 await connection.query(`
                     UPDATE pedidos 
-                    SET nfe_id = NULL, faturação_em = NULL
+                    SET nfe_id = NULL, faturado_em = NULL
                     WHERE id = 
                 `, [nfe.pedido_id]);
             }
@@ -458,7 +458,7 @@ module.exports = (pool, authenticateToken) => {
 
             res.json({
                 success: true,
-                message: integracoes.avisos.length === 0  'NF-e cancelada com sucesso' : 'NF-e cancelada com avisos',
+                message: integracoes.avisos.length === 0 ? 'NF-e cancelada com sucesso' : 'NF-e cancelada com avisos',
                 data: { nfe_id: id, status: 'cancelada', integracoes }
             });
 
@@ -486,7 +486,7 @@ module.exports = (pool, authenticateToken) => {
                     SUM(CASE WHEN status = 'autorizada' THEN 1 ELSE 0 END) as autorizadas,
                     SUM(CASE WHEN status = 'pendente' THEN 1 ELSE 0 END) as pendentes,
                     SUM(CASE WHEN status = 'cancelada' THEN 1 ELSE 0 END) as canceladas,
-                    SUM(CASE WHEN status = 'autorizada' THEN valor_total ELSE 0 END) as valor_total_faturação,
+                    SUM(CASE WHEN status = 'autorizada' THEN valor_total ELSE 0 END) as valor_total_faturado,
                     SUM(CASE WHEN status = 'autorizada' AND MONTH(data_emissao) = MONTH(NOW()) THEN valor_total ELSE 0 END) as valor_mes_atual
                 FROM nfe
             `);
@@ -825,7 +825,7 @@ module.exports = (pool, authenticateToken) => {
     // PRODUTOS MAIS FATURADOS
     // ============================================================
     
-    router.get('/relatorios/produtos-mais-faturaçãos', authenticateToken, async (req, res) => {
+    router.get('/relatorios/produtos-mais-faturados', authenticateToken, async (req, res) => {
         try {
             const { data_inicio, data_fim, limite } = req.query;
             

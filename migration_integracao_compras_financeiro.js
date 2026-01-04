@@ -70,10 +70,10 @@ async function executarMigracao() {
                 usuario_id INT NULL,
                 status ENUM('sucesso', 'erro') DEFAULT 'sucesso',
                 mensagem TEXT NULL,
-                criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 INDEX idx_origem (tipo_origem, origem_id),
                 INDEX idx_destino (tipo_destino, destino_id),
-                INDEX idx_data (criação_em)
+                INDEX idx_data (criado_em)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Log de integrações automáticas do Financeiro'
         `);
         console.log('   ✅ Tabela logs_integracao_financeiro criada');
@@ -132,11 +132,11 @@ async function executarMigracao() {
                 IF NEW.pedido_compra_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor_original, NEW.criação_por, 'sucesso');
+                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor_original, NEW.criado_por, 'sucesso');
                 END IF;
             END
         `);
-        console.log('   ✅ Trigger trg_log_integracao_pagar criação');
+        console.log('   ✅ Trigger trg_log_integracao_pagar criado');
 
         // 7. Criar trigger para log automático em contas_receber
         await connection.query(`DROP TRIGGER IF EXISTS trg_log_integracao_receber`);
@@ -148,11 +148,11 @@ async function executarMigracao() {
                 IF NEW.venda_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor_original, NEW.criação_por, 'sucesso');
+                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor_original, NEW.criado_por, 'sucesso');
                 END IF;
             END
         `);
-        console.log('   ✅ Trigger trg_log_integracao_receber criação');
+        console.log('   ✅ Trigger trg_log_integracao_receber criado');
 
         await connection.commit();
 
@@ -161,7 +161,7 @@ async function executarMigracao() {
         console.log('   - Colunas de integração adicionadas em contas_pagar e contas_receber');
         console.log('   - Tabela de logs criada');
         console.log('   - 2 Views integradas criadas');
-        console.log('   - 2 Triggers de auditoria criaçãos');
+        console.log('   - 2 Triggers de auditoria criados');
         console.log('\n🔗 Integração Compras → Financeiro ativada!');
 
     } catch (error) {

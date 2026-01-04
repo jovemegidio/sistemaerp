@@ -15,7 +15,7 @@ module.exports = (pool) => {
         const connection = await pool.getConnection();
         
         try {
-            console.log('🚀 Iniciando criação do schema NFe & Logística...');
+            console.log('🚀 Iniciando criado do schema NFe & Logística...');
             
             // Executar 3 vezes para garantir que todas as tabelas sejam criadas
             for (let attempt = 1; attempt <= 3; attempt++) {
@@ -81,11 +81,11 @@ module.exports = (pool) => {
                 ORDER BY TABLE_NAME
             `);
             
-            console.log(`\n✅ Schema criação com sucesso! ${tables.length} tabelas criadas/verificadas\n`);
+            console.log(`\n✅ Schema criado com sucesso! ${tables.length} tabelas criadas/verificadas\n`);
             
             res.json({
                 success: true,
-                message: 'Schema NFe & Logística criação com sucesso',
+                message: 'Schema NFe & Logística criado com sucesso',
                 tables: tables.map(t => ({
                     name: t.TABLE_NAME,
                     rows: t.TABLE_ROWS,
@@ -167,7 +167,7 @@ module.exports = (pool) => {
                 success: true,
                 tables_existing: tables,
                 tables_missing: missing,
-                status: missing.length === 0  'complete' : 'incomplete',
+                status: missing.length === 0 ? 'complete' : 'incomplete',
                 completion_percentage: Math.round((existing.length / expected.length) * 100)
             });
             

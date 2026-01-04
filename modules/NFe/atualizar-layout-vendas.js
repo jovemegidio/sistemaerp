@@ -282,7 +282,7 @@ function getSidebarForPage(activePage) {
     const activeKeys = ['DASHBOARD', 'EMITIR', 'CONSULTAR', 'NFSE', 'DANFE', 'RELATORIOS', 'EVENTOS', 'LOGISTICA'];
     
     activeKeys.forEach(key => {
-        sidebar = sidebar.replace(`{{ACTIVE_${key}}}`, key === activePage  'active' : '');
+        sidebar = sidebar.replace(`{{ACTIVE_${key}}}`, key === activePage ? 'active' : '');
     });
     
     return sidebar;
@@ -305,9 +305,9 @@ pages.forEach(page => {
     fs.copyFileSync(filePath, backupPath);
     console.log(`[BACKUP] ${page.file} -> ${page.file}.backup-vendas-layout`);
 
-    console.log(`[INFO] ${page.file} - Backup criação. Execute manualmente as atualizações conforme necessário.`);
+    console.log(`[INFO] ${page.file} - Backup criado. Execute manualmente as atualizações conforme necessário.`);
 });
 
 console.log('='.repeat(60));
-console.log('Backups criaçãos. Edição manual das páginas pode ser necessária.');
+console.log('Backups criados. Edição manual das páginas pode ser necessária.');
 console.log('='.repeat(60));

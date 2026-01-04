@@ -286,7 +286,7 @@ class ServicoEmail {
         const html = `
             <h2>⏰ Lembrete de Vencimento</h2>
             <p>Prezação(a) ${cliente.nome},</p>
-            <p>Este é um lembrete de que você possui um título com vencimento ${diasRestantes === 0  'HOJE' : `em ${diasRestantes} dia(s)`}.</p>
+            <p>Este é um lembrete de que você possui um título com vencimento ${diasRestantes === 0 ? 'HOJE' : `em ${diasRestantes} dia(s)`}.</p>
             
             <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0;">
                 <p><strong>Descrição:</strong> ${conta.descricao}</p>

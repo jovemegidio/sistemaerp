@@ -94,7 +94,7 @@ async function buscarProdutosGestao(page = 1, limit = 20) {
                             variacoes = [];
                         }
                         const variacoesDisplay = variacoes.length > 0 
-                             variacoes.slice(0, 3).join(', ') + (variacoes.length > 3  '...' : '')
+                             variacoes.slice(0, 3).join(', ') + (variacoes.length > 3 ? '...' : '')
                             : 'N/A';
                         return `
                             <tr data-id=\"${p.id}\">
@@ -1206,7 +1206,7 @@ function showNotificationsPanel() {
             const timeAgo = getTimeAgo(notif.timestamp);
             const typeClass = notif.type || 'info';
             notificationsHtml += `
-                <div class="notification-item ${typeClass} ${!notif.read  'unread' : ''}" data-id="${notif.id}">
+                <div class="notification-item ${typeClass} ${!notif.read ? 'unread' : ''}" data-id="${notif.id}">
                     <div class="notification-icon">
                         ${getToastIcon(notif.type)}
                     </div>
@@ -1349,7 +1349,7 @@ function showMessagesPanel() {
     
     messages.forEach(msg => {
         messagesHtml += `
-            <div class="message-item ${msg.unread  'unread' : ''}">
+            <div class="message-item ${msg.unread ? 'unread' : ''}">
                 <div class="message-avatar">
                     <i class="fas fa-user-circle"></i>
                 </div>
@@ -1358,7 +1358,7 @@ function showMessagesPanel() {
                     <div class="message-text">${msg.message}</div>
                     <div class="message-time">${msg.time}</div>
                 </div>
-                ${msg.unread  '<div class="message-indicator"></div>' : ''}
+                ${msg.unread ? '<div class="message-indicator"></div>' : ''}
             </div>
         `;
     });
@@ -1877,7 +1877,7 @@ async function carregarProdutos(page = 1, limit = 20) {
                         }
                         
                         const variacoesDisplay = variacoes.length > 0 
-                             variacoes.slice(0, 3).join(', ') + (variacoes.length > 3  '...' : '')
+                             variacoes.slice(0, 3).join(', ') + (variacoes.length > 3 ? '...' : '')
                             : 'N/A';
                         
                         return `
@@ -2752,7 +2752,7 @@ function initializeAllPageHeaders() {
             // Update icon
             const icon = document.getElementById('dark-mode-icon-materiais');
             if (icon) {
-                icon.className = isDarkMode  'fas fa-moon' : 'fas fa-sun';
+                icon.className = isDarkMode ? 'fas fa-moon' : 'fas fa-sun';
             }
         });
     }
@@ -2802,7 +2802,7 @@ function initializeAllPageHeaders() {
             // Update icon
             const icon = document.getElementById('dark-mode-icon-compra');
             if (icon) {
-                icon.className = isDarkMode  'fas fa-moon' : 'fas fa-sun';
+                icon.className = isDarkMode ? 'fas fa-moon' : 'fas fa-sun';
             }
         });
     }
@@ -2883,7 +2883,7 @@ function abrirModalNovoProduto() {
             if (firstInput) firstInput.focus();
         }, 300);
         
-        // Gerar SKU automático baseação no código
+        // Gerar SKU automático baseado no código
         const codigoInput = document.getElementById('produto-codigo');
         const skuInput = document.getElementById('produto-sku');
         

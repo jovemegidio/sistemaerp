@@ -32,7 +32,7 @@ console.log('   ✅ Download automático do arquivo geração\n');
 
 console.log('4️⃣ AVATAR CONFIGURADO:');
 console.log('   ✅ API /api/me retorna avatar padrão quando não há foto');
-console.log('   ✅ Avatar SVG criação em /images/default-avatar.svg');
+console.log('   ✅ Avatar SVG criado em /images/default-avatar.svg');
 console.log('   ✅ Fallback implementação para usuários sem foto');
 console.log('   ✅ Resolução do problema de "carregando..."\n');
 
@@ -82,7 +82,7 @@ console.log('• server.js - APIs e autenticação melhoradas');
 console.log('• public/index.html - Dashboard com alertas de estoque');
 console.log('• modules/Compras/gestao-estoque.html - Nova página criada');
 console.log('• modules/PCP/gestao-estoque.html - Correções de autenticação');
-console.log('• images/default-avatar.svg - Avatar padrão criação');
+console.log('• images/default-avatar.svg - Avatar padrão criado');
 console.log('• Diversos arquivos de teste e verificação\n');
 
 console.log('✨ IMPLEMENTAÇÁO 100% COMPLETA! ✨');

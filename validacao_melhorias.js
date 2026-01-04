@@ -37,7 +37,7 @@ class ValidaçãorMelhorias {
             '🎨 Melhorias visuais com gradientes e animações',
             '📱 Responsividade aprimorada para dispositivos móveis',
             '♿ Melhorias de acessibilidade (focus, skip-links)',
-            '🧙‍♂️ Sistema wizard para criação de solicitações',
+            '🧙‍♂️ Sistema wizard para criado de solicitações',
             '📊 Dashboard de métricas com cards animaçãos',
             '🔍 Filtros avançaçãos com validação em tempo real',
             '📈 Página de relatórios completa no PCP',
@@ -184,20 +184,20 @@ class ValidaçãorMelhorias {
         const percentual = Math.round((passedChecks / totalChecks) * 100);
 
         console.log('\n📈 Módulo RH:');
-        console.log(`   Navegação: ${this.resultaçãos.rh.navegacao  '✅' : '❌'}`);
-        console.log(`   Estilos: ${this.resultaçãos.rh.estilos  '✅' : '❌'}`);
-        console.log(`   Responsividade: ${this.resultaçãos.rh.responsividade  '✅' : '❌'}`);
-        console.log(`   Acessibilidade: ${this.resultaçãos.rh.acessibilidade  '✅' : '❌'}`);
+        console.log(`   Navegação: ${this.resultaçãos.rh.navegacao ? '✅' : '❌'}`);
+        console.log(`   Estilos: ${this.resultaçãos.rh.estilos ? '✅' : '❌'}`);
+        console.log(`   Responsividade: ${this.resultaçãos.rh.responsividade ? '✅' : '❌'}`);
+        console.log(`   Acessibilidade: ${this.resultaçãos.rh.acessibilidade ? '✅' : '❌'}`);
 
         console.log('\n📊 Módulo PCP:');
-        console.log(`   Relatórios: ${this.resultaçãos.pcp.relatorios  '✅' : '❌'}`);
-        console.log(`   Navegação: ${this.resultaçãos.pcp.navegacao  '✅' : '❌'}`);
-        console.log(`   Métricas: ${this.resultaçãos.pcp.metricas  '✅' : '❌'}`);
-        console.log(`   Filtros: ${this.resultaçãos.pcp.filtros  '✅' : '❌'}`);
+        console.log(`   Relatórios: ${this.resultaçãos.pcp.relatorios ? '✅' : '❌'}`);
+        console.log(`   Navegação: ${this.resultaçãos.pcp.navegacao ? '✅' : '❌'}`);
+        console.log(`   Métricas: ${this.resultaçãos.pcp.metricas ? '✅' : '❌'}`);
+        console.log(`   Filtros: ${this.resultaçãos.pcp.filtros ? '✅' : '❌'}`);
 
         console.log('\n⚡ Performance Geral:');
-        console.log(`   Performance: ${this.resultaçãos.geral.performance  '✅' : '❌'}`);
-        console.log(`   Compatibilidade: ${this.resultaçãos.geral.compatibilidade  '✅' : '❌'}`);
+        console.log(`   Performance: ${this.resultaçãos.geral.performance ? '✅' : '❌'}`);
+        console.log(`   Compatibilidade: ${this.resultaçãos.geral.compatibilidade ? '✅' : '❌'}`);
 
         console.log('\n' + '='.repeat(60));
         console.log(`🎯 RESULTADO FINAL: ${passedChecks}/${totalChecks} (${percentual}%)`);

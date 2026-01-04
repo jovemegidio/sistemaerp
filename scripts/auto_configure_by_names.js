@@ -1,5 +1,5 @@
 /**
- * Script para configurar permissões baseação na tabela funcionarios
+ * Script para configurar permissões baseado na tabela funcionarios
  */
 
 const http = require('http');
@@ -91,7 +91,7 @@ async function main() {
         const token = await login();
         console.log('✅ Login realização com sucesso');
         
-        console.log('\n⚙️  Configurando permissões baseação na tabela funcionarios...\n');
+        console.log('\n⚙️  Configurando permissões baseado na tabela funcionarios...\n');
         
         const result = await configureByNames(token);
         

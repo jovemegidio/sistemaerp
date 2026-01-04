@@ -1215,7 +1215,7 @@
                 
                 tbody.innerHTML = vendedores.map((v, i) => `
                     <tr>
-                        <td><span class="rank-badge ${i === 0  'gold' : i === 1  'silver' : i === 2  'bronze' : 'normal'}">${i + 1}</span></td>
+                        <td><span class="rank-badge ${i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'normal'}">${i + 1}</span></td>
                         <td>${v.nome || 'Vendedor'}</td>
                         <td>${v.vendas || v.qtd_pedidos || '-'}</td>
                         <td class="valor-cell">R$ ${(v.valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
@@ -1313,7 +1313,7 @@
                 
                 tbody.innerHTML = produtos.map((p, i) => `
                     <tr>
-                        <td><span class="rank-badge ${i === 0  'gold' : i === 1  'silver' : i === 2  'bronze' : 'normal'}">${i + 1}</span></td>
+                        <td><span class="rank-badge ${i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'normal'}">${i + 1}</span></td>
                         <td>
                             <div class="produto-info">
                                 <span class="produto-nome">${truncarTexto(p.nome, 35)}</span>
@@ -1833,10 +1833,10 @@
         // RELATÓRIO 1: VENDAS POR PERÍODO
         function gerarRelatorioVendasPeriodo(daçãos, periodoStr, dataAtual) {
             const pedidos = daçãos.pedidos || [];
-            const totalFaturação = pedidos.filter(p => p.status === 'faturação').reduce((sum, p) => sum + (parseFloat(p.valor) || 0), 0);
+            const totalFaturação = pedidos.filter(p => p.status === 'faturado').reduce((sum, p) => sum + (parseFloat(p.valor) || 0), 0);
             const totalPedidos = pedidos.length;
             const ticketMedio = totalPedidos > 0  totalFaturação / totalPedidos : 0;
-            const pedidosFaturaçãos = pedidos.filter(p => p.status === 'faturação').length;
+            const pedidosFaturaçãos = pedidos.filter(p => p.status === 'faturado').length;
             const taxaConversao = totalPedidos > 0  ((pedidosFaturaçãos / totalPedidos) * 100).toFixed(1) : 0;
 
             // Agrupar por dia
@@ -2038,8 +2038,8 @@
         <tbody>
             ${clientesAtivos.slice(0, 25).map((c, i) => {
                 const diasUltimoPedido = c.ultimoPedido  Math.floor((new Date() - c.ultimoPedido) / (1000 * 60 * 60 * 24)) : 999;
-                const status = diasUltimoPedido <= 30  'verde' : diasUltimoPedido <= 60  'amarelo' : 'vermelho';
-                const statusLabel = diasUltimoPedido <= 30  'Ativo' : diasUltimoPedido <= 60  'Atenção' : 'Inativo';
+                const status = diasUltimoPedido <= 30 ? 'verde' : diasUltimoPedido <= 60 ? 'amarelo' : 'vermelho';
+                const statusLabel = diasUltimoPedido <= 30 ? 'Ativo' : diasUltimoPedido <= 60 ? 'Atenção' : 'Inativo';
                 return `
                 <tr>
                     <td style="text-align: center;"><strong>${i + 1}</strong></td>
@@ -2083,7 +2083,7 @@
             const taxaComissao = 0.05;
             const vendedoresMap = {};
             
-            pedidos.filter(p => p.status === 'faturação').forEach(p => {
+            pedidos.filter(p => p.status === 'faturado').forEach(p => {
                 const vendedorNome = p.vendedor || p.vendedor_nome || 'Vendedor';
                 const vendedorId = p.vendedor_id || vendedorNome;
                 if (!vendedoresMap[vendedorId]) {
@@ -2208,7 +2208,7 @@
             const metaPorVendedor = metaGlobal / Math.max(vendedores.length, 5);
             
             const vendedoresMap = {};
-            pedidos.filter(p => p.status === 'faturação').forEach(p => {
+            pedidos.filter(p => p.status === 'faturado').forEach(p => {
                 const vendedorNome = p.vendedor || p.vendedor_nome || 'Vendedor';
                 const vendedorId = p.vendedor_id || vendedorNome;
                 if (!vendedoresMap[vendedorId]) {
@@ -2324,9 +2324,9 @@
         <tbody>
             ${vendedoresList.map((v, i) => {
                 const percentual = ((v.valor / v.meta) * 100).toFixed(1);
-                const corBarra = percentual >= 100  'verde' : percentual >= 70  'amarelo' : 'vermelho';
-                const statusLabel = percentual >= 100  'Atingido' : percentual >= 70  'Em Progresso' : 'Atenção';
-                const statusCor = percentual >= 100  'verde' : percentual >= 70  'amarelo' : 'vermelho';
+                const corBarra = percentual >= 100 ? 'verde' : percentual >= 70 ? 'amarelo' : 'vermelho';
+                const statusLabel = percentual >= 100 ? 'Atingido' : percentual >= 70 ? 'Em Progresso' : 'Atenção';
+                const statusCor = percentual >= 100 ? 'verde' : percentual >= 70 ? 'amarelo' : 'vermelho';
                 return `
                 <tr>
                     <td style="text-align: center;"><strong>${i + 1}</strong></td>
@@ -2368,7 +2368,7 @@
 
         function getStatusColor(status) {
             const cores = {
-                'faturação': 'verde',
+                'faturado': 'verde',
                 'aprovação': 'azul',
                 'analise': 'amarelo',
                 'orçamento': 'azul',
@@ -2379,7 +2379,7 @@
 
         function getStatusLabel(status) {
             const labels = {
-                'faturação': 'Faturação',
+                'faturado': 'Faturação',
                 'aprovação': 'Aprovação',
                 'analise': 'Em Análise',
                 'orçamento': 'Orçamento',

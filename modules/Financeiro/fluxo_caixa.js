@@ -303,12 +303,12 @@ function renderizarTabela() {
                 const isToday = data.getTime() === hoje.getTime();
                 
                 return `
-                    <tr class="${isPast  'período-passação' : isFuture  'período-futuro' : ''}">
+                    <tr class="${isPast ? 'período-passação' : isFuture ? 'período-futuro' : ''}">
                         <td>
                             <div class="data-destaque">
                                 ${formatarData(data)}
-                                ${isToday  '<span style="background: #3b82f6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">HOJE</span>' : ''}
-                                ${isFuture  '<span style="background: #f59e0b; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">PREVISÉO</span>' : ''}
+                                ${isToday ? '<span style="background: #3b82f6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">HOJE</span>' : ''}
+                                ${isFuture ? '<span style="background: #f59e0b; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">PREVISÉO</span>' : ''}
                             </div>
                             <small style="color: #64748b;">${getDiaSemana(data)}</small>
                         </td>
@@ -318,11 +318,11 @@ function renderizarTabela() {
                         <td class="text-right valor-negativo">
                             - R$ ${formatarMoeda(item.saidas)}
                         </td>
-                        <td class="text-right ${item.saldo >= 0  'valor-positivo' : 'valor-negativo'}">
-                            ${item.saldo >= 0  '+' : '-'} R$ ${formatarMoeda(Math.abs(item.saldo))}
+                        <td class="text-right ${item.saldo >= 0 ? 'valor-positivo' : 'valor-negativo'}">
+                            ${item.saldo >= 0 ? '+' : '-'} R$ ${formatarMoeda(Math.abs(item.saldo))}
                         </td>
                         <td class="text-right">
-                            <span class="saldo-acumulação ${item.saldo_acumulação >= 0  'valor-positivo' : 'valor-negativo'}">
+                            <span class="saldo-acumulação ${item.saldo_acumulação >= 0 ? 'valor-positivo' : 'valor-negativo'}">
                                 R$ ${formatarMoeda(Math.abs(item.saldo_acumulação))}
                             </span>
                         </td>
@@ -339,7 +339,7 @@ function renderizarTabela() {
                 <td class="text-right valor-negativo">
                     - R$ ${formatarMoeda(daçãosPeriodo.reduce((sum, d) => sum + d.saidas, 0))}
                 </td>
-                <td class="text-right ${daçãosPeriodo.reduce((sum, d) => sum + d.saldo, 0) >= 0  'valor-positivo' : 'valor-negativo'}">
+                <td class="text-right ${daçãosPeriodo.reduce((sum, d) => sum + d.saldo, 0) >= 0 ? 'valor-positivo' : 'valor-negativo'}">
                     R$ ${formatarMoeda(Math.abs(daçãosPeriodo.reduce((sum, d) => sum + d.saldo, 0)))}
                 </td>
                 <td class="text-right"></td>
@@ -377,13 +377,13 @@ function atualizarResumo() {
     
     // Atualizar UI
     document.getElementById('total-entradas').textContent = 'R$ ' + formatarMoeda(totalEntradas);
-    document.getElementById('qtd-entradas').textContent = `${qtdEntradas} lançamento${qtdEntradas !== 1  's' : ''}`;
+    document.getElementById('qtd-entradas').textContent = `${qtdEntradas} lançamento${qtdEntradas !== 1 ? 's' : ''}`;
     
     document.getElementById('total-saidas').textContent = 'R$ ' + formatarMoeda(totalSaidas);
-    document.getElementById('qtd-saidas').textContent = `${qtdSaidas} lançamento${qtdSaidas !== 1  's' : ''}`;
+    document.getElementById('qtd-saidas').textContent = `${qtdSaidas} lançamento${qtdSaidas !== 1 ? 's' : ''}`;
     
     document.getElementById('saldo-período').textContent = 'R$ ' + formatarMoeda(Math.abs(saldoPeriodo));
-    document.getElementById('variacao-período').textContent = saldoPeriodo >= 0  'Positivo' : 'Negativo';
+    document.getElementById('variacao-período').textContent = saldoPeriodo >= 0 ? 'Positivo' : 'Negativo';
     
     document.getElementById('projecao-30dias').textContent = 'R$ ' + formatarMoeda(Math.abs(projecao30dias));
 }

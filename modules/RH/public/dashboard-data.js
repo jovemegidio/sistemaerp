@@ -82,7 +82,7 @@ window.debugDashboard = function() {
     console.log('=== 🎯 DEBUG DO DASHBOARD ===');
     
     const dashboard = document.getElementById('dashboard-home') || document.getElementById('dashboard');
-    console.log('Dashboard encontrado:', dashboard  'SIM' : 'NÁO');
+    console.log('Dashboard encontrado:', dashboard ? 'SIM' : 'NÁO');
     
     if (dashboard) {
         console.log('Dashboard display:', getComputedStyle(dashboard).display);
@@ -91,7 +91,7 @@ window.debugDashboard = function() {
     }
     
     const grid = document.querySelector('.dashboard-grid');
-    console.log('Grid encontrado:', grid  'SIM' : 'NÁO');
+    console.log('Grid encontrado:', grid ? 'SIM' : 'NÁO');
     
     if (grid) {
         console.log('Grid display:', getComputedStyle(grid).display);

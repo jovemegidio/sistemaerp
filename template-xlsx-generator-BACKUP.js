@@ -19,7 +19,7 @@ class TemplateXLSXGenerator {
                     cell.value = value;
                     preenchidas++;
                     if (preenchidas === 1 && label) {
-                        console.log(`   ✅ ${label}: ${cellAddr} = ${value.toString().substring(0, 50)}${value.toString().length > 50  '...' : ''}`);
+                        console.log(`   ✅ ${label}: ${cellAddr} = ${value.toString().substring(0, 50)}${value.toString().length > 50 ? '...' : ''}`);
                     }
                 }
             } catch (e) {
@@ -365,8 +365,8 @@ class TemplateXLSXGenerator {
         console.log('\n🟦 APLICANDO DADOS NO TEMPLATE (PRESERVANDO FORMATAÇÁO)');
         console.log('📋 Daçãos recebidos:', {
             cliente: daçãosOrdem.cliente,
-            items_json: daçãosOrdem.items_json  'SIM' : 'NÁO',
-            produtos: daçãosOrdem.produtos  'SIM' : 'NÁO'
+            items_json: daçãosOrdem.items_json ? 'SIM' : 'NÁO',
+            produtos: daçãosOrdem.produtos ? 'SIM' : 'NÁO'
         });
         
         // CORRIGIR PROBLEMA: Converter items_json para produtos se necessário

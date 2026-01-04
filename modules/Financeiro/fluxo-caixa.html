@@ -795,7 +795,7 @@
             document.getElementById('entradasPrevistas').textContent = formatarMoeda(entradasPrev);
             document.getElementById('saidasPrevistas').textContent = formatarMoeda(saidasPrev);
             document.getElementById('saldoProjetação').textContent = formatarMoeda(saldoProjetação);
-            document.getElementById('saldoProjetação').className = 'kpi-value ' + (saldoProjetação >= 0  '' : 'red');
+            document.getElementById('saldoProjetação').className = 'kpi-value ' + (saldoProjetação >= 0 ? '' : 'red');
         }
 
         function renderizarResumoSemanal() {
@@ -814,11 +814,11 @@
                 const saldo = entradas - saidas;
 
                 html += `
-                    <div class="dia-card ${i === 0  'hoje' : ''}" onclick="verDetalhesDia('${dataStr}')">
+                    <div class="dia-card ${i === 0 ? 'hoje' : ''}" onclick="verDetalhesDia('${dataStr}')">
                         <div class="dia-semana">${diasSemana[dia.getDay()]}</div>
                         <div class="dia-numero">${dia.getDate()}</div>
-                        <div class="dia-valor ${saldo >= 0  'positivo' : 'negativo'}">
-                            ${saldo !== 0  (saldo > 0  '+' : '') + formatarMoeda(saldo) : '-'}
+                        <div class="dia-valor ${saldo >= 0 ? 'positivo' : 'negativo'}">
+                            ${saldo !== 0  (saldo > 0 ? '+' : '') + formatarMoeda(saldo) : '-'}
                         </div>
                     </div>
                 `;
@@ -983,7 +983,7 @@
             periodoAtual = periodo;
             document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            // Aqui atualizaria os daçãos baseação no período
+            // Aqui atualizaria os daçãos baseado no período
             console.log('Período alteração para:', periodo);
         }
 
@@ -1004,7 +1004,7 @@
             document.getElementById('diaEntradas').textContent = formatarMoeda(entradas);
             document.getElementById('diaSaidas').textContent = formatarMoeda(saidas);
             document.getElementById('diaSaldo').textContent = formatarMoeda(saldo);
-            document.getElementById('diaSaldo').className = 'valor ' + (saldo >= 0  'azul' : 'vermelho');
+            document.getElementById('diaSaldo').className = 'valor ' + (saldo >= 0 ? 'azul' : 'vermelho');
             
             // Renderizar lista de movimentações
             const listaContainer = document.getElementById('diaMovimentacoesLista');
@@ -1206,7 +1206,7 @@
             // Toast de sucesso
             const toast = document.createElement('div');
             toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #22c55e; color: white; padding: 16px 24px; border-radius: 10px; font-weight: 600; z-index: 10001; display: flex; align-items: center; gap: 10px; box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);';
-            toast.innerHTML = `<i class="fas fa-check-circle"></i> Projeção ${projecaoEditandoIndex !== null  'atualizada' : 'adicionada'} com sucesso!`;
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> Projeção ${projecaoEditandoIndex !== null ? 'atualizada' : 'adicionada'} com sucesso!`;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }

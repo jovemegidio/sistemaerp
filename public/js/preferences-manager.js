@@ -61,7 +61,7 @@
                 // Esconder seções vazias
                 sections.forEach(section => {
                     const visibleItems = section.querySelectorAll('.settings-item:not([style*="display: none"])');
-                    section.style.display = visibleItems.length > 0  '' : 'none';
+                    section.style.display = visibleItems.length > 0 ? '' : 'none';
                 });
             });
         },

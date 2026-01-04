@@ -42,7 +42,7 @@ if (!fs.existsSync(assetsDir)) {
 // Salvar SVG
 const svgPath = path.join(assetsDir, 'icon.svg');
 fs.writeFileSync(svgPath, svgIcon);
-console.log('✓ Ícone SVG criação:', svgPath);
+console.log('✓ Ícone SVG criado:', svgPath);
 
 // Tentar gerar ICO usando canvas (se disponível)
 try {
@@ -69,7 +69,7 @@ try {
     });
 } catch (e) {
     console.log('⚠ icon-gen não disponível');
-    console.log('O arquivo SVG foi criação em:', svgPath);
+    console.log('O arquivo SVG foi criado em:', svgPath);
     console.log('Converta para .ico usando: https://convertio.co/svg-ico/');
 }
 

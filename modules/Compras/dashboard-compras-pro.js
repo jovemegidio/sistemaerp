@@ -141,8 +141,8 @@ class ComprasDashboard {
                     <div class="metric-icon">
                         <i class="fas fa-shopping-cart"></i>
                     </div>
-                    <div class="metric-trend ${totalCompras.variacao >= 0  'positive' : 'negative'}">
-                        <i class="fas fa-arrow-${totalCompras.variacao >= 0  'up' : 'down'}"></i>
+                    <div class="metric-trend ${totalCompras.variacao >= 0 ? 'positive' : 'negative'}">
+                        <i class="fas fa-arrow-${totalCompras.variacao >= 0 ? 'up' : 'down'}"></i>
                         ${Math.abs(totalCompras.variacao).toFixed(1)}%
                     </div>
                 </div>

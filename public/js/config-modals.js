@@ -389,7 +389,7 @@ async function saveVendaProdutosConfig() {
             pedido_aprovação: form.querySelector('[name="etapa_pedido_aprovação"]').checked || false,
             analise_credito: form.querySelector('[name="etapa_analise_credito"]').checked || false,
             faturar: form.querySelector('[name="etapa_faturar"]').checked || false,
-            faturação: form.querySelector('[name="etapa_faturação"]').checked || false,
+            faturado: form.querySelector('[name="etapa_faturado"]').checked || false,
             entregue: form.querySelector('[name="etapa_entregue"]').checked || false
         },
         tabelas_preco: {
@@ -666,7 +666,7 @@ async function salvarCategoria() {
     
     try {
         const url = id  `/api/configuracoes/categorias/${id}` : '/api/configuracoes/categorias';
-        const method = id  'PUT' : 'POST';
+        const method = id ? 'PUT' : 'POST';
         
         const response = await fetch(url, {
             method: method,
@@ -675,7 +675,7 @@ async function salvarCategoria() {
         });
         
         if (response.ok) {
-            showNotification(id  'Categoria atualizada com sucesso!' : 'Categoria criada com sucesso!', 'success');
+            showNotification(id ? 'Categoria atualizada com sucesso!' : 'Categoria criada com sucesso!', 'success');
             closeConfigModal('modal-categoria-form');
             loadCategoriasData(); // Recarregar lista
         } else {
@@ -844,7 +844,7 @@ async function salvarDepartamento() {
     
     try {
         const url = id  `/api/configuracoes/departamentos/${id}` : '/api/configuracoes/departamentos';
-        const method = id  'PUT' : 'POST';
+        const method = id ? 'PUT' : 'POST';
         
         const response = await fetch(url, {
             method: method,
@@ -853,7 +853,7 @@ async function salvarDepartamento() {
         });
         
         if (response.ok) {
-            showNotification(id  'Departamento atualização com sucesso!' : 'Departamento criação com sucesso!', 'success');
+            showNotification(id ? 'Departamento atualização com sucesso!' : 'Departamento criado com sucesso!', 'success');
             closeConfigModal('modal-departamento-form');
             loadDepartamentosData(); // Recarregar lista
         } else {
@@ -1043,7 +1043,7 @@ async function salvarProjeto() {
     
     try {
         const url = id  `/api/configuracoes/projetos/${id}` : '/api/configuracoes/projetos';
-        const method = id  'PUT' : 'POST';
+        const method = id ? 'PUT' : 'POST';
         
         const response = await fetch(url, {
             method: method,
@@ -1052,7 +1052,7 @@ async function salvarProjeto() {
         });
         
         if (response.ok) {
-            showNotification(id  'Projeto atualização com sucesso!' : 'Projeto criação com sucesso!', 'success');
+            showNotification(id ? 'Projeto atualização com sucesso!' : 'Projeto criado com sucesso!', 'success');
             closeConfigModal('modal-projeto-form');
             loadProjetosData(); // Recarregar lista
         } else {
@@ -1346,7 +1346,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nfeStatus = document.getElementById('nfe-status-info');
     if (nfeToggle && nfeStatus) {
         nfeToggle.addEventListener('change', function() {
-            nfeStatus.style.display = this.checked  'block' : 'none';
+            nfeStatus.style.display = this.checked ? 'block' : 'none';
         });
     }
 
@@ -2306,7 +2306,7 @@ function displayContratos(contratos) {
         <tr>
             <td><strong>${c.nome || ''}</strong></td>
             <td>${c.tipo || ''}</td>
-            <td><span class="status-badge ${c.ativo  'status-ativo' : 'status-inativo'}">${c.ativo  'Ativo' : 'Inativo'}</span></td>
+            <td><span class="status-badge ${c.ativo ? 'status-ativo' : 'status-inativo'}">${c.ativo ? 'Ativo' : 'Inativo'}</span></td>
             <td class="config-actions">
                 <button class="config-btn-icon" onclick="editarContrato(${c.id})" title="Editar"><i class="fas fa-edit"></i></button>
                 <button class="config-btn-icon" onclick="visualizarContrato(${c.id})" title="Visualizar"><i class="fas fa-eye"></i></button>
@@ -2532,19 +2532,19 @@ function renderizarPaginacaoFuncionarios(total) {
     }
     
     let html = '';
-    html += `<button class="config-btn-icon" onclick="funcionariosPagina = 1; renderizarFuncionarios()" ${funcionariosPagina === 1  'disabled' : ''}><i class="fas fa-angle-double-left"></i></button>`;
-    html += `<button class="config-btn-icon" onclick="funcionariosPagina--; renderizarFuncionarios()" ${funcionariosPagina === 1  'disabled' : ''}><i class="fas fa-angle-left"></i></button>`;
+    html += `<button class="config-btn-icon" onclick="funcionariosPagina = 1; renderizarFuncionarios()" ${funcionariosPagina === 1 ? 'disabled' : ''}><i class="fas fa-angle-double-left"></i></button>`;
+    html += `<button class="config-btn-icon" onclick="funcionariosPagina--; renderizarFuncionarios()" ${funcionariosPagina === 1 ? 'disabled' : ''}><i class="fas fa-angle-left"></i></button>`;
     
     for (let i = 1; i <= totalPaginas; i++) {
         if (i === 1 || i === totalPaginas || (i >= funcionariosPagina - 1 && i <= funcionariosPagina + 1)) {
-            html += `<button class="config-btn-icon ${i === funcionariosPagina  'active' : ''}" onclick="funcionariosPagina = ${i}; renderizarFuncionarios()">${i}</button>`;
+            html += `<button class="config-btn-icon ${i === funcionariosPagina ? 'active' : ''}" onclick="funcionariosPagina = ${i}; renderizarFuncionarios()">${i}</button>`;
         } else if (i === funcionariosPagina - 2 || i === funcionariosPagina + 2) {
             html += `<span style="padding: 0 5px;">...</span>`;
         }
     }
     
-    html += `<button class="config-btn-icon" onclick="funcionariosPagina++; renderizarFuncionarios()" ${funcionariosPagina === totalPaginas  'disabled' : ''}><i class="fas fa-angle-right"></i></button>`;
-    html += `<button class="config-btn-icon" onclick="funcionariosPagina = ${totalPaginas}; renderizarFuncionarios()" ${funcionariosPagina === totalPaginas  'disabled' : ''}><i class="fas fa-angle-double-right"></i></button>`;
+    html += `<button class="config-btn-icon" onclick="funcionariosPagina++; renderizarFuncionarios()" ${funcionariosPagina === totalPaginas ? 'disabled' : ''}><i class="fas fa-angle-right"></i></button>`;
+    html += `<button class="config-btn-icon" onclick="funcionariosPagina = ${totalPaginas}; renderizarFuncionarios()" ${funcionariosPagina === totalPaginas ? 'disabled' : ''}><i class="fas fa-angle-double-right"></i></button>`;
     
     container.innerHTML = html;
 }
@@ -2651,7 +2651,7 @@ async function salvarFuncionario(event) {
     try {
         const id = daçãos.id;
         const url = id  `/api/rh/funcionarios/${id}` : '/api/rh/funcionarios';
-        const method = id  'PUT' : 'POST';
+        const method = id ? 'PUT' : 'POST';
         
         const response = await fetch(url, {
             method,
@@ -2665,14 +2665,14 @@ async function salvarFuncionario(event) {
         if (response.ok) {
             fecharModal('modal-form-funcionario');
             await carregarFuncionariosCompleto();
-            showToast(id  'Funcionário atualização com sucesso!' : 'Funcionário cadastração com sucesso!', 'success');
+            showToast(id ? 'Funcionário atualização com sucesso!' : 'Funcionário cadastração com sucesso!', 'success');
             
             // Registrar no audit log
-            registrarAuditFrontend(id  'editar' : 'criar', 'rh', `${id  'Editou' : 'Criou'} funcionário: ${daçãos.nome}`);
+            registrarAuditFrontend(id ? 'editar' : 'criar', 'rh', `${id ? 'Editou' : 'Criou'} funcionário: ${daçãos.nome}`);
             
             // Registrar na central de notificações
             if (window.registrarAcao) {
-                window.registrarAcao(id  'editar' : 'criar', 'rh', `Funcionário: ${daçãos.nome}`);
+                window.registrarAcao(id ? 'editar' : 'criar', 'rh', `Funcionário: ${daçãos.nome}`);
             }
         } else {
             const error = await response.json();
@@ -2927,19 +2927,19 @@ function atualizarPaginacaoHistorico(total) {
         }
         
         let html = '';
-        html += `<button class="config-btn-icon" onclick="historicoPagina = 1; renderizarHistorico()" ${historicoPagina === 1  'disabled' : ''}><i class="fas fa-angle-double-left"></i></button>`;
-        html += `<button class="config-btn-icon" onclick="historicoPagina--; renderizarHistorico()" ${historicoPagina === 1  'disabled' : ''}><i class="fas fa-angle-left"></i></button>`;
+        html += `<button class="config-btn-icon" onclick="historicoPagina = 1; renderizarHistorico()" ${historicoPagina === 1 ? 'disabled' : ''}><i class="fas fa-angle-double-left"></i></button>`;
+        html += `<button class="config-btn-icon" onclick="historicoPagina--; renderizarHistorico()" ${historicoPagina === 1 ? 'disabled' : ''}><i class="fas fa-angle-left"></i></button>`;
         
         for (let i = 1; i <= Math.min(5, totalPaginas); i++) {
             const pagina = i <= 3  i : (i === 4 ? totalPaginas - 1 : totalPaginas);
             if (i === 4 && totalPaginas > 5) {
                 html += `<button class="config-btn-icon" disabled>...</button>`;
             }
-            html += `<button class="config-btn-icon ${pagina === historicoPagina  'active' : ''}" style="${pagina === historicoPagina  'background: #3498db; color: white;' : ''}" onclick="historicoPagina = ${pagina}; renderizarHistorico()">${pagina}</button>`;
+            html += `<button class="config-btn-icon ${pagina === historicoPagina ? 'active' : ''}" style="${pagina === historicoPagina ? 'background: #3498db; color: white;' : ''}" onclick="historicoPagina = ${pagina}; renderizarHistorico()">${pagina}</button>`;
         }
         
-        html += `<button class="config-btn-icon" onclick="historicoPagina++; renderizarHistorico()" ${historicoPagina === totalPaginas  'disabled' : ''}><i class="fas fa-angle-right"></i></button>`;
-        html += `<button class="config-btn-icon" onclick="historicoPagina = ${totalPaginas}; renderizarHistorico()" ${historicoPagina === totalPaginas  'disabled' : ''}><i class="fas fa-angle-double-right"></i></button>`;
+        html += `<button class="config-btn-icon" onclick="historicoPagina++; renderizarHistorico()" ${historicoPagina === totalPaginas ? 'disabled' : ''}><i class="fas fa-angle-right"></i></button>`;
+        html += `<button class="config-btn-icon" onclick="historicoPagina = ${totalPaginas}; renderizarHistorico()" ${historicoPagina === totalPaginas ? 'disabled' : ''}><i class="fas fa-angle-double-right"></i></button>`;
         
         paginacaoDiv.innerHTML = html;
     }

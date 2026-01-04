@@ -180,7 +180,7 @@ module.exports = function({ pool, authenticateToken }) {
                 FROM esocial_eventos e
                 LEFT JOIN rh_funcionarios f ON e.funcionario_id = f.id
                 ${where}
-                ORDER BY e.criação_em DESC
+                ORDER BY e.criado_em DESC
                 LIMIT  OFFSET 
             `, [...params, parseInt(limit), offset]);
 
@@ -248,7 +248,7 @@ module.exports = function({ pool, authenticateToken }) {
 
             res.json({
                 success: true,
-                message: 'Evento criação',
+                message: 'Evento criado',
                 data: { id: result.insertId, tipo_evento }
             });
         } catch (error) {
@@ -395,7 +395,7 @@ module.exports = function({ pool, authenticateToken }) {
 
             res.json({
                 success: true,
-                message: 'Evento S-2200 (Admissão) criação',
+                message: 'Evento S-2200 (Admissão) criado',
                 data: { 
                     evento_id: result.insertId, 
                     funcionario: funcionario.nome 
@@ -482,7 +482,7 @@ module.exports = function({ pool, authenticateToken }) {
 
             res.json({
                 success: true,
-                message: 'Evento S-2299 (Desligamento) criação',
+                message: 'Evento S-2299 (Desligamento) criado',
                 data: { 
                     evento_id: result.insertId, 
                     funcionario: funcionario.nome,
@@ -577,7 +577,7 @@ module.exports = function({ pool, authenticateToken }) {
 
             res.json({
                 success: true,
-                message: `${eventosGeraçãos.length} evento(s) S-1200 criação(s)`,
+                message: `${eventosGeraçãos.length} evento(s) S-1200 criado(s)`,
                 data: eventosGeraçãos
             });
         } catch (error) {

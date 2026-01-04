@@ -69,7 +69,7 @@ async function runMigration() {
             ORDER BY INDEX_NAME, SEQ_IN_INDEX
         `);
         
-        console.log('[MIGRATION] Índices criaçãos:');
+        console.log('[MIGRATION] Índices criados:');
         console.table(indexes);
         
     } catch (error) {

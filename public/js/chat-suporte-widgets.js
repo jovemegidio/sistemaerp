@@ -69,7 +69,7 @@
     }
 
     /**
-     * Carrega os widgets baseação no email do usuário
+     * Carrega os widgets baseado no email do usuário
      */
     function loadWidgetsBasedOnUser(userEmail) {
         const email = userEmail.toLowerCase().trim();

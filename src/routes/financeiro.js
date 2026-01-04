@@ -128,7 +128,7 @@ function authorizeFinanceiro(section) {
 
 /**
  * GET /api/financeiro/dashboard
- * Retorna estatísticas do dashboard baseação nas permissões do usuário
+ * Retorna estatísticas do dashboard baseado nas permissões do usuário
  */
 router.get('/dashboard', authenticateToken, authorizeFinanceiro('dashboard'), async (req, res) => {
     try {

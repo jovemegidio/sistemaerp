@@ -89,7 +89,7 @@ const fs = require('fs');
       // generate valid cpf and update
       const cpf = generateCPF()
       // if telefone missing, create one
-      const telefone = user.telefone && user.telefone.toString().trim()  user.telefone : (Math.random() > 0.5  '9' : '') + (Math.floor(100000000 + Math.random() * 900000000)).toString()
+      const telefone = user.telefone && user.telefone.toString().trim()  user.telefone : (Math.random() > 0.5 ? '9' : '') + (Math.floor(100000000 + Math.random() * 900000000)).toString()
 
       // Update in DB: foto_perfil_url, cpf, telefone, forcar_troca_senha
       const updateSql = 'UPDATE funcionarios SET foto_perfil_url = , cpf = , telefone = , forcar_troca_senha = 1 WHERE id = '

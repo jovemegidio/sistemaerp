@@ -25,7 +25,7 @@ const mysql = require('mysql2/promise');
       const u = rows[0]
       const old = u.foto_perfil_url || ''
       const [res] = await db.execute('UPDATE funcionarios SET foto_perfil_url =  WHERE id = ', [fotoUrl, u.id])
-      report.push([u.id, nome, old, fotoUrl, res.affectedRows > 0  'updated' : 'no_change'].join(','))
+      report.push([u.id, nome, old, fotoUrl, res.affectedRows > 0 ? 'updated' : 'no_change'].join(','))
     }
     fs.writeFileSync('scripts/manual_photo_map_applied.csv', report.join('\n'))
     console.log('Done. Report: scripts/manual_photo_map_applied.csv')

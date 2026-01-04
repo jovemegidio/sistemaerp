@@ -234,7 +234,7 @@ app.get('/api/health', (req, res) => {
     res.json({
         status: 'ok',
         uptime: process.uptime(),
-        db: DB_AVAILABLE  'connected' : 'disconnected',
+        db: DB_AVAILABLE ? 'connected' : 'disconnected',
         memory: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB'
     });
 });

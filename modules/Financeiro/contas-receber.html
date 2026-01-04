@@ -1284,11 +1284,11 @@
         function renderizarPaginacao(total) {
             const totalPaginas = Math.ceil(total / itensPorPagina);
             const container = document.getElementById('paginationControls');
-            let html = `<button class="pagination-btn" onclick="mudarPagina(${paginaAtual - 1})" ${paginaAtual === 1  'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
+            let html = `<button class="pagination-btn" onclick="mudarPagina(${paginaAtual - 1})" ${paginaAtual === 1 ? 'disabled' : ''}><i class="fas fa-chevron-left"></i></button>`;
             for (let i = 1; i <= totalPaginas; i++) {
-                html += `<button class="pagination-btn ${i === paginaAtual  'active' : ''}" onclick="mudarPagina(${i})">${i}</button>`;
+                html += `<button class="pagination-btn ${i === paginaAtual ? 'active' : ''}" onclick="mudarPagina(${i})">${i}</button>`;
             }
-            html += `<button class="pagination-btn" onclick="mudarPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas  'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
+            html += `<button class="pagination-btn" onclick="mudarPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas ? 'disabled' : ''}><i class="fas fa-chevron-right"></i></button>`;
             container.innerHTML = html;
         }
 

@@ -133,11 +133,11 @@
             const sessionData = sessionStorage.getItem('userData');
 
             document.getElementById('authTokenStatus').textContent = 
-                authToken  ' Presente' : ' Ausente';
+                authToken ? ' Presente' : ' Ausente';
             document.getElementById('userDataStatus').textContent = 
-                userData  ' Presente' : ' Ausente';
+                userData ? ' Presente' : ' Ausente';
             document.getElementById('sessionStatus').textContent = 
-                sessionData  ' Presente' : ' Ausente';
+                sessionData ? ' Presente' : ' Ausente';
         }
 
         // Limpar toda a sesso

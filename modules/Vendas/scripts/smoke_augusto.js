@@ -23,7 +23,7 @@ const fetch = require('node-fetch');
     });
     if (!create.ok) return console.error('Criação falhou', await create.text());
     const createData = await create.json();
-    console.log('Pedido criação id=', createData.insertedId || createData.insertId);
+    console.log('Pedido criado id=', createData.insertedId || createData.insertId);
 
     // editar
     const id = createData.insertedId || createData.insertId;

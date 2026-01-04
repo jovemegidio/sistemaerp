@@ -87,7 +87,7 @@ async function updateVendasPermissions() {
 
     usuarios.forEach(user => {
         const perms = user.permissoes_vendas ? JSON.parse(user.permissoes_vendas) : null;
-        const access = user.is_admin  '👑 Admin (acesso total)' : (perms  '✅ Acesso concedido' : '❌ Sem acesso');
+        const access = user.is_admin ? '👑 Admin (acesso total)' : (perms ? '✅ Acesso concedido' : '❌ Sem acesso');
         console.log(`${user.nome} (${user.email || user.login}) - ${access}`);
     });
 

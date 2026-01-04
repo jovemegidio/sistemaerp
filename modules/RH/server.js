@@ -199,7 +199,7 @@ app.get(['/area-admin.html', '/area-admin'], (req, res) => {
   return res.redirect(301, '/areaadm.html')
 })
 
-// Redirecionamento inteligente baseação em permissões
+// Redirecionamento inteligente baseado em permissões
 app.get('/area.html', (req, res) => {
   // Verificar se é admin/RH (redireciona para novo portal funcionário)
   // Para compatibilidade, manter o area.html original mas recomendar funcionario.html
@@ -333,7 +333,7 @@ app.post('/api/login', loginLimiter, (req, res) => {
     const isAdminByUser = adminUsers.includes(emailPart)
     const isAdmin = isAdminByRole || isAdminByUser
     
-    const accessRole = isAdmin  'admin' : 'funcionario'
+    const accessRole = isAdmin ? 'admin' : 'funcionario'
 
     const { senha, ...safeUser } = usuario
     safeUser.role = accessRole
@@ -906,13 +906,13 @@ app.post('/api/avisos', authMiddleware, (req, res) => {
     db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id =  LIMIT 1', [insertedId], (sErr, rows) => {
       if (sErr) {
         logger.error('Erro ao buscar aviso inserido:', sErr)
-        return res.status(201).json({ message: 'Aviso criação.', id: insertedId })
+        return res.status(201).json({ message: 'Aviso criado.', id: insertedId })
       }
       const row = (rows && rows[0])  rows[0] : null
       const aviso = row  { id: row.id, titulo: row.titulo, mensagem: row.mensagem, created_at: row.created_at } : { id: insertedId, titulo, mensagem, created_at: new Date() }
       // broadcast to SSE clients (non-blocking) with explicit action
       try { broadcastAviso({ ...aviso, action: 'created' }) } catch (e) { logger.warn('Broadcast aviso falhou:', e) }
-      return res.status(201).json({ message: 'Aviso criação.', aviso })
+      return res.status(201).json({ message: 'Aviso criado.', aviso })
     })
   })
 })
@@ -1410,7 +1410,7 @@ app.post('/api/rh/centro-custo', authMiddleware, async (req, res) => {
       [código, descricao, departamento || null, responsavel_id || null, orçamento_mensal || null]
     );
 
-    res.status(201).json({ id: result.insertId, message: 'Centro de custo criação com sucesso' });
+    res.status(201).json({ id: result.insertId, message: 'Centro de custo criado com sucesso' });
   } catch (error) {
     logger.error('Erro ao criar centro de custo:', error);
     if (error.code === 'ER_DUP_ENTRY') {
@@ -2535,7 +2535,7 @@ app.post('/api/rh/folha/calcular', authMiddleware, async (req, res) => {
     
     res.json({ 
       success: true, 
-      holerites_criaçãos: holeritesCriaçãos 
+      holerites_criados: holeritesCriaçãos 
     });
   } catch (error) {
     logger.error('Erro ao calcular folha:', error);

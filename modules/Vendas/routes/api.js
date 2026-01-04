@@ -145,7 +145,7 @@ router.get('/pedidos', authenticateToken, async (req, res) => {
                 p.vendedor_id,
                 p.cliente_id,
                 p.created_at as data_pedido,
-                p.faturação_em,
+                p.faturado_em,
                 p.frete,
                 p.redespacho,
                 p.observacao,
@@ -251,7 +251,7 @@ router.post('/pedidos', authenticateToken, async (req, res) => {
             prazo_entrega, endereco_entrega, municipio_entrega, metodo_envio
         ]);
         
-        res.json({ success: true, id: result.insertId, message: 'Pedido criação com sucesso' });
+        res.json({ success: true, id: result.insertId, message: 'Pedido criado com sucesso' });
     } catch (error) {
         console.error('Error creating pedido:', error);
         res.status(500).json({
@@ -408,7 +408,7 @@ router.post('/clientes', authenticateToken, async (req, res) => {
         // TODO: Criar novo cliente no banco
         res.json({
             success: true,
-            message: 'Cliente criação com sucesso',
+            message: 'Cliente criado com sucesso',
             clienteId: 1
         });
     } catch (error) {
@@ -1377,7 +1377,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
         
         if (itens.length > 0) {
             itens.forEach((item, idx) => {
-                const bgColor = idx % 2 === 0  '#fff' : corClara;
+                const bgColor = idx % 2 === 0 ? '#fff' : corClara;
                 doc.rect(40, yPos, 515, 20).fillColor(bgColor).fill();
                 doc.rect(40, yPos, 515, 20).strokeColor('#e2e8f0').lineWidth(0.5).stroke();
                 

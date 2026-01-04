@@ -257,7 +257,7 @@ module.exports = function({ pool, authenticateToken, io }) {
                 LEFT JOIN usuarios us ON sa.solicitante_id = us.id
                 LEFT JOIN usuarios ua ON sa.aprovaçãor_id = ua.id
                 WHERE ${where}
-                ORDER BY sa.criação_em DESC
+                ORDER BY sa.criado_em DESC
             `, params);
             
             // Enriquecer com daçãos do registro original
@@ -466,12 +466,12 @@ module.exports = function({ pool, authenticateToken, io }) {
             }
             
             if (data_inicio) {
-                where += ' AND sa.criação_em >= ';
+                where += ' AND sa.criado_em >= ';
                 params.push(data_inicio);
             }
             
             if (data_fim) {
-                where += ' AND sa.criação_em <= ';
+                where += ' AND sa.criado_em <= ';
                 params.push(data_fim);
             }
             
@@ -486,7 +486,7 @@ module.exports = function({ pool, authenticateToken, io }) {
                 LEFT JOIN usuarios us ON sa.solicitante_id = us.id
                 LEFT JOIN usuarios ua ON sa.aprovaçãor_id = ua.id
                 WHERE ${where}
-                ORDER BY sa.criação_em DESC
+                ORDER BY sa.criado_em DESC
                 LIMIT  OFFSET 
             `, [...params, parseInt(limit), offset]);
             

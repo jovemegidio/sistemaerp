@@ -123,7 +123,7 @@ function setupSearchFunctionality() {
         }
     });
     
-    // Placeholder dinâmico baseação na seção ativa
+    // Placeholder dinâmico baseado na seção ativa
     updateSearchPlaceholder();
     
     console.log('✅ Funcionalidade de pesquisa configurada');
@@ -142,7 +142,7 @@ function performSearch(query) {
         }, 2000);
     }
     
-    // Determinar contexto da pesquisa baseação na seção ativa
+    // Determinar contexto da pesquisa baseado na seção ativa
     const activeSection = document.querySelector('.content-section.active') || document.querySelector('.content-section[style*="block"]');
     let searchContext = 'geral';
     
@@ -216,7 +216,7 @@ function globalSearch(query) {
     // Implementar pesquisa global aqui
 }
 
-// Atualizar placeholder da pesquisa baseação na seção
+// Atualizar placeholder da pesquisa baseado na seção
 function updateSearchPlaceholder() {
     const searchInput = document.getElementById('global-search-input');
     if (!searchInput) return;
@@ -356,7 +356,7 @@ function toggleUserDropdown() {
     }
     
     const isVisible = dropdown.style.display === 'block';
-    dropdown.style.display = isVisible  'none' : 'block';
+    dropdown.style.display = isVisible ? 'none' : 'block';
 }
 
 // Criar dropdown do usuário
