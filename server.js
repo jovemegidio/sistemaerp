@@ -280,6 +280,29 @@ app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// 🔍 Endpoint de diagnóstico do banco de dados
+app.get('/api/db-check', async (req, res) => {
+    try {
+        const pool = require('./src/database').pool || global.pool;
+        if (!pool) {
+            return res.status(500).json({ status: 'error', message: 'Pool não inicializado' });
+        }
+        const [rows] = await pool.query('SELECT COUNT(*) as total FROM usuarios');
+        res.json({ 
+            status: 'ok', 
+            database: 'connected',
+            usuarios_count: rows[0].total,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            status: 'error', 
+            message: error.message,
+            code: error.code
+        });
+    }
+});
+
 // reference to the running http.Server (set when app.listen is called)
 let serverInstance = null;
 let chatServerProcess = null;
