@@ -964,8 +964,8 @@ apiVendasRouter.get('/dashboard/admin', async (req, res, next) => {
 
         // Taxa de conversão
         const totalOrcamentos = metricsRows[0].total_orcamentos || 0;
-        const totalFaturação = metricsRows[0].total_faturado || 0;
-        const taxaConversao = totalOrcamentos > 0  ((totalFaturação / totalOrcamentos) * 100).toFixed(2) : 0;
+        const totalFaturado = metricsRows[0].total_faturado || 0;
+        const taxaConversao = totalOrcamentos > 0 ? ((totalFaturado / totalOrcamentos) * 100).toFixed(2) : 0;
 
         res.json({
             período: parseInt(período),
@@ -1046,8 +1046,8 @@ apiVendasRouter.get('/dashboard/vendedor', async (req, res, next) => {
 
         // Taxa de conversão pessoal
         const totalOrcamentos = metricsRows[0].total_orcamentos || 0;
-        const totalFaturação = metricsRows[0].total_faturado || 0;
-        const taxaConversao = totalOrcamentos > 0  ((totalFaturação / totalOrcamentos) * 100).toFixed(2) : 0;
+        const totalFaturado = metricsRows[0].total_faturado || 0;
+        const taxaConversao = totalOrcamentos > 0 ? ((totalFaturado / totalOrcamentos) * 100).toFixed(2) : 0;
 
         // Meta simulada (pode vir de tabela de metas futuramente)
         const metaMensal = 100000; // R$ 100k como exemplo
@@ -1187,7 +1187,7 @@ apiVendasRouter.get('/pedidos/filtro-avancação', async (req, res, next) => {
             params.push(valor_max);
         }
 
-        // se usuário não é admin, restringe resultaçãos aos pedidos atribuídos a ele ou sem vendedor
+        // se usuário não é admin, restringe resultados aos pedidos atribuídos a ele ou sem vendedor
         const user = req.user || {};
         const isAdmin = user.is_admin === true || user.is_admin === 1 || (user.role && user.role.toString().toLowerCase() === 'admin');
         if (!isAdmin) {
@@ -2276,7 +2276,7 @@ apiVendasRouter.get('/empresas/:id/details', async (req, res, next) => {
             pool.query('SELECT * FROM empresas WHERE id = ', [id]),
             pool.query(`SELECT 
                 COUNT(*) AS totalPedidos, 
-                COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturação, 
+                COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturado, 
                 COALESCE(AVG(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS ticketMedio 
                 FROM pedidos WHERE empresa_id = `, [id]),
             pool.query('SELECT id, valor, status, created_at FROM pedidos WHERE empresa_id =  ORDER BY created_at DESC', [id]),
@@ -2288,7 +2288,7 @@ apiVendasRouter.get('/empresas/:id/details', async (req, res, next) => {
 
         res.json({
             details,
-            kpis: kpisResult[0][0] || { totalPedidos: 0, totalFaturação: 0, ticketMedio: 0 },
+            kpis: kpisResult[0][0] || { totalPedidos: 0, totalFaturado: 0, ticketMedio: 0 },
             pedidos: pedidosResult[0] || [],
             clientes: clientesResult[0] || []
         });
@@ -2379,8 +2379,8 @@ apiVendasRouter.get('/clientes-empresas/search', async (req, res, next) => {
             [query, query, query]
         );
         
-        // Combinar resultaçãos: empresas primeiro, depois clientes
-        const resultaçãos = [
+        // Combinar resultados: empresas primeiro, depois clientes
+        const resultados = [
             ...empresas.map(e => ({
                 id: e.id,
                 nome: e.nome_fantasia || e.razao_social || e.nome,
@@ -2398,7 +2398,7 @@ apiVendasRouter.get('/clientes-empresas/search', async (req, res, next) => {
             }))
         ];
         
-        res.json(resultaçãos);
+        res.json(resultados);
     } catch (error) {
         next(error);
     }
@@ -2807,7 +2807,7 @@ apiVendasRouter.get('/dashboard-stats', authorizeAdmin, async (req, res, next) =
 
         const query = `
             SELECT 
-                COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturaçãoMes,
+                COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturadoMes,
                 COUNT(CASE WHEN status IN ('orçamento', 'analise', 'aprovação') THEN 1 END) AS pedidosPendentes,
                 COUNT(CASE WHEN status = 'orçamento' THEN 1 END) AS orçamentosAberto,
                 (SELECT COUNT(*) FROM empresas WHERE created_at >= DATE_FORMAT(NOW(), '%Y-%m-01')) AS novosClientesMes

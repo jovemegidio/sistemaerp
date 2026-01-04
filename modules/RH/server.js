@@ -1296,7 +1296,7 @@ app.get('/api/rh/dashboard/kpis', authMiddleware, async (req, res) => {
 
     // Cálculo de turnover (simplificação)
     const headcountMedio = totalAtivos[0].total;
-    const turnoverMes = headcountMedio > 0  ((desligamentos[0].total / headcountMedio) * 100).toFixed(2) : 0;
+    const turnoverMes = headcountMedio > 0 ? ((desligamentos[0].total / headcountMedio) * 100).toFixed(2) : 0;
 
     // Distribuição por departamento
     const distribuicaoDepartamento = await dbQuery(
@@ -3506,15 +3506,15 @@ app.post('/api/rh/pdi/criar', authMiddleware, async (req, res) => {
 
 // 13. Atualizar progresso PDI
 app.put('/api/rh/pdi/:id/progresso', authMiddleware, async (req, res) => {
-  const { percentual_conclusao, resultação_obtido, status } = req.body;
+  const { percentual_conclusao, resultado_obtido, status } = req.body;
   try {
     const dataField = status === 'CONCLUIDO'  ', data_conclusao = CURDATE()' : '';
     
     await pool.query(`
       UPDATE rh_pdi 
-      SET percentual_conclusao = , resultação_obtido = , status =  ${dataField}
+      SET percentual_conclusao = , resultado_obtido = , status =  ${dataField}
       WHERE id = 
-    `, [percentual_conclusao, resultação_obtido, status, req.params.id]);
+    `, [percentual_conclusao, resultado_obtido, status, req.params.id]);
     
     res.json({ success: true });
   } catch (error) {

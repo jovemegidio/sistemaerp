@@ -510,7 +510,7 @@ async function sendEmail(to, subject, html, text) {
 // 3. MIDDLEWARES DE AUTORIZAÇÁO (declaraçãos antes de serem usaçãos)
 // =================================================================
 
-// Middleware para validar resultação das validações
+// Middleware para validar resultado das validações
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -1960,7 +1960,7 @@ const authenticateToken = (req, res, next) => {
         hasCookie: !!req.cookies.token, 
         hasAuthCookie: !!req.cookies.authToken,
         tokenExists: !!token,
-        tokenSource: token  (req.cookies.authToken ? 'cookie' : authHeader ? 'header' : 'query') : 'none'
+        tokenSource: token ? (req.cookies.authToken ? 'cookie' : authHeader ? 'header' : 'query') : 'none'
     });
     
     if (!token) {
@@ -2846,8 +2846,8 @@ apiFinanceiroRouter.get('/dashboard-kpis', async (req, res, next) => {
         const receita_mes = receitas[0].total;
         const despesa_mes = despesas[0].total;
         const lucro_mes = receita_mes - despesa_mes;
-        const margem_lucro = receita_mes > 0  ((lucro_mes / receita_mes) * 100).toFixed(2) : 0;
-        const inadimplencia = receita_mes > 0  ((atrasadas[0].valor_total / receita_mes) * 100).toFixed(2) : 0;
+        const margem_lucro = receita_mes > 0 ? ((lucro_mes / receita_mes) * 100).toFixed(2) : 0;
+        const inadimplencia = receita_mes > 0 ? ((atrasadas[0].valor_total / receita_mes) * 100).toFixed(2) : 0;
 
         res.json({
             success: true,
@@ -3061,11 +3061,11 @@ apiFinanceiroRouter.get('/relatorios/dre', async (req, res, next) => {
                     categorias: despesas,
                     total: total_despesas
                 },
-                resultação: {
+                resultado: {
                     lucro_bruto: total_receitas,
                     despesas_operacionais: total_despesas,
                     lucro_liquido: lucro_liquido,
-                    margem_liquida: total_receitas > 0  ((lucro_liquido / total_receitas) * 100).toFixed(2) + '%' : '0%'
+                    margem_liquida: total_receitas > 0 ? ((lucro_liquido / total_receitas) * 100).toFixed(2) + '%' : '0%'
                 }
             }
         });
@@ -3333,7 +3333,7 @@ apiFinanceiroRouter.get('/busca-global', async (req, res, next) => {
     try {
         const { q: _q } = req.query; // query param accepted but not used in this stub
         res.json({
-            resultaçãos: [
+            resultados: [
                 { tipo: 'cliente', nome: 'Empresa X', id: 1 },
                 { tipo: 'conta_receber', valor: 1200, id: 10 },
                 { tipo: 'nota_fiscal', numero: 'NF12345', id: 5 }
@@ -4801,7 +4801,7 @@ app.post('/api/clientes', async (req, res) => {
             nome, contato || null, cnpj || null, cpf || null, inscricao_estadual || null,
             telefone || null, celular || null, email || null, email_nfe || null,
             cep || null, endereco || null, endereco || null, numero || null, bairro || null, cidade || null, uf || null, uf || null,
-            ativo !== undefined  (ativo  1 : 0) : 1
+            ativo !== undefined ? (ativo ? 1 : 0) : 1
         ]);
         
         console.log(`✅ Cliente criado com ID: ${result.insertId}`);
@@ -4840,7 +4840,7 @@ app.put('/api/clientes/:id', async (req, res) => {
             nome, contato || null, cnpj || null, cpf || null, inscricao_estadual || null,
             telefone || null, celular || null, email || null, email_nfe || null,
             cep || null, endereco || null, endereco || null, numero || null, bairro || null, cidade || null, uf || null, uf || null,
-            ativo !== undefined  (ativo  1 : 0) : 1,
+            ativo !== undefined ? (ativo ? 1 : 0) : 1,
             id
         ]);
         
@@ -6570,7 +6570,7 @@ app.post('/api/test-session/start', async (req, res) => {
     }
 });
 
-// API para registrar resultação de teste
+// API para registrar resultado de teste
 app.post('/api/test-session/result', async (req, res) => {
     try {
         const { sessionId, testResult } = req.body;
@@ -7929,10 +7929,10 @@ async function gerarExcelOrdemProducaoCompleta(daçãos, ExcelJS, templatePath) 
             abaVendas.getCell(`B${linhaAtual}`).value = codigoProd;
             
             // C - Atualizar o RESULT da fórmula VLOOKUP para garantir que aparece a descricao
-            // Preservar a fórmula mas forçar o resultação
+            // Preservar a fórmula mas forçar o resultado
             const cellC = abaVendas.getCell(`C${linhaAtual}`);
             if (cellC.value && typeof cellC.value === 'object' && cellC.value.formula) {
-                // Manter a fórmula e adicionar o resultação
+                // Manter a fórmula e adicionar o resultado
                 cellC.value = {
                     formula: cellC.value.formula,
                     result: descricaoCatalogo
@@ -8309,7 +8309,7 @@ apiPCPRouter.get('/acompanhamento', async (req, res, next) => {
 apiPCPRouter.get('/clientes', async (req, res, next) => {
     try {
         const query = req.query.q || '';
-        const limit = parseInt(req.query.limit) || 500; // Aumentação para 500 resultaçãos
+        const limit = parseInt(req.query.limit) || 500; // Aumentação para 500 resultados
         const empresaId = req.query.empresa_id || 1; // Default empresa 1
         
         if (!query) {
@@ -8457,11 +8457,11 @@ apiPCPRouter.post('/ordem-producao-completa', async (req, res, next) => {
             };
             
             // Gerar arquivo usando novo geraçãor
-            const resultação = await geraçãor.aplicarMapeamentoCompleto(daçãosFormataçãos, outputPath);
+            const resultado = await geraçãor.aplicarMapeamentoCompleto(daçãosFormataçãos, outputPath);
             
-            if (resultação.sucesso) {
+            if (resultado.sucesso) {
                 console.log(`✅ Ordem de produção gerada com novo geraçãor: ${filename}`);
-                console.log(`💰 Total: R$ ${resultação.totalGeral.toFixed(2)}`);
+                console.log(`💰 Total: R$ ${resultado.totalGeral.toFixed(2)}`);
                 
                 // Retornar arquivo para download
                 res.download(outputPath, `Ordem_Producao_${numeroOrcamento}.xlsx`, (err) => {
@@ -8684,12 +8684,12 @@ apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
         const worksheet = workbook.addWorksheet('Ordem de Produção');
         
         // Gerar ordem usando ExcelJS
-        const resultação = await gerarOrdemComExcelJS(workbook, worksheet, daçãosOrdem, outputPath);
+        const resultado = await gerarOrdemComExcelJS(workbook, worksheet, daçãosOrdem, outputPath);
         
-        if (resultação.sucesso) {
+        if (resultado.sucesso) {
             console.log(`✅ Ordem gerada: ${filename}`);
-            console.log(`💰 Total: R$ ${resultação.totalGeral.toFixed(2)}`);
-            console.log(`📦 Produtos: ${resultação.produtosProcessaçãos}`);
+            console.log(`💰 Total: R$ ${resultado.totalGeral.toFixed(2)}`);
+            console.log(`📦 Produtos: ${resultado.produtosProcessaçãos}`);
             
             // Salvar ordem no banco de dados
             try {
@@ -8726,8 +8726,8 @@ apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
                     daçãosOrdem.percentual_parcelação || 100.00,
                     daçãosOrdem.metodo_parcelação || 'FATURAMENTO',
                     JSON.stringify(daçãosOrdem.produtos || []),
-                    resultação.totalGeral,
-                    resultação.produtosProcessaçãos,
+                    resultado.totalGeral,
+                    resultado.produtosProcessaçãos,
                     daçãosOrdem.observacoes || null,
                     daçãosOrdem.observacoes_pedido || null,
                     filename,
@@ -8743,8 +8743,8 @@ apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
                     ordemId: insertResult.insertId,
                     numeroOrdem: numeroOrdem,
                     arquivo: filename,
-                    totalGeral: resultação.totalGeral,
-                    produtosProcessaçãos: resultação.produtosProcessaçãos,
+                    totalGeral: resultado.totalGeral,
+                    produtosProcessaçãos: resultado.produtosProcessaçãos,
                     mensagem: 'Ordem de produção gerada e registrada com sucesso!'
                 });
             } catch (dbError) {
@@ -8753,8 +8753,8 @@ apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
                 res.json({
                     sucesso: true,
                     arquivo: filename,
-                    totalGeral: resultação.totalGeral,
-                    produtosProcessaçãos: resultação.produtosProcessaçãos,
+                    totalGeral: resultado.totalGeral,
+                    produtosProcessaçãos: resultado.produtosProcessaçãos,
                     mensagem: 'Ordem de produção gerada com sucesso! (Erro ao registrar no banco)',
                     avisoDb: 'Falha ao salvar no banco de dados'
                 });
@@ -11467,7 +11467,7 @@ apiVendasRouter.get('/empresas/:id/details', async (req, res, next) => {
         const { id } = req.params;
         const [empresaResult, kpisResult, pedidosResult, clientesResult] = await Promise.all([
             pool.query('SELECT * FROM empresas WHERE id = ', [id]),
-            pool.query(`SELECT COUNT(*) AS totalPedidos, COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturação, COALESCE(AVG(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS ticketMedio FROM pedidos WHERE empresa_id = `, [id]),
+            pool.query(`SELECT COUNT(*) AS totalPedidos, COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturado, COALESCE(AVG(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS ticketMedio FROM pedidos WHERE empresa_id = `, [id]),
             pool.query('SELECT id, valor, status, created_at FROM pedidos WHERE empresa_id =  ORDER BY created_at DESC', [id]),
             pool.query('SELECT id, nome, email, telefone FROM clientes WHERE empresa_id =  ORDER BY nome ASC', [id])
         ]);
@@ -11695,11 +11695,11 @@ apiVendasRouter.get('/relatorios/funil', authorizeAdminOrComercial, async (req, 
 // Alias para dashboard-stats
 apiVendasRouter.get('/dashboard', authorizeAdminOrComercial, async (req, res, next) => {
     try {
-        const [faturadoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturaçãoMes FROM pedidos WHERE status = 'faturado' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
+        const [faturadoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturadoMes FROM pedidos WHERE status = 'faturado' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
         const [pendentesResult] = await pool.query(`SELECT COUNT(*) AS pedidosPendentes FROM pedidos WHERE status IN ('orcamento', 'analise', 'aprovação')`);
         const [clientesResult] = await pool.query(`SELECT COUNT(*) AS novosClientesMes FROM empresas WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
         res.json({
-            totalFaturaçãoMes: faturadoResult[0].totalFaturaçãoMes,
+            totalFaturadoMes: faturadoResult[0].totalFaturadoMes,
             pedidosPendentes: pendentesResult[0].pedidosPendentes,
             novosClientesMes: clientesResult[0].novosClientesMes
         });
@@ -11707,11 +11707,11 @@ apiVendasRouter.get('/dashboard', authorizeAdminOrComercial, async (req, res, ne
 });
 apiVendasRouter.get('/dashboard-stats', authorizeAdminOrComercial, async (req, res, next) => {
     try {
-        const [faturadoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturaçãoMes FROM pedidos WHERE status = 'faturado' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
+        const [faturadoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturadoMes FROM pedidos WHERE status = 'faturado' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
         const [pendentesResult] = await pool.query(`SELECT COUNT(*) AS pedidosPendentes FROM pedidos WHERE status IN ('orcamento', 'analise', 'aprovação')`);
         const [clientesResult] = await pool.query(`SELECT COUNT(*) AS novosClientesMes FROM empresas WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
         res.json({
-            totalFaturaçãoMes: faturadoResult[0].totalFaturaçãoMes,
+            totalFaturadoMes: faturadoResult[0].totalFaturadoMes,
             pedidosPendentes: pendentesResult[0].pedidosPendentes,
             novosClientesMes: clientesResult[0].novosClientesMes
         });
@@ -11937,7 +11937,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
                 console.log('🔍 [LOGIN DEBUG] Tentando verificação com bcrypt...');
                 const bcrypt = require('bcryptjs');
                 senhaValida = await bcrypt.compare(password, user.senha_hash);
-                console.log(`🔍 [LOGIN DEBUG] Bcrypt resultação: ${senhaValida ? 'VÁLIDA' : 'INVÁLIDA'}`);
+                console.log(`🔍 [LOGIN DEBUG] Bcrypt resultado: ${senhaValida ? 'VÁLIDA' : 'INVÁLIDA'}`);
             } catch (e) {
                 console.error('❌ [LOGIN DEBUG] Erro bcrypt:', e);
             }
@@ -11947,7 +11947,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
         if (!senhaValida && user.senha) {
             console.log('🔍 [LOGIN DEBUG] Tentando verificação com senha em texto plano...');
             senhaValida = (user.senha === password);
-            console.log(`🔍 [LOGIN DEBUG] Texto plano resultação: ${senhaValida ? 'VÁLIDA' : 'INVÁLIDA'}`);
+            console.log(`🔍 [LOGIN DEBUG] Texto plano resultado: ${senhaValida ? 'VÁLIDA' : 'INVÁLIDA'}`);
             console.log(`🔍 [LOGIN DEBUG] Senha fornecida: "${password}" vs Armazenada: "${user.senha}"`);
         }
 
@@ -12246,12 +12246,12 @@ app.get('/api/audit-log', (req, res) => {
             logs = logs.filter(l => new Date(l.data) <= fim);
         }
         
-        // Limita resultação
-        const resultação = logs.slice(0, parseInt(limite));
+        // Limita resultado
+        const resultado = logs.slice(0, parseInt(limite));
         
         res.json({
             success: true,
-            logs: resultação,
+            logs: resultado,
             total: auditLogs.length,
             filtraçãos: logs.length
         });
@@ -18431,7 +18431,7 @@ app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) =>
 
         const totalReceitas = receitas.reduce((sum, r) => sum + (parseFloat(r.total) || 0), 0);
         const totalDespesas = despesas.reduce((sum, d) => sum + (parseFloat(d.total) || 0), 0);
-        const resultação = totalReceitas - totalDespesas;
+        const resultado = totalReceitas - totalDespesas;
 
         res.json({
             periodo: { mes: mesAtual, ano: anoAtual },
@@ -18443,8 +18443,8 @@ app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) =>
                 detalhes: despesas,
                 total: totalDespesas
             },
-            resultação: resultação,
-            margem: totalReceitas > 0  ((resultação / totalReceitas) * 100).toFixed(2) : 0
+            resultado: resultado,
+            margem: totalReceitas > 0 ? ((resultado / totalReceitas) * 100).toFixed(2) : 0
         });
 
     } catch (err) {
