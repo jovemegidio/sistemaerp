@@ -2,7 +2,7 @@ const mysql = require('mysql2/promise');
 const fs = require('fs').promises;
 const path = require('path');
 
-// Configuração do banco de dados
+// Configuração do banco de daçãos
 const dbConfig = {
     host: 'localhost',
     user: 'root',
@@ -15,16 +15,16 @@ async function exportDatabase() {
     let connection;
     
     try {
-        console.log('🔄 Conectando ao banco de dados...');
+        console.log('🔄 Conectando ao banco de daçãos...');
         connection = await mysql.createConnection(dbConfig);
         
-        console.log('✅ Conectado ao banco de dados: aluforce_vendas');
+        console.log('✅ Conectação ao banco de daçãos: aluforce_vendas');
         
         // Obter lista de todas as tabelas
         const [tables] = await connection.execute(`
             SELECT TABLE_NAME 
             FROM INFORMATION_SCHEMA.TABLES 
-            WHERE TABLE_SCHEMA = ? 
+            WHERE TABLE_SCHEMA =  
             ORDER BY TABLE_NAME
         `, [dbConfig.database]);
         
@@ -38,7 +38,7 @@ async function exportDatabase() {
         sqlDump += `-- ========================================\n`;
         sqlDump += `-- DUMP COMPLETO DO BANCO ALUFORCE_VENDAS\n`;
         sqlDump += `-- Data: ${new Date().toLocaleString('pt-BR')}\n`;
-        sqlDump += `-- Gerado automaticamente\n`;
+        sqlDump += `-- Geração automaticamente\n`;
         sqlDump += `-- ========================================\n\n`;
         
         sqlDump += `SET NAMES utf8mb4;\n`;
@@ -46,7 +46,7 @@ async function exportDatabase() {
         sqlDump += `SET foreign_key_checks = 0;\n`;
         sqlDump += `SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';\n\n`;
         
-        // Para cada tabela, exportar estrutura e dados
+        // Para cada tabela, exportar estrutura e daçãos
         for (const table of tables) {
             const tableName = table.TABLE_NAME;
             console.log(`📋 Exportando tabela: ${tableName}`);
@@ -66,9 +66,9 @@ async function exportDatabase() {
             const totalRecords = countResult[0].total;
             
             if (totalRecords > 0) {
-                console.log(`   💾 ${totalRecords} registros encontrados`);
+                console.log(`   💾 ${totalRecords} registros encontraçãos`);
                 
-                // Obter dados
+                // Obter daçãos
                 const [rows] = await connection.execute(`SELECT * FROM \`${tableName}\``);
                 
                 if (rows.length > 0) {
@@ -76,16 +76,16 @@ async function exportDatabase() {
                     const [columns] = await connection.execute(`
                         SELECT COLUMN_NAME 
                         FROM INFORMATION_SCHEMA.COLUMNS 
-                        WHERE TABLE_SCHEMA = ? AND TABLE_NAME = ? 
+                        WHERE TABLE_SCHEMA =  AND TABLE_NAME =  
                         ORDER BY ORDINAL_POSITION
                     `, [dbConfig.database, tableName]);
                     
                     const columnNames = columns.map(col => `\`${col.COLUMN_NAME}\``).join(', ');
                     
-                    sqlDump += `-- Dados da tabela ${tableName}\n`;
+                    sqlDump += `-- Daçãos da tabela ${tableName}\n`;
                     sqlDump += `INSERT INTO \`${tableName}\` (${columnNames}) VALUES\n`;
                     
-                    // Processar dados em lotes para não sobrecarregar a memória
+                    // Processar daçãos em lotes para não sobrecarregar a memória
                     for (let i = 0; i < rows.length; i++) {
                         const row = rows[i];
                         const values = Object.values(row).map(value => {
@@ -122,7 +122,7 @@ async function exportDatabase() {
         
         await fs.writeFile(filepath, sqlDump, 'utf8');
         
-        console.log(`\n✅ Dump criado com sucesso!`);
+        console.log(`\n✅ Dump criação com sucesso!`);
         console.log(`📁 Arquivo: ${filename}`);
         console.log(`📍 Local: ${filepath}`);
         console.log(`📊 Tamanho: ${(Buffer.byteLength(sqlDump, 'utf8') / 1024 / 1024).toFixed(2)} MB`);
@@ -176,7 +176,7 @@ async function exportDatabase() {
         }
         
     } catch (error) {
-        console.error('❌ Erro ao exportar banco de dados:', error.message);
+        console.error('❌ Erro ao exportar banco de daçãos:', error.message);
         throw error;
     } finally {
         if (connection) {
@@ -186,16 +186,16 @@ async function exportDatabase() {
     }
 }
 
-// Função para verificar integridade dos dados
+// Função para verificar integridade dos daçãos
 async function checkDataIntegrity() {
     let connection;
     
     try {
-        console.log('\n� Verificando integridade dos dados...');
+        console.log('\n Verificando integridade dos daçãos...');
         connection = await mysql.createConnection(dbConfig);
         
-        // Verificar produtos duplicados
-        const [duplicados] = await connection.execute(`
+        // Verificar produtos duplicaçãos
+        const [duplicaçãos] = await connection.execute(`
             SELECT codigo, COUNT(*) as count
             FROM produtos 
             GROUP BY codigo 
@@ -203,13 +203,13 @@ async function checkDataIntegrity() {
             ORDER BY count DESC
         `);
         
-        if (duplicados.length > 0) {
+        if (duplicaçãos.length > 0) {
             console.log(`\n⚠️  PRODUTOS DUPLICADOS ENCONTRADOS:`);
-            duplicados.forEach(dup => {
+            duplicaçãos.forEach(dup => {
                 console.log(`   Código: ${dup.codigo} - ${dup.count} ocorrências`);
             });
         } else {
-            console.log(`✅ Não há produtos duplicados.`);
+            console.log(`✅ Não há produtos duplicaçãos.`);
         }
         
         // Verificar produtos sem nome
@@ -220,7 +220,7 @@ async function checkDataIntegrity() {
         `);
         
         if (semNome[0].count > 0) {
-            console.log(`⚠️  ${semNome[0].count} produtos sem nome encontrados.`);
+            console.log(`⚠️  ${semNome[0].count} produtos sem nome encontraçãos.`);
         } else {
             console.log(`✅ Todos os produtos têm nome.`);
         }
@@ -267,7 +267,7 @@ async function main() {
         // Verificar conexão
         await checkConnection();
         
-        // Verificar estrutura dos dados
+        // Verificar estrutura dos daçãos
         await checkDataStructure();
         
         // Verificar integridade
@@ -278,7 +278,7 @@ async function main() {
         
         console.log('\n✅ EXPORT COMPLETO FINALIZADO COM SUCESSO!');
         console.log('==================================================');
-        console.log(`📁 Arquivo gerado: ${backupFile}`);
+        console.log(`📁 Arquivo geração: ${backupFile}`);
         console.log(`⏰ Horário: ${new Date().toLocaleString('pt-BR')}`);
         console.log(`📊 Banco: aluforce_vendas com todos os 330 produtos`);
         
@@ -289,7 +289,7 @@ async function main() {
     }
 }
 
-// Executar se o script for chamado diretamente
+// Executar se o script for chamação diretamente
 if (require.main === module) {
     main();
 }

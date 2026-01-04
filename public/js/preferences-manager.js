@@ -52,16 +52,16 @@
 
                 // Filtrar items
                 items.forEach(item => {
-                    const label = item.querySelector('.settings-item-label')?.textContent.toLowerCase() || '';
-                    const desc = item.querySelector('.settings-item-description')?.textContent.toLowerCase() || '';
+                    const label = item.querySelector('.settings-item-label').textContent.toLowerCase() || '';
+                    const desc = item.querySelector('.settings-item-description').textContent.toLowerCase() || '';
                     const matches = label.includes(searchTerm) || desc.includes(searchTerm);
-                    item.style.display = matches ? '' : 'none';
+                    item.style.display = matches  '' : 'none';
                 });
 
                 // Esconder seções vazias
                 sections.forEach(section => {
                     const visibleItems = section.querySelectorAll('.settings-item:not([style*="display: none"])');
-                    section.style.display = visibleItems.length > 0 ? '' : 'none';
+                    section.style.display = visibleItems.length > 0  '' : 'none';
                 });
             });
         },
@@ -315,7 +315,7 @@
         },
 
         resetToDefaults() {
-            if (!confirm('Deseja realmente restaurar todas as configurações padrão?')) {
+            if (!confirm('Deseja realmente restaurar todas as configurações padrão')) {
                 return;
             }
 

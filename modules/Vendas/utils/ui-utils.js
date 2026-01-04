@@ -6,8 +6,8 @@ function getFirstName(user) {
 }
 
 function computeCanModify(user, pedido, isUserAdmin) {
-    const userId = user && (user.id != null ? Number(user.id) : null);
-    const vendedorIdVal = pedido && pedido.vendedor_id == null ? null : Number(pedido.vendedor_id);
+    const userId = user && (user.id != null  Number(user.id) : null);
+    const vendedorIdVal = pedido && pedido.vendedor_id == null  null : Number(pedido.vendedor_id);
     return !!isUserAdmin || vendedorIdVal === null || vendedorIdVal === 0 || vendedorIdVal === userId;
 }
 

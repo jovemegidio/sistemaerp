@@ -54,7 +54,7 @@ class GestorAnexos {
                 </div>
 
                 <div class="dropzone" id="dropzone">
-                    <input type="file" id="file-input" ${this.opções.permiteMultiplos ? 'multiple' : ''} 
+                    <input type="file" id="file-input" ${this.opções.permiteMultiplos  'multiple' : ''} 
                            style="display: none;" onchange="gestorAnexos.handleFileSelect(event)">
                     <i class="fas fa-cloud-upload-alt"></i>
                     <p>Arraste arquivos aqui ou clique para selecionar</p>
@@ -107,7 +107,7 @@ class GestorAnexos {
 
                 .btn-adicionar-anexo:hover {
                     transform: translateY(-2px);
-                    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
+                    box-shaçãow: 0 4px 8px rgba(16, 185, 129, 0.3);
                 }
 
                 .dropzone {
@@ -163,7 +163,7 @@ class GestorAnexos {
 
                 .anexo-item:hover {
                     border-color: #10b981;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+                    box-shaçãow: 0 2px 8px rgba(0,0,0,0.1);
                 }
 
                 .anexo-icone {
@@ -328,18 +328,18 @@ class GestorAnexos {
 
             // Fazer upload
             try {
-                const resultado = await this.uploadArquivo(arquivo, anexoTemp.id);
+                const resultação = await this.uploadArquivo(arquivo, anexoTemp.id);
                 
-                // Atualizar com dados reais
+                // Atualizar com daçãos reais
                 const index = this.anexos.findIndex(a => a.id === anexoTemp.id);
                 if (index !== -1) {
-                    this.anexos[index] = resultado;
+                    this.anexos[index] = resultação;
                 }
 
                 this.renderizarLista();
 
                 if (this.opções.onUploadCompleto) {
-                    this.opções.onUploadCompleto(resultado);
+                    this.opções.onUploadCompleto(resultação);
                 }
 
             } catch (error) {
@@ -392,8 +392,8 @@ class GestorAnexos {
             // });
             // xhr.addEventListener('load', () => {
             //     if (xhr.status === 200) {
-            //         const resultado = JSON.parse(xhr.responseText);
-            //         resolve(resultado);
+            //         const resultação = JSON.parse(xhr.responseText);
+            //         resolve(resultação);
             //     } else {
             //         reject(new Error('Erro no upload'));
             //     }
@@ -461,7 +461,7 @@ class GestorAnexos {
 
     async buscarAnexos() {
         // TODO: Substituir por chamada real à API
-        // return await fetch(`/api/financeiro/anexos?entidade=${this.opções.entidade}&entidade_id=${this.opções.entidadeId}`)
+        // return await fetch(`/api/financeiro/anexosentidade=${this.opções.entidade}&entidade_id=${this.opções.entidadeId}`)
         //     .then(r => r.json());
 
         // Mock data
@@ -495,7 +495,7 @@ class GestorAnexos {
         const lista = document.getElementById('anexos-lista');
 
         if (this.anexos.length === 0) {
-            lista.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Nenhum anexo adicionado</p>';
+            lista.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Nenhum anexo adicionação</p>';
             return;
         }
 
@@ -504,31 +504,31 @@ class GestorAnexos {
 
     renderizarAnexo(anexo) {
         const icone = this.obterIcone(anexo.tipo);
-        const tamanhoFormatado = this.formatarTamanho(anexo.tamanho);
-        const dataFormatada = anexo.data_upload ? this.formatarData(anexo.data_upload) : '';
+        const tamanhoFormatação = this.formatarTamanho(anexo.tamanho);
+        const dataFormatada = anexo.data_upload  this.formatarData(anexo.data_upload) : '';
 
         return `
-            <div class="anexo-item ${anexo.uploading ? 'uploading' : ''}" data-anexo-id="${anexo.id}">
+            <div class="anexo-item ${anexo.uploading  'uploading' : ''}" data-anexo-id="${anexo.id}">
                 <div class="anexo-icone">
                     <i class="fas ${icone}"></i>
                 </div>
                 <div class="anexo-info">
                     <div class="anexo-nome">${anexo.nome}</div>
                     <div class="anexo-meta">
-                        <span><i class="fas fa-hdd"></i> ${tamanhoFormatado}</span>
-                        ${dataFormatada ? `<span><i class="fas fa-calendar"></i> ${dataFormatada}</span>` : ''}
-                        ${anexo.usuario ? `<span><i class="fas fa-user"></i> ${anexo.usuario}</span>` : ''}
+                        <span><i class="fas fa-hdd"></i> ${tamanhoFormatação}</span>
+                        ${dataFormatada  `<span><i class="fas fa-calendar"></i> ${dataFormatada}</span>` : ''}
+                        ${anexo.usuario  `<span><i class="fas fa-user"></i> ${anexo.usuario}</span>` : ''}
                     </div>
-                    ${anexo.descrição ? `<div class="anexo-descrição">${anexo.descrição}</div>` : ''}
-                    ${anexo.uploading ? `
+                    ${anexo.descrição  `<div class="anexo-descrição">${anexo.descrição}</div>` : ''}
+                    ${anexo.uploading  `
                         <div class="upload-progress">
                             <div class="upload-progress-bar" style="width: ${anexo.progresso || 0}%"></div>
                         </div>
                     ` : ''}
                 </div>
-                ${!anexo.uploading ? `
+                ${!anexo.uploading  `
                     <div class="anexo-acoes">
-                        ${this.podeVisualizar(anexo.tipo) ? `
+                        ${this.podeVisualizar(anexo.tipo)  `
                             <button class="btn-visualizar" onclick="gestorAnexos.visualizar('${anexo.id}')">
                                 <i class="fas fa-eye"></i>
                             </button>
@@ -566,7 +566,7 @@ class GestorAnexos {
         const anexo = this.anexos.find(a => a.id === anexoId);
         if (!anexo) return;
 
-        // TODO: Implementar visualizador inline ou abrir em nova aba
+        // TODO: Implementar visualizaçãor inline ou abrir em nova aba
         if (anexo.url) {
             window.open(anexo.url, '_blank');
         } else {
@@ -598,7 +598,7 @@ class GestorAnexos {
     }
 
     async excluir(anexoId) {
-        if (!confirm('Deseja realmente excluir este anexo?')) return;
+        if (!confirm('Deseja realmente excluir este anexo')) return;
 
         try {
             // TODO: Substituir por chamada real à API

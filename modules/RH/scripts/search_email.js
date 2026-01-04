@@ -6,14 +6,14 @@ const DB_CONFIG = {
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
+  port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
 }
 
 async function search (term) {
   const conn = await mysql.createConnection(DB_CONFIG)
   try {
     const like = `%${term}%`
-    const [rows] = await conn.execute('SELECT id, email, nome_completo, role FROM funcionarios WHERE email LIKE ? OR nome_completo LIKE ? LIMIT 100', [like, like])
+    const [rows] = await conn.execute('SELECT id, email, nome_completo, role FROM funcionarios WHERE email LIKE  OR nome_completo LIKE  LIMIT 100', [like, like])
     if (!rows || rows.length === 0) {
       console.log(`Nenhuma correspondência para termo='${term}'`)
       return

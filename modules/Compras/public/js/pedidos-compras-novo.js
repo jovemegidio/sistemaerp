@@ -20,11 +20,11 @@
         // Mock data
         pedidos = [
             { id: 1, numero: 'PC-001', fornecedor: 'Alum Brasil Ltda', valor: 128350.00, data: '2025-01-05', prazo: '2025-01-20', status: 'pendente', itens: 15 },
-            { id: 2, numero: 'PC-002', fornecedor: 'Metal Line Indústria', valor: 89450.50, data: '2025-01-06', prazo: '2025-01-18', status: 'aprovado', itens: 8 },
+            { id: 2, numero: 'PC-002', fornecedor: 'Metal Line Indústria', valor: 89450.50, data: '2025-01-06', prazo: '2025-01-18', status: 'aprovação', itens: 8 },
             { id: 3, numero: 'PC-003', fornecedor: 'Aço Forte Materiais', valor: 56200.00, data: '2025-01-07', prazo: '2025-01-22', status: 'em_transito', itens: 12 },
             { id: 4, numero: 'PC-004', fornecedor: 'QuímicaBR Produtos', valor: 43780.25, data: '2025-01-08', prazo: '2025-01-19', status: 'recebido', itens: 6 },
             { id: 5, numero: 'PC-005', fornecedor: 'Embalagens Master', valor: 23450.00, data: '2025-01-09', prazo: '2025-01-25', status: 'pendente', itens: 20 },
-            { id: 6, numero: 'PC-006', fornecedor: 'Ferragens Brasil', valor: 67890.75, data: '2025-01-10', prazo: '2025-01-28', status: 'aprovado', itens: 10 }
+            { id: 6, numero: 'PC-006', fornecedor: 'Ferragens Brasil', valor: 67890.75, data: '2025-01-10', prazo: '2025-01-28', status: 'aprovação', itens: 10 }
         ];
     }
 

@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
         el.className = `pcp-toast ${type}`;
         el.setAttribute('role','status');
         el.innerHTML = `
-            <div class="toast-icon">${type === 'success' ? '&#10003;' : type === 'error' ? '!' : type === 'warning' ? '!' : 'i'}</div>
+            <div class="toast-icon">${type === 'success'  '&#10003;' : type === 'error'  '!' : type === 'warning'  '!' : 'i'}</div>
             <div class="toast-body">
-                ${title ? `<div class="toast-title">${title}</div>` : ''}
+                ${title  `<div class="toast-title">${title}</div>` : ''}
                 <div class="toast-text">${message}</div>
             </div>
             <button class="toast-close" aria-label="Fechar">×</button>
@@ -33,20 +33,20 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) { console.warn('showToast error', e); }
     };
     window.clearToasts = function() { try { if (!toastContainer) return; toastContainer.querySelectorAll('.pcp-toast').forEach(n=>n.remove()); } catch(e){} };
-    // Modal de todos os pedidos faturados (com busca local e abertura para edição)
-    const btnVerTodosFaturados = document.getElementById('btn-ver-todos-faturados');
-    const modalTodosFaturados = document.getElementById('modal-todos-faturados');
-    const closeTodosFaturados = document.getElementById('close-todos-faturados');
-    const todosFaturadosBody = document.getElementById('todos-faturados-body');
+    // Modal de todos os pedidos faturaçãos (com busca local e abertura para edição)
+    const btnVerTodosFaturaçãos = document.getElementById('btn-ver-todos-faturaçãos');
+    const modalTodosFaturaçãos = document.getElementById('modal-todos-faturaçãos');
+    const closeTodosFaturaçãos = document.getElementById('close-todos-faturaçãos');
+    const todosFaturaçãosBody = document.getElementById('todos-faturaçãos-body');
     // create a search input inside the modal header if not present (guard when modal missing)
     let searchTodosInput = null;
-    if (modalTodosFaturados) {
-        searchTodosInput = document.getElementById('search-todos-faturados');
+    if (modalTodosFaturaçãos) {
+        searchTodosInput = document.getElementById('search-todos-faturaçãos');
         if (!searchTodosInput) {
-            const header = modalTodosFaturados.querySelector('.modal-header');
+            const header = modalTodosFaturaçãos.querySelector('.modal-header');
             if (header) {
                 const input = document.createElement('input');
-                input.id = 'search-todos-faturados';
+                input.id = 'search-todos-faturaçãos';
                 input.placeholder = 'Buscar por cliente, produto...';
                 // prefer CSS classes over inline styles
                 input.classList.add('js-input-full');
@@ -56,15 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    let allFaturados = [];
+    let allFaturaçãos = [];
 
-    function renderTodosFaturados(list) {
-        if (!todosFaturadosBody) return; // nothing to render into
+    function renderTodosFaturaçãos(list) {
+        if (!todosFaturaçãosBody) return; // nothing to render into
         if (!Array.isArray(list) || list.length === 0) {
-            todosFaturadosBody.innerHTML = '<div class="text-sm text-center pad-24 muted">Nenhum pedido faturado encontrado.</div>';
+            todosFaturaçãosBody.innerHTML = '<div class="text-sm text-center pad-24 muted">Nenhum pedido faturação encontração.</div>';
             return;
         }
-        todosFaturadosBody.innerHTML = list.map(p => `
+        todosFaturaçãosBody.innerHTML = list.map(p => `
                 <div class="list-row">
                     <div class="list-row-thumb">${p.icon || ''}</div>
                     <div class="list-row-body">
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `).join('');
 
         // attach click handlers to open item edit
-        todosFaturadosBody.querySelectorAll('.faturado-item').forEach(el => {
+        todosFaturaçãosBody.querySelectorAll('.faturação-item').forEach(el => {
             el.addEventListener('click', () => {
                 const id = el.dataset.id;
                 // open item edit modal for the order
@@ -85,17 +85,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (btnVerTodosFaturados) btnVerTodosFaturados.addEventListener('click', async () => {
-        if (!modalTodosFaturados || !todosFaturadosBody) return;
-        openAccessibleModal(modalTodosFaturados);
-        todosFaturadosBody.innerHTML = '<div><span class="pcp-spinner" aria-hidden="true"></span> <span class="muted">Carregando...</span></div>';
+    if (btnVerTodosFaturaçãos) btnVerTodosFaturaçãos.addEventListener('click', async () => {
+        if (!modalTodosFaturaçãos || !todosFaturaçãosBody) return;
+        openAccessibleModal(modalTodosFaturaçãos);
+        todosFaturaçãosBody.innerHTML = '<div><span class="pcp-spinner" aria-hidden="true"></span> <span class="muted">Carregando...</span></div>';
         try {
             const resp = await fetch('/api/pcp/pedidos');
             const pedidos = await resp.json();
-            allFaturados = (Array.isArray(pedidos) ? pedidos.filter(p => p && p.status && p.status.toLowerCase().includes('fatur')) : []);
-            renderTodosFaturados(allFaturados);
+            allFaturaçãos = (Array.isArray(pedidos)  pedidos.filter(p => p && p.status && p.status.toLowerCase().includes('fatur')) : []);
+            renderTodosFaturaçãos(allFaturaçãos);
         } catch (err) {
-            todosFaturadosBody.innerHTML = '<div class="text-error pad-24">Erro ao carregar pedidos faturados.</div>';
+            todosFaturaçãosBody.innerHTML = '<div class="text-error pad-24">Erro ao carregar pedidos faturaçãos.</div>';
         }
     });
 
@@ -106,17 +106,17 @@ document.addEventListener('DOMContentLoaded', () => {
             clearTimeout(debounce);
             debounce = setTimeout(() => {
                 const q = String(e.target.value || '').toLowerCase().trim();
-                if (!q) return renderTodosFaturados(allFaturados);
-                const filtered = allFaturados.filter(p => {
+                if (!q) return renderTodosFaturaçãos(allFaturaçãos);
+                const filtered = allFaturaçãos.filter(p => {
                     return (p.cliente || '').toLowerCase().includes(q) || (p.produto_nome || '').toLowerCase().includes(q) || String(p.id).includes(q);
                 });
-                renderTodosFaturados(filtered);
+                renderTodosFaturaçãos(filtered);
             }, 200);
         });
     }
 
-    if (closeTodosFaturados) closeTodosFaturados.addEventListener('click', () => { closeAccessibleModal(modalTodosFaturados); });
-    if (modalTodosFaturados) modalTodosFaturados.addEventListener('click', (e) => { if (e.target === modalTodosFaturados) closeAccessibleModal(modalTodosFaturados); });
+    if (closeTodosFaturaçãos) closeTodosFaturaçãos.addEventListener('click', () => { closeAccessibleModal(modalTodosFaturaçãos); });
+    if (modalTodosFaturaçãos) modalTodosFaturaçãos.addEventListener('click', (e) => { if (e.target === modalTodosFaturaçãos) closeAccessibleModal(modalTodosFaturaçãos); });
     // Referências aos elementos da UI
     const views = {
         dashboard: document.getElementById('dashboard-view'),
@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const _fetch = window.fetch.bind(window);
         window.fetch = (input, init) => {
             try {
-                let url = (typeof input === 'string') ? input : (input && input.url) || '';
+                let url = (typeof input === 'string')  input : (input && input.url) || '';
                 
                 // FIX: Convert any localhost:3001 URLs to relative URLs
                 if (typeof url === 'string' && url.includes('localhost:3001')) {
@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let socket = null;
     try {
         socket = io(); // vai conectar a http://localhost:3001 automaticamente
-        socket.on('connect', () => console.log('Socket conectado:', socket.id));
+        socket.on('connect', () => console.log('Socket conectação:', socket.id));
         socket.on('materials_changed', (materials) => {
             // If view elements exist, check visibility safely before acting
             try {
@@ -290,10 +290,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (materiaisVisible) carregarMateriais();
                 if (ordemCompraVisible) carregarMateriaisParaSelect();
                 if (materiaisVisible) carregarProdutos();
-            } catch (e) { console.warn('materials_changed handler error:', e && e.message ? e.message : e); }
+            } catch (e) { console.warn('materials_changed handler error:', e && e.message  e.message : e); }
         });
         socket.on('products_changed', (products) => {
-            try { if (views.materiais && !views.materiais.classList.contains('hidden')) carregarProdutos(); } catch (e) { console.warn('products_changed handler error:', e && e.message ? e.message : e); }
+            try { if (views.materiais && !views.materiais.classList.contains('hidden')) carregarProdutos(); } catch (e) { console.warn('products_changed handler error:', e && e.message  e.message : e); }
         });
     } catch (err) {
         console.warn('Socket.IO não disponível:', err.message);
@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (views[viewName] && views[viewName].classList) views[viewName].classList.remove('hidden');
         if (navLinks[viewName] && navLinks[viewName].classList) navLinks[viewName].classList.add('active');
 
-        // Carregar dados específicos da view
+        // Carregar daçãos específicos da view
         if (viewName === 'dashboard') {
             carregarOrdens();
         } else if (viewName === 'materiais') {
@@ -472,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(payload)
                 });
                 if (!resp.ok) throw new Error('Falha ao salvar alterações');
-                // limpar estado de edição
+                // limpar estação de edição
                 delete forms.novoMaterial.dataset.editingId;
                 const btnCancelar = document.getElementById('btn-cancelar-edicao');
                 if (btnCancelar) btnCancelar.remove();
@@ -537,7 +537,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // Verificar se o container existe (compatibilidade com nova view)
             if (!containers.materiais) {
-                console.log('⚠️ Container de materiais não encontrado - usando nova view de materiais');
+                console.log('⚠️ Container de materiais não encontração - usando nova view de materiais');
                 return;
             }
             
@@ -573,7 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
             containers.materiais.innerHTML = `<div class="materiais-area"><div class="estoque-card estoque-section"><h3>Estoque Atual de Fios e Materiais</h3>${tableHTML}</div></div>`;
 
-            // Anexar eventos aos botões recém-criados
+            // Anexar eventos aos botões recém-criaçãos
             document.querySelectorAll('.btn-sm.btn-editar').forEach(btn => {
                 btn.addEventListener('click', async (e) => {
                     const id = e.target.dataset.id;
@@ -583,7 +583,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.btn-sm.btn-excluir').forEach(btn => {
                 btn.addEventListener('click', async (e) => {
                     const id = e.target.dataset.id;
-                    if (!confirm('Confirma a exclusão deste material?')) return;
+                    if (!confirm('Confirma a exclusão deste material')) return;
                     try {
                         const resp = await fetch(`${API_BASE_URL}/materiais/${id}`, { method: 'DELETE' });
                         if (!resp.ok) throw new Error('Falha ao excluir');
@@ -601,30 +601,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 containers.materiais.innerHTML = '<p>Não foi possível carregar os materiais.</p>';
             }
         }
-        // também carregar produtos cadastrados
+        // também carregar produtos cadastraçãos
         carregarProdutos();
     }
 
-    // Carregar e renderizar produtos cadastrados
+    // Carregar e renderizar produtos cadastraçãos
     async function carregarProdutos(page = 1, limit = 10) {
         try {
             // Verificar se o container existe (compatibilidade com nova view)
             if (!containers.produtos) {
-                console.log('⚠️ Container de produtos não encontrado - usando nova view de materiais');
+                console.log('⚠️ Container de produtos não encontração - usando nova view de materiais');
                 return;
             }
             
-            const resp = await fetch(`${API_BASE_URL}/produtos?page=${page}&limit=${limit}`);
+            const resp = await fetch(`${API_BASE_URL}/produtospage=${page}&limit=${limit}`);
             if (!resp.ok) throw new Error('Falha ao carregar produtos');
             const body = await resp.json();
             const produtos = body.rows || [];
             const total = Number(body.total || 0);
-            const columns = Array.isArray(body.columns) ? body.columns : [];
+            const columns = Array.isArray(body.columns)  body.columns : [];
             const totalPages = Math.max(1, Math.ceil(total / limit));
 
             if (!Array.isArray(produtos) || produtos.length === 0) {
                 if (containers.produtos) {
-                    containers.produtos.innerHTML = '<div class="pad-12 muted">Nenhum produto cadastrado.</div>';
+                    containers.produtos.innerHTML = '<div class="pad-12 muted">Nenhum produto cadastração.</div>';
                 }
                 return;
             }
@@ -639,7 +639,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             const codigo = p.codigo || p.codigo_produto || '';
                             const descricao = p.descricao || p.descricao_produto || '';
                             const unidade = p.unidade_medida || p.unidade || '';
-                            const estoqueVal = Number(typeof p.quantidade !== 'undefined' ? p.quantidade : (p.estoque || p.quantidade_estoque || 0)).toFixed(2);
+                            const estoqueVal = Number(typeof p.quantidade !== 'undefined'  p.quantidade : (p.estoque || p.quantidade_estoque || 0)).toFixed(2);
                             const variacaoRaw = p.variacao || '';
                             let variacoes = [];
                             try {
@@ -652,8 +652,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                     variacoes = variacaoRaw.split(/[,;]+/).map(s=>s.trim()).filter(Boolean);
                                 }
                             } catch (e) { variacoes = [] }
-                            const variacaoHtml = variacoes.length ? variacoes.map(v => `<span class="var-badge">${v}</span>`).join(' ') : '';
-                            const custo = (typeof p.custo_unitario !== 'undefined' ? parseFloat(p.custo_unitario) : (p.custo || 0)) || 0;
+                            const variacaoHtml = variacoes.length  variacoes.map(v => `<span class="var-badge">${v}</span>`).join(' ') : '';
+                            const custo = (typeof p.custo_unitario !== 'undefined'  parseFloat(p.custo_unitario) : (p.custo || 0)) || 0;
                             return `
                             <tr data-id="${p.id}">
                                 <td><strong>${codigo}</strong></td>
@@ -676,12 +676,12 @@ document.addEventListener('DOMContentLoaded', () => {
             function buildPagination(currentPage) {
                 if (totalPages <= 1) return '';
                 let pages = '';
-                for (let i = 1; i <= totalPages; i++) pages += `<button class="page-btn${i===currentPage? ' active':''}" data-page="${i}">${i}</button>`;
-                return `<div class="pagination"><button class="page-btn" data-page="prev" ${page===1? 'disabled':''}>Prev</button>${pages}<button class="page-btn" data-page="next" ${page===totalPages? 'disabled':''}>Next</button></div>`;
+                for (let i = 1; i <= totalPages; i++) pages += `<button class="page-btn${i===currentPage ' active':''}" data-page="${i}">${i}</button>`;
+                return `<div class="pagination"><button class="page-btn" data-page="prev" ${page===1 'disabled':''}>Prev</button>${pages}<button class="page-btn" data-page="next" ${page===totalPages 'disabled':''}>Next</button></div>`;
             }
 
             if (containers.produtos) {
-                containers.produtos.innerHTML = `<div class="estoque-card"><h3>Produtos Cadastrados</h3>${infoLine}${html}${buildPagination(page)}</div>`;
+                containers.produtos.innerHTML = `<div class="estoque-card"><h3>Produtos Cadastraçãos</h3>${infoLine}${html}${buildPagination(page)}</div>`;
                 containers.produtos.dataset.page = String(page);
                 containers.produtos.dataset.limit = String(limit);
                 containers.produtos.dataset.total = String(total);
@@ -699,12 +699,12 @@ document.addEventListener('DOMContentLoaded', () => {
             document.querySelectorAll('.btn-excluir-prod').forEach(btn => {
                 btn.addEventListener('click', async (e) => {
                     const id = e.target.dataset.id;
-                    if (!confirm('Confirma exclusão do produto?')) return;
+                    if (!confirm('Confirma exclusão do produto')) return;
                     try {
                         const del = await fetch(`${API_BASE_URL}/produtos/${id}`, { method: 'DELETE' });
                         if (!del || !del.ok) {
-                            const b = del ? await del.json().catch(()=>null) : null;
-                            const m = b && b.message ? b.message : 'Falha ao excluir produto';
+                            const b = del  await del.json().catch(()=>null) : null;
+                            const m = b && b.message  b.message : 'Falha ao excluir produto';
                             showToast(m, 'error');
                             return;
                         }
@@ -745,7 +745,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function carregarMaterialParaEdicao(id) {
         try {
             const resp = await fetch(`${API_BASE_URL}/materiais/${id}`);
-            if (!resp.ok) throw new Error('Material não encontrado');
+            if (!resp.ok) throw new Error('Material não encontração');
             const m = await resp.json();
             // Preencher formulário
             document.getElementById('codigo_material_form').value = m.codigo_material || '';
@@ -850,7 +850,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try { cols = JSON.parse(containers.produtos.dataset.columns || '[]'); } catch (e) { cols = []; }
         const schema = fieldSchemas.produto || {};
         // Build a list of keys: prefer server columns, but keep schema order for known fields
-        let keys = Array.isArray(cols) && cols.length ? cols.slice() : Object.keys(schema);
+        let keys = Array.isArray(cols) && cols.length  cols.slice() : Object.keys(schema);
         // Ensure common product fields are present and in a friendly order
         const preferred = ['codigo','descricao','unidade_medida','quantidade_estoque','custo_unitario'];
         keys = preferred.concat(keys.filter(k => !preferred.includes(k)));
@@ -862,7 +862,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 // fallback to label/type hints
                 cfg = {
                     label: columnLabelMap[key] || key,
-                    type: columnTypeHints[key] || (key.includes('quantidade') || key.includes('custo') ? 'number' : 'text')
+                    type: columnTypeHints[key] || (key.includes('quantidade') || key.includes('custo')  'number' : 'text')
                 };
             }
             const wrapper = document.createElement('div');
@@ -894,7 +894,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     tagContainer.innerHTML = '';
                     cleaned.forEach((t) => {
                         if (!t) return;
-                        const display = t.length > 60 ? t.slice(0,57) + '...' : t;
+                        const display = t.length > 60  t.slice(0,57) + '...' : t;
                         const span = document.createElement('span');
                         span.className = 'tag';
                         span.innerText = display;
@@ -920,7 +920,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     } catch (e) {
                         // fallthrough to legacy CSV
                     }
-                    return v ? v.split(/[,;]+/).map(s => s.trim()).filter(Boolean) : [];
+                    return v  v.split(/[,;]+/).map(s => s.trim()).filter(Boolean) : [];
                 }
 
                 tagInput.addEventListener('keydown', (ev) => {
@@ -945,7 +945,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 // init from provided values: accept array, JSON string or legacy CSV
-                const rawVal = typeof values[key] !== 'undefined' ? values[key] : (values[key] === 0 ? '0' : values[key] || '');
+                const rawVal = typeof values[key] !== 'undefined'  values[key] : (values[key] === 0  '0' : values[key] || '');
                 if (Array.isArray(rawVal)) {
                     hidden.value = JSON.stringify(rawVal);
                     setTagsFromArray(rawVal);
@@ -987,7 +987,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 input.rows = 4;
             } else {
                 input = document.createElement('input');
-                input.type = cfg.type || (key.includes('quantidade') || key.includes('custo') ? 'number' : 'text');
+                input.type = cfg.type || (key.includes('quantidade') || key.includes('custo')  'number' : 'text');
                 if (cfg.step) input.step = cfg.step;
                 if (typeof cfg.min !== 'undefined') input.min = cfg.min;
             }
@@ -995,16 +995,16 @@ document.addEventListener('DOMContentLoaded', () => {
             input.name = key;
             input.placeholder = cfg.placeholder || '';
             if (cfg.required) input.required = true;
-            input.value = typeof values[key] !== 'undefined' ? values[key] : (values[key] === 0 ? '0' : values[key] || '');
+            input.value = typeof values[key] !== 'undefined'  values[key] : (values[key] === 0  '0' : values[key] || '');
             wrapper.appendChild(label);
             wrapper.appendChild(input);
             productFormBody.appendChild(wrapper);
         });
-        // add computed readonly field for total value (quantidade_estoque * custo_unitario)
+        // add computed reaçãonly field for total value (quantidade_estoque * custo_unitario)
         const totalWrap = document.createElement('div');
     totalWrap.classList.add('d-flex','flex-column','gap-6');
         const totalLabel = document.createElement('label'); totalLabel.innerText = 'Valor em Estoque (R$)';
-        const totalInput = document.createElement('input'); totalInput.type = 'text'; totalInput.id = 'product-custo-total'; totalInput.readOnly = true; totalInput.classList.add('input-readonly');
+        const totalInput = document.createElement('input'); totalInput.type = 'text'; totalInput.id = 'product-custo-total'; totalInput.readOnly = true; totalInput.classList.add('input-reaçãonly');
         totalWrap.appendChild(totalLabel); totalWrap.appendChild(totalInput);
         productFormBody.appendChild(totalWrap);
     }
@@ -1013,8 +1013,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const qEl = document.getElementById('product-quantidade_estoque') || document.getElementById('product-quantidade') || document.getElementById('product-quantidadeEstoque');
         const cEl = document.getElementById('product-custo_unitario') || document.getElementById('product-custo') || document.getElementById('product-custoUnitario');
         const totalEl = document.getElementById('product-custo-total');
-        const q = parseFloat(qEl ? qEl.value : 0) || 0;
-        const c = parseFloat(cEl ? cEl.value : 0) || 0;
+        const q = parseFloat(qEl  qEl.value : 0) || 0;
+        const c = parseFloat(cEl  cEl.value : 0) || 0;
         if (totalEl) totalEl.value = (q * c).toFixed(2);
     }
 
@@ -1023,8 +1023,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const qEl = document.getElementById('order-quantidade');
         const uEl = document.getElementById('order-valor_unitario');
         const totalEl = document.getElementById('order-valor_total');
-        const q = parseFloat(qEl ? qEl.value : 0) || 0;
-        const u = parseFloat(uEl ? uEl.value : 0) || 0;
+        const q = parseFloat(qEl  qEl.value : 0) || 0;
+        const u = parseFloat(uEl  uEl.value : 0) || 0;
         if (totalEl) {
             // keep two decimals, handle NaN gracefully
             totalEl.value = (q * u).toFixed(2);
@@ -1041,7 +1041,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.appendChild(container);
             }
             const t = document.createElement('div');
-            t.className = 'toast ' + (type === 'error' ? 'error' : 'success');
+            t.className = 'toast ' + (type === 'error'  'error' : 'success');
             t.innerText = message || '';
             container.appendChild(t);
             // fade out after timeout using CSS helper class
@@ -1056,7 +1056,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openProductModal(product = {}) {
         // Usar o MODAL DRAWER LATERAL (modal-editar-produto)
-        console.log('🔵 openProductModal chamado, usando Modal Drawer Lateral');
+        console.log('🔵 openProductModal chamação, usando Modal Drawer Lateral');
         
         if (typeof window.abrirModalEditarProduto === 'function') {
             // Abrir modal drawer lateral com ID do produto
@@ -1068,8 +1068,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         /* CÓDIGO ANTIGO REMOVIDO - usava modal rico
         if (typeof abrirModalProdutoRico === 'function') {
-            const produtoFormatado = { ... };
-            abrirModalProdutoRico(produtoFormatado);
+            const produtoFormatação = { ... };
+            abrirModalProdutoRico(produtoFormatação);
         } else {
             console.warn('Modal rico não disponível, aguardando carregamento...');
             setTimeout(() => openProductModal(product), 500);
@@ -1098,9 +1098,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const raw = (varEl.value || '').toString().trim();
         try {
             const parsed = JSON.parse(raw);
-            payload.variacao = Array.isArray(parsed) ? parsed.map(s=>String(s).trim()).filter(Boolean) : [];
+            payload.variacao = Array.isArray(parsed)  parsed.map(s=>String(s).trim()).filter(Boolean) : [];
         } catch (e) {
-            payload.variacao = raw ? raw.split(/[,;]+/).map(s=>s.trim()).filter(Boolean) : [];
+            payload.variacao = raw  raw.split(/[,;]+/).map(s=>s.trim()).filter(Boolean) : [];
         }
     }
         // minimal validation
@@ -1113,12 +1113,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 resp = await fetch(`${API_BASE_URL}/produtos`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
             }
             if (!resp || !resp.ok) {
-                const body = resp ? await resp.json().catch(()=>null) : null;
-                const msg = (body && body.message) ? body.message : 'Erro ao salvar produto';
+                const body = resp  await resp.json().catch(()=>null) : null;
+                const msg = (body && body.message)  body.message : 'Erro ao salvar produto';
                 showToast(msg, 'error');
                 return;
             }
-            showToast(id ? 'Produto atualizado com sucesso' : 'Produto criado com sucesso', 'success');
+            showToast(id  'Produto atualização com sucesso' : 'Produto criação com sucesso', 'success');
             closeProductModal();
             carregarProdutos();
         } catch (err) {
@@ -1140,7 +1140,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // populate fields safely
             document.getElementById('order-codigo_produto').value = prefill.codigo_produto || '';
-            document.getElementById('order-quantidade').value = typeof prefill.quantidade !== 'undefined' ? prefill.quantidade : '';
+            document.getElementById('order-quantidade').value = typeof prefill.quantidade !== 'undefined'  prefill.quantidade : '';
             document.getElementById('order-descricao_produto').value = prefill.descricao_produto || '';
             document.getElementById('order-data_previsao_entrega').value = prefill.data_previsao_entrega || '';
             document.getElementById('order-observacoes').value = prefill.observacoes || '';
@@ -1173,17 +1173,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const items = [];
             if (tbody) {
                 Array.from(tbody.querySelectorAll('tr')).forEach(row => {
-                    const codigo = (row.querySelector('.item-codigo') || row.querySelector('.order-item-codigo'))?.value || '';
-                    const descricao = (row.querySelector('.item-descricao') || row.querySelector('.order-item-produto'))?.value || '';
-                    const quantidade = parseFloat((row.querySelector('.item-quantidade') || row.querySelector('.order-item-qtde'))?.value) || 0;
-                    const valor_unitario = parseFloat((row.querySelector('.item-valor_unitario') || row.querySelector('.order-item-valor-unit'))?.value) || 0;
+                    const codigo = (row.querySelector('.item-codigo') || row.querySelector('.order-item-codigo')).value || '';
+                    const descricao = (row.querySelector('.item-descricao') || row.querySelector('.order-item-produto')).value || '';
+                    const quantidade = parseFloat((row.querySelector('.item-quantidade') || row.querySelector('.order-item-qtde')).value) || 0;
+                    const valor_unitario = parseFloat((row.querySelector('.item-valor_unitario') || row.querySelector('.order-item-valor-unit')).value) || 0;
                     if (descricao || codigo) {
                         items.push({ codigo, descricao, quantidade, valor_unitario });
                     }
                 });
             }
             
-            console.log(`📦 [SUBMIT] Coletados ${items.length} itens:`, items);
+            console.log(`📦 [SUBMIT] Coletaçãos ${items.length} itens:`, items);
             
             // ✅ VALIDAÇÃO COMPLETA DE CAMPOS OBRIGATÓRIOS
             const errors = [];
@@ -1195,9 +1195,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // 1. VALIDAÇÃO: Pelo menos um produto
             if (items.length === 0) {
                 errors.push('Adicione pelo menos um produto à ordem de produção');
-                document.getElementById('order-add-item')?.classList.add('form-error');
+                document.getElementById('order-add-item').classList.add('form-error');
             } else {
-                // Verificar se produtos têm dados válidos
+                // Verificar se produtos têm daçãos válidos
                 const itemsValidos = items.filter(item => item.codigo && item.descricao && item.quantidade > 0);
                 if (itemsValidos.length === 0) {
                     errors.push('Preencha código, descrição e quantidade para pelo menos um produto');
@@ -1248,7 +1248,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
             
-            // 4. VALIDAÇÃO: Data de previsão não pode ser no passado
+            // 4. VALIDAÇÃO: Data de previsão não pode ser no passação
             const dataPrevisaoInput = document.getElementById('order-data_previsao_entrega');
             if (dataPrevisaoInput && dataPrevisaoInput.value) {
                 const dataPrevisao = new Date(dataPrevisaoInput.value);
@@ -1256,19 +1256,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 hoje.setHours(0, 0, 0, 0);
                 
                 if (dataPrevisao < hoje) {
-                    errors.push('Previsão de entrega não pode ser no passado');
+                    errors.push('Previsão de entrega não pode ser no passação');
                     dataPrevisaoInput.classList.add('form-error');
                     
                     const errorMsg = document.createElement('span');
                     errorMsg.className = 'error-message';
-                    errorMsg.textContent = 'Data não pode ser no passado';
+                    errorMsg.textContent = 'Data não pode ser no passação';
                     dataPrevisaoInput.parentNode.appendChild(errorMsg);
                 }
             }
             
             // 5. MOSTRAR ERROS SE HOUVER
             if (errors.length > 0) {
-                console.warn('❌ [VALIDAÇÃO] Erros encontrados:', errors);
+                console.warn('❌ [VALIDAÇÃO] Erros encontraçãos:', errors);
                 
                 // Criar resumo de validação
                 const existingSummary = document.querySelector('.validation-summary');
@@ -1292,7 +1292,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     modalBody.scrollTop = 0;
                 }
                 
-                showToast(`${errors.length} erro(s) de validação encontrado(s)`, 'warning');
+                showToast(`${errors.length} erro(s) de validação encontração(s)`, 'warning');
                 return;
             }
             
@@ -1314,43 +1314,43 @@ document.addEventListener('DOMContentLoaded', () => {
             const valorTotal = document.getElementById('order-valor_total');
             
             const payload = {
-                // Usar dados dos itens em vez de campos únicos
+                // Usar daçãos dos itens em vez de campos únicos
                 items: items,
                 quantidade_total: items.reduce((sum, item) => sum + item.quantidade, 0),
-                valor_total: parseFloat(valorTotal?.value) || items.reduce((sum, item) => sum + (item.quantidade * item.valor_unitario), 0),
-                data_previsao_entrega: dataPrevisao ? dataPrevisao.value || null : null,
-                observacoes: (observacoes ? observacoes.value || '' : '').toString().trim(),
-                cliente: (cliente ? cliente.value || '' : '').toString().trim(),
-                cliente_id: (clienteId ? clienteId.value : '') || null,
-                contato: (contato ? contato.value || '' : '').toString().trim(),
-                email: (email ? email.value || '' : '').toString().trim(),
-                telefone: (telefone ? telefone.value || '' : '').toString().trim(),
-                frete: (frete ? frete.value || '' : '').toString().trim(),
-                vendedor: (vendedor ? vendedor.value || '' : '').toString().trim(),
-                numero_orcamento: (numeroOrcamento ? numeroOrcamento.value || '' : '').toString().trim(),
-                revisao: (revisao ? revisao.value || '' : '').toString().trim(),
-                pedido_referencia: (pedidoReferencia ? pedidoReferencia.value || '' : '').toString().trim(),
-                data_liberacao: document.getElementById('order-data_liberacao')?.value || null
+                valor_total: parseFloat(valorTotal.value) || items.reduce((sum, item) => sum + (item.quantidade * item.valor_unitario), 0),
+                data_previsao_entrega: dataPrevisao  dataPrevisao.value || null : null,
+                observacoes: (observacoes  observacoes.value || '' : '').toString().trim(),
+                cliente: (cliente  cliente.value || '' : '').toString().trim(),
+                cliente_id: (clienteId  clienteId.value : '') || null,
+                contato: (contato  contato.value || '' : '').toString().trim(),
+                email: (email  email.value || '' : '').toString().trim(),
+                telefone: (telefone  telefone.value || '' : '').toString().trim(),
+                frete: (frete  frete.value || '' : '').toString().trim(),
+                vendedor: (vendedor  vendedor.value || '' : '').toString().trim(),
+                numero_orcamento: (numeroOrcamento  numeroOrcamento.value || '' : '').toString().trim(),
+                revisao: (revisao  revisao.value || '' : '').toString().trim(),
+                pedido_referencia: (pedidoReferencia  pedidoReferencia.value || '' : '').toString().trim(),
+                data_liberacao: document.getElementById('order-data_liberacao').value || null
             };
-            // new fields: variacao (array), embalagem, lances (array), transportadora (object)
+            // new fields: variacao (array), embalagem, lances (array), transportaçãora (object)
             const rawVariacao = (document.getElementById('order-variacao').value || '').toString().trim();
-            payload.variacao = rawVariacao ? rawVariacao.split(/[;,]+/).map(s=>s.trim()).filter(Boolean) : [];
+            payload.variacao = rawVariacao  rawVariacao.split(/[;,]+/).map(s=>s.trim()).filter(Boolean) : [];
             payload.embalagem = (document.getElementById('order-embalagem').value || '').toString().trim();
             const rawLances = (document.getElementById('order-lances').value || '').toString().trim();
-            payload.lances = rawLances ? rawLances.split(/[;,]+/).map(s=> { const n=parseFloat(s); return Number.isFinite(n)? n: s; }).filter(()=>true) : [];
-            payload.transportadora = {
-                nome: (document.getElementById('order-transportadora_nome').value || '').toString().trim(),
-                fone: (document.getElementById('order-transportadora_fone').value || '').toString().trim(),
-                cep: (document.getElementById('order-transportadora_cep').value || '').toString().trim(),
-                endereco: (document.getElementById('order-transportadora_endereco').value || '').toString().trim(),
-                cpf_cnpj: (document.getElementById('order-transportadora_cpf_cnpj').value || '').toString().trim(),
-                email_nfe: (document.getElementById('order-transportadora_email_nfe').value || '').toString().trim()
+            payload.lances = rawLances  rawLances.split(/[;,]+/).map(s=> { const n=parseFloat(s); return Number.isFinite(n) n: s; }).filter(()=>true) : [];
+            payload.transportaçãora = {
+                nome: (document.getElementById('order-transportaçãora_nome').value || '').toString().trim(),
+                fone: (document.getElementById('order-transportaçãora_fone').value || '').toString().trim(),
+                cep: (document.getElementById('order-transportaçãora_cep').value || '').toString().trim(),
+                endereco: (document.getElementById('order-transportaçãora_endereco').value || '').toString().trim(),
+                cpf_cnpj: (document.getElementById('order-transportaçãora_cpf_cnpj').value || '').toString().trim(),
+                email_nfe: (document.getElementById('order-transportaçãora_email_nfe').value || '').toString().trim()
             };
 
             // basic validation for cpf/cnpj (loose: 11 or 14 digits)
-            if (payload.transportadora.cpf_cnpj) {
-                const digits = payload.transportadora.cpf_cnpj.replace(/[^0-9]/g,'');
-                if (!(digits.length === 11 || digits.length === 14)) { showToast('CPF/CNPJ da transportadora inválido', 'warning'); return; }
+            if (payload.transportaçãora.cpf_cnpj) {
+                const digits = payload.transportaçãora.cpf_cnpj.replace(/[^0-9]/g,'');
+                if (!(digits.length === 11 || digits.length === 14)) { showToast('CPF/CNPJ da transportaçãora inválido', 'warning'); return; }
             }
             
             console.log('✅ [SUBMIT] Validação aprovada, enviando payload:', payload);
@@ -1387,7 +1387,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(url);
             
-            console.log('✅ [SUBMIT] Excel gerado e baixado com sucesso!');
+            console.log('✅ [SUBMIT] Excel geração e baixação com sucesso!');
             showToast('Ordem de produção Excel gerada com sucesso!', 'success');
             closeOrderModal();
             // refresh dashboard lists
@@ -1411,8 +1411,8 @@ document.addEventListener('DOMContentLoaded', () => {
             let sum = 0;
             if (!tbody) return;
             Array.from(tbody.querySelectorAll('tr')).forEach(row => {
-                const q = parseFloat((row.querySelector('.item-quantidade') || row.querySelector('.order-item-qtde'))?.value) || 0;
-                const u = parseFloat((row.querySelector('.item-valor_unitario') || row.querySelector('.order-item-valor-unit'))?.value) || 0;
+                const q = parseFloat((row.querySelector('.item-quantidade') || row.querySelector('.order-item-qtde')).value) || 0;
+                const u = parseFloat((row.querySelector('.item-valor_unitario') || row.querySelector('.order-item-valor-unit')).value) || 0;
                 const t = q * u;
                 const totalCell = row.querySelector('.item-total') || row.querySelector('.order-item-valor-total');
                 if (totalCell) {
@@ -1472,10 +1472,10 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 const items = [];
                 Array.from(tbody.querySelectorAll('tr')).forEach(row=>{
-                    const codigo = (row.querySelector('.item-codigo') || row.querySelector('.order-item-codigo'))?.value || '';
-                    const descricao = (row.querySelector('.item-descricao') || row.querySelector('.order-item-produto'))?.value || '';
-                    const quantidade = parseFloat((row.querySelector('.item-quantidade') || row.querySelector('.order-item-qtde'))?.value) || 0;
-                    const valor_unitario = parseFloat((row.querySelector('.item-valor_unitario') || row.querySelector('.order-item-valor-unit'))?.value) || 0;
+                    const codigo = (row.querySelector('.item-codigo') || row.querySelector('.order-item-codigo')).value || '';
+                    const descricao = (row.querySelector('.item-descricao') || row.querySelector('.order-item-produto')).value || '';
+                    const quantidade = parseFloat((row.querySelector('.item-quantidade') || row.querySelector('.order-item-qtde')).value) || 0;
+                    const valor_unitario = parseFloat((row.querySelector('.item-valor_unitario') || row.querySelector('.order-item-valor-unit')).value) || 0;
                     if (descricao || codigo) items.push({ codigo, descricao, quantidade, valor_unitario });
                 });
                 // attach as JSON on the form via a hidden input
@@ -1483,7 +1483,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (!hidden) { hidden = document.createElement('input'); hidden.type='hidden'; hidden.id='order-items-hidden'; hidden.name='items_json'; orderFormRef.appendChild(hidden); }
                 hidden.value = JSON.stringify(items);
                 
-                console.log(`📦 Coletados ${items.length} itens para envio:`, items);
+                console.log(`📦 Coletaçãos ${items.length} itens para envio:`, items);
             } catch (e) { 
                 console.error('❌ Erro na coleta de itens:', e);
             }
@@ -1502,12 +1502,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!code || !previewEl) { if (previewEl) previewEl.innerText = ''; return; }
             try {
                 previewEl.innerHTML = '<span class="pcp-spinner" aria-hidden="true"></span> Consultando produto...';
-                const resp = await fetch(`${API_BASE_URL}/produtos?q=${encodeURIComponent(code)}&limit=1`);
-                if (!resp.ok) { previewEl.innerText = 'Produto não encontrado'; return; }
+                const resp = await fetch(`${API_BASE_URL}/produtosq=${encodeURIComponent(code)}&limit=1`);
+                if (!resp.ok) { previewEl.innerText = 'Produto não encontração'; return; }
                 const body = await resp.json();
-                const list = Array.isArray(body) ? body : (body.rows || []);
+                const list = Array.isArray(body)  body : (body.rows || []);
                 const prod = list[0];
-                if (!prod) { previewEl.innerText = 'Produto não encontrado'; return; }
+                if (!prod) { previewEl.innerText = 'Produto não encontração'; return; }
                 const estoque = Number(prod.quantidade_estoque || prod.quantidade || prod.estoque || 0).toFixed(2);
                 previewEl.innerHTML = `<strong>${escapeHtml(prod.codigo || prod.codigo_produto || prod.descricao || 'Produto')}</strong> — ${escapeHtml(prod.descricao || prod.descricao_produto || '')} <div class="text-sm muted">Estoque: ${estoque}</div>`;
             } catch (err) { if (previewEl) previewEl.innerText = 'Erro ao buscar produto'; }
@@ -1531,7 +1531,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!clientInput || !clientDatalist) return;
         
         let timer = null;
-        let clientesCache = []; // Cache dos clientes encontrados
+        let clientesCache = []; // Cache dos clientes encontraçãos
         
         clientInput.addEventListener('input', (e)=>{
             clearTimeout(timer);
@@ -1549,20 +1549,20 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             timer = setTimeout(async () => {
                 try {
-                    const resp = await fetch(`${API_BASE_URL}/clientes?q=${encodeURIComponent(q)}`);
+                    const resp = await fetch(`${API_BASE_URL}/clientesq=${encodeURIComponent(q)}`);
                     if (!resp.ok) { 
                         clientDatalist.innerHTML = ''; 
                         clientesCache = [];
                         return; 
                     }
                     const rows = await resp.json();
-                    clientesCache = rows; // Armazenar dados completos
+                    clientesCache = rows; // Armazenar daçãos completos
                     
                     clientDatalist.innerHTML = rows.map(r => {
                         // Criar label mais informativo
                         const nome = r.nome || r.razao_social || '';
-                        const cnpj = r.cnpj ? ` — ${r.cnpj}` : '';
-                        const contato = r.contato ? ` (${r.contato})` : '';
+                        const cnpj = r.cnpj  ` — ${r.cnpj}` : '';
+                        const contato = r.contato  ` (${r.contato})` : '';
                         const label = `${nome}${cnpj}${contato}`;
                         return `<option data-id="${r.id || ''}" data-full='${JSON.stringify(r)}' value="${escapeHtml(label)}"></option>`;
                     }).join('');
@@ -1581,8 +1581,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return; 
             }
             
-            // Encontrar cliente pelos dados em cache ou pela option
-            let clienteSelecionado = null;
+            // Encontrar cliente pelos daçãos em cache ou pela option
+            let clienteSelecionação = null;
             
             // Tentar encontrar pela option
             const opts = Array.from(clientDatalist.querySelectorAll('option'));
@@ -1592,31 +1592,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 const id = match.getAttribute('data-id') || '';
                 clientIdHidden.value = id;
                 
-                // Tentar obter dados completos
+                // Tentar obter daçãos completos
                 try {
                     const fullData = match.getAttribute('data-full');
                     if (fullData) {
-                        clienteSelecionado = JSON.parse(fullData);
+                        clienteSelecionação = JSON.parse(fullData);
                     }
                 } catch (e) {
                     // Fallback: buscar no cache
-                    clienteSelecionado = clientesCache.find(c => c.id == id);
+                    clienteSelecionação = clientesCache.find(c => c.id == id);
                 }
                 
                 // Preencher campos automaticamente
-                if (clienteSelecionado) {
-                    if (contatoInput && clienteSelecionado.contato) {
-                        contatoInput.value = clienteSelecionado.contato;
+                if (clienteSelecionação) {
+                    if (contatoInput && clienteSelecionação.contato) {
+                        contatoInput.value = clienteSelecionação.contato;
                     }
-                    if (emailInput && clienteSelecionado.email) {
-                        emailInput.value = clienteSelecionado.email;
+                    if (emailInput && clienteSelecionação.email) {
+                        emailInput.value = clienteSelecionação.email;
                     }
-                    if (telefoneInput && clienteSelecionado.telefone) {
-                        telefoneInput.value = clienteSelecionado.telefone;
+                    if (telefoneInput && clienteSelecionação.telefone) {
+                        telefoneInput.value = clienteSelecionação.telefone;
                     }
                     
                     // Mostrar feedback visual
-                    showToast(`Dados de ${clienteSelecionado.nome || 'cliente'} preenchidos automaticamente`, 'success', 2000);
+                    showToast(`Daçãos de ${clienteSelecionação.nome || 'cliente'} preenchidos automaticamente`, 'success', 2000);
                 }
             } else {
                 clientIdHidden.value = '';
@@ -1639,7 +1639,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function handleEditProduct(id) {
       try {
         const res = await fetch(`${API_BASE_URL}/produtos/${id}`);
-        if (!res.ok) throw new Error('Produto não encontrado');
+        if (!res.ok) throw new Error('Produto não encontração');
         const prod = await res.json();
         openProductModal(prod);
     } catch (err) { showToast('Não foi possível obter o produto para edição', 'error'); }
@@ -1692,7 +1692,7 @@ document.querySelectorAll('.btn-toggle-sidebar').forEach(b => {
                 const primary = document.getElementById('btn-toggle-menu');
                 if (primary) primary.click();
             }
-        } catch (err) { try { document.getElementById('btn-toggle-menu')?.click(); } catch(e){} }
+        } catch (err) { try { document.getElementById('btn-toggle-menu').click(); } catch(e){} }
     });
 });
 
@@ -1826,18 +1826,18 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
                     // If query is purely numeric or starts with # treat as pedido lookup
                     let searchResp = {};
                     let prodsResp = { rows: [] };
-                    if (/^#?\d+$/.test(q)) {
+                    if (/^#\d+$/.test(q)) {
                         // try lookup pedido by id
                         const id = q.replace('#','');
-                        try { const r = await fetch(`${API_BASE_URL}/pedidos/${encodeURIComponent(id)}`); if (r && r.ok) { const pd = await r.json(); searchResp = { results: { pedidos: pd ? [pd] : [] } }; } } catch(e){}
+                        try { const r = await fetch(`${API_BASE_URL}/pedidos/${encodeURIComponent(id)}`); if (r && r.ok) { const pd = await r.json(); searchResp = { results: { pedidos: pd  [pd] : [] } }; } } catch(e){}
                     }
                     // Parallel fallback searches for general query
                     const [sResp, pResp] = await Promise.all([
-                        fetch(`${API_BASE_URL}/search?q=${encodeURIComponent(q)}&limit=20`).then(r=>r.ok? r.json(): {}).catch(()=>({})),
-                        fetch(`${API_BASE_URL}/produtos?page=1&limit=20&q=${encodeURIComponent(q)}`).then(r=>r.ok? r.json(): { rows: [] }).catch(()=>({ rows: [] }))
+                        fetch(`${API_BASE_URL}/searchq=${encodeURIComponent(q)}&limit=20`).then(r=>r.ok r.json(): {}).catch(()=>({})),
+                        fetch(`${API_BASE_URL}/produtospage=1&limit=20&q=${encodeURIComponent(q)}`).then(r=>r.ok r.json(): { rows: [] }).catch(()=>({ rows: [] }))
                     ]);
                     // merge results (if searchResp empty prefer sResp)
-                    searchResp = Object.keys(searchResp).length ? searchResp : (sResp || {});
+                    searchResp = Object.keys(searchResp).length  searchResp : (sResp || {});
                     prodsResp = pResp || { rows: [] };
                     const data = searchResp || {};
                     const results = data.results || {};
@@ -1846,7 +1846,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
                     const produtos = results.produtos || [];
                     const pedidos = results.pedidos || [];
                     // merge quick product fetch (rows) into produtos list, preferring DB search
-                    const prodRows = (prodsResp && prodsResp.rows) ? prodsResp.rows : [];
+                    const prodRows = (prodsResp && prodsResp.rows)  prodsResp.rows : [];
                     // convert prodRows to the same shape if necessary and merge
                     const mergedProdutos = [...prodRows, ...produtos].slice(0, 20);
                     const items = [];
@@ -1856,7 +1856,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
                     // Include pedidos in inline results (search by empresa, pedido id, product code/name)
                     pedidos.forEach(pd => items.push({ type: 'Pedido', title: `Pedido #${pd.id}`, subtitle: pd.cliente || '', meta: `${pd.produto_codigo||pd.produto_descricao||''} • Qtd:${pd.quantidade||0}`, id: pd.id }));
                     if (items.length === 0) {
-                        if (searchInline) { searchInline.innerHTML = '<div class="pad-12 text-sm muted">Nenhum resultado encontrado</div>'; searchInline.classList.add('visible'); }
+                        if (searchInline) { searchInline.innerHTML = '<div class="pad-12 text-sm muted">Nenhum resultação encontração</div>'; searchInline.classList.add('visible'); }
                         return;
                     }
                     if (searchInline) {
@@ -1898,11 +1898,11 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
 
     function renderSearchModalContent(q, data) {
         if (!searchResultsBody) return;
-    const ordens = data.results?.ordens || [];
-        const materias = data.results?.materiais || [];
-        const produtos = data.results?.produtos || [];
-    const pedidos = data.results?.pedidos || [];
-        let html = `<div class="pad-8 muted">Resultados para <strong>"${q}"</strong></div>`;
+    const ordens = data.results.ordens || [];
+        const materias = data.results.materiais || [];
+        const produtos = data.results.produtos || [];
+    const pedidos = data.results.pedidos || [];
+        let html = `<div class="pad-8 muted">Resultaçãos para <strong>"${q}"</strong></div>`;
         if (ordens.length) {
             html += '<h4>Ordens</h4>' + ordens.map(o=>`<div class="list-row pad-8"><div><strong>OP-${o.id} ${o.codigo_produto||''}</strong> — ${o.descricao_produto||''}</div><div class="text-sm muted">${o.status||''} • ${new Date(o.data_previsao_entrega||o.data_pedido||Date.now()).toLocaleDateString()}</div></div>`).join('');
         }
@@ -1915,7 +1915,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
         if (produtos.length) {
             html += '<h4>Produtos</h4>' + produtos.map(p=>`<div class="list-row pad-8"><div><strong>${p.codigo||p.descricao}</strong> — ${p.descricao||''}</div><div class="text-sm muted">Est: ${p.quantidade_estoque || 0}</div></div>`).join('');
         }
-    if (!ordens.length && !materias.length && !produtos.length) html += '<div class="pad-12 muted">Nenhum resultado encontrado</div>';
+    if (!ordens.length && !materias.length && !produtos.length) html += '<div class="pad-12 muted">Nenhum resultação encontração</div>';
         searchResultsBody.innerHTML = html;
         // attach handlers for opening pedido
         setTimeout(() => {
@@ -1925,7 +1925,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
                     const id = ev.currentTarget.dataset.id;
                     try {
                         const resp = await fetch(`${API_BASE_URL}/pedidos/${id}`);
-                        if (!resp.ok) throw new Error('Pedido não encontrado');
+                        if (!resp.ok) throw new Error('Pedido não encontração');
                         const pedido = await resp.json();
                         // show in item-edit-modal
                         const editModal = document.getElementById('item-edit-modal');
@@ -1942,7 +1942,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
 
     async function openSearchModal(q, type) {
         try {
-            const resp = await fetch(`${API_BASE_URL}/search?q=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}&limit=100`);
+            const resp = await fetch(`${API_BASE_URL}/searchq=${encodeURIComponent(q)}&type=${encodeURIComponent(type)}&limit=100`);
             const data = await resp.json();
             renderSearchModalContent(q, data);
         if (searchModal) openAccessibleModal(searchModal);
@@ -1954,7 +1954,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
     async function openPedidoQuickView(id) {
         try {
             const resp = await fetch(`${API_BASE_URL}/pedidos/${encodeURIComponent(id)}`);
-            if (!resp.ok) throw new Error('Pedido não encontrado');
+            if (!resp.ok) throw new Error('Pedido não encontração');
             const pedido = await resp.json();
             const editModal = document.getElementById('item-edit-modal');
             const editTitle = document.getElementById('item-edit-title');
@@ -1973,10 +1973,10 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
             const row = container.querySelector(`tr[data-id="${id}"]`);
             if (!row) return;
             row.scrollIntoView({ block: 'center', behavior: 'smooth' });
-            row.style.transition = 'box-shadow 0.4s ease, transform 0.3s ease';
-            row.style.boxShadow = '0 8px 30px rgba(11,37,69,0.12)';
+            row.style.transition = 'box-shaçãow 0.4s ease, transform 0.3s ease';
+            row.style.boxShaçãow = '0 8px 30px rgba(11,37,69,0.12)';
             row.style.transform = 'scale(1.01)';
-            setTimeout(() => { row.style.boxShadow = ''; row.style.transform = ''; }, 900);
+            setTimeout(() => { row.style.boxShaçãow = ''; row.style.transform = ''; }, 900);
         } catch (e) { /* ignore */ }
     }
 
@@ -2002,7 +2002,7 @@ async function setCurrentUserUI(user) {
         let nome = (user.apelido || user.nome || user.email || '').toString();
         if (nome && nome.includes('@')) nome = nome.split('@')[0];
         const first = (nome || '').split(/\s+/)[0] || nome || '';
-        const capitalized = first ? (first.charAt(0).toUpperCase() + first.slice(1)) : '';
+        const capitalized = first  (first.charAt(0).toUpperCase() + first.slice(1)) : '';
         
         // Saudação dinâmica baseada na hora
         const hour = new Date().getHours();
@@ -2010,7 +2010,7 @@ async function setCurrentUserUI(user) {
         if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
         else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
         
-        if (avatarNameEl) avatarNameEl.innerText = capitalized ? `${greeting}, ${capitalized}` : greeting;
+        if (avatarNameEl) avatarNameEl.innerText = capitalized  `${greeting}, ${capitalized}` : greeting;
         // subtitle pode mostrar cargo ou departamento
         if (avatarSubEl) avatarSubEl.innerText = user.cargo || user.departamento || 'Sistema PCP';
         // render profile photo if available, otherwise initials
@@ -2058,7 +2058,7 @@ async function setCurrentUserUI(user) {
                 if (chosen) {
                     const imgEl = document.createElement('img');
                     imgEl.src = chosen;
-                    imgEl.alt = (capitalized ? capitalized + "'s avatar" : 'Avatar');
+                    imgEl.alt = (capitalized  capitalized + "'s avatar" : 'Avatar');
                     imgEl.title = capitalized || '';
                     imgEl.classList.add('avatar-img');
                     avatarCircle.appendChild(imgEl);
@@ -2085,7 +2085,7 @@ async function loadCurrentUser(retries = 3, delayMs = 500) {
             return null;
         }
         const data = await res.json().catch(()=>null);
-        const user = data && data.user ? data.user : null;
+        const user = data && data.user  data.user : null;
         if (user) setCurrentUserUI(user);
         return user;
     } catch (err) {
@@ -2129,7 +2129,7 @@ async function renderPainelCustos() {
     try {
         console.log('🔍 Renderizando painel de custos...');
         if (!panelCustos) {
-            console.warn('⚠️ Elemento panel-custos/painel-custos não encontrado');
+            console.warn('⚠️ Elemento panel-custos/painel-custos não encontração');
             return;
         }
         const resp = await fetch(`${API_BASE_URL}/produtos`);
@@ -2138,10 +2138,10 @@ async function renderPainelCustos() {
         prods.forEach(p => { const qtd = parseFloat(p.quantidade_estoque || 0); const custo = parseFloat(p.custo_unitario || 0); totalCusto += (qtd * custo); });
     // create a small summary and a horizontal bar chart of top 5 cost contributors
     const top = prods.slice().sort((a,b)=> (parseFloat(b.quantidade_estoque||0)*parseFloat(b.custo_unitario||0)) - (parseFloat(a.quantidade_estoque||0)*parseFloat(a.custo_unitario||0))).slice(0,5);
-    const labels = top.map(p=>p.descricao?.slice(0,20) || p.codigo || '');
+    const labels = top.map(p=>p.descricao.slice(0,20) || p.codigo || '');
     const dataVals = top.map(p=> (parseFloat(p.quantidade_estoque||0)*parseFloat(p.custo_unitario||0)).toFixed(2));
     if (!panelCustos) {
-        console.warn('⚠️ Elemento painel-custos não encontrado');
+        console.warn('⚠️ Elemento painel-custos não encontração');
         return;
     }
     panelCustos.innerHTML = `<div class="w-100"><div class="text-center"><h3 class="mt-0">Custo total em estoque</h3><div class="fw-700 kpi-number">R$ ${totalCusto.toFixed(2)}</div></div><div class="mt-8"><canvas id="chart-custos" class="chart-small" ></canvas></div></div>`;
@@ -2162,16 +2162,16 @@ async function renderPainelCustos() {
 async function renderPainelDashboard() {
     try {
         const [prodsRaw, matsRaw, ordsRaw] = await Promise.all([
-            fetch(`${API_BASE_URL}/produtos`).then(r=>r.ok? r.json(): null).catch(()=>null),
-            fetch(`${API_BASE_URL}/materiais`).then(r=>r.ok? r.json(): null).catch(()=>null),
-            fetch(`${API_BASE_URL}/ordens`).then(r=>r.ok? r.json(): null).catch(()=>null)
+            fetch(`${API_BASE_URL}/produtos`).then(r=>r.ok r.json(): null).catch(()=>null),
+            fetch(`${API_BASE_URL}/materiais`).then(r=>r.ok r.json(): null).catch(()=>null),
+            fetch(`${API_BASE_URL}/ordens`).then(r=>r.ok r.json(): null).catch(()=>null)
         ]);
         const prods = normalizeListResponse(prodsRaw);
         const mats = normalizeListResponse(matsRaw);
         const ords = normalizeListResponse(ordsRaw);
         const totalProds = prods.count || 0;
         const totalMats = mats.count || 0;
-        const ordItems = ords.items && ords.items.length ? ords.items : [];
+        const ordItems = ords.items && ords.items.length  ords.items : [];
         const ordensAFazer = ordItems.filter(isOrderActive).length;
 
         if (!panelDashboard) return;
@@ -2196,7 +2196,7 @@ async function renderPainelDashboard() {
                     options: { plugins: { legend: { position: 'bottom' } } }
                 });
             } catch (chartErr) {
-                console.warn('Erro ao desenhar chart-kpis:', chartErr && chartErr.message ? chartErr.message : chartErr);
+                console.warn('Erro ao desenhar chart-kpis:', chartErr && chartErr.message  chartErr.message : chartErr);
             }
         }
     } catch (err) {
@@ -2205,20 +2205,20 @@ async function renderPainelDashboard() {
     }
 }
 
-let pedidosFilter = 'all'; // 'all' | 'pendente' | 'faturado'
+let pedidosFilter = 'all'; // 'all' | 'pendente' | 'faturação'
 async function renderPainelPedidos() {
     try {
         // On the dashboard we want to show approved/invoiced orders by default
-        pedidosFilter = 'faturado';
+        pedidosFilter = 'faturação';
         const resp = await fetch(`${API_BASE_URL}/pedidos`);
-        if (!resp.ok) { panelPedidos.innerHTML = '<div>Nenhum pedido encontrado</div>'; return; }
+        if (!resp.ok) { panelPedidos.innerHTML = '<div>Nenhum pedido encontração</div>'; return; }
         const pedidos = await resp.json();
-        if (!Array.isArray(pedidos) || pedidos.length === 0) { panelPedidos.innerHTML = '<div>Nenhum pedido encontrado</div>'; return; }
+        if (!Array.isArray(pedidos) || pedidos.length === 0) { panelPedidos.innerHTML = '<div>Nenhum pedido encontração</div>'; return; }
 
         // filter controls - use CSS utility classes instead of inline styles
     const controls = document.createElement('div'); controls.classList.add('controls-row');
-        ['all','pendente','faturado'].forEach(k=>{
-            const btn = document.createElement('button'); btn.className = 'btn btn-filter'; btn.innerText = k === 'all' ? 'Todos' : (k === 'pendente' ? 'Pendentes' : 'Faturados');
+        ['all','pendente','faturação'].forEach(k=>{
+            const btn = document.createElement('button'); btn.className = 'btn btn-filter'; btn.innerText = k === 'all'  'Todos' : (k === 'pendente'  'Pendentes' : 'Faturaçãos');
             if (k === pedidosFilter) { btn.classList.add('active'); }
             btn.addEventListener('click', ()=>{ pedidosFilter = k; renderPainelPedidos(); });
             controls.appendChild(btn);
@@ -2233,7 +2233,7 @@ async function renderPainelPedidos() {
 
         // If there are no results for the selected filter, show the empty card
         if (!Array.isArray(list) || list.length === 0) {
-            renderEmptyPedidosCard(panelPedidos, 'Pedidos Faturados');
+            renderEmptyPedidosCard(panelPedidos, 'Pedidos Faturaçãos');
             return;
         }
 
@@ -2241,7 +2241,7 @@ async function renderPainelPedidos() {
             const cliente = p.cliente || 'Cliente';
             const produto = p.produto_nome || p.produto_id || '';
             const status = p.status || 'Pendente';
-            const buttonHtml = status.toLowerCase().includes('fatur') ? '<span class="text-success">FATURADO</span>' : ('<button class="btn" data-id="' + p.id + '" data-action="faturar">Marcar Faturado</button>');
+            const buttonHtml = status.toLowerCase().includes('fatur')  '<span class="text-success">FATURADO</span>' : ('<button class="btn" data-id="' + p.id + '" data-action="faturar">Marcar Faturação</button>');
             return `<div class="list-row"><div class="flex-1"><strong>${cliente}</strong> — ${p.quantidade} x ${produto}<div class="text-sm muted">${new Date(p.data_pedido).toLocaleDateString()} • ${status}</div></div><div class="ml-12">${buttonHtml}</div></div>`;
         }).join('');
 
@@ -2255,9 +2255,9 @@ async function renderPainelPedidos() {
         content.querySelectorAll('button[data-action="faturar"]').forEach(b=>{
             b.addEventListener('click', async (e)=>{
                 const id = e.currentTarget.dataset.id;
-                if (!confirm('Marcar este pedido como faturado?')) return;
+                if (!confirm('Marcar este pedido como faturação')) return;
                 try {
-                    const upd = await fetch(`${API_BASE_URL}/pedidos/${id}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ status: 'Faturado' }) });
+                    const upd = await fetch(`${API_BASE_URL}/pedidos/${id}`, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify({ status: 'Faturação' }) });
                     if (!upd.ok) throw new Error('Falha');
                     renderPainelPedidos();
                 } catch (err) { showToast('Erro ao atualizar pedido', 'error'); }
@@ -2278,10 +2278,10 @@ async function renderPainelPedidos() {
 }
 
 // helper to render an empty styled card matching the design
-function renderEmptyPedidosCard(targetEl, title='Pedidos Faturados') {
+function renderEmptyPedidosCard(targetEl, title='Pedidos Faturaçãos') {
     targetEl.innerHTML = `<div class="empty-card">
         <h3 class="mt-0">${title}</h3>
-        <div class="muted">Nenhum pedido faturado no momento.</div>
+        <div class="muted">Nenhum pedido faturação no momento.</div>
     </div>`;
 }
 
@@ -2304,63 +2304,63 @@ async function renderPainelPrazos() {
     } catch (err) { panelPrazos.innerHTML = '<div>Erro ao carregar prazos</div>'; }
 }
 
-// New: render Pedidos Faturados panel
-async function renderPainelFaturados() {
+// New: render Pedidos Faturaçãos panel
+async function renderPainelFaturaçãos() {
     try {
-        const resp = await fetch(`${API_BASE_URL}/pedidos/faturados`);
-        if (!resp.ok) throw new Error('Falha ao carregar pedidos faturados');
-        const faturados = await resp.json();
+        const resp = await fetch(`${API_BASE_URL}/pedidos/faturaçãos`);
+        if (!resp.ok) throw new Error('Falha ao carregar pedidos faturaçãos');
+        const faturaçãos = await resp.json();
         const panel = document.getElementById('panel-pedidos');
         if (!panel) return;
-        if (!Array.isArray(faturados) || faturados.length === 0) {
-            panel.innerHTML = '<div class="pad-12 muted">Nenhum pedido faturado encontrado.</div>';
+        if (!Array.isArray(faturaçãos) || faturaçãos.length === 0) {
+            panel.innerHTML = '<div class="pad-12 muted">Nenhum pedido faturação encontração.</div>';
             return;
         }
         // render table
-        const rows = faturados.slice(0,8).map(p => {
+        const rows = faturaçãos.slice(0,8).map(p => {
             const cliente = p.cliente || '';
             const prod = p.produto_descricao || p.produto_codigo || '';
-            const data = p.data_pedido ? new Date(p.data_pedido).toLocaleDateString() : (p.previsao_entrega ? new Date(p.previsao_entrega).toLocaleDateString() : '');
+            const data = p.data_pedido  new Date(p.data_pedido).toLocaleDateString() : (p.previsao_entrega  new Date(p.previsao_entrega).toLocaleDateString() : '');
             const status = p.status || '';
             return `<div class="list-row"><div class="flex-1"><strong>${cliente}</strong><div class="text-sm muted">${prod} • ${data}</div></div><div class="text-right"><div class="text-success">${status}</div></div></div>`;
         }).join('');
-    panel.innerHTML = rows + `<div class="mt-8 text-right"><button id="btn-ver-todos-faturados" class="btn">Ver todos</button></div>`;
+    panel.innerHTML = rows + `<div class="mt-8 text-right"><button id="btn-ver-todos-faturaçãos" class="btn">Ver todos</button></div>`;
         // rebind the button if present
-        const btn = document.getElementById('btn-open-todos-faturados');
-        if (btn) btn.addEventListener('click', () => openTodosFaturadosModal());
+        const btn = document.getElementById('btn-open-todos-faturaçãos');
+        if (btn) btn.addEventListener('click', () => openTodosFaturaçãosModal());
     } catch (err) {
-        console.error('Erro ao renderizar faturados:', err);
+        console.error('Erro ao renderizar faturaçãos:', err);
     }
 }
 
-// Modal controller: list all faturados with pagination
-async function openTodosFaturadosModal(page = 1, limit = 20) {
-    const modal = document.getElementById('modal-todos-faturados-list');
-    const body = document.getElementById('todos-faturados-list-body');
-    const pagEl = document.getElementById('todos-faturados-pagination');
+// Modal controller: list all faturaçãos with pagination
+async function openTodosFaturaçãosModal(page = 1, limit = 20) {
+    const modal = document.getElementById('modal-todos-faturaçãos-list');
+    const body = document.getElementById('todos-faturaçãos-list-body');
+    const pagEl = document.getElementById('todos-faturaçãos-pagination');
     if (!modal || !body) return;
     openAccessibleModal(modal);
     body.innerHTML = '<div class="pad-12 muted"><span class="pcp-spinner" aria-hidden="true"></span> Carregando...</div>';
     try {
-        const resp = await fetch(`${API_BASE_URL}/pedidos/faturados?page=${page}&limit=${limit}`);
+        const resp = await fetch(`${API_BASE_URL}/pedidos/faturaçãospage=${page}&limit=${limit}`);
         if (!resp.ok) throw new Error('Falha');
         const data = await resp.json();
         const rows = data.rows || [];
         const total = Number(data.total || 0);
-    if (!rows.length) { body.innerHTML = '<div class="muted">Nenhum pedido encontrado.</div>'; return; }
+    if (!rows.length) { body.innerHTML = '<div class="muted">Nenhum pedido encontração.</div>'; return; }
         body.innerHTML = rows.map(p=>{
-            const dt = p.created_at ? new Date(p.created_at).toLocaleString() : (p.data_prevista? new Date(p.data_prevista).toLocaleString(): '');
-            const produtos = (p.produtos_preview && Array.isArray(p.produtos_preview)) ? p.produtos_preview.map(x=>`${x.codigo} x${x.quantidade}`).join(', ') : '';
-            return `<div class="faturado-item list-row" data-id="${p.id}"><div class="flex-1"><strong>#${p.id} ${p.descricao||''}</strong><div class="text-sm muted">${p.cliente_id? 'Cliente ID: '+p.cliente_id : ''} ${produtos}</div></div><div class="list-row-right"><div class="text-success fw-700">${p.status||''}</div><div class="muted small-note">${dt}</div><div class="mt-6"><button class="btn-sm abrir-pedido" data-id="${p.id}">Abrir</button></div></div></div>`;
+            const dt = p.created_at  new Date(p.created_at).toLocaleString() : (p.data_prevista new Date(p.data_prevista).toLocaleString(): '');
+            const produtos = (p.produtos_preview && Array.isArray(p.produtos_preview))  p.produtos_preview.map(x=>`${x.codigo} x${x.quantidade}`).join(', ') : '';
+            return `<div class="faturação-item list-row" data-id="${p.id}"><div class="flex-1"><strong>#${p.id} ${p.descricao||''}</strong><div class="text-sm muted">${p.cliente_id 'Cliente ID: '+p.cliente_id : ''} ${produtos}</div></div><div class="list-row-right"><div class="text-success fw-700">${p.status||''}</div><div class="muted small-note">${dt}</div><div class="mt-6"><button class="btn-sm abrir-pedido" data-id="${p.id}">Abrir</button></div></div></div>`;
         }).join('');
         // pagination
         const totalPages = Math.max(1, Math.ceil(total / limit));
         let pagesHtml = '';
-        for (let i=1;i<=totalPages;i++) pagesHtml += `<button class="page-btn${i===page? ' active':''}" data-page="${i}">${i}</button>`;
-    pagEl.innerHTML = `<div class="pagination-row"><button class="page-prev" ${page<=1? 'disabled':''} data-page="${page-1}">Prev</button>${pagesHtml}<button class="page-next" ${page>=totalPages? 'disabled':''} data-page="${page+1}">Next</button></div>`;
+        for (let i=1;i<=totalPages;i++) pagesHtml += `<button class="page-btn${i===page ' active':''}" data-page="${i}">${i}</button>`;
+    pagEl.innerHTML = `<div class="pagination-row"><button class="page-prev" ${page<=1 'disabled':''} data-page="${page-1}">Prev</button>${pagesHtml}<button class="page-next" ${page>=totalPages 'disabled':''} data-page="${page+1}">Next</button></div>`;
         // attach pagination handlers
         pagEl.querySelectorAll('.page-btn, .page-prev, .page-next').forEach(b => b.addEventListener('click', (ev)=>{
-            const p = Number(ev.currentTarget.dataset.page) || 1; openTodosFaturadosModal(p, limit);
+            const p = Number(ev.currentTarget.dataset.page) || 1; openTodosFaturaçãosModal(p, limit);
         }));
         // attach open handlers
         body.querySelectorAll('.abrir-pedido').forEach(b => b.addEventListener('click', async (ev)=>{
@@ -2379,15 +2379,15 @@ async function openTodosFaturadosModal(page = 1, limit = 20) {
             } catch (err) { showToast('Erro ao abrir pedido', 'error'); }
         }));
     } catch (err) {
-        console.error('Erro ao carregar lista completa de faturados', err);
+        console.error('Erro ao carregar lista completa de faturaçãos', err);
         body.innerHTML = '<div class="text-error">Erro ao carregar.</div>';
     }
 }
 
 // close modal handler
-const closeTodosFaturadosList = document.getElementById('close-todos-faturados-list');
-if (closeTodosFaturadosList) closeTodosFaturadosList.addEventListener('click', ()=>{ const m=document.getElementById('modal-todos-faturados-list'); if (m) closeAccessibleModal(m); });
-// Prazos modal: similar to faturados
+const closeTodosFaturaçãosList = document.getElementById('close-todos-faturaçãos-list');
+if (closeTodosFaturaçãosList) closeTodosFaturaçãosList.addEventListener('click', ()=>{ const m=document.getElementById('modal-todos-faturaçãos-list'); if (m) closeAccessibleModal(m); });
+// Prazos modal: similar to faturaçãos
 async function openTodosPrazosModal(page = 1, limit = 20) {
     const modal = document.getElementById('modal-todos-prazos-list');
     const body = document.getElementById('todos-prazos-list-body');
@@ -2396,22 +2396,22 @@ async function openTodosPrazosModal(page = 1, limit = 20) {
     openAccessibleModal(modal);
     body.innerHTML = '<div>Carregando...</div>';
     try {
-        const resp = await fetch(`${API_BASE_URL}/pedidos/prazos?page=${page}&limit=${limit}`);
+        const resp = await fetch(`${API_BASE_URL}/pedidos/prazospage=${page}&limit=${limit}`);
         if (!resp.ok) throw new Error('Falha');
         const data = await resp.json();
         const rows = data.rows || [];
         const total = Number(data.total || 0);
-    if (!rows.length) { body.innerHTML = '<div class="muted">Nenhum prazo encontrado.</div>'; return; }
+    if (!rows.length) { body.innerHTML = '<div class="muted">Nenhum prazo encontração.</div>'; return; }
         body.innerHTML = rows.map(p=>{
-            const dt = p.data_prevista ? new Date(p.data_prevista).toLocaleString() : (p.prazo_entrega? `${p.prazo_entrega} dias`:'');
-            const produtos = (p.produtos_preview && Array.isArray(p.produtos_preview)) ? p.produtos_preview.map(x=>`${x.codigo} x${x.quantidade}`).join(', ') : '';
+            const dt = p.data_prevista  new Date(p.data_prevista).toLocaleString() : (p.prazo_entrega `${p.prazo_entrega} dias`:'');
+            const produtos = (p.produtos_preview && Array.isArray(p.produtos_preview))  p.produtos_preview.map(x=>`${x.codigo} x${x.quantidade}`).join(', ') : '';
             return `<div class="list-row"><div class="flex-1"><strong>#${p.id} ${p.descricao||''}</strong><div class="text-sm muted">${produtos}</div></div><div class="list-row-right"><div class="fw-700">${dt}</div></div></div>`;
         }).join('');
         // pagination
         const totalPages = Math.max(1, Math.ceil(total / limit));
         let pagesHtml = '';
-        for (let i=1;i<=totalPages;i++) pagesHtml += `<button class="page-btn${i===page? ' active':''}" data-page="${i}">${i}</button>`;
-    pagEl.innerHTML = `<div class="pagination-row"><button class="page-prev" ${page<=1? 'disabled':''} data-page="${page-1}">Prev</button>${pagesHtml}<button class="page-next" ${page>=totalPages? 'disabled':''} data-page="${page+1}">Next</button></div>`;
+        for (let i=1;i<=totalPages;i++) pagesHtml += `<button class="page-btn${i===page ' active':''}" data-page="${i}">${i}</button>`;
+    pagEl.innerHTML = `<div class="pagination-row"><button class="page-prev" ${page<=1 'disabled':''} data-page="${page-1}">Prev</button>${pagesHtml}<button class="page-next" ${page>=totalPages 'disabled':''} data-page="${page+1}">Next</button></div>`;
         pagEl.querySelectorAll('.page-btn, .page-prev, .page-next').forEach(b => b.addEventListener('click', (ev)=>{ const p=Number(ev.currentTarget.dataset.page)||1; openTodosPrazosModal(p, limit); }));
     } catch (err) {
         console.error('Erro ao carregar prazos', err);
@@ -2424,7 +2424,7 @@ if (btnOpenPrazos) btnOpenPrazos.addEventListener('click', ()=> openTodosPrazosM
 const closeTodosPrazosList = document.getElementById('close-todos-prazos-list');
 if (closeTodosPrazosList) closeTodosPrazosList.addEventListener('click', ()=>{ const m=document.getElementById('modal-todos-prazos-list'); if (m) closeAccessibleModal(m); });
 
-// New: render Prazos panel (deadline list for faturados)
+// New: render Prazos panel (deadline list for faturaçãos)
 async function renderPainelPrazosLista() {
     try {
         const resp = await fetch(`${API_BASE_URL}/pedidos/prazos`);
@@ -2432,10 +2432,10 @@ async function renderPainelPrazosLista() {
         const prazos = await resp.json();
         const panel = document.getElementById('panel-prazos');
         if (!panel) return;
-        if (!Array.isArray(prazos) || prazos.length === 0) { panel.innerHTML = '<div class="muted pad-12">Nenhum prazo registrado.</div>'; return; }
+        if (!Array.isArray(prazos) || prazos.length === 0) { panel.innerHTML = '<div class="muted pad-12">Nenhum prazo registração.</div>'; return; }
         const rows = prazos.slice(0,10).map(p => {
             const prod = p.produto_descricao || p.produto_codigo || '';
-            const previsao = p.previsao_entrega ? new Date(p.previsao_entrega).toLocaleDateString() : 'Sem data';
+            const previsao = p.previsao_entrega  new Date(p.previsao_entrega).toLocaleDateString() : 'Sem data';
             const cliente = p.cliente || '';
             return `<div class="list-row"><div class="flex-1"><strong>${prod}</strong><div class="text-sm muted">${cliente}</div></div><div class="list-row-right"><div class="fw-700">${previsao}</div></div></div>`;
         }).join('');
@@ -2452,7 +2452,7 @@ async function renderPainelAcompanhamento() {
         const panel = document.getElementById('panel-dashboard');
         if (!panel) return;
         const totals = body.totals || { total_pedidos: 0 };
-        const recent = Array.isArray(body.recentPedidos) ? body.recentPedidos : [];
+        const recent = Array.isArray(body.recentPedidos)  body.recentPedidos : [];
     const head = `<div class="d-flex kpi-row justify-around"><div class="text-center"><div class="text-sm muted">Pedidos</div><div class="fw-700 kpi-number">${totals.total_pedidos||0}</div></div><div class="text-center"><div class="text-sm muted">Recentes</div><div class="fw-700 kpi-number">${recent.length}</div></div></div>`;
     const list = recent.slice(0,6).map(r => `<div class="list-row"><div class="flex-1"><strong>${r.cliente||''}</strong><div class="text-sm muted">${r.produto_descricao||r.produto_codigo||''} • ${r.quantidade||0}</div></div></div>`).join('');
     panel.innerHTML = head + `<div class="mt-8">${list}</div>`;
@@ -2464,7 +2464,7 @@ const _showView = showView;
 showView = (viewName) => {
     _showView(viewName);
     if (viewName === 'dashboard') {
-    renderPainelCustos(); renderPainelDashboard(); renderPainelFaturados(); renderPainelPrazosLista(); renderPainelAcompanhamento();
+    renderPainelCustos(); renderPainelDashboard(); renderPainelFaturaçãos(); renderPainelPrazosLista(); renderPainelAcompanhamento();
     // New PCP widgets
     // DESABILITADO: renderPCPQuickActions() - causa abertura automática do modal
     try { renderPCPKPIs(); } catch (e) {}
@@ -2487,10 +2487,10 @@ function normalizeListResponse(resp) {
     if (!resp) return { items: [], count: 0 };
     if (Array.isArray(resp)) return { items: resp, count: resp.length };
     // common paginated shapes
-    if (Array.isArray(resp.rows)) return { items: resp.rows, count: (typeof resp.total === 'number' ? resp.total : resp.rows.length) };
-    if (Array.isArray(resp.data)) return { items: resp.data, count: (typeof resp.total === 'number' ? resp.total : resp.data.length) };
+    if (Array.isArray(resp.rows)) return { items: resp.rows, count: (typeof resp.total === 'number'  resp.total : resp.rows.length) };
+    if (Array.isArray(resp.data)) return { items: resp.data, count: (typeof resp.total === 'number'  resp.total : resp.data.length) };
     // sometimes API returns { items: [...] }
-    if (Array.isArray(resp.items)) return { items: resp.items, count: (typeof resp.total === 'number' ? resp.total : resp.items.length) };
+    if (Array.isArray(resp.items)) return { items: resp.items, count: (typeof resp.total === 'number'  resp.total : resp.items.length) };
     // fallback: try to detect numeric totals
     if (typeof resp.total === 'number') return { items: [], count: resp.total };
     if (typeof resp.count === 'number') return { items: [], count: resp.count };
@@ -2527,9 +2527,9 @@ function ensureChartLoaded(timeout = 3000) {
 // Heurística para determinar se uma ordem está ativa (não finalizada/faturada)
 function isOrderActive(o) {
     if (!o) return false;
-    const status = (o.status || o.estado || o.st || '').toString().toLowerCase();
+    const status = (o.status || o.estação || o.st || '').toString().toLowerCase();
     if (!status) return true; // sem status conhecido -> considerar ativa
-    const completedTerms = ['fatur', 'conclu', 'finaliz', 'entreg', 'cancel', 'fechado'];
+    const completedTerms = ['fatur', 'conclu', 'finaliz', 'entreg', 'cancel', 'fechação'];
     for (const t of completedTerms) if (status.includes(t)) return false;
     return true;
 }
@@ -2569,19 +2569,19 @@ async function renderPCPKPIs() {
     if (!el) return;
     try {
         const [prodsResRaw, matResRaw, ordResRaw] = await Promise.all([
-            fetch(`${API_BASE_URL}/produtos`).then(r=>r.ok? r.json(): null).catch(()=>null),
-            fetch(`${API_BASE_URL}/materiais`).then(r=>r.ok? r.json(): null).catch(()=>null),
-            fetch(`${API_BASE_URL}/ordens`).then(r=>r.ok? r.json(): null).catch(()=>null)
+            fetch(`${API_BASE_URL}/produtos`).then(r=>r.ok r.json(): null).catch(()=>null),
+            fetch(`${API_BASE_URL}/materiais`).then(r=>r.ok r.json(): null).catch(()=>null),
+            fetch(`${API_BASE_URL}/ordens`).then(r=>r.ok r.json(): null).catch(()=>null)
         ]);
         const prodsRes = normalizeListResponse(prodsResRaw);
         const matRes = normalizeListResponse(matResRaw);
         const ordRes = normalizeListResponse(ordResRaw);
         const totalProds = prodsRes.count || 0;
         const totalMats = matRes.count || 0;
-        // determine active orders (not faturado / concluido) by heuristic
-        const ordItems = ordRes.items.length ? ordRes.items : [];
+        // determine active orders (not faturação / concluido) by heuristic
+        const ordItems = ordRes.items.length  ordRes.items : [];
         const ordensAFazer = ordItems.filter(o=> {
-            const st = (o && (o.status || o.estado || '')).toString().toLowerCase();
+            const st = (o && (o.status || o.estação || '')).toString().toLowerCase();
             if (!st) return true; // unknown status treated as active
             // treat as completed if contains fatur or conclu
             if (st.includes('fatur') || st.includes('conclu') || st.includes('finaliz') || st.includes('entreg')) return false;
@@ -2596,7 +2596,7 @@ async function renderPCPKPIs() {
 
         // Prepare sparkline data from ordRes by counting orders per day (last 7 days)
         try {
-            const ordersArray = ordRes.items && ordRes.items.length ? ordRes.items : [];
+            const ordersArray = ordRes.items && ordRes.items.length  ordRes.items : [];
             const days = 7;
             const labels = [];
             const counts = [];
@@ -2608,7 +2608,7 @@ async function renderPCPKPIs() {
             }
             ordersArray.forEach(o => {
                 const dateField = o.data_pedido || o.data_previsao_entrega || o.created_at || o.data || o.data_pedido_at;
-                const date = dateField ? new Date(dateField) : null;
+                const date = dateField  new Date(dateField) : null;
                 if (!date || isNaN(date)) return;
                 const key = date.toISOString().slice(0,10);
                 const idx = labels.findIndex(lbl => key.slice(5) === lbl);
@@ -2640,7 +2640,7 @@ async function renderPCPKPIs() {
                 }
             } else {
                 // no canvas or Chart, render fallback bar
-                const wrapper = canvasEl ? canvasEl.parentElement : el;
+                const wrapper = canvasEl  canvasEl.parentElement : el;
                 if (wrapper) {
                     const total = counts.reduce((s,n)=>s+n,0) || 0;
                     const barHtml = `<div class="kpi-spark-fallback"><div class="kpi-spark-bar"><div class="kpi-spark-fill" style="width:${Math.min(100, total)}%"></div></div></div>`;
@@ -2656,21 +2656,21 @@ async function renderPCPRecentOrders(limit = 6) {
     if (!el) return;
     try {
         // Fetch recent sales orders (pedidos) so dashboard shows sales activity (cliente - produtos • status)
-        const resp = await fetch(`${API_BASE_URL}/pedidos?page=1&limit=${limit}`);
+        const resp = await fetch(`${API_BASE_URL}/pedidospage=1&limit=${limit}`);
         if (!resp.ok) {
             // fallback: try non-paginated endpoint
             const fallbackResp = await fetch(`${API_BASE_URL}/pedidos`);
-            if (!fallbackResp.ok) { el.innerHTML = '<div class="muted">Nenhum pedido encontrado</div>'; return; }
+            if (!fallbackResp.ok) { el.innerHTML = '<div class="muted">Nenhum pedido encontração</div>'; return; }
             const fallbackData = await fallbackResp.json();
-            var pedidos = Array.isArray(fallbackData) ? fallbackData : (fallbackData.rows || []);
+            var pedidos = Array.isArray(fallbackData)  fallbackData : (fallbackData.rows || []);
         } else {
             const data = await resp.json().catch(()=>({}));
-            var pedidos = Array.isArray(data) ? data : (data.rows || []);
+            var pedidos = Array.isArray(data)  data : (data.rows || []);
         }
 
         // If still empty, show a friendly message
         if (!pedidos || pedidos.length === 0) {
-            el.innerHTML = '<div class="muted">Nenhum pedido cadastrado recentemente.</div>';
+            el.innerHTML = '<div class="muted">Nenhum pedido cadastração recentemente.</div>';
             return;
         }
 
@@ -2678,16 +2678,16 @@ async function renderPCPRecentOrders(limit = 6) {
         const rows = pedidos.slice(0, limit).map(p => {
             // Prefer company display name when available (better UX for B2B orders)
             const cliente = (p.empresa_razao && p.empresa_razao.toString().trim())
-                ? p.empresa_razao
+                 p.empresa_razao
                 : (p.empresa_nome && p.empresa_nome.toString().trim())
-                    ? p.empresa_nome
+                     p.empresa_nome
                     : (p.cliente_nome && p.cliente_nome.toString().trim())
-                        ? p.cliente_nome
+                         p.cliente_nome
                         : (p.cliente_razao && p.cliente_razao.toString().trim())
-                            ? p.cliente_razao
+                             p.cliente_razao
                             : (p.cliente && p.cliente.toString().trim())
-                                ? p.cliente
-                                : (p.cliente_id ? `Cliente ${p.cliente_id}` : 'Cliente');
+                                 p.cliente
+                                : (p.cliente_id  `Cliente ${p.cliente_id}` : 'Cliente');
 
             // try several shapes for product info; ensure produtos_preview is parsed if stored as JSON string
             let produtosText = '';
@@ -2703,11 +2703,11 @@ async function renderPCPRecentOrders(limit = 6) {
             } else if (p.produto_descricao || p.produto_nome || p.produto_codigo || p.produto_id) {
                 produtosText = (p.produto_descricao || p.produto_nome || p.produto_codigo || String(p.produto_id || '')).toString();
             } else if (p.descricao || p.produtos) {
-                produtosText = (p.descricao || (Array.isArray(p.produtos) ? p.produtos.join(', ') : '')).toString();
+                produtosText = (p.descricao || (Array.isArray(p.produtos)  p.produtos.join(', ') : '')).toString();
             }
-            const status = p.status || p.estado || '';
-            const dateStr = p.data_pedido ? new Date(p.data_pedido).toLocaleDateString() : (p.created_at ? new Date(p.created_at).toLocaleDateString() : '');
-            return `<div class="list-row"><div class="flex-1"><strong>${escapeHtml(cliente)}</strong> — ${escapeHtml(produtosText)}<div class="text-sm muted">${dateStr}${dateStr ? ' • ' : ''}${escapeHtml(status)}</div></div></div>`;
+            const status = p.status || p.estação || '';
+            const dateStr = p.data_pedido  new Date(p.data_pedido).toLocaleDateString() : (p.created_at  new Date(p.created_at).toLocaleDateString() : '');
+            return `<div class="list-row"><div class="flex-1"><strong>${escapeHtml(cliente)}</strong> — ${escapeHtml(produtosText)}<div class="text-sm muted">${dateStr}${dateStr  ' • ' : ''}${escapeHtml(status)}</div></div></div>`;
         }).join('');
         el.innerHTML = rows;
     } catch (err) { console.error('renderPCPRecentOrders error', err); el.innerHTML = '<div class="text-error">Erro ao carregar ordens</div>'; }
@@ -2766,7 +2766,7 @@ async function renderMateriaisModalList() {
         if (!resp.ok) throw new Error('Falha ao carregar materiais');
         const mats = await resp.json();
         if (!Array.isArray(mats) || mats.length === 0) {
-            materiaisModalList.innerHTML = '<div class="pad-12 muted">Nenhum material cadastrado.</div>';
+            materiaisModalList.innerHTML = '<div class="pad-12 muted">Nenhum material cadastração.</div>';
             return;
         }
         materiaisModalList.innerHTML = mats.map(m => `
@@ -2796,7 +2796,7 @@ async function renderMateriaisModalList() {
                         const m = document.querySelector(`#tabela-materiais-container table tbody tr[data-id="${id}"]`);
                         // reuse the novoMaterial form fields by cloning
                         const cloneForm = document.createElement('div');
-                        cloneForm.innerHTML = document.getElementById('form-novo-material') ? document.getElementById('form-novo-material').outerHTML : '';
+                        cloneForm.innerHTML = document.getElementById('form-novo-material')  document.getElementById('form-novo-material').outerHTML : '';
                         editBody.innerHTML = cloneForm.innerHTML;
                         // transfer values from the existing inline form (which was populated by carregarMaterialParaEdicao)
                         setTimeout(() => {
@@ -2824,7 +2824,7 @@ async function renderMateriaisModalList() {
                                             };
                                             try {
                                                 const editForm = document.getElementById('form-novo-material');
-                                                const editingId = editForm && editForm.dataset && editForm.dataset.editingId ? editForm.dataset.editingId : null;
+                                                const editingId = editForm && editForm.dataset && editForm.dataset.editingId  editForm.dataset.editingId : null;
                                                 if (!editingId) {
                                                     // create new material
                                                     const r = await fetch(`${API_BASE_URL}/materiais`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
@@ -2853,7 +2853,7 @@ async function renderMateriaisModalList() {
     materiaisModalList.querySelectorAll('.btn-delete-material').forEach(b => {
             b.addEventListener('click', async (ev) => {
                 const id = ev.currentTarget.dataset.id;
-                if (!confirm('Confirma exclusão deste material?')) return;
+                if (!confirm('Confirma exclusão deste material')) return;
                 try {
                     const r = await fetch(`${API_BASE_URL}/materiais/${id}`, { method: 'DELETE' });
                     if (!r.ok) throw new Error('Falha ao excluir');
@@ -2881,7 +2881,7 @@ if (materiaisNewBtn) materiaisNewBtn.addEventListener('click', (e) => { e.preven
     const editTitle = document.getElementById('item-edit-title');
     const editBody = document.getElementById('item-edit-body');
     if (editTitle) editTitle.innerText = 'Novo Material';
-    if (editBody) editBody.innerHTML = document.getElementById('form-novo-material') ? document.getElementById('form-novo-material').outerHTML : '<div>Formulário indisponível.</div>';
+    if (editBody) editBody.innerHTML = document.getElementById('form-novo-material')  document.getElementById('form-novo-material').outerHTML : '<div>Formulário indisponível.</div>';
     // attach save to item-save
     const saveBtn = document.getElementById('item-save');
     if (saveBtn) {
@@ -2889,10 +2889,10 @@ if (materiaisNewBtn) materiaisNewBtn.addEventListener('click', (e) => { e.preven
             ev.preventDefault();
             try {
                 const body = document.getElementById('item-edit-body');
-                const codigo = body.querySelector('#codigo_material_form') ? body.querySelector('#codigo_material_form').value : '';
-                const descricao = body.querySelector('#descricao_material_form') ? body.querySelector('#descricao_material_form').value : '';
-                const unidade = body.querySelector('#unidade_medida_form') ? body.querySelector('#unidade_medida_form').value : '';
-                const estoque = parseFloat(body.querySelector('#estoque_inicial_form') ? body.querySelector('#estoque_inicial_form').value : 0) || 0;
+                const codigo = body.querySelector('#codigo_material_form')  body.querySelector('#codigo_material_form').value : '';
+                const descricao = body.querySelector('#descricao_material_form')  body.querySelector('#descricao_material_form').value : '';
+                const unidade = body.querySelector('#unidade_medida_form')  body.querySelector('#unidade_medida_form').value : '';
+                const estoque = parseFloat(body.querySelector('#estoque_inicial_form')  body.querySelector('#estoque_inicial_form').value : 0) || 0;
                 const payload = { codigo_material: codigo, descricao, unidade_medida: unidade, quantidade_estoque: estoque };
                 const r = await fetch(`${API_BASE_URL}/materiais`, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(payload) });
                 if (!r.ok) throw new Error('Falha');

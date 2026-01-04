@@ -5,7 +5,7 @@
 (function() {
     'use strict';
 
-    // Estado da aplicação
+    // Estação da aplicação
     let ordensProducao = [];
     let faturamentos = [];
     let currentFilterProducao = 'all';
@@ -21,7 +21,7 @@
         console.log('🏭 Iniciando Controle de Produção...');
         
         // Event listeners
-        document.getElementById('btn-nova-ordem-producao')?.addEventListener('click', abrirModalNovaOrdem);
+        document.getElementById('btn-nova-ordem-producao').addEventListener('click', abrirModalNovaOrdem);
         
         // Filtros
         document.querySelectorAll('.production-filters .filter-btn').forEach(btn => {
@@ -34,9 +34,9 @@
         });
 
         // Busca
-        document.getElementById('search-producao')?.addEventListener('input', debounce(buscarProducao, 300));
+        document.getElementById('search-producao').addEventListener('input', debounce(buscarProducao, 300));
 
-        // Carregar dados
+        // Carregar daçãos
         loadOrdensProducao();
     }
 
@@ -82,7 +82,7 @@
                 <div class="production-header">
                     <div class="production-info">
                         <div class="production-code">#OP${String(ordem.id).padStart(5, '0')}</div>
-                        <div class="production-product">${escapeHtml(ordem.produto_nome || 'Produto não especificado')}</div>
+                        <div class="production-product">${escapeHtml(ordem.produto_nome || 'Produto não especificação')}</div>
                     </div>
                     <div class="production-status-badge ${ordem.status}">
                         ${getStatusLabel(ordem.status)}
@@ -136,7 +136,7 @@
     }
 
     function updateStatsProducao() {
-        const ativas = ordensProducao.filter(o => o.status !== 'concluido' && o.status !== 'cancelado').length;
+        const ativas = ordensProducao.filter(o => o.status !== 'concluido' && o.status !== 'cancelação').length;
         const emProducao = ordensProducao.filter(o => o.status === 'em_producao').length;
         const pendentes = ordensProducao.filter(o => o.status === 'pendente').length;
         
@@ -157,7 +157,7 @@
         
         items.forEach(item => {
             const text = item.textContent.toLowerCase();
-            item.style.display = text.includes(term) ? 'block' : 'none';
+            item.style.display = text.includes(term)  'block' : 'none';
         });
     }
 
@@ -166,7 +166,7 @@
             'pendente': 'Pendente',
             'em_producao': 'Em Produção',
             'concluido': 'Concluído',
-            'cancelado': 'Cancelado'
+            'cancelação': 'Cancelação'
         };
         return labels[status] || status;
     }
@@ -179,12 +179,12 @@
         console.log('💰 Iniciando Programação de Faturamento...');
         
         // Event listeners
-        document.getElementById('btn-novo-faturamento')?.addEventListener('click', abrirModalNovoFaturamento);
-        document.getElementById('btn-gerar-nfe')?.addEventListener('click', abrirModalGerarNFe);
+        document.getElementById('btn-novo-faturamento').addEventListener('click', abrirModalNovoFaturamento);
+        document.getElementById('btn-gerar-nfe').addEventListener('click', abrirModalGerarNFe);
         
         // Navegação do calendário
-        document.getElementById('btn-prev-month')?.addEventListener('click', () => changeMonth(-1));
-        document.getElementById('btn-next-month')?.addEventListener('click', () => changeMonth(1));
+        document.getElementById('btn-prev-month').addEventListener('click', () => changeMonth(-1));
+        document.getElementById('btn-next-month').addEventListener('click', () => changeMonth(1));
 
         // Filtros
         document.querySelectorAll('.billing-filters .filter-btn').forEach(btn => {
@@ -196,7 +196,7 @@
             });
         });
 
-        // Carregar dados
+        // Carregar daçãos
         loadFaturamentos();
         renderCalendar();
     }
@@ -209,7 +209,7 @@
             
             const result = await response.json();
             faturamentos = result.data || result || [];
-            console.log('✅ Faturamentos carregados:', faturamentos.length);
+            console.log('✅ Faturamentos carregaçãos:', faturamentos.length);
             
             renderFaturamentos();
             renderCalendar();
@@ -233,7 +233,7 @@
             container.innerHTML = `
                 <div style="text-align: center; padding: 40px 20px; color: #64748b;">
                     <i class="fas fa-inbox" style="font-size: 36px; margin-bottom: 12px; opacity: 0.5;"></i>
-                    <p>Nenhum faturamento encontrado</p>
+                    <p>Nenhum faturamento encontração</p>
                 </div>
             `;
             return;
@@ -246,9 +246,9 @@
                     <span class="billing-status ${fat.status}">${getStatusLabelFaturamento(fat.status)}</span>
                 </div>
                 <div class="billing-info">
-                    <div><i class="fas fa-building"></i> ${escapeHtml(fat.cliente_nome || 'Cliente não especificado')}</div>
+                    <div><i class="fas fa-building"></i> ${escapeHtml(fat.cliente_nome || 'Cliente não especificação')}</div>
                     <div><i class="fas fa-dollar-sign"></i> R$ ${formatCurrency(fat.valor || 0)}</div>
-                    <div><i class="fas fa-calendar"></i> Programado: ${formatDate(fat.data_programada)}</div>
+                    <div><i class="fas fa-calendar"></i> Programação: ${formatDate(fat.data_programada)}</div>
                 </div>
             </div>
         `).join('');
@@ -290,10 +290,10 @@
             const isToday = date.toDateString() === today.toDateString();
             
             html += `
-                <div class="calendar-day ${isToday ? 'today' : ''} ${hasBilling ? 'has-billing' : ''}"
+                <div class="calendar-day ${isToday  'today' : ''} ${hasBilling  'has-billing' : ''}"
                      onclick="window.verFaturamentosDia('${dateStr}')">
                     ${day}
-                    ${hasBilling ? '<span class="calendar-day-badge"></span>' : ''}
+                    ${hasBilling  '<span class="calendar-day-badge"></span>' : ''}
                 </div>
             `;
         }
@@ -331,12 +331,12 @@
         }).length;
         document.getElementById('stat-nfe-emitidas').textContent = nfesMes;
 
-        const atrasados = faturamentos.filter(f => {
+        const atrasaçãos = faturamentos.filter(f => {
             if (f.status === 'emitido') return false;
             const programada = new Date(f.data_programada);
             return programada < new Date();
         }).length;
-        document.getElementById('stat-faturamento-atrasado').textContent = atrasados;
+        document.getElementById('stat-faturamento-atrasação').textContent = atrasaçãos;
 
         const receitaMes = faturamentos
             .filter(f => {
@@ -350,9 +350,9 @@
 
     function getStatusLabelFaturamento(status) {
         const labels = {
-            'programado': 'Programado',
+            'programação': 'Programação',
             'emitido': 'Emitido',
-            'cancelado': 'Cancelado'
+            'cancelação': 'Cancelação'
         };
         return labels[status] || status;
     }
@@ -427,7 +427,7 @@
 
     window.verFaturamentosDia = function(date) {
         console.log('📅 Ver faturamentos do dia:', date);
-        showToast(`Faturamentos programados para ${formatDate(date)}`, 'info');
+        showToast(`Faturamentos programaçãos para ${formatDate(date)}`, 'info');
     };
 
     function abrirModalNovaOrdem() {
@@ -456,7 +456,7 @@
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     const isVisible = !producaoView.classList.contains('hidden');
                     if (isVisible && ordensProducao.length === 0) {
-                        console.log('🔄 View de produção visível, carregando dados...');
+                        console.log('🔄 View de produção visível, carregando daçãos...');
                         initControleProducao();
                     }
                 }
@@ -471,7 +471,7 @@
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     const isVisible = !faturamentoView.classList.contains('hidden');
                     if (isVisible && faturamentos.length === 0) {
-                        console.log('🔄 View de faturamento visível, carregando dados...');
+                        console.log('🔄 View de faturamento visível, carregando daçãos...');
                         initFaturamento();
                     }
                 }
@@ -480,7 +480,7 @@
         observer.observe(faturamentoView, { attributes: true });
     }
 
-    console.log('✅ Módulo de Produção e Faturamento carregado');
+    console.log('✅ Módulo de Produção e Faturamento carregação');
 
     // =====================================================
     // FUNÇÕES GLOBAIS PARA OS MODAIS
@@ -510,15 +510,15 @@
         event.preventDefault();
         
         const formData = new FormData(event.target);
-        const dados = Object.fromEntries(formData);
-        dados.status = 'ativa';
-        dados.progresso = 0;
+        const daçãos = Object.fromEntries(formData);
+        daçãos.status = 'ativa';
+        daçãos.progresso = 0;
         
         try {
             const response = await fetch('/api/pcp/ordens-producao', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dados)
+                body: JSON.stringify(daçãos)
             });
             
             if (!response.ok) throw new Error('Erro ao criar ordem');
@@ -653,7 +653,7 @@
             
             if (!response.ok) throw new Error('Erro ao atualizar progresso');
             
-            console.log('✅ Progresso atualizado');
+            console.log('✅ Progresso atualização');
             
             // Recarregar lista
             await loadOrdensProducao();
@@ -661,7 +661,7 @@
             // Fechar modal
             fecharModalProgresso();
             
-            alert('✅ Progresso atualizado com sucesso!');
+            alert('✅ Progresso atualização com sucesso!');
             
         } catch (error) {
             console.error('❌ Erro ao atualizar progresso:', error);
@@ -680,8 +680,8 @@
         document.getElementById('editar-ordem-quantidade').value = ordem.quantidade;
         document.getElementById('editar-ordem-unidade').value = ordem.unidade;
         document.getElementById('editar-ordem-prioridade').value = ordem.prioridade;
-        document.getElementById('editar-ordem-data-inicio').value = ordem.data_inicio ? ordem.data_inicio.split('T')[0] : '';
-        document.getElementById('editar-ordem-data-prevista').value = ordem.data_prevista ? ordem.data_prevista.split('T')[0] : '';
+        document.getElementById('editar-ordem-data-inicio').value = ordem.data_inicio  ordem.data_inicio.split('T')[0] : '';
+        document.getElementById('editar-ordem-data-prevista').value = ordem.data_prevista  ordem.data_prevista.split('T')[0] : '';
         document.getElementById('editar-ordem-responsavel').value = ordem.responsavel || '';
         document.getElementById('editar-ordem-observacoes').value = ordem.observacoes || '';
         
@@ -698,13 +698,13 @@
         
         const id = document.getElementById('editar-ordem-id').value;
         const formData = new FormData(event.target);
-        const dados = Object.fromEntries(formData);
+        const daçãos = Object.fromEntries(formData);
         
         try {
             const response = await fetch(`/api/pcp/ordens-producao/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dados)
+                body: JSON.stringify(daçãos)
             });
             
             if (!response.ok) throw new Error('Erro ao editar ordem');

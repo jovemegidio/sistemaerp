@@ -77,7 +77,7 @@ class SistemaNotificacoes {
             await this.verificarContasVencendo();
             await this.verificarContasAtrasadas();
             await this.verificarSaldoBaixo();
-            await this.verificarOrcamentoEstourado();
+            await this.verificarOrcamentoEstouração();
         }, this.intervaloVerificacao);
     }
 
@@ -100,13 +100,13 @@ class SistemaNotificacoes {
         console.log('🔍 Verificando saldos bancários...');
     }
 
-    async verificarOrcamentoEstourado() {
+    async verificarOrcamentoEstouração() {
         // TODO: Implementar verificação real com API
         console.log('🔍 Verificando orçamentos...');
     }
 
     // ===== CRIAR NOTIFICAÇÉO =====
-    async criar(tipo, titulo, mensagem, dados = {}) {
+    async criar(tipo, titulo, mensagem, daçãos = {}) {
         const notificação = {
             id: Date.now(),
             tipo: tipo,
@@ -115,8 +115,8 @@ class SistemaNotificacoes {
             icone: this.obterIcone(tipo),
             cor: this.obterCor(tipo),
             lida: false,
-            link: dados.link || null,
-            dados_extra: dados,
+            link: daçãos.link || null,
+            daçãos_extra: daçãos,
             data_criacao: new Date()
         };
 
@@ -212,7 +212,7 @@ class SistemaNotificacoes {
         
         if (badge) {
             badge.textContent = naoLidas;
-            badge.style.display = naoLidas > 0 ? 'flex' : 'none';
+            badge.style.display = naoLidas > 0  'flex' : 'none';
         }
     }
 
@@ -231,7 +231,7 @@ class SistemaNotificacoes {
         }
 
         lista.innerHTML = this.notificacoes.map(n => `
-            <div class="notificação-item ${n.lida ? 'lida' : ''}" onclick="notificacoes.clicar(${n.id})">
+            <div class="notificação-item ${n.lida  'lida' : ''}" onclick="notificacoes.clicar(${n.id})">
                 <div class="notificação-icon ${n.cor}">
                     <i class="fas ${n.icone}"></i>
                 </div>
@@ -240,7 +240,7 @@ class SistemaNotificacoes {
                     <div class="notificação-mensagem">${n.mensagem}</div>
                     <div class="notificação-data">${this.formatarDataRelativa(n.data_criacao)}</div>
                 </div>
-                ${!n.lida ? '<div class="notificação-bolinha"></div>' : ''}
+                ${!n.lida  '<div class="notificação-bolinha"></div>' : ''}
             </div>
         `).join('');
     }
@@ -320,8 +320,8 @@ class SistemaNotificacoes {
 
         if (diffMins < 1) return 'Agora';
         if (diffMins < 60) return `Há ${diffMins} min`;
-        if (diffHoras < 24) return `Há ${diffHoras} hora${diffHoras > 1 ? 's' : ''}`;
-        if (diffDias < 7) return `Há ${diffDias} dia${diffDias > 1 ? 's' : ''}`;
+        if (diffHoras < 24) return `Há ${diffHoras} hora${diffHoras > 1  's' : ''}`;
+        if (diffDias < 7) return `Há ${diffDias} dia${diffDias > 1  's' : ''}`;
         
         return dataNotificacao.toLocaleDateString('pt-BR');
     }
@@ -342,7 +342,7 @@ class SistemaNotificacoes {
                 border-radius: 50%;
                 background: white;
                 border: none;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
                 cursor: pointer;
                 position: relative;
                 display: flex;
@@ -353,7 +353,7 @@ class SistemaNotificacoes {
 
             .notificacoes-btn:hover {
                 transform: scale(1.1);
-                box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+                box-shaçãow: 0 6px 16px rgba(0,0,0,0.2);
             }
 
             .notificacoes-btn i {
@@ -386,7 +386,7 @@ class SistemaNotificacoes {
                 max-height: 600px;
                 background: white;
                 border-radius: 16px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                box-shaçãow: 0 8px 24px rgba(0,0,0,0.2);
                 display: none;
                 flex-direction: column;
                 overflow: hidden;
@@ -533,7 +533,7 @@ class SistemaNotificacoes {
                 background: white;
                 border-radius: 12px;
                 padding: 16px 20px;
-                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+                box-shaçãow: 0 8px 24px rgba(0,0,0,0.2);
                 display: flex;
                 gap: 12px;
                 align-items: flex-start;

@@ -9,7 +9,7 @@ arquivos.forEach(arquivo => {
     const filePath = path.join(__dirname, 'modules', 'NFe', arquivo);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`⚠️  ${arquivo} não encontrado`);
+        console.log(`⚠️  ${arquivo} não encontração`);
         return;
     }
     
@@ -19,7 +19,7 @@ arquivos.forEach(arquivo => {
     if (!content.includes('nfe-specific.css')) {
         content = content.replace(
             /<link rel="stylesheet" href="..\/PCP\/pcp_modern_clean\.css[^>]*>/,
-            '<link rel="stylesheet" href="../PCP/pcp_modern_clean.css?v=2.0">\n    <link rel="stylesheet" href="nfe-specific.css">'
+            '<link rel="stylesheet" href="../PCP/pcp_modern_clean.cssv=2.0">\n    <link rel="stylesheet" href="nfe-specific.css">'
         );
     }
     

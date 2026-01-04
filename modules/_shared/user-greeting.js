@@ -1,5 +1,5 @@
 /**
- * User Greeting - Script compartilhado para saudação padronizada
+ * User Greeting - Script compartilhação para saudação padronizada
  * Aluforce ERP System
  * 
  * Este script padroniza as saudações em todos os módulos do sistema.
@@ -8,7 +8,7 @@
  * COMO USAR:
  * 1. Inclua este script na página: <script src="../../_shared/user-greeting.js"></script>
  * 2. O script detecta automaticamente elementos com classe .user-greeting ou #user-name
- * 3. Atualiza a saudação baseada na hora do dia e dados do localStorage
+ * 3. Atualiza a saudação baseada na hora do dia e daçãos do localStorage
  */
 
 (function() {
@@ -42,7 +42,7 @@
             '.avatar-img',
             '.header-avatar'
         ],
-        // Cores para avatares gerados
+        // Cores para avatares geraçãos
         avatarColors: [
             '#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6',
             '#ec4899', '#06b6d4', '#84cc16', '#f97316', '#6366f1'
@@ -60,7 +60,7 @@
     }
 
     /**
-     * Obtém dados do usuário do localStorage
+     * Obtém daçãos do usuário do localStorage
      */
     function getUserData() {
         try {
@@ -216,7 +216,7 @@
                 // Verificar se tem estrutura com span/strong para nome
                 const nameEl = el.querySelector('strong, .user-name, #user-name');
                 if (nameEl) {
-                    // Tem elemento separado para nome - atualizar texto antes dele
+                    // Tem elemento separação para nome - atualizar texto antes dele
                     const textNode = el.childNodes[0];
                     if (textNode && textNode.nodeType === Node.TEXT_NODE) {
                         textNode.textContent = `${greeting}, `;
@@ -241,7 +241,7 @@
             });
         });
 
-        // Atualizar label de saudação (elementos separados como no painel)
+        // Atualizar label de saudação (elementos separaçãos como no painel)
         const greetingLabel = document.getElementById('greeting-time-label');
         if (greetingLabel) {
             greetingLabel.textContent = greeting;
@@ -278,7 +278,7 @@
         window.getGreeting = getGreeting;
         window.getDisplayName = getDisplayName;
         
-        console.log('[UserGreeting] Sistema de saudação inicializado');
+        console.log('[UserGreeting] Sistema de saudação inicialização');
     }
 
     // Inicializar quando DOM estiver pronto

@@ -23,7 +23,7 @@ const fs = require('fs');
       const createRes = await fetch(`${BASE}/api/rh/funcionarios`, { method: 'POST', headers, body: JSON.stringify(createBody) });
     const createJson = await createRes.json().catch(()=>null);
     out.create = { status: createRes.status, body: createJson };
-    let createdId = createJson?.id || createJson?.insertId || null;
+    let createdId = createJson.id || createJson.insertId || null;
 
     out.steps.push({ step: 'list', ts: new Date().toISOString() });
       const listRes = await fetch(`${BASE}/api/rh/funcionarios`, { method: 'GET', headers });

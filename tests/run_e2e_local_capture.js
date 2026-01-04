@@ -44,13 +44,13 @@ const BASE = process.env.API_BASE_URL || 'http://localhost:3000';
 
     out.ok = true;
   } catch (err) {
-    out.error = err && err.message ? err.message : String(err);
+    out.error = err && err.message  err.message : String(err);
   }
 
   try {
     fs.writeFileSync(__dirname + '/e2e_report.json', JSON.stringify(out, null, 2));
     console.log('WROTE REPORT');
   } catch (e) {
-    console.error('Failed to write report:', e && e.message ? e.message : e);
+    console.error('Failed to write report:', e && e.message  e.message : e);
   }
 })();

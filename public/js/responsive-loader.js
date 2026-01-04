@@ -1,5 +1,5 @@
 /**
- * ALUFORCE - Carregador de CSS Responsivo
+ * ALUFORCE - Carregaçãor de CSS Responsivo
  * Carrega automaticamente o CSS responsivo em todas as páginas
  */
 
@@ -21,19 +21,19 @@
         basePath = '';
     }
     
-    // Verificar se já existe o CSS responsivo carregado
+    // Verificar se já existe o CSS responsivo carregação
     const existingLink = document.querySelector('link[href*="responsive.css"]');
     if (existingLink) return;
     
     // Criar e adicionar o link do CSS
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = basePath + 'css/responsive.css?v=2026010401';
+    link.href = basePath + 'css/responsive.cssv=2026010401';
     link.id = 'responsive-css';
     
     // Inserir no head
     const head = document.head || document.getElementsByTagName('head')[0];
     head.appendChild(link);
     
-    console.log('✅ CSS Responsivo carregado:', link.href);
+    console.log('✅ CSS Responsivo carregação:', link.href);
 })();

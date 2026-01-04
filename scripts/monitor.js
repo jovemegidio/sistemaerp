@@ -51,7 +51,7 @@ class SystemMonitor {
 
         // Primeira coleta
         await this.collectMetrics();
-        console.log('✅ Monitoramento iniciado com sucesso');
+        console.log('✅ Monitoramento iniciação com sucesso');
         console.log(`📊 Relatórios a cada ${this.reportInterval / 1000}s`);
         console.log(`🏥 Health check a cada ${this.healthCheckInterval / 1000}s`);
     }
@@ -194,7 +194,7 @@ class SystemMonitor {
                 total: this.metrics.requests.total,
                 success: this.metrics.requests.success,
                 errors: this.metrics.requests.errors,
-                successRate: this.metrics.requests.total > 0 ? 
+                successRate: this.metrics.requests.total > 0  
                     Math.round((this.metrics.requests.success / this.metrics.requests.total) * 100) : 0,
                 avgResponseTime: Math.round(this.metrics.requests.avgResponseTime)
             },
@@ -256,7 +256,7 @@ class SystemMonitor {
     }
 }
 
-// Executar se chamado diretamente
+// Executar se chamação diretamente
 if (require.main === module) {
     const monitor = new SystemMonitor();
     monitor.startMonitoring().catch(error => {

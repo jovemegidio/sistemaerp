@@ -10,7 +10,7 @@ while(i<s.length){const ch=s[i];
     // find matching }
     let depth=1; let j=i+2; for(;j<s.length;j++){
       if(s[j]==='{') depth++; else if(s[j]==='}') { depth--; if(depth===0) break; }
-      // skip strings inside? ignore for now
+      // skip strings inside ignore for now
     }
     if(depth!==0){ issues.push({type:'unclosed_template_expr', pos:i, snippet: s.slice(Math.max(0,i-80), Math.min(s.length,i+80)), backStart}); break; }
     i = j+1; continue;

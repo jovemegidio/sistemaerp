@@ -4,12 +4,12 @@ const path = require('path');
 const QRCode = require('qrcode');
 const JsBarcode = require('jsbarcode');
 
-// Canvas é opcional - usado para código de barras no DANFE
+// Canvas é opcional - usação para código de barras no DANFE
 let createCanvas = null;
 try {
     createCanvas = require('canvas').createCanvas;
 } catch (e) {
-    console.warn('⚠️  Módulo canvas não instalado - Código de barras no DANFE não disponível');
+    console.warn('⚠️  Módulo canvas não instalação - Código de barras no DANFE não disponível');
 }
 
 /**
@@ -22,7 +22,7 @@ class DanfeService {
     /**
      * Gerar DANFE em PDF
      */
-    async gerarDANFE(dadosNFe, caminhoSaida) {
+    async gerarDANFE(daçãosNFe, caminhoSaida) {
         const doc = new PDFDocument({ 
             size: 'A4', 
             margins: { top: 10, bottom: 10, left: 10, right: 10 }
@@ -32,22 +32,22 @@ class DanfeService {
         doc.pipe(stream);
         
         // Cabeçalho
-        await this.desenharCabecalho(doc, dadosNFe);
+        await this.desenharCabecalho(doc, daçãosNFe);
         
         // Destinatário/Remetente
-        this.desenharDestinatario(doc, dadosNFe);
+        this.desenharDestinatario(doc, daçãosNFe);
         
-        // Dados do produto/serviço
-        this.desenharItens(doc, dadosNFe.itens);
+        // Daçãos do produto/serviço
+        this.desenharItens(doc, daçãosNFe.itens);
         
         // Cálculo do imposto
-        this.desenharImpostos(doc, dadosNFe.totais);
+        this.desenharImpostos(doc, daçãosNFe.totais);
         
-        // Transportador
-        this.desenharTransportador(doc, dadosNFe.transporte);
+        // Transportaçãor
+        this.desenharTransportaçãor(doc, daçãosNFe.transporte);
         
-        // Dados adicionais
-        this.desenharDadosAdicionais(doc, dadosNFe.informacoesAdicionais);
+        // Daçãos adicionais
+        this.desenharDaçãosAdicionais(doc, daçãosNFe.informacoesAdicionais);
         
         // Rodapé
         this.desenharRodape(doc);
@@ -63,8 +63,8 @@ class DanfeService {
     /**
      * Desenhar cabeçalho do DANFE
      */
-    async desenharCabecalho(doc, dados) {
-        const { emitente, chaveAcesso, numeroNFe, serie, dataEmissao } = dados;
+    async desenharCabecalho(doc, daçãos) {
+        const { emitente, chaveAcesso, numeroNFe, serie, dataEmissao } = daçãos;
         
         // Retângulo principal
         doc.rect(10, 10, 575, 140).stroke();
@@ -74,12 +74,12 @@ class DanfeService {
             doc.image(emitente.logo, 15, 15, { width: 100, height: 80 });
         }
         
-        // Dados do emitente
+        // Daçãos do emitente
         doc.fontSize(12).font('Helvetica-Bold');
         doc.text(emitente.razaoSocial, 120, 20, { width: 220 });
         
         doc.fontSize(8).font('Helvetica');
-        const enderecoEmitente = `${emitente.logradouro}, ${emitente.numero}${emitente.complemento ? ' - ' + emitente.complemento : ''}`;
+        const enderecoEmitente = `${emitente.lograçãouro}, ${emitente.numero}${emitente.complemento  ' - ' + emitente.complemento : ''}`;
         doc.text(enderecoEmitente, 120, 40, { width: 220 });
         doc.text(`${emitente.bairro} - ${emitente.municipio}/${emitente.uf}`, 120, 52);
         doc.text(`CEP: ${this.formatarCEP(emitente.cep)}`, 120, 64);
@@ -103,7 +103,7 @@ class DanfeService {
         doc.text('1 - SAÍDA', 470, 100);
         
         // Checkbox tipo operação
-        const tipoOp = dados.tipoOperacao === 1 ? 470 : 360;
+        const tipoOp = daçãos.tipoOperacao === 1  470 : 360;
         doc.fontSize(12).text('X', tipoOp + 60, 98);
         
         // Chave de acesso
@@ -129,14 +129,14 @@ class DanfeService {
         doc.fontSize(7).font('Helvetica');
         doc.text('NATUREZA DA OPERAÇÃO', 15, 160);
         doc.fontSize(9).font('Helvetica-Bold');
-        doc.text(dados.naturezaOperacao, 15, 168);
+        doc.text(daçãos.naturezaOperacao, 15, 168);
         
         // Protocolo de autorização
         doc.rect(295, 155, 290, 20).stroke();
         doc.fontSize(7).font('Helvetica');
         doc.text('PROTOCOLO DE AUTORIZAÇÃO DE USO', 300, 160);
         doc.fontSize(9).font('Helvetica-Bold');
-        doc.text(dados.numeroProtocolo || 'PENDENTE', 300, 168);
+        doc.text(daçãos.numeroProtocolo || 'PENDENTE', 300, 168);
         
         // Inscrições
         doc.rect(10, 180, 190, 20).stroke();
@@ -157,10 +157,10 @@ class DanfeService {
     }
     
     /**
-     * Desenhar dados do destinatário
+     * Desenhar daçãos do destinatário
      */
-    desenharDestinatario(doc, dados) {
-        const { destinatario } = dados;
+    desenharDestinatario(doc, daçãos) {
+        const { destinatario } = daçãos;
         let y = 205;
         
         // Título
@@ -183,7 +183,7 @@ class DanfeService {
         doc.fontSize(7).font('Helvetica');
         doc.text('CNPJ / CPF', 405, y + 2);
         doc.fontSize(9);
-        const cnpjCpf = destinatario.cnpj ? this.formatarCNPJ(destinatario.cnpj) : this.formatarCPF(destinatario.cpf);
+        const cnpjCpf = destinatario.cnpj  this.formatarCNPJ(destinatario.cnpj) : this.formatarCPF(destinatario.cpf);
         doc.text(cnpjCpf, 405, y + 10);
         
         // Data de emissão
@@ -191,7 +191,7 @@ class DanfeService {
         doc.fontSize(7).font('Helvetica');
         doc.text('DATA DE EMISSÃO', 510, y + 2);
         doc.fontSize(9);
-        doc.text(this.formatarData(dados.dataEmissao), 510, y + 10);
+        doc.text(this.formatarData(daçãos.dataEmissao), 510, y + 10);
         
         y += 18;
         
@@ -200,7 +200,7 @@ class DanfeService {
         doc.fontSize(7).font('Helvetica');
         doc.text('ENDEREÇO', 15, y + 2);
         doc.fontSize(9);
-        doc.text(`${destinatario.logradouro}, ${destinatario.numero}`, 15, y + 10);
+        doc.text(`${destinatario.lograçãouro}, ${destinatario.numero}`, 15, y + 10);
         
         // Bairro
         doc.rect(400, y, 100, 18).stroke();
@@ -400,9 +400,9 @@ class DanfeService {
     }
     
     /**
-     * Desenhar dados do transportador
+     * Desenhar daçãos do transportaçãor
      */
-    desenharTransportador(doc, transporte) {
+    desenharTransportaçãor(doc, transporte) {
         let y = doc.y + 10;
         
         doc.rect(10, y, 575, 15).fill('#CCCCCC').stroke();
@@ -412,19 +412,19 @@ class DanfeService {
         
         y += 15;
         
-        if (transporte && transporte.transportadora) {
+        if (transporte && transporte.transportaçãora) {
             doc.fontSize(8).font('Helvetica');
             doc.rect(10, y, 300, 18).stroke();
             doc.text('RAZÃO SOCIAL', 12, y + 2);
             doc.fontSize(9);
-            doc.text(transporte.transportadora.nome, 12, y + 10);
+            doc.text(transporte.transportaçãora.nome, 12, y + 10);
             
             doc.fontSize(8);
             doc.rect(315, y, 130, 18).stroke();
             doc.text('FRETE POR CONTA', 317, y + 2);
             doc.fontSize(9);
-            const frete = transporte.modalidade === '0' ? '0-Emitente' : 
-                         transporte.modalidade === '1' ? '1-Destinatário' : '9-Sem Frete';
+            const frete = transporte.modalidade === '0'  '0-Emitente' : 
+                         transporte.modalidade === '1'  '1-Destinatário' : '9-Sem Frete';
             doc.text(frete, 317, y + 10);
             
             doc.fontSize(8);
@@ -436,9 +436,9 @@ class DanfeService {
     }
     
     /**
-     * Desenhar dados adicionais
+     * Desenhar daçãos adicionais
      */
-    desenharDadosAdicionais(doc, informacoes) {
+    desenharDaçãosAdicionais(doc, informacoes) {
         let y = doc.y + 10;
         
         doc.rect(10, y, 575, 15).fill('#CCCCCC').stroke();

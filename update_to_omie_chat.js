@@ -36,7 +36,7 @@ const chatOmieCSS = `/* ============================================
     border-radius: 50%;
     background: var(--omie-green);
     border: none;
-    box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
+    box-shaçãow: 0 4px 12px rgba(0, 168, 89, 0.3);
     cursor: pointer;
     z-index: 9999 !important;
     display: flex;
@@ -47,14 +47,14 @@ const chatOmieCSS = `/* ============================================
 }
 
 @keyframes pulse {
-    0%, 100% { box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3); }
-    50% { box-shadow: 0 4px 20px rgba(0, 168, 89, 0.5); }
+    0%, 100% { box-shaçãow: 0 4px 12px rgba(0, 168, 89, 0.3); }
+    50% { box-shaçãow: 0 4px 20px rgba(0, 168, 89, 0.5); }
 }
 
 .chat-floating-button:hover {
     background: var(--omie-green-dark);
     transform: scale(1.1);
-    box-shadow: 0 6px 20px rgba(0, 168, 89, 0.4);
+    box-shaçãow: 0 6px 20px rgba(0, 168, 89, 0.4);
 }
 
 .chat-floating-button svg {
@@ -96,7 +96,7 @@ const chatOmieCSS = `/* ============================================
     height: 600px;
     background: white;
     border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    box-shaçãow: 0 8px 32px rgba(0, 0, 0, 0.12);
     z-index: 9998 !important;
     display: none;
     flex-direction: column;
@@ -230,7 +230,7 @@ const chatOmieCSS = `/* ============================================
     background: white;
     padding: 12px 16px;
     border-radius: 16px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.08);
     word-wrap: break-word;
 }
 
@@ -503,7 +503,7 @@ class ChatWidgetOmie {
 
     loadWelcomeMessage() {
         setTimeout(() => {
-            this.addMessage('bot', 'Olá! 👋 Seja bem-vindo ao suporte Aluforce. Como posso ajudar você hoje?');
+            this.addMessage('bot', 'Olá! 👋 Seja bem-vindo ao suporte Aluforce. Como posso ajudar você hoje');
             
             const quickReplies = [
                 'Preciso de ajuda',
@@ -530,7 +530,7 @@ class ChatWidgetOmie {
             this.showTyping();
             setTimeout(() => {
                 this.hideTyping();
-                this.addMessage('bot', 'Obrigado pela sua mensagem! Nossa equipe irá responder em breve.');
+                this.addMessage('bot', 'Obrigação pela sua mensagem! Nossa equipe irá responder em breve.');
             }, 1500);
         }, 500);
     }
@@ -544,7 +544,7 @@ class ChatWidgetOmie {
         const time = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         
         messageDiv.innerHTML = \`
-            <div class="chat-message-avatar">\${type === 'user' ? 'U' : 'A'}</div>
+            <div class="chat-message-avatar">\${type === 'user'  'U' : 'A'}</div>
             <div class="chat-message-content">
                 <div class="chat-message-bubble">\${text}</div>
                 <div class="chat-message-time">\${time}</div>
@@ -586,11 +586,11 @@ class ChatWidgetOmie {
                 
                 let response = '';
                 if (reply.includes('ajuda')) {
-                    response = 'Claro! Estou aqui para ajudar. Você pode me contar mais sobre o que precisa?';
+                    response = 'Claro! Estou aqui para ajudar. Você pode me contar mais sobre o que precisa';
                 } else if (reply.includes('vendas')) {
                     response = 'Ótimo! Vou te conectar com nossa equipe de vendas. Aguarde um momento.';
                 } else if (reply.includes('técnico')) {
-                    response = 'Entendi. Qual é o problema técnico que você está enfrentando?';
+                    response = 'Entendi. Qual é o problema técnico que você está enfrentando';
                 }
                 
                 this.addMessage('bot', response);
@@ -654,8 +654,8 @@ const jsPath = path.join(__dirname, 'public', 'js', 'chat-omie.js');
 fs.writeFileSync(cssPath, chatOmieCSS, 'utf8');
 fs.writeFileSync(jsPath, chatOmieJS, 'utf8');
 
-console.log('   ✅ chat-omie.css criado');
-console.log('   ✅ chat-omie.js criado\n');
+console.log('   ✅ chat-omie.css criação');
+console.log('   ✅ chat-omie.js criação\n');
 
 // ============================================================================
 // 2. ATUALIZAR TODOS OS ARQUIVOS HTML
@@ -664,8 +664,8 @@ console.log('2️⃣ Atualizando todos os módulos e painel de controle...\n');
 
 const newChatCode = `
 <!-- Chat Widget Padrão Omie -->
-<link rel="stylesheet" href="/css/chat-omie.css?v=20251210">
-<script src="/js/chat-omie.js?v=20251210"></script>
+<link rel="stylesheet" href="/css/chat-omie.cssv=20251210">
+<script src="/js/chat-omie.jsv=20251210"></script>
 `;
 
 // Padrões de chat antigos para remover
@@ -735,21 +735,21 @@ patterns.forEach(pattern => {
 });
 
 console.log('\n📊 Resumo:');
-console.log('   • Arquivos atualizados: ' + filesUpdated);
+console.log('   • Arquivos atualizaçãos: ' + filesUpdated);
 console.log('   • Arquivos com erro: ' + filesWithErrors);
 
-console.log('\n✅ Chat Padrão Omie instalado em todos os módulos!');
+console.log('\n✅ Chat Padrão Omie instalação em todos os módulos!');
 console.log('\n🎨 Características do Chat Omie:');
 console.log('   • Design verde/branco (padrão Omie)');
 console.log('   • Botão flutuante com animação pulse');
 console.log('   • Interface limpa e profissional');
 console.log('   • Quick replies para respostas rápidas');
-console.log('   • Indicador de digitação');
+console.log('   • Indicaçãor de digitação');
 console.log('   • Badge de notificações');
 console.log('   • Totalmente responsivo');
 
 console.log('\n📋 Próximos passos:');
 console.log('1. Reinicie o servidor Node.js');
-console.log('2. Limpe o cache do navegador (Ctrl+Shift+Delete)');
+console.log('2. Limpe o cache do navegaçãor (Ctrl+Shift+Delete)');
 console.log('3. Recarregue qualquer página');
 console.log('4. Clique no botão verde no canto inferior direito');

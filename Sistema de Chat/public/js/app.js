@@ -4,17 +4,17 @@
 
 class ChatSupportApp {
   constructor() {
-    // Estado do usuário
+    // Estação do usuário
     this.user = null;
     this.isLoggedIn = false;
     
-    // Estado do chat
+    // Estação do chat
     this.conversations = [];
     this.currentConversation = null;
     this.isWithAI = true;
     this.transferredToHuman = false;
     
-    // Estado dos tickets
+    // Estação dos tickets
     this.tickets = [];
     this.currentTicket = null;
     
@@ -35,74 +35,74 @@ class ChatSupportApp {
     // Base de conhecimento da IA - Expandida para uso diário
     this.aiKnowledgeBase = {
       greetings: [
-        'Olá! Sou o Bob, seu assistente virtual. Como posso ajudar você hoje?',
-        'Oi! Eu sou o Bob. Bem-vindo ao suporte! Em que posso ajudar?',
-        'Olá! Aqui é o Bob. Estou aqui para ajudar. Qual é sua dúvida?',
+        'Olá! Sou o Bob, seu assistente virtual. Como posso ajudar você hoje',
+        'Oi! Eu sou o Bob. Bem-vindo ao suporte! Em que posso ajudar',
+        'Olá! Aqui é o Bob. Estou aqui para ajudar. Qual é sua dúvida',
         'Olá! Sou o Bob! Seja bem-vindo! Estou pronto para ajudar você.',
-        'Oi! Bob aqui! Como posso tornar seu dia melhor?'
+        'Oi! Bob aqui! Como posso tornar seu dia melhor'
       ],
       responses: {
         // Saudações
-        'oi': 'Olá! Como posso ajudar você hoje?',
-        'olá': 'Oi! Seja bem-vindo! Em que posso ajudar?',
-        'ola': 'Oi! Seja bem-vindo! Em que posso ajudar?',
-        'bom dia': 'Bom dia! Como posso ajudar você hoje?',
-        'boa tarde': 'Boa tarde! Em que posso ser útil?',
-        'boa noite': 'Boa noite! Como posso ajudar?',
-        'hey': 'Oi! Como posso ajudar você?',
-        'e aí': 'Olá! Tudo bem? Em que posso ajudar?',
-        'eae': 'Oi! Tudo certo? Como posso ajudar?',
+        'oi': 'Olá! Como posso ajudar você hoje',
+        'olá': 'Oi! Seja bem-vindo! Em que posso ajudar',
+        'ola': 'Oi! Seja bem-vindo! Em que posso ajudar',
+        'bom dia': 'Bom dia! Como posso ajudar você hoje',
+        'boa tarde': 'Boa tarde! Em que posso ser útil',
+        'boa noite': 'Boa noite! Como posso ajudar',
+        'hey': 'Oi! Como posso ajudar você',
+        'e aí': 'Olá! Tudo bem Em que posso ajudar',
+        'eae': 'Oi! Tudo certo Como posso ajudar',
         
         // Ajuda geral
-        'ajuda': 'Claro! Posso ajudar com diversas questões:\n\n• 💳 Pagamentos e cobranças\n• 👤 Sua conta e configurações\n• 🔧 Suporte técnico\n• 📦 Produtos e serviços\n• 📋 Acompanhar pedidos\n\nSobre qual assunto você precisa de ajuda?',
+        'ajuda': 'Claro! Posso ajudar com diversas questões:\n\n• 💳 Pagamentos e cobranças\n• 👤 Sua conta e configurações\n• 🔧 Suporte técnico\n• 📦 Produtos e serviços\n• 📋 Acompanhar pedidos\n\nSobre qual assunto você precisa de ajuda',
         'preciso de ajuda': 'Estou aqui para isso! Me conta qual é sua dúvida ou problema.',
-        'me ajuda': 'Claro! Pode me contar o que está acontecendo?',
+        'me ajuda': 'Claro! Pode me contar o que está acontecendo',
         'socorro': 'Calma, estou aqui! Me explique o que está acontecendo para eu poder ajudar.',
         
         // Sistema
-        'sistema': 'Nosso sistema oferece várias funcionalidades. Você pode acessar o menu principal para ver todas as opções. Deseja saber sobre alguma função específica?',
-        'funciona': 'O sistema funciona de forma simples e intuitiva! Você pode acessar todas as funcionalidades pelo menu principal. Quer saber sobre algum recurso específico?',
-        'como funciona': 'Fico feliz em explicar! O sistema é bem intuitivo. Qual funcionalidade você gostaria de conhecer melhor?',
-        'como usar': 'É muito simples! O que você gostaria de fazer? Posso te guiar passo a passo.',
-        'tutorial': 'Temos vários tutoriais disponíveis na aba Ajuda. Sobre qual recurso você precisa de orientação?',
+        'sistema': 'Nosso sistema oferece várias funcionalidades. Você pode acessar o menu principal para ver todas as opções. Deseja saber sobre alguma função específica',
+        'funciona': 'O sistema funciona de forma simples e intuitiva! Você pode acessar todas as funcionalidades pelo menu principal. Quer saber sobre algum recurso específico',
+        'como funciona': 'Fico feliz em explicar! O sistema é bem intuitivo. Qual funcionalidade você gostaria de conhecer melhor',
+        'como usar': 'É muito simples! O que você gostaria de fazer Posso te guiar passo a passo.',
+        'tutorial': 'Temos vários tutoriais disponíveis na aba Ajuda. Sobre qual recurso você precisa de orientação',
         
         // Comercial
-        'contratar': 'Ótimo! Ficamos felizes com seu interesse! 🎉\n\nNossos planos:\n• Básico: R$ 49,90/mês\n• Profissional: R$ 99,90/mês\n• Empresarial: R$ 199,90/mês\n\nDeseja que eu transfira você para um consultor de vendas?',
-        'preço': 'Nossos planos começam a partir de R$ 49,90/mês. Temos opções para todos os tamanhos de empresa. Quer saber mais detalhes?',
-        'plano': 'Temos planos flexíveis para atender suas necessidades. Qual é o tamanho da sua empresa ou equipe?',
-        'desconto': 'Para informações sobre descontos e promoções, posso conectar você com nossa equipe comercial. Deseja falar com um consultor?',
-        'promoção': 'Temos promoções especiais! Gostaria de falar com nosso time comercial para saber mais?',
-        'valor': 'O valor depende do plano escolhido. Nossos planos variam de R$ 49,90 a R$ 199,90/mês. Qual seu perfil de uso?',
+        'contratar': 'Ótimo! Ficamos felizes com seu interesse! 🎉\n\nNossos planos:\n• Básico: R$ 49,90/mês\n• Profissional: R$ 99,90/mês\n• Empresarial: R$ 199,90/mês\n\nDeseja que eu transfira você para um consultor de vendas',
+        'preço': 'Nossos planos começam a partir de R$ 49,90/mês. Temos opções para todos os tamanhos de empresa. Quer saber mais detalhes',
+        'plano': 'Temos planos flexíveis para atender suas necessidades. Qual é o tamanho da sua empresa ou equipe',
+        'desconto': 'Para informações sobre descontos e promoções, posso conectar você com nossa equipe comercial. Deseja falar com um consultor',
+        'promoção': 'Temos promoções especiais! Gostaria de falar com nosso time comercial para saber mais',
+        'valor': 'O valor depende do plano escolhido. Nossos planos variam de R$ 49,90 a R$ 199,90/mês. Qual seu perfil de uso',
         
         // Conta e assinatura
-        'assinatura': 'Sobre sua assinatura, você pode verificar os detalhes na área "Minha Conta". Está tendo algum problema específico com ela?',
-        'conta': 'Para questões sobre sua conta, posso ajudar com: alteração de dados, senha, configurações e muito mais. O que você precisa?',
-        'senha': 'Para redefinir sua senha:\n1. Clique em "Esqueci minha senha" na tela de login\n2. Digite seu e-mail\n3. Verifique sua caixa de entrada\n4. Clique no link recebido\n\nEstá com dificuldade nesse processo?',
-        'cancelar': 'Sentimos muito que queira cancelar! 😢 Posso saber o motivo? Talvez possamos ajudar a resolver antes do cancelamento.',
-        'cancelamento': 'Para processar um cancelamento, preciso conectar você com nossa equipe. Antes, podemos tentar resolver algum problema?',
-        'alterar': 'Você pode alterar suas informações na área "Minha Conta". Precisa de ajuda para encontrar?',
+        'assinatura': 'Sobre sua assinatura, você pode verificar os detalhes na área "Minha Conta". Está tendo algum problema específico com ela',
+        'conta': 'Para questões sobre sua conta, posso ajudar com: alteração de daçãos, senha, configurações e muito mais. O que você precisa',
+        'senha': 'Para redefinir sua senha:\n1. Clique em "Esqueci minha senha" na tela de login\n2. Digite seu e-mail\n3. Verifique sua caixa de entrada\n4. Clique no link recebido\n\nEstá com dificuldade nesse processo',
+        'cancelar': 'Sentimos muito que queira cancelar! 😢 Posso saber o motivo Talvez possamos ajudar a resolver antes do cancelamento.',
+        'cancelamento': 'Para processar um cancelamento, preciso conectar você com nossa equipe. Antes, podemos tentar resolver algum problema',
+        'alterar': 'Você pode alterar suas informações na área "Minha Conta". Precisa de ajuda para encontrar',
         
         // Pagamento
-        'pagamento': 'Para questões de pagamento, aceitamos:\n• 💳 Cartão de crédito\n• 📋 Boleto bancário\n• 📱 PIX\n\nEstá com alguma dificuldade?',
-        'boleto': 'O boleto é enviado por e-mail e também fica disponível na área do cliente. Não recebeu o seu?',
-        'cartão': 'Aceitamos as principais bandeiras: Visa, Mastercard, Elo e American Express. Está tendo problemas com o pagamento?',
-        'pix': 'O PIX é processado instantaneamente! O código fica disponível na área de pagamentos. Precisa de ajuda?',
-        'fatura': 'Suas faturas ficam disponíveis na área "Financeiro" da sua conta. Está com dúvida sobre alguma cobrança?',
-        'cobrança': 'Posso verificar suas cobranças. Você está questionando algum valor específico?',
-        'reembolso': 'Para solicitar reembolso, preciso entender melhor a situação. Pode me contar o que aconteceu?',
-        'estorno': 'Vou verificar a possibilidade de estorno. Qual foi o problema com a cobrança?',
+        'pagamento': 'Para questões de pagamento, aceitamos:\n• 💳 Cartão de crédito\n• 📋 Boleto bancário\n• 📱 PIX\n\nEstá com alguma dificuldade',
+        'boleto': 'O boleto é enviação por e-mail e também fica disponível na área do cliente. Não recebeu o seu',
+        'cartão': 'Aceitamos as principais bandeiras: Visa, Mastercard, Elo e American Express. Está tendo problemas com o pagamento',
+        'pix': 'O PIX é processação instantaneamente! O código fica disponível na área de pagamentos. Precisa de ajuda',
+        'fatura': 'Suas faturas ficam disponíveis na área "Financeiro" da sua conta. Está com dúvida sobre alguma cobrança',
+        'cobrança': 'Posso verificar suas cobranças. Você está questionando algum valor específico',
+        'reembolso': 'Para solicitar reembolso, preciso entender melhor a situação. Pode me contar o que aconteceu',
+        'estorno': 'Vou verificar a possibilidade de estorno. Qual foi o problema com a cobrança',
         
         // Problemas
-        'problema': 'Entendo que você está com um problema. Pode me descrever com mais detalhes o que está acontecendo?',
-        'erro': 'Lamento pelo inconveniente! Pode me descrever o erro que está aparecendo?',
-        'bug': 'Obrigado por reportar! Pode me contar exatamente o que aconteceu e onde você viu o problema?',
-        'não funciona': 'Vamos resolver isso! O que exatamente não está funcionando?',
-        'não consigo': 'Entendo sua dificuldade. O que você está tentando fazer?',
-        'travou': 'Que chato! Vamos resolver. O que você estava fazendo quando travou?',
-        'lento': 'O sistema está lento? Pode ser sua conexão ou podemos ter algum problema. Há quanto tempo está assim?',
+        'problema': 'Entendo que você está com um problema. Pode me descrever com mais detalhes o que está acontecendo',
+        'erro': 'Lamento pelo inconveniente! Pode me descrever o erro que está aparecendo',
+        'bug': 'Obrigação por reportar! Pode me contar exatamente o que aconteceu e onde você viu o problema',
+        'não funciona': 'Vamos resolver isso! O que exatamente não está funcionando',
+        'não consigo': 'Entendo sua dificuldade. O que você está tentando fazer',
+        'travou': 'Que chato! Vamos resolver. O que você estava fazendo quando travou',
+        'lento': 'O sistema está lento Pode ser sua conexão ou podemos ter algum problema. Há quanto tempo está assim',
         
         // Suporte técnico
-        'técnico': 'Para suporte técnico, preciso entender melhor a situação. Qual erro ou comportamento inesperado você está observando?',
+        'técnico': 'Para suporte técnico, preciso entender melhor a situação. Qual erro ou comportamento inesperação você está observando',
         'suporte': 'Estou aqui para ajudar! Você pode me contar qual é sua dúvida ou problema, e farei o possível para resolver.',
         'suporte tecnico': 'Claro! Me conte o problema técnico que você está enfrentando.',
         
@@ -115,31 +115,31 @@ class ChatSupportApp {
         'atendimento humano': 'Sem problemas! Transferindo para um especialista...',
         
         // Agradecimentos e despedidas
-        'obrigado': 'Por nada! Fico feliz em ajudar. 😊 Há mais alguma coisa que posso fazer por você?',
-        'obrigada': 'De nada! Foi um prazer ajudar! Precisa de mais alguma coisa?',
-        'valeu': 'Disponha! 👍 Posso ajudar em algo mais?',
+        'obrigação': 'Por nada! Fico feliz em ajudar. 😊 Há mais alguma coisa que posso fazer por você',
+        'obrigada': 'De nada! Foi um prazer ajudar! Precisa de mais alguma coisa',
+        'valeu': 'Disponha! 👍 Posso ajudar em algo mais',
         'tchau': 'Até logo! Se precisar de mais alguma coisa, estarei aqui. Tenha um ótimo dia! 👋',
         'até mais': 'Até mais! Volte sempre que precisar. 😊',
         'adeus': 'Até a próxima! Foi um prazer atendê-lo.',
         'flw': 'Falou! Volte quando precisar! 👍',
         
         // Horário de funcionamento
-        'horário': 'Nosso atendimento funciona:\n• Segunda a Sexta: 8h às 18h\n• Sábado: 9h às 13h\n• Domingo: Fechado\n\nMas eu (assistente virtual) estou disponível 24h!',
+        'horário': 'Nosso atendimento funciona:\n• Segunda a Sexta: 8h às 18h\n• Sábação: 9h às 13h\n• Domingo: Fechação\n\nMas eu (assistente virtual) estou disponível 24h!',
         'funcionamento': 'O atendimento humano funciona em horário comercial, mas eu estou sempre aqui para ajudar!',
         
         // Status
         'status': 'Você pode verificar o status dos seus pedidos e serviços na área "Meus Pedidos" ou "Minha Conta".',
-        'pedido': 'Para acompanhar seu pedido, acesse "Meus Pedidos" na sua conta. Precisa do número de acompanhamento?',
-        'prazo': 'Os prazos variam conforme o serviço. Pode me informar sobre qual pedido ou serviço você tem dúvida?',
-        'entrega': 'Para verificar o status de entrega, você pode acessar "Meus Pedidos". Está com algum problema de entrega?',
+        'pedido': 'Para acompanhar seu pedido, acesse "Meus Pedidos" na sua conta. Precisa do número de acompanhamento',
+        'prazo': 'Os prazos variam conforme o serviço. Pode me informar sobre qual pedido ou serviço você tem dúvida',
+        'entrega': 'Para verificar o status de entrega, você pode acessar "Meus Pedidos". Está com algum problema de entrega',
         
         // Feedback
-        'reclamação': 'Lamento que tenha tido uma experiência ruim. Pode me contar o que aconteceu? Quero ajudar a resolver.',
-        'elogio': 'Que ótimo receber seu feedback positivo! Vou encaminhar para nossa equipe. Obrigado! 🎉',
+        'reclamação': 'Lamento que tenha tido uma experiência ruim. Pode me contar o que aconteceu Quero ajudar a resolver.',
+        'elogio': 'Que ótimo receber seu feedback positivo! Vou encaminhar para nossa equipe. Obrigação! 🎉',
         'sugestão': 'Adoramos receber sugestões! Por favor, compartilhe sua ideia que irei encaminhar ao time responsável.',
         
         // Resposta padrão
-        'default': 'Entendi sua mensagem! Sou o Bob e estou verificando como posso ajudar melhor. Você poderia dar mais detalhes sobre o que precisa?\n\nOu se preferir, digite:\n• "ajuda" - para ver opções\n• "atendente" - para falar com humano'
+        'default': 'Entendi sua mensagem! Sou o Bob e estou verificando como posso ajudar melhor. Você poderia dar mais detalhes sobre o que precisa\n\nOu se preferir, digite:\n• "ajuda" - para ver opções\n• "atendente" - para falar com humano'
       },
       transferKeywords: ['atendente', 'humano', 'pessoa', 'falar com alguém', 'falar com alguem', 'suporte humano', 'transferir', 'atendimento humano', 'quero falar']
     };
@@ -158,16 +158,16 @@ class ChatSupportApp {
   }
 
   /**
-   * Escuta mensagens do parent (iframe embed) com dados do usuário
+   * Escuta mensagens do parent (iframe embed) com daçãos do usuário
    */
   listenForParentUserData() {
     window.addEventListener('message', (event) => {
       // Aceitar mensagens de qualquer origem para iframe embed
       if (event.data && event.data.type === 'USER_DATA' && event.data.user) {
         const parentUser = event.data.user;
-        console.log('📥 Dados do usuário recebidos via postMessage:', parentUser);
+        console.log('📥 Daçãos do usuário recebidos via postMessage:', parentUser);
         
-        // Se não está logado, fazer auto-login
+        // Se não está logação, fazer auto-login
         if (!this.isLoggedIn && parentUser.email) {
           this.autoLoginFromParent(parentUser);
         }
@@ -176,7 +176,7 @@ class ChatSupportApp {
   }
 
   /**
-   * Auto-login usando dados do sistema principal (parent)
+   * Auto-login usando daçãos do sistema principal (parent)
    */
   autoLoginFromParent(parentUser) {
     const name = parentUser.nome || parentUser.firstName || parentUser.name || parentUser.email.split('@')[0];
@@ -412,13 +412,13 @@ class ChatSupportApp {
       return;
     }
     
-    // Se não, tenta usar dados do sistema principal (userData)
+    // Se não, tenta usar daçãos do sistema principal (userData)
     const mainUserData = localStorage.getItem('userData');
     if (mainUserData) {
       try {
         const parentUser = JSON.parse(mainUserData);
         if (parentUser && parentUser.email) {
-          console.log('🔍 Encontrado userData do sistema principal, fazendo auto-login...');
+          console.log('🔍 Encontração userData do sistema principal, fazendo auto-login...');
           this.autoLoginFromParent(parentUser);
           return;
         }
@@ -484,7 +484,7 @@ class ChatSupportApp {
   }
   
   async loadUserData() {
-    // Primeiro, carregar dados locais
+    // Primeiro, carregar daçãos locais
     this.loadLocalData();
     
     try {
@@ -511,7 +511,7 @@ class ChatSupportApp {
       }
     } catch (error) {
       console.error('Error loading user data from server:', error);
-      // Dados locais já foram carregados, apenas renderizar
+      // Daçãos locais já foram carregaçãos, apenas renderizar
       this.renderConversations();
       this.renderTickets();
     }
@@ -622,7 +622,7 @@ class ChatSupportApp {
     // Criar nova conversa
     const conversation = {
       id: 'conv_' + Date.now(),
-      userId: this.user ? this.user.id : 'anonymous',
+      userId: this.user  this.user.id : 'anonymous',
       messages: [],
       createdAt: new Date().toISOString(),
       lastMessage: '',
@@ -665,7 +665,7 @@ class ChatSupportApp {
     // Registrar no servidor se socket disponível
     if (this.socket) {
       this.socket.emit('room:create', {
-        userId: this.user ? this.user.id : 'anonymous',
+        userId: this.user  this.user.id : 'anonymous',
         roomId: conversation.id
       });
     }
@@ -718,17 +718,17 @@ class ChatSupportApp {
       this.socket.emit('message:send', {
         roomId: this.currentConversation.id,
         content: content,
-        userId: this.user ? this.user.id : 'anonymous'
+        userId: this.user  this.user.id : 'anonymous'
       });
     }
     
-    // Salvar dados localmente
+    // Salvar daçãos localmente
     this.saveLocalData();
     this.renderConversations();
   }
   
   processAIResponse(userMessage) {
-    // Mostrar indicador de digitação
+    // Mostrar indicaçãor de digitação
     this.showTypingIndicator();
     
     // Verificar se é pedido de transferência
@@ -833,13 +833,13 @@ class ChatSupportApp {
   transferToHuman() {
     this.addSystemMessage('Transferindo para um atendente humano...');
     
-    // Preparar dados para transferência
+    // Preparar daçãos para transferência
     const transferData = {
-      userId: this.user ? this.user.id : 'anonymous',
-      userName: this.user ? this.user.username : 'Visitante',
-      userEmail: this.user ? this.user.email : '',
-      conversationId: this.currentConversation ? this.currentConversation.id : null,
-      messages: this.currentConversation ? this.currentConversation.messages : [],
+      userId: this.user  this.user.id : 'anonymous',
+      userName: this.user  this.user.username : 'Visitante',
+      userEmail: this.user  this.user.email : '',
+      conversationId: this.currentConversation  this.currentConversation.id : null,
+      messages: this.currentConversation  this.currentConversation.messages : [],
       reason: 'Solicitação de atendente humano'
     };
     
@@ -878,7 +878,7 @@ class ChatSupportApp {
         if (this.socket) {
           this.socket.emit('room:transfer', {
             roomId: this.currentConversation.id,
-            userId: this.user ? this.user.id : 'anonymous',
+            userId: this.user  this.user.id : 'anonymous',
             ticketId: result.ticket.id
           });
         }
@@ -886,7 +886,7 @@ class ChatSupportApp {
         setTimeout(() => {
           const systemMessage = {
             id: 'msg_system_' + Date.now(),
-            content: `✅ Ticket #${result.ticket.protocolo} criado com sucesso!\n\nSeu atendimento foi registrado e um de nossos atendentes entrará em contato em breve.\n\nAcompanhe pelo protocolo: ${result.ticket.protocolo}`,
+            content: `✅ Ticket #${result.ticket.protocolo} criação com sucesso!\n\nSeu atendimento foi registração e um de nossos atendentes entrará em contato em breve.\n\nAcompanhe pelo protocolo: ${result.ticket.protocolo}`,
             sender: 'system',
             timestamp: new Date().toISOString()
           };
@@ -1094,7 +1094,7 @@ class ChatSupportApp {
         </div>
         <div class="conv-info">
           <div class="conv-header">
-            <span class="conv-name">${conv.isWithAI ? 'Assistente Virtual' : 'Suporte'}</span>
+            <span class="conv-name">${conv.isWithAI  'Assistente Virtual' : 'Suporte'}</span>
             <span class="conv-time">${this.formatTime(conv.createdAt)}</span>
           </div>
           <p class="conv-last-msg">${conv.lastMessage || 'Nova conversa'}</p>
@@ -1115,7 +1115,7 @@ class ChatSupportApp {
     if (container) {
       container.innerHTML = '';
       conv.messages.forEach(msg => {
-        this.addMessageToUI(msg, msg.sender === 'user' ? 'outgoing' : 'incoming');
+        this.addMessageToUI(msg, msg.sender === 'user'  'outgoing' : 'incoming');
       });
     }
     
@@ -1275,7 +1275,7 @@ class ChatSupportApp {
     if (btn) {
       btn.classList.toggle('active', this.isMuted);
       btn.innerHTML = this.isMuted 
-        ? '<i class="fas fa-microphone-slash"></i>'
+         '<i class="fas fa-microphone-slash"></i>'
         : '<i class="fas fa-microphone"></i>';
     }
   }
@@ -1309,7 +1309,7 @@ class ChatSupportApp {
       priority,
       description,
       status: 'open',
-      userId: this.user ? this.user.id : 'anonymous',
+      userId: this.user  this.user.id : 'anonymous',
       createdAt: new Date().toISOString(),
       responses: []
     };
@@ -1332,7 +1332,7 @@ class ChatSupportApp {
       this.tickets.unshift(ticket);
     }
     
-    // Salvar dados localmente
+    // Salvar daçãos localmente
     this.saveLocalData();
     
     // Limpar formulário
@@ -1387,7 +1387,7 @@ class ChatSupportApp {
     const labels = {
       'open': 'Aberto',
       'pending': 'Pendente',
-      'closed': 'Fechado'
+      'closed': 'Fechação'
     };
     return labels[status] || status;
   }
@@ -1450,7 +1450,7 @@ class ChatSupportApp {
     const response = {
       id: 'resp_' + Date.now(),
       content,
-      author: this.user ? this.user.username : 'Você',
+      author: this.user  this.user.username : 'Você',
       createdAt: new Date().toISOString()
     };
     

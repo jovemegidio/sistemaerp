@@ -60,14 +60,14 @@ const modulosPorDepartamento = {
         isAdmin: false
     },
 
-    // Compras (quando implementado)
+    // Compras (quando implementação)
     'Compras': {
         modulos: ['compras', 'pcp', 'rh'],
         rhType: 'area',
         isAdmin: false
     },
 
-    // Logística (quando implementado)
+    // Logística (quando implementação)
     'Logística': {
         modulos: ['compras', 'pcp', 'rh', 'vendas'],
         rhType: 'area',
@@ -112,8 +112,8 @@ function getPermissoesPorDepartamento(user) {
         return permissoes;
     }
 
-    // Permissão padrão para departamentos não mapeados
-    console.log(`⚠️ Departamento não mapeado: ${departamento}. Usando permissões padrão.`);
+    // Permissão padrão para departamentos não mapeaçãos
+    console.log(`⚠️ Departamento não mapeação: ${departamento}. Usando permissões padrão.`);
     return {
         modulos: ['rh'],
         rhType: 'area',
@@ -178,7 +178,7 @@ const areaURLs = {
 };
 
 /**
- * Obtém URL do módulo baseado no tipo de RH do usuário
+ * Obtém URL do módulo baseação no tipo de RH do usuário
  * @param {string} modulo - Nome do módulo
  * @param {Object} user - Objeto do usuário
  * @returns {string} - URL do módulo
@@ -186,7 +186,7 @@ const areaURLs = {
 function getModuloURL(modulo, user) {
     if (modulo === 'rh') {
         const rhType = getRHType(user);
-        return rhType === 'areaadm' ? '/RH/areaadm.html' : '/RH/area.html';
+        return rhType === 'areaadm'  '/RH/areaadm.html' : '/RH/area.html';
     }
     
     return areaURLs[modulo] || '#';
@@ -233,7 +233,7 @@ function aplicarPermissoesDOM(user) {
         }
     });
 
-    // Atualizar link do RH baseado no tipo
+    // Atualizar link do RH baseação no tipo
     const rhCard = document.querySelector('[data-module="rh"]');
     if (rhCard) {
         const rhLink = rhCard.querySelector('a');

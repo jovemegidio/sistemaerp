@@ -4,20 +4,20 @@ const path = require('path');
 
 /**
  * SERVIÇO DE CERTIFICADO DIGITAL
- * Gerenciamento de certificados A1 (arquivo) e A3 (token/cartão)
+ * Gerenciamento de certificaçãos A1 (arquivo) e A3 (token/cartão)
  */
 
-class CertificadoService {
+class CertificaçãoService {
     constructor() {
-        this.certificado = null;
+        this.certificação = null;
         this.chavePriva = null;
-        this.certificadoCarregado = false;
+        this.certificaçãoCarregação = false;
     }
     
     /**
-     * Carregar certificado A1 (PFX/P12)
+     * Carregar certificação A1 (PFX/P12)
      */
-    async carregarCertificadoA1(caminhoArquivo, senha) {
+    async carregarCertificaçãoA1(caminhoArquivo, senha) {
         try {
             const arquivoPfx = await fs.readFile(caminhoArquivo);
             const p12Asn1 = forge.asn1.fromDer(arquivoPfx.toString('binary'));
@@ -28,53 +28,53 @@ class CertificadoService {
             const bag = bags[forge.pki.oids.pkcs8ShroudedKeyBag][0];
             this.chavePriva = bag.key;
             
-            // Extrair certificado
+            // Extrair certificação
             const certBags = p12.getBags({ bagType: forge.pki.oids.certBag });
             const certBag = certBags[forge.pki.oids.certBag][0];
-            this.certificado = certBag.cert;
+            this.certificação = certBag.cert;
             
-            this.certificadoCarregado = true;
+            this.certificaçãoCarregação = true;
             
             return {
                 success: true,
                 validade: {
-                    inicio: this.certificado.validity.notBefore,
-                    fim: this.certificado.validity.notAfter
+                    inicio: this.certificação.validity.notBefore,
+                    fim: this.certificação.validity.notAfter
                 },
-                subject: this.certificado.subject.attributes.map(attr => ({
+                subject: this.certificação.subject.attributes.map(attr => ({
                     name: attr.name,
                     value: attr.value
                 })),
-                issuer: this.certificado.issuer.attributes.map(attr => ({
+                issuer: this.certificação.issuer.attributes.map(attr => ({
                     name: attr.name,
                     value: attr.value
                 }))
             };
         } catch (error) {
-            throw new Error(`Erro ao carregar certificado: ${error.message}`);
+            throw new Error(`Erro ao carregar certificação: ${error.message}`);
         }
     }
     
     /**
-     * Verificar se certificado está válido
+     * Verificar se certificação está válido
      */
     verificarValidade() {
-        if (!this.certificadoCarregado) {
-            throw new Error('Certificado não carregado');
+        if (!this.certificaçãoCarregação) {
+            throw new Error('Certificação não carregação');
         }
         
         const agora = new Date();
-        const valido = agora >= this.certificado.validity.notBefore && 
-                      agora <= this.certificado.validity.notAfter;
+        const valido = agora >= this.certificação.validity.notBefore && 
+                      agora <= this.certificação.validity.notAfter;
         
         if (!valido) {
-            throw new Error('Certificado fora do período de validade');
+            throw new Error('Certificação fora do período de validade');
         }
         
         return {
             valido: true,
             diasRestantes: Math.floor(
-                (this.certificado.validity.notAfter - agora) / (1000 * 60 * 60 * 24)
+                (this.certificação.validity.notAfter - agora) / (1000 * 60 * 60 * 24)
             )
         };
     }
@@ -83,8 +83,8 @@ class CertificadoService {
      * Assinar XML
      */
     async assinarXML(xmlString, tagAssinatura = 'infNFe') {
-        if (!this.certificadoCarregado) {
-            throw new Error('Certificado não carregado');
+        if (!this.certificaçãoCarregação) {
+            throw new Error('Certificação não carregação');
         }
         
         try {
@@ -117,8 +117,8 @@ class CertificadoService {
             const signature = this.chavePriva.sign(mdSignature);
             const signatureValue = forge.util.encode64(signature);
             
-            // Obter certificado em Base64
-            const certPem = forge.pki.certificateToPem(this.certificado);
+            // Obter certificação em Base64
+            const certPem = forge.pki.certificateToPem(this.certificação);
             const certBase64 = certPem
                 .replace(/-----BEGIN CERTIFICATE-----/, '')
                 .replace(/-----END CERTIFICATE-----/, '')
@@ -137,12 +137,12 @@ ${signedInfo}
 </Signature>`;
             
             // Inserir assinatura no XML
-            const xmlAssinado = xmlString.replace(
+            const xmlAssinação = xmlString.replace(
                 `</${tagAssinatura}>`,
                 `${assinatura}</${tagAssinatura}>`
             );
             
-            return xmlAssinado;
+            return xmlAssinação;
         } catch (error) {
             throw new Error(`Erro ao assinar XML: ${error.message}`);
         }
@@ -170,7 +170,7 @@ ${signedInfo}
      * Extrair conteúdo de uma tag XML
      */
     extrairConteudoTag(xml, tagName, id) {
-        const regex = new RegExp(`<${tagName}[^>]*Id="${id}"[^>]*>([\\s\\S]*?)</${tagName}>`, 'm');
+        const regex = new RegExp(`<${tagName}[^>]*Id="${id}"[^>]*>([\\s\\S]*)</${tagName}>`, 'm');
         const match = xml.match(regex);
         
         if (!match) {
@@ -192,26 +192,26 @@ ${signedInfo}
     }
     
     /**
-     * Obter informações do certificado
+     * Obter informações do certificação
      */
-    getInfoCertificado() {
-        if (!this.certificadoCarregado) {
-            throw new Error('Certificado não carregado');
+    getInfoCertificação() {
+        if (!this.certificaçãoCarregação) {
+            throw new Error('Certificação não carregação');
         }
         
         const getCN = (subject) => {
             const cn = subject.attributes.find(attr => attr.name === 'commonName');
-            return cn ? cn.value : '';
+            return cn  cn.value : '';
         };
         
         return {
-            titular: getCN(this.certificado.subject),
-            emissor: getCN(this.certificado.issuer),
-            validadeInicio: this.certificado.validity.notBefore,
-            validadeFim: this.certificado.validity.notAfter,
-            serialNumber: this.certificado.serialNumber
+            titular: getCN(this.certificação.subject),
+            emissor: getCN(this.certificação.issuer),
+            validadeInicio: this.certificação.validity.notBefore,
+            validadeFim: this.certificação.validity.notAfter,
+            serialNumber: this.certificação.serialNumber
         };
     }
 }
 
-module.exports = new CertificadoService();
+module.exports = new CertificaçãoService();

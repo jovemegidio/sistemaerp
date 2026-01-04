@@ -19,7 +19,7 @@ async function carregarContasBancarias() {
         // const response = await fetch('/api/financeiro/contas-bancarias');
         // contasBancarias = await response.json();
         
-        // Dados mock para desenvolvimento
+        // Daçãos mock para desenvolvimento
         contasBancarias = [
             {
                 id: 1,
@@ -96,8 +96,8 @@ function renderizarContas() {
         
         return `
             <div class="conta-card">
-                <span class="conta-status ${conta.ativo ? 'ativo' : 'inativo'}">
-                    ${conta.ativo ? 'Ativa' : 'Inativa'}
+                <span class="conta-status ${conta.ativo  'ativo' : 'inativo'}">
+                    ${conta.ativo  'Ativa' : 'Inativa'}
                 </span>
                 
                 <div class="conta-header">
@@ -112,7 +112,7 @@ function renderizarContas() {
                 
                 <div class="conta-saldo">
                     <div class="conta-saldo-label">Saldo Atual</div>
-                    <div class="conta-saldo-valor" style="color: ${conta.saldo_atual >= 0 ? '#10b981' : '#ef4444'}">
+                    <div class="conta-saldo-valor" style="color: ${conta.saldo_atual >= 0  '#10b981' : '#ef4444'}">
                         ${formatarMoeda(Math.abs(conta.saldo_atual))}
                     </div>
                 </div>
@@ -210,7 +210,7 @@ async function salvarConta(event) {
     const id = document.getElementById('conta-id').value;
     const isEdicao = !!id;
     
-    const dados = {
+    const daçãos = {
         banco: document.getElementById('conta-banco').value,
         tipo_conta: document.getElementById('conta-tipo').value,
         agencia: document.getElementById('conta-agencia').value,
@@ -224,32 +224,32 @@ async function salvarConta(event) {
     
     try {
         // TODO: Substituir por chamada real à API
-        // const url = isEdicao ? `/api/financeiro/contas-bancarias/${id}` : '/api/financeiro/contas-bancarias';
-        // const method = isEdicao ? 'PUT' : 'POST';
+        // const url = isEdicao  `/api/financeiro/contas-bancarias/${id}` : '/api/financeiro/contas-bancarias';
+        // const method = isEdicao  'PUT' : 'POST';
         // const response = await fetch(url, {
         //     method: method,
         //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(dados)
+        //     body: JSON.stringify(daçãos)
         // });
         
         // Mock para desenvolvimento
         if (isEdicao) {
             const index = contasBancarias.findIndex(c => c.id == id);
             if (index !== -1) {
-                contasBancarias[index] = { ...contasBancarias[index], ...dados };
+                contasBancarias[index] = { ...contasBancarias[index], ...daçãos };
             }
         } else {
             const novaConta = {
                 id: contasBancarias.length + 1,
                 código: `CB${String(contasBancarias.length + 1).padStart(6, '0')}`,
-                saldo_atual: dados.saldo_inicial,
-                ...dados
+                saldo_atual: daçãos.saldo_inicial,
+                ...daçãos
             };
             contasBancarias.push(novaConta);
         }
         
         mostrarAlerta(
-            isEdicao ? 'Conta atualizada com sucesso!' : 'Conta criada com sucesso!',
+            isEdicao  'Conta atualizada com sucesso!' : 'Conta criada com sucesso!',
             'success'
         );
         
@@ -385,10 +385,10 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         top: 20px;
         right: 20px;
         padding: 16px 24px;
-        background: ${tipo === 'success' ? '#10b981' : tipo === 'error' ? '#ef4444' : '#3b82f6'};
+        background: ${tipo === 'success'  '#10b981' : tipo === 'error'  '#ef4444' : '#3b82f6'};
         color: white;
         border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        box-shaçãow: 0 8px 20px rgba(0,0,0,0.15);
         z-index: 10000;
         font-weight: 600;
         display: flex;
@@ -397,7 +397,7 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         animation: slideIn 0.3s ease;
     `;
     
-    const icon = tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle';
+    const icon = tipo === 'success'  'check-circle' : tipo === 'error'  'exclamation-circle' : 'info-circle';
     alerta.innerHTML = `<i class="fas fa-${icon}"></i> ${mensagem}`;
     
     document.body.appendChild(alerta);
@@ -465,7 +465,7 @@ style.textContent = `
         max-width: 600px;
         max-height: 90vh;
         overflow-y: auto;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        box-shaçãow: 0 20px 40px rgba(0,0,0,0.2);
     }
     
     .modal-header {
@@ -540,7 +540,7 @@ style.textContent = `
     .form-input:focus, .form-select:focus, .form-textarea:focus {
         outline: none;
         border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        box-shaçãow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
     
     .form-row {

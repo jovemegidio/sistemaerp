@@ -16,7 +16,7 @@ class ComprasDashboard {
     }
 
     async init() {
-        await this.carregarDados();
+        await this.carregarDaçãos();
         this.renderizarMetricas();
         this.renderizarGraficos();
         this.renderizarTabelaCompras();
@@ -24,7 +24,7 @@ class ComprasDashboard {
         this.iniciarAtualizacaoAutomatica();
     }
 
-    async carregarDados() {
+    async carregarDaçãos() {
         try {
             this.data.metricas = {
                 totalCompras: {
@@ -124,7 +124,7 @@ class ComprasDashboard {
             ];
 
         } catch (error) {
-            console.error('Erro ao carregar dados:', error);
+            console.error('Erro ao carregar daçãos:', error);
         }
     }
 
@@ -141,8 +141,8 @@ class ComprasDashboard {
                     <div class="metric-icon">
                         <i class="fas fa-shopping-cart"></i>
                     </div>
-                    <div class="metric-trend ${totalCompras.variacao >= 0 ? 'positive' : 'negative'}">
-                        <i class="fas fa-arrow-${totalCompras.variacao >= 0 ? 'up' : 'down'}"></i>
+                    <div class="metric-trend ${totalCompras.variacao >= 0  'positive' : 'negative'}">
+                        <i class="fas fa-arrow-${totalCompras.variacao >= 0  'up' : 'down'}"></i>
                         ${Math.abs(totalCompras.variacao).toFixed(1)}%
                     </div>
                 </div>
@@ -215,7 +215,7 @@ class ComprasDashboard {
                 <div class="metric-body">
                     <h3 class="metric-title">Economia Obtida</h3>
                     <p class="metric-value">R$ ${this.formatarMoeda(economiaObtida.valor)}</p>
-                    <p class="metric-subtitle">Comparado ao orçamento</p>
+                    <p class="metric-subtitle">Comparação ao orçamento</p>
                 </div>
                 <canvas id="chart-economia-mini" width="100" height="40"></canvas>
             </div>
@@ -236,12 +236,12 @@ class ComprasDashboard {
         const ctxOrdens = document.getElementById('chart-ordens-status');
         if (ctxOrdens) {
             const ctx = ctxOrdens.getContext('2d');
-            const dados = [
+            const daçãos = [
                 this.data.metricas.ordemCompra.pendentes,
                 this.data.metricas.ordemCompra.aprovadas,
                 this.data.metricas.ordemCompra.entregues
             ];
-            this.desenharMiniBarras(ctx, dados, ['#f59e0b', '#3b82f6', '#10b981']);
+            this.desenharMiniBarras(ctx, daçãos, ['#f59e0b', '#3b82f6', '#10b981']);
         }
 
         // Mini gráfico de economia
@@ -253,12 +253,12 @@ class ComprasDashboard {
         }
     }
 
-    desenharMiniLinha(ctx, dados, cor) {
+    desenharMiniLinha(ctx, daçãos, cor) {
         const canvas = ctx.canvas;
         const width = canvas.width;
         const height = canvas.height;
-        const max = Math.max(...dados);
-        const min = Math.min(...dados);
+        const max = Math.max(...daçãos);
+        const min = Math.min(...daçãos);
         const range = max - min || 1;
         
         ctx.clearRect(0, 0, width, height);
@@ -268,8 +268,8 @@ class ComprasDashboard {
         ctx.lineJoin = 'round';
         
         ctx.beginPath();
-        dados.forEach((valor, i) => {
-            const x = (i / (dados.length - 1)) * width;
+        daçãos.forEach((valor, i) => {
+            const x = (i / (daçãos.length - 1)) * width;
             const y = height - ((valor - min) / range) * height;
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
@@ -285,16 +285,16 @@ class ComprasDashboard {
         ctx.globalAlpha = 1;
     }
 
-    desenharMiniBarras(ctx, dados, cores) {
+    desenharMiniBarras(ctx, daçãos, cores) {
         const canvas = ctx.canvas;
         const width = canvas.width;
         const height = canvas.height;
-        const barWidth = width / dados.length;
-        const max = Math.max(...dados);
+        const barWidth = width / daçãos.length;
+        const max = Math.max(...daçãos);
         
         ctx.clearRect(0, 0, width, height);
         
-        dados.forEach((valor, i) => {
+        daçãos.forEach((valor, i) => {
             const barHeight = (valor / max) * height;
             const x = i * barWidth;
             const y = height - barHeight;
@@ -336,7 +336,7 @@ class ComprasDashboard {
         }
     }
 
-    desenharGraficoArea(ctx, dados) {
+    desenharGraficoArea(ctx, daçãos) {
         const canvas = ctx.canvas;
         const width = canvas.width;
         const height = canvas.height;
@@ -344,7 +344,7 @@ class ComprasDashboard {
         const chartWidth = width - padding * 2;
         const chartHeight = height - padding * 2;
         
-        const valores = dados.map(d => d.valor);
+        const valores = daçãos.map(d => d.valor);
         const max = Math.max(...valores);
         const min = Math.min(...valores) * 0.9;
         const range = max - min;
@@ -375,8 +375,8 @@ class ComprasDashboard {
         
         // Área
         ctx.beginPath();
-        dados.forEach((item, i) => {
-            const x = padding + (chartWidth / (dados.length - 1)) * i;
+        daçãos.forEach((item, i) => {
+            const x = padding + (chartWidth / (daçãos.length - 1)) * i;
             const y = height - padding - ((item.valor - min) / range) * chartHeight;
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
@@ -389,8 +389,8 @@ class ComprasDashboard {
         
         // Linha
         ctx.beginPath();
-        dados.forEach((item, i) => {
-            const x = padding + (chartWidth / (dados.length - 1)) * i;
+        daçãos.forEach((item, i) => {
+            const x = padding + (chartWidth / (daçãos.length - 1)) * i;
             const y = height - padding - ((item.valor - min) / range) * chartHeight;
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
@@ -400,8 +400,8 @@ class ComprasDashboard {
         ctx.stroke();
         
         // Pontos
-        dados.forEach((item, i) => {
-            const x = padding + (chartWidth / (dados.length - 1)) * i;
+        daçãos.forEach((item, i) => {
+            const x = padding + (chartWidth / (daçãos.length - 1)) * i;
             const y = height - padding - ((item.valor - min) / range) * chartHeight;
             
             ctx.beginPath();
@@ -627,7 +627,7 @@ class ComprasDashboard {
 
     iniciarAtualizacaoAutomatica() {
         setInterval(() => {
-            this.carregarDados();
+            this.carregarDaçãos();
         }, 300000);
     }
 }

@@ -12,7 +12,7 @@ const router = express.Router();
 
 /**
  * GET /api/notificacoes
- * Retorna todas as notificações do usuário logado
+ * Retorna todas as notificações do usuário logação
  */
 router.get('/', async (req, res) => {
     try {
@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
             });
         }
         
-        const usuario_id = req.user?.id || 1;
+        const usuario_id = req.user.id || 1;
         const { status, limite = 50 } = req.query;
         
         let sql = `
@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
                     ELSE 'antiga'
                 END as tempo_relativo
             FROM notificacoes n
-            WHERE n.usuario_id = ? OR n.usuario_id IS NULL
+            WHERE n.usuario_id =  OR n.usuario_id IS NULL
         `;
         
         const params = [usuario_id];
@@ -53,7 +53,7 @@ router.get('/', async (req, res) => {
             sql += ' AND n.lida = 1';
         }
         
-        sql += ' ORDER BY n.created_at DESC LIMIT ?';
+        sql += ' ORDER BY n.created_at DESC LIMIT ';
         params.push(parseInt(limite));
         
         const [notificacoes] = await pool.execute(sql, params);
@@ -61,7 +61,7 @@ router.get('/', async (req, res) => {
         // Contar não lidas
         const [countResult] = await pool.execute(`
             SELECT COUNT(*) as total FROM notificacoes 
-            WHERE (usuario_id = ? OR usuario_id IS NULL) AND lida = 0
+            WHERE (usuario_id =  OR usuario_id IS NULL) AND lida = 0
         `, [usuario_id]);
         
         res.json({
@@ -116,11 +116,11 @@ router.get('/alertas', async (req, res) => {
                         tipo: 'danger',
                         modulo: 'Financeiro',
                         icone: 'fa-exclamation-triangle',
-                        titulo: conta.tipo === 'pagar' ? 'Contas a Pagar Vencidas' : 'Contas a Receber Vencidas',
+                        titulo: conta.tipo === 'pagar'  'Contas a Pagar Vencidas' : 'Contas a Receber Vencidas',
                         mensagem: `${conta.quantidade} título(s) vencido(s) - R$ ${parseFloat(conta.valor_total || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`,
                         link: conta.tipo === 'pagar' 
-                            ? '/modules/Financeiro/contas-pagar.html?status=vencido'
-                            : '/modules/Financeiro/contas-receber.html?status=vencido',
+                             '/modules/Financeiro/contas-pagar.htmlstatus=vencido'
+                            : '/modules/Financeiro/contas-receber.htmlstatus=vencido',
                         prioridade: 1
                     });
                 }
@@ -137,7 +137,7 @@ router.get('/alertas', async (req, res) => {
                     (SELECT COUNT(*) FROM contas_receber WHERE status = 'pendente' AND data_vencimento = CURDATE()) as receber
             `);
             
-            const totalHoje = (vencimentosHoje[0]?.pagar || 0) + (vencimentosHoje[0]?.receber || 0);
+            const totalHoje = (vencimentosHoje[0].pagar || 0) + (vencimentosHoje[0].receber || 0);
             if (totalHoje > 0) {
                 alertas.push({
                     tipo: 'warning',
@@ -159,14 +159,14 @@ router.get('/alertas', async (req, res) => {
                     AND created_at < DATE_SUB(NOW(), INTERVAL 3 DAY)
             `);
             
-            if (pedidosAnalise[0]?.total > 0) {
+            if (pedidosAnalise[0].total > 0) {
                 alertas.push({
                     tipo: 'warning',
                     modulo: 'Vendas',
                     icone: 'fa-clock',
                     titulo: 'Pedidos Aguardando',
                     mensagem: `${pedidosAnalise[0].total} pedido(s) há mais de 3 dias em análise`,
-                    link: '/modules/Vendas/kanban.html?status=em_analise',
+                    link: '/modules/Vendas/kanban.htmlstatus=em_analise',
                     prioridade: 2
                 });
             }
@@ -176,11 +176,11 @@ router.get('/alertas', async (req, res) => {
         try {
             const [ordensAtrasadas] = await pool.execute(`
                 SELECT COUNT(*) as total FROM ordens_producao 
-                WHERE status NOT IN ('concluido', 'cancelado', 'armazenado')
+                WHERE status NOT IN ('concluido', 'cancelação', 'armazenação')
                     AND data_prevista < CURDATE()
             `);
             
-            if (ordensAtrasadas[0]?.total > 0) {
+            if (ordensAtrasadas[0].total > 0) {
                 alertas.push({
                     tipo: 'danger',
                     modulo: 'PCP',
@@ -201,14 +201,14 @@ router.get('/alertas', async (req, res) => {
                     AND ativo = 1
             `);
             
-            if (estoqueBaixo[0]?.total > 0) {
+            if (estoqueBaixo[0].total > 0) {
                 alertas.push({
                     tipo: 'warning',
                     modulo: 'Estoque',
                     icone: 'fa-box',
                     titulo: 'Estoque Crítico',
                     mensagem: `${estoqueBaixo[0].total} item(ns) abaixo do estoque mínimo`,
-                    link: '/modules/PCP/index.html?alerta=estoque',
+                    link: '/modules/PCP/index.htmlalerta=estoque',
                     prioridade: 2
                 });
             }
@@ -222,7 +222,7 @@ router.get('/alertas', async (req, res) => {
                     AND data_limite < DATE_ADD(CURDATE(), INTERVAL 3 DAY)
             `);
             
-            if (cotacoesPendentes[0]?.total > 0) {
+            if (cotacoesPendentes[0].total > 0) {
                 alertas.push({
                     tipo: 'info',
                     modulo: 'Compras',
@@ -244,7 +244,7 @@ router.get('/alertas', async (req, res) => {
                     AND status = 'ativo'
             `);
             
-            if (feriasVencendo[0]?.total > 0) {
+            if (feriasVencendo[0].total > 0) {
                 alertas.push({
                     tipo: 'info',
                     modulo: 'RH',
@@ -278,7 +278,7 @@ router.get('/alertas', async (req, res) => {
                         modulo: 'Sistema',
                         icone: 'fa-chart-line',
                         titulo: 'Atividade do Dia',
-                        mensagem: `${info.pedidos_hoje || 0} pedido(s) e ${info.ordens_hoje || 0} ordem(ns) de produção criados hoje`,
+                        mensagem: `${info.pedidos_hoje || 0} pedido(s) e ${info.ordens_hoje || 0} ordem(ns) de produção criaçãos hoje`,
                         link: '/modules/Vendas/index.html',
                         prioridade: 4
                     });
@@ -292,7 +292,7 @@ router.get('/alertas', async (req, res) => {
                         modulo: 'Financeiro',
                         icone: 'fa-coins',
                         titulo: 'Movimentação Financeira',
-                        mensagem: `${totalFinanceiro} lançamento(s) financeiro(s) registrado(s) hoje`,
+                        mensagem: `${totalFinanceiro} lançamento(s) financeiro(s) registração(s) hoje`,
                         link: '/modules/Financeiro/index.html',
                         prioridade: 4
                     });
@@ -361,14 +361,14 @@ router.post('/', async (req, res) => {
             INSERT INTO notificacoes (
                 titulo, mensagem, tipo, modulo, 
                 link, usuario_id, lida, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, 0, NOW())
+            ) VALUES (, , , , , , 0, NOW())
         `, [
             titulo,
             mensagem,
             tipo,
             modulo,
             link,
-            broadcast ? null : (usuario_id || req.user?.id)
+            broadcast  null : (usuario_id || req.user.id)
         ]);
         
         // Emitir via Socket.IO se disponível
@@ -418,7 +418,7 @@ router.put('/:id/lida', async (req, res) => {
         const pool = req.app.locals.pool;
         
         await pool.execute(`
-            UPDATE notificacoes SET lida = 1, lida_em = NOW() WHERE id = ?
+            UPDATE notificacoes SET lida = 1, lida_em = NOW() WHERE id = 
         `, [id]);
         
         res.json({ success: true, message: 'Notificação marcada como lida' });
@@ -439,12 +439,12 @@ router.put('/:id/lida', async (req, res) => {
 router.put('/marcar-todas-lidas', async (req, res) => {
     try {
         const pool = req.app.locals.pool;
-        const usuario_id = req.user?.id || 1;
+        const usuario_id = req.user.id || 1;
         
         const [result] = await pool.execute(`
             UPDATE notificacoes 
             SET lida = 1, lida_em = NOW() 
-            WHERE (usuario_id = ? OR usuario_id IS NULL) AND lida = 0
+            WHERE (usuario_id =  OR usuario_id IS NULL) AND lida = 0
         `, [usuario_id]);
         
         res.json({ 
@@ -471,7 +471,7 @@ router.delete('/:id', async (req, res) => {
     try {
         const pool = req.app.locals.pool;
         
-        await pool.execute(`DELETE FROM notificacoes WHERE id = ?`, [id]);
+        await pool.execute(`DELETE FROM notificacoes WHERE id = `, [id]);
         
         res.json({ success: true, message: 'Notificação removida' });
         

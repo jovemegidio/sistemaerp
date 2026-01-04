@@ -31,7 +31,7 @@ const db = mysql.createPool({
 console.log('🔗 Testando conexão com banco...');
 db.getConnection()
   .then(connection => {
-      console.log('✅ Banco conectado com sucesso!');
+      console.log('✅ Banco conectação com sucesso!');
       connection.release();
   })
   .catch(err => {
@@ -46,12 +46,12 @@ function getSessionIdFromReq(req) {
     const cookie = req.headers && req.headers.cookie;
     if (!cookie) return null;
     const m = cookie.match(/pcp_session=([^;]+)/);
-    return m ? m[1] : null;
+    return m  m[1] : null;
 }
 
 function authRequired(req, res, next) {
     const sid = getSessionIdFromReq(req);
-    if (!sid || !sessions.has(sid)) return res.status(401).json({ message: 'Não autenticado' });
+    if (!sid || !sessions.has(sid)) return res.status(401).json({ message: 'Não autenticação' });
     req.user = sessions.get(sid).user;
     next();
 }
@@ -70,25 +70,25 @@ app.post('/api/pcp/login', async (req, res) => {
         console.log(`[LOGIN] Tentativa para: ${email}`);
         
         // Buscar usuário
-        const sql = `SELECT * FROM usuarios_pcp WHERE email = ? LIMIT 1`;
+        const sql = `SELECT * FROM usuarios_pcp WHERE email =  LIMIT 1`;
         const [rows] = await db.query(sql, [email]);
         
         if (!rows || rows.length === 0) {
-            console.log('[LOGIN] Usuário não encontrado');
-            return res.status(401).json({ message: 'Email/usuário não encontrado.' });
+            console.log('[LOGIN] Usuário não encontração');
+            return res.status(401).json({ message: 'Email/usuário não encontração.' });
         }
 
         const user = rows[0];
-        console.log(`[LOGIN] Usuário encontrado: ${user.nome} (ID: ${user.id})`);
+        console.log(`[LOGIN] Usuário encontração: ${user.nome} (ID: ${user.id})`);
         
         const stored = (user.senha || '').toString();
-        console.log(`[LOGIN] Senha armazenada (tipo): ${stored ? 'Presente' : 'Vazia'}, Hash: ${stored.startsWith('$2a$') ? 'bcrypt' : 'texto'}`);
+        console.log(`[LOGIN] Senha armazenada (tipo): ${stored  'Presente' : 'Vazia'}, Hash: ${stored.startsWith('$2a$')  'bcrypt' : 'texto'}`);
 
         // Verificar senha com bcrypt
         if (bcrypt && stored.match(/^\$2[aby]\$/)) {
             console.log('[LOGIN] Usando bcrypt compare...');
             const ok = await bcrypt.compare(password, stored);
-            console.log(`[LOGIN] Resultado bcrypt: ${ok}`);
+            console.log(`[LOGIN] Resultação bcrypt: ${ok}`);
             
             if (ok) {
                 const sid = crypto.randomBytes(16).toString('hex');
@@ -120,7 +120,7 @@ app.post('/api/pcp/login', async (req, res) => {
 
 // Handler de erro global
 app.use((err, req, res, next) => {
-    console.error('❌ Erro não tratado:', err.message);
+    console.error('❌ Erro não tratação:', err.message);
     res.status(500).json({ message: 'Erro interno', error: err.message });
 });
 
@@ -138,7 +138,7 @@ server.on('error', (err) => {
     }
 });
 
-// Capturar erros não tratados
+// Capturar erros não trataçãos
 process.on('uncaughtException', (err) => {
     console.error('❌ Exceção não capturada:', err.message);
     console.error(err.stack);
@@ -151,4 +151,4 @@ process.on('unhandledRejection', (err) => {
     process.exit(1);
 });
 
-console.log('🎯 Servidor de debug configurado!');
+console.log('🎯 Servidor de debug configuração!');

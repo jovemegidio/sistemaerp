@@ -1,5 +1,5 @@
 // CORREÇÁO COMPLETA DOS PROBLEMAS CRÍTICOS - SISTEMA ALUFORCE PCP
-// Script de correção automática dos principais problemas identificados
+// Script de correção automática dos principais problemas identificaçãos
 
 const fs = require('fs');
 const path = require('path');
@@ -41,7 +41,7 @@ class CorrecaoCompleta {
                 const caminhoArquivo = path.join(this.basePath, arquivo);
                 
                 if (!fs.existsSync(caminhoArquivo)) {
-                    console.log(`⚠️ ${arquivo}: Arquivo não encontrado`);
+                    console.log(`⚠️ ${arquivo}: Arquivo não encontração`);
                     continue;
                 }
                 
@@ -62,7 +62,7 @@ class CorrecaoCompleta {
             border-radius: 20px;
             padding: 32px;
             margin-bottom: 32px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            box-shaçãow: 0 8px 32px rgba(0, 0, 0, 0.08);
             border: 1px solid #e2e8f0;
             /* Forçar visibilidade completa */
             display: block !important;
@@ -136,19 +136,19 @@ class CorrecaoCompleta {
         
         const endpointsCorretos = {
             'gestao-materiais.html': {
-                errado: '/api/pcp/produtos',
+                erração: '/api/pcp/produtos',
                 correto: '/api/pcp/materiais'
             },
             'gestao-estoque.html': {
-                errado: '/api/pcp/materiais',
+                erração: '/api/pcp/materiais',
                 correto: '/api/pcp/produtos'
             },
             'historico-movimentacoes.html': {
-                errado: '/api/pcp/produtos',
+                erração: '/api/pcp/produtos',
                 correto: '/api/pcp/movimentacoes'
             },
             'integracao-fornecedores.html': {
-                errado: '/api/pcp/produtos',
+                erração: '/api/pcp/produtos',
                 correto: '/api/pcp/fornecedores'
             }
         };
@@ -158,22 +158,22 @@ class CorrecaoCompleta {
                 const caminhoArquivo = path.join(this.basePath, arquivo);
                 
                 if (!fs.existsSync(caminhoArquivo)) {
-                    console.log(`⚠️ ${arquivo}: Arquivo não encontrado`);
+                    console.log(`⚠️ ${arquivo}: Arquivo não encontração`);
                     continue;
                 }
                 
                 let conteudo = fs.readFileSync(caminhoArquivo, 'utf8');
                 
                 // Substituir endpoints incorretos
-                const regex = new RegExp(`'${endpoints.errado}'`, 'g');
-                const regex2 = new RegExp(`"${endpoints.errado}"`, 'g');
+                const regex = new RegExp(`'${endpoints.erração}'`, 'g');
+                const regex2 = new RegExp(`"${endpoints.erração}"`, 'g');
                 
-                if (conteudo.includes(endpoints.errado)) {
+                if (conteudo.includes(endpoints.erração)) {
                     conteudo = conteudo.replace(regex, `'${endpoints.correto}'`);
                     conteudo = conteudo.replace(regex2, `"${endpoints.correto}"`);
                     
                     fs.writeFileSync(caminhoArquivo, conteudo);
-                    console.log(`✅ ${arquivo}: Endpoint corrigido ${endpoints.errado} → ${endpoints.correto}`);
+                    console.log(`✅ ${arquivo}: Endpoint corrigido ${endpoints.erração} → ${endpoints.correto}`);
                     this.arquivosCorrigidos.push(arquivo);
                 } else {
                     console.log(`✅ ${arquivo}: Endpoint já correto`);
@@ -347,7 +347,7 @@ class CorrecaoCompleta {
         const descricoes = {
             'gestao-materiais.html': 'Controle completo de materiais e componentes',
             'gestao-estoque.html': 'Controle completo de produtos e inventário',
-            'relatorios-estoque.html': 'Análises e relatórios detalhados',
+            'relatorios-estoque.html': 'Análises e relatórios detalhaçãos',
             'historico-movimentacoes.html': 'Rastreamento de todas as movimentações',
             'integracao-fornecedores.html': 'Gestão de parcerias e fornecimentos',
             'index.html': 'Visão geral do sistema'
@@ -375,17 +375,17 @@ class CorrecaoCompleta {
         
         console.log('\n🎯 CORREÇÕES APLICADAS:');
         console.log('   ✅ Headers invisíveis corrigidos');
-        console.log('   ✅ Endpoints de API alinhados');
+        console.log('   ✅ Endpoints de API alinhaçãos');
         console.log('   ✅ Cores padronizadas com variáveis CSS');
         console.log('   ✅ Responsividade melhorada');
         console.log('   ✅ Visibilidade forçada nos cabeçalhos');
-        console.log('   ✅ Z-index e posicionamento otimizado');
+        console.log('   ✅ Z-index e posicionamento otimização');
         
         console.log('\n💡 PRÓXIMAS RECOMENDAÇÕES:');
-        console.log('   - Testar as páginas em navegadores diferentes');
+        console.log('   - Testar as páginas em navegaçãores diferentes');
         console.log('   - Verificar responsividade em dispositivos móveis');
-        console.log('   - Implementar cache de dados para melhor performance');
-        console.log('   - Adicionar testes automatizados');
+        console.log('   - Implementar cache de daçãos para melhor performance');
+        console.log('   - Adicionar testes automatizaçãos');
         console.log('   - Criar documentação técnica atualizada');
         
         // Salvar relatório
@@ -404,7 +404,7 @@ class CorrecaoCompleta {
         }
         
         console.log('\n🎉 CORREÇÕES CONCLUÍDAS COM SUCESSO!');
-        console.log('Sistema ALUFORCE PCP otimizado e melhorado.');
+        console.log('Sistema ALUFORCE PCP otimização e melhoração.');
     }
 }
 

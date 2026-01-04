@@ -11,26 +11,26 @@ router.get('/', async (req, res) => {
         const params = [];
         
         if (search) {
-            sql += ' AND (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj LIKE ?)';
+            sql += ' AND (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj LIKE )';
             const searchParam = `%${search}%`;
             params.push(searchParam, searchParam, searchParam);
         }
         
         if (ativo !== undefined) {
-            sql += ' AND ativo = ?';
-            params.push(ativo === 'true' ? 1 : 0);
+            sql += ' AND ativo = ';
+            params.push(ativo === 'true'  1 : 0);
         }
         
-        sql += ' ORDER BY razao_social LIMIT ? OFFSET ?';
+        sql += ' ORDER BY razao_social LIMIT  OFFSET ';
         params.push(parseInt(limit), parseInt(offset));
         
         const fornecedores = await query(sql, params);
         
         const countSql = 'SELECT COUNT(*) as total FROM fornecedores WHERE 1=1' + 
-            (search ? ' AND (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj LIKE ?)' : '') +
-            (ativo !== undefined ? ' AND ativo = ?' : '');
-        const countParams = search ? [searchParam, searchParam, searchParam] : [];
-        if (ativo !== undefined) countParams.push(ativo === 'true' ? 1 : 0);
+            (search  ' AND (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj LIKE )' : '') +
+            (ativo !== undefined  ' AND ativo = ' : '');
+        const countParams = search  [searchParam, searchParam, searchParam] : [];
+        if (ativo !== undefined) countParams.push(ativo === 'true'  1 : 0);
         
         const { total } = await get(countSql, countParams);
         
@@ -49,10 +49,10 @@ router.get('/', async (req, res) => {
 // ============ OBTER FORNECEDOR ============
 router.get('/:id', async (req, res) => {
     try {
-        const fornecedor = await get('SELECT * FROM fornecedores WHERE id = ?', [req.params.id]);
+        const fornecedor = await get('SELECT * FROM fornecedores WHERE id = ', [req.params.id]);
         
         if (!fornecedor) {
-            return res.status(404).json({ error: 'Fornecedor não encontrado' });
+            return res.status(404).json({ error: 'Fornecedor não encontração' });
         }
         
         res.json(fornecedor);
@@ -67,7 +67,7 @@ router.post('/', async (req, res) => {
     try {
         const {
             razao_social, nome_fantasia, cnpj, ie,
-            endereco, cidade, estado, cep,
+            endereco, cidade, estação, cep,
             telefone, email, contato_principal,
             condicoes_pagamento, prazo_entrega_padrao,
             observacoes, ativo = 1
@@ -78,22 +78,22 @@ router.post('/', async (req, res) => {
         }
         
         // Verificar se CNPJ já existe
-        const existente = await get('SELECT id FROM fornecedores WHERE cnpj = ?', [cnpj]);
+        const existente = await get('SELECT id FROM fornecedores WHERE cnpj = ', [cnpj]);
         if (existente) {
-            return res.status(400).json({ error: 'CNPJ já cadastrado' });
+            return res.status(400).json({ error: 'CNPJ já cadastração' });
         }
         
         const result = await run(`
             INSERT INTO fornecedores (
                 razao_social, nome_fantasia, cnpj, ie,
-                endereco, cidade, estado, cep,
+                endereco, cidade, estação, cep,
                 telefone, email, contato_principal,
                 condicoes_pagamento, prazo_entrega_padrao,
                 observacoes, ativo
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (, , , , , , , , , , , , , , )
         `, [
             razao_social, nome_fantasia, cnpj, ie,
-            endereco, cidade, estado, cep,
+            endereco, cidade, estação, cep,
             telefone, email, contato_principal,
             condicoes_pagamento, prazo_entrega_padrao || 0,
             observacoes, ativo
@@ -101,7 +101,7 @@ router.post('/', async (req, res) => {
         
         res.status(201).json({
             id: result.id,
-            message: 'Fornecedor criado com sucesso'
+            message: 'Fornecedor criação com sucesso'
         });
     } catch (error) {
         console.error('Erro ao criar fornecedor:', error);
@@ -114,7 +114,7 @@ router.put('/:id', async (req, res) => {
     try {
         const {
             razao_social, nome_fantasia, cnpj, ie,
-            endereco, cidade, estado, cep,
+            endereco, cidade, estação, cep,
             telefone, email, contato_principal,
             condicoes_pagamento, prazo_entrega_padrao,
             observacoes, ativo
@@ -122,16 +122,16 @@ router.put('/:id', async (req, res) => {
         
         const result = await run(`
             UPDATE fornecedores SET
-                razao_social = ?, nome_fantasia = ?, cnpj = ?, ie = ?,
-                endereco = ?, cidade = ?, estado = ?, cep = ?,
-                telefone = ?, email = ?, contato_principal = ?,
-                condicoes_pagamento = ?, prazo_entrega_padrao = ?,
-                observacoes = ?, ativo = ?,
+                razao_social = , nome_fantasia = , cnpj = , ie = ,
+                endereco = , cidade = , estação = , cep = ,
+                telefone = , email = , contato_principal = ,
+                condicoes_pagamento = , prazo_entrega_padrao = ,
+                observacoes = , ativo = ,
                 updated_at = CURRENT_TIMESTAMP
-            WHERE id = ?
+            WHERE id = 
         `, [
             razao_social, nome_fantasia, cnpj, ie,
-            endereco, cidade, estado, cep,
+            endereco, cidade, estação, cep,
             telefone, email, contato_principal,
             condicoes_pagamento, prazo_entrega_padrao,
             observacoes, ativo,
@@ -139,10 +139,10 @@ router.put('/:id', async (req, res) => {
         ]);
         
         if (result.changes === 0) {
-            return res.status(404).json({ error: 'Fornecedor não encontrado' });
+            return res.status(404).json({ error: 'Fornecedor não encontração' });
         }
         
-        res.json({ message: 'Fornecedor atualizado com sucesso' });
+        res.json({ message: 'Fornecedor atualização com sucesso' });
     } catch (error) {
         console.error('Erro ao atualizar fornecedor:', error);
         res.status(500).json({ error: 'Erro ao atualizar fornecedor' });
@@ -152,10 +152,10 @@ router.put('/:id', async (req, res) => {
 // ============ EXCLUIR FORNECEDOR ============
 router.delete('/:id', async (req, res) => {
     try {
-        const result = await run('DELETE FROM fornecedores WHERE id = ?', [req.params.id]);
+        const result = await run('DELETE FROM fornecedores WHERE id = ', [req.params.id]);
         
         if (result.changes === 0) {
-            return res.status(404).json({ error: 'Fornecedor não encontrado' });
+            return res.status(404).json({ error: 'Fornecedor não encontração' });
         }
         
         res.json({ message: 'Fornecedor excluído com sucesso' });

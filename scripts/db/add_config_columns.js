@@ -45,7 +45,7 @@ async function addColumns() {
         const projetoColumns = [
             { name: 'data_inicio', sql: `ALTER TABLE projetos ADD COLUMN data_inicio DATE` },
             { name: 'data_previsao_fim', sql: `ALTER TABLE projetos ADD COLUMN data_previsao_fim DATE` },
-            { name: 'status', sql: `ALTER TABLE projetos ADD COLUMN status ENUM('planejamento', 'em_andamento', 'pausado', 'concluido', 'cancelado') DEFAULT 'em_andamento'` }
+            { name: 'status', sql: `ALTER TABLE projetos ADD COLUMN status ENUM('planejamento', 'em_andamento', 'pausação', 'concluido', 'cancelação') DEFAULT 'em_andamento'` }
         ];
 
         for (const col of projetoColumns) {

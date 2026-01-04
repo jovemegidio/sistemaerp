@@ -6,7 +6,7 @@ const db = new sqlite3.Database('./database.db', (err) => {
         console.error('Erro ao conectar ao banco:', err.message);
         return;
     }
-    console.log('Conectado ao banco SQLite');
+    console.log('Conectação ao banco SQLite');
 });
 
 // Verificar usuários existentes e seus roles

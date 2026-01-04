@@ -16,7 +16,7 @@ const DB_CONFIG = {
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
+  port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
 }
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123'
@@ -28,17 +28,17 @@ const users = [
 ]
 
 async function upsertUser (conn, email, password, nome, role) {
-  const [rows] = await conn.execute('SELECT id FROM funcionarios WHERE email = ? LIMIT 1', [email])
+  const [rows] = await conn.execute('SELECT id FROM funcionarios WHERE email =  LIMIT 1', [email])
   const hashed = await bcrypt.hash(password, 10)
   // placeholder cpf if inserting
   const cpfVal = `CPF${String(Date.now()).slice(-10)}`
   if (rows && rows.length > 0) {
     const id = rows[0].id
-    await conn.execute('UPDATE funcionarios SET senha = ?, nome_completo = ?, role = ? WHERE id = ?', [hashed, nome, role, id])
+    await conn.execute('UPDATE funcionarios SET senha = , nome_completo = , role =  WHERE id = ', [hashed, nome, role, id])
     console.log(`Updated user id=${id} email=${email} role=${role}`)
   } else {
     const [res] = await conn.execute(
-      'INSERT INTO funcionarios (email, senha, nome_completo, role, status, cpf) VALUES (?, ?, ?, ?, "Ativo", ?)',
+      'INSERT INTO funcionarios (email, senha, nome_completo, role, status, cpf) VALUES (, , , , "Ativo", )',
       [email, hashed, nome, role, cpfVal]
     )
     console.log(`Created user id=${res.insertId} email=${email} role=${role}`)
@@ -54,7 +54,7 @@ async function main () {
     }
     console.log('Done. Change the passwords immediately in production and remove default ADMIN_PASSWORD.')
   } catch (err) {
-    console.error('Error creating admins:', err && err.message ? err.message : err)
+    console.error('Error creating admins:', err && err.message  err.message : err)
     process.exitCode = 2
   } finally {
     try { await conn.end() } catch (e) {}

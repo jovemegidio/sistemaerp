@@ -56,7 +56,7 @@ class OmieLayoutManager {
             }
         });
         
-        console.log('Content sections initialized. Active section:', activeSection?.id);
+        console.log('Content sections initialized. Active section:', activeSection.id);
     }
 
     setDefaultGridView() {
@@ -108,7 +108,7 @@ class OmieLayoutManager {
                 // Remove active de todos os links
                 navLinks.forEach(l => l.classList.remove('active'));
                 
-                // Adiciona active no link clicado
+                // Adiciona active no link clicação
                 link.classList.add('active');
                 
                 // Esconde todas as seções
@@ -140,8 +140,8 @@ class OmieLayoutManager {
     loadSectionData(sectionId) {
         // Carregar páginas separadas para área do funcionário
         switch(sectionId) {
-            case 'dados':
-                this.loadExternalPage('pages/dados-cadastrais.html');
+            case 'daçãos':
+                this.loadExternalPage('pages/daçãos-cadastrais.html');
                 break;
                 
             case 'holerite':
@@ -152,8 +152,8 @@ class OmieLayoutManager {
                 this.loadExternalPage('pages/espelho-ponto.html');
                 break;
                 
-            case 'atéstado':
-                this.loadExternalPage('pages/enviar-atéstado.html');
+            case 'atéstação':
+                this.loadExternalPage('pages/enviar-atéstação.html');
                 break;
                 
             case 'dashboard':
@@ -262,17 +262,17 @@ class OmieLayoutManager {
         
         const placeholders = {
             'dashboard': 'Buscar no sistema...',
-            'dashboard-home': 'Buscar dados gerais...',
+            'dashboard-home': 'Buscar daçãos gerais...',
             'holerite': 'Buscar holerites por funcionário...',
             'ponto': 'Buscar registros de ponto...',
-            'atéstado': 'Buscar atéstados médicos...',
-            'dados': 'Buscar nas configurações...',
-            'dashboard-section': 'Buscar Colaborador(a)...',
+            'atéstação': 'Buscar atéstaçãos médicos...',
+            'daçãos': 'Buscar nas configurações...',
+            'dashboard-section': 'Buscar Colaboraçãor(a)...',
             'relatórios-section': 'Buscar relatórios...',
             'configuracoes-section': 'Buscar configurações do sistema...'
         };
         
-        searchInput.placeholder = placeholders[sectionId] || 'Buscar Colaborador(a)...';
+        searchInput.placeholder = placeholders[sectionId] || 'Buscar Colaboraçãor(a)...';
     }
 
     getSectionName(sectionId) {
@@ -281,8 +281,8 @@ class OmieLayoutManager {
             'dashboard-home': 'Dashboard',
             'holerite': 'Holerites',
             'ponto': 'Ponto Eletrônico',
-            'atéstado': 'Atéstados',
-            'dados': 'Meus Dados',
+            'atéstação': 'Atéstaçãos',
+            'daçãos': 'Meus Daçãos',
             'dashboard-section': 'Funcionários',
             'relatórios-section': 'Relatórios',
             'configuracoes-section': 'Configurações'
@@ -311,7 +311,7 @@ class OmieLayoutManager {
                 tab.classList.add('active');
                 
                 // Toast de confirmação
-                this.showToast('Filtro', `${tab.textContent} selecionado`, 'info');
+                this.showToast('Filtro', `${tab.textContent} selecionação`, 'info');
             });
         });
     }
@@ -355,7 +355,7 @@ class OmieLayoutManager {
             });
         }
         
-        // Refresh - atualizar dados da seção atual
+        // Refresh - atualizar daçãos da seção atual
         const refreshBtn = document.querySelector('.header-left-icons .fa-sync-alt').parentElement;
         if (refreshBtn) {
             refreshBtn.addEventListener('click', () => {
@@ -412,7 +412,7 @@ class OmieLayoutManager {
         });
         
         // Adicionar active no botão correto
-        const activeBtn = document.querySelector(`.header-left-icons .fa-${mode === 'grid' ? 'th' : 'list'}`);
+        const activeBtn = document.querySelector(`.header-left-icons .fa-${mode === 'grid'  'th' : 'list'}`);
         if (activeBtn) {
             activeBtn.parentElement.classList.add('active');
         }
@@ -423,8 +423,8 @@ class OmieLayoutManager {
         }
         
         // Toast de confirmação
-        const modeText = mode === 'grid' ? 'Grade' : 'Lista';
-        this.showToast('Visualização', `Modo ${modeText} ativado`, 'success');
+        const modeText = mode === 'grid'  'Grade' : 'Lista';
+        this.showToast('Visualização', `Modo ${modeText} ativação`, 'success');
         
         // Se existir app.js, tentar atualizar a visualização
         if (window.app && window.app.updateViewMode) {
@@ -454,7 +454,7 @@ class OmieLayoutManager {
         const container = document.getElementById('employees-cards-container');
         if (!container) return;
         
-        // Dados de exemplo (em produção viriam do app.js ou API)
+        // Daçãos de exemplo (em produção viriam do app.js ou API)
         const employees = this.getSampleEmployees();
         
         container.innerHTML = employees.map(emp => `
@@ -463,7 +463,7 @@ class OmieLayoutManager {
                 <div class="employee-name">${emp.name}</div>
                 <div class="employee-role">${emp.role}</div>
                 <div class="employee-email">${emp.email}</div>
-                <div class="employee-status ${emp.status}">${emp.status === 'active' ? 'Ativo' : 'Inativo'}</div>
+                <div class="employee-status ${emp.status}">${emp.status === 'active'  'Ativo' : 'Inativo'}</div>
                 <div class="employee-actions">
                     <button class="btn btn-secondary btn-sm" onclick="omieLayout.viewEmployee(${emp.id})">
                         <i class="fas fa-eye"></i> Ver
@@ -480,7 +480,7 @@ class OmieLayoutManager {
         const tbody = document.getElementById('employees-table-body');
         if (!tbody) return;
         
-        // Dados de exemplo (em produção viriam do app.js ou API)
+        // Daçãos de exemplo (em produção viriam do app.js ou API)
         const employees = this.getSampleEmployees();
         
         tbody.innerHTML = employees.map(emp => `
@@ -492,7 +492,7 @@ class OmieLayoutManager {
                 <td><strong>${emp.name}</strong></td>
                 <td>${emp.role}</td>
                 <td>${emp.email}</td>
-                <td><span class="employee-status ${emp.status}">${emp.status === 'active' ? 'Ativo' : 'Inativo'}</span></td>
+                <td><span class="employee-status ${emp.status}">${emp.status === 'active'  'Ativo' : 'Inativo'}</span></td>
                 <td>
                     <button class="btn btn-secondary btn-sm" onclick="omieLayout.viewEmployee(${emp.id})" title="Ver detalhes">
                         <i class="fas fa-eye"></i>
@@ -661,10 +661,10 @@ class OmieLayoutManager {
 
     saveSettings() {
         // Salvar configurações no localStorage
-        const darkMode = document.getElementById('dark-mode-toggle')?.checked;
-        const defaultView = document.getElementById('default-view-mode')?.value;
-        const notifications = document.getElementById('notifications-enabled')?.checked;
-        const emailNotifications = document.getElementById('email-notifications')?.checked;
+        const darkMode = document.getElementById('dark-mode-toggle').checked;
+        const defaultView = document.getElementById('default-view-mode').value;
+        const notifications = document.getElementById('notifications-enabled').checked;
+        const emailNotifications = document.getElementById('email-notifications').checked;
         
         localStorage.setItem('dark-mode', darkMode);
         localStorage.setItem('preferred-view-mode', defaultView);
@@ -710,7 +710,7 @@ class OmieLayoutManager {
             console.warn(`Seção ${sectionId} não encontrada`);
         }
         
-        // Atualizar placeholder de busca baseado na seção
+        // Atualizar placeholder de busca baseação na seção
         this.updateSearchPlaceholder(sectionId);
         
         // Toast de navegação
@@ -722,8 +722,8 @@ class OmieLayoutManager {
             'relatórios-section': 'Relatórios e Análises',
             'holerite': 'Holerites',
             'ponto': 'Ponto Eletrônico',
-            'atéstado': 'Atéstados',
-            'dados': 'Meus Dados',
+            'atéstação': 'Atéstaçãos',
+            'daçãos': 'Meus Daçãos',
             'relatórios-section': 'Relatórios',
             'configuracoes-section': 'Configurações'
         };
@@ -734,11 +734,11 @@ class OmieLayoutManager {
         // Integração com app.js se necessário
         if (window.app) {
             if (sectionId === 'funcionarios-section') {
-                window.carregarFuncionarios?.();
+                window.carregarFuncionarios.();
             } else if (sectionId === 'holerite') {
-                window.app.loadHolerites?.();
+                window.app.loadHolerites.();
             } else if (sectionId === 'ponto') {
-                window.app.loadPonto?.();
+                window.app.loadPonto.();
             }
         }
     }
@@ -759,7 +759,7 @@ class OmieLayoutManager {
                     <div class="notification-item unread">
                         <i class="fas fa-user-plus notification-icon"></i>
                         <div class="notification-content">
-                            <p>Novo funcionário cadastrado: João Silva</p>
+                            <p>Novo funcionário cadastração: João Silva</p>
                             <span class="notification-time">2 min atrás</span>
                         </div>
                     </div>
@@ -773,7 +773,7 @@ class OmieLayoutManager {
                     <div class="notification-item">
                         <i class="fas fa-clock notification-icon"></i>
                         <div class="notification-content">
-                            <p>Ponto registrado com sucesso</p>
+                            <p>Ponto registração com sucesso</p>
                             <span class="notification-time">3 horas atrás</span>
                         </div>
                     </div>
@@ -811,8 +811,8 @@ class OmieLayoutManager {
                     <div class="message-item">
                         <div class="message-avatar"></div>
                         <div class="message-content">
-                            <div class="message-sender">Administrador</div>
-                            <p>Documentos atualizados no sistema</p>
+                            <div class="message-sender">Administraçãor</div>
+                            <p>Documentos atualizaçãos no sistema</p>
                             <span class="message-time">Ontem, 16:45</span>
                         </div>
                     </div>
@@ -910,9 +910,9 @@ class OmieLayoutManager {
         refreshBtn.classList.add('loading');
         refreshBtn.querySelector('i').style.animation = 'spin 1s linear infinite';
         
-        this.showToast('Sistema', 'Atualizando dados...', 'info');
+        this.showToast('Sistema', 'Atualizando daçãos...', 'info');
         
-        // Simular refresh baseado na seção
+        // Simular refresh baseação na seção
         setTimeout(() => {
             refreshBtn.classList.remove('loading');
             refreshBtn.querySelector('i').style.animation = '';
@@ -939,14 +939,14 @@ class OmieLayoutManager {
                 }
             }
             
-            this.showToast('Sistema', 'Dados atualizados com sucesso!', 'success');
+            this.showToast('Sistema', 'Daçãos atualizaçãos com sucesso!', 'success');
         }, 1500);
     }
 
     goToDashboard() {
         // Detectar se é admin ou funcionário
         const isAdmin = window.location.pathname.includes('areaadm');
-        const dashboardId = isAdmin ? 'dashboard-home' : 'dashboard';
+        const dashboardId = isAdmin  'dashboard-home' : 'dashboard';
         
         // Navegar para dashboard
         this.navigateToSection(dashboardId);
@@ -981,7 +981,7 @@ class OmieLayoutManager {
         // Confirmar logout
         this.showConfirmDialog(
             'Sair do Sistema',
-            'Tem certeza que deseja sair do sistema?',
+            'Tem certeza que deseja sair do sistema',
             () => {
                 this.performLogout();
             }
@@ -991,7 +991,7 @@ class OmieLayoutManager {
     performLogout() {
         this.showToast('Sistema', 'Saindo do sistema...', 'info');
         
-        // Limpar dados locais
+        // Limpar daçãos locais
         localStorage.clear();
         sessionStorage.clear();
         
@@ -1084,7 +1084,7 @@ class OmieLayoutManager {
                         <i class="fas fa-info-circle text-blue"></i>
                         <div>
                             <strong>Bem-vindo ao sistema!</strong>
-                            <p>Sistema Aluforce RH atualizado</p>
+                            <p>Sistema Aluforce RH atualização</p>
                             <small>Há 2 horas</small>
                         </div>
                     </div>
@@ -1192,9 +1192,9 @@ class OmieLayoutManager {
     }
 
     updateUserAvatar() {
-        // Simular dados do usuário baseado na página
+        // Simular daçãos do usuário baseação na página
         const isAdmin = window.location.pathname.includes('areaadm');
-        const userName = isAdmin ? 'Administrador' : 'Funcionário';
+        const userName = isAdmin  'Administraçãor' : 'Funcionário';
         const userText = document.querySelector('.header-user-text');
         
         if (userText) {
@@ -1215,8 +1215,8 @@ class OmieLayoutManager {
             'dashboard': ['Dashboard', 'Visão Geral'],
             'holerite': ['Holerites', 'Pagamentos'],
             'ponto': ['Ponto', 'Frequência'],
-            'atéstado': ['Atéstados', 'Documentos'],
-            'dados': ['Perfil', 'Configurações']
+            'atéstação': ['Atéstaçãos', 'Documentos'],
+            'daçãos': ['Perfil', 'Configurações']
         };
         
         const tabs = document.querySelectorAll('.header-tab');
@@ -1242,7 +1242,7 @@ class OmieLayoutManager {
         
         // Detectar seção ativa para busca contextual
         const activeSection = document.querySelector('.content-section.active');
-        const sectionId = activeSection ? activeSection.id : '';
+        const sectionId = activeSection  activeSection.id : '';
         
         // Chamar função de busca do app.js se existir
         if (window.app && window.app.performSearch) {
@@ -1261,19 +1261,19 @@ class OmieLayoutManager {
             
             switch(sectionId) {
                 case 'dashboard-section':
-                    contextMessage = `${resultCount} colaborador(es) encontrado(s)`;
+                    contextMessage = `${resultCount} colaboraçãor(es) encontração(s)`;
                     break;
                 case 'holerite':
-                    contextMessage = `${resultCount} holerite(s) encontrado(s)`;
+                    contextMessage = `${resultCount} holerite(s) encontração(s)`;
                     break;
                 case 'ponto':
-                    contextMessage = `${resultCount} registro(s) de ponto encontrado(s)`;
+                    contextMessage = `${resultCount} registro(s) de ponto encontração(s)`;
                     break;
-                case 'atéstado':
-                    contextMessage = `${resultCount} atéstado(s) encontrado(s)`;
+                case 'atéstação':
+                    contextMessage = `${resultCount} atéstação(s) encontração(s)`;
                     break;
                 default:
-                    contextMessage = `${resultCount} resultado(s) encontrado(s)`;
+                    contextMessage = `${resultCount} resultação(s) encontração(s)`;
             }
             
             this.showToast('Busca', contextMessage, 'success');
@@ -1434,7 +1434,7 @@ class OmieLayoutManager {
         }
     }
 
-    // Método público para atualizar dados
+    // Método público para atualizar daçãos
     updateWidget(widgetId, data) {
         const widget = document.getElementById(widgetId);
         if (widget) {
@@ -1462,14 +1462,14 @@ class OmieLayoutManager {
                 currentSection.classList.add('list-view');
                 currentSection.classList.remove('grid-view');
             }
-            this.showToast('Visualização', `Modo ${mode === 'grid' ? 'Grade' : 'Lista'} ativado`, 'info');
+            this.showToast('Visualização', `Modo ${mode === 'grid'  'Grade' : 'Lista'} ativação`, 'info');
         }
     }
 
     refreshPage() {
-        this.showToast('Atualizando', 'Recarregando dados...', 'info');
+        this.showToast('Atualizando', 'Recarregando daçãos...', 'info');
         
-        // Recarregar dados do usuário
+        // Recarregar daçãos do usuário
         if (window.app && window.app.reloadUserData) {
             window.app.reloadUserData();
         }
@@ -1507,7 +1507,7 @@ class OmieLayoutManager {
     updateNotificationsCount() {
         // Buscar notificações reais do servidor
         fetch('/api/notifications/count', {
-            headers: window.app ? window.app.getAuthHeaders() : {}
+            headers: window.app  window.app.getAuthHeaders() : {}
         })
         .then(response => response.json())
         .then(data => {

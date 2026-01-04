@@ -7,7 +7,7 @@ let entidadeSelecionada = null;
 // ===== INICIALIZAÇÉO =====
 document.addEventListener('DOMContentLoaded', async function() {
     try {
-        await carregarDados();
+        await carregarDaçãos();
         configurarEventos();
     } catch (error) {
         console.error('❌ Erro na inicialização:', error);
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 });
 
 // ===== CARREGAR DADOS =====
-async function carregarDados() {
+async function carregarDaçãos() {
     try {
         // TODO: Substituir por chamadas reais à API
         // const [respFornecedores, respClientes] = await Promise.all([
@@ -25,7 +25,7 @@ async function carregarDados() {
         // fornecedores = await respFornecedores.json();
         // clientes = await respClientes.json();
         
-        // Dados mock para desenvolvimento
+        // Daçãos mock para desenvolvimento
         fornecedores = [
             {
                 id: 1,
@@ -37,7 +37,7 @@ async function carregarDados() {
                 email: 'contato@energisa.com.br',
                 telefone: '(31) 3333-4444',
                 cidade: 'Belo Horizonte',
-                estado: 'MG',
+                estação: 'MG',
                 limite_credito: 10000.00,
                 prazo_pagamento: 30,
                 ativo: true
@@ -49,10 +49,10 @@ async function carregarDados() {
                 nome_fantasia: 'Casa do Construtor',
                 cnpj_cpf: '12.345.678/0001-90',
                 tipo_pessoa: 'JURIDICA',
-                email: 'vendas@casadoconstrutor.com.br',
+                email: 'vendas@casaçãoconstrutor.com.br',
                 telefone: '(31) 2222-3333',
                 cidade: 'Contagem',
-                estado: 'MG',
+                estação: 'MG',
                 limite_credito: 50000.00,
                 prazo_pagamento: 45,
                 ativo: true
@@ -70,7 +70,7 @@ async function carregarDados() {
                 email: 'financeiro@construtorabc.com.br',
                 telefone: '(31) 4444-5555',
                 cidade: 'Belo Horizonte',
-                estado: 'MG',
+                estação: 'MG',
                 limite_credito: 100000.00,
                 prazo_pagamento: 30,
                 ativo: true
@@ -85,7 +85,7 @@ async function carregarDados() {
                 email: 'joao@email.com',
                 telefone: '(31) 99999-8888',
                 cidade: 'Nova Lima',
-                estado: 'MG',
+                estação: 'MG',
                 limite_credito: 5000.00,
                 prazo_pagamento: 15,
                 ativo: true
@@ -95,25 +95,25 @@ async function carregarDados() {
         renderizarTabela(abaAtual);
         
     } catch (error) {
-        console.error('❌ Erro ao carregar dados:', error);
-        mostrarAlerta('Erro ao carregar dados', 'error');
+        console.error('❌ Erro ao carregar daçãos:', error);
+        mostrarAlerta('Erro ao carregar daçãos', 'error');
     }
 }
 
 // ===== RENDERIZAÇÉO =====
 function renderizarTabela(tipo) {
-    const dados = tipo === 'fornecedores' ? fornecedores : clientes;
-    const containerId = tipo === 'fornecedores' ? 'tabela-fornecedores' : 'tabela-clientes';
+    const daçãos = tipo === 'fornecedores'  fornecedores : clientes;
+    const containerId = tipo === 'fornecedores'  'tabela-fornecedores' : 'tabela-clientes';
     const container = document.getElementById(containerId);
     
-    if (!dados || dados.length === 0) {
+    if (!daçãos || daçãos.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
-                <i class="fas fa-${tipo === 'fornecedores' ? 'truck' : 'user-tie'}"></i>
-                <h3>Nenhum ${tipo === 'fornecedores' ? 'fornecedor' : 'cliente'} cadastrado</h3>
-                <p>Clique em "Novo ${tipo === 'fornecedores' ? 'Fornecedor' : 'Cliente'}" para começar</p>
-                <button class="btn-primary" onclick="${tipo === 'fornecedores' ? 'abrirModalFornecedor' : 'abrirModalCliente'}()">
-                    <i class="fas fa-plus"></i> Adicionar ${tipo === 'fornecedores' ? 'Fornecedor' : 'Cliente'}
+                <i class="fas fa-${tipo === 'fornecedores'  'truck' : 'user-tie'}"></i>
+                <h3>Nenhum ${tipo === 'fornecedores'  'fornecedor' : 'cliente'} cadastração</h3>
+                <p>Clique em "Novo ${tipo === 'fornecedores'  'Fornecedor' : 'Cliente'}" para começar</p>
+                <button class="btn-primary" onclick="${tipo === 'fornecedores'  'abrirModalFornecedor' : 'abrirModalCliente'}()">
+                    <i class="fas fa-plus"></i> Adicionar ${tipo === 'fornecedores'  'Fornecedor' : 'Cliente'}
                 </button>
             </div>
         `;
@@ -134,23 +134,23 @@ function renderizarTabela(tipo) {
                 </tr>
             </thead>
             <tbody>
-                ${dados.map(item => `
+                ${daçãos.map(item => `
                     <tr>
                         <td><strong>${item.código}</strong></td>
                         <td>
                             <strong>${item.razao_social}</strong>
-                            ${item.nome_fantasia ? `<br><small style="color: #64748b;">${item.nome_fantasia}</small>` : ''}
+                            ${item.nome_fantasia  `<br><small style="color: #64748b;">${item.nome_fantasia}</small>` : ''}
                         </td>
                         <td>${formatarCNPJ_CPF(item.cnpj_cpf) || '-'}</td>
                         <td>
                             ${item.email || '-'}<br>
                             <small style="color: #64748b;">${item.telefone || '-'}</small>
                         </td>
-                        <td>${item.cidade || '-'}${item.estado ? ' / ' + item.estado : ''}</td>
+                        <td>${item.cidade || '-'}${item.estação  ' / ' + item.estação : ''}</td>
                         <td>
-                            <span class="status-badge ${item.ativo ? 'ativo' : 'inativo'}">
+                            <span class="status-badge ${item.ativo  'ativo' : 'inativo'}">
                                 <i class="fas fa-circle" style="font-size: 8px;"></i>
-                                ${item.ativo ? 'Ativo' : 'Inativo'}
+                                ${item.ativo  'Ativo' : 'Inativo'}
                             </span>
                         </td>
                         <td>
@@ -203,7 +203,7 @@ function abrirModalCliente() {
 
 function abrirModalEntidade(tipo) {
     entidadeSelecionada = null;
-    document.getElementById('modal-titulo-entidade').textContent = `Novo ${tipo === 'fornecedor' ? 'Fornecedor' : 'Cliente'}`;
+    document.getElementById('modal-titulo-entidade').textContent = `Novo ${tipo === 'fornecedor'  'Fornecedor' : 'Cliente'}`;
     document.getElementById('form-entidade').reset();
     document.getElementById('entidade-id').value = '';
     document.getElementById('entidade-tipo').value = tipo;
@@ -213,13 +213,13 @@ function abrirModalEntidade(tipo) {
 }
 
 function editar(id, tipo) {
-    const lista = tipo === 'fornecedores' ? fornecedores : clientes;
+    const lista = tipo === 'fornecedores'  fornecedores : clientes;
     entidadeSelecionada = lista.find(item => item.id === id);
     
     if (!entidadeSelecionada) return;
     
-    const tipoSingular = tipo === 'fornecedores' ? 'fornecedor' : 'cliente';
-    document.getElementById('modal-titulo-entidade').textContent = `Editar ${tipoSingular === 'fornecedor' ? 'Fornecedor' : 'Cliente'}`;
+    const tipoSingular = tipo === 'fornecedores'  'fornecedor' : 'cliente';
+    document.getElementById('modal-titulo-entidade').textContent = `Editar ${tipoSingular === 'fornecedor'  'Fornecedor' : 'Cliente'}`;
     document.getElementById('entidade-id').value = entidadeSelecionada.id;
     document.getElementById('entidade-tipo').value = tipoSingular;
     document.getElementById('entidade-tipo-pessoa').value = entidadeSelecionada.tipo_pessoa || 'JURIDICA';
@@ -230,8 +230,8 @@ function editar(id, tipo) {
     document.getElementById('entidade-telefone').value = entidadeSelecionada.telefone || '';
     document.getElementById('entidade-cep').value = entidadeSelecionada.cep || '';
     document.getElementById('entidade-cidade').value = entidadeSelecionada.cidade || '';
-    document.getElementById('entidade-estado').value = entidadeSelecionada.estado || '';
-    document.getElementById('entidade-logradouro').value = entidadeSelecionada.logradouro || '';
+    document.getElementById('entidade-estação').value = entidadeSelecionada.estação || '';
+    document.getElementById('entidade-lograçãouro').value = entidadeSelecionada.lograçãouro || '';
     document.getElementById('entidade-número').value = entidadeSelecionada.número || '';
     document.getElementById('entidade-limite').value = entidadeSelecionada.limite_credito || 0;
     document.getElementById('entidade-prazo').value = entidadeSelecionada.prazo_pagamento || 30;
@@ -249,7 +249,7 @@ async function salvarEntidade(event) {
     const tipo = document.getElementById('entidade-tipo').value;
     const isEdicao = !!id;
     
-    const dados = {
+    const daçãos = {
         tipo_pessoa: document.getElementById('entidade-tipo-pessoa').value,
         cnpj_cpf: document.getElementById('entidade-cnpj').value,
         razao_social: document.getElementById('entidade-razao-social').value,
@@ -258,8 +258,8 @@ async function salvarEntidade(event) {
         telefone: document.getElementById('entidade-telefone').value,
         cep: document.getElementById('entidade-cep').value,
         cidade: document.getElementById('entidade-cidade').value,
-        estado: document.getElementById('entidade-estado').value,
-        logradouro: document.getElementById('entidade-logradouro').value,
+        estação: document.getElementById('entidade-estação').value,
+        lograçãouro: document.getElementById('entidade-lograçãouro').value,
         número: document.getElementById('entidade-número').value,
         limite_credito: parseFloat(document.getElementById('entidade-limite').value) || 0,
         prazo_pagamento: parseInt(document.getElementById('entidade-prazo').value) || 30,
@@ -270,29 +270,29 @@ async function salvarEntidade(event) {
     
     try {
         // TODO: Substituir por chamada real à API
-        // const endpoint = tipo === 'fornecedor' ? 'fornecedores' : 'clientes';
-        // const url = isEdicao ? `/api/financeiro/${endpoint}/${id}` : `/api/financeiro/${endpoint}`;
-        // const method = isEdicao ? 'PUT' : 'POST';
+        // const endpoint = tipo === 'fornecedor'  'fornecedores' : 'clientes';
+        // const url = isEdicao  `/api/financeiro/${endpoint}/${id}` : `/api/financeiro/${endpoint}`;
+        // const method = isEdicao  'PUT' : 'POST';
         // const response = await fetch(url, {
         //     method: method,
         //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(dados)
+        //     body: JSON.stringify(daçãos)
         // });
         
         // Mock para desenvolvimento
-        const lista = tipo === 'fornecedor' ? fornecedores : clientes;
-        const prefixo = tipo === 'fornecedor' ? 'FOR' : 'CLI';
+        const lista = tipo === 'fornecedor'  fornecedores : clientes;
+        const prefixo = tipo === 'fornecedor'  'FOR' : 'CLI';
         
         if (isEdicao) {
             const index = lista.findIndex(item => item.id == id);
             if (index !== -1) {
-                lista[index] = { ...lista[index], ...dados };
+                lista[index] = { ...lista[index], ...daçãos };
             }
         } else {
             const novaEntidade = {
                 id: lista.length + 1,
                 código: `${prefixo}${String(lista.length + 1).padStart(6, '0')}`,
-                ...dados
+                ...daçãos
             };
             lista.push(novaEntidade);
         }
@@ -304,13 +304,13 @@ async function salvarEntidade(event) {
         }
         
         mostrarAlerta(
-            isEdicao ? `${tipo === 'fornecedor' ? 'Fornecedor' : 'Cliente'} atualizado com sucesso!` 
-                     : `${tipo === 'fornecedor' ? 'Fornecedor' : 'Cliente'} criado com sucesso!`,
+            isEdicao  `${tipo === 'fornecedor'  'Fornecedor' : 'Cliente'} atualização com sucesso!` 
+                     : `${tipo === 'fornecedor'  'Fornecedor' : 'Cliente'} criação com sucesso!`,
             'success'
         );
         
         fecharModal('modal-entidade');
-        renderizarTabela(tipo === 'fornecedor' ? 'fornecedores' : 'clientes');
+        renderizarTabela(tipo === 'fornecedor'  'fornecedores' : 'clientes');
         
     } catch (error) {
         console.error('❌ Erro ao salvar:', error);
@@ -319,17 +319,17 @@ async function salvarEntidade(event) {
 }
 
 async function excluir(id, tipo) {
-    const tipoTexto = tipo === 'fornecedores' ? 'fornecedor' : 'cliente';
+    const tipoTexto = tipo === 'fornecedores'  'fornecedor' : 'cliente';
     
-    if (!confirm(`Deseja realmente excluir este ${tipoTexto}?`)) return;
+    if (!confirm(`Deseja realmente excluir este ${tipoTexto}`)) return;
     
     try {
         // TODO: Substituir por chamada real à API
-        // const endpoint = tipo === 'fornecedores' ? 'fornecedores' : 'clientes';
+        // const endpoint = tipo === 'fornecedores'  'fornecedores' : 'clientes';
         // await fetch(`/api/financeiro/${endpoint}/${id}`, { method: 'DELETE' });
         
         // Mock para desenvolvimento
-        const lista = tipo === 'fornecedores' ? fornecedores : clientes;
+        const lista = tipo === 'fornecedores'  fornecedores : clientes;
         const index = lista.findIndex(item => item.id === id);
         if (index !== -1) {
             lista.splice(index, 1);
@@ -351,7 +351,7 @@ async function excluir(id, tipo) {
 }
 
 function verDetalhes(id, tipo) {
-    const lista = tipo === 'fornecedores' ? fornecedores : clientes;
+    const lista = tipo === 'fornecedores'  fornecedores : clientes;
     const item = lista.find(i => i.id === id);
     
     if (!item) return;
@@ -363,10 +363,10 @@ function verDetalhes(id, tipo) {
         <strong>CNPJ/CPF:</strong> ${formatarCNPJ_CPF(item.cnpj_cpf) || '-'}<br>
         <strong>Email:</strong> ${item.email || '-'}<br>
         <strong>Telefone:</strong> ${item.telefone || '-'}<br>
-        <strong>Cidade/UF:</strong> ${item.cidade || '-'} / ${item.estado || '-'}<br>
+        <strong>Cidade/UF:</strong> ${item.cidade || '-'} / ${item.estação || '-'}<br>
         <strong>Limite de Crédito:</strong> R$ ${formatarMoeda(item.limite_credito)}<br>
         <strong>Prazo de Pagamento:</strong> ${item.prazo_pagamento} dias<br>
-        <strong>Status:</strong> ${item.ativo ? 'Ativo' : 'Inativo'}
+        <strong>Status:</strong> ${item.ativo  'Ativo' : 'Inativo'}
     `;
     
     mostrarAlerta(detalhes, 'info');
@@ -377,11 +377,11 @@ function aplicarFiltrosFornecedor() {
     const busca = document.getElementById('busca-fornecedor').value.toLowerCase();
     const status = document.getElementById('status-fornecedor').value;
     
-    let dadosFiltrados = fornecedores.filter(item => {
+    let daçãosFiltraçãos = fornecedores.filter(item => {
         const matchBusca = !busca || 
-            item.razao_social?.toLowerCase().includes(busca) ||
-            item.nome_fantasia?.toLowerCase().includes(busca) ||
-            item.cnpj_cpf?.includes(busca);
+            item.razao_social.toLowerCase().includes(busca) ||
+            item.nome_fantasia.toLowerCase().includes(busca) ||
+            item.cnpj_cpf.includes(busca);
         
         const matchStatus = !status || 
             (status === 'ativo' && item.ativo) ||
@@ -391,18 +391,18 @@ function aplicarFiltrosFornecedor() {
     });
     
     const container = document.getElementById('tabela-fornecedores');
-    renderizarTabelaFiltrada(dadosFiltrados, container, 'fornecedores');
+    renderizarTabelaFiltrada(daçãosFiltraçãos, container, 'fornecedores');
 }
 
 function aplicarFiltrosCliente() {
     const busca = document.getElementById('busca-cliente').value.toLowerCase();
     const status = document.getElementById('status-cliente').value;
     
-    let dadosFiltrados = clientes.filter(item => {
+    let daçãosFiltraçãos = clientes.filter(item => {
         const matchBusca = !busca || 
-            item.razao_social?.toLowerCase().includes(busca) ||
-            item.nome_fantasia?.toLowerCase().includes(busca) ||
-            item.cnpj_cpf?.includes(busca);
+            item.razao_social.toLowerCase().includes(busca) ||
+            item.nome_fantasia.toLowerCase().includes(busca) ||
+            item.cnpj_cpf.includes(busca);
         
         const matchStatus = !status || 
             (status === 'ativo' && item.ativo) ||
@@ -412,15 +412,15 @@ function aplicarFiltrosCliente() {
     });
     
     const container = document.getElementById('tabela-clientes');
-    renderizarTabelaFiltrada(dadosFiltrados, container, 'clientes');
+    renderizarTabelaFiltrada(daçãosFiltraçãos, container, 'clientes');
 }
 
-function renderizarTabelaFiltrada(dados, container, tipo) {
-    if (!dados || dados.length === 0) {
+function renderizarTabelaFiltrada(daçãos, container, tipo) {
+    if (!daçãos || daçãos.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-search"></i>
-                <h3>Nenhum resultado encontrado</h3>
+                <h3>Nenhum resultação encontração</h3>
                 <p>Tente ajustar os filtros de busca</p>
             </div>
         `;
@@ -441,23 +441,23 @@ function renderizarTabelaFiltrada(dados, container, tipo) {
                 </tr>
             </thead>
             <tbody>
-                ${dados.map(item => `
+                ${daçãos.map(item => `
                     <tr>
                         <td><strong>${item.código}</strong></td>
                         <td>
                             <strong>${item.razao_social}</strong>
-                            ${item.nome_fantasia ? `<br><small style="color: #64748b;">${item.nome_fantasia}</small>` : ''}
+                            ${item.nome_fantasia  `<br><small style="color: #64748b;">${item.nome_fantasia}</small>` : ''}
                         </td>
                         <td>${formatarCNPJ_CPF(item.cnpj_cpf) || '-'}</td>
                         <td>
                             ${item.email || '-'}<br>
                             <small style="color: #64748b;">${item.telefone || '-'}</small>
                         </td>
-                        <td>${item.cidade || '-'}${item.estado ? ' / ' + item.estado : ''}</td>
+                        <td>${item.cidade || '-'}${item.estação  ' / ' + item.estação : ''}</td>
                         <td>
-                            <span class="status-badge ${item.ativo ? 'ativo' : 'inativo'}">
+                            <span class="status-badge ${item.ativo  'ativo' : 'inativo'}">
                                 <i class="fas fa-circle" style="font-size: 8px;"></i>
-                                ${item.ativo ? 'Ativo' : 'Inativo'}
+                                ${item.ativo  'Ativo' : 'Inativo'}
                             </span>
                         </td>
                         <td>
@@ -485,11 +485,11 @@ function renderizarTabelaFiltrada(dados, container, tipo) {
 // ===== EVENTOS =====
 function configurarEventos() {
     // Busca ao pressionar Enter
-    document.getElementById('busca-fornecedor')?.addEventListener('keypress', function(e) {
+    document.getElementById('busca-fornecedor').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') aplicarFiltrosFornecedor();
     });
     
-    document.getElementById('busca-cliente')?.addEventListener('keypress', function(e) {
+    document.getElementById('busca-cliente').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') aplicarFiltrosCliente();
     });
 }
@@ -545,17 +545,17 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         top: 20px;
         right: 20px;
         padding: 16px 24px;
-        background: ${tipo === 'success' ? '#10b981' : tipo === 'error' ? '#ef4444' : '#3b82f6'};
+        background: ${tipo === 'success'  '#10b981' : tipo === 'error'  '#ef4444' : '#3b82f6'};
         color: white;
         border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        box-shaçãow: 0 8px 20px rgba(0,0,0,0.15);
         z-index: 10000;
         font-weight: 600;
         max-width: 400px;
         animation: slideIn 0.3s ease;
     `;
     
-    const icon = tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle';
+    const icon = tipo === 'success'  'check-circle' : tipo === 'error'  'exclamation-circle' : 'info-circle';
     alerta.innerHTML = `<i class="fas fa-${icon}"></i> ${mensagem}`;
     
     document.body.appendChild(alerta);

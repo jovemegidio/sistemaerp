@@ -16,7 +16,7 @@ const path = require('path');
       user: process.env.DB_USER || 'root',
       password: process.env.DB_PASS || '@dminalu',
       database: process.env.DB_NAME || 'aluforce_vendas',
-      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306,
+      port: process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 3306,
       multipleStatements: true
     }
 
@@ -28,7 +28,7 @@ const path = require('path');
     await conn.end()
     process.exit(0)
   } catch (err) {
-    console.error('Error running seed:', err && err.message ? err.message : err)
+    console.error('Error running seed:', err && err.message  err.message : err)
     console.error(err.stack || 'no stack')
     process.exit(3)
   }

@@ -14,8 +14,8 @@
         // 1. Ocultar modal antigo de produto
         ocultarModalAntigo();
         
-        // 2. Inicializar contadores
-        inicializarContadores();
+        // 2. Inicializar contaçãores
+        inicializarContaçãores();
         
         // 3. Verificar carregamento de materiais
         verificarMateriais();
@@ -34,56 +34,56 @@
             modalAntigo.style.visibility = 'hidden';
             modalAntigo.style.opacity = '0';
             modalAntigo.style.pointerEvents = 'none';
-            console.log('✅ Modal antigo ocultado - usando modal rico');
+            console.log('✅ Modal antigo ocultação - usando modal rico');
         }
     }
     
-    // Inicializar contadores manualmente se necessário
-    function inicializarContadores() {
-        // Aguardar script de contadores carregar
+    // Inicializar contaçãores manualmente se necessário
+    function inicializarContaçãores() {
+        // Aguardar script de contaçãores carregar
         let tentativas = 0;
         const maxTentativas = 20;
         
-        const verificarContadores = setInterval(() => {
+        const verificarContaçãores = setInterval(() => {
             tentativas++;
             
-            if (typeof window.atualizarContadoresPCP === 'function') {
-                console.log('✅ Sistema de contadores encontrado, atualizando...');
-                window.atualizarContadoresPCP();
-                clearInterval(verificarContadores);
+            if (typeof window.atualizarContaçãoresPCP === 'function') {
+                console.log('✅ Sistema de contaçãores encontração, atualizando...');
+                window.atualizarContaçãoresPCP();
+                clearInterval(verificarContaçãores);
             } else if (tentativas >= maxTentativas) {
-                console.warn('⚠️ Sistema de contadores não encontrado após', maxTentativas, 'tentativas');
-                console.log('💡 Tentando atualizar contadores manualmente...');
-                atualizarContadoresManual();
-                clearInterval(verificarContadores);
+                console.warn('⚠️ Sistema de contaçãores não encontração após', maxTentativas, 'tentativas');
+                console.log('💡 Tentando atualizar contaçãores manualmente...');
+                atualizarContaçãoresManual();
+                clearInterval(verificarContaçãores);
             }
         }, 200);
     }
     
-    // Atualizar contadores manualmente se o script não carregar
-    async function atualizarContadoresManual() {
+    // Atualizar contaçãores manualmente se o script não carregar
+    async function atualizarContaçãoresManual() {
         try {
-            // Atualizar contador de materiais
+            // Atualizar contaçãor de materiais
             const resMateriais = await fetch('/api/pcp/materiais');
             if (resMateriais.ok) {
                 const materiais = await resMateriais.json();
-                const contadorMateriais = document.getElementById('materials-count-display');
-                if (contadorMateriais) {
-                    contadorMateriais.textContent = materiais.length;
-                    console.log('✅ Contador de materiais atualizado:', materiais.length);
+                const contaçãorMateriais = document.getElementById('materials-count-display');
+                if (contaçãorMateriais) {
+                    contaçãorMateriais.textContent = materiais.length;
+                    console.log('✅ Contaçãor de materiais atualização:', materiais.length);
                 }
             }
             
-            // Atualizar contadores de produtos
-            const resProdutos = await fetch('/api/pcp/produtos?page=1&limit=10000');
+            // Atualizar contaçãores de produtos
+            const resProdutos = await fetch('/api/pcp/produtospage=1&limit=10000');
             if (resProdutos.ok) {
                 const data = await resProdutos.json();
                 const produtos = data.rows || data;
                 
-                const contadorTotal = document.getElementById('stat-total-produtos-gestao');
-                if (contadorTotal) {
-                    contadorTotal.textContent = produtos.length;
-                    console.log('✅ Contador de produtos atualizado:', produtos.length);
+                const contaçãorTotal = document.getElementById('stat-total-produtos-gestao');
+                if (contaçãorTotal) {
+                    contaçãorTotal.textContent = produtos.length;
+                    console.log('✅ Contaçãor de produtos atualização:', produtos.length);
                 }
                 
                 // Calcular produtos com estoque baixo (< 10)
@@ -91,9 +91,9 @@
                     p.quantidade_estoque > 0 && p.quantidade_estoque < 10
                 ).length;
                 
-                const contadorBaixo = document.getElementById('stat-estoque-baixo-gestao');
-                if (contadorBaixo) {
-                    contadorBaixo.textContent = produtosBaixo;
+                const contaçãorBaixo = document.getElementById('stat-estoque-baixo-gestao');
+                if (contaçãorBaixo) {
+                    contaçãorBaixo.textContent = produtosBaixo;
                 }
                 
                 // Produtos críticos (estoque = 0)
@@ -101,9 +101,9 @@
                     p.quantidade_estoque === 0 || !p.quantidade_estoque
                 ).length;
                 
-                const contadorCritico = document.getElementById('stat-produtos-criticos-gestao');
-                if (contadorCritico) {
-                    contadorCritico.textContent = produtosCriticos;
+                const contaçãorCritico = document.getElementById('stat-produtos-criticos-gestao');
+                if (contaçãorCritico) {
+                    contaçãorCritico.textContent = produtosCriticos;
                 }
                 
                 // Produtos OK (estoque >= 10)
@@ -111,15 +111,15 @@
                     p.quantidade_estoque >= 10
                 ).length;
                 
-                const contadorOk = document.getElementById('stat-produtos-ok-gestao');
-                if (contadorOk) {
-                    contadorOk.textContent = produtosOk;
+                const contaçãorOk = document.getElementById('stat-produtos-ok-gestao');
+                if (contaçãorOk) {
+                    contaçãorOk.textContent = produtosOk;
                 }
                 
-                console.log('✅ Todos os contadores de produtos atualizados');
+                console.log('✅ Todos os contaçãores de produtos atualizaçãos');
             }
         } catch (error) {
-            console.error('❌ Erro ao atualizar contadores manualmente:', error);
+            console.error('❌ Erro ao atualizar contaçãores manualmente:', error);
         }
     }
     
@@ -155,12 +155,12 @@
                         if (isVisible) {
                             console.log('👁️ View de materiais visível');
                             
-                            // Atualizar contadores
+                            // Atualizar contaçãores
                             setTimeout(() => {
-                                if (typeof window.atualizarContadoresPCP === 'function') {
-                                    window.atualizarContadoresPCP();
+                                if (typeof window.atualizarContaçãoresPCP === 'function') {
+                                    window.atualizarContaçãoresPCP();
                                 } else {
-                                    atualizarContadoresManual();
+                                    atualizarContaçãoresManual();
                                 }
                             }, 500);
                         }
@@ -169,7 +169,7 @@
             });
             
             observer.observe(materiaisView, { attributes: true });
-            console.log('👀 Observer instalado para view de materiais');
+            console.log('👀 Observer instalação para view de materiais');
         }
         
         // Observar mudanças na view de produtos
@@ -183,12 +183,12 @@
                         if (isVisible) {
                             console.log('👁️ View de produtos visível');
                             
-                            // Atualizar contadores
+                            // Atualizar contaçãores
                             setTimeout(() => {
-                                if (typeof window.atualizarContadoresPCP === 'function') {
-                                    window.atualizarContadoresPCP();
+                                if (typeof window.atualizarContaçãoresPCP === 'function') {
+                                    window.atualizarContaçãoresPCP();
                                 } else {
-                                    atualizarContadoresManual();
+                                    atualizarContaçãoresManual();
                                 }
                             }, 500);
                         }
@@ -197,12 +197,12 @@
             });
             
             observer.observe(produtosView, { attributes: true });
-            console.log('👀 Observer instalado para view de produtos');
+            console.log('👀 Observer instalação para view de produtos');
         }
     }
     
     // Expor função para atualização manual
-    window.forcarAtualizacaoContadores = atualizarContadoresManual;
+    window.forcarAtualizacaoContaçãores = atualizarContaçãoresManual;
     
     // Inicializar
     if (document.readyState === 'loading') {
@@ -211,7 +211,7 @@
         init();
     }
     
-    console.log('✅ Script de correções carregado');
-    console.log('💡 Use window.forcarAtualizacaoContadores() para atualizar contadores manualmente');
+    console.log('✅ Script de correções carregação');
+    console.log('💡 Use window.forcarAtualizacaoContaçãores() para atualizar contaçãores manualmente');
     
 })();

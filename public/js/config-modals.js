@@ -22,11 +22,11 @@ async function abrirConfiguracao(tipo) {
     
     // Mapeamento de tipos para IDs de modal
     const modalMap = {
-        'empresa': 'modal-dados-empresa',
+        'empresa': 'modal-daçãos-empresa',
         'categorias': 'modal-categorias',
         'departamentos': 'modal-departamentos',
         'projetos': 'modal-projetos',
-        'certificado-digital': 'modal-certificado',
+        'certificação-digital': 'modal-certificação',
         'importacao-nfe': 'modal-nfe-import',
         'funcionarios': 'modal-funcionarios',
         'cargos': 'modal-cargos',
@@ -49,7 +49,7 @@ async function abrirConfiguracao(tipo) {
         'financas': 'modal-financas',
         'caracteristicas-produtos': 'modal-caracteristicas-produtos',
         'vendedores': 'modal-vendedores',
-        'compradores': 'modal-compradores',
+        'compraçãores': 'modal-compraçãores',
         'ncm': 'modal-ncm',
         'tipos-servico': 'modal-tipos-servico',
         'contratos': 'modal-contratos',
@@ -60,7 +60,7 @@ async function abrirConfiguracao(tipo) {
     const modalId = modalMap[tipo];
     
     if (!modalId) {
-        console.error('Tipo de configuração não encontrado:', tipo);
+        console.error('Tipo de configuração não encontração:', tipo);
         if (typeof showNotification === 'function') {
             showNotification('Configuração não encontrada', 'error');
         } else {
@@ -73,18 +73,18 @@ async function abrirConfiguracao(tipo) {
     let modal = document.getElementById(modalId);
     
     if (!modal) {
-        console.warn('Modal não encontrado imediatamente, aguardando carregamento:', modalId);
+        console.warn('Modal não encontração imediatamente, aguardando carregamento:', modalId);
         // Aguardar um pouco para os modais carregarem via fetch
         await new Promise(resolve => setTimeout(resolve, 500));
         modal = document.getElementById(modalId);
     }
     
     if (!modal) {
-        console.error('Modal não encontrado após aguardar:', modalId);
+        console.error('Modal não encontração após aguardar:', modalId);
         if (typeof showNotification === 'function') {
-            showNotification('Modal de configuração não encontrado. Tente novamente.', 'error');
+            showNotification('Modal de configuração não encontração. Tente novamente.', 'error');
         } else {
-            alert('Modal não encontrado: ' + modalId);
+            alert('Modal não encontração: ' + modalId);
         }
         return;
     }
@@ -93,7 +93,7 @@ async function abrirConfiguracao(tipo) {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 
-    // Carrega dados específicos para cada tipo
+    // Carrega daçãos específicos para cada tipo
     switch(tipo) {
         case 'empresa':
             loadEmpresaData();
@@ -107,8 +107,8 @@ async function abrirConfiguracao(tipo) {
         case 'projetos':
             loadProjetosData();
             break;
-        case 'certificado-digital':
-            loadCertificadoData();
+        case 'certificação-digital':
+            loadCertificaçãoData();
             break;
         case 'importacao-nfe':
             loadNfeImportData();
@@ -158,8 +158,8 @@ async function abrirConfiguracao(tipo) {
         case 'vendedores':
             loadVendedoresData();
             break;
-        case 'compradores':
-            loadCompradoresData();
+        case 'compraçãores':
+            loadCompraçãoresData();
             break;
         case 'ncm':
             loadNCMData();
@@ -206,7 +206,7 @@ function closeAllConfigModals() {
 // =========================
 
 /**
- * Carrega dados da empresa
+ * Carrega daçãos da empresa
  */
 async function loadEmpresaData() {
     try {
@@ -216,21 +216,21 @@ async function loadEmpresaData() {
             populateEmpresaForm(data);
         }
     } catch (error) {
-        console.error('Erro ao carregar dados da empresa:', error);
+        console.error('Erro ao carregar daçãos da empresa:', error);
     }
 }
 
 /**
- * Preenche o formulário de dados da empresa
+ * Preenche o formulário de daçãos da empresa
  */
 function populateEmpresaForm(data) {
-    const form = document.getElementById('form-dados-empresa');
+    const form = document.getElementById('form-daçãos-empresa');
     if (!form || !data) return;
 
     // Preenche os campos do formulário
     const fields = ['razao_social', 'nome_fantasia', 'cnpj', 'inscricao_estadual', 
                    'inscricao_municipal', 'telefone', 'email', 'site', 'cep', 
-                   'estado', 'cidade', 'bairro', 'endereco', 'número', 'complemento'];
+                   'estação', 'cidade', 'bairro', 'endereco', 'número', 'complemento'];
     
     fields.forEach(field => {
         const input = form.querySelector(`[name="${field}"]`);
@@ -244,7 +244,7 @@ function populateEmpresaForm(data) {
  * Salva configurações da empresa (incluindo logo e favicon)
  */
 async function saveEmpresaConfig() {
-    const form = document.getElementById('form-dados-empresa');
+    const form = document.getElementById('form-daçãos-empresa');
     if (!form) return;
 
     // Valida campos obrigatórios
@@ -254,12 +254,12 @@ async function saveEmpresaConfig() {
         return;
     }
 
-    // Coleta dados do formulário
+    // Coleta daçãos do formulário
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
     try {
-        // Primeiro salva os dados básicos
+        // Primeiro salva os daçãos básicos
         const response = await fetch('/api/configuracoes/empresa', {
             method: 'POST',
             headers: {
@@ -269,10 +269,10 @@ async function saveEmpresaConfig() {
         });
 
         if (!response.ok) {
-            throw new Error('Erro ao salvar dados');
+            throw new Error('Erro ao salvar daçãos');
         }
 
-        // Upload do logo se foi selecionado
+        // Upload do logo se foi selecionação
         const logoInput = document.getElementById('input-logo');
         if (logoInput && logoInput.files[0]) {
             const logoFormData = new FormData();
@@ -290,7 +290,7 @@ async function saveEmpresaConfig() {
             }
         }
 
-        // Upload do favicon se foi selecionado
+        // Upload do favicon se foi selecionação
         const faviconInput = document.getElementById('input-favicon');
         if (faviconInput && faviconInput.files[0]) {
             const faviconFormData = new FormData();
@@ -308,17 +308,17 @@ async function saveEmpresaConfig() {
             }
         }
 
-        showNotification('Dados da empresa salvos com sucesso!', 'success');
+        showNotification('Daçãos da empresa salvos com sucesso!', 'success');
         
         // Registrar na central de notificações
         if (window.registrarAcao) {
-            window.registrarAcao('salvar', 'configuracoes', 'Dados da Empresa');
+            window.registrarAcao('salvar', 'configuracoes', 'Daçãos da Empresa');
         }
         
-        closeConfigModal('modal-dados-empresa');
+        closeConfigModal('modal-daçãos-empresa');
     } catch (error) {
-        console.error('Erro ao salvar dados da empresa:', error);
-        showNotification('Erro ao salvar dados da empresa', 'error');
+        console.error('Erro ao salvar daçãos da empresa:', error);
+        showNotification('Erro ao salvar daçãos da empresa', 'error');
     }
 }
 
@@ -327,9 +327,9 @@ async function saveEmpresaConfig() {
  */
 function atualizarLogoSistema(logoUrl) {
     // Adicionar timestamp para evitar cache
-    const urlComTimestamp = logoUrl + '?v=' + Date.now();
+    const urlComTimestamp = logoUrl + 'v=' + Date.now();
     
-    // Atualizar todos os elementos com classe logo ou id relacionados
+    // Atualizar todos os elementos com classe logo ou id relacionaçãos
     document.querySelectorAll('.logo-empresa, .company-logo, #logo-sidebar, #logo-header, img[src*="logo"]').forEach(img => {
         if (img.tagName === 'IMG') {
             img.src = urlComTimestamp;
@@ -342,7 +342,7 @@ function atualizarLogoSistema(logoUrl) {
     localStorage.setItem('empresa_logo_url', logoUrl);
     localStorage.setItem('empresa_logo_timestamp', Date.now().toString());
     
-    console.log('[Logo] Atualizado em todo o sistema:', logoUrl);
+    console.log('[Logo] Atualização em todo o sistema:', logoUrl);
 }
 
 /**
@@ -350,7 +350,7 @@ function atualizarLogoSistema(logoUrl) {
  */
 function atualizarFaviconSistema(faviconUrl) {
     // Adicionar timestamp para evitar cache
-    const urlComTimestamp = faviconUrl + '?v=' + Date.now();
+    const urlComTimestamp = faviconUrl + 'v=' + Date.now();
     
     // Remover favicons existentes
     document.querySelectorAll('link[rel*="icon"]').forEach(link => link.remove());
@@ -371,7 +371,7 @@ function atualizarFaviconSistema(faviconUrl) {
     localStorage.setItem('empresa_favicon_url', faviconUrl);
     localStorage.setItem('empresa_favicon_timestamp', Date.now().toString());
     
-    console.log('[Favicon] Atualizado em todo o sistema:', faviconUrl);
+    console.log('[Favicon] Atualização em todo o sistema:', faviconUrl);
 }
 
 // =========================
@@ -385,24 +385,24 @@ async function saveVendaProdutosConfig() {
     const form = document.getElementById('form-venda-produtos');
     const config = {
         etapas: {
-            orcamento: form?.querySelector('[name="etapa_orcamento"]')?.checked || false,
-            pedido_aprovado: form?.querySelector('[name="etapa_pedido_aprovado"]')?.checked || false,
-            analise_credito: form?.querySelector('[name="etapa_analise_credito"]')?.checked || false,
-            faturar: form?.querySelector('[name="etapa_faturar"]')?.checked || false,
-            faturado: form?.querySelector('[name="etapa_faturado"]')?.checked || false,
-            entregue: form?.querySelector('[name="etapa_entregue"]')?.checked || false
+            orcamento: form.querySelector('[name="etapa_orcamento"]').checked || false,
+            pedido_aprovação: form.querySelector('[name="etapa_pedido_aprovação"]').checked || false,
+            analise_credito: form.querySelector('[name="etapa_analise_credito"]').checked || false,
+            faturar: form.querySelector('[name="etapa_faturar"]').checked || false,
+            faturação: form.querySelector('[name="etapa_faturação"]').checked || false,
+            entregue: form.querySelector('[name="etapa_entregue"]').checked || false
         },
         tabelas_preco: {
-            nao_alterar_preco: document.getElementById('bloquear-preco-tabela')?.checked || false,
-            permitir_orcamento: document.getElementById('permitir-orçamento')?.checked || false
+            nao_alterar_preco: document.getElementById('bloquear-preco-tabela').checked || false,
+            permitir_orcamento: document.getElementById('permitir-orçamento').checked || false
         },
         numeracao: {
-            próximo_pedido: form?.querySelector('[name="próximo_numero_pedido"]')?.value || '1001',
-            próxima_remessa: form?.querySelector('[name="próxima_remessa"]')?.value || '5001'
+            próximo_pedido: form.querySelector('[name="próximo_numero_pedido"]').value || '1001',
+            próxima_remessa: form.querySelector('[name="próxima_remessa"]').value || '5001'
         },
         reserva_estoque: {
-            reservar_ao_aprovar: document.getElementById('reservar-aprovar')?.checked || false,
-            reservar_ao_faturar: document.getElementById('reservar-faturar')?.checked || false
+            reservar_ao_aprovar: document.getElementById('reservar-aprovar').checked || false,
+            reservar_ao_faturar: document.getElementById('reservar-faturar').checked || false
         }
     };
 
@@ -431,16 +431,16 @@ async function saveVendaProdutosConfig() {
 async function saveVendaServicosConfig() {
     const config = {
         etapas: {
-            ordem_servico: document.getElementById('etapa-ordem-servico')?.checked || false,
-            em_execucao: document.getElementById('etapa-em-execucao')?.checked || false,
-            executada: document.getElementById('etapa-executada')?.checked || false,
-            faturar_servico: document.getElementById('etapa-faturar-servico')?.checked || false
+            ordem_servico: document.getElementById('etapa-ordem-servico').checked || false,
+            em_execucao: document.getElementById('etapa-em-execucao').checked || false,
+            executada: document.getElementById('etapa-executada').checked || false,
+            faturar_servico: document.getElementById('etapa-faturar-servico').checked || false
         },
         proposta: {
-            permitir_proposta: document.getElementById('permitir-proposta')?.checked || false
+            permitir_proposta: document.getElementById('permitir-proposta').checked || false
         },
         numeracao: {
-            próximo_os: document.getElementById('próximo-os')?.value || '1001'
+            próximo_os: document.getElementById('próximo-os').value || '1001'
         }
     };
 
@@ -469,17 +469,17 @@ async function saveVendaServicosConfig() {
 async function saveClientesFornecedoresConfig() {
     const config = {
         validacoes: {
-            obrigar_cnpj_cpf: document.getElementById('obrigar-cnpj-cpf')?.checked || false,
-            obrigar_endereco: document.getElementById('obrigar-endereco')?.checked || false,
-            obrigar_email: document.getElementById('obrigar-email')?.checked || false,
-            validar_unicidade: document.getElementById('validar-unicidade')?.checked || false
+            obrigar_cnpj_cpf: document.getElementById('obrigar-cnpj-cpf').checked || false,
+            obrigar_endereco: document.getElementById('obrigar-endereco').checked || false,
+            obrigar_email: document.getElementById('obrigar-email').checked || false,
+            validar_unicidade: document.getElementById('validar-unicidade').checked || false
         },
         credito: {
-            bloquear_novos: document.getElementById('bloquear-novos')?.checked || false,
-            limite_padrao: document.getElementById('limite-credito-padrao')?.value || '0'
+            bloquear_novos: document.getElementById('bloquear-novos').checked || false,
+            limite_padrao: document.getElementById('limite-credito-padrao').value || '0'
         },
         tags: {
-            tags_automaticas: document.getElementById('tags-automaticas')?.checked || false
+            tags_automaticas: document.getElementById('tags-automaticas').checked || false
         }
     };
 
@@ -507,10 +507,10 @@ async function saveClientesFornecedoresConfig() {
  */
 async function saveFinanceConfig() {
     const config = {
-        contas_atraso: document.getElementById('contas-atraso')?.value || 'nao-mostrar',
-        email_remessa: document.getElementById('email-remessa')?.value || '',
-        juros_mes: document.getElementById('juros-mes')?.value || '1.0',
-        multa_atraso: document.getElementById('multa-atraso')?.value || '2.0'
+        contas_atraso: document.getElementById('contas-atraso').value || 'nao-mostrar',
+        email_remessa: document.getElementById('email-remessa').value || '',
+        juros_mes: document.getElementById('juros-mes').value || '1.0',
+        multa_atraso: document.getElementById('multa-atraso').value || '2.0'
     };
 
     try {
@@ -575,7 +575,7 @@ function displayCategorias(categorias) {
     list.innerHTML = categorias.map((cat, index) => {
         const cor = cat.cor || cores[index % cores.length];
         return `
-        <div class="config-item-premium" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; margin-bottom: 12px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.borderColor='#e5e7eb';">
+        <div class="config-item-premium" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; margin-bottom: 12px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShaçãow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShaçãow='none'; this.style.borderColor='#e5e7eb';">
             <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: ${cor};"></div>
             <div style="width: 46px; height: 46px; background: linear-gradient(135deg, ${cor}15, ${cor}25); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 <i class="fas fa-folder" style="font-size: 20px; color: ${cor};"></i>
@@ -585,10 +585,10 @@ function displayCategorias(categorias) {
                 <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cat.descrição || cat.descricao || 'Sem descrição'}</p>
             </div>
             <div style="display: flex; gap: 8px;">
-                <button onclick="editarCategoria(${cat.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="editarCategoria(${cat.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-pen" style="font-size: 14px;"></i>
                 </button>
-                <button onclick="excluirCategoria(${cat.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="excluirCategoria(${cat.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                 </button>
             </div>
@@ -623,7 +623,7 @@ function showNovaCategoriaForm() {
  */
 async function editarCategoria(id) {
     try {
-        // Buscar dados da categoria
+        // Buscar daçãos da categoria
         const response = await fetch(`/api/configuracoes/categorias/${id}`);
         if (!response.ok) throw new Error('Erro ao carregar categoria');
         
@@ -646,7 +646,7 @@ async function editarCategoria(id) {
         }
     } catch (error) {
         console.error('Erro ao carregar categoria:', error);
-        showNotification('Erro ao carregar dados da categoria', 'error');
+        showNotification('Erro ao carregar daçãos da categoria', 'error');
     }
 }
 
@@ -665,8 +665,8 @@ async function salvarCategoria() {
     }
     
     try {
-        const url = id ? `/api/configuracoes/categorias/${id}` : '/api/configuracoes/categorias';
-        const method = id ? 'PUT' : 'POST';
+        const url = id  `/api/configuracoes/categorias/${id}` : '/api/configuracoes/categorias';
+        const method = id  'PUT' : 'POST';
         
         const response = await fetch(url, {
             method: method,
@@ -675,7 +675,7 @@ async function salvarCategoria() {
         });
         
         if (response.ok) {
-            showNotification(id ? 'Categoria atualizada com sucesso!' : 'Categoria criada com sucesso!', 'success');
+            showNotification(id  'Categoria atualizada com sucesso!' : 'Categoria criada com sucesso!', 'success');
             closeConfigModal('modal-categoria-form');
             loadCategoriasData(); // Recarregar lista
         } else {
@@ -691,7 +691,7 @@ async function salvarCategoria() {
  * Exclui uma categoria
  */
 async function excluirCategoria(id) {
-    if (!confirm('Deseja realmente excluir está categoria?')) return;
+    if (!confirm('Deseja realmente excluir está categoria')) return;
 
     try {
         const response = await fetch(`/api/configuracoes/categorias/${id}`, {
@@ -753,7 +753,7 @@ function displayDepartamentos(departamentos) {
     list.innerHTML = departamentos.map((dept, index) => {
         const cor = cores[index % cores.length];
         return `
-        <div class="config-item-premium" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; margin-bottom: 12px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.borderColor='#e5e7eb';">
+        <div class="config-item-premium" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; margin-bottom: 12px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShaçãow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShaçãow='none'; this.style.borderColor='#e5e7eb';">
             <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: ${cor};"></div>
             <div style="width: 46px; height: 46px; background: linear-gradient(135deg, ${cor}15, ${cor}25); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 <i class="fas fa-building" style="font-size: 20px; color: ${cor};"></i>
@@ -763,10 +763,10 @@ function displayDepartamentos(departamentos) {
                 <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${dept.descrição || dept.descricao || 'Sem descrição'}</p>
             </div>
             <div style="display: flex; gap: 8px;">
-                <button onclick="editarDepartamento(${dept.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="editarDepartamento(${dept.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-pen" style="font-size: 14px;"></i>
                 </button>
-                <button onclick="excluirDepartamento(${dept.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="excluirDepartamento(${dept.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                 </button>
             </div>
@@ -801,7 +801,7 @@ function showNovoDepartamentoForm() {
  */
 async function editarDepartamento(id) {
     try {
-        // Buscar dados do departamento
+        // Buscar daçãos do departamento
         const response = await fetch(`/api/configuracoes/departamentos/${id}`);
         if (!response.ok) throw new Error('Erro ao carregar departamento');
         
@@ -824,12 +824,12 @@ async function editarDepartamento(id) {
         }
     } catch (error) {
         console.error('Erro ao carregar departamento:', error);
-        showNotification('Erro ao carregar dados do departamento', 'error');
+        showNotification('Erro ao carregar daçãos do departamento', 'error');
     }
 }
 
 /**
- * Salva um departamento (novo ou editado)
+ * Salva um departamento (novo ou editação)
  */
 async function salvarDepartamento() {
     const id = document.getElementById('departamento-id').value;
@@ -843,8 +843,8 @@ async function salvarDepartamento() {
     }
     
     try {
-        const url = id ? `/api/configuracoes/departamentos/${id}` : '/api/configuracoes/departamentos';
-        const method = id ? 'PUT' : 'POST';
+        const url = id  `/api/configuracoes/departamentos/${id}` : '/api/configuracoes/departamentos';
+        const method = id  'PUT' : 'POST';
         
         const response = await fetch(url, {
             method: method,
@@ -853,7 +853,7 @@ async function salvarDepartamento() {
         });
         
         if (response.ok) {
-            showNotification(id ? 'Departamento atualizado com sucesso!' : 'Departamento criado com sucesso!', 'success');
+            showNotification(id  'Departamento atualização com sucesso!' : 'Departamento criação com sucesso!', 'success');
             closeConfigModal('modal-departamento-form');
             loadDepartamentosData(); // Recarregar lista
         } else {
@@ -869,7 +869,7 @@ async function salvarDepartamento() {
  * Exclui um departamento
  */
 async function excluirDepartamento(id) {
-    if (!confirm('Deseja realmente excluir este departamento?')) return;
+    if (!confirm('Deseja realmente excluir este departamento')) return;
 
     try {
         const response = await fetch(`/api/configuracoes/departamentos/${id}`, {
@@ -930,20 +930,20 @@ function displayProjetos(projetos) {
         const statusCores = {
             'ativo': '#8b5cf6',
             'em_andamento': '#3b82f6',
-            'pausado': '#f59e0b',
+            'pausação': '#f59e0b',
             'concluido': '#10b981',
-            'cancelado': '#ef4444'
+            'cancelação': '#ef4444'
         };
         const cor = statusCores[proj.status] || '#8b5cf6';
         const statusTexto = {
             'ativo': 'Ativo',
             'em_andamento': 'Em Andamento',
-            'pausado': 'Pausado',
+            'pausação': 'Pausação',
             'concluido': 'Concluído',
-            'cancelado': 'Cancelado'
+            'cancelação': 'Cancelação'
         };
         return `
-        <div class="config-item-premium" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; margin-bottom: 12px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.borderColor='#e5e7eb';">
+        <div class="config-item-premium" style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; margin-bottom: 12px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShaçãow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShaçãow='none'; this.style.borderColor='#e5e7eb';">
             <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: ${cor};"></div>
             <div style="width: 46px; height: 46px; background: linear-gradient(135deg, ${cor}15, ${cor}25); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                 <i class="fas fa-rocket" style="font-size: 20px; color: ${cor};"></i>
@@ -956,10 +956,10 @@ function displayProjetos(projetos) {
                 <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${proj.descrição || proj.descricao || 'Sem descrição'}</p>
             </div>
             <div style="display: flex; gap: 8px;">
-                <button onclick="editarProjeto(${proj.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="editarProjeto(${proj.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-pen" style="font-size: 14px;"></i>
                 </button>
-                <button onclick="excluirProjeto(${proj.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="excluirProjeto(${proj.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                 </button>
             </div>
@@ -996,7 +996,7 @@ function showNovoProjetoForm() {
  */
 async function editarProjeto(id) {
     try {
-        // Buscar dados do projeto
+        // Buscar daçãos do projeto
         const response = await fetch(`/api/configuracoes/projetos/${id}`);
         if (!response.ok) throw new Error('Erro ao carregar projeto');
         
@@ -1006,8 +1006,8 @@ async function editarProjeto(id) {
         document.getElementById('projeto-id').value = projeto.id;
         document.getElementById('projeto-nome').value = projeto.nome || '';
         document.getElementById('projeto-descricao').value = projeto.descrição || projeto.descricao || '';
-        document.getElementById('projeto-data-inicio').value = projeto.data_inicio ? projeto.data_inicio.split('T')[0] : '';
-        document.getElementById('projeto-data-fim').value = projeto.data_fim ? projeto.data_fim.split('T')[0] : '';
+        document.getElementById('projeto-data-inicio').value = projeto.data_inicio  projeto.data_inicio.split('T')[0] : '';
+        document.getElementById('projeto-data-fim').value = projeto.data_fim  projeto.data_fim.split('T')[0] : '';
         document.getElementById('projeto-status').value = projeto.status || 'ativo';
         
         // Atualizar título
@@ -1021,12 +1021,12 @@ async function editarProjeto(id) {
         }
     } catch (error) {
         console.error('Erro ao carregar projeto:', error);
-        showNotification('Erro ao carregar dados do projeto', 'error');
+        showNotification('Erro ao carregar daçãos do projeto', 'error');
     }
 }
 
 /**
- * Salva um projeto (novo ou editado)
+ * Salva um projeto (novo ou editação)
  */
 async function salvarProjeto() {
     const id = document.getElementById('projeto-id').value;
@@ -1042,8 +1042,8 @@ async function salvarProjeto() {
     }
     
     try {
-        const url = id ? `/api/configuracoes/projetos/${id}` : '/api/configuracoes/projetos';
-        const method = id ? 'PUT' : 'POST';
+        const url = id  `/api/configuracoes/projetos/${id}` : '/api/configuracoes/projetos';
+        const method = id  'PUT' : 'POST';
         
         const response = await fetch(url, {
             method: method,
@@ -1052,7 +1052,7 @@ async function salvarProjeto() {
         });
         
         if (response.ok) {
-            showNotification(id ? 'Projeto atualizado com sucesso!' : 'Projeto criado com sucesso!', 'success');
+            showNotification(id  'Projeto atualização com sucesso!' : 'Projeto criação com sucesso!', 'success');
             closeConfigModal('modal-projeto-form');
             loadProjetosData(); // Recarregar lista
         } else {
@@ -1068,7 +1068,7 @@ async function salvarProjeto() {
  * Exclui um projeto
  */
 async function excluirProjeto(id) {
-    if (!confirm('Deseja realmente excluir este projeto?')) return;
+    if (!confirm('Deseja realmente excluir este projeto')) return;
 
     try {
         const response = await fetch(`/api/configuracoes/projetos/${id}`, {
@@ -1092,28 +1092,28 @@ async function excluirProjeto(id) {
 // =========================
 
 /**
- * Carrega dados do certificado
+ * Carrega daçãos do certificação
  */
-async function loadCertificadoData() {
+async function loadCertificaçãoData() {
     try {
-        const response = await fetch('/api/configuracoes/certificado');
+        const response = await fetch('/api/configuracoes/certificação');
         if (response.ok) {
             const data = await response.json();
-            displayCertificadoInfo(data);
+            displayCertificaçãoInfo(data);
         }
     } catch (error) {
-        console.error('Erro ao carregar certificado:', error);
+        console.error('Erro ao carregar certificação:', error);
     }
 }
 
 /**
- * Exibe informações do certificado
+ * Exibe informações do certificação
  */
-function displayCertificadoInfo(data) {
+function displayCertificaçãoInfo(data) {
     if (!data || !data.validade) return;
 
-    const info = document.getElementById('certificado-info');
-    const expiracao = document.getElementById('certificado-expiracao');
+    const info = document.getElementById('certificação-info');
+    const expiracao = document.getElementById('certificação-expiracao');
     
     if (info && expiracao) {
         info.style.display = 'flex';
@@ -1122,45 +1122,45 @@ function displayCertificadoInfo(data) {
 }
 
 /**
- * Salva configurações do certificado
+ * Salva configurações do certificação
  */
-async function saveCertificadoConfig() {
-    const form = document.getElementById('form-certificado');
+async function saveCertificaçãoConfig() {
+    const form = document.getElementById('form-certificação');
     if (!form) return;
 
-    const fileInput = document.getElementById('input-certificado');
-    const senhaInput = form.querySelector('[name="certificado_senha"]');
+    const fileInput = document.getElementById('input-certificação');
+    const senhaInput = form.querySelector('[name="certificação_senha"]');
 
     if (!fileInput.files[0]) {
-        showNotification('Selecione um arquivo de certificado', 'error');
+        showNotification('Selecione um arquivo de certificação', 'error');
         return;
     }
 
     if (!senhaInput.value) {
-        showNotification('Digite a senha do certificado', 'error');
+        showNotification('Digite a senha do certificação', 'error');
         return;
     }
 
     const formData = new FormData();
-    formData.append('certificado', fileInput.files[0]);
+    formData.append('certificação', fileInput.files[0]);
     formData.append('senha', senhaInput.value);
 
     try {
-        const response = await fetch('/api/configuracoes/certificado', {
+        const response = await fetch('/api/configuracoes/certificação', {
             method: 'POST',
             body: formData
         });
 
         if (response.ok) {
-            showNotification('Certificado salvo com sucesso!', 'success');
-            closeConfigModal('modal-certificado');
-            loadCertificadoData();
+            showNotification('Certificação salvo com sucesso!', 'success');
+            closeConfigModal('modal-certificação');
+            loadCertificaçãoData();
         } else {
-            throw new Error('Erro ao salvar certificado');
+            throw new Error('Erro ao salvar certificação');
         }
     } catch (error) {
-        console.error('Erro ao salvar certificado:', error);
-        showNotification('Erro ao salvar certificado', 'error');
+        console.error('Erro ao salvar certificação:', error);
+        showNotification('Erro ao salvar certificação', 'error');
     }
 }
 
@@ -1198,7 +1198,7 @@ function displayNfeImportInfo(data) {
     if (data.ativo && statusInfo && dataAtivacao) {
         statusInfo.style.display = 'block';
         dataAtivacao.textContent = data.data_ativacao 
-            ? new Date(data.data_ativacao).toLocaleString('pt-BR')
+             new Date(data.data_ativacao).toLocaleString('pt-BR')
             : 'N/A';
     }
 }
@@ -1250,7 +1250,7 @@ function showConfigNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.innerHTML = `
-            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+            <i class="fas fa-${type === 'success'  'check-circle' : type === 'error'  'exclamation-circle' : 'info-circle'}"></i>
             <span>${message}</span>
         `;
         notificationArea.appendChild(notification);
@@ -1266,8 +1266,8 @@ function showConfigNotification(message, type = 'info') {
     toast.style.cssText = `
         position: fixed; top: 20px; right: 20px; z-index: 10000;
         padding: 12px 20px; border-radius: 8px; color: white;
-        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-family: sans-serif;
+        background: ${type === 'success'  '#10b981' : type === 'error'  '#ef4444' : '#3b82f6'};
+        box-shaçãow: 0 4px 12px rgba(0,0,0,0.15); font-family: sans-serif;
     `;
     toast.textContent = message;
     document.body.appendChild(toast);
@@ -1281,14 +1281,14 @@ var showNotification = showConfigNotification;
 // EVENTOS DE UPLOAD DE ARQUIVOS
 // =========================
 
-// Atualizar nome do arquivo quando selecionado
+// Atualizar nome do arquivo quando selecionação
 document.addEventListener('DOMContentLoaded', function() {
     // Logo da empresa
     const logoInput = document.getElementById('input-logo');
     if (logoInput) {
         logoInput.addEventListener('change', function() {
             const file = this.files[0];
-            const fileName = file ? file.name : 'Nenhum arquivo selecionado';
+            const fileName = file  file.name : 'Nenhum arquivo selecionação';
             const label = this.parentElement.querySelector('.config-file-upload-name');
             if (label) label.textContent = fileName;
             
@@ -1312,7 +1312,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (faviconInput) {
         faviconInput.addEventListener('change', function() {
             const file = this.files[0];
-            const fileName = file ? file.name : 'Nenhum arquivo selecionado';
+            const fileName = file  file.name : 'Nenhum arquivo selecionação';
             const label = this.parentElement.querySelector('.config-file-upload-name');
             if (label) label.textContent = fileName;
             
@@ -1331,11 +1331,11 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Certificado digital
-    const certInput = document.getElementById('input-certificado');
+    // Certificação digital
+    const certInput = document.getElementById('input-certificação');
     if (certInput) {
         certInput.addEventListener('change', function() {
-            const fileName = this.files[0] ? this.files[0].name : 'Nenhum certificado selecionado';
+            const fileName = this.files[0]  this.files[0].name : 'Nenhum certificação selecionação';
             const label = this.parentElement.querySelector('.config-file-upload-name');
             if (label) label.textContent = fileName;
         });
@@ -1346,7 +1346,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const nfeStatus = document.getElementById('nfe-status-info');
     if (nfeToggle && nfeStatus) {
         nfeToggle.addEventListener('change', function() {
-            nfeStatus.style.display = this.checked ? 'block' : 'none';
+            nfeStatus.style.display = this.checked  'block' : 'none';
         });
     }
 
@@ -1401,7 +1401,7 @@ function maskCNPJ(value) {
         .replace(/^(\d{2})\.(\d{3})(\d)/, '$1.$2.$3')
         .replace(/\.(\d{3})(\d)/, '.$1/$2')
         .replace(/(\d{4})(\d)/, '$1-$2')
-        .replace(/(-\d{2})\d+?$/, '$1');
+        .replace(/(-\d{2})\d+$/, '$1');
 }
 
 /**
@@ -1411,7 +1411,7 @@ function maskCEP(value) {
     return value
         .replace(/\D/g, '')
         .replace(/^(\d{5})(\d)/, '$1-$2')
-        .replace(/(-\d{3})\d+?$/, '$1');
+        .replace(/(-\d{3})\d+$/, '$1');
 }
 
 /**
@@ -1428,7 +1428,7 @@ function maskTelefone(value) {
         return value
             .replace(/^(\d{2})(\d)/, '($1) $2')
             .replace(/(\d{5})(\d)/, '$1-$2')
-            .replace(/(-\d{4})\d+?$/, '$1');
+            .replace(/(-\d{4})\d+$/, '$1');
     }
 }
 
@@ -1445,7 +1445,7 @@ window.excluirDepartamento = excluirDepartamento;
 window.showNovoProjetoForm = showNovoProjetoForm;
 window.editarProjeto = editarProjeto;
 window.excluirProjeto = excluirProjeto;
-window.saveCertificadoConfig = saveCertificadoConfig;
+window.saveCertificaçãoConfig = saveCertificaçãoConfig;
 window.saveNfeConfig = saveNfeConfig;
 window.saveVendaProdutosConfig = saveVendaProdutosConfig;
 window.saveVendaServicosConfig = saveVendaServicosConfig;
@@ -1473,7 +1473,7 @@ function anexosFamilia(id) {
 }
 
 function excluirFamilia(id) {
-    if (confirm('Deseja realmente excluir está família de produtos?')) {
+    if (confirm('Deseja realmente excluir está família de produtos')) {
         showNotification('Família excluída com sucesso!', 'success');
     }
 }
@@ -1491,7 +1491,7 @@ function editarCaracteristica(id) {
 }
 
 function excluirCaracteristica(id) {
-    if (confirm('Deseja realmente excluir está característica?')) {
+    if (confirm('Deseja realmente excluir está característica')) {
         showNotification('Característica excluída com sucesso!', 'success');
     }
 }
@@ -1522,7 +1522,7 @@ function displayVendedores(vendedores) {
 
     tbody.innerHTML = vendedores.map(v => `
         <tr>
-            <td><span class="status-badge status-${v.situacao}">${v.situacao === 'ativo' ? '<i class="fas fa-check-circle"></i> Ativo' : '<i class="fas fa-times-circle"></i> Inativo'}</span></td>
+            <td><span class="status-badge status-${v.situacao}">${v.situacao === 'ativo'  '<i class="fas fa-check-circle"></i> Ativo' : '<i class="fas fa-times-circle"></i> Inativo'}</span></td>
             <td>${v.nome}</td>
             <td>${v.comissao}%</td>
             <td>${v.email}</td>
@@ -1566,7 +1566,7 @@ function emailsVendedor(id) {
 }
 
 async function excluirVendedor(id) {
-    if (!confirm('Deseja realmente excluir este vendedor?')) return;
+    if (!confirm('Deseja realmente excluir este vendedor')) return;
 
     try {
         const response = await fetch(`/api/configuracoes/vendedores/${id}`, {
@@ -1589,44 +1589,44 @@ async function excluirVendedor(id) {
 // COMPRADORES
 // =========================
 
-async function abrirModalIncluirComprador() {
-    showNotification('Modal de inclusão de comprador em desenvolvimento', 'info');
+async function abrirModalIncluirCompraçãor() {
+    showNotification('Modal de inclusão de compraçãor em desenvolvimento', 'info');
 }
 
-async function loadCompradoresData() {
+async function loadCompraçãoresData() {
     try {
-        const response = await fetch('/api/configuracoes/compradores');
+        const response = await fetch('/api/configuracoes/compraçãores');
         if (response.ok) {
-            const compradores = await response.json();
-            displayCompradores(compradores);
+            const compraçãores = await response.json();
+            displayCompraçãores(compraçãores);
         }
     } catch (error) {
-        console.error('Erro ao carregar compradores:', error);
+        console.error('Erro ao carregar compraçãores:', error);
     }
 }
 
-function displayCompradores(compradores) {
-    const tbody = document.getElementById('compradores-list');
-    if (!tbody || !compradores.length) return;
+function displayCompraçãores(compraçãores) {
+    const tbody = document.getElementById('compraçãores-list');
+    if (!tbody || !compraçãores.length) return;
 
-    tbody.innerHTML = compradores.map(c => `
+    tbody.innerHTML = compraçãores.map(c => `
         <tr>
-            <td><span class="status-badge status-${c.situacao}">${c.situacao === 'ativo' ? '<i class="fas fa-check-circle"></i> Ativo' : '<i class="fas fa-times-circle"></i> Inativo'}</span></td>
+            <td><span class="status-badge status-${c.situacao}">${c.situacao === 'ativo'  '<i class="fas fa-check-circle"></i> Ativo' : '<i class="fas fa-times-circle"></i> Inativo'}</span></td>
             <td>${c.nome}</td>
             <td>${formatDate(c.inclusao)}</td>
             <td>${formatDate(c.última_alteracao)}</td>
             <td>${c.incluido_por}</td>
             <td>
-                <button class="config-btn-icon" onclick="editarComprador(${c.id})" title="Editar">
+                <button class="config-btn-icon" onclick="editarCompraçãor(${c.id})" title="Editar">
                     <i class="fas fa-edit"></i>
                 </button>
-                <button class="config-btn-icon" onclick="anexosComprador(${c.id})" title="Anexos">
+                <button class="config-btn-icon" onclick="anexosCompraçãor(${c.id})" title="Anexos">
                     <i class="fas fa-paperclip"></i>
                 </button>
-                <button class="config-btn-icon" onclick="inativarComprador(${c.id})" title="Inativar">
+                <button class="config-btn-icon" onclick="inativarCompraçãor(${c.id})" title="Inativar">
                     <i class="fas fa-ban"></i>
                 </button>
-                <button class="config-btn-icon" onclick="excluirComprador(${c.id})" title="Excluir">
+                <button class="config-btn-icon" onclick="excluirCompraçãor(${c.id})" title="Excluir">
                     <i class="fas fa-trash"></i>
                 </button>
             </td>
@@ -1634,35 +1634,35 @@ function displayCompradores(compradores) {
     `).join('');
 }
 
-function editarComprador(id) {
-    showNotification('Edição de comprador em desenvolvimento', 'info');
+function editarCompraçãor(id) {
+    showNotification('Edição de compraçãor em desenvolvimento', 'info');
 }
 
-function anexosComprador(id) {
-    showNotification('Anexos de comprador em desenvolvimento', 'info');
+function anexosCompraçãor(id) {
+    showNotification('Anexos de compraçãor em desenvolvimento', 'info');
 }
 
-function inativarComprador(id) {
-    showNotification('Inativação de comprador em desenvolvimento', 'info');
+function inativarCompraçãor(id) {
+    showNotification('Inativação de compraçãor em desenvolvimento', 'info');
 }
 
-async function excluirComprador(id) {
-    if (!confirm('Deseja realmente excluir este comprador?')) return;
+async function excluirCompraçãor(id) {
+    if (!confirm('Deseja realmente excluir este compraçãor')) return;
 
     try {
-        const response = await fetch(`/api/configuracoes/compradores/${id}`, {
+        const response = await fetch(`/api/configuracoes/compraçãores/${id}`, {
             method: 'DELETE'
         });
 
         if (response.ok) {
-            showNotification('Comprador excluído com sucesso!', 'success');
-            loadCompradoresData();
+            showNotification('Compraçãor excluído com sucesso!', 'success');
+            loadCompraçãoresData();
         } else {
-            throw new Error('Erro ao excluir comprador');
+            throw new Error('Erro ao excluir compraçãor');
         }
     } catch (error) {
         console.error('Erro:', error);
-        showNotification('Erro ao excluir comprador', 'error');
+        showNotification('Erro ao excluir compraçãor', 'error');
     }
 }
 
@@ -1682,12 +1682,12 @@ window.anexosVendedor = anexosVendedor;
 window.transferirVendedor = transferirVendedor;
 window.emailsVendedor = emailsVendedor;
 window.excluirVendedor = excluirVendedor;
-window.abrirModalIncluirComprador = abrirModalIncluirComprador;
-window.loadCompradoresData = loadCompradoresData;
-window.editarComprador = editarComprador;
-window.anexosComprador = anexosComprador;
-window.inativarComprador = inativarComprador;
-window.excluirComprador = excluirComprador;
+window.abrirModalIncluirCompraçãor = abrirModalIncluirCompraçãor;
+window.loadCompraçãoresData = loadCompraçãoresData;
+window.editarCompraçãor = editarCompraçãor;
+window.anexosCompraçãor = anexosCompraçãor;
+window.inativarCompraçãor = inativarCompraçãor;
+window.excluirCompraçãor = excluirCompraçãor;
 
 /**
  * Formata data para exibição
@@ -1733,7 +1733,7 @@ window.fecharModal = fecharModal;
 // =========================
 
 /**
- * Carrega dados de funcionários - agora usa a versão completa
+ * Carrega daçãos de funcionários - agora usa a versão completa
  */
 async function loadFuncionariosData() {
     await carregarFuncionariosCompleto();
@@ -1746,7 +1746,7 @@ function displayFuncionarios(funcionarios) {
 }
 
 /**
- * Carrega dados de cargos
+ * Carrega daçãos de cargos
  */
 async function loadCargosData() {
     try {
@@ -1766,7 +1766,7 @@ function displayCargos(cargos) {
     if (!tbody) return;
 
     if (!cargos.length) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center">Nenhum cargo cadastrado</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center">Nenhum cargo cadastração</td></tr>';
         return;
     }
 
@@ -1798,7 +1798,7 @@ function editarCargo(nomeCargo) {
  * Excluir um cargo
  */
 async function excluirCargo(nomeCargo) {
-    if (!confirm(`Tem certeza que deseja excluir o cargo "${nomeCargo}"?\n\nNota: Funcionários com este cargo serão mantidos, mas ficarão sem cargo definido.`)) {
+    if (!confirm(`Tem certeza que deseja excluir o cargo "${nomeCargo}"\n\nNota: Funcionários com este cargo serão mantidos, mas ficarão sem cargo definido.`)) {
         return;
     }
     
@@ -1808,7 +1808,7 @@ async function excluirCargo(nomeCargo) {
 }
 
 /**
- * Carrega dados da folha de pagamento
+ * Carrega daçãos da folha de pagamento
  */
 async function loadFolhaPagamentoData() {
     try {
@@ -1829,7 +1829,7 @@ async function loadFolhaPagamentoData() {
 }
 
 /**
- * Carrega dados do ponto eletrônico
+ * Carrega daçãos do ponto eletrônico
  */
 async function loadPontoEletronicoData() {
     try {
@@ -1850,7 +1850,7 @@ async function loadPontoEletronicoData() {
 // =========================
 
 /**
- * Carrega dados do plano de contas
+ * Carrega daçãos do plano de contas
  */
 async function loadPlanoContasData() {
     try {
@@ -1867,11 +1867,11 @@ async function loadPlanoContasData() {
 
 function displayPlanoContas(contas) {
     // Implementar exibição em árvore
-    console.log('Plano de contas carregado:', contas.length, 'contas');
+    console.log('Plano de contas carregação:', contas.length, 'contas');
 }
 
 /**
- * Carrega dados de contas bancárias
+ * Carrega daçãos de contas bancárias
  */
 async function loadContasBancariasData() {
     try {
@@ -1922,7 +1922,7 @@ function displayContasBancarias(contas) {
 }
 
 /**
- * Carrega dados de formas de pagamento
+ * Carrega daçãos de formas de pagamento
  */
 async function loadFormasPagamentoData() {
     try {
@@ -1964,11 +1964,11 @@ function getPaymentIcon(tipo) {
         'boleto': 'fas fa-barcode',
         'transferencia': 'fas fa-university'
     };
-    return icons[tipo?.toLowerCase()] || 'fas fa-money-check';
+    return icons[tipo.toLowerCase()] || 'fas fa-money-check';
 }
 
 /**
- * Carrega dados de impostos
+ * Carrega daçãos de impostos
  */
 async function loadImpostosData() {
     try {
@@ -1989,7 +1989,7 @@ async function loadImpostosData() {
 // =========================
 
 /**
- * Carrega dados de grupos de clientes
+ * Carrega daçãos de grupos de clientes
  */
 async function loadGruposClientesData() {
     try {
@@ -2023,7 +2023,7 @@ function displayGruposClientes(grupos) {
 }
 
 /**
- * Carrega dados de regiões de venda
+ * Carrega daçãos de regiões de venda
  */
 async function loadRegioesVendaData() {
     try {
@@ -2045,7 +2045,7 @@ function displayRegioesVenda(regioes) {
     tbody.innerHTML = regioes.map(r => `
         <tr>
             <td>${r.nome || ''}</td>
-            <td>${r.estados || ''}</td>
+            <td>${r.estaçãos || ''}</td>
             <td>${r.vendedor_responsavel || ''}</td>
             <td>${r.total_clientes || 0}</td>
             <td class="config-actions">
@@ -2057,7 +2057,7 @@ function displayRegioesVenda(regioes) {
 }
 
 /**
- * Carrega dados de tipos de fornecedor
+ * Carrega daçãos de tipos de fornecedor
  */
 async function loadTiposFornecedorData() {
     try {
@@ -2090,7 +2090,7 @@ function displayTiposFornecedor(tipos) {
 }
 
 /**
- * Carrega dados de condições de pagamento
+ * Carrega daçãos de condições de pagamento
  */
 async function loadCondicoesPagamentoData() {
     try {
@@ -2128,7 +2128,7 @@ function displayCondicoesPagamento(condicoes) {
 // =========================
 
 /**
- * Carrega dados de tabelas de preço
+ * Carrega daçãos de tabelas de preço
  */
 async function loadTabelasPrecoData() {
     try {
@@ -2149,7 +2149,7 @@ function displayTabelasPreco(tabelas) {
 
     tbody.innerHTML = tabelas.map(t => `
         <tr>
-            <td><span class="status-badge status-${t.status || 'ativo'}"><i class="fas fa-check-circle"></i> ${t.status === 'ativo' ? 'Ativa' : 'Inativa'}</span></td>
+            <td><span class="status-badge status-${t.status || 'ativo'}"><i class="fas fa-check-circle"></i> ${t.status === 'ativo'  'Ativa' : 'Inativa'}</span></td>
             <td>${t.nome || ''}</td>
             <td>${t.tipo || ''}</td>
             <td>${formatDate(t.validade) || '-'}</td>
@@ -2163,7 +2163,7 @@ function displayTabelasPreco(tabelas) {
 }
 
 /**
- * Carrega dados de unidades de medida
+ * Carrega daçãos de unidades de medida
  */
 async function loadUnidadesMedidaData() {
     try {
@@ -2218,7 +2218,7 @@ function displayNCM(ncms) {
     if (!tbody) return;
 
     if (ncms.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="config-empty">Nenhum código NCM cadastrado</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="config-empty">Nenhum código NCM cadastração</td></tr>`;
         return;
     }
 
@@ -2226,7 +2226,7 @@ function displayNCM(ncms) {
         <tr>
             <td><strong>${n.codigo || ''}</strong></td>
             <td>${n.descricao || ''}</td>
-            <td>${n.aliquota_ipi ? n.aliquota_ipi + '%' : '-'}</td>
+            <td>${n.aliquota_ipi  n.aliquota_ipi + '%' : '-'}</td>
             <td class="config-actions">
                 <button class="config-btn-icon" onclick="editarNCM(${n.id})" title="Editar"><i class="fas fa-edit"></i></button>
                 <button class="config-btn-icon danger" onclick="excluirNCM(${n.id})" title="Excluir"><i class="fas fa-trash"></i></button>
@@ -2258,7 +2258,7 @@ function displayTiposServico(tipos) {
     if (!tbody) return;
 
     if (tipos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="config-empty">Nenhum tipo de serviço cadastrado</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="config-empty">Nenhum tipo de serviço cadastração</td></tr>`;
         return;
     }
 
@@ -2298,7 +2298,7 @@ function displayContratos(contratos) {
     if (!tbody) return;
 
     if (contratos.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="config-empty">Nenhum modelo de contrato cadastrado</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="4" class="config-empty">Nenhum modelo de contrato cadastração</td></tr>`;
         return;
     }
 
@@ -2306,7 +2306,7 @@ function displayContratos(contratos) {
         <tr>
             <td><strong>${c.nome || ''}</strong></td>
             <td>${c.tipo || ''}</td>
-            <td><span class="status-badge ${c.ativo ? 'status-ativo' : 'status-inativo'}">${c.ativo ? 'Ativo' : 'Inativo'}</span></td>
+            <td><span class="status-badge ${c.ativo  'status-ativo' : 'status-inativo'}">${c.ativo  'Ativo' : 'Inativo'}</span></td>
             <td class="config-actions">
                 <button class="config-btn-icon" onclick="editarContrato(${c.id})" title="Editar"><i class="fas fa-edit"></i></button>
                 <button class="config-btn-icon" onclick="visualizarContrato(${c.id})" title="Visualizar"><i class="fas fa-eye"></i></button>
@@ -2387,9 +2387,9 @@ function populateNFSeForm(config) {
     const regime = document.getElementById('nfse-regime');
     if (regime) regime.value = config.regime_tributario || '';
 
-    // Incentivador cultural
-    const incentivo = document.getElementById('nfse-incentivador');
-    if (incentivo) incentivo.checked = config.incentivador_cultural || false;
+    // Incentivaçãor cultural
+    const incentivo = document.getElementById('nfse-incentivaçãor');
+    if (incentivo) incentivo.checked = config.incentivaçãor_cultural || false;
 
     // Série RPS
     const serieRps = document.getElementById('nfse-serie-rps');
@@ -2466,7 +2466,7 @@ async function carregarFuncionariosCompleto() {
         console.error('Erro:', error);
         const tbody = document.getElementById('funcionarios-list');
         if (tbody) {
-            tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 40px; color: #6c757d;">Nenhum funcionário cadastrado</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 40px; color: #6c757d;">Nenhum funcionário cadastração</td></tr>';
         }
     }
 }
@@ -2476,27 +2476,27 @@ function renderizarFuncionarios(lista = null) {
     const info = document.getElementById('funcionarios-info');
     if (!tbody) return;
     
-    const dados = lista || funcionariosCache;
+    const daçãos = lista || funcionariosCache;
     
-    if (!dados.length) {
-        tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 40px; color: #6c757d;">Nenhum funcionário cadastrado</td></tr>';
-        if (info) info.textContent = '0 funcionários encontrados';
+    if (!daçãos.length) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 40px; color: #6c757d;">Nenhum funcionário cadastração</td></tr>';
+        if (info) info.textContent = '0 funcionários encontraçãos';
         return;
     }
     
     const inicio = (funcionariosPagina - 1) * funcionariosPorPagina;
-    const fim = Math.min(inicio + funcionariosPorPagina, dados.length);
-    const paginados = dados.slice(inicio, fim);
+    const fim = Math.min(inicio + funcionariosPorPagina, daçãos.length);
+    const paginaçãos = daçãos.slice(inicio, fim);
     
-    tbody.innerHTML = paginados.map(f => {
+    tbody.innerHTML = paginaçãos.map(f => {
         // Normalizar status para lowercase para comparação
         const statusLower = (f.status || 'ativo').toLowerCase();
-        const statusClass = statusLower === 'ativo' ? 'status-ativo' : 
-                           statusLower === 'inativo' ? 'status-inativo' : 
-                           statusLower === 'ferias' || statusLower === 'férias' ? 'status-ferias' : 'status-afastado';
-        const statusIcon = statusLower === 'ativo' ? 'check-circle' : 
-                          statusLower === 'inativo' ? 'times-circle' : 
-                          statusLower === 'ferias' || statusLower === 'férias' ? 'umbrella-beach' : 'user-clock';
+        const statusClass = statusLower === 'ativo'  'status-ativo' : 
+                           statusLower === 'inativo'  'status-inativo' : 
+                           statusLower === 'ferias' || statusLower === 'férias'  'status-ferias' : 'status-afastação';
+        const statusIcon = statusLower === 'ativo'  'check-circle' : 
+                          statusLower === 'inativo'  'times-circle' : 
+                          statusLower === 'ferias' || statusLower === 'férias'  'umbrella-beach' : 'user-clock';
         const statusLabel = f.status || 'Ativo';
         
         return `
@@ -2515,10 +2515,10 @@ function renderizarFuncionarios(lista = null) {
     }).join('');
     
     if (info) {
-        info.textContent = `Mostrando ${inicio + 1}-${fim} de ${dados.length} funcionários`;
+        info.textContent = `Mostrando ${inicio + 1}-${fim} de ${daçãos.length} funcionários`;
     }
     
-    renderizarPaginacaoFuncionarios(dados.length);
+    renderizarPaginacaoFuncionarios(daçãos.length);
 }
 
 function renderizarPaginacaoFuncionarios(total) {
@@ -2532,19 +2532,19 @@ function renderizarPaginacaoFuncionarios(total) {
     }
     
     let html = '';
-    html += `<button class="config-btn-icon" onclick="funcionariosPagina = 1; renderizarFuncionarios()" ${funcionariosPagina === 1 ? 'disabled' : ''}><i class="fas fa-angle-double-left"></i></button>`;
-    html += `<button class="config-btn-icon" onclick="funcionariosPagina--; renderizarFuncionarios()" ${funcionariosPagina === 1 ? 'disabled' : ''}><i class="fas fa-angle-left"></i></button>`;
+    html += `<button class="config-btn-icon" onclick="funcionariosPagina = 1; renderizarFuncionarios()" ${funcionariosPagina === 1  'disabled' : ''}><i class="fas fa-angle-double-left"></i></button>`;
+    html += `<button class="config-btn-icon" onclick="funcionariosPagina--; renderizarFuncionarios()" ${funcionariosPagina === 1  'disabled' : ''}><i class="fas fa-angle-left"></i></button>`;
     
     for (let i = 1; i <= totalPaginas; i++) {
         if (i === 1 || i === totalPaginas || (i >= funcionariosPagina - 1 && i <= funcionariosPagina + 1)) {
-            html += `<button class="config-btn-icon ${i === funcionariosPagina ? 'active' : ''}" onclick="funcionariosPagina = ${i}; renderizarFuncionarios()">${i}</button>`;
+            html += `<button class="config-btn-icon ${i === funcionariosPagina  'active' : ''}" onclick="funcionariosPagina = ${i}; renderizarFuncionarios()">${i}</button>`;
         } else if (i === funcionariosPagina - 2 || i === funcionariosPagina + 2) {
             html += `<span style="padding: 0 5px;">...</span>`;
         }
     }
     
-    html += `<button class="config-btn-icon" onclick="funcionariosPagina++; renderizarFuncionarios()" ${funcionariosPagina === totalPaginas ? 'disabled' : ''}><i class="fas fa-angle-right"></i></button>`;
-    html += `<button class="config-btn-icon" onclick="funcionariosPagina = ${totalPaginas}; renderizarFuncionarios()" ${funcionariosPagina === totalPaginas ? 'disabled' : ''}><i class="fas fa-angle-double-right"></i></button>`;
+    html += `<button class="config-btn-icon" onclick="funcionariosPagina++; renderizarFuncionarios()" ${funcionariosPagina === totalPaginas  'disabled' : ''}><i class="fas fa-angle-right"></i></button>`;
+    html += `<button class="config-btn-icon" onclick="funcionariosPagina = ${totalPaginas}; renderizarFuncionarios()" ${funcionariosPagina === totalPaginas  'disabled' : ''}><i class="fas fa-angle-double-right"></i></button>`;
     
     container.innerHTML = html;
 }
@@ -2555,7 +2555,7 @@ function buscarFuncionarios(termo) {
         return;
     }
     
-    const filtrados = funcionariosCache.filter(f => 
+    const filtraçãos = funcionariosCache.filter(f => 
         (f.nome || f.nome_completo || '').toLowerCase().includes(termo.toLowerCase()) ||
         (f.cargo || '').toLowerCase().includes(termo.toLowerCase()) ||
         (f.departamento || '').toLowerCase().includes(termo.toLowerCase()) ||
@@ -2564,7 +2564,7 @@ function buscarFuncionarios(termo) {
     );
     
     funcionariosPagina = 1;
-    renderizarFuncionarios(filtrados);
+    renderizarFuncionarios(filtraçãos);
 }
 
 function filtrarFuncionariosPorStatus(status) {
@@ -2574,9 +2574,9 @@ function filtrarFuncionariosPorStatus(status) {
     }
     
     // Comparação case-insensitive
-    const filtrados = funcionariosCache.filter(f => (f.status || '').toLowerCase() === status.toLowerCase());
+    const filtraçãos = funcionariosCache.filter(f => (f.status || '').toLowerCase() === status.toLowerCase());
     funcionariosPagina = 1;
-    renderizarFuncionarios(filtrados);
+    renderizarFuncionarios(filtraçãos);
 }
 
 function abrirModalNovoFuncionario() {
@@ -2597,17 +2597,17 @@ async function editarFuncionario(id) {
         document.getElementById('func-nome').value = funcionario.nome_completo || funcionario.nome || '';
         document.getElementById('func-cpf').value = funcionario.cpf || '';
         document.getElementById('func-rg').value = funcionario.rg || '';
-        document.getElementById('func-nascimento').value = funcionario.data_nascimento ? funcionario.data_nascimento.split('T')[0] : '';
+        document.getElementById('func-nascimento').value = funcionario.data_nascimento  funcionario.data_nascimento.split('T')[0] : '';
         document.getElementById('func-email').value = funcionario.email || '';
         document.getElementById('func-telefone').value = funcionario.telefone || '';
         document.getElementById('func-cargo').value = funcionario.cargo || '';
         document.getElementById('func-departamento').value = funcionario.departamento || '';
-        document.getElementById('func-admissao').value = funcionario.data_admissao ? funcionario.data_admissao.split('T')[0] : '';
+        document.getElementById('func-admissao').value = funcionario.data_admissao  funcionario.data_admissao.split('T')[0] : '';
         document.getElementById('func-salario').value = funcionario.salario || '';
         document.getElementById('func-status').value = funcionario.status || 'ativo';
         document.getElementById('func-pis').value = funcionario.pis_pasep || funcionario.pis || '';
         
-        // Tentar separar o endereço se vier concatenado
+        // Tentar separar o endereço se vier concatenação
         const endereco = funcionario.endereco || '';
         const partesEndereco = endereco.split(',').map(p => p.trim());
         document.getElementById('func-endereco').value = partesEndereco[0] || '';
@@ -2619,7 +2619,7 @@ async function editarFuncionario(id) {
         abrirModal('modal-form-funcionario');
     } catch (error) {
         console.error('Erro ao carregar funcionário:', error);
-        alert('Erro ao carregar dados do funcionário');
+        alert('Erro ao carregar daçãos do funcionário');
     }
 }
 
@@ -2628,30 +2628,30 @@ async function salvarFuncionario(event) {
     
     const form = document.getElementById('form-funcionario');
     const formData = new FormData(form);
-    const dados = Object.fromEntries(formData.entries());
+    const daçãos = Object.fromEntries(formData.entries());
     
-    // Mapear campos do formulário para os nomes esperados pela API
-    const dadosAPI = {
-        nome_completo: dados.nome || '',
-        email: dados.email || '',
-        cpf: dados.cpf || '',
-        rg: dados.rg || '',
-        telefone: dados.telefone || '',
-        cargo: dados.cargo || '',
-        departamento: dados.departamento || '',
-        status: dados.status || 'ativo',
-        data_nascimento: dados.data_nascimento || null,
-        data_admissao: dados.data_admissao || null,
-        pis_pasep: dados.pis || '',
-        salario: dados.salario ? dados.salario.replace(/[^\d.,]/g, '').replace(',', '.') : null,
+    // Mapear campos do formulário para os nomes esperaçãos pela API
+    const daçãosAPI = {
+        nome_completo: daçãos.nome || '',
+        email: daçãos.email || '',
+        cpf: daçãos.cpf || '',
+        rg: daçãos.rg || '',
+        telefone: daçãos.telefone || '',
+        cargo: daçãos.cargo || '',
+        departamento: daçãos.departamento || '',
+        status: daçãos.status || 'ativo',
+        data_nascimento: daçãos.data_nascimento || null,
+        data_admissao: daçãos.data_admissao || null,
+        pis_pasep: daçãos.pis || '',
+        salario: daçãos.salario  daçãos.salario.replace(/[^\d.,]/g, '').replace(',', '.') : null,
         // Montar endereço completo
-        endereco: [dados.endereco, dados.numero, dados.bairro, dados.cidade, dados.cep].filter(Boolean).join(', ') || ''
+        endereco: [daçãos.endereco, daçãos.numero, daçãos.bairro, daçãos.cidade, daçãos.cep].filter(Boolean).join(', ') || ''
     };
     
     try {
-        const id = dados.id;
-        const url = id ? `/api/rh/funcionarios/${id}` : '/api/rh/funcionarios';
-        const method = id ? 'PUT' : 'POST';
+        const id = daçãos.id;
+        const url = id  `/api/rh/funcionarios/${id}` : '/api/rh/funcionarios';
+        const method = id  'PUT' : 'POST';
         
         const response = await fetch(url, {
             method,
@@ -2659,20 +2659,20 @@ async function salvarFuncionario(event) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
             },
-            body: JSON.stringify(dadosAPI)
+            body: JSON.stringify(daçãosAPI)
         });
         
         if (response.ok) {
             fecharModal('modal-form-funcionario');
             await carregarFuncionariosCompleto();
-            showToast(id ? 'Funcionário atualizado com sucesso!' : 'Funcionário cadastrado com sucesso!', 'success');
+            showToast(id  'Funcionário atualização com sucesso!' : 'Funcionário cadastração com sucesso!', 'success');
             
             // Registrar no audit log
-            registrarAuditFrontend(id ? 'editar' : 'criar', 'rh', `${id ? 'Editou' : 'Criou'} funcionário: ${dados.nome}`);
+            registrarAuditFrontend(id  'editar' : 'criar', 'rh', `${id  'Editou' : 'Criou'} funcionário: ${daçãos.nome}`);
             
             // Registrar na central de notificações
             if (window.registrarAcao) {
-                window.registrarAcao(id ? 'editar' : 'criar', 'rh', `Funcionário: ${dados.nome}`);
+                window.registrarAcao(id  'editar' : 'criar', 'rh', `Funcionário: ${daçãos.nome}`);
             }
         } else {
             const error = await response.json();
@@ -2688,7 +2688,7 @@ async function excluirFuncionario(id) {
     const funcionario = funcionariosCache.find(f => f.id === id);
     if (!funcionario) return;
     
-    if (!confirm(`Deseja realmente excluir o funcionário "${funcionario.nome}"?`)) return;
+    if (!confirm(`Deseja realmente excluir o funcionário "${funcionario.nome}"`)) return;
     
     try {
         const response = await fetch(`/api/rh/funcionarios/${id}`, {
@@ -2751,7 +2751,7 @@ async function processarArquivoImportacao(input) {
             const result = await response.json();
             fecharModal('modal-importar-funcionarios');
             await carregarFuncionariosCompleto();
-            showToast(`${result.importados || 0} funcionários importados com sucesso!`, 'success');
+            showToast(`${result.importaçãos || 0} funcionários importaçãos com sucesso!`, 'success');
         } else {
             throw new Error('Erro na importação');
         }
@@ -2795,7 +2795,7 @@ function exportarFuncionarios() {
 
 function baixarModeloImportacao() {
     const headers = ['Nome', 'CPF', 'Cargo', 'Departamento', 'Data Admissão (DD/MM/AAAA)', 'Email', 'Telefone'];
-    const exemplo = ['João da Silva', '123.456.789-00', 'Operador', 'Produção', '01/01/2024', 'joao@email.com', '(11) 99999-0000'];
+    const exemplo = ['João da Silva', '123.456.789-00', 'Operaçãor', 'Produção', '01/01/2024', 'joao@email.com', '(11) 99999-0000'];
     
     let csv = headers.join(';') + '\n';
     csv += exemplo.join(';') + '\n';
@@ -2826,7 +2826,7 @@ async function carregarHistoricoAlteracoes() {
         await carregarUsuariosParaFiltro();
         
         // Carregar logs
-        const response = await fetch('/api/audit-log?limite=500');
+        const response = await fetch('/api/audit-loglimite=500');
         if (response.ok) {
             const result = await response.json();
             historicoCache = result.logs || [];
@@ -2855,9 +2855,9 @@ async function carregarUsuariosParaFiltro() {
             
             const select = document.getElementById('filtro-usuario');
             if (select) {
-                select.innerHTML = '<option value="">Todos os Colaboradores</option>';
+                select.innerHTML = '<option value="">Todos os Colaboraçãores</option>';
                 usuarios.forEach(u => {
-                    select.innerHTML += `<option value="${u.nome}">${u.nome}${u.status === 'inativo' ? ' (Inativo)' : ''}</option>`;
+                    select.innerHTML += `<option value="${u.nome}">${u.nome}${u.status === 'inativo'  ' (Inativo)' : ''}</option>`;
                 });
             }
         }
@@ -2870,19 +2870,19 @@ function renderizarHistorico(lista = null) {
     const container = document.getElementById('historico-container');
     if (!container) return;
     
-    const dados = lista || historicoCache;
+    const daçãos = lista || historicoCache;
     
-    if (!dados.length) {
-        container.innerHTML = '<div style="text-align: center; padding: 40px; color: #6c757d;">Nenhum registro encontrado</div>';
+    if (!daçãos.length) {
+        container.innerHTML = '<div style="text-align: center; padding: 40px; color: #6c757d;">Nenhum registro encontração</div>';
         atualizarPaginacaoHistorico(0);
         return;
     }
     
     const inicio = (historicoPagina - 1) * historicoPorPagina;
-    const fim = Math.min(inicio + historicoPorPagina, dados.length);
-    const paginados = dados.slice(inicio, fim);
+    const fim = Math.min(inicio + historicoPorPagina, daçãos.length);
+    const paginaçãos = daçãos.slice(inicio, fim);
     
-    container.innerHTML = paginados.map(log => {
+    container.innerHTML = paginaçãos.map(log => {
         const iniciais = (log.usuario || 'SI').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
         const badgeClass = getBadgeClass(log.acao);
         const badgeIcon = getBadgeIcon(log.acao);
@@ -2900,13 +2900,13 @@ function renderizarHistorico(lista = null) {
                 <p class="historico-descricao">${log.descricao || 'Ação registrada no sistema'}</p>
                 <div class="historico-detalhes">
                     <span class="historico-time"><i class="fas fa-clock"></i> ${dataFormatada}</span>
-                    ${log.ip ? `<span class="historico-ip"><i class="fas fa-globe"></i> ${log.ip}</span>` : ''}
+                    ${log.ip  `<span class="historico-ip"><i class="fas fa-globe"></i> ${log.ip}</span>` : ''}
                 </div>
             </div>
         </div>`;
     }).join('');
     
-    atualizarPaginacaoHistorico(dados.length);
+    atualizarPaginacaoHistorico(daçãos.length);
 }
 
 function atualizarPaginacaoHistorico(total) {
@@ -2927,53 +2927,53 @@ function atualizarPaginacaoHistorico(total) {
         }
         
         let html = '';
-        html += `<button class="config-btn-icon" onclick="historicoPagina = 1; renderizarHistorico()" ${historicoPagina === 1 ? 'disabled' : ''}><i class="fas fa-angle-double-left"></i></button>`;
-        html += `<button class="config-btn-icon" onclick="historicoPagina--; renderizarHistorico()" ${historicoPagina === 1 ? 'disabled' : ''}><i class="fas fa-angle-left"></i></button>`;
+        html += `<button class="config-btn-icon" onclick="historicoPagina = 1; renderizarHistorico()" ${historicoPagina === 1  'disabled' : ''}><i class="fas fa-angle-double-left"></i></button>`;
+        html += `<button class="config-btn-icon" onclick="historicoPagina--; renderizarHistorico()" ${historicoPagina === 1  'disabled' : ''}><i class="fas fa-angle-left"></i></button>`;
         
         for (let i = 1; i <= Math.min(5, totalPaginas); i++) {
-            const pagina = i <= 3 ? i : (i === 4 ? totalPaginas - 1 : totalPaginas);
+            const pagina = i <= 3  i : (i === 4  totalPaginas - 1 : totalPaginas);
             if (i === 4 && totalPaginas > 5) {
                 html += `<button class="config-btn-icon" disabled>...</button>`;
             }
-            html += `<button class="config-btn-icon ${pagina === historicoPagina ? 'active' : ''}" style="${pagina === historicoPagina ? 'background: #3498db; color: white;' : ''}" onclick="historicoPagina = ${pagina}; renderizarHistorico()">${pagina}</button>`;
+            html += `<button class="config-btn-icon ${pagina === historicoPagina  'active' : ''}" style="${pagina === historicoPagina  'background: #3498db; color: white;' : ''}" onclick="historicoPagina = ${pagina}; renderizarHistorico()">${pagina}</button>`;
         }
         
-        html += `<button class="config-btn-icon" onclick="historicoPagina++; renderizarHistorico()" ${historicoPagina === totalPaginas ? 'disabled' : ''}><i class="fas fa-angle-right"></i></button>`;
-        html += `<button class="config-btn-icon" onclick="historicoPagina = ${totalPaginas}; renderizarHistorico()" ${historicoPagina === totalPaginas ? 'disabled' : ''}><i class="fas fa-angle-double-right"></i></button>`;
+        html += `<button class="config-btn-icon" onclick="historicoPagina++; renderizarHistorico()" ${historicoPagina === totalPaginas  'disabled' : ''}><i class="fas fa-angle-right"></i></button>`;
+        html += `<button class="config-btn-icon" onclick="historicoPagina = ${totalPaginas}; renderizarHistorico()" ${historicoPagina === totalPaginas  'disabled' : ''}><i class="fas fa-angle-double-right"></i></button>`;
         
         paginacaoDiv.innerHTML = html;
     }
 }
 
 function filtrarHistorico() {
-    const modulo = document.getElementById('filtro-modulo')?.value || '';
-    const usuario = document.getElementById('filtro-usuario')?.value || '';
-    const acao = document.getElementById('filtro-acao')?.value || '';
-    const dataInicio = document.getElementById('filtro-data-inicio')?.value || '';
-    const dataFim = document.getElementById('filtro-data-fim')?.value || '';
+    const modulo = document.getElementById('filtro-modulo').value || '';
+    const usuario = document.getElementById('filtro-usuario').value || '';
+    const acao = document.getElementById('filtro-acao').value || '';
+    const dataInicio = document.getElementById('filtro-data-inicio').value || '';
+    const dataFim = document.getElementById('filtro-data-fim').value || '';
     
-    let filtrados = [...historicoCache];
+    let filtraçãos = [...historicoCache];
     
     if (modulo) {
-        filtrados = filtrados.filter(l => (l.modulo || '').toLowerCase() === modulo.toLowerCase());
+        filtraçãos = filtraçãos.filter(l => (l.modulo || '').toLowerCase() === modulo.toLowerCase());
     }
     if (usuario) {
-        filtrados = filtrados.filter(l => (l.usuario || '').toLowerCase().includes(usuario.toLowerCase()));
+        filtraçãos = filtraçãos.filter(l => (l.usuario || '').toLowerCase().includes(usuario.toLowerCase()));
     }
     if (acao) {
-        filtrados = filtrados.filter(l => (l.acao || '').toLowerCase() === acao.toLowerCase());
+        filtraçãos = filtraçãos.filter(l => (l.acao || '').toLowerCase() === acao.toLowerCase());
     }
     if (dataInicio) {
-        filtrados = filtrados.filter(l => new Date(l.data) >= new Date(dataInicio));
+        filtraçãos = filtraçãos.filter(l => new Date(l.data) >= new Date(dataInicio));
     }
     if (dataFim) {
         const fim = new Date(dataFim);
         fim.setHours(23, 59, 59);
-        filtrados = filtrados.filter(l => new Date(l.data) <= fim);
+        filtraçãos = filtraçãos.filter(l => new Date(l.data) <= fim);
     }
     
     historicoPagina = 1;
-    renderizarHistorico(filtrados);
+    renderizarHistorico(filtraçãos);
 }
 
 function exportarHistorico() {
@@ -3075,12 +3075,12 @@ function registrarAuditFrontend(acao, modulo, descricao) {
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i> ${message}`;
+    toast.innerHTML = `<i class="fas fa-${type === 'success'  'check-circle' : type === 'error'  'times-circle' : 'info-circle'}"></i> ${message}`;
     toast.style.cssText = `
         position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; 
-        background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'}; 
+        background: ${type === 'success'  '#27ae60' : type === 'error'  '#e74c3c' : '#3498db'}; 
         color: white; border-radius: 8px; z-index: 99999; animation: slideIn 0.3s ease;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
     `;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);

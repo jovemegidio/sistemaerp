@@ -1,9 +1,9 @@
 /**
- * Sistema de Controle de Acesso Baseado em Email
+ * Sistema de Controle de Acesso Baseação em Email
  * Define permissões específicas para cada usuário do sistema
  */
 
-// Função para aplicar permissões aos módulos baseado em emails
+// Função para aplicar permissões aos módulos baseação em emails
 function applyModulePermissions(user) {
     if (!user) {
         console.log('⚠️ Nenhum usuário fornecido para applyModulePermissions');
@@ -13,7 +13,7 @@ function applyModulePermissions(user) {
     console.log('🔐 ==========================================');
     console.log('🔐 SISTEMA DE PERMISSÕES POR EMAIL - INICIADO');
     console.log('🔐 ==========================================');
-    console.log('🔐 DEBUG - Dados do usuário:', user);
+    console.log('🔐 DEBUG - Daçãos do usuário:', user);
     
     const userEmail = (user.email || '').toLowerCase().trim();
     console.log('📧 Email do usuário:', userEmail);
@@ -98,7 +98,7 @@ function applyModulePermissions(user) {
             const hasAccess = requiredPermissions.some(perm => allowedAreas.includes(perm));
             
             const moduleName = selector.replace('.', '').replace('-card', '');
-            console.log(`🔍 Módulo ${moduleName}: ${hasAccess ? '✅ PERMITIDO' : '❌ BLOQUEADO'}`);
+            console.log(`🔍 Módulo ${moduleName}: ${hasAccess  '✅ PERMITIDO' : '❌ BLOQUEADO'}`);
             
             if (hasAccess) {
                 moduleCard.classList.add('allowed');
@@ -125,10 +125,10 @@ function applyModulePermissions(user) {
                 if (selector === '.financeiro-card' || selector === '.financeiro-card-premium') {
                     if (allowedAreas.includes('financeiro-receber')) {
                         // Adicionar parâmetro de página inicial
-                        moduleCard.href = '/modules/Financeiro/index.html?view=receber';
+                        moduleCard.href = '/modules/Financeiro/index.htmlview=receber';
                         console.log('🔗 Financeiro: Redirecionamento para Contas a Receber');
                     } else if (allowedAreas.includes('financeiro-pagar')) {
-                        moduleCard.href = '/modules/Financeiro/index.html?view=pagar';
+                        moduleCard.href = '/modules/Financeiro/index.htmlview=pagar';
                         console.log('🔗 Financeiro: Redirecionamento para Contas a Pagar');
                     }
                 }
@@ -167,7 +167,7 @@ function applyAdminPermissions(userEmail, allowedAreas) {
     ];
     
     const isAdmin = adminEmails.includes(userEmail);
-    console.log(`🔧 Controle de Admin: ${isAdmin ? 'PERMITIDO' : 'BLOQUEADO'} para ${userEmail}`);
+    console.log(`🔧 Controle de Admin: ${isAdmin  'PERMITIDO' : 'BLOQUEADO'} para ${userEmail}`);
     
     // Controlar botão de configurações
     const settingsBtn = document.getElementById('settings-btn');
@@ -179,7 +179,7 @@ function applyAdminPermissions(userEmail, allowedAreas) {
         } else {
             settingsBtn.style.display = 'none';
             settingsBtn.setAttribute('aria-hidden', 'true');
-            console.log('❌ Botão de configurações ocultado');
+            console.log('❌ Botão de configurações ocultação');
         }
     }
     

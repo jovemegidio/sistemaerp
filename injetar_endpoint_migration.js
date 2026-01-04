@@ -8,7 +8,7 @@ const endpointMigration = `
 // ============================================================
 app.post('/api/admin/migration-financeiro', authenticateToken, async (req, res) => {
     if (req.user.role !== 'admin') {
-        return res.status(403).json({ error: 'Apenas administradores' });
+        return res.status(403).json({ error: 'Apenas administraçãores' });
     }
 
     try {
@@ -82,7 +82,7 @@ serverCode = serverCode.slice(0, listenPos) + endpointMigration + '\n' + serverC
 // Salvar
 fs.writeFileSync('server.js', serverCode, 'utf8');
 
-console.log('✅ Endpoint de migration adicionado ao server.js');
+console.log('✅ Endpoint de migration adicionação ao server.js');
 console.log('📝 Para usar:');
 console.log('   1. Reinicie o servidor');
 console.log('   2. Execute: node chamar_migration.js');

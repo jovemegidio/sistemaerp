@@ -1,5 +1,5 @@
 /**
- * Script para Gerar Estrutura Consolidada do Banco de Dados
+ * Script para Gerar Estrutura Consolidada do Banco de Daçãos
  * Identifica tabelas essenciais, duplicadas e gera SQL completo
  */
 
@@ -23,11 +23,11 @@ const TABELAS_ESSENCIAIS = {
     },
     'Vendas': {
         essenciais: ['clientes', 'pedidos', 'pedido_itens'],
-        opcionais: ['cliente_interacoes', 'cliente_tags', 'cliente_tags_relacao', 'pedidos_faturados', 'pedidos_faturados_linhas']
+        opcionais: ['cliente_interacoes', 'cliente_tags', 'cliente_tags_relacao', 'pedidos_faturaçãos', 'pedidos_faturaçãos_linhas']
     },
     'Produtos': {
         essenciais: ['produtos'],
-        opcionais: ['categorias_produtos', 'produtos_detalhados', 'product_variations']
+        opcionais: ['categorias_produtos', 'produtos_detalhaçãos', 'product_variations']
     },
     'Estoque': {
         essenciais: ['estoque_saldos'],
@@ -86,13 +86,13 @@ async function consolidarBanco() {
         console.log(`${colors.cyan}╚════════════════════════════════════════════════════════════╝${colors.reset}\n`);
 
         connection = await mysql.createConnection(dbConfig);
-        console.log(`${colors.green}✅ Conectado ao banco${colors.reset}\n`);
+        console.log(`${colors.green}✅ Conectação ao banco${colors.reset}\n`);
 
         // 1. Obter todas as tabelas
         const [tabelas] = await connection.execute(`
             SELECT TABLE_NAME
             FROM information_schema.tables 
-            WHERE table_schema = ?
+            WHERE table_schema = 
             ORDER BY TABLE_NAME
         `, [dbConfig.database]);
 
@@ -137,7 +137,7 @@ async function consolidarBanco() {
             }
         }
 
-        // 3. Mostrar resultado
+        // 3. Mostrar resultação
         console.log(`${colors.green}═══ TABELAS ESSENCIAIS (${tabelasEssenciais.length}) ═══${colors.reset}`);
         tabelasEssenciais.forEach(t => console.log(`   ✅ ${t.tabela} [${t.modulo}]`));
 
@@ -153,28 +153,28 @@ async function consolidarBanco() {
         // 4. Gerar SQL com estrutura das tabelas essenciais
         console.log(`\n${colors.cyan}Gerando SQL das tabelas essenciais...${colors.reset}`);
         
-        let sqlConsolidado = '';
-        sqlConsolidado += `-- ========================================\n`;
-        sqlConsolidado += `-- ESTRUTURA CONSOLIDADA ALUFORCE VENDAS\n`;
-        sqlConsolidado += `-- Gerado em: ${new Date().toLocaleString('pt-BR')}\n`;
-        sqlConsolidado += `-- ========================================\n\n`;
-        sqlConsolidado += `SET NAMES utf8mb4;\n`;
-        sqlConsolidado += `SET time_zone = '+00:00';\n`;
-        sqlConsolidado += `SET foreign_key_checks = 0;\n\n`;
+        let sqlConsolidação = '';
+        sqlConsolidação += `-- ========================================\n`;
+        sqlConsolidação += `-- ESTRUTURA CONSOLIDADA ALUFORCE VENDAS\n`;
+        sqlConsolidação += `-- Geração em: ${new Date().toLocaleString('pt-BR')}\n`;
+        sqlConsolidação += `-- ========================================\n\n`;
+        sqlConsolidação += `SET NAMES utf8mb4;\n`;
+        sqlConsolidação += `SET time_zone = '+00:00';\n`;
+        sqlConsolidação += `SET foreign_key_checks = 0;\n\n`;
 
         // Criar banco se não existir
-        sqlConsolidado += `CREATE DATABASE IF NOT EXISTS aluforce_vendas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\n`;
-        sqlConsolidado += `USE aluforce_vendas;\n\n`;
+        sqlConsolidação += `CREATE DATABASE IF NOT EXISTS aluforce_vendas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;\n`;
+        sqlConsolidação += `USE aluforce_vendas;\n\n`;
 
         // Tabelas essenciais primeiro
         for (const { tabela, modulo } of tabelasEssenciais) {
             try {
                 const [createStmt] = await connection.execute(`SHOW CREATE TABLE \`${tabela}\``);
-                sqlConsolidado += `-- ========================================\n`;
-                sqlConsolidado += `-- TABELA ESSENCIAL: ${tabela} [${modulo}]\n`;
-                sqlConsolidado += `-- ========================================\n`;
-                sqlConsolidado += `DROP TABLE IF EXISTS \`${tabela}\`;\n`;
-                sqlConsolidado += createStmt[0]['Create Table'] + ';\n\n';
+                sqlConsolidação += `-- ========================================\n`;
+                sqlConsolidação += `-- TABELA ESSENCIAL: ${tabela} [${modulo}]\n`;
+                sqlConsolidação += `-- ========================================\n`;
+                sqlConsolidação += `DROP TABLE IF EXISTS \`${tabela}\`;\n`;
+                sqlConsolidação += createStmt[0]['Create Table'] + ';\n\n';
             } catch (err) {
                 console.log(`${colors.yellow}⚠️  Não foi possível obter estrutura de: ${tabela}${colors.reset}`);
             }
@@ -184,25 +184,25 @@ async function consolidarBanco() {
         for (const { tabela, modulo } of tabelasOpcionais) {
             try {
                 const [createStmt] = await connection.execute(`SHOW CREATE TABLE \`${tabela}\``);
-                sqlConsolidado += `-- ========================================\n`;
-                sqlConsolidado += `-- TABELA OPCIONAL: ${tabela} [${modulo}]\n`;
-                sqlConsolidado += `-- ========================================\n`;
-                sqlConsolidado += `DROP TABLE IF EXISTS \`${tabela}\`;\n`;
-                sqlConsolidado += createStmt[0]['Create Table'] + ';\n\n';
+                sqlConsolidação += `-- ========================================\n`;
+                sqlConsolidação += `-- TABELA OPCIONAL: ${tabela} [${modulo}]\n`;
+                sqlConsolidação += `-- ========================================\n`;
+                sqlConsolidação += `DROP TABLE IF EXISTS \`${tabela}\`;\n`;
+                sqlConsolidação += createStmt[0]['Create Table'] + ';\n\n';
             } catch (err) {
                 // Ignorar erros silenciosamente
             }
         }
 
-        sqlConsolidado += `SET foreign_key_checks = 1;\n`;
-        sqlConsolidado += `-- FIM DO SCHEMA\n`;
+        sqlConsolidação += `SET foreign_key_checks = 1;\n`;
+        sqlConsolidação += `-- FIM DO SCHEMA\n`;
 
         // 5. Salvar arquivo SQL
         const sqlFile = path.join(__dirname, 'SCHEMA_CONSOLIDADO.sql');
-        await fs.writeFile(sqlFile, sqlConsolidado, 'utf8');
-        console.log(`\n${colors.green}✅ Schema consolidado salvo em: SCHEMA_CONSOLIDADO.sql${colors.reset}`);
+        await fs.writeFile(sqlFile, sqlConsolidação, 'utf8');
+        console.log(`\n${colors.green}✅ Schema consolidação salvo em: SCHEMA_CONSOLIDADO.sql${colors.reset}`);
 
-        // 6. Gerar SQL de dados iniciais (seed)
+        // 6. Gerar SQL de daçãos iniciais (seed)
         let sqlSeed = '';
         sqlSeed += `-- ========================================\n`;
         sqlSeed += `-- DADOS INICIAIS - ALUFORCE VENDAS\n`;
@@ -213,7 +213,7 @@ async function consolidarBanco() {
         // Usuário admin
         sqlSeed += `-- USUÁRIO ADMINISTRADOR\n`;
         sqlSeed += `INSERT INTO usuarios (nome, email, senha, cargo, ativo, data_criacao) VALUES\n`;
-        sqlSeed += `('Administrador', 'admin@aluforce.com', SHA2('admin123', 256), 'Administrador', 1, NOW())\n`;
+        sqlSeed += `('Administraçãor', 'admin@aluforce.com', SHA2('admin123', 256), 'Administraçãor', 1, NOW())\n`;
         sqlSeed += `ON DUPLICATE KEY UPDATE nome = VALUES(nome);\n\n`;
 
         // Configurações empresa
@@ -227,15 +227,15 @@ async function consolidarBanco() {
         sqlSeed += `INSERT INTO categorias_produtos (nome, descricao, ativo) VALUES\n`;
         sqlSeed += `('Esquadrias', 'Portas, janelas e esquadrias de alumínio', 1),\n`;
         sqlSeed += `('Perfis', 'Perfis de alumínio diversos', 1),\n`;
-        sqlSeed += `('Vidros', 'Vidros temperados e comuns', 1),\n`;
+        sqlSeed += `('Vidros', 'Vidros temperaçãos e comuns', 1),\n`;
         sqlSeed += `('Acessórios', 'Fechaduras, dobradiças e acessórios', 1)\n`;
         sqlSeed += `ON DUPLICATE KEY UPDATE nome = VALUES(nome);\n\n`;
 
         // Produtos exemplo
         sqlSeed += `-- PRODUTOS DE EXEMPLO\n`;
         sqlSeed += `INSERT INTO produtos (codigo, nome, descricao, unidade_medida, preco_venda, status, data_criacao) VALUES\n`;
-        sqlSeed += `('PRD001', 'Perfil de Alumínio 2"', 'Perfil de alumínio anodizado 2 polegadas', 'MT', 45.00, 'ativo', NOW()),\n`;
-        sqlSeed += `('PRD002', 'Vidro Temperado 8mm', 'Vidro temperado incolor 8mm', 'M2', 180.00, 'ativo', NOW()),\n`;
+        sqlSeed += `('PRD001', 'Perfil de Alumínio 2"', 'Perfil de alumínio anodização 2 polegadas', 'MT', 45.00, 'ativo', NOW()),\n`;
+        sqlSeed += `('PRD002', 'Vidro Temperação 8mm', 'Vidro temperação incolor 8mm', 'M2', 180.00, 'ativo', NOW()),\n`;
         sqlSeed += `('PRD003', 'Fechadura de Centro', 'Fechadura de centro para porta de alumínio', 'UN', 85.00, 'ativo', NOW())\n`;
         sqlSeed += `ON DUPLICATE KEY UPDATE codigo = VALUES(codigo);\n\n`;
 
@@ -248,7 +248,7 @@ async function consolidarBanco() {
 
         const seedFile = path.join(__dirname, 'SEED_DADOS_INICIAIS.sql');
         await fs.writeFile(seedFile, sqlSeed, 'utf8');
-        console.log(`${colors.green}✅ Dados iniciais salvos em: SEED_DADOS_INICIAIS.sql${colors.reset}`);
+        console.log(`${colors.green}✅ Daçãos iniciais salvos em: SEED_DADOS_INICIAIS.sql${colors.reset}`);
 
         // 7. Resumo final
         console.log(`\n${colors.cyan}════════════════════════════════════════════════════════════${colors.reset}`);
@@ -261,9 +261,9 @@ async function consolidarBanco() {
         console.log(`${colors.red}⚠️  Duplicadas: ${tabelasDuplicadas.length}${colors.reset}`);
         console.log(`${colors.magenta}❓ Não classificadas: ${tabelasNaoClassificadas.length}${colors.reset}`);
 
-        console.log(`\n${colors.green}Arquivos gerados:${colors.reset}`);
+        console.log(`\n${colors.green}Arquivos geraçãos:${colors.reset}`);
         console.log(`   📄 SCHEMA_CONSOLIDADO.sql - Estrutura das tabelas`);
-        console.log(`   📄 SEED_DADOS_INICIAIS.sql - Dados iniciais`);
+        console.log(`   📄 SEED_DADOS_INICIAIS.sql - Daçãos iniciais`);
 
         return {
             essenciais: tabelasEssenciais,

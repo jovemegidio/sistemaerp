@@ -1,5 +1,5 @@
 /**
- * Importador FINAL - Processa cada statement individualmente
+ * Importaçãor FINAL - Processa cada statement individualmente
  * Continua mesmo com erros em alguns INSERTs
  */
 
@@ -35,13 +35,13 @@ async function importarDumpFinal() {
         await connection.query('SET FOREIGN_KEY_CHECKS=0');
         await connection.query('SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO"');
         await connection.query("SET NAMES 'utf8mb4'");
-        console.log('✅ Conectado');
+        console.log('✅ Conectação');
         
         // Extrair statements usando regex
         console.log('\n📝 Extraindo statements...');
         
         const drops = content.match(/DROP TABLE IF EXISTS `[^`]+`;/g) || [];
-        const creates = content.match(/CREATE TABLE `[^`]+`[\s\S]*?(?=\n\n|-- Dados:|-- Tabela:|$)/g) || [];
+        const creates = content.match(/CREATE TABLE `[^`]+`[\s\S]*(=\n\n|-- Daçãos:|-- Tabela:|$)/g) || [];
         const inserts = content.match(/INSERT INTO `[^`]+`[^;]+;/g) || [];
         
         console.log(`   DROP: ${drops.length}`);
@@ -63,7 +63,7 @@ async function importarDumpFinal() {
         for (const stmt of creates) {
             // Limpar o statement
             let cleanStmt = stmt
-                .replace(/\n-- Dados:.*$/gm, '')
+                .replace(/\n-- Daçãos:.*$/gm, '')
                 .replace(/\n-- Tabela:.*$/gm, '')
                 .trim();
             
@@ -73,7 +73,7 @@ async function importarDumpFinal() {
                 await connection.query(cleanStmt);
                 createSuccess++;
             } catch (err) {
-                const table = stmt.match(/CREATE TABLE `(\w+)`/i)?.[1] || 'unknown';
+                const table = stmt.match(/CREATE TABLE `(\w+)`/i).[1] || 'unknown';
                 createFailed.push(table);
             }
         }
@@ -83,7 +83,7 @@ async function importarDumpFinal() {
         }
         
         // FASE 3: INSERTs
-        console.log('\n3️⃣ Inserindo dados...');
+        console.log('\n3️⃣ Inserindo daçãos...');
         let insertSuccess = 0;
         let insertFailed = {};
         
@@ -92,7 +92,7 @@ async function importarDumpFinal() {
                 await connection.query(stmt);
                 insertSuccess++;
             } catch (err) {
-                const table = stmt.match(/INSERT INTO `(\w+)`/i)?.[1] || 'unknown';
+                const table = stmt.match(/INSERT INTO `(\w+)`/i).[1] || 'unknown';
                 insertFailed[table] = (insertFailed[table] || 0) + 1;
             }
         }
@@ -109,7 +109,7 @@ async function importarDumpFinal() {
         console.log('📊 VERIFICANDO RESULTADO');
         console.log('='.repeat(60));
         
-        // Contar tabelas e dados
+        // Contar tabelas e daçãos
         const [tables] = await connection.query('SHOW TABLES');
         console.log(`\n📋 Tabelas no banco: ${tables.length}`);
         
@@ -141,8 +141,8 @@ async function importarDumpFinal() {
             }
         }
         
-        // Contar todas tabelas com dados
-        let todasComDados = 0;
+        // Contar todas tabelas com daçãos
+        let todasComDaçãos = 0;
         let totalGeral = 0;
         
         for (const row of tables) {
@@ -150,7 +150,7 @@ async function importarDumpFinal() {
             try {
                 const [[{count}]] = await connection.query(`SELECT COUNT(*) as count FROM \`${name}\``);
                 if (count > 0) {
-                    todasComDados++;
+                    todasComDaçãos++;
                     totalGeral += count;
                 }
             } catch (e) {}
@@ -158,7 +158,7 @@ async function importarDumpFinal() {
         
         console.log('\n📈 RESUMO FINAL:');
         console.log(`   - Total de tabelas: ${tables.length}`);
-        console.log(`   - Tabelas com dados: ${todasComDados}`);
+        console.log(`   - Tabelas com daçãos: ${todasComDaçãos}`);
         console.log(`   - Total de registros: ${totalGeral}`);
         
         // Tabelas com mais erros

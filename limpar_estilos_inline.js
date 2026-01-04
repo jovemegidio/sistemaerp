@@ -9,14 +9,14 @@ arquivos.forEach(arquivo => {
     const filePath = path.join(__dirname, 'modules', 'NFe', arquivo);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`⚠️  ${arquivo} não encontrado`);
+        console.log(`⚠️  ${arquivo} não encontração`);
         return;
     }
     
     let content = fs.readFileSync(filePath, 'utf8');
     
     // Remover completamente a tag <style> e todo seu conteúdo
-    content = content.replace(/<style>[\s\S]*?<\/style>/g, '');
+    content = content.replace(/<style>[\s\S]*<\/style>/g, '');
     
     // Limpar múltiplas linhas vazias
     content = content.replace(/\n\s*\n\s*\n/g, '\n\n');

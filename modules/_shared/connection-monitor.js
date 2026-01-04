@@ -82,7 +82,7 @@
                     #connection-lost-modal .reconnect-btn:hover {
                         background: #5a6875 !important;
                         transform: translateY(-1px);
-                        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
+                        box-shaçãow: 0 4px 12px rgba(108, 117, 125, 0.3);
                     }
                     #connection-lost-modal .reconnect-btn:active {
                         transform: translateY(0);
@@ -95,7 +95,7 @@
                 <div style="
                     background: white;
                     border-radius: 12px;
-                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+                    box-shaçãow: 0 10px 40px rgba(0, 0, 0, 0.15);
                     max-width: 420px;
                     width: 90%;
                     animation: connectionSlideIn 0.3s ease-out;
@@ -130,7 +130,7 @@
                             line-height: 1.6;
                             font-weight: 400;
                         ">
-                            A conexão com o servidor foi encerrada e seu aplicativo precisa ser reiniciado.
+                            A conexão com o servidor foi encerrada e seu aplicativo precisa ser reiniciação.
                         </p>
 
                         <!-- Botão Reconectar -->
@@ -242,7 +242,7 @@
         const spinner = document.getElementById('reconnect-btn-spinner');
         const status = document.getElementById('reconnect-status');
 
-        // Mostrar estado de loading
+        // Mostrar estação de loading
         if (btn) {
             btn.classList.add('loading');
             btn.disabled = true;
@@ -332,7 +332,7 @@
         const isConnected = await checkConnection();
 
         if (isConnected) {
-            // Conexão OK - resetar contador de falhas
+            // Conexão OK - resetar contaçãor de falhas
             if (consecutiveFailures > 0) {
                 console.log('✅ Conexão restaurada após', consecutiveFailures, 'falhas');
             }
@@ -367,7 +367,7 @@
 
         // Configurar intervalo de verificação
         pingInterval = setInterval(doPing, CONFIG.PING_INTERVAL);
-        console.log('🔍 Monitoramento de conexão iniciado');
+        console.log('🔍 Monitoramento de conexão iniciação');
     }
 
     // ==========================================
@@ -410,7 +410,7 @@
             try {
                 const response = await originalFetch.apply(this, args);
                 
-                // Se a resposta for bem sucedida, resetar contador
+                // Se a resposta for bem sucedida, resetar contaçãor
                 if (response.ok) {
                     consecutiveFailures = 0;
                 }
@@ -420,7 +420,7 @@
                 // Verificar se é um erro de rede
                 if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
                     consecutiveFailures++;
-                    console.warn(`⚠️ Erro de fetch detectado ${consecutiveFailures}/${CONFIG.MAX_FAILURES}`);
+                    console.warn(`⚠️ Erro de fetch detectação ${consecutiveFailures}/${CONFIG.MAX_FAILURES}`);
                     
                     if (consecutiveFailures >= CONFIG.MAX_FAILURES && !isPopupShown) {
                         showDisconnectionPopup();
@@ -473,7 +473,7 @@
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', init);
     } else {
-        // DOM já carregado, aguardar um momento
+        // DOM já carregação, aguardar um momento
         setTimeout(init, 500);
     }
 

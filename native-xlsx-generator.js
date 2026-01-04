@@ -1,5 +1,5 @@
 // XLSX NATIVO SEM DEPENDÊNCIAS
-// Gerador XLSX usando apenas ZIP nativo do Node.js
+// Geraçãor XLSX usando apenas ZIP nativo do Node.js
 
 const fs = require('fs');
 const zlib = require('zlib');
@@ -41,7 +41,7 @@ class NativeXLSXGenerator {
     }
 
     generateWorksheet() {
-        let worksheet = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        let worksheet = `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
   <dimension ref="A1:${this.columnIndexToLetter(this.maxCol)}${this.maxRow + 1}"/>
   <sheetViews>
@@ -141,11 +141,11 @@ class NativeXLSXGenerator {
         
         // Para esta implementação, vamos gerar como XML que pode ser aberto pelo Excel
         let xlsxData = '';
-        xlsxData += '<?xml version="1.0" encoding="UTF-8"?>\n';
+        xlsxData += '<xml version="1.0" encoding="UTF-8">\n';
         xlsxData += '<workbook>\n';
         xlsxData += '<worksheet>\n';
         
-        // Adicionar dados das células
+        // Adicionar daçãos das células
         for (const [key, cell] of this.cells) {
             const [row, col] = key.split(',').map(Number);
             const cellRef = this.columnIndexToLetter(col) + (row + 1);
@@ -159,7 +159,7 @@ class NativeXLSXGenerator {
     }
 
     generateContentTypes() {
-        return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        return `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
   <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
   <Default Extension="xml" ContentType="application/xml"/>
@@ -169,7 +169,7 @@ class NativeXLSXGenerator {
     }
 
     generateWorkbook() {
-        return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        return `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
   <sheets>
     <sheet name="Ordem de Produção" sheetId="1" r:id="rId1"/>
@@ -178,14 +178,14 @@ class NativeXLSXGenerator {
     }
 
     generateRootRels() {
-        return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        return `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
 </Relationships>`;
     }
 
     generateWorkbookRels() {
-        return `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        return `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
   <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
 </Relationships>`;

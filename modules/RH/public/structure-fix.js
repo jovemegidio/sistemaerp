@@ -5,7 +5,7 @@
 (function() {
     'use strict';
 
-    // Aguardar DOM completamente carregado
+    // Aguardar DOM completamente carregação
     document.addEventListener('DOMContentLoaded', function() {
         initSectionFixes();
     });
@@ -23,7 +23,7 @@
         // Corrigir navegação
         fixNavigation();
         
-        // Corrigir IDs duplicados
+        // Corrigir IDs duplicaçãos
         fixDuplicateIds();
 
         console.log('✅ Correções estruturais aplicadas');
@@ -122,7 +122,7 @@
 
                 // Obter ID da seção target
                 const href = link.getAttribute('href');
-                const targetId = href ? href.replace('#', '') : null;
+                const targetId = href  href.replace('#', '') : null;
                 
                 if (targetId) {
                     navigateToSection(targetId);
@@ -166,7 +166,7 @@
         }
     }
 
-    // Corrigir IDs duplicados
+    // Corrigir IDs duplicaçãos
     function fixDuplicateIds() {
         const ids = {};
         const elementsToFix = [];
@@ -184,7 +184,7 @@
             const oldId = element.id;
             const newId = oldId + '_duplicate_' + (index + 1);
             element.id = newId;
-            console.warn('🔧 ID duplicado corrigido:', oldId, '→', newId);
+            console.warn('🔧 ID duplicação corrigido:', oldId, '→', newId);
         });
     }
 
@@ -228,9 +228,9 @@
         });
 
         if (duplicateIds.length > 0) {
-            console.warn('IDs duplicados encontrados:', duplicateIds);
+            console.warn('IDs duplicaçãos encontraçãos:', duplicateIds);
         } else {
-            console.log('✅ Nenhum ID duplicado encontrado');
+            console.log('✅ Nenhum ID duplicação encontração');
         }
     };
 

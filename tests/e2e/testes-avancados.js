@@ -1,5 +1,5 @@
-// 🧪 Script de Teste Avançado - Sistema de Usuários
-// Execute linha por linha no console do navegador
+// 🧪 Script de Teste Avançação - Sistema de Usuários
+// Execute linha por linha no console do navegaçãor
 
 console.log("🎯 Iniciando testes do sistema de usuários...");
 
@@ -10,16 +10,16 @@ function testeAdmin() {
     setTimeout(() => location.reload(), 1000);
 }
 
-// 2. Teste comercial - João com avatar personalizado
+// 2. Teste comercial - João com avatar personalização
 function testeJoao() {
     console.log("\n👤 Teste 2: Login como João (comercial)");
     simularLogin("João Silva", "comercial");
     setTimeout(() => location.reload(), 1000);
 }
 
-// 3. Teste com avatar personalizado - Maria
+// 3. Teste com avatar personalização - Maria
 function testeMaria() {
-    console.log("\n👩 Teste 3: Login como Maria (avatar personalizado)");
+    console.log("\n👩 Teste 3: Login como Maria (avatar personalização)");
     simularLogin("Maria Santos", "admin");
     setTimeout(() => location.reload(), 1000);
 }
@@ -61,25 +61,25 @@ function testeCicloCompleto() {
     }, 24000);
 }
 
-// 6. Verificar estado atual
-function verificarEstado() {
+// 6. Verificar estação atual
+function verificarEstação() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
-    console.log("\n📊 Estado atual do sistema:");
-    console.log("Nome:", userData.name || "Não logado");
+    console.log("\n📊 Estação atual do sistema:");
+    console.log("Nome:", userData.name || "Não logação");
     console.log("Setor:", userData.setor || "Não definido");
     console.log("Último acesso:", userData.lastAccess || "Nunca");
     
     // Verificar se existe avatar
-    const firstName = userData.name?.split(' ')[0]?.toLowerCase();
+    const firstName = userData.name.split(' ')[0].toLowerCase();
     if (firstName) {
-        console.log("Avatar esperado:", `avatars/${firstName}.svg ou .png`);
+        console.log("Avatar esperação:", `avatars/${firstName}.svg ou .png`);
     }
 }
 
 // 7. Limpar tudo
 function limparTudo() {
     localStorage.removeItem('userData');
-    console.log("🧹 Cache limpo. Recarregue a página para ver o estado padrão.");
+    console.log("🧹 Cache limpo. Recarregue a página para ver o estação padrão.");
 }
 
 // Instruções
@@ -88,15 +88,15 @@ console.log(`
 
 // Testes individuais:
 testeAdmin()       // Admin com avatar SVG
-testeJoao()        // Comercial com avatar personalizado  
-testeMaria()       // Admin com avatar SVG personalizado
+testeJoao()        // Comercial com avatar personalização  
+testeMaria()       // Admin com avatar SVG personalização
 testeCarlos()      // Comercial sem avatar (iniciais)
 
 // Teste automático:
 testeCicloCompleto()  // Executa todos os testes em sequência
 
 // Utilitários:
-verificarEstado()     // Ver usuário atual
+verificarEstação()     // Ver usuário atual
 limparTudo()         // Limpar cache
 logout()             // Fazer logout
 
@@ -108,5 +108,5 @@ logout()             // Fazer logout
 - As iniciais aparecem quando não há avatar
 `);
 
-// Auto-verificar estado atual
-verificarEstado();
+// Auto-verificar estação atual
+verificarEstação();

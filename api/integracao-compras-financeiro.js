@@ -27,7 +27,7 @@ router.post('/gerar-pagar', async (req, res) => {
     try {
         const pool = req.app.locals.pool;
         
-        // 1. Buscar dados do pedido de compra
+        // 1. Buscar daçãos do pedido de compra
         const [pedidos] = await pool.execute(`
             SELECT 
                 pc.*,
@@ -36,13 +36,13 @@ router.post('/gerar-pagar', async (req, res) => {
                 f.email as fornecedor_email
             FROM pedidos_compra pc
             LEFT JOIN fornecedores f ON pc.fornecedor_id = f.id
-            WHERE pc.id = ?
+            WHERE pc.id = 
         `, [pedido_id]);
         
         if (pedidos.length === 0) {
             return res.status(404).json({ 
                 success: false, 
-                message: 'Pedido de compra não encontrado' 
+                message: 'Pedido de compra não encontração' 
             });
         }
         
@@ -51,7 +51,7 @@ router.post('/gerar-pagar', async (req, res) => {
         // 2. Verificar se já existe contas geradas para este pedido
         const [existentes] = await pool.execute(`
             SELECT COUNT(*) as total FROM contas_pagar 
-            WHERE pedido_origem_id = ? AND tipo_origem = 'COMPRA'
+            WHERE pedido_origem_id =  AND tipo_origem = 'COMPRA'
         `, [pedido_id]);
         
         if (existentes[0].total > 0) {
@@ -94,7 +94,7 @@ router.post('/gerar-pagar', async (req, res) => {
             dataVencimento.setDate(dataVencimento.getDate() + (diasVencimento[i] || (i + 1) * 30));
             
             const numeroDocumento = nota_fiscal 
-                ? `NF-${nota_fiscal}-${String(i + 1).padStart(2, '0')}`
+                 `NF-${nota_fiscal}-${String(i + 1).padStart(2, '0')}`
                 : `CMP-${pedido_id}-${String(i + 1).padStart(2, '0')}`;
             
             const [result] = await pool.execute(`
@@ -115,7 +115,7 @@ router.post('/gerar-pagar', async (req, res) => {
                     categoria,
                     observacoes,
                     created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+                ) VALUES (, , , , , , , , , , , , , , , NOW())
             `, [
                 `Compra #${pedido.numero_pedido || pedido_id} - Parcela ${i + 1}/${numParcelas}`,
                 valorParcela.toFixed(2),
@@ -123,7 +123,7 @@ router.post('/gerar-pagar', async (req, res) => {
                 dataBase.toISOString().split('T')[0],
                 'pendente',
                 pedido.fornecedor_id,
-                pedido.fornecedor_nome || 'Fornecedor não identificado',
+                pedido.fornecedor_nome || 'Fornecedor não identificação',
                 numeroDocumento,
                 nota_fiscal || null,
                 i + 1,
@@ -131,7 +131,7 @@ router.post('/gerar-pagar', async (req, res) => {
                 pedido_id,
                 'COMPRA',
                 'Compras',
-                observacoes || `Gerado automaticamente do pedido de compra #${pedido_id}`
+                observacoes || `Geração automaticamente do pedido de compra #${pedido_id}`
             ]);
             
             contasGeradas.push({
@@ -157,21 +157,21 @@ router.post('/gerar-pagar', async (req, res) => {
                 parcelas: numParcelas,
                 contas_geradas: contasGeradas.length
             }),
-            usuario_id: req.user?.id
+            usuario_id: req.user.id
         });
         
         // 6. Atualizar status do pedido de compra
         await pool.execute(`
             UPDATE pedidos_compra 
-            SET financeiro_gerado = 1, 
+            SET financeiro_geração = 1, 
                 data_financeiro = NOW() 
-            WHERE id = ?
+            WHERE id = 
         `, [pedido_id]);
         
         res.json({
             success: true,
             message: `${contasGeradas.length} conta(s) a pagar gerada(s) com sucesso`,
-            dados: {
+            daçãos: {
                 pedido_id,
                 nota_fiscal,
                 valor_total: valorTotal,
@@ -207,14 +207,14 @@ router.post('/vincular-nfe', async (req, res) => {
     try {
         const pool = req.app.locals.pool;
         
-        // Atualizar contas a pagar com dados da NF-e
+        // Atualizar contas a pagar com daçãos da NF-e
         const [result] = await pool.execute(`
             UPDATE contas_pagar 
-            SET chave_nfe = ?,
-                nota_fiscal = ?,
-                data_nfe = ?,
+            SET chave_nfe = ,
+                nota_fiscal = ,
+                data_nfe = ,
                 observacoes = CONCAT(IFNULL(observacoes, ''), '\n[NF-e] Vinculada em ', NOW())
-            WHERE pedido_origem_id = ? AND tipo_origem = 'COMPRA'
+            WHERE pedido_origem_id =  AND tipo_origem = 'COMPRA'
         `, [chave_nfe, numero_nfe, data_emissao_nfe, pedido_id]);
         
         // Registrar log
@@ -230,7 +230,7 @@ router.post('/vincular-nfe', async (req, res) => {
                 numero_nfe,
                 contas_atualizadas: result.affectedRows
             }),
-            usuario_id: req.user?.id
+            usuario_id: req.user.id
         });
         
         res.json({
@@ -251,7 +251,7 @@ router.post('/vincular-nfe', async (req, res) => {
 
 /**
  * POST /api/integracao/compras-financeiro/cancelar-pagar
- * Cancela contas a pagar quando pedido é cancelado
+ * Cancela contas a pagar quando pedido é cancelação
  */
 router.post('/cancelar-pagar', async (req, res) => {
     const { pedido_id, motivo } = req.body;
@@ -269,7 +269,7 @@ router.post('/cancelar-pagar', async (req, res) => {
         // Buscar contas vinculadas ao pedido
         const [contas] = await pool.execute(`
             SELECT id, status, valor FROM contas_pagar 
-            WHERE pedido_origem_id = ? AND tipo_origem = 'COMPRA'
+            WHERE pedido_origem_id =  AND tipo_origem = 'COMPRA'
         `, [pedido_id]);
         
         if (contas.length === 0) {
@@ -292,11 +292,11 @@ router.post('/cancelar-pagar', async (req, res) => {
         // Cancelar todas as contas pendentes
         const [result] = await pool.execute(`
             UPDATE contas_pagar 
-            SET status = 'cancelado',
-                observacoes = CONCAT(IFNULL(observacoes, ''), '\n[CANCELADO] ', ?),
+            SET status = 'cancelação',
+                observacoes = CONCAT(IFNULL(observacoes, ''), '\n[CANCELADO] ', ),
                 updated_at = NOW()
-            WHERE pedido_origem_id = ? AND tipo_origem = 'COMPRA' AND status = 'pendente'
-        `, [motivo || 'Pedido cancelado', pedido_id]);
+            WHERE pedido_origem_id =  AND tipo_origem = 'COMPRA' AND status = 'pendente'
+        `, [motivo || 'Pedido cancelação', pedido_id]);
         
         // Registrar log
         await registrarLogIntegracao(pool, {
@@ -310,7 +310,7 @@ router.post('/cancelar-pagar', async (req, res) => {
                 contas_canceladas: result.affectedRows,
                 motivo
             }),
-            usuario_id: req.user?.id
+            usuario_id: req.user.id
         });
         
         res.json({
@@ -344,7 +344,7 @@ router.get('/status/:pedido_id', async (req, res) => {
                 id, descricao, valor, data_vencimento, status,
                 parcela, total_parcelas, numero_documento, nota_fiscal
             FROM contas_pagar 
-            WHERE pedido_origem_id = ? AND tipo_origem = 'COMPRA'
+            WHERE pedido_origem_id =  AND tipo_origem = 'COMPRA'
             ORDER BY parcela
         `, [pedido_id]);
         
@@ -392,7 +392,7 @@ router.get('/status/:pedido_id', async (req, res) => {
 
 /**
  * GET /api/integracao/compras-financeiro/pendentes
- * Lista pedidos de compra sem financeiro gerado
+ * Lista pedidos de compra sem financeiro geração
  */
 router.get('/pendentes', async (req, res) => {
     try {
@@ -408,8 +408,8 @@ router.get('/pendentes', async (req, res) => {
                 f.nome as fornecedor_nome
             FROM pedidos_compra pc
             LEFT JOIN fornecedores f ON pc.fornecedor_id = f.id
-            WHERE (pc.financeiro_gerado IS NULL OR pc.financeiro_gerado = 0)
-                AND pc.status IN ('recebido', 'conferido', 'aprovado')
+            WHERE (pc.financeiro_geração IS NULL OR pc.financeiro_geração = 0)
+                AND pc.status IN ('recebido', 'conferido', 'aprovação')
             ORDER BY pc.data_criacao DESC
             LIMIT 50
         `);
@@ -433,22 +433,22 @@ router.get('/pendentes', async (req, res) => {
 /**
  * Função auxiliar para registrar logs de integração
  */
-async function registrarLogIntegracao(pool, dados) {
+async function registrarLogIntegracao(pool, daçãos) {
     try {
         await pool.execute(`
             INSERT INTO logs_integracao (
                 tipo, origem_modulo, destino_modulo, 
                 referencia_id, acao, detalhes, 
                 usuario_id, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+            ) VALUES (, , , , , , , NOW())
         `, [
-            dados.tipo,
-            dados.origem_modulo,
-            dados.destino_modulo,
-            dados.referencia_id,
-            dados.acao,
-            dados.detalhes,
-            dados.usuario_id
+            daçãos.tipo,
+            daçãos.origem_modulo,
+            daçãos.destino_modulo,
+            daçãos.referencia_id,
+            daçãos.acao,
+            daçãos.detalhes,
+            daçãos.usuario_id
         ]);
     } catch (error) {
         console.error('[Log Integração] Erro ao registrar:', error.message);

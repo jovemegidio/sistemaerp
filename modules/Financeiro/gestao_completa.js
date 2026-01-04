@@ -1,8 +1,8 @@
 // Gestão Financeira Completa - JavaScript
 const API_BASE = 'http://localhost:3000/api/financeiro';
 let abaAtual = 'pagar';
-let dadosTabela = [];
-let itensSelecionados = new Set();
+let daçãosTabela = [];
+let itensSelecionaçãos = new Set();
 let paginaAtual = 1;
 let totalPaginas = 1;
 let ordenarPor = 'data_vencimento';
@@ -16,7 +16,7 @@ let ordenarDirecao = 'ASC';
 document.addEventListener('DOMContentLoaded', function() {
     // Verificar se o sistema de autenticação está disponível
     if (typeof auth === 'undefined') {
-        console.error('❌ Sistema de autenticação não carregado. Verifique se auth.js está incluído antes deste script.');
+        console.error('❌ Sistema de autenticação não carregação. Verifique se auth.js está incluído antes deste script.');
         alert('⚠️ Erro: Sistema de autenticação não disponível. Recarregue a página.');
         return;
     }
@@ -26,16 +26,16 @@ document.addEventListener('DOMContentLoaded', function() {
         return; // Para se não tiver permissão
     }
 
-    // Aplicar restrições de interface baseado no perfil
+    // Aplicar restrições de interface baseação no perfil
     aplicarRestricoesInterface();
     
     // Inicializar normalmente
     carregarCategorias();
-    carregarDados();
+    carregarDaçãos();
 });
 
 /**
- * Aplica restrições de interface baseado nas permissões do usuário
+ * Aplica restrições de interface baseação nas permissões do usuário
  */
 function aplicarRestricoesInterface() {
     const usuario = auth.getUsuario();
@@ -95,24 +95,24 @@ function adicionarMensagemRestricao(mensagem) {
 }
 
 /**
- * Oculta botões baseado em permissões
+ * Oculta botões baseação em permissões
  */
 function ocultarBotoesNaoPermitidos() {
     // Botão Novo (criar)
     const btnNovo = document.querySelector('[onclick="abrirModalNovo()"]');
     if (btnNovo) {
-        const permissaoNovo = abaAtual === 'pagar' ? 'contas_pagar.criar' : 'contas_receber.criar';
+        const permissaoNovo = abaAtual === 'pagar'  'contas_pagar.criar' : 'contas_receber.criar';
         if (!auth.temPermissao(permissaoNovo)) {
             btnNovo.style.display = 'none';
         }
     }
 
     // Botões de ação em massa
-    const btnExcluirSelecionados = document.querySelector('[onclick="excluirSelecionados()"]');
-    if (btnExcluirSelecionados) {
-        const permissaoExcluir = abaAtual === 'pagar' ? 'contas_pagar.excluir' : 'contas_receber.excluir';
+    const btnExcluirSelecionaçãos = document.querySelector('[onclick="excluirSelecionaçãos()"]');
+    if (btnExcluirSelecionaçãos) {
+        const permissaoExcluir = abaAtual === 'pagar'  'contas_pagar.excluir' : 'contas_receber.excluir';
         if (!auth.temPermissao(permissaoExcluir)) {
-            btnExcluirSelecionados.style.display = 'none';
+            btnExcluirSelecionaçãos.style.display = 'none';
         }
     }
 }
@@ -143,11 +143,11 @@ function trocarAba(aba, evt) {
     // Atualizar botões
     document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
     
-    // Se foi chamado via evento (clique), atualiza o botão clicado
+    // Se foi chamação via evento (clique), atualiza o botão clicação
     if (evt && evt.target) {
         evt.target.closest('.tab-button').classList.add('active');
     } else {
-        // Se foi chamado via código, encontra o botão correto
+        // Se foi chamação via código, encontra o botão correto
         const botões = document.querySelectorAll('.tab-button');
         botões.forEach(btn => {
             if (btn.getAttribute('onclick').includes(`'${aba}'`)) {
@@ -166,15 +166,15 @@ function trocarAba(aba, evt) {
     
     // Resetar paginação
     paginaAtual = 1;
-    itensSelecionados.clear();
+    itensSelecionaçãos.clear();
     atualizarBulkActions();
     
-    // Carregar dados
-    carregarDados();
+    // Carregar daçãos
+    carregarDaçãos();
 }
 
-// Carregar dados
-async function carregarDados() {
+// Carregar daçãos
+async function carregarDaçãos() {
     try {
         const token = getToken();
         if (!token) {
@@ -198,14 +198,14 @@ async function carregarDados() {
             }
         });
 
-        if (!response.ok) throw new Error('Erro ao carregar dados');
+        if (!response.ok) throw new Error('Erro ao carregar daçãos');
 
-        dadosTabela = await response.json();
+        daçãosTabela = await response.json();
         aplicarFiltros();
 
     } catch (error) {
-        console.error('❌ Erro ao carregar dados:', error);
-        mostrarErro('Erro ao carregar dados');
+        console.error('❌ Erro ao carregar daçãos:', error);
+        mostrarErro('Erro ao carregar daçãos');
     }
 }
 
@@ -218,12 +218,12 @@ function aplicarFiltros() {
     const categoria = document.getElementById('filterCategoria').value;
     const porPagina = parseInt(document.getElementById('filterPorPagina').value);
 
-    // Filtrar dados
-    let dadosFiltrados = dadosTabela.filter(item => {
+    // Filtrar daçãos
+    let daçãosFiltraçãos = daçãosTabela.filter(item => {
         // Busca
-        if (busca && !item.descrição?.toLowerCase().includes(busca) && 
-            !item.fornecedor?.toLowerCase().includes(busca) &&
-            !item.cliente?.toLowerCase().includes(busca)) {
+        if (busca && !item.descrição.toLowerCase().includes(busca) && 
+            !item.fornecedor.toLowerCase().includes(busca) &&
+            !item.cliente.toLowerCase().includes(busca)) {
             return false;
         }
 
@@ -249,38 +249,38 @@ function aplicarFiltros() {
     });
 
     // Ordenar
-    dadosFiltrados.sort((a, b) => {
+    daçãosFiltraçãos.sort((a, b) => {
         const valorA = a[ordenarPor];
         const valorB = b[ordenarPor];
         
         if (ordenarDirecao === 'ASC') {
-            return valorA > valorB ? 1 : -1;
+            return valorA > valorB  1 : -1;
         } else {
-            return valorA < valorB ? 1 : -1;
+            return valorA < valorB  1 : -1;
         }
     });
 
     // Paginar
-    totalPaginas = Math.ceil(dadosFiltrados.length / porPagina);
+    totalPaginas = Math.ceil(daçãosFiltraçãos.length / porPagina);
     const inicio = (paginaAtual - 1) * porPagina;
     const fim = inicio + porPagina;
-    const dadosPagina = dadosFiltrados.slice(inicio, fim);
+    const daçãosPagina = daçãosFiltraçãos.slice(inicio, fim);
 
     // Renderizar
-    renderizarTabela(dadosPagina);
-    renderizarPaginacao(dadosFiltrados.length, porPagina);
+    renderizarTabela(daçãosPagina);
+    renderizarPaginacao(daçãosFiltraçãos.length, porPagina);
 }
 
 // Renderizar tabela
-function renderizarTabela(dados) {
+function renderizarTabela(daçãos) {
     const container = document.getElementById('tableContainer');
 
-    if (!dados || dados.length === 0) {
+    if (!daçãos || daçãos.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-inbox"></i>
                 <p style="font-size: 16px; font-weight: 600; margin-bottom: 8px;">
-                    Nenhum registro encontrado
+                    Nenhum registro encontração
                 </p>
                 <p>Altere os filtros ou adicione novos registros</p>
             </div>
@@ -299,8 +299,8 @@ function renderizarTabela(dados) {
     if (abaAtual === 'pagar' || abaAtual === 'receber') {
         html += `
             <th onclick="ordenar('descrição')">Descrição <i class="fas fa-sort"></i></th>
-            <th onclick="ordenar('${abaAtual === 'pagar' ? 'fornecedor' : 'cliente'}')">
-                ${abaAtual === 'pagar' ? 'Fornecedor' : 'Cliente'} <i class="fas fa-sort"></i>
+            <th onclick="ordenar('${abaAtual === 'pagar'  'fornecedor' : 'cliente'}')">
+                ${abaAtual === 'pagar'  'Fornecedor' : 'Cliente'} <i class="fas fa-sort"></i>
             </th>
             <th onclick="ordenar('valor')">Valor <i class="fas fa-sort"></i></th>
             <th onclick="ordenar('data_vencimento')">Vencimento <i class="fas fa-sort"></i></th>
@@ -319,9 +319,9 @@ function renderizarTabela(dados) {
 
     html += '</tr></thead><tbody>';
 
-    // Linhas de dados
-    dados.forEach(item => {
-        const isChecked = itensSelecionados.has(item.id);
+    // Linhas de daçãos
+    daçãos.forEach(item => {
+        const isChecked = itensSelecionaçãos.has(item.id);
         html += `<tr>`;
         
         // Checkbox
@@ -329,7 +329,7 @@ function renderizarTabela(dados) {
             <input 
                 type="checkbox" 
                 class="row-checkbox" 
-                ${isChecked ? 'checked' : ''}
+                ${isChecked  'checked' : ''}
                 onchange="toggleSelecao(${item.id}, this.checked)"
             />
         </td>`;
@@ -342,7 +342,7 @@ function renderizarTabela(dados) {
             html += `<td>${item.fornecedor || item.cliente || '-'}</td>`;
             
             // Valor
-            const valorClass = abaAtual === 'receber' ? 'valor-positivo' : 'valor-negativo';
+            const valorClass = abaAtual === 'receber'  'valor-positivo' : 'valor-negativo';
             html += `<td class="${valorClass}">R$ ${formatarMoeda(item.valor)}</td>`;
             
             // Vencimento
@@ -358,14 +358,14 @@ function renderizarTabela(dados) {
             if (item.status === 'pendente') {
                 html += `
                     <button class="btn-table success" onclick="marcarPago(${item.id})">
-                        <i class="fas fa-check"></i> ${abaAtual === 'pagar' ? 'Pagar' : 'Receber'}
+                        <i class="fas fa-check"></i> ${abaAtual === 'pagar'  'Pagar' : 'Receber'}
                     </button>
                     <button class="btn-table info" onclick="abrirModalParcelamento(${item.id})">
                         <i class="fas fa-credit-card"></i> Parcelar
                     </button>
                 `;
             } else {
-                html += `<span style="color: #10b981; font-weight: 600;">✅ ${item.status === 'pago' ? 'Pago' : 'Recebido'}</span>`;
+                html += `<span style="color: #10b981; font-weight: 600;">✅ ${item.status === 'pago'  'Pago' : 'Recebido'}</span>`;
             }
             
             html += `</td>`;
@@ -377,7 +377,7 @@ function renderizarTabela(dados) {
             html += `<td>${item.conta || '-'}</td>`;
             
             // Saldo
-            const saldoClass = item.saldo_atual >= 0 ? 'valor-positivo' : 'valor-negativo';
+            const saldoClass = item.saldo_atual >= 0  'valor-positivo' : 'valor-negativo';
             html += `<td class="${saldoClass}">R$ ${formatarMoeda(item.saldo_atual)}</td>`;
             
             // Ações
@@ -417,7 +417,7 @@ function renderizarPaginacao(total, porPagina) {
     info.textContent = `Mostrando ${inicio} a ${fim} de ${total} registros`;
 
     let html = `
-        <button class="btn-pagination" onclick="irParaPagina(${paginaAtual - 1})" ${paginaAtual === 1 ? 'disabled' : ''}>
+        <button class="btn-pagination" onclick="irParaPagina(${paginaAtual - 1})" ${paginaAtual === 1  'disabled' : ''}>
             <i class="fas fa-chevron-left"></i> Anterior
         </button>
     `;
@@ -427,7 +427,7 @@ function renderizarPaginacao(total, porPagina) {
         if (i === 1 || i === totalPaginas || (i >= paginaAtual - 2 && i <= paginaAtual + 2)) {
             html += `
                 <button 
-                    class="btn-pagination ${i === paginaAtual ? 'active' : ''}" 
+                    class="btn-pagination ${i === paginaAtual  'active' : ''}" 
                     onclick="irParaPagina(${i})"
                 >
                     ${i}
@@ -439,7 +439,7 @@ function renderizarPaginacao(total, porPagina) {
     }
 
     html += `
-        <button class="btn-pagination" onclick="irParaPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas ? 'disabled' : ''}>
+        <button class="btn-pagination" onclick="irParaPagina(${paginaAtual + 1})" ${paginaAtual === totalPaginas  'disabled' : ''}>
             Próxima <i class="fas fa-chevron-right"></i>
         </button>
     `;
@@ -457,7 +457,7 @@ function irParaPagina(pagina) {
 // Ordenar
 function ordenar(campo) {
     if (ordenarPor === campo) {
-        ordenarDirecao = ordenarDirecao === 'ASC' ? 'DESC' : 'ASC';
+        ordenarDirecao = ordenarDirecao === 'ASC'  'DESC' : 'ASC';
     } else {
         ordenarPor = campo;
         ordenarDirecao = 'ASC';
@@ -467,10 +467,10 @@ function ordenar(campo) {
 
 // Selecionar todos
 function selecionarTodos(checked) {
-    itensSelecionados.clear();
+    itensSelecionaçãos.clear();
     
     if (checked) {
-        dadosTabela.forEach(item => itensSelecionados.add(item.id));
+        daçãosTabela.forEach(item => itensSelecionaçãos.add(item.id));
     }
     
     document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = checked);
@@ -480,16 +480,16 @@ function selecionarTodos(checked) {
 // Toggle seleção
 function toggleSelecao(id, checked) {
     if (checked) {
-        itensSelecionados.add(id);
+        itensSelecionaçãos.add(id);
     } else {
-        itensSelecionados.delete(id);
+        itensSelecionaçãos.delete(id);
     }
     atualizarBulkActions();
 }
 
 // Atualizar ações em lote
 function atualizarBulkActions() {
-    const count = itensSelecionados.size;
+    const count = itensSelecionaçãos.size;
     document.getElementById('bulkCount').textContent = count;
     
     if (count > 0) {
@@ -501,7 +501,7 @@ function atualizarBulkActions() {
 
 // Desmarcar todos
 function desmarcarTodos() {
-    itensSelecionados.clear();
+    itensSelecionaçãos.clear();
     document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = false);
     document.querySelector('.checkbox-all').checked = false;
     atualizarBulkActions();
@@ -510,19 +510,19 @@ function desmarcarTodos() {
 // Pagar em lote
 async function pagarEmLote() {
     // Verificar permissão
-    const permissao = abaAtual === 'pagar' ? 'contas_pagar.pagar' : 'contas_receber.receber';
+    const permissao = abaAtual === 'pagar'  'contas_pagar.pagar' : 'contas_receber.receber';
     if (!auth.temPermissao(permissao)) {
         alert('❌ Você não tem permissão para realizar está ação');
         return;
     }
 
-    if (itensSelecionados.size === 0) return;
+    if (itensSelecionaçãos.size === 0) return;
     
-    if (!confirm(`Deseja marcar ${itensSelecionados.size} contas como pagas?`)) return;
+    if (!confirm(`Deseja marcar ${itensSelecionaçãos.size} contas como pagas`)) return;
     
     try {
         const token = getToken();
-        const ids = Array.from(itensSelecionados);
+        const ids = Array.from(itensSelecionaçãos);
         
         const response = await fetch(`${API_BASE}/contas-${abaAtual}/lote/pagar`, {
             method: 'POST',
@@ -540,7 +540,7 @@ async function pagarEmLote() {
         
         alert('✅ Contas pagas com sucesso!');
         desmarcarTodos();
-        carregarDados();
+        carregarDaçãos();
         
     } catch (error) {
         console.error('❌ Erro:', error);
@@ -551,32 +551,32 @@ async function pagarEmLote() {
 // Marcar como pago
 async function marcarPago(id) {
     // Verificar permissão
-    const permissao = abaAtual === 'pagar' ? 'contas_pagar.pagar' : 'contas_receber.receber';
+    const permissao = abaAtual === 'pagar'  'contas_pagar.pagar' : 'contas_receber.receber';
     if (!auth.temPermissao(permissao)) {
         alert('❌ Você não tem permissão para realizar está ação');
-        auth.registrarLog('acesso_negado', `Tentativa de marcar como pago sem permissão: ${permissao}`);
+        auth.registrarLog('acesso_negação', `Tentativa de marcar como pago sem permissão: ${permissao}`);
         return;
     }
 
-    if (!confirm('Deseja marcar está conta como paga?')) return;
+    if (!confirm('Deseja marcar está conta como paga')) return;
     
     try {
         const token = getToken();
-        const response = await fetch(`${API_BASE}/contas-${abaAtual}/${id}/${abaAtual === 'pagar' ? 'pagar' : 'receber'}`, {
+        const response = await fetch(`${API_BASE}/contas-${abaAtual}/${id}/${abaAtual === 'pagar'  'pagar' : 'receber'}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                [`data_${abaAtual === 'pagar' ? 'pagamento' : 'recebimento'}`]: new Date().toISOString().split('T')[0]
+                [`data_${abaAtual === 'pagar'  'pagamento' : 'recebimento'}`]: new Date().toISOString().split('T')[0]
             })
         });
         
         if (!response.ok) throw new Error('Erro ao atualizar');
         
         alert('✅ Conta atualizada com sucesso!');
-        carregarDados();
+        carregarDaçãos();
         
     } catch (error) {
         console.error('❌ Erro:', error);
@@ -584,26 +584,26 @@ async function marcarPago(id) {
     }
 }
 
-// Excluir selecionados
-async function excluirSelecionados() {
+// Excluir selecionaçãos
+async function excluirSelecionaçãos() {
     // Verificar permissão
-    const permissao = abaAtual === 'pagar' ? 'contas_pagar.excluir' : 'contas_receber.excluir';
+    const permissao = abaAtual === 'pagar'  'contas_pagar.excluir' : 'contas_receber.excluir';
     if (!auth.temPermissao(permissao)) {
         alert('❌ Você não tem permissão para excluir');
-        auth.registrarLog('acesso_negado', `Tentativa de exclusão sem permissão: ${permissao}`);
+        auth.registrarLog('acesso_negação', `Tentativa de exclusão sem permissão: ${permissao}`);
         return;
     }
 
-    if (itensSelecionados.size === 0) {
+    if (itensSelecionaçãos.size === 0) {
         alert('Selecione ao menos um item para excluir');
         return;
     }
     
-    if (!confirm(`Deseja realmente excluir ${itensSelecionados.size} item(ns) selecionado(s)?`)) return;
+    if (!confirm(`Deseja realmente excluir ${itensSelecionaçãos.size} item(ns) selecionação(s)`)) return;
     
     try {
         const token = getToken();
-        const ids = Array.from(itensSelecionados);
+        const ids = Array.from(itensSelecionaçãos);
         
         const response = await fetch(`${API_BASE}/contas-${abaAtual}/lote/excluir`, {
             method: 'DELETE',
@@ -619,7 +619,7 @@ async function excluirSelecionados() {
         alert('✅ Itens excluídos com sucesso!');
         auth.registrarLog('exclusao_lote', `Excluiu ${ids.length} itens de ${abaAtual}`);
         desmarcarTodos();
-        carregarDados();
+        carregarDaçãos();
         
     } catch (error) {
         console.error('❌ Erro:', error);
@@ -630,10 +630,10 @@ async function excluirSelecionados() {
 // Abrir nova conta
 function abrirNovaConta() {
     // Verificar permissão
-    const permissao = abaAtual === 'pagar' ? 'contas_pagar.criar' : abaAtual === 'receber' ? 'contas_receber.criar' : 'contas_bancarias.criar';
+    const permissao = abaAtual === 'pagar'  'contas_pagar.criar' : abaAtual === 'receber'  'contas_receber.criar' : 'contas_bancarias.criar';
     if (!auth.temPermissao(permissao)) {
         alert('❌ Você não tem permissão para criar novos registros');
-        auth.registrarLog('acesso_negado', `Tentativa de criação sem permissão: ${permissao}`);
+        auth.registrarLog('acesso_negação', `Tentativa de criação sem permissão: ${permissao}`);
         return;
     }
     
@@ -642,23 +642,23 @@ function abrirNovaConta() {
 
 // Abrir modal de parcelamento
 function abrirModalParcelamento(id) {
-    // Buscar o item nos dados da tabela
-    const item = dadosTabela.find(i => i.id === id);
+    // Buscar o item nos daçãos da tabela
+    const item = daçãosTabela.find(i => i.id === id);
     if (!item) {
-        alert('Item não encontrado');
+        alert('Item não encontração');
         return;
     }
     
     // Verificar se o sistema de parcelamento está disponível
     if (typeof SistemaParcelamento === 'undefined') {
-        alert('⚠️ Sistema de parcelamento não carregado. Verifique se o arquivo parcelamento.js está incluído.');
+        alert('⚠️ Sistema de parcelamento não carregação. Verifique se o arquivo parcelamento.js está incluído.');
         return;
     }
     
     // Criar instância do sistema de parcelamento
     const sistemaParcelamento = new SistemaParcelamento();
     
-    // Abrir modal com os dados da conta
+    // Abrir modal com os daçãos da conta
     sistemaParcelamento.abrirModal({
         descrição: item.descrição,
         valor: item.valor,
@@ -718,5 +718,5 @@ async function carregarCategorias() {
 
 // Inicializar - REMOVIDO (já foi movido para o início do arquivo)
 // A inicialização agora acontece no event listener DOMContentLoaded
-// que foi adicionado no início do arquivo com as verificações de permissão
+// que foi adicionação no início do arquivo com as verificações de permissão
 

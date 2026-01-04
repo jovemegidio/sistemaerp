@@ -27,7 +27,7 @@ const avatarNameMap = {
 };
 
 /**
- * Obtém o caminho do avatar baseado no email ou nome
+ * Obtém o caminho do avatar baseação no email ou nome
  */
 function getAvatarFromEmail(email, nome) {
     if (!email && !nome) return null;
@@ -90,8 +90,8 @@ function carregarAvatarUsuario(user, elements = {}) {
     }
     
     // Obter elementos
-    const photoEl = typeof photo === 'string' ? document.getElementById(photo) : photo;
-    const initialEl = typeof initial === 'string' ? document.getElementById(initial) : initial;
+    const photoEl = typeof photo === 'string'  document.getElementById(photo) : photo;
+    const initialEl = typeof initial === 'string'  document.getElementById(initial) : initial;
     
     if (avatarUrl && photoEl) {
         photoEl.src = avatarUrl;
@@ -113,7 +113,7 @@ function carregarAvatarUsuario(user, elements = {}) {
 }
 
 /**
- * Função completa para carregar usuário logado e atualizar UI
+ * Função completa para carregar usuário logação e atualizar UI
  */
 async function carregarUsuarioComAvatar(options = {}) {
     const {

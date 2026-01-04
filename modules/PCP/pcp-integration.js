@@ -43,7 +43,7 @@
             return result;
         };
 
-        console.log('✅ showView() otimizado');
+        console.log('✅ showView() otimização');
     }
 
     // ============================================
@@ -55,7 +55,7 @@
         window.carregarMateriais = async function() {
             // Verificar cache primeiro
             if (window.pcpCache.has('materiais-loaded')) {
-                console.log('✅ Materiais carregados do cache');
+                console.log('✅ Materiais carregaçãos do cache');
                 return;
             }
 
@@ -65,7 +65,7 @@
             });
         };
 
-        console.log('✅ carregarMateriais() otimizado');
+        console.log('✅ carregarMateriais() otimização');
     }
 
     // ============================================
@@ -92,7 +92,7 @@
             return result;
         };
 
-        console.log('✅ carregarProdutos() otimizado');
+        console.log('✅ carregarProdutos() otimização');
     }
 
     // ============================================
@@ -112,7 +112,7 @@
                     try {
                         const results = await window.pcpSearchOptimizer.search(query, endpoint);
                         
-                        // Disparar evento customizado com resultados
+                        // Disparar evento customização com resultaçãos
                         const event = new CustomEvent('pcp:search:results', {
                             detail: { query, results }
                         });
@@ -125,7 +125,7 @@
             });
         });
 
-        console.log(`✅ ${searchInputs.length} campos de busca otimizados`);
+        console.log(`✅ ${searchInputs.length} campos de busca otimizaçãos`);
     }
 
     // ============================================
@@ -142,7 +142,7 @@
             return originalShowToast.call(this, message, type);
         };
 
-        console.log('✅ showToast() otimizado');
+        console.log('✅ showToast() otimização');
     }
 
     // ============================================
@@ -160,13 +160,13 @@
 
         const canvas = document.getElementById(canvasId);
         if (!canvas) {
-            console.error(`❌ Canvas ${canvasId} não encontrado`);
+            console.error(`❌ Canvas ${canvasId} não encontração`);
             return null;
         }
 
         const chart = new Chart(canvas, config);
         chartInstances.set(canvasId, chart);
-        console.log(`✅ Chart ${canvasId} criado`);
+        console.log(`✅ Chart ${canvasId} criação`);
         
         return chart;
     }
@@ -188,37 +188,37 @@
             const response = await originalFetch.apply(this, args);
             
             // Se for POST, PUT, DELETE, invalidar caches relevantes
-            const method = args[1]?.method || 'GET';
+            const method = args[1].method || 'GET';
             if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method.toUpperCase())) {
                 const url = args[0];
                 
-                // Determinar qual cache invalidar baseado na URL
+                // Determinar qual cache invalidar baseação na URL
                 if (url.includes('/materiais')) {
                     window.pcpViewLoader.markViewAsStale('materiais');
                     window.pcpCache.cache.delete('materiais-loaded');
-                    console.log('🔄 Cache de materiais invalidado');
+                    console.log('🔄 Cache de materiais invalidação');
                 }
                 
                 if (url.includes('/produtos')) {
                     window.pcpViewLoader.markViewAsStale('gestao-produtos');
-                    // Limpar todos os caches de produtos paginados
+                    // Limpar todos os caches de produtos paginaçãos
                     for (const key of window.pcpCache.cache.keys()) {
                         if (key.startsWith('produtos-')) {
                             window.pcpCache.cache.delete(key);
                         }
                     }
-                    console.log('🔄 Cache de produtos invalidado');
+                    console.log('🔄 Cache de produtos invalidação');
                 }
                 
                 if (url.includes('/ordens')) {
                     window.pcpViewLoader.markViewAsStale('controle-producao');
                     window.pcpViewLoader.markViewAsStale('ordem-compra');
-                    console.log('🔄 Cache de ordens invalidado');
+                    console.log('🔄 Cache de ordens invalidação');
                 }
                 
-                if (url.includes('/pedidos') || url.includes('/faturados')) {
+                if (url.includes('/pedidos') || url.includes('/faturaçãos')) {
                     window.pcpViewLoader.markViewAsStale('faturamento');
-                    console.log('🔄 Cache de faturamento invalidado');
+                    console.log('🔄 Cache de faturamento invalidação');
                 }
             }
             
@@ -271,7 +271,7 @@
                     e.preventDefault();
                     console.log(`🗑️ Deletando ${itemType} ${itemId}`);
                     
-                    if (confirm(`Tem certeza que deseja deletar este ${itemType}?`)) {
+                    if (confirm(`Tem certeza que deseja deletar este ${itemType}`)) {
                         // Implementar lógica de deleção
                         handleDelete(itemType, itemId);
                     }
@@ -279,7 +279,7 @@
             }
         });
 
-        console.log('✅ Event delegation configurado');
+        console.log('✅ Event delegation configuração');
     }
 
     async function handleDelete(itemType, itemId) {
@@ -292,17 +292,17 @@
 
             const endpoint = endpoints[itemType];
             if (!endpoint) {
-                console.error(`❌ Tipo ${itemType} não suportado`);
+                console.error(`❌ Tipo ${itemType} não suportação`);
                 return;
             }
 
             const response = await fetch(endpoint, { method: 'DELETE' });
             
             if (response.ok) {
-                window.pcpNotifications.show(`${itemType} deletado com sucesso!`, 'success');
+                window.pcpNotifications.show(`${itemType} deletação com sucesso!`, 'success');
                 
                 // Recarregar view atual
-                const currentView = document.querySelector('.pcp-view.active')?.id;
+                const currentView = document.querySelector('.pcp-view.active').id;
                 if (currentView && typeof window.showView === 'function') {
                     window.showView(currentView);
                 }
@@ -367,7 +367,7 @@
             loadingOverlay.style.display = 'none';
         };
 
-        console.log('✅ Loading states configurados');
+        console.log('✅ Loading states configuraçãos');
     }
 
     // ============================================
@@ -400,12 +400,12 @@
                 const activeModal = document.querySelector('.modal.active, .modal-backdrop.active');
                 if (activeModal && typeof window.closeModal === 'function') {
                     window.closeModal();
-                    console.log('❌ Modal fechado (Esc)');
+                    console.log('❌ Modal fechação (Esc)');
                 }
             }
         });
 
-        console.log('✅ Atalhos de teclado configurados');
+        console.log('✅ Atalhos de teclação configuraçãos');
         console.log('  - Ctrl+K: Focar busca');
         console.log('  - Ctrl+N: Nova ordem');
         console.log('  - Esc: Fechar modal');
@@ -448,11 +448,11 @@
         createOptimizedChart,
         setupSearchOptimization,
         setupEventDelegation,
-        showLoading: () => document.getElementById('pcp-loading-overlay')?.style.setProperty('display', 'flex'),
-        hideLoading: () => document.getElementById('pcp-loading-overlay')?.style.setProperty('display', 'none'),
+        showLoading: () => document.getElementById('pcp-loading-overlay').style.setProperty('display', 'flex'),
+        hideLoading: () => document.getElementById('pcp-loading-overlay').style.setProperty('display', 'none'),
         invalidateCache: (viewName) => {
             window.pcpViewLoader.markViewAsStale(viewName);
-            console.log(`🔄 Cache de ${viewName} invalidado manualmente`);
+            console.log(`🔄 Cache de ${viewName} invalidação manualmente`);
         }
     };
 

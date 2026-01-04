@@ -4,7 +4,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurar Certificado Digital - NFe</title>
+    <title>Configurar Certificação Digital - NFe</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="nfe-specific.css">
@@ -21,10 +21,10 @@
         .card-title { font-size: 18px; font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: #10b981; }
         
         .status-box { padding: 20px; border-radius: 10px; margin-bottom: 24px; border-left: 4px solid; }
-        .status-box.sem-certificado { background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; }
+        .status-box.sem-certificação { background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; }
         .status-box.valido { background: rgba(16, 185, 129, 0.1); border-color: #10b981; }
         .status-box.expirando { background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; }
-        .status-box.expirado { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
+        .status-box.expiração { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
         .status-box h3 { font-size: 14px; font-weight: 500; color: #1e293b; display: flex; align-items: center; gap: 8px; }
         
         .upload-area { border: 2px dashed #e2e8f0; border-radius: 12px; padding: 40px; text-align: center; margin-bottom: 20px; cursor: pointer; transition: all 0.3s; }
@@ -99,7 +99,7 @@
                 <a href="logistica.html" class="sidebar-btn" title="Logística" style="width: 40px; height: 40px; background: transparent; color: #8b8b9a; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
                     <i class="fas fa-truck" style="font-size: 18px;"></i>
                 </a>
-                <a href="certificado.html" class="sidebar-btn" title="Certificado" style="width: 40px; height: 40px; background: #10b981; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
+                <a href="certificação.html" class="sidebar-btn" title="Certificação" style="width: 40px; height: 40px; background: #10b981; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-decoration: none;">
                     <i class="fas fa-certificate" style="font-size: 18px;"></i>
                 </a>
             </nav>
@@ -118,7 +118,7 @@
                 <div style="display: flex; align-items: center; gap: 8px; color: white;">
                     <span style="font-size: 14px; font-weight: 600; color: #8b8b9a;">NFe & Logística</span>
                     <span style="color: #3d3d54;">|</span>
-                    <span style="font-size: 14px; font-weight: 500; color: #34d399;">Certificado Digital</span>
+                    <span style="font-size: 14px; font-weight: 500; color: #34d399;">Certificação Digital</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <button onclick="location.reload()" style="width: 36px; height: 36px; border: none; background: transparent; color: #8b8b9a; border-radius: 8px; cursor: pointer;" title="Atualizar">
@@ -141,11 +141,11 @@
             <div class="content-area" style="flex: 1; padding: 24px; overflow-y: auto; background: #ffffff;">
                 <div class="cert-container">
                     <div class="card">
-                        <div class="card-title"><i class="fas fa-certificate"></i> Configuração do Certificado Digital</div>
+                        <div class="card-title"><i class="fas fa-certificate"></i> Configuração do Certificação Digital</div>
                         
-                        <!-- Status do Certificado -->
-                        <div id="statusBox" class="status-box sem-certificado">
-                            <h3>?? Status: <span id="statusText">Nenhum certificado configurado</span></h3>
+                        <!-- Status do Certificação -->
+                        <div id="statusBox" class="status-box sem-certificação">
+                            <h3> Status: <span id="statusText">Nenhum certificação configuração</span></h3>
                             <div id="statusInfo" class="info-grid" style="display: none;"></div>
                         </div>
 
@@ -155,7 +155,7 @@
                         <!-- Loading -->
                         <div id="loading" class="loading">
                             <div class="spinner"></div>
-                            <p style="color: #8b8b9a;">Processando certificado...</p>
+                            <p style="color: #8b8b9a;">Processando certificação...</p>
                         </div>
 
                         <!-- Formulário de Upload -->
@@ -168,23 +168,23 @@
                             </div>
 
                             <div id="fileInfo" style="display: none;">
-                                <strong><i class="fas fa-file"></i> Arquivo selecionado:</strong> <span id="fileName"></span>
+                                <strong><i class="fas fa-file"></i> Arquivo selecionação:</strong> <span id="fileName"></span>
                             </div>
 
                             <div class="form-group">
-                                <label for="senha"><i class="fas fa-lock"></i> Senha do Certificado:</label>
-                                <input type="password" id="senha" placeholder="Digite a senha do certificado" autocomplete="off">
+                                <label for="senha"><i class="fas fa-lock"></i> Senha do Certificação:</label>
+                                <input type="password" id="senha" placeholder="Digite a senha do certificação" autocomplete="off">
                             </div>
 
                             <div class="btn-group">
-                                <button class="btn btn-secondary" id="btnTestar"><i class="fas fa-flask"></i> Testar Certificado</button>
-                                <button class="btn btn-primary" id="btnInstalar"><i class="fas fa-check-circle"></i> Instalar Certificado</button>
+                                <button class="btn btn-secondary" id="btnTestar"><i class="fas fa-flask"></i> Testar Certificação</button>
+                                <button class="btn btn-primary" id="btnInstalar"><i class="fas fa-check-circle"></i> Instalar Certificação</button>
                             </div>
                         </div>
 
-                        <!-- Botão para remover certificado (quando configurado) -->
+                        <!-- Botão para remover certificação (quando configuração) -->
                         <div id="removeSection" style="display: none; margin-top: 20px;">
-                            <button class="btn btn-danger" id="btnRemover"><i class="fas fa-trash"></i> Remover Certificado</button>
+                            <button class="btn btn-danger" id="btnRemover"><i class="fas fa-trash"></i> Remover Certificação</button>
                         </div>
                     </div>
                 </div>
@@ -246,81 +246,81 @@
 
         btnTestar.addEventListener('click', async () => {
             if (!selectedFile) { showAlert('Selecione um arquivo .pfx', 'error'); return; }
-            if (!senhaInput.value) { showAlert('Digite a senha do certificado', 'error'); return; }
+            if (!senhaInput.value) { showAlert('Digite a senha do certificação', 'error'); return; }
 
             loading.classList.add('show');
             try {
                 const formData = new FormData();
-                formData.append('certificado', selectedFile);
+                formData.append('certificação', selectedFile);
                 formData.append('senha', senhaInput.value);
 
-                const response = await fetch('/api/certificado/testar', { method: 'POST', body: formData });
+                const response = await fetch('/api/certificação/testar', { method: 'POST', body: formData });
                 const data = await response.json();
 
                 if (data.sucesso) {
-                    showAlert('Certificado válido! ' + (data.mensagem || ''), 'success');
+                    showAlert('Certificação válido! ' + (data.mensagem || ''), 'success');
                 } else {
-                    showAlert(data.mensagem || 'Erro ao testar certificado', 'error');
+                    showAlert(data.mensagem || 'Erro ao testar certificação', 'error');
                 }
             } catch (error) {
-                showAlert('Erro ao testar certificado: ' + error.message, 'error');
+                showAlert('Erro ao testar certificação: ' + error.message, 'error');
             }
             loading.classList.remove('show');
         });
 
         btnInstalar.addEventListener('click', async () => {
             if (!selectedFile) { showAlert('Selecione um arquivo .pfx', 'error'); return; }
-            if (!senhaInput.value) { showAlert('Digite a senha do certificado', 'error'); return; }
+            if (!senhaInput.value) { showAlert('Digite a senha do certificação', 'error'); return; }
 
-            if (!confirm('Deseja instalar este certificado? Ele substituirá qualquer certificado existente.')) return;
+            if (!confirm('Deseja instalar este certificação Ele substituirá qualquer certificação existente.')) return;
 
             loading.classList.add('show');
             try {
                 const formData = new FormData();
-                formData.append('certificado', selectedFile);
+                formData.append('certificação', selectedFile);
                 formData.append('senha', senhaInput.value);
 
-                const response = await fetch('/api/certificado/instalar', { method: 'POST', body: formData });
+                const response = await fetch('/api/certificação/instalar', { method: 'POST', body: formData });
                 const data = await response.json();
 
                 if (data.sucesso) {
-                    showAlert('Certificado instalado com sucesso!', 'success');
+                    showAlert('Certificação instalação com sucesso!', 'success');
                     loadStatus();
                 } else {
-                    showAlert(data.mensagem || 'Erro ao instalar certificado', 'error');
+                    showAlert(data.mensagem || 'Erro ao instalar certificação', 'error');
                 }
             } catch (error) {
-                showAlert('Erro ao instalar certificado: ' + error.message, 'error');
+                showAlert('Erro ao instalar certificação: ' + error.message, 'error');
             }
             loading.classList.remove('show');
         });
 
         btnRemover.addEventListener('click', async () => {
-            if (!confirm('Deseja remover o certificado atual? Esta ação não pode ser desfeita.')) return;
+            if (!confirm('Deseja remover o certificação atual Esta ação não pode ser desfeita.')) return;
 
             try {
-                const response = await fetch('/api/certificado/remover', { method: 'DELETE' });
+                const response = await fetch('/api/certificação/remover', { method: 'DELETE' });
                 const data = await response.json();
 
                 if (data.sucesso) {
-                    showAlert('Certificado removido com sucesso!', 'success');
+                    showAlert('Certificação removido com sucesso!', 'success');
                     loadStatus();
                 } else {
-                    showAlert(data.mensagem || 'Erro ao remover certificado', 'error');
+                    showAlert(data.mensagem || 'Erro ao remover certificação', 'error');
                 }
             } catch (error) {
-                showAlert('Erro ao remover certificado: ' + error.message, 'error');
+                showAlert('Erro ao remover certificação: ' + error.message, 'error');
             }
         });
 
         async function loadStatus() {
             try {
-                const response = await fetch('/api/certificado/status');
+                const response = await fetch('/api/certificação/status');
                 const data = await response.json();
 
-                if (data.configurado) {
+                if (data.configuração) {
                     statusBox.className = 'status-box ' + (data.status || 'valido');
-                    statusText.textContent = data.razaoSocial || 'Certificado configurado';
+                    statusText.textContent = data.razaoSocial || 'Certificação configuração';
                     statusInfo.innerHTML = `
                         <div class="info-item"><label>CNPJ</label><value>${data.cnpj || '-'}</value></div>
                         <div class="info-item"><label>Validade</label><value>${data.validade || '-'}</value></div>
@@ -330,8 +330,8 @@
                     statusInfo.style.display = 'grid';
                     removeSection.style.display = 'block';
                 } else {
-                    statusBox.className = 'status-box sem-certificado';
-                    statusText.textContent = 'Nenhum certificado configurado';
+                    statusBox.className = 'status-box sem-certificação';
+                    statusText.textContent = 'Nenhum certificação configuração';
                     statusInfo.style.display = 'none';
                     removeSection.style.display = 'none';
                 }
@@ -350,17 +350,17 @@
         // Carregar status ao abrir
         loadStatus();
     </script>
-    <script src="dashboard-nfe-pro.js?v=20251217"></script>
-    <!-- Carregar dados do usuário logado -->
+    <script src="dashboard-nfe-pro.jsv=20251217"></script>
+    <!-- Carregar daçãos do usuário logação -->
     <script>
-        async function carregarDadosUsuario() {
+        async function carregarDaçãosUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || user.name || 'Usuário';
-                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (userName  userName.split(' ')[0] : 'Usuário');
                     
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -432,7 +432,7 @@
                 }
             } catch (e) { console.log('Erro ao carregar usuário:', e); }
         }
-        document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+        document.addEventListener('DOMContentLoaded', carregarDaçãosUsuario);
     </script></body>
 </html>
 

@@ -20,7 +20,7 @@
     function loadEstoque() {
         estoque = [
             { id: 1, codigo: 'MAT-001', material: 'Alumínio 6061-T6', localizacao: 'A-01-01', estoqueAtual: 1250, estoqueMinimo: 500, estoqueMaximo: 2000, ultimaMovimentacao: '2025-01-20', tipo: 'entrada', quantidade: 500 },
-            { id: 2, codigo: 'MAT-002', material: 'Parafuso Sextavado M8x20', localizacao: 'B-02-03', estoqueAtual: 2800, estoqueMinimo: 1000, estoqueMaximo: 5000, ultimaMovimentacao: '2025-01-18', tipo: 'entrada', quantidade: 1000 },
+            { id: 2, codigo: 'MAT-002', material: 'Parafuso Sextavação M8x20', localizacao: 'B-02-03', estoqueAtual: 2800, estoqueMinimo: 1000, estoqueMaximo: 5000, ultimaMovimentacao: '2025-01-18', tipo: 'entrada', quantidade: 1000 },
             { id: 3, codigo: 'MAT-003', material: 'Tinta Epóxi Branca RAL 9016', localizacao: 'C-01-02', estoqueAtual: 45, estoqueMinimo: 50, estoqueMaximo: 200, ultimaMovimentacao: '2025-01-19', tipo: 'saida', quantidade: 30 },
             { id: 4, codigo: 'MAT-004', material: 'Rolamento SKF 6205-2RS', localizacao: 'B-03-01', estoqueAtual: 120, estoqueMinimo: 50, estoqueMaximo: 300, ultimaMovimentacao: '2025-01-21', tipo: 'entrada', quantidade: 50 },
             { id: 5, codigo: 'MAT-005', material: 'Aço 1020 Chapa 3mm', localizacao: 'A-02-02', estoqueAtual: 890, estoqueMinimo: 300, estoqueMaximo: 1500, ultimaMovimentacao: '2025-01-22', tipo: 'entrada', quantidade: 300 },
@@ -99,7 +99,7 @@
                             const percentual = ((e.estoqueAtual / e.estoqueMaximo) * 100).toFixed(0);
                             
                             return `
-                                <tr class="${status.status === 'critico' ? 'row-danger' : ''}">
+                                <tr class="${status.status === 'critico'  'row-danger' : ''}">
                                     <td><strong>${e.codigo}</strong></td>
                                     <td>${e.material}</td>
                                     <td><span class="badge badge-secondary">${e.localizacao}</span></td>
@@ -107,9 +107,9 @@
                                         <strong class="text-${status.classe}">${e.estoqueAtual}</strong>
                                         <div class="progress" style="height: 8px; margin-top: 5px; background: #e5e7eb; border-radius: 4px; overflow: hidden;">
                                             <div class="progress-bar bg-${status.classe}" style="width: ${percentual}%; background: ${
-                                                status.classe === 'danger' ? '#ef4444' : 
-                                                status.classe === 'warning' ? '#f59e0b' :
-                                                status.classe === 'info' ? '#3b82f6' : '#10b981'
+                                                status.classe === 'danger'  '#ef4444' : 
+                                                status.classe === 'warning'  '#f59e0b' :
+                                                status.classe === 'info'  '#3b82f6' : '#10b981'
                                             }; height: 100%;"></div>
                                         </div>
                                     </td>
@@ -123,8 +123,8 @@
                                     <td>
                                         ${formatDate(e.ultimaMovimentacao)}
                                         <br>
-                                        <small class="text-${e.tipo === 'entrada' ? 'success' : 'danger'}">
-                                            ${e.tipo === 'entrada' ? '↑' : '↓'} ${e.quantidade}
+                                        <small class="text-${e.tipo === 'entrada'  'success' : 'danger'}">
+                                            ${e.tipo === 'entrada'  '↑' : '↓'} ${e.quantidade}
                                         </small>
                                     </td>
                                     <td>

@@ -40,7 +40,7 @@ self.addEventListener('install', (event) => {
         return cache.addAll(CRITICAL_ASSETS);
       })
       .then(() => {
-        console.log('[SW] Assets críticos cacheados com sucesso');
+        console.log('[SW] Assets críticos cacheaçãos com sucesso');
         return self.skipWaiting(); // Ativa imediatamente
       })
       .catch((error) => {
@@ -66,14 +66,14 @@ self.addEventListener('activate', (event) => {
         );
       })
       .then(() => {
-        console.log('[SW] Service Worker ativado e pronto');
+        console.log('[SW] Service Worker ativação e pronto');
         return self.clients.claim(); // Assume controle de todas as páginas
       })
   );
 });
 
 // Estratégia de cache: Network First com fallback para Cache
-// Ideal para app que precisa de dados sempre atualizados
+// Ideal para app que precisa de daçãos sempre atualizaçãos
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -83,7 +83,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Ignora requisições de API (sempre buscar dados frescos)
+  // Ignora requisições de API (sempre buscar daçãos frescos)
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
       fetch(request)
@@ -172,4 +172,4 @@ self.addEventListener('updatefound', () => {
   console.log('[SW] Atualização do Service Worker encontrada!');
 });
 
-console.log('[SW] Service Worker carregado - versão', CACHE_VERSION);
+console.log('[SW] Service Worker carregação - versão', CACHE_VERSION);

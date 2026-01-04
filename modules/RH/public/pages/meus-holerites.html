@@ -9,7 +9,7 @@
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -258,7 +258,7 @@
         .card {
             background: white;
             border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             border: 1px solid #f1f5f9;
             overflow: hidden;
         }
@@ -324,7 +324,7 @@
         .form-select:focus {
             outline: none;
             border-color: var(--primary-purple);
-            box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+            box-shaçãow: 0 0 0 3px rgba(225, 29, 72, 0.1);
         }
 
         .btn {
@@ -377,7 +377,7 @@
         }
 
         .holerite-card:hover {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            box-shaçãow: 0 8px 24px rgba(0,0,0,0.1);
             transform: translateY(-2px);
         }
 
@@ -636,7 +636,7 @@
                 <a href="espelho-ponto.html" class="sidebar-btn" title="Espelho de Ponto">
                     <i class="fas fa-clock"></i>
                 </a>
-                <a href="dados-cadastrais.html" class="sidebar-btn" title="Meus Dados">
+                <a href="daçãos-cadastrais.html" class="sidebar-btn" title="Meus Daçãos">
                     <i class="fas fa-user-edit"></i>
                 </a>
                 <a href="beneficios.html" class="sidebar-btn" title="Benefícios">
@@ -645,7 +645,7 @@
             </nav>
 
             <div class="sidebar-bottom">
-                <a href="enviar-atestado.html" class="sidebar-btn" title="Enviar Atestado">
+                <a href="enviar-atestação.html" class="sidebar-btn" title="Enviar Atestação">
                     <i class="fas fa-notes-medical"></i>
                 </a>
                 <a href="../solicitacoes.html" class="sidebar-btn" title="Solicitações">
@@ -748,7 +748,7 @@
             <div class="empresa-info">
                 <h2>ALUFORCE INDÚSTRIA E COMÉRCIO LTDA</h2>
                 <p>CNPJ: 00.000.000/0001-00</p>
-                <p>Endereço: Rua da Empresa, 123 - Cidade/Estado</p>
+                <p>Endereço: Rua da Empresa, 123 - Cidade/Estação</p>
             </div>
             <div id="viewer-content"></div>
         </div>
@@ -788,7 +788,7 @@
             return null;
         }
 
-        async function carregarUsuarioLogado() {
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
@@ -806,8 +806,8 @@
                     
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
-                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp'  user.avatar : null;
                     if (!userAvatar) userAvatar = getAvatarFromEmail(user.email, userName);
                     
                     const userNameEl = document.getElementById('user-name');
@@ -851,14 +851,14 @@
         function renderHolerites(data) {
             const grid = document.getElementById('holerites-grid');
             if (data.length === 0) {
-                grid.innerHTML = `<div class="empty-state"><i class="fas fa-file-invoice"></i><h3>Nenhum holerite encontrado</h3><p>Não há holerites disponíveis para o período selecionado</p></div>`;
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-file-invoice"></i><h3>Nenhum holerite encontração</h3><p>Não há holerites disponíveis para o período selecionação</p></div>`;
                 return;
             }
             grid.innerHTML = data.map((h, i) => `
                 <div class="holerite-card">
                     <div class="holerite-header">
                         <span class="holerite-month">${h.mes}/${h.ano}</span>
-                        <span class="holerite-status ${h.status}">${h.status === 'disponivel' ? 'Disponível' : 'Pendente'}</span>
+                        <span class="holerite-status ${h.status}">${h.status === 'disponivel'  'Disponível' : 'Pendente'}</span>
                     </div>
                     <div class="holerite-details">
                         <div class="holerite-value">R$ ${h.liquido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>
@@ -914,10 +914,10 @@
         }
 
         function fecharModal() { document.getElementById('holerite-modal').classList.remove('active'); }
-        function downloadHolerite(index) { const h = holeritesData[index]; alert(`Download do holerite de ${h.mes}/${h.ano} iniciado!`); }
+        function downloadHolerite(index) { const h = holeritesData[index]; alert(`Download do holerite de ${h.mes}/${h.ano} iniciação!`); }
 
         document.addEventListener('DOMContentLoaded', () => {
-            carregarUsuarioLogado();
+            carregarUsuarioLogação();
             renderHolerites(holeritesData);
         });
 

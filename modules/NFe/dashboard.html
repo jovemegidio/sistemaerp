@@ -22,14 +22,14 @@
             background: white;
             padding: 24px;
             border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.08);
             border: 1px solid #e5e7eb;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s, box-shaçãow 0.2s;
         }
 
         .stat-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            box-shaçãow: 0 8px 20px rgba(0,0,0,0.12);
         }
 
         .stat-card-header {
@@ -172,7 +172,7 @@
             background: white;
             padding: 28px;
             border-radius: 16px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.08);
             border: 1px solid #e5e7eb;
         }
 
@@ -205,7 +205,7 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 16px rgba(59,130,246,0.3);
+            box-shaçãow: 0 8px 16px rgba(59,130,246,0.3);
         }
 
         .empty-state {
@@ -220,8 +220,8 @@
             opacity: 0.5;
         }
     </style>
-    <link rel="stylesheet" href="css/chat-widget.css?v=20251210">
-    <script src="js/chat-widget.js?v=1765417597"></script></head>
+    <link rel="stylesheet" href="css/chat-widget.cssv=20251210">
+    <script src="js/chat-widget.jsv=1765417597"></script></head>
 <body>
     <div class="aluforce-container">
         <aside class="aluforce-sidebar">
@@ -358,18 +358,18 @@
     </div>
 
     <script src="../aluforce-ui.js"></script>
-    <script src="dashboard-nfe-pro.js?v=20251216"></script>
+    <script src="dashboard-nfe-pro.jsv=20251216"></script>
 
-    <!-- Carregar dados do usuário logado -->
+    <!-- Carregar daçãos do usuário logação -->
     <script>
-        async function carregarUsuarioLogado() {
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || user.name || 'Usuário';
-                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (userName  userName.split(' ')[0] : 'Usuário');
                     
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -441,12 +441,12 @@
                 }
             } catch (e) { console.log('Erro ao carregar usuário:', e); }
         }
-        document.addEventListener('DOMContentLoaded', carregarUsuarioLogado);
+        document.addEventListener('DOMContentLoaded', carregarUsuarioLogação);
     </script>
 
 <!-- Chat Widget Padrão Omie -->
 
     <!-- Sistema de Monitoramento de Conexão -->
-    <script src="../_shared/connection-monitor.js?v=20251223"></script></body>
+    <script src="../_shared/connection-monitor.jsv=20251223"></script></body>
 </html>
 

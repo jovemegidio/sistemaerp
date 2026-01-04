@@ -9,7 +9,7 @@
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -160,7 +160,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex;
             align-items: center;
             gap: 16px;
@@ -188,7 +188,7 @@
         .tabs-container {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
@@ -264,7 +264,7 @@
 
         .competencia-card:hover {
             border-color: var(--primary-purple);
-            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.1);
+            box-shaçãow: 0 4px 12px rgba(139, 92, 246, 0.1);
         }
 
         .competencia-header {
@@ -480,7 +480,7 @@
         .form-textarea:focus {
             outline: none;
             border-color: var(--primary-purple);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            box-shaçãow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         /* Toast */
@@ -495,7 +495,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shaçãow: 0 10px 25px rgba(0,0,0,0.2);
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.3s ease;
@@ -925,7 +925,7 @@
 
                             <div class="meta-card">
                                 <div class="meta-header">
-                                    <span class="meta-title">Mentoria para novo colaborador</span>
+                                    <span class="meta-title">Mentoria para novo colaboraçãor</span>
                                     <span class="meta-status pendente">Pendente</span>
                                 </div>
                                 <p class="meta-desc">Acompanhar e orientar novo membro da equipe.</p>
@@ -1011,17 +1011,17 @@
 
                         <form id="formAutoavaliacao">
                             <div class="form-group">
-                                <label for="pontos-fortes">Quais foram seus principais pontos fortes neste período?</label>
+                                <label for="pontos-fortes">Quais foram seus principais pontos fortes neste período</label>
                                 <textarea id="pontos-fortes" class="form-textarea" placeholder="Descreva suas principais conquistas e habilidades demonstradas..."></textarea>
                             </div>
 
                             <div class="form-group">
-                                <label for="pontos-melhoria">Quais pontos você acredita que precisam de melhoria?</label>
+                                <label for="pontos-melhoria">Quais pontos você acredita que precisam de melhoria</label>
                                 <textarea id="pontos-melhoria" class="form-textarea" placeholder="Identifique áreas que você gostaria de desenvolver..."></textarea>
                             </div>
 
                             <div class="form-group">
-                                <label for="objetivos">Quais são seus objetivos para o próximo período?</label>
+                                <label for="objetivos">Quais são seus objetivos para o próximo período</label>
                                 <textarea id="objetivos" class="form-textarea" placeholder="Liste seus objetivos e metas pessoais..."></textarea>
                             </div>
 
@@ -1126,8 +1126,8 @@
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
-                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp'  user.avatar : null;
                     if (!userAvatar) userAvatar = getAvatarFromEmail(user.email, userName);
                     
                     // Atualizar saudação dinâmica baseada na hora

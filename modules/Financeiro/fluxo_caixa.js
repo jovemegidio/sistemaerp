@@ -1,15 +1,15 @@
 // ===== FLUXO DE CAIXA - ALUFORCE =====
-let períodoSelecionado = '7dias';
+let períodoSelecionação = '7dias';
 let dataInicio = null;
 let dataFim = null;
-let dadosFluxo = [];
+let daçãosFluxo = [];
 let chartFluxo = null;
 
 // ===== INICIALIZAÇÉO =====
 document.addEventListener('DOMContentLoaded', async function() {
     try {
         configurarDatasIniciais();
-        await carregarDadosFluxo();
+        await carregarDaçãosFluxo();
         renderizarGrafico();
         renderizarTabela();
         atualizarResumo();
@@ -32,7 +32,7 @@ function configurarDatasIniciais() {
 }
 
 function selecionarPeriodo(período, evt) {
-    períodoSelecionado = período;
+    períodoSelecionação = período;
     
     // Atualizar botões
     document.querySelectorAll('.período-btn').forEach(btn => btn.classList.remove('active'));
@@ -58,10 +58,10 @@ function selecionarPeriodo(período, evt) {
     document.getElementById('data-inicio').value = formatarDataInput(dataInicio);
     document.getElementById('data-fim').value = formatarDataInput(dataFim);
     
-    carregarDadosFluxo();
+    carregarDaçãosFluxo();
 }
 
-function aplicarPeriodoCustomizado() {
+function aplicarPeriodoCustomização() {
     const inicio = document.getElementById('data-inicio').value;
     const fim = document.getElementById('data-fim').value;
     
@@ -76,18 +76,18 @@ function aplicarPeriodoCustomizado() {
     // Desmarcar botões de período
     document.querySelectorAll('.período-btn').forEach(btn => btn.classList.remove('active'));
     
-    carregarDadosFluxo();
+    carregarDaçãosFluxo();
 }
 
 // ===== CARREGAR DADOS =====
-async function carregarDadosFluxo() {
+async function carregarDaçãosFluxo() {
     try {
         // TODO: Substituir por chamada real à API
-        // const response = await fetch(`/api/financeiro/fluxo-caixa?inicio=${formatarDataISO(dataInicio)}&fim=${formatarDataISO(dataFim)}`);
-        // dadosFluxo = await response.json();
+        // const response = await fetch(`/api/financeiro/fluxo-caixainicio=${formatarDataISO(dataInicio)}&fim=${formatarDataISO(dataFim)}`);
+        // daçãosFluxo = await response.json();
         
-        // Gerar dados mock para desenvolvimento
-        dadosFluxo = gerarDadosMock();
+        // Gerar daçãos mock para desenvolvimento
+        daçãosFluxo = gerarDaçãosMock();
         
         renderizarGrafico();
         renderizarTabela();
@@ -95,13 +95,13 @@ async function carregarDadosFluxo() {
         
     } catch (error) {
         console.error('❌ Erro ao carregar fluxo de caixa:', error);
-        mostrarAlerta('Erro ao carregar dados do fluxo de caixa', 'error');
+        mostrarAlerta('Erro ao carregar daçãos do fluxo de caixa', 'error');
     }
 }
 
-function gerarDadosMock() {
-    const dados = [];
-    let saldoAcumulado = 50000; // Saldo inicial
+function gerarDaçãosMock() {
+    const daçãos = [];
+    let saldoAcumulação = 50000; // Saldo inicial
     
     const atual = new Date(dataInicio);
     const fim = new Date(dataFim);
@@ -110,15 +110,15 @@ function gerarDadosMock() {
         const entradas = Math.random() * 15000;
         const saidas = Math.random() * 12000;
         const saldo = entradas - saidas;
-        saldoAcumulado += saldo;
+        saldoAcumulação += saldo;
         
-        dados.push({
+        daçãos.push({
             data: new Date(atual),
             entradas: entradas,
             saidas: saidas,
             saldo: saldo,
-            saldo_acumulado: saldoAcumulado,
-            realizado: atual < new Date() // Se já passou
+            saldo_acumulação: saldoAcumulação,
+            realização: atual < new Date() // Se já passou
         });
         
         atual.setDate(atual.getDate() + 1);
@@ -133,19 +133,19 @@ function gerarDadosMock() {
         const entradas = Math.random() * 10000;
         const saidas = Math.random() * 9000;
         const saldo = entradas - saidas;
-        saldoAcumulado += saldo;
+        saldoAcumulação += saldo;
         
-        dados.push({
+        daçãos.push({
             data: data,
             entradas: entradas,
             saidas: saidas,
             saldo: saldo,
-            saldo_acumulado: saldoAcumulado,
-            realizado: false // Previsão
+            saldo_acumulação: saldoAcumulação,
+            realização: false // Previsão
         });
     }
     
-    return dados;
+    return daçãos;
 }
 
 // ===== RENDERIZAÇÉO =====
@@ -156,10 +156,10 @@ function renderizarGrafico() {
         chartFluxo.destroy();
     }
     
-    const labels = dadosFluxo.map(d => formatarDataCurta(d.data));
-    const entradas = dadosFluxo.map(d => d.entradas);
-    const saidas = dadosFluxo.map(d => d.saidas);
-    const saldoAcumulado = dadosFluxo.map(d => d.saldo_acumulado);
+    const labels = daçãosFluxo.map(d => formatarDataCurta(d.data));
+    const entradas = daçãosFluxo.map(d => d.entradas);
+    const saidas = daçãosFluxo.map(d => d.saidas);
+    const saldoAcumulação = daçãosFluxo.map(d => d.saldo_acumulação);
     
     chartFluxo = new Chart(ctx, {
         type: 'line',
@@ -185,8 +185,8 @@ function renderizarGrafico() {
                     tension: 0.4
                 },
                 {
-                    label: 'Saldo Acumulado',
-                    data: saldoAcumulado,
+                    label: 'Saldo Acumulação',
+                    data: saldoAcumulação,
                     borderColor: '#3b82f6',
                     backgroundColor: 'rgba(59, 130, 246, 0.1)',
                     borderWidth: 3,
@@ -267,18 +267,18 @@ function renderizarTabela() {
     const hoje = new Date();
     hoje.setHours(0, 0, 0, 0);
     
-    // Filtrar apenas o período selecionado
-    const dadosPeriodo = dadosFluxo.filter(d => {
+    // Filtrar apenas o período selecionação
+    const daçãosPeriodo = daçãosFluxo.filter(d => {
         const data = new Date(d.data);
         return data >= dataInicio && data <= dataFim;
     });
     
-    if (!dadosPeriodo || dadosPeriodo.length === 0) {
+    if (!daçãosPeriodo || daçãosPeriodo.length === 0) {
         tabela.innerHTML = `
             <tr>
                 <td colspan="5" style="text-align: center; padding: 60px 20px; color: #64748b;">
                     <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
-                    Nenhum dado disponível para o período selecionado
+                    Nenhum dação disponível para o período selecionação
                 </td>
             </tr>
         `;
@@ -292,23 +292,23 @@ function renderizarTabela() {
                 <th class="text-right">Entradas</th>
                 <th class="text-right">Saídas</th>
                 <th class="text-right">Saldo do Dia</th>
-                <th class="text-right">Saldo Acumulado</th>
+                <th class="text-right">Saldo Acumulação</th>
             </tr>
         </thead>
         <tbody>
-            ${dadosPeriodo.map(item => {
+            ${daçãosPeriodo.map(item => {
                 const data = new Date(item.data);
                 const isPast = data < hoje;
                 const isFuture = data > hoje;
                 const isToday = data.getTime() === hoje.getTime();
                 
                 return `
-                    <tr class="${isPast ? 'período-passado' : isFuture ? 'período-futuro' : ''}">
+                    <tr class="${isPast  'período-passação' : isFuture  'período-futuro' : ''}">
                         <td>
                             <div class="data-destaque">
                                 ${formatarData(data)}
-                                ${isToday ? '<span style="background: #3b82f6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">HOJE</span>' : ''}
-                                ${isFuture ? '<span style="background: #f59e0b; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">PREVISÉO</span>' : ''}
+                                ${isToday  '<span style="background: #3b82f6; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">HOJE</span>' : ''}
+                                ${isFuture  '<span style="background: #f59e0b; color: white; padding: 2px 8px; border-radius: 4px; font-size: 11px; margin-left: 8px;">PREVISÉO</span>' : ''}
                             </div>
                             <small style="color: #64748b;">${getDiaSemana(data)}</small>
                         </td>
@@ -318,12 +318,12 @@ function renderizarTabela() {
                         <td class="text-right valor-negativo">
                             - R$ ${formatarMoeda(item.saidas)}
                         </td>
-                        <td class="text-right ${item.saldo >= 0 ? 'valor-positivo' : 'valor-negativo'}">
-                            ${item.saldo >= 0 ? '+' : '-'} R$ ${formatarMoeda(Math.abs(item.saldo))}
+                        <td class="text-right ${item.saldo >= 0  'valor-positivo' : 'valor-negativo'}">
+                            ${item.saldo >= 0  '+' : '-'} R$ ${formatarMoeda(Math.abs(item.saldo))}
                         </td>
                         <td class="text-right">
-                            <span class="saldo-acumulado ${item.saldo_acumulado >= 0 ? 'valor-positivo' : 'valor-negativo'}">
-                                R$ ${formatarMoeda(Math.abs(item.saldo_acumulado))}
+                            <span class="saldo-acumulação ${item.saldo_acumulação >= 0  'valor-positivo' : 'valor-negativo'}">
+                                R$ ${formatarMoeda(Math.abs(item.saldo_acumulação))}
                             </span>
                         </td>
                     </tr>
@@ -334,13 +334,13 @@ function renderizarTabela() {
             <tr>
                 <td>TOTAL DO PERÍODO</td>
                 <td class="text-right valor-positivo">
-                    + R$ ${formatarMoeda(dadosPeriodo.reduce((sum, d) => sum + d.entradas, 0))}
+                    + R$ ${formatarMoeda(daçãosPeriodo.reduce((sum, d) => sum + d.entradas, 0))}
                 </td>
                 <td class="text-right valor-negativo">
-                    - R$ ${formatarMoeda(dadosPeriodo.reduce((sum, d) => sum + d.saidas, 0))}
+                    - R$ ${formatarMoeda(daçãosPeriodo.reduce((sum, d) => sum + d.saidas, 0))}
                 </td>
-                <td class="text-right ${dadosPeriodo.reduce((sum, d) => sum + d.saldo, 0) >= 0 ? 'valor-positivo' : 'valor-negativo'}">
-                    R$ ${formatarMoeda(Math.abs(dadosPeriodo.reduce((sum, d) => sum + d.saldo, 0)))}
+                <td class="text-right ${daçãosPeriodo.reduce((sum, d) => sum + d.saldo, 0) >= 0  'valor-positivo' : 'valor-negativo'}">
+                    R$ ${formatarMoeda(Math.abs(daçãosPeriodo.reduce((sum, d) => sum + d.saldo, 0)))}
                 </td>
                 <td class="text-right"></td>
             </tr>
@@ -352,38 +352,38 @@ function renderizarTabela() {
 
 function atualizarResumo() {
     const hoje = new Date();
-    const dadosPeriodo = dadosFluxo.filter(d => {
+    const daçãosPeriodo = daçãosFluxo.filter(d => {
         const data = new Date(d.data);
         return data >= dataInicio && data <= dataFim;
     });
     
-    const totalEntradas = dadosPeriodo.reduce((sum, d) => sum + d.entradas, 0);
-    const totalSaidas = dadosPeriodo.reduce((sum, d) => sum + d.saidas, 0);
+    const totalEntradas = daçãosPeriodo.reduce((sum, d) => sum + d.entradas, 0);
+    const totalSaidas = daçãosPeriodo.reduce((sum, d) => sum + d.saidas, 0);
     const saldoPeriodo = totalEntradas - totalSaidas;
     
-    const qtdEntradas = dadosPeriodo.filter(d => d.entradas > 0).length;
-    const qtdSaidas = dadosPeriodo.filter(d => d.saidas > 0).length;
+    const qtdEntradas = daçãosPeriodo.filter(d => d.entradas > 0).length;
+    const qtdSaidas = daçãosPeriodo.filter(d => d.saidas > 0).length;
     
     // Projeção próximos 30 dias
     const dataProjecao = new Date(hoje);
     dataProjecao.setDate(hoje.getDate() + 30);
     
-    const dadosProjecao = dadosFluxo.filter(d => {
+    const daçãosProjecao = daçãosFluxo.filter(d => {
         const data = new Date(d.data);
         return data > hoje && data <= dataProjecao;
     });
     
-    const projecao30dias = dadosProjecao.reduce((sum, d) => sum + d.saldo, 0);
+    const projecao30dias = daçãosProjecao.reduce((sum, d) => sum + d.saldo, 0);
     
     // Atualizar UI
     document.getElementById('total-entradas').textContent = 'R$ ' + formatarMoeda(totalEntradas);
-    document.getElementById('qtd-entradas').textContent = `${qtdEntradas} lançamento${qtdEntradas !== 1 ? 's' : ''}`;
+    document.getElementById('qtd-entradas').textContent = `${qtdEntradas} lançamento${qtdEntradas !== 1  's' : ''}`;
     
     document.getElementById('total-saidas').textContent = 'R$ ' + formatarMoeda(totalSaidas);
-    document.getElementById('qtd-saidas').textContent = `${qtdSaidas} lançamento${qtdSaidas !== 1 ? 's' : ''}`;
+    document.getElementById('qtd-saidas').textContent = `${qtdSaidas} lançamento${qtdSaidas !== 1  's' : ''}`;
     
     document.getElementById('saldo-período').textContent = 'R$ ' + formatarMoeda(Math.abs(saldoPeriodo));
-    document.getElementById('variacao-período').textContent = saldoPeriodo >= 0 ? 'Positivo' : 'Negativo';
+    document.getElementById('variacao-período').textContent = saldoPeriodo >= 0  'Positivo' : 'Negativo';
     
     document.getElementById('projecao-30dias').textContent = 'R$ ' + formatarMoeda(Math.abs(projecao30dias));
 }
@@ -428,7 +428,7 @@ function formatarDataISO(data) {
 }
 
 function getDiaSemana(data) {
-    const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+    const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábação'];
     return dias[new Date(data).getDay()];
 }
 
@@ -459,10 +459,10 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         top: 20px;
         right: 20px;
         padding: 16px 24px;
-        background: ${tipo === 'success' ? '#10b981' : tipo === 'error' ? '#ef4444' : '#3b82f6'};
+        background: ${tipo === 'success'  '#10b981' : tipo === 'error'  '#ef4444' : '#3b82f6'};
         color: white;
         border-radius: 12px;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        box-shaçãow: 0 8px 20px rgba(0,0,0,0.15);
         z-index: 10000;
         font-weight: 600;
         display: flex;
@@ -471,7 +471,7 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         animation: slideIn 0.3s ease;
     `;
     
-    const icon = tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle';
+    const icon = tipo === 'success'  'check-circle' : tipo === 'error'  'exclamation-circle' : 'info-circle';
     alerta.innerHTML = `<i class="fas fa-${icon}"></i> ${mensagem}`;
     
     document.body.appendChild(alerta);

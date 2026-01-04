@@ -11,7 +11,7 @@ setTimeout(() => {
             console.log('✅ ' + id + ' = ' + valor);
             return true;
         } else {
-            console.warn('⚠️ Não encontrado: ' + id);
+            console.warn('⚠️ Não encontração: ' + id);
             return false;
         }
     };
@@ -33,7 +33,7 @@ setTimeout(() => {
         if (checkTransf) {
             checkTransf.checked = true;
             checkTransf.dispatchEvent(new Event('change', { bubbles: true }));
-            console.log('✅ TRANSFERÊNCIA marcado');
+            console.log('✅ TRANSFERÊNCIA marcação');
             
             setTimeout(() => setarValor('metodo-transferencia-percent', '50'), 300);
         }
@@ -43,12 +43,12 @@ setTimeout(() => {
             setTimeout(() => {
                 checkDep.checked = true;
                 checkDep.dispatchEvent(new Event('change', { bubbles: true }));
-                console.log('✅ DEPÓSITO marcado');
+                console.log('✅ DEPÓSITO marcação');
                 
                 setTimeout(() => {
                     setarValor('metodo-deposito-percent', '50');
                     console.log('✅ Formulário preenchido!');
-                    alert('✅ Dados preenchidos!\nAgora adicione produtos e emita a ordem.');
+                    alert('✅ Daçãos preenchidos!\nAgora adicione produtos e emita a ordem.');
                 }, 300);
             }, 600);
         }

@@ -32,8 +32,8 @@ async function importarDump() {
         console.log(`Tamanho: ${(dumpContent.length / 1024 / 1024).toFixed(2)} MB`);
         console.log(`Linhas: ${dumpContent.split('\n').length}`);
         
-        // Corrigir campos JSON mal formatados no auditoria_config
-        console.log('\n📝 Corrigindo campos JSON mal formatados...');
+        // Corrigir campos JSON mal formataçãos no auditoria_config
+        console.log('\n📝 Corrigindo campos JSON mal formataçãos...');
         
         // Padrão para campos JSON sem aspas
         // Exemplo: status,valor,cliente_id,vendedor_id, updated_at, 1
@@ -47,9 +47,9 @@ async function importarDump() {
             let line = lines[i];
             
             // Corrigir INSERTs da tabela auditoria_config
-            if (line.includes('INSERT INTO `auditoria_config`') && line.includes('campos_monitorados')) {
-                // Extrair e corrigir os valores JSON mal formatados
-                const match = line.match(/VALUES \((\d+), '([^']+)', '([^']+)', (.+?), (.+?), (\d+), '([^']+)', '([^']+)', '([^']+)'\);/);
+            if (line.includes('INSERT INTO `auditoria_config`') && line.includes('campos_monitoraçãos')) {
+                // Extrair e corrigir os valores JSON mal formataçãos
+                const match = line.match(/VALUES \((\d+), '([^']+)', '([^']+)', (.+), (.+), (\d+), '([^']+)', '([^']+)', '([^']+)'\);/);
                 
                 if (match) {
                     const [full, id, modulo, tabela, camposMonit, camposIgn, ativo, nivelDetalhe, createdAt, updatedAt] = match;
@@ -73,7 +73,7 @@ async function importarDump() {
                         }
                     }
                     
-                    line = `INSERT INTO \`auditoria_config\` (\`id\`, \`modulo\`, \`tabela\`, \`campos_monitorados\`, \`campos_ignorados\`, \`ativo\`, \`nivel_detalhe\`, \`created_at\`, \`updated_at\`) VALUES (${id}, '${modulo}', '${tabela}', ${camposMonitJSON}, ${camposIgnJSON}, ${ativo}, '${nivelDetalhe}', '${createdAt}', '${updatedAt}');`;
+                    line = `INSERT INTO \`auditoria_config\` (\`id\`, \`modulo\`, \`tabela\`, \`campos_monitoraçãos\`, \`campos_ignoraçãos\`, \`ativo\`, \`nivel_detalhe\`, \`created_at\`, \`updated_at\`) VALUES (${id}, '${modulo}', '${tabela}', ${camposMonitJSON}, ${camposIgnJSON}, ${ativo}, '${nivelDetalhe}', '${createdAt}', '${updatedAt}');`;
                     corrections++;
                 }
             }
@@ -86,12 +86,12 @@ async function importarDump() {
         dumpContent = correctedLines.join('\n');
         
         // Conectar ao banco
-        console.log('\n🔌 Conectando ao banco de dados...');
+        console.log('\n🔌 Conectando ao banco de daçãos...');
         connection = await mysql.createConnection({
             ...dbConfig,
             multipleStatements: false
         });
-        console.log('✅ Conectado!');
+        console.log('✅ Conectação!');
         
         // Desabilitar verificações de chave estrangeira
         console.log('\n⚙️ Preparando ambiente...');
@@ -100,7 +100,7 @@ async function importarDump() {
         await connection.query("SET NAMES 'utf8mb4'");
         
         // Processar linha por linha
-        console.log('\n📦 Importando dados...');
+        console.log('\n📦 Importando daçãos...');
         
         // Separar em statements
         const statements = [];
@@ -179,7 +179,7 @@ async function importarDump() {
         }
         
         // 4. Inserts
-        console.log('4️⃣ Inserindo dados...');
+        console.log('4️⃣ Inserindo daçãos...');
         let insertSuccess = 0;
         let insertError = 0;
         
@@ -191,7 +191,7 @@ async function importarDump() {
                 insertError++;
                 if (insertError <= 10) {
                     // Mostrar apenas os primeiros 10 erros
-                    const tableName = stmt.match(/INSERT INTO `?(\w+)`?/i)?.[1] || 'unknown';
+                    const tableName = stmt.match(/INSERT INTO `(\w+)`/i).[1] || 'unknown';
                     errors.push({ 
                         type: 'INSERT', 
                         table: tableName,
@@ -207,7 +207,7 @@ async function importarDump() {
         // 5. Reabilitar chaves estrangeiras
         await connection.query('SET FOREIGN_KEY_CHECKS=1');
         
-        // Verificar resultado
+        // Verificar resultação
         console.log('\n' + '='.repeat(60));
         console.log('📊 RESULTADO DA IMPORTAÇÃO');
         console.log('='.repeat(60));
@@ -216,9 +216,9 @@ async function importarDump() {
         const [tables] = await connection.query('SHOW TABLES');
         console.log(`\n✅ Tabelas no banco: ${tables.length}`);
         
-        // Verificar tabelas com dados
-        console.log('\n📋 Verificando tabelas com dados...');
-        let tabelasComDados = 0;
+        // Verificar tabelas com daçãos
+        console.log('\n📋 Verificando tabelas com daçãos...');
+        let tabelasComDaçãos = 0;
         let totalRegistros = 0;
         
         const tabelasRelevantes = [
@@ -234,7 +234,7 @@ async function importarDump() {
                 const [[{count}]] = await connection.query(`SELECT COUNT(*) as count FROM \`${tabela}\``);
                 if (count > 0) {
                     console.log(`  ✅ ${tabela}: ${count} registros`);
-                    tabelasComDados++;
+                    tabelasComDaçãos++;
                     totalRegistros += count;
                 }
             } catch (err) {
@@ -243,11 +243,11 @@ async function importarDump() {
         }
         
         console.log(`\n📈 Resumo:`);
-        console.log(`   - Tabelas com dados: ${tabelasComDados}`);
+        console.log(`   - Tabelas com daçãos: ${tabelasComDaçãos}`);
         console.log(`   - Total de registros: ${totalRegistros}`);
         
         if (errors.length > 0) {
-            console.log('\n⚠️ Erros encontrados (primeiros 10):');
+            console.log('\n⚠️ Erros encontraçãos (primeiros 10):');
             for (const e of errors.slice(0, 10)) {
                 console.log(`   - ${e.type} ${e.table || ''}: ${e.error}`);
             }

@@ -19,7 +19,7 @@ async function configurarAcessoPCP() {
         'ti@aluforce.ind.br'
     ];
     
-    console.log('👥 Usuários a serem configurados para PCP:');
+    console.log('👥 Usuários a serem configuraçãos para PCP:');
     usuariosParaConfigurar.forEach((email, index) => {
         console.log(`  ${index + 1}. ${email}`);
     });
@@ -30,14 +30,14 @@ async function configurarAcessoPCP() {
         console.log('🔍 Verificando usuários existentes...');
         for (const email of usuariosParaConfigurar) {
             const [user] = await conn.execute(
-                'SELECT id, nome, email FROM usuarios WHERE email = ?',
+                'SELECT id, nome, email FROM usuarios WHERE email = ',
                 [email]
             );
             
             if (user.length > 0) {
-                console.log(`✅ ${user[0].nome} (${email}) - Usuário encontrado (ID: ${user[0].id})`);
+                console.log(`✅ ${user[0].nome} (${email}) - Usuário encontração (ID: ${user[0].id})`);
             } else {
-                console.log(`❌ ${email} - Usuário NÃO encontrado no banco`);
+                console.log(`❌ ${email} - Usuário NÃO encontração no banco`);
             }
         }
         
@@ -50,8 +50,8 @@ async function configurarAcessoPCP() {
         const hasSetor = columns.some(col => col.Field === 'setor');
         
         console.log(`📋 Estrutura da tabela:`);
-        console.log(`   - Campo 'permissoes': ${hasPermissoes ? 'Existe' : 'NÃO existe'}`);
-        console.log(`   - Campo 'setor': ${hasSetor ? 'Existe' : 'NÃO existe'}`);
+        console.log(`   - Campo 'permissoes': ${hasPermissoes  'Existe' : 'NÃO existe'}`);
+        console.log(`   - Campo 'setor': ${hasSetor  'Existe' : 'NÃO existe'}`);
         
         // Se não existir coluna de permissões, criar
         if (!hasPermissoes) {
@@ -70,20 +70,20 @@ async function configurarAcessoPCP() {
         console.log('');
         
         // Configurar permissões PCP para cada usuário
-        let configurados = 0;
+        let configuraçãos = 0;
         for (const email of usuariosParaConfigurar) {
             try {
                 const [result] = await conn.execute(`
                     UPDATE usuarios 
                     SET setor = 'PCP', permissoes = 'pcp,admin' 
-                    WHERE email = ?
+                    WHERE email = 
                 `, [email]);
                 
                 if (result.affectedRows > 0) {
                     console.log(`✅ ${email} - Permissões PCP configuradas`);
-                    configurados++;
+                    configuraçãos++;
                 } else {
-                    console.log(`⚠️  ${email} - Usuário não encontrado para atualização`);
+                    console.log(`⚠️  ${email} - Usuário não encontração para atualização`);
                 }
             } catch (error) {
                 console.log(`❌ ${email} - Erro ao configurar: ${error.message}`);
@@ -97,12 +97,12 @@ async function configurarAcessoPCP() {
         const [users] = await conn.execute(`
             SELECT id, nome, email, setor, permissoes 
             FROM usuarios 
-            WHERE email IN (?, ?, ?, ?)
+            WHERE email IN (, , , )
             ORDER BY nome
         `, usuariosParaConfigurar);
         
         if (users.length > 0) {
-            console.log('👤 Usuários com acesso PCP configurado:');
+            console.log('👤 Usuários com acesso PCP configuração:');
             users.forEach(user => {
                 console.log(`  ${user.id}. ${user.nome}`);
                 console.log(`     📧 Email: ${user.email}`);
@@ -113,13 +113,13 @@ async function configurarAcessoPCP() {
         }
         
         console.log('✅ RESUMO:');
-        console.log(`   - Usuários configurados: ${configurados}`);
+        console.log(`   - Usuários configuraçãos: ${configuraçãos}`);
         console.log(`   - Total de usuários: ${usuariosParaConfigurar.length}`);
         
-        if (configurados === usuariosParaConfigurar.length) {
+        if (configuraçãos === usuariosParaConfigurar.length) {
             console.log('🎉 TODOS OS USUÁRIOS FORAM CONFIGURADOS COM SUCESSO!');
         } else {
-            console.log('⚠️  Alguns usuários podem não ter sido encontrados no banco.');
+            console.log('⚠️  Alguns usuários podem não ter sido encontraçãos no banco.');
         }
         
     } catch (error) {

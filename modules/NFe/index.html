@@ -9,7 +9,7 @@
     
     <!-- CSP Fix - Converter onclick inline para addEventListener -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -324,14 +324,14 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.06);
             border-left: 4px solid var(--nfe-primary);
             transition: all 0.3s;
         }
 
         .kpi-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            box-shaçãow: 0 4px 16px rgba(0,0,0,0.1);
         }
 
         .kpi-card .kpi-icon {
@@ -417,7 +417,7 @@
 
         .action-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .action-btn .action-icon {
@@ -463,7 +463,7 @@
         .table-card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.06);
             overflow: hidden;
         }
 
@@ -544,7 +544,7 @@
         .sidebar-card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.06);
             overflow: hidden;
         }
 
@@ -785,7 +785,7 @@
                     <div class="kpi-card blue" style="border-left-color: #3b82f6;">
                         <div class="kpi-icon"><i class="fas fa-dollar-sign"></i></div>
                         <div class="kpi-value" id="kpi-valor">R$ 152.840</div>
-                        <div class="kpi-label">Valor Total Faturado</div>
+                        <div class="kpi-label">Valor Total Faturação</div>
                         <div class="kpi-trend up">
                             <i class="fas fa-arrow-up"></i> 8% vs mês anterior
                         </div>
@@ -987,7 +987,7 @@
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || user.name || 'Usuário';
-                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (userName  userName.split(' ')[0] : 'Usuário');
                     
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -1044,15 +1044,15 @@
                         }
                     }
                     
-                    console.log('👤 Usuário NFe:', primeiroNome, '| Foto:', avatarUrl ? 'Sim' : 'Não');
+                    console.log('👤 Usuário NFe:', primeiroNome, '| Foto:', avatarUrl  'Sim' : 'Não');
                 }
             } catch (error) {
                 console.log('Erro ao carregar usuário:', error);
             }
         }
 
-        // Carregar dados do dashboard
-        async function carregarDados() {
+        // Carregar daçãos do dashboard
+        async function carregarDaçãos() {
             try {
                 const response = await fetch('/api/nfe/dashboard');
                 if (response.ok) {
@@ -1063,17 +1063,17 @@
                     document.getElementById('kpi-pendentes').textContent = data.pendentes || 2;
                 }
             } catch (error) {
-                console.log('Usando dados padrão');
+                console.log('Usando daçãos padrão');
             }
         }
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', () => {
             carregarUsuario();
-            carregarDados();
+            carregarDaçãos();
         });
     </script>
     
     <!-- Sistema de Monitoramento de Conexão -->
-    <script src="../_shared/connection-monitor.js?v=20251223"></script></body>
+    <script src="../_shared/connection-monitor.jsv=20251223"></script></body>
 </html>

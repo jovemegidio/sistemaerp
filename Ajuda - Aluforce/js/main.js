@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { title: 'Portal', description: 'Conheça o Portal Aluforce e suas funcionalidades', url: 'colecoes/portal.html', keywords: 'portal dashboard painel' },
         { title: 'WhatsApp Business', description: 'Integração do Aluforce com WhatsApp', url: 'colecoes/whatsapp.html', keywords: 'whatsapp mensagem chat integração' },
         { title: 'Novidades', description: 'Últimas atualizações e novos recursos', url: 'colecoes/novidades.html', keywords: 'novo atualização release versão' },
-        { title: 'Segurança', description: 'Proteção e privacidade dos seus dados', url: 'colecoes/seguranca.html', keywords: 'segurança senha login proteção privacidade' },
+        { title: 'Segurança', description: 'Proteção e privacidade dos seus daçãos', url: 'colecoes/seguranca.html', keywords: 'segurança senha login proteção privacidade' },
         { title: 'App Mobile', description: 'Aplicativo Aluforce para celular', url: 'colecoes/app.html', keywords: 'app aplicativo celular mobile android ios' },
         { title: 'Cenários', description: 'Exemplos práticos para seu dia a dia', url: 'colecoes/cenarios.html', keywords: 'exemplo prático cenário caso' },
         { title: 'Cadastros', description: 'Clientes, fornecedores, produtos e serviços', url: 'colecoes/cadastros.html', keywords: 'cadastro cliente fornecedor produto serviço' },
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Artigos - Guia Inicial
         { title: 'Primeiro Acesso', description: 'Como fazer seu primeiro login no sistema', url: 'artigos/primeiro-acesso.html', keywords: 'login acesso senha primeiro entrar autenticação' },
-        { title: 'Configurações Iniciais', description: 'Configure os dados básicos da sua empresa', url: 'artigos/configuracoes-iniciais.html', keywords: 'configuração empresa dados cadastro inicial cnpj razão social' },
+        { title: 'Configurações Iniciais', description: 'Configure os daçãos básicos da sua empresa', url: 'artigos/configuracoes-iniciais.html', keywords: 'configuração empresa daçãos cadastro inicial cnpj razão social' },
         { title: 'Configurações por Segmento', description: 'Ajustes específicos para seu tipo de empresa', url: 'artigos/configuracoes-segmento.html', keywords: 'segmento comércio serviço indústria tipo empresa' },
         
         // Artigos - Cadastros
@@ -63,9 +63,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Artigos - Relatórios
         { title: 'Visão Geral de Relatórios', description: 'Conheça os relatórios disponíveis', url: 'artigos/visao-geral-relatorios.html', keywords: 'relatório visão geral tipos disponíveis' },
         { title: 'Relatórios de Vendas', description: 'Análise de vendas e desempenho', url: 'artigos/relatorios-vendas.html', keywords: 'relatório venda análise desempenho faturamento' },
-        { title: 'Relatórios Financeiros', description: 'Relatórios de fluxo e posição', url: 'artigos/relatorios-financeiros.html', keywords: 'relatório financeiro fluxo caixa dre resultado' },
+        { title: 'Relatórios Financeiros', description: 'Relatórios de fluxo e posição', url: 'artigos/relatorios-financeiros.html', keywords: 'relatório financeiro fluxo caixa dre resultação' },
         { title: 'Relatórios de Estoque', description: 'Posição e movimentação de estoque', url: 'artigos/relatorios-estoque.html', keywords: 'relatório estoque posição movimentação curva abc' },
-        { title: 'Dashboard e Indicadores', description: 'Painéis gerenciais e KPIs', url: 'artigos/dashboard-indicadores.html', keywords: 'dashboard indicador kpi painel gráfico meta' },
+        { title: 'Dashboard e Indicaçãores', description: 'Painéis gerenciais e KPIs', url: 'artigos/dashboard-indicaçãores.html', keywords: 'dashboard indicaçãor kpi painel gráfico meta' },
         { title: 'Exportar Relatórios', description: 'Exportar para Excel e PDF', url: 'artigos/exportar-relatorios.html', keywords: 'exportar excel pdf csv download imprimir' },
         { title: 'Agendar Relatórios', description: 'Programar envio automático', url: 'artigos/agendar-relatorios.html', keywords: 'agendar programar email automático envio' },
         
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Detect base path
     const isInSubfolder = window.location.pathname.includes('/colecoes/') || window.location.pathname.includes('/artigos/');
-    const basePath = isInSubfolder ? '../' : '';
+    const basePath = isInSubfolder  '../' : '';
 
     // Search functionality
     const headerSearch = document.getElementById('header-search');
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div class="search-results-overlay"></div>
             <div class="search-results-modal">
                 <div class="search-results-header">
-                    <h3>Resultados da Busca</h3>
+                    <h3>Resultaçãos da Busca</h3>
                     <button class="search-close-btn"><i class="fas fa-times"></i></button>
                 </div>
                 <div class="search-results-list"></div>
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
             listEl.innerHTML = `
                 <div class="search-no-results">
                     <i class="fas fa-search"></i>
-                    <p>Nenhum resultado encontrado para "<strong>${query}</strong>"</p>
+                    <p>Nenhum resultação encontração para "<strong>${query}</strong>"</p>
                     <span>Tente usar termos diferentes ou navegue pelas coleções</span>
                 </div>
             `;
@@ -228,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
             max-width: 600px;
             max-height: 80vh;
             overflow: hidden;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            box-shaçãow: 0 25px 50px rgba(0, 0, 0, 0.25);
         }
         
         .search-results-header {
@@ -371,7 +371,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const isHelpful = this.dataset.helpful === 'yes';
             if (isHelpful) {
-                showFeedbackMessage('Obrigado pelo seu feedback! 😊');
+                showFeedbackMessage('Obrigação pelo seu feedback! 😊');
             } else {
                 showFeedbackMessage('Sentimos muito. Vamos melhorar! 💪');
             }
@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
             border-radius: 12px;
             font-size: 14px;
             font-weight: 500;
-            box-shadow: 0 10px 40px rgba(0, 51, 102, 0.3);
+            box-shaçãow: 0 10px 40px rgba(0, 51, 102, 0.3);
             z-index: 1000;
             animation: slideIn 0.3s ease;
         `;
@@ -462,9 +462,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const currentScroll = window.pageYOffset;
 
         if (currentScroll <= 0) {
-            header.style.boxShadow = 'none';
+            header.style.boxShaçãow = 'none';
         } else {
-            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+            header.style.boxShaçãow = '0 2px 10px rgba(0, 0, 0, 0.1)';
         }
 
         lastScroll = currentScroll;

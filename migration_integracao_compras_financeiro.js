@@ -24,7 +24,7 @@ async function executarMigracao() {
         try {
             await connection.query(`
                 ALTER TABLE contas_pagar 
-                ADD COLUMN pedido_compra_id INT NULL COMMENT 'ID do pedido de compra relacionado',
+                ADD COLUMN pedido_compra_id INT NULL COMMENT 'ID do pedido de compra relacionação',
                 ADD COLUMN venda_id INT NULL COMMENT 'ID da venda relacionada',
                 ADD INDEX idx_pedido_compra (pedido_compra_id),
                 ADD INDEX idx_venda (venda_id)
@@ -44,7 +44,7 @@ async function executarMigracao() {
             await connection.query(`
                 ALTER TABLE contas_receber 
                 ADD COLUMN venda_id INT NULL COMMENT 'ID da venda relacionada',
-                ADD COLUMN pedido_venda_id INT NULL COMMENT 'ID do pedido de venda relacionado',
+                ADD COLUMN pedido_venda_id INT NULL COMMENT 'ID do pedido de venda relacionação',
                 ADD INDEX idx_venda (venda_id),
                 ADD INDEX idx_pedido_venda (pedido_venda_id)
             `);
@@ -70,10 +70,10 @@ async function executarMigracao() {
                 usuario_id INT NULL,
                 status ENUM('sucesso', 'erro') DEFAULT 'sucesso',
                 mensagem TEXT NULL,
-                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 INDEX idx_origem (tipo_origem, origem_id),
                 INDEX idx_destino (tipo_destino, destino_id),
-                INDEX idx_data (criado_em)
+                INDEX idx_data (criação_em)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Log de integrações automáticas do Financeiro'
         `);
         console.log('   ✅ Tabela logs_integracao_financeiro criada');
@@ -91,7 +91,7 @@ async function executarMigracao() {
                 f.razao_social as fornecedor_razao_social,
                 f.cnpj as fornecedor_cnpj,
                 pc.usuario_solicitante_id,
-                pc.usuario_aprovador_id,
+                pc.usuario_aprovaçãor_id,
                 CONCAT(u.firstName, ' ', u.lastName) as usuario_solicitante_nome
             FROM contas_pagar cp
             LEFT JOIN pedidos_compra pc ON cp.pedido_compra_id = pc.id
@@ -132,11 +132,11 @@ async function executarMigracao() {
                 IF NEW.pedido_compra_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor_original, NEW.criado_por, 'sucesso');
+                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor_original, NEW.criação_por, 'sucesso');
                 END IF;
             END
         `);
-        console.log('   ✅ Trigger trg_log_integracao_pagar criado');
+        console.log('   ✅ Trigger trg_log_integracao_pagar criação');
 
         // 7. Criar trigger para log automático em contas_receber
         await connection.query(`DROP TRIGGER IF EXISTS trg_log_integracao_receber`);
@@ -148,11 +148,11 @@ async function executarMigracao() {
                 IF NEW.venda_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor_original, NEW.criado_por, 'sucesso');
+                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor_original, NEW.criação_por, 'sucesso');
                 END IF;
             END
         `);
-        console.log('   ✅ Trigger trg_log_integracao_receber criado');
+        console.log('   ✅ Trigger trg_log_integracao_receber criação');
 
         await connection.commit();
 
@@ -161,7 +161,7 @@ async function executarMigracao() {
         console.log('   - Colunas de integração adicionadas em contas_pagar e contas_receber');
         console.log('   - Tabela de logs criada');
         console.log('   - 2 Views integradas criadas');
-        console.log('   - 2 Triggers de auditoria criados');
+        console.log('   - 2 Triggers de auditoria criaçãos');
         console.log('\n🔗 Integração Compras → Financeiro ativada!');
 
     } catch (error) {
@@ -176,7 +176,7 @@ async function executarMigracao() {
 // Executar
 executarMigracao()
     .then(() => {
-        console.log('\n✅ Script finalizado');
+        console.log('\n✅ Script finalização');
         process.exit(0);
     })
     .catch((err) => {

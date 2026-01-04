@@ -34,7 +34,7 @@ function createWindow() {
     // Carregar a página inicial
     mainWindow.loadURL(`http://localhost:${SERVER_PORT}`);
 
-    // Abrir links externos no navegador padrão
+    // Abrir links externos no navegaçãor padrão
     mainWindow.webContents.setWindowOpenHandler(({ url }) => {
         if (url.startsWith('http://localhost') || url.startsWith('file://')) {
             return { action: 'allow' };
@@ -48,7 +48,7 @@ function createWindow() {
         mainWindow = null;
     });
 
-    // Menu personalizado
+    // Menu personalização
     createMenu();
 }
 
@@ -161,7 +161,7 @@ function startServer() {
             reject(error);
         });
 
-        // Timeout para considerar servidor iniciado
+        // Timeout para considerar servidor iniciação
         setTimeout(resolve, 2000);
     });
 }
@@ -190,7 +190,7 @@ app.whenReady().then(async () => {
         });
     } catch (error) {
         console.error('Erro na inicialização:', error);
-        dialog.showErrorBox('Erro', 'Não foi possível iniciar o sistema. Verifique se o servidor está configurado corretamente.');
+        dialog.showErrorBox('Erro', 'Não foi possível iniciar o sistema. Verifique se o servidor está configuração corretamente.');
         app.quit();
     }
 });

@@ -59,9 +59,9 @@
         greetings: {
             patterns: /^(oi|olá|ola|hey|opa|e aí|eai|bom dia|boa tarde|boa noite)/i,
             responses: [
-                "Olá! 👋 Sou o Bob, seu assistente virtual da ALUFORCE. Como posso ajudar você hoje?",
-                "Oi! 😊 Prazer em falar com você! Estou aqui para ajudar. O que você precisa?",
-                "Olá! Seja bem-vindo(a)! Sou o Bob e vou te auxiliar. Em que posso ser útil?"
+                "Olá! 👋 Sou o Bob, seu assistente virtual da ALUFORCE. Como posso ajudar você hoje",
+                "Oi! 😊 Prazer em falar com você! Estou aqui para ajudar. O que você precisa",
+                "Olá! Seja bem-vindo(a)! Sou o Bob e vou te auxiliar. Em que posso ser útil"
             ]
         },
         
@@ -76,7 +76,7 @@
                 "💰 **Financeiro** - Controle Financeiro\n" +
                 "📊 **Vendas** - Gestão Comercial\n" +
                 "📄 **NFe** - Notas Fiscais e Logística\n\n" +
-                "Sobre qual módulo você gostaria de saber mais?"
+                "Sobre qual módulo você gostaria de saber mais"
             ]
         },
 
@@ -90,7 +90,7 @@
                 "✓ Planejamento de Produção\n" +
                 "✓ Controle de Estoque\n" +
                 "✓ Programação de Faturamento\n\n" +
-                "Você quer saber como criar uma ordem de produção ou gerenciar materiais?"
+                "Você quer saber como criar uma ordem de produção ou gerenciar materiais"
             ]
         },
 
@@ -105,7 +105,7 @@
                 "✓ Folha de Pagamento\n" +
                 "✓ Benefícios\n" +
                 "✓ Avaliações de Desempenho\n\n" +
-                "Precisa de ajuda com qual funcionalidade?"
+                "Precisa de ajuda com qual funcionalidade"
             ]
         },
 
@@ -120,7 +120,7 @@
                 "✓ Aprovações de Pedidos\n" +
                 "✓ Controle de Estoque\n" +
                 "✓ Relatórios de Compras\n\n" +
-                "Como posso auxiliar nas compras?"
+                "Como posso auxiliar nas compras"
             ]
         },
 
@@ -133,9 +133,9 @@
                 "✓ Contas a Receber\n" +
                 "✓ Fluxo de Caixa\n" +
                 "✓ Conciliação Bancária\n" +
-                "✓ DRE - Demonstração de Resultados\n" +
+                "✓ DRE - Demonstração de Resultaçãos\n" +
                 "✓ Relatórios Financeiros\n\n" +
-                "Qual operação financeira você precisa realizar?"
+                "Qual operação financeira você precisa realizar"
             ]
         },
 
@@ -150,7 +150,7 @@
                 "✓ Gestão de Empresas\n" +
                 "✓ Análise de Performance\n" +
                 "✓ Relatórios de Vendas\n\n" +
-                "Precisa criar um pedido ou gerenciar clientes?"
+                "Precisa criar um pedido ou gerenciar clientes"
             ]
         },
 
@@ -161,11 +161,11 @@
                 "O módulo **NFe & Logística** inclui:\n\n" +
                 "✓ Emissão de NFe\n" +
                 "✓ Consulta de Notas\n" +
-                "✓ Certificado Digital\n" +
+                "✓ Certificação Digital\n" +
                 "✓ Controle Logístico\n" +
                 "✓ Rastreamento de Entregas\n" +
                 "✓ Eventos e Manifestações\n\n" +
-                "Como posso ajudar com notas fiscais?"
+                "Como posso ajudar com notas fiscais"
             ]
         },
 
@@ -185,11 +185,11 @@
 
         // Despedida
         farewell: {
-            patterns: /(tchau|adeus|até logo|até logo|valeu|obrigado|obrigada|thanks)/i,
+            patterns: /(tchau|adeus|até logo|até logo|valeu|obrigação|obrigada|thanks)/i,
             responses: [
                 "Foi um prazer ajudar! 😊 Se precisar, estarei por aqui. Até logo!",
-                "Obrigado pelo contato! Volte sempre que precisar. Até mais! 👋",
-                "Fico feliz em ter ajudado! Estou sempre disponível. Até breve! ✨"
+                "Obrigação pelo contato! Volte sempre que precisar. Até mais! 👋",
+                "Fico feliz em ter ajudação! Estou sempre disponível. Até breve! ✨"
             ]
         }
     };
@@ -248,7 +248,7 @@
                 "• Módulos do sistema (PCP, RH, Compras, etc.)\n" +
                 "• Como realizar uma tarefa\n" +
                 "• Funcionalidades específicas\n\n" +
-                "Como posso ajudar?",
+                "Como posso ajudar",
                 
                 "Hmm, não tenho certeza sobre isso. 😅\n\n" +
                 "Que tal me perguntar sobre:\n" +
@@ -268,7 +268,7 @@
             const suggestions = [];
 
             if (recentTopics.includes('pcp')) {
-                suggestions.push("Como criar ordem de produção?");
+                suggestions.push("Como criar ordem de produção");
                 suggestions.push("Gerenciar materiais");
             }
 
@@ -339,7 +339,7 @@
 
             // Remover markdown e formatação
             const cleanText = text
-                .replace(/\*\*(.*?)\*\*/g, '$1')
+                .replace(/\*\*(.*)\*\*/g, '$1')
                 .replace(/\n/g, ' ')
                 .replace(/[✓✗📊💰🏭👥🛒📄]/g, '');
 
@@ -373,7 +373,7 @@
 
         startListening() {
             if (!this.recognitionSupported) {
-                alert('Seu navegador não suporta reconhecimento de voz. Use Chrome, Edge ou Safari.');
+                alert('Seu navegaçãor não suporta reconhecimento de voz. Use Chrome, Edge ou Safari.');
                 return;
             }
 
@@ -429,7 +429,7 @@
             updateVoiceButton();
             
             showNotification(
-                state.ui.voiceEnabled ? '🔊 Voz ativada' : '🔇 Voz desativada',
+                state.ui.voiceEnabled  '🔊 Voz ativada' : '🔇 Voz desativada',
                 'info'
             );
         }
@@ -447,11 +447,11 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
+            background: ${type === 'error'  '#ef4444' : type === 'warning'  '#f59e0b' : '#3b82f6'};
             color: white;
             padding: 12px 20px;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.2);
             z-index: 9999999;
             animation: slideInRight 0.3s ease-out;
         `;
@@ -483,9 +483,9 @@
         const voiceBtn = document.getElementById('voiceBtn');
         if (voiceBtn) {
             voiceBtn.innerHTML = state.ui.voiceEnabled 
-                ? '<i class="fas fa-volume-up"></i>' 
+                 '<i class="fas fa-volume-up"></i>' 
                 : '<i class="fas fa-volume-mute"></i>';
-            voiceBtn.title = state.ui.voiceEnabled ? 'Desativar voz' : 'Ativar voz';
+            voiceBtn.title = state.ui.voiceEnabled  'Desativar voz' : 'Ativar voz';
         }
     }
 
@@ -650,7 +650,7 @@
             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             border: none;
             cursor: pointer;
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+            box-shaçãow: 0 8px 24px rgba(59, 130, 246, 0.4);
             z-index: 999997;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             overflow: hidden;
@@ -665,7 +665,7 @@
 
         .chat-floating-btn-modern:hover {
             transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 12px 32px rgba(59, 130, 246, 0.5);
+            box-shaçãow: 0 12px 32px rgba(59, 130, 246, 0.5);
         }
 
         .floating-icon {
@@ -715,7 +715,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.5);
+            box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.5);
             border: 2px solid white;
         }
 
@@ -729,7 +729,7 @@
             max-height: calc(100vh - 40px);
             background: white;
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.15);
             display: none;
             flex-direction: column;
             z-index: 999998;
@@ -892,7 +892,7 @@
             border-radius: 50%;
             overflow: hidden;
             background: linear-gradient(135deg, #3b82f6, #2563eb);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .welcome-title {
@@ -924,7 +924,7 @@
             background: white;
             border-radius: 12px;
             flex: 1;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .feature-item i {
@@ -972,7 +972,7 @@
         .input-modern:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shaçãow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .btn-start-chat {
@@ -994,7 +994,7 @@
 
         .btn-start-chat:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+            box-shaçãow: 0 8px 24px rgba(59, 130, 246, 0.3);
         }
 
         /* Message Bubbles */
@@ -1030,7 +1030,7 @@
             align-self: flex-start;
             background: white;
             color: #0f172a;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .message-bubble.user {
@@ -1070,7 +1070,7 @@
             padding: 12px 16px;
             background: white;
             border-radius: 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .typing-dots span {
@@ -1169,10 +1169,10 @@
 
         @keyframes pulse {
             0%, 100% {
-                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+                box-shaçãow: 0 0 0 0 rgba(239, 68, 68, 0.7);
             }
             50% {
-                box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+                box-shaçãow: 0 0 0 8px rgba(239, 68, 68, 0);
             }
         }
 
@@ -1191,7 +1191,7 @@
             outline: none;
             border-color: #3b82f6;
             background: white;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shaçãow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .chat-send-btn-modern {
@@ -1211,7 +1211,7 @@
 
         .chat-send-btn-modern:hover {
             transform: scale(1.1);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .chat-send-btn-modern:disabled {
@@ -1388,7 +1388,7 @@
             elements.welcome.style.display = 'none';
 
             // Mensagem de boas-vindas
-            addBotMessage(`Olá, ${name}! 👋 É um prazer conhecê-lo(a)!\n\nSou o Bob, seu assistente virtual inteligente da ALUFORCE. Posso ajudá-lo com informações sobre nossos módulos, tirar dúvidas e orientá-lo no sistema.\n\nSobre o que você gostaria de saber?`);
+            addBotMessage(`Olá, ${name}! 👋 É um prazer conhecê-lo(a)!\n\nSou o Bob, seu assistente virtual inteligente da ALUFORCE. Posso ajudá-lo com informações sobre nossos módulos, tirar dúvidas e orientá-lo no sistema.\n\nSobre o que você gostaria de saber`);
 
             // Mostrar sugestões
             updateSuggestions();
@@ -1465,7 +1465,7 @@
                 voiceSystem.speak(text);
             }
 
-            // Notificação se chat fechado
+            // Notificação se chat fechação
             if (!state.ui.isOpen) {
                 state.ui.unreadCount++;
                 updateUnreadBadge();
@@ -1487,7 +1487,7 @@
         let formatted = escapeHTML(text);
         
         // Bold
-        formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        formatted = formatted.replace(/\*\*(.*)\*\*/g, '<strong>$1</strong>');
         
         // Quebras de linha
         formatted = formatted.replace(/\n/g, '<br>');
@@ -1571,7 +1571,7 @@
                 const user = JSON.parse(saved);
                 state.user = user;
                 elements.welcome.style.display = 'none';
-                addBotMessage(`Bem-vindo de volta, ${user.name}! 😊\n\nComo posso ajudá-lo hoje?`);
+                addBotMessage(`Bem-vindo de volta, ${user.name}! 😊\n\nComo posso ajudá-lo hoje`);
                 updateSuggestions();
             } catch (e) {
                 console.log('Could not load user data');

@@ -1,6 +1,6 @@
 /**
  * INTEGRAÇÃO: VENDAS → FINANCEIRO
- * Gera contas a receber automaticamente a partir de pedidos faturados
+ * Gera contas a receber automaticamente a partir de pedidos faturaçãos
  * 
  * @author Aluforce ERP
  * @version 1.0.0
@@ -14,10 +14,10 @@ class IntegracaoVendasFinanceiro {
     }
 
     /**
-     * Gera contas a receber a partir de um pedido faturado
-     * @param {object} pedido - Dados do pedido
+     * Gera contas a receber a partir de um pedido faturação
+     * @param {object} pedido - Daçãos do pedido
      * @param {object} opcoes - Opções de parcelamento
-     * @returns {Promise<object>} Resultado da operação
+     * @returns {Promise<object>} Resultação da operação
      */
     async gerarContasReceber(pedido, opcoes = {}) {
         const {
@@ -35,8 +35,8 @@ class IntegracaoVendasFinanceiro {
             const valorTotal = parseFloat(pedido.valor_total) || 0;
             const valorParcela = valorTotal / numeroParcelas;
             
-            // Dados do cliente
-            const clienteNome = pedido.empresa_nome || pedido.cliente_nome || 'Cliente não identificado';
+            // Daçãos do cliente
+            const clienteNome = pedido.empresa_nome || pedido.cliente_nome || 'Cliente não identificação';
 
             for (let i = 0; i < numeroParcelas; i++) {
                 const dataVencimento = new Date();
@@ -44,7 +44,7 @@ class IntegracaoVendasFinanceiro {
 
                 const parcela = i + 1;
                 const descricao = numeroParcelas > 1
-                    ? `Pedido #${pedido.id} - ${clienteNome} (${parcela}/${numeroParcelas})`
+                     `Pedido #${pedido.id} - ${clienteNome} (${parcela}/${numeroParcelas})`
                     : `Pedido #${pedido.id} - ${clienteNome}`;
 
                 const contaData = {
@@ -60,7 +60,7 @@ class IntegracaoVendasFinanceiro {
                     forma_pagamento: formaPagamento,
                     categoria_id: categoriaId,
                     banco_id: bancoId,
-                    observacoes: `Gerado automaticamente do pedido de venda #${pedido.id}`,
+                    observacoes: `Geração automaticamente do pedido de venda #${pedido.id}`,
                     status: 'PENDENTE'
                 };
 
@@ -68,22 +68,22 @@ class IntegracaoVendasFinanceiro {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': token ? `Bearer ${token}` : ''
+                        'Authorization': token  `Bearer ${token}` : ''
                     },
                     body: JSON.stringify(contaData)
                 });
 
-                const resultado = await response.json();
+                const resultação = await response.json();
 
                 if (response.ok) {
                     contasCriadas.push({
-                        id: resultado.id,
+                        id: resultação.id,
                         parcela,
                         valor: contaData.valor,
                         vencimento: contaData.data_vencimento
                     });
                 } else {
-                    console.error(`[IntegracaoVendasFinanceiro] Erro na parcela ${parcela}:`, resultado);
+                    console.error(`[IntegracaoVendasFinanceiro] Erro na parcela ${parcela}:`, resultação);
                 }
             }
 
@@ -126,7 +126,7 @@ class IntegracaoVendasFinanceiro {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token  `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({ valor: novoValor })
             });
@@ -141,10 +141,10 @@ class IntegracaoVendasFinanceiro {
     async buscarContasDoPedido(pedidoId, token) {
         try {
             const response = await fetch(
-                `${this.financeiroUrl}/api/financeiro/contas-receber?pedido_id=${pedidoId}`,
+                `${this.financeiroUrl}/api/financeiro/contas-receberpedido_id=${pedidoId}`,
                 {
                     headers: {
-                        'Authorization': token ? `Bearer ${token}` : ''
+                        'Authorization': token  `Bearer ${token}` : ''
                     }
                 }
             );
@@ -176,11 +176,11 @@ class IntegracaoVendasFinanceiro {
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': token ? `Bearer ${token}` : ''
+                                'Authorization': token  `Bearer ${token}` : ''
                             },
                             body: JSON.stringify({
                                 status: 'CANCELADA',
-                                observacoes: `Cancelado: ${motivo}`
+                                observacoes: `Cancelação: ${motivo}`
                             })
                         }
                     );
@@ -205,14 +205,14 @@ class IntegracaoVendasFinanceiro {
     /**
      * Registra recebimento de uma conta
      */
-    async registrarRecebimento(contaId, dadosPagamento, token) {
+    async registrarRecebimento(contaId, daçãosPagamento, token) {
         const {
             valor_pago,
             data_pagamento = new Date().toISOString().split('T')[0],
             forma_pagamento,
             banco_id,
             observacoes
-        } = dadosPagamento;
+        } = daçãosPagamento;
 
         try {
             const response = await fetch(
@@ -221,7 +221,7 @@ class IntegracaoVendasFinanceiro {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': token ? `Bearer ${token}` : ''
+                        'Authorization': token  `Bearer ${token}` : ''
                     },
                     body: JSON.stringify({
                         valor_pago,
@@ -233,13 +233,13 @@ class IntegracaoVendasFinanceiro {
                 }
             );
 
-            const resultado = await response.json();
+            const resultação = await response.json();
 
             if (!response.ok) {
-                throw new Error(resultado.message || 'Erro ao registrar recebimento');
+                throw new Error(resultação.message || 'Erro ao registrar recebimento');
             }
 
-            return { success: true, ...resultado };
+            return { success: true, ...resultação };
 
         } catch (error) {
             return { success: false, message: error.message };
@@ -255,7 +255,7 @@ class IntegracaoVendasFinanceiro {
                 `${this.financeiroUrl}/api/financeiro/clientes/${clienteId}/resumo`,
                 {
                     headers: {
-                        'Authorization': token ? `Bearer ${token}` : ''
+                        'Authorization': token  `Bearer ${token}` : ''
                     }
                 }
             );
@@ -276,10 +276,10 @@ class IntegracaoVendasFinanceiro {
     async clienteComDebitos(clienteId, token) {
         try {
             const contas = await fetch(
-                `${this.financeiroUrl}/api/financeiro/contas-receber?cliente_id=${clienteId}&status=VENCIDA`,
+                `${this.financeiroUrl}/api/financeiro/contas-recebercliente_id=${clienteId}&status=VENCIDA`,
                 {
                     headers: {
-                        'Authorization': token ? `Bearer ${token}` : ''
+                        'Authorization': token  `Bearer ${token}` : ''
                     }
                 }
             );

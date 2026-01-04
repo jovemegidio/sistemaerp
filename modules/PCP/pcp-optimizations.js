@@ -5,8 +5,8 @@
  * 
  * Otimizações implementadas:
  * 1. Lazy Loading de views
- * 2. Debouncing otimizado para busca
- * 3. Cache inteligente de dados
+ * 2. Debouncing otimização para busca
+ * 3. Cache inteligente de daçãos
  * 4. Event delegation para melhor performance
  * 5. Virtual scrolling para tabelas grandes
  * 6. Service Worker para cache offline
@@ -62,7 +62,7 @@ class CacheManager {
 // Instância global do cache
 window.pcpCache = new CacheManager();
 
-// Limpar cache expirado a cada 2 minutos
+// Limpar cache expiração a cada 2 minutos
 setInterval(() => window.pcpCache.clearExpired(), 2 * 60 * 1000);
 
 // ============================================
@@ -145,7 +145,7 @@ class ViewLoader {
     }
 
     async _loadViewData(viewName) {
-        // Simula carregamento assíncrono de dados específicos da view
+        // Simula carregamento assíncrono de daçãos específicos da view
         switch (viewName) {
             case 'materiais':
                 return this._loadMateriaisData();
@@ -196,7 +196,7 @@ class ViewLoader {
 
         const response = await fetch('/api/pcp/ordens');
         const data = await response.json();
-        window.pcpCache.set('ordens-producao', data, 2 * 60 * 1000); // 2 minutos (dados mais dinâmicos)
+        window.pcpCache.set('ordens-producao', data, 2 * 60 * 1000); // 2 minutos (daçãos mais dinâmicos)
         return data;
     }
 
@@ -205,7 +205,7 @@ class ViewLoader {
             return window.pcpCache.get('faturamento');
         }
 
-        const response = await fetch('/api/pcp/pedidos/faturados');
+        const response = await fetch('/api/pcp/pedidos/faturaçãos');
         const data = await response.json();
         window.pcpCache.set('faturamento', data, 5 * 60 * 1000); // 5 minutos
         return data;
@@ -216,7 +216,7 @@ class ViewLoader {
             return window.pcpCache.get('produtos');
         }
 
-        const response = await fetch('/api/pcp/produtos?page=1&limit=100');
+        const response = await fetch('/api/pcp/produtospage=1&limit=100');
         const data = await response.json();
         window.pcpCache.set('produtos', data, 5 * 60 * 1000); // 5 minutos
         return data;
@@ -225,7 +225,7 @@ class ViewLoader {
     markViewAsStale(viewName) {
         this.loadedViews.delete(viewName);
         
-        // Limpar cache relacionado
+        // Limpar cache relacionação
         switch (viewName) {
             case 'materiais':
                 window.pcpCache.cache.delete('materiais');
@@ -266,7 +266,7 @@ class SearchOptimizer {
     async search(query, endpoint = '/api/pcp/search') {
         query = query.trim().toLowerCase();
 
-        // Se query está vazia, limpa resultados
+        // Se query está vazia, limpa resultaçãos
         if (!query) {
             return [];
         }
@@ -274,7 +274,7 @@ class SearchOptimizer {
         // Usar cache se disponível
         const cacheKey = `search:${endpoint}:${query}`;
         if (this.searchCache.has(cacheKey)) {
-            console.log(`✅ Resultado de busca em cache: "${query}"`);
+            console.log(`✅ Resultação de busca em cache: "${query}"`);
             return this.searchCache.get(cacheKey);
         }
 
@@ -287,7 +287,7 @@ class SearchOptimizer {
         this.abortController = new AbortController();
 
         try {
-            const response = await fetch(`${endpoint}?q=${encodeURIComponent(query)}`, {
+            const response = await fetch(`${endpoint}q=${encodeURIComponent(query)}`, {
                 signal: this.abortController.signal
             });
 
@@ -427,7 +427,7 @@ class NotificationManager {
             color: white;
             padding: 16px 20px;
             border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+            box-shaçãow: 0 8px 24px rgba(0,0,0,0.15);
             display: flex;
             align-items: center;
             gap: 12px;
@@ -552,7 +552,7 @@ class PerformanceMonitor {
         this.metrics.delete(label);
 
         if (logToConsole) {
-            const emoji = duration < 100 ? '✅' : duration < 500 ? '⚠️' : '❌';
+            const emoji = duration < 100  '✅' : duration < 500  '⚠️' : '❌';
             console.log(`${emoji} ${label}: ${duration.toFixed(2)}ms`);
         }
 
@@ -605,7 +605,7 @@ style.textContent = `
 
     .pcp-notification:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+        box-shaçãow: 0 12px 32px rgba(0,0,0,0.2);
     }
 `;
 document.head.appendChild(style);

@@ -12,7 +12,7 @@
 
         init() {
             // Modal antigo removido - agora usa modal-configuracoes
-            console.log('OmieSettings desativado - usando novo modal-configuracoes');
+            console.log('OmieSettings desativação - usando novo modal-configuracoes');
             return;
             
             /* this.modal = document.getElementById('settings-modal');

@@ -8,9 +8,9 @@
     <title>Consultar NFe - Aluforce</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/chat-widget.css?v=20251210">
-    <script src="js/chat-widget.js?v=1765417597"></script>
+    <link href="https://fonts.googleapis.com/css2family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/chat-widget.cssv=20251210">
+    <script src="js/chat-widget.jsv=1765417597"></script>
     <style>
         :root {
             --sidebar-width: 56px;
@@ -257,7 +257,7 @@
             transition: all 0.2s;
         }
 
-        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-primary:hover { transform: translateY(-1px); box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3); }
 
         /* Table */
         .table-responsive { overflow-x: auto; padding: 20px; }
@@ -461,11 +461,11 @@
                         </form>
                     </div>
 
-                    <!-- Resultados -->
-                    <div id="resultados-consulta" style="display: none;">
+                    <!-- Resultaçãos -->
+                    <div id="resultaçãos-consulta" style="display: none;">
                         <div class="consulta-box">
                             <div class="consulta-header">
-                                <h3><i class="fas fa-list"></i> Resultados da Pesquisa</h3>
+                                <h3><i class="fas fa-list"></i> Resultaçãos da Pesquisa</h3>
                             </div>
                             <div class="table-responsive">
                                 <table class="data-table">
@@ -479,25 +479,25 @@
                                             <th>Ações</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tbody-resultados">
-                                        <!-- Resultados serão inseridos aqui -->
+                                    <tbody id="tbody-resultaçãos">
+                                        <!-- Resultaçãos serão inseridos aqui -->
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Mensagem sem resultados -->
-                    <div id="sem-resultados" class="info-message" style="display: none;">
+                    <!-- Mensagem sem resultaçãos -->
+                    <div id="sem-resultaçãos" class="info-message" style="display: none;">
                         <i class="fas fa-info-circle"></i>
-                        <p>Nenhuma NFe encontrada com os filtros selecionados.</p>
+                        <p>Nenhuma NFe encontrada com os filtros selecionaçãos.</p>
                     </div>
             </div>
         </main>
     </div>
 
     <script>
-        // Dados de exemplo (simula banco de dados)
+        // Daçãos de exemplo (simula banco de daçãos)
         const nfesDatabase = [
             { Número: '000342', serie: '001', cliente: 'CONSTRUTORA ABC LTDA', data: '10/12/2025 14:32', valor: 45678.90, status: 'AUTORIZADA', chave: '35251243818589000195550010003420001234567890' },
             { Número: '000341', serie: '001', cliente: 'INDÚSTRIA XYZ S/A', data: '10/12/2025 11:15', valor: 32145.50, status: 'TRANSMITIDA', chave: '35251243818589000195550010003410001234567889' },
@@ -522,15 +522,15 @@
                 status: document.getElementById('filtro-status').value
             };
 
-            // Filtrar resultados
-            let resultados = nfesDatabase.filter(nfe => {
+            // Filtrar resultaçãos
+            let resultaçãos = nfesDatabase.filter(nfe => {
                 if (filtros.Número && !nfe.Número.includes(filtros.Número)) return false;
                 if (filtros.serie && !nfe.serie.includes(filtros.serie)) return false;
                 if (filtros.chave && !nfe.chave.includes(filtros.chave)) return false;
                 if (filtros.cliente && !nfe.cliente.includes(filtros.cliente)) return false;
                 if (filtros.status && nfe.status !== filtros.status) return false;
                 
-                // Filtro por data (simplificado)
+                // Filtro por data (simplificação)
                 if (filtros.dataInicio || filtros.dataFim) {
                     const nfeData = nfe.data.split(' ')[0];
                     const [dia, mes, ano] = nfeData.split('/');
@@ -550,13 +550,13 @@
                 return true;
             });
 
-            // Exibir resultados
-            const tbody = document.getElementById('tbody-resultados');
-            const resultadosDiv = document.getElementById('resultados-consulta');
-            const semResultadosDiv = document.getElementById('sem-resultados');
+            // Exibir resultaçãos
+            const tbody = document.getElementById('tbody-resultaçãos');
+            const resultaçãosDiv = document.getElementById('resultaçãos-consulta');
+            const semResultaçãosDiv = document.getElementById('sem-resultaçãos');
 
-            if (resultados.length > 0) {
-                tbody.innerHTML = resultados.map(nfe => `
+            if (resultaçãos.length > 0) {
+                tbody.innerHTML = resultaçãos.map(nfe => `
                     <tr>
                         <td>
                             <div class="nfe-Número">
@@ -600,11 +600,11 @@
                     </tr>
                 `).join('');
                 
-                resultadosDiv.style.display = 'block';
-                semResultadosDiv.style.display = 'none';
+                resultaçãosDiv.style.display = 'block';
+                semResultaçãosDiv.style.display = 'none';
             } else {
-                resultadosDiv.style.display = 'none';
-                semResultadosDiv.style.display = 'flex';
+                resultaçãosDiv.style.display = 'none';
+                semResultaçãosDiv.style.display = 'flex';
             }
         });
 
@@ -634,18 +634,18 @@
         }
     </script>
 
-    <script src="dashboard-nfe-pro.js?v=20251215"></script>
+    <script src="dashboard-nfe-pro.jsv=20251215"></script>
     
-    <!-- Carregar dados do usuário logado -->
+    <!-- Carregar daçãos do usuário logação -->
     <script>
-        async function carregarUsuarioLogado() {
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || user.name || 'Usuário';
-                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (userName  userName.split(' ')[0] : 'Usuário');
                     
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -717,7 +717,7 @@
                 }
             } catch (e) { console.log('Erro ao carregar usuário:', e); }
         }
-        document.addEventListener('DOMContentLoaded', carregarUsuarioLogado);
+        document.addEventListener('DOMContentLoaded', carregarUsuarioLogação);
     </script></body>
 </html>
 

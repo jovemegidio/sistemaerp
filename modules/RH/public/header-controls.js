@@ -15,7 +15,7 @@ class HeaderControls {
         this.setupRefreshButton();
         this.setupBackButton();
         
-        console.log('✅ Botões do cabeçalho inicializados');
+        console.log('✅ Botões do cabeçalho inicializaçãos');
     }
 
     // Botão de visualização em Grid
@@ -76,7 +76,7 @@ class HeaderControls {
         }
         
         // Não mostrar notificação automática
-        console.log('✅ Modo Grid ativado');
+        console.log('✅ Modo Grid ativação');
     }
 
     // Alternar para visualização em Lista
@@ -97,10 +97,10 @@ class HeaderControls {
         }
         
         // Não mostrar notificação automática
-        console.log('✅ Modo Lista ativado');
+        console.log('✅ Modo Lista ativação');
     }
 
-    // Atualizar estado visual dos botões
+    // Atualizar estação visual dos botões
     updateViewButtons() {
         const gridButton = document.querySelector('.header-icon[title="Visualização em Grid"]');
         const listButton = document.querySelector('.header-icon[title="Visualização em Lista"]');
@@ -311,7 +311,7 @@ class HeaderControls {
             }, 500);
         }
 
-        // Recarregar dados da seção específica
+        // Recarregar daçãos da seção específica
         switch(sectionId) {
             case 'funcionarios-section':
                 this.refreshFuncionarios();
@@ -327,13 +327,13 @@ class HeaderControls {
                 break;
         }
 
-        console.log(`✅ ${this.getSectionName(sectionId)} atualizado`);
+        console.log(`✅ ${this.getSectionName(sectionId)} atualização`);
     }
 
     // Refresh específico para funcionários
     refreshFuncionarios() {
         console.log('👥 Atualizando funcionários...');
-        // Simular carregamento de dados
+        // Simular carregamento de daçãos
         const grid = document.getElementById('funcionarios-grid');
         if (grid) {
             grid.style.opacity = '0.5';
@@ -384,7 +384,7 @@ class HeaderControls {
                 widget.style.opacity = '1';
             });
             
-            // Recarregar dados do dashboard se disponível
+            // Recarregar daçãos do dashboard se disponível
             if (typeof window.loadDashboardData === 'function') {
                 window.loadDashboardData();
             }
@@ -424,7 +424,7 @@ class HeaderControls {
         this.addNotification(message, type);
     }
     
-    // Mostrar toast temporário APENAS quando solicitado explicitamente
+    // Mostrar toast temporário APENAS quando solicitação explicitamente
     showTemporaryToastOnly(message, type = 'info') {
         this.showTemporaryToast(message, type);
     }
@@ -469,7 +469,7 @@ class HeaderControls {
         // Adicionar no topo da lista
         notificationsList.insertBefore(notification, notificationsList.firstChild);
 
-        // Atualizar contador
+        // Atualizar contaçãor
         this.updateNotificationCount();
 
         // Fazer o sino piscar
@@ -509,7 +509,7 @@ class HeaderControls {
             padding: 12px 16px;
             border-radius: 8px;
             margin-bottom: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
             animation: slideInRight 0.3s ease;
             font-size: 14px;
             font-weight: 500;
@@ -530,7 +530,7 @@ class HeaderControls {
         }, 3000);
     }
 
-    // Atualizar contador de notificações
+    // Atualizar contaçãor de notificações
     updateNotificationCount() {
         const notificationsList = document.getElementById('notifications-list');
         const notificationCount = document.getElementById('notification-count');
@@ -541,7 +541,7 @@ class HeaderControls {
         notificationCount.textContent = count;
         
         // Mostrar/ocultar badge
-        notificationCount.style.display = count > 0 ? 'block' : 'none';
+        notificationCount.style.display = count > 0  'block' : 'none';
     }
 
     // Fazer sino piscar
@@ -588,7 +588,7 @@ function addToastStyles() {
             background: white !important;
             border-radius: 8px !important;
             overflow: hidden !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+            box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
         }
         
         .data-table th,
@@ -626,7 +626,7 @@ function addToastStyles() {
             max-height: 400px !important;
             background: white !important;
             border-radius: 12px !important;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+            box-shaçãow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
             border: 1px solid #e5e7eb !important;
             z-index: 10000 !important;
             overflow: hidden !important;
@@ -780,7 +780,7 @@ function initializeHeaderControls() {
         // Definir visualização inicial como grid
         window.headerControls.switchToGridView();
         
-        console.log('✅ Controles do cabeçalho inicializados');
+        console.log('✅ Controles do cabeçalho inicializaçãos');
     }, 500);
 }
 
@@ -816,12 +816,12 @@ function toggleNotifications() {
             panel.style.opacity = '0';
         }, 300);
         
-        console.log('🔔 Painel de notificações do sino fechado');
+        console.log('🔔 Painel de notificações do sino fechação');
     }
 }
 
 function toggleMessages() {
-    console.log('📧 Botão de mensagens clicado');
+    console.log('📧 Botão de mensagens clicação');
     
     // Primeiro mostrar o painel de notificações (se não estiver visível)
     const panel = document.getElementById('notifications-panel');
@@ -835,7 +835,7 @@ function toggleMessages() {
     // Adicionar mensagens de exemplo
     if (window.headerControls) {
         window.headerControls.addNotification('📧 Nova mensagem de João Silva', 'info');
-        window.headerControls.addNotification('📧 Resposta: Relatório aprovado', 'success');
+        window.headerControls.addNotification('📧 Resposta: Relatório aprovação', 'success');
         window.headerControls.addNotification('📧 3 mensagens não lidas', 'warning');
     }
     
@@ -866,7 +866,7 @@ function updateNotificationCount() {
 
     const count = notificationsList.children.length;
     notificationCount.textContent = count;
-    notificationCount.style.display = count > 0 ? 'block' : 'none';
+    notificationCount.style.display = count > 0  'block' : 'none';
 }
 
 // Fechar painel ao clicar fora
@@ -886,4 +886,4 @@ document.addEventListener('click', function(e) {
 /*OTIMIZADO*/ //document.addEventListener('DOMContentLoaded', initializeHeaderControls);
 window.addEventListener('load', initializeHeaderControls);
 
-console.log('📱 Header Controls carregado');
+console.log('📱 Header Controls carregação');

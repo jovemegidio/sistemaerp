@@ -14,7 +14,7 @@ const ExcelJS = require('exceljs');
         ['B', 'C', 'F', 'G', 'H', 'I', 'J'].forEach(col => {
             const cell = ws.getCell(col + row);
             const info = cell.formula 
-                ? '[FORMULA: ' + cell.formula + ']' 
+                 '[FORMULA: ' + cell.formula + ']' 
                 : cell.value || '(vazio)';
             console.log(col + row + ': ' + info);
         });

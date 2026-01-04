@@ -8,7 +8,7 @@ const API = process.env.API_BASE || 'http://127.0.0.1:3000'
 async function postJson (path, body, token) {
   const res = await fetch(API + path, {
     method: 'POST',
-    headers: Object.assign({ 'Content-Type': 'application/json' }, token ? { Authorization: 'Bearer ' + token } : {}),
+    headers: Object.assign({ 'Content-Type': 'application/json' }, token  { Authorization: 'Bearer ' + token } : {}),
     body: JSON.stringify(body)
   })
   const json = await res.json().catch(() => null)
@@ -16,7 +16,7 @@ async function postJson (path, body, token) {
 }
 
 async function getJson (path, token) {
-  const res = await fetch(API + path, { headers: token ? { Authorization: 'Bearer ' + token } : {} })
+  const res = await fetch(API + path, { headers: token  { Authorization: 'Bearer ' + token } : {} })
   const json = await res.json().catch(() => null)
   return { status: res.status, body: json }
 }
@@ -40,7 +40,7 @@ async function getJson (path, token) {
       process.exitCode = 4
       return
     }
-    const users = Array.isArray(listResp.body) ? listResp.body : []
+    const users = Array.isArray(listResp.body)  listResp.body : []
     console.log(`Found ${users.length} funcionarios (showing up to 200):\n`)
     for (const u of users.slice(0, 200)) {
       const nome = (u.nome || u.nome_completo || u.email || '').toString()
@@ -49,7 +49,7 @@ async function getJson (path, token) {
     process.exitCode = 0
     return
   } catch (e) {
-    console.error('Error during listing:', e && e.stack ? e.stack : e)
+    console.error('Error during listing:', e && e.stack  e.stack : e)
     process.exitCode = 1
     return
   }

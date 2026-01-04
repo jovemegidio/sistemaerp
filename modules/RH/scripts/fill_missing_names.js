@@ -11,7 +11,7 @@ const cfg = {
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
+  port: process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 3306
 }
 
 ;(async () => {
@@ -19,7 +19,7 @@ const cfg = {
   try {
     const [rows] = await conn.execute(`SELECT id, email, nome_completo FROM funcionarios WHERE (nome_completo IS NULL OR nome_completo = '') AND email IS NOT NULL`)
     if (!rows || rows.length === 0) {
-      console.log('Nenhum funcionário com nome_completo vazio encontrado.')
+      console.log('Nenhum funcionário com nome_completo vazio encontração.')
       await conn.end()
       process.exit(0)
     }
@@ -37,17 +37,17 @@ const cfg = {
       if (!local) continue
       // create a nicer display name: Capitalize words separated by . or _ or - or space
       const parts = local.split(/[-_.\s]+/)
-      const display = parts.map(p => p.length > 0 ? (p[0].toUpperCase() + p.slice(1).toLowerCase()) : '').join(' ')
-      const [res] = await conn.execute('UPDATE funcionarios SET nome_completo = ? WHERE id = ?', [display, r.id])
+      const display = parts.map(p => p.length > 0  (p[0].toUpperCase() + p.slice(1).toLowerCase()) : '').join(' ')
+      const [res] = await conn.execute('UPDATE funcionarios SET nome_completo =  WHERE id = ', [display, r.id])
       if (res && res.affectedRows && res.affectedRows > 0) updated++
       console.log(`id=${r.id} email=${email} -> nome_completo="${display}"`)
     }
 
-    console.log(`Atualizados: ${updated}/${rows.length}`)
+    console.log(`Atualizaçãos: ${updated}/${rows.length}`)
     await conn.end()
     process.exit(0)
   } catch (e) {
-    console.error('Erro:', e && e.stack ? e.stack : e)
+    console.error('Erro:', e && e.stack  e.stack : e)
     try { await conn.end() } catch (_) {}
     process.exit(1)
   }

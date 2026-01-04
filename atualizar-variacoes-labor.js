@@ -204,7 +204,7 @@ async function atualizarVariacoesLabor() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de dados...\n');
+        console.log('🔌 Conectando ao banco de daçãos...\n');
         
         connection = await mysql.createConnection({
             host: 'localhost',
@@ -213,7 +213,7 @@ async function atualizarVariacoesLabor() {
             database: 'aluforce_vendas'
         });
         
-        console.log('✅ Conectado com sucesso!\n');
+        console.log('✅ Conectação com sucesso!\n');
         console.log('📊 Buscando produtos LABOR no banco...\n');
         
         // Buscar produtos LABOR (_LAB)
@@ -221,12 +221,12 @@ async function atualizarVariacoesLabor() {
             "SELECT id, codigo, nome, variacao FROM produtos WHERE codigo LIKE '%_LAB'"
         );
         
-        console.log(`✅ ${produtos.length} produtos LABOR encontrados\n`);
+        console.log(`✅ ${produtos.length} produtos LABOR encontraçãos\n`);
         console.log('🔄 Iniciando atualização de variações...\n');
         
-        let atualizados = 0;
-        let naoEncontrados = 0;
-        let jaAtualizados = 0;
+        let atualizaçãos = 0;
+        let naoEncontraçãos = 0;
+        let jaAtualizaçãos = 0;
         
         for (const produto of produtos) {
             const codigoOriginal = produto.codigo.trim().toUpperCase();
@@ -234,32 +234,32 @@ async function atualizarVariacoesLabor() {
             const variacaoNova = variacoesLaborPorCodigo[codigoOriginal];
             
             if (variacaoNova) {
-                // Verificar se já está atualizado
+                // Verificar se já está atualização
                 if (variacaoAtual === variacaoNova) {
-                    jaAtualizados++;
+                    jaAtualizaçãos++;
                     console.log(`⏭️  ${codigoOriginal} - Já possui: "${variacaoNova}"`);
                 } else {
                     // Atualizar
                     await connection.execute(
-                        'UPDATE produtos SET variacao = ? WHERE id = ?',
+                        'UPDATE produtos SET variacao =  WHERE id = ',
                         [variacaoNova, produto.id]
                     );
-                    atualizados++;
-                    console.log(`✅ ${codigoOriginal} - Atualizado: "${variacaoAtual || '(vazio)'}" → "${variacaoNova}"`);
+                    atualizaçãos++;
+                    console.log(`✅ ${codigoOriginal} - Atualização: "${variacaoAtual || '(vazio)'}" → "${variacaoNova}"`);
                 }
             } else {
-                naoEncontrados++;
-                console.log(`⚠️  ${codigoOriginal} - Não encontrado na lista`);
+                naoEncontraçãos++;
+                console.log(`⚠️  ${codigoOriginal} - Não encontração na lista`);
             }
         }
         
         console.log('\n' + '='.repeat(60));
         console.log('📊 RESUMO DA ATUALIZAÇÃO DE PRODUTOS LABOR');
         console.log('='.repeat(60));
-        console.log(`✅ Produtos atualizados: ${atualizados}`);
-        console.log(`⏭️  Já possuíam variação correta: ${jaAtualizados}`);
-        console.log(`⚠️  Não encontrados na lista: ${naoEncontrados}`);
-        console.log(`📦 Total processado: ${produtos.length}`);
+        console.log(`✅ Produtos atualizaçãos: ${atualizaçãos}`);
+        console.log(`⏭️  Já possuíam variação correta: ${jaAtualizaçãos}`);
+        console.log(`⚠️  Não encontraçãos na lista: ${naoEncontraçãos}`);
+        console.log(`📦 Total processação: ${produtos.length}`);
         console.log('='.repeat(60));
         
     } catch (error) {

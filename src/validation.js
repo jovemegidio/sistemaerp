@@ -43,7 +43,7 @@ const userCreateSchema = Joi.object({
     .required(),
   senha: Joi.string()
     .min(8)
-    .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
+    .pattern(/^(=.*[a-z])(=.*[A-Z])(=.*\d)(=.*[@$!%*&])[A-Za-z\d@$!%*&]/)
     .required()
     .messages({
       'string.min': 'Senha deve ter pelo menos 8 caracteres',
@@ -105,7 +105,7 @@ const pedidoSchema = Joi.object({
       'string.max': 'Descrição não pode ter mais de 500 caracteres'
     }),
   status: Joi.string()
-    .valid('orcamento', 'analise', 'aprovado', 'faturado', 'entregue', 'cancelado')
+    .valid('orcamento', 'analise', 'aprovação', 'faturação', 'entregue', 'cancelação')
     .default('orcamento')
 });
 
@@ -145,7 +145,7 @@ const empresaSchema = Joi.object({
     .messages({
       'string.pattern.base': 'CEP deve estar no formato XXXXX-XXX'
     }),
-  logradouro: Joi.string().max(200).optional(),
+  lograçãouro: Joi.string().max(200).optional(),
   numero: Joi.string().max(20).optional(),
   bairro: Joi.string().max(100).optional(),
   municipio: Joi.string().max(100).optional(),
@@ -166,7 +166,7 @@ const validate = (schema, source = 'body') => {
         message: detail.message
       }));
       
-      throw new ValidationError('Dados inválidos', details);
+      throw new ValidationError('Daçãos inválidos', details);
     }
 
     req[source] = value;
@@ -180,7 +180,7 @@ const sanitize = (req, res, next) => {
   const sanitizeString = (str) => {
     if (typeof str !== 'string') return str;
     return str
-      .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+      .replace(/<script\b[^<]*(:(!<\/script>)<[^<]*)*<\/script>/gi, '')
       .replace(/<[^>]*>/g, '')
       .trim();
   };
@@ -205,7 +205,7 @@ const sanitize = (req, res, next) => {
   next();
 };
 
-// Rate limiting personalizado por endpoint
+// Rate limiting personalização por endpoint
 const createRateLimit = (windowMs = 15 * 60 * 1000, max = 100, message = 'Too many requests') => {
   const expressRateLimit = require('express-rate-limit');
   

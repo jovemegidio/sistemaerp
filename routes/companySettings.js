@@ -54,7 +54,7 @@ router.put('/empresa-config', authenticateToken, requireAdmin, async (req, res) 
             complemento,
             bairro,
             cidade,
-            estado,
+            estação,
             cep,
             logo_path,
             favicon_path
@@ -63,24 +63,24 @@ router.put('/empresa-config', authenticateToken, requireAdmin, async (req, res) 
         const [result] = await pool.execute(`
             UPDATE empresa_config 
             SET 
-                razao_social = ?,
-                nome_fantasia = ?,
-                cnpj = ?,
-                inscricao_estadual = ?,
-                inscricao_municipal = ?,
-                telefone = ?,
-                email = ?,
-                site = ?,
-                endereco = ?,
-                numero = ?,
-                complemento = ?,
-                bairro = ?,
-                cidade = ?,
-                estado = ?,
-                cep = ?,
-                logo_path = ?,
-                favicon_path = ?,
-                updated_by = ?
+                razao_social = ,
+                nome_fantasia = ,
+                cnpj = ,
+                inscricao_estadual = ,
+                inscricao_municipal = ,
+                telefone = ,
+                email = ,
+                site = ,
+                endereco = ,
+                numero = ,
+                complemento = ,
+                bairro = ,
+                cidade = ,
+                estação = ,
+                cep = ,
+                logo_path = ,
+                favicon_path = ,
+                updated_by = 
             WHERE id = 1
         `, [
             razao_social,
@@ -96,7 +96,7 @@ router.put('/empresa-config', authenticateToken, requireAdmin, async (req, res) 
             complemento,
             bairro,
             cidade,
-            estado,
+            estação,
             cep,
             logo_path,
             favicon_path,
@@ -122,34 +122,34 @@ router.put('/empresa-config', authenticateToken, requireAdmin, async (req, res) 
 // ============================================================
 
 /**
- * PUT /api/empresa-config/certificado
- * Atualiza dados do certificado digital
+ * PUT /api/empresa-config/certificação
+ * Atualiza daçãos do certificação digital
  */
-router.put('/empresa-config/certificado', authenticateToken, requireAdmin, async (req, res) => {
+router.put('/empresa-config/certificação', authenticateToken, requireAdmin, async (req, res) => {
     try {
         const {
-            certificado_a1_path,
-            certificado_senha,
-            certificado_validade
+            certificação_a1_path,
+            certificação_senha,
+            certificação_validade
         } = req.body;
 
         await pool.execute(`
             UPDATE empresa_config 
             SET 
-                certificado_a1_path = ?,
-                certificado_senha = ?,
-                certificado_validade = ?,
-                updated_by = ?
+                certificação_a1_path = ,
+                certificação_senha = ,
+                certificação_validade = ,
+                updated_by = 
             WHERE id = 1
-        `, [certificado_a1_path, certificado_senha, certificado_validade, req.user.id]);
+        `, [certificação_a1_path, certificação_senha, certificação_validade, req.user.id]);
 
         res.json({ 
             success: true, 
-            message: 'Certificado atualizado com sucesso' 
+            message: 'Certificação atualização com sucesso' 
         });
     } catch (error) {
-        console.error('Erro ao atualizar certificado:', error);
-        res.status(500).json({ error: 'Erro ao atualizar certificado' });
+        console.error('Erro ao atualizar certificação:', error);
+        res.status(500).json({ error: 'Erro ao atualizar certificação' });
     }
 });
 
@@ -164,9 +164,9 @@ router.put('/empresa-config/nfe', authenticateToken, requireAdmin, async (req, r
         await pool.execute(`
             UPDATE empresa_config 
             SET 
-                nfe_agente_ativo = ?,
-                nfe_agente_data_ativacao = IF(? = TRUE AND nfe_agente_ativo = FALSE, NOW(), nfe_agente_data_ativacao),
-                updated_by = ?
+                nfe_agente_ativo = ,
+                nfe_agente_data_ativacao = IF( = TRUE AND nfe_agente_ativo = FALSE, NOW(), nfe_agente_data_ativacao),
+                updated_by = 
             WHERE id = 1
         `, [nfe_agente_ativo, nfe_agente_ativo, req.user.id]);
 
@@ -218,7 +218,7 @@ router.post('/categorias', authenticateToken, requireAdmin, async (req, res) => 
 
         const [result] = await pool.execute(`
             INSERT INTO categorias (nome, descricao, cor, icone, created_by)
-            VALUES (?, ?, ?, ?, ?)
+            VALUES (, , , , )
         `, [nome, descricao, cor || '#3B82F6', icone || 'fa-folder', req.user.id]);
 
         res.status(201).json({ 
@@ -243,8 +243,8 @@ router.put('/categorias/:id', authenticateToken, requireAdmin, async (req, res) 
 
         const [result] = await pool.execute(`
             UPDATE categorias 
-            SET nome = ?, descricao = ?, cor = ?, icone = ?, ativo = ?
-            WHERE id = ?
+            SET nome = , descricao = , cor = , icone = , ativo = 
+            WHERE id = 
         `, [nome, descricao, cor, icone, ativo, id]);
 
         if (result.affectedRows === 0) {
@@ -269,7 +269,7 @@ router.delete('/categorias/:id', authenticateToken, requireAdmin, async (req, re
     try {
         const { id } = req.params;
 
-        const [result] = await pool.execute('DELETE FROM categorias WHERE id = ?', [id]);
+        const [result] = await pool.execute('DELETE FROM categorias WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Categoria não encontrada' });
@@ -323,13 +323,13 @@ router.post('/departamentos', authenticateToken, requireAdmin, async (req, res) 
 
         const [result] = await pool.execute(`
             INSERT INTO departamentos (nome, sigla, descricao, responsavel_id, cor, icone)
-            VALUES (?, ?, ?, ?, ?, ?)
+            VALUES (, , , , , )
         `, [nome, sigla, descricao, responsavel_id, cor || '#10B981', icone || 'fa-sitemap']);
 
         res.status(201).json({ 
             success: true, 
             id: result.insertId,
-            message: 'Departamento criado com sucesso' 
+            message: 'Departamento criação com sucesso' 
         });
     } catch (error) {
         console.error('Erro ao criar departamento:', error);
@@ -348,17 +348,17 @@ router.put('/departamentos/:id', authenticateToken, requireAdmin, async (req, re
 
         const [result] = await pool.execute(`
             UPDATE departamentos 
-            SET nome = ?, sigla = ?, descricao = ?, responsavel_id = ?, cor = ?, icone = ?, ativo = ?
-            WHERE id = ?
+            SET nome = , sigla = , descricao = , responsavel_id = , cor = , icone = , ativo = 
+            WHERE id = 
         `, [nome, sigla, descricao, responsavel_id, cor, icone, ativo, id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Departamento não encontrado' });
+            return res.status(404).json({ error: 'Departamento não encontração' });
         }
 
         res.json({ 
             success: true, 
-            message: 'Departamento atualizado com sucesso' 
+            message: 'Departamento atualização com sucesso' 
         });
     } catch (error) {
         console.error('Erro ao atualizar departamento:', error);
@@ -374,10 +374,10 @@ router.delete('/departamentos/:id', authenticateToken, requireAdmin, async (req,
     try {
         const { id } = req.params;
 
-        const [result] = await pool.execute('DELETE FROM departamentos WHERE id = ?', [id]);
+        const [result] = await pool.execute('DELETE FROM departamentos WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Departamento não encontrado' });
+            return res.status(404).json({ error: 'Departamento não encontração' });
         }
 
         res.json({ 
@@ -446,7 +446,7 @@ router.post('/projetos', authenticateToken, requireAdmin, async (req, res) => {
                 nome, codigo, descricao, departamento_id, responsavel_id,
                 status, data_inicio, data_previsao_fim, orcamento, cor
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (, , , , , , , , , )
         `, [
             nome, codigo, descricao, departamento_id, responsavel_id,
             status || 'planejamento', data_inicio, data_previsao_fim, orcamento, cor || '#8B5CF6'
@@ -455,7 +455,7 @@ router.post('/projetos', authenticateToken, requireAdmin, async (req, res) => {
         res.status(201).json({ 
             success: true, 
             id: result.insertId,
-            message: 'Projeto criado com sucesso' 
+            message: 'Projeto criação com sucesso' 
         });
     } catch (error) {
         console.error('Erro ao criar projeto:', error);
@@ -488,19 +488,19 @@ router.put('/projetos/:id', authenticateToken, requireAdmin, async (req, res) =>
         const [result] = await pool.execute(`
             UPDATE projetos 
             SET 
-                nome = ?,
-                codigo = ?,
-                descricao = ?,
-                departamento_id = ?,
-                responsavel_id = ?,
-                status = ?,
-                data_inicio = ?,
-                data_previsao_fim = ?,
-                data_fim_real = ?,
-                orcamento = ?,
-                cor = ?,
-                ativo = ?
-            WHERE id = ?
+                nome = ,
+                codigo = ,
+                descricao = ,
+                departamento_id = ,
+                responsavel_id = ,
+                status = ,
+                data_inicio = ,
+                data_previsao_fim = ,
+                data_fim_real = ,
+                orcamento = ,
+                cor = ,
+                ativo = 
+            WHERE id = 
         `, [
             nome, codigo, descricao, departamento_id, responsavel_id,
             status, data_inicio, data_previsao_fim, data_fim_real,
@@ -508,12 +508,12 @@ router.put('/projetos/:id', authenticateToken, requireAdmin, async (req, res) =>
         ]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Projeto não encontrado' });
+            return res.status(404).json({ error: 'Projeto não encontração' });
         }
 
         res.json({ 
             success: true, 
-            message: 'Projeto atualizado com sucesso' 
+            message: 'Projeto atualização com sucesso' 
         });
     } catch (error) {
         console.error('Erro ao atualizar projeto:', error);
@@ -529,10 +529,10 @@ router.delete('/projetos/:id', authenticateToken, requireAdmin, async (req, res)
     try {
         const { id } = req.params;
 
-        const [result] = await pool.execute('DELETE FROM projetos WHERE id = ?', [id]);
+        const [result] = await pool.execute('DELETE FROM projetos WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Projeto não encontrado' });
+            return res.status(404).json({ error: 'Projeto não encontração' });
         }
 
         res.json({ 

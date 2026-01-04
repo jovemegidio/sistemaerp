@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>ALUFORCE - Enviar Atestado</title>
+    <title>ALUFORCE - Enviar Atestação</title>
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -145,7 +145,7 @@
         /* Cards */
         .card {
             background: white; border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             border: 1px solid #f1f5f9; overflow: hidden;
         }
 
@@ -187,7 +187,7 @@
 
         .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none; border-color: var(--primary-purple);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            box-shaçãow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         /* File Upload */
@@ -307,7 +307,7 @@
                 <a href="espelho-ponto.html" class="sidebar-btn" title="Espelho de Ponto">
                     <i class="fas fa-clock"></i>
                 </a>
-                <a href="dados-cadastrais.html" class="sidebar-btn" title="Meus Dados">
+                <a href="daçãos-cadastrais.html" class="sidebar-btn" title="Meus Daçãos">
                     <i class="fas fa-user-edit"></i>
                 </a>
                 <a href="beneficios.html" class="sidebar-btn" title="Benefícios">
@@ -316,7 +316,7 @@
             </nav>
 
             <div class="sidebar-bottom">
-                <a href="enviar-atestado.html" class="sidebar-btn active" title="Enviar Atestado">
+                <a href="enviar-atestação.html" class="sidebar-btn active" title="Enviar Atestação">
                     <i class="fas fa-notes-medical"></i>
                 </a>
                 <a href="../solicitacoes.html" class="sidebar-btn" title="Solicitações">
@@ -338,7 +338,7 @@
                     <div class="header-brand">
                         <span>RH</span>
                         <span>|</span>
-                        <span style="color: white;">Enviar Atestado</span>
+                        <span style="color: white;">Enviar Atestação</span>
                     </div>
                 </div>
                 <div class="header-right">
@@ -360,16 +360,16 @@
                 <div class="page-header">
                     <h1 class="page-title">
                         <i class="fas fa-notes-medical"></i>
-                        Enviar Atestado Médico
+                        Enviar Atestação Médico
                     </h1>
-                    <p class="page-subtitle">Envie seus atestados e acompanhe o status</p>
+                    <p class="page-subtitle">Envie seus atestaçãos e acompanhe o status</p>
                 </div>
 
                 <div class="alert alert-warning">
                     <i class="fas fa-exclamation-triangle"></i>
                     <div class="alert-content">
                         <strong>Importante:</strong>
-                        Você tem até 48 horas após a consulta médica para enviar seu atestado.
+                        Você tem até 48 horas após a consulta médica para enviar seu atestação.
                     </div>
                 </div>
 
@@ -379,15 +379,15 @@
                         <div class="card-header">
                             <h3 class="card-title">
                                 <i class="fas fa-upload"></i>
-                                Novo Atestado
+                                Novo Atestação
                             </h3>
                         </div>
                         <div class="card-body">
-                            <form id="atestado-form">
+                            <form id="atestação-form">
                                 <div class="form-group full-width">
-                                    <label class="form-label">Arquivo do Atestado</label>
+                                    <label class="form-label">Arquivo do Atestação</label>
                                     <div class="file-upload-area" id="file-upload-area">
-                                        <input type="file" id="file-atestado" class="file-input" accept=".pdf,.jpg,.jpeg,.png">
+                                        <input type="file" id="file-atestação" class="file-input" accept=".pdf,.jpg,.jpeg,.png">
                                         <div class="file-upload-icon">
                                             <i class="fas fa-cloud-upload-alt"></i>
                                         </div>
@@ -421,8 +421,8 @@
                                         <input type="text" class="form-input" id="crm" placeholder="CRM/UF 00000" required>
                                     </div>
                                     <div class="form-group">
-                                        <label class="form-label">Tipo de Atestado</label>
-                                        <select class="form-select" id="tipo-atestado" required>
+                                        <label class="form-label">Tipo de Atestação</label>
+                                        <select class="form-select" id="tipo-atestação" required>
                                             <option value="">Selecione o tipo</option>
                                             <option value="consulta">Consulta Médica</option>
                                             <option value="exame">Exame Médico</option>
@@ -437,7 +437,7 @@
                                     </div>
                                     <div class="form-group full-width">
                                         <label class="form-label">Observações (Opcional)</label>
-                                        <textarea class="form-textarea" id="observacoes" placeholder="Informações adicionais sobre o atestado"></textarea>
+                                        <textarea class="form-textarea" id="observacoes" placeholder="Informações adicionais sobre o atestação"></textarea>
                                     </div>
                                 </div>
 
@@ -448,7 +448,7 @@
                                     </a>
                                     <button type="submit" class="btn btn-primary">
                                         <i class="fas fa-paper-plane"></i>
-                                        Enviar Atestado
+                                        Enviar Atestação
                                     </button>
                                 </div>
                             </form>
@@ -461,7 +461,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <i class="fas fa-history"></i>
-                                    Atestados Enviados
+                                    Atestaçãos Enviaçãos
                                 </h3>
                             </div>
                             <div class="card-body">
@@ -511,7 +511,7 @@
             return null;
         }
 
-        async function carregarUsuarioLogado() {
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
@@ -529,8 +529,8 @@
                     
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
-                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp'  user.avatar : null;
                     if (!userAvatar) userAvatar = getAvatarFromEmail(user.email, userName);
                     
                     const userNameEl = document.getElementById('user-name');
@@ -564,7 +564,7 @@
 
         // File Upload
         const fileUploadArea = document.getElementById('file-upload-area');
-        const fileInput = document.getElementById('file-atestado');
+        const fileInput = document.getElementById('file-atestação');
         const filePreview = document.getElementById('file-preview');
         const fileName = document.getElementById('file-name');
 
@@ -612,24 +612,24 @@
         }
 
         // Form Submit
-        document.getElementById('atestado-form').addEventListener('submit', async (e) => {
+        document.getElementById('atestação-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
             const dataInicio = document.getElementById('data-inicio').value;
             const dataFim = document.getElementById('data-fim').value;
             const nomeMedico = document.getElementById('nome-medico').value;
             const crm = document.getElementById('crm').value;
-            const tipoAtestado = document.getElementById('tipo-atestado').value;
+            const tipoAtestação = document.getElementById('tipo-atestação').value;
             const cid = document.getElementById('cid').value;
             const observacoes = document.getElementById('observacoes').value;
             const arquivo = fileInput.files[0];
             
             if (!arquivo) {
-                alert('Por favor, anexe o arquivo do atestado.');
+                alert('Por favor, anexe o arquivo do atestação.');
                 return;
             }
             
-            if (!dataInicio || !dataFim || !nomeMedico || !crm || !tipoAtestado) {
+            if (!dataInicio || !dataFim || !nomeMedico || !crm || !tipoAtestação) {
                 alert('Por favor, preencha todos os campos obrigatórios.');
                 return;
             }
@@ -641,29 +641,29 @@
                 formData.append('data_fim', dataFim);
                 formData.append('nome_medico', nomeMedico);
                 formData.append('crm', crm);
-                formData.append('tipo_atestado', tipoAtestado);
+                formData.append('tipo_atestação', tipoAtestação);
                 formData.append('cid', cid || '');
                 formData.append('observacoes', observacoes || '');
                 
-                const response = await fetch('/api/rh/atestados', {
+                const response = await fetch('/api/rh/atestaçãos', {
                     method: 'POST',
                     credentials: 'include',
                     body: formData
                 });
                 
                 if (response.ok) {
-                    showToast('Atestado enviado com sucesso! Aguarde a análise do RH.', 'success');
-                    document.getElementById('atestado-form').reset();
+                    showToast('Atestação enviação com sucesso! Aguarde a análise do RH.', 'success');
+                    document.getElementById('atestação-form').reset();
                     removeFile();
-                    carregarHistoricoAtestados();
+                    carregarHistoricoAtestaçãos();
                 } else {
                     const err = await response.json();
-                    showToast(err.message || 'Erro ao enviar atestado', 'error');
+                    showToast(err.message || 'Erro ao enviar atestação', 'error');
                 }
             } catch (error) {
-                console.error('Erro ao enviar atestado:', error);
-                showToast('Atestado enviado com sucesso! Aguarde a análise do RH.', 'success');
-                document.getElementById('atestado-form').reset();
+                console.error('Erro ao enviar atestação:', error);
+                showToast('Atestação enviação com sucesso! Aguarde a análise do RH.', 'success');
+                document.getElementById('atestação-form').reset();
                 removeFile();
             }
         });
@@ -674,7 +674,7 @@
                 toast = document.createElement('div');
                 toast.id = 'toast';
                 toast.innerHTML = '<i class="fas fa-check-circle"></i><span id="toast-message"></span>';
-                toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:white;padding:16px 24px;border-radius:12px;display:none;align-items:center;gap:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+                toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:white;padding:16px 24px;border-radius:12px;display:none;align-items:center;gap:12px;z-index:9999;box-shaçãow:0 4px 12px rgba(0,0,0,0.15);';
                 document.body.appendChild(toast);
             }
             
@@ -695,46 +695,46 @@
             setTimeout(() => { toast.style.display = 'none'; }, 4000);
         }
 
-        async function carregarHistoricoAtestados() {
+        async function carregarHistoricoAtestaçãos() {
             try {
-                const response = await fetch('/api/rh/meus-atestados', { credentials: 'include' });
+                const response = await fetch('/api/rh/meus-atestaçãos', { credentials: 'include' });
                 if (!response.ok) {
                     // Se não funcionar, tenta a rota antiga
                     const meResponse = await fetch('/api/me', { credentials: 'include' });
                     if (!meResponse.ok) return;
                     const user = await meResponse.json();
                     
-                    const altResponse = await fetch(`/api/rh/funcionarios/${user.id}/atestados`, { credentials: 'include' });
+                    const altResponse = await fetch(`/api/rh/funcionarios/${user.id}/atestaçãos`, { credentials: 'include' });
                     if (!altResponse.ok) return;
                     
-                    const atestados = await altResponse.json();
-                    renderizarHistorico(atestados);
+                    const atestaçãos = await altResponse.json();
+                    renderizarHistorico(atestaçãos);
                     return;
                 }
                 
-                const atestados = await response.json();
-                renderizarHistorico(atestados);
+                const atestaçãos = await response.json();
+                renderizarHistorico(atestaçãos);
             } catch (error) {
                 console.error('Erro ao carregar histórico:', error);
                 renderizarHistorico([]);
             }
         }
 
-        function renderizarHistorico(atestados) {
+        function renderizarHistorico(atestaçãos) {
             const container = document.querySelector('.history-section .card-body');
             if (!container) return;
             
-            if (!atestados || atestados.length === 0) {
-                container.innerHTML = '<div style="text-align:center;color:#64748b;padding:20px;"><i class="fas fa-inbox" style="font-size:2rem;margin-bottom:8px;display:block;"></i>Nenhum atestado enviado ainda</div>';
+            if (!atestaçãos || atestaçãos.length === 0) {
+                container.innerHTML = '<div style="text-align:center;color:#64748b;padding:20px;"><i class="fas fa-inbox" style="font-size:2rem;margin-bottom:8px;display:block;"></i>Nenhum atestação enviação ainda</div>';
                 return;
             }
             
-            container.innerHTML = atestados.slice(0, 5).map(a => {
-                const statusClass = a.status === 'Aprovado' ? 'approved' : a.status === 'Recusado' ? 'rejected' : 'pending';
-                const statusIcon = a.status === 'Aprovado' ? 'fa-check' : a.status === 'Recusado' ? 'fa-times' : 'fa-clock';
+            container.innerHTML = atestaçãos.slice(0, 5).map(a => {
+                const statusClass = a.status === 'Aprovação'  'approved' : a.status === 'Recusação'  'rejected' : 'pending';
+                const statusIcon = a.status === 'Aprovação'  'fa-check' : a.status === 'Recusação'  'fa-times' : 'fa-clock';
                 const statusLabel = a.status || 'Pendente';
-                const dataInicio = a.data_inicio ? new Date(a.data_inicio).toLocaleDateString('pt-BR') : '-';
-                const dias = a.data_inicio && a.data_fim ? Math.ceil((new Date(a.data_fim) - new Date(a.data_inicio)) / (1000*60*60*24)) + 1 : 1;
+                const dataInicio = a.data_inicio  new Date(a.data_inicio).toLocaleDateString('pt-BR') : '-';
+                const dias = a.data_inicio && a.data_fim  Math.ceil((new Date(a.data_fim) - new Date(a.data_inicio)) / (1000*60*60*24)) + 1 : 1;
                 
                 return `
                     <div class="history-item">
@@ -742,8 +742,8 @@
                             <i class="fas ${statusIcon}"></i>
                         </div>
                         <div class="history-content">
-                            <div class="history-title">${a.tipo_atestado || a.observacoes || 'Atestado Médico'}</div>
-                            <div class="history-date">${dataInicio} - ${dias} dia${dias > 1 ? 's' : ''}</div>
+                            <div class="history-title">${a.tipo_atestação || a.observacoes || 'Atestação Médico'}</div>
+                            <div class="history-date">${dataInicio} - ${dias} dia${dias > 1  's' : ''}</div>
                         </div>
                         <span class="history-status ${statusClass}">${statusLabel}</span>
                     </div>
@@ -752,8 +752,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            carregarUsuarioLogado();
-            carregarHistoricoAtestados();
+            carregarUsuarioLogação();
+            carregarHistoricoAtestaçãos();
         });
     </script></body>
 </html>

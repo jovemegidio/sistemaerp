@@ -46,7 +46,7 @@ const userPermissions = {
             database: 'aluforce_vendas'
         });
         
-        console.log('✅ Conectado ao banco!\n');
+        console.log('✅ Conectação ao banco!\n');
         
         // Verificar se a coluna permissoes existe
         try {
@@ -70,14 +70,14 @@ const userPermissions = {
             // Buscar usuário por email ou nome
             const [users] = await conn.query(
                 `SELECT id, nome, email FROM usuarios 
-                 WHERE LOWER(email) LIKE LOWER(?) 
-                 OR LOWER(nome) LIKE LOWER(?)
+                 WHERE LOWER(email) LIKE LOWER() 
+                 OR LOWER(nome) LIKE LOWER()
                  LIMIT 1`,
                 [`%${username}%`, `%${username}%`]
             );
             
             if (users.length === 0) {
-                console.log(`⚠️  Usuário não encontrado: ${username}`);
+                console.log(`⚠️  Usuário não encontração: ${username}`);
                 continue;
             }
             
@@ -86,12 +86,12 @@ const userPermissions = {
             
             await conn.query(
                 `UPDATE usuarios 
-                 SET is_admin = ?, 
-                     role = ?, 
-                     setor = ?,
-                     permissoes = ?,
-                     rh_admin = ?
-                 WHERE id = ?`,
+                 SET is_admin = , 
+                     role = , 
+                     setor = ,
+                     permissoes = ,
+                     rh_admin = 
+                 WHERE id = `,
                 [
                     config.is_admin,
                     config.role,
@@ -104,8 +104,8 @@ const userPermissions = {
             
             console.log(`✅ ${user.nome} (${user.email})`);
             console.log(`   - Role: ${config.role}`);
-            console.log(`   - Admin: ${config.is_admin ? 'Sim' : 'Não'}`);
-            console.log(`   - RH Admin: ${config.rh_admin ? 'Sim' : 'Não'}`);
+            console.log(`   - Admin: ${config.is_admin  'Sim' : 'Não'}`);
+            console.log(`   - RH Admin: ${config.rh_admin  'Sim' : 'Não'}`);
             console.log(`   - Áreas: ${config.areas.join(', ')}`);
             console.log('');
         }
@@ -123,10 +123,10 @@ const userPermissions = {
             Nome: u.nome,
             Email: u.email,
             Role: u.role,
-            Admin: u.is_admin ? '✓' : '',
-            'RH Admin': u.rh_admin ? '✓' : '',
+            Admin: u.is_admin  '✓' : '',
+            'RH Admin': u.rh_admin  '✓' : '',
             Setor: u.setor,
-            Áreas: u.permissoes ? JSON.parse(u.permissoes).join(', ') : 'N/A'
+            Áreas: u.permissoes  JSON.parse(u.permissoes).join(', ') : 'N/A'
         })));
         
     } catch (error) {

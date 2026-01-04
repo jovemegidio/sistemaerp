@@ -32,16 +32,16 @@ function showSection(sectionId) {
 }
 
 // Funções do dashboard
-function atualizarDados() {
-    showNotification('Dados atualizados com sucesso!', 'success');
+function atualizarDaçãos() {
+    showNotification('Daçãos atualizaçãos com sucesso!', 'success');
 }
 
-function exportarDados() {
-    showNotification('Exportando dados...', 'info');
+function exportarDaçãos() {
+    showNotification('Exportando daçãos...', 'info');
 }
 
 function logout() {
-    if (confirm('Deseja realmente sair do sistema?')) {
+    if (confirm('Deseja realmente sair do sistema')) {
         window.location.href = '/login.html';
     }
 }
@@ -68,7 +68,7 @@ function showNotification(message, type = 'info') {
         background: ${colors[type]};
         z-index: 10000;
         font-family: 'Segoe UI', sans-serif;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
         animation: slideIn 0.3s ease;
     `;
     
@@ -104,5 +104,5 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mostra a seção dashboard por padrão
     showSection('dashboard-section');
     
-    console.log('✅ Dashboard limpo carregado!');
+    console.log('✅ Dashboard limpo carregação!');
 });

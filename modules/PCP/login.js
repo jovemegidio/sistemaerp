@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!loginForm) return;
 
-  // Funcionalidade de avatar dinâmico baseado no email (busca dinâmica)
+  // Funcionalidade de avatar dinâmico baseação no email (busca dinâmica)
   if (emailInput && userAvatar) {
     let avatarTimeout;
     let usersCache = null;
@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
           const data = await response.json();
           usersCache = data.users || [];
-          console.log('👥 Usuários carregados:', usersCache.length);
+          console.log('👥 Usuários carregaçãos:', usersCache.length);
         } else {
           console.warn('⚠️ Não foi possível carregar lista de usuários');
           usersCache = [];
@@ -112,8 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
     
-    // 5. Mapeamento direto para nomes específicos (fallback para casos não encontrados)
-    const nomesMapeados = {
+    // 5. Mapeamento direto para nomes específicos (fallback para casos não encontraçãos)
+    const nomesMapeaçãos = {
       'guilherme': 'guilherme@aluforce.ind.br',
       'andreia': 'andreia@aluforce.ind.br', 
       'thiago': 'thiago@aluforce.ind.br',
@@ -122,16 +122,16 @@ document.addEventListener('DOMContentLoaded', () => {
       'ti': 'ti@aluforce.ind.br'
     };
     
-    if (!user && nomesMapeados[inputLower]) {
-      user = users.find(u => u.email && u.email.toLowerCase() === nomesMapeados[inputLower]);
+    if (!user && nomesMapeaçãos[inputLower]) {
+      user = users.find(u => u.email && u.email.toLowerCase() === nomesMapeaçãos[inputLower]);
     }
     
     if (user) {
-      // Usuário encontrado no sistema
+      // Usuário encontração no sistema
       const avatarUrl = obterURLAvatar(user);
       const userName = user.nome || 'Usuário';
       
-      console.log(`👤 Avatar encontrado para: ${userName} (input: "${input}")`);
+      console.log(`👤 Avatar encontração para: ${userName} (input: "${input}")`);
       
       if (user.foto_url || avatarUrl.includes('.jpg')) {
         // Tentar mostrar foto
@@ -160,7 +160,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const cor = gerarCorAvatar(name);
       userAvatar.innerHTML = `<div class="avatar-placeholder" style="background: ${cor};">${initials}</div>`;
       
-      console.log(`🏢 Email Aluforce não cadastrado: ${input}`);
+      console.log(`🏢 Email Aluforce não cadastração: ${input}`);
       
     } else if (input.includes('@')) {
       // Email externo - mostra ícone genérico
@@ -169,12 +169,12 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(`🌐 Email externo: ${input}`);
       
     } else if (inputLower.length >= 3) {
-      // Nome digitado mas não encontrado - mostra iniciais baseadas no input
+      // Nome digitação mas não encontração - mostra iniciais baseadas no input
       const initials = input.substring(0, 2).toUpperCase();
       const cor = gerarCorAvatar(input);
       userAvatar.innerHTML = `<div class="avatar-placeholder" style="background: ${cor};">${initials}</div>`;
       
-      console.log(`❓ Nome não encontrado: ${input}`);
+      console.log(`❓ Nome não encontração: ${input}`);
     } else {
       // Input muito curto - não mostra avatar
       hideUserAvatar();
@@ -197,13 +197,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // Tentar encontrar avatar por nome
-    const nomeSimplificado = user.nome ? 
+    const nomeSimplificação = user.nome  
         user.nome.toLowerCase()
             .replace(/\s+/g, '')
             .normalize('NFD')
             .replace(/[\u0300-\u036f]/g, '') : 'default';
     
-    return `/avatars/${nomeSimplificado}.jpg`;
+    return `/avatars/${nomeSimplificação}.jpg`;
   }
   
   // Função para obter iniciais do nome
@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
           emailInput.value = placeholder;
           showUserAvatar(placeholder);
           
-          // Destacar o texto adicionado
+          // Destacar o texto adicionação
           const start = currentValue.length;
           emailInput.setSelectionRange(start, placeholder.length);
         }
@@ -311,13 +311,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const cor = gerarCorAvatar(name);
     userAvatar.innerHTML = `<div class="avatar-placeholder" style="background: ${cor};">${initials}</div>`;
     
-    console.log(`⚠️ Avatar não encontrado para ${name} (${email}), usando iniciais: ${initials}`);
+    console.log(`⚠️ Avatar não encontração para ${name} (${email}), usando iniciais: ${initials}`);
   };
 
   // Funcionalidade de mostrar/ocultar senha
   if (passwordToggle && passwordInput) {
     passwordToggle.addEventListener('click', () => {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      const type = passwordInput.getAttribute('type') === 'password'  'text' : 'password';
       passwordInput.setAttribute('type', type);
       
       // Atualiza o ícone
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentStep = 1;
   let userVerificationData = {};
 
-  // Funcionalidade "Esqueceu a senha?"
+  // Funcionalidade "Esqueceu a senha"
   if (forgotPasswordLink && forgotPasswordModal) {
     forgotPasswordLink.addEventListener('click', (e) => {
       e.preventDefault();
@@ -354,9 +354,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Abrir modal
   function openForgotPasswordModal() {
-    const email = emailInput ? emailInput.value.trim() : '';
+    const email = emailInput  emailInput.value.trim() : '';
     
-    // Pre-preenche email se já digitado
+    // Pre-preenche email se já digitação
     const verifyEmailInput = document.getElementById('verify-email');
     if (verifyEmailInput && email) {
       verifyEmailInput.value = email;
@@ -397,7 +397,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Fechar modal clicando fora
-  forgotPasswordModal?.addEventListener('click', (e) => {
+  forgotPasswordModal.addEventListener('click', (e) => {
     if (e.target === forgotPasswordModal) {
       closeForgotPasswordModal();
     }
@@ -405,7 +405,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fechar modal com ESC
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && forgotPasswordModal?.classList.contains('show')) {
+    if (e.key === 'Escape' && forgotPasswordModal.classList.contains('show')) {
       closeForgotPasswordModal();
     }
   });
@@ -438,8 +438,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextStep1 = document.getElementById('next-step-1');
   const cancelStep1 = document.getElementById('cancel-step-1');
   
-  nextStep1?.addEventListener('click', async () => {
-    const email = document.getElementById('verify-email')?.value.trim();
+  nextStep1.addEventListener('click', async () => {
+    const email = document.getElementById('verify-email').value.trim();
     
     if (!email || !email.includes('@')) {
       showModalMessage('Por favor, digite um email válido.', 'error');
@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
         userVerificationData.userId = data.userId;
         showStep(2);
       } else {
-        showModalMessage(data.message || 'Email não encontrado no sistema.', 'error');
+        showModalMessage(data.message || 'Email não encontração no sistema.', 'error');
       }
     } catch (error) {
       console.error('Erro ao verificar email:', error);
@@ -475,18 +475,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  cancelStep1?.addEventListener('click', closeForgotPasswordModal);
+  cancelStep1.addEventListener('click', closeForgotPasswordModal);
 
   // ================================
-  // STEP 2: Verificar Dados
+  // STEP 2: Verificar Daçãos
   // ================================
   
   const nextStep2 = document.getElementById('next-step-2');
   const backStep2 = document.getElementById('back-step-2');
   
-  nextStep2?.addEventListener('click', async () => {
-    const name = document.getElementById('verify-name')?.value.trim();
-    const department = document.getElementById('verify-department')?.value;
+  nextStep2.addEventListener('click', async () => {
+    const name = document.getElementById('verify-name').value.trim();
+    const department = document.getElementById('verify-department').value;
     
     if (!name || !department) {
       showModalMessage('Por favor, preencha todos os campos.', 'error');
@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nextStep2.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
     
     try {
-      // Verificar dados do usuário
+      // Verificar daçãos do usuário
       const response = await fetch('/api/auth/verify-user-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -515,10 +515,10 @@ document.addEventListener('DOMContentLoaded', () => {
         userVerificationData.department = department;
         showStep(3);
       } else {
-        showModalMessage(data.message || 'Dados não conferem com nossos registros.', 'error');
+        showModalMessage(data.message || 'Daçãos não conferem com nossos registros.', 'error');
       }
     } catch (error) {
-      console.error('Erro ao verificar dados:', error);
+      console.error('Erro ao verificar daçãos:', error);
       showModalMessage('Erro de conexão. Tente novamente.', 'error');
     } finally {
       nextStep2.disabled = false;
@@ -526,7 +526,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  backStep2?.addEventListener('click', () => showStep(1));
+  backStep2.addEventListener('click', () => showStep(1));
 
   // ================================
   // STEP 3: Nova Senha
@@ -537,8 +537,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const changePasswordBtn = document.getElementById('change-password');
   const backStep3 = document.getElementById('back-step-3');
   
-  // Verificador de força da senha
-  newPasswordInput?.addEventListener('input', (e) => {
+  // Verificaçãor de força da senha
+  newPasswordInput.addEventListener('input', (e) => {
     checkPasswordStrength(e.target.value);
   });
   
@@ -584,9 +584,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return '#22c55e';
   }
   
-  changePasswordBtn?.addEventListener('click', async () => {
-    const newPassword = newPasswordInput?.value;
-    const confirmPassword = confirmPasswordInput?.value;
+  changePasswordBtn.addEventListener('click', async () => {
+    const newPassword = newPasswordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
     
     if (!newPassword || !confirmPassword) {
       showModalMessage('Por favor, preencha ambos os campos de senha.', 'error');
@@ -642,7 +642,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  backStep3?.addEventListener('click', () => showStep(2));
+  backStep3.addEventListener('click', () => showStep(2));
   
   // Função para mostrar mensagens no modal
   function showModalMessage(message, type = 'error') {
@@ -654,7 +654,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Cria nova mensagem
     const messageDiv = document.createElement('div');
-    messageDiv.className = `modal-message ${type === 'success' ? 'success-message' : 'error-message'} visible`;
+    messageDiv.className = `modal-message ${type === 'success'  'success-message' : 'error-message'} visible`;
     messageDiv.textContent = message;
     
     // Adiciona após o cabeçalho
@@ -665,7 +665,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Remove após 5 segundos
     setTimeout(() => {
-      messageDiv?.remove();
+      messageDiv.remove();
     }, 5000);
   }
 
@@ -674,7 +674,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageDiv = errorMessageDiv;
     if (!messageDiv) return;
     
-    messageDiv.className = type === 'success' ? 'success-message visible' : 'error-message visible';
+    messageDiv.className = type === 'success'  'success-message visible' : 'error-message visible';
     messageDiv.textContent = message;
     
     // Remove a mensagem após 5 segundos
@@ -691,11 +691,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedEmail) {
       emailInput.value = savedEmail;
       rememberCheckbox.checked = true;
-      // Mostra o avatar para o email carregado
+      // Mostra o avatar para o email carregação
       setTimeout(() => showUserAvatar(savedEmail.toLowerCase()), 100);
     }
     
-    // Salva/remove email baseado no checkbox
+    // Salva/remove email baseação no checkbox
     rememberCheckbox.addEventListener('change', () => {
       if (rememberCheckbox.checked) {
         const email = emailInput.value.trim();
@@ -712,12 +712,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function setLoading(loading) {
   if (!submitBtn) return;
   submitBtn.disabled = loading;
-  submitBtn.setAttribute('aria-busy', loading ? 'true' : 'false');
+  submitBtn.setAttribute('aria-busy', loading  'true' : 'false');
   // Toggle the loading class; CSS controls spinner visibility and layout
   submitBtn.classList.toggle('loading', loading);
   // Ensure the visible text is still present for screen readers
   const textEl = submitBtn.querySelector('.btn-text');
-  if (textEl) textEl.setAttribute('aria-hidden', loading ? 'true' : 'false');
+  if (textEl) textEl.setAttribute('aria-hidden', loading  'true' : 'false');
   // Avoid inline style manipulation so CSS can manage layout and animation
   }
 
@@ -735,8 +735,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const usernameEl = document.getElementById('email');
     const passwordEl = document.getElementById('password');
-    const username = usernameEl ? usernameEl.value.trim() : '';
-    const password = passwordEl ? passwordEl.value : '';
+    const username = usernameEl  usernameEl.value.trim() : '';
+    const password = passwordEl  passwordEl.value : '';
 
     if (!username || !password) {
       if (errorMessageDiv) {
@@ -765,11 +765,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!response.ok) {
         // server provided message preferred
-        const msg = (data && data.message) ? data.message : `Erro de autenticação (${response.status})`;
+        const msg = (data && data.message)  data.message : `Erro de autenticação (${response.status})`;
         throw new Error(msg);
       }
 
-      // Login bem-sucedido: salvar dados do usuário no localStorage
+      // Login bem-sucedido: salvar daçãos do usuário no localStorage
       if (data.userData) {
         const user = data.userData;
         const nomeCompleto = user.nome || user.nome_completo || user.name || 'Usuário';
@@ -800,14 +800,14 @@ document.addEventListener('DOMContentLoaded', () => {
           setor: user.departamento || user.setor || 'PCP'
         }));
         
-        console.log('👤 Dados do usuário salvos:', nomeCompleto, 'Avatar:', fotoUrl);
+        console.log('👤 Daçãos do usuário salvos:', nomeCompleto, 'Avatar:', fotoUrl);
       }
 
       // Redireciona para a área principal (index.html)
       window.location.href = '/index.html';
     } catch (error) {
       if (errorMessageDiv) {
-        const msg = error && error.message ? error.message : 'Erro ao efetuar login';
+        const msg = error && error.message  error.message : 'Erro ao efetuar login';
         errorMessageDiv.textContent = msg;
         errorMessageDiv.classList.add('visible');
         // focus the email field so user can retry quickly

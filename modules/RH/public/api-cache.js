@@ -19,7 +19,7 @@ class APICache {
      */
     _generateKey(url, options = {}) {
         const method = options.method || 'GET';
-        const body = options.body ? JSON.stringify(options.body) : '';
+        const body = options.body  JSON.stringify(options.body) : '';
         return `${method}:${url}:${body}`;
     }
 
@@ -48,7 +48,7 @@ class APICache {
     }
 
     /**
-     * Armazena dados no cache
+     * Armazena daçãos no cache
      */
     set(url, data, options = {}) {
         const key = this._generateKey(url, options);
@@ -94,7 +94,7 @@ class APICache {
      */
     getStats() {
         const total = this.stats.hits + this.stats.misses;
-        const hitRate = total > 0 ? ((this.stats.hits / total) * 100).toFixed(2) : 0;
+        const hitRate = total > 0  ((this.stats.hits / total) * 100).toFixed(2) : 0;
 
         return {
             ...this.stats,
@@ -218,5 +218,5 @@ setInterval(() => {
     console.log(`[CACHE] Depois: ${newStats.size} entradas`);
 }, 10 * 60 * 1000);
 
-console.log('✅ Sistema de cache carregado');
+console.log('✅ Sistema de cache carregação');
 console.log('📊 Use window.showCacheStats() para ver estatísticas');

@@ -10,7 +10,7 @@ let soap = null;
 try {
     soap = require('soap');
 } catch (e) {
-    console.warn('[SEFAZ] ⚠️  Módulo soap não instalado. Integração NFe/SEFAZ desabilitada.');
+    console.warn('[SEFAZ] ⚠️  Módulo soap não instalação. Integração NFe/SEFAZ desabilitada.');
 }
 const fs = require('fs').promises;
 const https = require('https');
@@ -77,12 +77,12 @@ class SEFAZService {
 
     /**
      * Autoriza NFe na SEFAZ
-     * @param {string} xmlAssinado - XML da NFe já assinado
+     * @param {string} xmlAssinação - XML da NFe já assinação
      * @param {string} uf - UF do emitente
      * @param {string} ambiente - 'homologacao' ou 'producao'
-     * @returns {Promise<Object>} Resultado da autorização
+     * @returns {Promise<Object>} Resultação da autorização
      */
-    async autorizarNFe(xmlAssinado, uf, ambiente = 'homologacao') {
+    async autorizarNFe(xmlAssinação, uf, ambiente = 'homologacao') {
         try {
             console.log(`📤 Enviando NFe para SEFAZ ${uf} (${ambiente})...`);
 
@@ -95,17 +95,17 @@ class SEFAZService {
 
             // Montar lote
             const idLote = this.gerarIdLote();
-            const xmlLote = this.montarLoteNFe(xmlAssinado, idLote);
+            const xmlLote = this.montarLoteNFe(xmlAssinação, idLote);
 
             // Criar cliente SOAP
             const client = await this.criarClienteSOAP(url);
 
-            // Definir timeout aumentado (60 segundos)
+            // Definir timeout aumentação (60 segundos)
             client.setTimeout(60000);
 
             // Enviar para SEFAZ
             const [result] = await client.nfeAutorizacaoLoteAsync({
-                nfeDadosMsg: xmlLote
+                nfeDaçãosMsg: xmlLote
             });
 
             console.log('✅ Resposta recebida da SEFAZ');
@@ -116,7 +116,7 @@ class SEFAZService {
             // Registrar log
             await this.registrarLog('autorizacao', xmlLote, result, retorno.cStat);
 
-            // Se recibo foi gerado, consultar processamento
+            // Se recibo foi geração, consultar processamento
             if (retorno.cStat === '103') {
                 console.log(`🔄 Aguardando processamento (Recibo: ${retorno.nRec})...`);
                 
@@ -133,7 +133,7 @@ class SEFAZService {
             console.error('❌ Erro ao autorizar NFe:', error);
             
             // Registrar erro
-            await this.registrarLog('autorizacao', xmlAssinado, null, '999', error.message);
+            await this.registrarLog('autorizacao', xmlAssinação, null, '999', error.message);
             
             throw new Error(`Falha na comunicação com SEFAZ: ${error.message}`);
         }
@@ -144,7 +144,7 @@ class SEFAZService {
      * @param {string} numeroRecibo - Número do recibo
      * @param {string} uf - UF do emitente
      * @param {string} ambiente - 'homologacao' ou 'producao'
-     * @returns {Promise<Object>} Resultado da consulta
+     * @returns {Promise<Object>} Resultação da consulta
      */
     async consultarRetornoAutorizacao(numeroRecibo, uf, ambiente = 'homologacao') {
         try {
@@ -156,7 +156,7 @@ class SEFAZService {
             const xmlConsulta = this.montarConsultaRecibo(numeroRecibo, ambiente);
 
             const [result] = await client.nfeRetAutorizacaoAsync({
-                nfeDadosMsg: xmlConsulta
+                nfeDaçãosMsg: xmlConsulta
             });
 
             const retorno = this.processarRetornoConsulta(result);
@@ -189,7 +189,7 @@ class SEFAZService {
             const xmlConsulta = this.montarConsultaProtocolo(chaveAcesso, ambiente);
 
             const [result] = await client.nfeConsultaProtocoloAsync({
-                nfeDadosMsg: xmlConsulta
+                nfeDaçãosMsg: xmlConsulta
             });
 
             const retorno = this.processarRetornoConsultaProtocolo(result);
@@ -219,7 +219,7 @@ class SEFAZService {
             const xmlConsulta = this.montarConsultaStatus(uf, ambiente);
 
             const [result] = await client.nfeStatusServicoAsync({
-                nfeDadosMsg: xmlConsulta
+                nfeDaçãosMsg: xmlConsulta
             });
 
             return this.processarRetornoStatus(result);
@@ -240,7 +240,7 @@ class SEFAZService {
         const versao = '4.00';
         const tpAmb = '2'; // Homologação
         
-        return `<?xml version="1.0" encoding="UTF-8"?>
+        return `<xml version="1.0" encoding="UTF-8">
 <enviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="${versao}">
     <idLote>${idLote}</idLote>
     <indSinc>1</indSinc>
@@ -252,9 +252,9 @@ class SEFAZService {
      * Monta XML de consulta de recibo
      */
     montarConsultaRecibo(numeroRecibo, ambiente) {
-        const tpAmb = ambiente === 'producao' ? '1' : '2';
+        const tpAmb = ambiente === 'producao'  '1' : '2';
         
-        return `<?xml version="1.0" encoding="UTF-8"?>
+        return `<xml version="1.0" encoding="UTF-8">
 <consReciNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
     <tpAmb>${tpAmb}</tpAmb>
     <nRec>${numeroRecibo}</nRec>
@@ -265,9 +265,9 @@ class SEFAZService {
      * Monta XML de consulta de protocolo
      */
     montarConsultaProtocolo(chaveAcesso, ambiente) {
-        const tpAmb = ambiente === 'producao' ? '1' : '2';
+        const tpAmb = ambiente === 'producao'  '1' : '2';
         
-        return `<?xml version="1.0" encoding="UTF-8"?>
+        return `<xml version="1.0" encoding="UTF-8">
 <consSitNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
     <tpAmb>${tpAmb}</tpAmb>
     <xServ>CONSULTAR</xServ>
@@ -279,10 +279,10 @@ class SEFAZService {
      * Monta XML de consulta de status
      */
     montarConsultaStatus(uf, ambiente) {
-        const tpAmb = ambiente === 'producao' ? '1' : '2';
+        const tpAmb = ambiente === 'producao'  '1' : '2';
         const cUF = this.obterCodigoUF(uf);
         
-        return `<?xml version="1.0" encoding="UTF-8"?>
+        return `<xml version="1.0" encoding="UTF-8">
 <consStatServ xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
     <tpAmb>${tpAmb}</tpAmb>
     <cUF>${cUF}</cUF>
@@ -299,9 +299,9 @@ class SEFAZService {
         return {
             cStat: retorno.cStat,
             xMotivo: retorno.xMotivo,
-            nRec: retorno.infRec?.nRec,
+            nRec: retorno.infRec.nRec,
             dhRecbto: retorno.dhRecbto,
-            tMed: retorno.infRec?.tMed
+            tMed: retorno.infRec.tMed
         };
     }
 
@@ -313,12 +313,12 @@ class SEFAZService {
         const protNFe = retorno.protNFe;
         
         return {
-            cStat: retorno.cStat || protNFe?.infProt?.cStat,
-            xMotivo: retorno.xMotivo || protNFe?.infProt?.xMotivo,
-            chNFe: protNFe?.infProt?.chNFe,
-            dhRecbto: protNFe?.infProt?.dhRecbto,
-            nProt: protNFe?.infProt?.nProt,
-            digVal: protNFe?.infProt?.digVal,
+            cStat: retorno.cStat || protNFe.infProt.cStat,
+            xMotivo: retorno.xMotivo || protNFe.infProt.xMotivo,
+            chNFe: protNFe.infProt.chNFe,
+            dhRecbto: protNFe.infProt.dhRecbto,
+            nProt: protNFe.infProt.nProt,
+            digVal: protNFe.infProt.digVal,
             xmlProtocolo: protNFe
         };
     }
@@ -350,19 +350,19 @@ class SEFAZService {
      */
     async criarClienteSOAP(url) {
         const options = {
-            // Aceitar certificados auto-assinados em homologação
+            // Aceitar certificaçãos auto-assinaçãos em homologação
             rejectUnauthorized: false,
             timeout: 60000
         };
 
-        return await soap.createClientAsync(url + '?wsdl', options);
+        return await soap.createClientAsync(url + 'wsdl', options);
     }
 
     /**
      * Obtém URL do webservice
      */
     obterURL(uf, ambiente, tipo = 'autorizacao') {
-        const urls = ambiente === 'producao' ? this.urlsProducao : this.urlsHomologacao;
+        const urls = ambiente === 'producao'  this.urlsProducao : this.urlsHomologacao;
         return urls[uf] || urls['SVRS']; // Fallback para SVRS
     }
 
@@ -379,16 +379,16 @@ class SEFAZService {
     /**
      * Registra log no banco
      */
-    async registrarLog(tipo, xmlEnviado, xmlRetorno, cStat, erro = null) {
+    async registrarLog(tipo, xmlEnviação, xmlRetorno, cStat, erro = null) {
         try {
             await this.pool.query(`
                 INSERT INTO nfe_logs_sefaz (
-                    tipo_operacao, xml_enviado, xml_retorno,
+                    tipo_operacao, xml_enviação, xml_retorno,
                     codigo_status, erro, created_at
-                ) VALUES (?, ?, ?, ?, ?, NOW())
+                ) VALUES (, , , , , NOW())
             `, [
                 tipo,
-                xmlEnviado,
+                xmlEnviação,
                 JSON.stringify(xmlRetorno),
                 cStat,
                 erro

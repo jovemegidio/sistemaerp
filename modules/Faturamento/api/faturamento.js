@@ -5,7 +5,7 @@ const path = require('path');
 // Serviços
 const CalculoTributosService = require('../services/calculo-tributos.service');
 const XmlNFeService = require('../services/xml-nfe.service');
-const certificadoService = require('../services/certificado.service');
+const certificaçãoService = require('../services/certificação.service');
 const sefazService = require('../services/sefaz.service');
 const danfeService = require('../services/danfe.service');
 const FinanceiroIntegracaoService = require('../services/financeiro-integracao.service');
@@ -53,7 +53,7 @@ module.exports = (pool, authenticateToken) => {
                 }
             }
 
-            // 1. Buscar dados do pedido
+            // 1. Buscar daçãos do pedido
             const [pedidos] = await connection.query(`
                 SELECT 
                     p.*,
@@ -62,23 +62,23 @@ module.exports = (pool, authenticateToken) => {
                     c.cpf as cliente_cpf,
                     c.endereco as cliente_endereco,
                     c.cidade as cliente_cidade,
-                    c.estado as cliente_estado,
+                    c.estação as cliente_estação,
                     c.cep as cliente_cep,
                     c.email as cliente_email
                 FROM pedidos p
                 INNER JOIN clientes c ON p.cliente_id = c.id
-                WHERE p.id = ? AND p.status = 'aprovado'
+                WHERE p.id =  AND p.status = 'aprovação'
             `, [pedido_id]);
 
             if (pedidos.length === 0) {
-                throw new Error('Pedido não encontrado ou não está aprovado');
+                throw new Error('Pedido não encontração ou não está aprovação');
             }
 
             const pedido = pedidos[0];
 
             // 2. Verificar se já existe NF-e para este pedido
             const [nfeExistente] = await connection.query(`
-                SELECT id, numero_nfe, status FROM nfe WHERE pedido_id = ?
+                SELECT id, numero_nfe, status FROM nfe WHERE pedido_id = 
             `, [pedido_id]);
 
             if (nfeExistente.length > 0) {
@@ -95,7 +95,7 @@ module.exports = (pool, authenticateToken) => {
                     pr.unidade_medida
                 FROM pedido_itens pi
                 INNER JOIN produtos pr ON pi.produto_id = pr.id
-                WHERE pi.pedido_id = ?
+                WHERE pi.pedido_id = 
             `, [pedido_id]);
 
             if (itens.length === 0) {
@@ -109,7 +109,7 @@ module.exports = (pool, authenticateToken) => {
                 WHERE serie = 1
             `);
 
-            const proximoNumero = (ultimaNFe[0]?.ultimo_numero || 0) + 1;
+            const proximoNumero = (ultimaNFe[0].ultimo_numero || 0) + 1;
 
             // 5. Calcular totais
             const valorProdutos = itens.reduce((sum, item) => 
@@ -120,7 +120,7 @@ module.exports = (pool, authenticateToken) => {
             const desconto = parseFloat(pedido.desconto) || 0;
             const valorTotal = valorProdutos + frete - desconto;
 
-            // Calcular impostos (simplificado - ajustar conforme regime tributário)
+            // Calcular impostos (simplificação - ajustar conforme regime tributário)
             const baseICMS = valorProdutos;
             const valorICMS = baseICMS * 0.18; // 18% ICMS (exemplo)
             const valorIPI = valorProdutos * 0.05; // 5% IPI (exemplo)
@@ -142,7 +142,7 @@ module.exports = (pool, authenticateToken) => {
                     cliente_cnpj_cpf,
                     cliente_endereco,
                     cliente_cidade,
-                    cliente_estado,
+                    cliente_estação,
                     cliente_cep,
                     valor_produtos,
                     valor_frete,
@@ -158,10 +158,10 @@ module.exports = (pool, authenticateToken) => {
                     usuario_id,
                     created_at
                 ) VALUES (
-                    ?, ?, 1, '55', 1, 1, 'Venda de Produtos',
-                    ?, ?, ?, ?, ?, ?, ?,
-                    ?, ?, ?, ?, ?, ?, ?, ?, ?,
-                    'pendente', NOW(), ?, NOW()
+                    , , 1, '55', 1, 1, 'Venda de Produtos',
+                    , , , , , , ,
+                    , , , , , , , , ,
+                    'pendente', NOW(), , NOW()
                 )
             `, [
                 pedido_id,
@@ -171,7 +171,7 @@ module.exports = (pool, authenticateToken) => {
                 pedido.cliente_cnpj || pedido.cliente_cpf,
                 pedido.cliente_endereco,
                 pedido.cliente_cidade,
-                pedido.cliente_estado,
+                pedido.cliente_estação,
                 pedido.cliente_cep,
                 valorProdutos,
                 frete,
@@ -201,7 +201,7 @@ module.exports = (pool, authenticateToken) => {
                         valor_unitario,
                         valor_total,
                         valor_desconto
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ) VALUES (, , , , , , , , , )
                 `, [
                     nfe_id,
                     item.produto_id,
@@ -219,8 +219,8 @@ module.exports = (pool, authenticateToken) => {
             // 8. Atualizar pedido com NF-e gerada
             await connection.query(`
                 UPDATE pedidos 
-                SET nfe_id = ?, faturado_em = NOW()
-                WHERE id = ?
+                SET nfe_id = , faturação_em = NOW()
+                WHERE id = 
             `, [nfe_id, pedido_id]);
 
             await connection.commit();
@@ -250,7 +250,7 @@ module.exports = (pool, authenticateToken) => {
 
             res.json({
                 success: true,
-                message: integracoes.avisos.length === 0 ? 'NF-e gerada com sucesso' : 'NF-e gerada com avisos de integração',
+                message: integracoes.avisos.length === 0  'NF-e gerada com sucesso' : 'NF-e gerada com avisos de integração',
                 data: {
                     nfe_id,
                     numero_nfe: proximoNumero,
@@ -258,7 +258,7 @@ module.exports = (pool, authenticateToken) => {
                     valor_total: valorTotal,
                     status: 'pendente',
                     proximos_passos: [
-                        'Assinar XML com certificado digital',
+                        'Assinar XML com certificação digital',
                         'Enviar para SEFAZ',
                         'Gerar DANFE em PDF'
                     ],
@@ -302,22 +302,22 @@ module.exports = (pool, authenticateToken) => {
             const params = [];
             
             if (status) {
-                query += ' AND n.status = ?';
+                query += ' AND n.status = ';
                 params.push(status);
             }
             
             if (data_inicio) {
-                query += ' AND DATE(n.data_emissao) >= ?';
+                query += ' AND DATE(n.data_emissao) >= ';
                 params.push(data_inicio);
             }
             
             if (data_fim) {
-                query += ' AND DATE(n.data_emissao) <= ?';
+                query += ' AND DATE(n.data_emissao) <= ';
                 params.push(data_fim);
             }
             
             if (cliente_id) {
-                query += ' AND n.cliente_id = ?';
+                query += ' AND n.cliente_id = ';
                 params.push(cliente_id);
             }
             
@@ -357,7 +357,7 @@ module.exports = (pool, authenticateToken) => {
                 FROM nfe n
                 LEFT JOIN clientes c ON n.cliente_id = c.id
                 LEFT JOIN pedidos p ON n.pedido_id = p.id
-                WHERE n.id = ?
+                WHERE n.id = 
             `, [id]);
             
             if (nfes.length === 0) {
@@ -368,7 +368,7 @@ module.exports = (pool, authenticateToken) => {
             }
             
             const [itens] = await pool.query(`
-                SELECT * FROM nfe_itens WHERE nfe_id = ?
+                SELECT * FROM nfe_itens WHERE nfe_id = 
             `, [id]);
             
             res.json({
@@ -407,7 +407,7 @@ module.exports = (pool, authenticateToken) => {
 
             // Buscar NF-e
             const [nfes] = await connection.query(`
-                SELECT * FROM nfe WHERE id = ?
+                SELECT * FROM nfe WHERE id = 
             `, [id]);
 
             if (nfes.length === 0) {
@@ -425,17 +425,17 @@ module.exports = (pool, authenticateToken) => {
                 UPDATE nfe 
                 SET status = 'cancelada',
                     data_cancelamento = NOW(),
-                    motivo_cancelamento = ?,
-                    cancelado_por = ?
-                WHERE id = ?
+                    motivo_cancelamento = ,
+                    cancelação_por = 
+                WHERE id = 
             `, [motivo, usuario_id, id]);
 
             // Reverter faturamento do pedido
             if (nfe.pedido_id) {
                 await connection.query(`
                     UPDATE pedidos 
-                    SET nfe_id = NULL, faturado_em = NULL
-                    WHERE id = ?
+                    SET nfe_id = NULL, faturação_em = NULL
+                    WHERE id = 
                 `, [nfe.pedido_id]);
             }
 
@@ -447,18 +447,18 @@ module.exports = (pool, authenticateToken) => {
             try {
                 integracoes.financeiro = await financeiroService.estornarNFeCancelada(id);
             } catch (err) {
-                integracoes.avisos.push(`Financeiro não estornado: ${err.message}`);
+                integracoes.avisos.push(`Financeiro não estornação: ${err.message}`);
             }
 
             try {
                 integracoes.estoque = await vendasEstoqueService.estornarEstoque(id, usuario_id);
             } catch (err) {
-                integracoes.avisos.push(`Estoque não estornado: ${err.message}`);
+                integracoes.avisos.push(`Estoque não estornação: ${err.message}`);
             }
 
             res.json({
                 success: true,
-                message: integracoes.avisos.length === 0 ? 'NF-e cancelada com sucesso' : 'NF-e cancelada com avisos',
+                message: integracoes.avisos.length === 0  'NF-e cancelada com sucesso' : 'NF-e cancelada com avisos',
                 data: { nfe_id: id, status: 'cancelada', integracoes }
             });
 
@@ -486,7 +486,7 @@ module.exports = (pool, authenticateToken) => {
                     SUM(CASE WHEN status = 'autorizada' THEN 1 ELSE 0 END) as autorizadas,
                     SUM(CASE WHEN status = 'pendente' THEN 1 ELSE 0 END) as pendentes,
                     SUM(CASE WHEN status = 'cancelada' THEN 1 ELSE 0 END) as canceladas,
-                    SUM(CASE WHEN status = 'autorizada' THEN valor_total ELSE 0 END) as valor_total_faturado,
+                    SUM(CASE WHEN status = 'autorizada' THEN valor_total ELSE 0 END) as valor_total_faturação,
                     SUM(CASE WHEN status = 'autorizada' AND MONTH(data_emissao) = MONTH(NOW()) THEN valor_total ELSE 0 END) as valor_mes_atual
                 FROM nfe
             `);
@@ -515,7 +515,7 @@ module.exports = (pool, authenticateToken) => {
             const { id } = req.params;
             
             // Buscar NFe
-            const [nfes] = await connection.query(`SELECT * FROM nfe WHERE id = ?`, [id]);
+            const [nfes] = await connection.query(`SELECT * FROM nfe WHERE id = `, [id]);
             
             if (nfes.length === 0) {
                 return res.status(404).json({ success: false, message: 'NFe não encontrada' });
@@ -531,29 +531,29 @@ module.exports = (pool, authenticateToken) => {
             }
             
             // Enviar para SEFAZ
-            const resultado = await sefazService.autorizarNFe(nfe.xml_nfe, nfe.emitente_uf);
+            const resultação = await sefazService.autorizarNFe(nfe.xml_nfe, nfe.emitente_uf);
             
-            if (resultado.autorizado) {
+            if (resultação.autorização) {
                 await connection.query(`
                     UPDATE nfe 
                     SET status = 'autorizada',
-                        numero_protocolo = ?,
+                        numero_protocolo = ,
                         data_autorizacao = NOW(),
-                        xml_protocolo = ?
-                    WHERE id = ?
-                `, [resultado.numeroProtocolo, resultado.xmlCompleto, id]);
+                        xml_protocolo = 
+                    WHERE id = 
+                `, [resultação.numeroProtocolo, resultação.xmlCompleto, id]);
                 
                 res.json({
                     success: true,
                     message: 'NFe autorizada pela SEFAZ',
-                    protocolo: resultado.numeroProtocolo
+                    protocolo: resultação.numeroProtocolo
                 });
             } else {
                 res.status(400).json({
                     success: false,
                     message: 'NFe rejeitada pela SEFAZ',
-                    codigo: resultado.codigoStatus,
-                    motivo: resultado.motivo
+                    codigo: resultação.codigoStatus,
+                    motivo: resultação.motivo
                 });
             }
             
@@ -573,7 +573,7 @@ module.exports = (pool, authenticateToken) => {
         try {
             const { id } = req.params;
             
-            const [nfes] = await pool.query(`SELECT * FROM nfe WHERE id = ?`, [id]);
+            const [nfes] = await pool.query(`SELECT * FROM nfe WHERE id = `, [id]);
             
             if (nfes.length === 0) {
                 return res.status(404).json({ success: false, message: 'NFe não encontrada' });
@@ -611,7 +611,7 @@ module.exports = (pool, authenticateToken) => {
                 });
             }
             
-            const [nfes] = await connection.query(`SELECT * FROM nfe WHERE id = ?`, [id]);
+            const [nfes] = await connection.query(`SELECT * FROM nfe WHERE id = `, [id]);
             
             if (nfes.length === 0) {
                 return res.status(404).json({ success: false, message: 'NFe não encontrada' });
@@ -629,13 +629,13 @@ module.exports = (pool, authenticateToken) => {
             // Contar sequência de CC-e
             const [cces] = await connection.query(`
                 SELECT COUNT(*) as total FROM nfe_eventos 
-                WHERE nfe_id = ? AND tipo_evento = '110110'
+                WHERE nfe_id =  AND tipo_evento = '110110'
             `, [id]);
             
             const sequencia = cces[0].total + 1;
             
             // Enviar CC-e
-            const resultado = await sefazService.cartaCorrecao(
+            const resultação = await sefazService.cartaCorrecao(
                 nfe.chave_acesso,
                 correcao,
                 nfe.emitente_uf,
@@ -643,24 +643,24 @@ module.exports = (pool, authenticateToken) => {
                 sequencia
             );
             
-            if (resultado.sucesso) {
+            if (resultação.sucesso) {
                 await connection.query(`
                     INSERT INTO nfe_eventos (
                         nfe_id, tipo_evento, sequencia, descricao,
                         protocolo, xml_evento, created_at
-                    ) VALUES (?, '110110', ?, ?, ?, ?, NOW())
-                `, [id, sequencia, correcao, resultado.numeroProtocolo, resultado.xmlCompleto]);
+                    ) VALUES (, '110110', , , , , NOW())
+                `, [id, sequencia, correcao, resultação.numeroProtocolo, resultação.xmlCompleto]);
                 
                 res.json({
                     success: true,
                     message: 'Carta de correção registrada',
-                    protocolo: resultado.numeroProtocolo
+                    protocolo: resultação.numeroProtocolo
                 });
             } else {
                 res.status(400).json({
                     success: false,
                     message: 'CC-e rejeitada',
-                    codigo: resultado.codigoStatus
+                    codigo: resultação.codigoStatus
                 });
             }
             
@@ -680,7 +680,7 @@ module.exports = (pool, authenticateToken) => {
         try {
             const { serie, numeroInicial, numeroFinal, justificativa } = req.body;
             
-            const resultado = await sefazService.inutilizarNumeracao({
+            const resultação = await sefazService.inutilizarNumeracao({
                 ano: new Date().getFullYear().toString().substring(2),
                 cnpj: req.user.empresa_cnpj,
                 modelo: '55',
@@ -690,14 +690,14 @@ module.exports = (pool, authenticateToken) => {
                 justificativa
             }, req.user.empresa_uf);
             
-            if (resultado.sucesso) {
+            if (resultação.sucesso) {
                 // Registrar inutilização
                 await pool.query(`
                     INSERT INTO nfe_inutilizacoes (
                         serie, numero_inicial, numero_final, 
                         justificativa, xml_inutilizacao, created_at
-                    ) VALUES (?, ?, ?, ?, ?, NOW())
-                `, [serie, numeroInicial, numeroFinal, justificativa, resultado.xmlCompleto]);
+                    ) VALUES (, , , , , NOW())
+                `, [serie, numeroInicial, numeroFinal, justificativa, resultação.xmlCompleto]);
                 
                 res.json({
                     success: true,
@@ -722,12 +722,12 @@ module.exports = (pool, authenticateToken) => {
     
     router.get('/sefaz/status', authenticateToken, async (req, res) => {
         try {
-            const resultado = await sefazService.consultarStatusServico(req.user.empresa_uf);
+            const resultação = await sefazService.consultarStatusServico(req.user.empresa_uf);
             
             res.json({
                 success: true,
-                online: resultado.online,
-                mensagem: resultado.motivo
+                online: resultação.online,
+                mensagem: resultação.motivo
             });
             
         } catch (error) {
@@ -745,7 +745,7 @@ module.exports = (pool, authenticateToken) => {
             const { id } = req.params;
             const { numeroParcelas, diaVencimento, intervalo } = req.body;
             
-            const resultado = await financeiroService.gerarContasReceber(id, {
+            const resultação = await financeiroService.gerarContasReceber(id, {
                 numeroParcelas: numeroParcelas || 1,
                 diaVencimento: diaVencimento || 30,
                 intervalo: intervalo || 30
@@ -754,7 +754,7 @@ module.exports = (pool, authenticateToken) => {
             res.json({
                 success: true,
                 message: 'Contas a receber geradas',
-                ...resultado
+                ...resultação
             });
             
         } catch (error) {
@@ -783,8 +783,8 @@ module.exports = (pool, authenticateToken) => {
                     SUM(n.valor_cofins) as total_cofins
                 FROM nfe n
                 WHERE n.status = 'autorizada'
-                AND n.data_emissao >= ?
-                AND n.data_emissao <= ?
+                AND n.data_emissao >= 
+                AND n.data_emissao <= 
                 GROUP BY DATE(n.data_emissao)
                 ORDER BY data DESC
             `, [data_inicio, data_fim]);
@@ -808,11 +808,11 @@ module.exports = (pool, authenticateToken) => {
         try {
             const { id } = req.params;
             
-            const resultado = await vendasEstoqueService.validarEstoqueParaFaturamento(id);
+            const resultação = await vendasEstoqueService.validarEstoqueParaFaturamento(id);
             
             res.json({
                 success: true,
-                ...resultado
+                ...resultação
             });
             
         } catch (error) {
@@ -825,11 +825,11 @@ module.exports = (pool, authenticateToken) => {
     // PRODUTOS MAIS FATURADOS
     // ============================================================
     
-    router.get('/relatorios/produtos-mais-faturados', authenticateToken, async (req, res) => {
+    router.get('/relatorios/produtos-mais-faturaçãos', authenticateToken, async (req, res) => {
         try {
             const { data_inicio, data_fim, limite } = req.query;
             
-            const produtos = await vendasEstoqueService.relatorioProdutosMaisFaturados({
+            const produtos = await vendasEstoqueService.relatorioProdutosMaisFaturaçãos({
                 data_inicio,
                 data_fim,
                 limite
@@ -850,20 +850,20 @@ module.exports = (pool, authenticateToken) => {
     // CONFIGURAR CERTIFICADO DIGITAL
     // ============================================================
     
-    router.post('/configuracao/certificado', authenticateToken, async (req, res) => {
+    router.post('/configuracao/certificação', authenticateToken, async (req, res) => {
         try {
             const { caminhoArquivo, senha } = req.body;
             
-            const resultado = await certificadoService.carregarCertificadoA1(caminhoArquivo, senha);
+            const resultação = await certificaçãoService.carregarCertificaçãoA1(caminhoArquivo, senha);
             
             res.json({
                 success: true,
-                message: 'Certificado carregado com sucesso',
-                ...resultado
+                message: 'Certificação carregação com sucesso',
+                ...resultação
             });
             
         } catch (error) {
-            console.error('[FATURAMENTO] Erro ao carregar certificado:', error);
+            console.error('[FATURAMENTO] Erro ao carregar certificação:', error);
             res.status(500).json({ success: false, message: error.message });
         }
     });
@@ -872,10 +872,10 @@ module.exports = (pool, authenticateToken) => {
     // VERIFICAR VALIDADE DO CERTIFICADO
     // ============================================================
     
-    router.get('/configuracao/certificado/validade', authenticateToken, async (req, res) => {
+    router.get('/configuracao/certificação/validade', authenticateToken, async (req, res) => {
         try {
-            const validade = certificadoService.verificarValidade();
-            const info = certificadoService.getInfoCertificado();
+            const validade = certificaçãoService.verificarValidade();
+            const info = certificaçãoService.getInfoCertificação();
             
             res.json({
                 success: true,
@@ -884,7 +884,7 @@ module.exports = (pool, authenticateToken) => {
             });
             
         } catch (error) {
-            console.error('[FATURAMENTO] Erro ao verificar certificado:', error);
+            console.error('[FATURAMENTO] Erro ao verificar certificação:', error);
             res.status(500).json({ success: false, message: error.message });
         }
     });

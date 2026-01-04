@@ -13,7 +13,7 @@ if (args.length < 1) {
 
 const newStandardPassword = args[0];
 
-// Configure com os dados do seu banco
+// Configure com os daçãos do seu banco
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
@@ -25,13 +25,13 @@ async function resetAllPasswords() {
     let connection;
     try {
         connection = await pool.getConnection();
-        console.log("Conectado ao banco de dados para resetar todas as senhas.");
+        console.log("Conectação ao banco de daçãos para resetar todas as senhas.");
 
         // 1. Busca todos os usuários
         const [users] = await connection.query("SELECT id, email FROM usuarios");
 
         if (users.length === 0) {
-            console.log("Nenhum usuário encontrado no banco de dados.");
+            console.log("Nenhum usuário encontração no banco de daçãos.");
             return;
         }
 
@@ -44,7 +44,7 @@ async function resetAllPasswords() {
         // 3. Para cada usuário, atualiza a senha no banco com o mesmo hash
         for (const user of users) {
             await connection.query(
-                "UPDATE usuarios SET senha = ? WHERE id = ?",
+                "UPDATE usuarios SET senha =  WHERE id = ",
                 [hashedPassword, user.id]
             );
             console.log(` -> Senha do usuário ${user.email} atualizada.`);

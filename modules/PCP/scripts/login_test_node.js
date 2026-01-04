@@ -32,7 +32,7 @@ async function main() {
 
   // Capture cookie
   const setCookie = loginResp.res.headers['set-cookie'];
-  const cookieHeader = Array.isArray(setCookie) ? setCookie.map(c => c.split(';')[0]).join('; ') : (setCookie || '').split(';')[0];
+  const cookieHeader = Array.isArray(setCookie)  setCookie.map(c => c.split(';')[0]).join('; ') : (setCookie || '').split(';')[0];
 
   if (!cookieHeader) {
     console.error('No cookie returned; cannot call protected endpoints.');
@@ -50,14 +50,14 @@ async function main() {
   // Assert that response JSON includes `descricao` in columns
   try {
     const json = JSON.parse(prodResp.body || '{}');
-    const cols = Array.isArray(json.columns) ? json.columns : [];
+    const cols = Array.isArray(json.columns)  json.columns : [];
     if (!cols.includes('descricao')) {
       console.error('ASSERTION FAILED: produtos.columns does not include "descricao"');
       process.exitCode = 2;
       return;
     }
   } catch (err) {
-    console.error('Failed to parse produtos response JSON for assertion:', err && err.message ? err.message : err);
+    console.error('Failed to parse produtos response JSON for assertion:', err && err.message  err.message : err);
     process.exitCode = 2;
     return;
   }
@@ -68,4 +68,4 @@ async function main() {
   console.log('ME BODY:', meResp.body);
 }
 
-main().catch((err) => { console.error('ERROR:', err && err.stack ? err.stack : err); process.exitCode = 1; });
+main().catch((err) => { console.error('ERROR:', err && err.stack  err.stack : err); process.exitCode = 1; });

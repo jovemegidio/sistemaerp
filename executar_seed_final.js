@@ -30,7 +30,7 @@ async function executarSeedFinal() {
         console.log(`${colors.cyan}╚════════════════════════════════════════════════════════════╝${colors.reset}\n`);
 
         connection = await mysql.createConnection(dbConfig);
-        console.log(`${colors.green}✅ Conectado ao banco${colors.reset}\n`);
+        console.log(`${colors.green}✅ Conectação ao banco${colors.reset}\n`);
 
         // 1. EMPRESAS - verificar estrutura correta
         console.log(`${colors.blue}🏢 Criando empresa...${colors.reset}`);
@@ -71,13 +71,13 @@ async function executarSeedFinal() {
             // Preparar INSERT com todos os campos NOT NULL
             await connection.execute(`
                 INSERT INTO usuarios (nome, email, password_hash, senha_hash, is_admin, role, created_at) VALUES
-                ('Administrador', 'admin@aluforce.com', SHA2('admin123', 256), SHA2('admin123', 256), 1, 'admin', NOW()),
+                ('Administraçãor', 'admin@aluforce.com', SHA2('admin123', 256), SHA2('admin123', 256), 1, 'admin', NOW()),
                 ('Vendedor', 'vendedor@aluforce.com', SHA2('vendedor123', 256), SHA2('vendedor123', 256), 0, 'vendedor', NOW()),
                 ('Financeiro', 'financeiro@aluforce.com', SHA2('financeiro123', 256), SHA2('financeiro123', 256), 0, 'financeiro', NOW()),
                 ('PCP', 'pcp@aluforce.com', SHA2('pcp123', 256), SHA2('pcp123', 256), 0, 'pcp', NOW())
                 ON DUPLICATE KEY UPDATE nome = VALUES(nome)
             `);
-            console.log(`   ${colors.green}✅ 4 usuários criados${colors.reset}`);
+            console.log(`   ${colors.green}✅ 4 usuários criaçãos${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  ${err.message}${colors.reset}`);
         }
@@ -86,13 +86,13 @@ async function executarSeedFinal() {
         console.log(`\n${colors.blue}👥 Inserindo clientes...${colors.reset}`);
         try {
             await connection.execute(`
-                INSERT INTO clientes (nome, razao_social, nome_fantasia, cnpj, email, telefone, endereco, cidade, estado, cep, ativo, empresa_id) VALUES
+                INSERT INTO clientes (nome, razao_social, nome_fantasia, cnpj, email, telefone, endereco, cidade, estação, cep, ativo, empresa_id) VALUES
                 ('João Silva', 'JOAO SILVA ME', 'JS Construções', '11.111.111/0001-11', 'joao@email.com', '(11) 99999-1111', 'Rua das Flores, 100', 'São Paulo', 'SP', '01000-001', 1, 1),
                 ('Maria Santos', 'MARIA SANTOS LTDA', 'MS Vidraçaria', '22.222.222/0001-22', 'maria@email.com', '(11) 99999-2222', 'Av. Principal, 200', 'São Paulo', 'SP', '01000-002', 1, 1),
                 ('Pedro Oliveira', 'PEDRO OLIVEIRA EPP', 'PO Esquadrias', '33.333.333/0001-33', 'pedro@email.com', '(11) 99999-3333', 'Rua do Comércio, 300', 'Guarulhos', 'SP', '07000-001', 1, 1)
                 ON DUPLICATE KEY UPDATE nome = VALUES(nome)
             `);
-            console.log(`   ${colors.green}✅ 3 clientes criados${colors.reset}`);
+            console.log(`   ${colors.green}✅ 3 clientes criaçãos${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  ${err.message}${colors.reset}`);
         }
@@ -106,12 +106,12 @@ async function executarSeedFinal() {
             
             await connection.execute(`
                 INSERT INTO funcionarios (nome_completo, email, senha, password_hash, role, cargo, departamento, cpf, rg, data_admissao, salario, ativo) VALUES
-                ('José Pereira', 'jose@aluforce.com', SHA2('jose123', 256), SHA2('jose123', 256), 'operador', 'Operador de Produção', 'PCP', '111.111.111-11', '11.111.111-1', '2023-01-15', 2500.00, 1),
+                ('José Pereira', 'jose@aluforce.com', SHA2('jose123', 256), SHA2('jose123', 256), 'operaçãor', 'Operaçãor de Produção', 'PCP', '111.111.111-11', '11.111.111-1', '2023-01-15', 2500.00, 1),
                 ('Mariana Lima', 'mariana@aluforce.com', SHA2('mariana123', 256), SHA2('mariana123', 256), 'auxiliar', 'Auxiliar Administrativo', 'Administrativo', '222.222.222-22', '22.222.222-2', '2023-03-20', 2200.00, 1),
                 ('Roberto Costa', 'roberto@aluforce.com', SHA2('roberto123', 256), SHA2('roberto123', 256), 'vendedor', 'Vendedor', 'Comercial', '333.333.333-33', '33.333.333-3', '2022-06-10', 3000.00, 1)
                 ON DUPLICATE KEY UPDATE nome_completo = VALUES(nome_completo)
             `);
-            console.log(`   ${colors.green}✅ 3 funcionários criados${colors.reset}`);
+            console.log(`   ${colors.green}✅ 3 funcionários criaçãos${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  ${err.message}${colors.reset}`);
         }
@@ -121,11 +121,11 @@ async function executarSeedFinal() {
         try {
             await connection.execute(`
                 INSERT INTO estoque_saldos (codigo_material, descricao, quantidade_fisica, quantidade_reservada, quantidade_disponivel, custo_medio, valor_estoque, ultima_entrada) VALUES
-                ('ALU-001', 'Perfil de Alumínio Anodizado 2"', 100, 0, 100, 45.90, 4590.00, NOW()),
-                ('ALU-002', 'Perfil de Alumínio Anodizado 3"', 80, 0, 80, 58.50, 4680.00, NOW()),
-                ('ALU-003', 'Perfil de Alumínio Anodizado 4"', 60, 0, 60, 72.00, 4320.00, NOW()),
-                ('VID-001', 'Vidro Temperado Incolor 6mm', 50, 0, 50, 120.00, 6000.00, NOW()),
-                ('VID-002', 'Vidro Temperado Incolor 8mm', 40, 0, 40, 180.00, 7200.00, NOW()),
+                ('ALU-001', 'Perfil de Alumínio Anodização 2"', 100, 0, 100, 45.90, 4590.00, NOW()),
+                ('ALU-002', 'Perfil de Alumínio Anodização 3"', 80, 0, 80, 58.50, 4680.00, NOW()),
+                ('ALU-003', 'Perfil de Alumínio Anodização 4"', 60, 0, 60, 72.00, 4320.00, NOW()),
+                ('VID-001', 'Vidro Temperação Incolor 6mm', 50, 0, 50, 120.00, 6000.00, NOW()),
+                ('VID-002', 'Vidro Temperação Incolor 8mm', 40, 0, 40, 180.00, 7200.00, NOW()),
                 ('FER-001', 'Fechadura de Centro', 30, 0, 30, 85.00, 2550.00, NOW()),
                 ('FER-002', 'Fechadura de Embutir', 25, 0, 25, 125.00, 3125.00, NOW())
                 ON DUPLICATE KEY UPDATE quantidade_fisica = VALUES(quantidade_fisica)
@@ -146,13 +146,13 @@ async function executarSeedFinal() {
             'funcionarios', 'estoque_saldos', 'auditoria_config'
         ];
 
-        let totalDados = 0;
+        let totalDaçãos = 0;
         for (const tabela of tabelas) {
             try {
                 const [result] = await connection.execute(`SELECT COUNT(*) as total FROM ${tabela}`);
                 const total = result[0].total;
-                totalDados += total;
-                const status = total > 0 ? colors.green + '✅' : colors.yellow + '⚠️';
+                totalDaçãos += total;
+                const status = total > 0  colors.green + '✅' : colors.yellow + '⚠️';
                 console.log(`   ${status} ${tabela.padEnd(25)} ${total.toString().padStart(5)} registros${colors.reset}`);
             } catch {
                 console.log(`   ${colors.red}❌ ${tabela.padEnd(25)} não existe${colors.reset}`);
@@ -160,7 +160,7 @@ async function executarSeedFinal() {
         }
 
         console.log(`\n${colors.green}═══════════════════════════════════════════════════════════${colors.reset}`);
-        console.log(`${colors.green}   TOTAL DE REGISTROS: ${totalDados}${colors.reset}`);
+        console.log(`${colors.green}   TOTAL DE REGISTROS: ${totalDaçãos}${colors.reset}`);
         console.log(`${colors.green}═══════════════════════════════════════════════════════════${colors.reset}`);
 
         console.log(`\n${colors.cyan}Credenciais de acesso:${colors.reset}`);

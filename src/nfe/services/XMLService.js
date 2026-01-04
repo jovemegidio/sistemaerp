@@ -16,8 +16,8 @@ class XMLService {
 
     /**
      * Gera XML completo da NFe
-     * @param {Object} nfeData - Dados da NFe
-     * @returns {Promise<string>} XML gerado
+     * @param {Object} nfeData - Daçãos da NFe
+     * @returns {Promise<string>} XML geração
      */
     async gerarXMLNFe(nfeData) {
         try {
@@ -38,7 +38,7 @@ class XMLService {
                 mod: nfeData.modelo || '55',
                 serie: config.serie,
                 nNF: numeroNFe,
-                tpEmis: config.contingencia_ativa ? config.tipo_contingencia : '1',
+                tpEmis: config.contingencia_ativa  config.tipo_contingencia : '1',
                 cNF: codigoNumerico
             });
 
@@ -95,22 +95,22 @@ class XMLService {
         return {
             cUF: ChaveAcessoUtil.getCodigoUF(nfeData.emitente.uf),
             cNF: codigoNumerico,
-            natOp: nfeData.naturezaOperacao || 'Venda de mercadoria',
+            natOp: nfeData.naturezaOperacao || 'Venda de mercaçãoria',
             mod: nfeData.modelo || '55',
             serie: config.serie,
             nNF: numeroNFe,
             dhEmi: dataEmissao.format('YYYY-MM-DDTHH:mm:ssZ'),
-            dhSaiEnt: nfeData.dataSaida ? moment.tz(nfeData.dataSaida, 'America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ssZ') : null,
+            dhSaiEnt: nfeData.dataSaida  moment.tz(nfeData.dataSaida, 'America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ssZ') : null,
             tpNF: nfeData.tipoOperacao || '1', // 0=Entrada, 1=Saída
             idDest: this.determinarIdDest(nfeData.emitente.uf, nfeData.destinatario.uf),
             cMunFG: nfeData.emitente.codigoMunicipio,
             tpImp: '1', // 1=DANFE Retrato
-            tpEmis: config.contingencia_ativa ? config.tipo_contingencia : '1',
+            tpEmis: config.contingencia_ativa  config.tipo_contingencia : '1',
             cDV: chaveAcesso.substr(43, 1),
-            tpAmb: config.ambiente === 'producao' ? '1' : '2',
+            tpAmb: config.ambiente === 'producao'  '1' : '2',
             finNFe: nfeData.finalidade || '1', // 1=Normal, 2=Complementar, 3=Ajuste, 4=Devolução
             indFinal: nfeData.consumidorFinal || '1', // 0=Não, 1=Sim
-            indPres: nfeData.presencaComprador || '1', // 1=Presencial
+            indPres: nfeData.presencaCompraçãor || '1', // 1=Presencial
             procEmi: '0', // 0=Aplicativo do contribuinte
             verProc: 'ALUFORCE v2.0'
         };
@@ -135,7 +135,7 @@ class XMLService {
                 CEP: emitente.cep.replace(/\D/g, ''),
                 cPais: '1058',
                 xPais: 'BRASIL',
-                fone: emitente.telefone ? emitente.telefone.replace(/\D/g, '') : null
+                fone: emitente.telefone  emitente.telefone.replace(/\D/g, '') : null
             },
             IE: emitente.ie,
             CRT: emitente.regimeTributario || '1' // 1=Simples Nacional
@@ -146,7 +146,7 @@ class XMLService {
      * Monta tag <dest> - Destinatário
      */
     montarDest(destinatario) {
-        const doc = destinatario.cpf ? 
+        const doc = destinatario.cpf  
             { CPF: destinatario.cpf.replace(/\D/g, '') } :
             { CNPJ: destinatario.cnpj.replace(/\D/g, '') };
 
@@ -164,9 +164,9 @@ class XMLService {
                 CEP: destinatario.cep.replace(/\D/g, ''),
                 cPais: '1058',
                 xPais: 'BRASIL',
-                fone: destinatario.telefone ? destinatario.telefone.replace(/\D/g, '') : null
+                fone: destinatario.telefone  destinatario.telefone.replace(/\D/g, '') : null
             },
-            indIEDest: destinatario.ie ? '1' : '9', // 1=Contribuinte, 9=Não contribuinte
+            indIEDest: destinatario.ie  '1' : '9', // 1=Contribuinte, 9=Não contribuinte
             IE: destinatario.ie || null,
             email: destinatario.email || null
         };
@@ -193,8 +193,8 @@ class XMLService {
                 uTrib: item.unidade,
                 qTrib: this.formatDecimal(item.quantidade, 4),
                 vUnTrib: this.formatDecimal(item.valorUnitario, 10),
-                vDesc: item.desconto ? this.formatDecimal(item.desconto, 2) : null,
-                vFrete: item.frete ? this.formatDecimal(item.frete, 2) : null,
+                vDesc: item.desconto  this.formatDecimal(item.desconto, 2) : null,
+                vFrete: item.frete  this.formatDecimal(item.frete, 2) : null,
                 indTot: '1' // 1=Compõe total da NFe
             },
             imposto: this.montarImpostoItem(item)
@@ -261,7 +261,7 @@ class XMLService {
             ICMSTot: {
                 vBC: this.formatDecimal(totais.baseCalculoIcms || 0, 2),
                 vICMS: this.formatDecimal(totais.valorIcms || 0, 2),
-                vICMSDeson: this.formatDecimal(totais.valorIcmsDesonerado || 0, 2),
+                vICMSDeson: this.formatDecimal(totais.valorIcmsDesoneração || 0, 2),
                 vFCP: '0.00',
                 vBCST: this.formatDecimal(totais.baseCalculoIcmsSt || 0, 2),
                 vST: this.formatDecimal(totais.valorIcmsSt || 0, 2),
@@ -295,14 +295,14 @@ class XMLService {
             modFrete: transporte.modalidadeFrete || '9'
         };
 
-        if (transporte.transportadora) {
+        if (transporte.transportaçãora) {
             transp.transporta = {
-                CNPJ: transporte.transportadora.cnpj.replace(/\D/g, ''),
-                xNome: transporte.transportadora.razaoSocial,
-                IE: transporte.transportadora.ie || null,
-                xEnder: transporte.transportadora.endereco || null,
-                xMun: transporte.transportadora.municipio || null,
-                UF: transporte.transportadora.uf || null
+                CNPJ: transporte.transportaçãora.cnpj.replace(/\D/g, ''),
+                xNome: transporte.transportaçãora.razaoSocial,
+                IE: transporte.transportaçãora.ie || null,
+                xEnder: transporte.transportaçãora.endereco || null,
+                xMun: transporte.transportaçãora.municipio || null,
+                UF: transporte.transportaçãora.uf || null
             };
         }
 
@@ -358,7 +358,7 @@ class XMLService {
      */
     async buscarConfiguracoes(empresaId) {
         const [configs] = await this.pool.query(
-            'SELECT * FROM nfe_configuracoes WHERE empresa_id = ?',
+            'SELECT * FROM nfe_configuracoes WHERE empresa_id = ',
             [empresaId]
         );
 
@@ -374,15 +374,15 @@ class XMLService {
      */
     async proximoNumero(empresaId, serie) {
         const [config] = await this.pool.query(
-            'SELECT ultimo_numero FROM nfe_configuracoes WHERE empresa_id = ? AND serie = ?',
+            'SELECT ultimo_numero FROM nfe_configuracoes WHERE empresa_id =  AND serie = ',
             [empresaId, serie]
         );
 
-        const proximoNumero = (config[0]?.ultimo_numero || 0) + 1;
+        const proximoNumero = (config[0].ultimo_numero || 0) + 1;
 
         // Atualizar último número
         await this.pool.query(
-            'UPDATE nfe_configuracoes SET ultimo_numero = ? WHERE empresa_id = ? AND serie = ?',
+            'UPDATE nfe_configuracoes SET ultimo_numero =  WHERE empresa_id =  AND serie = ',
             [proximoNumero, empresaId, serie]
         );
 

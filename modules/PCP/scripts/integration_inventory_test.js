@@ -22,7 +22,7 @@ function request(options, body) {
     const login = await request({hostname:baseHost,port:basePort,path:'/api/pcp/login',method:'POST',headers:{'Content-Type':'application/json'}},JSON.stringify({email:'clemerson.silva@aluforce.ind.br',password:'admin123'}));
     if (login.status !== 200) { console.error('Login failed', login.status, login.body); process.exit(2); }
     const setCookie = login.headers['set-cookie'] || login.headers['Set-Cookie'] || [];
-    const cookie = Array.isArray(setCookie) && setCookie.length>0 ? setCookie[0].split(';')[0] : (typeof setCookie === 'string' ? setCookie.split(';')[0] : '');
+    const cookie = Array.isArray(setCookie) && setCookie.length>0  setCookie[0].split(';')[0] : (typeof setCookie === 'string'  setCookie.split(';')[0] : '');
     console.log(' cookie:', cookie);
 
     console.log('2) Ensure there is at least one location (create if needed)');
@@ -30,7 +30,7 @@ function request(options, body) {
     const locList = await request({hostname:baseHost,port:basePort,path:'/api/pcp/locations',method:'GET',headers:{Cookie:cookie}});
     let locs = [];
     try{ locs = JSON.parse(locList.body || '[]'); } catch(e){ console.error('Locations list non-json', locList.status); process.exit(3); }
-    let locationId = locs && locs[0] ? locs[0].id : null;
+    let locationId = locs && locs[0]  locs[0].id : null;
     if (!locationId) {
       const cre = await request({hostname:baseHost,port:basePort,path:'/api/pcp/locations',method:'POST',headers:{'Content-Type':'application/json', Cookie:cookie}},JSON.stringify({code:'WH-TST',name:'Warehouse Test',description:'Created by integration test'}));
       if (cre.status !== 201) { console.error('Failed to create location', cre.status, cre.body); process.exit(4); }
@@ -58,5 +58,5 @@ function request(options, body) {
 
     console.log('Integration test completed successfully');
     process.exit(0);
-  }catch(e){ console.error('Error during test', e && e.message ? e.message : e); process.exit(20); }
+  }catch(e){ console.error('Error during test', e && e.message  e.message : e); process.exit(20); }
 })();

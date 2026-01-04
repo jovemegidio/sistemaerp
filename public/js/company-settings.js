@@ -45,11 +45,11 @@ const CompanySettings = {
      */
     handleCardClick(cardIndex) {
         const modals = [
-            'modal-dados-empresa',
+            'modal-daçãos-empresa',
             'modal-categorias',
             'modal-departamentos',
             'modal-projetos',
-            'modal-certificado',
+            'modal-certificação',
             'modal-nfe-import'
         ];
 
@@ -65,9 +65,9 @@ const CompanySettings = {
         const modal = document.getElementById(modalId);
         if (!modal) return;
 
-        // Carrega dados específicos do modal
+        // Carrega daçãos específicos do modal
         switch(modalId) {
-            case 'modal-dados-empresa':
+            case 'modal-daçãos-empresa':
                 this.loadEmpresaForm();
                 break;
             case 'modal-categorias':
@@ -79,8 +79,8 @@ const CompanySettings = {
             case 'modal-projetos':
                 this.loadProjetos();
                 break;
-            case 'modal-certificado':
-                this.loadCertificadoInfo();
+            case 'modal-certificação':
+                this.loadCertificaçãoInfo();
                 break;
             case 'modal-nfe-import':
                 this.loadNfeInfo();
@@ -103,14 +103,14 @@ const CompanySettings = {
     },
 
     /**
-     * Carrega dados da empresa da API
+     * Carrega daçãos da empresa da API
      */
     async loadEmpresaData() {
         try {
-            // Verifica se o usuário está autenticado
+            // Verifica se o usuário está autenticação
             const userData = localStorage.getItem('userData');
             if (!userData) {
-                console.log('[CompanySettings] Usuário não autenticado, pulando carregamento de dados da empresa');
+                console.log('[CompanySettings] Usuário não autenticação, pulando carregamento de daçãos da empresa');
                 return;
             }
 
@@ -122,27 +122,27 @@ const CompanySettings = {
             if (response.ok) {
                 this.empresaData = await response.json();
             } else if (response.status === 401) {
-                console.log('[CompanySettings] Não autorizado para acessar configurações da empresa');
+                console.log('[CompanySettings] Não autorização para acessar configurações da empresa');
             }
         } catch (error) {
-            console.error('Erro ao carregar dados da empresa:', error);
+            console.error('Erro ao carregar daçãos da empresa:', error);
         }
     },
 
     /**
-     * Preenche formulário de dados da empresa
+     * Preenche formulário de daçãos da empresa
      */
     loadEmpresaForm() {
         if (!this.empresaData) return;
 
-        const form = document.getElementById('form-dados-empresa');
+        const form = document.getElementById('form-daçãos-empresa');
         if (!form) return;
 
         // Preenche cada campo
         const fields = [
             'razao_social', 'nome_fantasia', 'cnpj', 'inscricao_estadual',
             'inscricao_municipal', 'telefone', 'email', 'site', 'cep',
-            'estado', 'cidade', 'bairro', 'endereco', 'número', 'complemento'
+            'estação', 'cidade', 'bairro', 'endereco', 'número', 'complemento'
         ];
 
         fields.forEach(field => {
@@ -163,7 +163,7 @@ const CompanySettings = {
      * Salva configurações da empresa
      */
     async saveEmpresaConfig() {
-        const form = document.getElementById('form-dados-empresa');
+        const form = document.getElementById('form-daçãos-empresa');
         if (!form) return;
 
         const formData = new FormData(form);
@@ -183,7 +183,7 @@ const CompanySettings = {
                 this.showMessage('success', 'Configurações salvas com sucesso!');
                 await this.loadEmpresaData();
                 setTimeout(() => {
-                    this.closeConfigModal('modal-dados-empresa');
+                    this.closeConfigModal('modal-daçãos-empresa');
                 }, 1500);
             } else {
                 throw new Error('Erro ao salvar');
@@ -238,7 +238,7 @@ const CompanySettings = {
         list.innerHTML = this.categorias.map((cat, index) => {
             const cor = cat.cor || cores[index % cores.length];
             return `
-            <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.borderColor='#e5e7eb';">
+            <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShaçãow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShaçãow='none'; this.style.borderColor='#e5e7eb';">
                 <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: ${cor};"></div>
                 <div style="width: 46px; height: 46px; background: linear-gradient(135deg, ${cor}15, ${cor}25); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                     <i class="fas fa-folder" style="font-size: 20px; color: ${cor};"></i>
@@ -248,10 +248,10 @@ const CompanySettings = {
                     <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cat.descrição || cat.descricao || 'Sem descrição'}</p>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <button onclick="CompanySettings.editCategoria(${cat.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.editCategoria(${cat.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-pen" style="font-size: 14px;"></i>
                     </button>
-                    <button onclick="CompanySettings.deleteCategoria(${cat.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.deleteCategoria(${cat.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                     </button>
                 </div>
@@ -304,20 +304,20 @@ const CompanySettings = {
         list.innerHTML = this.departamentos.map((dept, index) => {
             const cor = dept.cor || cores[index % cores.length];
             return `
-            <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.borderColor='#e5e7eb';">
+            <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShaçãow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShaçãow='none'; this.style.borderColor='#e5e7eb';">
                 <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: ${cor};"></div>
                 <div style="width: 46px; height: 46px; background: linear-gradient(135deg, ${cor}15, ${cor}25); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                     <i class="fas fa-building" style="font-size: 20px; color: ${cor};"></i>
                 </div>
                 <div style="flex: 1; min-width: 0;">
-                    <h4 style="margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #1f2937;">${dept.nome} ${dept.sigla ? `<span style="font-weight: 400; color: #6b7280;">(${dept.sigla})</span>` : ''}</h4>
-                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${dept.descrição || dept.descricao || (dept.responsavel_nome ? `Responsável: ${dept.responsavel_nome}` : 'Sem descrição')}</p>
+                    <h4 style="margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #1f2937;">${dept.nome} ${dept.sigla  `<span style="font-weight: 400; color: #6b7280;">(${dept.sigla})</span>` : ''}</h4>
+                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${dept.descrição || dept.descricao || (dept.responsavel_nome  `Responsável: ${dept.responsavel_nome}` : 'Sem descrição')}</p>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <button onclick="CompanySettings.editDepartamento(${dept.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.editDepartamento(${dept.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-pen" style="font-size: 14px;"></i>
                     </button>
-                    <button onclick="CompanySettings.deleteDepartamento(${dept.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.deleteDepartamento(${dept.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                     </button>
                 </div>
@@ -368,16 +368,16 @@ const CompanySettings = {
             'planejamento': { texto: 'Planejamento', cor: '#6366f1' },
             'em_andamento': { texto: 'Em Andamento', cor: '#3b82f6' },
             'ativo': { texto: 'Ativo', cor: '#8b5cf6' },
-            'pausado': { texto: 'Pausado', cor: '#f59e0b' },
+            'pausação': { texto: 'Pausação', cor: '#f59e0b' },
             'concluido': { texto: 'Concluído', cor: '#10b981' },
-            'cancelado': { texto: 'Cancelado', cor: '#ef4444' }
+            'cancelação': { texto: 'Cancelação', cor: '#ef4444' }
         };
 
         list.innerHTML = this.projetos.map((proj) => {
             const status = statusConfig[proj.status] || statusConfig['ativo'];
             const cor = proj.cor || status.cor;
             return `
-            <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShadow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShadow='none'; this.style.borderColor='#e5e7eb';">
+            <div style="display: flex; align-items: center; gap: 16px; padding: 16px 20px; background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%); border-radius: 14px; border: 1px solid #e5e7eb; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer;" onmouseenter="this.style.transform='translateX(4px)'; this.style.boxShaçãow='0 8px 25px rgba(0,0,0,0.08)'; this.style.borderColor='${cor}40';" onmouseleave="this.style.transform='translateX(0)'; this.style.boxShaçãow='none'; this.style.borderColor='#e5e7eb';">
                 <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: ${cor};"></div>
                 <div style="width: 46px; height: 46px; background: linear-gradient(135deg, ${cor}15, ${cor}25); border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                     <i class="fas fa-rocket" style="font-size: 20px; color: ${cor};"></i>
@@ -387,13 +387,13 @@ const CompanySettings = {
                         <h4 style="margin: 0; font-size: 15px; font-weight: 600; color: #1f2937;">${proj.nome}</h4>
                         <span style="padding: 3px 10px; background: ${status.cor}20; color: ${status.cor}; border-radius: 20px; font-size: 11px; font-weight: 600;">${status.texto}</span>
                     </div>
-                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${proj.descrição || proj.descricao || (proj.departamento_nome ? proj.departamento_nome : 'Sem descrição')}</p>
+                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${proj.descrição || proj.descricao || (proj.departamento_nome  proj.departamento_nome : 'Sem descrição')}</p>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <button onclick="CompanySettings.editProjeto(${proj.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.editProjeto(${proj.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-pen" style="font-size: 14px;"></i>
                     </button>
-                    <button onclick="CompanySettings.deleteProjeto(${proj.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.deleteProjeto(${proj.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                     </button>
                 </div>
@@ -403,31 +403,31 @@ const CompanySettings = {
     },
 
     /**
-     * Carrega informações do certificado
+     * Carrega informações do certificação
      */
-    loadCertificadoInfo() {
+    loadCertificaçãoInfo() {
         if (!this.empresaData) return;
 
-        const form = document.getElementById('form-certificado');
+        const form = document.getElementById('form-certificação');
         if (!form) return;
 
-        // Preenche dados do certificado se existirem
-        if (this.empresaData.certificado_validade) {
-            document.querySelector('[name="certificado_validade"]').value = 
-                this.empresaData.certificado_validade;
+        // Preenche daçãos do certificação se existirem
+        if (this.empresaData.certificação_validade) {
+            document.querySelector('[name="certificação_validade"]').value = 
+                this.empresaData.certificação_validade;
             
-            const info = document.getElementById('certificado-info');
-            const expiracao = document.getElementById('certificado-expiracao');
+            const info = document.getElementById('certificação-info');
+            const expiracao = document.getElementById('certificação-expiracao');
             
             if (info && expiracao) {
-                expiracao.textContent = new Date(this.empresaData.certificado_validade)
+                expiracao.textContent = new Date(this.empresaData.certificação_validade)
                     .toLocaleDateString('pt-BR');
                 info.style.display = 'flex';
             }
         }
 
-        if (this.empresaData.certificado_a1_path) {
-            const fileName = this.empresaData.certificado_a1_path.split('/').pop();
+        if (this.empresaData.certificação_a1_path) {
+            const fileName = this.empresaData.certificação_a1_path.split('/').pop();
             const fileNameSpan = form.querySelector('.config-file-upload-name');
             if (fileNameSpan) {
                 fileNameSpan.textContent = fileName;
@@ -436,17 +436,17 @@ const CompanySettings = {
     },
 
     /**
-     * Salva configurações do certificado
+     * Salva configurações do certificação
      */
-    async saveCertificadoConfig() {
-        const form = document.getElementById('form-certificado');
+    async saveCertificaçãoConfig() {
+        const form = document.getElementById('form-certificação');
         if (!form) return;
 
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
 
         try {
-            const response = await fetch('/api/empresa-config/certificado', {
+            const response = await fetch('/api/empresa-config/certificação', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -456,17 +456,17 @@ const CompanySettings = {
             });
 
             if (response.ok) {
-                this.showMessage('success', 'Certificado salvo com sucesso!');
+                this.showMessage('success', 'Certificação salvo com sucesso!');
                 await this.loadEmpresaData();
                 setTimeout(() => {
-                    this.closeConfigModal('modal-certificado');
+                    this.closeConfigModal('modal-certificação');
                 }, 1500);
             } else {
                 throw new Error('Erro ao salvar');
             }
         } catch (error) {
-            console.error('Erro ao salvar certificado:', error);
-            this.showMessage('error', 'Erro ao salvar certificado');
+            console.error('Erro ao salvar certificação:', error);
+            this.showMessage('error', 'Erro ao salvar certificação');
         }
     },
 
@@ -553,8 +553,8 @@ function saveEmpresaConfig() {
     CompanySettings.saveEmpresaConfig();
 }
 
-function saveCertificadoConfig() {
-    CompanySettings.saveCertificadoConfig();
+function saveCertificaçãoConfig() {
+    CompanySettings.saveCertificaçãoConfig();
 }
 
 function saveNfeConfig() {

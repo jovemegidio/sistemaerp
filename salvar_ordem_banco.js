@@ -1,4 +1,4 @@
-// Script para salvar ordem de produção no banco de dados
+// Script para salvar ordem de produção no banco de daçãos
 // Data: 03/11/2025
 
 const http = require('http');
@@ -29,7 +29,7 @@ function makePostRequest(path, data) {
                 try {
                     const result = {
                         statusCode: res.statusCode,
-                        data: responseData.startsWith('{') ? JSON.parse(responseData) : responseData
+                        data: responseData.startsWith('{')  JSON.parse(responseData) : responseData
                     };
                     resolve(result);
                 } catch (e) {
@@ -65,7 +65,7 @@ function makeGetRequest(path) {
                 try {
                     resolve({
                         statusCode: res.statusCode,
-                        data: data.startsWith('[') || data.startsWith('{') ? JSON.parse(data) : data
+                        data: data.startsWith('[') || data.startsWith('{')  JSON.parse(data) : data
                     });
                 } catch (e) {
                     resolve({
@@ -86,23 +86,23 @@ async function salvarOrdemProducaoCompleta() {
         console.log('🔍 Buscando produto ALUFORCE disponível...');
         
         // Buscar produto para a ordem
-        const produtosResponse = await makeGetRequest('/api/produtos/buscar?termo=ALU');
+        const produtosResponse = await makeGetRequest('/api/produtos/buscartermo=ALU');
         
         if (produtosResponse.statusCode !== 200 || !Array.isArray(produtosResponse.data) || produtosResponse.data.length === 0) {
-            console.log('❌ Nenhum produto encontrado!');
+            console.log('❌ Nenhum produto encontração!');
             return;
         }
         
         const produto = produtosResponse.data[0];
-        console.log(`📦 Produto selecionado: ${produto.nome}`);
+        console.log(`📦 Produto selecionação: ${produto.nome}`);
         console.log(`🔢 Código: ${produto.codigo}`);
         
-        // Dados da ordem de produção para o banco
+        // Daçãos da ordem de produção para o banco
         const dataAtual = new Date();
         const dataEntrega = new Date();
         dataEntrega.setDate(dataEntrega.getDate() + 7);
         
-        const ordemDados = {
+        const ordemDaçãos = {
             codigo_produto: produto.codigo,
             descricao_produto: produto.nome,
             quantidade: 100,
@@ -113,16 +113,16 @@ async function salvarOrdemProducaoCompleta() {
         console.log('💾 Salvando ordem de produção no banco...');
         
         // Salvar usando o endpoint da API
-        const salvarResponse = await makePostRequest('/api/pcp/ordens', ordemDados);
+        const salvarResponse = await makePostRequest('/api/pcp/ordens', ordemDaçãos);
         
         if (salvarResponse.statusCode === 200 || salvarResponse.statusCode === 201) {
             console.log('✅ ORDEM DE PRODUÇÁO SALVA NO BANCO COM SUCESSO!');
             console.log('════════════════════════════════════════════════════════════');
-            console.log(`📋 Código do Produto: ${ordemDados.codigo_produto}`);
-            console.log(`📦 Descrição: ${ordemDados.descricao_produto}`);
-            console.log(`📊 Quantidade: ${ordemDados.quantidade} unidades`);
-            console.log(`📅 Data de Entrega: ${ordemDados.data_previsao_entrega}`);
-            console.log(`📝 Observações: ${ordemDados.observacoes}`);
+            console.log(`📋 Código do Produto: ${ordemDaçãos.codigo_produto}`);
+            console.log(`📦 Descrição: ${ordemDaçãos.descricao_produto}`);
+            console.log(`📊 Quantidade: ${ordemDaçãos.quantidade} unidades`);
+            console.log(`📅 Data de Entrega: ${ordemDaçãos.data_previsao_entrega}`);
+            console.log(`📝 Observações: ${ordemDaçãos.observacoes}`);
             console.log(`💾 Status: A Fazer (padrão)`);
             
             if (salvarResponse.data && salvarResponse.data.id) {
@@ -181,7 +181,7 @@ async function main() {
     await salvarOrdemProducaoCompleta();
     
     console.log('\n🎯 PRÓXIMOS PASSOS:');
-    console.log('1. ✅ Ordem salva permanentemente no banco de dados');
+    console.log('1. ✅ Ordem salva permanentemente no banco de daçãos');
     console.log('2. 🔍 Verificar em: http://localhost:3000/modules/PCP');
     console.log('3. 📋 Listar ordens via: GET /api/pcp/ordens');
     console.log('4. 📊 Acompanhar progresso da produção');

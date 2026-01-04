@@ -41,10 +41,10 @@ const authenticateToken = (req, res, next) => {
     
     // Verifica se o token está no cookie ou header
     const jwt = require('jsonwebtoken');
-    const token = req.cookies?.authToken || req.cookies?.token || req.headers.authorization?.replace('Bearer ', '');
+    const token = req.cookies.authToken || req.cookies.token || req.headers.authorization.replace('Bearer ', '');
     
     if (!token) {
-        console.log('❌ Token não encontrado - cookies:', Object.keys(req.cookies || {}));
+        console.log('❌ Token não encontração - cookies:', Object.keys(req.cookies || {}));
         return res.status(401).json({ error: 'Token não fornecido' });
     }
     
@@ -65,7 +65,7 @@ const authenticateToken = (req, res, next) => {
 // GET /api/vendas/dashboard
 router.get('/dashboard', authenticateToken, async (req, res) => {
     try {
-        // TODO: Buscar dados reais do banco
+        // TODO: Buscar daçãos reais do banco
         const stats = {
             vendasMes: 350000,
             pedidosAtivos: 42,
@@ -93,9 +93,9 @@ router.get('/user-info', authenticateToken, async (req, res) => {
         res.json({
             success: true,
             user: {
-                name: req.user?.name || 'Usuário',
-                role: req.user?.role || 'Vendedor',
-                email: req.user?.email || ''
+                name: req.user.name || 'Usuário',
+                role: req.user.role || 'Vendedor',
+                email: req.user.email || ''
             }
         });
     } catch (error) {
@@ -145,7 +145,7 @@ router.get('/pedidos', authenticateToken, async (req, res) => {
                 p.vendedor_id,
                 p.cliente_id,
                 p.created_at as data_pedido,
-                p.faturado_em,
+                p.faturação_em,
                 p.frete,
                 p.redespacho,
                 p.observacao,
@@ -155,7 +155,7 @@ router.get('/pedidos', authenticateToken, async (req, res) => {
                 p.endereco_entrega,
                 p.municipio_entrega,
                 p.metodo_envio,
-                COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informado') as cliente_nome,
+                COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informação') as cliente_nome,
                 c.email as cliente_email,
                 c.telefone as cliente_telefone,
                 u.nome as vendedor_nome
@@ -163,7 +163,7 @@ router.get('/pedidos', authenticateToken, async (req, res) => {
             LEFT JOIN clientes c ON p.cliente_id = c.id
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
             ORDER BY p.id DESC
-            LIMIT ?
+            LIMIT 
         `, [limit]);
         
         // Retornar direto o array (o frontend espera array direto)
@@ -196,29 +196,29 @@ router.get('/pedidos/:id', authenticateToken, async (req, res) => {
             LEFT JOIN clientes c ON p.cliente_id = c.id
             LEFT JOIN empresas e ON p.empresa_id = e.id
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontrado' });
+            return res.status(404).json({ error: 'Pedido não encontração' });
         }
         
         // Formatar o pedido para compatibilidade com o frontend
         const pedido = pedidos[0];
-        const pedidoFormatado = {
+        const pedidoFormatação = {
             ...pedido,
             numero: `Pedido Nº ${pedido.id}`,
             cliente: pedido.cliente_nome || '',
             vendedor: pedido.vendedor_nome || '',
             valor: parseFloat(pedido.valor) || 0,
-            data: pedido.created_at ? new Date(pedido.created_at).toISOString().slice(0, 10) : '',
+            data: pedido.created_at  new Date(pedido.created_at).toISOString().slice(0, 10) : '',
             frete: parseFloat(pedido.frete) || 0,
             origem: 'Sistema',
             tipo: pedido.prioridade || 'normal',
             produtos: safeParseJSON(pedido.produtos_preview, [])
         };
         
-        res.json(pedidoFormatado);
+        res.json(pedidoFormatação);
     } catch (error) {
         console.error('Error getting pedido:', error);
         res.status(500).json({
@@ -236,7 +236,7 @@ router.post('/pedidos', authenticateToken, async (req, res) => {
             status = 'orcamento', frete = 0, prioridade = 'normal',
             prazo_entrega, endereco_entrega, municipio_entrega, metodo_envio
         } = req.body;
-        const vendedor_id = req.user?.id;
+        const vendedor_id = req.user.id;
         const pool = await getPool();
         
         const [result] = await pool.query(`
@@ -244,14 +244,14 @@ router.post('/pedidos', authenticateToken, async (req, res) => {
             (cliente_id, empresa_id, vendedor_id, valor, descricao, status, 
              frete, prioridade, produtos_preview, prazo_entrega, endereco_entrega, 
              municipio_entrega, metodo_envio, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+            VALUES (, , , , , , , , , , , , , NOW())
         `, [
             cliente_id, empresa_id, vendedor_id, valor || 0, descricao || '',
             status, frete, prioridade, JSON.stringify(produtos || []),
             prazo_entrega, endereco_entrega, municipio_entrega, metodo_envio
         ]);
         
-        res.json({ success: true, id: result.insertId, message: 'Pedido criado com sucesso' });
+        res.json({ success: true, id: result.insertId, message: 'Pedido criação com sucesso' });
     } catch (error) {
         console.error('Error creating pedido:', error);
         res.status(500).json({
@@ -276,28 +276,28 @@ router.put('/pedidos/:id', authenticateToken, async (req, res) => {
         const updates = [];
         const params = [];
         
-        if (cliente_id !== undefined) { updates.push('cliente_id = ?'); params.push(cliente_id); }
-        if (empresa_id !== undefined) { updates.push('empresa_id = ?'); params.push(empresa_id); }
-        if (valor !== undefined) { updates.push('valor = ?'); params.push(valor); }
-        if (descricao !== undefined) { updates.push('descricao = ?'); params.push(descricao); }
-        if (observacao !== undefined) { updates.push('observacao = ?'); params.push(observacao); }
-        if (status !== undefined) { updates.push('status = ?'); params.push(status); }
-        if (frete !== undefined) { updates.push('frete = ?'); params.push(frete); }
-        if (prioridade !== undefined) { updates.push('prioridade = ?'); params.push(prioridade); }
-        if (prazo_entrega !== undefined) { updates.push('prazo_entrega = ?'); params.push(prazo_entrega); }
-        if (endereco_entrega !== undefined) { updates.push('endereco_entrega = ?'); params.push(endereco_entrega); }
-        if (municipio_entrega !== undefined) { updates.push('municipio_entrega = ?'); params.push(municipio_entrega); }
-        if (metodo_envio !== undefined) { updates.push('metodo_envio = ?'); params.push(metodo_envio); }
-        if (produtos !== undefined) { updates.push('produtos_preview = ?'); params.push(JSON.stringify(produtos)); }
+        if (cliente_id !== undefined) { updates.push('cliente_id = '); params.push(cliente_id); }
+        if (empresa_id !== undefined) { updates.push('empresa_id = '); params.push(empresa_id); }
+        if (valor !== undefined) { updates.push('valor = '); params.push(valor); }
+        if (descricao !== undefined) { updates.push('descricao = '); params.push(descricao); }
+        if (observacao !== undefined) { updates.push('observacao = '); params.push(observacao); }
+        if (status !== undefined) { updates.push('status = '); params.push(status); }
+        if (frete !== undefined) { updates.push('frete = '); params.push(frete); }
+        if (prioridade !== undefined) { updates.push('prioridade = '); params.push(prioridade); }
+        if (prazo_entrega !== undefined) { updates.push('prazo_entrega = '); params.push(prazo_entrega); }
+        if (endereco_entrega !== undefined) { updates.push('endereco_entrega = '); params.push(endereco_entrega); }
+        if (municipio_entrega !== undefined) { updates.push('municipio_entrega = '); params.push(municipio_entrega); }
+        if (metodo_envio !== undefined) { updates.push('metodo_envio = '); params.push(metodo_envio); }
+        if (produtos !== undefined) { updates.push('produtos_preview = '); params.push(JSON.stringify(produtos)); }
         
         if (updates.length === 0) {
             return res.status(400).json({ error: 'Nenhum campo para atualizar' });
         }
         
         params.push(id);
-        await pool.query(`UPDATE pedidos SET ${updates.join(', ')} WHERE id = ?`, params);
+        await pool.query(`UPDATE pedidos SET ${updates.join(', ')} WHERE id = `, params);
         
-        res.json({ success: true, message: 'Pedido atualizado com sucesso' });
+        res.json({ success: true, message: 'Pedido atualização com sucesso' });
     } catch (error) {
         console.error('Error updating pedido:', error);
         res.status(500).json({
@@ -314,7 +314,7 @@ router.delete('/pedidos/:id', authenticateToken, async (req, res) => {
         // TODO: Cancelar/deletar pedido no banco
         res.json({
             success: true,
-            message: 'Pedido cancelado com sucesso'
+            message: 'Pedido cancelação com sucesso'
         });
     } catch (error) {
         console.error('Error deleting pedido:', error);
@@ -333,25 +333,25 @@ router.post('/pedidos/:id/historico', authenticateToken, async (req, res) => {
         const pool = await getPool();
         
         // Verificar se o pedido existe
-        const [existing] = await pool.query('SELECT id FROM pedidos WHERE id = ?', [id]);
+        const [existing] = await pool.query('SELECT id FROM pedidos WHERE id = ', [id]);
         if (existing.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontrado' });
+            return res.status(404).json({ error: 'Pedido não encontração' });
         }
         
         // Tentar inserir no log de auditoria
         try {
             await pool.query(`
-                INSERT INTO audit_log (tabela, registro_id, acao, dados_novos, usuario_id, created_at)
-                VALUES ('pedidos', ?, ?, ?, ?, NOW())
-            `, [id, tipo || 'historico', JSON.stringify({ descricao, usuario }), req.user?.id || null]);
+                INSERT INTO audit_log (tabela, registro_id, acao, daçãos_novos, usuario_id, created_at)
+                VALUES ('pedidos', , , , , NOW())
+            `, [id, tipo || 'historico', JSON.stringify({ descricao, usuario }), req.user.id || null]);
         } catch (auditError) {
             // Se a tabela audit_log não existir, apenas logar
-            console.log('Histórico registrado (audit_log não disponível):', { pedidoId: id, tipo, descricao });
+            console.log('Histórico registração (audit_log não disponível):', { pedidoId: id, tipo, descricao });
         }
         
         res.json({ 
             success: true, 
-            message: 'Histórico registrado com sucesso'
+            message: 'Histórico registração com sucesso'
         });
     } catch (error) {
         console.error('Error registering historico:', error);
@@ -408,7 +408,7 @@ router.post('/clientes', authenticateToken, async (req, res) => {
         // TODO: Criar novo cliente no banco
         res.json({
             success: true,
-            message: 'Cliente criado com sucesso',
+            message: 'Cliente criação com sucesso',
             clienteId: 1
         });
     } catch (error) {
@@ -428,7 +428,7 @@ router.put('/clientes/:id', authenticateToken, async (req, res) => {
         // TODO: Atualizar cliente no banco
         res.json({
             success: true,
-            message: 'Cliente atualizado com sucesso'
+            message: 'Cliente atualização com sucesso'
         });
     } catch (error) {
         console.error('Error updating cliente:', error);
@@ -467,9 +467,9 @@ router.get('/produtos/autocomplete/:termo', authenticateToken, async (req, res) 
                 cfop
             FROM produtos 
             WHERE 
-                codigo LIKE ? OR 
-                descricao LIKE ? OR 
-                sku LIKE ?
+                codigo LIKE  OR 
+                descricao LIKE  OR 
+                sku LIKE 
             ORDER BY descricao ASC
             LIMIT 20
         `, [searchTerm, searchTerm, searchTerm]);
@@ -491,11 +491,11 @@ router.get('/produtos', authenticateToken, async (req, res) => {
         let params = [];
         
         if (search) {
-            query += ' WHERE codigo LIKE ? OR descricao LIKE ?';
+            query += ' WHERE codigo LIKE  OR descricao LIKE ';
             params.push(`%${search}%`, `%${search}%`);
         }
         
-        query += ' ORDER BY descricao ASC LIMIT ? OFFSET ?';
+        query += ' ORDER BY descricao ASC LIMIT  OFFSET ';
         params.push(parseInt(limit), parseInt(offset));
         
         const [produtos] = await pool.query(query, params);
@@ -561,10 +561,10 @@ router.get('/kanban/pedidos', authenticateToken, async (req, res) => {
         `);
         
         // Formatar pedidos para o frontend
-        const pedidosFormatados = pedidos.map(p => ({
+        const pedidosFormataçãos = pedidos.map(p => ({
             id: p.id,
             numero: `Orçamento Nº ${p.id}`,
-            cliente: p.cliente_nome || 'Cliente não informado',
+            cliente: p.cliente_nome || 'Cliente não informação',
             status: p.status || 'orcamento',
             valor: parseFloat(p.valor) || 0,
             valor_total: parseFloat(p.valor) || 0,
@@ -576,7 +576,7 @@ router.get('/kanban/pedidos', authenticateToken, async (req, res) => {
             observacoes: p.observacoes || ''
         }));
         
-        res.json(pedidosFormatados);
+        res.json(pedidosFormataçãos);
     } catch (error) {
         console.error('Error getting kanban pedidos:', error);
         res.status(500).json({
@@ -599,31 +599,31 @@ router.put('/pedidos/:id/status', authenticateToken, async (req, res) => {
         const pool = await getPool();
         
         // Verificar se o pedido existe
-        const [existing] = await pool.query('SELECT id, status FROM pedidos WHERE id = ?', [id]);
+        const [existing] = await pool.query('SELECT id, status FROM pedidos WHERE id = ', [id]);
         if (existing.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontrado' });
+            return res.status(404).json({ error: 'Pedido não encontração' });
         }
         
         const statusAnterior = existing[0].status;
         
         // Atualizar o status
-        await pool.query('UPDATE pedidos SET status = ?, updated_at = NOW() WHERE id = ?', [status, id]);
+        await pool.query('UPDATE pedidos SET status = , updated_at = NOW() WHERE id = ', [status, id]);
         
         // Registrar no log de auditoria se existir
         try {
             await pool.query(`
-                INSERT INTO audit_log (tabela, registro_id, acao, dados_anteriores, dados_novos, usuario_id, created_at)
-                VALUES ('pedidos', ?, 'status_change', ?, ?, ?, NOW())
-            `, [id, JSON.stringify({ status: statusAnterior }), JSON.stringify({ status }), req.user?.id || null]);
+                INSERT INTO audit_log (tabela, registro_id, acao, daçãos_anteriores, daçãos_novos, usuario_id, created_at)
+                VALUES ('pedidos', , 'status_change', , , , NOW())
+            `, [id, JSON.stringify({ status: statusAnterior }), JSON.stringify({ status }), req.user.id || null]);
         } catch (auditError) {
             console.log('Audit log não disponível:', auditError.message);
         }
         
-        console.log(`✅ Pedido ${id}: status alterado de "${statusAnterior}" para "${status}"`);
+        console.log(`✅ Pedido ${id}: status alteração de "${statusAnterior}" para "${status}"`);
         
         res.json({ 
             success: true, 
-            message: 'Status atualizado com sucesso',
+            message: 'Status atualização com sucesso',
             statusAnterior,
             statusNovo: status
         });
@@ -684,7 +684,7 @@ router.get('/metas', authenticateToken, async (req, res) => {
 const cenariosFiscaisPadrao = {
     venda_normal: {
         codigo: 'venda_normal',
-        nome: 'Venda Normal (Dentro do Estado)',
+        nome: 'Venda Normal (Dentro do Estação)',
         icms_aliquota: 18.00,
         icms_reducao_base: 0,
         icms_st_aliquota: 0,
@@ -697,14 +697,14 @@ const cenariosFiscaisPadrao = {
         cst_ipi: '50',
         cst_pis: '01',
         cst_cofins: '01',
-        cfop_dentro_estado: '5102',
-        cfop_fora_estado: '6102',
+        cfop_dentro_estação: '5102',
+        cfop_fora_estação: '6102',
         calcula_icms_st: false,
         destaca_impostos: true
     },
-    venda_fora_estado: {
-        codigo: 'venda_fora_estado',
-        nome: 'Venda Fora do Estado',
+    venda_fora_estação: {
+        codigo: 'venda_fora_estação',
+        nome: 'Venda Fora do Estação',
         icms_aliquota: 12.00,
         icms_reducao_base: 0,
         icms_st_aliquota: 0,
@@ -717,8 +717,8 @@ const cenariosFiscaisPadrao = {
         cst_ipi: '50',
         cst_pis: '01',
         cst_cofins: '01',
-        cfop_dentro_estado: '5102',
-        cfop_fora_estado: '6102',
+        cfop_dentro_estação: '5102',
+        cfop_fora_estação: '6102',
         calcula_icms_st: false,
         destaca_impostos: true
     },
@@ -737,8 +737,8 @@ const cenariosFiscaisPadrao = {
         cst_ipi: '52',
         cst_pis: '01',
         cst_cofins: '01',
-        cfop_dentro_estado: '5109',
-        cfop_fora_estado: '6109',
+        cfop_dentro_estação: '5109',
+        cfop_fora_estação: '6109',
         calcula_icms_st: false,
         destaca_impostos: true
     },
@@ -757,8 +757,8 @@ const cenariosFiscaisPadrao = {
         cst_ipi: '52',
         cst_pis: '08',
         cst_cofins: '08',
-        cfop_dentro_estado: '7101',
-        cfop_fora_estado: '7101',
+        cfop_dentro_estação: '7101',
+        cfop_fora_estação: '7101',
         calcula_icms_st: false,
         destaca_impostos: false
     },
@@ -777,8 +777,8 @@ const cenariosFiscaisPadrao = {
         cst_ipi: '53',
         cst_pis: '49',
         cst_cofins: '49',
-        cfop_dentro_estado: '5102',
-        cfop_fora_estado: '6102',
+        cfop_dentro_estação: '5102',
+        cfop_fora_estação: '6102',
         calcula_icms_st: false,
         destaca_impostos: false
     },
@@ -797,14 +797,14 @@ const cenariosFiscaisPadrao = {
         cst_ipi: '50',
         cst_pis: '01',
         cst_cofins: '01',
-        cfop_dentro_estado: '5101',
-        cfop_fora_estado: '6101',
+        cfop_dentro_estação: '5101',
+        cfop_fora_estação: '6101',
         calcula_icms_st: false,
         destaca_impostos: true
     },
     revenda: {
         codigo: 'revenda',
-        nome: 'Revenda de Mercadorias',
+        nome: 'Revenda de Mercaçãorias',
         icms_aliquota: 18.00,
         icms_reducao_base: 0,
         icms_st_aliquota: 0,
@@ -817,8 +817,8 @@ const cenariosFiscaisPadrao = {
         cst_ipi: '53',
         cst_pis: '01',
         cst_cofins: '01',
-        cfop_dentro_estado: '5102',
-        cfop_fora_estado: '6102',
+        cfop_dentro_estação: '5102',
+        cfop_fora_estação: '6102',
         calcula_icms_st: false,
         destaca_impostos: true
     }
@@ -861,7 +861,7 @@ router.get('/impostos/cenarios/:codigo', authenticateToken, async (req, res) => 
         
         try {
             const [cenarios] = await pool.query(`
-                SELECT * FROM cenarios_fiscais WHERE codigo = ? AND ativo = 1
+                SELECT * FROM cenarios_fiscais WHERE codigo =  AND ativo = 1
             `, [codigo]);
             
             if (cenarios.length > 0) {
@@ -877,7 +877,7 @@ router.get('/impostos/cenarios/:codigo', authenticateToken, async (req, res) => 
         if (cenario) {
             res.json({ success: true, cenario });
         } else {
-            res.status(404).json({ success: false, message: 'Cenário não encontrado' });
+            res.status(404).json({ success: false, message: 'Cenário não encontração' });
         }
     } catch (error) {
         console.error('Error getting cenário fiscal:', error);
@@ -912,14 +912,14 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
         
         // Aplicar alíquotas customizadas se fornecidas
         const aliquotas = {
-            icms: icms_aliquota_custom !== undefined ? parseFloat(icms_aliquota_custom) : cenario.icms_aliquota,
-            icms_reducao: icms_reducao_custom !== undefined ? parseFloat(icms_reducao_custom) : cenario.icms_reducao_base,
-            icms_st: icms_st_aliquota_custom !== undefined ? parseFloat(icms_st_aliquota_custom) : cenario.icms_st_aliquota,
-            icms_st_mva: icms_st_mva_custom !== undefined ? parseFloat(icms_st_mva_custom) : cenario.icms_st_mva,
-            ipi: ipi_aliquota_custom !== undefined ? parseFloat(ipi_aliquota_custom) : cenario.ipi_aliquota,
-            pis: pis_aliquota_custom !== undefined ? parseFloat(pis_aliquota_custom) : cenario.pis_aliquota,
-            cofins: cofins_aliquota_custom !== undefined ? parseFloat(cofins_aliquota_custom) : cenario.cofins_aliquota,
-            iss: iss_aliquota_custom !== undefined ? parseFloat(iss_aliquota_custom) : cenario.iss_aliquota
+            icms: icms_aliquota_custom !== undefined  parseFloat(icms_aliquota_custom) : cenario.icms_aliquota,
+            icms_reducao: icms_reducao_custom !== undefined  parseFloat(icms_reducao_custom) : cenario.icms_reducao_base,
+            icms_st: icms_st_aliquota_custom !== undefined  parseFloat(icms_st_aliquota_custom) : cenario.icms_st_aliquota,
+            icms_st_mva: icms_st_mva_custom !== undefined  parseFloat(icms_st_mva_custom) : cenario.icms_st_mva,
+            ipi: ipi_aliquota_custom !== undefined  parseFloat(ipi_aliquota_custom) : cenario.ipi_aliquota,
+            pis: pis_aliquota_custom !== undefined  parseFloat(pis_aliquota_custom) : cenario.pis_aliquota,
+            cofins: cofins_aliquota_custom !== undefined  parseFloat(cofins_aliquota_custom) : cenario.cofins_aliquota,
+            iss: iss_aliquota_custom !== undefined  parseFloat(iss_aliquota_custom) : cenario.iss_aliquota
         };
         
         // Calcular base de cálculo
@@ -941,10 +941,10 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
         const baseIPI = valorProdutos;
         
         // Calcular IPI primeiro (se aplicável)
-        const valorIPI = aliquotas.ipi > 0 ? baseIPI * (aliquotas.ipi / 100) : 0;
+        const valorIPI = aliquotas.ipi > 0  baseIPI * (aliquotas.ipi / 100) : 0;
         
         // Calcular ICMS
-        const valorICMS = aliquotas.icms > 0 ? baseICMS * (aliquotas.icms / 100) : 0;
+        const valorICMS = aliquotas.icms > 0  baseICMS * (aliquotas.icms / 100) : 0;
         
         // Calcular ICMS ST (se aplicável)
         let valorICMSST = 0;
@@ -961,21 +961,21 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
         const basePISCOFINS = valorProdutos - valorDesconto + valorFrete + valorSeguro + valorOutras;
         
         // Calcular PIS e COFINS
-        const valorPIS = aliquotas.pis > 0 ? basePISCOFINS * (aliquotas.pis / 100) : 0;
-        const valorCOFINS = aliquotas.cofins > 0 ? basePISCOFINS * (aliquotas.cofins / 100) : 0;
+        const valorPIS = aliquotas.pis > 0  basePISCOFINS * (aliquotas.pis / 100) : 0;
+        const valorCOFINS = aliquotas.cofins > 0  basePISCOFINS * (aliquotas.cofins / 100) : 0;
         
         // Calcular ISS (para serviços)
         const baseISS = valorProdutos - valorDesconto;
-        const valorISS = aliquotas.iss > 0 ? baseISS * (aliquotas.iss / 100) : 0;
+        const valorISS = aliquotas.iss > 0  baseISS * (aliquotas.iss / 100) : 0;
         
-        // Total de impostos destacados
+        // Total de impostos destacaçãos
         const totalImpostos = valorICMS + valorICMSST + valorIPI + valorPIS + valorCOFINS + valorISS;
         
         // Total da NF (produtos + IPI + ICMS ST + frete + seguro + outras - desconto)
         // Nota: PIS, COFINS e ICMS já estão inclusos no preço normalmente
         const totalNF = valorProdutos + valorIPI + valorICMSST + valorFrete + valorSeguro + valorOutras - valorDesconto;
         
-        const resultado = {
+        const resultação = {
             cenario: cenario.nome,
             cenario_codigo: cenario.codigo,
             
@@ -1012,11 +1012,11 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
             
             // CFOP
             cfop: {
-                dentro_estado: cenario.cfop_dentro_estado,
-                fora_estado: cenario.cfop_fora_estado
+                dentro_estação: cenario.cfop_dentro_estação,
+                fora_estação: cenario.cfop_fora_estação
             },
             
-            // Totalizadores
+            // Totalizaçãores
             totais: {
                 produtos: valorProdutos,
                 desconto: valorDesconto,
@@ -1030,7 +1030,7 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
             destaca_impostos: cenario.destaca_impostos
         };
         
-        res.json({ success: true, impostos: resultado });
+        res.json({ success: true, impostos: resultação });
     } catch (error) {
         console.error('Error calculating impostos:', error);
         res.status(500).json({ success: false, message: 'Erro ao calcular impostos' });
@@ -1046,17 +1046,17 @@ router.post('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
         const pool = await getPool();
         
         // Verificar se pedido existe
-        const [existing] = await pool.query('SELECT id FROM pedidos WHERE id = ?', [id]);
+        const [existing] = await pool.query('SELECT id FROM pedidos WHERE id = ', [id]);
         if (existing.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontrado' });
+            return res.status(404).json({ error: 'Pedido não encontração' });
         }
         
         // Atualizar total_impostos no pedido
         await pool.query(`
             UPDATE pedidos 
-            SET total_impostos = ?, cenario_fiscal_id = (SELECT id FROM cenarios_fiscais WHERE codigo = ? LIMIT 1)
-            WHERE id = ?
-        `, [impostos.totais?.impostos || 0, cenario_codigo, id]);
+            SET total_impostos = , cenario_fiscal_id = (SELECT id FROM cenarios_fiscais WHERE codigo =  LIMIT 1)
+            WHERE id = 
+        `, [impostos.totais.impostos || 0, cenario_codigo, id]);
         
         // Tentar salvar detalhes na tabela pedidos_impostos
         try {
@@ -1069,10 +1069,10 @@ router.post('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
                     total_impostos, total_produtos, total_desconto, total_frete,
                     total_seguro, total_outras_despesas, total_nf
                 ) VALUES (
-                    ?, (SELECT id FROM cenarios_fiscais WHERE codigo = ? LIMIT 1),
-                    ?, ?, ?, ?, ?, ?,
-                    ?, ?, ?, ?, ?, ?,
-                    ?, ?, ?, ?, ?, ?, ?
+                    , (SELECT id FROM cenarios_fiscais WHERE codigo =  LIMIT 1),
+                    , , , , , ,
+                    , , , , , ,
+                    , , , , , , 
                 )
                 ON DUPLICATE KEY UPDATE
                     cenario_fiscal_id = VALUES(cenario_fiscal_id),
@@ -1098,13 +1098,13 @@ router.post('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
                     updated_at = NOW()
             `, [
                 id, cenario_codigo,
-                impostos.bases?.icms || 0, impostos.bases?.icms_st || 0, impostos.bases?.ipi || 0,
-                impostos.bases?.pis || 0, impostos.bases?.cofins || 0, impostos.bases?.iss || 0,
-                impostos.valores?.icms || 0, impostos.valores?.icms_st || 0, impostos.valores?.ipi || 0,
-                impostos.valores?.pis || 0, impostos.valores?.cofins || 0, impostos.valores?.iss || 0,
-                impostos.totais?.impostos || 0, impostos.totais?.produtos || 0, impostos.totais?.desconto || 0,
-                impostos.totais?.frete || 0, impostos.totais?.seguro || 0, impostos.totais?.outras_despesas || 0,
-                impostos.totais?.nota_fiscal || 0
+                impostos.bases.icms || 0, impostos.bases.icms_st || 0, impostos.bases.ipi || 0,
+                impostos.bases.pis || 0, impostos.bases.cofins || 0, impostos.bases.iss || 0,
+                impostos.valores.icms || 0, impostos.valores.icms_st || 0, impostos.valores.ipi || 0,
+                impostos.valores.pis || 0, impostos.valores.cofins || 0, impostos.valores.iss || 0,
+                impostos.totais.impostos || 0, impostos.totais.produtos || 0, impostos.totais.desconto || 0,
+                impostos.totais.frete || 0, impostos.totais.seguro || 0, impostos.totais.outras_despesas || 0,
+                impostos.totais.nota_fiscal || 0
             ]);
         } catch (dbError) {
             console.log('Tabela pedidos_impostos não disponível:', dbError.message);
@@ -1128,7 +1128,7 @@ router.get('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
                 SELECT pi.*, cf.codigo as cenario_codigo, cf.nome as cenario_nome
                 FROM pedidos_impostos pi
                 LEFT JOIN cenarios_fiscais cf ON pi.cenario_fiscal_id = cf.id
-                WHERE pi.pedido_id = ?
+                WHERE pi.pedido_id = 
             `, [id]);
             
             if (impostos.length > 0) {
@@ -1155,16 +1155,16 @@ const fs = require('fs');
 
 // GET /api/vendas/pedidos/:id/pdf - Gerar PDF do orçamento/pedido
 router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
-    console.log('📄 Gerando PDF para pedido:', req.params.id, '| Usuário:', req.user?.id || 'N/A');
+    console.log('📄 Gerando PDF para pedido:', req.params.id, '| Usuário:', req.user.id || 'N/A');
     try {
         const { id } = req.params;
         const pool = await getPool();
         
-        // Buscar configurações da empresa (dados do modal de configurações)
+        // Buscar configurações da empresa (daçãos do modal de configurações)
         const [configEmpresa] = await pool.query('SELECT * FROM configuracoes_empresa LIMIT 1');
         const empresaConfig = configEmpresa[0] || {};
         
-        // Buscar dados completos do pedido
+        // Buscar daçãos completos do pedido
         const [pedidos] = await pool.query(`
             SELECT p.*, 
                    p.valor as valor_total,
@@ -1180,7 +1180,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
                    c.endereco as cliente_endereco,
                    c.bairro as cliente_bairro,
                    c.cidade as cliente_cidade,
-                   c.estado as cliente_estado,
+                   c.estação as cliente_estação,
                    c.cep as cliente_cep,
                    c.inscricao_estadual as cliente_ie,
                    e.nome_fantasia as empresa_nome, 
@@ -1188,7 +1188,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
                    e.cnpj as empresa_cnpj,
                    e.endereco as empresa_endereco,
                    e.cidade as empresa_cidade,
-                   e.estado as empresa_estado,
+                   e.estação as empresa_estação,
                    e.telefone as empresa_telefone,
                    e.email as empresa_email,
                    u.nome as vendedor_nome,
@@ -1197,26 +1197,26 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
             LEFT JOIN clientes c ON p.cliente_id = c.id
             LEFT JOIN empresas e ON p.empresa_id = e.id
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontrado' });
+            return res.status(404).json({ error: 'Pedido não encontração' });
         }
         
         const pedido = pedidos[0];
         
         // Buscar itens do pedido
         const [itens] = await pool.query(`
-            SELECT * FROM itens_pedido WHERE pedido_id = ?
+            SELECT * FROM itens_pedido WHERE pedido_id = 
         `, [id]);
         
-        // Buscar dados do usuário que está gerando o PDF
-        let usuarioGerador = 'Sistema';
+        // Buscar daçãos do usuário que está gerando o PDF
+        let usuarioGeraçãor = 'Sistema';
         if (req.user && req.user.id) {
-            const [usuarios] = await pool.query('SELECT nome FROM usuarios WHERE id = ?', [req.user.id]);
+            const [usuarios] = await pool.query('SELECT nome FROM usuarios WHERE id = ', [req.user.id]);
             if (usuarios.length > 0) {
-                usuarioGerador = usuarios[0].nome;
+                usuarioGeraçãor = usuarios[0].nome;
             }
         }
         
@@ -1258,12 +1258,12 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
             }
         }
         
-        // Dados da empresa (lado direito) - Priorizar dados das configurações
+        // Daçãos da empresa (lação direito) - Priorizar daçãos das configurações
         const empresaNome = empresaConfig.razao_social || pedido.empresa_razao_social || pedido.empresa_nome || 'ALUFORCE INDÚSTRIA';
         const empresaCnpj = empresaConfig.cnpj || pedido.empresa_cnpj || '00.000.000/0001-00';
-        const empresaEndereco = empresaConfig.endereco ? `${empresaConfig.endereco}, ${empresaConfig.numero || ''}` : (pedido.empresa_endereco || '');
+        const empresaEndereco = empresaConfig.endereco  `${empresaConfig.endereco}, ${empresaConfig.numero || ''}` : (pedido.empresa_endereco || '');
         const empresaCidade = empresaConfig.cidade || pedido.empresa_cidade || '';
-        const empresaEstado = empresaConfig.estado || pedido.empresa_estado || '';
+        const empresaEstação = empresaConfig.estação || pedido.empresa_estação || '';
         const empresaTelefone = empresaConfig.telefone || pedido.empresa_telefone || '';
         const empresaEmail = empresaConfig.email || pedido.empresa_email || '';
         
@@ -1274,7 +1274,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
            .fillColor('#666')
            .text(`CNPJ: ${empresaCnpj}`, 350, 50, { align: 'right' })
            .text(empresaEndereco, 350, 62, { align: 'right' })
-           .text(`${empresaCidade} - ${empresaEstado}`, 350, 74, { align: 'right' })
+           .text(`${empresaCidade} - ${empresaEstação}`, 350, 74, { align: 'right' })
            .text(`Tel: ${empresaTelefone} | ${empresaEmail}`, 350, 86, { align: 'right' });
         
         // Linha divisória
@@ -1310,13 +1310,13 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
            .fillColor(corTexto);
         
         // Coluna esquerda
-        doc.text(`Cliente: ${pedido.cliente_razao_social || pedido.cliente_nome || 'Não informado'}`, 50, yPos + 28);
-        doc.text(`CNPJ/CPF: ${pedido.cliente_cnpj || 'Não informado'}`, 50, yPos + 42);
+        doc.text(`Cliente: ${pedido.cliente_razao_social || pedido.cliente_nome || 'Não informação'}`, 50, yPos + 28);
+        doc.text(`CNPJ/CPF: ${pedido.cliente_cnpj || 'Não informação'}`, 50, yPos + 42);
         doc.text(`I.E.: ${pedido.cliente_ie || 'Isento'}`, 50, yPos + 56);
         
         // Coluna direita
         doc.text(`Endereço: ${pedido.cliente_endereco || ''}, ${pedido.cliente_bairro || ''}`, 280, yPos + 28);
-        doc.text(`Cidade: ${pedido.cliente_cidade || ''} - ${pedido.cliente_estado || ''}`, 280, yPos + 42);
+        doc.text(`Cidade: ${pedido.cliente_cidade || ''} - ${pedido.cliente_estação || ''}`, 280, yPos + 42);
         doc.text(`CEP: ${pedido.cliente_cep || ''} | Tel: ${pedido.cliente_telefone || ''}`, 280, yPos + 56);
         
         // ========================================
@@ -1338,7 +1338,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
         
         doc.font('Helvetica')
            .fillColor(corTexto)
-           .text(pedido.vendedor_nome || 'Não informado', 50, yPos + 25)
+           .text(pedido.vendedor_nome || 'Não informação', 50, yPos + 25)
            .text(pedido.vendedor_email || '', 50, yPos + 38);
         
         // Número de parcelas
@@ -1377,7 +1377,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
         
         if (itens.length > 0) {
             itens.forEach((item, idx) => {
-                const bgColor = idx % 2 === 0 ? '#fff' : corClara;
+                const bgColor = idx % 2 === 0  '#fff' : corClara;
                 doc.rect(40, yPos, 515, 20).fillColor(bgColor).fill();
                 doc.rect(40, yPos, 515, 20).strokeColor('#e2e8f0').lineWidth(0.5).stroke();
                 
@@ -1409,7 +1409,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
             doc.rect(40, yPos, 515, 30).strokeColor('#e2e8f0').lineWidth(0.5).stroke();
             doc.fontSize(9)
                .fillColor('#888')
-               .text('Nenhum item adicionado ao orçamento', 45, yPos + 10);
+               .text('Nenhum item adicionação ao orçamento', 45, yPos + 10);
             yPos += 30;
         }
         
@@ -1491,7 +1491,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
         doc.fontSize(8)
            .fillColor('#888')
            .font('Helvetica')
-           .text(`Documento gerado em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')} por ${usuarioGerador}`, 40, 758, { align: 'center' })
+           .text(`Documento geração em ${new Date().toLocaleDateString('pt-BR')} às ${new Date().toLocaleTimeString('pt-BR')} por ${usuarioGeraçãor}`, 40, 758, { align: 'center' })
            .text('Este orçamento tem validade de 7 dias a partir da data de emissão.', 40, 770, { align: 'center' })
            .text('ALUFORCE Sistema de Gestão Empresarial v2.1', 40, 782, { align: 'center' });
         

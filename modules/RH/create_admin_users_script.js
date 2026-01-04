@@ -1,14 +1,14 @@
-// Script Node.js para criar usuários administrativos diretamente no banco de dados
+// Script Node.js para criar usuários administrativos diretamente no banco de daçãos
 const mysql = require('mysql2');
 const bcrypt = require('bcrypt');
 
-// Configuração do banco de dados (use as mesmas credenciais do server.js)
+// Configuração do banco de daçãos (use as mesmas credenciais do server.js)
 const db = mysql.createConnection({
   host: process.env.DB_HOST || 'localhost',
   user: process.env.DB_USER || 'root',  
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
+  port: process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 3306
 });
 
 const adminUsers = [
@@ -24,7 +24,7 @@ const adminUsers = [
     name: 'RH Administrativo', 
     email: 'rh@aluforce.ind.br', 
     role: 'rh',
-    cargo: 'Coordenador de RH', 
+    cargo: 'Coordenaçãor de RH', 
     departamento: 'Recursos Humanos',
     cpf: '22222222222'
   },
@@ -64,7 +64,7 @@ const adminUsers = [
 
 async function createAdminUsers() {
   try {
-    console.log('Conectando ao banco de dados...');
+    console.log('Conectando ao banco de daçãos...');
     
     // Hash da senha padrão
     const defaultPassword = 'admin123';
@@ -78,7 +78,7 @@ async function createAdminUsers() {
           console.error('Erro ao conectar ao banco:', err);
           reject(err);
         } else {
-          console.log('Conectado ao banco MySQL com sucesso!');
+          console.log('Conectação ao banco MySQL com sucesso!');
           resolve();
         }
       });
@@ -86,7 +86,7 @@ async function createAdminUsers() {
 
     // Deletar usuários existentes primeiro (para evitar duplicatas)
     const deleteEmails = adminUsers.map(u => u.email);
-    const deleteSql = `DELETE FROM funcionarios WHERE email IN (${deleteEmails.map(() => '?').join(',')})`;
+    const deleteSql = `DELETE FROM funcionarios WHERE email IN (${deleteEmails.map(() => '').join(',')})`;
     
     await new Promise((resolve, reject) => {
       db.query(deleteSql, deleteEmails, (err, result) => {
@@ -102,7 +102,7 @@ async function createAdminUsers() {
     // Inserir cada usuário
     const insertSql = `INSERT INTO funcionarios (
       nome_completo, email, senha, role, cargo, departamento, cpf, status, data_admissao
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, 'Ativo', CURDATE())`;
+    ) VALUES (, , , , , , , 'Ativo', CURDATE())`;
 
     for (const user of adminUsers) {
       try {
@@ -120,7 +120,7 @@ async function createAdminUsers() {
               console.error(`Erro ao inserir ${user.email}:`, err.message);
               reject(err);
             } else {
-              console.log(`✅ Usuário ${user.email} criado com ID ${result.insertId}`);
+              console.log(`✅ Usuário ${user.email} criação com ID ${result.insertId}`);
               resolve();
             }
           });
@@ -130,11 +130,11 @@ async function createAdminUsers() {
       }
     }
 
-    // Verificar os usuários criados
-    console.log('\n📋 Verificando usuários criados:');
+    // Verificar os usuários criaçãos
+    console.log('\n📋 Verificando usuários criaçãos:');
     const selectSql = `SELECT id, nome_completo, email, role, cargo, status 
                        FROM funcionarios 
-                       WHERE email IN (${deleteEmails.map(() => '?').join(',')})
+                       WHERE email IN (${deleteEmails.map(() => '').join(',')})
                        ORDER BY email`;
     
     await new Promise((resolve, reject) => {

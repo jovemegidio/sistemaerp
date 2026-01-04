@@ -15,7 +15,7 @@ const dbConfig = {
 };
 
 async function aplicarOtimizacoes() {
-    console.log('🚀 Iniciando otimizações de banco de dados...\n');
+    console.log('🚀 Iniciando otimizações de banco de daçãos...\n');
     
     const connection = await mysql.createConnection(dbConfig);
     
@@ -40,7 +40,7 @@ async function aplicarOtimizacoes() {
         { tabela: 'clientes', nome: 'idx_clientes_cnpj', colunas: 'cnpj_cpf' }
     ];
     
-    let criados = 0;
+    let criaçãos = 0;
     let erros = 0;
     let existentes = 0;
     
@@ -48,7 +48,7 @@ async function aplicarOtimizacoes() {
         try {
             // Verificar se índice já existe
             const [rows] = await connection.query(
-                `SHOW INDEX FROM ${idx.tabela} WHERE Key_name = ?`,
+                `SHOW INDEX FROM ${idx.tabela} WHERE Key_name = `,
                 [idx.nome]
             );
             
@@ -62,8 +62,8 @@ async function aplicarOtimizacoes() {
             await connection.query(
                 `CREATE INDEX ${idx.nome} ON ${idx.tabela}(${idx.colunas})`
             );
-            console.log(`  ✅ ${idx.nome} criado`);
-            criados++;
+            console.log(`  ✅ ${idx.nome} criação`);
+            criaçãos++;
             
         } catch (err) {
             if (err.code === 'ER_NO_SUCH_TABLE') {
@@ -95,7 +95,7 @@ async function aplicarOtimizacoes() {
     
     console.log('\n' + '='.repeat(50));
     console.log(`📈 RESULTADO:`);
-    console.log(`   Índices criados: ${criados}`);
+    console.log(`   Índices criaçãos: ${criaçãos}`);
     console.log(`   Índices existentes: ${existentes}`);
     console.log(`   Erros: ${erros}`);
     console.log('='.repeat(50));
@@ -103,8 +103,8 @@ async function aplicarOtimizacoes() {
     console.log('\n✅ Otimizações aplicadas com sucesso!');
     console.log('\n💡 DICAS ADICIONAIS:');
     console.log('   1. Reinicie o servidor PCP para aplicar cache em memória');
-    console.log('   2. Compression está ativado - respostas serão ~70% menores');
-    console.log('   3. Pool de conexões aumentado de 10 para 20');
+    console.log('   2. Compression está ativação - respostas serão ~70% menores');
+    console.log('   3. Pool de conexões aumentação de 10 para 20');
     console.log('   4. Cache de queries ativo por 30 segundos');
 }
 

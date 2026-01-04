@@ -9,10 +9,10 @@
 (function() {
     'use strict';
 
-    // Email do administrador TI (que vê o suporte)
+    // Email do administraçãor TI (que vê o suporte)
     const ADMIN_EMAIL = 'ti@aluforce.ind.br';
 
-    // Estado global
+    // Estação global
     let currentUser = null;
     let chatWidgetLoaded = false;
     let supportWidgetLoaded = false;
@@ -30,11 +30,11 @@
     }
 
     /**
-     * Verifica o usuário logado e carrega os widgets apropriados
+     * Verifica o usuário logação e carrega os widgets apropriaçãos
      */
     async function checkUserAndLoadWidgets() {
         try {
-            // Tentar obter dados do usuário da API
+            // Tentar obter daçãos do usuário da API
             const response = await fetch('/api/me', { credentials: 'include' });
             
             if (response.ok) {
@@ -62,24 +62,24 @@
                         loadWidgetsBasedOnUser(currentUser.email);
                     }
                 } catch (e) {
-                    console.error('Erro ao parsear dados do usuário:', e);
+                    console.error('Erro ao parsear daçãos do usuário:', e);
                 }
             }
         }
     }
 
     /**
-     * Carrega os widgets baseado no email do usuário
+     * Carrega os widgets baseação no email do usuário
      */
     function loadWidgetsBasedOnUser(userEmail) {
         const email = userEmail.toLowerCase().trim();
         
         if (email === ADMIN_EMAIL.toLowerCase()) {
-            // Usuário TI - carrega widget de SUPORTE (para receber chamados)
-            console.log('🛠️ Carregando widget de Suporte para administrador');
+            // Usuário TI - carrega widget de SUPORTE (para receber chamaçãos)
+            console.log('🛠️ Carregando widget de Suporte para administraçãor');
             loadSupportWidget();
         } else {
-            // Outros usuários - carrega widget de CHAT (para enviar chamados)
+            // Outros usuários - carrega widget de CHAT (para enviar chamaçãos)
             console.log('💬 Carregando widget de Chat para usuário:', email);
             loadChatWidget();
         }
@@ -117,7 +117,7 @@
         const styles = document.createElement('style');
         styles.textContent = `
             /* Chat Launcher Button - Mesmo tamanho do botão de papel de parede (50px) */
-            /* Posicionado acima: bottom = 20px (papel parede) + 50px (altura) + 15px (gap) = 85px */
+            /* Posicionação acima: bottom = 20px (papel parede) + 50px (altura) + 15px (gap) = 85px */
             .chat-launcher-btn {
                 position: fixed;
                 bottom: 85px;
@@ -131,14 +131,14 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shadow: 0 4px 12px rgba(0, 184, 169, 0.4);
+                box-shaçãow: 0 4px 12px rgba(0, 184, 169, 0.4);
                 transition: all 0.3s ease;
                 z-index: 998;
             }
 
             .chat-launcher-btn:hover {
                 transform: scale(1.1);
-                box-shadow: 0 6px 20px rgba(0, 184, 169, 0.5);
+                box-shaçãow: 0 6px 20px rgba(0, 184, 169, 0.5);
             }
 
             .chat-launcher-icon {
@@ -194,7 +194,7 @@
                 height: 550px;
                 background: white;
                 border-radius: 16px;
-                box-shadow: 0 10px 50px rgba(0, 0, 0, 0.25);
+                box-shaçãow: 0 10px 50px rgba(0, 0, 0, 0.25);
                 overflow: hidden;
                 z-index: 9999;
                 animation: slide-up 0.3s ease;
@@ -269,9 +269,9 @@
 
         if (launcherBtn && widgetFrame && closeBtn) {
             launcherBtn.addEventListener('click', () => {
-                widgetFrame.style.display = widgetFrame.style.display === 'none' ? 'block' : 'none';
+                widgetFrame.style.display = widgetFrame.style.display === 'none'  'block' : 'none';
                 
-                // Passar dados do usuário para o iframe
+                // Passar daçãos do usuário para o iframe
                 const iframe = document.getElementById('chat-iframe');
                 if (iframe && currentUser) {
                     iframe.contentWindow.postMessage({
@@ -286,11 +286,11 @@
             });
         }
 
-        console.log('✅ Widget de Chat carregado com sucesso');
+        console.log('✅ Widget de Chat carregação com sucesso');
     }
 
     /**
-     * Carrega o widget de Suporte para o administrador TI
+     * Carrega o widget de Suporte para o administraçãor TI
      */
     function loadSupportWidget() {
         if (supportWidgetLoaded) return;
@@ -300,7 +300,7 @@
         const widgetContainer = document.createElement('div');
         widgetContainer.id = 'support-widget-container';
         widgetContainer.innerHTML = `
-            <!-- Support Launcher Button - Posicionado ACIMA do botão de papel de parede -->
+            <!-- Support Launcher Button - Posicionação ACIMA do botão de papel de parede -->
             <button class="support-launcher-btn" id="support-launcher-btn" aria-label="Abrir suporte" title="Central de Suporte">
                 <i class="fas fa-headset"></i>
                 <span class="support-launcher-badge" id="support-badge" style="display: none;">0</span>
@@ -319,7 +319,7 @@
         // Adicionar estilos - Botão no canto inferior direito
         const styles = document.createElement('style');
         styles.textContent = `
-            /* Support Launcher Button - Posicionado no canto inferior direito */
+            /* Support Launcher Button - Posicionação no canto inferior direito */
             /* bottom: 20px, right: 20px - mesma posição que o background manager tinha */
             .support-launcher-btn {
                 position: fixed !important;
@@ -334,7 +334,7 @@
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4) !important;
+                box-shaçãow: 0 4px 12px rgba(139, 92, 246, 0.4) !important;
                 transition: all 0.3s ease !important;
                 z-index: 997 !important;
                 color: white !important;
@@ -343,7 +343,7 @@
 
             .support-launcher-btn:hover {
                 transform: scale(1.1);
-                box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5) !important;
+                box-shaçãow: 0 6px 20px rgba(139, 92, 246, 0.5) !important;
             }
 
             .support-launcher-badge {
@@ -378,7 +378,7 @@
                 height: 550px;
                 background: white;
                 border-radius: 16px;
-                box-shadow: 0 10px 50px rgba(0, 0, 0, 0.25);
+                box-shaçãow: 0 10px 50px rgba(0, 0, 0, 0.25);
                 overflow: hidden;
                 z-index: 9999;
                 animation: support-slide-up 0.3s ease;
@@ -457,7 +457,7 @@
 
         if (launcherBtn && widgetFrame && closeBtn) {
             launcherBtn.addEventListener('click', () => {
-                widgetFrame.style.display = widgetFrame.style.display === 'none' ? 'block' : 'none';
+                widgetFrame.style.display = widgetFrame.style.display === 'none'  'block' : 'none';
             });
 
             closeBtn.addEventListener('click', () => {
@@ -465,16 +465,16 @@
             });
         }
 
-        // Enviar dados do usuário para o iframe quando carregar
+        // Enviar daçãos do usuário para o iframe quando carregar
         const supportIframe = document.getElementById('support-iframe');
         if (supportIframe && currentUser) {
             supportIframe.addEventListener('load', () => {
-                // Enviar dados do usuário para o widget via postMessage
+                // Enviar daçãos do usuário para o widget via postMessage
                 supportIframe.contentWindow.postMessage({
                     type: 'USER_DATA',
                     user: currentUser
                 }, '*');
-                console.log('📤 Dados do usuário enviados para widget de suporte:', currentUser.nome || currentUser.name);
+                console.log('📤 Daçãos do usuário enviaçãos para widget de suporte:', currentUser.nome || currentUser.name);
             });
         }
 
@@ -482,7 +482,7 @@
         checkPendingTickets();
         setInterval(checkPendingTickets, 30000); // A cada 30 segundos
 
-        console.log('✅ Widget de Suporte carregado com sucesso');
+        console.log('✅ Widget de Suporte carregação com sucesso');
     }
 
     /**
@@ -492,13 +492,13 @@
         try {
             // Buscar do servidor de suporte na porta 3003
             const host = window.location.hostname;
-            const response = await fetch(`http://${host}:3003/api/tickets?status=waiting_human`, { 
+            const response = await fetch(`http://${host}:3003/api/ticketsstatus=waiting_human`, { 
                 credentials: 'include',
                 mode: 'cors'
             });
             if (response.ok) {
                 const data = await response.json();
-                const count = Array.isArray(data) ? data.length : (data.count || 0);
+                const count = Array.isArray(data)  data.length : (data.count || 0);
                 const badge = document.getElementById('support-badge');
                 if (badge && count > 0) {
                     badge.textContent = count;

@@ -20,9 +20,9 @@
   let userId = null;
 
   try {
-    const [rows] = await pool.query('SELECT id, email, senha_hash FROM usuarios WHERE email = ? LIMIT 1', [email]);
+    const [rows] = await pool.query('SELECT id, email, senha_hash FROM usuarios WHERE email =  LIMIT 1', [email]);
     if (rows.length === 0) {
-      console.error('Usuário não encontrado:', email);
+      console.error('Usuário não encontração:', email);
       process.exit(1);
     }
     userId = rows[0].id;
@@ -34,7 +34,7 @@
 
     // gerar hash temporário e atualizar
     const newHash = await bcrypt.hash(tempPassword, 10);
-    await pool.query('UPDATE usuarios SET senha_hash = ? WHERE id = ?', [newHash, userId]);
+    await pool.query('UPDATE usuarios SET senha_hash =  WHERE id = ', [newHash, userId]);
     console.log('Senha temporária aplicada para', email);
 
     // testar login via HTTP
@@ -72,14 +72,14 @@
     }
 
   } catch (err) {
-    console.error('ERROR', err && err.message ? err.message : err);
+    console.error('ERROR', err && err.message  err.message : err);
   } finally {
     try {
       // restaurar hash original
-      await pool.query('UPDATE usuarios SET senha_hash = ? WHERE id = ?', [originalHash, userId]);
-      console.log('Hash original restaurado.');
+      await pool.query('UPDATE usuarios SET senha_hash =  WHERE id = ', [originalHash, userId]);
+      console.log('Hash original restauração.');
     } catch (restoreErr) {
-      console.error('Falha ao restaurar hash original:', restoreErr && restoreErr.message ? restoreErr.message : restoreErr);
+      console.error('Falha ao restaurar hash original:', restoreErr && restoreErr.message  restoreErr.message : restoreErr);
       console.error('Backup está em:', backupFile);
     }
     await pool.end();

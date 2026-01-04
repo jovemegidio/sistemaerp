@@ -130,7 +130,7 @@ function hasAccess(userName, area) {
     const userPerms = userPermissions[userKey];
     
     if (!userPerms) {
-        // Usuários não listados têm acesso apenas ao RH (área básica)
+        // Usuários não listaçãos têm acesso apenas ao RH (área básica)
         return area === 'rh';
     }
     
@@ -144,7 +144,7 @@ function getRHType(userName) {
     const userKey = userName.toLowerCase().trim();
     const userPerms = userPermissions[userKey];
     
-    return userPerms ? userPerms.rhType : 'area';
+    return userPerms  userPerms.rhType : 'area';
 }
 
 // Função para obter todas as áreas do usuário
@@ -154,7 +154,7 @@ function getUserAreas(userName) {
     const userKey = userName.toLowerCase().trim();
     const userPerms = userPermissions[userKey];
     
-    return userPerms ? userPerms.areas : ['rh'];
+    return userPerms  userPerms.areas : ['rh'];
 }
 
 // Função para verificar se o usuário é admin
@@ -186,7 +186,7 @@ const areaURLs = {
 function getAreaURL(area, userName) {
     if (area === 'rh') {
         const rhType = getRHType(userName);
-        return rhType === 'areaadm' ? 'RH/areaadm.html' : 'RH/area.html';
+        return rhType === 'areaadm'  'RH/areaadm.html' : 'RH/area.html';
     }
     
     return areaURLs[area] || '#';

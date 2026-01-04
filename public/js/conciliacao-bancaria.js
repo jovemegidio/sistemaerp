@@ -73,26 +73,26 @@ const ConciliacaoBancaria = {
         }
 
         container.innerHTML = contas.map(conta => `
-            <div class="conta-bancaria-card ${this.contaAtual?.id === conta.id ? 'ativa' : ''}" 
+            <div class="conta-bancaria-card ${this.contaAtual.id === conta.id  'ativa' : ''}" 
                  data-id="${conta.id}" 
                  onclick="ConciliacaoBancaria.selecionarConta(${conta.id})">
                 <div class="conta-header">
                     <span class="banco-codigo">${conta.banco_codigo}</span>
                     <span class="banco-nome">${conta.banco_nome}</span>
                 </div>
-                <div class="conta-dados">
+                <div class="conta-daçãos">
                     <span>Ag: ${conta.agencia}</span>
                     <span>CC: ${conta.conta}</span>
                 </div>
                 <div class="conta-saldo">
                     <span class="label">Saldo Atual:</span>
-                    <span class="valor ${parseFloat(conta.saldo_atual) >= 0 ? 'positivo' : 'negativo'}">
+                    <span class="valor ${parseFloat(conta.saldo_atual) >= 0  'positivo' : 'negativo'}">
                         R$ ${parseFloat(conta.saldo_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                     </span>
                 </div>
-                ${conta.data_saldo_atual ? `
+                ${conta.data_saldo_atual  `
                     <div class="conta-ultima-atualizacao">
-                        Atualizado em: ${new Date(conta.data_saldo_atual).toLocaleDateString('pt-BR')}
+                        Atualização em: ${new Date(conta.data_saldo_atual).toLocaleDateString('pt-BR')}
                     </div>
                 ` : ''}
             </div>
@@ -163,7 +163,7 @@ const ConciliacaoBancaria = {
             if (result.success) {
                 showNotification(`Importadas ${result.data.transacoes} transações`, 'success');
                 fileInput.value = '';
-                document.getElementById('nome-arquivo-ofx').textContent = 'Nenhum arquivo selecionado';
+                document.getElementById('nome-arquivo-ofx').textContent = 'Nenhum arquivo selecionação';
                 document.getElementById('btn-importar-ofx').disabled = true;
                 await this.carregarTransacoesPendentes();
             } else {
@@ -182,7 +182,7 @@ const ConciliacaoBancaria = {
         if (!this.contaAtual) return;
 
         try {
-            const response = await fetch(`/api/conciliacao/transacoes-pendentes?conta_id=${this.contaAtual.id}`);
+            const response = await fetch(`/api/conciliacao/transacoes-pendentesconta_id=${this.contaAtual.id}`);
             const result = await response.json();
             
             if (result.success) {
@@ -228,18 +228,18 @@ const ConciliacaoBancaria = {
                             <td>${new Date(t.data_transacao).toLocaleDateString('pt-BR')}</td>
                             <td>
                                 <div class="transacao-descricao">${t.descricao || '-'}</div>
-                                ${t.memo ? `<small class="text-muted">${t.memo}</small>` : ''}
+                                ${t.memo  `<small class="text-muted">${t.memo}</small>` : ''}
                             </td>
                             <td>
-                                <span class="badge badge-${t.tipo === 'credito' ? 'success' : 'danger'}">
-                                    ${t.tipo === 'credito' ? 'Crédito' : 'Débito'}
+                                <span class="badge badge-${t.tipo === 'credito'  'success' : 'danger'}">
+                                    ${t.tipo === 'credito'  'Crédito' : 'Débito'}
                                 </span>
                             </td>
                             <td class="valor-${t.tipo}">
-                                ${t.tipo === 'credito' ? '+' : '-'} R$ ${parseFloat(t.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                                ${t.tipo === 'credito'  '+' : '-'} R$ ${parseFloat(t.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                             </td>
                             <td>
-                                <span class="badge badge-${t.status_conciliacao === 'pendente' ? 'warning' : 'secondary'}">
+                                <span class="badge badge-${t.status_conciliacao === 'pendente'  'warning' : 'secondary'}">
                                     ${t.status_conciliacao}
                                 </span>
                             </td>
@@ -397,7 +397,7 @@ const ConciliacaoBancaria = {
      * Ignorar transação
      */
     async ignorarTransacao(transacaoId) {
-        if (!confirm('Deseja ignorar esta transação?')) return;
+        if (!confirm('Deseja ignorar esta transação')) return;
         
         try {
             const response = await fetch(`/api/conciliacao/ignorar/${transacaoId}`, {
@@ -422,7 +422,7 @@ const ConciliacaoBancaria = {
         if (!this.contaAtual) return;
 
         try {
-            const response = await fetch(`/api/conciliacao/resumo?conta_id=${this.contaAtual.id}`);
+            const response = await fetch(`/api/conciliacao/resumoconta_id=${this.contaAtual.id}`);
             const result = await response.json();
             
             if (result.success) {

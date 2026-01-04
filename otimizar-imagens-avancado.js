@@ -7,7 +7,7 @@
  * - Backup automático
  * - Relatórios completos
  * 
- * Uso: node otimizar-imagens-avancado.js [--dry-run] [--only-critical]
+ * Uso: node otimizar-imagens-avancação.js [--dry-run] [--only-critical]
  */
 
 const sharp = require('sharp');
@@ -23,7 +23,7 @@ const CONFIG = {
     quality: {
         wallpapers: 82,  // Papéis de parede (priorize tamanho)
         logos: 90,       // Logos (priorize qualidade)
-        avatars: 85,     // Avatares (balanceado)
+        avatars: 85,     // Avatares (balanceação)
         icons: 92        // Ícones (priorize qualidade)
     },
     
@@ -237,14 +237,14 @@ async function processDirectory(dirPath, dryRun = false) {
 }
 
 /**
- * Gera relatório detalhado
+ * Gera relatório detalhação
  */
 function generateReport() {
     const duration = ((Date.now() - stats.startTime) / 1000).toFixed(2);
     const totalOriginal = Object.values(stats.byPriority).reduce((sum, p) => sum + p.original, 0);
     const totalOptimized = Object.values(stats.byPriority).reduce((sum, p) => sum + p.optimized, 0);
     const totalSaved = Object.values(stats.byPriority).reduce((sum, p) => sum + p.saved, 0);
-    const totalReduction = totalOriginal > 0 ? ((totalSaved / totalOriginal) * 100).toFixed(1) : 0;
+    const totalReduction = totalOriginal > 0  ((totalSaved / totalOriginal) * 100).toFixed(1) : 0;
     
     console.log(`
 ╔═══════════════════════════════════════════════════════════════════════════╗
@@ -253,7 +253,7 @@ function generateReport() {
 ║                                                                           ║
 ║  ⏱️  Tempo de Execução: ${duration}s                                             ║
 ║  ✅ Arquivos Convertidos: ${stats.converted}                                          ║
-║  ⏭️  Arquivos Pulados: ${stats.skipped}                                             ║
+║  ⏭️  Arquivos Pulaçãos: ${stats.skipped}                                             ║
 ║  ❌ Erros: ${stats.errors.length}                                                     ║
 ║                                                                           ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
@@ -267,7 +267,7 @@ function generateReport() {
             console.log(`║                                                                           ║`);
             console.log(`║  🔥 ${priority.padEnd(8)} - ${data.files} arquivos                                       ║`);
             console.log(`║     Original:   ${formatBytes(data.original).padStart(10)}                                       ║`);
-            console.log(`║     Otimizado:  ${formatBytes(data.optimized).padStart(10)}                                       ║`);
+            console.log(`║     Otimização:  ${formatBytes(data.optimized).padStart(10)}                                       ║`);
             console.log(`║     Economia:   ${formatBytes(data.saved).padStart(10)} (-${reduction}%)                             ║`);
         }
     }
@@ -293,8 +293,8 @@ function generateReport() {
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
 ║  📦 Tamanho Original:     ${formatBytes(totalOriginal).padStart(15)}                            ║
-║  📦 Tamanho Otimizado:    ${formatBytes(totalOptimized).padStart(15)}                            ║
-║  💰 Espaço Economizado:   ${formatBytes(totalSaved).padStart(15)}                            ║
+║  📦 Tamanho Otimização:    ${formatBytes(totalOptimized).padStart(15)}                            ║
+║  💰 Espaço Economização:   ${formatBytes(totalSaved).padStart(15)}                            ║
 ║  📊 Redução Total:        ${totalReduction}%                                         ║
 ║                                                                           ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
@@ -302,7 +302,7 @@ function generateReport() {
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
 ║  🚀 Melhoria no carregamento (3G):  ~${totalReduction}%                              ║
-║  📱 Economia de dados móveis:       ${formatBytes(totalSaved).padStart(15)}                ║
+║  📱 Economia de daçãos móveis:       ${formatBytes(totalSaved).padStart(15)}                ║
 ║  ⏱️  Redução no tempo de carregamento: ~${(totalReduction * 0.6).toFixed(1)}%                       ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
@@ -330,8 +330,8 @@ async function main() {
 ║         🚀 OTIMIZAÇÃO AVANÇADA DE IMAGENS - SISTEMA ALUFORCE             ║
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
-║  Modo: ${(dryRun ? 'DRY-RUN (simulação)' : 'PRODUÇÃO (conversão real)').padEnd(61)} ║
-║  Escopo: ${(onlyCritical ? 'APENAS CRÍTICO' : 'COMPLETO').padEnd(58)} ║
+║  Modo: ${(dryRun  'DRY-RUN (simulação)' : 'PRODUÇÃO (conversão real)').padEnd(61)} ║
+║  Escopo: ${(onlyCritical  'APENAS CRÍTICO' : 'COMPLETO').padEnd(58)} ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝
 `);
@@ -340,7 +340,7 @@ async function main() {
     try {
         require.resolve('sharp');
     } catch {
-        console.error('❌ Sharp não instalado! Execute: npm install sharp\n');
+        console.error('❌ Sharp não instalação! Execute: npm install sharp\n');
         process.exit(1);
     }
 

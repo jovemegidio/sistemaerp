@@ -1,7 +1,7 @@
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
 
-// Usuários que já funcionam (não serão alterados)
+// Usuários que já funcionam (não serão alteraçãos)
 const workingUsers = [
   'thaina.cabral@aluforce.ind.br',
   'ariel.silva@aluforce.ind.br',
@@ -28,7 +28,7 @@ async function resetPasswords() {
   for (const user of users) {
     if (!workingUsers.includes(user.email)) {
       await connection.execute(
-        'UPDATE usuarios SET senha = ?, senha_hash = ? WHERE id = ?',
+        'UPDATE usuarios SET senha = , senha_hash =  WHERE id = ',
         [senha, senha_hash, user.id]
       );
       console.log(`Senha redefinida para: ${user.email}`);

@@ -2,7 +2,7 @@ const axios = require('axios');
 const https = require('https');
 const builder = require('xmlbuilder2');
 const nfeConfig = require('../../config/nfe.config');
-const certificadoService = require('./certificado.service');
+const certificaçãoService = require('./certificação.service');
 
 /**
  * SERVIÇO DE INTEGRAÇÃO COM SEFAZ
@@ -20,33 +20,33 @@ class SefazService {
             const xmlEnvio = this.criarEnvioLote(idLote, [xmlNFe]);
             
             // Assinar XML
-            const xmlAssinado = await certificadoService.assinarXML(xmlEnvio, 'infNFe');
+            const xmlAssinação = await certificaçãoService.assinarXML(xmlEnvio, 'infNFe');
             
             // Obter URL do webservice
-            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
-            const autorizador = nfeConfig.autorizadores[uf] || 'SVRS';
-            const url = nfeConfig.webservices[ambiente][autorizador]?.autorizacao;
+            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
+            const url = nfeConfig.webservices[ambiente][autorizaçãor].autorizacao;
             
             if (!url) {
-                throw new Error(`Webservice de autorização não configurado para UF: ${uf}`);
+                throw new Error(`Webservice de autorização não configuração para UF: ${uf}`);
             }
             
             // Criar SOAP envelope
-            const soapEnvelope = this.criarSOAPEnvelope('NFeAutorizacao4', xmlAssinado);
+            const soapEnvelope = this.criarSOAPEnvelope('NFeAutorizacao4', xmlAssinação);
             
             // Enviar requisição
             const response = await this.enviarRequisicaoSOAP(url, soapEnvelope);
             
             // Processar resposta
-            const resultado = this.processarRespostaAutorizacao(response.data);
+            const resultação = this.processarRespostaAutorizacao(response.data);
             
             // Se processamento assíncrono, consultar recibo
-            if (resultado.codigoStatus === '103') {
-                const recibo = resultado.numeroRecibo;
+            if (resultação.codigoStatus === '103') {
+                const recibo = resultação.numeroRecibo;
                 return await this.consultarRecibo(recibo, uf);
             }
             
-            return resultado;
+            return resultação;
         } catch (error) {
             throw new Error(`Erro ao autorizar NFe: ${error.message}`);
         }
@@ -58,13 +58,13 @@ class SefazService {
     async consultarRecibo(numeroRecibo, uf) {
         try {
             const xmlConsulta = this.criarConsultaRecibo(numeroRecibo);
-            const xmlAssinado = await certificadoService.assinarXML(xmlConsulta);
+            const xmlAssinação = await certificaçãoService.assinarXML(xmlConsulta);
             
-            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
-            const autorizador = nfeConfig.autorizadores[uf] || 'SVRS';
-            const url = nfeConfig.webservices[ambiente][autorizador]?.retAutorizacao;
+            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
+            const url = nfeConfig.webservices[ambiente][autorizaçãor].retAutorizacao;
             
-            const soapEnvelope = this.criarSOAPEnvelope('NFeRetAutorizacao4', xmlAssinado);
+            const soapEnvelope = this.criarSOAPEnvelope('NFeRetAutorizacao4', xmlAssinação);
             const response = await this.enviarRequisicaoSOAP(url, soapEnvelope);
             
             return this.processarRespostaRecibo(response.data);
@@ -79,11 +79,11 @@ class SefazService {
     async consultarNFe(chaveAcesso, uf) {
         try {
             const xmlConsulta = this.criarConsultaNFe(chaveAcesso);
-            const xmlAssinado = await certificadoService.assinarXML(xmlConsulta);
+            const xmlAssinação = await certificaçãoService.assinarXML(xmlConsulta);
             
-            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
-            const autorizador = nfeConfig.autorizadores[uf] || 'SVRS';
-            const url = nfeConfig.webservices[ambiente][autorizador]?.consulta;
+            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
+            const url = nfeConfig.webservices[ambiente][autorizaçãor].consulta;
             
             const soapEnvelope = this.criarSOAPEnvelope('NfeConsultaProtocolo4', xmlConsulta);
             const response = await this.enviarRequisicaoSOAP(url, soapEnvelope);
@@ -142,9 +142,9 @@ class SefazService {
     /**
      * Inutilizar numeração
      */
-    async inutilizarNumeracao(dados, uf) {
+    async inutilizarNumeracao(daçãos, uf) {
         try {
-            const { ano, cnpj, modelo, serie, numeroInicial, numeroFinal, justificativa } = dados;
+            const { ano, cnpj, modelo, serie, numeroInicial, numeroFinal, justificativa } = daçãos;
             
             if (!justificativa || justificativa.length < 15) {
                 throw new Error('Justificativa deve ter no mínimo 15 caracteres');
@@ -160,13 +160,13 @@ class SefazService {
                 justificativa
             });
             
-            const xmlAssinado = await certificadoService.assinarXML(xmlInutilizacao, 'infInut');
+            const xmlAssinação = await certificaçãoService.assinarXML(xmlInutilizacao, 'infInut');
             
-            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
-            const autorizador = nfeConfig.autorizadores[uf] || 'SVRS';
-            const url = nfeConfig.webservices[ambiente][autorizador]?.inutilizacao;
+            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
+            const url = nfeConfig.webservices[ambiente][autorizaçãor].inutilizacao;
             
-            const soapEnvelope = this.criarSOAPEnvelope('NfeInutilizacao4', xmlAssinado);
+            const soapEnvelope = this.criarSOAPEnvelope('NfeInutilizacao4', xmlAssinação);
             const response = await this.enviarRequisicaoSOAP(url, soapEnvelope);
             
             return this.processarRespostaInutilizacao(response.data);
@@ -182,9 +182,9 @@ class SefazService {
         try {
             const xmlConsulta = this.criarConsultaStatus();
             
-            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
-            const autorizador = nfeConfig.autorizadores[uf] || 'SVRS';
-            const url = nfeConfig.webservices[ambiente][autorizador]?.statusServico;
+            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
+            const url = nfeConfig.webservices[ambiente][autorizaçãor].statusServico;
             
             const soapEnvelope = this.criarSOAPEnvelope('NfeStatusServico4', xmlConsulta);
             const response = await this.enviarRequisicaoSOAP(url, soapEnvelope);
@@ -200,13 +200,13 @@ class SefazService {
      */
     async enviarEvento(xmlEvento, uf) {
         try {
-            const xmlAssinado = await certificadoService.assinarXML(xmlEvento, 'infEvento');
+            const xmlAssinação = await certificaçãoService.assinarXML(xmlEvento, 'infEvento');
             
-            const xmlEnvio = this.criarEnvioEvento(xmlAssinado);
+            const xmlEnvio = this.criarEnvioEvento(xmlAssinação);
             
-            const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
-            const autorizador = nfeConfig.autorizadores[uf] || 'SVRS';
-            const url = nfeConfig.webservices[ambiente][autorizador]?.eventos;
+            const ambiente = nfeConfig.ambiente === 1  'producao' : 'homologacao';
+            const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
+            const url = nfeConfig.webservices[ambiente][autorizaçãor].eventos;
             
             const soapEnvelope = this.criarSOAPEnvelope('RecepcaoEvento4', xmlEnvio);
             const response = await this.enviarRequisicaoSOAP(url, soapEnvelope);
@@ -261,8 +261,8 @@ class SefazService {
             .end({ prettyPrint: true });
     }
     
-    criarEventoCancelamento(dados) {
-        const { chaveAcesso, numeroProtocolo, justificativa, cnpj, sequenciaEvento } = dados;
+    criarEventoCancelamento(daçãos) {
+        const { chaveAcesso, numeroProtocolo, justificativa, cnpj, sequenciaEvento } = daçãos;
         const id = `ID110111${chaveAcesso}${sequenciaEvento.toString().padStart(2, '0')}`;
         
         return builder.create({ version: '1.0', encoding: 'UTF-8' })
@@ -286,8 +286,8 @@ class SefazService {
             .end({ prettyPrint: true });
     }
     
-    criarEventoCartaCorrecao(dados) {
-        const { chaveAcesso, correcao, cnpj, sequenciaEvento } = dados;
+    criarEventoCartaCorrecao(daçãos) {
+        const { chaveAcesso, correcao, cnpj, sequenciaEvento } = daçãos;
         const id = `ID110110${chaveAcesso}${sequenciaEvento.toString().padStart(2, '0')}`;
         
         return builder.create({ version: '1.0', encoding: 'UTF-8' })
@@ -310,9 +310,9 @@ class SefazService {
             .end({ prettyPrint: true });
     }
     
-    criarInutilizacao(dados) {
-        const { ano, cnpj, modelo, serie, numeroInicial, numeroFinal, justificativa } = dados;
-        const uf = '35'; // SP - deve vir dos dados
+    criarInutilizacao(daçãos) {
+        const { ano, cnpj, modelo, serie, numeroInicial, numeroFinal, justificativa } = daçãos;
+        const uf = '35'; // SP - deve vir dos daçãos
         const id = `ID${uf}${ano}${cnpj.replace(/\D/g, '')}${modelo}${serie.toString().padStart(3, '0')}${numeroInicial.toString().padStart(9, '0')}${numeroFinal.toString().padStart(9, '0')}`;
         
         return builder.create({ version: '1.0', encoding: 'UTF-8' })
@@ -357,13 +357,13 @@ class SefazService {
             .end({ prettyPrint: true });
     }
     
-    criarSOAPEnvelope(metodo, xmlDados) {
-        return `<?xml version="1.0" encoding="utf-8"?>
+    criarSOAPEnvelope(metodo, xmlDaçãos) {
+        return `<xml version="1.0" encoding="utf-8">
 <soap12:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope">
 <soap12:Body>
-<nfeDadosMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/${metodo}">
-${xmlDados}
-</nfeDadosMsg>
+<nfeDaçãosMsg xmlns="http://www.portalfiscal.inf.br/nfe/wsdl/${metodo}">
+${xmlDaçãos}
+</nfeDaçãosMsg>
 </soap12:Body>
 </soap12:Envelope>`;
     }
@@ -374,9 +374,9 @@ ${xmlDados}
     
     async enviarRequisicaoSOAP(url, soapEnvelope) {
         const httpsAgent = new https.Agent({
-            rejectUnauthorized: false, // Em produção, configurar certificados SSL
-            cert: certificadoService.certificado,
-            key: certificadoService.chavePriva
+            rejectUnauthorized: false, // Em produção, configurar certificaçãos SSL
+            cert: certificaçãoService.certificação,
+            key: certificaçãoService.chavePriva
         });
         
         return await axios.post(url, soapEnvelope, {
@@ -389,29 +389,29 @@ ${xmlDados}
     }
     
     processarRespostaAutorizacao(xml) {
-        // Parse simplificado - em produção usar biblioteca XML
+        // Parse simplificação - em produção usar biblioteca XML
         const statusMatch = xml.match(/<cStat>(\d+)<\/cStat>/);
-        const motivoMatch = xml.match(/<xMotivo>(.*?)<\/xMotivo>/);
-        const reciboMatch = xml.match(/<nRec>(.*?)<\/nRec>/);
+        const motivoMatch = xml.match(/<xMotivo>(.*)<\/xMotivo>/);
+        const reciboMatch = xml.match(/<nRec>(.*)<\/nRec>/);
         
         return {
-            codigoStatus: statusMatch ? statusMatch[1] : null,
-            motivo: motivoMatch ? motivoMatch[1] : null,
-            numeroRecibo: reciboMatch ? reciboMatch[1] : null,
+            codigoStatus: statusMatch  statusMatch[1] : null,
+            motivo: motivoMatch  motivoMatch[1] : null,
+            numeroRecibo: reciboMatch  reciboMatch[1] : null,
             xmlCompleto: xml
         };
     }
     
     processarRespostaRecibo(xml) {
         const statusMatch = xml.match(/<cStat>(\d+)<\/cStat>/);
-        const protocoloMatch = xml.match(/<nProt>(.*?)<\/nProt>/);
-        const chaveMatch = xml.match(/<chNFe>(.*?)<\/chNFe>/);
+        const protocoloMatch = xml.match(/<nProt>(.*)<\/nProt>/);
+        const chaveMatch = xml.match(/<chNFe>(.*)<\/chNFe>/);
         
         return {
-            codigoStatus: statusMatch ? statusMatch[1] : null,
-            numeroProtocolo: protocoloMatch ? protocoloMatch[1] : null,
-            chaveAcesso: chaveMatch ? chaveMatch[1] : null,
-            autorizado: statusMatch && statusMatch[1] === '100',
+            codigoStatus: statusMatch  statusMatch[1] : null,
+            numeroProtocolo: protocoloMatch  protocoloMatch[1] : null,
+            chaveAcesso: chaveMatch  chaveMatch[1] : null,
+            autorização: statusMatch && statusMatch[1] === '100',
             xmlCompleto: xml
         };
     }
@@ -422,11 +422,11 @@ ${xmlDados}
     
     processarRespostaEvento(xml) {
         const statusMatch = xml.match(/<cStat>(\d+)<\/cStat>/);
-        const protocoloMatch = xml.match(/<nProt>(.*?)<\/nProt>/);
+        const protocoloMatch = xml.match(/<nProt>(.*)<\/nProt>/);
         
         return {
-            codigoStatus: statusMatch ? statusMatch[1] : null,
-            numeroProtocolo: protocoloMatch ? protocoloMatch[1] : null,
+            codigoStatus: statusMatch  statusMatch[1] : null,
+            numeroProtocolo: protocoloMatch  protocoloMatch[1] : null,
             sucesso: statusMatch && (statusMatch[1] === '135' || statusMatch[1] === '136'),
             xmlCompleto: xml
         };
@@ -436,7 +436,7 @@ ${xmlDados}
         const statusMatch = xml.match(/<cStat>(\d+)<\/cStat>/);
         
         return {
-            codigoStatus: statusMatch ? statusMatch[1] : null,
+            codigoStatus: statusMatch  statusMatch[1] : null,
             sucesso: statusMatch && statusMatch[1] === '102',
             xmlCompleto: xml
         };
@@ -444,11 +444,11 @@ ${xmlDados}
     
     processarRespostaStatus(xml) {
         const statusMatch = xml.match(/<cStat>(\d+)<\/cStat>/);
-        const motivoMatch = xml.match(/<xMotivo>(.*?)<\/xMotivo>/);
+        const motivoMatch = xml.match(/<xMotivo>(.*)<\/xMotivo>/);
         
         return {
-            codigoStatus: statusMatch ? statusMatch[1] : null,
-            motivo: motivoMatch ? motivoMatch[1] : null,
+            codigoStatus: statusMatch  statusMatch[1] : null,
+            motivo: motivoMatch  motivoMatch[1] : null,
             online: statusMatch && statusMatch[1] === '107',
             xmlCompleto: xml
         };

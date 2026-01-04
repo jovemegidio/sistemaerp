@@ -1,5 +1,5 @@
 /**
- * Simular exatamente o que acontece no navegador ao acessar Vendas
+ * Simular exatamente o que acontece no navegaçãor ao acessar Vendas
  */
 
 const http = require('http');
@@ -56,7 +56,7 @@ async function main() {
         }, loginData);
         
         const cookies = loginResponse.headers['set-cookie'];
-        const authToken = cookies ? cookies.find(c => c.startsWith('authToken=')) : null;
+        const authToken = cookies  cookies.find(c => c.startsWith('authToken=')) : null;
         
         if (!authToken) {
             throw new Error('Token não obtido no login');
@@ -94,7 +94,7 @@ async function main() {
         } else {
             if (userData.permissoes_vendas) {
                 const perms = typeof userData.permissoes_vendas === 'string' 
-                    ? JSON.parse(userData.permissoes_vendas) 
+                     JSON.parse(userData.permissoes_vendas) 
                     : userData.permissoes_vendas;
                 
                 if (perms && perms.visualizar === true) {
@@ -110,8 +110,8 @@ async function main() {
             }
         }
         
-        console.log('   Resultado:', reason);
-        console.log('   Acesso:', accessGranted ? '✅ PERMITIDO' : '❌ NEGADO');
+        console.log('   Resultação:', reason);
+        console.log('   Acesso:', accessGranted  '✅ PERMITIDO' : '❌ NEGADO');
         
         // Passo 4: Conclusão
         console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
@@ -119,13 +119,13 @@ async function main() {
         if (accessGranted) {
             console.log('\n✅ MÓDULO DEVE CARREGAR NORMALMENTE\n');
             console.log('Se o usuário reporta que não abre, verifique:');
-            console.log('   • Console do navegador (F12) para erros JavaScript');
-            console.log('   • Se o navegador está fazendo o login corretamente');
+            console.log('   • Console do navegaçãor (F12) para erros JavaScript');
+            console.log('   • Se o navegaçãor está fazendo o login corretamente');
             console.log('   • Se há cache impedindo o update');
             console.log('   • Se está acessando a URL correta');
         } else {
             console.log('\n❌ MÓDULO SERÁ BLOQUEADO\n');
-            console.log('Usuário será redirecionado para /login.html ou dashboard');
+            console.log('Usuário será redirecionação para /login.html ou dashboard');
         }
         
         console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');

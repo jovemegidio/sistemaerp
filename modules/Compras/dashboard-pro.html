@@ -15,7 +15,7 @@
 <body>
     <div class="container-principal">
         <aside class="sidebar">
-            <nav id="sidebar" class="sidebar-nav" role="navigation" aria-label="Navega��o principal">
+            <nav id="sidebar" class="sidebar-nav" role="navigation" aria-label="Navegao principal">
                 <ul>
                     <li>
                         <a href="index.html" id="btn-dashboard" class="nav-link active" title="Dashboard">
@@ -24,9 +24,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="requisicoes.html" id="btn-requisicoes" class="nav-link" title="Requisi��es">
+                        <a href="requisicoes.html" id="btn-requisicoes" class="nav-link" title="Requisies">
                             <span class="nav-icon"><i class="fas fa-file-alt" aria-hidden="true"></i></span>
-                            <span class="nav-tooltip">Requisi��es</span>
+                            <span class="nav-tooltip">Requisies</span>
                         </a>
                     </li>
                     <li>
@@ -36,9 +36,9 @@
                         </a>
                     </li>
                     <li>
-                        <a href="cotacoes.html" id="btn-cotacoes" class="nav-link" title="Cota��es">
+                        <a href="cotacoes.html" id="btn-cotacoes" class="nav-link" title="Cotaes">
                             <span class="nav-icon"><i class="fas fa-balance-scale" aria-hidden="true"></i></span>
-                            <span class="nav-tooltip">Cota��es</span>
+                            <span class="nav-tooltip">Cotaes</span>
                         </a>
                     </li>
                     <li>
@@ -48,15 +48,15 @@
                         </a>
                     </li>
                     <li>
-                        <a href="gestao-estoque.html" id="btn-estoque" class="nav-link" title="Gest�o de Estoque">
+                        <a href="gestao-estoque.html" id="btn-estoque" class="nav-link" title="Gesto de Estoque">
                             <span class="nav-icon"><i class="fas fa-boxes" aria-hidden="true"></i></span>
-                            <span class="nav-tooltip">Gest�o de Estoque</span>
+                            <span class="nav-tooltip">Gesto de Estoque</span>
                         </a>
                     </li>
                     <li>
-                        <a href="relatorios.html" id="btn-relatorios" class="nav-link" title="Relat�rios">
+                        <a href="relatorios.html" id="btn-relatorios" class="nav-link" title="Relatrios">
                             <span class="nav-icon"><i class="fas fa-chart-bar" aria-hidden="true"></i></span>
-                            <span class="nav-tooltip">Relat�rios</span>
+                            <span class="nav-tooltip">Relatrios</span>
                         </a>
                     </li>
                     <li>
@@ -85,7 +85,7 @@
                         <div class="nav-icons">
                             <button class="nav-icon-btn" title="Grid"><i class="fas fa-th"></i></button>
                             <button class="nav-icon-btn" title="Lista"><i class="fas fa-list"></i></button>
-                            <button class="nav-icon-btn" title="Atualizar Dados" onclick="location.reload()"><i class="fas fa-sync-alt"></i></button>
+                            <button class="nav-icon-btn" title="Atualizar Daçãos" onclick="location.reload()"><i class="fas fa-sync-alt"></i></button>
                             <button class="nav-icon-btn" title="Modo Escuro"><i class="fas fa-moon"></i></button>
                         </div>
                         
@@ -99,13 +99,13 @@
                     
                     <div class="topbar-right">
                         <div class="notification-icons">
-                            <button class="notification-btn" title="Notifica��es"><i class="fas fa-bell"></i><span class="notification-badge">0</span></button>
+                            <button class="notification-btn" title="Notificaes"><i class="fas fa-bell"></i><span class="notification-badge">0</span></button>
                             <button class="notification-btn" title="Mensagens"><i class="fas fa-envelope"></i></button>
-                            <button class="notification-btn" title="Configura��es"><i class="fas fa-cog"></i></button>
+                            <button class="notification-btn" title="Configuraes"><i class="fas fa-cog"></i></button>
                         </div>
                         
                         <div class="user-menu">
-                            <span class="user-text">Usu�rio</span>
+                            <span class="user-text">Usurio</span>
                             <div class="user-avatar"><i class="fas fa-user"></i></div>
                         </div>
                     </div>
@@ -113,7 +113,7 @@
 
                 <div class="page-header">
                     <div>
-                        <h1 class="page-title">Gest�o de Compras</h1>
+                        <h1 class="page-title">Gesto de Compras</h1>
                         <p class="page-subtitle-text">Bem-vindo ao sistema de compras</p>
                 </div>
                 <div class="header-right">
@@ -121,13 +121,13 @@
                         <button class="toolbar-btn" id="btnModoEscuro" onclick="toggleDarkMode()" title="Alternar modo escuro">
                             <i class="fas fa-moon"></i>
                         </button>
-                        <button class="toolbar-btn" onclick="dashboard.atualizarDados()" title="Atualizar dados">
+                        <button class="toolbar-btn" onclick="dashboard.atualizarDaçãos()" title="Atualizar daçãos">
                             <i class="fas fa-sync-alt"></i>
                         </button>
-                        <button class="toolbar-btn" id="btnViewGrid" onclick="toggleView('grid')" title="Visualiza��o em Grade">
+                        <button class="toolbar-btn" id="btnViewGrid" onclick="toggleView('grid')" title="Visualizao em Grade">
                             <i class="fas fa-th"></i>
                         </button>
-                        <button class="toolbar-btn active" id="btnViewList" onclick="toggleView('list')" title="Visualiza��o em Lista">
+                        <button class="toolbar-btn active" id="btnViewList" onclick="toggleView('list')" title="Visualizao em Lista">
                             <i class="fas fa-list"></i>
                         </button>
                         <div class="toolbar-divider"></div>
@@ -140,8 +140,8 @@
                             <i class="fas fa-user"></i>
                         </div>
                         <div class="user-info">
-                            <span class="user-greeting" id="userGreeting">Ol�, Usu�rio</span>
-                            <span class="user-role" id="userRole">Administrador</span>
+                            <span class="user-greeting" id="userGreeting">Ol, Usurio</span>
+                            <span class="user-role" id="userRole">Administraçãor</span>
                         </div>
                         <i class="fas fa-chevron-down"></i>
                     </div>
@@ -156,7 +156,7 @@
                 </div>
             </header>
 
-            <!-- M�tricas Principais -->
+            <!-- Mtricas Principais -->
             <div class="compras-metricas-grid" id="metricas-container">
                 <div class="metric-card compras-total">
                     <div class="metric-icon">
@@ -187,7 +187,7 @@
                         <h3 class="metric-title">Ordens de Compra</h3>
                         <div class="metric-value">156</div>
                         <p class="metric-subtitle">
-                            <span class="status-dot status-aprovado"></span> 89 Aprovadas
+                            <span class="status-dot status-aprovação"></span> 89 Aprovadas
                             <span class="status-dot status-entregue"></span> 44 Entregues
                         </p>
                     </div>
@@ -218,20 +218,20 @@
                         </div>
                         <h3 class="metric-title">Economia Obtida</h3>
                         <div class="metric-value">R$ 23.580,00</div>
-                        <p class="metric-subtitle">Comparado ao or�amento</p>
+                        <p class="metric-subtitle">Comparação ao oramento</p>
                     </div>
                 </div>
             </div>
 
-            <!-- Gr�ficos de An�lise -->
+            <!-- Grficos de Anlise -->
             <div class="compras-charts-grid">
                 <div class="chart-card">
                     <div class="chart-header">
                         <div>
                             <h3 class="chart-title">
-                                <i class="fas fa-chart-line"></i> Evolu��o das Compras
+                                <i class="fas fa-chart-line"></i> Evoluo das Compras
                             </h3>
-                            <p class="chart-subtitle">�ltimos 12 meses</p>
+                            <p class="chart-subtitle">ltimos 12 meses</p>
                         </div>
                         <div class="chart-filters">
                             <button class="filter-btn active" data-period="12meses">12 meses</button>
@@ -250,7 +250,7 @@
                             <h3 class="chart-title">
                                 <i class="fas fa-chart-pie"></i> Compras por Categoria
                             </h3>
-                            <p class="chart-subtitle">Distribui��o por tipo</p>
+                            <p class="chart-subtitle">Distribuio por tipo</p>
                         </div>
                     </div>
                     <div class="chart-container pie-chart-wrapper">
@@ -260,7 +260,7 @@
                 </div>
             </div>
 
-            <!-- Tabelas de Dados -->
+            <!-- Tabelas de Daçãos -->
             <div class="data-tables-grid">
                 <div class="table-card">
                     <div class="table-header">
@@ -268,7 +268,7 @@
                             <h3 class="table-title">
                                 <i class="fas fa-list-ul"></i> Ordens de Compra Recentes
                             </h3>
-                            <p class="table-subtitle">�ltimas 5 ordens cadastradas</p>
+                            <p class="table-subtitle">ltimas 5 ordens cadastradas</p>
                         </div>
                         <button class="btn-primary-small" onclick="window.location.href='compras.html'">
                             <i class="fas fa-plus"></i> Nova Ordem
@@ -284,7 +284,7 @@
                                     <th>Valor</th>
                                     <th>Prazo</th>
                                     <th>Status</th>
-                                    <th>A��es</th>
+                                    <th>Aes</th>
                                 </tr>
                             </thead>
                             <tbody id="ordensTableBody">
@@ -300,7 +300,7 @@
                             <h3 class="table-title">
                                 <i class="fas fa-star"></i> Top 5 Fornecedores
                             </h3>
-                            <p class="table-subtitle">Melhores parceiros do m�s</p>
+                            <p class="table-subtitle">Melhores parceiros do ms</p>
                         </div>
                         <button class="btn-secondary-small" onclick="window.location.href='fornecedores.html'">
                             <i class="fas fa-eye"></i> Ver Todos
@@ -325,9 +325,9 @@
                 </div>
             </div>
 
-            <!-- Alertas e Notifica��es -->
+            <!-- Alertas e Notificaes -->
             <div class="alerts-section" id="alertsContainer">
-                <!-- Alertas din�micos -->
+                <!-- Alertas dinmicos -->
             </div>
         </main>
     </div>
@@ -335,11 +335,11 @@
     <script src="../aluforce-ui.js"></script>
     <script src="dashboard-compras-pro-v2.js"></script>
 
-    <!-- Carregador de usu�rio -->
-    <script src="compras-user-loader.js?v=20251216"></script>
+    <!-- Carregaçãor de usurio -->
+    <script src="compras-user-loader.jsv=20251216"></script>
 
-    <!-- Sistema de Chat e Suporte (widgets condicionais por usu�rio) -->
-    <!-- ti@aluforce.ind.br = Central de Suporte | Outros usu�rios = Chat normal -->
+    <!-- Sistema de Chat e Suporte (widgets condicionais por usurio) -->
+    <!-- ti@aluforce.ind.br = Central de Suporte | Outros usurios = Chat normal -->
     
     </body>
 </html>

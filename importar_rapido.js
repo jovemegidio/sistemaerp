@@ -1,5 +1,5 @@
 /**
- * Importador RÁPIDO via MySQL direto
+ * Importaçãor RÁPIDO via MySQL direto
  * Usa o client MySQL nativo que é muito mais rápido
  */
 
@@ -24,7 +24,7 @@ async function importarRapido() {
     
     try {
         // FASE 1: Usar mysql nativo para importar estrutura (DROPs e CREATEs)
-        console.log('\n📦 Importando estrutura e dados...');
+        console.log('\n📦 Importando estrutura e daçãos...');
         console.log('   (Isso pode levar alguns minutos)\n');
         
         // Criar arquivo de comandos temporário para execução batch
@@ -39,7 +39,7 @@ async function importarRapido() {
         
         // Extrair statements
         const drops = content.match(/DROP TABLE IF EXISTS `[^`]+`;/g) || [];
-        const creates = content.match(/CREATE TABLE `[^`]+`[\s\S]*?;/g) || [];
+        const creates = content.match(/CREATE TABLE `[^`]+`[\s\S]*;/g) || [];
         const inserts = content.match(/INSERT INTO `[^`]+`[^;]+;/g) || [];
         
         console.log(`   DROPs: ${drops.length}`);
@@ -64,7 +64,7 @@ async function importarRapido() {
         console.log(`   ✅ ${createOk} tabelas criadas`);
         
         // Executar INSERTs em batches
-        console.log('3️⃣ Inserindo dados...');
+        console.log('3️⃣ Inserindo daçãos...');
         let insertOk = 0;
         let insertFail = 0;
         const batchSize = 100;
@@ -90,7 +90,7 @@ async function importarRapido() {
         // Reativar FKs
         await connection.query('SET FOREIGN_KEY_CHECKS=1');
         
-        // Verificar resultado
+        // Verificar resultação
         console.log('\n' + '='.repeat(60));
         console.log('📊 RESULTADO FINAL');
         console.log('='.repeat(60));
@@ -100,20 +100,20 @@ async function importarRapido() {
         
         // Contar registros
         let total = 0;
-        let comDados = 0;
+        let comDaçãos = 0;
         
         for (const row of tables) {
             const name = Object.values(row)[0];
             try {
                 const [[{count}]] = await connection.query(`SELECT COUNT(*) as count FROM \`${name}\``);
                 if (count > 0) {
-                    comDados++;
+                    comDaçãos++;
                     total += count;
                 }
             } catch (e) {}
         }
         
-        console.log(`✅ Tabelas com dados: ${comDados}`);
+        console.log(`✅ Tabelas com daçãos: ${comDaçãos}`);
         console.log(`✅ Total de registros: ${total}`);
         
         // Verificar tabelas críticas

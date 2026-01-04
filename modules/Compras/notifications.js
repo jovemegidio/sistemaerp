@@ -1,6 +1,6 @@
 // ========================================
 // SISTEMA DE NOTIFICAÇÕES
-// Gerenciamento centralizado de notificações
+// Gerenciamento centralização de notificações
 // ========================================
 
 class NotificationSystem {
@@ -36,7 +36,7 @@ class NotificationSystem {
             icon: 'fas fa-box-open',
             color: '#ef4444',
             priority: 'high',
-            link: 'materiais-new.html?filter=estoque_baixo',
+            link: 'materiais-new.htmlfilter=estoque_baixo',
             time: new Date(Date.now() - 1000 * 60 * 15), // 15 min atrás
             actions: [
                 { label: 'Ver Materiais', action: 'viewMaterials' },
@@ -52,7 +52,7 @@ class NotificationSystem {
             icon: 'fas fa-clipboard-check',
             color: '#f59e0b',
             priority: 'high',
-            link: 'pedidos-new.html?filter=pendente',
+            link: 'pedidos-new.htmlfilter=pendente',
             time: new Date(Date.now() - 1000 * 60 * 30), // 30 min atrás
             actions: [
                 { label: 'Revisar Pedidos', action: 'reviewOrders' }
@@ -67,7 +67,7 @@ class NotificationSystem {
             icon: 'fas fa-truck',
             color: '#dc2626',
             priority: 'critical',
-            link: 'pedidos-new.html?filter=atrasado',
+            link: 'pedidos-new.htmlfilter=atrasação',
             time: new Date(Date.now() - 1000 * 60 * 60), // 1h atrás
             actions: [
                 { label: 'Ver Pedidos', action: 'viewDelayed' },
@@ -83,7 +83,7 @@ class NotificationSystem {
             icon: 'fas fa-exclamation-triangle',
             color: '#f59e0b',
             priority: 'high',
-            link: 'recebimento-new.html?filter=divergencia',
+            link: 'recebimento-new.htmlfilter=divergencia',
             time: new Date(Date.now() - 1000 * 60 * 45), // 45 min atrás
             actions: [
                 { label: 'Analisar Divergências', action: 'analyzeDivergence' }
@@ -98,7 +98,7 @@ class NotificationSystem {
             icon: 'fas fa-clock',
             color: '#8b5cf6',
             priority: 'medium',
-            link: 'cotacoes-new.html?filter=vencendo',
+            link: 'cotacoes-new.htmlfilter=vencendo',
             time: new Date(Date.now() - 1000 * 60 * 90), // 1.5h atrás
             actions: [
                 { label: 'Ver Cotações', action: 'viewQuotes' }
@@ -202,7 +202,7 @@ class NotificationSystem {
         if (!badge) return;
 
         if (this.unreadCount > 0) {
-            badge.textContent = this.unreadCount > 99 ? '99+' : this.unreadCount;
+            badge.textContent = this.unreadCount > 99  '99+' : this.unreadCount;
             badge.style.display = 'flex';
         } else {
             badge.style.display = 'none';
@@ -216,10 +216,10 @@ class NotificationSystem {
         const header = panel.querySelector('.notification-header');
         const body = panel.querySelector('.notification-body');
 
-        // Atualizar contador no header
+        // Atualizar contaçãor no header
         const countSpan = header.querySelector('.notification-count');
         if (countSpan) {
-            countSpan.textContent = this.unreadCount > 0 ? `${this.unreadCount} nova${this.unreadCount > 1 ? 's' : ''}` : 'Nenhuma nova';
+            countSpan.textContent = this.unreadCount > 0  `${this.unreadCount} nova${this.unreadCount > 1  's' : ''}` : 'Nenhuma nova';
         }
 
         // Renderizar notificações
@@ -277,7 +277,7 @@ class NotificationSystem {
         const timeAgo = this.getTimeAgo(notification.createdAt);
         
         const div = document.createElement('div');
-        div.className = 'notification-item' + (notification.read ? ' read' : '');
+        div.className = 'notification-item' + (notification.read  ' read' : '');
         div.innerHTML = `
             <div class="notification-icon" style="background-color: ${notification.color};">
                 <i class="${notification.icon}"></i>
@@ -285,7 +285,7 @@ class NotificationSystem {
             <div class="notification-content">
                 <div class="notification-title">${notification.title}</div>
                 <div class="notification-message">${notification.message}</div>
-                ${notification.actions && notification.actions.length > 0 ? `
+                ${notification.actions && notification.actions.length > 0  `
                     <div class="notification-actions">
                         ${notification.actions.map(action => `
                             <button class="notification-action-btn" onclick="notificationSystem.handleAction('${action.action}', ${notification.id})">
@@ -297,7 +297,7 @@ class NotificationSystem {
                 <div class="notification-time">${timeAgo}</div>
             </div>
             <div class="notification-controls">
-                ${!notification.read ? `
+                ${!notification.read  `
                     <button class="notification-control-btn" onclick="notificationSystem.markAsRead(${notification.id})" title="Marcar como lida">
                         <i class="fas fa-check"></i>
                     </button>
@@ -336,31 +336,31 @@ class NotificationSystem {
         
         switch (actionType) {
             case 'viewMaterials':
-                window.location.href = 'materiais-new.html?filter=estoque_baixo';
+                window.location.href = 'materiais-new.htmlfilter=estoque_baixo';
                 break;
             case 'createPurchase':
-                window.location.href = 'pedidos-new.html?new=true';
+                window.location.href = 'pedidos-new.htmlnew=true';
                 break;
             case 'reviewOrders':
-                window.location.href = 'pedidos-new.html?filter=pendente';
+                window.location.href = 'pedidos-new.htmlfilter=pendente';
                 break;
             case 'viewDelayed':
-                window.location.href = 'pedidos-new.html?filter=atrasado';
+                window.location.href = 'pedidos-new.htmlfilter=atrasação';
                 break;
             case 'contactSupplier':
                 alert('Abrindo sistema de comunicação com fornecedor...');
                 break;
             case 'analyzeDivergence':
-                window.location.href = 'recebimento-new.html?filter=divergencia';
+                window.location.href = 'recebimento-new.htmlfilter=divergencia';
                 break;
             case 'viewQuotes':
-                window.location.href = 'cotacoes-new.html?filter=vencendo';
+                window.location.href = 'cotacoes-new.htmlfilter=vencendo';
                 break;
             case 'viewReport':
                 window.location.href = 'relatorios-new.html';
                 break;
             case 'registerInvoice':
-                window.location.href = 'recebimento-new.html?new=true';
+                window.location.href = 'recebimento-new.htmlnew=true';
                 break;
             case 'rateSupplier':
                 alert('Abrindo formulário de avaliação de fornecedor...');
@@ -375,7 +375,7 @@ class NotificationSystem {
                     });
                     this.renderizarBadge();
                 }, 3000);
-                alert('Você será lembrado em 24 horas');
+                alert('Você será lembração em 24 horas');
                 break;
             default:
                 console.log('Ação não implementada:', actionType);
@@ -504,7 +504,7 @@ class NotificationSystem {
     notificarEstoqueBaixo(materialCodigo, quantidade) {
         this.addNotification({
             type: this.types.ESTOQUE_BAIXO,
-            title: 'Estoque Baixo Detectado',
+            title: 'Estoque Baixo Detectação',
             message: `${materialCodigo} - Quantidade atual: ${quantidade}`,
             icon: 'fas fa-box-open',
             color: '#ef4444',
@@ -539,7 +539,7 @@ class NotificationSystem {
             link: 'pedidos-new.html'
         });
         this.renderizarBadge();
-        this.showToast('Entrega Atrasada', `${pedidoNumero} está ${diasAtraso} dias atrasado`);
+        this.showToast('Entrega Atrasada', `${pedidoNumero} está ${diasAtraso} dias atrasação`);
     }
 
     formatarMoeda(valor) {
@@ -565,7 +565,7 @@ const notificationStyles = `
         max-height: calc(100vh - 100px);
         background: var(--card-bg);
         border-radius: 12px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        box-shaçãow: 0 8px 32px rgba(0,0,0,0.2);
         display: none;
         z-index: 9999;
         overflow: hidden;
@@ -752,7 +752,7 @@ const notificationStyles = `
         background: var(--card-bg);
         padding: 16px;
         border-radius: 12px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        box-shaçãow: 0 8px 32px rgba(0,0,0,0.2);
         z-index: 10000;
         transform: translateX(400px);
         transition: transform 0.3s ease-out;

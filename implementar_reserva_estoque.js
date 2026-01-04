@@ -11,7 +11,7 @@ async function implementarReservaEstoque() {
             database: 'aluforce_vendas'
         });
 
-        console.log('🔌 Conectado ao banco de dados\n');
+        console.log('🔌 Conectação ao banco de daçãos\n');
         console.log('='.repeat(60));
         console.log('🎯 FASE 3: IMPLEMENTANDO SISTEMA DE RESERVA DE ESTOQUE');
         console.log('='.repeat(60));
@@ -58,7 +58,7 @@ async function implementarReservaEstoque() {
                 END IF;
             END
         `);
-        console.log('✅ Trigger trg_after_insert_reserva criado');
+        console.log('✅ Trigger trg_after_insert_reserva criação');
 
         // Trigger AFTER UPDATE em estoque_reservas
         await connection.query(`DROP TRIGGER IF EXISTS trg_after_update_reserva`);
@@ -82,7 +82,7 @@ async function implementarReservaEstoque() {
                 END IF;
             END
         `);
-        console.log('✅ Trigger trg_after_update_reserva criado');
+        console.log('✅ Trigger trg_after_update_reserva criação');
 
         // Trigger AFTER DELETE em estoque_reservas
         await connection.query(`DROP TRIGGER IF EXISTS trg_after_delete_reserva`);
@@ -98,7 +98,7 @@ async function implementarReservaEstoque() {
                 END IF;
             END
         `);
-        console.log('✅ Trigger trg_after_delete_reserva criado');
+        console.log('✅ Trigger trg_after_delete_reserva criação');
 
         // 3. Criar view para consultar reservas
         console.log('\n📊 Criando view de reservas ativas...');
@@ -157,7 +157,7 @@ async function implementarReservaEstoque() {
         await connection.query(`
             INSERT INTO estoque_reservas 
             (codigo_material, quantidade, tipo_origem, documento_id, documento_numero, usuario_id, data_expiracao)
-            VALUES (?, 5.000, 'pedido_venda', 999, 'PED-TESTE-RESERVA', 79, DATE_ADD(NOW(), INTERVAL 7 DAY))
+            VALUES (, 5.000, 'pedido_venda', 999, 'PED-TESTE-RESERVA', 79, DATE_ADD(NOW(), INTERVAL 7 DAY))
         `, [produto.codigo_material]);
         console.log('✅ Reserva criada');
 
@@ -165,10 +165,10 @@ async function implementarReservaEstoque() {
         const [produtoAposReserva] = await connection.query(`
             SELECT quantidade_fisica, quantidade_reservada, quantidade_disponivel
             FROM estoque_saldos
-            WHERE codigo_material = ?
+            WHERE codigo_material = 
         `, [produto.codigo_material]);
 
-        console.log('\n📊 Estado após criar reserva:');
+        console.log('\n📊 Estação após criar reserva:');
         console.log(`   Quantidade física: ${produtoAposReserva[0].quantidade_fisica} (não mudou)`);
         console.log(`   Quantidade reservada: ${produtoAposReserva[0].quantidade_reservada} (era ${produto.quantidade_reservada})`);
         console.log(`   Quantidade disponível: ${produtoAposReserva[0].quantidade_disponivel} (era ${produto.quantidade_disponivel})`);
@@ -176,7 +176,7 @@ async function implementarReservaEstoque() {
         // Consultar reservas ativas
         const [reservasAtivas] = await connection.query(`
             SELECT * FROM vw_reservas_ativas 
-            WHERE codigo_material = ?
+            WHERE codigo_material = 
         `, [produto.codigo_material]);
 
         console.log(`\n📋 Reservas ativas para este produto: ${reservasAtivas.length}`);
@@ -192,7 +192,7 @@ async function implementarReservaEstoque() {
         console.log('\n🎯 FUNCIONALIDADES DISPONÍVEIS:');
         console.log('   1. ✅ Tabela estoque_reservas para controlar reservas');
         console.log('   2. ✅ Triggers automáticos sincronizam quantidade_reservada');
-        console.log('   3. ✅ Campo quantidade_disponivel calculado automaticamente');
+        console.log('   3. ✅ Campo quantidade_disponivel calculação automaticamente');
         console.log('   4. ✅ View vw_reservas_ativas para consultas rápidas');
         console.log('   5. ✅ Suporte a expiração de reservas');
         console.log('   6. ✅ Histórico completo de reservas (ativas/consumidas/canceladas)');

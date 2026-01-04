@@ -43,8 +43,8 @@ module.exports = function({ pool, authenticateToken }) {
                     SUM(CASE WHEN status = 'cancelada' THEN 1 ELSE 0 END) as canceladas,
                     SUM(CASE WHEN status IN ('pendente', 'processando') THEN 1 ELSE 0 END) as pendentes,
                     SUM(CASE WHEN status = 'rejeitada' THEN 1 ELSE 0 END) as rejeitadas,
-                    SUM(CASE WHEN status = 'autorizada' THEN valor_total ELSE 0 END) as valor_autorizado,
-                    SUM(CASE WHEN status = 'cancelada' THEN valor_total ELSE 0 END) as valor_cancelado
+                    SUM(CASE WHEN status = 'autorizada' THEN valor_total ELSE 0 END) as valor_autorização,
+                    SUM(CASE WHEN status = 'cancelada' THEN valor_total ELSE 0 END) as valor_cancelação
                 FROM nfes n
                 WHERE 1=1 ${filtroData}
             `);
@@ -92,7 +92,7 @@ module.exports = function({ pool, authenticateToken }) {
                 LIMIT 10
             `);
 
-            // CFOP mais utilizados
+            // CFOP mais utilizaçãos
             const [cfops] = await pool.query(`
                 SELECT 
                     ni.cfop,
@@ -115,16 +115,16 @@ module.exports = function({ pool, authenticateToken }) {
                         canceladas: stats.canceladas || 0,
                         pendentes: stats.pendentes || 0,
                         rejeitadas: stats.rejeitadas || 0,
-                        valor_autorizado: parseFloat(stats.valor_autorizado) || 0,
-                        valor_cancelado: parseFloat(stats.valor_cancelado) || 0,
+                        valor_autorização: parseFloat(stats.valor_autorização) || 0,
+                        valor_cancelação: parseFloat(stats.valor_cancelação) || 0,
                         taxa_sucesso: stats.total_nfes > 0 
-                            ? ((stats.autorizadas / stats.total_nfes) * 100).toFixed(1) 
+                             ((stats.autorizadas / stats.total_nfes) * 100).toFixed(1) 
                             : 100
                     },
                     por_tipo: porTipo,
                     evolucao_diaria: evolucao,
                     ultimas_rejeicoes: rejeicoes,
-                    cfops_utilizados: cfops
+                    cfops_utilizaçãos: cfops
                 }
             });
         } catch (error) {
@@ -145,7 +145,7 @@ module.exports = function({ pool, authenticateToken }) {
             const { id } = req.params;
             
             const [[nfe]] = await pool.query(
-                'SELECT * FROM nfes WHERE id = ?',
+                'SELECT * FROM nfes WHERE id = ',
                 [id]
             );
 
@@ -164,7 +164,7 @@ module.exports = function({ pool, authenticateToken }) {
             }
 
             // Simular consulta SEFAZ (em produção usar SEFAZService)
-            const resultado = {
+            const resultação = {
                 chave_acesso: nfe.chave_acesso,
                 status_sefaz: nfe.status,
                 data_consulta: new Date().toISOString(),
@@ -174,13 +174,13 @@ module.exports = function({ pool, authenticateToken }) {
 
             // Log da consulta
             await pool.query(`
-                INSERT INTO logs_nfe (nfe_id, acao, resultado, usuario_id)
-                VALUES (?, 'CONSULTA_STATUS', ?, ?)
-            `, [id, JSON.stringify(resultado), req.user.id]).catch(() => {});
+                INSERT INTO logs_nfe (nfe_id, acao, resultação, usuario_id)
+                VALUES (, 'CONSULTA_STATUS', , )
+            `, [id, JSON.stringify(resultação), req.user.id]).catch(() => {});
 
             res.json({
                 success: true,
-                data: resultado
+                data: resultação
             });
         } catch (error) {
             console.error('[NFE] Erro na consulta:', error);
@@ -196,7 +196,7 @@ module.exports = function({ pool, authenticateToken }) {
             const { id } = req.params;
             
             const [[nfe]] = await pool.query(
-                'SELECT * FROM nfes WHERE id = ?',
+                'SELECT * FROM nfes WHERE id = ',
                 [id]
             );
 
@@ -216,18 +216,18 @@ module.exports = function({ pool, authenticateToken }) {
 
             // Atualizar status para processando
             await pool.query(
-                'UPDATE nfes SET status = ?, tentativas_envio = tentativas_envio + 1, updated_at = NOW() WHERE id = ?',
+                'UPDATE nfes SET status = , tentativas_envio = tentativas_envio + 1, updated_at = NOW() WHERE id = ',
                 ['processando', id]
             );
 
             // Em produção: chamar SEFAZService para reenviar
             // const sefazService = new SEFAZService(pool);
-            // const resultado = await sefazService.autorizarNFe(nfe.xml_assinado, nfe.uf);
+            // const resultação = await sefazService.autorizarNFe(nfe.xml_assinação, nfe.uf);
 
             // Log
             await pool.query(`
-                INSERT INTO logs_nfe (nfe_id, acao, resultado, usuario_id)
-                VALUES (?, 'REENVIO', 'Solicitado reenvio', ?)
+                INSERT INTO logs_nfe (nfe_id, acao, resultação, usuario_id)
+                VALUES (, 'REENVIO', 'Solicitação reenvio', )
             `, [id, req.user.id]).catch(() => {});
 
             res.json({
@@ -259,13 +259,13 @@ module.exports = function({ pool, authenticateToken }) {
                     f.razao_social as fornecedor_nome
                 FROM nfe_manifestacoes m
                 LEFT JOIN fornecedores f ON m.cnpj_emitente = f.cnpj
-                WHERE m.status_manifestacao = ?
+                WHERE m.status_manifestacao = 
                 ORDER BY m.data_emissao DESC
-                LIMIT ? OFFSET ?
+                LIMIT  OFFSET 
             `, [status, parseInt(limit), offset]);
 
             const [[{ total }]] = await pool.query(
-                'SELECT COUNT(*) as total FROM nfe_manifestacoes WHERE status_manifestacao = ?',
+                'SELECT COUNT(*) as total FROM nfe_manifestacoes WHERE status_manifestacao = ',
                 [status]
             );
 
@@ -316,11 +316,11 @@ module.exports = function({ pool, authenticateToken }) {
             await pool.query(`
                 UPDATE nfe_manifestacoes 
                 SET status_manifestacao = 'processando',
-                    evento_manifestacao = ?,
-                    justificativa = ?,
+                    evento_manifestacao = ,
+                    justificativa = ,
                     data_manifestacao = NOW(),
-                    usuario_id = ?
-                WHERE id = ?
+                    usuario_id = 
+                WHERE id = 
             `, [evento, justificativa || null, req.user.id, id]);
 
             // Em produção: enviar para SEFAZ via EventoService
@@ -356,7 +356,7 @@ module.exports = function({ pool, authenticateToken }) {
             }
 
             const [[nfe]] = await pool.query(
-                'SELECT * FROM nfes WHERE id = ?',
+                'SELECT * FROM nfes WHERE id = ',
                 [id]
             );
 
@@ -376,14 +376,14 @@ module.exports = function({ pool, authenticateToken }) {
 
             // Contar sequência de CCe
             const [[{ seq }]] = await pool.query(
-                'SELECT COUNT(*) + 1 as seq FROM nfe_eventos WHERE nfe_id = ? AND tipo_evento = "CCe"',
+                'SELECT COUNT(*) + 1 as seq FROM nfe_eventos WHERE nfe_id =  AND tipo_evento = "CCe"',
                 [id]
             );
 
             // Registrar evento
             await pool.query(`
                 INSERT INTO nfe_eventos (nfe_id, tipo_evento, sequencia, descricao, status, usuario_id)
-                VALUES (?, 'CCe', ?, ?, 'pendente', ?)
+                VALUES (, 'CCe', , , 'pendente', )
             `, [id, seq, correcao, req.user.id]);
 
             // Em produção: enviar CCe para SEFAZ via EventoService
@@ -431,23 +431,23 @@ module.exports = function({ pool, authenticateToken }) {
                 });
             }
 
-            // Verificar se números já foram utilizados
-            const [usados] = await pool.query(`
+            // Verificar se números já foram utilizaçãos
+            const [usaçãos] = await pool.query(`
                 SELECT numero FROM nfes 
-                WHERE serie = ? AND numero BETWEEN ? AND ?
+                WHERE serie =  AND numero BETWEEN  AND 
             `, [serie, numero_inicial, numero_final]);
 
-            if (usados.length > 0) {
+            if (usaçãos.length > 0) {
                 return res.status(400).json({ 
                     success: false, 
-                    message: `Números já utilizados: ${usados.map(u => u.numero).join(', ')}` 
+                    message: `Números já utilizaçãos: ${usaçãos.map(u => u.numero).join(', ')}` 
                 });
             }
 
             // Registrar solicitação de inutilização
             const [result] = await pool.query(`
                 INSERT INTO nfe_inutilizacoes (serie, numero_inicial, numero_final, justificativa, status, usuario_id)
-                VALUES (?, ?, ?, ?, 'pendente', ?)
+                VALUES (, , , , 'pendente', )
             `, [serie, numero_inicial, numero_final, justificativa, req.user.id]);
 
             // Em produção: enviar para SEFAZ via InutilizacaoService
@@ -488,23 +488,23 @@ module.exports = function({ pool, authenticateToken }) {
             const params = [];
 
             if (inicio) {
-                where += ' AND DATE(n.data_emissao) >= ?';
+                where += ' AND DATE(n.data_emissao) >= ';
                 params.push(inicio);
             }
             if (fim) {
-                where += ' AND DATE(n.data_emissao) <= ?';
+                where += ' AND DATE(n.data_emissao) <= ';
                 params.push(fim);
             }
             if (status) {
-                where += ' AND n.status = ?';
+                where += ' AND n.status = ';
                 params.push(status);
             }
             if (tipo_operacao) {
-                where += ' AND n.tipo_operacao = ?';
+                where += ' AND n.tipo_operacao = ';
                 params.push(tipo_operacao);
             }
             if (cliente_id) {
-                where += ' AND n.cliente_id = ?';
+                where += ' AND n.cliente_id = ';
                 params.push(cliente_id);
             }
 
@@ -532,7 +532,7 @@ module.exports = function({ pool, authenticateToken }) {
                 LIMIT 500
             `, params);
 
-            // Totalizadores
+            // Totalizaçãores
             const [[totais]] = await pool.query(`
                 SELECT 
                     COUNT(*) as quantidade,
@@ -565,10 +565,10 @@ module.exports = function({ pool, authenticateToken }) {
     router.get('/xml/:id', async (req, res) => {
         try {
             const { id } = req.params;
-            const { tipo = 'autorizado' } = req.query;
+            const { tipo = 'autorização' } = req.query;
 
             const [[nfe]] = await pool.query(
-                'SELECT numero, serie, xml_assinado, xml_autorizado FROM nfes WHERE id = ?',
+                'SELECT numero, serie, xml_assinação, xml_autorização FROM nfes WHERE id = ',
                 [id]
             );
 
@@ -579,7 +579,7 @@ module.exports = function({ pool, authenticateToken }) {
                 });
             }
 
-            const xml = tipo === 'autorizado' ? nfe.xml_autorizado : nfe.xml_assinado;
+            const xml = tipo === 'autorização'  nfe.xml_autorização : nfe.xml_assinação;
 
             if (!xml) {
                 return res.status(404).json({ 
@@ -637,7 +637,7 @@ module.exports = function({ pool, authenticateToken }) {
                 serie_nfce,
                 csc_id,
                 csc_token,
-                email_contador
+                email_contaçãor
             } = req.body;
 
             // Verificar se já existe configuração
@@ -648,20 +648,20 @@ module.exports = function({ pool, authenticateToken }) {
             if (existente) {
                 await pool.query(`
                     UPDATE configuracoes_nfe SET 
-                        ambiente = ?,
-                        serie_nfe = ?,
-                        serie_nfce = ?,
-                        csc_id = ?,
-                        csc_token = ?,
-                        email_contador = ?,
+                        ambiente = ,
+                        serie_nfe = ,
+                        serie_nfce = ,
+                        csc_id = ,
+                        csc_token = ,
+                        email_contaçãor = ,
                         updated_at = NOW()
-                    WHERE id = ?
-                `, [ambiente, serie_nfe, serie_nfce, csc_id, csc_token, email_contador, existente.id]);
+                    WHERE id = 
+                `, [ambiente, serie_nfe, serie_nfce, csc_id, csc_token, email_contaçãor, existente.id]);
             } else {
                 await pool.query(`
-                    INSERT INTO configuracoes_nfe (ambiente, serie_nfe, serie_nfce, csc_id, csc_token, email_contador)
-                    VALUES (?, ?, ?, ?, ?, ?)
-                `, [ambiente, serie_nfe, serie_nfce, csc_id, csc_token, email_contador]);
+                    INSERT INTO configuracoes_nfe (ambiente, serie_nfe, serie_nfce, csc_id, csc_token, email_contaçãor)
+                    VALUES (, , , , , )
+                `, [ambiente, serie_nfe, serie_nfce, csc_id, csc_token, email_contaçãor]);
             }
 
             res.json({

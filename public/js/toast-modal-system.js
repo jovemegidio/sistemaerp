@@ -69,7 +69,7 @@
             background: ${color.bg};
             border-left: 4px solid ${color.border};
             border-radius: 8px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shaçãow: 0 10px 40px rgba(0,0,0,0.2);
             color: ${color.text};
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 14px;
@@ -175,7 +175,7 @@
                 <div class="aluforce-modal-box" style="
                     background: #ffffff;
                     border-radius: 16px;
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                     max-width: 400px;
                     width: 90%;
                     transform: scale(0.9);
@@ -312,7 +312,7 @@
                 <div class="aluforce-modal-box" style="
                     background: #ffffff;
                     border-radius: 16px;
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                     max-width: 420px;
                     width: 90%;
                     transform: scale(0.9);
@@ -441,7 +441,7 @@
                 <div class="aluforce-modal-box" style="
                     background: #ffffff;
                     border-radius: 16px;
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                     max-width: 420px;
                     width: 90%;
                     transform: scale(0.9);
@@ -581,7 +581,7 @@
                 <div class="aluforce-modal-box" style="
                     background: #ffffff;
                     border-radius: 16px;
-                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                     max-width: 380px;
                     width: 90%;
                     transform: scale(0.9);
@@ -606,8 +606,8 @@
                                     align-items: center;
                                     gap: 12px;
                                     padding: 12px 16px;
-                                    border: 2px solid ${currentStatus === opt.value ? opt.color : '#e2e8f0'};
-                                    background: ${currentStatus === opt.value ? opt.color + '10' : '#ffffff'};
+                                    border: 2px solid ${currentStatus === opt.value  opt.color : '#e2e8f0'};
+                                    background: ${currentStatus === opt.value  opt.color + '10' : '#ffffff'};
                                     border-radius: 10px;
                                     cursor: pointer;
                                     transition: all 0.2s;
@@ -615,7 +615,7 @@
                                 ">
                                     <span style="font-size: 20px;">${opt.icon}</span>
                                     <span style="font-size: 14px; font-weight: 500; color: #1e293b;">${opt.label}</span>
-                                    ${currentStatus === opt.value ? '<span style="margin-left: auto; font-size: 12px; color: ' + opt.color + '; font-weight: 600;">ATUAL</span>' : ''}
+                                    ${currentStatus === opt.value  '<span style="margin-left: auto; font-size: 12px; color: ' + opt.color + '; font-weight: 600;">ATUAL</span>' : ''}
                                 </button>
                             `).join('')}
                         </div>
@@ -670,8 +670,8 @@
                 });
                 btn.addEventListener('mouseleave', () => {
                     const opt = statusOptions.find(o => o.value === btn.dataset.value);
-                    btn.style.borderColor = currentStatus === btn.dataset.value ? opt.color : '#e2e8f0';
-                    btn.style.background = currentStatus === btn.dataset.value ? opt.color + '10' : '#ffffff';
+                    btn.style.borderColor = currentStatus === btn.dataset.value  opt.color : '#e2e8f0';
+                    btn.style.background = currentStatus === btn.dataset.value  opt.color + '10' : '#ffffff';
                 });
             });
 
@@ -687,5 +687,5 @@
     // window.confirm = (msg) => showConfirm(msg);
     // window.prompt = (msg, def) => showPrompt(msg, def);
 
-    console.log('✅ Sistema de Toasts e Modais ALUFORCE carregado');
+    console.log('✅ Sistema de Toasts e Modais ALUFORCE carregação');
 })();

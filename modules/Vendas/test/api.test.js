@@ -34,8 +34,8 @@ describe('API básica - testes unitários (mock DB)', () => {
     expect(resp.body.user.email).toBe('test@local');
   });
 
-  test('criar pedido atribui ao usuário logado', async () => {
-    // mock login (jwt verified by middleware) - simulate by creating token via real jwt? Simpler: bypass by mocking authenticateToken? We'll call route with header but mock pool queries accordingly.
+  test('criar pedido atribui ao usuário logação', async () => {
+    // mock login (jwt verified by middleware) - simulate by creating token via real jwt Simpler: bypass by mocking authenticateToken We'll call route with header but mock pool queries accordingly.
     // Mock pool SELECT 1 for server start (if called)
     poolMock.query.mockImplementationOnce(() => Promise.resolve([[1]]));
 

@@ -9,13 +9,13 @@ class NFeDashboard {
         this.data = {
             metricas: {},
             nfes: [],
-            transportadoras: []
+            transportaçãoras: []
         };
         this.init();
     }
 
     async init() {
-        await this.carregarDados();
+        await this.carregarDaçãos();
         this.renderizarMetricas();
         this.renderizarGraficos();
         this.renderizarTabelaNFes();
@@ -23,7 +23,7 @@ class NFeDashboard {
         this.iniciarAtualizacaoAutomatica();
     }
 
-    async carregarDados() {
+    async carregarDaçãos() {
         try {
             this.data.metricas = {
                 nfesEmitidas: {
@@ -119,7 +119,7 @@ class NFeDashboard {
                 { 
                     nfe: '000342',
                     destino: 'São Paulo - SP',
-                    transportadora: 'TRANSPORTADORA RÁPIDA',
+                    transportaçãora: 'TRANSPORTADORA RÁPIDA',
                     status: 'Em Trânsito',
                     previsao: '15/12/2025',
                     lat: -23.5505,
@@ -128,8 +128,8 @@ class NFeDashboard {
                 {
                     nfe: '000341',
                     destino: 'Rio de Janeiro - RJ',
-                    transportadora: 'LOGÍSTICA EXPRESS',
-                    status: 'Coletado',
+                    transportaçãora: 'LOGÍSTICA EXPRESS',
+                    status: 'Coletação',
                     previsao: '14/12/2025',
                     lat: -22.9068,
                     lng: -43.1729
@@ -137,7 +137,7 @@ class NFeDashboard {
                 {
                     nfe: '000340',
                     destino: 'Belo Horizonte - MG',
-                    transportadora: 'TRANSPORTES MINAS',
+                    transportaçãora: 'TRANSPORTES MINAS',
                     status: 'Entregue',
                     previsao: '12/12/2025',
                     lat: -19.9167,
@@ -146,7 +146,7 @@ class NFeDashboard {
             ];
 
         } catch (error) {
-            console.error('Erro ao carregar dados NFe:', error);
+            console.error('Erro ao carregar daçãos NFe:', error);
         }
     }
 
@@ -165,8 +165,8 @@ class NFeDashboard {
                             <i class="fas fa-file-invoice"></i>
                         </div>
                     </div>
-                    <div class="metric-trend trend-${nfesEmitidas.variacao >= 0 ? 'positive' : 'negative'}">
-                        <i class="fas fa-arrow-${nfesEmitidas.variacao >= 0 ? 'up' : 'down'}"></i>
+                    <div class="metric-trend trend-${nfesEmitidas.variacao >= 0  'positive' : 'negative'}">
+                        <i class="fas fa-arrow-${nfesEmitidas.variacao >= 0  'up' : 'down'}"></i>
                         <span>${Math.abs(nfesEmitidas.variacao).toFixed(1)}%</span>
                     </div>
                 </div>
@@ -188,8 +188,8 @@ class NFeDashboard {
                             <i class="fas fa-dollar-sign"></i>
                         </div>
                     </div>
-                    <div class="metric-trend trend-${valorTotal.variacao >= 0 ? 'positive' : 'negative'}">
-                        <i class="fas fa-arrow-${valorTotal.variacao >= 0 ? 'up' : 'down'}"></i>
+                    <div class="metric-trend trend-${valorTotal.variacao >= 0  'positive' : 'negative'}">
+                        <i class="fas fa-arrow-${valorTotal.variacao >= 0  'up' : 'down'}"></i>
                         <span>${Math.abs(valorTotal.variacao).toFixed(1)}%</span>
                     </div>
                 </div>
@@ -239,8 +239,8 @@ class NFeDashboard {
                             <i class="fas fa-clock"></i>
                         </div>
                     </div>
-                    <div class="metric-trend trend-${tempoMedioEmissao.variacao <= 0 ? 'positive' : 'negative'}">
-                        <i class="fas fa-arrow-${tempoMedioEmissao.variacao <= 0 ? 'down' : 'up'}"></i>
+                    <div class="metric-trend trend-${tempoMedioEmissao.variacao <= 0  'positive' : 'negative'}">
+                        <i class="fas fa-arrow-${tempoMedioEmissao.variacao <= 0  'down' : 'up'}"></i>
                         <span>${Math.abs(tempoMedioEmissao.variacao).toFixed(1)}%</span>
                     </div>
                 </div>
@@ -288,12 +288,12 @@ class NFeDashboard {
         }
     }
 
-    desenharMiniLinha(ctx, dados, cor) {
+    desenharMiniLinha(ctx, daçãos, cor) {
         const canvas = ctx.canvas;
         const width = canvas.width;
         const height = canvas.height;
-        const max = Math.max(...dados);
-        const min = Math.min(...dados);
+        const max = Math.max(...daçãos);
+        const min = Math.min(...daçãos);
         const range = max - min || 1;
         const padding = 5;
         
@@ -306,8 +306,8 @@ class NFeDashboard {
         
         // Desenhar área preenchida
         ctx.beginPath();
-        dados.forEach((valor, i) => {
-            const x = (i / (dados.length - 1)) * width;
+        daçãos.forEach((valor, i) => {
+            const x = (i / (daçãos.length - 1)) * width;
             const y = padding + ((max - valor) / range) * (height - padding * 2);
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
@@ -323,22 +323,22 @@ class NFeDashboard {
         ctx.lineWidth = 2.5;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-        ctx.shadowColor = cor;
-        ctx.shadowBlur = 4;
+        ctx.shaçãowColor = cor;
+        ctx.shaçãowBlur = 4;
         
         ctx.beginPath();
-        dados.forEach((valor, i) => {
-            const x = (i / (dados.length - 1)) * width;
+        daçãos.forEach((valor, i) => {
+            const x = (i / (daçãos.length - 1)) * width;
             const y = padding + ((max - valor) / range) * (height - padding * 2);
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
         });
         ctx.stroke();
         
-        // Desenhar ponto final destacado
-        ctx.shadowBlur = 0;
+        // Desenhar ponto final destacação
+        ctx.shaçãowBlur = 0;
         const lastX = width;
-        const lastY = padding + ((max - dados[dados.length - 1]) / range) * (height - padding * 2);
+        const lastY = padding + ((max - daçãos[daçãos.length - 1]) / range) * (height - padding * 2);
         
         ctx.beginPath();
         ctx.arc(lastX, lastY, 3, 0, Math.PI * 2);
@@ -381,7 +381,7 @@ class NFeDashboard {
         }
     }
 
-    desenharGraficoBarras(ctx, dados) {
+    desenharGraficoBarras(ctx, daçãos) {
         const canvas = ctx.canvas;
         const width = canvas.width;
         const height = canvas.height;
@@ -389,7 +389,7 @@ class NFeDashboard {
         const chartWidth = width - padding * 2;
         const chartHeight = height - padding * 2;
         
-        const valores = dados.map(d => d.quantidade);
+        const valores = daçãos.map(d => d.quantidade);
         const max = Math.max(...valores);
         
         ctx.clearRect(0, 0, width, height);
@@ -412,12 +412,12 @@ class NFeDashboard {
         }
         
         // Barras
-        const barWidth = chartWidth / dados.length * 0.7;
-        const barGap = chartWidth / dados.length * 0.3;
+        const barWidth = chartWidth / daçãos.length * 0.7;
+        const barGap = chartWidth / daçãos.length * 0.3;
         
-        dados.forEach((item, i) => {
+        daçãos.forEach((item, i) => {
             const barHeight = (item.quantidade / max) * chartHeight;
-            const x = padding + (chartWidth / dados.length) * i + barGap / 2;
+            const x = padding + (chartWidth / daçãos.length) * i + barGap / 2;
             const y = height - padding - barHeight;
             
             // Gradiente
@@ -613,7 +613,7 @@ class NFeDashboard {
                             </div>
                             <div class="logística-info">
                                 <i class="fas fa-truck"></i>
-                                <span>${item.transportadora}</span>
+                                <span>${item.transportaçãora}</span>
                             </div>
                             <div class="logística-info">
                                 <i class="far fa-clock"></i>
@@ -642,7 +642,7 @@ class NFeDashboard {
     }
 
     generateNFeUrl(chave) {
-        return `https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspx?tipoConsumo=completo&tipoConsulta=completa&chNFe=${chave}`;
+        return `https://www.nfe.fazenda.gov.br/portal/consultaRecaptcha.aspxtipoConsumo=completo&tipoConsulta=completa&chNFe=${chave}`;
     }
 
     formatarMoeda(valor) {
@@ -651,7 +651,7 @@ class NFeDashboard {
 
     iniciarAtualizacaoAutomatica() {
         setInterval(() => {
-            this.carregarDados();
+            this.carregarDaçãos();
         }, 300000);
     }
 
@@ -681,7 +681,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.nfeDashboard = new NFeDashboard();
     }
     
-    // Inicializar dados do usuário no header
+    // Inicializar daçãos do usuário no header
     initUserHeader();
 });
 
@@ -690,12 +690,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================
 
 /**
- * Inicializa o header com dados do usuário logado
+ * Inicializa o header com daçãos do usuário logação
  */
 async function initUserHeader() {
     console.log('🔄 Inicializando header do usuário...');
     
-    // Tentar carregar dados do localStorage primeiro
+    // Tentar carregar daçãos do localStorage primeiro
     let userData = getUserDataFromStorage();
     
     if (!userData) {
@@ -706,18 +706,18 @@ async function initUserHeader() {
     if (userData) {
         updateUserHeader(userData);
     } else {
-        // Dados padrão se não conseguir carregar
+        // Daçãos padrão se não conseguir carregar
         updateUserHeader({
             nome: 'Usuário',
             email: '',
             foto: '/avatars/default.webp',
-            cargo: 'Colaborador'
+            cargo: 'Colaboraçãor'
         });
     }
 }
 
 /**
- * Busca dados do usuário da API
+ * Busca daçãos do usuário da API
  */
 async function fetchUserData() {
     try {
@@ -737,32 +737,32 @@ async function fetchUserData() {
             return userData;
         }
     } catch (error) {
-        console.warn('⚠️ Erro ao buscar dados do usuário:', error);
+        console.warn('⚠️ Erro ao buscar daçãos do usuário:', error);
     }
     return null;
 }
 
 /**
- * Obtém dados do usuário do localStorage
+ * Obtém daçãos do usuário do localStorage
  */
 function getUserDataFromStorage() {
     try {
         const userData = localStorage.getItem('userData');
-        return userData ? JSON.parse(userData) : null;
+        return userData  JSON.parse(userData) : null;
     } catch (e) {
         return null;
     }
 }
 
 /**
- * Atualiza o header com dados do usuário
+ * Atualiza o header com daçãos do usuário
  */
 function updateUserHeader(userData) {
     // Atualizar nome do usuário
     const userTextElements = document.querySelectorAll('.user-text');
     userTextElements.forEach(el => {
         // Usar primeiro nome para saudação
-        const primeiroNome = userData.nome ? userData.nome.split(' ')[0] : 'Usuário';
+        const primeiroNome = userData.nome  userData.nome.split(' ')[0] : 'Usuário';
         el.textContent = primeiroNome;
     });
     
@@ -787,10 +787,10 @@ function updateUserHeader(userData) {
     }
     
     if (userRoleDropdown) {
-        userRoleDropdown.textContent = userData.cargo || userData.role || 'Colaborador';
+        userRoleDropdown.textContent = userData.cargo || userData.role || 'Colaboraçãor';
     }
     
-    console.log('✅ Header atualizado com dados do usuário:', userData.nome);
+    console.log('✅ Header atualização com daçãos do usuário:', userData.nome);
 }
 
 /**

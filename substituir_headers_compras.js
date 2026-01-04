@@ -18,7 +18,7 @@ const topbarPadrao = `                <header class="topbar">
                             <button class="nav-icon-btn" title="Lista">
                                 <i class="fas fa-list"></i>
                             </button>
-                            <button class="nav-icon-btn" title="Atualizar Dados" id="btn-refresh-header">
+                            <button class="nav-icon-btn" title="Atualizar Daçãos" id="btn-refresh-header">
                                 <i class="fas fa-sync-alt"></i>
                             </button>
                             <button class="nav-icon-btn" title="Alternar Modo Escuro" id="btn-dark-mode-toggle">
@@ -29,7 +29,7 @@ const topbarPadrao = `                <header class="topbar">
                         <div class="search-wrapper" role="search" aria-label="Pesquisar">
                             <i class="fas fa-search search-icon" aria-hidden="true"></i>
                             <input id="main-search" type="search" placeholder="Buscar..." class="search-input" autocomplete="off" aria-label="Pesquisar" />
-                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultados da busca" aria-live="polite" aria-hidden="true"></div>
+                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultaçãos da busca" aria-live="polite" aria-hidden="true"></div>
                         </div>
                         
                         <button class="menu-toggle-btn" title="Menu">
@@ -90,14 +90,14 @@ arquivos.forEach(arquivo => {
     const filePath = path.join(__dirname, 'modules', 'Compras', arquivo);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`⚠️  ${arquivo} não encontrado`);
+        console.log(`⚠️  ${arquivo} não encontração`);
         return;
     }
     
     let content = fs.readFileSync(filePath, 'utf8');
     
     // Regex para substituir o header antigo pelo topbar PCP
-    const headerRegex = /<header class="dashboard-top-header">[\s\S]*?<\/header>/;
+    const headerRegex = /<header class="dashboard-top-header">[\s\S]*<\/header>/;
     
     if (headerRegex.test(content)) {
         content = content.replace(headerRegex, topbarPadrao.trim());
@@ -105,7 +105,7 @@ arquivos.forEach(arquivo => {
         // Adicionar content-wrapper se não existir
         if (!content.includes('class="content-wrapper"')) {
             // Encontrar onde adicionar
-            const mainContentRegex = /(<header class="topbar">[\s\S]*?<\/header>)\s*(<div|<section)/;
+            const mainContentRegex = /(<header class="topbar">[\s\S]*<\/header>)\s*(<div|<section)/;
             if (mainContentRegex.test(content)) {
                 content = content.replace(mainContentRegex, '$1\n\n                <div class="content-wrapper">\n                    $2');
             }

@@ -139,8 +139,8 @@
                     <span style="font-size: 14px; font-weight: 500; color: #34d399;">Logística</span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 8px;">
-                    <button class="btn btn-secondary btn-sm" onclick="openModal('modal-transportadoras')">
-                        <i class="fas fa-shipping-fast"></i> Transportadoras
+                    <button class="btn btn-secondary btn-sm" onclick="openModal('modal-transportaçãoras')">
+                        <i class="fas fa-shipping-fast"></i> Transportaçãoras
                     </button>
                     <button class="btn btn-primary btn-sm" onclick="openModal('modal-nova-expedicao')">
                         <i class="fas fa-plus"></i> Nova Expedição
@@ -216,8 +216,8 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Transportadora</label>
-                                <select id="filtro-transportadora" class="form-control">
+                                <label>Transportaçãora</label>
+                                <select id="filtro-transportaçãora" class="form-control">
                                     <option value="todas">Todas</option>
                                 </select>
                             </div>
@@ -264,7 +264,7 @@
                                     <th>Pedido</th>
                                     <th>Cliente</th>
                                     <th>Cidade/UF</th>
-                                    <th>Transportadora</th>
+                                    <th>Transportaçãora</th>
                                     <th>Status</th>
                                     <th>Previsão</th>
                                     <th>Ações</th>
@@ -273,7 +273,7 @@
                             <tbody id="tabela-logistica">
                                 <tr>
                                     <td colspan="9" class="text-center">
-                                        <p class="text-muted">Nenhum pedido encontrado. Clique em "Atualizar" para carregar os dados.</p>
+                                        <p class="text-muted">Nenhum pedido encontração. Clique em "Atualizar" para carregar os daçãos.</p>
                                     </td>
                                 </tr>
                             </tbody>
@@ -310,8 +310,8 @@
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label>Transportadora *</label>
-                            <select id="exp-transportadora" class="form-control" required>
+                            <label>Transportaçãora *</label>
+                            <select id="exp-transportaçãora" class="form-control" required>
                                 <option value="">Selecione...</option>
                             </select>
                         </div>
@@ -351,17 +351,17 @@
         </div>
     </div>
 
-    <!-- Modal: Transportadoras -->
-    <div id="modal-transportadoras" class="modal">
+    <!-- Modal: Transportaçãoras -->
+    <div id="modal-transportaçãoras" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-shipping-fast"></i> Gerenciar Transportadoras</h3>
-                <button class="modal-close" onclick="closeModal('modal-transportadoras')">&times;</button>
+                <h3><i class="fas fa-shipping-fast"></i> Gerenciar Transportaçãoras</h3>
+                <button class="modal-close" onclick="closeModal('modal-transportaçãoras')">&times;</button>
             </div>
             <div class="modal-body">
                 <div style="margin-bottom: 16px;">
-                    <button class="btn btn-primary btn-sm" onclick="adicionarTransportadora()">
-                        <i class="fas fa-plus"></i> Nova Transportadora
+                    <button class="btn btn-primary btn-sm" onclick="adicionarTransportaçãora()">
+                        <i class="fas fa-plus"></i> Nova Transportaçãora
                     </button>
                 </div>
                 <div class="table-container">
@@ -375,10 +375,10 @@
                                 <th>Ações</th>
                             </tr>
                         </thead>
-                        <tbody id="tabela-transportadoras">
+                        <tbody id="tabela-transportaçãoras">
                             <tr>
                                 <td colspan="5" class="text-center">
-                                    <p class="text-muted">Carregando transportadoras...</p>
+                                    <p class="text-muted">Carregando transportaçãoras...</p>
                                 </td>
                             </tr>
                         </tbody>
@@ -393,7 +393,7 @@
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-        // Carregar dados do dashboard
+        // Carregar daçãos do dashboard
         async function carregarDashboard() {
             try {
                 const response = await fetch('/api/logistica/dashboard', { credentials: 'include' });
@@ -416,20 +416,20 @@
             tbody.innerHTML = `<tr><td colspan="9" class="text-center"><p class="text-muted"><i class="fas fa-spinner fa-spin"></i> Carregando...</p></td></tr>`;
             
             try {
-                const status = document.getElementById('filtro-status')?.value || '';
-                const transportadora = document.getElementById('filtro-transportadora')?.value || '';
-                const nfe = document.getElementById('filtro-nfe')?.value || '';
-                const dataInicio = document.getElementById('filtro-data-inicio')?.value || '';
-                const dataFim = document.getElementById('filtro-data-fim')?.value || '';
+                const status = document.getElementById('filtro-status').value || '';
+                const transportaçãora = document.getElementById('filtro-transportaçãora').value || '';
+                const nfe = document.getElementById('filtro-nfe').value || '';
+                const dataInicio = document.getElementById('filtro-data-inicio').value || '';
+                const dataFim = document.getElementById('filtro-data-fim').value || '';
                 
                 const params = new URLSearchParams();
                 if (status && status !== 'todos') params.append('status', status);
-                if (transportadora && transportadora !== 'todas') params.append('transportadora', transportadora);
+                if (transportaçãora && transportaçãora !== 'todas') params.append('transportaçãora', transportaçãora);
                 if (nfe) params.append('nfe', nfe);
                 if (dataInicio) params.append('data_inicio', dataInicio);
                 if (dataFim) params.append('data_fim', dataFim);
                 
-                const response = await fetch(`/api/logistica/pedidos?${params}`, { credentials: 'include' });
+                const response = await fetch(`/api/logistica/pedidos${params}`, { credentials: 'include' });
                 if (response.ok) {
                     const pedidos = await response.json();
                     renderizarPedidos(pedidos);
@@ -452,7 +452,7 @@
                         <td colspan="9" class="text-center">
                             <div style="padding: 40px 20px;">
                                 <i class="fas fa-box-open" style="font-size: 48px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                                <p class="text-muted">Nenhum pedido faturado encontrado para logística.</p>
+                                <p class="text-muted">Nenhum pedido faturação encontração para logística.</p>
                             </div>
                         </td>
                     </tr>
@@ -463,16 +463,16 @@
             tbody.innerHTML = pedidos.map(p => `
                 <tr data-id="${p.id}">
                     <td>
-                        <span class="priority-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'high' : p.prioridade === 'normal' ? 'medium' : 'low'}">
-                            <i class="fas fa-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'exclamation-circle' : p.prioridade === 'normal' ? 'minus-circle' : 'arrow-down'}"></i>
-                            ${p.prioridade ? p.prioridade.charAt(0).toUpperCase() + p.prioridade.slice(1) : 'Normal'}
+                        <span class="priority-${p.prioridade === 'alta' || p.prioridade === 'urgente'  'high' : p.prioridade === 'normal'  'medium' : 'low'}">
+                            <i class="fas fa-${p.prioridade === 'alta' || p.prioridade === 'urgente'  'exclamation-circle' : p.prioridade === 'normal'  'minus-circle' : 'arrow-down'}"></i>
+                            ${p.prioridade  p.prioridade.charAt(0).toUpperCase() + p.prioridade.slice(1) : 'Normal'}
                         </span>
                     </td>
                     <td>${p.nfe_numero || '-'}</td>
                     <td><strong>#${p.pedido_id}</strong></td>
                     <td>${p.cliente}</td>
                     <td>${p.cidade_uf}</td>
-                    <td>${p.transportadora}</td>
+                    <td>${p.transportaçãora}</td>
                     <td>
                         <span class="badge ${getStatusBadge(p.status)}">${formatStatus(p.status)}</span>
                     </td>
@@ -541,7 +541,7 @@
                     document.getElementById('select-novo-status').value = statusAtual;
                     openModal('modal-status');
                 } else {
-                    // Último fallback - prompt estilizado
+                    // Último fallback - prompt estilização
                     const novoStatus = prompt(`Status atual: ${formatStatus(statusAtual)}\n\nDigite o novo status:\n1 - Aguardando Separação\n2 - Em Separação\n3 - Em Expedição\n4 - Em Transporte\n5 - Entregue`);
                     const statusMap = { '1': 'aguardando_separacao', '2': 'em_separacao', '3': 'em_expedicao', '4': 'em_transporte', '5': 'entregue' };
                     if (novoStatus && statusMap[novoStatus]) {
@@ -562,9 +562,9 @@
                 
                 if (response.ok) {
                     if (typeof showToast === 'function') {
-                        showToast('Status atualizado com sucesso!', 'success');
+                        showToast('Status atualização com sucesso!', 'success');
                     } else {
-                        alert('Status atualizado com sucesso!');
+                        alert('Status atualização com sucesso!');
                     }
                     carregarDashboard();
                     carregarPedidos();
@@ -591,17 +591,17 @@
             }
         }
 
-        // Carregar transportadoras no select
-        async function carregarTransportadoras() {
+        // Carregar transportaçãoras no select
+        async function carregarTransportaçãoras() {
             try {
-                const response = await fetch('/api/logistica/transportadoras', { credentials: 'include' });
+                const response = await fetch('/api/logistica/transportaçãoras', { credentials: 'include' });
                 if (response.ok) {
-                    const transportadoras = await response.json();
+                    const transportaçãoras = await response.json();
                     
                     // Preencher filtro
-                    const selectFiltro = document.getElementById('filtro-transportadora');
+                    const selectFiltro = document.getElementById('filtro-transportaçãora');
                     if (selectFiltro) {
-                        transportadoras.forEach(t => {
+                        transportaçãoras.forEach(t => {
                             const option = document.createElement('option');
                             option.value = t.id;
                             option.textContent = t.nome_fantasia || t.razao_social;
@@ -610,9 +610,9 @@
                     }
                     
                     // Preencher modal expedição
-                    const selectExp = document.getElementById('exp-transportadora');
+                    const selectExp = document.getElementById('exp-transportaçãora');
                     if (selectExp) {
-                        transportadoras.forEach(t => {
+                        transportaçãoras.forEach(t => {
                             const option = document.createElement('option');
                             option.value = t.id;
                             option.textContent = t.nome_fantasia || t.razao_social;
@@ -620,34 +620,34 @@
                         });
                     }
                     
-                    // Preencher tabela de transportadoras
-                    const tbody = document.getElementById('tabela-transportadoras');
-                    if (tbody && transportadoras.length > 0) {
-                        tbody.innerHTML = transportadoras.map(t => `
+                    // Preencher tabela de transportaçãoras
+                    const tbody = document.getElementById('tabela-transportaçãoras');
+                    if (tbody && transportaçãoras.length > 0) {
+                        tbody.innerHTML = transportaçãoras.map(t => `
                             <tr>
                                 <td>${t.nome_fantasia || t.razao_social || '-'}</td>
                                 <td>${t.cnpj_cpf || '-'}</td>
                                 <td>${t.telefone || '-'}</td>
                                 <td>${t.email || '-'}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-secondary" onclick="editarTransportadora(${t.id})">
+                                    <button class="btn btn-sm btn-secondary" onclick="editarTransportaçãora(${t.id})">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </td>
                             </tr>
                         `).join('');
                     } else if (tbody) {
-                        tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Nenhuma transportadora cadastrada</td></tr>`;
+                        tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Nenhuma transportaçãora cadastrada</td></tr>`;
                     }
                 }
             } catch (error) {
-                console.error('Erro ao carregar transportadoras:', error);
+                console.error('Erro ao carregar transportaçãoras:', error);
             }
         }
 
         function atualizarLista() {
             if (typeof showToast === 'function') {
-                showToast('Atualizando dados...', 'info', 2000);
+                showToast('Atualizando daçãos...', 'info', 2000);
             }
             carregarDashboard();
             carregarPedidos();
@@ -664,20 +664,20 @@
         // Carregar lista de pedidos em logística
         async function carregarPedidos() {
             try {
-                const status = document.getElementById('filtro-status')?.value || '';
-                const transportadora = document.getElementById('filtro-transportadora')?.value || '';
-                const nfe = document.getElementById('filtro-nfe')?.value || '';
-                const dataInicio = document.getElementById('filtro-data-inicio')?.value || '';
-                const dataFim = document.getElementById('filtro-data-fim')?.value || '';
+                const status = document.getElementById('filtro-status').value || '';
+                const transportaçãora = document.getElementById('filtro-transportaçãora').value || '';
+                const nfe = document.getElementById('filtro-nfe').value || '';
+                const dataInicio = document.getElementById('filtro-data-inicio').value || '';
+                const dataFim = document.getElementById('filtro-data-fim').value || '';
                 
                 const params = new URLSearchParams();
                 if (status && status !== 'todos') params.append('status', status);
-                if (transportadora && transportadora !== 'todas') params.append('transportadora', transportadora);
+                if (transportaçãora && transportaçãora !== 'todas') params.append('transportaçãora', transportaçãora);
                 if (nfe) params.append('nfe', nfe);
                 if (dataInicio) params.append('data_inicio', dataInicio);
                 if (dataFim) params.append('data_fim', dataFim);
                 
-                const response = await fetch(`/api/logistica/pedidos?${params}`, { credentials: 'include' });
+                const response = await fetch(`/api/logistica/pedidos${params}`, { credentials: 'include' });
                 if (response.ok) {
                     const pedidos = await response.json();
                     renderizarPedidos(pedidos);
@@ -695,7 +695,7 @@
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="9" class="text-center">
-                            <p class="text-muted">Nenhum pedido encontrado. Clique em "Atualizar" para carregar os dados.</p>
+                            <p class="text-muted">Nenhum pedido encontração. Clique em "Atualizar" para carregar os daçãos.</p>
                         </td>
                     </tr>
                 `;
@@ -705,8 +705,8 @@
             tbody.innerHTML = pedidos.map(p => `
                 <tr>
                     <td>
-                        <span class="priority-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'high' : p.prioridade === 'normal' ? 'medium' : 'low'}">
-                            <i class="fas fa-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'exclamation-circle' : p.prioridade === 'normal' ? 'minus-circle' : 'arrow-down'}"></i>
+                        <span class="priority-${p.prioridade === 'alta' || p.prioridade === 'urgente'  'high' : p.prioridade === 'normal'  'medium' : 'low'}">
+                            <i class="fas fa-${p.prioridade === 'alta' || p.prioridade === 'urgente'  'exclamation-circle' : p.prioridade === 'normal'  'minus-circle' : 'arrow-down'}"></i>
                             ${p.prioridade || 'Normal'}
                         </span>
                     </td>
@@ -714,7 +714,7 @@
                     <td>#${p.pedido_id}</td>
                     <td>${p.cliente}</td>
                     <td>${p.cidade_uf}</td>
-                    <td>${p.transportadora}</td>
+                    <td>${p.transportaçãora}</td>
                     <td>
                         <span class="badge ${getStatusBadge(p.status)}">${formatStatus(p.status)}</span>
                     </td>
@@ -779,7 +779,7 @@
                     });
                     
                     if (response.ok) {
-                        alert('Status atualizado com sucesso!');
+                        alert('Status atualização com sucesso!');
                         carregarDashboard();
                         carregarPedidos();
                     } else {
@@ -796,17 +796,17 @@
             alert(`Detalhes do pedido #${pedidoId} - Em desenvolvimento`);
         }
 
-        // Carregar transportadoras no select
-        async function carregarTransportadoras() {
+        // Carregar transportaçãoras no select
+        async function carregarTransportaçãoras() {
             try {
-                const response = await fetch('/api/logistica/transportadoras', { credentials: 'include' });
+                const response = await fetch('/api/logistica/transportaçãoras', { credentials: 'include' });
                 if (response.ok) {
-                    const transportadoras = await response.json();
+                    const transportaçãoras = await response.json();
                     
                     // Preencher filtro
-                    const selectFiltro = document.getElementById('filtro-transportadora');
+                    const selectFiltro = document.getElementById('filtro-transportaçãora');
                     if (selectFiltro) {
-                        transportadoras.forEach(t => {
+                        transportaçãoras.forEach(t => {
                             const option = document.createElement('option');
                             option.value = t.id;
                             option.textContent = t.nome_fantasia || t.razao_social;
@@ -815,9 +815,9 @@
                     }
                     
                     // Preencher modal expedição
-                    const selectExp = document.getElementById('exp-transportadora');
+                    const selectExp = document.getElementById('exp-transportaçãora');
                     if (selectExp) {
-                        transportadoras.forEach(t => {
+                        transportaçãoras.forEach(t => {
                             const option = document.createElement('option');
                             option.value = t.id;
                             option.textContent = t.nome_fantasia || t.razao_social;
@@ -825,17 +825,17 @@
                         });
                     }
                     
-                    // Preencher tabela de transportadoras
-                    const tbody = document.getElementById('tabela-transportadoras');
+                    // Preencher tabela de transportaçãoras
+                    const tbody = document.getElementById('tabela-transportaçãoras');
                     if (tbody) {
-                        tbody.innerHTML = transportadoras.map(t => `
+                        tbody.innerHTML = transportaçãoras.map(t => `
                             <tr>
                                 <td>${t.nome_fantasia || t.razao_social}</td>
                                 <td>${t.cnpj_cpf || '-'}</td>
                                 <td>${t.telefone || '-'}</td>
                                 <td>${t.email || '-'}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-secondary" onclick="editarTransportadora(${t.id})">
+                                    <button class="btn btn-sm btn-secondary" onclick="editarTransportaçãora(${t.id})">
                                         <i class="fas fa-edit"></i>
                                     </button>
                                 </td>
@@ -844,7 +844,7 @@
                     }
                 }
             } catch (error) {
-                console.error('Erro ao carregar transportadoras:', error);
+                console.error('Erro ao carregar transportaçãoras:', error);
             }
         }
 
@@ -870,14 +870,14 @@
         }
 
         async function salvarExpedicao() {
-            const nfe = document.getElementById('exp-nfe')?.value;
-            const pedido = document.getElementById('exp-pedido')?.value;
-            const cliente = document.getElementById('exp-cliente')?.value;
-            const transportadora = document.getElementById('exp-transportadora')?.value;
-            const status = document.getElementById('exp-status')?.value;
-            const previsao = document.getElementById('exp-previsao')?.value;
-            const prioridade = document.getElementById('exp-prioridade')?.value;
-            const observacoes = document.getElementById('exp-observacoes')?.value;
+            const nfe = document.getElementById('exp-nfe').value;
+            const pedido = document.getElementById('exp-pedido').value;
+            const cliente = document.getElementById('exp-cliente').value;
+            const transportaçãora = document.getElementById('exp-transportaçãora').value;
+            const status = document.getElementById('exp-status').value;
+            const previsao = document.getElementById('exp-previsao').value;
+            const prioridade = document.getElementById('exp-prioridade').value;
+            const observacoes = document.getElementById('exp-observacoes').value;
             
             try {
                 const response = await fetch('/api/logistica/expedicao', {
@@ -885,7 +885,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
                     body: JSON.stringify({
-                        nfe, pedido, cliente, transportadora_id: transportadora,
+                        nfe, pedido, cliente, transportaçãora_id: transportaçãora,
                         status, previsao, prioridade, observacoes
                     })
                 });
@@ -910,20 +910,20 @@
             }
         }
 
-        async function adicionarTransportadora() {
+        async function adicionarTransportaçãora() {
             if (typeof showPrompt === 'function') {
-                const nome = await showPrompt('Digite o nome da transportadora:', '', { title: 'Nova Transportadora', placeholder: 'Nome Fantasia' });
+                const nome = await showPrompt('Digite o nome da transportaçãora:', '', { title: 'Nova Transportaçãora', placeholder: 'Nome Fantasia' });
                 if (nome) {
-                    showToast(ransportadora "${nome}" - Cadastro em desenvolvimento`, 'info');
+                    showToast(ransportaçãora "${nome}" - Cadastro em desenvolvimento`, 'info');
                 }
             } else {
-                alert('Cadastro de transportadora em desenvolvimento');
+                alert('Cadastro de transportaçãora em desenvolvimento');
             }
         }
         
-        function editarTransportadora(id) {
+        function editarTransportaçãora(id) {
             if (typeof showAlert === 'function') {
-                showAlert(`Edição da transportadora #${id} em desenvolvimento.`, 'Em Breve', 'info');
+                showAlert(`Edição da transportaçãora #${id} em desenvolvimento.`, 'Em Breve', 'info');
             }
         }
 
@@ -936,23 +936,23 @@
 
         // Inicializar ao carregar página
         document.addEventListener('DOMContentLoaded', () => {
-            console.log('📦 Módulo Logística iniciado');
+            console.log('📦 Módulo Logística iniciação');
             carregarDashboard();
-            carregarTransportadoras();
+            carregarTransportaçãoras();
             carregarPedidos();
         });
     </script>
-    <script src="dashboard-nfe-pro.js?v=20251217"></script>
+    <script src="dashboard-nfe-pro.jsv=20251217"></script>
     <script>
-        // Carregar dados do usuário com avatar
-        async function carregarDadosUsuario() {
+        // Carregar daçãos do usuário com avatar
+        async function carregarDaçãosUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || user.name || 'Usuário';
-                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (userName  userName.split(' ')[0] : 'Usuário');
                     
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -1024,7 +1024,7 @@
                 }
             } catch (e) { console.log('Erro ao carregar usuário:', e); }
         }
-        document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+        document.addEventListener('DOMContentLoaded', carregarDaçãosUsuario);
     </script></body>
 </html>
 

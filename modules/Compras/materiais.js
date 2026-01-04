@@ -6,7 +6,7 @@
 class MateriaisManager {
     constructor() {
         this.materiais = [];
-        this.materiaisFiltrados = [];
+        this.materiaisFiltraçãos = [];
         this.fornecedores = [];
         this.categorias = [];
         this.paginaAtual = 1;
@@ -18,7 +18,7 @@ class MateriaisManager {
     }
 
     async init() {
-        await this.carregarDados();
+        await this.carregarDaçãos();
         await this.carregarFornecedores();
         await this.carregarCategorias();
         this.configurarEventos();
@@ -28,7 +28,7 @@ class MateriaisManager {
         inicializarUsuario();
     }
 
-    async carregarDados() {
+    async carregarDaçãos() {
         try {
             const response = await fetch('/api/compras/materiais');
             if (!response.ok) throw new Error('Erro ao carregar materiais');
@@ -58,21 +58,21 @@ class MateriaisManager {
                 status: m.status || 'disponivel'
             }));
             
-            this.materiaisFiltrados = [...this.materiais];
+            this.materiaisFiltraçãos = [...this.materiais];
         } catch (error) {
             console.error('Erro ao carregar materiais:', error);
             this.materiais = [];
-            this.materiaisFiltrados = [];
+            this.materiaisFiltraçãos = [];
         }
     }
 
     async carregarFornecedores() {
         try {
-            const response = await fetch('/api/compras/fornecedores?ativo=1');
+            const response = await fetch('/api/compras/fornecedoresativo=1');
             if (response.ok) {
                 const data = await response.json();
-                // Verificar se é array ou objeto com propriedade de dados
-                this.fornecedores = Array.isArray(data) ? data : (data.data || data.fornecedores || []);
+                // Verificar se é array ou objeto com propriedade de daçãos
+                this.fornecedores = Array.isArray(data)  data : (data.data || data.fornecedores || []);
                 this.preencherSelectFornecedores();
             }
         } catch (error) {
@@ -142,8 +142,8 @@ class MateriaisManager {
                 if (!btn) return;
                 
                 const tr = btn.closest('tr');
-                const checkbox = tr?.querySelector('.material-checkbox');
-                const id = checkbox?.dataset?.id;
+                const checkbox = tr.querySelector('.material-checkbox');
+                const id = checkbox.dataset.id;
                 
                 if (!id) return;
                 
@@ -215,7 +215,7 @@ class MateriaisManager {
     }
 
     filtrar() {
-        this.materiaisFiltrados = this.materiais.filter(m => {
+        this.materiaisFiltraçãos = this.materiais.filter(m => {
             // Filtro por status
             if (this.statusFiltro !== 'todos' && m.status !== this.statusFiltro) {
                 return false;
@@ -261,14 +261,14 @@ class MateriaisManager {
 
         const inicio = (this.paginaAtual - 1) * this.itensPorPagina;
         const fim = inicio + this.itensPorPagina;
-        const materiaisPagina = this.materiaisFiltrados.slice(inicio, fim);
+        const materiaisPagina = this.materiaisFiltraçãos.slice(inicio, fim);
 
         if (materiaisPagina.length === 0) {
             tbody.innerHTML = `
                 <tr>
                     <td colspan="9" style="text-align: center; padding: 40px; color: #666;">
                         <i class="fas fa-cubes" style="font-size: 48px; color: #ddd; margin-bottom: 16px; display: block;"></i>
-                        Nenhum material encontrado
+                        Nenhum material encontração
                     </td>
                 </tr>
             `;
@@ -277,8 +277,8 @@ class MateriaisManager {
         }
 
         tbody.innerHTML = materiaisPagina.map(m => {
-            const statusClass = m.status === 'disponivel' ? 'disponivel' : (m.status === 'baixo' ? 'baixo' : 'critico');
-            const statusLabel = m.status === 'disponivel' ? 'Disponível' : (m.status === 'baixo' ? 'Estoque Baixo' : 'Crítico');
+            const statusClass = m.status === 'disponivel'  'disponivel' : (m.status === 'baixo'  'baixo' : 'critico');
+            const statusLabel = m.status === 'disponivel'  'Disponível' : (m.status === 'baixo'  'Estoque Baixo' : 'Crítico');
             
             return `
             <tr>
@@ -298,7 +298,7 @@ class MateriaisManager {
             </tr>
         `}).join('');
 
-        this.atualizarPaginacao(this.materiaisFiltrados.length);
+        this.atualizarPaginacao(this.materiaisFiltraçãos.length);
     }
 
     atualizarPaginacao(total) {
@@ -309,7 +309,7 @@ class MateriaisManager {
         const paginationInfo = document.querySelector('.pagination-info');
         if (paginationInfo) {
             paginationInfo.innerHTML = total > 0 
-                ? `Mostrando <strong>${inicio}-${fim}</strong> de <strong>${total}</strong>`
+                 `Mostrando <strong>${inicio}-${fim}</strong> de <strong>${total}</strong>`
                 : 'Nenhum registro';
         }
 
@@ -332,7 +332,7 @@ class MateriaisManager {
 
         for (let i = 1; i <= Math.min(totalPaginas, 5); i++) {
             const btnPage = document.createElement('button');
-            btnPage.className = 'pagination-btn' + (i === this.paginaAtual ? ' active' : '');
+            btnPage.className = 'pagination-btn' + (i === this.paginaAtual  ' active' : '');
             btnPage.textContent = i;
             btnPage.onclick = () => {
                 this.paginaAtual = i;
@@ -381,7 +381,7 @@ class MateriaisManager {
     async editar(id) {
         try {
             const response = await fetch(`/api/compras/materiais/${id}`);
-            if (!response.ok) throw new Error('Material não encontrado');
+            if (!response.ok) throw new Error('Material não encontração');
             
             const m = await response.json();
 
@@ -408,14 +408,14 @@ class MateriaisManager {
             document.getElementById('modalMaterial').style.display = 'flex';
         } catch (error) {
             console.error('Erro ao carregar material:', error);
-            alert('Erro ao carregar dados do material');
+            alert('Erro ao carregar daçãos do material');
         }
     }
 
     async visualizar(id) {
         try {
             const response = await fetch(`/api/compras/materiais/${id}`);
-            if (!response.ok) throw new Error('Material não encontrado');
+            if (!response.ok) throw new Error('Material não encontração');
             
             const m = await response.json();
             
@@ -436,7 +436,7 @@ class MateriaisManager {
             document.getElementById('viewDescricao').textContent = m.descricao || '-';
             document.getElementById('viewCategoria').textContent = m.categoria || '-';
             document.getElementById('viewUnidade').textContent = m.unidade || '-';
-            document.getElementById('viewLeadTime').textContent = m.lead_time ? `${m.lead_time} dias` : '-';
+            document.getElementById('viewLeadTime').textContent = m.lead_time  `${m.lead_time} dias` : '-';
             document.getElementById('viewEspecificacoes').textContent = m.especificacoes || '-';
             document.getElementById('viewObservacoes').textContent = m.observacoes || '-';
             
@@ -475,7 +475,7 @@ class MateriaisManager {
             document.getElementById('viewFornecedorCNPJ').textContent = m.fornecedor_cnpj || '-';
             document.getElementById('viewFornecedorTelefone').textContent = m.fornecedor_telefone || '-';
             document.getElementById('viewFornecedorEmail').textContent = m.fornecedor_email || '-';
-            document.getElementById('viewFornecedorPrazo').textContent = m.lead_time ? `${m.lead_time} dias úteis` : '-';
+            document.getElementById('viewFornecedorPrazo').textContent = m.lead_time  `${m.lead_time} dias úteis` : '-';
             
             // Resetar para aba geral
             mudarAbaVisualizacao('geral');
@@ -488,14 +488,14 @@ class MateriaisManager {
     }
 
     async excluir(id) {
-        if (!confirm('Deseja realmente excluir este material?')) return;
+        if (!confirm('Deseja realmente excluir este material')) return;
         
         try {
             const response = await fetch(`/api/compras/materiais/${id}`, { method: 'DELETE' });
             if (!response.ok) throw new Error('Erro ao excluir');
             
-            alert('Material desativado com sucesso!');
-            await this.carregarDados();
+            alert('Material desativação com sucesso!');
+            await this.carregarDaçãos();
             this.atualizarCards();
             this.renderizarTabela();
         } catch (error) {
@@ -506,7 +506,7 @@ class MateriaisManager {
 
     async salvar() {
         const id = document.getElementById('materialId').value;
-        const dados = {
+        const daçãos = {
             codigo: document.getElementById('materialCodigo').value,
             descricao: document.getElementById('materialDescricao').value,
             categoria: document.getElementById('materialCategoria').value,
@@ -521,32 +521,32 @@ class MateriaisManager {
             lead_time: parseInt(document.getElementById('materialLeadTime').value) || 0,
             fornecedor_id: document.getElementById('materialFornecedor').value || null,
             ultimo_preco: parseFloat(document.getElementById('materialUltimoPreco').value) || 0,
-            ativo: document.getElementById('materialAtivo').checked ? 1 : 0,
-            sinc_pcp: document.getElementById('materialPCP').checked ? 1 : 0,
+            ativo: document.getElementById('materialAtivo').checked  1 : 0,
+            sinc_pcp: document.getElementById('materialPCP').checked  1 : 0,
             observacoes: document.getElementById('materialObservacoes').value
         };
 
-        if (!dados.codigo || !dados.descricao) {
+        if (!daçãos.codigo || !daçãos.descricao) {
             alert('Código e descrição são obrigatórios!');
             return;
         }
 
         try {
-            const url = id ? `/api/compras/materiais/${id}` : '/api/compras/materiais';
-            const method = id ? 'PUT' : 'POST';
+            const url = id  `/api/compras/materiais/${id}` : '/api/compras/materiais';
+            const method = id  'PUT' : 'POST';
             
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dados)
+                body: JSON.stringify(daçãos)
             });
 
             const result = await response.json();
             
             if (response.ok) {
-                alert(id ? 'Material atualizado com sucesso!' : 'Material cadastrado com sucesso!');
+                alert(id  'Material atualização com sucesso!' : 'Material cadastração com sucesso!');
                 this.fecharModal();
-                await this.carregarDados();
+                await this.carregarDaçãos();
                 this.atualizarCards();
                 this.renderizarTabela();
             } else {
@@ -570,7 +570,7 @@ class MateriaisManager {
         const headers = ['Código', 'Descrição', 'Categoria', 'Unidade', 'Último Preço', 'Estoque Atual', 'Estoque Mín', 'Fornecedor', 'Status'];
         const csv = [
             headers.join(';'),
-            ...this.materiaisFiltrados.map(m => [
+            ...this.materiaisFiltraçãos.map(m => [
                 m.codigo,
                 m.descricao,
                 m.categoria,
@@ -579,7 +579,7 @@ class MateriaisManager {
                 m.estoqueAtual,
                 m.estoqueMin,
                 m.fornecedorNome,
-                m.status === 'disponivel' ? 'Disponível' : (m.status === 'baixo' ? 'Estoque Baixo' : 'Crítico')
+                m.status === 'disponivel'  'Disponível' : (m.status === 'baixo'  'Estoque Baixo' : 'Crítico')
             ].join(';'))
         ].join('\n');
 
@@ -605,7 +605,7 @@ function inicializarUsuario() {
     if (greetingEl) greetingEl.textContent = saudacao;
     
     const userData = JSON.parse(localStorage.getItem('user') || '{}');
-    const nome = userData.apelido || (userData.nome ? userData.nome.split(' ')[0] : 'Usuário');
+    const nome = userData.apelido || (userData.nome  userData.nome.split(' ')[0] : 'Usuário');
     
     const userNameEl = document.getElementById('user-name');
     if (userNameEl) userNameEl.textContent = nome;
@@ -697,7 +697,7 @@ function editarMaterialAtual() {
 }
 
 // Fechar modal ao clicar fora
-document.getElementById('modalVisualizarMaterial')?.addEventListener('click', function(e) {
+document.getElementById('modalVisualizarMaterial').addEventListener('click', function(e) {
     if (e.target === this) {
         fecharModalVisualizarMaterial();
     }

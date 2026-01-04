@@ -1,6 +1,6 @@
 /**
- * Script para executar SEED de dados iniciais no banco ALUFORCE
- * Popula tabelas essenciais com dados básicos para o sistema funcionar
+ * Script para executar SEED de daçãos iniciais no banco ALUFORCE
+ * Popula tabelas essenciais com daçãos básicos para o sistema funcionar
  */
 
 const mysql = require('mysql2/promise');
@@ -32,7 +32,7 @@ async function executarSeed() {
         console.log(`${colors.cyan}╚════════════════════════════════════════════════════════════╝${colors.reset}\n`);
 
         connection = await mysql.createConnection(dbConfig);
-        console.log(`${colors.green}✅ Conectado ao banco: aluforce_vendas${colors.reset}\n`);
+        console.log(`${colors.green}✅ Conectação ao banco: aluforce_vendas${colors.reset}\n`);
 
         // 1. USUÁRIOS
         console.log(`${colors.blue}👤 Inserindo usuários...${colors.reset}`);
@@ -42,14 +42,14 @@ async function executarSeed() {
             const colNames = cols.map(c => c.Field);
             console.log(`   Colunas disponíveis: ${colNames.slice(0, 10).join(', ')}...`);
             
-            // Inserir usuário admin baseado nas colunas existentes
+            // Inserir usuário admin baseação nas colunas existentes
             if (colNames.includes('email') && colNames.includes('senha')) {
                 await connection.execute(`
                     INSERT INTO usuarios (nome, email, senha, cargo, ativo, data_criacao) 
-                    VALUES ('Administrador', 'admin@aluforce.com', SHA2('admin123', 256), 'Administrador', 1, NOW())
+                    VALUES ('Administraçãor', 'admin@aluforce.com', SHA2('admin123', 256), 'Administraçãor', 1, NOW())
                     ON DUPLICATE KEY UPDATE nome = VALUES(nome)
                 `);
-                console.log(`   ${colors.green}✅ Usuário admin criado (email: admin@aluforce.com, senha: admin123)${colors.reset}`);
+                console.log(`   ${colors.green}✅ Usuário admin criação (email: admin@aluforce.com, senha: admin123)${colors.reset}`);
             }
             
             // Criar mais usuários
@@ -57,10 +57,10 @@ async function executarSeed() {
                 INSERT INTO usuarios (nome, email, senha, cargo, ativo, data_criacao) VALUES
                 ('Vendedor 1', 'vendedor1@aluforce.com', SHA2('vendedor123', 256), 'Vendedor', 1, NOW()),
                 ('Gerente Financeiro', 'financeiro@aluforce.com', SHA2('financeiro123', 256), 'Financeiro', 1, NOW()),
-                ('Operador PCP', 'pcp@aluforce.com', SHA2('pcp123', 256), 'PCP', 1, NOW())
+                ('Operaçãor PCP', 'pcp@aluforce.com', SHA2('pcp123', 256), 'PCP', 1, NOW())
                 ON DUPLICATE KEY UPDATE nome = VALUES(nome)
             `);
-            console.log(`   ${colors.green}✅ Usuários adicionais criados${colors.reset}`);
+            console.log(`   ${colors.green}✅ Usuários adicionais criaçãos${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  Usuários: ${err.message}${colors.reset}`);
         }
@@ -72,7 +72,7 @@ async function executarSeed() {
             const colNames = cols.map(c => c.Field);
             
             await connection.execute(`
-                INSERT INTO configuracoes_empresa (razao_social, nome_fantasia, cnpj, inscricao_estadual, telefone, email, endereco, cidade, estado, cep) 
+                INSERT INTO configuracoes_empresa (razao_social, nome_fantasia, cnpj, inscricao_estadual, telefone, email, endereco, cidade, estação, cep) 
                 VALUES ('ALUFORCE INDUSTRIA E COMERCIO LTDA', 'ALUFORCE', '00.000.000/0001-00', '000.000.000.000', '(11) 3333-4444', 'contato@aluforce.com', 'Rua Principal, 100', 'São Paulo', 'SP', '01000-000')
                 ON DUPLICATE KEY UPDATE razao_social = VALUES(razao_social)
             `);
@@ -88,10 +88,10 @@ async function executarSeed() {
                 INSERT INTO categorias_produtos (nome, descricao, ativo) VALUES
                 ('Esquadrias', 'Portas, janelas e esquadrias de alumínio', 1),
                 ('Perfis', 'Perfis de alumínio diversos', 1),
-                ('Vidros', 'Vidros temperados e comuns', 1),
+                ('Vidros', 'Vidros temperaçãos e comuns', 1),
                 ('Acessórios', 'Fechaduras, dobradiças e acessórios', 1),
                 ('Matéria Prima', 'Alumínio bruto e componentes', 1),
-                ('Ferragens', 'Parafusos, rebites e fixadores', 1)
+                ('Ferragens', 'Parafusos, rebites e fixaçãores', 1)
                 ON DUPLICATE KEY UPDATE nome = VALUES(nome)
             `);
             console.log(`   ${colors.green}✅ 6 categorias inseridas${colors.reset}`);
@@ -109,18 +109,18 @@ async function executarSeed() {
             
             await connection.execute(`
                 INSERT INTO produtos (codigo, nome, descricao, unidade_medida, preco_venda, status, data_criacao) VALUES
-                ('ALU-001', 'Perfil de Alumínio Anodizado 2"', 'Perfil de alumínio anodizado natural 2 polegadas para esquadrias', 'MT', 45.90, 'ativo', NOW()),
-                ('ALU-002', 'Perfil de Alumínio Anodizado 3"', 'Perfil de alumínio anodizado natural 3 polegadas para esquadrias', 'MT', 58.50, 'ativo', NOW()),
-                ('ALU-003', 'Perfil de Alumínio Anodizado 4"', 'Perfil de alumínio anodizado natural 4 polegadas para esquadrias', 'MT', 72.00, 'ativo', NOW()),
-                ('VID-001', 'Vidro Temperado Incolor 6mm', 'Vidro temperado incolor 6mm para esquadrias', 'M2', 120.00, 'ativo', NOW()),
-                ('VID-002', 'Vidro Temperado Incolor 8mm', 'Vidro temperado incolor 8mm para esquadrias', 'M2', 180.00, 'ativo', NOW()),
-                ('VID-003', 'Vidro Temperado Verde 8mm', 'Vidro temperado verde 8mm para esquadrias', 'M2', 195.00, 'ativo', NOW()),
+                ('ALU-001', 'Perfil de Alumínio Anodização 2"', 'Perfil de alumínio anodização natural 2 polegadas para esquadrias', 'MT', 45.90, 'ativo', NOW()),
+                ('ALU-002', 'Perfil de Alumínio Anodização 3"', 'Perfil de alumínio anodização natural 3 polegadas para esquadrias', 'MT', 58.50, 'ativo', NOW()),
+                ('ALU-003', 'Perfil de Alumínio Anodização 4"', 'Perfil de alumínio anodização natural 4 polegadas para esquadrias', 'MT', 72.00, 'ativo', NOW()),
+                ('VID-001', 'Vidro Temperação Incolor 6mm', 'Vidro temperação incolor 6mm para esquadrias', 'M2', 120.00, 'ativo', NOW()),
+                ('VID-002', 'Vidro Temperação Incolor 8mm', 'Vidro temperação incolor 8mm para esquadrias', 'M2', 180.00, 'ativo', NOW()),
+                ('VID-003', 'Vidro Temperação Verde 8mm', 'Vidro temperação verde 8mm para esquadrias', 'M2', 195.00, 'ativo', NOW()),
                 ('FER-001', 'Fechadura de Centro', 'Fechadura de centro para porta de alumínio', 'UN', 85.00, 'ativo', NOW()),
                 ('FER-002', 'Fechadura de Embutir', 'Fechadura de embutir para porta de alumínio', 'UN', 125.00, 'ativo', NOW()),
                 ('FER-003', 'Dobradiça Pivotante', 'Dobradiça pivotante para porta de alumínio', 'UN', 45.00, 'ativo', NOW()),
                 ('ACE-001', 'Trinco de Pressão', 'Trinco de pressão para janela de alumínio', 'UN', 18.50, 'ativo', NOW()),
                 ('ACE-002', 'Roldana para Porta de Correr', 'Roldana dupla para porta de correr', 'UN', 35.00, 'ativo', NOW()),
-                ('ACE-003', 'Puxador de Alumínio 30cm', 'Puxador de alumínio escovado 30cm', 'UN', 65.00, 'ativo', NOW()),
+                ('ACE-003', 'Puxaçãor de Alumínio 30cm', 'Puxaçãor de alumínio escovação 30cm', 'UN', 65.00, 'ativo', NOW()),
                 ('ESQ-001', 'Porta de Correr 2 Folhas', 'Porta de correr 2 folhas alumínio natural', 'UN', 1850.00, 'ativo', NOW()),
                 ('ESQ-002', 'Janela de Correr 4 Folhas', 'Janela de correr 4 folhas com vidro', 'UN', 980.00, 'ativo', NOW()),
                 ('ESQ-003', 'Porta Pivotante', 'Porta pivotante de alumínio com vidro', 'UN', 2450.00, 'ativo', NOW())
@@ -150,15 +150,15 @@ async function executarSeed() {
                 }
             }
             
-            const empresaId = colNames.includes('empresa_id') ? '1' : 'NULL';
+            const empresaId = colNames.includes('empresa_id')  '1' : 'NULL';
             
             await connection.execute(`
-                INSERT INTO clientes (nome, razao_social, nome_fantasia, cnpj, email, telefone, endereco, cidade, estado, cep, ativo${colNames.includes('empresa_id') ? ', empresa_id' : ''}) VALUES
-                ('João Silva', 'JOAO SILVA ME', 'JS Construções', '11.111.111/0001-11', 'joao@email.com', '(11) 99999-1111', 'Rua das Flores, 100', 'São Paulo', 'SP', '01000-001', 1${colNames.includes('empresa_id') ? ', 1' : ''}),
-                ('Maria Santos', 'MARIA SANTOS LTDA', 'MS Vidraçaria', '22.222.222/0001-22', 'maria@email.com', '(11) 99999-2222', 'Av. Principal, 200', 'São Paulo', 'SP', '01000-002', 1${colNames.includes('empresa_id') ? ', 1' : ''}),
-                ('Pedro Oliveira', 'PEDRO OLIVEIRA EPP', 'PO Esquadrias', '33.333.333/0001-33', 'pedro@email.com', '(11) 99999-3333', 'Rua do Comércio, 300', 'Guarulhos', 'SP', '07000-001', 1${colNames.includes('empresa_id') ? ', 1' : ''}),
-                ('Ana Costa', 'ANA COSTA ME', 'AC Construções', '44.444.444/0001-44', 'ana@email.com', '(11) 99999-4444', 'Av. Brasil, 400', 'Osasco', 'SP', '06000-001', 1${colNames.includes('empresa_id') ? ', 1' : ''}),
-                ('Carlos Ferreira', 'CARLOS FERREIRA LTDA', 'CF Vidros', '55.555.555/0001-55', 'carlos@email.com', '(11) 99999-5555', 'Rua das Palmeiras, 500', 'São Bernardo', 'SP', '09000-001', 1${colNames.includes('empresa_id') ? ', 1' : ''})
+                INSERT INTO clientes (nome, razao_social, nome_fantasia, cnpj, email, telefone, endereco, cidade, estação, cep, ativo${colNames.includes('empresa_id')  ', empresa_id' : ''}) VALUES
+                ('João Silva', 'JOAO SILVA ME', 'JS Construções', '11.111.111/0001-11', 'joao@email.com', '(11) 99999-1111', 'Rua das Flores, 100', 'São Paulo', 'SP', '01000-001', 1${colNames.includes('empresa_id')  ', 1' : ''}),
+                ('Maria Santos', 'MARIA SANTOS LTDA', 'MS Vidraçaria', '22.222.222/0001-22', 'maria@email.com', '(11) 99999-2222', 'Av. Principal, 200', 'São Paulo', 'SP', '01000-002', 1${colNames.includes('empresa_id')  ', 1' : ''}),
+                ('Pedro Oliveira', 'PEDRO OLIVEIRA EPP', 'PO Esquadrias', '33.333.333/0001-33', 'pedro@email.com', '(11) 99999-3333', 'Rua do Comércio, 300', 'Guarulhos', 'SP', '07000-001', 1${colNames.includes('empresa_id')  ', 1' : ''}),
+                ('Ana Costa', 'ANA COSTA ME', 'AC Construções', '44.444.444/0001-44', 'ana@email.com', '(11) 99999-4444', 'Av. Brasil, 400', 'Osasco', 'SP', '06000-001', 1${colNames.includes('empresa_id')  ', 1' : ''}),
+                ('Carlos Ferreira', 'CARLOS FERREIRA LTDA', 'CF Vidros', '55.555.555/0001-55', 'carlos@email.com', '(11) 99999-5555', 'Rua das Palmeiras, 500', 'São Bernardo', 'SP', '09000-001', 1${colNames.includes('empresa_id')  ', 1' : ''})
                 ON DUPLICATE KEY UPDATE nome = VALUES(nome)
             `);
             console.log(`   ${colors.green}✅ 5 clientes inseridos${colors.reset}`);
@@ -170,7 +170,7 @@ async function executarSeed() {
         console.log(`\n${colors.blue}🏭 Inserindo fornecedores...${colors.reset}`);
         try {
             await connection.execute(`
-                INSERT INTO fornecedores (nome, razao_social, cnpj, email, telefone, endereco, cidade, estado, cep, ativo) VALUES
+                INSERT INTO fornecedores (nome, razao_social, cnpj, email, telefone, endereco, cidade, estação, cep, ativo) VALUES
                 ('Alcoa Brasil', 'ALCOA ALUMINIO SA', '66.666.666/0001-66', 'vendas@alcoa.com', '(11) 3333-6666', 'Rod. Industrial, 1000', 'São Paulo', 'SP', '01000-100', 1),
                 ('Vidros Brasil', 'VIDROS BRASIL LTDA', '77.777.777/0001-77', 'vendas@vidrosbrasil.com', '(11) 3333-7777', 'Av. das Indústrias, 2000', 'Guarulhos', 'SP', '07000-200', 1),
                 ('Ferragens Premium', 'FERRAGENS PREMIUM LTDA', '88.888.888/0001-88', 'vendas@ferragenspremium.com', '(11) 3333-8888', 'Rua do Comércio, 3000', 'Osasco', 'SP', '06000-300', 1),
@@ -206,7 +206,7 @@ async function executarSeed() {
             
             await connection.execute(`
                 INSERT INTO funcionarios (nome, email, cargo, departamento, data_admissao, salario, ativo) VALUES
-                ('José Pereira', 'jose@aluforce.com', 'Operador de Produção', 'PCP', '2023-01-15', 2500.00, 1),
+                ('José Pereira', 'jose@aluforce.com', 'Operaçãor de Produção', 'PCP', '2023-01-15', 2500.00, 1),
                 ('Mariana Lima', 'mariana@aluforce.com', 'Auxiliar Administrativo', 'Administrativo', '2023-03-20', 2200.00, 1),
                 ('Roberto Costa', 'roberto@aluforce.com', 'Vendedor', 'Comercial', '2022-06-10', 3000.00, 1),
                 ('Fernanda Souza', 'fernanda@aluforce.com', 'Analista Financeiro', 'Financeiro', '2022-09-01', 4500.00, 1),
@@ -232,7 +232,7 @@ async function executarSeed() {
                     
                     await connection.execute(`
                         INSERT INTO estoque_saldos (produto_id, quantidade, estoque_minimo, estoque_maximo, localizacao, data_atualizacao)
-                        VALUES (?, ?, ?, ?, 'Almoxarifado Principal', NOW())
+                        VALUES (, , , , 'Almoxarifação Principal', NOW())
                         ON DUPLICATE KEY UPDATE quantidade = VALUES(quantidade)
                     `, [prod.id, quantidade, estoqueMin, estoqueMax]);
                 }
@@ -287,7 +287,7 @@ async function executarSeed() {
             try {
                 const [result] = await connection.execute(`SELECT COUNT(*) as total FROM ${tabela}`);
                 const total = result[0].total;
-                const status = total > 0 ? colors.green + '✅' : colors.yellow + '⚠️';
+                const status = total > 0  colors.green + '✅' : colors.yellow + '⚠️';
                 console.log(`   ${status} ${tabela.padEnd(25)} ${total.toString().padStart(5)} registros${colors.reset}`);
             } catch (err) {
                 console.log(`   ${colors.red}❌ ${tabela.padEnd(25)} ERRO${colors.reset}`);

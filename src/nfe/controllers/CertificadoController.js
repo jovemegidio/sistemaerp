@@ -1,13 +1,13 @@
 /**
- * Controller de Certificado Digital
- * Gerencia requisições HTTP relacionadas a certificados
+ * Controller de Certificação Digital
+ * Gerencia requisições HTTP relacionadas a certificaçãos
  * 
- * @module CertificadoController
+ * @module CertificaçãoController
  */
 
 const express = require('express');
 const multer = require('multer');
-const CertificadoService = require('../services/CertificadoService');
+const CertificaçãoService = require('../services/CertificaçãoService');
 
 // Configurar upload de arquivos
 const storage = multer.memoryStorage();
@@ -25,20 +25,20 @@ const upload = multer({
     }
 });
 
-function createCertificadoController(pool) {
+function createCertificaçãoController(pool) {
     const router = express.Router();
-    const certificadoService = new CertificadoService(pool);
+    const certificaçãoService = new CertificaçãoService(pool);
 
     /**
-     * POST /api/nfe/certificado/upload
-     * Upload de certificado digital A1
+     * POST /api/nfe/certificação/upload
+     * Upload de certificação digital A1
      */
-    router.post('/upload', upload.single('certificado'), async (req, res) => {
+    router.post('/upload', upload.single('certificação'), async (req, res) => {
         try {
             if (!req.file) {
                 return res.status(400).json({
                     success: false,
-                    error: 'Nenhum arquivo enviado'
+                    error: 'Nenhum arquivo enviação'
                 });
             }
 
@@ -46,19 +46,19 @@ function createCertificadoController(pool) {
             if (!senha) {
                 return res.status(400).json({
                     success: false,
-                    error: 'Senha do certificado é obrigatória'
+                    error: 'Senha do certificação é obrigatória'
                 });
             }
 
-            const empresaId = req.user?.empresa_id || 1;
+            const empresaId = req.user.empresa_id || 1;
             const pfxBuffer = req.file.buffer;
 
-            const result = await certificadoService.uploadCertificado(pfxBuffer, senha, empresaId);
+            const result = await certificaçãoService.uploadCertificação(pfxBuffer, senha, empresaId);
 
             res.json(result);
 
         } catch (error) {
-            console.error('❌ Erro no upload do certificado:', error);
+            console.error('❌ Erro no upload do certificação:', error);
             res.status(400).json({
                 success: false,
                 error: error.message
@@ -67,18 +67,18 @@ function createCertificadoController(pool) {
     });
 
     /**
-     * GET /api/nfe/certificado/status
-     * Obter status do certificado configurado
+     * GET /api/nfe/certificação/status
+     * Obter status do certificação configuração
      */
     router.get('/status', async (req, res) => {
         try {
-            const empresaId = req.user?.empresa_id || 1;
-            const status = await certificadoService.getStatus(empresaId);
+            const empresaId = req.user.empresa_id || 1;
+            const status = await certificaçãoService.getStatus(empresaId);
 
             res.json(status);
 
         } catch (error) {
-            console.error('❌ Erro ao obter status do certificado:', error);
+            console.error('❌ Erro ao obter status do certificação:', error);
             res.status(500).json({
                 success: false,
                 error: error.message
@@ -87,18 +87,18 @@ function createCertificadoController(pool) {
     });
 
     /**
-     * DELETE /api/nfe/certificado
-     * Remove certificado configurado
+     * DELETE /api/nfe/certificação
+     * Remove certificação configuração
      */
     router.delete('/', async (req, res) => {
         try {
-            const empresaId = req.user?.empresa_id || 1;
-            const result = await certificadoService.removerCertificado(empresaId);
+            const empresaId = req.user.empresa_id || 1;
+            const result = await certificaçãoService.removerCertificação(empresaId);
 
             res.json(result);
 
         } catch (error) {
-            console.error('❌ Erro ao remover certificado:', error);
+            console.error('❌ Erro ao remover certificação:', error);
             res.status(500).json({
                 success: false,
                 error: error.message
@@ -107,15 +107,15 @@ function createCertificadoController(pool) {
     });
 
     /**
-     * POST /api/nfe/certificado/testar
-     * Testa certificado sem salvar
+     * POST /api/nfe/certificação/testar
+     * Testa certificação sem salvar
      */
-    router.post('/testar', upload.single('certificado'), async (req, res) => {
+    router.post('/testar', upload.single('certificação'), async (req, res) => {
         try {
             if (!req.file) {
                 return res.status(400).json({
                     success: false,
-                    error: 'Nenhum arquivo enviado'
+                    error: 'Nenhum arquivo enviação'
                 });
             }
 
@@ -123,22 +123,22 @@ function createCertificadoController(pool) {
             if (!senha) {
                 return res.status(400).json({
                     success: false,
-                    error: 'Senha do certificado é obrigatória'
+                    error: 'Senha do certificação é obrigatória'
                 });
             }
 
             const pfxBuffer = req.file.buffer;
 
             // Apenas validar, sem salvar
-            const certData = await certificadoService.validarCertificado(pfxBuffer, senha);
-            const info = certificadoService.extrairInformacoes(certData);
+            const certData = await certificaçãoService.validarCertificação(pfxBuffer, senha);
+            const info = certificaçãoService.extrairInformacoes(certData);
 
             const hoje = new Date();
             const diasRestantes = Math.ceil((info.validade - hoje) / (1000 * 60 * 60 * 24));
 
             res.json({
                 success: true,
-                message: 'Certificado válido',
+                message: 'Certificação válido',
                 info: {
                     cnpj: info.cnpj,
                     razaoSocial: info.razaoSocial,
@@ -146,12 +146,12 @@ function createCertificadoController(pool) {
                     emissao: info.emissao,
                     diasRestantes: diasRestantes,
                     emissor: info.emissor,
-                    status: diasRestantes > 30 ? 'valido' : diasRestantes > 0 ? 'expirando' : 'expirado'
+                    status: diasRestantes > 30  'valido' : diasRestantes > 0  'expirando' : 'expiração'
                 }
             });
 
         } catch (error) {
-            console.error('❌ Erro ao testar certificado:', error);
+            console.error('❌ Erro ao testar certificação:', error);
             res.status(400).json({
                 success: false,
                 error: error.message
@@ -162,4 +162,4 @@ function createCertificadoController(pool) {
     return router;
 }
 
-module.exports = createCertificadoController;
+module.exports = createCertificaçãoController;

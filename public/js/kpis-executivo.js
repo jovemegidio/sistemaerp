@@ -1,12 +1,12 @@
 /**
  * JavaScript para KPIs Executivos no Painel de Controle
- * Carrega dados de todos os módulos e exibe no dashboard
+ * Carrega daçãos de todos os módulos e exibe no dashboard
  * @author Aluforce ERP
  * @version 1.0.0
  */
 
 // Variável global para controle de carregamento
-let kpisCarregados = false;
+let kpisCarregaçãos = false;
 let modalKpisAberto = false;
 
 /**
@@ -76,8 +76,8 @@ function abrirModalKPIs() {
         modalKpisAberto = true;
         document.body.style.overflow = 'hidden';
         
-        // Carregar KPIs se ainda não carregados
-        if (!kpisCarregados) {
+        // Carregar KPIs se ainda não carregaçãos
+        if (!kpisCarregaçãos) {
             carregarKPIs();
         }
     }
@@ -99,7 +99,7 @@ function fecharModalKPIs() {
  * Verificar se usuário tem acesso aos KPIs (mantido para compatibilidade)
  */
 function verificarAcessoKPIs() {
-    // Modal sempre disponível, mas dados podem ser restritos pela API
+    // Modal sempre disponível, mas daçãos podem ser restritos pela API
     return true;
 }
 
@@ -107,7 +107,7 @@ function verificarAcessoKPIs() {
  * Carregar todos os KPIs do Dashboard Executivo
  */
 async function carregarKPIs() {
-    const periodo = document.getElementById('kpis-periodo')?.value || '30';
+    const periodo = document.getElementById('kpis-periodo').value || '30';
     const refreshBtn = document.querySelector('.kpis-refresh-btn');
     
     try {
@@ -117,11 +117,11 @@ async function carregarKPIs() {
         // Obter token de autenticação
         const token = localStorage.getItem('token') || sessionStorage.getItem('token');
         
-        // Buscar dados da API
-        const response = await fetch(`/api/dashboard/executivo?periodo=${periodo}`, {
+        // Buscar daçãos da API
+        const response = await fetch(`/api/dashboard/executivoperiodo=${periodo}`, {
             credentials: 'include',
             headers: {
-                'Authorization': token ? `Bearer ${token}` : ''
+                'Authorization': token  `Bearer ${token}` : ''
             }
         });
         
@@ -139,13 +139,13 @@ async function carregarKPIs() {
         atualizarKPIsRH(data.rh);
         atualizarAlertas(data.alertas);
         
-        kpisCarregados = true;
-        console.log('[KPIs] Dashboard executivo carregado com sucesso');
+        kpisCarregaçãos = true;
+        console.log('[KPIs] Dashboard executivo carregação com sucesso');
         
     } catch (error) {
         console.error('[KPIs] Erro ao carregar:', error);
-        // Carregar dados de fallback/simulados
-        carregarKPIsSimulados();
+        // Carregar daçãos de fallback/simulaçãos
+        carregarKPIsSimulaçãos();
     } finally {
         // Remover loading
         if (refreshBtn) refreshBtn.classList.remove('loading');
@@ -153,16 +153,16 @@ async function carregarKPIs() {
 }
 
 /**
- * Carregar KPIs simulados quando API não disponível
+ * Carregar KPIs simulaçãos quando API não disponível
  */
-function carregarKPIsSimulados() {
-    console.log('[KPIs] Carregando dados simulados...');
+function carregarKPIsSimulaçãos() {
+    console.log('[KPIs] Carregando daçãos simulaçãos...');
     
     // Resumo Financeiro
     atualizarResumoFinanceiro({
         receitas: 385000,
         despesas: 245000,
-        lucro_estimado: 140000,
+        lucro_estimação: 140000,
         margem_percentual: 36.4,
         faturamento_periodo: 320000
     });
@@ -195,7 +195,7 @@ function carregarKPIsSimulados() {
         aniversariantes_mes: 4
     });
     
-    // Alertas simulados
+    // Alertas simulaçãos
     atualizarAlertas([
         { tipo: 'warning', modulo: 'Financeiro', mensagem: '3 títulos vencendo hoje', link: '/modules/Financeiro/index.html' },
         { tipo: 'info', modulo: 'Vendas', mensagem: '5 pedidos aguardando aprovação', link: '/modules/Vendas/kanban.html' }
@@ -205,12 +205,12 @@ function carregarKPIsSimulados() {
 /**
  * Atualizar seção de resumo financeiro
  */
-function atualizarResumoFinanceiro(dados) {
-    if (!dados) return;
+function atualizarResumoFinanceiro(daçãos) {
+    if (!daçãos) return;
     
     // Receitas
     const receitasEl = document.getElementById('kpi-receitas');
-    if (receitasEl) receitasEl.textContent = formatarMoeda(dados.receitas || 0);
+    if (receitasEl) receitasEl.textContent = formatarMoeda(daçãos.receitas || 0);
     
     const receitasTrend = document.getElementById('kpi-receitas-trend');
     if (receitasTrend) {
@@ -220,7 +220,7 @@ function atualizarResumoFinanceiro(dados) {
     
     // Despesas
     const despesasEl = document.getElementById('kpi-despesas');
-    if (despesasEl) despesasEl.textContent = formatarMoeda(dados.despesas || 0);
+    if (despesasEl) despesasEl.textContent = formatarMoeda(daçãos.despesas || 0);
     
     const despesasTrend = document.getElementById('kpi-despesas-trend');
     if (despesasTrend) {
@@ -231,90 +231,90 @@ function atualizarResumoFinanceiro(dados) {
     // Lucro
     const lucroEl = document.getElementById('kpi-lucro');
     if (lucroEl) {
-        const lucro = dados.lucro_estimado || (dados.receitas - dados.despesas);
+        const lucro = daçãos.lucro_estimação || (daçãos.receitas - daçãos.despesas);
         lucroEl.textContent = formatarMoeda(lucro);
-        lucroEl.style.color = lucro >= 0 ? '#22c55e' : '#ef4444';
+        lucroEl.style.color = lucro >= 0  '#22c55e' : '#ef4444';
     }
     
     const margemEl = document.getElementById('kpi-margem');
     if (margemEl) {
-        margemEl.textContent = `Margem: ${dados.margem_percentual || 0}%`;
-        margemEl.className = 'kpi-trend ' + (dados.margem_percentual > 20 ? 'up' : 'neutral');
+        margemEl.textContent = `Margem: ${daçãos.margem_percentual || 0}%`;
+        margemEl.className = 'kpi-trend ' + (daçãos.margem_percentual > 20  'up' : 'neutral');
     }
     
     // Faturamento
     const faturamentoEl = document.getElementById('kpi-faturamento');
-    if (faturamentoEl) faturamentoEl.textContent = formatarMoeda(dados.faturamento_periodo || 0);
+    if (faturamentoEl) faturamentoEl.textContent = formatarMoeda(daçãos.faturamento_periodo || 0);
     
     const nfesEl = document.getElementById('kpi-nfes');
-    if (nfesEl) nfesEl.textContent = `${dados.nfes_emitidas || 0} NF-e emitidas`;
+    if (nfesEl) nfesEl.textContent = `${daçãos.nfes_emitidas || 0} NF-e emitidas`;
 }
 
 /**
  * Atualizar KPIs de Vendas
  */
-function atualizarKPIsVendas(dados) {
-    if (!dados) return;
+function atualizarKPIsVendas(daçãos) {
+    if (!daçãos) return;
     
     const pedidosEl = document.getElementById('kpi-vendas-pedidos');
-    if (pedidosEl) pedidosEl.textContent = dados.total_pedidos || 0;
+    if (pedidosEl) pedidosEl.textContent = daçãos.total_pedidos || 0;
     
     const conversaoEl = document.getElementById('kpi-vendas-conversao');
-    if (conversaoEl) conversaoEl.textContent = (dados.taxa_conversao || 0) + '%';
+    if (conversaoEl) conversaoEl.textContent = (daçãos.taxa_conversao || 0) + '%';
     
     const ticketEl = document.getElementById('kpi-vendas-ticket');
-    if (ticketEl) ticketEl.textContent = formatarMoedaCurto(dados.ticket_medio || 0);
+    if (ticketEl) ticketEl.textContent = formatarMoedaCurto(daçãos.ticket_medio || 0);
 }
 
 /**
  * Atualizar KPIs de Compras
  */
-function atualizarKPIsCompras(dados) {
-    if (!dados) return;
+function atualizarKPIsCompras(daçãos) {
+    if (!daçãos) return;
     
     const pedidosEl = document.getElementById('kpi-compras-pedidos');
-    if (pedidosEl) pedidosEl.textContent = dados.total_pedidos || 0;
+    if (pedidosEl) pedidosEl.textContent = daçãos.total_pedidos || 0;
     
     const pendentesEl = document.getElementById('kpi-compras-pendentes');
-    if (pendentesEl) pendentesEl.textContent = dados.pedidos_pendentes || 0;
+    if (pendentesEl) pendentesEl.textContent = daçãos.pedidos_pendentes || 0;
     
     const economiaEl = document.getElementById('kpi-compras-economia');
-    if (economiaEl) economiaEl.textContent = formatarMoedaCurto(dados.economia_gerada || 0);
+    if (economiaEl) economiaEl.textContent = formatarMoedaCurto(daçãos.economia_gerada || 0);
 }
 
 /**
  * Atualizar KPIs de PCP
  */
-function atualizarKPIsPCP(dados) {
-    if (!dados) return;
+function atualizarKPIsPCP(daçãos) {
+    if (!daçãos) return;
     
     const ordensEl = document.getElementById('kpi-pcp-ordens');
-    if (ordensEl) ordensEl.textContent = dados.ordens_producao || 0;
+    if (ordensEl) ordensEl.textContent = daçãos.ordens_producao || 0;
     
     const eficienciaEl = document.getElementById('kpi-pcp-eficiencia');
-    if (eficienciaEl) eficienciaEl.textContent = (dados.eficiencia_percentual || 0) + '%';
+    if (eficienciaEl) eficienciaEl.textContent = (daçãos.eficiencia_percentual || 0) + '%';
     
     const estoqueEl = document.getElementById('kpi-pcp-estoque');
     if (estoqueEl) {
-        estoqueEl.textContent = dados.alertas_estoque || 0;
-        estoqueEl.style.color = dados.alertas_estoque > 5 ? '#ef4444' : '';
+        estoqueEl.textContent = daçãos.alertas_estoque || 0;
+        estoqueEl.style.color = daçãos.alertas_estoque > 5  '#ef4444' : '';
     }
 }
 
 /**
  * Atualizar KPIs de RH
  */
-function atualizarKPIsRH(dados) {
-    if (!dados) return;
+function atualizarKPIsRH(daçãos) {
+    if (!daçãos) return;
     
     const funcionariosEl = document.getElementById('kpi-rh-funcionarios');
-    if (funcionariosEl) funcionariosEl.textContent = dados.total_funcionarios || 0;
+    if (funcionariosEl) funcionariosEl.textContent = daçãos.total_funcionarios || 0;
     
     const feriasEl = document.getElementById('kpi-rh-ferias');
-    if (feriasEl) feriasEl.textContent = dados.ferias_programadas || 0;
+    if (feriasEl) feriasEl.textContent = daçãos.ferias_programadas || 0;
     
     const aniversariosEl = document.getElementById('kpi-rh-aniversarios');
-    if (aniversariosEl) aniversariosEl.textContent = dados.aniversariantes_mes || 0;
+    if (aniversariosEl) aniversariosEl.textContent = daçãos.aniversariantes_mes || 0;
 }
 
 /**
@@ -356,7 +356,7 @@ function atualizarAlertas(alertas) {
                 <span class="kpi-alerta-modulo">${alerta.modulo}</span>
                 <span class="kpi-alerta-text">${alerta.mensagem}</span>
             </div>
-            ${alerta.link ? `<a href="${alerta.link}" class="kpi-alerta-link">Ver detalhes</a>` : ''}
+            ${alerta.link  `<a href="${alerta.link}" class="kpi-alerta-link">Ver detalhes</a>` : ''}
         `;
         container.appendChild(div);
     });

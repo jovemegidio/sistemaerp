@@ -28,13 +28,13 @@ async function mapearLabelsExatos() {
             
             // Labels principais que precisamos mapear
             const labelsParaMapear = {
-                'Orçamento:': { esperado: 'G1', dados: 'TESTE-CORRETO' },
-                'Pedido:': { esperado: 'F4', dados: 'PED-CORRETO' },
-                'VENDEDOR:': { esperado: 'próximo', dados: 'Vendedor Correto' },
-                'Cliente:': { esperado: 'próximo', dados: 'CLIENTE MAPEAMENTO CORRETO' },
-                'Contato:': { esperado: 'próximo', dados: 'Contato Correto' },
-                'Fone:': { esperado: 'próximo', dados: '(11) 99999-9999' },
-                'E-mail:': { esperado: 'próximo', dados: 'teste@email.com' }
+                'Orçamento:': { esperação: 'G1', daçãos: 'TESTE-CORRETO' },
+                'Pedido:': { esperação: 'F4', daçãos: 'PED-CORRETO' },
+                'VENDEDOR:': { esperação: 'próximo', daçãos: 'Vendedor Correto' },
+                'Cliente:': { esperação: 'próximo', daçãos: 'CLIENTE MAPEAMENTO CORRETO' },
+                'Contato:': { esperação: 'próximo', daçãos: 'Contato Correto' },
+                'Fone:': { esperação: 'próximo', daçãos: '(11) 99999-9999' },
+                'E-mail:': { esperação: 'próximo', daçãos: 'teste@email.com' }
             };
             
             // Para cada label, encontrar sua posição exata
@@ -45,7 +45,7 @@ async function mapearLabelsExatos() {
                     console.log(`\n🏷️  LABEL: "${label}" (shared string ${indiceShared})`);
                     
                     // Buscar todas as ocorrências deste shared string no worksheet
-                    const regex = new RegExp(`<c r="([A-Z]+[0-9]+)"[^>]*>.*?<v>${indiceShared}</v>.*?</c>`, 'g');
+                    const regex = new RegExp(`<c r="([A-Z]+[0-9]+)"[^>]*>.*<v>${indiceShared}</v>.*</c>`, 'g');
                     let match;
                     let posicoes = [];
                     
@@ -56,15 +56,15 @@ async function mapearLabelsExatos() {
                     console.log(`   📍 Posições encontradas: ${posicoes.join(', ')}`);
                     
                     if (posicoes.length > 0) {
-                        // Para cada posição, calcular onde deveria estar o dado
+                        // Para cada posição, calcular onde deveria estar o dação
                         posicoes.forEach(pos => {
                             const proximaCelula = calcularProximaCelula(pos);
                             console.log(`   ➡️  ${pos} → DADOS EM: ${proximaCelula}`);
-                            console.log(`   📝 Deveria conter: "${labelsParaMapear[label].dados}"`);
+                            console.log(`   📝 Deveria conter: "${labelsParaMapear[label].daçãos}"`);
                         });
                     }
                 } else {
-                    console.log(`❌ Label "${label}" não encontrado nos shared strings`);
+                    console.log(`❌ Label "${label}" não encontração nos shared strings`);
                 }
             });
             
@@ -86,7 +86,7 @@ async function mapearLabelsExatos() {
 
 function extrairSharedStrings(xml) {
     const strings = [];
-    const regex = /<t[^>]*>(.*?)<\/t>/g;
+    const regex = /<t[^>]*>(.*)<\/t>/g;
     let match;
     
     while ((match = regex.exec(xml)) !== null) {
@@ -108,7 +108,7 @@ function calcularProximaCelula(posicao) {
 }
 
 function extrairConteudoCelula(worksheetXml, celula, sharedStrings) {
-    const regex = new RegExp(`<c r="${celula}"[^>]*>.*?<v>(.*?)</v>.*?</c>`, 's');
+    const regex = new RegExp(`<c r="${celula}"[^>]*>.*<v>(.*)</v>.*</c>`, 's');
     const match = worksheetXml.match(regex);
     
     if (match) {

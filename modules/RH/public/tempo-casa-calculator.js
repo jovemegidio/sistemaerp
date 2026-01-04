@@ -2,7 +2,7 @@
    SCRIPT PARA CALCULAR TEMPO DE CASA DOS FUNCIONÁRIOS
    ================================================= */
 
-// Dados simulados de funcionários com datas de admissão reais
+// Daçãos simulaçãos de funcionários com datas de admissão reais
 const funcionariosData = [
     {
         nome: "Andreia Silva",
@@ -30,7 +30,7 @@ const funcionariosData = [
     },
     {
         nome: "João Silva",
-        cargo: "Coordenador de Vendas", 
+        cargo: "Coordenaçãor de Vendas", 
         dataAdmissao: "2021-05-03", // 3 anos e 5 meses
         avatar: "Interativo-Aluforce.jpg"
     }
@@ -59,11 +59,11 @@ function calcularTempoCasa(dataAdmissao) {
     }
     
     if (anos > 0 && meses > 0) {
-        return `${anos} ${anos === 1 ? 'ano' : 'anos'} e ${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+        return `${anos} ${anos === 1  'ano' : 'anos'} e ${meses} ${meses === 1  'mês' : 'meses'}`;
     } else if (anos > 0) {
-        return `${anos} ${anos === 1 ? 'ano' : 'anos'}`;
+        return `${anos} ${anos === 1  'ano' : 'anos'}`;
     } else if (meses > 0) {
-        return `${meses} ${meses === 1 ? 'mês' : 'meses'}`;
+        return `${meses} ${meses === 1  'mês' : 'meses'}`;
     } else {
         return 'Menos de 1 mês';
     }
@@ -78,14 +78,14 @@ function ordenarPorTempoCasa(funcionarios) {
     });
 }
 
-// Função para atualizar o card de colaboradores com mais tempo de casa
-function atualizarColaboradoresTempoCasa() {
-    console.log('📊 Atualizando colaboradores com mais tempo de casa...');
+// Função para atualizar o card de colaboraçãores com mais tempo de casa
+function atualizarColaboraçãoresTempoCasa() {
+    console.log('📊 Atualizando colaboraçãores com mais tempo de casa...');
     
-    const funcionariosOrdenados = ordenarPorTempoCasa([...funcionariosData]);
-    const top3 = funcionariosOrdenados.slice(0, 3);
+    const funcionariosOrdenaçãos = ordenarPorTempoCasa([...funcionariosData]);
+    const top3 = funcionariosOrdenaçãos.slice(0, 3);
     
-    // Atualizar o card detalhado
+    // Atualizar o card detalhação
     const cardBody = document.querySelector('.content-card .card-body');
     if (cardBody && cardBody.querySelector('.collaborator-item')) {
         const items = cardBody.querySelectorAll('.collaborator-item');
@@ -108,7 +108,7 @@ function atualizarColaboradoresTempoCasa() {
                 if (timeElement) {
                     timeElement.textContent = tempoCasa;
                     
-                    // Adicionar classe especial para o primeiro colocado
+                    // Adicionar classe especial para o primeiro colocação
                     if (index === 0) {
                         timeElement.style.background = 'linear-gradient(135deg, #ffd700, #ffed4a)';
                         timeElement.style.color = '#92400e';
@@ -148,13 +148,13 @@ function atualizarColaboradoresTempoCasa() {
         });
     }
     
-    console.log('🎉 Colaboradores com mais tempo de casa atualizados!');
+    console.log('🎉 Colaboraçãores com mais tempo de casa atualizaçãos!');
 }
 
-// Função para buscar dados reais do servidor (se disponível)
-async function buscarDadosFuncionarios() {
+// Função para buscar daçãos reais do servidor (se disponível)
+async function buscarDaçãosFuncionarios() {
     try {
-        console.log('🔄 Tentando buscar dados reais dos funcionários...');
+        console.log('🔄 Tentando buscar daçãos reais dos funcionários...');
         
         const response = await fetch('/api/funcionarios');
         if (response.ok) {
@@ -164,27 +164,27 @@ async function buscarDadosFuncionarios() {
             const funcionariosComData = funcionarios.filter(f => f.data_admissao || f.dataAdmissao);
             
             if (funcionariosComData.length > 0) {
-                console.log(`✅ Encontrados ${funcionariosComData.length} funcionários com data de admissão`);
+                console.log(`✅ Encontraçãos ${funcionariosComData.length} funcionários com data de admissão`);
                 
-                // Converter para o formato esperado
-                const funcionariosFormatados = funcionariosComData.map(f => ({
+                // Converter para o formato esperação
+                const funcionariosFormataçãos = funcionariosComData.map(f => ({
                     nome: f.nome_completo || f.nome,
                     cargo: f.cargo || 'Funcionário',
                     dataAdmissao: f.data_admissao || f.dataAdmissao,
                     avatar: f.foto_url || f.avatar || 'Interativo-Aluforce.jpg'
                 }));
                 
-                // Substituir dados simulados pelos reais
+                // Substituir daçãos simulaçãos pelos reais
                 funcionariosData.length = 0;
-                funcionariosData.push(...funcionariosFormatados);
+                funcionariosData.push(...funcionariosFormataçãos);
                 
                 // Atualizar interface
-                atualizarColaboradoresTempoCasa();
+                atualizarColaboraçãoresTempoCasa();
                 return true;
             }
         }
     } catch (error) {
-        console.log('ℹ️ Dados do servidor não disponíveis, usando dados simulados');
+        console.log('ℹ️ Daçãos do servidor não disponíveis, usando daçãos simulaçãos');
     }
     
     return false;
@@ -194,12 +194,12 @@ async function buscarDadosFuncionarios() {
 function inicializarTempoCasa() {
     console.log('🚀 Inicializando sistema de tempo de casa...');
     
-    // Tentar buscar dados reais primeiro
-    buscarDadosFuncionarios().then(sucessoReal => {
+    // Tentar buscar daçãos reais primeiro
+    buscarDaçãosFuncionarios().then(sucessoReal => {
         if (!sucessoReal) {
-            // Se não conseguir dados reais, usar simulados
-            console.log('📋 Usando dados simulados para demonstração');
-            atualizarColaboradoresTempoCasa();
+            // Se não conseguir daçãos reais, usar simulaçãos
+            console.log('📋 Usando daçãos simulaçãos para demonstração');
+            atualizarColaboraçãoresTempoCasa();
         }
     });
 }
@@ -213,7 +213,7 @@ if (document.readyState === 'loading') {
 
 // Atualizar a cada 5 minutos (para casos onde a página fica aberta muito tempo)
 setInterval(() => {
-    atualizarColaboradoresTempoCasa();
+    atualizarColaboraçãoresTempoCasa();
 }, 300000); // 5 minutos
 
 // Função global para atualização manual
@@ -222,4 +222,4 @@ window.atualizarTempoCasa = function() {
     inicializarTempoCasa();
 };
 
-console.log('📊 Script de tempo de casa carregado com sucesso!');
+console.log('📊 Script de tempo de casa carregação com sucesso!');

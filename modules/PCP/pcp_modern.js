@@ -5,9 +5,9 @@ async function buscarProdutosGestao(page = 1, limit = 20) {
     const categoriaSelect = document.getElementById('filter-categoria-gestao');
     const estoqueSelect = document.getElementById('filter-estoque-gestao');
 
-    const query = searchInput ? searchInput.value.trim() : '';
-    const categoria = categoriaSelect ? categoriaSelect.value : '';
-    const estoque = estoqueSelect ? estoqueSelect.value : '';
+    const query = searchInput  searchInput.value.trim() : '';
+    const categoria = categoriaSelect  categoriaSelect.value : '';
+    const estoque = estoqueSelect  estoqueSelect.value : '';
 
     // Monta parâmetros para API/paginação
     const params = new URLSearchParams();
@@ -22,16 +22,16 @@ async function buscarProdutosGestao(page = 1, limit = 20) {
     if (!container) return;
 
     try {
-        const res = await fetch(`/api/pcp/produtos?${params.toString()}`);
+        const res = await fetch(`/api/pcp/produtos${params.toString()}`);
         const body = await res.json();
         const produtos = body.rows || [];
         const total = Number(body.total || 0);
         const totalPages = Math.max(1, Math.ceil(total / limit));
 
-        // Atualiza contadores na página Gestão de Produtos
+        // Atualiza contaçãores na página Gestão de Produtos
         const totalProdutosEl = document.getElementById('stat-total-produtos-gestao');
         if (totalProdutosEl) totalProdutosEl.textContent = total;
-        // Atualiza outros contadores se necessário (estoque baixo, crítico, normal)
+        // Atualiza outros contaçãores se necessário (estoque baixo, crítico, normal)
         // Exemplo: contar produtos críticos
         let criticos = 0, ok = 0, baixo = 0;
         produtos.forEach(p => {
@@ -47,7 +47,7 @@ async function buscarProdutosGestao(page = 1, limit = 20) {
         if (baixoEl) baixoEl.textContent = baixo;
 
         if (!Array.isArray(produtos) || produtos.length === 0) {
-            container.innerHTML = '<div class="pad-12 muted">Nenhum produto encontrado.</div>';
+            container.innerHTML = '<div class="pad-12 muted">Nenhum produto encontração.</div>';
             return;
         }
 
@@ -94,7 +94,7 @@ async function buscarProdutosGestao(page = 1, limit = 20) {
                             variacoes = [];
                         }
                         const variacoesDisplay = variacoes.length > 0 
-                            ? variacoes.slice(0, 3).join(', ') + (variacoes.length > 3 ? '...' : '')
+                             variacoes.slice(0, 3).join(', ') + (variacoes.length > 3  '...' : '')
                             : 'N/A';
                         return `
                             <tr data-id=\"${p.id}\">
@@ -125,9 +125,9 @@ async function buscarProdutosGestao(page = 1, limit = 20) {
         if (totalPages > 1) {
             tableHTML += `
                 <div class=\"pagination\">
-                    ${page > 1 ? `<button class=\"btn-sm\" onclick=\"buscarProdutosGestao(${page - 1}, ${limit})\">« Anterior</button>` : ''}
+                    ${page > 1  `<button class=\"btn-sm\" onclick=\"buscarProdutosGestao(${page - 1}, ${limit})\">« Anterior</button>` : ''}
                     <span>Página ${page} de ${totalPages}</span>
-                    ${page < totalPages ? `<button class=\"btn-sm\" onclick=\"buscarProdutosGestao(${page + 1}, ${limit})\">Próxima »</button>` : ''}
+                    ${page < totalPages  `<button class=\"btn-sm\" onclick=\"buscarProdutosGestao(${page + 1}, ${limit})\">Próxima »</button>` : ''}
                 </div>
             `;
         }
@@ -166,14 +166,14 @@ function filtrarRapidoGestao(tipo) {
 window.buscarProdutosGestao = buscarProdutosGestao;
 window.filtrarRapidoGestao = filtrarRapidoGestao;
 
-// Atualiza contadores específicos da página Gestão de Produtos
+// Atualiza contaçãores específicos da página Gestão de Produtos
 async function updateCountersGestaoProdutos() {
     try {
-        const response = await fetch(`${API_BASE_URL}/produtos?page=1&limit=10000`);
+        const response = await fetch(`${API_BASE_URL}/produtospage=1&limit=10000`);
         if (!response.ok) throw new Error('Falha ao carregar produtos');
         
         const body = await response.json();
-        const produtos = body.produtos || body.rows || (Array.isArray(body) ? body : []);
+        const produtos = body.produtos || body.rows || (Array.isArray(body)  body : []);
         const total = produtos.length;
         
         // Calcular estatísticas de estoque
@@ -208,7 +208,7 @@ async function updateCountersGestaoProdutos() {
         console.log(`[updateCountersGestaoProdutos] Total: ${total}, Baixo: ${estoqueBaixo}, Crítico: ${estoqueCritico}, Normal: ${estoqueNormal}`);
         
     } catch (error) {
-        console.error('Erro ao atualizar contadores de Gestão de Produtos:', error);
+        console.error('Erro ao atualizar contaçãores de Gestão de Produtos:', error);
     }
 }
 
@@ -216,7 +216,7 @@ async function updateCountersGestaoProdutos() {
 function initGestaoProdutos() {
     console.log('[initGestaoProdutos] Inicializando...');
     
-    // Atualiza contadores específicos desta view
+    // Atualiza contaçãores específicos desta view
     updateCountersGestaoProdutos();
 
     // Inicializa busca inline (barra principal)
@@ -226,7 +226,7 @@ function initGestaoProdutos() {
     carregarProdutos(1, 20);
 
     // Se houver filtros adicionais, inicialize aqui
-    // Exemplo: document.getElementById('filtro-marca')?.addEventListener('change', ...)
+    // Exemplo: document.getElementById('filtro-marca').addEventListener('change', ...)
 }
 
 // Garante que a função está disponível globalmente (caso necessário)
@@ -295,11 +295,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.style.opacity = '1';
                 
                 // Show success feedback
-                showToast('Dados atualizados com sucesso!', 'success');
+                showToast('Daçãos atualizaçãos com sucesso!', 'success');
                 
                 // Add a detailed notification about what was refreshed
                 setTimeout(() => {
-                    showToast('Inventário sincronizado - 245 itens atualizados', 'info');
+                    showToast('Inventário sincronização - 245 itens atualizaçãos', 'info');
                 }, 500);
                 
                 // Refresh dashboard if active
@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const viewName = viewNames[viewId];
                 if (viewName) {
                     setTimeout(() => {
-                        showToast(`Navegado para ${viewName}`, 'info');
+                        showToast(`Navegação para ${viewName}`, 'info');
                     }, 300);
                 }
                 
@@ -488,7 +488,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const openModal = document.querySelector('.modal:not(.hidden)');
             if (openModal) {
                 openModal.classList.add('hidden');
-                showToast('Modal fechado', 'info');
+                showToast('Modal fechação', 'info');
             }
         }
     });
@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('modal') && !e.target.classList.contains('hidden')) {
             e.target.classList.add('hidden');
-            showToast('Modal fechado', 'info');
+            showToast('Modal fechação', 'info');
         }
     });
     
@@ -555,7 +555,7 @@ async function searchProductsAndDisplay(query) {
             searchResults.innerHTML = `
                 <div class="search-no-results">
                     <i class="fas fa-search"></i>
-                    <p>Nenhum produto encontrado para "${query}"</p>
+                    <p>Nenhum produto encontração para "${query}"</p>
                     <small>Tente usar códigos ou descrições diferentes</small>
                 </div>
             `;
@@ -695,7 +695,7 @@ function saveNotificationsToStorage() {
     // Add some sample notifications if none exist (for demo purposes)
     if (notificationQueue.length === 0) {
         setTimeout(() => {
-            showToast('Sistema iniciado com sucesso', 'success');
+            showToast('Sistema iniciação com sucesso', 'success');
         }, 1000);
         
         setTimeout(() => {
@@ -838,7 +838,7 @@ function handleLogout() {
     
     // Adicionar animação ao ícone
     const sairBtn = document.getElementById('btn-sair');
-    const icon = sairBtn?.querySelector('i');
+    const icon = sairBtn.querySelector('i');
     
     if (icon) {
         icon.style.transform = 'scale(1.2) rotate(-180deg)';
@@ -850,7 +850,7 @@ function handleLogout() {
         window.location.href = '/index.html';
     }, 300);
     
-    return; // Código antigo abaixo (mantido comentado para referência)
+    return; // Código antigo abaixo (mantido comentação para referência)
     
     /* CÓDIGO ORIGINAL DE LOGOUT (DESABILITADO)
     // Show custom confirmation modal instead of native confirm
@@ -930,7 +930,7 @@ function performLogout() {
     
     // Add animation to logout icon
     const sairBtn = document.getElementById('btn-sair');
-    const icon = sairBtn?.querySelector('i');
+    const icon = sairBtn.querySelector('i');
     
     if (icon) {
         icon.style.transform = 'scale(1.2) rotate(180deg)';
@@ -1089,7 +1089,7 @@ function initializeHeaderButtons() {
             }
         }
     } catch (e) {
-        console.warn('Could not wire Quick Actions new product button:', e && e.message ? e.message : e);
+        console.warn('Could not wire Quick Actions new product button:', e && e.message  e.message : e);
     }
     
     // User menu items
@@ -1206,14 +1206,14 @@ function showNotificationsPanel() {
             const timeAgo = getTimeAgo(notif.timestamp);
             const typeClass = notif.type || 'info';
             notificationsHtml += `
-                <div class="notification-item ${typeClass} ${!notif.read ? 'unread' : ''}" data-id="${notif.id}">
+                <div class="notification-item ${typeClass} ${!notif.read  'unread' : ''}" data-id="${notif.id}">
                     <div class="notification-icon">
                         ${getToastIcon(notif.type)}
                     </div>
                     <div class="notification-content">
                         <div class="notification-message">${notif.message}</div>
                         <div class="notification-time">${timeAgo}</div>
-                        ${notif.source ? `<div class="notification-source">Sistema</div>` : ''}
+                        ${notif.source  `<div class="notification-source">Sistema</div>` : ''}
                     </div>
                     <button class="notification-remove" onclick="removeNotification(${notif.id})">
                         <i class="fas fa-times"></i>
@@ -1269,7 +1269,7 @@ function clearAllNotifications() {
     showConfirmModal({
         type: 'danger',
         title: 'Limpar Notificações',
-        message: 'Tem certeza que deseja limpar todas as notificações? Esta ação não pode ser desfeita.',
+        message: 'Tem certeza que deseja limpar todas as notificações Esta ação não pode ser desfeita.',
         confirmText: 'Limpar Todas',
         cancelText: 'Cancelar'
     }).then(confirmed => {
@@ -1341,7 +1341,7 @@ function showMessagesPanel() {
     const messages = [
         { from: 'João Silva', message: 'Preciso verificar o status da ordem #1234', time: '10 min atrás', unread: true },
         { from: 'Maria Santos', message: 'Material chegou no estoque', time: '30 min atrás', unread: true },
-        { from: 'Sistema', message: 'Backup realizado com sucesso', time: '1 hora atrás', unread: false },
+        { from: 'Sistema', message: 'Backup realização com sucesso', time: '1 hora atrás', unread: false },
         { from: 'Carlos Oliveira', message: 'Reunião às 14h sobre produção', time: '2 horas atrás', unread: false }
     ];
     
@@ -1349,7 +1349,7 @@ function showMessagesPanel() {
     
     messages.forEach(msg => {
         messagesHtml += `
-            <div class="message-item ${msg.unread ? 'unread' : ''}">
+            <div class="message-item ${msg.unread  'unread' : ''}">
                 <div class="message-avatar">
                     <i class="fas fa-user-circle"></i>
                 </div>
@@ -1358,7 +1358,7 @@ function showMessagesPanel() {
                     <div class="message-text">${msg.message}</div>
                     <div class="message-time">${msg.time}</div>
                 </div>
-                ${msg.unread ? '<div class="message-indicator"></div>' : ''}
+                ${msg.unread  '<div class="message-indicator"></div>' : ''}
             </div>
         `;
     });
@@ -1422,9 +1422,9 @@ function showSettingsPanel() {
     
     // Add toggle functionality after modal is shown
     setTimeout(() => {
-        document.getElementById('dark-mode-toggle')?.addEventListener('change', toggleDarkMode);
-        document.getElementById('push-notifications')?.addEventListener('change', togglePushNotifications);
-        document.getElementById('auto-refresh')?.addEventListener('change', toggleAutoRefresh);
+        document.getElementById('dark-mode-toggle').addEventListener('change', toggleDarkMode);
+        document.getElementById('push-notifications').addEventListener('change', togglePushNotifications);
+        document.getElementById('auto-refresh').addEventListener('change', toggleAutoRefresh);
     }, 100);
 }
 
@@ -1447,7 +1447,7 @@ function handleUserProfile() {
                 <div class="stat-value">127</div>
             </div>
             <div class="stat-item">
-                <div class="stat-label">Produtos Cadastrados</div>
+                <div class="stat-label">Produtos Cadastraçãos</div>
                 <div class="stat-value">89</div>
             </div>
             <div class="stat-item">
@@ -1559,7 +1559,7 @@ function toggleDarkModeFromButton(enable) {
     function updateLogos(isDarkMode) {
         const logos = document.querySelectorAll('.header-logo');
         const logoSrc = isDarkMode 
-            ? 'Logo Monocromatico - Branco - Aluforce copy.webp'
+             'Logo Monocromatico - Branco - Aluforce copy.webp'
             : 'Logo Monocromatico - Azul - Aluforce.webp';
         
         logos.forEach(logo => {
@@ -1575,7 +1575,7 @@ function toggleDarkModeFromButton(enable) {
     if (enable) {
         body.classList.add('dark-mode');
         localStorage.setItem('darkMode', 'enabled');
-        showToast('Modo escuro ativado', 'success');
+        showToast('Modo escuro ativação', 'success');
         updateDarkModeVariables(true);
         
         // Update logo to white version
@@ -1595,7 +1595,7 @@ function toggleDarkModeFromButton(enable) {
     } else {
         body.classList.remove('dark-mode');
         localStorage.setItem('darkMode', 'disabled');
-        showToast('Modo claro ativado', 'success');
+        showToast('Modo claro ativação', 'success');
         updateDarkModeVariables(false);
         
         // Update logo to blue version
@@ -1649,7 +1649,7 @@ function initializeDarkMode() {
     function updateLogos(isDarkMode) {
         const logos = document.querySelectorAll('.header-logo');
         const logoSrc = isDarkMode 
-            ? 'Logo Monocromatico - Branco - Aluforce copy.webp'
+             'Logo Monocromatico - Branco - Aluforce copy.webp'
             : 'Logo Monocromatico - Azul - Aluforce.webp';
         
         logos.forEach(logo => {
@@ -1700,7 +1700,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add some demo notifications after a delay
     setTimeout(() => {
-        showToast('Sistema iniciado com sucesso', 'success');
+        showToast('Sistema iniciação com sucesso', 'success');
     }, 2000);
     
     setTimeout(() => {
@@ -1718,10 +1718,10 @@ function togglePushNotifications(e) {
 
 function toggleAutoRefresh(e) {
     if (e.target.checked) {
-        showToast('Auto refresh ativado (5min)', 'success');
+        showToast('Auto refresh ativação (5min)', 'success');
         // TODO: Implement auto refresh logic
     } else {
-        showToast('Auto refresh desativado', 'warning');
+        showToast('Auto refresh desativação', 'warning');
     }
 }
 
@@ -1746,7 +1746,7 @@ async function carregarMateriais() {
         if (!container) return;
         
         if (!Array.isArray(materiais) || materiais.length === 0) {
-            container.innerHTML = '<div class="pad-12 muted">Nenhum material cadastrado.</div>';
+            container.innerHTML = '<div class="pad-12 muted">Nenhum material cadastração.</div>';
             return;
         }
         
@@ -1784,7 +1784,7 @@ async function carregarMateriais() {
         
         container.innerHTML = tableHTML;
         
-        // Atualizar contador de materiais no badge
+        // Atualizar contaçãor de materiais no badge
         const totalMateriaisElement = document.getElementById('total-materiais');
         if (totalMateriaisElement) {
             animateCounter(totalMateriaisElement, materiais.length, 1000);
@@ -1793,10 +1793,10 @@ async function carregarMateriais() {
         // Atualizar info dos materiais
         const materiaisInfo = document.getElementById('materiais-info');
         if (materiaisInfo) {
-            materiaisInfo.textContent = `${materiais.length} materiais encontrados`;
+            materiaisInfo.textContent = `${materiais.length} materiais encontraçãos`;
         }
         
-        showToast(`${materiais.length} materiais carregados`, 'success');
+        showToast(`${materiais.length} materiais carregaçãos`, 'success');
         
     } catch (error) {
         console.error('Erro ao carregar materiais:', error);
@@ -1811,12 +1811,12 @@ async function carregarMateriais() {
 
 async function carregarProdutos(page = 1, limit = 20) {
     try {
-        const response = await fetch(`${API_BASE_URL}/produtos?page=${page}&limit=${limit}`);
+        const response = await fetch(`${API_BASE_URL}/produtospage=${page}&limit=${limit}`);
         if (!response.ok) throw new Error('Falha ao carregar produtos');
         
         const body = await response.json();
         // API retorna body.produtos, body.rows, ou array direto
-        const produtos = body.produtos || body.rows || (Array.isArray(body) ? body : []);
+        const produtos = body.produtos || body.rows || (Array.isArray(body)  body : []);
         const total = Number(body.total || produtos.length || 0);
         const totalPages = Math.max(1, Math.ceil(total / limit));
         
@@ -1828,7 +1828,7 @@ async function carregarProdutos(page = 1, limit = 20) {
     if (!container) return;
         
         if (!Array.isArray(produtos) || produtos.length === 0) {
-            container.innerHTML = '<div class="pad-12 muted">Nenhum produto cadastrado.</div>';
+            container.innerHTML = '<div class="pad-12 muted">Nenhum produto cadastração.</div>';
             return;
         }
         
@@ -1877,7 +1877,7 @@ async function carregarProdutos(page = 1, limit = 20) {
                         }
                         
                         const variacoesDisplay = variacoes.length > 0 
-                            ? variacoes.slice(0, 3).join(', ') + (variacoes.length > 3 ? '...' : '')
+                             variacoes.slice(0, 3).join(', ') + (variacoes.length > 3  '...' : '')
                             : 'N/A';
                         
                         return `
@@ -1909,16 +1909,16 @@ async function carregarProdutos(page = 1, limit = 20) {
         if (totalPages > 1) {
             tableHTML += `
                 <div class="pagination">
-                    ${page > 1 ? `<button class="btn-sm" onclick="carregarProdutos(${page - 1})">« Anterior</button>` : ''}
+                    ${page > 1  `<button class="btn-sm" onclick="carregarProdutos(${page - 1})">« Anterior</button>` : ''}
                     <span>Página ${page} de ${totalPages}</span>
-                    ${page < totalPages ? `<button class="btn-sm" onclick="carregarProdutos(${page + 1})">Próxima »</button>` : ''}
+                    ${page < totalPages  `<button class="btn-sm" onclick="carregarProdutos(${page + 1})">Próxima »</button>` : ''}
                 </div>
             `;
         }
         
     container.innerHTML = tableHTML;
         
-        // Atualizar contador de produtos no badge
+        // Atualizar contaçãor de produtos no badge
         const totalProdutosElement = document.getElementById('total-produtos');
         if (totalProdutosElement) {
             animateCounter(totalProdutosElement, total, 1000);
@@ -1927,10 +1927,10 @@ async function carregarProdutos(page = 1, limit = 20) {
         // Atualizar info dos produtos
         const produtosInfo = document.getElementById('produtos-info');
         if (produtosInfo) {
-            produtosInfo.textContent = `${total} produtos encontrados`;
+            produtosInfo.textContent = `${total} produtos encontraçãos`;
         }
         
-    showToast(`${produtos.length} produtos carregados`, 'success');
+    showToast(`${produtos.length} produtos carregaçãos`, 'success');
         
     } catch (error) {
         console.error('Erro ao carregar produtos:', error);
@@ -1956,9 +1956,9 @@ async function updateCounters() {
                 const materiaisProgressFill = document.querySelector('.materiais-progress');
                 const materiaisProgressText = document.querySelector('.status-card-modern .materiais-card .progress-text, .progress-text') || document.querySelector('.materiais-card .progress-text');
 
-                const total = Array.isArray(materiais) ? materiais.length : 0;
-                const inStock = Array.isArray(materiais) ? materiais.filter(m => Number(m.quantidade_estoque || m.estoque || 0) > 0).length : 0;
-                const percentInStock = total > 0 ? Math.round((inStock / total) * 100) : 0;
+                const total = Array.isArray(materiais)  materiais.length : 0;
+                const inStock = Array.isArray(materiais)  materiais.filter(m => Number(m.quantidade_estoque || m.estoque || 0) > 0).length : 0;
+                const percentInStock = total > 0  Math.round((inStock / total) * 100) : 0;
 
                 if (totalMateriaisElement) animateCounter(totalMateriaisElement, total, 1500);
                 if (materiaisCountEl) animateCounter(materiaisCountEl, total, 1200);
@@ -1966,17 +1966,17 @@ async function updateCounters() {
                 if (materiaisProgressText) materiaisProgressText.textContent = `${percentInStock}% em estoque`;
             }
         } catch (errMat) {
-            console.warn('Falha ao atualizar contadores de materiais:', errMat);
+            console.warn('Falha ao atualizar contaçãores de materiais:', errMat);
         }
 
         // Count produtos and compute % with GTIN
         try {
             // First ask for a large page to try to get most rows (works for small datasets).
-            const produtosResp = await fetch(`${API_BASE_URL}/produtos?page=1&limit=10000`);
+            const produtosResp = await fetch(`${API_BASE_URL}/produtospage=1&limit=10000`);
             if (produtosResp.ok) {
                 const produtosBody = await produtosResp.json();
                 // produtosBody may be { rows: [], total: n } or an array depending on API
-                const produtosRows = Array.isArray(produtosBody) ? produtosBody : (Array.isArray(produtosBody.rows) ? produtosBody.rows : []);
+                const produtosRows = Array.isArray(produtosBody)  produtosBody : (Array.isArray(produtosBody.rows)  produtosBody.rows : []);
                 const totalFromBody = Number(produtosBody.total || produtosRows.length || 0);
 
                 const withGTIN = produtosRows.filter(p => {
@@ -1984,7 +1984,7 @@ async function updateCounters() {
                     return gt.length >= 8; // treat 8+ digits as present (covers EAN/UPC/GTIN variants)
                 }).length;
 
-                const percentWithGTIN = totalFromBody > 0 ? Math.round((withGTIN / totalFromBody) * 100) : 0;
+                const percentWithGTIN = totalFromBody > 0  Math.round((withGTIN / totalFromBody) * 100) : 0;
 
                 const totalProdutosElement = document.getElementById('total-produtos');
                 const produtosCountEl = document.getElementById('produtos-count');
@@ -1997,18 +1997,18 @@ async function updateCounters() {
                 if (produtosProgressText) produtosProgressText.textContent = `${percentWithGTIN}% com GTIN`;
             }
         } catch (errProd) {
-            console.warn('Falha ao atualizar contadores de produtos:', errProd);
+            console.warn('Falha ao atualizar contaçãores de produtos:', errProd);
         }
         
     } catch (error) {
-        console.error('Erro ao atualizar contadores:', error);
+        console.error('Erro ao atualizar contaçãores:', error);
     }
 }
 
 // Initialize materials view when navigated to
 function initializeMaterialsView() {
     console.log('Initializing Materials View...');
-    showToast('Carregando dados da seção Materiais...', 'info');
+    showToast('Carregando daçãos da seção Materiais...', 'info');
     
     // Check if containers exist
     const materiaisContainer = document.getElementById('tabela-materiais-container');
@@ -2022,7 +2022,7 @@ function initializeMaterialsView() {
     
     if (!materiaisContainer || !produtosContainer) {
         console.error('Containers not found!');
-        showToast('Erro: Containers não encontrados', 'error');
+        showToast('Erro: Containers não encontraçãos', 'error');
         return;
     }
     
@@ -2032,18 +2032,18 @@ function initializeMaterialsView() {
 
 // Action functions for buttons (to be implemented)
 window.editarMaterial = function(id) {
-    console.log('🔵 editarMaterial chamado, redirecionando para abrirModalEditarProduto');
+    console.log('🔵 editarMaterial chamação, redirecionando para abrirModalEditarProduto');
     // Abrir modal drawer lateral de edição de produto
     if (typeof window.abrirModalEditarProduto === 'function') {
         window.abrirModalEditarProduto(id);
     } else {
-        showToast(`Erro: Modal de edição não encontrado`, 'error');
+        showToast(`Erro: Modal de edição não encontração`, 'error');
         console.error('❌ Função abrirModalEditarProduto não encontrada');
     }
 };
 
 window.excluirMaterial = function(id) {
-    if (confirm('Tem certeza que deseja excluir este material?')) {
+    if (confirm('Tem certeza que deseja excluir este material')) {
         showToast(`Material ID ${id} excluído`, 'warning');
         // TODO: Implement delete material
     }
@@ -2060,10 +2060,10 @@ window.editarProduto = function(id) {
         alert('Erro: Modal de edição não disponível');
     }
     
-    /* CÓDIGO ANTIGO REMOVIDO - Buscar dados e preencher campos
+    /* CÓDIGO ANTIGO REMOVIDO - Buscar daçãos e preencher campos
     fetch(`/api/pcp/produtos/${id}`)
         .then(response => {
-            if (!response.ok) throw new Error('Produto não encontrado');
+            if (!response.ok) throw new Error('Produto não encontração');
             return response.json();
         })
         .then(produto => {
@@ -2072,14 +2072,14 @@ window.editarProduto = function(id) {
         */
 };
 
-// Código antigo removido e comentado acima
+// Código antigo removido e comentação acima
 // A função agora usa o modal drawer lateral profissional
 
 window.editarProduto_OLD_BACKUP = function(id) {
     /* Backup da função antiga - não usar
     fetch(`/api/pcp/produtos/${id}`)
         .then(response => {
-            if (!response.ok) throw new Error('Produto não encontrado');
+            if (!response.ok) throw new Error('Produto não encontração');
             return response.json();
         })
         .then(produto => {
@@ -2135,15 +2135,15 @@ window.editarProduto_OLD_BACKUP = function(id) {
             }
             document.getElementById('edit-variacao').value = variacaoText;
             
-            // Atualiza contadores de caracteres para todos os campos
+            // Atualiza contaçãores de caracteres para todos os campos
             const nomeInput = document.getElementById('edit-nome');
             const descInput = document.getElementById('edit-descricao');
             
             if (nomeInput) {
-                atualizarContadorCaracteres({ target: nomeInput });
+                atualizarContaçãorCaracteres({ target: nomeInput });
             }
             if (descInput) {
-                atualizarContadorCaracteres({ target: descInput });
+                atualizarContaçãorCaracteres({ target: descInput });
             }
             
             // Mostra data de última modificação
@@ -2162,7 +2162,7 @@ window.editarProduto_OLD_BACKUP = function(id) {
         })
         .catch(error => {
             console.error('Erro ao buscar produto:', error);
-            showToast('❌ Erro ao carregar dados do produto', 'error');
+            showToast('❌ Erro ao carregar daçãos do produto', 'error');
         });
         */
 };
@@ -2194,12 +2194,12 @@ window.mostrarAjudaVariacao = function() {
 window.excluirProduto = function(id) {
     console.log('🗑️ Excluindo produto:', id);
     
-    const confirmacao = confirm('Tem certeza que deseja excluir este produto?\n\nEsta ação não pode ser desfeita.');
+    const confirmacao = confirm('Tem certeza que deseja excluir este produto\n\nEsta ação não pode ser desfeita.');
     
     if (confirmacao) {
-        // Busca o botão que foi clicado para adicionar indicador de carregamento
+        // Busca o botão que foi clicação para adicionar indicaçãor de carregamento
         const btnExcluir = document.querySelector(`button[onclick="excluirProduto(${id})"]`);
-        const textoOriginal = btnExcluir ? btnExcluir.innerHTML : '';
+        const textoOriginal = btnExcluir  btnExcluir.innerHTML : '';
         
         if (btnExcluir) {
             btnExcluir.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
@@ -2249,17 +2249,17 @@ window.gerarCatalogoProdutos = async function() {
     console.log('<i class="fas fa-chart-bar"></i> Gerando catálogo de produtos...');
     
     try {
-        // Adiciona indicador de carregamento
+        // Adiciona indicaçãor de carregamento
         const btn = document.getElementById('btn-gerar-catalogo');
         const textoOriginal = btn.innerHTML;
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando...';
         btn.disabled = true;
         
-        // Busca dados do catálogo
+        // Busca daçãos do catálogo
         const response = await fetch('/api/pcp/produtos/catalogo');
         if (!response.ok) throw new Error('Erro ao gerar catálogo');
         
-        const dados = await response.json();
+        const daçãos = await response.json();
         
         // Gera HTML do catálogo
         const agora = new Date();
@@ -2309,7 +2309,7 @@ window.gerarCatalogoProdutos = async function() {
     <div class="header">
         <div class="logo">🏭 ALUFORCE</div>
         <div class="subtitle">Catálogo Completo de Produtos com GTINs (EAN-13)</div>
-        <div class="timestamp">Gerado em: ${timestamp}</div>
+        <div class="timestamp">Geração em: ${timestamp}</div>
     </div>
     
     <div class="actions">
@@ -2323,7 +2323,7 @@ window.gerarCatalogoProdutos = async function() {
     
     <div class="stats">
         <div class="stats-item">
-            <div class="stats-value">${dados.totalProdutos}</div>
+            <div class="stats-value">${daçãos.totalProdutos}</div>
             <div class="stats-label">Total Produtos</div>
         </div>
         <div class="stats-item">
@@ -2354,8 +2354,8 @@ window.gerarCatalogoProdutos = async function() {
         <tbody>`;
         
         // Adiciona produtos
-        const produtosHtml = dados.produtos.map(produto => {
-            const nome = (produto.nome || '').replace(/\?/g, '²');
+        const produtosHtml = daçãos.produtos.map(produto => {
+            const nome = (produto.nome || '').replace(/\/g, '²');
             return `
             <tr>
                 <td class="id-col">${produto.id}</td>
@@ -2378,8 +2378,8 @@ window.gerarCatalogoProdutos = async function() {
     <div class="footer">
         <strong>🏭 ALUFORCE - Cabos Elétricos de Alumínio</strong><br>
         Prefixo GTIN: 78968192 | Padrão: EAN-13 (13 dígitos)<br>
-        Relatório gerado automaticamente pelo Sistema PCP em ${timestamp}<br>
-        Total de ${dados.totalProdutos} produtos cadastrados com GTINs válidos
+        Relatório geração automaticamente pelo Sistema PCP em ${timestamp}<br>
+        Total de ${daçãos.totalProdutos} produtos cadastraçãos com GTINs válidos
     </div>
 </body>
 </html>`;
@@ -2393,9 +2393,9 @@ window.gerarCatalogoProdutos = async function() {
         const novaJanela = window.open(url, '_blank');
         if (novaJanela) {
             novaJanela.document.title = 'Catálogo Produtos Aluforce';
-            showToast(`📄 Catálogo gerado! ${dados.totalProdutos} produtos`, 'success');
+            showToast(`📄 Catálogo geração! ${daçãos.totalProdutos} produtos`, 'success');
         } else {
-            showToast('❌ Popup bloqueado! Habilite popups para este site', 'error');
+            showToast('❌ Popup bloqueação! Habilite popups para este site', 'error');
         }
         
         // Limpa URL após um tempo
@@ -2426,7 +2426,7 @@ window.testMateriais = async function() {
             
             const container = document.getElementById('tabela-materiais-container');
             if (container) {
-                container.innerHTML = `<h3>Teste - ${data.length} materiais encontrados</h3>`;
+                container.innerHTML = `<h3>Teste - ${data.length} materiais encontraçãos</h3>`;
                 console.log('Container updated');
             } else {
                 console.error('Container not found!');
@@ -2448,7 +2448,7 @@ async function searchProducts(query) {
     
     try {
         console.log('Searching for:', query);
-        const response = await fetch(`${API_BASE_URL}/produtos?q=${encodeURIComponent(query.trim())}&limit=10`);
+        const response = await fetch(`${API_BASE_URL}/produtosq=${encodeURIComponent(query.trim())}&limit=10`);
         if (!response.ok) throw new Error('Falha na busca de produtos');
         
         const data = await response.json();
@@ -2465,7 +2465,7 @@ async function searchProducts(query) {
 async function getProductDetails(productId) {
     try {
         const response = await fetch(`${API_BASE_URL}/produtos/${productId}`);
-        if (!response.ok) throw new Error('Produto não encontrado');
+        if (!response.ok) throw new Error('Produto não encontração');
         
         const product = await response.json();
         return product;
@@ -2505,7 +2505,7 @@ async function openProductDetailsModal(productId) {
     if (product) {
         title.textContent = `Detalhes: ${product.descricao || product.codigo || 'Produto'}`;
         displayProductDetails(product, body);
-        showToast('Detalhes do produto carregados', 'success');
+        showToast('Detalhes do produto carregaçãos', 'success');
     } else {
         body.innerHTML = `
             <div class="error-message">
@@ -2578,7 +2578,7 @@ function displayProductDetails(product, container) {
             <div class="product-variations-section">
                 <h4><i class="fas fa-tags"></i> Variações</h4>
                 <div class="variations-list">
-                    ${variacoes.length > 0 ? 
+                    ${variacoes.length > 0  
                         variacoes.map(v => `<span class="variation-tag">${v}</span>`).join('') 
                         : '<span class="no-variations">Nenhuma variação cadastrada</span>'
                     }
@@ -2590,14 +2590,14 @@ function displayProductDetails(product, container) {
                 <div class="info-grid">
                     <div class="info-item">
                         <label>Data de Criação:</label>
-                        <span class="info-value">${product.created_at ? new Date(product.created_at).toLocaleDateString('pt-BR') : 'N/A'}</span>
+                        <span class="info-value">${product.created_at  new Date(product.created_at).toLocaleDateString('pt-BR') : 'N/A'}</span>
                     </div>
                     <div class="info-item">
                         <label>Última Atualização:</label>
-                        <span class="info-value">${product.updated_at ? new Date(product.updated_at).toLocaleDateString('pt-BR') : 'N/A'}</span>
+                        <span class="info-value">${product.updated_at  new Date(product.updated_at).toLocaleDateString('pt-BR') : 'N/A'}</span>
                     </div>
                     <div class="info-item">
-                        <label>Criado por:</label>
+                        <label>Criação por:</label>
                         <span class="info-value">${product.created_by || 'Sistema'}</span>
                     </div>
                 </div>
@@ -2671,7 +2671,7 @@ function initializeProductSearch() {
 // Function to display search results
 function displaySearchResults(products, container) {
     if (!products || products.length === 0) {
-        container.innerHTML = '<div class="search-no-results">Nenhum produto encontrado</div>';
+        container.innerHTML = '<div class="search-no-results">Nenhum produto encontração</div>';
         container.classList.add('visible');
         container.setAttribute('aria-hidden', 'false');
         return;
@@ -2732,7 +2732,7 @@ function initializeAllPageHeaders() {
                 this.style.opacity = '1';
                 
                 // Show success feedback
-                showToast('Materiais atualizados com sucesso!', 'success');
+                showToast('Materiais atualizaçãos com sucesso!', 'success');
                 
                 // Reload materials if function exists
                 if (typeof window.carregarMateriais === 'function') {
@@ -2752,7 +2752,7 @@ function initializeAllPageHeaders() {
             // Update icon
             const icon = document.getElementById('dark-mode-icon-materiais');
             if (icon) {
-                icon.className = isDarkMode ? 'fas fa-moon' : 'fas fa-sun';
+                icon.className = isDarkMode  'fas fa-moon' : 'fas fa-sun';
             }
         });
     }
@@ -2802,7 +2802,7 @@ function initializeAllPageHeaders() {
             // Update icon
             const icon = document.getElementById('dark-mode-icon-compra');
             if (icon) {
-                icon.className = isDarkMode ? 'fas fa-moon' : 'fas fa-sun';
+                icon.className = isDarkMode  'fas fa-moon' : 'fas fa-sun';
             }
         });
     }
@@ -2883,14 +2883,14 @@ function abrirModalNovoProduto() {
             if (firstInput) firstInput.focus();
         }, 300);
         
-        // Gerar SKU automático baseado no código
+        // Gerar SKU automático baseação no código
         const codigoInput = document.getElementById('produto-codigo');
         const skuInput = document.getElementById('produto-sku');
         
         if (codigoInput && skuInput) {
             codigoInput.addEventListener('input', function() {
                 const codigo = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-                skuInput.value = codigo ? `SKU-${codigo}` : '';
+                skuInput.value = codigo  `SKU-${codigo}` : '';
             });
         }
         
@@ -2903,11 +2903,11 @@ function abrirModalNovoProduto() {
                     const timestamp = Date.now().toString().slice(-8);
                     this.value = `78968192${timestamp.padStart(5, '0')}`;
                     
-                    // Calcular dígito verificador EAN-13
+                    // Calcular dígito verificaçãor EAN-13
                     const digits = this.value.split('').map(Number);
                     let sum = 0;
                     for (let i = 0; i < 12; i++) {
-                        sum += digits[i] * (i % 2 === 0 ? 1 : 3);
+                        sum += digits[i] * (i % 2 === 0  1 : 3);
                     }
                     const checkDigit = (10 - (sum % 10)) % 10;
                     this.value = this.value + checkDigit;
@@ -2977,7 +2977,7 @@ async function salvarNovoProduto() {
         const novoProduto = await response.json();
         
         // Sucesso
-        showToast('Produto cadastrado com sucesso!', 'success');
+        showToast('Produto cadastração com sucesso!', 'success');
         fecharModalNovoProduto();
         
         // Recarregar lista de produtos
@@ -2985,7 +2985,7 @@ async function salvarNovoProduto() {
             carregarProdutos();
         }
         
-        // Atualizar contadores
+        // Atualizar contaçãores
         if (typeof updateCounters === 'function') {
             updateCounters();
         }
@@ -3020,7 +3020,7 @@ async function exportarProdutos() {
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
         
-        showToast('Catálogo PDF gerado com sucesso!', 'success');
+        showToast('Catálogo PDF geração com sucesso!', 'success');
         
     } catch (error) {
         console.error('Erro ao exportar produtos:', error);
@@ -3043,7 +3043,7 @@ window.testOpenNewProductModal = function() {
         const codigo = modal.querySelector('#produto-codigo');
         const sku = modal.querySelector('#produto-sku');
         const gtin = modal.querySelector('#produto-gtin');
-        console.log('Modal opened. Fields:', { codigo: codigo ? codigo.value : null, sku: sku ? sku.value : null, gtin: gtin ? gtin.value : null });
+        console.log('Modal opened. Fields:', { codigo: codigo  codigo.value : null, sku: sku  sku.value : null, gtin: gtin  gtin.value : null });
     } catch (e) {
         console.error('testOpenNewProductModal error:', e);
     }
@@ -3063,8 +3063,8 @@ function updateMateriaisStatus() {
     // Simulate API delay (or use real API values when available)
     setTimeout(() => {
         // Read targets from data attributes if present
-        const materiaisTarget = materiaisCount && materiaisCount.dataset && materiaisCount.dataset.target ? parseInt(materiaisCount.dataset.target, 10) : 189;
-        const produtosTarget = produtosCount && produtosCount.dataset && produtosCount.dataset.target ? parseInt(produtosCount.dataset.target, 10) : 238;
+        const materiaisTarget = materiaisCount && materiaisCount.dataset && materiaisCount.dataset.target  parseInt(materiaisCount.dataset.target, 10) : 189;
+        const produtosTarget = produtosCount && produtosCount.dataset && produtosCount.dataset.target  parseInt(produtosCount.dataset.target, 10) : 238;
 
         if (materiaisCount) {
             animateCounter(materiaisCount, materiaisTarget, 1200);
@@ -3160,7 +3160,7 @@ function triggerSuccessAnimation() {
     });
     
     // Show notification
-    showStatusNotification('📊 Dados atualizados com sucesso!', 'success');
+    showStatusNotification('📊 Daçãos atualizaçãos com sucesso!', 'success');
 }
 
 // Status notification system
@@ -3184,13 +3184,13 @@ function showStatusNotification(message, type = 'info') {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 
-                    type === 'error' ? 'linear-gradient(135deg, #ef4444, #dc2626)' : 
+        background: ${type === 'success'  'linear-gradient(135deg, #10b981, #059669)' : 
+                    type === 'error'  'linear-gradient(135deg, #ef4444, #dc2626)' : 
                     'linear-gradient(135deg, #3b82f6, #1d4ed8)'};
         color: white;
         padding: 16px 20px;
         border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        box-shaçãow: 0 4px 20px rgba(0, 0, 0, 0.15);
         z-index: 10000;
         animation: slideInRight 0.3s ease;
         font-weight: 500;
@@ -3221,7 +3221,7 @@ function initializePageFeatures() {
     const materiaisView = document.getElementById('materiais-view');
     if (materiaisView && !materiaisView.classList.contains('hidden')) {
         updateMateriaisStatus();
-        updateCounters(); // Atualizar contadores com dados reais
+        updateCounters(); // Atualizar contaçãores com daçãos reais
         
         // Initialize dashboard refresh button
         const refreshBtn = document.getElementById('refresh-dashboard');
@@ -3332,7 +3332,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Fechar modal clicando no fundo
-    modal?.addEventListener('click', function(e) {
+    modal.addEventListener('click', function(e) {
         if (e.target === modal) {
             fecharModal();
         }
@@ -3346,7 +3346,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Submit do formulário de edição
-    form?.addEventListener('submit', function(e) {
+    form.addEventListener('submit', function(e) {
         e.preventDefault();
         
         // Remove classes de erro anteriores
@@ -3403,8 +3403,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Prepara dados para envio
-        const dadosProduto = {
+        // Prepara daçãos para envio
+        const daçãosProduto = {
             codigo: codigo,
             nome: nome,
             descricao: formData.get('descricao').trim() || null,
@@ -3414,7 +3414,7 @@ document.addEventListener('DOMContentLoaded', function() {
             variacao: variacao || null
         };
         
-        // Adiciona indicador de carregamento
+        // Adiciona indicaçãor de carregamento
         const submitBtn = form.querySelector('button[type="submit"]');
         const textoOriginal = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Salvando...';
@@ -3426,7 +3426,7 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(dadosProduto)
+            body: JSON.stringify(daçãosProduto)
         })
         .then(response => {
             if (!response.ok) {
@@ -3435,8 +3435,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            console.log('✅ Produto atualizado:', data.message);
-            showToast('✅ Produto atualizado com sucesso!', 'success');
+            console.log('✅ Produto atualização:', data.message);
+            showToast('✅ Produto atualização com sucesso!', 'success');
             
             // Fecha modal e recarrega produtos
             fecharModal();
@@ -3470,7 +3470,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Validação específica do GTIN
-    gtinField?.addEventListener('blur', function() {
+    gtinField.addEventListener('blur', function() {
         const value = this.value.trim();
         if (value && !/^\d{8,14}$/.test(value)) {
             this.classList.add('error');
@@ -3479,18 +3479,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Event listeners para contadores de caracteres
+    // Event listeners para contaçãores de caracteres
     const nomeInput = document.getElementById('edit-nome');
     const descInput = document.getElementById('edit-descricao');
     const gtinInput = document.getElementById('edit-gtin');
     const variacaoInput = document.getElementById('edit-variacao');
     
     if (nomeInput) {
-        nomeInput.addEventListener('input', atualizarContadorCaracteres);
+        nomeInput.addEventListener('input', atualizarContaçãorCaracteres);
     }
     
     if (descInput) {
-        descInput.addEventListener('input', atualizarContadorCaracteres);
+        descInput.addEventListener('input', atualizarContaçãorCaracteres);
     }
     
     // Validação em tempo real do GTIN
@@ -3559,9 +3559,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const estoqueMaxInput = document.getElementById('edit-estoque-maximo');
     
     function atualizarStatusEstoqueRealTime() {
-        const quantidade = parseFloat(quantidadeInput?.value) || 0;
-        const minimo = parseFloat(estoqueMinInput?.value) || 0;
-        const maximo = parseFloat(estoqueMaxInput?.value) || 100;
+        const quantidade = parseFloat(quantidadeInput.value) || 0;
+        const minimo = parseFloat(estoqueMinInput.value) || 0;
+        const maximo = parseFloat(estoqueMaxInput.value) || 100;
         
         atualizarStatusEstoque(quantidade, minimo, maximo);
     }
@@ -3621,8 +3621,8 @@ function validarGTINStatus(gtin) {
     }
 }
 
-// Função para atualizar contador de caracteres
-function atualizarContadorCaracteres(event) {
+// Função para atualizar contaçãor de caracteres
+function atualizarContaçãorCaracteres(event) {
     const input = event.target;
     const id = input.id;
     const maxLength = input.getAttribute('maxlength') || 255;
@@ -3664,9 +3664,9 @@ function atualizarPreviewVariacao(variacoes) {
             <span class="variation-index">${index + 1}</span>
             <div class="variation-details">
                 <strong>${variacao.nome || 'Sem nome'}</strong>
-                ${variacao.cor ? `<span class="badge badge-color">${variacao.cor}</span>` : ''}
-                ${variacao.tamanho ? `<span class="badge badge-size">${variacao.tamanho}</span>` : ''}
-                ${variacao.preco ? `<span class="badge badge-price">R$ ${variacao.preco}</span>` : ''}
+                ${variacao.cor  `<span class="badge badge-color">${variacao.cor}</span>` : ''}
+                ${variacao.tamanho  `<span class="badge badge-size">${variacao.tamanho}</span>` : ''}
+                ${variacao.preco  `<span class="badge badge-price">R$ ${variacao.preco}</span>` : ''}
             </div>
         </div>
     `).join('');
@@ -3684,7 +3684,7 @@ function atualizarStatusEstoque(quantidade, minimo, maximo) {
     if (!statusFill || !statusText || !statusPercentage) return;
     
     // Calcula a porcentagem baseada no máximo
-    const porcentagem = maximo > 0 ? Math.min((quantidade / maximo) * 100, 100) : 0;
+    const porcentagem = maximo > 0  Math.min((quantidade / maximo) * 100, 100) : 0;
     
     // Determina o status
     let status = 'normal';
@@ -3728,7 +3728,7 @@ function resetModalEnriquecido() {
         el.className = 'form-input-status';
     });
     
-    // Limpar contadores
+    // Limpar contaçãores
     const counters = modal.querySelectorAll('.char-counter');
     counters.forEach(counter => {
         counter.textContent = '0/255';
@@ -3773,7 +3773,7 @@ function abrirModalNovoMaterial() {
         // Configurar validação em tempo real
         setupMaterialValidation();
     } else {
-        console.error('Modal de material não encontrado');
+        console.error('Modal de material não encontração');
     }
 }
 
@@ -3796,7 +3796,7 @@ async function salvarNovoMaterial() {
     
     const form = document.getElementById('form-novo-material');
     if (!form) {
-        console.error('Formulário de material não encontrado');
+        console.error('Formulário de material não encontração');
         return;
     }
     
@@ -3806,26 +3806,26 @@ async function salvarNovoMaterial() {
         return;
     }
     
-    // Coletar dados do formulário
-    const dadosMaterial = coletarDadosMaterial();
+    // Coletar daçãos do formulário
+    const daçãosMaterial = coletarDaçãosMaterial();
     
     try {
-        console.log('Enviando dados do material:', dadosMaterial);
+        console.log('Enviando daçãos do material:', daçãosMaterial);
         
         const response = await fetch('/api/pcp/materiais', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(dadosMaterial)
+            body: JSON.stringify(daçãosMaterial)
         });
         
         if (response.ok) {
-            const resultado = await response.json();
-            console.log('Material salvo com sucesso:', resultado);
+            const resultação = await response.json();
+            console.log('Material salvo com sucesso:', resultação);
             
             // Mostrar mensagem de sucesso
-            mostrarMensagemSucesso('Material cadastrado com sucesso!');
+            mostrarMensagemSucesso('Material cadastração com sucesso!');
             
             // Fechar modal
             fecharModalNovoMaterial();
@@ -3835,9 +3835,9 @@ async function salvarNovoMaterial() {
                 carregarMateriais();
             }
             
-            // Atualizar contadores
-            if (typeof atualizarContadores === 'function') {
-                atualizarContadores();
+            // Atualizar contaçãores
+            if (typeof atualizarContaçãores === 'function') {
+                atualizarContaçãores();
             }
             
         } else {
@@ -3956,25 +3956,25 @@ function validarFormularioMaterial() {
     return isValid;
 }
 
-// Coletar Dados do Material
-function coletarDadosMaterial() {
+// Coletar Daçãos do Material
+function coletarDaçãosMaterial() {
     const form = document.getElementById('form-novo-material');
     const formData = new FormData(form);
     
-    const dadosMaterial = {};
+    const daçãosMaterial = {};
     
     // Coletar todos os campos
     formData.forEach((value, key) => {
         if (value.trim() !== '') {
-            dadosMaterial[key] = value.trim();
+            daçãosMaterial[key] = value.trim();
         }
     });
     
     // Adicionar timestamp
-    dadosMaterial.data_cadastro = new Date().toISOString();
-    dadosMaterial.usuario_cadastro = window.currentUser?.nome || 'Sistema';
+    daçãosMaterial.data_cadastro = new Date().toISOString();
+    daçãosMaterial.usuario_cadastro = window.currentUser.nome || 'Sistema';
     
-    return dadosMaterial;
+    return daçãosMaterial;
 }
 
 // Limpar Formulário de Material
@@ -4016,7 +4016,7 @@ async function exportarMateriais() {
             document.body.removeChild(link);
             window.URL.revokeObjectURL(url);
             
-            mostrarMensagemSucesso('Catálogo de materiais exportado com sucesso!');
+            mostrarMensagemSucesso('Catálogo de materiais exportação com sucesso!');
         } else {
             throw new Error('Erro ao gerar catálogo de materiais');
         }
@@ -4051,7 +4051,7 @@ function showConfirmModal(options = {}) {
         
         if (!overlay) {
             // Fallback para confirm nativo se modal não existir
-            resolve(confirm(options.message || 'Deseja continuar?'));
+            resolve(confirm(options.message || 'Deseja continuar'));
             return;
         }
 
@@ -4070,7 +4070,7 @@ function showConfirmModal(options = {}) {
         
         // Configurar textos
         title.textContent = options.title || 'Confirmar ação';
-        message.textContent = options.message || 'Tem certeza que deseja continuar?';
+        message.textContent = options.message || 'Tem certeza que deseja continuar';
         
         // Configurar botões
         cancelBtn.innerHTML = `<i class="fas fa-times"></i> ${options.cancelText || 'Cancelar'}`;

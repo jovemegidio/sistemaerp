@@ -5,7 +5,7 @@
 (function() {
     'use strict';
 
-    // Estado da aplicação
+    // Estação da aplicação
     let materiaisData = [];
     let produtosData = [];
     let currentPage = 1;
@@ -33,9 +33,9 @@
             
             setupEventListeners();
             
-            // Carregar dados imediatamente se visível, ou aguardar
+            // Carregar daçãos imediatamente se visível, ou aguardar
             if (isVisible) {
-                console.log('📊 Carregando dados imediatamente...');
+                console.log('📊 Carregando daçãos imediatamente...');
                 loadMateriais();
                 loadProdutos();
                 updateStats();
@@ -49,7 +49,7 @@
     
     // Função pública para recarregar quando a view for mostrada
     function onViewShown() {
-        console.log('👁️ View de materiais mostrada, carregando dados...');
+        console.log('👁️ View de materiais mostrada, carregando daçãos...');
         loadMateriais();
         loadProdutos();
         updateStats();
@@ -74,29 +74,29 @@
         });
 
         // Paginação
-        document.getElementById('btn-first-page')?.addEventListener('click', () => goToPage(1));
-        document.getElementById('btn-prev-page')?.addEventListener('click', () => goToPage(currentPage - 1));
-        document.getElementById('btn-next-page')?.addEventListener('click', () => goToPage(currentPage + 1));
-        document.getElementById('btn-last-page')?.addEventListener('click', () => goToPage(getTotalPages()));
+        document.getElementById('btn-first-page').addEventListener('click', () => goToPage(1));
+        document.getElementById('btn-prev-page').addEventListener('click', () => goToPage(currentPage - 1));
+        document.getElementById('btn-next-page').addEventListener('click', () => goToPage(currentPage + 1));
+        document.getElementById('btn-last-page').addEventListener('click', () => goToPage(getTotalPages()));
         
         // Itens por página
-        document.getElementById('items-per-page')?.addEventListener('change', function() {
+        document.getElementById('items-per-page').addEventListener('change', function() {
             itemsPerPage = parseInt(this.value);
             currentPage = 1;
             renderMateriais();
         });
 
         // Filtros
-        document.querySelector('.btn-filter-apply')?.addEventListener('click', applyFilters);
+        document.querySelector('.btn-filter-apply').addEventListener('click', applyFilters);
 
         // Select all
-        document.getElementById('select-all-materials')?.addEventListener('change', function() {
+        document.getElementById('select-all-materials').addEventListener('change', function() {
             const checkboxes = document.querySelectorAll('#materiais-tbody input[type="checkbox"]');
             checkboxes.forEach(cb => cb.checked = this.checked);
         });
 
         // Atualizar
-        document.getElementById('btn-refresh-header-materiais')?.addEventListener('click', () => {
+        document.getElementById('btn-refresh-header-materiais').addEventListener('click', () => {
             loadMateriais();
             loadProdutos();
             updateStats();
@@ -114,7 +114,7 @@
             if (!response.ok) throw new Error('Erro ao carregar materiais');
             
             materiaisData = await response.json();
-            console.log('✅ Materiais carregados:', materiaisData.length, 'itens');
+            console.log('✅ Materiais carregaçãos:', materiaisData.length, 'itens');
             console.log('📊 Primeiros 3 materiais:', materiaisData.slice(0, 3));
             
             renderMateriais();
@@ -133,7 +133,7 @@
     async function loadProdutos() {
         try {
             console.log('📦 Carregando produtos...');
-            const response = await fetch('/api/pcp/produtos?page=1&limit=10000');
+            const response = await fetch('/api/pcp/produtospage=1&limit=10000');
             if (!response.ok) {
                 console.error('❌ API de produtos retornou erro:', response.status);
                 throw new Error('Erro ao carregar produtos');
@@ -154,7 +154,7 @@
                 produtosData = [];
             }
             
-            console.log('✅ Produtos carregados:', produtosData.length);
+            console.log('✅ Produtos carregaçãos:', produtosData.length);
             renderProdutos();
             updateStats();
             
@@ -162,7 +162,7 @@
             console.error('❌ Erro ao carregar produtos:', error);
             produtosData = [];
             renderProdutos(); // Renderizar mensagem de vazio
-            updateStats(); // Atualizar contadores mesmo com erro
+            updateStats(); // Atualizar contaçãores mesmo com erro
         }
     }
     
@@ -172,7 +172,7 @@
         const container = document.getElementById('tabela-produtos-container') 
                        || document.getElementById('tabela-produtos-gestao-container');
         if (!container) {
-            console.warn('⚠️ Container de produtos não encontrado');
+            console.warn('⚠️ Container de produtos não encontração');
             return;
         }
         
@@ -188,7 +188,7 @@
             container.innerHTML = `
                 <div style="text-align: center; padding: 48px 20px;">
                     <i class="fas fa-box-open" style="font-size: 64px; color: #d1d5db; margin-bottom: 16px;"></i>
-                    <p style="color: #6b7280; font-size: 16px; margin: 0;">Nenhum produto cadastrado</p>
+                    <p style="color: #6b7280; font-size: 16px; margin: 0;">Nenhum produto cadastração</p>
                 </div>
             `;
             console.log('⚠️ Tabela de produtos vazia renderizada');
@@ -238,14 +238,14 @@
         `;
         
         container.innerHTML = html;
-        console.log('✅ Produtos renderizados na tabela:', produtosData.length, 'itens');
+        console.log('✅ Produtos renderizaçãos na tabela:', produtosData.length, 'itens');
     }
 
     // Renderizar materiais
     function renderMateriais() {
         console.log('🎨 Renderizando materiais...');
         const filtered = filterMateriais();
-        console.log('   Materiais filtrados:', filtered.length);
+        console.log('   Materiais filtraçãos:', filtered.length);
         
         const paginated = paginateMateriais(filtered);
         console.log('   Materiais na página atual:', paginated.length);
@@ -260,15 +260,15 @@
         
         updatePagination(filtered.length);
         updateCountDisplay(filtered.length);
-        console.log('✅ Materiais renderizados com sucesso');
+        console.log('✅ Materiais renderizaçãos com sucesso');
     }
 
     // Filtrar materiais
     function filterMateriais() {
         return materiaisData.filter(material => {
             const matchSearch = searchTerm === '' || 
-                material.codigo_material?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                material.descricao?.toLowerCase().includes(searchTerm.toLowerCase());
+                material.codigo_material.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                material.descricao.toLowerCase().includes(searchTerm.toLowerCase());
             
             const matchCategoria = !filters.categoria || material.categoria === filters.categoria;
             
@@ -277,7 +277,7 @@
                 matchEstoque = material.quantidade_estoque > 10;
             } else if (filters.estoque === 'baixo') {
                 matchEstoque = material.quantidade_estoque > 0 && material.quantidade_estoque <= 10;
-            } else if (filters.estoque === 'zerado') {
+            } else if (filters.estoque === 'zeração') {
                 matchEstoque = material.quantidade_estoque === 0;
             }
             
@@ -298,7 +298,7 @@
         const tbody = document.getElementById('materiais-tbody');
         
         if (!tbody) {
-            console.error('❌ Elemento materiais-tbody não encontrado!');
+            console.error('❌ Elemento materiais-tbody não encontração!');
             return;
         }
 
@@ -307,7 +307,7 @@
                 <tr class="empty-row">
                     <td colspan="7" class="text-center" style="padding: 48px 20px;">
                         <i class="fas fa-inbox" style="font-size: 48px; color: #d1d5db; margin-bottom: 16px;"></i>
-                        <p style="color: #6b7280; font-size: 16px; margin: 0;">Nenhum material encontrado</p>
+                        <p style="color: #6b7280; font-size: 16px; margin: 0;">Nenhum material encontração</p>
                     </td>
                 </tr>
             `;
@@ -352,7 +352,7 @@
             container.innerHTML = `
                 <div style="grid-column: 1/-1; text-align: center; padding: 48px;">
                     <i class="fas fa-inbox" style="font-size: 64px; color: #d1d5db; margin-bottom: 16px;"></i>
-                    <p style="color: #6b7280; font-size: 18px; margin: 0;">Nenhum material encontrado</p>
+                    <p style="color: #6b7280; font-size: 18px; margin: 0;">Nenhum material encontração</p>
                 </div>
             `;
             return;
@@ -405,11 +405,11 @@
         const gridView = document.getElementById('materials-grid-view');
         
         if (view === 'table') {
-            tableView?.classList.add('active');
-            gridView?.classList.remove('active');
+            tableView.classList.add('active');
+            gridView.classList.remove('active');
         } else {
-            tableView?.classList.remove('active');
-            gridView?.classList.add('active');
+            tableView.classList.remove('active');
+            gridView.classList.add('active');
         }
         
         renderMateriais();
@@ -443,7 +443,7 @@
         return Math.ceil(filtered.length / itemsPerPage);
     }
 
-    // Atualizar contador de exibição
+    // Atualizar contaçãor de exibição
     function updateCountDisplay(count) {
         const display = document.getElementById('materials-count-display');
         if (display) {
@@ -460,8 +460,8 @@
 
     // Aplicar filtros
     function applyFilters() {
-        filters.categoria = document.getElementById('filter-categoria')?.value || '';
-        filters.estoque = document.getElementById('filter-estoque')?.value || '';
+        filters.categoria = document.getElementById('filter-categoria').value || '';
+        filters.estoque = document.getElementById('filter-estoque').value || '';
         currentPage = 1;
         renderMateriais();
     }
@@ -478,16 +478,16 @@
         
         if (statMateriais) {
             statMateriais.textContent = materiaisData.length;
-            console.log('✅ Contador de materiais atualizado');
+            console.log('✅ Contaçãor de materiais atualização');
         } else {
-            console.warn('⚠️ Elemento stat-materiais não encontrado');
+            console.warn('⚠️ Elemento stat-materiais não encontração');
         }
         
         if (statProdutos) {
             statProdutos.textContent = produtosData.length;
-            console.log('✅ Contador de produtos atualizado');
+            console.log('✅ Contaçãor de produtos atualização');
         } else {
-            console.warn('⚠️ Elemento stat-produtos não encontrado');
+            console.warn('⚠️ Elemento stat-produtos não encontração');
         }
         
         // Calcular alertas de estoque baixo
@@ -497,9 +497,9 @@
         
         if (statAlertas) {
             statAlertas.textContent = totalAlertas;
-            console.log('✅ Contador de alertas atualizado:', totalAlertas);
+            console.log('✅ Contaçãor de alertas atualização:', totalAlertas);
         } else {
-            console.warn('⚠️ Elemento stat-alertas não encontrado');
+            console.warn('⚠️ Elemento stat-alertas não encontração');
         }
         
         console.log('📊 Estatísticas atualizadas:', {
@@ -599,7 +599,7 @@
                 color: white;
                 padding: 16px 24px;
                 border-radius: 8px;
-                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+                box-shaçãow: 0 10px 40px rgba(0,0,0,0.3);
                 z-index: 99999;
                 display: flex;
                 align-items: center;
@@ -657,21 +657,21 @@
     // =====================================================
     
     window.editarMaterial = async function(id) {
-        console.log('🔵 editarMaterial (materiais-functions.js) chamado, redirecionando para modal drawer');
+        console.log('🔵 editarMaterial (materiais-functions.js) chamação, redirecionando para modal drawer');
         
         // Abrir modal drawer lateral de edição de produto
         if (typeof window.abrirModalEditarProduto === 'function') {
             window.abrirModalEditarProduto(id);
         } else {
             console.error('❌ Função abrirModalEditarProduto não encontrada');
-            alert('Erro: Modal de edição não encontrado');
+            alert('Erro: Modal de edição não encontração');
         }
         
         // Código antigo removido (usava prompts)
         /*
         const material = materiaisData.find(m => m.id === id);
         if (!material) {
-            showError('Material não encontrado');
+            showError('Material não encontração');
             return;
         }
         
@@ -693,7 +693,7 @@
             
             if (!response.ok) throw new Error('Erro ao atualizar material');
             
-            showSuccess('Material atualizado com sucesso!');
+            showSuccess('Material atualização com sucesso!');
             loadMateriais(); // Recarregar lista
         } catch (error) {
             console.error('❌ Erro ao atualizar material:', error);
@@ -706,7 +706,7 @@
         const material = materiaisData.find(m => m.id === id);
         if (!material) return;
         
-        if (!confirm(`Tem certeza que deseja excluir "${material.descricao || 'este material'}"?\n\nEsta ação não pode ser desfeita.`)) {
+        if (!confirm(`Tem certeza que deseja excluir "${material.descricao || 'este material'}"\n\nEsta ação não pode ser desfeita.`)) {
             return;
         }
         
@@ -737,7 +737,7 @@
         }
         
         /* CÓDIGO ANTIGO REMOVIDO - Modal inline
-        Código comentado para manter histórico
+        Código comentação para manter histórico
         */
     };
     
@@ -746,14 +746,14 @@
         /* Função antiga - não usar
         const produto = produtosData.find(p => p.id === id);
         if (!produto) {
-            showError('Produto não encontrado');
+            showError('Produto não encontração');
             return;
         }
         
-        // Criar modal de edição com design moderno e melhorado
+        // Criar modal de edição com design moderno e melhoração
         const modalHTML = `
             <div id="modal-edit-produto" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 10000; animation: fadeIn 0.2s ease;">
-                <div style="background: white; padding: 0; border-radius: 16px; max-width: 550px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s ease; overflow: hidden;">
+                <div style="background: white; padding: 0; border-radius: 16px; max-width: 550px; width: 90%; box-shaçãow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s ease; overflow: hidden;">
                     
                     <!-- Header do Modal -->
                     <div style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); padding: 24px 30px; border-bottom: 3px solid #1e40af;">
@@ -777,14 +777,14 @@
                     <!-- Corpo do Modal -->
                     <form id="form-edit-produto" style="padding: 30px;">
                         
-                        <!-- Campo Código (readonly) -->
+                        <!-- Campo Código (reaçãonly) -->
                         <div style="margin-bottom: 20px; position: relative;">
                             <label style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font-weight: 600; color: #334155; font-size: 14px;">
                                 <i class="fas fa-barcode" style="color: #64748b; width: 16px;"></i>
                                 <span>Código do Produto</span>
                                 <span style="background: #e0e7ff; color: #4338ca; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600;">SOMENTE LEITURA</span>
                             </label>
-                            <input type="text" id="edit-codigo" value="${escapeHtml(produto.codigo || '')}" readonly 
+                            <input type="text" id="edit-codigo" value="${escapeHtml(produto.codigo || '')}" reaçãonly 
                                 style="width: 100%; padding: 12px 12px 12px 42px; border: 2px solid #cbd5e1; border-radius: 10px; background: #f1f5f9; font-size: 14px; color: #475569; font-weight: 600; box-sizing: border-box;">
                             <i class="fas fa-lock" style="position: absolute; left: 14px; top: 46px; color: #94a3b8; font-size: 14px;"></i>
                         </div>
@@ -798,8 +798,8 @@
                             </label>
                             <input type="text" id="edit-nome" value="${escapeHtml(produto.nome || '')}" required 
                                 style="width: 100%; padding: 12px 12px 12px 42px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 14px; color: #1e293b; transition: all 0.2s; box-sizing: border-box;"
-                                onfocus="this.style.borderColor='#3b82f6'; this.style.boxShadow='0 0 0 3px rgba(59,130,246,0.1)'"
-                                onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none'"
+                                onfocus="this.style.borderColor='#3b82f6'; this.style.boxShaçãow='0 0 0 3px rgba(59,130,246,0.1)'"
+                                onblur="this.style.borderColor='#cbd5e1'; this.style.boxShaçãow='none'"
                                 oninput="validateField(this)">
                             <i class="fas fa-pencil-alt" style="position: absolute; left: 14px; top: 46px; color: #3b82f6; font-size: 14px;"></i>
                         </div>
@@ -813,8 +813,8 @@
                             </label>
                             <textarea id="edit-descricao" rows="2"
                                 style="width: 100%; padding: 12px 12px 12px 42px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 14px; color: #1e293b; transition: all 0.2s; resize: vertical; font-family: inherit; box-sizing: border-box;"
-                                onfocus="this.style.borderColor='#8b5cf6'; this.style.boxShadow='0 0 0 3px rgba(139,92,246,0.1)'"
-                                onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none'"
+                                onfocus="this.style.borderColor='#8b5cf6'; this.style.boxShaçãow='0 0 0 3px rgba(139,92,246,0.1)'"
+                                onblur="this.style.borderColor='#cbd5e1'; this.style.boxShaçãow='none'"
                                 placeholder="Adicione detalhes sobre o produto...">${escapeHtml(produto.descricao || '')}</textarea>
                             <i class="fas fa-file-alt" style="position: absolute; left: 14px; top: 46px; color: #8b5cf6; font-size: 14px;"></i>
                         </div>
@@ -830,8 +830,8 @@
                                 </label>
                                 <input type="text" id="edit-sku" value="${escapeHtml(produto.sku || '')}" 
                                     style="width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 14px; color: #1e293b; transition: all 0.2s; box-sizing: border-box; text-transform: uppercase;"
-                                    onfocus="this.style.borderColor='#10b981'; this.style.boxShadow='0 0 0 3px rgba(16,185,129,0.1)'"
-                                    onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none'"
+                                    onfocus="this.style.borderColor='#10b981'; this.style.boxShaçãow='0 0 0 3px rgba(16,185,129,0.1)'"
+                                    onblur="this.style.borderColor='#cbd5e1'; this.style.boxShaçãow='none'"
                                     placeholder="SKU-ROSE">
                             </div>
                             
@@ -843,8 +843,8 @@
                                 </label>
                                 <input type="text" id="edit-gtin" value="${escapeHtml(produto.gtin || '')}" 
                                     style="width: 100%; padding: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 14px; color: #1e293b; transition: all 0.2s; box-sizing: border-box;"
-                                    onfocus="this.style.borderColor='#f59e0b'; this.style.boxShadow='0 0 0 3px rgba(245,158,11,0.1)'"
-                                    onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='none'"
+                                    onfocus="this.style.borderColor='#f59e0b'; this.style.boxShaçãow='0 0 0 3px rgba(245,158,11,0.1)'"
+                                    onblur="this.style.borderColor='#cbd5e1'; this.style.boxShaçãow='none'"
                                     placeholder="7894101247411"
                                     maxlength="14"
                                     oninput="this.value = this.value.replace(/[^0-9]/g, '')">
@@ -862,9 +862,9 @@
                         <!-- Botões de Ação -->
                         <div style="display: flex; gap: 12px; margin-top: 28px;">
                             <button type="submit" 
-                                style="flex: 1; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border: none; padding: 14px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 15px; box-shadow: 0 4px 12px rgba(59,130,246,0.3);"
-                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(59,130,246,0.4)'"
-                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(59,130,246,0.3)'">
+                                style="flex: 1; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border: none; padding: 14px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 15px; box-shaçãow: 0 4px 12px rgba(59,130,246,0.3);"
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShaçãow='0 6px 16px rgba(59,130,246,0.4)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShaçãow='0 4px 12px rgba(59,130,246,0.3)'">
                                 <i class="fas fa-save"></i> Salvar Alterações
                             </button>
                             <button type="button" onclick="document.getElementById('modal-edit-produto').remove()" 
@@ -925,7 +925,7 @@
         document.getElementById('form-edit-produto').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const dadosAtualizados = {
+            const daçãosAtualizaçãos = {
                 nome: document.getElementById('edit-nome').value.trim(),
                 descricao: document.getElementById('edit-descricao').value.trim(),
                 sku: document.getElementById('edit-sku').value.trim(),
@@ -936,7 +936,7 @@
                 const response = await fetch(`/api/pcp/produtos/${id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(dadosAtualizados)
+                    body: JSON.stringify(daçãosAtualizaçãos)
                 });
                 
                 if (!response.ok) {
@@ -945,7 +945,7 @@
                 }
                 
                 document.getElementById('modal-edit-produto').remove();
-                showSuccess('Produto atualizado com sucesso!');
+                showSuccess('Produto atualização com sucesso!');
                 loadProdutos(); // Recarregar lista
             } catch (error) {
                 console.error('❌ Erro ao atualizar produto:', error);
@@ -962,7 +962,7 @@
         // Criar modal de confirmação profissional
         const modalHTML = `
             <div id="modal-delete-produto" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 10000; animation: fadeIn 0.2s ease;">
-                <div style="background: white; border-radius: 16px; max-width: 500px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s ease; overflow: hidden;">
+                <div style="background: white; border-radius: 16px; max-width: 500px; width: 90%; box-shaçãow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s ease; overflow: hidden;">
                     
                     <!-- Header de Alerta -->
                     <div style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); padding: 24px 30px; border-bottom: 3px solid #b91c1c;">
@@ -1006,7 +1006,7 @@
                                     </div>
                                 </div>
                                 
-                                ${produto.descricao ? `
+                                ${produto.descricao  `
                                 <div style="display: flex; align-items: start; gap: 10px;">
                                     <i class="fas fa-align-left" style="color: #8b5cf6; margin-top: 2px; width: 16px;"></i>
                                     <div style="flex: 1;">
@@ -1027,7 +1027,7 @@
                                         Esta ação é IRREVERSÍVEL!
                                     </p>
                                     <p style="margin: 6px 0 0 0; font-size: 12px; color: #b91c1c; line-height: 1.4;">
-                                        O produto será permanentemente removido do sistema e não poderá ser recuperado.
+                                        O produto será permanentemente removido do sistema e não poderá ser recuperação.
                                     </p>
                                 </div>
                             </div>
@@ -1035,7 +1035,7 @@
                         
                         <!-- Pergunta de Confirmação -->
                         <p style="margin: 0 0 24px 0; text-align: center; font-size: 15px; color: #1e293b; font-weight: 600;">
-                            Deseja realmente continuar?
+                            Deseja realmente continuar
                         </p>
                         
                         <!-- Botões de Ação -->
@@ -1047,9 +1047,9 @@
                                 <i class="fas fa-times"></i> Cancelar
                             </button>
                             <button type="button" id="btn-confirm-delete"
-                                style="flex: 1; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; padding: 14px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 15px; box-shadow: 0 4px 12px rgba(239,68,68,0.3);"
-                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 16px rgba(239,68,68,0.4)'"
-                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(239,68,68,0.3)'">
+                                style="flex: 1; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; padding: 14px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 15px; box-shaçãow: 0 4px 12px rgba(239,68,68,0.3);"
+                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShaçãow='0 6px 16px rgba(239,68,68,0.4)'"
+                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShaçãow='0 4px 12px rgba(239,68,68,0.3)'">
                                 <i class="fas fa-trash-alt"></i> Sim, Excluir
                             </button>
                         </div>
@@ -1141,7 +1141,7 @@
                     const isVisible = !materiaisView.classList.contains('hidden');
                     
                     if (isVisible && materiaisData.length === 0) {
-                        console.log('🔄 View de materiais ficou visível, carregando dados...');
+                        console.log('🔄 View de materiais ficou visível, carregando daçãos...');
                         isObserving = true; // Bloquear reentrada
                         
                         onViewShown();
@@ -1156,7 +1156,7 @@
         });
         
         observer.observe(materiaisView, { attributes: true });
-        console.log('👀 Observer instalado para detectar mudanças na view');
+        console.log('👀 Observer instalação para detectar mudanças na view');
     }
 
 })();

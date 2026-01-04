@@ -46,15 +46,15 @@ patterns.forEach(pattern => {
         
         // Remover chat-omie
         if (content.includes('chat-omie.css') || content.includes('chat-omie.js')) {
-            content = content.replace(/<link rel="stylesheet" href="\/css\/chat-omie\.css\?v=\d+">\s*/g, '');
-            content = content.replace(/<script src="\/js\/chat-omie\.js\?v=\d+"><\/script>\s*/g, '');
+            content = content.replace(/<link rel="stylesheet" href="\/css\/chat-omie\.css\v=\d+">\s*/g, '');
+            content = content.replace(/<script src="\/js\/chat-omie\.js\v=\d+"><\/script>\s*/g, '');
             modified = true;
         }
         
         // Adicionar Bob AI se não existir
         if (!content.includes('chat-widget.css')) {
             // Adicionar antes do </head>
-            content = content.replace('</head>', '    <link rel="stylesheet" href="/css/chat-widget.css?v=20251210">\n    <script src="/js/chat-widget.js?v=20251210"></script>\n</head>');
+            content = content.replace('</head>', '    <link rel="stylesheet" href="/css/chat-widget.cssv=20251210">\n    <script src="/js/chat-widget.jsv=20251210"></script>\n</head>');
             modified = true;
         }
         
@@ -65,7 +65,7 @@ patterns.forEach(pattern => {
     });
 });
 
-console.log('   ✅ ' + updated + ' arquivos atualizados');
+console.log('   ✅ ' + updated + ' arquivos atualizaçãos');
 console.log('   ❌ ' + errors + ' erros');
 
 console.log('\n' + '='.repeat(60));
@@ -77,12 +77,12 @@ console.log('   ✅ Design roxo premium (#6B5CE7)');
 console.log('   ✅ Socket.io em tempo real');
 console.log('   ✅ Dark mode');
 console.log('   ✅ Upload de arquivos');
-console.log('   ✅ Indicador de digitação');
+console.log('   ✅ Indicaçãor de digitação');
 console.log('   ✅ Reações e emojis');
 console.log('   ✅ Busca de mensagens');
 console.log('   ✅ 1144 linhas de código');
 
 console.log('\n🚀 Próximos passos:');
 console.log('1. Reinicie o servidor');
-console.log('2. Limpe o cache do navegador');
+console.log('2. Limpe o cache do navegaçãor');
 console.log('3. O chat Bob AI roxo estará funcionando');

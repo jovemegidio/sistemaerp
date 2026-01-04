@@ -1,6 +1,6 @@
 /**
  * Script ROBUSTO para importar dump SQL
- * Importa em 3 fases: estrutura base, dados, foreign keys
+ * Importa em 3 fases: estrutura base, daçãos, foreign keys
  */
 
 const mysql = require('mysql2/promise');
@@ -33,7 +33,7 @@ async function importarDumpRobusto() {
         // Conectar
         console.log('\n🔌 Conectando ao banco...');
         connection = await mysql.createConnection(dbConfig);
-        console.log('✅ Conectado!');
+        console.log('✅ Conectação!');
         
         // Preparar ambiente
         await connection.query('SET FOREIGN_KEY_CHECKS=0');
@@ -58,17 +58,17 @@ async function importarDumpRobusto() {
             drops.push(match[0]);
         }
         
-        // Extrair CREATEs (simplificado - remove FOREIGN KEY constraints temporariamente)
+        // Extrair CREATEs (simplificação - remove FOREIGN KEY constraints temporariamente)
         const createMatches = content.match(createRegex) || [];
         for (const create of createMatches) {
             // Remover CONSTRAINT...FOREIGN KEY para criar tabelas primeiro
             let simplifiedCreate = create
-                .replace(/,\s*CONSTRAINT[^,\)]+FOREIGN KEY[^,\)]+REFERENCES[^,\)]+(\([^)]+\))?[^,\)]*/gi, '')
-                .replace(/,\s*FOREIGN KEY[^,\)]+REFERENCES[^,\)]+(\([^)]+\))?[^,\)]*/gi, '');
+                .replace(/,\s*CONSTRAINT[^,\)]+FOREIGN KEY[^,\)]+REFERENCES[^,\)]+(\([^)]+\))[^,\)]*/gi, '')
+                .replace(/,\s*FOREIGN KEY[^,\)]+REFERENCES[^,\)]+(\([^)]+\))[^,\)]*/gi, '');
             creates.push(simplifiedCreate);
         }
         
-        // Extrair INSERTs e corrigir JSON mal formatado
+        // Extrair INSERTs e corrigir JSON mal formatação
         const insertMatches = content.match(insertRegex) || [];
         for (const insert of insertMatches) {
             let fixedInsert = insert;
@@ -78,7 +78,7 @@ async function importarDumpRobusto() {
                 // Padrão problemático: , status,valor,cliente_id, updated_at,
                 // Precisa ser: , '["status","valor","cliente_id"]', '["updated_at"]',
                 fixedInsert = insert.replace(
-                    /VALUES \((\d+), '([^']+)', '([^']+)', ([^,]+(?:,[^,]+)*?), ([^,]+(?:,[^,]+)*?), (\d+), '([^']+)', '([^']+)', '([^']+)'\)/,
+                    /VALUES \((\d+), '([^']+)', '([^']+)', ([^,]+(:,[^,]+)*), ([^,]+(:,[^,]+)*), (\d+), '([^']+)', '([^']+)', '([^']+)'\)/,
                     (match, id, modulo, tabela, camposMon, camposIgn, ativo, nivel, created, updated) => {
                         let mon = 'NULL';
                         let ign = 'NULL';
@@ -127,7 +127,7 @@ async function importarDumpRobusto() {
                 await connection.query(stmt);
                 createSuccess++;
             } catch (err) {
-                const tableName = stmt.match(/CREATE TABLE `(\w+)`/i)?.[1] || 'unknown';
+                const tableName = stmt.match(/CREATE TABLE `(\w+)`/i).[1] || 'unknown';
                 createErrors.push({ table: tableName, error: err.message });
             }
         }
@@ -136,8 +136,8 @@ async function importarDumpRobusto() {
             console.log(`   ⚠️ ${createErrors.length} erros de criação`);
         }
         
-        // FASE 3: INSERT dados
-        console.log('\n3️⃣ FASE 3: Inserindo dados...');
+        // FASE 3: INSERT daçãos
+        console.log('\n3️⃣ FASE 3: Inserindo daçãos...');
         let insertSuccess = 0;
         let insertErrors = [];
         
@@ -146,7 +146,7 @@ async function importarDumpRobusto() {
                 await connection.query(stmt);
                 insertSuccess++;
             } catch (err) {
-                const tableName = stmt.match(/INSERT INTO `(\w+)`/i)?.[1] || 'unknown';
+                const tableName = stmt.match(/INSERT INTO `(\w+)`/i).[1] || 'unknown';
                 if (!insertErrors.find(e => e.table === tableName)) {
                     insertErrors.push({ table: tableName, error: err.message.substring(0, 100) });
                 }
@@ -169,7 +169,7 @@ async function importarDumpRobusto() {
         const [tables] = await connection.query('SHOW TABLES');
         console.log(`\n📋 Total de tabelas: ${tables.length}`);
         
-        // Verificar dados em tabelas principais
+        // Verificar daçãos em tabelas principais
         const tabelasPrincipais = [
             'usuarios', 'funcionarios', 'produtos', 'clientes', 'empresas',
             'pedidos', 'pedido_itens', 'ordens_producao', 'fornecedores', 
@@ -178,25 +178,25 @@ async function importarDumpRobusto() {
             'auditoria_config', 'modulos', 'configuracoes_sistema'
         ];
         
-        console.log('\n📦 Dados nas tabelas principais:');
-        let totalDados = 0;
-        let tabelasComDados = 0;
+        console.log('\n📦 Daçãos nas tabelas principais:');
+        let totalDaçãos = 0;
+        let tabelasComDaçãos = 0;
         
         for (const tabela of tabelasPrincipais) {
             try {
                 const [[{count}]] = await connection.query(`SELECT COUNT(*) as count FROM \`${tabela}\``);
                 if (count > 0) {
                     console.log(`   ✅ ${tabela}: ${count}`);
-                    totalDados += count;
-                    tabelasComDados++;
+                    totalDaçãos += count;
+                    tabelasComDaçãos++;
                 }
             } catch (err) {
                 // Tabela não existe
             }
         }
         
-        // Contar todas as tabelas com dados
-        let todasTabelasComDados = 0;
+        // Contar todas as tabelas com daçãos
+        let todasTabelasComDaçãos = 0;
         let totalGeralRegistros = 0;
         
         for (const row of tables) {
@@ -204,7 +204,7 @@ async function importarDumpRobusto() {
             try {
                 const [[{count}]] = await connection.query(`SELECT COUNT(*) as count FROM \`${tableName}\``);
                 if (count > 0) {
-                    todasTabelasComDados++;
+                    todasTabelasComDaçãos++;
                     totalGeralRegistros += count;
                 }
             } catch (err) {}
@@ -212,7 +212,7 @@ async function importarDumpRobusto() {
         
         console.log('\n📈 Resumo Geral:');
         console.log(`   - Tabelas criadas: ${tables.length}`);
-        console.log(`   - Tabelas com dados: ${todasTabelasComDados}`);
+        console.log(`   - Tabelas com daçãos: ${todasTabelasComDaçãos}`);
         console.log(`   - Total de registros: ${totalGeralRegistros}`);
         
         // Mostrar erros resumidos

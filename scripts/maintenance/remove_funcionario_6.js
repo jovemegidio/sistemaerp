@@ -1,5 +1,5 @@
 // remove_funcionario_6.js
-// Script para remover o funcionário com id=6 do banco de dados
+// Script para remover o funcionário com id=6 do banco de daçãos
 
 const mysql = require('mysql2/promise');
 
@@ -18,7 +18,7 @@ async function removerFuncionario6() {
         if (result.affectedRows > 0) {
             console.log('Funcionário com id=6 removido com sucesso!');
         } else {
-            console.log('Funcionário com id=6 não encontrado.');
+            console.log('Funcionário com id=6 não encontração.');
         }
     } catch (err) {
         console.error('Erro ao remover funcionário:', err);

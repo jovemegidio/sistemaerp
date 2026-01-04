@@ -75,9 +75,9 @@ module.exports = {
 
         // Resposta genérica
         const genericResponses = [
-            'Entendi sua dúvida. Pode me dar mais detalhes sobre o problema?',
-            'Para ajudar melhor, preciso de mais informações. Pode explicar melhor a situação?',
-            'Hmm, não encontrei uma resposta específica para isso. Deseja falar com um de nossos atendentes?'
+            'Entendi sua dúvida. Pode me dar mais detalhes sobre o problema',
+            'Para ajudar melhor, preciso de mais informações. Pode explicar melhor a situação',
+            'Hmm, não encontrei uma resposta específica para isso. Deseja falar com um de nossos atendentes'
         ];
 
         return {
@@ -87,7 +87,7 @@ module.exports = {
     },
 
     getWelcomeMessage: (clientName) => {
-        return `Olá ${clientName}! 👋\nComo podemos ajudar?`;
+        return `Olá ${clientName}! 👋\nComo podemos ajudar`;
     },
 
     getMenuOptions: () => menuOptions,

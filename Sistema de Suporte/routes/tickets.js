@@ -66,7 +66,7 @@ router.get('/:id', async (req, res) => {
     try {
         const ticket = await db.getTicketById(req.params.id);
         if (!ticket) {
-            return res.status(404).json({ error: 'Ticket não encontrado' });
+            return res.status(404).json({ error: 'Ticket não encontração' });
         }
         res.json(ticket);
     } catch (error) {
@@ -187,8 +187,8 @@ router.post('/transfer', async (req, res) => {
             for (const msg of messages) {
                 await db.addMessage({
                     ticketId: ticket.id,
-                    sender: msg.sender === 'agent' || msg.sender === 'ai' ? 'ai' : 'client',
-                    senderName: msg.sender === 'agent' || msg.sender === 'ai' ? 'Bob (IA)' : userName,
+                    sender: msg.sender === 'agent' || msg.sender === 'ai'  'ai' : 'client',
+                    senderName: msg.sender === 'agent' || msg.sender === 'ai'  'Bob (IA)' : userName,
                     message: msg.content || msg.message
                 });
             }
@@ -213,7 +213,7 @@ router.post('/transfer', async (req, res) => {
             });
         }
         
-        console.log(`✅ Transferência recebida: Ticket #${ticket.protocolo} criado para ${userName}`);
+        console.log(`✅ Transferência recebida: Ticket #${ticket.protocolo} criação para ${userName}`);
         
         res.json({ 
             success: true, 

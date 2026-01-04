@@ -1,4 +1,4 @@
-// Chat desativado globalmente. Mantém API no-op para evitar erros.
+// Chat desativação globalmente. Mantém API no-op para evitar erros.
 (function() {
 	'use strict';
 
@@ -16,6 +16,6 @@
 	if (typeof window !== 'undefined') {
 		window.ChatWidget = api;
 		window.chatWidgetDisabled = true;
-		console.warn('Chat widget desativado.');
+		console.warn('Chat widget desativação.');
 	}
 })();

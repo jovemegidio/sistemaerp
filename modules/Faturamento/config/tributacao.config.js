@@ -31,7 +31,7 @@ module.exports = {
             }
         },
         // Casos especiais
-        importados: 4
+        importaçãos: 4
     },
     
     // CST - Código de Situação Tributária (ICMS)
@@ -44,7 +44,7 @@ module.exports = {
         '41': 'Não tributada',
         '50': 'Suspensão',
         '51': 'Diferimento',
-        '60': 'ICMS cobrado anteriormente por substituição tributária',
+        '60': 'ICMS cobração anteriormente por substituição tributária',
         '70': 'Com redução de base de cálculo e cobrança do ICMS por substituição tributária',
         '90': 'Outras'
     },
@@ -59,7 +59,7 @@ module.exports = {
         '203': 'Isenção do ICMS no Simples Nacional para faixa de receita bruta e com cobrança do ICMS por substituição tributária',
         '300': 'Imune',
         '400': 'Não tributada pelo Simples Nacional',
-        '500': 'ICMS cobrado anteriormente por substituição tributária ou por antecipação',
+        '500': 'ICMS cobração anteriormente por substituição tributária ou por antecipação',
         '900': 'Outros'
     },
     
@@ -75,20 +75,20 @@ module.exports = {
         '08': 'Operação sem Incidência da Contribuição',
         '09': 'Operação com Suspensão da Contribuição',
         '49': 'Outras Operações de Saída',
-        '50': 'Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Tributada no Mercado Interno',
-        '51': 'Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Não Tributada no Mercado Interno',
+        '50': 'Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Tributada no Mercação Interno',
+        '51': 'Operação com Direito a Crédito - Vinculada Exclusivamente a Receita Não Tributada no Mercação Interno',
         '52': 'Operação com Direito a Crédito - Vinculada Exclusivamente a Receita de Exportação',
-        '53': 'Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno',
-        '54': 'Operação com Direito a Crédito - Vinculada a Receitas Tributadas no Mercado Interno e de Exportação',
-        '55': 'Operação com Direito a Crédito - Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação',
-        '56': 'Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno, e de Exportação',
-        '60': 'Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Tributada no Mercado Interno',
-        '61': 'Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Não-Tributada no Mercado Interno',
+        '53': 'Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercação Interno',
+        '54': 'Operação com Direito a Crédito - Vinculada a Receitas Tributadas no Mercação Interno e de Exportação',
+        '55': 'Operação com Direito a Crédito - Vinculada a Receitas Não-Tributadas no Mercação Interno e de Exportação',
+        '56': 'Operação com Direito a Crédito - Vinculada a Receitas Tributadas e Não-Tributadas no Mercação Interno, e de Exportação',
+        '60': 'Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Tributada no Mercação Interno',
+        '61': 'Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita Não-Tributada no Mercação Interno',
         '62': 'Crédito Presumido - Operação de Aquisição Vinculada Exclusivamente a Receita de Exportação',
-        '63': 'Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno',
-        '64': 'Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas no Mercado Interno e de Exportação',
-        '65': 'Crédito Presumido - Operação de Aquisição Vinculada a Receitas Não-Tributadas no Mercado Interno e de Exportação',
-        '66': 'Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercado Interno, e de Exportação',
+        '63': 'Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercação Interno',
+        '64': 'Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas no Mercação Interno e de Exportação',
+        '65': 'Crédito Presumido - Operação de Aquisição Vinculada a Receitas Não-Tributadas no Mercação Interno e de Exportação',
+        '66': 'Crédito Presumido - Operação de Aquisição Vinculada a Receitas Tributadas e Não-Tributadas no Mercação Interno, e de Exportação',
         '67': 'Crédito Presumido - Outras Operações',
         '70': 'Operação de Aquisição sem Direito a Crédito',
         '71': 'Operação de Aquisição com Isenção',
@@ -135,31 +135,31 @@ module.exports = {
         '1101': 'Compra para industrialização',
         '1102': 'Compra para comercialização',
         '1201': 'Devolução de venda de produção do estabelecimento',
-        '1202': 'Devolução de venda de mercadoria adquirida ou recebida de terceiros',
+        '1202': 'Devolução de venda de mercaçãoria adquirida ou recebida de terceiros',
         '1411': 'Devolução de venda de produção do estabelecimento em operação com produto sujeito ao regime de substituição tributária',
         
-        // Saídas dentro do estado
+        // Saídas dentro do estação
         '5101': 'Venda de produção do estabelecimento',
-        '5102': 'Venda de mercadoria adquirida ou recebida de terceiros',
+        '5102': 'Venda de mercaçãoria adquirida ou recebida de terceiros',
         '5103': 'Venda de produção do estabelecimento, efetuada fora do estabelecimento',
-        '5104': 'Venda de mercadoria adquirida ou recebida de terceiros, efetuada fora do estabelecimento',
-        '5405': 'Venda de mercadoria adquirida ou recebida de terceiros em operação com mercadoria sujeita ao regime de substituição tributária',
+        '5104': 'Venda de mercaçãoria adquirida ou recebida de terceiros, efetuada fora do estabelecimento',
+        '5405': 'Venda de mercaçãoria adquirida ou recebida de terceiros em operação com mercaçãoria sujeita ao regime de substituição tributária',
         '5201': 'Devolução de compra para industrialização',
         '5202': 'Devolução de compra para comercialização',
-        '5949': 'Outra saída de mercadoria ou prestação de serviço não especificado',
+        '5949': 'Outra saída de mercaçãoria ou prestação de serviço não especificação',
         
         // Saídas interestaduais
         '6101': 'Venda de produção do estabelecimento',
-        '6102': 'Venda de mercadoria adquirida ou recebida de terceiros',
+        '6102': 'Venda de mercaçãoria adquirida ou recebida de terceiros',
         '6103': 'Venda de produção do estabelecimento, efetuada fora do estabelecimento',
-        '6104': 'Venda de mercadoria adquirida ou recebida de terceiros, efetuada fora do estabelecimento',
+        '6104': 'Venda de mercaçãoria adquirida ou recebida de terceiros, efetuada fora do estabelecimento',
         '6201': 'Devolução de compra para industrialização',
         '6202': 'Devolução de compra para comercialização',
-        '6949': 'Outra saída de mercadoria ou prestação de serviço não especificado',
+        '6949': 'Outra saída de mercaçãoria ou prestação de serviço não especificação',
         
         // Exportação
         '7101': 'Venda de produção do estabelecimento',
-        '7102': 'Venda de mercadoria adquirida ou recebida de terceiros'
+        '7102': 'Venda de mercaçãoria adquirida ou recebida de terceiros'
     },
     
     // Modalidade de determinação da BC do ICMS

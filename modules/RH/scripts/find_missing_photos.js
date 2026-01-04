@@ -13,7 +13,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
+  port: process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 3306
 })
 
 function listFiles () {
@@ -41,18 +41,18 @@ async function run () {
     console.log('Fotos em uploads:', files.length)
 
     // get all funcionarios without foto_perfil_url or empty string
-    const [rows] = await new Promise((res, rej) => db.query("SELECT id, nome_completo, foto_perfil_url, foto_thumb_url FROM funcionarios WHERE foto_perfil_url IS NULL OR foto_perfil_url = '' LIMIT 1000", (e, r) => e ? rej(e) : res([r])))
+    const [rows] = await new Promise((res, rej) => db.query("SELECT id, nome_completo, foto_perfil_url, foto_thumb_url FROM funcionarios WHERE foto_perfil_url IS NULL OR foto_perfil_url = '' LIMIT 1000", (e, r) => e  rej(e) : res([r])))
     if (!rows || rows.length === 0) {
-      console.log('Nenhum funcionário sem foto_perfil_url encontrado.')
+      console.log('Nenhum funcionário sem foto_perfil_url encontração.')
       return
     }
-    console.log('\nFuncionários sem foto_perfil_url encontrados:', rows.length)
+    console.log('\nFuncionários sem foto_perfil_url encontraçãos:', rows.length)
     const report = []
     for (const r of rows) {
       const name = r.nome_completo || ''
       const cands = candidatesForName(name, files)
-      report.push({ id: r.id, nome: name, current: r.foto_perfil_url || '', candidates: cands.length ? cands : [placeholder] })
-      console.log(`- id=${r.id} nome='${name}' candidates=${cands.length} ${cands.length ? cands.join(', ') : placeholder}`)
+      report.push({ id: r.id, nome: name, current: r.foto_perfil_url || '', candidates: cands.length  cands : [placeholder] })
+      console.log(`- id=${r.id} nome='${name}' candidates=${cands.length} ${cands.length  cands.join(', ') : placeholder}`)
     }
 
     console.log('\nDry-run concluído. Não foram aplicadas alterações.')

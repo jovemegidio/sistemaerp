@@ -40,7 +40,7 @@
       }
     }catch(e){ report.steps.push({ step: 'create_delete_error', error: String(e) }); }
 
-  }catch(err){ report.error = err && err.stack ? err.stack : String(err); }
+  }catch(err){ report.error = err && err.stack  err.stack : String(err); }
 
   const outPath = __dirname + '/e2e_direct_report.json';
   try{ fs.writeFileSync(outPath, JSON.stringify(report, null, 2)); console.log('WROTE', outPath); }catch(e){ console.error('WRITE_ERR', e); }

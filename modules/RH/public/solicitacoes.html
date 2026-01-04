@@ -9,7 +9,7 @@
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -129,7 +129,7 @@
         /* Cards */
         .card {
             background: white; border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             border: 1px solid #f1f5f9; overflow: hidden;
             margin-bottom: 24px;
         }
@@ -189,7 +189,7 @@
 
         .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none; border-color: var(--primary-purple);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            box-shaçãow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .form-actions {
@@ -283,7 +283,7 @@
                 <a href="pages/espelho-ponto.html" class="sidebar-btn" title="Espelho de Ponto">
                     <i class="fas fa-clock"></i>
                 </a>
-                <a href="pages/dados-cadastrais.html" class="sidebar-btn" title="Meus Dados">
+                <a href="pages/daçãos-cadastrais.html" class="sidebar-btn" title="Meus Daçãos">
                     <i class="fas fa-user-edit"></i>
                 </a>
                 <a href="pages/beneficios.html" class="sidebar-btn" title="Benefícios">
@@ -292,7 +292,7 @@
             </nav>
 
             <div class="sidebar-bottom">
-                <a href="pages/enviar-atestado.html" class="sidebar-btn" title="Enviar Atestado">
+                <a href="pages/enviar-atestação.html" class="sidebar-btn" title="Enviar Atestação">
                     <i class="fas fa-notes-medical"></i>
                 </a>
                 <a href="solicitacoes.html" class="sidebar-btn active" title="Solicitações">
@@ -388,7 +388,7 @@
                                         <option value="folga">Folga / Abono</option>
                                         <option value="holerite">2ª Via de Holerite</option>
                                         <option value="declaracao">Declaração</option>
-                                        <option value="alteracao-dados">Alteração de Dados Cadastrais</option>
+                                        <option value="alteracao-daçãos">Alteração de Daçãos Cadastrais</option>
                                         <option value="adiantamento">Adiantamento Salarial</option>
                                         <option value="cs_saude">CS Saúde</option>
                                         <option value="outros">Outros</option>
@@ -492,8 +492,8 @@
             const s = (status || '').toLowerCase();
             if (s === 'pendente') return 'pending';
             if (s === 'em análise' || s === 'em analise') return 'processing';
-            if (s === 'aprovada' || s === 'aprovado') return 'approved';
-            if (s === 'recusada' || s === 'recusado') return 'rejected';
+            if (s === 'aprovada' || s === 'aprovação') return 'approved';
+            if (s === 'recusada' || s === 'recusação') return 'rejected';
             return 'pending';
         }
 
@@ -501,8 +501,8 @@
             const s = (status || '').toLowerCase();
             if (s === 'pendente') return 'fa-clock';
             if (s === 'em análise' || s === 'em analise') return 'fa-spinner';
-            if (s === 'aprovada' || s === 'aprovado') return 'fa-check';
-            if (s === 'recusada' || s === 'recusado') return 'fa-times';
+            if (s === 'aprovada' || s === 'aprovação') return 'fa-check';
+            if (s === 'recusada' || s === 'recusação') return 'fa-times';
             return 'fa-clock';
         }
 
@@ -510,12 +510,12 @@
             const s = (status || '').toLowerCase();
             if (s === 'pendente') return 'Pendente';
             if (s === 'em análise' || s === 'em analise') return 'Em Análise';
-            if (s === 'aprovada' || s === 'aprovado') return 'Aprovada';
-            if (s === 'recusada' || s === 'recusado') return 'Recusada';
+            if (s === 'aprovada' || s === 'aprovação') return 'Aprovada';
+            if (s === 'recusada' || s === 'recusação') return 'Recusada';
             return status || 'Pendente';
         }
 
-        async function carregarUsuarioLogado() {
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
@@ -533,8 +533,8 @@
                     
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
-                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp'  user.avatar : null;
                     if (!userAvatar) userAvatar = getAvatarFromEmail(user.email, userName);
                     
                     const userNameEl = document.getElementById('user-name');
@@ -608,7 +608,7 @@
                 const statusIcon = getStatusIcon(sol.status);
                 const statusLabel = getStatusLabel(sol.status);
                 const titulo = sol.assunto || sol.tipo || 'Solicitação';
-                const descricao = sol.descricao ? sol.descricao.substring(0, 100) + (sol.descricao.length > 100 ? '...' : '') : (sol.categoria || '');
+                const descricao = sol.descricao  sol.descricao.substring(0, 100) + (sol.descricao.length > 100  '...' : '') : (sol.categoria || '');
                 
                 return `
                     <div class="request-item">
@@ -617,7 +617,7 @@
                         </div>
                         <div class="request-content">
                             <div class="request-title">${titulo}</div>
-                            <div class="request-date">Enviado em ${formatarData(sol.created_at)}</div>
+                            <div class="request-date">Enviação em ${formatarData(sol.created_at)}</div>
                             <div class="request-description">${descricao}</div>
                         </div>
                         <span class="request-status ${statusClass}">${statusLabel}</span>
@@ -637,7 +637,7 @@
                 toast = document.createElement('div');
                 toast.id = 'toast';
                 toast.innerHTML = '<i class="fas fa-check-circle"></i><span id="toast-message"></span>';
-                toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:white;padding:16px 24px;border-radius:12px;display:none;align-items:center;gap:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+                toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:white;padding:16px 24px;border-radius:12px;display:none;align-items:center;gap:12px;z-index:9999;box-shaçãow:0 4px 12px rgba(0,0,0,0.15);';
                 document.body.appendChild(toast);
             }
             
@@ -701,7 +701,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            carregarUsuarioLogado();
+            carregarUsuarioLogação();
             carregarSolicitacoes();
         });
     </script></body>

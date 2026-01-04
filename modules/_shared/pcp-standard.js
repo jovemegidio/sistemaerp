@@ -87,7 +87,7 @@ function initSidebarNavigation() {
                 // Remove active de todos
                 navLinks.forEach(l => l.classList.remove('active'));
                 
-                // Adiciona active no clicado
+                // Adiciona active no clicação
                 link.classList.add('active');
                 
                 // Scroll suave para a seção
@@ -116,7 +116,7 @@ function initRefreshButton() {
                 }, 1000);
             }
             
-            // Recarregar dados (implementar em cada módulo)
+            // Recarregar daçãos (implementar em cada módulo)
             if (typeof refreshModuleData === 'function') {
                 refreshModuleData();
             } else {
@@ -296,7 +296,7 @@ function initTabs() {
             tabButtons.forEach(btn => btn.classList.remove('active'));
             tabContents.forEach(content => content.classList.remove('active'));
             
-            // Adiciona active no botão clicado
+            // Adiciona active no botão clicação
             button.classList.add('active');
             
             // Mostra o conteúdo correspondente
@@ -304,7 +304,7 @@ function initTabs() {
             if (targetContent) {
                 targetContent.classList.add('active');
                 
-                // Callback para carregar dados da aba
+                // Callback para carregar daçãos da aba
                 if (typeof loadTabData === 'function') {
                     loadTabData(targetTab);
                 }
@@ -367,7 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     initGlobalSearch();
     
-    console.log('%c✅ PCP Standard JS inicializado com sucesso!', 'color: #10b981; font-weight: bold; font-size: 14px;');
+    console.log('%c✅ PCP Standard JS inicialização com sucesso!', 'color: #10b981; font-weight: bold; font-size: 14px;');
 });
 
 // ===== EXPORTAR FUNÇÕES =====

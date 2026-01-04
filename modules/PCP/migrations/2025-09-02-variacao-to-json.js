@@ -9,7 +9,7 @@ const mysql = require('mysql2/promise');
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT,10) : 3306,
+    port: process.env.DB_PORT  parseInt(process.env.DB_PORT,10) : 3306,
   };
   let conn;
   try {
@@ -28,13 +28,13 @@ const mysql = require('mysql2/promise');
       const parts = v.split(/[,;]+/).map(s => s.trim()).filter(Boolean);
       if (parts.length === 0) continue;
       const json = JSON.stringify(parts);
-      await conn.query('UPDATE produtos SET variacao = ? WHERE id = ?', [json, r.id]);
+      await conn.query('UPDATE produtos SET variacao =  WHERE id = ', [json, r.id]);
       updated++;
     }
     console.log('Migration complete. Updated rows:', updated);
     process.exit(0);
   } catch (err) {
-    console.error('Migration failed:', err && err.message ? err.message : err);
+    console.error('Migration failed:', err && err.message  err.message : err);
     process.exit(2);
   } finally {
     if (conn) await conn.end();

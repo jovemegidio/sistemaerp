@@ -162,7 +162,7 @@ function loadFuncionariosContent() {
                 </div>
             `;
         }
-        console.log('✅ Conteúdo de funcionários carregado');
+        console.log('✅ Conteúdo de funcionários carregação');
     }
 }
 
@@ -180,7 +180,7 @@ function loadHoleritesContent() {
             contentDiv.innerHTML = `
                 <div class="holerites-stats">
                     <div class="stat-card">
-                        <h3>Holerites Gerados</h3>
+                        <h3>Holerites Geraçãos</h3>
                         <p class="stat-value">156</p>
                     </div>
                     <div class="stat-card">
@@ -206,7 +206,7 @@ function loadHoleritesContent() {
             `;
             section.appendChild(contentDiv);
         }
-        console.log('✅ Conteúdo de holerites carregado');
+        console.log('✅ Conteúdo de holerites carregação');
     }
 }
 
@@ -228,7 +228,7 @@ function loadRelatoriosContent() {
                         <p class="stat-value">12</p>
                     </div>
                     <div class="stat-card">
-                        <h3>Gerados Hoje</h3>
+                        <h3>Geraçãos Hoje</h3>
                         <p class="stat-value">3</p>
                     </div>
                 </div>
@@ -246,7 +246,7 @@ function loadRelatoriosContent() {
             `;
             section.appendChild(contentDiv);
         }
-        console.log('✅ Conteúdo de relatórios carregado');
+        console.log('✅ Conteúdo de relatórios carregação');
     }
 }
 
@@ -262,7 +262,7 @@ function loadDashboardContent() {
         widget.style.opacity = '1';
     });
     
-    console.log('✅ Conteúdo do dashboard carregado');
+    console.log('✅ Conteúdo do dashboard carregação');
 }
 
 // Inicialização quando DOM estiver pronto
@@ -321,4 +321,4 @@ window.addEventListener('load', () => {
 window.navigateToSection = improvedNavigateToSection;
 window.forceSectionsVisibility = forceSectionsVisibility;
 
-console.log('📱 Sections Repair carregado');
+console.log('📱 Sections Repair carregação');

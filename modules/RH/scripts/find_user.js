@@ -6,19 +6,19 @@ const DB_CONFIG = {
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
+  port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
 }
 
 async function find (email) {
   const conn = await mysql.createConnection(DB_CONFIG)
   try {
-    const [rows] = await conn.execute('SELECT id, email, senha, role, nome_completo FROM funcionarios WHERE email = ? LIMIT 1', [email])
+    const [rows] = await conn.execute('SELECT id, email, senha, role, nome_completo FROM funcionarios WHERE email =  LIMIT 1', [email])
     if (!rows || rows.length === 0) {
-      console.log(`Nenhum utilizador encontrado para email='${email}'`)
+      console.log(`Nenhum utilizaçãor encontração para email='${email}'`)
       return
     }
     const u = rows[0]
-    console.log('Encontrado:', JSON.stringify(u, null, 2))
+    console.log('Encontração:', JSON.stringify(u, null, 2))
   } catch (err) {
     console.error('Erro ao consultar DB:', err.message || err)
   } finally {

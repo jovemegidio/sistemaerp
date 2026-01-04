@@ -8,7 +8,7 @@ require('dotenv').config();
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
+    port: process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 3306
   })
 
   const admins = [
@@ -22,17 +22,17 @@ require('dotenv').config();
 
   for (const a of admins) {
     try {
-      const [rows] = await connection.execute('SELECT id FROM funcionarios WHERE email = ? LIMIT 1', [a.email])
+      const [rows] = await connection.execute('SELECT id FROM funcionarios WHERE email =  LIMIT 1', [a.email])
       if (rows && rows.length > 0) {
         console.log(`Usuário ${a.email} já existe (id=${rows[0].id}), atualizando role para admin e senha.`)
-        await connection.execute('UPDATE funcionarios SET role = ?, senha = ? WHERE id = ?', ['admin', hashed, rows[0].id])
+        await connection.execute('UPDATE funcionarios SET role = , senha =  WHERE id = ', ['admin', hashed, rows[0].id])
       } else {
         console.log(`Criando usuário ${a.email} ...`)
         // generate a deterministic placeholder CPF (11 digits) to satisfy NOT NULL UNIQUE constraint
         const now = Date.now().toString()
         const suffix = now.slice(-8) // use last 8 digits of timestamp
         const cpfPlaceholder = `000${suffix}${String(admins.indexOf(a)).padStart(0, '0')}`.slice(0, 11)
-        await connection.execute('INSERT INTO funcionarios (email, senha, nome_completo, role, status, cpf) VALUES (?, ?, ?, ?, ?, ?)', [a.email, hashed, a.nome, 'admin', 'Ativo', cpfPlaceholder])
+        await connection.execute('INSERT INTO funcionarios (email, senha, nome_completo, role, status, cpf) VALUES (, , , , , )', [a.email, hashed, a.nome, 'admin', 'Ativo', cpfPlaceholder])
       }
     } catch (e) {
       console.error('Erro ao inserir/atualizar admin', a.email, e.message)

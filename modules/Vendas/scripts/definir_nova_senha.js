@@ -14,7 +14,7 @@ if (args.length < 2) {
 const userEmail = args[0];
 const newPlainPassword = args[1];
 
-// Configure com os dados do seu banco
+// Configure com os daçãos do seu banco
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
@@ -29,20 +29,20 @@ async function setNewPassword() {
 
         // Gera o hash da nova senha
         const hashedPassword = await bcrypt.hash(newPlainPassword, saltRounds);
-        console.log("Hash da nova senha gerado com sucesso.");
+        console.log("Hash da nova senha geração com sucesso.");
 
         connection = await pool.getConnection();
 
-        // Atualiza a senha no banco de dados
+        // Atualiza a senha no banco de daçãos
         const [result] = await connection.query(
-            "UPDATE usuarios SET senha = ? WHERE email = ?",
+            "UPDATE usuarios SET senha =  WHERE email = ",
             [hashedPassword, userEmail]
         );
 
         if (result.affectedRows === 0) {
-            console.error(`ERRO: Nenhum usuário encontrado com o e-mail: ${userEmail}`);
+            console.error(`ERRO: Nenhum usuário encontração com o e-mail: ${userEmail}`);
         } else {
-            console.log(`\n🎉 Senha para ${userEmail} foi atualizada com sucesso no banco de dados!`);
+            console.log(`\n🎉 Senha para ${userEmail} foi atualizada com sucesso no banco de daçãos!`);
             console.log(`O usuário agora pode fazer login com a senha: ${newPlainPassword}`);
         }
 

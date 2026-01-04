@@ -1,5 +1,5 @@
 /**
- * Script para carregar Header e Sidebar compartilhados
+ * Script para carregar Header e Sidebar compartilhaçãos
  * Inclui automaticamente o header e sidebar padrão nos módulos
  */
 
@@ -11,7 +11,7 @@
         try {
             const response = await fetch('/modules/_shared/header-sidebar.html');
             if (!response.ok) {
-                console.warn('Não foi possível carregar header/sidebar compartilhado');
+                console.warn('Não foi possível carregar header/sidebar compartilhação');
                 return;
             }
             
@@ -25,7 +25,7 @@
                 document.body.insertAdjacentHTML('afterbegin', html);
             }
             
-            console.log('✅ Header e Sidebar carregados');
+            console.log('✅ Header e Sidebar carregaçãos');
         } catch (error) {
             console.error('❌ Erro ao carregar header/sidebar:', error);
         }

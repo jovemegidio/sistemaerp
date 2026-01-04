@@ -23,7 +23,7 @@ function testSection(sectionId) {
     // Verificar se está visível
     const isVisible = section.classList.contains('active') || 
                      window.getComputedStyle(section).display !== 'none';
-    console.log(`👁️ Visível: ${isVisible ? 'SIM' : 'NÁO'}`);
+    console.log(`👁️ Visível: ${isVisible  'SIM' : 'NÁO'}`);
     
     return true;
 }
@@ -51,7 +51,7 @@ setTimeout(() => {
     console.log('============================');
     
     const navLinks = document.querySelectorAll('.nav-link');
-    console.log(`🔗 Links de navegação encontrados: ${navLinks.length}`);
+    console.log(`🔗 Links de navegação encontraçãos: ${navLinks.length}`);
     
     navLinks.forEach((link, index) => {
         const href = link.getAttribute('href') || link.getAttribute('onclick');
@@ -75,16 +75,16 @@ setTimeout(() => {
         console.log('============================');
         
         const widgets = document.querySelectorAll('.widget');
-        console.log(`🏷️ Widgets encontrados: ${widgets.length}`);
+        console.log(`🏷️ Widgets encontraçãos: ${widgets.length}`);
         
         widgets.forEach((widget, index) => {
-            const title = widget.querySelector('.widget-title')?.textContent || 'Sem título';
-            const value = widget.querySelector('.widget-value')?.textContent || 'Sem valor';
+            const title = widget.querySelector('.widget-title').textContent || 'Sem título';
+            const value = widget.querySelector('.widget-value').textContent || 'Sem valor';
             console.log(`   ${index + 1}. ${title}: ${value}`);
         });
         
         const dashboardGrid = document.querySelector('.dashboard-grid');
-        console.log(`📋 Grid do dashboard: ${dashboardGrid ? 'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
+        console.log(`📋 Grid do dashboard: ${dashboardGrid  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
     }
     
     // Verificar funcionários
@@ -96,9 +96,9 @@ setTimeout(() => {
         const employeeTable = document.getElementById('employees-list-view');
         const searchInput = document.getElementById('search-input');
         
-        console.log(`📋 Grid de funcionários: ${employeeGrid ? 'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
-        console.log(`📊 Tabela de funcionários: ${employeeTable ? 'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
-        console.log(`🔍 Campo de busca: ${searchInput ? 'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
+        console.log(`📋 Grid de funcionários: ${employeeGrid  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
+        console.log(`📊 Tabela de funcionários: ${employeeTable  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
+        console.log(`🔍 Campo de busca: ${searchInput  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
     }
     
     // Verificar relatórios
@@ -109,8 +109,8 @@ setTimeout(() => {
         const reportsGrid = document.querySelector('.reports-grid');
         const reportCards = document.querySelectorAll('.report-card');
         
-        console.log(`📋 Grid de relatórios: ${reportsGrid ? 'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
-        console.log(`🏷️ Cards de relatórios: ${reportCards.length} encontrados`);
+        console.log(`📋 Grid de relatórios: ${reportsGrid  'ENCONTRADO' : 'NÁO ENCONTRADO'}`);
+        console.log(`🏷️ Cards de relatórios: ${reportCards.length} encontraçãos`);
     }
     
     // Resumo final
@@ -121,13 +121,13 @@ setTimeout(() => {
     const totalSections = sections.length;
     
     console.log(`✅ Seções funcionando: ${foundSections}/${totalSections}`);
-    console.log(`🧭 Navegação: ${navLinks.length} links encontrados`);
+    console.log(`🧭 Navegação: ${navLinks.length} links encontraçãos`);
     console.log(`👁️ Seções ativas: ${activeSections.length} (ideal: 1)`);
     
     if (foundSections === totalSections && activeSections.length === 1) {
         console.log('🎉 TODOS OS TESTES PASSARAM! Sistema funcionando corretamente.');
     } else {
-        console.log('⚠️ Alguns problemas encontrados, mas sistema funcional.');
+        console.log('⚠️ Alguns problemas encontraçãos, mas sistema funcional.');
     }
     
 }, 2000);

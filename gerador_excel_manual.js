@@ -38,7 +38,7 @@ class ExcelManualGenerator {
 
     // Gerar XML do worksheet
     generateWorksheetXML() {
-        let xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        let xml = `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
     <sheetData>`;
 
@@ -96,7 +96,7 @@ class ExcelManualGenerator {
         const xmls = {};
 
         // Content Types
-        xmls['[Content_Types].xml'] = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        xmls['[Content_Types].xml'] = `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
     <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
     <Default Extension="xml" ContentType="application/xml"/>
@@ -105,13 +105,13 @@ class ExcelManualGenerator {
 </Types>`;
 
         // Root rels
-        xmls['_rels/.rels'] = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        xmls['_rels/.rels'] = `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
     <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
 </Relationships>`;
 
         // Workbook
-        xmls['xl/workbook.xml'] = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        xmls['xl/workbook.xml'] = `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
     <sheets>
         <sheet name="Ordem de Produção" sheetId="1" r:id="rId1" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"/>
@@ -119,7 +119,7 @@ class ExcelManualGenerator {
 </workbook>`;
 
         // Workbook rels
-        xmls['xl/_rels/workbook.xml.rels'] = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        xmls['xl/_rels/workbook.xml.rels'] = `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
     <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
 </Relationships>`;
@@ -153,38 +153,38 @@ class ExcelManualGenerator {
         });
         
         fs.writeFileSync(filename, buffer);
-        console.log(`✅ Arquivo criado: ${buffer.length} bytes`);
+        console.log(`✅ Arquivo criação: ${buffer.length} bytes`);
         
         return buffer;
     }
 }
 
 // 🧪 TESTE DO GERADOR MANUAL
-async function testeGeradorManual() {
+async function testeGeraçãorManual() {
     console.log('🧪 TESTE GERADOR EXCEL MANUAL\n');
     
     try {
-        const gerador = new ExcelManualGenerator();
+        const geraçãor = new ExcelManualGenerator();
         
         console.log('1️⃣ DEFININDO DADOS...');
-        gerador.setCell('A1', 'TESTE MANUAL');
-        gerador.setCell('B1', 789);
-        gerador.setCell('C1', 'FUNCIONA 100%!');
-        gerador.setCell('A2', 'Linha 2');
-        gerador.setCell('B2', 'Valor B2');
+        geraçãor.setCell('A1', 'TESTE MANUAL');
+        geraçãor.setCell('B1', 789);
+        geraçãor.setCell('C1', 'FUNCIONA 100%!');
+        geraçãor.setCell('A2', 'Linha 2');
+        geraçãor.setCell('B2', 'Valor B2');
         
         console.log('\n2️⃣ CRIANDO XLSX...');
         const arquivo = 'TESTE_MANUAL_XLSX.xlsx';
-        await gerador.createXLSX(arquivo);
+        await geraçãor.createXLSX(arquivo);
         
-        // Verificar se arquivo foi criado
+        // Verificar se arquivo foi criação
         if (fs.existsSync(arquivo)) {
             const stats = fs.statSync(arquivo);
             console.log(`\n✅ SUCESSO! Arquivo: ${stats.size} bytes`);
-            console.log('📋 Abra o arquivo no Excel para verificar se os dados estão corretos');
+            console.log('📋 Abra o arquivo no Excel para verificar se os daçãos estão corretos');
             return true;
         } else {
-            console.log('\n❌ Arquivo não foi criado');
+            console.log('\n❌ Arquivo não foi criação');
             return false;
         }
         
@@ -195,12 +195,12 @@ async function testeGeradorManual() {
 }
 
 // Executar teste
-testeGeradorManual().then(sucesso => {
+testeGeraçãorManual().then(sucesso => {
     if (sucesso) {
         console.log('\n🎉 GERADOR MANUAL FUNCIONANDO!');
         console.log('📋 Agora posso implementar a solução definitiva para o template');
     } else {
-        console.log('\n❌ Gerador manual falhou');
+        console.log('\n❌ Geraçãor manual falhou');
     }
     process.exit(0);
 });

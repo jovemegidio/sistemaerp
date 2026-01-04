@@ -11,7 +11,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'sua-chave-secreta-super-dificil-de
  */
 function authenticateToken(req, res, next) {
     // Tenta obter o token do cookie authToken ou do header Authorization
-    const token = req.cookies?.authToken || req.cookies?.token || 
+    const token = req.cookies.authToken || req.cookies.token || 
                   (req.headers['authorization'] && req.headers['authorization'].replace('Bearer ', ''));
     
     if (!token) {
@@ -32,10 +32,10 @@ function authenticateToken(req, res, next) {
  */
 function requireAdmin(req, res, next) {
     if (!req.user) {
-        return res.status(401).json({ error: 'Usuário não autenticado' });
+        return res.status(401).json({ error: 'Usuário não autenticação' });
     }
 
-    // Administradores: role=admin OU emails específicos
+    // Administraçãores: role=admin OU emails específicos
     const adminEmails = [
         'andreia.lopes@aluforce.ind.br',
         'douglas.moreira@aluforce.ind.br',
@@ -45,7 +45,7 @@ function requireAdmin(req, res, next) {
     const isAdmin = req.user.role === 'admin' || adminEmails.includes(req.user.email);
 
     if (!isAdmin) {
-        return res.status(403).json({ error: 'Acesso negado. Apenas administradores.' });
+        return res.status(403).json({ error: 'Acesso negação. Apenas administraçãores.' });
     }
 
     next();
@@ -57,7 +57,7 @@ function requireAdmin(req, res, next) {
 function checkPermission(permission) {
     return (req, res, next) => {
         if (!req.user) {
-            return res.status(401).json({ error: 'Usuário não autenticado' });
+            return res.status(401).json({ error: 'Usuário não autenticação' });
         }
 
         // Admins têm todas as permissões

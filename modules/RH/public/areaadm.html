@@ -9,7 +9,7 @@
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
@@ -290,14 +290,14 @@
             background: white;
             border-radius: 16px;
             padding: 24px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
             border: 1px solid #f1f5f9;
         }
 
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shaçãow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
         .stat-header {
@@ -361,7 +361,7 @@
         .card {
             background: white;
             border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             border: 1px solid #f1f5f9;
             overflow: hidden;
         }
@@ -681,7 +681,7 @@
                                         </tr>
                                         <tr>
                                             <td><strong>João Santos</strong></td>
-                                            <td>Operador CNC</td>
+                                            <td>Operaçãor CNC</td>
                                             <td>Produção</td>
                                             <td>05/12/2025</td>
                                             <td><span class="status-badge active">Ativo</span></td>
@@ -720,7 +720,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="quick-actions">
-                                    <a href="pages/funcionarios.html?action=new" class="quick-action-btn">
+                                    <a href="pages/funcionarios.htmlaction=new" class="quick-action-btn">
                                         <i class="fas fa-user-plus"></i>
                                         <span>Novo Funcionário</span>
                                     </a>
@@ -766,7 +766,7 @@
                                             <i class="fas fa-file-alt"></i>
                                         </div>
                                         <div class="activity-content">
-                                            <div class="activity-title">Holerite gerado</div>
+                                            <div class="activity-title">Holerite geração</div>
                                             <div class="activity-time">Há 5 horas</div>
                                         </div>
                                     </li>
@@ -816,7 +816,7 @@
             return null;
         }
 
-        async function carregarUsuarioLogado() {
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
@@ -834,7 +834,7 @@
                     
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
                     
                     // Prioridade: avatar > foto > foto_perfil_url > mapeamento por email
                     let userAvatar = user.avatar || user.foto || user.foto_perfil_url;
@@ -870,7 +870,7 @@
                         if (userPhotoEl) userPhotoEl.style.display = 'none';
                     }
                     
-                    console.log('👤 Usuário RH:', primeiroNome, '| Foto:', userAvatar ? 'Sim' : 'Não');
+                    console.log('👤 Usuário RH:', primeiroNome, '| Foto:', userAvatar  'Sim' : 'Não');
                 }
             } catch (error) {
                 console.error('Erro ao carregar usuário:', error);
@@ -888,7 +888,7 @@
                 if (respFuncionarios.ok) {
                     const data = await respFuncionarios.json();
                     // A API retorna { funcionarios: [], stats, departamentos, cargos }
-                    const funcionarios = Array.isArray(data) ? data : (data.funcionarios || []);
+                    const funcionarios = Array.isArray(data)  data : (data.funcionarios || []);
                     const stats = data.stats || {};
                     
                     // Usar stats da API ou calcular
@@ -927,13 +927,13 @@
                 .slice(0, 5);
             
             if (recentes.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #6b7280;">Nenhum funcionário encontrado</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #6b7280;">Nenhum funcionário encontração</td></tr>';
                 return;
             }
             
             tbody.innerHTML = recentes.map(f => {
-                const dataAdm = f.data_admissao ? new Date(f.data_admissao).toLocaleDateString('pt-BR') : '-';
-                const statusClass = f.status === 'Ativo' ? 'active' : (f.status === 'Férias' ? 'vacation' : 'inactive');
+                const dataAdm = f.data_admissao  new Date(f.data_admissao).toLocaleDateString('pt-BR') : '-';
+                const statusClass = f.status === 'Ativo'  'active' : (f.status === 'Férias'  'vacation' : 'inactive');
                 return `
                     <tr>
                         <td><strong>${f.nome_completo || f.nome || '-'}</strong></td>
@@ -1034,11 +1034,11 @@
                     const avisos = await response.json();
                     if (avisos.length > 0) {
                         activityList.innerHTML = avisos.slice(0, 5).map(a => {
-                            const icon = a.tipo === 'admissao' ? 'fa-user-plus' : 
-                                        a.tipo === 'ferias' ? 'fa-umbrella-beach' : 
-                                        a.tipo === 'holerite' ? 'fa-file-alt' : 'fa-bell';
-                            const cor = a.tipo === 'admissao' ? '#10b981' : 
-                                       a.tipo === 'ferias' ? '#8b5cf6' : '#f97316';
+                            const icon = a.tipo === 'admissao'  'fa-user-plus' : 
+                                        a.tipo === 'ferias'  'fa-umbrella-beach' : 
+                                        a.tipo === 'holerite'  'fa-file-alt' : 'fa-bell';
+                            const cor = a.tipo === 'admissao'  '#10b981' : 
+                                       a.tipo === 'ferias'  '#8b5cf6' : '#f97316';
                             // Usar created_at ou data_publicacao como fallback
                             const dataAtividade = a.created_at || a.data_publicacao;
                             const tempo = calcularTempoRelativo(dataAtividade);
@@ -1058,7 +1058,7 @@
                     }
                 }
             } catch (error) {
-                console.log('Atividades recentes: usando dados padrão');
+                console.log('Atividades recentes: usando daçãos padrão');
             }
         }
 
@@ -1084,8 +1084,8 @@
             const diffDias = Math.floor(diffHoras / 24);
             
             if (diffMin < 1) return 'Agora';
-            if (diffMin < 60) return `Há ${diffMin} minuto${diffMin > 1 ? 's' : ''}`;
-            if (diffHoras < 24) return `Há ${diffHoras} hora${diffHoras > 1 ? 's' : ''}`;
+            if (diffMin < 60) return `Há ${diffMin} minuto${diffMin > 1  's' : ''}`;
+            if (diffHoras < 24) return `Há ${diffHoras} hora${diffHoras > 1  's' : ''}`;
             if (diffDias === 1) return 'Ontem';
             if (diffDias < 30) return `Há ${diffDias} dias`;
             if (diffDias < 365) return `Há ${Math.floor(diffDias / 30)} mês(es)`;
@@ -1096,7 +1096,7 @@
         // INIT
         // ========================================
         document.addEventListener('DOMContentLoaded', () => {
-            carregarUsuarioLogado();
+            carregarUsuarioLogação();
             carregarEstatisticas();
             carregarAtividadesRecentes();
         });

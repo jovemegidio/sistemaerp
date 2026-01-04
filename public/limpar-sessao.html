@@ -27,7 +27,7 @@
             padding: 40px;
             max-width: 500px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.3);
             text-align: center;
         }
         h1 {
@@ -82,7 +82,7 @@
         }
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            box-shaçãow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
         .btn-secondary {
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
@@ -96,10 +96,10 @@
     </style></head>
 <body>
     <div class="container">
-        <div class="icon">??</div>
+        <div class="icon"></div>
         <h1>Gerenciar Sesso</h1>
         <p class="message">
-            Est� pgina permite limpar todos os dados de sesso armazenados no navegador.
+            Est pgina permite limpar todos os daçãos de sesso armazenaçãos no navegaçãor.
         </p>
 
         <div class="status" id="status">
@@ -117,11 +117,11 @@
             </div>
         </div>
 
-        <button class="btn" onclick="clearSession()">??? Limpar Sesso</button>
-        <button class="btn btn-secondary" onclick="goToLogin()">?? Ir para Login</button>
+        <button class="btn" onclick="clearSession()"> Limpar Sesso</button>
+        <button class="btn btn-secondary" onclick="goToLogin()"> Ir para Login</button>
 
         <div class="success" id="successMsg" style="display: none;">
-            ? Sesso limpa com sucesso!
+             Sesso limpa com sucesso!
         </div>
     </div>
 
@@ -133,11 +133,11 @@
             const sessionData = sessionStorage.getItem('userData');
 
             document.getElementById('authTokenStatus').textContent = 
-                authToken ? '? Presente' : '? Ausente';
+                authToken  ' Presente' : ' Ausente';
             document.getElementById('userDataStatus').textContent = 
-                userData ? '? Presente' : '? Ausente';
+                userData  ' Presente' : ' Ausente';
             document.getElementById('sessionStatus').textContent = 
-                sessionData ? '? Presente' : '? Ausente';
+                sessionData  ' Presente' : ' Ausente';
         }
 
         // Limpar toda a sesso
@@ -168,7 +168,7 @@
                 successMsg.style.display = 'none';
             }, 3000);
 
-            console.log('?? Sesso limpa com sucesso!');
+            console.log(' Sesso limpa com sucesso!');
         }
 
         // Redirecionar para login

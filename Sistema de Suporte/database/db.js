@@ -1,7 +1,7 @@
 const mysql = require('mysql2/promise');
 
 // Pool de conexões MySQL
-// Nota: 'collation' não é suportado pelo mysql2, usar apenas 'charset'
+// Nota: 'collation' não é suportação pelo mysql2, usar apenas 'charset'
 const pool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -30,7 +30,7 @@ module.exports = {
         const protocolo = gerarProtocolo();
         const [result] = await pool.execute(
             `INSERT INTO suporte_tickets (protocolo, cliente_id, cliente_nome, cliente_email, assunto, socket_id, status)
-             VALUES (?, ?, ?, ?, ?, ?, 'ai_handling')`,
+             VALUES (, , , , , , 'ai_handling')`,
             [protocolo, clienteId, clientName, clientEmail || '', subject || '', socketId]
         );
         return {
@@ -52,7 +52,7 @@ module.exports = {
                     socket_id as socketId, prioridade as priority, created_at as createdAt,
                     updated_at as updatedAt, closed_at as closedAt, resolucao as resolution,
                     avaliacao as rating
-             FROM suporte_tickets WHERE id = ?`,
+             FROM suporte_tickets WHERE id = `,
             [id]
         );
         return rows[0] || null;
@@ -93,7 +93,7 @@ module.exports = {
                     socket_id as socketId, prioridade as priority, created_at as createdAt,
                     updated_at as updatedAt, closed_at as closedAt, resolucao as resolution
              FROM suporte_tickets 
-             WHERE status = ? 
+             WHERE status =  
              ORDER BY created_at DESC`,
             [status]
         );
@@ -102,14 +102,14 @@ module.exports = {
 
     updateTicketStatus: async (id, status) => {
         await pool.execute(
-            'UPDATE suporte_tickets SET status = ? WHERE id = ?',
+            'UPDATE suporte_tickets SET status =  WHERE id = ',
             [status, id]
         );
     },
 
     assignTicket: async (id, adminName, adminId = null) => {
         await pool.execute(
-            'UPDATE suporte_tickets SET atendente_nome = ?, atendente_id = ?, status = "human_handling" WHERE id = ?',
+            'UPDATE suporte_tickets SET atendente_nome = , atendente_id = , status = "human_handling" WHERE id = ',
             [adminName, adminId, id]
         );
     },
@@ -117,8 +117,8 @@ module.exports = {
     closeTicket: async (id, resolution) => {
         await pool.execute(
             `UPDATE suporte_tickets 
-             SET status = 'closed', resolucao = ?, closed_at = NOW() 
-             WHERE id = ?`,
+             SET status = 'closed', resolucao = , closed_at = NOW() 
+             WHERE id = `,
             [resolution, id]
         );
     },
@@ -127,7 +127,7 @@ module.exports = {
     addMessage: async ({ ticketId, sender, senderName, message, senderId = null }) => {
         const [result] = await pool.execute(
             `INSERT INTO suporte_mensagens (ticket_id, sender_type, sender_name, sender_id, mensagem)
-             VALUES (?, ?, ?, ?, ?)`,
+             VALUES (, , , , )`,
             [ticketId, sender, senderName || '', senderId, message]
         );
         return {
@@ -145,7 +145,7 @@ module.exports = {
             `SELECT id, ticket_id as ticketId, sender_type as sender, sender_name as senderName,
                     sender_id as senderId, mensagem as message, created_at as createdAt
              FROM suporte_mensagens 
-             WHERE ticket_id = ? 
+             WHERE ticket_id =  
              ORDER BY created_at ASC`,
             [ticketId]
         );
@@ -185,7 +185,7 @@ module.exports = {
     addKnowledge: async ({ question, answer, keywords, category }) => {
         const [result] = await pool.execute(
             `INSERT INTO suporte_base_conhecimento (pergunta, resposta, palavras_chave, categoria)
-             VALUES (?, ?, ?, ?)`,
+             VALUES (, , , )`,
             [question, answer, keywords || '', category || 'geral']
         );
         return { lastInsertRowid: result.insertId };
@@ -208,7 +208,7 @@ module.exports = {
             `SELECT id, titulo as title, conteudo as content, categoria as category,
                     colecao as collection, visualizacoes as views
              FROM suporte_artigos 
-             WHERE ativo = 1 AND colecao = ?
+             WHERE ativo = 1 AND colecao = 
              ORDER BY id`,
             [collection]
         );
@@ -220,7 +220,7 @@ module.exports = {
         const [rows] = await pool.execute(
             `SELECT id, nome, email, telefone, cnpj_cpf as documento
              FROM clientes 
-             WHERE nome LIKE ? OR email LIKE ? OR cnpj_cpf LIKE ?
+             WHERE nome LIKE  OR email LIKE  OR cnpj_cpf LIKE 
              LIMIT 10`,
             [`%${query}%`, `%${query}%`, `%${query}%`]
         );
@@ -229,8 +229,8 @@ module.exports = {
 
     getClienteById: async (id) => {
         const [rows] = await pool.execute(
-            `SELECT id, nome, email, telefone, cnpj_cpf as documento, endereco, cidade, estado
-             FROM clientes WHERE id = ?`,
+            `SELECT id, nome, email, telefone, cnpj_cpf as documento, endereco, cidade, estação
+             FROM clientes WHERE id = `,
             [id]
         );
         return rows[0] || null;
@@ -250,7 +250,7 @@ module.exports = {
     getUsuarioById: async (id) => {
         const [rows] = await pool.execute(
             `SELECT id, nome, email, role, foto, avatar, apelido
-             FROM usuarios WHERE id = ?`,
+             FROM usuarios WHERE id = `,
             [id]
         );
         return rows[0] || null;
@@ -281,7 +281,7 @@ module.exports = {
         const [rows] = await pool.execute(
             `SELECT id, protocolo, assunto as subject, status, created_at as createdAt, closed_at as closedAt
              FROM suporte_tickets 
-             WHERE cliente_id = ?
+             WHERE cliente_id = 
              ORDER BY created_at DESC`,
             [clienteId]
         );

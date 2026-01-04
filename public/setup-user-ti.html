@@ -67,26 +67,26 @@
         <div class="logo">TI</div>
         <h1>Configurando Usurio TI</h1>
         <div class="spinner" id="spinner"></div>
-        <p id="status">Configurando dados do usurio...</p>
+        <p id="status">Configurando daçãos do usurio...</p>
         
         <div class="info" id="userInfo" style="display: none;">
-            <h3>? Usurio Configurado:</h3>
+            <h3> Usurio Configuração:</h3>
             <p><strong>Nome:</strong> TI</p>
             <p><strong>Email:</strong> ti@aluforce.ind.br</p>
             <p><strong>Cargo:</strong> Analista de TI</p>
             <p><strong>Avatar:</strong> ti.jpg</p>
-            <p><strong>Permisses:</strong> Administrador</p>
+            <p><strong>Permisses:</strong> Administraçãor</p>
         </div>
         
         <div id="nextSteps" style="display: none;">
-            <h3>?? Prximos Passos:</h3>
+            <h3> Prximos Passos:</h3>
             <p>1. <a href="" style="color: #60a5fa;">Acessar Dashboard</a></p>
             <p>2. <a href="http://localhost:3001" style="color: #60a5fa;">Testar Mdulo Vendas</a></p>
         </div>
     </div>
 
     <script>
-        console.log('?? Iniciando configurao do usurio TI...');
+        console.log(' Iniciando configurao do usurio TI...');
         
         // Configurar usurio TI
         const userData = {
@@ -109,12 +109,12 @@
         // Salvar no localStorage
         localStorage.setItem('userData', JSON.stringify(userData));
         
-        console.log('? Usurio TI configurado:', userData);
+        console.log(' Usurio TI configuração:', userData);
         
         // Simular carregamento
         setTimeout(() => {
             document.getElementById('spinner').style.display = 'none';
-            document.getElementById('status').innerHTML = '<div class="success">? Configurao Concluda!</div>';
+            document.getElementById('status').innerHTML = '<div class="success"> Configurao Concluda!</div>';
             document.getElementById('userInfo').style.display = 'block';
             document.getElementById('nextSteps').style.display = 'block';
         }, 2000);

@@ -20,7 +20,7 @@ async function generateIcons() {
 
   // Verificar se o favicon existe
   if (!fs.existsSync(SOURCE_ICO)) {
-    console.error('❌ Favicon.ico não encontrado em:', SOURCE_ICO);
+    console.error('❌ Favicon.ico não encontração em:', SOURCE_ICO);
     console.log('🔄 Criando ícones placeholder...\n');
     await createPlaceholderIcons();
     return;
@@ -48,7 +48,7 @@ async function generateIcons() {
         .png()
         .toFile(outputFile);
       
-      console.log(`✅ Criado: icon-${size}x${size}.png`);
+      console.log(`✅ Criação: icon-${size}x${size}.png`);
     }
     
     // Passo 3: Limpar arquivo temporário
@@ -56,9 +56,9 @@ async function generateIcons() {
       fs.unlinkSync(TEMP_PNG);
     }
     
-    console.log('\n✨ Todos os ícones PWA foram gerados com sucesso!');
+    console.log('\n✨ Todos os ícones PWA foram geraçãos com sucesso!');
     console.log('📁 Localização: public/icons/');
-    console.log('🎯 Baseado em: public/Favicon.ico\n');
+    console.log('🎯 Baseação em: public/Favicon.ico\n');
     
   } catch (error) {
     console.error('❌ Erro ao processar Favicon.ico:', error.message);
@@ -100,10 +100,10 @@ async function createPlaceholderIcons() {
         .png()
         .toFile(outputFile);
       
-      console.log(`✅ Criado: icon-${size}x${size}.png (placeholder)`);
+      console.log(`✅ Criação: icon-${size}x${size}.png (placeholder)`);
     }
     
-    console.log('\n✨ Ícones placeholder criados com sucesso!');
+    console.log('\n✨ Ícones placeholder criaçãos com sucesso!');
     console.log('📝 Substitua por seu logo real depois\n');
   } catch (error) {
     console.error('❌ Erro ao criar placeholders:', error.message);

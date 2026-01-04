@@ -1,7 +1,7 @@
 /**
  * =====================================================
  * POPUP DE CONFIRMAÇÃO PROFISSIONAL - ALUFORCE
- * Sistema de modais e toasts personalizados
+ * Sistema de modais e toasts personalizaçãos
  * =====================================================
  */
 
@@ -29,7 +29,7 @@ const Popup = (function() {
             type: 'question', // question, warning, danger, success, info
             title: 'Confirmação',
             subtitle: '',
-            message: 'Deseja continuar?',
+            message: 'Deseja continuar',
             confirmText: 'Confirmar',
             cancelText: 'Cancelar',
             confirmIcon: 'fas fa-check',
@@ -45,7 +45,7 @@ const Popup = (function() {
 
         const config = { ...defaults, ...options };
 
-        // Determinar ícone baseado no tipo
+        // Determinar ícone baseação no tipo
         const icons = {
             question: 'fas fa-question',
             warning: 'fas fa-exclamation-triangle',
@@ -74,12 +74,12 @@ const Popup = (function() {
                         </div>
                         <div class="popup-header-text">
                             <h3 class="popup-title">${config.title}</h3>
-                            ${config.subtitle ? `<p class="popup-subtitle">${config.subtitle}</p>` : ''}
+                            ${config.subtitle  `<p class="popup-subtitle">${config.subtitle}</p>` : ''}
                         </div>
                     </div>
                     <div class="popup-body">
                         <p class="popup-message">${config.message}</p>
-                        ${config.inputType ? `
+                        ${config.inputType  `
                             <input type="${config.inputType}" 
                                    class="popup-input" 
                                    id="popup-input"
@@ -88,7 +88,7 @@ const Popup = (function() {
                         ` : ''}
                     </div>
                     <div class="popup-footer">
-                        ${config.showCancel ? `
+                        ${config.showCancel  `
                             <button class="popup-btn popup-btn-cancel" id="popup-cancel">
                                 <i class="${config.cancelIcon}"></i>
                                 ${config.cancelText}
@@ -144,7 +144,7 @@ const Popup = (function() {
 
             // Event listeners
             confirmBtn.addEventListener('click', () => {
-                const value = input ? input.value : true;
+                const value = input  input.value : true;
                 if (config.onConfirm) config.onConfirm(value);
                 close({ confirmed: true, value });
             });
@@ -201,7 +201,7 @@ const Popup = (function() {
             type: 'danger',
             title: 'Excluir Item',
             subtitle: 'Esta ação não pode ser desfeita',
-            message: `Deseja realmente excluir <strong>${itemName}</strong>?`,
+            message: `Deseja realmente excluir <strong>${itemName}</strong>`,
             confirmText: 'Excluir',
             cancelText: 'Cancelar',
             confirmIcon: 'fas fa-trash-alt',
@@ -294,10 +294,10 @@ const Popup = (function() {
                 <i class="${icons[config.type]}"></i>
             </div>
             <div class="toast-content">
-                ${config.title ? `<p class="toast-title">${config.title}</p>` : ''}
+                ${config.title  `<p class="toast-title">${config.title}</p>` : ''}
                 <p class="toast-message">${config.message}</p>
             </div>
-            ${config.closable ? `
+            ${config.closable  `
                 <button class="toast-close">
                     <i class="fas fa-times"></i>
                 </button>

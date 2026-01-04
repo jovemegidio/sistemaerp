@@ -27,7 +27,7 @@
             return;
         }
     } catch (err) {
-        console.debug('[auth-redirect] probe error', err && err.message ? err.message : err);
+        console.debug('[auth-redirect] probe error', err && err.message  err.message : err);
         // network/probe error – treat as unauthenticated and continue to redirect below
     }
 
@@ -35,6 +35,6 @@
     setTimeout(() => {
         // preserve `returnTo` so user lands back where they started after login
         const returnTo = encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
-        window.location.href = '/login.html?returnTo=' + returnTo;
+        window.location.href = '/login.htmlreturnTo=' + returnTo;
     }, 120);
 })();

@@ -72,7 +72,7 @@
             font-size: 12px;
         }
 
-        /* Navega��o em Tabs */
+        /* Navegao em Tabs */
         .nav-tabs-custom {
             display: flex;
             background: white;
@@ -130,7 +130,7 @@
             flex: 1;
         }
 
-        /* Conte�do */
+        /* Contedo */
         .content-area {
             flex: 1;
             overflow-y: auto;
@@ -152,7 +152,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .stat-icon {
@@ -221,12 +221,12 @@
             margin-bottom: 8px;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.05);
             border-left: 3px solid transparent;
         }
 
         .ticket-item:hover {
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .ticket-item.active {
@@ -414,7 +414,7 @@
             background: white;
             color: var(--gray-900);
             border-bottom-left-radius: 4px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shaçãow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .message.sent .bubble {
@@ -522,7 +522,7 @@
             border-radius: 10px;
             padding: 12px;
             margin-bottom: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .kb-category {
@@ -634,7 +634,7 @@
         }
 
         /* ============================================
-           MODAL DE CONFIRMA��O - FECHAR TICKET
+           MODAL DE CONFIRMAO - FECHAR TICKET
            ============================================ */
         .confirm-modal-overlay {
             position: fixed;
@@ -676,7 +676,7 @@
             border-radius: 16px;
             width: 90%;
             max-width: 400px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: slideUp 0.3s ease;
             overflow: hidden;
         }
@@ -775,12 +775,12 @@
         .confirm-modal-btn.btn-confirm {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            box-shaçãow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
         .confirm-modal-btn.btn-confirm:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+            box-shaçãow: 0 6px 16px rgba(239, 68, 68, 0.4);
         }
     </style>
     <script src="/js/anti-copy-protection.js"></script></head>
@@ -790,13 +790,13 @@
         <div class="login-modal">
             <i class="bi bi-headset" style="font-size:40px;color:var(--primary);margin-bottom:12px"></i>
             <h3>Central de Suporte</h3>
-            <p>Digite seu nome para come�ar</p>
+            <p>Digite seu nome para comear</p>
             <input type="text" id="adminNameInput" placeholder="Seu nome" autofocus>
             <button onclick="doLogin()">Entrar</button>
         </div>
     </div>
 
-    <!-- Modal de Confirma��o - Fechar Ticket -->
+    <!-- Modal de Confirmao - Fechar Ticket -->
     <div class="confirm-modal-overlay" id="closeTicketModalOverlay">
         <div class="confirm-modal">
             <div class="confirm-modal-header">
@@ -806,7 +806,7 @@
                 <h3>Fechar Ticket</h3>
             </div>
             <div class="confirm-modal-body">
-                <p>Tem certeza que deseja encerrar este atendimento? Esta a��o n�o pode ser desfeita.</p>
+                <p>Tem certeza que deseja encerrar este atendimento Esta ao no pode ser desfeita.</p>
                 <div class="ticket-info">
                     <i class="bi bi-ticket"></i>
                     <span id="closeTicketModalId">Ticket #---</span>
@@ -885,14 +885,14 @@
                         <div class="stat-icon green"><i class="bi bi-check-circle"></i></div>
                         <div class="stat-info">
                             <div class="stat-value" id="statClosed">0</div>
-                            <div class="stat-label">Fechados</div>
+                            <div class="stat-label">Fechaçãos</div>
                         </div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon purple"><i class="bi bi-clock"></i></div>
                         <div class="stat-info">
                             <div class="stat-value"><span id="statAvg">0</span>m</div>
-                            <div class="stat-label">Tempo M�dio</div>
+                            <div class="stat-label">Tempo Mdio</div>
                         </div>
                     </div>
                 </div>
@@ -905,7 +905,7 @@
                     <div class="empty-state">
                         <i class="bi bi-inbox"></i>
                         <h4>Nenhum ticket</h4>
-                        <p>Aguardando novos chamados</p>
+                        <p>Aguardando novos chamaçãos</p>
                     </div>
                 </div>
             </div>
@@ -919,14 +919,14 @@
                         <option value="waiting_human">Aguardando</option>
                         <option value="ai_handling">Com IA</option>
                         <option value="human_handling">Atendendo</option>
-                        <option value="closed">Fechados</option>
+                        <option value="closed">Fechaçãos</option>
                     </select>
                 </div>
                 <div class="tickets-list" id="allTicketsList">
                     <div class="empty-state">
                         <i class="bi bi-inbox"></i>
                         <h4>Nenhum ticket</h4>
-                        <p>Aguardando novos chamados</p>
+                        <p>Aguardando novos chamaçãos</p>
                     </div>
                 </div>
             </div>
@@ -940,7 +940,7 @@
                     <div class="empty-state">
                         <i class="bi bi-book"></i>
                         <h4>Base vazia</h4>
-                        <p>Adicione artigos pela vers�o completa</p>
+                        <p>Adicione artigos pela verso completa</p>
                     </div>
                 </div>
             </div>
@@ -951,7 +951,7 @@
                     <button class="btn-back" onclick="closeChat()">
                         <i class="bi bi-arrow-left"></i>
                     </button>
-                    <div class="ticket-avatar" id="chatAvatar">?</div>
+                    <div class="ticket-avatar" id="chatAvatar"></div>
                     <div class="chat-header-info">
                         <div class="chat-header-name" id="chatName">Cliente</div>
                         <div class="chat-header-status" id="chatTicketId">#0000</div>
@@ -1067,7 +1067,7 @@
         function initSocket() {
             // Prevent double initialization
             if (socketInitialized) {
-                console.log('?? Socket already initialized');
+                console.log(' Socket already initialized');
                 return;
             }
             socketInitialized = true;
@@ -1084,12 +1084,12 @@
             });
             
             socket.on('connect', () => {
-                console.log('? Socket connected to support server');
+                console.log(' Socket connected to support server');
                 socket.emit('identify', { type: 'admin', name: adminName });
             });
 
             socket.on('connect_error', (error) => {
-                console.error('? Socket connection error:', error);
+                console.error(' Socket connection error:', error);
             });
 
             setupSocketEvents();
@@ -1128,7 +1128,7 @@
             currentView = view;
             document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
             
-            // S� atualizar nav-tab se existir (chat n�o tem nav-tab)
+            // S atualizar nav-tab se existir (chat no tem nav-tab)
             const navTab = document.querySelector(`.nav-tab[data-view="${view}"]`);
             if (navTab) {
                 navTab.classList.add('active');
@@ -1164,11 +1164,11 @@
                 filtered = tickets.filter(t => t.status === filter);
             }
 
-            const html = filtered.length ? filtered.map(t => createTicketHTML(t)).join('') :
+            const html = filtered.length  filtered.map(t => createTicketHTML(t)).join('') :
                 `<div class="empty-state">
                     <i class="bi bi-inbox"></i>
                     <h4>Nenhum ticket</h4>
-                    <p>Aguardando novos chamados</p>
+                    <p>Aguardando novos chamaçãos</p>
                 </div>`;
 
             document.getElementById('recentTicketsList').innerHTML = html;
@@ -1180,7 +1180,7 @@
                 'ai_handling': { class: 'ai', text: 'IA' },
                 'waiting_human': { class: 'waiting', text: 'Aguardando' },
                 'human_handling': { class: 'handling', text: 'Atendendo' },
-                'closed': { class: 'closed', text: 'Fechado' }
+                'closed': { class: 'closed', text: 'Fechação' }
             };
             const status = statusMap[ticket.status] || { class: 'ai', text: ticket.status };
             const initial = (ticket.clientName || 'V').charAt(0).toUpperCase();
@@ -1190,18 +1190,18 @@
             const isWaiting = ticket.status === 'waiting_human';
 
             return `
-                <div class="ticket-item ${currentTicketId === ticket.id ? 'active' : ''} ${isWaiting ? 'waiting' : ''}" onclick="selectTicket(${ticket.id})">
+                <div class="ticket-item ${currentTicketId === ticket.id  'active' : ''} ${isWaiting  'waiting' : ''}" onclick="selectTicket(${ticket.id})">
                     <div class="ticket-header">
                         <div class="ticket-avatar">${initial}</div>
                         <div class="ticket-info">
                             <div class="ticket-name">${ticket.clientName || 'Visitante'}</div>
-                            <div class="ticket-subject">${ticket.subject || 'Novo chamado'}</div>
+                            <div class="ticket-subject">${ticket.subject || 'Novo chamação'}</div>
                         </div>
                         <div class="ticket-time">${time}</div>
                     </div>
                     <div class="ticket-footer">
                         <span class="status-badge ${status.class}">${status.text}</span>
-                        ${ticket.assignedTo ? `<span style="font-size:10px;color:var(--gray-500)"><i class="bi bi-person"></i> ${ticket.assignedTo}</span>` : ''}
+                        ${ticket.assignedTo  `<span style="font-size:10px;color:var(--gray-500)"><i class="bi bi-person"></i> ${ticket.assignedTo}</span>` : ''}
                     </div>
                 </div>
             `;
@@ -1251,9 +1251,9 @@
             const isHandling = ticket.status === 'human_handling' && ticket.assignedTo === adminName;
             const canTake = ticket.status === 'waiting_human' || ticket.status === 'ai_handling';
 
-            document.getElementById('btnTake').style.display = canTake ? 'flex' : 'none';
-            document.getElementById('btnClose').style.display = isHandling ? 'flex' : 'none';
-            document.getElementById('chatInput').style.display = isHandling ? 'flex' : 'none';
+            document.getElementById('btnTake').style.display = canTake  'flex' : 'none';
+            document.getElementById('btnClose').style.display = isHandling  'flex' : 'none';
+            document.getElementById('chatInput').style.display = isHandling  'flex' : 'none';
         }
 
         function createMessageHTML(msg) {
@@ -1266,10 +1266,10 @@
             }
 
             const isReceived = msg.sender === 'client';
-            const aiClass = msg.sender === 'ai' ? ' ai' : '';
+            const aiClass = msg.sender === 'ai'  ' ai' : '';
 
             return `
-                <div class="message ${isReceived ? 'received' : 'sent'}${aiClass}">
+                <div class="message ${isReceived  'received' : 'sent'}${aiClass}">
                     <div class="bubble">${msg.message}</div>
                     <div class="time">${time}</div>
                 </div>
@@ -1284,7 +1284,7 @@
 
         function closeChat() {
             currentTicketId = null;
-            showView(currentView === 'chat' ? 'dashboard' : currentView);
+            showView(currentView === 'chat'  'dashboard' : currentView);
             renderTickets();
         }
 
@@ -1306,7 +1306,7 @@
         }
 
         function closeTicketModal() {
-            // Mostrar modal de confirma��o estilizado
+            // Mostrar modal de confirmao estilização
             const overlay = document.getElementById('closeTicketModalOverlay');
             const ticketIdSpan = document.getElementById('closeTicketModalId');
             

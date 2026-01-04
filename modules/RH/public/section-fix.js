@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Executar imediatamente
     initializeSections();
     
-    // Executar após delay para garantir que DOM esteja completamente carregado
+    // Executar após delay para garantir que DOM esteja completamente carregação
     setTimeout(function() {
         initializeSections();
         console.log('🔄 Seções reforçadas após delay');
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('🔄 Seções reforçadas após delay longo');
     }, 1000);
     
-    // Reexecutar quando outros scripts forem carregados
+    // Reexecutar quando outros scripts forem carregaçãos
     window.addEventListener('load', function() {
         setTimeout(function() {
             initializeSections();
@@ -104,8 +104,8 @@ window.debugSections = function() {
     const contentArea = document.querySelector('.content-area');
     const mainContent = document.querySelector('.main-content');
     
-    console.log('🏠 Content Area:', contentArea ? 'Encontrada' : 'NÁO ENCONTRADA');
-    console.log('🏗️ Main Content:', mainContent ? 'Encontrada' : 'NÁO ENCONTRADA');
+    console.log('🏠 Content Area:', contentArea  'Encontrada' : 'NÁO ENCONTRADA');
+    console.log('🏗️ Main Content:', mainContent  'Encontrada' : 'NÁO ENCONTRADA');
     
     if (contentArea) {
         console.log('Content Area Display:', getComputedStyle(contentArea).display);
@@ -128,7 +128,7 @@ window.forceShowSections = function() {
         dashboard.style.display = 'block !important';
         dashboard.style.visibility = 'visible !important';
         dashboard.style.opacity = '1 !important';
-        console.log('✅ Dashboard forçado a aparecer');
+        console.log('✅ Dashboard forçação a aparecer');
     }
     
     const contentArea = document.querySelector('.content-area');

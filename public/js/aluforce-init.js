@@ -61,12 +61,12 @@
         // Verificar cache primeiro
         const cachedUser = getCachedUser();
         if (cachedUser) {
-            console.log('✅ Usando dados do cache');
+            console.log('✅ Usando daçãos do cache');
             return cachedUser;
         }
 
         // Buscar do servidor
-        console.log('⏳ Buscando dados do servidor...');
+        console.log('⏳ Buscando daçãos do servidor...');
         try {
             const response = await fetch('/api/me', { 
                 credentials: 'include',
@@ -74,7 +74,7 @@
             });
             
             if (!response.ok) {
-                throw new Error('Não autenticado');
+                throw new Error('Não autenticação');
             }
             
             const user = await response.json();
@@ -82,7 +82,7 @@
             return user;
         } catch (error) {
             console.error('❌ Erro de autenticação:', error);
-            // Limpar dados
+            // Limpar daçãos
             localStorage.removeItem('userData');
             localStorage.removeItem('userData_timestamp');
             localStorage.removeItem('authToken');
@@ -101,7 +101,7 @@
         if (!avatarElement) return;
         
         // Iniciais como fallback
-        const initials = firstName ? firstName.substring(0, 1).toUpperCase() : 'U';
+        const initials = firstName  firstName.substring(0, 1).toUpperCase() : 'U';
         avatarElement.textContent = initials;
         
         // Determinar nome do arquivo
@@ -127,7 +127,7 @@
             avatarFileName = emailMap[emailUser] || firstName;
         }
         
-        // Tentar carregar avatar (otimizado)
+        // Tentar carregar avatar (otimização)
         tryLoadAvatar(avatarFileName, avatarElement, firstName);
     }
 
@@ -166,7 +166,7 @@
         const nome = (user.nome || '').trim();
         const parts = nome.split(/\s+/).filter(Boolean);
         const firstName = parts[0] || 'Admin';
-        const displayName = parts.length > 1 ? `${parts[0]} ${parts[parts.length - 1]}` : firstName;
+        const displayName = parts.length > 1  `${parts[0]} ${parts[parts.length - 1]}` : firstName;
         
         // Atualizar saudação
         const greetingTitle = document.querySelector('.greeting-title');
@@ -219,13 +219,13 @@
         let visibleCount = 0;
         
         if (cards.length === 0) {
-            console.warn('⚠️ Nenhum card encontrado! Verificando DOM...');
+            console.warn('⚠️ Nenhum card encontração! Verificando DOM...');
             return;
         }
         
         // Se não há sistema de permissões ou é admin, mostrar tudo
         if (!window.UserPermissions || user.role === 'admin' || user.is_admin) {
-            console.log('✅ Admin detectado - mostrando todos os módulos');
+            console.log('✅ Admin detectação - mostrando todos os módulos');
             cards.forEach(card => {
                 card.style.display = '';
                 visibleCount++;
@@ -256,7 +256,7 @@
                 if (area === 'rh') {
                     const rhType = window.UserPermissions.getRHType(userName);
                     const rhURL = rhType === 'areaadm' 
-                        ? '/modules/RH/public/areaadm.html' 
+                         '/modules/RH/public/areaadm.html' 
                         : '/modules/RH/public/funcionario.html';
                     card.href = rhURL;
                 }
@@ -277,7 +277,7 @@
         const userDropdown = document.getElementById('user-dropdown');
         
         if (!userProfile || !userDropdown) {
-            console.warn('⚠️ Elementos do dropdown não encontrados');
+            console.warn('⚠️ Elementos do dropdown não encontraçãos');
             return;
         }
         
@@ -292,7 +292,7 @@
             }
         });
         
-        console.log('✅ Dropdown inicializado');
+        console.log('✅ Dropdown inicialização');
     }
 
     // ============================================================
@@ -316,7 +316,7 @@
         });
         
         observer.observe(modal, { attributes: true });
-        console.log('✅ Modal config observer inicializado');
+        console.log('✅ Modal config observer inicialização');
     }
 
     // ============================================================
@@ -352,7 +352,7 @@
             
             // 3. Verificar autenticação
             const user = await checkAuthentication();
-            console.log('✅ Usuário autenticado:', user.nome);
+            console.log('✅ Usuário autenticação:', user.nome);
             
             // 4. Atualizar UI
             updateUserUI(user);
@@ -378,7 +378,7 @@
                 window.AluforceLazyLoader.observeAll();
             }
             
-            console.log('✅ Dashboard inicializado com sucesso!');
+            console.log('✅ Dashboard inicialização com sucesso!');
             
         } catch (error) {
             console.error('❌ Erro na inicialização:', error);
@@ -407,7 +407,7 @@
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', safeInitialize);
     } else {
-        // Usar setTimeout para garantir que o DOM foi totalmente parseado
+        // Usar setTimeout para garantir que o DOM foi totalmente parseação
         setTimeout(safeInitialize, 10);
     }
 
@@ -418,5 +418,5 @@
         getCachedUser: getCachedUser
     };
 
-    console.log('✅ Aluforce App inicializado');
+    console.log('✅ Aluforce App inicialização');
 })();

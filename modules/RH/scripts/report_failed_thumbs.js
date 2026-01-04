@@ -10,7 +10,7 @@ require('dotenv').config();
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
+    port: process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 3306
   })
 
   const uploadDir = path.join(__dirname, '..', 'public', 'uploads', 'fotos')
@@ -52,7 +52,7 @@ require('dotenv').config();
         await sharp(filePath).resize(200, 200, { fit: 'cover' }).toFile(thumbPath)
         // update DB
         const thumbUrl = `/uploads/fotos/${thumbName}`
-        await connection.execute('UPDATE funcionarios SET foto_thumb_url = ? WHERE id = ?', [thumbUrl, r.id])
+        await connection.execute('UPDATE funcionarios SET foto_thumb_url =  WHERE id = ', [thumbUrl, r.id])
         console.log(`Generated thumb for id=${r.id}`)
         ws.write(`${r.id},${filePath},${thumbPath},ok,\n`)
       } catch (e1) {
@@ -62,7 +62,7 @@ require('dotenv').config();
           const pngThumbPath = path.join(uploadDir, pngThumbName)
           await sharp(filePath).png().resize(200, 200, { fit: 'cover' }).toFile(pngThumbPath)
           const thumbUrl = `/uploads/fotos/${pngThumbName}`
-          await connection.execute('UPDATE funcionarios SET foto_thumb_url = ? WHERE id = ?', [thumbUrl, r.id])
+          await connection.execute('UPDATE funcionarios SET foto_thumb_url =  WHERE id = ', [thumbUrl, r.id])
           recovered++
           console.log(`Re-encoded and generated PNG thumb for id=${r.id}`)
           ws.write(`${r.id},${filePath},${pngThumbPath},recovered,${escapeCsv(e1.message)}\n`)
@@ -75,11 +75,11 @@ require('dotenv').config();
     }
 
     ws.end()
-    console.log('Relatório gravado em:', reportPath)
+    console.log('Relatório gravação em:', reportPath)
     console.log(`Total: ${total}, Skipped(existing thumbs): ${skipped}, Recovered: ${recovered}, Failed: ${failed}`)
     process.exit(0)
   } catch (err) {
-    console.error('Erro ao gerar relatório:', err && err.message ? err.message : err)
+    console.error('Erro ao gerar relatório:', err && err.message  err.message : err)
     ws.end()
     process.exit(2)
   } finally {

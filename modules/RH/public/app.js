@@ -1,5 +1,5 @@
 /**
- * Script unificado para o Portal do Funcionário e para a Área Administrativa.
+ * Script unificação para o Portal do Funcionário e para a Área Administrativa.
  * Detecta a página (admin ou funcionário) e inicializa as funcionalidades relevantes.
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             menu.style.position = 'absolute';
             // place to the right edge of avatar, aligned to top of avatar
             const left = Math.min(window.innerWidth - 220, rect.right - 200);
-            menu.style.left = (left < 8 ? 8 : left) + 'px';
+            menu.style.left = (left < 8  8 : left) + 'px';
             menu.style.top = (rect.bottom + 8) + 'px';
             // position only; no name displayed in the compact menu
         });
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // menu click handlers: Home and Logout
         menu.addEventListener('click', (e) => {
             e.stopPropagation();
-            const targetId = e.target && e.target.id ? e.target.id : '';
+            const targetId = e.target && e.target.id  e.target.id : '';
             if (targetId === 'avatar-logout') {
                 localStorage.clear();
                 safeRedirectToLogin();
@@ -137,18 +137,18 @@ document.addEventListener('DOMContentLoaded', () => {
     window._modalAllowed = false;
     window._modalExplicitlyRequested = false;
     
-    // Garantir que todos os modais estejam fechados na inicialização
+    // Garantir que todos os modais estejam fechaçãos na inicialização
     setTimeout(() => {
         const allModals = document.querySelectorAll('.modal');
         allModals.forEach(modal => {
             modal.classList.remove('open');
             modal.style.display = 'none';
         });
-        console.log('🔒 Todos os modais forçadamente fechados na inicialização');
+        console.log('🔒 Todos os modais forçadamente fechaçãos na inicialização');
     }, 100);
 
     if (isAdminPage) {
-        console.log("Inicializando a Área do Administrador...");
+        console.log("Inicializando a Área do Administraçãor...");
         initAdminPage();
     } else if (isEmployeePage) {
         console.log("Inicializando o Portal do Funcionário...");
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
         }
 
-        // Desabilitar/ocultar holerite e ponto se não houver arquivos anexados
+        // Desabilitar/ocultar holerite e ponto se não houver arquivos anexaçãos
         if (isEmployeePage) {
             try {
                 const user = JSON.parse(localStorage.getItem('userData') || 'null') || {}
@@ -196,11 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
                             const holLink = document.getElementById('widget-holerite-link')
                             const pontoLink = document.getElementById('widget-ponto-link')
                             if (holLink) {
-                                if (!s || !s.hasHolerite) disableControl(holLink, 'Aguardando holerite anexado pelo administrador.')
+                                if (!s || !s.hasHolerite) disableControl(holLink, 'Aguardando holerite anexação pelo administraçãor.')
                                 else enableControl(holLink)
                             }
                             if (pontoLink) {
-                                if (!s || !s.hasPonto) disableControl(pontoLink, 'Aguardando espelho de ponto anexado pelo administrador.')
+                                if (!s || !s.hasPonto) disableControl(pontoLink, 'Aguardando espelho de ponto anexação pelo administraçãor.')
                                 else enableControl(pontoLink)
                             }
                         }).catch(() => {})
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (ul && Array.isArray(data) && data.length) {
                         ul.innerHTML = data.map(a => `<li><strong>${a.nome}</strong> - ${formatDayMonth(a.nascimento)}</li>`).join('');
                     } else if (ul) {
-                        ul.innerHTML = '<li>Nenhum aniversariante encontrado.</li>';
+                        ul.innerHTML = '<li>Nenhum aniversariante encontração.</li>';
                     }
                 })
                 .catch(() => {
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const stored = localStorage.getItem('sidebarOpen');
             if (stored === 'true') sidebarGlobal.classList.add('open');
             else sidebarGlobal.classList.remove('open');
-            menuToggleGlobal.setAttribute('aria-expanded', sidebarGlobal.classList.contains('open') ? 'true' : 'false');
+            menuToggleGlobal.setAttribute('aria-expanded', sidebarGlobal.classList.contains('open')  'true' : 'false');
             // update icon to reflect state
             const initialIcon = menuToggleGlobal.querySelector('i');
             if (initialIcon) {
@@ -270,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const willOpen = !sidebarGlobal.classList.contains('open');
             sidebarGlobal.classList.toggle('open');
             localStorage.setItem('sidebarOpen', sidebarGlobal.classList.contains('open'));
-            menuToggleGlobal.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+            menuToggleGlobal.setAttribute('aria-expanded', willOpen  'true' : 'false');
             // swap icon between bars and times for clearer UX
             const icon = menuToggleGlobal.querySelector('i');
             if (icon) {
@@ -376,7 +376,7 @@ function safeRedirectToLogin() {
 // Consistent control disabling helper: accepts an Element or id and marks it disabled for anchors/buttons
 function disableControl(elOrId, title) {
     try {
-        const el = typeof elOrId === 'string' ? document.getElementById(elOrId) : elOrId;
+        const el = typeof elOrId === 'string'  document.getElementById(elOrId) : elOrId;
         if (!el) return;
         el.classList.add('disabled');
         el.setAttribute('aria-disabled', 'true');
@@ -394,7 +394,7 @@ function disableControl(elOrId, title) {
 
 function enableControl(elOrId) {
     try {
-        const el = typeof elOrId === 'string' ? document.getElementById(elOrId) : elOrId;
+        const el = typeof elOrId === 'string'  document.getElementById(elOrId) : elOrId;
         if (!el) return;
         el.classList.remove('disabled');
         el.removeAttribute('aria-disabled');
@@ -465,7 +465,7 @@ function formatDayMonth(isoString) {
     } catch (e) { return ''; }
 }
 
-// Helper para mostrar estado de carregamento em botões (insere spinner e desabilita)
+// Helper para mostrar estação de carregamento em botões (insere spinner e desabilita)
 function setBtnLoading(btn, loading, text) {
     if (!btn) return;
     // Use a CSS spinner element (.btn-spinner) defined in area-admin.css
@@ -475,7 +475,7 @@ function setBtnLoading(btn, loading, text) {
         btn.setAttribute('aria-busy', 'true');
         const spinnerHtml = `<span class="btn-spinner" aria-hidden="true"></span>`;
         if (text) btn.innerHTML = spinnerHtml + ' ' + text;
-        else btn.innerHTML = spinnerHtml + ' ' + (btn.dataset && btn.dataset.origText ? btn.dataset.origText : 'Enviando...');
+        else btn.innerHTML = spinnerHtml + ' ' + (btn.dataset && btn.dataset.origText  btn.dataset.origText : 'Enviando...');
     } else {
         btn.disabled = false;
         btn.removeAttribute('aria-busy');
@@ -508,7 +508,7 @@ function showToast(message, type = 'success', timeout = 4000) {
         document.body.appendChild(container);
     }
     const node = document.createElement('div');
-    node.className = `toast ${type === 'error' ? 'error' : 'success'} toast-enter`;
+    node.className = `toast ${type === 'error'  'error' : 'success'} toast-enter`;
     node.setAttribute('role', 'status');
 
     // inner message container for accessibility and layout
@@ -730,16 +730,16 @@ function initAdminPage() {
     const localUserData = JSON.parse(localStorage.getItem('userData'));
     
     // Debug: mostrar informações detalhadas do usuário
-    console.log('🔍 DEBUG initAdminPage - Dados do usuário:', {
+    console.log('🔍 DEBUG initAdminPage - Daçãos do usuário:', {
         userData: localUserData,
-        role: localUserData?.role,
+        role: localUserData.role,
         hasUserData: !!localUserData,
         debugInfo: localStorage.getItem('debugInfo')
     });
     
     if (!localUserData || localUserData.role !== 'admin') {
-        console.log('❌ DEBUG initAdminPage - Acesso negado. Redirecionando para login.');
-        console.log('❌ Motivo:', !localUserData ? 'Sem userData' : `Role inválido: ${localUserData.role}`);
+        console.log('❌ DEBUG initAdminPage - Acesso negação. Redirecionando para login.');
+        console.log('❌ Motivo:', !localUserData  'Sem userData' : `Role inválido: ${localUserData.role}`);
         
         // Se o usuário tem role de funcionário, redirecionar para area.html ao invés de login
         if (localUserData && localUserData.role === 'funcionario') {
@@ -748,12 +748,12 @@ function initAdminPage() {
             return;
         }
         
-        showToast("Acesso negado. Apenas administradores podem aceder a está página.", 'error');
+        showToast("Acesso negação. Apenas administraçãores podem aceder a está página.", 'error');
         window.location.href = '/login.html';
         return;
     }
     
-    console.log('✅ DEBUG initAdminPage - Acesso autorizado para admin');
+    console.log('✅ DEBUG initAdminPage - Acesso autorização para admin');
 
     // --- Seletores de Elementos ---
     // use relative URL so the frontend works regardless of host/port
@@ -766,11 +766,11 @@ function initAdminPage() {
     const formNovoFuncionario = document.getElementById('form-novo-funcionario');
     const formUploadFoto = document.getElementById('form-upload-foto');
     const formUploadHolerite = document.getElementById('form-upload-holerite');
-    const formUploadAtestado = document.getElementById('form-upload-atéstado');
+    const formUploadAtestação = document.getElementById('form-upload-atéstação');
     let currentFuncionarioId = null;
 
     // --- Funções ---
-    // Preenche cabeçalho com info do usuário autenticado
+    // Preenche cabeçalho com info do usuário autenticação
     async function preencherHeaderUsuario() {
         try {
             const resp = await fetch('/api/me', { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
@@ -783,9 +783,9 @@ function initAdminPage() {
                 // Use first and last name only
                 const parts = (me.nome_completo || '').trim().split(/\s+/);
                 const first = parts[0] || '';
-                const last = parts.length > 1 ? parts[parts.length-1] : '';
-                const display = `${first}${last ? ' ' + last : ''}`.trim();
-                greeting.textContent = display ? `Olá, ${display}` : 'Olá, Usuário';
+                const last = parts.length > 1  parts[parts.length-1] : '';
+                const display = `${first}${last  ' ' + last : ''}`.trim();
+                greeting.textContent = display  `Olá, ${display}` : 'Olá, Usuário';
             }
         } catch (err) {
             console.warn('Não foi possível preencher header com /api/me', err);
@@ -795,22 +795,22 @@ function initAdminPage() {
     
     async function carregarFuncionarios() {
         try {
-            const q = document.getElementById('search-input') ? document.getElementById('search-input').value.trim() : '';
-            const url = q ? `${API_URL}?q=${encodeURIComponent(q)}` : API_URL;
+            const q = document.getElementById('search-input')  document.getElementById('search-input').value.trim() : '';
+            const url = q  `${API_URL}q=${encodeURIComponent(q)}` : API_URL;
             const response = await fetch(url, { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
             if (response.status === 401) {
-                // token expirado ou inválido
+                // token expiração ou inválido
                 showToast('Sessão expirada. Faça login novamente.', 'error');
                 localStorage.clear();
                 safeRedirectToLogin();
                 return;
             }
-            if (!response.ok) throw new Error('Erro ao buscar dados da API.');
+            if (!response.ok) throw new Error('Erro ao buscar daçãos da API.');
             const funcionarios = await response.json();
 
             tabelaCorpo.innerHTML = '';
             if (!Array.isArray(funcionarios) || funcionarios.length === 0) {
-                tabelaCorpo.innerHTML = `<tr><td colspan="6">Nenhum funcionário encontrado.</td></tr>`;
+                tabelaCorpo.innerHTML = `<tr><td colspan="6">Nenhum funcionário encontração.</td></tr>`;
                 return;
             }
 
@@ -1020,7 +1020,7 @@ function initAdminPage() {
             // render list into all present targets
             targets.forEach(ul => { ul.innerHTML = ''; });
             if (!list || list.length === 0) {
-                targets.forEach(ul => { ul.innerHTML = '<li>Nenhum aniversariante encontrado.</li>'; });
+                targets.forEach(ul => { ul.innerHTML = '<li>Nenhum aniversariante encontração.</li>'; });
                 return;
             }
             list.forEach(f => {
@@ -1028,7 +1028,7 @@ function initAdminPage() {
                     const photo = f.foto_thumb_url || f.foto_perfil_url || f.foto_url || 'Interativo-Aluforce.jpg';
                     // tolerate several possible date field names returned by the API
                     const dateField = f.data_nascimento || f.nascimento || f.nascimento_data || f.data || null;
-                    const diaMes = dateField ? formatDayMonth(dateField) : '-';
+                    const diaMes = dateField  formatDayMonth(dateField) : '-';
                     const nome = f.nome || f.nome_completo || f.name || 'Usuário';
                     return `
                         <li class="aniver-item">
@@ -1046,7 +1046,7 @@ function initAdminPage() {
         }
     }
 
-    // --- Novo: Carregar dados para a nova aba Dashboard (não altera a aba Funcionários) ---
+    // --- Novo: Carregar daçãos para a nova aba Dashboard (não altera a aba Funcionários) ---
     async function carregarDashboard() {
         try {
             // Verificar se estamos no dashboard antes de carregar
@@ -1055,7 +1055,7 @@ function initAdminPage() {
                 return; // Não carregar se não estivermos no dashboard
             }
             
-            // usa endpoint agregado para dashboard
+            // usa endpoint agregação para dashboard
             const resp = await fetch('/api/dashboard/summary', { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
             if (!resp.ok) throw new Error('Erro ao carregar resumo do dashboard');
             const summary = await resp.json();
@@ -1065,12 +1065,12 @@ function initAdminPage() {
             if (ul) {
                 ul.innerHTML = '';
                 const list = summary.aniversariantes || [];
-                if (!list || list.length === 0) ul.innerHTML = '<li>Nenhum aniversariante encontrado.</li>';
+                if (!list || list.length === 0) ul.innerHTML = '<li>Nenhum aniversariante encontração.</li>';
                 else list.forEach(f => {
                     const li = document.createElement('li');
                     li.className = 'aniver-item';
                     const photo = f.foto_thumb_url || f.foto_perfil_url || f.foto_url || 'Interativo-Aluforce.jpg';
-                    const diaMes = f.data_nascimento ? formatDayMonth(f.data_nascimento) : '-';
+                    const diaMes = f.data_nascimento  formatDayMonth(f.data_nascimento) : '-';
                     li.innerHTML = `
                         <div class="aniver-avatar"><img src="${photo}" alt="Avatar de ${f.nome}" class="aniver-avatar-img" onerror="this.onerror=null;this.src='Interativo-Aluforce.jpg';"></div>
                         <div class="aniver-info"><strong>${f.nome}</strong>
@@ -1099,12 +1099,12 @@ function initAdminPage() {
                                 <div class="aviso-body">
                                     <div class="aviso-title">${escapeHtml(a.titulo || '')}</div>
                                     <div class="aviso-desc">${escapeHtml(a.mensagem || '')}</div>
-                                    <div class="aviso-meta small">${a.created_by ? 'Criado por: ' + escapeHtml(a.created_by) : ''} ${a.created_at ? new Date(a.created_at).toLocaleString() : ''}</div>
+                                    <div class="aviso-meta small">${a.created_by  'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
                                 </div>
                             </div>
                         `;
                         const actions = document.createElement('div'); actions.className = 'aviso-actions';
-                        const btnMark = document.createElement('button'); btnMark.className='btn btn-secondary marcar-lido action-mark'; btnMark.setAttribute('aria-label', a.lido ? 'Lido' : 'Marcar como lido'); btnMark.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido ? 'Lido' : 'Marcar como lido'}</span>`;
+                        const btnMark = document.createElement('button'); btnMark.className='btn btn-secondary marcar-lido action-mark'; btnMark.setAttribute('aria-label', a.lido  'Lido' : 'Marcar como lido'); btnMark.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido  'Lido' : 'Marcar como lido'}</span>`;
                         if (a.lido) { btnMark.disabled = true; node.classList.add('lido'); }
                         btnMark.addEventListener('click', async (e) => { e.stopPropagation(); await markAvisoRead(a.id); btnMark.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">Lido</span>`; btnMark.disabled = true; node.classList.add('lido'); });
                         actions.appendChild(btnMark);
@@ -1114,12 +1114,12 @@ function initAdminPage() {
                             edit.addEventListener('click', (e) => { e.stopPropagation(); openAvisosModal(); openEditAviso(a); });
                             const del = document.createElement('button'); del.className = 'btn btn-secondary action-delete'; del.setAttribute('aria-label','Apagar aviso'); del.innerHTML = '<i class="fas fa-trash"></i> <span class="action-text">Apagar</span>';
                             del.addEventListener('click', async (e) => {
-                                const ok = await showConfirm('Apagar este aviso?');
+                                const ok = await showConfirm('Apagar este aviso');
                                 if (!ok) return;
                                 try {
                                     const dres = await fetch(`/api/avisos/${a.id}`, { method: 'DELETE', headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
                                     const dj = await dres.json(); if (!dres.ok) throw new Error(dj.message || 'Erro');
-                                    showToast('Aviso apagado.', 'success');
+                                    showToast('Aviso apagação.', 'success');
                                     carregarDashboard();
                                     carregarFuncionarios();
                                 } catch (err) { showToast('Falha ao apagar: ' + err.message, 'error'); }
@@ -1143,7 +1143,7 @@ function initAdminPage() {
                 } else {
                     // fallback: query API for funcionarios without foto (limit 10)
                     try {
-                        const resp = await fetch(`${API_URL}?no_foto=1&limit=10`, { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
+                        const resp = await fetch(`${API_URL}no_foto=1&limit=10`, { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
                         if (resp.ok) {
                             const list = await resp.json();
                             if (Array.isArray(list) && list.length > 0) missingBanner.textContent = list.map(f => f.nome_completo || f.nome).join(', ');
@@ -1181,7 +1181,7 @@ function initAdminPage() {
                             dias = total % 30;
                         }
                         let tempoStr = t.dias !== null && t.dias !== undefined
-                            ? `${anos > 0 ? anos + 'a ' : ''}${meses > 0 ? meses + 'm ' : ''}${dias > 0 ? dias + 'd' : ''}`.trim() || '0d'
+                             `${anos > 0  anos + 'a ' : ''}${meses > 0  meses + 'm ' : ''}${dias > 0  dias + 'd' : ''}`.trim() || '0d'
                             : 'Data adm. não informada';
                         item.innerHTML = `<span class="medalha">${medalhas[idx] || ''}</span> <strong>${t.nome}</strong><div>${tempoStr}</div>`;
                         tempoDiv.appendChild(item);
@@ -1189,12 +1189,12 @@ function initAdminPage() {
                 }
             }
 
-            // relatório medico (atéstados) - apenas no dashboard
+            // relatório medico (atéstaçãos) - apenas no dashboard
             const relMedDiv = dashboardSection.querySelector('#dashboard-relatório-medico');
             if (relMedDiv) {
-                const at = summary.atéstados || [];
-                if (!at || at.length === 0) relMedDiv.innerHTML = '<p>Sem atéstados recentes.</p>';
-                else { relMedDiv.innerHTML = ''; at.forEach(a => { const node = document.createElement('div'); node.className='atéstado-item'; node.innerHTML = `<strong>${a.nome}</strong><div><a href="${a.url_arquivo}" target="_blank">${a.nome_arquivo}</a> <small>${a.data_envio ? new Date(a.data_envio).toLocaleString() : ''}</small></div>`; relMedDiv.appendChild(node); }); }
+                const at = summary.atéstaçãos || [];
+                if (!at || at.length === 0) relMedDiv.innerHTML = '<p>Sem atéstaçãos recentes.</p>';
+                else { relMedDiv.innerHTML = ''; at.forEach(a => { const node = document.createElement('div'); node.className='atéstação-item'; node.innerHTML = `<strong>${a.nome}</strong><div><a href="${a.url_arquivo}" target="_blank">${a.nome_arquivo}</a> <small>${a.data_envio  new Date(a.data_envio).toLocaleString() : ''}</small></div>`; relMedDiv.appendChild(node); }); }
             }
 
         } catch (error) {
@@ -1216,7 +1216,7 @@ function initAdminPage() {
     }
 
     async function abrirModalDetalhes(id, forceOpen = false) {
-        console.log(`🔍 abrirModalDetalhes chamado: id=${id}, forceOpen=${forceOpen}, _userInteracted=${window._userInteracted}, _modalExplicitlyRequested=${window._modalExplicitlyRequested}`);
+        console.log(`🔍 abrirModalDetalhes chamação: id=${id}, forceOpen=${forceOpen}, _userInteracted=${window._userInteracted}, _modalExplicitlyRequested=${window._modalExplicitlyRequested}`);
         
         // PROTEÇÁO ABSOLUTA: Modal só deve abrir com interação EXPLÍCITA do usuário
         if (!forceOpen && (!window._userInteracted || !window._modalExplicitlyRequested)) {
@@ -1229,11 +1229,11 @@ function initAdminPage() {
         currentFuncionarioId = id;
         const detalhesContent = document.getElementById('detalhes-funcionario-content');
         const fotoPreview = document.getElementById('modal-foto-preview');
-        const listaAtestados = document.getElementById('lista-atéstados');
+        const listaAtestaçãos = document.getElementById('lista-atéstaçãos');
         const listaHolerites = document.getElementById('lista-holerites');
 
         detalhesContent.innerHTML = '<p>Carregando...</p>';
-        listaAtestados.innerHTML = '';
+        listaAtestaçãos.innerHTML = '';
         listaHolerites.innerHTML = '';
     openModal(modal);
         
@@ -1258,7 +1258,7 @@ function initAdminPage() {
             if (modalNome) modalNome.value = func.nome_completo || '';
             if (modalCargo) modalCargo.value = func.cargo || func.role || '';
             if (modalEmail) modalEmail.value = func.email || '';
-            if (modalDataNasc) modalDataNasc.value = func.data_nascimento ? func.data_nascimento.substring(0,10) : '';
+            if (modalDataNasc) modalDataNasc.value = func.data_nascimento  func.data_nascimento.substring(0,10) : '';
             if (modalCpf) modalCpf.value = func.cpf || '';
             if (modalRg) modalRg.value = func.rg || '';
             if (modalTelefone) modalTelefone.value = func.telefone || '';
@@ -1267,7 +1267,7 @@ function initAdminPage() {
             if (modalNacionalidade) modalNacionalidade.value = func.nacionalidade || '';
             if (modalMae) modalMae.value = func.filiacao_mae || '';
             if (modalPai) modalPai.value = func.filiacao_pai || '';
-            if (modalEstadoCivil) modalEstadoCivil.value = func.estado_civil || '';
+            if (modalEstaçãoCivil) modalEstaçãoCivil.value = func.estação_civil || '';
             if (modalTelefone) modalTelefone.value = func.telefone || '';
             if (modalBanco) modalBanco.value = func.banco || '';
             if (modalAgencia) modalAgencia.value = func.agencia || '';
@@ -1277,7 +1277,7 @@ function initAdminPage() {
             const modalDependentes = document.getElementById('modal-dependentes');
             if (modalSobrenome) modalSobrenome.value = func.sobrenome || '';
             if (modalEndereco) modalEndereco.value = func.endereco || '';
-            if (modalDependentes) modalDependentes.value = (func.dependentes !== undefined && func.dependentes !== null) ? String(func.dependentes) : '';
+            if (modalDependentes) modalDependentes.value = (func.dependentes !== undefined && func.dependentes !== null)  String(func.dependentes) : '';
             detalhesContent.innerHTML = `
                 <p><strong>ID:</strong> ${func.id}</p>
                 <p><strong>Nome:</strong> ${func.nome_completo}</p>
@@ -1286,15 +1286,15 @@ function initAdminPage() {
                 <p><strong>Admissão:</strong> ${formatDateToBR(func.data_admissao)}</p>
             `;
 
-            // Preenche a lista de atéstados
-            if (func.atéstados && func.atéstados.length > 0) {
-                func.atéstados.forEach(atéstado => {
+            // Preenche a lista de atéstaçãos
+            if (func.atéstaçãos && func.atéstaçãos.length > 0) {
+                func.atéstaçãos.forEach(atéstação => {
                     const li = document.createElement('li');
-                    li.innerHTML = `<a href="${atéstado.url_arquivo}" target="_blank">${atéstado.nome_arquivo}</a> <span>(Enviado em: ${formatDateToBR(atéstado.data_envio)})</span>`;
-                    listaAtestados.appendChild(li);
+                    li.innerHTML = `<a href="${atéstação.url_arquivo}" target="_blank">${atéstação.nome_arquivo}</a> <span>(Enviação em: ${formatDateToBR(atéstação.data_envio)})</span>`;
+                    listaAtestaçãos.appendChild(li);
                 });
             } else {
-                listaAtestados.innerHTML = '<li>Nenhum atéstado anexado.</li>';
+                listaAtestaçãos.innerHTML = '<li>Nenhum atéstação anexação.</li>';
             }
 
             // Preenche a lista de holerites
@@ -1305,16 +1305,16 @@ function initAdminPage() {
                     listaHolerites.appendChild(li);
                 });
             } else {
-                listaHolerites.innerHTML = '<li>Nenhum holerite anexado.</li>';
+                listaHolerites.innerHTML = '<li>Nenhum holerite anexação.</li>';
             }
 
             // Preenche data de nascimento (edição rápida pelo admin)
             const modalNascimento = document.getElementById('modal-data-nascimento');
-            if (modalNascimento) modalNascimento.value = func.data_nascimento ? func.data_nascimento.substring(0,10) : '';
+            if (modalNascimento) modalNascimento.value = func.data_nascimento  func.data_nascimento.substring(0,10) : '';
 
             // preencher exibição legível de data de nascimento (ex: "05 de agosto")
             const dobDisplay = document.getElementById('modal-dob-display');
-            if (dobDisplay) dobDisplay.textContent = func.data_nascimento ? formatDayMonth(func.data_nascimento) : '—';
+            if (dobDisplay) dobDisplay.textContent = func.data_nascimento  formatDayMonth(func.data_nascimento) : '—';
 
             // foco no primeiro campo do formulário para edição rápida
             setTimeout(() => {
@@ -1324,12 +1324,12 @@ function initAdminPage() {
             // Reset status/messages nos formulários do modal
             const uploadHoleriteStatus = document.getElementById('upload-holerite-status');
             if (uploadHoleriteStatus) uploadHoleriteStatus.textContent = '';
-            const uploadAtestadoStatus = document.getElementById('upload-atéstado-status');
-            if (uploadAtestadoStatus) uploadAtestadoStatus.textContent = '';
+            const uploadAtestaçãoStatus = document.getElementById('upload-atéstação-status');
+            if (uploadAtestaçãoStatus) uploadAtestaçãoStatus.textContent = '';
 
             } catch (error) {
             console.error('Erro ao carregar funcionários:', error);
-            tabelaCorpo.innerHTML = `<tr><td colspan="5" style="color: red;">Não foi possível carregar os dados. Verifique se a API está online.</td></tr>`;
+            tabelaCorpo.innerHTML = `<tr><td colspan="5" style="color: red;">Não foi possível carregar os daçãos. Verifique se a API está online.</td></tr>`;
         }
     }
 
@@ -1358,9 +1358,9 @@ function initAdminPage() {
             e.preventDefault();
             document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-            const href = link.getAttribute && link.getAttribute('href') ? link.getAttribute('href') : '';
-            const id = href && href.startsWith('#') ? href.substring(1) : href;
-            const targetSection = id ? document.getElementById(id) : null;
+            const href = link.getAttribute && link.getAttribute('href')  link.getAttribute('href') : '';
+            const id = href && href.startsWith('#')  href.substring(1) : href;
+            const targetSection = id  document.getElementById(id) : null;
             if (targetSection) targetSection.classList.add('active');
             link.classList.add('active');
             // close sidebar when navigating (for better UX on desktop/mobile)
@@ -1372,7 +1372,7 @@ function initAdminPage() {
         });
     });
 
-    // Novo colaborador via botão do header
+    // Novo colaboraçãor via botão do header
     const btnNewCol = document.getElementById('btn-new-collaborator');
     if (btnNewCol) {
         btnNewCol.addEventListener('click', (e) => {
@@ -1392,9 +1392,9 @@ function initAdminPage() {
     if (tabelaCorpo) {
         tabelaCorpo.addEventListener('click', e => {
             if (e.target && e.target.classList && e.target.classList.contains('btn-detalhes')) {
-                // Marcar que o modal foi EXPLICITAMENTE solicitado pelo usuário
+                // Marcar que o modal foi EXPLICITAMENTE solicitação pelo usuário
                 window._modalExplicitlyRequested = true;
-                console.log('✅ Modal explicitamente solicitado pelo usuário via botão Detalhes');
+                console.log('✅ Modal explicitamente solicitação pelo usuário via botão Detalhes');
                 abrirModalDetalhes(e.target.dataset.id, true); // forceOpen = true
             }
         });
@@ -1405,16 +1405,16 @@ function initAdminPage() {
     if (formNovoFuncionario) formNovoFuncionario.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(formNovoFuncionario);
-        const dadosFuncionario = Object.fromEntries(formData.entries());
+        const daçãosFuncionario = Object.fromEntries(formData.entries());
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
-                body: JSON.stringify(dadosFuncionario)
+                body: JSON.stringify(daçãosFuncionario)
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message);
-            showToast('Funcionário cadastrado com sucesso!', 'success');
+            showToast('Funcionário cadastração com sucesso!', 'success');
             formNovoFuncionario.reset();
             carregarFuncionarios();
             document.querySelector('.nav-link[href="#dashboard-section"]').click();
@@ -1437,7 +1437,7 @@ function initAdminPage() {
     const allowed = ['image/png', 'image/jpeg', 'image/webp'];
     const maxSize = 5 * 1024 * 1024; // 5MB (server limit)
         if (!allowed.includes(file.type)) { if (statusDiv) statusDiv.textContent = 'Tipo inválido. Use PNG, JPG ou WEBP.'; return; }
-        if (file.size > maxSize) { if (statusDiv) statusDiv.textContent = 'Ficheiro demasiado grande. Max 5MB.'; return; }
+        if (file.size > maxSize) { if (statusDiv) statusDiv.textContent = 'Ficheiro demasiação grande. Max 5MB.'; return; }
 
         const formData = new FormData();
         formData.append('foto', file);
@@ -1465,21 +1465,21 @@ function initAdminPage() {
     if (modalEditarForm) {
         modalEditarForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentFuncionarioId) return showToast('Selecione um colaborador primeiro.', 'error');
+            if (!currentFuncionarioId) return showToast('Selecione um colaboraçãor primeiro.', 'error');
             const statusDiv = document.getElementById('modal-save-status');
             statusDiv.textContent = 'Salvando...';
             // Collect expanded fields
             const payload = {};
-            const fields = ['modal-nome','modal-cargo','modal-email','modal-data_nascimento','modal-cpf','modal-rg','modal-nacionalidade','modal-filiacao_mae','modal-filiacao_pai','modal-estado_civil','modal-telefone','modal-banco','modal-agencia','modal-conta_corrente'];
+            const fields = ['modal-nome','modal-cargo','modal-email','modal-data_nascimento','modal-cpf','modal-rg','modal-nacionalidade','modal-filiacao_mae','modal-filiacao_pai','modal-estação_civil','modal-telefone','modal-banco','modal-agencia','modal-conta_corrente'];
             fields.forEach(id => {
                 const el = document.getElementById(id);
                 if (!el) return;
-                const val = el.value === '' ? null : el.value.trim ? el.value.trim() : el.value;
+                const val = el.value === ''  null : el.value.trim  el.value.trim() : el.value;
                 // map ids to payload keys
                 const map = {
                     'modal-nome': 'nome_completo', 'modal-cargo': 'cargo', 'modal-email': 'email', 'modal-data_nascimento': 'data_nascimento',
                     'modal-cpf': 'cpf', 'modal-rg': 'rg', 'modal-nacionalidade': 'nacionalidade', 'modal-filiacao_mae': 'filiacao_mae',
-                    'modal-filiacao_pai': 'filiacao_pai', 'modal-estado_civil': 'estado_civil', 'modal-telefone': 'telefone',
+                    'modal-filiacao_pai': 'filiacao_pai', 'modal-estação_civil': 'estação_civil', 'modal-telefone': 'telefone',
                     'modal-banco': 'banco', 'modal-agencia': 'agencia', 'modal-conta_corrente': 'conta_corrente'
                 };
                 if (map[id]) payload[map[id]] = val;
@@ -1522,7 +1522,7 @@ function initAdminPage() {
     const allowed = ['application/pdf'];
     const maxSize = 6 * 1024 * 1024; // 6MB (server limit)
         if (!allowed.includes(file.type)) { if (statusDiv) statusDiv.textContent = 'Apenas PDF permitido.'; return; }
-        if (file.size > maxSize) { if (statusDiv) statusDiv.textContent = 'Ficheiro demasiado grande. Max 6MB.'; return; }
+        if (file.size > maxSize) { if (statusDiv) statusDiv.textContent = 'Ficheiro demasiação grande. Max 6MB.'; return; }
 
         const formData = new FormData();
         formData.append('holerite', file);
@@ -1537,10 +1537,10 @@ function initAdminPage() {
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || 'Falha no upload');
-            if (statusDiv) statusDiv.textContent = result.message || 'Holerite enviado.';
+            if (statusDiv) statusDiv.textContent = result.message || 'Holerite enviação.';
             formUploadHolerite.reset();
             abrirModalDetalhes(currentFuncionarioId); // Recarrega os detalhes do modal
-            showToast('Holerite enviado.', 'success');
+            showToast('Holerite enviação.', 'success');
         } catch (error) {
             if (statusDiv) statusDiv.textContent = `Erro: ${error.message}`;
             showToast(`Erro ao enviar holerite: ${error.message}`, 'error');
@@ -1549,13 +1549,13 @@ function initAdminPage() {
         }
     });
 
-    // handler para upload de atéstado no modal (admin)
-    if (formUploadAtestado) {
-        formUploadAtestado.addEventListener('submit', async (e) => {
+    // handler para upload de atéstação no modal (admin)
+    if (formUploadAtestação) {
+        formUploadAtestação.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const statusDiv = document.getElementById('upload-atéstado-status');
-            const fileInput = document.getElementById('arquivo-atéstado');
-            const submitBtn = formUploadAtestado.querySelector('button[type="submit"]');
+            const statusDiv = document.getElementById('upload-atéstação-status');
+            const fileInput = document.getElementById('arquivo-atéstação');
+            const submitBtn = formUploadAtestação.querySelector('button[type="submit"]');
             if (!currentFuncionarioId || !fileInput || fileInput.files.length === 0) {
                 if (statusDiv) statusDiv.textContent = 'Selecione um funcionário e um ficheiro.';
                 return;
@@ -1564,27 +1564,27 @@ function initAdminPage() {
             const allowed = ['application/pdf','image/png','image/jpeg'];
             const maxSize = 5 * 1024 * 1024; // 5MB (server limit)
             if (!allowed.includes(file.type)) { if (statusDiv) statusDiv.textContent = 'Tipo inválido. Use PDF, JPG ou PNG.'; return; }
-            if (file.size > maxSize) { if (statusDiv) statusDiv.textContent = 'Ficheiro demasiado grande. Max 5MB.'; return; }
+            if (file.size > maxSize) { if (statusDiv) statusDiv.textContent = 'Ficheiro demasiação grande. Max 5MB.'; return; }
 
             const formData = new FormData();
-            formData.append('atéstado', file);
+            formData.append('atéstação', file);
             if (statusDiv) statusDiv.textContent = 'A enviar...';
             setBtnLoading(submitBtn, true, 'Enviando...');
             try {
-                const response = await fetch(`${API_URL}/${currentFuncionarioId}/atéstado`, {
+                const response = await fetch(`${API_URL}/${currentFuncionarioId}/atéstação`, {
                     method: 'POST',
                     headers: getAuthHeaders(),
                     body: formData
                 });
                 const result = await response.json();
                 if (!response.ok) throw new Error(result.message || 'Falha no upload');
-                if (statusDiv) statusDiv.textContent = result.message || 'Atéstado enviado.';
-                formUploadAtestado.reset();
+                if (statusDiv) statusDiv.textContent = result.message || 'Atéstação enviação.';
+                formUploadAtestação.reset();
                 abrirModalDetalhes(currentFuncionarioId);
-                showToast('Atéstado enviado.', 'success');
+                showToast('Atéstação enviação.', 'success');
             } catch (err) {
                 if (statusDiv) statusDiv.textContent = `Erro: ${err.message}`;
-                showToast(`Erro ao enviar atéstado: ${err.message}`, 'error');
+                showToast(`Erro ao enviar atéstação: ${err.message}`, 'error');
             } finally {
                 setBtnLoading(submitBtn, false);
             }
@@ -1597,7 +1597,7 @@ function initAdminPage() {
         modalNascimentoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const input = document.getElementById('modal-data-nascimento');
-            if (!input) return showToast('Campo de data não encontrado.', 'error');
+            if (!input) return showToast('Campo de data não encontração.', 'error');
             const val = input.value || null;
             try {
                 const resp = await fetch(`${API_URL}/${currentFuncionarioId}`, {
@@ -1650,7 +1650,7 @@ function initAdminPage() {
                         <div class="aviso-body">
                             <div class="aviso-title">${escapeHtml(a.titulo || '')}</div>
                             <div class="aviso-desc">${escapeHtml(a.mensagem || '')}</div>
-                            <div class="aviso-meta small">${a.created_by ? 'Criado por: ' + escapeHtml(a.created_by) : ''} ${a.created_at ? new Date(a.created_at).toLocaleString() : ''}</div>
+                            <div class="aviso-meta small">${a.created_by  'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
                         </div>
                     </div>
                 `;
@@ -1662,20 +1662,20 @@ function initAdminPage() {
                 del.innerHTML = '<i class="fas fa-trash"></i> <span class="action-text">Apagar</span>';
                 del.addEventListener('click', async (e) => {
                     e.stopPropagation();
-                    const ok = await showConfirm('Apagar este aviso?');
+                    const ok = await showConfirm('Apagar este aviso');
                     if (!ok) return;
                     try {
                         const dres = await fetch(`/api/avisos/${a.id}`, { method: 'DELETE', headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
                         const dj = await dres.json();
                         if (!dres.ok) throw new Error(dj.message || 'Erro');
                         carregarAvisos();
-                        showToast('Aviso apagado.', 'success');
+                        showToast('Aviso apagação.', 'success');
                     } catch (err) { showToast('Falha ao apagar: ' + err.message, 'error'); }
                 });
                 const mark = document.createElement('button');
                 mark.className = 'btn btn-primary marcar-lido action-mark';
-                mark.setAttribute('aria-label', a.lido ? 'Lido' : 'Marcar como lido');
-                mark.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido ? 'Lido' : 'Marcar como lido'}</span>`;
+                mark.setAttribute('aria-label', a.lido  'Lido' : 'Marcar como lido');
+                mark.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido  'Lido' : 'Marcar como lido'}</span>`;
                 if (a.lido) { mark.disabled = true; card.classList.add('lido'); }
                 mark.addEventListener('click', async (e) => {
                     e.stopPropagation();
@@ -1711,7 +1711,7 @@ function initAdminPage() {
     // Modal-based avisos management
     function openAvisosModal() {
         const modal = document.getElementById('modal-avisos');
-    if (!modal) return showToast('Modal de avisos não encontrado.', 'error');
+    if (!modal) return showToast('Modal de avisos não encontração.', 'error');
     openModal(modal);
         // ensure tab default
         document.querySelectorAll('#modal-avisos .tab-content').forEach(t => t.style.display = 'none');
@@ -1784,7 +1784,7 @@ function initAdminPage() {
             const res = await fetch('/api/avisos', { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
             if (!res.ok) throw new Error('Falha ao carregar avisos');
             const avisos = await res.json();
-            if (!avisos || avisos.length === 0) { list.innerHTML = '<p>Nenhum aviso cadastrado.</p>'; return; }
+            if (!avisos || avisos.length === 0) { list.innerHTML = '<p>Nenhum aviso cadastração.</p>'; return; }
             list.innerHTML = '';
             avisos.forEach(a => {
                 const row = document.createElement('div');
@@ -1796,7 +1796,7 @@ function initAdminPage() {
                         <div class="aviso-body">
                             <div class="aviso-title">${escapeHtml(a.titulo)}</div>
                             <div class="aviso-desc muted">${escapeHtml(a.mensagem)}</div>
-                            <div class="aviso-meta small">${a.created_by ? 'Criado por: ' + escapeHtml(a.created_by) : ''} ${a.created_at ? new Date(a.created_at).toLocaleString() : ''}</div>
+                            <div class="aviso-meta small">${a.created_by  'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
                         </div>
                     </div>
                 `;
@@ -1805,12 +1805,12 @@ function initAdminPage() {
                 const del = document.createElement('button'); del.className = 'btn btn-secondary'; del.textContent = 'Apagar';
                 edit.addEventListener('click', () => openEditAviso(a));
                 del.addEventListener('click', async () => {
-                    const ok = await showConfirm('Apagar este aviso definitivamente?');
+                    const ok = await showConfirm('Apagar este aviso definitivamente');
                     if (!ok) return;
                     try {
                         const dres = await fetch(`/api/avisos/${a.id}`, { method: 'DELETE', headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
                         const dj = await dres.json(); if (!dres.ok) throw new Error(dj.message || 'Erro');
-                        showToast('Aviso apagado.', 'success');
+                        showToast('Aviso apagação.', 'success');
                         renderModalAvisosList(); carregarAvisos();
                         try { const newBtn = document.getElementById('btn-new-aviso'); if (newBtn) newBtn.focus(); } catch (e) { /* ignore */ }
                     } catch (err) { showToast('Falha ao apagar: ' + err.message, 'error'); }
@@ -1856,12 +1856,12 @@ function initAdminPage() {
                 if (editId) {
                     const resp = await fetch(`/api/avisos/${editId}`, { method: 'PUT', headers: getAuthHeaders({ 'Content-Type': 'application/json' }), body: JSON.stringify({ titulo, mensagem }) });
                     const j = await resp.json(); if (!resp.ok) throw new Error(j.message || 'Erro');
-                    showToast('Aviso atualizado.', 'success');
+                    showToast('Aviso atualização.', 'success');
                     modalAvisoForm.removeAttribute('data-edit-id');
                 } else {
                     const resp = await fetch('/api/avisos', { method: 'POST', headers: getAuthHeaders({ 'Content-Type': 'application/json' }), body: JSON.stringify({ titulo, mensagem }) });
                     const j = await resp.json(); if (!resp.ok) throw new Error(j.message || 'Erro');
-                    showToast('Aviso criado.', 'success');
+                    showToast('Aviso criação.', 'success');
                 }
                 document.getElementById('aviso-titulo').value = '';
                 document.getElementById('aviso-mensagem').value = '';
@@ -1884,7 +1884,7 @@ function initAdminPage() {
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     if (navDashboard) navDashboard.classList.add('active');
 
-    // Carrega os dados iniciais do dashboard e widgets auxiliares
+    // Carrega os daçãos iniciais do dashboard e widgets auxiliares
     carregarDashboard();
     carregarAniversariantes();
     carregarAvisos();
@@ -1903,12 +1903,12 @@ async function initEmployeePage() {
     let localUserData = JSON.parse(localStorage.getItem('userData'));
 
     // Diagnostic: log initial localStorage state to help debug white-screen reports
-    try { console.log('initEmployeePage start', { authTokenPresent: !!(localStorage.getItem('authToken') || localStorage.getItem('token')), userDataPresent: !!localUserData, bodyVisibility: document && document.body && document.body.style ? document.body.style.visibility : null }); } catch (e) {}
+    try { console.log('initEmployeePage start', { authTokenPresent: !!(localStorage.getItem('authToken') || localStorage.getItem('token')), userDataPresent: !!localUserData, bodyVisibility: document && document.body && document.body.style  document.body.style.visibility : null }); } catch (e) {}
 
     // Debug: verificar se usuário deveria ir para área admin
     console.log('🔍 DEBUG initEmployeePage - Verificando redirecionamento admin:', {
         userData: localUserData,
-        role: localUserData?.role,
+        role: localUserData.role,
         shouldRedirectToAdmin: localUserData && localUserData.role === 'admin'
     });
     
@@ -1952,7 +1952,7 @@ async function initEmployeePage() {
                     overlay.style.background = 'rgba(0,0,0,0.45)';
                     overlay.style.display = 'flex'; overlay.style.alignItems = 'center'; overlay.style.justifyContent = 'center';
                     overlay.style.zIndex = '99999';
-                    overlay.innerHTML = `<div style="background:#fff;padding:20px;border-radius:6px;max-width:420px;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.2);">
+                    overlay.innerHTML = `<div style="background:#fff;padding:20px;border-radius:6px;max-width:420px;text-align:center;box-shaçãow:0 6px 24px rgba(0,0,0,.2);">
                         <h3 style="margin:0 0 8px 0">Sessão não encontrada</h3>
                         <p style="margin:0 0 12px 0;color:#555">Aguardo token de autenticação. Se não houver ação, clique para ir ao login.</p>
                         <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;">
@@ -1974,7 +1974,7 @@ async function initEmployeePage() {
                         const t = localStorage.getItem('authToken') || localStorage.getItem('token');
                         const u = JSON.parse(localStorage.getItem('userData') || 'null');
                         if (t && u && u.id) {
-                            console.log('initEmployeePage: detected token/userData via polling', { tokenPresent: !!t, userId: u && u.id ? u.id : null, elapsed: Date.now() - start });
+                            console.log('initEmployeePage: detected token/userData via polling', { tokenPresent: !!t, userId: u && u.id  u.id : null, elapsed: Date.now() - start });
                             clearInterval(iv);
                             // remove overlay
                             try { const o = document.getElementById('auth-overlay'); if (o) o.remove(); } catch (e) {}
@@ -1996,7 +1996,7 @@ async function initEmployeePage() {
                     const o = document.getElementById('auth-overlay');
                     if (o) {
                         o.innerHTML = `
-                            <div style="background:#fff;padding:20px;border-radius:6px;max-width:520px;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.2);">
+                            <div style="background:#fff;padding:20px;border-radius:6px;max-width:520px;text-align:center;box-shaçãow:0 6px 24px rgba(0,0,0,.2);">
                                 <h3 style="margin:0 0 8px 0">Sessão não encontrada</h3>
                                 <p style="margin:0 0 12px 0;color:#555">Não detectei um token de autenticação. Você pode tentar novamente ou ir para a tela de login.</p>
                                 <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
@@ -2024,7 +2024,7 @@ async function initEmployeePage() {
                                         try { initEmployeePage(); } catch(e) { console.warn('retry initEmployeePage failed', e); }
                                     } else {
                                         // leave message in place; user may click login
-                                        try { showToast('Ainda não há token detectado. Você pode ir ao login.', 'error'); } catch (e) {}
+                                        try { showToast('Ainda não há token detectação. Você pode ir ao login.', 'error'); } catch (e) {}
                                     }
                                 } catch(e) { console.warn('rePoll failed', e); }
                             })();
@@ -2039,9 +2039,9 @@ async function initEmployeePage() {
                                     try { userRaw = localStorage.getItem('userData') || null; } catch(e) { userRaw = null; }
                                     const diagObj = {
                                         tokenPresent: !!rawToken,
-                                        tokenMasked: rawToken ? (String(rawToken).substring(0,8) + '...') : null,
-                                        userData: (function(){ try { return userRaw ? JSON.parse(userRaw) : null; } catch(e) { return userRaw; } })(),
-                                        ua: (typeof navigator !== 'undefined' && navigator.userAgent) ? navigator.userAgent : '(no navigator)'
+                                        tokenMasked: rawToken  (String(rawToken).substring(0,8) + '...') : null,
+                                        userData: (function(){ try { return userRaw  JSON.parse(userRaw) : null; } catch(e) { return userRaw; } })(),
+                                        ua: (typeof navigator !== 'undefined' && navigator.userAgent)  navigator.userAgent : '(no navigator)'
                                     };
                                     // small helper to escape HTML
                                     function _escape(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -2052,10 +2052,10 @@ async function initEmployeePage() {
                                             try {
                                                 const text = JSON.stringify(diagObj, null, 2);
                                                 if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
-                                                    navigator.clipboard.writeText(text).then(function(){ showToast('Diagnóstico copiado para a área de transferência.', 'success'); }, function(){ showToast('Não foi possível copiar automaticamente. Abra o console.', 'error'); });
+                                                    navigator.clipboard.writeText(text).then(function(){ showToast('Diagnóstico copiação para a área de transferência.', 'success'); }, function(){ showToast('Não foi possível copiar automaticamente. Abra o console.', 'error'); });
                                                 } else {
                                                     // fallback: select and prompt
-                                                    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast('Diagnóstico copiado.', 'success'); } catch(e){ showToast('Cópia automática falhou.', 'error'); } ta.remove();
+                                                    const ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); showToast('Diagnóstico copiação.', 'success'); } catch(e){ showToast('Cópia automática falhou.', 'error'); } ta.remove();
                                                 }
                                             } catch(e) { showToast('Erro ao copiar diagnóstico.', 'error'); }
                                         });
@@ -2090,7 +2090,7 @@ async function initEmployeePage() {
 
     try {
         const response = await fetch(`/api/funcionarios/${localUserData.id}`, { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
-        if (!response.ok) throw new Error("Não foi possível carregar os seus dados.");
+        if (!response.ok) throw new Error("Não foi possível carregar os seus daçãos.");
         
         const freshUserData = await response.json();
         localStorage.setItem('userData', JSON.stringify(freshUserData));
@@ -2110,13 +2110,13 @@ async function initEmployeePage() {
                 const stored = localStorage.getItem('sidebarOpen');
                 if (stored === 'true') sidebar.classList.add('open');
                 else sidebar.classList.remove('open');
-                menuToggle.setAttribute('aria-expanded', sidebar.classList.contains('open') ? 'true' : 'false');
+                menuToggle.setAttribute('aria-expanded', sidebar.classList.contains('open')  'true' : 'false');
                 menuToggle.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const willOpen = !sidebar.classList.contains('open');
                     sidebar.classList.toggle('open');
                     localStorage.setItem('sidebarOpen', sidebar.classList.contains('open'));
-                    menuToggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+                    menuToggle.setAttribute('aria-expanded', willOpen  'true' : 'false');
                 });
                 window._menuToggleInit = true;
             }
@@ -2150,7 +2150,7 @@ async function initEmployeePage() {
     try { scheduleWidgetEnableRetries(); } catch (e) {}
 }
 
-// Busca dados do dashboard e popula avisos e widgets na página do funcionário
+// Busca daçãos do dashboard e popula avisos e widgets na página do funcionário
 async function carregarEmployeeDashboard(userData) {
     try {
         const resp = await fetch('/api/dashboard/summary', { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
@@ -2173,7 +2173,7 @@ async function carregarEmployeeDashboard(userData) {
                         </div>
                     `;
                         // add mark-as-read button
-                        const btn = document.createElement('button'); btn.className = 'btn btn-secondary marcar-lido action-mark'; btn.setAttribute('aria-label', a.lido ? 'Lido' : 'Marcar como lido'); btn.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido ? 'Lido' : 'Marcar como lido'}</span>`;
+                        const btn = document.createElement('button'); btn.className = 'btn btn-secondary marcar-lido action-mark'; btn.setAttribute('aria-label', a.lido  'Lido' : 'Marcar como lido'); btn.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">${a.lido  'Lido' : 'Marcar como lido'}</span>`;
                         if (a.lido) { btn.disabled = true; node.classList.add('lido'); }
                         btn.addEventListener('click', async () => { await markAvisoRead(a.id); btn.innerHTML = `<i class="fas fa-check"></i> <span class="action-text">Lido</span>`; btn.disabled = true; node.classList.add('lido'); });
                         node.appendChild(btn);
@@ -2191,13 +2191,13 @@ async function carregarEmployeeDashboard(userData) {
             }
         }
 
-        // Holerite destaque (usa dados do usuário quando disponíveis)
+        // Holerite destaque (usa daçãos do usuário quando disponíveis)
         try {
             const holeriteP = document.querySelector('.dashboard-widgets .widget:nth-child(1) p');
             const holeriteLink = document.querySelector('.dashboard-widgets .widget:nth-child(1) .widget-link');
             const viewBtn = document.getElementById('view-holerite');
             // default: disabled
-            if (viewBtn) disableControl(viewBtn, 'Aguardando holerite anexado pelo administrador.');
+            if (viewBtn) disableControl(viewBtn, 'Aguardando holerite anexação pelo administraçãor.');
             if (holeriteP) {
                 if (userData.holerites && userData.holerites.length > 0) {
                     const h = userData.holerites[0];
@@ -2211,7 +2211,7 @@ async function carregarEmployeeDashboard(userData) {
                 } else {
                     // no holerites attached
                     if (holeriteP) holeriteP.textContent = 'Nenhum holerite disponível.';
-                    if (holeriteLink) disableControl(holeriteLink, 'Aguardando holerite anexado pelo administrador.');
+                    if (holeriteLink) disableControl(holeriteLink, 'Aguardando holerite anexação pelo administraçãor.');
                 }
             }
         } catch (e) { /* ignore */ }
@@ -2255,10 +2255,10 @@ function subscribeAvisosSSE() {
         let triedHandshake = false;
         const tryOpen = (useToken) => {
             const token = localStorage.getItem('authToken') || localStorage.getItem('token');
-            const url = (useToken && token) ? `/api/avisos/stream?token=${encodeURIComponent(token)}` : '/api/avisos/stream';
+            const url = (useToken && token)  `/api/avisos/streamtoken=${encodeURIComponent(token)}` : '/api/avisos/stream';
             const es = new EventSource(url, { withCredentials: false });
             let opened = false;
-            es.addEventListener('open', () => { opened = true; console.log('Conectado ao stream de avisos (SSE).', { url }); });
+            es.addEventListener('open', () => { opened = true; console.log('Conectação ao stream de avisos (SSE).', { url }); });
             es.addEventListener('error', (e) => {
                 console.warn('Erro no stream de avisos SSE', e, { url, opened });
                 try { es.close(); } catch (err) {}
@@ -2306,7 +2306,7 @@ function subscribeAvisosSSE() {
             es.addEventListener('novo_aviso', (ev) => {
                 try {
                     const aviso = JSON.parse(ev.data);
-                    const action = aviso && aviso.action ? aviso.action : 'created';
+                    const action = aviso && aviso.action  aviso.action : 'created';
 
                     // Handle deleted avisos: remove from DOM
                     if (action === 'deleted') {
@@ -2336,9 +2336,9 @@ function subscribeAvisosSSE() {
                                 const meta = node.querySelector('.aviso-meta');
                                 if (title) title.textContent = aviso.titulo || '';
                                 if (desc) desc.textContent = aviso.mensagem || aviso.conteudo || '';
-                                if (meta) meta.textContent = (aviso.created_by ? 'Criado por: ' + aviso.created_by + ' ' : '') + (aviso.created_at ? new Date(aviso.created_at).toLocaleString() : '');
+                                if (meta) meta.textContent = (aviso.created_by  'Criação por: ' + aviso.created_by + ' ' : '') + (aviso.created_at  new Date(aviso.created_at).toLocaleString() : '');
                             });
-                            showToast('Aviso atualizado.', 'success', 1800);
+                            showToast('Aviso atualização.', 'success', 1800);
                         } catch (e) { console.warn('Erro ao atualizar aviso SSE', e); }
                         return;
                     }
@@ -2360,7 +2360,7 @@ function subscribeAvisosSSE() {
                     node.appendChild(btn);
                     if (avisosBox.firstChild) avisosBox.insertBefore(node, avisosBox.firstChild);
                     else avisosBox.appendChild(node);
-                    showToast('Novo aviso publicado.', 'success', 2500);
+                    showToast('Novo aviso publicação.', 'success', 2500);
                 } catch (e) { console.warn('Falha ao processar aviso SSE', e); }
             });
             // expose es for debugging
@@ -2373,7 +2373,7 @@ function subscribeAvisosSSE() {
         function tryOpenUrl(explicitUrl) {
             try {
                 const es2 = new EventSource(explicitUrl, { withCredentials: false });
-                es2.addEventListener('open', () => { console.log('Conectado ao stream de avisos (SSE) via handshake.', { explicitUrl }); });
+                es2.addEventListener('open', () => { console.log('Conectação ao stream de avisos (SSE) via handshake.', { explicitUrl }); });
                 es2.addEventListener('error', (e) => { console.warn('Erro no stream de avisos SSE (handshake url)', e, { explicitUrl }); try { es2.close(); } catch(_){}; try { startAvisosPolling(); } catch(_){} });
                 es2.addEventListener('novo_aviso', (ev) => { try { const aviso = JSON.parse(ev.data); /* reuse existing handler logic by dispatching a custom event */ const ev2 = new MessageEvent('novo_aviso', { data: ev.data }); window.dispatchEvent(ev2); } catch (e) { console.warn('Falha ao processar aviso SSE (handshake) ', e); } });
                 window._avisosSSE = es2;
@@ -2464,7 +2464,7 @@ function markAvisoRead(id) {
                 const avisosCard = document.getElementById('card-avisos');
                 const avisosBox = document.getElementById('dashboard-avisos-list');
                 const adminBox = document.getElementById('avisos-list');
-                const countLeft = (avisosBox ? avisosBox.querySelectorAll('.aviso-card').length : 0) + (adminBox ? adminBox.querySelectorAll('.aviso-card').length : 0);
+                const countLeft = (avisosBox  avisosBox.querySelectorAll('.aviso-card').length : 0) + (adminBox  adminBox.querySelectorAll('.aviso-card').length : 0);
                 if (countLeft === 0 && avisosCard) {
                     avisosCard.classList.add('avisos-collapsed');
                 }
@@ -2509,9 +2509,9 @@ function populateUserData(userData) {
     if (headerGreeting) {
         const parts = (userData.nome_completo || '').trim().split(/\s+/);
         const first = parts[0] || '';
-        const last = parts.length > 1 ? parts[parts.length-1] : '';
-        const display = `${first}${last ? ' ' + last : ''}`.trim();
-        headerGreeting.textContent = display ? `Olá, ${display}` : 'Olá, Usuário';
+        const last = parts.length > 1  parts[parts.length-1] : '';
+        const display = `${first}${last  ' ' + last : ''}`.trim();
+        headerGreeting.textContent = display  `Olá, ${display}` : 'Olá, Usuário';
     }
     const lastLoginEl = document.getElementById('last-login');
     if (lastLoginEl) lastLoginEl.textContent = new Date().toLocaleString('pt-BR');
@@ -2522,18 +2522,18 @@ function populateUserData(userData) {
         'data_nascimento': formatDateToBR(userData.data_nascimento),
         'cpf': userData.cpf, 'rg': userData.rg, 'endereco': userData.endereco,
         'telefone': userData.telefone, 'email': userData.email,
-        'estado_civil': userData.estado_civil, 'dependentes': userData.dependentes,
+        'estação_civil': userData.estação_civil, 'dependentes': userData.dependentes,
         'data_admissao': formatDateToBR(userData.data_admissao)
     };
 
     Object.entries(fields).forEach(([id, value]) => {
         const element = document.getElementById(id);
-        if (element) element.value = (value !== null && value !== undefined) ? value : '';
+        if (element) element.value = (value !== null && value !== undefined)  value : '';
     });
 
-    document.getElementById('banco').textContent = userData.banco || 'Não informado';
-    document.getElementById('agencia').textContent = userData.agencia || 'Não informado';
-    document.getElementById('conta_corrente').textContent = userData.conta_corrente || 'Não informado';
+    document.getElementById('banco').textContent = userData.banco || 'Não informação';
+    document.getElementById('agencia').textContent = userData.agencia || 'Não informação';
+    document.getElementById('conta_corrente').textContent = userData.conta_corrente || 'Não informação';
 
     // Preenche o seletor de holerites
     const holeriteSelect = document.getElementById('holerite-mes');
@@ -2591,7 +2591,7 @@ function setupEmployeeEventListeners(userData) {
         logoutBtn.addEventListener('click', (e) => {
             e.preventDefault();
             localStorage.clear();
-            showToast("Você foi desconectado.", 'success');
+            showToast("Você foi desconectação.", 'success');
             safeRedirectToLogin();
         });
     }
@@ -2599,7 +2599,7 @@ function setupEmployeeEventListeners(userData) {
     const editBtn = document.getElementById('edit-btn');
     if (editBtn) {
         editBtn.addEventListener('click', () => {
-            ['telefone', 'estado_civil', 'dependentes'].forEach(id => {
+            ['telefone', 'estação_civil', 'dependentes'].forEach(id => {
                 const el = document.getElementById(id); if (el) el.disabled = false;
             });
             editBtn.style.display = 'none';
@@ -2607,17 +2607,17 @@ function setupEmployeeEventListeners(userData) {
         });
     }
 
-    const dadosFormEl = document.getElementById('dados-form');
-    if (dadosFormEl) dadosFormEl.addEventListener('submit', async (e) => {
+    const daçãosFormEl = document.getElementById('daçãos-form');
+    if (daçãosFormEl) daçãosFormEl.addEventListener('submit', async (e) => {
         e.preventDefault();
         const saveBtn = document.getElementById('save-btn');
         saveBtn.textContent = 'Salvando...';
         saveBtn.disabled = true;
         // Apenas permitir salvar campos permitidos e validar antes de enviar
         const telefoneVal = document.getElementById('telefone').value.trim();
-        const estadoCivilVal = document.getElementById('estado_civil').value.trim();
+        const estaçãoCivilVal = document.getElementById('estação_civil').value.trim();
         const dependentesValRaw = document.getElementById('dependentes').value;
-        const dependentesVal = dependentesValRaw === '' ? 0 : Number(dependentesValRaw);
+        const dependentesVal = dependentesValRaw === ''  0 : Number(dependentesValRaw);
 
         // Validações básicas
         const errors = [];
@@ -2636,17 +2636,17 @@ function setupEmployeeEventListeners(userData) {
         }
 
         // Construir objeto com apenas os campos permitidos
-        const dadosParaSalvar = {
+        const daçãosParaSalvar = {
             telefone: telefoneVal || null,
-            estado_civil: estadoCivilVal || null,
+            estação_civil: estaçãoCivilVal || null,
             dependentes: dependentesVal
         };
 
-        // Mostrar confirmação ao utilizador antes de qualquer alteração
+        // Mostrar confirmação ao utilizaçãor antes de qualquer alteração
         const summaryLines = [
-            `Telefone: ${dadosParaSalvar.telefone || '(vazio)'}`,
-            `Estado civil: ${dadosParaSalvar.estado_civil || '(vazio)'}`,
-            `Dependentes: ${dadosParaSalvar.dependentes}`
+            `Telefone: ${daçãosParaSalvar.telefone || '(vazio)'}`,
+            `Estação civil: ${daçãosParaSalvar.estação_civil || '(vazio)'}`,
+            `Dependentes: ${daçãosParaSalvar.dependentes}`
         ];
     const confirmed = await showConfirm('Confirme as alterações abaixo:\n\n' + summaryLines.join('\n'));
     if (!confirmed) {
@@ -2659,12 +2659,12 @@ function setupEmployeeEventListeners(userData) {
             const response = await fetch(`/api/funcionarios/${userData.id}`, {
                 method: 'PUT',
                 headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
-                body: JSON.stringify(dadosParaSalvar),
+                body: JSON.stringify(daçãosParaSalvar),
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message);
                 showToast(result.message, 'success');
-            ['telefone', 'estado_civil', 'dependentes'].forEach(id => {
+            ['telefone', 'estação_civil', 'dependentes'].forEach(id => {
                 document.getElementById(id).disabled = true;
             });
             document.getElementById('edit-btn').style.display = 'inline-block';
@@ -2677,25 +2677,25 @@ function setupEmployeeEventListeners(userData) {
         }
     });
 
-    // Event listener para o formulário de atéstado
-    const atéstadoForm = document.getElementById('atéstado-form');
-    if (atéstadoForm) {
-        atéstadoForm.addEventListener('submit', async (e) => {
+    // Event listener para o formulário de atéstação
+    const atéstaçãoForm = document.getElementById('atéstação-form');
+    if (atéstaçãoForm) {
+        atéstaçãoForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const statusDiv = document.getElementById('upload-status');
-            const fileInput = document.getElementById('atéstado-file');
+            const fileInput = document.getElementById('atéstação-file');
             if (fileInput.files.length === 0) {
                 statusDiv.textContent = "Por favor, selecione um ficheiro.";
                 return;
             }
             const formData = new FormData();
-            formData.append('atéstado', fileInput.files[0]);
+            formData.append('atéstação', fileInput.files[0]);
             // append optional description if provided
-            const descEl = document.getElementById('atéstado-descrição');
+            const descEl = document.getElementById('atéstação-descrição');
             if (descEl && descEl.value && descEl.value.trim()) formData.append('descrição', descEl.value.trim());
             statusDiv.textContent = 'A enviar...';
             try {
-                const response = await fetch(`/api/funcionarios/${userData.id}/atéstado`, {
+                const response = await fetch(`/api/funcionarios/${userData.id}/atéstação`, {
                     method: 'POST',
                     body: formData,
                 });
@@ -2703,11 +2703,11 @@ function setupEmployeeEventListeners(userData) {
                 if (!response.ok) throw new Error(result.message);
                 statusDiv.textContent = result.message;
                 showToast(result.message, 'success');
-                atéstadoForm.reset();
-                const desc = document.getElementById('atéstado-descrição'); if (desc) desc.value = '';
+                atéstaçãoForm.reset();
+                const desc = document.getElementById('atéstação-descrição'); if (desc) desc.value = '';
             } catch (error) {
                 statusDiv.textContent = `Erro: ${error.message}`;
-                showToast(`Erro ao enviar atéstado: ${error.message}`, 'error');
+                showToast(`Erro ao enviar atéstação: ${error.message}`, 'error');
             }
         });
     }
@@ -2719,7 +2719,7 @@ function setupEmployeeEventListeners(userData) {
         viewHoleriteBtn.addEventListener('click', () => {
             const selectedUrl = document.getElementById('holerite-mes').value;
             if (selectedUrl) {
-                holeriteViewer.innerHTML = `<iframe src="${selectedUrl}" width="100%" height="600px" title="Visualizador de Holerite"></iframe>`;
+                holeriteViewer.innerHTML = `<iframe src="${selectedUrl}" width="100%" height="600px" title="Visualizaçãor de Holerite"></iframe>`;
             } else {
                     holeriteViewer.innerHTML = '<p>Por favor, selecione um holerite para visualizar.</p>';
                     showToast('Selecione um holerite antes de visualizar.', 'error');
@@ -2745,7 +2745,7 @@ function setupEmployeeEventListeners(userData) {
         });
     }
 
-    // Back button for 'Meus Dados' section: return to dashboard and close sidebar if open
+    // Back button for 'Meus Daçãos' section: return to dashboard and close sidebar if open
     const backBtn = document.getElementById('back-btn');
     if (backBtn) {
         backBtn.addEventListener('click', (e) => {
@@ -2770,8 +2770,8 @@ function setupEmployeeEventListeners(userData) {
     }
 
     /* 
-    // Integração com Omie Layout (métodos comentados devido a erro de sintaxe)
-    // TODO: Reorganizar em classe ou objeto apropriado
+    // Integração com Omie Layout (métodos comentaçãos devido a erro de sintaxe)
+    // TODO: Reorganizar em classe ou objeto apropriação
     
     updateViewMode(mode) {
         this.currentViewMode = mode;
@@ -2789,11 +2789,11 @@ function setupEmployeeEventListeners(userData) {
 
         container.innerHTML = this.funcionarios.map(func => `
             <div class="employee-card">
-                <div class="employee-avatar" style="background-image: url('${func.foto ? 'uploads/' + func.foto : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23d1d5db"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'}')"></div>
+                <div class="employee-avatar" style="background-image: url('${func.foto  'uploads/' + func.foto : 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23d1d5db"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>'}')"></div>
                 <div class="employee-name">${func.nome}</div>
                 <div class="employee-role">${func.cargo || 'Funcionário'}</div>
                 <div class="employee-email">${func.email}</div>
-                <div class="employee-status ${func.status || 'active'}">${func.status === 'active' || !func.status ? 'Ativo' : 'Inativo'}</div>
+                <div class="employee-status ${func.status || 'active'}">${func.status === 'active' || !func.status  'Ativo' : 'Inativo'}</div>
                 <div class="employee-actions">
                     <button class="btn btn-secondary btn-sm" onclick="app.visualizarFuncionario(${func.id})">
                         <i class="fas fa-eye"></i> Ver
@@ -2826,7 +2826,7 @@ function setupEmployeeEventListeners(userData) {
         this.excluirFuncionario(id);
     }
     
-    // Função para recarregar dados do usuário
+    // Função para recarregar daçãos do usuário
     reloadUserData() {
         const token = localStorage.getItem('authToken');
         if (!token) {
@@ -2840,20 +2840,20 @@ function setupEmployeeEventListeners(userData) {
         .then(response => response.json())
         .then(data => {
             if (data.success && data.userData) {
-                // Atualizar localStorage com dados frescos
+                // Atualizar localStorage com daçãos frescos
                 localStorage.setItem('userData', JSON.stringify(data.userData));
                 
-                // Repopular interface com novos dados
+                // Repopular interface com novos daçãos
                 populateUserData(data.userData);
                 
                 // Atualizar último acesso
                 this.updateLastAccess();
                 
-                console.log('Dados do usuário recarregados com sucesso');
+                console.log('Daçãos do usuário recarregaçãos com sucesso');
             }
         })
         .catch(error => {
-            console.error('Erro ao recarregar dados do usuário:', error);
+            console.error('Erro ao recarregar daçãos do usuário:', error);
         });
     }
     
@@ -2877,7 +2877,7 @@ function setupEmployeeEventListeners(userData) {
     */
 }
 
-// Função para inicializar dados do dashboard
+// Função para inicializar daçãos do dashboard
 function initializeDashboard() {
     // Atualizar data atual
     const currentDateEl = document.getElementById('current-date');
@@ -2901,7 +2901,7 @@ function initializeDashboard() {
         }
     }
     
-    // Carregar dados do usuário se disponível
+    // Carregar daçãos do usuário se disponível
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     if (userData && Object.keys(userData).length > 0) {
         populateUserData(userData);
@@ -2920,5 +2920,5 @@ function initializeDashboard() {
 
 // Inicializar quando o DOM estiver pronto
 /*OTIMIZADO*/ //
-// OTIMIZADO: DOMContentLoaded duplicado removido (162 chars)
+// OTIMIZADO: DOMContentLoaded duplicação removido (162 chars)
 

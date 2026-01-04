@@ -1,6 +1,6 @@
 /**
  * Serviço de Inutilização de Números de NFe
- * Implementa inutilização de faixa de números não utilizados
+ * Implementa inutilização de faixa de números não utilizaçãos
  * 
  * @module InutilizacaoService
  */
@@ -9,12 +9,12 @@ const xml2js = require('xml2js');
 const moment = require('moment-timezone');
 // Módulo soap é opcional - NFe não funciona sem ele
 let soap = null;
-try { soap = require('soap'); } catch (e) { console.warn('[InutilizacaoService] ⚠️  Módulo soap não instalado.'); }
+try { soap = require('soap'); } catch (e) { console.warn('[InutilizacaoService] ⚠️  Módulo soap não instalação.'); }
 
 class InutilizacaoService {
-    constructor(pool, certificadoService) {
+    constructor(pool, certificaçãoService) {
         this.pool = pool;
-        this.certificadoService = certificadoService;
+        this.certificaçãoService = certificaçãoService;
         
         // URLs de inutilização por UF (Homologação)
         this.urlsInutilizacaoHomologacao = {
@@ -35,10 +35,10 @@ class InutilizacaoService {
 
     /**
      * Inutiliza faixa de números de NFe
-     * @param {Object} dados - Dados da inutilização
-     * @returns {Promise<Object>} Resultado da inutilização
+     * @param {Object} daçãos - Daçãos da inutilização
+     * @returns {Promise<Object>} Resultação da inutilização
      */
-    async inutilizarFaixa(dados) {
+    async inutilizarFaixa(daçãos) {
         try {
             const {
                 ano,
@@ -50,12 +50,12 @@ class InutilizacaoService {
                 justificativa,
                 empresaId = 1,
                 ambiente = 'homologacao'
-            } = dados;
+            } = daçãos;
 
             console.log(`🚫 Inutilizando faixa ${numeroInicial}-${numeroFinal} série ${serie}...`);
 
             // Validações
-            this.validarDados(dados);
+            this.validarDaçãos(daçãos);
 
             // Verificar se faixa já foi utilizada
             await this.verificarFaixaUtilizada(serie, numeroInicial, numeroFinal);
@@ -73,13 +73,13 @@ class InutilizacaoService {
             });
 
             console.log('🔏 Assinando XML de inutilização...');
-            const xmlAssinado = await this.certificadoService.assinarXML(xmlInutilizacao, empresaId);
+            const xmlAssinação = await this.certificaçãoService.assinarXML(xmlInutilizacao, empresaId);
 
             console.log('📤 Transmitindo para SEFAZ...');
-            const resultado = await this.transmitirInutilizacao(xmlAssinado, uf, ambiente);
+            const resultação = await this.transmitirInutilizacao(xmlAssinação, uf, ambiente);
 
-            // Processar resultado
-            if (resultado.cStat === '102') {
+            // Processar resultação
+            if (resultação.cStat === '102') {
                 // Inutilização homologada
                 await this.salvarInutilizacao({
                     ano,
@@ -89,10 +89,10 @@ class InutilizacaoService {
                     numero_inicial: numeroInicial,
                     numero_final: numeroFinal,
                     justificativa,
-                    protocolo: resultado.nProt,
-                    data_inutilizacao: resultado.dhRecbto,
-                    xml_enviado: xmlAssinado,
-                    xml_retorno: JSON.stringify(resultado),
+                    protocolo: resultação.nProt,
+                    data_inutilizacao: resultação.dhRecbto,
+                    xml_enviação: xmlAssinação,
+                    xml_retorno: JSON.stringify(resultação),
                     ambiente
                 });
 
@@ -101,16 +101,16 @@ class InutilizacaoService {
                 return {
                     sucesso: true,
                     mensagem: 'Faixa inutilizada com sucesso',
-                    protocolo: resultado.nProt,
-                    dataInutilizacao: resultado.dhRecbto,
+                    protocolo: resultação.nProt,
+                    dataInutilizacao: resultação.dhRecbto,
                     faixa: `${numeroInicial} a ${numeroFinal}`,
                     serie,
-                    sefaz: resultado
+                    sefaz: resultação
                 };
 
             } else {
                 // Rejeição
-                throw new Error(`Inutilização rejeitada: ${resultado.cStat} - ${resultado.xMotivo}`);
+                throw new Error(`Inutilização rejeitada: ${resultação.cStat} - ${resultação.xMotivo}`);
             }
 
         } catch (error) {
@@ -120,10 +120,10 @@ class InutilizacaoService {
     }
 
     /**
-     * Valida dados da inutilização
+     * Valida daçãos da inutilização
      */
-    validarDados(dados) {
-        const { ano, cnpj, uf, serie, numeroInicial, numeroFinal, justificativa } = dados;
+    validarDaçãos(daçãos) {
+        const { ano, cnpj, uf, serie, numeroInicial, numeroFinal, justificativa } = daçãos;
 
         if (!ano || ano < 2000 || ano > 2099) {
             throw new Error('Ano inválido (deve estar entre 2000 e 2099)');
@@ -168,25 +168,25 @@ class InutilizacaoService {
     }
 
     /**
-     * Verifica se números da faixa já foram utilizados
+     * Verifica se números da faixa já foram utilizaçãos
      */
     async verificarFaixaUtilizada(serie, numeroInicial, numeroFinal) {
         const [nfes] = await this.pool.query(`
             SELECT numero FROM nfes
-            WHERE serie = ?
-            AND numero BETWEEN ? AND ?
+            WHERE serie = 
+            AND numero BETWEEN  AND 
             LIMIT 1
         `, [serie, numeroInicial, numeroFinal]);
 
         if (nfes && nfes.length > 0) {
-            throw new Error(`Número ${nfes[0].numero} da série ${serie} já foi utilizado. Não é possível inutilizar.`);
+            throw new Error(`Número ${nfes[0].numero} da série ${serie} já foi utilização. Não é possível inutilizar.`);
         }
 
         // Verificar se faixa já foi inutilizada anteriormente
         const [inutilizadas] = await this.pool.query(`
             SELECT * FROM nfe_inutilizacoes
-            WHERE serie = ?
-            AND ((numero_inicial BETWEEN ? AND ?) OR (numero_final BETWEEN ? AND ?))
+            WHERE serie = 
+            AND ((numero_inicial BETWEEN  AND ) OR (numero_final BETWEEN  AND ))
             LIMIT 1
         `, [serie, numeroInicial, numeroFinal, numeroInicial, numeroFinal]);
 
@@ -198,17 +198,17 @@ class InutilizacaoService {
     /**
      * Monta XML de inutilização
      */
-    montarXMLInutilizacao(dados) {
-        const { ano, cnpj, uf, serie, numeroInicial, numeroFinal, justificativa, ambiente } = dados;
+    montarXMLInutilizacao(daçãos) {
+        const { ano, cnpj, uf, serie, numeroInicial, numeroFinal, justificativa, ambiente } = daçãos;
 
         const cUF = this.obterCodigoUF(uf);
-        const tpAmb = ambiente === 'producao' ? '1' : '2';
+        const tpAmb = ambiente === 'producao'  '1' : '2';
         const xServ = 'INUTILIZAR';
         const mod = '55'; // Modelo NFe
         
         const idInut = `ID${cUF}${ano.toString().substr(-2)}${cnpj.replace(/\D/g, '')}${mod}${serie.toString().padStart(3, '0')}${numeroInicial.toString().padStart(9, '0')}${numeroFinal.toString().padStart(9, '0')}`;
 
-        return `<?xml version="1.0" encoding="UTF-8"?>
+        return `<xml version="1.0" encoding="UTF-8">
 <inutNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
     <infInut Id="${idInut}">
         <tpAmb>${tpAmb}</tpAmb>
@@ -230,16 +230,16 @@ class InutilizacaoService {
      */
     async transmitirInutilizacao(xmlInutilizacao, uf, ambiente) {
         try {
-            const urls = ambiente === 'producao' ? this.urlsInutilizacaoProducao : this.urlsInutilizacaoHomologacao;
+            const urls = ambiente === 'producao'  this.urlsInutilizacaoProducao : this.urlsInutilizacaoHomologacao;
             const url = urls[uf] || urls['SVRS'];
 
-            const client = await soap.createClientAsync(url + '?wsdl', {
+            const client = await soap.createClientAsync(url + 'wsdl', {
                 rejectUnauthorized: false,
                 timeout: 60000
             });
 
             const [result] = await client.nfeInutilizacaoNFAsync({
-                nfeDadosMsg: xmlInutilizacao
+                nfeDaçãosMsg: xmlInutilizacao
             });
 
             return this.processarRetornoInutilizacao(result);
@@ -254,7 +254,7 @@ class InutilizacaoService {
      * Processa retorno da inutilização
      */
     processarRetornoInutilizacao(result) {
-        const retInut = result.nfeResultMsg?.retInutNFe?.infInut || result.nfeResultMsg;
+        const retInut = result.nfeResultMsg.retInutNFe.infInut || result.nfeResultMsg;
 
         return {
             cStat: retInut.cStat,
@@ -271,26 +271,26 @@ class InutilizacaoService {
     /**
      * Salva inutilização no banco
      */
-    async salvarInutilizacao(dados) {
+    async salvarInutilizacao(daçãos) {
         await this.pool.query(`
             INSERT INTO nfe_inutilizacoes (
                 ano, cnpj, uf, serie, numero_inicial, numero_final,
                 justificativa, protocolo, data_inutilizacao,
-                xml_enviado, xml_retorno, ambiente, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+                xml_enviação, xml_retorno, ambiente, created_at
+            ) VALUES (, , , , , , , , , , , , NOW())
         `, [
-            dados.ano,
-            dados.cnpj,
-            dados.uf,
-            dados.serie,
-            dados.numero_inicial,
-            dados.numero_final,
-            dados.justificativa,
-            dados.protocolo,
-            dados.data_inutilizacao,
-            dados.xml_enviado,
-            dados.xml_retorno,
-            dados.ambiente
+            daçãos.ano,
+            daçãos.cnpj,
+            daçãos.uf,
+            daçãos.serie,
+            daçãos.numero_inicial,
+            daçãos.numero_final,
+            daçãos.justificativa,
+            daçãos.protocolo,
+            daçãos.data_inutilizacao,
+            daçãos.xml_enviação,
+            daçãos.xml_retorno,
+            daçãos.ambiente
         ]);
     }
 
@@ -302,17 +302,17 @@ class InutilizacaoService {
         const params = [];
 
         if (filtros.serie !== undefined) {
-            sql += ' AND serie = ?';
+            sql += ' AND serie = ';
             params.push(filtros.serie);
         }
 
         if (filtros.ano) {
-            sql += ' AND ano = ?';
+            sql += ' AND ano = ';
             params.push(filtros.ano);
         }
 
         if (filtros.uf) {
-            sql += ' AND uf = ?';
+            sql += ' AND uf = ';
             params.push(filtros.uf);
         }
 
@@ -356,20 +356,20 @@ class InutilizacaoService {
         const [ultimaEmitida] = await this.pool.query(`
             SELECT MAX(numero) as ultimo_numero
             FROM nfes
-            WHERE serie = ?
+            WHERE serie = 
         `, [serie]);
 
         // Buscar última inutilização
         const [ultimaInutilizada] = await this.pool.query(`
-            SELECT MAX(numero_final) as ultimo_inutilizado
+            SELECT MAX(numero_final) as ultimo_inutilização
             FROM nfe_inutilizacoes
-            WHERE serie = ?
+            WHERE serie = 
         `, [serie]);
 
-        const ultimoEmitido = ultimaEmitida[0]?.ultimo_numero || 0;
-        const ultimoInutilizado = ultimaInutilizada[0]?.ultimo_inutilizado || 0;
+        const ultimoEmitido = ultimaEmitida[0].ultimo_numero || 0;
+        const ultimoInutilização = ultimaInutilizada[0].ultimo_inutilização || 0;
 
-        const proximoNumero = Math.max(ultimoEmitido, ultimoInutilizado) + 1;
+        const proximoNumero = Math.max(ultimoEmitido, ultimoInutilização) + 1;
 
         return {
             serie,

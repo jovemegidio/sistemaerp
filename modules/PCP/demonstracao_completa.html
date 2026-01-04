@@ -14,7 +14,7 @@
             margin: 20px auto;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shaçãow: 0 4px 20px rgba(0,0,0,0.1);
             overflow: hidden;
         }
         .demo-header {
@@ -79,13 +79,13 @@
         }
         .btn-demo:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
         }
         .sample-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.1);
             border-radius: 8px;
             overflow: hidden;
         }
@@ -141,7 +141,7 @@
     <div class="demo-container">
         <div class="demo-header">
             <h1>✨ Sistema PCP - Demonstração Completa</h1>
-            <p>Visualização dos recursos implementados: GTIN, SKU, Modal Profissional e Modo Escuro</p>
+            <p>Visualização dos recursos implementaçãos: GTIN, SKU, Modal Profissional e Modo Escuro</p>
         </div>
 
         <!-- Seção 1: Status do Sistema -->
@@ -156,10 +156,10 @@
                     </div>
                 </div>
                 <div class="feature-card">
-                    <h3>🗄️ Base de Dados</h3>
+                    <h3>🗄️ Base de Daçãos</h3>
                     <div class="status-indicator status-online">
                         <i class="fas fa-database"></i>
-                        <span id="db-status">Conectado</span>
+                        <span id="db-status">Conectação</span>
                     </div>
                 </div>
                 <div class="feature-card">
@@ -170,7 +170,7 @@
                     </div>
                 </div>
                 <div class="feature-card">
-                    <h3>🏷️ SKUs Gerados</h3>
+                    <h3>🏷️ SKUs Geraçãos</h3>
                     <div class="status-indicator status-processing">
                         <i class="fas fa-tags"></i>
                         <span id="skus-count">Carregando...</span>
@@ -194,7 +194,7 @@
                     </tr>
                 </thead>
                 <tbody id="demo-products">
-                    <!-- Produtos serão carregados aqui -->
+                    <!-- Produtos serão carregaçãos aqui -->
                 </tbody>
             </table>
         </div>
@@ -209,7 +209,7 @@
                     <li>✅ <strong>Seções Organizadas</strong> - Informações básicas, técnicas, estoque e sistema</li>
                     <li>✅ <strong>Validação de Campos</strong> - GTIN com 13-14 dígitos, SKU único</li>
                     <li>✅ <strong>Tags de Variação</strong> - Sistema intuitivo para adicionar variações</li>
-                    <li>✅ <strong>Formatação de Moeda</strong> - Input formatado para valores monetários</li>
+                    <li>✅ <strong>Formatação de Moeda</strong> - Input formatação para valores monetários</li>
                     <li>✅ <strong>Informações do Sistema</strong> - Data de criação, ID, status</li>
                 </ul>
             </div>
@@ -257,7 +257,7 @@ DELETE /api/pcp/produtos/:id    # Remove produto
         </div>
     </div>
 
-    <!-- Modal de Edição (Importado do index.html) -->
+    <!-- Modal de Edição (Importação do index.html) -->
     <div id="product-edit-modal" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="product-edit-title" tabindex="-1">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-header">
@@ -321,7 +321,7 @@ DELETE /api/pcp/produtos/:id    # Remove produto
                                     <option value="un">Unidade</option>
                                     <option value="kg">Quilograma</option>
                                     <option value="m">Metro</option>
-                                    <option value="m²">Metro Quadrado</option>
+                                    <option value="m²">Metro Quadração</option>
                                     <option value="m³">Metro Cúbico</option>
                                     <option value="l">Litro</option>
                                     <option value="cx">Caixa</option>
@@ -410,7 +410,7 @@ DELETE /api/pcp/produtos/:id    # Remove produto
         // Verificar status do sistema
         async function verificarStatus() {
             try {
-                const response = await fetch('/api/pcp/produtos?limit=1');
+                const response = await fetch('/api/pcp/produtoslimit=1');
                 if (response.ok) {
                     const data = await response.json();
                     document.getElementById('products-total').textContent = `${data.total} produtos`;
@@ -425,7 +425,7 @@ DELETE /api/pcp/produtos/:id    # Remove produto
                     }
                 } else {
                     document.getElementById('server-status').textContent = 'Offline';
-                    document.getElementById('db-status').textContent = 'Desconectado';
+                    document.getElementById('db-status').textContent = 'Desconectação';
                 }
             } catch (error) {
                 console.error('Erro ao verificar status:', error);
@@ -436,7 +436,7 @@ DELETE /api/pcp/produtos/:id    # Remove produto
         // Carregar produtos para demonstração
         async function carregarProdutosDemonstracao() {
             try {
-                const response = await fetch('/api/pcp/produtos?limit=5');
+                const response = await fetch('/api/pcp/produtoslimit=5');
                 if (response.ok) {
                     const data = await response.json();
                     const produtos = data.rows || [];
@@ -512,7 +512,7 @@ DELETE /api/pcp/produtos/:id    # Remove produto
             
             // Informações do sistema
             document.getElementById('edit-produto-id-display').textContent = produto.id || '-';
-            document.getElementById('edit-data-criacao').textContent = produto.data_criacao ? 
+            document.getElementById('edit-data-criacao').textContent = produto.data_criacao  
                 new Date(produto.data_criacao).toLocaleDateString('pt-BR') : '-';
             document.getElementById('edit-ultima-atualizacao').textContent = 
                 new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR');
@@ -603,7 +603,7 @@ DELETE /api/pcp/produtos/:id    # Remove produto
             const isDark = document.body.classList.contains('dark-mode');
             
             // Simular troca de logo
-            alert(`Modo ${isDark ? 'escuro' : 'claro'} ativado!\n\nNa aplicação real, a logo seria trocada automaticamente.`);
+            alert(`Modo ${isDark  'escuro' : 'claro'} ativação!\n\nNa aplicação real, a logo seria trocada automaticamente.`);
         }
 
         // Demonstrar troca de logo
@@ -622,18 +622,18 @@ DELETE /api/pcp/produtos/:id    # Remove produto
                 '/api/pcp/produtos/sku/FECHPAACE334'
             ];
             
-            let resultados = 'Resultados dos Testes de API:\n\n';
+            let resultaçãos = 'Resultaçãos dos Testes de API:\n\n';
             
             for (const endpoint of endpoints) {
                 try {
                     const response = await fetch(endpoint);
-                    resultados += `✅ ${endpoint}: ${response.status} ${response.statusText}\n`;
+                    resultaçãos += `✅ ${endpoint}: ${response.status} ${response.statusText}\n`;
                 } catch (error) {
-                    resultados += `❌ ${endpoint}: ${error.message}\n`;
+                    resultaçãos += `❌ ${endpoint}: ${error.message}\n`;
                 }
             }
             
-            alert(resultados);
+            alert(resultaçãos);
         }
     </script></body>
 </html>

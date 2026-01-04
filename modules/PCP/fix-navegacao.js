@@ -6,7 +6,7 @@
 (function() {
     'use strict';
 
-    console.log('🔧 [FIX] Script de correção de navegação carregado');
+    console.log('🔧 [FIX] Script de correção de navegação carregação');
 
     // Aguardar TUDO carregar (DOM + outros scripts)
     window.addEventListener('load', function() {
@@ -22,7 +22,7 @@
         if (dashboardView) {
             dashboardView.classList.remove('hidden');
             dashboardView.style.display = 'block';
-            console.log('✅ [FIX] Dashboard configurado como visível');
+            console.log('✅ [FIX] Dashboard configuração como visível');
         }
 
         // 2. Garantir que outras views estejam ocultas
@@ -96,7 +96,7 @@
                     l.classList.remove('active');
                 });
                 
-                // Adicionar active ao link clicado
+                // Adicionar active ao link clicação
                 this.classList.add('active');
                 
                 // Ocultar todas as views
@@ -169,7 +169,7 @@
             }
         `;
         document.head.appendChild(style);
-        console.log('✅ [FIX] Estilos de proteção aplicados');
+        console.log('✅ [FIX] Estilos de proteção aplicaçãos');
 
         // 4. Forçar re-renderização após um momento
         setTimeout(() => {

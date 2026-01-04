@@ -1,4 +1,4 @@
-// JavaScript compartilhado para cabeçalho padronizado - ALUFORCE
+// JavaScript compartilhação para cabeçalho padronização - ALUFORCE
 
 // Função para carregar informações do usuário
 async function loadUserInfo() {
@@ -34,7 +34,7 @@ function toggleUserMenu() {
     const dropdown = document.getElementById('user-menu-dropdown');
     if (dropdown) {
         const isVisible = dropdown.style.display === 'block';
-        dropdown.style.display = isVisible ? 'none' : 'block';
+        dropdown.style.display = isVisible  'none' : 'block';
     }
 }
 
@@ -49,11 +49,11 @@ function toggleDarkMode() {
     // Atualizar ícone
     const icon = document.getElementById('dark-mode-icon');
     if (icon) {
-        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        icon.className = isDark  'fas fa-sun' : 'fas fa-moon';
     }
 }
 
-// Função para atualizar dados
+// Função para atualizar daçãos
 function refreshData() {
     // Recarregar a página ou fazer refresh específico do módulo
     window.location.reload();
@@ -75,7 +75,7 @@ async function logout() {
     }
 }
 
-// Inicialização quando o DOM estiver carregado
+// Inicialização quando o DOM estiver carregação
 document.addEventListener('DOMContentLoaded', function() {
     // Carregar informações do usuário
     loadUserInfo();
@@ -144,7 +144,7 @@ function performSearch(query) {
     // Implementação específica de cada módulo pode sobrescrever esta função
 }
 
-// Função para esconder resultados da busca
+// Função para esconder resultaçãos da busca
 function hideSearchResults() {
     const resultsDiv = document.getElementById('search-inline-results');
     if (resultsDiv) {
@@ -160,13 +160,13 @@ function showNotification(message, type = 'info') {
         position: fixed;
         top: 80px;
         right: 20px;
-        background: ${type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#3b82f6'};
+        background: ${type === 'error'  '#ef4444' : type === 'success'  '#10b981' : '#3b82f6'};
         color: white;
         padding: 12px 20px;
         border-radius: 6px;
         z-index: 10000;
         font-size: 14px;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shaçãow: 0 4px 6px rgba(0, 0, 0, 0.1);
         animation: slideIn 0.3s ease;
     `;
     

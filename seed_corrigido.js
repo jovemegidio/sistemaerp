@@ -30,20 +30,20 @@ async function executarSeed() {
         console.log(`${colors.cyan}╚════════════════════════════════════════════════════════════╝${colors.reset}\n`);
 
         connection = await mysql.createConnection(dbConfig);
-        console.log(`${colors.green}✅ Conectado ao banco${colors.reset}\n`);
+        console.log(`${colors.green}✅ Conectação ao banco${colors.reset}\n`);
 
         // 1. USUÁRIOS - role aceita: admin, user, comercial
         console.log(`${colors.blue}👤 Inserindo usuários...${colors.reset}`);
         try {
             await connection.execute(`
                 INSERT INTO usuarios (nome, email, password_hash, senha_hash, is_admin, role, created_at) VALUES
-                ('Administrador', 'admin@aluforce.com', SHA2('admin123', 256), SHA2('admin123', 256), 1, 'admin', NOW()),
+                ('Administraçãor', 'admin@aluforce.com', SHA2('admin123', 256), SHA2('admin123', 256), 1, 'admin', NOW()),
                 ('Vendedor', 'vendedor@aluforce.com', SHA2('vendedor123', 256), SHA2('vendedor123', 256), 0, 'comercial', NOW()),
                 ('Financeiro', 'financeiro@aluforce.com', SHA2('financeiro123', 256), SHA2('financeiro123', 256), 0, 'user', NOW()),
                 ('PCP', 'pcp@aluforce.com', SHA2('pcp123', 256), SHA2('pcp123', 256), 0, 'user', NOW())
                 ON DUPLICATE KEY UPDATE nome = VALUES(nome)
             `);
-            console.log(`   ${colors.green}✅ 4 usuários criados${colors.reset}`);
+            console.log(`   ${colors.green}✅ 4 usuários criaçãos${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  ${err.message}${colors.reset}`);
         }
@@ -53,18 +53,18 @@ async function executarSeed() {
         try {
             await connection.execute(`
                 INSERT INTO estoque_saldos (codigo_material, descricao, quantidade_fisica, quantidade_reservada, custo_medio, ultima_entrada) VALUES
-                ('ALU-001', 'Perfil de Alumínio Anodizado 2"', 100, 0, 45.90, NOW()),
-                ('ALU-002', 'Perfil de Alumínio Anodizado 3"', 80, 0, 58.50, NOW()),
-                ('ALU-003', 'Perfil de Alumínio Anodizado 4"', 60, 0, 72.00, NOW()),
-                ('VID-001', 'Vidro Temperado Incolor 6mm', 50, 0, 120.00, NOW()),
-                ('VID-002', 'Vidro Temperado Incolor 8mm', 40, 0, 180.00, NOW()),
-                ('VID-003', 'Vidro Temperado Verde 8mm', 35, 0, 195.00, NOW()),
+                ('ALU-001', 'Perfil de Alumínio Anodização 2"', 100, 0, 45.90, NOW()),
+                ('ALU-002', 'Perfil de Alumínio Anodização 3"', 80, 0, 58.50, NOW()),
+                ('ALU-003', 'Perfil de Alumínio Anodização 4"', 60, 0, 72.00, NOW()),
+                ('VID-001', 'Vidro Temperação Incolor 6mm', 50, 0, 120.00, NOW()),
+                ('VID-002', 'Vidro Temperação Incolor 8mm', 40, 0, 180.00, NOW()),
+                ('VID-003', 'Vidro Temperação Verde 8mm', 35, 0, 195.00, NOW()),
                 ('FER-001', 'Fechadura de Centro', 30, 0, 85.00, NOW()),
                 ('FER-002', 'Fechadura de Embutir', 25, 0, 125.00, NOW()),
                 ('FER-003', 'Dobradiça Pivotante', 50, 0, 45.00, NOW()),
                 ('ACE-001', 'Trinco de Pressão', 100, 0, 18.50, NOW()),
                 ('ACE-002', 'Roldana para Porta de Correr', 80, 0, 35.00, NOW()),
-                ('ACE-003', 'Puxador de Alumínio 30cm', 40, 0, 65.00, NOW())
+                ('ACE-003', 'Puxaçãor de Alumínio 30cm', 40, 0, 65.00, NOW())
                 ON DUPLICATE KEY UPDATE quantidade_fisica = VALUES(quantidade_fisica)
             `);
             console.log(`   ${colors.green}✅ 12 itens de estoque inseridos${colors.reset}`);
@@ -83,13 +83,13 @@ async function executarSeed() {
             'funcionarios', 'estoque_saldos', 'auditoria_config'
         ];
 
-        let totalDados = 0;
+        let totalDaçãos = 0;
         for (const tabela of tabelas) {
             try {
                 const [result] = await connection.execute(`SELECT COUNT(*) as total FROM ${tabela}`);
                 const total = result[0].total;
-                totalDados += total;
-                const status = total > 0 ? colors.green + '✅' : colors.yellow + '⚠️';
+                totalDaçãos += total;
+                const status = total > 0  colors.green + '✅' : colors.yellow + '⚠️';
                 console.log(`   ${status} ${tabela.padEnd(25)} ${total.toString().padStart(5)} registros${colors.reset}`);
             } catch {
                 console.log(`   ${colors.yellow}❌ ${tabela.padEnd(25)} não existe${colors.reset}`);
@@ -97,7 +97,7 @@ async function executarSeed() {
         }
 
         console.log(`\n${colors.green}═══════════════════════════════════════════════════════════${colors.reset}`);
-        console.log(`${colors.green}   TOTAL DE REGISTROS NO BANCO: ${totalDados}${colors.reset}`);
+        console.log(`${colors.green}   TOTAL DE REGISTROS NO BANCO: ${totalDaçãos}${colors.reset}`);
         console.log(`${colors.green}═══════════════════════════════════════════════════════════${colors.reset}`);
 
         console.log(`\n${colors.cyan}✅ CREDENCIAIS DE ACESSO:${colors.reset}`);

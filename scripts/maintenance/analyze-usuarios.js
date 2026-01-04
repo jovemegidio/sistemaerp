@@ -16,14 +16,14 @@ async function analyzeUsersTable() {
     let pool;
     try {
         pool = mysql.createPool(DB_CONFIG);
-        console.log('✅ Conectado ao banco de dados\n');
+        console.log('✅ Conectação ao banco de daçãos\n');
 
         // Verificar estrutura da tabela
         console.log('📋 Estrutura da tabela usuarios:');
         const [columns] = await pool.query('SHOW COLUMNS FROM usuarios');
         
         columns.forEach(col => {
-            console.log(`   📄 ${col.Field} (${col.Type}) - ${col.Null === 'YES' ? 'Nullable' : 'Not Null'}`);
+            console.log(`   📄 ${col.Field} (${col.Type}) - ${col.Null === 'YES'  'Nullable' : 'Not Null'}`);
         });
 
         // Identificar campo de senha
@@ -33,7 +33,7 @@ async function analyzeUsersTable() {
             col.Field.toLowerCase().includes('hash')
         );
 
-        console.log(`\n🔐 Campos de senha encontrados: ${passwordColumns.length}`);
+        console.log(`\n🔐 Campos de senha encontraçãos: ${passwordColumns.length}`);
         passwordColumns.forEach(col => {
             console.log(`   🔑 ${col.Field} (${col.Type})`);
         });
@@ -87,7 +87,7 @@ async function analyzeUsersTable() {
 
             if (passwordValue) {
                 usersWithPassword++;
-                console.log(`   🔐 Senha em ${passwordField}: ${isHashed ? 'Hash bcrypt' : 'Texto plano'}`);
+                console.log(`   🔐 Senha em ${passwordField}: ${isHashed  'Hash bcrypt' : 'Texto plano'}`);
                 
                 if (isHashed) {
                     // Testar senhas comuns contra hash
@@ -119,14 +119,14 @@ async function analyzeUsersTable() {
             }
 
             // Verificar avatar
-            const firstName = user.nome ? user.nome.split(' ')[0].toLowerCase() : '';
+            const firstName = user.nome  user.nome.split(' ')[0].toLowerCase() : '';
             const avatarFile = avatarMapping[firstName];
             
             if (avatarFile) {
                 usersWithAvatar++;
                 console.log(`   🖼️  Avatar: ${firstName} → ${avatarFile}`);
             } else {
-                console.log(`   👤 Sem avatar mapeado para: "${firstName}"`);
+                console.log(`   👤 Sem avatar mapeação para: "${firstName}"`);
             }
 
             console.log(''); // Linha em branco
@@ -147,7 +147,7 @@ async function analyzeUsersTable() {
             console.log('\n🧪 CANDIDATOS PARA TESTE DE LOGIN:');
             console.log('===================================');
             loginCandidates.forEach((candidate, index) => {
-                const status = candidate.password === 'DESCONHECIDA' ? '⚠️' : '✅';
+                const status = candidate.password === 'DESCONHECIDA'  '⚠️' : '✅';
                 console.log(`${status} ${candidate.email} | Senha: ${candidate.password}`);
             });
 
@@ -167,7 +167,7 @@ async function analyzeUsersTable() {
             Object.keys(exampleUser).forEach(key => {
                 const value = exampleUser[key];
                 const type = typeof value;
-                const display = type === 'string' && value.length > 50 ? value.substring(0, 50) + '...' : value;
+                const display = type === 'string' && value.length > 50  value.substring(0, 50) + '...' : value;
                 console.log(`   ${key}: ${display} (${type})`);
             });
         }
@@ -178,7 +178,7 @@ async function analyzeUsersTable() {
     } finally {
         if (pool) {
             await pool.end();
-            console.log('\n🔌 Desconectado do banco');
+            console.log('\n🔌 Desconectação do banco');
         }
     }
 }

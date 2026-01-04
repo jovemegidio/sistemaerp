@@ -38,7 +38,7 @@ const fs = require('fs');
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
+    port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
   })
 
   // CPF generator with valid check digits
@@ -53,7 +53,7 @@ const fs = require('fs');
         sum += arr[i] * (mult - i)
       }
       const res = sum % 11
-      return res < 2 ? 0 : 11 - res
+      return res < 2  0 : 11 - res
     }
 
     const d1 = calcDigit(nums)
@@ -78,7 +78,7 @@ const fs = require('fs');
 
     for (const rawName of names) {
       // find user by exact name
-      const [rows] = await db.execute('SELECT * FROM funcionarios WHERE nome_completo = ? LIMIT 1', [rawName])
+      const [rows] = await db.execute('SELECT * FROM funcionarios WHERE nome_completo =  LIMIT 1', [rawName])
       if (!rows || rows.length === 0) {
         console.log(`User not found in DB (skipping): ${rawName}`)
         continue
@@ -89,10 +89,10 @@ const fs = require('fs');
       // generate valid cpf and update
       const cpf = generateCPF()
       // if telefone missing, create one
-      const telefone = user.telefone && user.telefone.toString().trim() ? user.telefone : (Math.random() > 0.5 ? '9' : '') + (Math.floor(100000000 + Math.random() * 900000000)).toString()
+      const telefone = user.telefone && user.telefone.toString().trim()  user.telefone : (Math.random() > 0.5  '9' : '') + (Math.floor(100000000 + Math.random() * 900000000)).toString()
 
       // Update in DB: foto_perfil_url, cpf, telefone, forcar_troca_senha
-      const updateSql = 'UPDATE funcionarios SET foto_perfil_url = ?, cpf = ?, telefone = ?, forcar_troca_senha = 1 WHERE id = ?'
+      const updateSql = 'UPDATE funcionarios SET foto_perfil_url = , cpf = , telefone = , forcar_troca_senha = 1 WHERE id = '
       await db.execute(updateSql, [foto, cpf, telefone, user.id])
 
       reportRows.push({ id: user.id, nome: rawName, email: user.email, data_nascimento: user.data_nascimento, cpf, telefone, foto_perfil_url: foto })

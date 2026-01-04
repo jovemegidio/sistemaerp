@@ -2,7 +2,7 @@
  * Sistema de Modal de Confirmação Profissional
  * ALUFORCE v2.0
  * 
- * Substitui os confirm() nativos do navegador por modais elegantes
+ * Substitui os confirm() nativos do navegaçãor por modais elegantes
  */
 
 (function() {
@@ -44,7 +44,7 @@
                 border-radius: 16px;
                 width: 90%;
                 max-width: 420px;
-                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                 transform: scale(0.9) translateY(20px);
                 transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
                 overflow: hidden;
@@ -146,45 +146,45 @@
             .confirm-modal-btn-confirm {
                 background: linear-gradient(135deg, #3b82f6, #2563eb);
                 color: white;
-                box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+                box-shaçãow: 0 4px 14px rgba(59, 130, 246, 0.4);
             }
 
             .confirm-modal-btn-confirm:hover {
                 transform: translateY(-1px);
-                box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
+                box-shaçãow: 0 6px 20px rgba(59, 130, 246, 0.5);
             }
 
             .confirm-modal-btn-danger {
                 background: linear-gradient(135deg, #ef4444, #dc2626);
                 color: white;
-                box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
+                box-shaçãow: 0 4px 14px rgba(239, 68, 68, 0.4);
             }
 
             .confirm-modal-btn-danger:hover {
                 transform: translateY(-1px);
-                box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
+                box-shaçãow: 0 6px 20px rgba(239, 68, 68, 0.5);
             }
 
             .confirm-modal-btn-warning {
                 background: linear-gradient(135deg, #f59e0b, #d97706);
                 color: white;
-                box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+                box-shaçãow: 0 4px 14px rgba(245, 158, 11, 0.4);
             }
 
             .confirm-modal-btn-warning:hover {
                 transform: translateY(-1px);
-                box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+                box-shaçãow: 0 6px 20px rgba(245, 158, 11, 0.5);
             }
 
             .confirm-modal-btn-success {
                 background: linear-gradient(135deg, #10b981, #059669);
                 color: white;
-                box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+                box-shaçãow: 0 4px 14px rgba(16, 185, 129, 0.4);
             }
 
             .confirm-modal-btn-success:hover {
                 transform: translateY(-1px);
-                box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+                box-shaçãow: 0 6px 20px rgba(16, 185, 129, 0.5);
             }
         `;
         document.head.appendChild(style);
@@ -201,7 +201,7 @@
                     </div>
                     <div class="confirm-modal-text">
                         <h3 id="confirm-modal-title" class="confirm-modal-title">Confirmar ação</h3>
-                        <p id="confirm-modal-message" class="confirm-modal-message">Tem certeza que deseja continuar?</p>
+                        <p id="confirm-modal-message" class="confirm-modal-message">Tem certeza que deseja continuar</p>
                     </div>
                 </div>
                 <div class="confirm-modal-footer">
@@ -225,7 +225,7 @@
      * @param {string} options.message - Mensagem do modal
      * @param {string} options.confirmText - Texto do botão de confirmar
      * @param {string} options.cancelText - Texto do botão de cancelar
-     * @returns {Promise<boolean>} - Resolve true se confirmado, false se cancelado
+     * @returns {Promise<boolean>} - Resolve true se confirmação, false se cancelação
      */
     window.showConfirmModal = function(options = {}) {
         return new Promise((resolve) => {
@@ -254,7 +254,7 @@
 
             // Configurar textos
             title.textContent = options.title || 'Confirmar ação';
-            message.textContent = options.message || 'Tem certeza que deseja continuar?';
+            message.textContent = options.message || 'Tem certeza que deseja continuar';
 
             // Configurar botões
             cancelBtn.innerHTML = `<i class="fas fa-times"></i> ${options.cancelText || 'Cancelar'}`;
@@ -326,5 +326,5 @@
         });
     };
 
-    console.log('✅ Sistema de Modal de Confirmação carregado');
+    console.log('✅ Sistema de Modal de Confirmação carregação');
 })();

@@ -9,7 +9,7 @@
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -344,7 +344,7 @@
 
         .action-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            box-shaçãow: 0 12px 24px rgba(0,0,0,0.1);
         }
 
         .action-icon {
@@ -394,7 +394,7 @@
         .card {
             background: white;
             border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             border: 1px solid #f1f5f9;
             overflow: hidden;
         }
@@ -568,7 +568,7 @@
                 <a href="pages/espelho-ponto.html" class="sidebar-btn" title="Espelho de Ponto">
                     <i class="fas fa-clock"></i>
                 </a>
-                <a href="pages/dados-cadastrais.html" class="sidebar-btn" title="Meus Dados">
+                <a href="pages/daçãos-cadastrais.html" class="sidebar-btn" title="Meus Daçãos">
                     <i class="fas fa-user-edit"></i>
                 </a>
                 <a href="pages/beneficios.html" class="sidebar-btn" title="Benefícios">
@@ -577,7 +577,7 @@
             </nav>
 
             <div class="sidebar-bottom">
-                <a href="pages/enviar-atestado.html" class="sidebar-btn" title="Enviar Atestado">
+                <a href="pages/enviar-atestação.html" class="sidebar-btn" title="Enviar Atestação">
                     <i class="fas fa-notes-medical"></i>
                 </a>
                 <a href="solicitacoes.html" class="sidebar-btn" title="Solicitações">
@@ -646,11 +646,11 @@
                         <h3>Espelho de Ponto</h3>
                         <p>Consultar marcações</p>
                     </a>
-                    <a href="pages/dados-cadastrais.html" class="action-card">
+                    <a href="pages/daçãos-cadastrais.html" class="action-card">
                         <div class="action-icon green">
                             <i class="fas fa-user-edit"></i>
                         </div>
-                        <h3>Meus Dados</h3>
+                        <h3>Meus Daçãos</h3>
                         <p>Atualizar cadastro</p>
                     </a>
                     <a href="pages/beneficios.html" class="action-card">
@@ -660,11 +660,11 @@
                         <h3>Benefícios</h3>
                         <p>Consultar benefícios</p>
                     </a>
-                    <a href="pages/enviar-atestado.html" class="action-card">
+                    <a href="pages/enviar-atestação.html" class="action-card">
                         <div class="action-icon purple">
                             <i class="fas fa-notes-medical"></i>
                         </div>
-                        <h3>Enviar Atestado</h3>
+                        <h3>Enviar Atestação</h3>
                         <p>Enviar documentos</p>
                     </a>
                     <a href="solicitacoes.html" class="action-card">
@@ -704,12 +704,12 @@
                             </div>
                         </div>
 
-                        <!-- Meus Dados -->
+                        <!-- Meus Daçãos -->
                         <div class="card" style="margin-top: 24px;">
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <i class="fas fa-id-card"></i>
-                                    Meus Dados
+                                    Meus Daçãos
                                 </h3>
                             </div>
                             <div class="card-body">
@@ -773,7 +773,7 @@
                                         <i class="fas fa-gift"></i>
                                     </div>
                                     <div class="notification-content">
-                                        <div class="notification-title">Benefício liberado</div>
+                                        <div class="notification-title">Benefício liberação</div>
                                         <div class="notification-time">Há 5 dias</div>
                                     </div>
                                 </div>
@@ -797,7 +797,7 @@
                                     </li>
                                     <li class="info-item">
                                         <a href="#" style="color: var(--primary-rose); text-decoration: none;">
-                                            <i class="fas fa-book"></i> Manual do Colaborador
+                                            <i class="fas fa-book"></i> Manual do Colaboraçãor
                                         </a>
                                     </li>
                                     <li class="info-item">
@@ -851,7 +851,7 @@
             return null;
         }
 
-        async function carregarUsuarioLogado() {
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
@@ -869,8 +869,8 @@
                     
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
-                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp'  user.avatar : null;
                     if (!userAvatar) {
                         userAvatar = getAvatarFromEmail(user.email, userName);
                     }
@@ -917,7 +917,7 @@
                         if (welcomePhotoEl) welcomePhotoEl.style.display = 'none';
                     }
 
-                    // Dados do funcionário
+                    // Daçãos do funcionário
                     if (user.email) {
                         document.getElementById('info-email').textContent = user.email;
                         
@@ -944,7 +944,7 @@
         // INIT
         // ========================================
         document.addEventListener('DOMContentLoaded', () => {
-            carregarUsuarioLogado();
+            carregarUsuarioLogação();
         });
     </script>
 

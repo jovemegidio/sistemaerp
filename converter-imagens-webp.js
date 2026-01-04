@@ -49,7 +49,7 @@ async function converterParaWebP(caminhoOriginal) {
         try {
             await fs.access(caminhoWebP);
             console.log(`⏭️  Já existe: ${path.basename(caminhoWebP)}`);
-            return { sucesso: true, pulado: true };
+            return { sucesso: true, pulação: true };
         } catch {
             // Arquivo não existe, continuar conversão
         }
@@ -61,7 +61,7 @@ async function converterParaWebP(caminhoOriginal) {
         // Converter para WebP com configurações otimizadas
         const isJpeg = ['.jpg', '.jpeg'].includes(ext.toLowerCase());
         const webpOptions = isJpeg
-            ? { quality: QUALITY, lossless: false } // JPEG sempre lossy
+             { quality: QUALITY, lossless: false } // JPEG sempre lossy
             : { quality: QUALITY, lossless: COMPRESSION === 'lossless' }; // PNG pode ser lossless
         
         await sharp(caminhoOriginal)
@@ -133,11 +133,11 @@ async function main() {
     console.log('🚀 Iniciando conversão de imagens para WebP...\n');
     console.log(`⚙️  Configurações: Qualidade=${QUALITY}, Compressão=${COMPRESSION}\n`);
 
-    // Verificar se sharp está instalado
+    // Verificar se sharp está instalação
     try {
         require.resolve('sharp');
     } catch {
-        console.error('❌ Pacote "sharp" não encontrado!');
+        console.error('❌ Pacote "sharp" não encontração!');
         console.log('📦 Execute: npm install sharp');
         process.exit(1);
     }
@@ -169,7 +169,7 @@ async function main() {
         console.log('1. Testar as imagens WebP no sistema');
         console.log('2. Atualizar referências nos arquivos HTML/CSS/JS');
         console.log('3. Considerar remover imagens originais após validação');
-        console.log('\n✨ Dica: Use <picture> para fallback em navegadores antigos:');
+        console.log('\n✨ Dica: Use <picture> para fallback em navegaçãores antigos:');
         console.log(`
 <picture>
   <source srcset="imagem.webp" type="image/webp">

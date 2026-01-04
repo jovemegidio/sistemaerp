@@ -9,10 +9,10 @@ function renderDashboard() {
     container.innerHTML = `
         <div class="dashboard-grid">
             <!-- Card: Total de Compras do Mês -->
-            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #10b981;">
+            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shaçãow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #10b981;">
                 <div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); padding: 24px; border-bottom: 1px solid #6ee7b7;">
                     <h2 style="margin: 0; color: #065f46; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);">
+                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.25);">
                             <i class="fas fa-shopping-cart" style="font-size: 20px; color: white;"></i>
                         </div>
                         <span>Compras do Mês</span>
@@ -41,10 +41,10 @@ function renderDashboard() {
             </div>
 
             <!-- Card: Pedidos Pendentes -->
-            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #f59e0b;">
+            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shaçãow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #f59e0b;">
                 <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 24px; border-bottom: 1px solid #fcd34d;">
                     <h2 style="margin: 0; color: #78350f; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);">
+                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shaçãow: 0 4px 12px rgba(245, 158, 11, 0.25);">
                             <i class="fas fa-clock" style="font-size: 20px; color: white;"></i>
                         </div>
                         <span>Pedidos Pendentes</span>
@@ -77,10 +77,10 @@ function renderDashboard() {
             </div>
 
             <!-- Card: Fornecedores Ativos -->
-            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #3b82f6;">
+            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shaçãow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #3b82f6;">
                 <div style="background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%); padding: 24px; border-bottom: 1px solid #93c5fd;">
                     <h2 style="margin: 0; color: #1e3a8a; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);">
+                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.25);">
                             <i class="fas fa-truck" style="font-size: 20px; color: white;"></i>
                         </div>
                         <span>Fornecedores</span>
@@ -109,15 +109,15 @@ function renderDashboard() {
             </div>
 
             <!-- Card: Materiais em Estoque -->
-            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #8b5cf6;">
+            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shaçãow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #8b5cf6;">
                 <div style="background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%); padding: 24px; border-bottom: 1px solid #c4b5fd;">
                     <h2 style="margin: 0; color: #5b21b6; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.25);">
+                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shaçãow: 0 4px 12px rgba(139, 92, 246, 0.25);">
                             <i class="fas fa-cubes" style="font-size: 20px; color: white;"></i>
                         </div>
                         <span>Materiais</span>
                     </h2>
-                    <p style="margin: 10px 0 0 56px; color: #6b21a8; font-size: 13px; font-weight: 500;">Itens gerenciados</p>
+                    <p style="margin: 10px 0 0 56px; color: #6b21a8; font-size: 13px; font-weight: 500;">Itens gerenciaçãos</p>
                 </div>
                 <div class="panel-body" style="padding: 28px;">
                     <div style="display: flex; flex-direction: column; gap: 16px;">
@@ -141,10 +141,10 @@ function renderDashboard() {
             </div>
 
             <!-- Quick Actions -->
-            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #10b981; grid-column: span 2;">
+            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shaçãow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #10b981; grid-column: span 2;">
                 <div style="background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); padding: 24px; border-bottom: 1px solid #6ee7b7;">
                     <h2 style="margin: 0; color: #065f46; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);">
+                        <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #10b981 0%, #059669 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.25);">
                             <i class="fas fa-bolt" style="font-size: 20px; color: white;"></i>
                         </div>
                         <span>Ações Rápidas</span>
@@ -185,11 +185,11 @@ function renderDashboard() {
             </div>
 
             <!-- Últimas Cotações -->
-            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shadow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #f59e0b; grid-column: span 2;">
+            <div class="panel" style="background: white; border-radius: 20px; padding: 0; box-shaçãow: 0 8px 24px rgba(0,0,0,0.08); overflow: hidden; border-top: 5px solid #f59e0b; grid-column: span 2;">
                 <div style="background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); padding: 24px; border-bottom: 1px solid #fcd34d; display: flex; justify-content: space-between; align-items: center;">
                     <div>
                         <h2 style="margin: 0; color: #78350f; font-size: 19px; font-weight: 700; display: flex; align-items: center; gap: 12px;">
-                            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);">
+                            <div style="width: 44px; height: 44px; background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shaçãow: 0 4px 12px rgba(245, 158, 11, 0.25);">
                                 <i class="fas fa-file-invoice-dollar" style="font-size: 20px; color: white;"></i>
                             </div>
                             <span>Últimas Cotações</span>
@@ -203,35 +203,35 @@ function renderDashboard() {
         </div>
     `;
 
-    // Carregar dados do dashboard
+    // Carregar daçãos do dashboard
     loadDashboardData();
     
     // Event listeners para quick actions
-    document.getElementById('btn-novo-pedido-quick')?.addEventListener('click', () => {
-        document.getElementById('btn-pedidos')?.click();
+    document.getElementById('btn-novo-pedido-quick').addEventListener('click', () => {
+        document.getElementById('btn-pedidos').click();
         setTimeout(() => {
-            document.getElementById('btn-novo-pedido')?.click();
+            document.getElementById('btn-novo-pedido').click();
         }, 100);
     });
     
-    document.getElementById('btn-nova-cotacao-quick')?.addEventListener('click', () => {
-        document.getElementById('btn-cotacoes')?.click();
+    document.getElementById('btn-nova-cotacao-quick').addEventListener('click', () => {
+        document.getElementById('btn-cotacoes').click();
         setTimeout(() => {
-            document.getElementById('btn-nova-cotacao')?.click();
+            document.getElementById('btn-nova-cotacao').click();
         }, 100);
     });
     
-    document.getElementById('btn-novo-fornecedor-quick')?.addEventListener('click', () => {
-        document.getElementById('btn-fornecedores')?.click();
+    document.getElementById('btn-novo-fornecedor-quick').addEventListener('click', () => {
+        document.getElementById('btn-fornecedores').click();
         setTimeout(() => {
-            document.getElementById('btn-novo-fornecedor')?.click();
+            document.getElementById('btn-novo-fornecedor').click();
         }, 100);
     });
 }
 
 async function loadDashboardData() {
     try {
-        // Dados de demonstração - substituir por chamadas API reais
+        // Daçãos de demonstração - substituir por chamadas API reais
         const mockData = {
             totalComprasMes: 245780.50,
             pedidosMes: 32,
@@ -276,14 +276,14 @@ async function loadDashboardData() {
         loadRecentCotacoes();
         
     } catch (error) {
-        console.error('Erro ao carregar dados do dashboard:', error);
+        console.error('Erro ao carregar daçãos do dashboard:', error);
     }
 }
 
 function loadRecentCotacoes() {
     const container = document.getElementById('cotacoes-recentes-container');
     
-    // Dados de demonstração
+    // Daçãos de demonstração
     const cotacoes = [
         { id: 'COT-2025-001', fornecedor: 'Alumínio Brasil LTDA', valor: 15680.00, status: 'Pendente', data: '2025-12-10' },
         { id: 'COT-2025-002', fornecedor: 'MetalPro Indústria', valor: 23450.00, status: 'Aprovada', data: '2025-12-09' },

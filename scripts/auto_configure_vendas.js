@@ -39,7 +39,7 @@ async function login() {
                         return;
                     }
                 }
-                reject(new Error('Token não encontrado'));
+                reject(new Error('Token não encontração'));
             });
         });
 
@@ -89,7 +89,7 @@ async function main() {
     
     try {
         const token = await login();
-        console.log('✅ Login realizado com sucesso');
+        console.log('✅ Login realização com sucesso');
         
         console.log('\n⚙️  Configurando permissões de vendas...\n');
         
@@ -97,16 +97,16 @@ async function main() {
         
         if (result.success) {
             console.log('✅ Permissões configuradas com sucesso!\n');
-            console.log('📊 Resultados:\n');
+            console.log('📊 Resultaçãos:\n');
             
             result.results.forEach(r => {
                 let status = '';
                 switch(r.status) {
                     case 'success':
-                        status = `✅ Atualizado (${r.affected} registros)`;
+                        status = `✅ Atualização (${r.affected} registros)`;
                         break;
                     case 'not_found':
-                        status = '⚠️  Usuário não encontrado no banco';
+                        status = '⚠️  Usuário não encontração no banco';
                         break;
                     case 'error':
                         status = `❌ Erro: ${r.message}`;
@@ -116,7 +116,7 @@ async function main() {
             });
             
             console.log('\n✅ Configuração concluída!');
-            console.log('🎯 Usuários com acesso ao módulo de Vendas foram atualizados.');
+            console.log('🎯 Usuários com acesso ao módulo de Vendas foram atualizaçãos.');
             
         } else {
             console.error('❌ Erro:', result.error);

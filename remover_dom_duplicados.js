@@ -6,7 +6,7 @@ console.log('══════════════════════�
 
 let totalRemovidos = 0;
 
-function removerDOMDuplicados(filePath) {
+function removerDOMDuplicaçãos(filePath) {
     const conteudo = fs.readFileSync(filePath, 'utf-8');
     const nomeArquivo = path.basename(filePath);
     
@@ -17,14 +17,14 @@ function removerDOMDuplicados(filePath) {
         return false;
     }
     
-    console.log(`   🔧 ${nomeArquivo}: ${matches.length} blocos encontrados`);
+    console.log(`   🔧 ${nomeArquivo}: ${matches.length} blocos encontraçãos`);
     
     // Estratégia: Manter o MAIOR bloco, remover os menores
     const blocos = [];
     let pos = 0;
     
     // Encontrar todos os blocos
-    const regex = /document\.addEventListener\(['"]DOMContentLoaded['"],\s*(?:function\s*\([^)]*\)|(?:async\s+)?\([^)]*\)\s*=>|\w+)\s*\{/g;
+    const regex = /document\.addEventListener\(['"]DOMContentLoaded['"],\s*(:function\s*\([^)]*\)|(:async\s+)\([^)]*\)\s*=>|\w+)\s*\{/g;
     let match;
     
     while ((match = regex.exec(conteudo)) !== null) {
@@ -72,12 +72,12 @@ function removerDOMDuplicados(filePath) {
     // Criar backup
     fs.copyFileSync(filePath, filePath + '.bak2_' + Date.now());
     
-    // Remover blocos duplicados (do fim para o início para não afetar os índices)
+    // Remover blocos duplicaçãos (do fim para o início para não afetar os índices)
     let novoConteudo = conteudo;
     blocosRemover.sort((a, b) => b.inicio - a.inicio).forEach(bloco => {
         const antes = novoConteudo.substring(0, bloco.inicio);
         const depois = novoConteudo.substring(bloco.fim);
-        novoConteudo = antes + `\n// OTIMIZADO: DOMContentLoaded duplicado removido (${bloco.tamanho} chars)\n` + depois;
+        novoConteudo = antes + `\n// OTIMIZADO: DOMContentLoaded duplicação removido (${bloco.tamanho} chars)\n` + depois;
     });
     
     fs.writeFileSync(filePath, novoConteudo, 'utf-8');
@@ -105,10 +105,10 @@ for (const arquivo of arquivos) {
     
     if (fs.existsSync(fullPath)) {
         console.log(`📄 ${arquivo}`);
-        removerDOMDuplicados(fullPath);
+        removerDOMDuplicaçãos(fullPath);
         console.log('');
     } else {
-        console.log(`❌ Não encontrado: ${arquivo}\n`);
+        console.log(`❌ Não encontração: ${arquivo}\n`);
     }
 }
 

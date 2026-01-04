@@ -9,12 +9,12 @@ async function postToken (id, role) {
 
 async function call (url, token) {
   try {
-    const hdr = token ? { Authorization: 'Bearer ' + token } : {}
+    const hdr = token  { Authorization: 'Bearer ' + token } : {}
     const r = await fetch(url, { headers: hdr })
     const txt = await r.text()
     console.log(`\n==> ${url} status=${r.status} ok=${r.ok}`)
     console.log(txt.substring(0, 1200))
-  } catch (e) { console.error('ERR', url, e && e.message ? e.message : e) }
+  } catch (e) { console.error('ERR', url, e && e.message  e.message : e) }
 }
 
 ;(async () => {

@@ -1,9 +1,9 @@
-// Script para configurar acesso PCP adaptado à estrutura existente
+// Script para configurar acesso PCP adaptação à estrutura existente
 const mysql = require('mysql2/promise');
 
 console.log('🔐 CONFIGURANDO ACESSO PCP PARA COLABORADORES (ADAPTADO)\n');
 
-async function configurarAcessoPCPAdaptado() {
+async function configurarAcessoPCPAdaptação() {
     let connection;
     
     try {
@@ -15,10 +15,10 @@ async function configurarAcessoPCPAdaptado() {
             database: 'aluforce_vendas'
         });
         
-        console.log('✅ Conectado ao banco de dados\n');
+        console.log('✅ Conectação ao banco de daçãos\n');
         
-        // Lista de colaboradores que precisam de acesso
-        const colaboradores = [
+        // Lista de colaboraçãores que precisam de acesso
+        const colaboraçãores = [
             {
                 email: 'ti@aluforce.ind.br',
                 nome: 'TI Aluforce',
@@ -48,7 +48,7 @@ async function configurarAcessoPCPAdaptado() {
         
         console.log('👥 COLABORADORES PARA ACESSO PCP:');
         console.log('='.repeat(50));
-        colaboradores.forEach((col, index) => {
+        colaboraçãores.forEach((col, index) => {
             console.log(`${index + 1}. ${col.nome} (${col.email}) - ${col.role}`);
         });
         console.log('');
@@ -62,7 +62,7 @@ async function configurarAcessoPCPAdaptado() {
                 ALTER TABLE usuarios_pcp 
                 ADD COLUMN IF NOT EXISTS ativo BOOLEAN DEFAULT TRUE
             `);
-            console.log('✅ Campo "ativo" adicionado/verificado');
+            console.log('✅ Campo "ativo" adicionação/verificação');
         } catch (e) {
             console.log('ℹ️ Campo "ativo" já existe ou erro:', e.message);
         }
@@ -73,7 +73,7 @@ async function configurarAcessoPCPAdaptado() {
                 ALTER TABLE usuarios_pcp 
                 ADD COLUMN IF NOT EXISTS permissoes JSON
             `);
-            console.log('✅ Campo "permissoes" adicionado/verificado');
+            console.log('✅ Campo "permissoes" adicionação/verificação');
         } catch (e) {
             console.log('ℹ️ Campo "permissoes" já existe ou erro:', e.message);
         }
@@ -84,102 +84,102 @@ async function configurarAcessoPCPAdaptado() {
                 ALTER TABLE usuarios_pcp 
                 ADD COLUMN IF NOT EXISTS observacoes TEXT
             `);
-            console.log('✅ Campo "observacoes" adicionado/verificado');
+            console.log('✅ Campo "observacoes" adicionação/verificação');
         } catch (e) {
             console.log('ℹ️ Campo "observacoes" já existe ou erro:', e.message);
         }
         
         console.log('');
         
-        // Processar cada colaborador
+        // Processar cada colaboraçãor
         let sucessos = 0;
         let atualizacoes = 0;
         let erros = 0;
         
-        for (const colaborador of colaboradores) {
+        for (const colaboraçãor of colaboraçãores) {
             try {
-                console.log(`🔄 Processando: ${colaborador.nome} (${colaborador.email})`);
+                console.log(`🔄 Processando: ${colaboraçãor.nome} (${colaboraçãor.email})`);
                 
                 // Verificar se já existe
                 const [existe] = await connection.execute(
-                    'SELECT id FROM usuarios_pcp WHERE email = ?',
-                    [colaborador.email]
+                    'SELECT id FROM usuarios_pcp WHERE email = ',
+                    [colaboraçãor.email]
                 );
                 
                 // Gerar senha padrão
-                const senhaTemporaria = `Aluforce2025!${colaborador.nome.substring(0, 3)}`;
+                const senhaTemporaria = `Aluforce2025!${colaboraçãor.nome.substring(0, 3)}`;
                 
                 // Definir permissões baseadas no role
                 const permissoes = {
                     pcp: {
                         visualizar: true,
                         criar_ordem: true,
-                        editar_ordem: colaborador.role === 'admin',
-                        excluir_ordem: colaborador.role === 'admin',
-                        gerenciar_usuarios: colaborador.role === 'admin',
+                        editar_ordem: colaboraçãor.role === 'admin',
+                        excluir_ordem: colaboraçãor.role === 'admin',
+                        gerenciar_usuarios: colaboraçãor.role === 'admin',
                         relatorios: true,
                         dashboard: true
                     },
-                    admin: colaborador.role === 'admin'
+                    admin: colaboraçãor.role === 'admin'
                 };
                 
                 if (existe.length > 0) {
                     // Atualizar usuário existente
                     await connection.execute(`
                         UPDATE usuarios_pcp 
-                        SET nome = ?, 
-                            role = ?
-                        WHERE email = ?
-                    `, [colaborador.nome, colaborador.role, colaborador.email]);
+                        SET nome = , 
+                            role = 
+                        WHERE email = 
+                    `, [colaboraçãor.nome, colaboraçãor.role, colaboraçãor.email]);
                     
                     // Tentar atualizar campos extras se existirem
                     try {
                         await connection.execute(`
                             UPDATE usuarios_pcp 
-                            SET permissoes = ?,
+                            SET permissoes = ,
                                 ativo = TRUE,
                                 observacoes = CONCAT(IFNULL(observacoes, ''), 
-                                                   '\n[', NOW(), '] Acesso atualizado automaticamente')
-                            WHERE email = ?
-                        `, [JSON.stringify(permissoes), colaborador.email]);
+                                                   '\n[', NOW(), '] Acesso atualização automaticamente')
+                            WHERE email = 
+                        `, [JSON.stringify(permissoes), colaboraçãor.email]);
                     } catch (e) {
-                        console.log(`   ⚠️ Campos extras não atualizados: ${e.message}`);
+                        console.log(`   ⚠️ Campos extras não atualizaçãos: ${e.message}`);
                     }
                     
-                    console.log(`   ✅ Usuário atualizado (ID: ${existe[0].id})`);
+                    console.log(`   ✅ Usuário atualização (ID: ${existe[0].id})`);
                     atualizacoes++;
                 } else {
                     // Criar novo usuário com estrutura básica
                     const [result] = await connection.execute(`
                         INSERT INTO usuarios_pcp 
                         (email, senha, nome, role)
-                        VALUES (?, ?, ?, ?)
-                    `, [colaborador.email, senhaTemporaria, colaborador.nome, colaborador.role]);
+                        VALUES (, , , )
+                    `, [colaboraçãor.email, senhaTemporaria, colaboraçãor.nome, colaboraçãor.role]);
                     
                     // Tentar adicionar campos extras se existirem
                     try {
                         await connection.execute(`
                             UPDATE usuarios_pcp 
-                            SET permissoes = ?,
+                            SET permissoes = ,
                                 ativo = TRUE,
-                                observacoes = ?
-                            WHERE id = ?
+                                observacoes = 
+                            WHERE id = 
                         `, [
                             JSON.stringify(permissoes),
-                            `Usuário criado automaticamente em ${new Date().toLocaleString('pt-BR')}. Senha temporária: ${senhaTemporaria}`,
+                            `Usuário criação automaticamente em ${new Date().toLocaleString('pt-BR')}. Senha temporária: ${senhaTemporaria}`,
                             result.insertId
                         ]);
                     } catch (e) {
                         console.log(`   ⚠️ Campos extras não definidos: ${e.message}`);
                     }
                     
-                    console.log(`   ✅ Novo usuário criado (ID: ${result.insertId})`);
+                    console.log(`   ✅ Novo usuário criação (ID: ${result.insertId})`);
                     console.log(`   🔑 Senha temporária: ${senhaTemporaria}`);
                     sucessos++;
                 }
                 
             } catch (error) {
-                console.log(`   ❌ Erro ao processar ${colaborador.email}: ${error.message}`);
+                console.log(`   ❌ Erro ao processar ${colaboraçãor.email}: ${error.message}`);
                 erros++;
             }
         }
@@ -187,9 +187,9 @@ async function configurarAcessoPCPAdaptado() {
         console.log('\n' + '='.repeat(60));
         console.log('📊 RELATÓRIO FINAL DE CONFIGURAÇÃO');
         console.log('='.repeat(60));
-        console.log(`✅ Novos usuários criados: ${sucessos}`);
-        console.log(`🔄 Usuários atualizados: ${atualizacoes}`);
-        console.log(`❌ Erros encontrados: ${erros}`);
+        console.log(`✅ Novos usuários criaçãos: ${sucessos}`);
+        console.log(`🔄 Usuários atualizaçãos: ${atualizacoes}`);
+        console.log(`❌ Erros encontraçãos: ${erros}`);
         
         // Mostrar status final de todos os usuários PCP
         const [todosUsuarios] = await connection.execute(`
@@ -205,23 +205,23 @@ async function configurarAcessoPCPAdaptado() {
             console.log(`${index + 1}. ✅ ${user.nome} (${user.email}) - ${user.role} [${dataFormatada}]`);
         });
         
-        // Verificar se todos os colaboradores estão na lista
+        // Verificar se todos os colaboraçãores estão na lista
         console.log('\n🔍 VERIFICAÇÃO DE COBERTURA:');
         console.log('='.repeat(50));
         
-        for (const colaborador of colaboradores) {
-            const usuario = todosUsuarios.find(u => u.email === colaborador.email);
+        for (const colaboraçãor of colaboraçãores) {
+            const usuario = todosUsuarios.find(u => u.email === colaboraçãor.email);
             if (usuario) {
-                console.log(`✅ ${colaborador.nome}: Configurado (ID: ${usuario.id})`);
+                console.log(`✅ ${colaboraçãor.nome}: Configuração (ID: ${usuario.id})`);
             } else {
-                console.log(`❌ ${colaborador.nome}: NÃO configurado`);
+                console.log(`❌ ${colaboraçãor.nome}: NÃO configuração`);
             }
         }
         
         // Instruções para próximos passos
         console.log('\n📋 PRÓXIMOS PASSOS:');
         console.log('='.repeat(50));
-        console.log('1. ✅ Usuários configurados no banco de dados');
+        console.log('1. ✅ Usuários configuraçãos no banco de daçãos');
         console.log('2. 🔑 Senhas temporárias definidas (ver logs acima)');
         console.log('3. 🔐 Usuários devem alterar senha no primeiro login');
         console.log('4. 📧 Enviar credenciais por canal seguro');
@@ -240,4 +240,4 @@ async function configurarAcessoPCPAdaptado() {
     }
 }
 
-configurarAcessoPCPAdaptado();
+configurarAcessoPCPAdaptação();

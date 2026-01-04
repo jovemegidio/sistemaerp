@@ -75,10 +75,10 @@
                                     <i class="fas fa-barcode"></i>
                                     Código do Produto
                                 </label>
-                                <input type="text" id="rico-codigo" class="produto-form-input readonly" readonly>
+                                <input type="text" id="rico-codigo" class="produto-form-input reaçãonly" reaçãonly>
                                 <span class="produto-form-help">
                                     <i class="fas fa-lock"></i>
-                                    Campo protegido - gerado automaticamente
+                                    Campo protegido - geração automaticamente
                                 </span>
                             </div>
 
@@ -87,7 +87,7 @@
                                     <i class="fas fa-qrcode"></i>
                                     SKU (Stock Keeping Unit)
                                 </label>
-                                <input type="text" id="rico-sku" class="produto-form-input readonly" readonly>
+                                <input type="text" id="rico-sku" class="produto-form-input reaçãonly" reaçãonly>
                                 <span class="produto-form-help">
                                     <i class="fas fa-info-circle"></i>
                                     Código único de identificação
@@ -367,7 +367,7 @@
                                 </label>
                                 <select id="rico-local-estoque" class="produto-form-select">
                                     <option value="PADRAO">PADRÃO - Local de Estoque Padrão</option>
-                                    <option value="ALMOXARIFADO">Almoxarifado Central</option>
+                                    <option value="ALMOXARIFADO">Almoxarifação Central</option>
                                     <option value="DEPOSITO">Depósito Secundário</option>
                                     <option value="PRODUCAO">Área de Produção</option>
                                 </select>
@@ -622,9 +622,9 @@ function abrirModalProdutoRico(produto) {
     modal.classList.add('active');
 
     // Guardar ID do produto para uso no salvamento
-    window.currentProductId = produto?.id || null;
+    window.currentProductId = produto.id || null;
 
-    // Preencher dados se fornecido
+    // Preencher daçãos se fornecido
     if (produto) {
         document.getElementById('modal-produto-rico-code').textContent = produto.codigo || '';
         document.getElementById('rico-codigo').value = produto.codigo || '';
@@ -712,9 +712,9 @@ function abrirModalProdutoRico(produto) {
         // Calcular margem
         calcularMargemRica();
 
-        // Atualizar contadores
-        atualizarContadorRico('rico-nome', 'rico-nome-count');
-        atualizarContadorRico('rico-descricao', 'rico-desc-count');
+        // Atualizar contaçãores
+        atualizarContaçãorRico('rico-nome', 'rico-nome-count');
+        atualizarContaçãorRico('rico-descricao', 'rico-desc-count');
     } else {
         // Limpar formulário para novo produto
         document.getElementById('form-produto-rico').reset();
@@ -748,8 +748,8 @@ function calcularMargemRica() {
     }
 }
 
-// Atualizar contador de caracteres
-function atualizarContadorRico(inputId, counterId) {
+// Atualizar contaçãor de caracteres
+function atualizarContaçãorRico(inputId, counterId) {
     const input = document.getElementById(inputId);
     const counter = document.getElementById(counterId);
     if (input && counter) {
@@ -803,23 +803,23 @@ async function salvarProdutoRico() {
             nome: document.getElementById('rico-nome').value.trim(),
             descricao: document.getElementById('rico-descricao').value.trim(),
             unidade_medida: document.getElementById('rico-unidade').value,
-            familia: document.getElementById('rico-familia')?.value || '',
-            peso: parseFloat(document.getElementById('rico-peso')?.value) || 0,
-            volume: parseFloat(document.getElementById('rico-volume')?.value) || 0,
+            familia: document.getElementById('rico-familia').value || '',
+            peso: parseFloat(document.getElementById('rico-peso').value) || 0,
+            volume: parseFloat(document.getElementById('rico-volume').value) || 0,
             estoque_minimo: parseFloat(document.getElementById('rico-estoque-minimo').value) || 0,
             estoque_maximo: parseFloat(document.getElementById('rico-estoque-maximo').value) || 0,
-            prazo_entrega: parseInt(document.getElementById('rico-prazo-entrega')?.value) || 0,
-            local_estoque: document.getElementById('rico-local-estoque')?.value || 'PADRAO',
-            corredor: document.getElementById('rico-corredor')?.value || '',
-            prateleira: document.getElementById('rico-prateleira')?.value || '',
+            prazo_entrega: parseInt(document.getElementById('rico-prazo-entrega').value) || 0,
+            local_estoque: document.getElementById('rico-local-estoque').value || 'PADRAO',
+            corredor: document.getElementById('rico-corredor').value || '',
+            prateleira: document.getElementById('rico-prateleira').value || '',
             preco_venda: parseFloat(document.getElementById('rico-preco-venda').value) || 0,
             custo_unitario: parseFloat(document.getElementById('rico-custo-unitario').value) || 0,
-            ncm: document.getElementById('rico-ncm')?.value || '',
-            icms: parseFloat(document.getElementById('rico-icms')?.value) || 0,
-            fornecedor: document.getElementById('rico-fornecedor')?.value || '',
-            caracteristicas: document.getElementById('rico-caracteristicas')?.value || '',
-            observacoes: document.getElementById('rico-observacoes')?.value || '',
-            controle_lote: document.getElementById('rico-controle-lote')?.checked || false
+            ncm: document.getElementById('rico-ncm').value || '',
+            icms: parseFloat(document.getElementById('rico-icms').value) || 0,
+            fornecedor: document.getElementById('rico-fornecedor').value || '',
+            caracteristicas: document.getElementById('rico-caracteristicas').value || '',
+            observacoes: document.getElementById('rico-observacoes').value || '',
+            controle_lote: document.getElementById('rico-controle-lote').checked || false
         };
 
         // Validação mínima
@@ -852,14 +852,14 @@ async function salvarProdutoRico() {
         }
 
         if (!response || !response.ok) {
-            const body = response ? await response.json().catch(() => null) : null;
-            const msg = (body && body.message) ? body.message : 'Erro ao salvar produto';
+            const body = response  await response.json().catch(() => null) : null;
+            const msg = (body && body.message)  body.message : 'Erro ao salvar produto';
             throw new Error(msg);
         }
 
         // Sucesso
         if (typeof window.showToast === 'function') {
-            window.showToast(id ? 'Produto atualizado com sucesso!' : 'Produto criado com sucesso!', 'success');
+            window.showToast(id  'Produto atualização com sucesso!' : 'Produto criação com sucesso!', 'success');
         }
         
         fecharModalProdutoRico();
@@ -869,9 +869,9 @@ async function salvarProdutoRico() {
             window.carregarProdutos();
         }
         
-        // Atualizar contadores
-        if (typeof window.atualizarContadoresPCP === 'function') {
-            window.atualizarContadoresPCP();
+        // Atualizar contaçãores
+        if (typeof window.atualizarContaçãoresPCP === 'function') {
+            window.atualizarContaçãoresPCP();
         }
         
     } catch (error) {
@@ -896,7 +896,7 @@ async function excluirProdutoRico() {
         return;
     }
     
-    if (!confirm('Tem certeza que deseja excluir este produto? Esta ação não pode ser desfeita.')) {
+    if (!confirm('Tem certeza que deseja excluir este produto Esta ação não pode ser desfeita.')) {
         return;
     }
 
@@ -907,8 +907,8 @@ async function excluirProdutoRico() {
         });
 
         if (!response || !response.ok) {
-            const body = response ? await response.json().catch(() => null) : null;
-            const msg = (body && body.message) ? body.message : 'Erro ao excluir produto';
+            const body = response  await response.json().catch(() => null) : null;
+            const msg = (body && body.message)  body.message : 'Erro ao excluir produto';
             throw new Error(msg);
         }
 
@@ -923,9 +923,9 @@ async function excluirProdutoRico() {
             window.carregarProdutos();
         }
         
-        // Atualizar contadores
-        if (typeof window.atualizarContadoresPCP === 'function') {
-            window.atualizarContadoresPCP();
+        // Atualizar contaçãores
+        if (typeof window.atualizarContaçãoresPCP === 'function') {
+            window.atualizarContaçãoresPCP();
         }
     } catch (error) {
         console.error('Erro ao excluir produto:', error);
@@ -965,10 +965,10 @@ function duplicarProdutoRico() {
         skuEl.value = skuEl.value + '-COPIA';
     }
     
-    document.getElementById('modal-produto-rico-code').textContent = 'Novo Produto (Duplicado)';
+    document.getElementById('modal-produto-rico-code').textContent = 'Novo Produto (Duplicação)';
     
     if (typeof window.showToast === 'function') {
-        window.showToast('Produto duplicado! Edite os campos e salve.', 'info');
+        window.showToast('Produto duplicação! Edite os campos e salve.', 'info');
     }
 }
 
@@ -983,7 +983,7 @@ async function inativarProdutoRico() {
         return;
     }
     
-    if (!confirm('Deseja inativar este produto? Ele não aparecerá mais nas listagens ativas.')) {
+    if (!confirm('Deseja inativar este produto Ele não aparecerá mais nas listagens ativas.')) {
         return;
     }
 
@@ -1009,7 +1009,7 @@ async function inativarProdutoRico() {
         }
 
         if (typeof window.showToast === 'function') {
-            window.showToast('Produto inativado com sucesso!', 'success');
+            window.showToast('Produto inativação com sucesso!', 'success');
         }
         
         fecharModalProdutoRico();
@@ -1019,9 +1019,9 @@ async function inativarProdutoRico() {
             window.carregarProdutos();
         }
         
-        // Atualizar contadores
-        if (typeof window.atualizarContadoresPCP === 'function') {
-            window.atualizarContadoresPCP();
+        // Atualizar contaçãores
+        if (typeof window.atualizarContaçãoresPCP === 'function') {
+            window.atualizarContaçãoresPCP();
         }
     } catch (error) {
         console.error('Erro ao inativar produto:', error);
@@ -1033,15 +1033,15 @@ async function inativarProdutoRico() {
 
 // Configurar listeners quando DOM carregar
 document.addEventListener('DOMContentLoaded', function() {
-    // Contadores de caracteres
+    // Contaçãores de caracteres
     const ricoNome = document.getElementById('rico-nome');
     if (ricoNome) {
-        ricoNome.addEventListener('input', () => atualizarContadorRico('rico-nome', 'rico-nome-count'));
+        ricoNome.addEventListener('input', () => atualizarContaçãorRico('rico-nome', 'rico-nome-count'));
     }
 
     const ricoDesc = document.getElementById('rico-descricao');
     if (ricoDesc) {
-        ricoDesc.addEventListener('input', () => atualizarContadorRico('rico-descricao', 'rico-desc-count'));
+        ricoDesc.addEventListener('input', () => atualizarContaçãorRico('rico-descricao', 'rico-desc-count'));
     }
 
     // Fechar modal ao clicar fora

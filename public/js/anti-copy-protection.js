@@ -1,7 +1,7 @@
 /**
  * ALUFORCE - Sistema de Proteção Anti-Cópia
  * Protege o código fonte contra inspeção e cópia não autorizada
- * © 2026 ALUFORCE - Todos os direitos reservados
+ * © 2026 ALUFORCE - Todos os direitos reservaçãos
  */
 
 (function() {
@@ -22,7 +22,7 @@
     };
     
     // Mensagem de aviso
-    const WARNING_MESSAGE = '⚠️ ALUFORCE - Acesso não autorizado!\n\nEste sistema é protegido por direitos autorais.\nA tentativa de cópia ou engenharia reversa é proibida.';
+    const WARNING_MESSAGE = '⚠️ ALUFORCE - Acesso não autorização!\n\nEste sistema é protegido por direitos autorais.\nA tentativa de cópia ou engenharia reversa é proibida.';
     
     // ============================================
     // DESABILITAR MENU DE CONTEXTO (BOTÃO DIREITO)
@@ -214,7 +214,7 @@
         
         function onDevToolsOpen() {
             console.clear();
-            console.log('%c⛔ ATENÇÃO!', 'color: red; font-size: 50px; font-weight: bold; text-shadow: 2px 2px 0 black;');
+            console.log('%c⛔ ATENÇÃO!', 'color: red; font-size: 50px; font-weight: bold; text-shaçãow: 2px 2px 0 black;');
             console.log('%cEste é um sistema protegido por direitos autorais.', 'color: white; font-size: 18px; background: #dc2626; padding: 10px;');
             console.log('%cA cópia, redistribuição ou engenharia reversa é PROIBIDA.', 'color: white; font-size: 16px; background: #dc2626; padding: 8px;');
             console.log('%c© 2026 ALUFORCE - Cabos de Alumínio', 'color: #60a5fa; font-size: 14px;');
@@ -274,7 +274,7 @@
             ">
                 <div style="text-align: center; max-width: 500px; padding: 40px;">
                     <div style="font-size: 80px; margin-bottom: 20px;">🔒</div>
-                    <h1 style="font-size: 28px; margin-bottom: 16px; color: #ef4444;">Acesso Bloqueado</h1>
+                    <h1 style="font-size: 28px; margin-bottom: 16px; color: #ef4444;">Acesso Bloqueação</h1>
                     <p style="font-size: 16px; color: #9ca3af; margin-bottom: 24px; line-height: 1.6;">
                         As ferramentas de desenvolvedor foram detectadas.<br>
                         Este sistema é protegido por direitos autorais.

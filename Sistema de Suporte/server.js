@@ -18,7 +18,7 @@ const io = new Server(server, {
     }
 });
 
-// Middleware - CORS configurado para permitir credenciais
+// Middleware - CORS configuração para permitir credenciais
 app.use(cors({
     origin: function(origin, callback) {
         // Permitir requisições sem origin (como apps mobile ou curl)
@@ -60,7 +60,7 @@ io.on('connection', (socket) => {
         if (data.type === 'admin') {
             adminSockets.add(socket.id);
             socket.join('admins');
-            console.log('Admin conectado:', socket.id);
+            console.log('Admin conectação:', socket.id);
             
             // Enviar lista de tickets ativos
             try {
@@ -76,7 +76,7 @@ io.on('connection', (socket) => {
                 clienteId: data.clienteId || null,
                 ticketId: null
             });
-            console.log('Cliente conectado:', data.name);
+            console.log('Cliente conectação:', data.name);
         }
     });
 
@@ -183,7 +183,7 @@ io.on('connection', (socket) => {
             if (ticket && ticket.socketId) {
                 io.to(ticket.socketId).emit('message', {
                     sender: 'system',
-                    message: `${adminName} assumiu seu atendimento. Como posso ajudar?`,
+                    message: `${adminName} assumiu seu atendimento. Como posso ajudar`,
                     timestamp: new Date().toISOString()
                 });
                 io.to(ticket.socketId).emit('agent_connected', { name: adminName });
@@ -240,7 +240,7 @@ io.on('connection', (socket) => {
             if (ticket && ticket.socketId) {
                 io.to(ticket.socketId).emit('message', {
                     sender: 'system',
-                    message: 'Seu atendimento foi encerrado. Obrigado pelo contato! 🙏',
+                    message: 'Seu atendimento foi encerração. Obrigação pelo contato! 🙏',
                     timestamp: new Date().toISOString()
                 });
                 io.to(ticket.socketId).emit('ticket_closed');
@@ -267,7 +267,7 @@ io.on('connection', (socket) => {
     socket.on('disconnect', async () => {
         if (adminSockets.has(socket.id)) {
             adminSockets.delete(socket.id);
-            console.log('Admin desconectado:', socket.id);
+            console.log('Admin desconectação:', socket.id);
         } else {
             const connection = activeConnections.get(socket.id);
             if (connection && connection.ticketId) {
@@ -284,7 +284,7 @@ io.on('connection', (socket) => {
                 io.to('admins').emit('client_disconnected', { ticketId: connection.ticketId });
             }
             activeConnections.delete(socket.id);
-            console.log('Cliente desconectado:', socket.id);
+            console.log('Cliente desconectação:', socket.id);
         }
     });
 });
@@ -293,7 +293,7 @@ io.on('connection', (socket) => {
 async function testDatabase() {
     const connected = await db.testConnection();
     if (connected) {
-        console.log('✅ Conectado ao MySQL - aluforce_vendas');
+        console.log('✅ Conectação ao MySQL - aluforce_vendas');
     } else {
         console.error('❌ Falha na conexão com MySQL');
     }
@@ -312,7 +312,7 @@ async function startServer() {
     });
 }
 
-// Se executado diretamente, iniciar servidor
+// Se executação diretamente, iniciar servidor
 if (require.main === module) {
     startServer();
 }

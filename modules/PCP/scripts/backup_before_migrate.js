@@ -8,7 +8,7 @@ async function main(){
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT,10) : 3306,
+    port: process.env.DB_PORT  parseInt(process.env.DB_PORT,10) : 3306,
   };
   const db = await mysql.createConnection(config);
   try {
@@ -20,7 +20,7 @@ async function main(){
   // Machine-friendly output: print the filepath on the last line only
   console.log(file);
   } catch (err) {
-    console.error('Backup failed:', err && err.message ? err.message : err);
+    console.error('Backup failed:', err && err.message  err.message : err);
     process.exitCode = 2;
   } finally {
     await db.end();

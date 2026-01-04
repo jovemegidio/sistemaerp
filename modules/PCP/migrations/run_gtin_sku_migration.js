@@ -23,7 +23,7 @@ async function runMigration() {
         const migrationPath = path.join(__dirname, '2025-10-03-add-gtin-sku-to-produtos.sql');
         const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
         
-        // Dividir o SQL em comandos individuais (separados por ;)
+        // Dividir o SQL em comandos individuais (separaçãos por ;)
         const commands = migrationSQL.split(';').filter(cmd => cmd.trim().length > 0);
         
         for (let i = 0; i < commands.length; i++) {
@@ -34,7 +34,7 @@ async function runMigration() {
                 console.log(`[MIGRATION] Executando comando ${i + 1}/${commands.length}...`);
                 const [result] = await db.query(command);
                 if (result && Array.isArray(result) && result.length > 0) {
-                    console.log('[MIGRATION] Resultado:', result);
+                    console.log('[MIGRATION] Resultação:', result);
                 }
             } catch (error) {
                 if (error.message.includes('already exists')) {
@@ -69,7 +69,7 @@ async function runMigration() {
             ORDER BY INDEX_NAME, SEQ_IN_INDEX
         `);
         
-        console.log('[MIGRATION] Índices criados:');
+        console.log('[MIGRATION] Índices criaçãos:');
         console.table(indexes);
         
     } catch (error) {

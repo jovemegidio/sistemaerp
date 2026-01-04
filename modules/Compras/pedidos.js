@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function inicializarSistema() {
     console.log('🚀 Inicializando sistema de pedidos...');
     
-    // Carregar dados
+    // Carregar daçãos
     await carregarFornecedores();
     await carregarProdutos();
     await carregarPedidos();
@@ -28,7 +28,7 @@ async function inicializarSistema() {
     // Gerar número do pedido
     gerarNumeroPedido();
     
-    console.log('✅ Sistema inicializado');
+    console.log('✅ Sistema inicialização');
 }
 
 // ============ GERENCIAMENTO DE DADOS ============
@@ -49,7 +49,7 @@ async function carregarPedidos() {
     if (pedidosLocal) {
         pedidos = JSON.parse(pedidosLocal);
     } else {
-        // Dados de exemplo
+        // Daçãos de exemplo
         pedidos = gerarPedidosExemplo();
         salvarPedidosLocal();
     }
@@ -154,39 +154,39 @@ function adicionarItem(itemData = null) {
     tr.innerHTML = `
         <td>
             <input type="text" class="item-descricao" 
-                   value="${itemData?.descricao || ''}" 
+                   value="${itemData.descricao || ''}" 
                    placeholder="Descrição do item" 
                    onchange="calcularTotais()">
         </td>
         <td>
             <input type="number" class="item-quantidade" 
-                   value="${itemData?.quantidade || 1}" 
+                   value="${itemData.quantidade || 1}" 
                    min="0.01" step="0.01"
                    onchange="calcularItemTotal(${itemCounter}); calcularTotais()">
         </td>
         <td>
             <select class="item-unidade">
-                <option value="UN" ${itemData?.unidade === 'UN' ? 'selected' : ''}>UN</option>
-                <option value="KG" ${itemData?.unidade === 'KG' ? 'selected' : ''}>KG</option>
-                <option value="M" ${itemData?.unidade === 'M' ? 'selected' : ''}>M</option>
-                <option value="M2" ${itemData?.unidade === 'M2' ? 'selected' : ''}>M²</option>
-                <option value="M3" ${itemData?.unidade === 'M3' ? 'selected' : ''}>M³</option>
-                <option value="L" ${itemData?.unidade === 'L' ? 'selected' : ''}>L</option>
-                <option value="CX" ${itemData?.unidade === 'CX' ? 'selected' : ''}>CX</option>
-                <option value="PC" ${itemData?.unidade === 'PC' ? 'selected' : ''}>PC</option>
+                <option value="UN" ${itemData.unidade === 'UN'  'selected' : ''}>UN</option>
+                <option value="KG" ${itemData.unidade === 'KG'  'selected' : ''}>KG</option>
+                <option value="M" ${itemData.unidade === 'M'  'selected' : ''}>M</option>
+                <option value="M2" ${itemData.unidade === 'M2'  'selected' : ''}>M²</option>
+                <option value="M3" ${itemData.unidade === 'M3'  'selected' : ''}>M³</option>
+                <option value="L" ${itemData.unidade === 'L'  'selected' : ''}>L</option>
+                <option value="CX" ${itemData.unidade === 'CX'  'selected' : ''}>CX</option>
+                <option value="PC" ${itemData.unidade === 'PC'  'selected' : ''}>PC</option>
             </select>
         </td>
         <td>
             <input type="number" class="item-preco" 
-                   value="${itemData?.preco_unitario || 0}" 
+                   value="${itemData.preco_unitario || 0}" 
                    min="0" step="0.01"
                    placeholder="0.00"
                    onchange="calcularItemTotal(${itemCounter}); calcularTotais()">
         </td>
         <td>
             <input type="number" class="item-total" 
-                   value="${itemData?.preco_total || 0}" 
-                   readonly 
+                   value="${itemData.preco_total || 0}" 
+                   reaçãonly 
                    style="background: #f9fafb; font-weight: 600;">
         </td>
         <td>
@@ -275,7 +275,7 @@ async function salvarPedido() {
         id: pedidoId || Date.now().toString(),
         numero_pedido: document.getElementById('numeroPedido').value,
         fornecedor_id: parseInt(fornecedorId),
-        fornecedor_nome: fornecedor?.nome || fornecedor?.razao_social || 'N/A',
+        fornecedor_nome: fornecedor.nome || fornecedor.razao_social || 'N/A',
         data_pedido: document.getElementById('dataPedido').value,
         data_entrega_prevista: document.getElementById('dataEntregaPrevista').value || null,
         status: document.getElementById('statusPedido').value,
@@ -286,14 +286,14 @@ async function salvarPedido() {
         frete: frete,
         valor_final: valorFinal,
         itens: itens,
-        created_at: pedidoId ? pedidos.find(p => p.id === pedidoId)?.created_at : new Date().toISOString(),
+        created_at: pedidoId  pedidos.find(p => p.id === pedidoId).created_at : new Date().toISOString(),
         updated_at: new Date().toISOString()
     };
     
     try {
         // Tentar salvar no backend
         const response = await fetch('/api/compras/pedidos', {
-            method: pedidoId ? 'PUT' : 'POST',
+            method: pedidoId  'PUT' : 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(pedido)
         });
@@ -321,7 +321,7 @@ async function salvarPedido() {
     atualizarCards();
     fecharModalPedido();
     
-    mostrarNotificacao(pedidoId ? 'Pedido atualizado com sucesso!' : 'Pedido criado com sucesso!', 'success');
+    mostrarNotificacao(pedidoId  'Pedido atualização com sucesso!' : 'Pedido criação com sucesso!', 'success');
 }
 
 function coletarItens() {
@@ -352,40 +352,40 @@ function coletarItens() {
 function renderizarTabelaPedidos() {
     const tbody = document.getElementById('pedidosTableBody');
     
-    let pedidosFiltrados = pedidos;
+    let pedidosFiltraçãos = pedidos;
     
     // Filtro por status
     if (filtroAtual !== 'todos') {
-        pedidosFiltrados = pedidos.filter(p => p.status === filtroAtual);
+        pedidosFiltraçãos = pedidos.filter(p => p.status === filtroAtual);
     }
     
     // Filtro por busca
-    const searchTerm = document.getElementById('searchPedido')?.value?.toLowerCase();
+    const searchTerm = document.getElementById('searchPedido').value.toLowerCase();
     if (searchTerm) {
-        pedidosFiltrados = pedidosFiltrados.filter(p => 
+        pedidosFiltraçãos = pedidosFiltraçãos.filter(p => 
             p.numero_pedido.toLowerCase().includes(searchTerm) ||
             p.fornecedor_nome.toLowerCase().includes(searchTerm)
         );
     }
     
-    if (pedidosFiltrados.length === 0) {
+    if (pedidosFiltraçãos.length === 0) {
         tbody.innerHTML = `
             <tr>
                 <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
                     <i class="fas fa-shopping-cart" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
-                    <p>Nenhum pedido encontrado</p>
+                    <p>Nenhum pedido encontração</p>
                 </td>
             </tr>
         `;
         return;
     }
     
-    tbody.innerHTML = pedidosFiltrados.map(pedido => `
+    tbody.innerHTML = pedidosFiltraçãos.map(pedido => `
         <tr>
             <td><strong>${pedido.numero_pedido}</strong></td>
             <td>${pedido.fornecedor_nome}</td>
             <td>${formatarData(pedido.data_pedido)}</td>
-            <td>${pedido.data_entrega_prevista ? formatarData(pedido.data_entrega_prevista) : '-'}</td>
+            <td>${pedido.data_entrega_prevista  formatarData(pedido.data_entrega_prevista) : '-'}</td>
             <td><strong>${formatarMoeda(pedido.valor_final)}</strong></td>
             <td><span class="badge-status badge-${pedido.status}">${getStatusLabel(pedido.status)}</span></td>
             <td>
@@ -396,7 +396,7 @@ function renderizarTabelaPedidos() {
                     <button class="btn-secondary-small" onclick="abrirModalEditarPedido('${pedido.id}')" title="Editar">
                         <i class="fas fa-edit"></i>
                     </button>
-                    ${pedido.status === 'pendente' ? `
+                    ${pedido.status === 'pendente'  `
                     <button class="btn-secondary-small" onclick="aprovarPedido('${pedido.id}')" title="Aprovar" style="color: #10b981;">
                         <i class="fas fa-check"></i>
                     </button>
@@ -413,7 +413,7 @@ function renderizarTabelaPedidos() {
 function atualizarCards() {
     const total = pedidos.length;
     const pendentes = pedidos.filter(p => p.status === 'pendente').length;
-    const aprovados = pedidos.filter(p => p.status === 'aprovado' || p.status === 'recebido').length;
+    const aprovaçãos = pedidos.filter(p => p.status === 'aprovação' || p.status === 'recebido').length;
     
     const mesAtual = new Date().getMonth();
     const valorMesAtual = pedidos
@@ -422,7 +422,7 @@ function atualizarCards() {
     
     document.getElementById('totalPedidos').textContent = total;
     document.getElementById('pedidosPendentes').textContent = pendentes;
-    document.getElementById('pedidosAprovados').textContent = aprovados;
+    document.getElementById('pedidosAprovaçãos').textContent = aprovaçãos;
     document.getElementById('valorTotal').textContent = formatarMoeda(valorMesAtual);
 }
 
@@ -453,7 +453,7 @@ function visualizarPedido(pedidoId) {
             </div>
             <div>
                 <p style="color: #64748b; font-size: 13px; margin-bottom: 4px;">Entrega Prevista</p>
-                <p style="font-weight: 600;">${pedido.data_entrega_prevista ? formatarData(pedido.data_entrega_prevista) : '-'}</p>
+                <p style="font-weight: 600;">${pedido.data_entrega_prevista  formatarData(pedido.data_entrega_prevista) : '-'}</p>
             </div>
             <div>
                 <p style="color: #64748b; font-size: 13px; margin-bottom: 4px;">Condições de Pagamento</p>
@@ -504,7 +504,7 @@ function visualizarPedido(pedidoId) {
             </div>
         </div>
         
-        ${pedido.observacoes ? `
+        ${pedido.observacoes  `
             <div style="margin-top: 20px;">
                 <p style="color: #64748b; font-size: 13px; margin-bottom: 8px;">Observações</p>
                 <p style="background: #f9fafb; padding: 12px; border-radius: 8px;">${pedido.observacoes}</p>
@@ -520,21 +520,21 @@ function fecharModalVisualizar() {
 }
 
 function aprovarPedido(pedidoId) {
-    if (!confirm('Deseja aprovar este pedido?')) return;
+    if (!confirm('Deseja aprovar este pedido')) return;
     
     const pedido = pedidos.find(p => p.id === pedidoId);
     if (pedido) {
-        pedido.status = 'aprovado';
+        pedido.status = 'aprovação';
         pedido.data_aprovacao = new Date().toISOString();
         salvarPedidosLocal();
         renderizarTabelaPedidos();
         atualizarCards();
-        mostrarNotificacao('Pedido aprovado com sucesso!', 'success');
+        mostrarNotificacao('Pedido aprovação com sucesso!', 'success');
     }
 }
 
 function excluirPedido(pedidoId) {
-    if (!confirm('Deseja realmente excluir este pedido?')) return;
+    if (!confirm('Deseja realmente excluir este pedido')) return;
     
     pedidos = pedidos.filter(p => p.id !== pedidoId);
     salvarPedidosLocal();
@@ -550,7 +550,7 @@ function imprimirPedido() {
 function exportarPedidos() {
     const csv = gerarCSV(pedidos);
     baixarArquivo(csv, 'pedidos-compra.csv', 'text/csv');
-    mostrarNotificacao('Pedidos exportados com sucesso!', 'success');
+    mostrarNotificacao('Pedidos exportaçãos com sucesso!', 'success');
 }
 
 // ============ FILTROS ============
@@ -610,10 +610,10 @@ function formatarData(data) {
 function getStatusLabel(status) {
     const labels = {
         'pendente': 'Pendente',
-        'aprovado': 'Aprovado',
+        'aprovação': 'Aprovação',
         'recebido': 'Recebido',
         'parcial': 'Parcial',
-        'cancelado': 'Cancelado'
+        'cancelação': 'Cancelação'
     };
     return labels[status] || status;
 }
@@ -661,7 +661,7 @@ function gerarPedidosExemplo() {
             fornecedor_nome: 'Distribuidora Alpha Ltda',
             data_pedido: '2025-12-10',
             data_entrega_prevista: '2025-12-20',
-            status: 'aprovado',
+            status: 'aprovação',
             valor_total: 15000,
             desconto: 5,
             frete: 250,
@@ -686,7 +686,7 @@ function gerarPedidosExemplo() {
             frete: 150,
             valor_final: 8650,
             itens: [
-                { descricao: 'Isolador Polimérico', quantidade: 50, unidade: 'PC', preco_unitario: 170, preco_total: 8500 }
+                { descricao: 'Isolaçãor Polimérico', quantidade: 50, unidade: 'PC', preco_unitario: 170, preco_total: 8500 }
             ],
             created_at: '2025-12-11T14:30:00Z'
         }
@@ -705,6 +705,6 @@ function gerarProdutosExemplo() {
     return [
         { id: 1, codigo: 'CBT-10', nome: 'Cabo Triplex 10mm²', preco: 25 },
         { id: 2, codigo: 'CONN-RJ45', nome: 'Conector RJ45', preco: 25 },
-        { id: 3, codigo: 'ISO-15KV', nome: 'Isolador Polimérico', preco: 170 }
+        { id: 3, codigo: 'ISO-15KV', nome: 'Isolaçãor Polimérico', preco: 170 }
     ];
 }

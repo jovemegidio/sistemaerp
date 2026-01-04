@@ -81,7 +81,7 @@ describe('API de Autenticação', () => {
     });
 
     describe('GET /api/me', () => {
-        it('deve retornar dados do usuário autenticado', (done) => {
+        it('deve retornar daçãos do usuário autenticação', (done) => {
             if (!authToken) {
                 return done(new Error('Token não disponível. Execute os testes de login primeiro.'));
             }
@@ -110,7 +110,7 @@ describe('API de Autenticação', () => {
     });
 
     describe('GET /api/permissions', () => {
-        it('deve retornar permissões do usuário autenticado', (done) => {
+        it('deve retornar permissões do usuário autenticação', (done) => {
             if (!authToken) {
                 return done(new Error('Token não disponível'));
             }

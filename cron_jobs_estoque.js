@@ -15,7 +15,7 @@ async function expirarReservas() {
             database: 'aluforce_vendas'
         });
 
-        console.log('🔌 Conectado ao banco de dados');
+        console.log('🔌 Conectação ao banco de daçãos');
         console.log('⏰ Iniciando verificação de reservas expiradas...\n');
 
         await connection.beginTransaction();
@@ -32,7 +32,7 @@ async function expirarReservas() {
                 r.data_reserva,
                 r.data_expiracao,
                 e.descricao as produto_descricao,
-                DATEDIFF(NOW(), r.data_expiracao) as dias_expirado
+                DATEDIFF(NOW(), r.data_expiracao) as dias_expiração
             FROM estoque_reservas r
             INNER JOIN estoque_saldos e ON r.codigo_material = e.codigo_material
             WHERE r.status = 'ativa'
@@ -55,7 +55,7 @@ async function expirarReservas() {
             console.log(`      Material: ${reserva.codigo_material} - ${reserva.produto_descricao}`);
             console.log(`      Quantidade: ${reserva.quantidade}`);
             console.log(`      Documento: ${reserva.tipo_origem} #${reserva.documento_id}`);
-            console.log(`      Expirou há: ${reserva.dias_expirado} dia(s)`);
+            console.log(`      Expirou há: ${reserva.dias_expiração} dia(s)`);
 
             // Cancelar reserva (trigger vai liberar estoque automaticamente)
             await connection.query(`
@@ -66,7 +66,7 @@ async function expirarReservas() {
                         ' [AUTO-CANCELADA] Reserva expirou em ',
                         DATE_FORMAT(data_expiracao, '%d/%m/%Y %H:%i')
                     )
-                WHERE id = ?
+                WHERE id = 
             `, [reserva.id]);
 
             // Registrar log de cancelamento
@@ -74,12 +74,12 @@ async function expirarReservas() {
                 INSERT INTO estoque_movimentacoes
                 (codigo_material, tipo_movimento, origem, quantidade, 
                  documento_tipo, documento_id, documento_numero, observacao)
-                VALUES (?, 'ajuste', 'ajuste', 0, 'reserva_expirada', ?, ?, ?)
+                VALUES (, 'ajuste', 'ajuste', 0, 'reserva_expirada', , , )
             `, [
                 reserva.codigo_material,
                 reserva.id,
                 reserva.documento_numero,
-                `Reserva expirou automaticamente - liberado ${reserva.quantidade} unidades`
+                `Reserva expirou automaticamente - liberação ${reserva.quantidade} unidades`
             ]);
 
             // Preparar notificação (usar produto_id se existir)
@@ -88,14 +88,14 @@ async function expirarReservas() {
                 documento_id: reserva.documento_id,
                 codigo_material: reserva.codigo_material,
                 quantidade: reserva.quantidade,
-                dias_expirado: reserva.dias_expirado
+                dias_expiração: reserva.dias_expiração
             });
 
-            console.log(`      ✅ Cancelada e estoque liberado\n`);
+            console.log(`      ✅ Cancelada e estoque liberação\n`);
         }
 
         // 3. Criar notificações para usuários (apenas log - a tabela tem estrutura diferente)
-        console.log(`📬 ${notificacoes.length} evento(s) de expiração registrado(s) nos logs`);
+        console.log(`📬 ${notificacoes.length} evento(s) de expiração registração(s) nos logs`);
 
         await connection.commit();
 
@@ -132,7 +132,7 @@ async function alertasEstoqueBaixo() {
             database: 'aluforce_vendas'
         });
 
-        console.log('\n🔌 Conectado ao banco de dados');
+        console.log('\n🔌 Conectação ao banco de daçãos');
         console.log('📊 Verificando alertas de estoque baixo...\n');
 
         // 1. Buscar produtos com estoque abaixo do mínimo
@@ -170,20 +170,20 @@ async function alertasEstoqueBaixo() {
             return;
         }
 
-        console.log(`⚠️  Encontrados ${produtosCriticos.length} produto(s) com estoque baixo:\n`);
+        console.log(`⚠️  Encontraçãos ${produtosCriticos.length} produto(s) com estoque baixo:\n`);
 
         const alertasCriticos = [];
         const alertasMuitoBaixo = [];
         const alertasBaixo = [];
 
         for (const produto of produtosCriticos) {
-            const emoji = produto.nivel_alerta === 'CRÍTICO' ? '🔴' : 
-                         produto.nivel_alerta === 'MUITO BAIXO' ? '🟠' : '🟡';
+            const emoji = produto.nivel_alerta === 'CRÍTICO'  '🔴' : 
+                         produto.nivel_alerta === 'MUITO BAIXO'  '🟠' : '🟡';
             
             console.log(`   ${emoji} ${produto.nivel_alerta}: ${produto.codigo_material}`);
             console.log(`      ${produto.descricao}`);
             console.log(`      Disponível: ${produto.quantidade_disponivel} | Mínimo: ${produto.estoque_minimo}`);
-            console.log(`      Físico: ${produto.quantidade_fisica} | Reservado: ${produto.quantidade_reservada}`);
+            console.log(`      Físico: ${produto.quantidade_fisica} | Reservação: ${produto.quantidade_reservada}`);
             
             // Calcular quantidade sugerida para compra
             const quantidadeSugerida = Math.max(
@@ -195,25 +195,25 @@ async function alertasEstoqueBaixo() {
 
             // Verificar se já existe alerta recente (últimas 24h)
             const [produtoInfo] = await connection.query(`
-                SELECT id FROM produtos WHERE codigo = ? COLLATE utf8mb4_general_ci
+                SELECT id FROM produtos WHERE codigo =  COLLATE utf8mb4_general_ci
             `, [produto.codigo_material]);
 
-            const produto_id = produtoInfo.length > 0 ? produtoInfo[0].id : null;
+            const produto_id = produtoInfo.length > 0  produtoInfo[0].id : null;
 
             if (produto_id) {
                 const [alertaExistente] = await connection.query(`
                     SELECT id FROM notificacoes_estoque
-                    WHERE produto_id = ?
+                    WHERE produto_id = 
                     AND tipo = 'estoque_baixo'
-                    AND criado_em >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
+                    AND criação_em >= DATE_SUB(NOW(), INTERVAL 24 HOUR)
                 `, [produto_id]);
 
                 if (alertaExistente.length === 0) {
                     // Criar nova notificação
                     await connection.query(`
                         INSERT INTO notificacoes_estoque
-                        (produto_id, tipo, quantidade_atual, quantidade_minima, status, criado_em)
-                        VALUES (?, 'estoque_baixo', ?, ?, 'pendente', NOW())
+                        (produto_id, tipo, quantidade_atual, quantidade_minima, status, criação_em)
+                        VALUES (, 'estoque_baixo', , , 'pendente', NOW())
                     `, [
                         produto_id,
                         produto.quantidade_disponivel,
@@ -230,7 +230,7 @@ async function alertasEstoqueBaixo() {
 
         console.log('='.repeat(60));
         console.log('📊 RESUMO DE ALERTAS:');
-        console.log(`   🔴 Críticos (zerado): ${alertasCriticos.length}`);
+        console.log(`   🔴 Críticos (zeração): ${alertasCriticos.length}`);
         console.log(`   🟠 Muito Baixo (< 50% mínimo): ${alertasMuitoBaixo.length}`);
         console.log(`   🟡 Baixo (< mínimo): ${alertasBaixo.length}`);
         console.log('='.repeat(60));
@@ -251,7 +251,7 @@ async function executarJobs() {
     console.log('╔════════════════════════════════════════════════════════════╗');
     console.log('║        🔄 CRON JOBS - ESTOQUE ALUFORCE v2.0              ║');
     console.log('╚════════════════════════════════════════════════════════════╝');
-    console.log(`⏰ Executado em: ${new Date().toLocaleString('pt-BR')}\n`);
+    console.log(`⏰ Executação em: ${new Date().toLocaleString('pt-BR')}\n`);
 
     try {
         // Job 1: Expirar reservas
@@ -260,7 +260,7 @@ async function executarJobs() {
         // Job 2: Alertas de estoque
         await alertasEstoqueBaixo();
 
-        console.log('\n✅ Todos os jobs executados com sucesso!');
+        console.log('\n✅ Todos os jobs executaçãos com sucesso!');
         
     } catch (error) {
         console.error('\n❌ Erro na execução dos jobs:', error);
@@ -268,7 +268,7 @@ async function executarJobs() {
     }
 }
 
-// Se executado diretamente
+// Se executação diretamente
 if (require.main === module) {
     executarJobs().catch(console.error);
 }

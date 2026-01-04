@@ -1,6 +1,6 @@
 /**
  * COMPONENTE: DASHBOARD EXECUTIVO
- * Widget de KPIs consolidados para o Painel de Controle
+ * Widget de KPIs consolidaçãos para o Painel de Controle
  * 
  * @author Aluforce ERP
  * @version 1.0.0
@@ -16,19 +16,19 @@ class DashboardExecutivo {
             refreshInterval: opcoes.refreshInterval || 60000, // 1 minuto
             apiUrl: opcoes.apiUrl || '/api/dashboard/executivo'
         };
-        this.dados = null;
+        this.daçãos = null;
         this.charts = {};
         this.intervalId = null;
     }
 
     async inicializar() {
         if (!this.container) {
-            console.error('[DashboardExecutivo] Container não encontrado');
+            console.error('[DashboardExecutivo] Container não encontração');
             return;
         }
 
         this.renderEstrutura();
-        await this.carregarDados();
+        await this.carregarDaçãos();
         
         if (this.opcoes.autoRefresh) {
             this.iniciarAutoRefresh();
@@ -87,7 +87,7 @@ class DashboardExecutivo {
                     <div class="kpi-card kpi-lucro">
                         <div class="kpi-icon"><i class="fas fa-chart-pie"></i></div>
                         <div class="kpi-content">
-                            <span class="kpi-label">Resultado</span>
+                            <span class="kpi-label">Resultação</span>
                             <span class="kpi-valor" id="kpi-lucro">R$ 0,00</span>
                             <span class="kpi-trend" id="kpi-margem"></span>
                         </div>
@@ -120,8 +120,8 @@ class DashboardExecutivo {
                                 <span class="mini-valor" id="vendas-pedidos">0</span>
                             </div>
                             <div class="mini-kpi">
-                                <span class="mini-label">Aprovados</span>
-                                <span class="mini-valor" id="vendas-aprovados">0</span>
+                                <span class="mini-label">Aprovaçãos</span>
+                                <span class="mini-valor" id="vendas-aprovaçãos">0</span>
                             </div>
                             <div class="mini-kpi">
                                 <span class="mini-label">Ticket Médio</span>
@@ -289,15 +289,15 @@ class DashboardExecutivo {
         // Adicionar event listeners
         document.getElementById('dash-periodo').addEventListener('change', (e) => {
             this.opcoes.periodo = parseInt(e.target.value);
-            this.carregarDados();
+            this.carregarDaçãos();
         });
 
         document.getElementById('dash-refresh').addEventListener('click', () => {
-            this.carregarDados();
+            this.carregarDaçãos();
         });
     }
 
-    async carregarDados() {
+    async carregarDaçãos() {
         const refreshBtn = document.getElementById('dash-refresh');
         if (refreshBtn) {
             refreshBtn.classList.add('loading');
@@ -305,21 +305,21 @@ class DashboardExecutivo {
         }
 
         try {
-            const response = await fetch(`${this.opcoes.apiUrl}?periodo=${this.opcoes.periodo}`, {
+            const response = await fetch(`${this.opcoes.apiUrl}periodo=${this.opcoes.periodo}`, {
                 credentials: 'include'
             });
 
             if (!response.ok) {
-                throw new Error('Erro ao carregar dados');
+                throw new Error('Erro ao carregar daçãos');
             }
 
-            this.dados = await response.json();
+            this.daçãos = await response.json();
             this.atualizarUI();
             this.atualizarGraficos();
 
         } catch (error) {
             console.error('[DashboardExecutivo] Erro:', error);
-            this.mostrarErro('Erro ao carregar dados do dashboard');
+            this.mostrarErro('Erro ao carregar daçãos do dashboard');
         } finally {
             if (refreshBtn) {
                 refreshBtn.classList.remove('loading');
@@ -329,58 +329,58 @@ class DashboardExecutivo {
     }
 
     atualizarUI() {
-        if (!this.dados) return;
+        if (!this.daçãos) return;
 
-        const { resumo_executivo, vendas, compras, financeiro, producao, rh, fiscal, alertas, atualizado_em } = this.dados;
+        const { resumo_executivo, vendas, compras, financeiro, producao, rh, fiscal, alertas, atualização_em } = this.daçãos;
 
         // KPIs Principais
-        this.atualizarElemento('kpi-faturamento', this.formatarMoeda(resumo_executivo?.faturamento_periodo));
-        this.atualizarElemento('kpi-receitas', this.formatarMoeda(resumo_executivo?.receitas));
-        this.atualizarElemento('kpi-despesas', this.formatarMoeda(resumo_executivo?.despesas));
-        this.atualizarElemento('kpi-lucro', this.formatarMoeda(resumo_executivo?.lucro_estimado));
-        this.atualizarElemento('kpi-margem', `${resumo_executivo?.margem_percentual || 0}% margem`);
+        this.atualizarElemento('kpi-faturamento', this.formatarMoeda(resumo_executivo.faturamento_periodo));
+        this.atualizarElemento('kpi-receitas', this.formatarMoeda(resumo_executivo.receitas));
+        this.atualizarElemento('kpi-despesas', this.formatarMoeda(resumo_executivo.despesas));
+        this.atualizarElemento('kpi-lucro', this.formatarMoeda(resumo_executivo.lucro_estimação));
+        this.atualizarElemento('kpi-margem', `${resumo_executivo.margem_percentual || 0}% margem`);
 
         // Vendas
-        this.atualizarElemento('vendas-pedidos', vendas?.total_pedidos || 0);
-        this.atualizarElemento('vendas-aprovados', vendas?.pedidos_aprovados || 0);
-        this.atualizarElemento('vendas-ticket', this.formatarMoedaCurta(vendas?.ticket_medio));
-        this.atualizarElemento('vendas-conversao', `${vendas?.taxa_conversao || 0}%`);
+        this.atualizarElemento('vendas-pedidos', vendas.total_pedidos || 0);
+        this.atualizarElemento('vendas-aprovaçãos', vendas.pedidos_aprovaçãos || 0);
+        this.atualizarElemento('vendas-ticket', this.formatarMoedaCurta(vendas.ticket_medio));
+        this.atualizarElemento('vendas-conversao', `${vendas.taxa_conversao || 0}%`);
 
         // Compras
-        this.atualizarElemento('compras-pedidos', compras?.total_pedidos || 0);
-        this.atualizarElemento('compras-pendentes', compras?.pedidos_pendentes || 0);
-        this.atualizarElemento('compras-valor', this.formatarMoedaCurta(compras?.valor_total));
-        this.atualizarElemento('compras-economia', this.formatarMoedaCurta(compras?.economia_gerada));
+        this.atualizarElemento('compras-pedidos', compras.total_pedidos || 0);
+        this.atualizarElemento('compras-pendentes', compras.pedidos_pendentes || 0);
+        this.atualizarElemento('compras-valor', this.formatarMoedaCurta(compras.valor_total));
+        this.atualizarElemento('compras-economia', this.formatarMoedaCurta(compras.economia_gerada));
 
         // Financeiro
-        this.atualizarElemento('fin-receber', this.formatarMoedaCurta(financeiro?.contas_receber));
-        this.atualizarElemento('fin-pagar', this.formatarMoedaCurta(financeiro?.contas_pagar));
-        this.atualizarElemento('fin-saldo', this.formatarMoedaCurta(financeiro?.saldo_atual));
-        this.atualizarElemento('fin-vencidos', this.formatarMoedaCurta(financeiro?.contas_receber_vencidas));
+        this.atualizarElemento('fin-receber', this.formatarMoedaCurta(financeiro.contas_receber));
+        this.atualizarElemento('fin-pagar', this.formatarMoedaCurta(financeiro.contas_pagar));
+        this.atualizarElemento('fin-saldo', this.formatarMoedaCurta(financeiro.saldo_atual));
+        this.atualizarElemento('fin-vencidos', this.formatarMoedaCurta(financeiro.contas_receber_vencidas));
 
         // PCP
-        this.atualizarElemento('pcp-ordens', producao?.ordens_producao || 0);
-        this.atualizarElemento('pcp-andamento', producao?.ordens_em_andamento || 0);
-        this.atualizarElemento('pcp-eficiencia', `${producao?.eficiencia_percentual || 0}%`);
-        this.atualizarElemento('pcp-atrasadas', producao?.ordens_atrasadas || 0);
+        this.atualizarElemento('pcp-ordens', producao.ordens_producao || 0);
+        this.atualizarElemento('pcp-andamento', producao.ordens_em_andamento || 0);
+        this.atualizarElemento('pcp-eficiencia', `${producao.eficiencia_percentual || 0}%`);
+        this.atualizarElemento('pcp-atrasadas', producao.ordens_atrasadas || 0);
 
         // RH
-        this.atualizarElemento('rh-funcionarios', rh?.total_funcionarios || 0);
-        this.atualizarElemento('rh-ferias', rh?.ferias_programadas || 0);
-        this.atualizarElemento('rh-folha', this.formatarMoedaCurta(rh?.folha_pagamento));
-        this.atualizarElemento('rh-aniversarios', rh?.aniversariantes_mes || 0);
+        this.atualizarElemento('rh-funcionarios', rh.total_funcionarios || 0);
+        this.atualizarElemento('rh-ferias', rh.ferias_programadas || 0);
+        this.atualizarElemento('rh-folha', this.formatarMoedaCurta(rh.folha_pagamento));
+        this.atualizarElemento('rh-aniversarios', rh.aniversariantes_mes || 0);
 
         // NF-e
-        this.atualizarElemento('nfe-emitidas', fiscal?.nfes_emitidas || 0);
-        this.atualizarElemento('nfe-valor', this.formatarMoedaCurta(fiscal?.valor_emitido));
-        this.atualizarElemento('nfe-pendentes', fiscal?.nfes_pendentes || 0);
-        this.atualizarElemento('nfe-canceladas', fiscal?.nfes_canceladas || 0);
+        this.atualizarElemento('nfe-emitidas', fiscal.nfes_emitidas || 0);
+        this.atualizarElemento('nfe-valor', this.formatarMoedaCurta(fiscal.valor_emitido));
+        this.atualizarElemento('nfe-pendentes', fiscal.nfes_pendentes || 0);
+        this.atualizarElemento('nfe-canceladas', fiscal.nfes_canceladas || 0);
 
         // Alertas
         this.renderAlertas(alertas || []);
 
         // Última atualização
-        const dataAtualizacao = atualizado_em ? new Date(atualizado_em) : new Date();
+        const dataAtualizacao = atualização_em  new Date(atualização_em) : new Date();
         this.atualizarElemento('dash-ultima-atualizacao', 
             `Última atualização: ${dataAtualizacao.toLocaleString('pt-BR')}`
         );
@@ -418,7 +418,7 @@ class DashboardExecutivo {
                     <span class="alerta-modulo">${alerta.modulo}</span>
                     <span class="alerta-mensagem">${alerta.mensagem}</span>
                 </div>
-                ${alerta.link ? `<a href="${alerta.link}" class="alerta-link"><i class="fas fa-arrow-right"></i></a>` : ''}
+                ${alerta.link  `<a href="${alerta.link}" class="alerta-link"><i class="fas fa-arrow-right"></i></a>` : ''}
             </div>
         `).join('');
     }
@@ -436,7 +436,7 @@ class DashboardExecutivo {
     async atualizarGraficos() {
         // Verificar se Chart.js está disponível
         if (typeof Chart === 'undefined') {
-            console.warn('[DashboardExecutivo] Chart.js não carregado');
+            console.warn('[DashboardExecutivo] Chart.js não carregação');
             return;
         }
 
@@ -449,8 +449,8 @@ class DashboardExecutivo {
         if (!ctx) return;
 
         try {
-            const response = await fetch('/api/dashboard/grafico/faturamento?meses=6');
-            const { dados } = await response.json();
+            const response = await fetch('/api/dashboard/grafico/faturamentomeses=6');
+            const { daçãos } = await response.json();
 
             if (this.charts.faturamento) {
                 this.charts.faturamento.destroy();
@@ -459,17 +459,17 @@ class DashboardExecutivo {
             this.charts.faturamento = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: dados.map(d => d.mes),
+                    labels: daçãos.map(d => d.mes),
                     datasets: [
                         {
-                            label: 'Faturado',
-                            data: dados.map(d => d.faturado),
+                            label: 'Faturação',
+                            data: daçãos.map(d => d.faturação),
                             backgroundColor: 'rgba(59, 130, 246, 0.8)',
                             borderRadius: 4
                         },
                         {
                             label: 'Meta',
-                            data: dados.map(d => d.meta),
+                            data: daçãos.map(d => d.meta),
                             type: 'line',
                             borderColor: '#ef4444',
                             borderDash: [5, 5],
@@ -504,8 +504,8 @@ class DashboardExecutivo {
         if (!ctx) return;
 
         try {
-            const response = await fetch('/api/dashboard/grafico/fluxo-caixa?dias=15');
-            const { dados } = await response.json();
+            const response = await fetch('/api/dashboard/grafico/fluxo-caixadias=15');
+            const { daçãos } = await response.json();
 
             if (this.charts.fluxoCaixa) {
                 this.charts.fluxoCaixa.destroy();
@@ -514,11 +514,11 @@ class DashboardExecutivo {
             this.charts.fluxoCaixa = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: dados.map(d => new Date(d.data).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })),
+                    labels: daçãos.map(d => new Date(d.data).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })),
                     datasets: [
                         {
                             label: 'Entradas',
-                            data: dados.map(d => d.entradas),
+                            data: daçãos.map(d => d.entradas),
                             borderColor: '#22c55e',
                             backgroundColor: 'rgba(34, 197, 94, 0.1)',
                             fill: true,
@@ -526,7 +526,7 @@ class DashboardExecutivo {
                         },
                         {
                             label: 'Saídas',
-                            data: dados.map(d => d.saidas),
+                            data: daçãos.map(d => d.saidas),
                             borderColor: '#ef4444',
                             backgroundColor: 'rgba(239, 68, 68, 0.1)',
                             fill: true,
@@ -534,7 +534,7 @@ class DashboardExecutivo {
                         },
                         {
                             label: 'Saldo',
-                            data: dados.map(d => d.saldo),
+                            data: daçãos.map(d => d.saldo),
                             borderColor: '#3b82f6',
                             borderWidth: 3,
                             fill: false,
@@ -564,7 +564,7 @@ class DashboardExecutivo {
 
     iniciarAutoRefresh() {
         this.intervalId = setInterval(() => {
-            this.carregarDados();
+            this.carregarDaçãos();
         }, this.opcoes.refreshInterval);
     }
 
@@ -607,7 +607,7 @@ class DashboardExecutivo {
 
     destruir() {
         this.pararAutoRefresh();
-        Object.values(this.charts).forEach(chart => chart?.destroy());
+        Object.values(this.charts).forEach(chart => chart.destroy());
         if (this.container) {
             this.container.innerHTML = '';
         }

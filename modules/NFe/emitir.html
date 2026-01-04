@@ -11,7 +11,7 @@
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="../../js/auth-unified.js"></script>
     
     <style>
@@ -356,7 +356,7 @@
 
         .btn-primary:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         .btn-secondary {
@@ -436,8 +436,8 @@
         .alert-danger { background: #fee2e2; color: #991b1b; border: 1px solid #ef4444; }
         .alert-warning { background: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
     </style>
-    <link rel="stylesheet" href="css/chat-widget.css?v=20251210">
-    <script src="js/chat-widget.js?v=1765417597"></script></head>
+    <link rel="stylesheet" href="css/chat-widget.cssv=20251210">
+    <script src="js/chat-widget.jsv=1765417597"></script></head>
 <body>
     <div class="app-container">
         <!-- Sidebar -->
@@ -532,7 +532,7 @@
         <div class="steps">
             <div class="step active" id="step-1">
                 <span class="step-number">1</span>
-                <strong>Dados da NFe</strong>
+                <strong>Daçãos da NFe</strong>
             </div>
             <div class="step" id="step-2">
                 <span class="step-number">2</span>
@@ -553,13 +553,13 @@
 
         <!-- Formulário -->
         <form id="nfeForm">
-            <!-- Etapa 1: Dados Gerais -->
-            <div class="form-section" id="section-dados">
-                <h3><i class="fas fa-clipboard-list"></i> Dados Gerais</h3>
+            <!-- Etapa 1: Daçãos Gerais -->
+            <div class="form-section" id="section-daçãos">
+                <h3><i class="fas fa-clipboard-list"></i> Daçãos Gerais</h3>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="naturezaOperacao">Natureza da Operação *</label>
-                        <input type="text" id="naturezaOperacao" value="Venda de mercadoria" required>
+                        <input type="text" id="naturezaOperacao" value="Venda de mercaçãoria" required>
                     </div>
                     <div class="form-group">
                         <label for="tipoOperacao">Tipo de Operação *</label>
@@ -594,8 +594,8 @@
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Logradouro *</label>
-                        <input type="text" id="destinatarioEndereco" title="Logradouro" required>
+                        <label>Lograçãouro *</label>
+                        <input type="text" id="destinatarioEndereco" title="Lograçãouro" required>
                     </div>
                     <div class="form-group">
                         <label>Número *</label>
@@ -682,7 +682,7 @@
                         </tr>
                     </thead>
                     <tbody id="itensTableBody">
-                        <!-- Itens serão adicionados aqui -->
+                        <!-- Itens serão adicionaçãos aqui -->
                     </tbody>
                 </table>
                 <button type="button" class="btn btn-primary" onclick="adicionarItem()">+ Adicionar Item</button>
@@ -715,10 +715,10 @@
                 </div>
             </div>
 
-            <!-- Etapa 4: Resultado -->
-            <div class="form-section" id="section-resultado" style="display: none;">
+            <!-- Etapa 4: Resultação -->
+            <div class="form-section" id="section-resultação" style="display: none;">
                 <h3><i class="fas fa-check-circle"></i> NFe Emitida com Sucesso</h3>
-                <div id="resultadoContent"></div>
+                <div id="resultaçãoContent"></div>
             </div>
 
             <!-- Ações -->
@@ -782,9 +782,9 @@
         });
         
         // Logout
-        document.getElementById('btn-logout')?.addEventListener('click', function(e) {
+        document.getElementById('btn-logout').addEventListener('click', function(e) {
             e.preventDefault();
-            if (confirm('Deseja realmente sair?')) {
+            if (confirm('Deseja realmente sair')) {
                 window.location.href = '../../index.html';
             }
         });
@@ -799,24 +799,24 @@
             // Adicionar primeiro item
             adicionarItem();
 
-            // Carregar dados do emitente
+            // Carregar daçãos do emitente
             carregarEmitente();
         });
 
         let itens = [];
         let emitenteData = {};
 
-        // Carregar dados do emitente
+        // Carregar daçãos do emitente
         async function carregarEmitente() {
             try {
-                const response = await fetch('/api/api.php?action=config');
+                const response = await fetch('/api/api.phpaction=config');
                 if (response.ok) {
                     const data = await response.json();
                     emitenteData = data.emitente || {};
                 }
             } catch (error) {
                 console.error('Erro ao carregar emitente:', error);
-                // Fallback com dados padrão
+                // Fallback com daçãos padrão
                 emitenteData = {
                     razao_social: 'ALUFORCE INDÚSTRIA E COMÉRCIO LTDA',
                     cnpj: '12345678000190',
@@ -923,7 +923,7 @@
                 showAlert('Gerando preview...', 'warning');
                 
                 const nfeData = construirNFeData();
-                const response = await fetch('/api/api.php?action=preview', {
+                const response = await fetch('/api/api.phpaction=preview', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(nfeData)
@@ -934,7 +934,7 @@
                 if (result.sucesso) {
                     document.getElementById('xmlPreview').textContent = formatXML(atob(result.xml));
                     document.getElementById('section-preview').style.display = 'block';
-                    showAlert('Preview gerado com sucesso!', 'success');
+                    showAlert('Preview geração com sucesso!', 'success');
                 } else {
                     showAlert('Erro: ' + result.erro, 'danger');
                 }
@@ -975,7 +975,7 @@
                 showAlert('Emitindo NFe...', 'warning');
                 
                 const nfeData = construirNFeData();
-                const response = await fetch('/api/api.php?action=emitir', {
+                const response = await fetch('/api/api.phpaction=emitir', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(nfeData)
@@ -986,17 +986,17 @@
                 if (result.sucesso) {
                     showAlert('NFe emitida com sucesso!', 'success');
                     window.nfeEmitidaChave = result.chave;
-                    document.getElementById('resultadoContent').innerHTML = '<div class="alert alert-success">' +
+                    document.getElementById('resultaçãoContent').innerHTML = '<div class="alert alert-success">' +
                         '<p><strong>Número:</strong> ' + result.número + '</p>' +
                         '<p><strong>Série:</strong> ' + result.serie + '</p>' +
                         '<p><strong>Chave de Acesso:</strong> ' + result.chave + '</p>' +
                         '<p><strong>Protocolo:</strong> ' + (result.protocolo || 'Aguardando autorização') + '</p>' +
                         '<p><strong>Status:</strong> ' + result.status + ' - ' + result.mensagem + '</p>' +
                         '<hr>' +
-                        '<p><a href="danfe.html?chave=' + result.chave + '" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i> Visualizar DANFE</a></p>' +
+                        '<p><a href="danfe.htmlchave=' + result.chave + '" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i> Visualizar DANFE</a></p>' +
                         '<p><a href="data:text/xml;base64,' + result.xml + '" download="NFe-' + result.chave + '.xml" class="btn btn-secondary"><i class="fas fa-download"></i> Download XML</a></p>' +
                         '</div>';
-                    document.getElementById('section-resultado').style.display = 'block';
+                    document.getElementById('section-resultação').style.display = 'block';
                 } else {
                     showAlert('Erro: ' + result.erro, 'danger');
                 }
@@ -1057,7 +1057,7 @@
                 
                 if (result.sucesso) {
                     showAlert('NFe autorizada pela SEFAZ!', 'success');
-                    document.getElementById('resultadoContent').innerHTML += `
+                    document.getElementById('resultaçãoContent').innerHTML += `
                         <hr>
                         <h4><i class="fas fa-check-circle"></i> Autorizada pela SEFAZ</h4>
                         <p><strong>Protocolo:</strong> ${result.nfe.protocolo}</p>
@@ -1075,7 +1075,7 @@
         // Consultar status SEFAZ
         async function consultarStatusSEFAZ(uf) {
             try {
-                const response = await fetch(`/api/nfe/sefaz/status/${uf}?ambiente=homologacao`);
+                const response = await fetch(`/api/nfe/sefaz/status/${uf}ambiente=homologacao`);
                 const result = await response.json();
                 
                 if (result.sucesso && result.status.operacional) {
@@ -1089,18 +1089,18 @@
         }
     </script>
 
-    <script src="dashboard-nfe-pro.js?v=20251215"></script>
+    <script src="dashboard-nfe-pro.jsv=20251215"></script>
     
-    <!-- Carregar dados do usuário logado -->
+    <!-- Carregar daçãos do usuário logação -->
     <script>
-        async function carregarUsuarioLogado() {
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || user.name || 'Usuário';
-                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (userName  userName.split(' ')[0] : 'Usuário');
                     
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -1172,11 +1172,11 @@
                 }
             } catch (e) { console.log('Erro ao carregar usuário:', e); }
         }
-        document.addEventListener('DOMContentLoaded', carregarUsuarioLogado);
+        document.addEventListener('DOMContentLoaded', carregarUsuarioLogação);
     </script>
     
     <!-- Sistema de Monitoramento de Conexão -->
-    <script src="../_shared/connection-monitor.js?v=20251223"></script></body>
+    <script src="../_shared/connection-monitor.jsv=20251223"></script></body>
 </html>
 
 

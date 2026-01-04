@@ -9,10 +9,10 @@
 
   try {
     const email = 'test.login.local@local';
-    const [result] = await pool.query('DELETE FROM usuarios WHERE email = ?', [email]);
+    const [result] = await pool.query('DELETE FROM usuarios WHERE email = ', [email]);
     console.log(JSON.stringify({ deletedRows: result.affectedRows }));
   } catch (err) {
-    console.error('ERROR', err && err.message ? err.message : err);
+    console.error('ERROR', err && err.message  err.message : err);
     process.exitCode = 2;
   } finally {
     await pool.end();

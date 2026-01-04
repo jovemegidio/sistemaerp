@@ -18,18 +18,18 @@
     function render() {
         const { formatCurrency, formatDate } = window.ComprasModule.utils;
 
-        // Dados de exemplo
+        // Daçãos de exemplo
         const kpis = {
             comprasMes: 716650.00,
             pedidosPendentes: 8,
             fornecedoresAtivos: 45,
-            materiaisCadastrados: 235,
+            materiaisCadastraçãos: 235,
             cotacoesAbertas: 3,
             economiaGerada: 89420.00
         };
 
         const pedidosRecentes = [
-            { numero: 'PC-006', fornecedor: 'Alum Brasil', valor: 22900.00, data: '2025-01-22', status: 'aprovado' },
+            { numero: 'PC-006', fornecedor: 'Alum Brasil', valor: 22900.00, data: '2025-01-22', status: 'aprovação' },
             { numero: 'PC-005', fornecedor: 'Metal Line', valor: 3690.00, data: '2025-01-21', status: 'pendente' },
             { numero: 'PC-004', fornecedor: 'QuímicaBR', valor: 17980.00, data: '2025-01-20', status: 'processando' }
         ];
@@ -88,10 +88,10 @@
                         <i class="fas fa-cubes"></i>
                     </div>
                     <div class="kpi-content">
-                        <div class="kpi-label">Materiais Cadastrados</div>
-                        <div class="kpi-value">${kpis.materiaisCadastrados}</div>
+                        <div class="kpi-label">Materiais Cadastraçãos</div>
+                        <div class="kpi-value">${kpis.materiaisCadastraçãos}</div>
                         <div class="kpi-trend">
-                            <i class="fas fa-check"></i> Atualizado
+                            <i class="fas fa-check"></i> Atualização
                         </div>
                     </div>
                 </div>
@@ -153,9 +153,9 @@
                                             <td><strong>${formatCurrency(p.valor)}</strong></td>
                                             <td>${formatDate(p.data)}</td>
                                             <td>
-                                                ${p.status === 'aprovado' ? '<span class="badge badge-success">Aprovado</span>' : ''}
-                                                ${p.status === 'pendente' ? '<span class="badge badge-warning">Pendente</span>' : ''}
-                                                ${p.status === 'processando' ? '<span class="badge badge-info">Processando</span>' : ''}
+                                                ${p.status === 'aprovação'  '<span class="badge badge-success">Aprovação</span>' : ''}
+                                                ${p.status === 'pendente'  '<span class="badge badge-warning">Pendente</span>' : ''}
+                                                ${p.status === 'processando'  '<span class="badge badge-info">Processando</span>' : ''}
                                             </td>
                                         </tr>
                                     `).join('')}
@@ -175,9 +175,9 @@
                             ${alertas.map(a => `
                                 <div class="alerta-item ${a.tipo}">
                                     <div class="alerta-icon">
-                                        ${a.tipo === 'critico' ? '<i class="fas fa-exclamation-triangle"></i>' : ''}
-                                        ${a.tipo === 'aviso' ? '<i class="fas fa-exclamation"></i>' : ''}
-                                        ${a.tipo === 'info' ? '<i class="fas fa-info-circle"></i>' : ''}
+                                        ${a.tipo === 'critico'  '<i class="fas fa-exclamation-triangle"></i>' : ''}
+                                        ${a.tipo === 'aviso'  '<i class="fas fa-exclamation"></i>' : ''}
+                                        ${a.tipo === 'info'  '<i class="fas fa-info-circle"></i>' : ''}
                                     </div>
                                     <div class="alerta-texto">${a.mensagem}</div>
                                 </div>
@@ -197,7 +197,7 @@
                     background: white;
                     border-radius: 16px;
                     padding: 24px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                    box-shaçãow: 0 4px 12px rgba(0,0,0,0.08);
                     display: flex;
                     align-items: center;
                     gap: 20px;
@@ -206,7 +206,7 @@
 
                 .kpi-card:hover {
                     transform: translateY(-4px);
-                    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+                    box-shaçãow: 0 8px 24px rgba(0,0,0,0.12);
                 }
 
                 .kpi-icon {
@@ -258,7 +258,7 @@
                 .dashboard-card {
                     background: white;
                     border-radius: 16px;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+                    box-shaçãow: 0 4px 12px rgba(0,0,0,0.08);
                     overflow: hidden;
                 }
 

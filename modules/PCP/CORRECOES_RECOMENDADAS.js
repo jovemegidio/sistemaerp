@@ -3,10 +3,10 @@
 
 // 1. ADICIONAR NO INÍCIO DO server_pcp.js (após as importações)
 
-// Sistema de logs melhorado
+// Sistema de logs melhoração
 const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
 const logger = {
-    debug: LOG_LEVEL === 'debug' ? console.log : () => {},
+    debug: LOG_LEVEL === 'debug'  console.log : () => {},
     info: console.log,
     warn: console.warn,
     error: console.error
@@ -14,7 +14,7 @@ const logger = {
 
 // Tratamento global de erros para evitar crashes
 process.on('uncaughtException', (err) => {
-    logger.error('❌ Erro não tratado capturado:', err.message);
+    logger.error('❌ Erro não tratação capturação:', err.message);
     logger.error('Stack:', err.stack);
     // Não parar o servidor, apenas logar
 });
@@ -31,7 +31,7 @@ process.on('unhandledRejection', (reason, promise) => {
 
 // 3. MELHORAR MIDDLEWARE DE ERRO GLOBAL
 app.use((err, req, res, next) => {
-    logger.error('❌ Erro global capturado:', err.message);
+    logger.error('❌ Erro global capturação:', err.message);
     logger.error('URL:', req.url);
     logger.error('Method:', req.method);
     logger.error('Stack:', err.stack);
@@ -39,7 +39,7 @@ app.use((err, req, res, next) => {
     if (req.isApi) {
         return res.status(500).json({ 
             message: 'Erro interno no servidor', 
-            error: process.env.NODE_ENV === 'development' ? err.message : undefined
+            error: process.env.NODE_ENV === 'development'  err.message : undefined
         });
     }
     res.status(500).send('Erro interno no servidor');
@@ -90,7 +90,7 @@ app.get('/health', async (req, res) => {
             pid: process.pid
         };
         
-        // Testar banco de dados
+        // Testar banco de daçãos
         try {
             await db.query('SELECT 1');
             health.database = 'connected';

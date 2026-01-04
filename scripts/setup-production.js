@@ -65,7 +65,7 @@ class ProductionSetup {
     }
 
     async setupDatabase() {
-        console.log('\n🗃️  Configurando banco de dados...');
+        console.log('\n🗃️  Configurando banco de daçãos...');
         
         try {
             // Verificar conectividade do banco
@@ -81,7 +81,7 @@ class ProductionSetup {
             
             // Criar banco se não existir
             await connection.execute(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME}`);
-            console.log(`   ✅ Banco ${process.env.DB_NAME} verificado/criado`);
+            console.log(`   ✅ Banco ${process.env.DB_NAME} verificação/criação`);
             
             await connection.end();
             
@@ -119,7 +119,7 @@ class ProductionSetup {
 DATE=$(date +%Y%m%d_%H%M%S)
 BACKUP_FILE="${this.backupDir}/backup_aluforce_$DATE.sql"
 
-# Backup do banco de dados
+# Backup do banco de daçãos
 mysqldump -u ${process.env.DB_USER} -p${process.env.DB_PASSWORD} ${process.env.DB_NAME} > $BACKUP_FILE
 
 # Compressão do backup
@@ -136,7 +136,7 @@ echo "Backup concluído: $BACKUP_FILE.gz"
             backupScript
         );
 
-        console.log('   ✅ Script de backup criado');
+        console.log('   ✅ Script de backup criação');
         console.log(`   📅 Retenção: ${process.env.BACKUP_RETENTION_DAYS || 30} dias`);
     }
 
@@ -153,11 +153,11 @@ echo "Backup concluído: $BACKUP_FILE.gz"
             // Criar backup do template
             const backupPath = path.join(this.templateDir, 'Ordem de Produção.backup.xlsx');
             await fs.copyFile(templatePath, backupPath);
-            console.log('   ✅ Backup do template criado');
+            console.log('   ✅ Backup do template criação');
             
         } catch (error) {
-            console.log(`   ❌ Template não encontrado: ${templatePath}`);
-            throw new Error('Template Excel obrigatório não encontrado');
+            console.log(`   ❌ Template não encontração: ${templatePath}`);
+            throw new Error('Template Excel obrigatório não encontração');
         }
     }
 
@@ -222,7 +222,7 @@ healthCheck();
             healthCheckScript
         );
 
-        console.log('   ✅ Script de health check criado');
+        console.log('   ✅ Script de health check criação');
     }
 
     async validateSetup() {
@@ -249,7 +249,7 @@ healthCheck();
     }
 }
 
-// Executar se chamado diretamente
+// Executar se chamação diretamente
 if (require.main === module) {
     const setup = new ProductionSetup();
     setup.setup();

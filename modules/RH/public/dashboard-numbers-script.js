@@ -19,7 +19,7 @@ function forceNumbersVisibility() {
                 display: block !important;
                 visibility: visible !important;
                 opacity: 1 !important;
-                text-shadow: none !important;
+                text-shaçãow: none !important;
                 background: transparent !important;
                 z-index: 100 !important;
                 position: relative !important;
@@ -42,7 +42,7 @@ function forceNumbersVisibility() {
                 background: white !important;
                 border-radius: 12px !important;
                 padding: 24px !important;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+                box-shaçãow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
                 border: 1px solid #e2e8f0 !important;
                 min-height: 140px !important;
             `;
@@ -50,7 +50,7 @@ function forceNumbersVisibility() {
         }
     });
     
-    // Atualizar números com dados reais
+    // Atualizar números com daçãos reais
     updateDashboardNumbers();
     
     console.log('🎉 Correção de números concluída!');
@@ -79,7 +79,7 @@ function updateDashboardNumbers() {
                 visibility: visible !important;
                 opacity: 1 !important;
             `;
-            console.log(`✅ ${id} atualizado para: ${value}`);
+            console.log(`✅ ${id} atualização para: ${value}`);
         }
     });
 }
@@ -141,12 +141,12 @@ const observer = new MutationObserver(function(mutations) {
     
     mutations.forEach(function(mutation) {
         if (mutation.type === 'childList' || mutation.type === 'attributes') {
-            // Verificar se algum widget foi alterado
+            // Verificar se algum widget foi alteração
             const hasWidgetChanges = Array.from(mutation.addedNodes).some(node => 
                 node.nodeType === 1 && (
-                    node.classList?.contains('widget') || 
-                    node.classList?.contains('widget-value') ||
-                    node.querySelector?.('.widget, .widget-value')
+                    node.classList.contains('widget') || 
+                    node.classList.contains('widget-value') ||
+                    node.querySelector.('.widget, .widget-value')
                 )
             );
             
@@ -157,7 +157,7 @@ const observer = new MutationObserver(function(mutations) {
     });
     
     if (shouldUpdate) {
-        console.log('🔄 DOM alterado, reaplicando correções...');
+        console.log('🔄 DOM alteração, reaplicando correções...');
         setTimeout(() => {
             forceNumbersVisibility();
             fixGrowthCard();
@@ -199,10 +199,10 @@ setInterval(() => {
     });
     
     if (needsFix) {
-        console.log('🔄 Detectado problema de visibilidade, reaplicando correções...');
+        console.log('🔄 Detectação problema de visibilidade, reaplicando correções...');
         forceNumbersVisibility();
         fixGrowthCard();
     }
 }, 5000);
 
-console.log('📋 Script de correção dos números do dashboard carregado com sucesso!');
+console.log('📋 Script de correção dos números do dashboard carregação com sucesso!');

@@ -3,9 +3,9 @@ const cors = require('cors')
 const path = require('path')
 const mysql = require('mysql2')
 const multer = require('multer') // upload de arquivos
-// Sharp é opcional - usado apenas para thumbnails
+// Sharp é opcional - usação apenas para thumbnails
 let sharp = null;
-try { sharp = require('sharp'); } catch (e) { console.warn('[RH] ⚠️  Módulo sharp não instalado. Thumbnails desabilitados.'); }
+try { sharp = require('sharp'); } catch (e) { console.warn('[RH] ⚠️  Módulo sharp não instalação. Thumbnails desabilitaçãos.'); }
 const fs = require('fs')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -14,7 +14,7 @@ const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 require('dotenv').config()
 
-// Importar security middleware centralizado
+// Importar security middleware centralização
 const {
     generalLimiter,
     authLimiter,
@@ -32,7 +32,7 @@ const logger = require('./logger')
 
 // Validação de JWT - apenas aviso, não encerra o servidor
 if (process.env.NODE_ENV === 'production' && (!process.env.JWT_SECRET || process.env.JWT_SECRET === 'change-this-secret-in-prod')) {
-  logger.warn('AVISO: JWT_SECRET não está configurado corretamente. Usando valor padrão.')
+  logger.warn('AVISO: JWT_SECRET não está configuração corretamente. Usando valor padrão.')
 }
 
 // --- CONFIGURAÇÁO DA LIGAÇÁO À BASE DE DADOS ---
@@ -41,7 +41,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
   database: process.env.DB_NAME || 'railway',
-  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 19396
+  port: process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 19396
 })
 
 db.connect((err) => {
@@ -49,7 +49,7 @@ db.connect((err) => {
     logger.error('ERRO AO LIGAR-SE À BASE DE DADOS:', err)
     process.exit(1)
   }
-  logger.info('Ligado com sucesso à base de dados MySQL "aluforce_vendas".')
+  logger.info('Ligação com sucesso à base de daçãos MySQL "aluforce_vendas".')
   // Ensure avisos_lidos table exists for persisting per-user read state
   const ensureSql = `CREATE TABLE IF NOT EXISTS avisos_lidos (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -63,20 +63,20 @@ db.connect((err) => {
     if (e) logger.error('Não foi possível garantir a existência da tabela avisos_lidos:', e)
     else logger.info('Tabela avisos_lidos pronta.')
   })
-  // Ensure atéstados table exists (compatible with RHH.sql and tolerant to slightly different schemas)
-  const ensureAtestados = `CREATE TABLE IF NOT EXISTS atéstados (
+  // Ensure atéstaçãos table exists (compatible with RHH.sql and tolerant to slightly different schemas)
+  const ensureAtestaçãos = `CREATE TABLE IF NOT EXISTS atéstaçãos (
         id INT AUTO_INCREMENT PRIMARY KEY,
         funcionario_id INT NOT NULL,
-        data_atestado DATE,
-        dias_afastado INT DEFAULT 0,
+        data_atestação DATE,
+        dias_afastação INT DEFAULT 0,
         motivo VARCHAR(255),
         arquivo_url VARCHAR(255) NOT NULL,
         data_upload TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`
-  db.query(ensureAtestados, (e2) => {
-    if (e2) logger.error('Não foi possível garantir a existência da tabela atéstados:', e2)
-    else logger.info('Tabela atéstados pronta (ou já existente).')
+  db.query(ensureAtestaçãos, (e2) => {
+    if (e2) logger.error('Não foi possível garantir a existência da tabela atéstaçãos:', e2)
+    else logger.info('Tabela atéstaçãos pronta (ou já existente).')
   })
   // Ensure holerites table exists (admin uploads of holerites per funcionário)
   const ensureHolerites = `CREATE TABLE IF NOT EXISTS holerites (
@@ -126,7 +126,7 @@ const storage = multer.diskStorage({
     cb(null, uploadPath)
   },
   filename: (req, file, cb) => {
-    const idPart = req.params && req.params.id ? String(req.params.id) : 'unknown'
+    const idPart = req.params && req.params.id  String(req.params.id) : 'unknown'
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
     cb(null, `funcionario-${idPart}-${uniqueSuffix}${path.extname(file.originalname)}`)
   }
@@ -144,7 +144,7 @@ const upload = multer({ storage, fileFilter: imageFileFilter, limits: { fileSize
 
 // --- LISTA DE ROLES CONSIDERADOS ADMIN ---
 // include common variants so tokens/users using 'admin' or localized labels are recognized
-const adminRoles = ['analista de t.i', 'rh', 'financeiro', 'diretoria', 'ti', 'admin', 'administrador', 'superadmin']
+const adminRoles = ['analista de t.i', 'rh', 'financeiro', 'diretoria', 'ti', 'admin', 'administraçãor', 'superadmin']
 
 // --- USUÁRIOS ESPECÍFICOS COM ACESSO ADMIN ---
 const adminUsers = ['andreia', 'rh', 'ti', 'douglas', 'hellen', 'junior']
@@ -158,9 +158,9 @@ function isAdminUser (user) {
   if (!user) return false
   return isAdminRole(user.role)
 }
-// Campos extras que o admin pode gerenciar (adicionados via migration)
+// Campos extras que o admin pode gerenciar (adicionaçãos via migration)
 const adminAllowedFields = [
-  'nacionalidade', 'naturalidade', 'filiacao_mae', 'filiacao_pai', 'dados_conjuge',
+  'nacionalidade', 'naturalidade', 'filiacao_mae', 'filiacao_pai', 'daçãos_conjuge',
   'zona_eleitoral', 'seção_eleitoral', 'ctps_numero', 'ctps_serie',
   'banco', 'agencia', 'conta_corrente'
 ]
@@ -199,7 +199,7 @@ app.get(['/area-admin.html', '/area-admin'], (req, res) => {
   return res.redirect(301, '/areaadm.html')
 })
 
-// Redirecionamento inteligente baseado em permissões
+// Redirecionamento inteligente baseação em permissões
 app.get('/area.html', (req, res) => {
   // Verificar se é admin/RH (redireciona para novo portal funcionário)
   // Para compatibilidade, manter o area.html original mas recomendar funcionario.html
@@ -216,8 +216,8 @@ function generateToken (user) {
 // without duplicating the JWT_SECRET.
 if (process.env.NODE_ENV !== 'production') {
   app.post('/api/debug/generate-token', (req, res) => {
-    const id = req.body && req.body.id ? Number(req.body.id) : 8
-    const role = req.body && req.body.role ? String(req.body.role) : 'admin'
+    const id = req.body && req.body.id  Number(req.body.id) : 8
+    const role = req.body && req.body.role  String(req.body.role) : 'admin'
     if (!Number.isInteger(id) || id <= 0) return res.status(400).json({ message: 'id inválido' })
     const token = generateToken({ id, role })
     return res.json({ token })
@@ -273,7 +273,7 @@ app.post('/api/login', loginLimiter, (req, res) => {
     return res.status(400).json({ message: 'username/email e password/senha são obrigatórios.' })
   }
 
-  const sql = 'SELECT * FROM funcionarios WHERE email = ? LIMIT 1'
+  const sql = 'SELECT * FROM funcionarios WHERE email =  LIMIT 1'
   db.query(sql, [username], async (err, results) => {
     if (err) {
       logger.error('Login error:', err)
@@ -285,12 +285,12 @@ app.post('/api/login', loginLimiter, (req, res) => {
 
     const usuario = results[0]
     
-    // Verificar se o colaborador está ativo
+    // Verificar se o colaboraçãor está ativo
     const statusUsuario = (usuario.status || '').toLowerCase().trim()
-    if (statusUsuario === 'inativo' || statusUsuario === 'desligado' || statusUsuario === 'demitido') {
+    if (statusUsuario === 'inativo' || statusUsuario === 'desligação' || statusUsuario === 'demitido') {
       logger.warn(`Tentativa de login de usuário inativo: ${usuario.email} (status: ${usuario.status})`)
       return res.status(403).json({ 
-        message: 'Acesso bloqueado. Seu cadastro está inativo no sistema. Entre em contato com o RH.',
+        message: 'Acesso bloqueação. Seu cadastro está inativo no sistema. Entre em contato com o RH.',
         code: 'USER_INACTIVE'
       })
     }
@@ -308,9 +308,9 @@ app.post('/api/login', loginLimiter, (req, res) => {
           // migrate to bcrypt asynchronously
           try {
             const newHash = await bcrypt.hash(password, 10)
-            db.query('UPDATE funcionarios SET senha = ? WHERE id = ?', [newHash, usuario.id], (uErr) => {
+            db.query('UPDATE funcionarios SET senha =  WHERE id = ', [newHash, usuario.id], (uErr) => {
               if (uErr) logger.error('Erro ao atualizar senha legacy:', uErr)
-              else logger.info(`Senha do utilizador id=${usuario.id} migrada para bcrypt.`)
+              else logger.info(`Senha do utilizaçãor id=${usuario.id} migrada para bcrypt.`)
             })
           } catch (hashErr) {
             logger.error('Erro ao hashear senha legacy:', hashErr)
@@ -325,20 +325,20 @@ app.post('/api/login', loginLimiter, (req, res) => {
       return res.status(500).json({ message: 'Erro interno.' })
     }
 
-    const roleNormalized = usuario.role ? String(usuario.role).toLowerCase().trim() : ''
-    const emailPart = usuario.email ? String(usuario.email).split('@')[0].toLowerCase().trim() : ''
+    const roleNormalized = usuario.role  String(usuario.role).toLowerCase().trim() : ''
+    const emailPart = usuario.email  String(usuario.email).split('@')[0].toLowerCase().trim() : ''
     
     // Verifica se é admin por role OU por nome de usuário específico
     const isAdminByRole = adminRoles.includes(roleNormalized)
     const isAdminByUser = adminUsers.includes(emailPart)
     const isAdmin = isAdminByRole || isAdminByUser
     
-    const accessRole = isAdmin ? 'admin' : 'funcionario'
+    const accessRole = isAdmin  'admin' : 'funcionario'
 
     const { senha, ...safeUser } = usuario
     safeUser.role = accessRole
     
-    // Debug: log detalhado do processo de login
+    // Debug: log detalhação do processo de login
     logger.info(`Login successful - User: ${usuario.email}, Role: ${accessRole}, IsAdmin: ${isAdmin}`, {
       userId: usuario.id,
       email: usuario.email,
@@ -360,7 +360,7 @@ app.post('/api/login', loginLimiter, (req, res) => {
 // Admin-only: aniversariantes do mês (dashboard)
 app.get('/api/aniversariantes', authMiddleware, async (req, res) => {
   try {
-    if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negado.' })
+    if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negação.' })
     // Select employees whose birthday month equals current month, order by day
   const rows = await dbQuery('SELECT id, COALESCE(nome_completo, email) AS nome, data_nascimento AS nascimento FROM funcionarios WHERE data_nascimento IS NOT NULL AND MONTH(data_nascimento) = MONTH(CURDATE()) ORDER BY DAY(data_nascimento) ASC LIMIT 20')
     return res.json(rows || [])
@@ -376,10 +376,10 @@ app.get('/api/funcionarios/:id/doc-status', authMiddleware, async (req, res) => 
   const id = Number(req.params.id || 0)
   if (!id) return res.status(400).json({ message: 'id inválido' })
   // allow self or admin
-  if (Number(req.user.id) !== id && !isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negado.' })
+  if (Number(req.user.id) !== id && !isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negação.' })
   try {
-    const hol = await dbQuery('SELECT id, arquivo_url, competencia, data_upload FROM holerites WHERE funcionario_id = ? ORDER BY data_upload DESC LIMIT 1', [id])
-    const esp = await dbQuery('SELECT id, arquivo_url, competencia, data_upload FROM espelhos_ponto WHERE funcionario_id = ? ORDER BY data_upload DESC LIMIT 1', [id])
+    const hol = await dbQuery('SELECT id, arquivo_url, competencia, data_upload FROM holerites WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 1', [id])
+    const esp = await dbQuery('SELECT id, arquivo_url, competencia, data_upload FROM espelhos_ponto WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 1', [id])
     return res.json({ hasHolerite: Array.isArray(hol) && hol.length > 0, holerite: (hol && hol[0]) || null, hasPonto: Array.isArray(esp) && esp.length > 0, ponto: (esp && esp[0]) || null })
   } catch (err) {
     // if tables missing, return false flags
@@ -394,7 +394,7 @@ app.post('/api/funcionarios',
   authMiddleware,
   // somente admin pode criar funcionários
   (req, res, next) => {
-    if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negado.' })
+    if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negação.' })
     return next()
   },
   // validação mínima
@@ -405,61 +405,61 @@ app.post('/api/funcionarios',
     const errors = validationResult(req)
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
 
-    const dados = req.body || {}
+    const daçãos = req.body || {}
     try {
-      const hashed = await bcrypt.hash(dados.senha, 10)
+      const hashed = await bcrypt.hash(daçãos.senha, 10)
     const sql = `INSERT INTO funcionarios (
         email, senha, role, nome_completo, cargo, departamento, cpf, rg,
-        telefone, estado_civil, data_nascimento, dependentes, foto_perfil_url, status,
-        nacionalidade, naturalidade, filiacao_mae, filiacao_pai, dados_conjuge,
+        telefone, estação_civil, data_nascimento, dependentes, foto_perfil_url, status,
+        nacionalidade, naturalidade, filiacao_mae, filiacao_pai, daçãos_conjuge,
         zona_eleitoral, seção_eleitoral, ctps_numero, ctps_serie,
         banco, agencia, conta_corrente
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+      ) VALUES (, , , , , , , , , , , , , , , , , , , , , , , , , )`
 
       const params = [
-        dados.email || null,
+        daçãos.email || null,
         hashed,
-        dados.role || 'funcionario',
+        daçãos.role || 'funcionario',
         // nome_completo is NOT NULL in some schemas; fallback to email or empty string
-        dados.nome_completo || dados.email || '',
-        dados.cargo || null,
-        dados.departamento || null,
+        daçãos.nome_completo || daçãos.email || '',
+        daçãos.cargo || null,
+        daçãos.departamento || null,
         // cpf may be NOT NULL in legacy schema; provide empty string fallback
-        dados.cpf || '',
-        dados.rg || null,
-        dados.telefone || null,
-        dados.estado_civil || null,
-        dados.data_nascimento || null,
-        dados.dependentes || 0,
-        dados.foto_perfil_url || null,
-        dados.status || 'Ativo',
+        daçãos.cpf || '',
+        daçãos.rg || null,
+        daçãos.telefone || null,
+        daçãos.estação_civil || null,
+        daçãos.data_nascimento || null,
+        daçãos.dependentes || 0,
+        daçãos.foto_perfil_url || null,
+        daçãos.status || 'Ativo',
         // admin extra fields
-        dados.nacionalidade || null,
-        dados.naturalidade || null,
-        dados.filiacao_mae || null,
-        dados.filiacao_pai || null,
-        dados.dados_conjuge || null,
-        dados.zona_eleitoral || null,
-        dados.seção_eleitoral || null,
-        dados.ctps_numero || null,
-        dados.ctps_serie || null,
-        dados.banco || null,
-        dados.agencia || null,
-        dados.conta_corrente || null
+        daçãos.nacionalidade || null,
+        daçãos.naturalidade || null,
+        daçãos.filiacao_mae || null,
+        daçãos.filiacao_pai || null,
+        daçãos.daçãos_conjuge || null,
+        daçãos.zona_eleitoral || null,
+        daçãos.seção_eleitoral || null,
+        daçãos.ctps_numero || null,
+        daçãos.ctps_serie || null,
+        daçãos.banco || null,
+        daçãos.agencia || null,
+        daçãos.conta_corrente || null
       ]
 
       db.query(sql, params, (err, results) => {
         if (err) {
           // Log full error stack in development to assist debugging
           if (process.env.NODE_ENV !== 'production') {
-            try { logger.error('Erro ao cadastrar funcionário (detalhe): ' + (err && (err.stack || err.message) ? (err.stack || err.message) : String(err))) } catch (e) {}
+            try { logger.error('Erro ao cadastrar funcionário (detalhe): ' + (err && (err.stack || err.message)  (err.stack || err.message) : String(err))) } catch (e) {}
           } else {
-            logger.error('Erro ao cadastrar funcionário:', err && err.message ? err.message : err)
+            logger.error('Erro ao cadastrar funcionário:', err && err.message  err.message : err)
           }
           if (err && err.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'Entrada duplicada.' })
           return res.status(500).json({ message: 'Erro interno no servidor ao tentar cadastrar.' })
         }
-        res.status(201).json({ message: 'Funcionário cadastrado com sucesso!', id: results.insertId })
+        res.status(201).json({ message: 'Funcionário cadastração com sucesso!', id: results.insertId })
       })
     } catch (hashErr) {
       logger.error('Erro ao hashear senha:', hashErr)
@@ -473,9 +473,9 @@ app.post('/api/funcionarios/:id/foto', authMiddleware, upload.single('foto'), (r
   const { id } = req.params
   // apenas admin ou o próprio usuário pode alterar a foto
   if (!isAdminUser(req.user) && Number(req.user.id) !== Number(id)) {
-    return res.status(403).json({ message: 'Acesso negado.' })
+    return res.status(403).json({ message: 'Acesso negação.' })
   }
-  if (!req.file) return res.status(400).json({ message: 'Nenhum ficheiro foi enviado.' })
+  if (!req.file) return res.status(400).json({ message: 'Nenhum ficheiro foi enviação.' })
 
   const fotoUrl = `/uploads/fotos/${req.file.filename}`
   // create thumbnail (200x200) using sharp
@@ -491,18 +491,18 @@ app.post('/api/funcionarios/:id/foto', authMiddleware, upload.single('foto'), (r
     .then(() => {
       const thumbUrl = `/uploads/fotos/${thumbName}`
       // Attempt to update both foto_perfil_url and foto_thumb_url (foto_thumb_url column may or may not exist)
-      const sql = 'UPDATE funcionarios SET foto_perfil_url = ?, foto_thumb_url = ? WHERE id = ?'
+      const sql = 'UPDATE funcionarios SET foto_perfil_url = , foto_thumb_url =  WHERE id = '
       db.query(sql, [fotoUrl, thumbUrl, id], (err, results) => {
         if (err) {
           // If foto_thumb_url column doesn't exist, fall back to updating only foto_perfil_url
           if (err.code === 'ER_BAD_FIELD_ERROR') {
-            const fallbackSql = 'UPDATE funcionarios SET foto_perfil_url = ? WHERE id = ?'
+            const fallbackSql = 'UPDATE funcionarios SET foto_perfil_url =  WHERE id = '
             db.query(fallbackSql, [fotoUrl, id], (fErr, fResults) => {
               if (fErr) {
                 logger.error('Erro ao guardar foto (fallback):', fErr)
                 return res.status(500).json({ message: 'Erro ao guardar a foto.' })
               }
-              if (fResults.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
+              if (fResults.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
               return res.json({ message: 'Foto atualizada com sucesso!', foto_url: fotoUrl, foto_thumb_url: thumbUrl })
             })
           } else {
@@ -510,7 +510,7 @@ app.post('/api/funcionarios/:id/foto', authMiddleware, upload.single('foto'), (r
             return res.status(500).json({ message: 'Erro ao guardar a foto.' })
           }
         } else {
-          if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
+          if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
           return res.json({ message: 'Foto atualizada com sucesso!', foto_url: fotoUrl, foto_thumb_url: thumbUrl })
         }
       })
@@ -518,55 +518,55 @@ app.post('/api/funcionarios/:id/foto', authMiddleware, upload.single('foto'), (r
     .catch((sharpErr) => {
       logger.error('Erro ao criar thumbnail:', sharpErr)
       // Even if thumbnail creation fails, try to update original photo URL
-      const fallbackSql = 'UPDATE funcionarios SET foto_perfil_url = ? WHERE id = ?'
+      const fallbackSql = 'UPDATE funcionarios SET foto_perfil_url =  WHERE id = '
       db.query(fallbackSql, [fotoUrl, id], (fErr, fResults) => {
         if (fErr) {
           logger.error('Erro ao guardar foto após falha no thumbnail:', fErr)
           return res.status(500).json({ message: 'Erro ao guardar a foto.' })
         }
-        if (fResults.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
+        if (fResults.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
         return res.json({ message: 'Foto enviada, thumbnail falhou.', foto_url: fotoUrl })
       })
     })
 })
 
 // Rota para UPLOAD DE ATESTADO (PDF, imagens) - tanto funcionário quanto admin podem enviar
-// Uses a separate storage destination under public/uploads/atéstados
-const atéstadoStorage = multer.diskStorage({
+// Uses a separate storage destination under public/uploads/atéstaçãos
+const atéstaçãoStorage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const uploadPath = path.join(__dirname, 'public', 'uploads', 'atéstados')
+    const uploadPath = path.join(__dirname, 'public', 'uploads', 'atéstaçãos')
     fs.mkdirSync(uploadPath, { recursive: true })
     cb(null, uploadPath)
   },
   filename: (req, file, cb) => {
-    const idPart = req.params && req.params.id ? String(req.params.id) : 'unknown'
+    const idPart = req.params && req.params.id  String(req.params.id) : 'unknown'
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
-    cb(null, `atéstado-${idPart}-${uniqueSuffix}${path.extname(file.originalname)}`)
+    cb(null, `atéstação-${idPart}-${uniqueSuffix}${path.extname(file.originalname)}`)
   }
 })
 
-const uploadAtestado = multer({ storage: atéstadoStorage, limits: { fileSize: 5 * 1024 * 1024 } }) // 5MB
+const uploadAtestação = multer({ storage: atéstaçãoStorage, limits: { fileSize: 5 * 1024 * 1024 } }) // 5MB
 
-app.post('/api/funcionarios/:id/atéstado', authMiddleware, uploadAtestado.single('atéstado'), async (req, res) => {
+app.post('/api/funcionarios/:id/atéstação', authMiddleware, uploadAtestação.single('atéstação'), async (req, res) => {
   const { id } = req.params
-  // only admin or the owner can upload their atéstado
+  // only admin or the owner can upload their atéstação
   if (!isAdminUser(req.user) && Number(req.user.id) !== Number(id)) {
-    return res.status(403).json({ message: 'Acesso negado.' })
+    return res.status(403).json({ message: 'Acesso negação.' })
   }
-  if (!req.file) return res.status(400).json({ message: 'Nenhum ficheiro enviado.' })
+  if (!req.file) return res.status(400).json({ message: 'Nenhum ficheiro enviação.' })
 
-  const arquivoUrl = `/uploads/atéstados/${req.file.filename}`
+  const arquivoUrl = `/uploads/atéstaçãos/${req.file.filename}`
   const descrição = req.body.descrição || req.body.motivo || null
-  const dataAtestado = req.body.data_atestado || null
-  const dias = req.body.dias ? Number(req.body.dias) : 0
+  const dataAtestação = req.body.data_atestação || null
+  const dias = req.body.dias  Number(req.body.dias) : 0
 
   try {
-    const sql = 'INSERT INTO atéstados (funcionario_id, data_atestado, dias_afastado, motivo, arquivo_url, data_upload) VALUES (?, ?, ?, ?, ?, NOW())'
-    await dbQuery(sql, [id, dataAtestado, dias, descrição, arquivoUrl])
-    return res.json({ message: 'Atéstado enviado com sucesso.', url: arquivoUrl })
+    const sql = 'INSERT INTO atéstaçãos (funcionario_id, data_atestação, dias_afastação, motivo, arquivo_url, data_upload) VALUES (, , , , , NOW())'
+    await dbQuery(sql, [id, dataAtestação, dias, descrição, arquivoUrl])
+    return res.json({ message: 'Atéstação enviação com sucesso.', url: arquivoUrl })
   } catch (e) {
-    logger.error('Erro ao gravar atéstado:', e)
-    return res.status(500).json({ message: 'Erro interno ao gravar atéstado.' })
+    logger.error('Erro ao gravar atéstação:', e)
+    return res.status(500).json({ message: 'Erro interno ao gravar atéstação.' })
   }
 })
 
@@ -578,7 +578,7 @@ const holeriteStorage = multer.diskStorage({
     cb(null, uploadPath)
   },
   filename: (req, file, cb) => {
-    const idPart = req.params && req.params.id ? String(req.params.id) : 'unknown'
+    const idPart = req.params && req.params.id  String(req.params.id) : 'unknown'
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
     cb(null, `holerite-${idPart}-${uniqueSuffix}${path.extname(file.originalname)}`)
   }
@@ -594,8 +594,8 @@ const uploadHolerite = multer({ storage: holeriteStorage, fileFilter: pdfFileFil
 // Endpoint for admin to upload holerite for a funcionario
 app.post('/api/funcionarios/:id/holerite', authMiddleware, uploadHolerite.single('holerite'), async (req, res) => {
   const { id } = req.params
-  if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negado.' })
-  if (!req.file) return res.status(400).json({ message: 'Nenhum ficheiro enviado.' })
+  if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negação.' })
+  if (!req.file) return res.status(400).json({ message: 'Nenhum ficheiro enviação.' })
   const arquivoUrl = `/uploads/holerites/${req.file.filename}`
   const competencia = req.body.competencia || null
   try {
@@ -612,21 +612,21 @@ app.post('/api/funcionarios/:id/holerite', authMiddleware, uploadHolerite.single
     try { await dbQuery(ensureHolerites) } catch (ee) { logger.warn('Falha ao garantir tabela holerites (prosseguindo):', ee) }
 
     // Some schemas expect mes_referencia (YYYY-MM) NOT NULL; derive it from competencia or today
-    const mesRef = competencia && String(competencia).trim() ? String(competencia).trim() : (new Date()).toISOString().slice(0, 7)
+    const mesRef = competencia && String(competencia).trim()  String(competencia).trim() : (new Date()).toISOString().slice(0, 7)
     try {
-      await dbQuery('INSERT INTO holerites (funcionario_id, mes_referencia, arquivo_url, data_upload, competencia) VALUES (?, ?, ?, NOW(), ?)', [id, mesRef, arquivoUrl, competencia])
+      await dbQuery('INSERT INTO holerites (funcionario_id, mes_referencia, arquivo_url, data_upload, competencia) VALUES (, , , NOW(), )', [id, mesRef, arquivoUrl, competencia])
     } catch (innerErr) {
       // If the target schema doesn't have mes_referencia (older schema), fallback to previous insert
       if (innerErr && innerErr.code === 'ER_BAD_FIELD_ERROR') {
-        await dbQuery('INSERT INTO holerites (funcionario_id, competencia, arquivo_url, data_upload) VALUES (?, ?, ?, NOW())', [id, competencia, arquivoUrl])
+        await dbQuery('INSERT INTO holerites (funcionario_id, competencia, arquivo_url, data_upload) VALUES (, , , NOW())', [id, competencia, arquivoUrl])
       } else {
         throw innerErr
       }
     }
 
-    return res.json({ message: 'Holerite enviado com sucesso.', url: arquivoUrl })
+    return res.json({ message: 'Holerite enviação com sucesso.', url: arquivoUrl })
   } catch (e) {
-    logger.error('Erro ao gravar holerite:', e && e.stack ? e.stack : e)
+    logger.error('Erro ao gravar holerite:', e && e.stack  e.stack : e)
     return res.status(500).json({ message: 'Erro interno ao gravar holerite.' })
   }
 })
@@ -639,7 +639,7 @@ const pontoStorage = multer.diskStorage({
     cb(null, uploadPath)
   },
   filename: (req, file, cb) => {
-    const idPart = req.params && req.params.id ? String(req.params.id) : 'unknown'
+    const idPart = req.params && req.params.id  String(req.params.id) : 'unknown'
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
     cb(null, `ponto-${idPart}-${uniqueSuffix}${path.extname(file.originalname)}`)
   }
@@ -654,13 +654,13 @@ app.post('/api/funcionarios/:id/ponto', authMiddleware, uploadPonto.single('pont
   const allowed = ['rh', 'diretoria', 'financeiro']
   // normalize role label
   const roleNormalized = (req.user.role || '').toLowerCase()
-  if (!isAdminUser(req.user) && !allowed.includes(roleNormalized)) return res.status(403).json({ message: 'Acesso negado.' })
-  if (!req.file) return res.status(400).json({ message: 'Nenhum ficheiro enviado.' })
+  if (!isAdminUser(req.user) && !allowed.includes(roleNormalized)) return res.status(403).json({ message: 'Acesso negação.' })
+  if (!req.file) return res.status(400).json({ message: 'Nenhum ficheiro enviação.' })
   const arquivoUrl = `/uploads/ponto/${req.file.filename}`
   const competencia = req.body.competencia || null
   try {
-    await dbQuery('INSERT INTO espelhos_ponto (funcionario_id, competencia, arquivo_url, data_upload) VALUES (?, ?, ?, NOW())', [id, competencia, arquivoUrl])
-    return res.json({ message: 'Espelho de ponto enviado com sucesso.', url: arquivoUrl })
+    await dbQuery('INSERT INTO espelhos_ponto (funcionario_id, competencia, arquivo_url, data_upload) VALUES (, , , NOW())', [id, competencia, arquivoUrl])
+    return res.json({ message: 'Espelho de ponto enviação com sucesso.', url: arquivoUrl })
   } catch (e) {
     logger.error('Erro ao gravar espelho de ponto:', e)
     return res.status(500).json({ message: 'Erro interno ao gravar espelho de ponto.' })
@@ -669,29 +669,29 @@ app.post('/api/funcionarios/:id/ponto', authMiddleware, uploadPonto.single('pont
 
 // Rota para buscar funcionários (para a página de admin) - protegida
 // Suporta:
-//  - ?q=termo  -> pesquisa por nome_completo ou email
-//  - ?birth_month=MM -> retorna funcionários cujo MONTH(data_nascimento) = MM (1-12)
+//  - q=termo  -> pesquisa por nome_completo ou email
+//  - birth_month=MM -> retorna funcionários cujo MONTH(data_nascimento) = MM (1-12)
 app.get('/api/funcionarios', authMiddleware, (req, res) => {
   // Apenas admins podem listar todos
-  if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negado.' })
+  if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negação.' })
 
   const q = (req.query.q || '').trim()
-  const birthMonth = req.query.birth_month ? Number(req.query.birth_month) : null
-  const noFoto = req.query.no_foto ? String(req.query.no_foto) === '1' : false
-  const limit = req.query.limit ? Math.min(200, Math.max(1, parseInt(req.query.limit, 10) || 10)) : null
+  const birthMonth = req.query.birth_month  Number(req.query.birth_month) : null
+  const noFoto = req.query.no_foto  String(req.query.no_foto) === '1' : false
+  const limit = req.query.limit  Math.min(200, Math.max(1, parseInt(req.query.limit, 10) || 10)) : null
   let sql; let params = []
 
   if (birthMonth && Number.isInteger(birthMonth) && birthMonth >= 1 && birthMonth <= 12) {
-  sql = 'SELECT id, foto_perfil_url AS foto_url, foto_thumb_url, COALESCE(nome_completo, email) AS nome, role AS cargo, email, data_nascimento FROM funcionarios WHERE data_nascimento IS NOT NULL AND MONTH(data_nascimento) = ? ORDER BY DAY(data_nascimento)'
+  sql = 'SELECT id, foto_perfil_url AS foto_url, foto_thumb_url, COALESCE(nome_completo, email) AS nome, role AS cargo, email, data_nascimento FROM funcionarios WHERE data_nascimento IS NOT NULL AND MONTH(data_nascimento) =  ORDER BY DAY(data_nascimento)'
     params.push(birthMonth)
   } else if (noFoto) {
   // return users without a custom photo (null or empty) or explicitly using placeholder
   const lim = limit || 10
-  sql = 'SELECT id, COALESCE(nome_completo, email) AS nome, foto_perfil_url, foto_thumb_url FROM funcionarios WHERE (foto_perfil_url IS NULL OR foto_perfil_url = "" OR foto_perfil_url LIKE ?) LIMIT ?'
+  sql = 'SELECT id, COALESCE(nome_completo, email) AS nome, foto_perfil_url, foto_thumb_url FROM funcionarios WHERE (foto_perfil_url IS NULL OR foto_perfil_url = "" OR foto_perfil_url LIKE ) LIMIT '
     params.push('%placeholder%')
     params.push(lim)
   } else if (q) {
-  sql = 'SELECT id, foto_perfil_url AS foto_url, foto_thumb_url, COALESCE(nome_completo, email) AS nome, role AS cargo, email FROM funcionarios WHERE nome_completo LIKE ? OR email LIKE ? LIMIT 200'
+  sql = 'SELECT id, foto_perfil_url AS foto_url, foto_thumb_url, COALESCE(nome_completo, email) AS nome, role AS cargo, email FROM funcionarios WHERE nome_completo LIKE  OR email LIKE  LIMIT 200'
     const like = `%${q}%`
     params.push(like, like)
   } else {
@@ -710,48 +710,48 @@ app.get('/api/funcionarios', authMiddleware, (req, res) => {
 // Rota para buscar UM funcionário por ID
 app.get('/api/funcionarios/:id', authMiddleware, (req, res) => {
   const { id } = req.params
-  const sql = 'SELECT * FROM funcionarios WHERE id = ? LIMIT 1'
+  const sql = 'SELECT * FROM funcionarios WHERE id =  LIMIT 1'
   db.query(sql, [id], async (err, results) => {
     if (err) {
       logger.error('Erro ao buscar funcionario:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
-    if (!results || results.length === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
-    // Permitir que o próprio usuário busque seus dados ou admin
+    if (!results || results.length === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
+    // Permitir que o próprio usuário busque seus daçãos ou admin
     if (!isAdminUser(req.user) && Number(req.user.id) !== Number(id)) {
-      return res.status(403).json({ message: 'Acesso negado.' })
+      return res.status(403).json({ message: 'Acesso negação.' })
     }
 
     try {
       // fetch recent holerites and latest ponto for this funcionario
-      const holerites = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM holerites WHERE funcionario_id = ? ORDER BY data_upload DESC LIMIT 10', [id])
-      const pontoRows = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM espelhos_ponto WHERE funcionario_id = ? ORDER BY data_upload DESC LIMIT 1', [id])
-      const latestPonto = (pontoRows && pontoRows.length > 0) ? pontoRows[0] : null
+      const holerites = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM holerites WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 10', [id])
+      const pontoRows = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM espelhos_ponto WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 1', [id])
+      const latestPonto = (pontoRows && pontoRows.length > 0)  pontoRows[0] : null
 
-      const { senha, ...dadosSeguros } = results[0]
+      const { senha, ...daçãosSeguros } = results[0]
       // attach holerites and ponto info
-      dadosSeguros.holerites = holerites || []
-      dadosSeguros.espelho_ponto = latestPonto
-      res.json(dadosSeguros)
+      daçãosSeguros.holerites = holerites || []
+      daçãosSeguros.espelho_ponto = latestPonto
+      res.json(daçãosSeguros)
     } catch (e) {
       logger.error('Erro ao buscar holerites/ponto para funcionario:', e)
-      const { senha, ...dadosSeguros } = results[0]
-      dadosSeguros.holerites = []
-      dadosSeguros.espelho_ponto = null
-      res.json(dadosSeguros)
+      const { senha, ...daçãosSeguros } = results[0]
+      daçãosSeguros.holerites = []
+      daçãosSeguros.espelho_ponto = null
+      res.json(daçãosSeguros)
     }
   })
 })
 
-// Rota para ATUALIZAR dados do funcionário
+// Rota para ATUALIZAR daçãos do funcionário
 app.put('/api/funcionarios/:id', authMiddleware, (req, res) => {
   const { id } = req.params
   // Apenas admin ou o próprio usuário pode atualizar
   if (!isAdminUser(req.user) && Number(req.user.id) !== Number(id)) {
-    return res.status(403).json({ message: 'Acesso negado.' })
+    return res.status(403).json({ message: 'Acesso negação.' })
   }
   // If the requester is admin, allow extended fields (including adminAllowedFields).
-  const employeeAllowed = ['telefone', 'estado_civil', 'dependentes']
+  const employeeAllowed = ['telefone', 'estação_civil', 'dependentes']
   let allowed = []
   if (req.user.role === 'admin') {
     // allow admins to update birthdate as well so aniversariantes refletem alterações
@@ -764,7 +764,7 @@ app.put('/api/funcionarios/:id', authMiddleware, (req, res) => {
 
   // Explicit whitelist for columns that may be updated. This prevents any accidental
   // interpolation of unsafe identifiers. `adminAllowedFields` is appended for admin users.
-  const baseSafe = ['telefone', 'estado_civil', 'dependentes', 'nome_completo', 'cargo', 'departamento', 'status', 'data_nascimento']
+  const baseSafe = ['telefone', 'estação_civil', 'dependentes', 'nome_completo', 'cargo', 'departamento', 'status', 'data_nascimento']
   const safeCols = new Set(baseSafe.concat(adminAllowedFields || []))
 
   // Basic validation for some fields coming from the client
@@ -786,7 +786,7 @@ app.put('/api/funcionarios/:id', authMiddleware, (req, res) => {
       continue
     }
     if (Object.prototype.hasOwnProperty.call(req.body, key)) {
-      updates.push(`${key} = ?`)
+      updates.push(`${key} = `)
       params.push(req.body[key])
     }
   }
@@ -794,14 +794,14 @@ app.put('/api/funcionarios/:id', authMiddleware, (req, res) => {
   if (updates.length === 0) return res.status(400).json({ message: 'Nenhum campo para atualizar.' })
 
   params.push(id)
-  const sql = `UPDATE funcionarios SET ${updates.join(', ')} WHERE id = ?`
+  const sql = `UPDATE funcionarios SET ${updates.join(', ')} WHERE id = `
   db.query(sql, params, (err, results) => {
     if (err) {
       logger.error('Erro ao atualizar funcionario:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
-    if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
-    res.json({ message: 'Dados atualizados com sucesso!', updatedData: req.body })
+    if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
+    res.json({ message: 'Daçãos atualizaçãos com sucesso!', updatedData: req.body })
   })
 })
 
@@ -814,7 +814,7 @@ app.get('/api/notifications/count', authMiddleware, async (req, res) => {
     // Contar avisos não lidos para o usuário
     const sql = `SELECT COUNT(*) as count 
                 FROM avisos a 
-                LEFT JOIN avisos_lidos al ON al.aviso_id = a.id AND al.funcionario_id = ?
+                LEFT JOIN avisos_lidos al ON al.aviso_id = a.id AND al.funcionario_id = 
                 WHERE al.id IS NULL`
     
     db.query(sql, [req.user.id], (err, results) => {
@@ -822,7 +822,7 @@ app.get('/api/notifications/count', authMiddleware, async (req, res) => {
         logger.error('Erro ao contar notificações:', err)
         return res.status(500).json({ count: 0 })
       }
-      const count = results && results[0] ? results[0].count : 0
+      const count = results && results[0]  results[0].count : 0
       res.json({ count })
     })
   } catch (error) {
@@ -831,14 +831,14 @@ app.get('/api/notifications/count', authMiddleware, async (req, res) => {
   }
 })
 
-// GET /api/user-data -> dados atualizados do usuário
+// GET /api/user-data -> daçãos atualizaçãos do usuário
 app.get('/api/user-data', authMiddleware, async (req, res) => {
   try {
-    const sql = `SELECT * FROM funcionarios WHERE id = ?`
+    const sql = `SELECT * FROM funcionarios WHERE id = `
     
     db.query(sql, [req.user.id], (err, results) => {
       if (err) {
-        logger.error('Erro ao buscar dados do usuário:', err)
+        logger.error('Erro ao buscar daçãos do usuário:', err)
         return res.status(500).json({ success: false, message: 'Erro interno no servidor.' })
       }
       
@@ -850,16 +850,16 @@ app.get('/api/user-data', authMiddleware, async (req, res) => {
         
         res.json({ success: true, userData })
       } else {
-        res.status(404).json({ success: false, message: 'Usuário não encontrado.' })
+        res.status(404).json({ success: false, message: 'Usuário não encontração.' })
       }
     })
   } catch (error) {
-    logger.error('Erro ao recarregar dados do usuário:', error)
+    logger.error('Erro ao recarregar daçãos do usuário:', error)
     res.status(500).json({ success: false, message: 'Erro interno no servidor.' })
   }
 })
 
-// GET /api/avisos  -> listar avisos (todos os utilizadores autenticados podem ver)
+// GET /api/avisos  -> listar avisos (todos os utilizaçãores autenticaçãos podem ver)
 app.get('/api/avisos', optionalAuth, async (req, res) => {
   try {
     // If a user is present, include lido state via left join; otherwise return public list.
@@ -867,7 +867,7 @@ app.get('/api/avisos', optionalAuth, async (req, res) => {
       const sql = `SELECT a.id, a.titulo, a.conteudo AS mensagem, NULL AS created_by, a.data_publicacao AS created_at,
                 CASE WHEN al.id IS NOT NULL THEN 1 ELSE 0 END AS lido
                 FROM avisos a
-                LEFT JOIN avisos_lidos al ON al.aviso_id = a.id AND al.funcionario_id = ?
+                LEFT JOIN avisos_lidos al ON al.aviso_id = a.id AND al.funcionario_id = 
                 ORDER BY a.data_publicacao DESC
                 LIMIT 50`
       db.query(sql, [req.user.id], (err, results) => {
@@ -891,11 +891,11 @@ app.get('/api/avisos', optionalAuth, async (req, res) => {
 
 // POST /api/avisos -> criar aviso (apenas admin)
 app.post('/api/avisos', authMiddleware, (req, res) => {
-  if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negado.' })
+  if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negação.' })
   const { titulo, mensagem } = req.body || {}
   if (!titulo || !mensagem) return res.status(400).json({ message: 'Título e mensagem são obrigatórios.' })
   // insert into avisos using 'conteudo' and 'data_publicacao' columns
-  const sql = 'INSERT INTO avisos (titulo, conteudo, data_publicacao) VALUES (?, ?, NOW())'
+  const sql = 'INSERT INTO avisos (titulo, conteudo, data_publicacao) VALUES (, , NOW())'
   db.query(sql, [titulo, mensagem], (err, results) => {
     if (err) {
       logger.error('Erro ao criar aviso:', err)
@@ -903,34 +903,34 @@ app.post('/api/avisos', authMiddleware, (req, res) => {
     }
     const insertedId = results.insertId
     // fetch the inserted aviso to broadcast
-    db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id = ? LIMIT 1', [insertedId], (sErr, rows) => {
+    db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id =  LIMIT 1', [insertedId], (sErr, rows) => {
       if (sErr) {
         logger.error('Erro ao buscar aviso inserido:', sErr)
-        return res.status(201).json({ message: 'Aviso criado.', id: insertedId })
+        return res.status(201).json({ message: 'Aviso criação.', id: insertedId })
       }
-      const row = (rows && rows[0]) ? rows[0] : null
-      const aviso = row ? { id: row.id, titulo: row.titulo, mensagem: row.mensagem, created_at: row.created_at } : { id: insertedId, titulo, mensagem, created_at: new Date() }
+      const row = (rows && rows[0])  rows[0] : null
+      const aviso = row  { id: row.id, titulo: row.titulo, mensagem: row.mensagem, created_at: row.created_at } : { id: insertedId, titulo, mensagem, created_at: new Date() }
       // broadcast to SSE clients (non-blocking) with explicit action
       try { broadcastAviso({ ...aviso, action: 'created' }) } catch (e) { logger.warn('Broadcast aviso falhou:', e) }
-      return res.status(201).json({ message: 'Aviso criado.', aviso })
+      return res.status(201).json({ message: 'Aviso criação.', aviso })
     })
   })
 })
 
 // DELETE /api/avisos/:id -> remover (apenas admin)
 app.delete('/api/avisos/:id', authMiddleware, (req, res) => {
-  if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negado.' })
+  if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negação.' })
   const { id } = req.params
   // Buscar aviso antes de deletar para broadcast completo
-  db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id = ? LIMIT 1', [id], (fetchErr, rows) => {
-    const aviso = (rows && rows[0]) ? rows[0] : { id: Number(id) }
-    const sql = 'DELETE FROM avisos WHERE id = ?'
+  db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id =  LIMIT 1', [id], (fetchErr, rows) => {
+    const aviso = (rows && rows[0])  rows[0] : { id: Number(id) }
+    const sql = 'DELETE FROM avisos WHERE id = '
     db.query(sql, [id], (err, results) => {
       if (err) {
         logger.error('Erro ao apagar aviso:', err)
         return res.status(500).json({ message: 'Erro interno no servidor.' })
       }
-      if (results.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontrado.' })
+      if (results.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontração.' })
       // Garantir created_at como string ISO
       if (aviso.created_at && typeof aviso.created_at !== 'string') {
         try { aviso.created_at = new Date(aviso.created_at).toISOString() } catch (e) {}
@@ -943,55 +943,55 @@ app.delete('/api/avisos/:id', authMiddleware, (req, res) => {
 
 // PUT /api/avisos/:id -> atualizar aviso (apenas admin)
 app.put('/api/avisos/:id', authMiddleware, (req, res) => {
-  if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negado.' })
+  if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negação.' })
   const id = Number(req.params.id)
   if (!Number.isInteger(id) || id <= 0) return res.status(400).json({ message: 'ID inválido.' })
   const { titulo, mensagem } = req.body || {}
   if (!titulo && !mensagem) return res.status(400).json({ message: 'Título ou mensagem devem ser fornecidos.' })
   const updates = []
   const params = []
-  if (titulo) { updates.push('titulo = ?'); params.push(titulo) }
-  if (mensagem) { updates.push('conteudo = ?'); params.push(mensagem) }
+  if (titulo) { updates.push('titulo = '); params.push(titulo) }
+  if (mensagem) { updates.push('conteudo = '); params.push(mensagem) }
   // set data_publicacao to NOW() to update publish time when edited
   updates.push('data_publicacao = NOW()')
 
   params.push(id)
-  const sql = `UPDATE avisos SET ${updates.join(', ')} WHERE id = ?`
+  const sql = `UPDATE avisos SET ${updates.join(', ')} WHERE id = `
   db.query(sql, params, (err, results) => {
     if (err) {
       logger.error('Erro ao atualizar aviso:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
-    if (results.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontrado.' })
+    if (results.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontração.' })
     // return the updated aviso
-    db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id = ? LIMIT 1', [id], (sErr, rows) => {
+    db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id =  LIMIT 1', [id], (sErr, rows) => {
       if (sErr) {
-        logger.error('Erro ao buscar aviso atualizado:', sErr)
-        return res.json({ message: 'Aviso atualizado.' })
+        logger.error('Erro ao buscar aviso atualização:', sErr)
+        return res.json({ message: 'Aviso atualização.' })
       }
-      const row = (rows && rows[0]) ? rows[0] : null
-      const aviso = row ? { id: row.id, titulo: row.titulo, mensagem: row.mensagem, created_at: row.created_at } : null
+      const row = (rows && rows[0])  rows[0] : null
+      const aviso = row  { id: row.id, titulo: row.titulo, mensagem: row.mensagem, created_at: row.created_at } : null
       try { if (aviso) broadcastAviso({ ...aviso, action: 'updated' }) } catch (e) { logger.warn('Broadcast updated aviso falhou:', e) }
-      res.json({ message: 'Aviso atualizado.', aviso })
+      res.json({ message: 'Aviso atualização.', aviso })
     })
   })
 })
 
-// GET /api/avisos/:id -> obter um aviso por id (autenticado)
+// GET /api/avisos/:id -> obter um aviso por id (autenticação)
 app.get('/api/avisos/:id', authMiddleware, (req, res) => {
   const id = Number(req.params.id)
   if (!Number.isInteger(id) || id <= 0) return res.status(400).json({ message: 'ID inválido.' })
   const sql = `SELECT a.id, a.titulo, a.conteudo AS mensagem, a.data_publicacao AS created_at,
                 CASE WHEN al.id IS NOT NULL THEN 1 ELSE 0 END AS lido
                 FROM avisos a
-                LEFT JOIN avisos_lidos al ON al.aviso_id = a.id AND al.funcionario_id = ?
-                WHERE a.id = ? LIMIT 1`
+                LEFT JOIN avisos_lidos al ON al.aviso_id = a.id AND al.funcionario_id = 
+                WHERE a.id =  LIMIT 1`
   db.query(sql, [req.user.id, id], (err, results) => {
     if (err) {
       logger.error('Erro ao buscar aviso por id:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
-    if (!results || results.length === 0) return res.status(404).json({ message: 'Aviso não encontrado.' })
+    if (!results || results.length === 0) return res.status(404).json({ message: 'Aviso não encontração.' })
     const r = results[0]
     // normalize lido
     r.lido = r.lido === 1
@@ -1006,7 +1006,7 @@ app.post('/api/funcionarios/:id/senha',
   async (req, res) => {
     const { id } = req.params
     if (!isAdminUser(req.user) && Number(req.user.id) !== Number(id)) {
-      return res.status(403).json({ message: 'Acesso negado.' })
+      return res.status(403).json({ message: 'Acesso negação.' })
     }
     const errors = validationResult(req)
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
@@ -1014,13 +1014,13 @@ app.post('/api/funcionarios/:id/senha',
     const nova = req.body.senha
     try {
       const hashed = await bcrypt.hash(nova, 10)
-      const sql = 'UPDATE funcionarios SET senha = ? WHERE id = ?'
+      const sql = 'UPDATE funcionarios SET senha =  WHERE id = '
       db.query(sql, [hashed, id], (err, results) => {
         if (err) {
           logger.error('Erro ao atualizar senha:', err)
           return res.status(500).json({ message: 'Erro interno no servidor.' })
         }
-        if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
+        if (results.affectedRows === 0) return res.status(404).json({ message: 'Funcionário não encontração.' })
         res.json({ message: 'Senha atualizada com sucesso.' })
       })
     } catch (hashErr) {
@@ -1030,15 +1030,15 @@ app.post('/api/funcionarios/:id/senha',
   }
 )
 
-// Rota para obter dados do usuário autenticado
+// Rota para obter daçãos do usuário autenticação
 app.get('/api/me', authMiddleware, (req, res) => {
-  const sql = 'SELECT * FROM funcionarios WHERE id = ? LIMIT 1'
+  const sql = 'SELECT * FROM funcionarios WHERE id =  LIMIT 1'
   db.query(sql, [req.user.id], (err, results) => {
     if (err) {
       logger.error('Erro ao buscar usuário:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
-    if (!results || results.length === 0) return res.status(404).json({ message: 'Usuário não encontrado.' })
+    if (!results || results.length === 0) return res.status(404).json({ message: 'Usuário não encontração.' })
     const { senha, ...safeUser } = results[0]
     res.json(safeUser)
   })
@@ -1047,10 +1047,10 @@ app.get('/api/me', authMiddleware, (req, res) => {
 // ------------------
 // Persistência de leitura de avisos (per-user)
 // ------------------
-// GET /api/avisos/read -> retorna array de aviso_ids lidos pelo utilizador
+// GET /api/avisos/read -> retorna array de aviso_ids lidos pelo utilizaçãor
 app.get('/api/avisos/read', authMiddleware, async (req, res) => {
   try {
-    const rows = await dbQuery('SELECT aviso_id FROM avisos_lidos WHERE funcionario_id = ?', [req.user.id])
+    const rows = await dbQuery('SELECT aviso_id FROM avisos_lidos WHERE funcionario_id = ', [req.user.id])
     const ids = (rows || []).map(r => r.aviso_id)
     res.json({ read: ids })
   } catch (e) {
@@ -1065,9 +1065,9 @@ app.post('/api/avisos/:id/read', authMiddleware, async (req, res) => {
   if (!Number.isInteger(avisoId) || avisoId <= 0) return res.status(400).json({ message: 'ID de aviso inválido.' })
   try {
     const now = new Date()
-    const sql = 'INSERT INTO avisos_lidos (aviso_id, funcionario_id, lido_at) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE lido_at = VALUES(lido_at)'
+    const sql = 'INSERT INTO avisos_lidos (aviso_id, funcionario_id, lido_at) VALUES (, , ) ON DUPLICATE KEY UPDATE lido_at = VALUES(lido_at)'
     await dbQuery(sql, [avisoId, req.user.id, now])
-    res.json({ message: 'Marcado como lido.', aviso_id: avisoId })
+    res.json({ message: 'Marcação como lido.', aviso_id: avisoId })
   } catch (e) {
     logger.error('Erro ao marcar aviso como lido:', e)
     res.status(500).json({ message: 'Erro interno.' })
@@ -1079,9 +1079,9 @@ app.delete('/api/avisos/:id/read', authMiddleware, async (req, res) => {
   const avisoId = Number(req.params.id)
   if (!Number.isInteger(avisoId) || avisoId <= 0) return res.status(400).json({ message: 'ID de aviso inválido.' })
   try {
-    const sql = 'DELETE FROM avisos_lidos WHERE aviso_id = ? AND funcionario_id = ?'
+    const sql = 'DELETE FROM avisos_lidos WHERE aviso_id =  AND funcionario_id = '
     await dbQuery(sql, [avisoId, req.user.id])
-    res.json({ message: 'Marcado como não lido.' })
+    res.json({ message: 'Marcação como não lido.' })
   } catch (e) {
     logger.error('Erro ao desmarcar aviso como lido:', e)
     res.status(500).json({ message: 'Erro interno.' })
@@ -1089,24 +1089,24 @@ app.delete('/api/avisos/:id/read', authMiddleware, async (req, res) => {
 })
 
 // ------------------
-// Dashboard summary (agregado) - para otimizar dashboard admin
-// Disponível para utilizadores autenticados (admins veem tudo)
+// Dashboard summary (agregação) - para otimizar dashboard admin
+// Disponível para utilizaçãores autenticaçãos (admins veem tudo)
 // ------------------
 app.get('/api/dashboard/summary', authMiddleware, async (req, res) => {
   try {
-    // Avisos (limitados)
+    // Avisos (limitaçãos)
     const avisos = await dbQuery('SELECT id, titulo, conteudo AS mensagem, NULL AS created_by, data_publicacao AS created_at FROM avisos ORDER BY data_publicacao DESC LIMIT 20')
 
     // Aniversariantes do mês
     const now = new Date()
     const month = now.getMonth() + 1
     // Return both foto_perfil_url and foto_url (legacy) so frontend can use either property
-  const aniversariantes = await dbQuery('SELECT id, COALESCE(nome_completo, email) AS nome, foto_perfil_url, foto_thumb_url, foto_perfil_url AS foto_url, data_nascimento FROM funcionarios WHERE data_nascimento IS NOT NULL AND MONTH(data_nascimento) = ? ORDER BY DAY(data_nascimento)', [month])
+  const aniversariantes = await dbQuery('SELECT id, COALESCE(nome_completo, email) AS nome, foto_perfil_url, foto_thumb_url, foto_perfil_url AS foto_url, data_nascimento FROM funcionarios WHERE data_nascimento IS NOT NULL AND MONTH(data_nascimento) =  ORDER BY DAY(data_nascimento)', [month])
 
     // Usuarios sem foto (para o banner)
     let semFoto = []
     try {
-  semFoto = await dbQuery('SELECT id, COALESCE(nome_completo, email) AS nome FROM funcionarios WHERE foto_perfil_url IS NULL OR foto_perfil_url = "" OR foto_perfil_url LIKE ? LIMIT 20', ['%placeholder%'])
+  semFoto = await dbQuery('SELECT id, COALESCE(nome_completo, email) AS nome FROM funcionarios WHERE foto_perfil_url IS NULL OR foto_perfil_url = "" OR foto_perfil_url LIKE  LIMIT 20', ['%placeholder%'])
     } catch (e) {
       semFoto = []
     }
@@ -1114,39 +1114,39 @@ app.get('/api/dashboard/summary', authMiddleware, async (req, res) => {
     // Tempo de casa (pegar id, nome, data_admissao)
   const funcionarios = await dbQuery('SELECT id, COALESCE(nome_completo, email) AS nome, data_admissao FROM funcionarios')
     const tempoCasa = funcionarios.map(f => {
-      const adm = f.data_admissao ? new Date(f.data_admissao) : null
-      const dias = adm ? Math.floor((Date.now() - adm.getTime()) / (1000 * 60 * 60 * 24)) : null
+      const adm = f.data_admissao  new Date(f.data_admissao) : null
+      const dias = adm  Math.floor((Date.now() - adm.getTime()) / (1000 * 60 * 60 * 24)) : null
       return { id: f.id, nome: f.nome, data_admissao: f.data_admissao, dias }
     }).sort((a, b) => (b.dias || 0) - (a.dias || 0)).slice(0, 50)
 
-    // Atéstados recentes: juntar dos registros de atéstados (tabela atéstados se existir)
-    let atéstados = []
+    // Atéstaçãos recentes: juntar dos registros de atéstaçãos (tabela atéstaçãos se existir)
+    let atéstaçãos = []
     try {
-      // se existe tabela atéstados, use-a
-  atéstados = await dbQuery('SELECT a.id, a.funcionario_id, COALESCE(f.nome_completo, f.email) AS nome, a.nome_arquivo, a.url_arquivo, a.data_envio FROM atéstados a LEFT JOIN funcionarios f ON f.id = a.funcionario_id ORDER BY a.data_envio DESC LIMIT 50')
+      // se existe tabela atéstaçãos, use-a
+  atéstaçãos = await dbQuery('SELECT a.id, a.funcionario_id, COALESCE(f.nome_completo, f.email) AS nome, a.nome_arquivo, a.url_arquivo, a.data_envio FROM atéstaçãos a LEFT JOIN funcionarios f ON f.id = a.funcionario_id ORDER BY a.data_envio DESC LIMIT 50')
     } catch (e) {
-      // tabela pode não existir; tentamos a versão que armazena em JSON na coluna funcionarios.atéstados (menos provável) -> ignorar
-      atéstados = []
+      // tabela pode não existir; tentamos a versão que armazena em JSON na coluna funcionarios.atéstaçãos (menos provável) -> ignorar
+      atéstaçãos = []
     }
 
     // If requester is not admin, include only what the user needs plus their own ponto/holerites
     if (req.user.role !== 'admin') {
       try {
         // fetch latest espelho_ponto for this user
-        const pontoRows = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM espelhos_ponto WHERE funcionario_id = ? ORDER BY data_upload DESC LIMIT 1', [req.user.id])
-        const latestPonto = (pontoRows && pontoRows.length > 0) ? pontoRows[0] : null
+        const pontoRows = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM espelhos_ponto WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 1', [req.user.id])
+        const latestPonto = (pontoRows && pontoRows.length > 0)  pontoRows[0] : null
         // do not include full tempoCasa aggregate for non-admins
-        return res.json({ avisos, aniversariantes, atéstados, espelho_ponto: latestPonto })
+        return res.json({ avisos, aniversariantes, atéstaçãos, espelho_ponto: latestPonto })
       } catch (e) {
         logger.error('Erro ao buscar espelho de ponto para summary do user:', e)
-        return res.json({ avisos, aniversariantes, atéstados })
+        return res.json({ avisos, aniversariantes, atéstaçãos })
       }
     }
 
-    res.json({ avisos, aniversariantes, tempoCasa, atéstados, semFoto })
+    res.json({ avisos, aniversariantes, tempoCasa, atéstaçãos, semFoto })
   } catch (err) {
     // Log full stack for server-side diagnostics, but do not leak internals to the client
-    logger.error('Erro ao gerar dashboard summary:', err && err.stack ? err.stack : err)
+    logger.error('Erro ao gerar dashboard summary:', err && err.stack  err.stack : err)
     res.status(500).json({ message: 'Erro interno ao compilar resumo do dashboard.' })
   }
 })
@@ -1175,14 +1175,14 @@ function broadcastAviso (aviso) {
   }
 }
 
-// SSE endpoint: supports token via Authorization header OR ?token=<jwt> so EventSource can connect
+// SSE endpoint: supports token via Authorization header OR token=<jwt> so EventSource can connect
 app.get('/api/avisos/stream', (req, res) => {
   // debug: log incoming url and query keys to help debug missing token cases
   try { logger.info('[SSE] incoming URL: ' + (req.originalUrl || req.url || '(no url)') + ' queryKeys:' + JSON.stringify(Object.keys(req.query || {}))) } catch (e) {}
   try { console.log('[SSE-DEBUG] rawUrl=', req.url, 'originalUrl=', req.originalUrl, 'headers.keys=', Object.keys(req.headers || {}), 'query=', req.query) } catch (e) { console.log('[SSE-DEBUG] failed to print req debug', e) }
   // try multiple common locations for a JWT so EventSource clients using
-  // different param names still work: Authorization header, ?token=, ?access_token=,
-  // X-Access-Token header, or ?auth= etc. Log a masked token for diagnostics.
+  // different param names still work: Authorization header, token=, access_token=,
+  // X-Access-Token header, or auth= etc. Log a masked token for diagnostics.
   let token = null
   const auth = req.headers && req.headers.authorization
   if (auth && auth.startsWith && auth.startsWith('Bearer ')) token = auth.split(' ')[1]
@@ -1207,10 +1207,10 @@ app.get('/api/avisos/stream', (req, res) => {
   }
   try {
     // log masked token for easier debugging without leaking full JWT to logs
-    try { logger.info('[SSE] token recebido (mascarado): ' + maskToken(token)) } catch (e) {}
+    try { logger.info('[SSE] token recebido (mascaração): ' + maskToken(token)) } catch (e) {}
     const payload = jwt.verify(token, JWT_SECRET)
     // log a compact payload summary for diagnostics (do not print full token)
-    try { logger.info(`[SSE] token payload: id=${payload && payload.id ? payload.id : 'unknown'} role=${payload && payload.role ? payload.role : 'unknown'} sse=${payload && payload.sse ? '1' : '0'}`) } catch (e) {}
+    try { logger.info(`[SSE] token payload: id=${payload && payload.id  payload.id : 'unknown'} role=${payload && payload.role  payload.role : 'unknown'} sse=${payload && payload.sse  '1' : '0'}`) } catch (e) {}
     // attach minimal user info for this connection
     const user = { id: payload.id, role: payload.role }
 
@@ -1243,7 +1243,7 @@ app.get('/api/avisos/stream', (req, res) => {
       sseClients.delete(client)
     })
   } catch (e) {
-    try { logger.warn('[SSE] jwt verify failed for token (masked): ' + maskToken(token) + ' error: ' + (e && e.message ? e.message : String(e))) } catch (logErr) {}
+    try { logger.warn('[SSE] jwt verify failed for token (masked): ' + maskToken(token) + ' error: ' + (e && e.message  e.message : String(e))) } catch (logErr) {}
     return res.status(401).json({ message: 'Token inválido para SSE.' })
   }
 })
@@ -1256,7 +1256,7 @@ app.post('/api/avisos/sse-handshake', authMiddleware, (req, res) => {
     // create a short-lived token limited to SSE connections
     const shortToken = jwt.sign({ id: req.user.id, role: req.user.role, sse: true }, JWT_SECRET, { expiresIn: '20s' })
     try { logger.info(`[SSE-HANDSHAKE] created short token for user=${req.user.id}`) } catch (e) {}
-    return res.json({ url: `/api/avisos/stream?token=${encodeURIComponent(shortToken)}` })
+    return res.json({ url: `/api/avisos/streamtoken=${encodeURIComponent(shortToken)}` })
   } catch (e) {
     logger.error('Erro no handshake SSE:', e)
     return res.status(500).json({ message: 'Erro ao gerar handshake SSE.' })
@@ -1271,8 +1271,8 @@ app.get('/api/rh/dashboard/kpis', authMiddleware, async (req, res) => {
     const hoje = new Date();
     const mesAtual = hoje.getMonth() + 1;
     const anoAtual = hoje.getFullYear();
-    const mesAnterior = mesAtual === 1 ? 12 : mesAtual - 1;
-    const anoMesAnterior = mesAtual === 1 ? anoAtual - 1 : anoAtual;
+    const mesAnterior = mesAtual === 1  12 : mesAtual - 1;
+    const anoMesAnterior = mesAtual === 1  anoAtual - 1 : anoAtual;
 
     // Total de funcionários ativos
     const [totalAtivos] = await dbQuery(
@@ -1284,19 +1284,19 @@ app.get('/api/rh/dashboard/kpis', authMiddleware, async (req, res) => {
 
     // Admissões no mês
     const [admicoesmes] = await dbQuery(
-      'SELECT COUNT(*) as total FROM funcionarios WHERE MONTH(data_admissao) = ? AND YEAR(data_admissao) = ?',
+      'SELECT COUNT(*) as total FROM funcionarios WHERE MONTH(data_admissao) =  AND YEAR(data_admissao) = ',
       [mesAtual, anoAtual]
     );
 
     // Desligamentos no mês
     const [desligamentos] = await dbQuery(
-      'SELECT COUNT(*) as total FROM funcionarios WHERE MONTH(data_demissao) = ? AND YEAR(data_demissao) = ?',
+      'SELECT COUNT(*) as total FROM funcionarios WHERE MONTH(data_demissao) =  AND YEAR(data_demissao) = ',
       [mesAtual, anoAtual]
     );
 
-    // Cálculo de turnover (simplificado)
+    // Cálculo de turnover (simplificação)
     const headcountMedio = totalAtivos[0].total;
-    const turnoverMes = headcountMedio > 0 ? ((desligamentos[0].total / headcountMedio) * 100).toFixed(2) : 0;
+    const turnoverMes = headcountMedio > 0  ((desligamentos[0].total / headcountMedio) * 100).toFixed(2) : 0;
 
     // Distribuição por departamento
     const distribuicaoDepartamento = await dbQuery(
@@ -1324,7 +1324,7 @@ app.get('/api/rh/dashboard/kpis', authMiddleware, async (req, res) => {
   }
 });
 
-// GET /api/rh/dashboard/charts - Dados para gráficos
+// GET /api/rh/dashboard/charts - Daçãos para gráficos
 app.get('/api/rh/dashboard/charts', authMiddleware, async (req, res) => {
   try {
     // Distribuição por faixa etária
@@ -1378,8 +1378,8 @@ app.get('/api/rh/dashboard/charts', authMiddleware, async (req, res) => {
       evolucaoHeadcount: evolucaoHeadcount || []
     });
   } catch (error) {
-    logger.error('Erro ao buscar dados de gráficos:', error);
-    res.status(500).json({ message: 'Erro ao buscar dados de gráficos' });
+    logger.error('Erro ao buscar daçãos de gráficos:', error);
+    res.status(500).json({ message: 'Erro ao buscar daçãos de gráficos' });
   }
 });
 
@@ -1406,11 +1406,11 @@ app.post('/api/rh/centro-custo', authMiddleware, async (req, res) => {
     }
 
     const result = await dbQuery(
-      'INSERT INTO centro_custo (código, descrição, departamento, responsavel_id, orçamento_mensal, ativo) VALUES (?, ?, ?, ?, ?, TRUE)',
+      'INSERT INTO centro_custo (código, descrição, departamento, responsavel_id, orçamento_mensal, ativo) VALUES (, , , , , TRUE)',
       [código, descrição, departamento || null, responsavel_id || null, orçamento_mensal || null]
     );
 
-    res.status(201).json({ id: result.insertId, message: 'Centro de custo criado com sucesso' });
+    res.status(201).json({ id: result.insertId, message: 'Centro de custo criação com sucesso' });
   } catch (error) {
     logger.error('Erro ao criar centro de custo:', error);
     if (error.code === 'ER_DUP_ENTRY') {
@@ -1426,10 +1426,10 @@ app.get('/api/rh/histórico-salarial/:funcionarioId', authMiddleware, async (req
     const { funcionarioId } = req.params;
     
     const histórico = await dbQuery(
-      `SELECT h.*, f.nome_completo as aprovador_nome 
+      `SELECT h.*, f.nome_completo as aprovaçãor_nome 
        FROM histórico_salarial h
-       LEFT JOIN funcionarios f ON h.aprovado_por = f.id
-       WHERE h.funcionario_id = ?
+       LEFT JOIN funcionarios f ON h.aprovação_por = f.id
+       WHERE h.funcionario_id = 
        ORDER BY h.data_vigencia DESC`,
       [funcionarioId]
     );
@@ -1456,24 +1456,24 @@ app.post('/api/rh/histórico-salarial', authMiddleware, async (req, res) => {
     } = req.body;
 
     if (!funcionario_id || !salario_novo || !data_vigencia) {
-      return res.status(400).json({ message: 'Dados incompletos' });
+      return res.status(400).json({ message: 'Daçãos incompletos' });
     }
 
     // Registrar no histórico
     const result = await dbQuery(
       `INSERT INTO histórico_salarial 
-       (funcionario_id, salario_anterior, salario_novo, percentual_aumento, motivo, tipo, data_vigencia, aprovado_por, observacoes)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       (funcionario_id, salario_anterior, salario_novo, percentual_aumento, motivo, tipo, data_vigencia, aprovação_por, observacoes)
+       VALUES (, , , , , , , , )`,
       [funcionario_id, salario_anterior || null, salario_novo, percentual_aumento || null, motivo || null, tipo || 'merito', data_vigencia, req.user.id, observacoes || null]
     );
 
     // Atualizar salário do funcionário
     await dbQuery(
-      'UPDATE funcionarios SET salario = ? WHERE id = ?',
+      'UPDATE funcionarios SET salario =  WHERE id = ',
       [salario_novo, funcionario_id]
     );
 
-    res.status(201).json({ id: result.insertId, message: 'Reajuste salarial registrado com sucesso' });
+    res.status(201).json({ id: result.insertId, message: 'Reajuste salarial registração com sucesso' });
   } catch (error) {
     logger.error('Erro ao registrar reajuste salarial:', error);
     res.status(500).json({ message: 'Erro ao registrar reajuste salarial' });
@@ -1486,10 +1486,10 @@ app.get('/api/rh/histórico-cargos/:funcionarioId', authMiddleware, async (req, 
     const { funcionarioId } = req.params;
     
     const histórico = await dbQuery(
-      `SELECT h.*, f.nome_completo as aprovador_nome 
+      `SELECT h.*, f.nome_completo as aprovaçãor_nome 
        FROM histórico_cargos h
-       LEFT JOIN funcionarios f ON h.aprovado_por = f.id
-       WHERE h.funcionario_id = ?
+       LEFT JOIN funcionarios f ON h.aprovação_por = f.id
+       WHERE h.funcionario_id = 
        ORDER BY h.data_efetivacao DESC`,
       [funcionarioId]
     );
@@ -1517,20 +1517,20 @@ app.post('/api/rh/histórico-cargos', authMiddleware, async (req, res) => {
     } = req.body;
 
     if (!funcionario_id || !cargo_novo || !data_efetivacao) {
-      return res.status(400).json({ message: 'Dados incompletos' });
+      return res.status(400).json({ message: 'Daçãos incompletos' });
     }
 
     // Registrar no histórico
     const result = await dbQuery(
       `INSERT INTO histórico_cargos 
-       (funcionario_id, cargo_anterior, cargo_novo, departamento_anterior, departamento_novo, tipo_movimentacao, data_efetivacao, motivo, aprovado_por, observacoes)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       (funcionario_id, cargo_anterior, cargo_novo, departamento_anterior, departamento_novo, tipo_movimentacao, data_efetivacao, motivo, aprovação_por, observacoes)
+       VALUES (, , , , , , , , , )`,
       [funcionario_id, cargo_anterior || null, cargo_novo, departamento_anterior || null, departamento_novo || null, tipo_movimentacao || 'promocao', data_efetivacao, motivo || null, req.user.id, observacoes || null]
     );
 
     // Atualizar cargo e departamento do funcionário
     await dbQuery(
-      'UPDATE funcionarios SET cargo = ?, departamento = ? WHERE id = ?',
+      'UPDATE funcionarios SET cargo = , departamento =  WHERE id = ',
       [cargo_novo, departamento_novo || null, funcionario_id]
     );
 
@@ -1553,7 +1553,7 @@ app.post('/api/rh/ponto/registrar', authMiddleware, async (req, res) => {
 
     // Buscar registro do dia
     const [registros] = await dbQuery(
-      'SELECT * FROM controle_ponto WHERE funcionario_id = ? AND data = ?',
+      'SELECT * FROM controle_ponto WHERE funcionario_id =  AND data = ',
       [funcionario_id, today]
     );
 
@@ -1564,7 +1564,7 @@ app.post('/api/rh/ponto/registrar', authMiddleware, async (req, res) => {
       result = await dbQuery(
         `INSERT INTO controle_ponto 
          (funcionario_id, data, entrada_manha, tipo_registro, ip_registro, observacao)
-         VALUES (?, ?, ?, ?, ?, ?)`,
+         VALUES (, , , , , )`,
         [funcionario_id, today, now, tipo_registro || 'normal', ip, observacao || null]
       );
       
@@ -1580,24 +1580,24 @@ app.post('/api/rh/ponto/registrar', authMiddleware, async (req, res) => {
       // Determinar qual campo atualizar
       if (!registro.saida_almoco) {
         await dbQuery(
-          'UPDATE controle_ponto SET saida_almoco = ?, ip_registro = ? WHERE id = ?',
+          'UPDATE controle_ponto SET saida_almoco = , ip_registro =  WHERE id = ',
           [now, ip, registro.id]
         );
         res.json({ message: 'Saída para almoço registrada', tipo: 'saida_almoco', horario: now });
       } else if (!registro.entrada_tarde) {
         await dbQuery(
-          'UPDATE controle_ponto SET entrada_tarde = ?, ip_registro = ? WHERE id = ?',
+          'UPDATE controle_ponto SET entrada_tarde = , ip_registro =  WHERE id = ',
           [now, ip, registro.id]
         );
-        res.json({ message: 'Retorno do almoço registrado', tipo: 'entrada_tarde', horario: now });
+        res.json({ message: 'Retorno do almoço registração', tipo: 'entrada_tarde', horario: now });
       } else if (!registro.saida_final) {
         await dbQuery(
-          'UPDATE controle_ponto SET saida_final = ?, ip_registro = ? WHERE id = ?',
+          'UPDATE controle_ponto SET saida_final = , ip_registro =  WHERE id = ',
           [now, ip, registro.id]
         );
         res.json({ message: 'Saída final registrada', tipo: 'saida_final', horario: now });
       } else {
-        res.status(400).json({ message: 'Todos os horários do dia já foram registrados' });
+        res.status(400).json({ message: 'Todos os horários do dia já foram registraçãos' });
       }
     }
   } catch (error) {
@@ -1616,7 +1616,7 @@ app.get('/api/rh/ponto/hoje/:funcionarioId', authMiddleware, async (req, res) =>
       `SELECT cp.*, f.nome as funcionario_nome, f.cargo
        FROM controle_ponto cp
        JOIN funcionarios f ON cp.funcionario_id = f.id
-       WHERE cp.funcionario_id = ? AND cp.data = ?`,
+       WHERE cp.funcionario_id =  AND cp.data = `,
       [funcionarioId, today]
     );
 
@@ -1657,24 +1657,24 @@ app.get('/api/rh/ponto/histórico/:funcionarioId', authMiddleware, async (req, r
       SELECT cp.*, 
              f.nome as funcionario_nome,
              f.cargo,
-             aprovador.nome as aprovador_nome
+             aprovaçãor.nome as aprovaçãor_nome
       FROM controle_ponto cp
       JOIN funcionarios f ON cp.funcionario_id = f.id
-      LEFT JOIN funcionarios aprovador ON cp.aprovado_por = aprovador.id
-      WHERE cp.funcionario_id = ?
+      LEFT JOIN funcionarios aprovaçãor ON cp.aprovação_por = aprovaçãor.id
+      WHERE cp.funcionario_id = 
     `;
     
     const params = [funcionarioId];
 
     if (mes && ano) {
-      query += ` AND MONTH(cp.data) = ? AND YEAR(cp.data) = ?`;
+      query += ` AND MONTH(cp.data) =  AND YEAR(cp.data) = `;
       params.push(mes, ano);
     }
 
     query += ` ORDER BY cp.data DESC`;
 
     if (limite) {
-      query += ` LIMIT ?`;
+      query += ` LIMIT `;
       params.push(parseInt(limite));
     }
 
@@ -1686,7 +1686,7 @@ app.get('/api/rh/ponto/histórico/:funcionarioId', authMiddleware, async (req, r
   }
 });
 
-// GET /api/rh/ponto/relatório-mensal - Relatório mensal consolidado
+// GET /api/rh/ponto/relatório-mensal - Relatório mensal consolidação
 app.get('/api/rh/ponto/relatório-mensal', authMiddleware, async (req, res) => {
   try {
     const { mes, ano, departamento } = req.query;
@@ -1697,13 +1697,13 @@ app.get('/api/rh/ponto/relatório-mensal', authMiddleware, async (req, res) => {
         f.nome,
         f.cargo,
         f.departamento,
-        COUNT(DISTINCT cp.data) as dias_trabalhados,
+        COUNT(DISTINCT cp.data) as dias_trabalhaçãos,
         SUM(cp.horas_trabalhadas) as total_horas,
         SUM(cp.horas_extras) as total_horas_extras,
         SUM(cp.atraso_minutos) as total_atraso_minutos,
         SUM(CASE WHEN cp.tipo_registro = 'falta' THEN 1 ELSE 0 END) as total_faltas,
-        SUM(CASE WHEN cp.tipo_registro = 'atéstado' THEN 1 ELSE 0 END) as total_atestados,
-        SUM(CASE WHEN cp.aprovado = 'pendente' THEN 1 ELSE 0 END) as pendentes_aprovacao
+        SUM(CASE WHEN cp.tipo_registro = 'atéstação' THEN 1 ELSE 0 END) as total_atestaçãos,
+        SUM(CASE WHEN cp.aprovação = 'pendente' THEN 1 ELSE 0 END) as pendentes_aprovacao
       FROM funcionarios f
       LEFT JOIN controle_ponto cp ON f.id = cp.funcionario_id
       WHERE f.status = 'ativo'
@@ -1712,12 +1712,12 @@ app.get('/api/rh/ponto/relatório-mensal', authMiddleware, async (req, res) => {
     const params = [];
 
     if (mes && ano) {
-      query += ` AND MONTH(cp.data) = ? AND YEAR(cp.data) = ?`;
+      query += ` AND MONTH(cp.data) =  AND YEAR(cp.data) = `;
       params.push(mes, ano);
     }
 
     if (departamento) {
-      query += ` AND f.departamento = ?`;
+      query += ` AND f.departamento = `;
       params.push(departamento);
     }
 
@@ -1742,7 +1742,7 @@ app.post('/api/rh/ponto/justificativa', authMiddleware, async (req, res) => {
 
     const updateData = {
       justificativa,
-      aprovado: 'pendente'
+      aprovação: 'pendente'
     };
 
     if (tipo_registro) {
@@ -1751,8 +1751,8 @@ app.post('/api/rh/ponto/justificativa', authMiddleware, async (req, res) => {
 
     await dbQuery(
       `UPDATE controle_ponto 
-       SET justificativa = ?, tipo_registro = COALESCE(?, tipo_registro), aprovado = 'pendente'
-       WHERE id = ?`,
+       SET justificativa = , tipo_registro = COALESCE(, tipo_registro), aprovação = 'pendente'
+       WHERE id = `,
       [justificativa, tipo_registro || null, ponto_id]
     );
 
@@ -1768,14 +1768,14 @@ app.post('/api/rh/ponto/aprovar', authMiddleware, async (req, res) => {
   try {
     const { ponto_id, status, observacao } = req.body;
 
-    if (!ponto_id || !status || !['aprovado', 'reprovado'].includes(status)) {
-      return res.status(400).json({ message: 'Dados inválidos' });
+    if (!ponto_id || !status || !['aprovação', 'reprovação'].includes(status)) {
+      return res.status(400).json({ message: 'Daçãos inválidos' });
     }
 
     await dbQuery(
       `UPDATE controle_ponto 
-       SET aprovado = ?, aprovado_por = ?, data_aprovacao = NOW(), observacao = COALESCE(?, observacao)
-       WHERE id = ?`,
+       SET aprovação = , aprovação_por = , data_aprovacao = NOW(), observacao = COALESCE(, observacao)
+       WHERE id = `,
       [status, req.user.id, observacao || null, ponto_id]
     );
 
@@ -1798,13 +1798,13 @@ app.get('/api/rh/ponto/pendentes', authMiddleware, async (req, res) => {
              f.departamento
       FROM controle_ponto cp
       JOIN funcionarios f ON cp.funcionario_id = f.id
-      WHERE cp.aprovado = 'pendente'
+      WHERE cp.aprovação = 'pendente'
     `;
 
     const params = [];
 
     if (departamento) {
-      query += ` AND f.departamento = ?`;
+      query += ` AND f.departamento = `;
       params.push(departamento);
     }
 
@@ -1832,20 +1832,20 @@ app.get('/api/rh/ponto/dashboard', authMiddleware, async (req, res) => {
         SUM(CASE WHEN atraso_minutos > 0 THEN 1 ELSE 0 END) as total_atrasos,
         SUM(CASE WHEN tipo_registro = 'falta' THEN 1 ELSE 0 END) as total_faltas_hoje
       FROM controle_ponto
-      WHERE data = ?
+      WHERE data = 
     `, [hoje]);
 
     // KPIs do mês
     const [kpisMes] = await dbQuery(`
       SELECT 
-        COUNT(DISTINCT funcionario_id) as funcionarios_registrados,
+        COUNT(DISTINCT funcionario_id) as funcionarios_registraçãos,
         SUM(horas_trabalhadas) as total_horas_mes,
         SUM(horas_extras) as total_horas_extras_mes,
         SUM(CASE WHEN tipo_registro = 'falta' THEN 1 ELSE 0 END) as total_faltas_mes,
-        SUM(CASE WHEN tipo_registro = 'atéstado' THEN 1 ELSE 0 END) as total_atestados_mes,
-        COUNT(CASE WHEN aprovado = 'pendente' THEN 1 END) as pendentes_aprovacao
+        SUM(CASE WHEN tipo_registro = 'atéstação' THEN 1 ELSE 0 END) as total_atestaçãos_mes,
+        COUNT(CASE WHEN aprovação = 'pendente' THEN 1 END) as pendentes_aprovacao
       FROM controle_ponto
-      WHERE MONTH(data) = ? AND YEAR(data) = ?
+      WHERE MONTH(data) =  AND YEAR(data) = 
     `, [mesAtual, anoAtual]);
 
     // Total de funcionários ativos
@@ -1858,7 +1858,7 @@ app.get('/api/rh/ponto/dashboard', authMiddleware, async (req, res) => {
       SELECT cp.*, f.nome, f.cargo
       FROM controle_ponto cp
       JOIN funcionarios f ON cp.funcionario_id = f.id
-      WHERE cp.data = ?
+      WHERE cp.data = 
       ORDER BY cp.updated_at DESC
       LIMIT 10
     `, [hoje]);
@@ -1869,15 +1869,15 @@ app.get('/api/rh/ponto/dashboard', authMiddleware, async (req, res) => {
         atrasos: kpisHoje[0].total_atrasos || 0,
         faltas: kpisHoje[0].total_faltas_hoje || 0,
         percentual_presenca: totalFunc[0].total > 0 
-          ? ((kpisHoje[0].total_presentes / totalFunc[0].total) * 100).toFixed(1)
+           ((kpisHoje[0].total_presentes / totalFunc[0].total) * 100).toFixed(1)
           : 0
       },
       mes: {
-        funcionarios_registrados: kpisMes[0].funcionarios_registrados || 0,
+        funcionarios_registraçãos: kpisMes[0].funcionarios_registraçãos || 0,
         total_horas: parseFloat(kpisMes[0].total_horas_mes || 0).toFixed(2),
         total_horas_extras: parseFloat(kpisMes[0].total_horas_extras_mes || 0).toFixed(2),
         total_faltas: kpisMes[0].total_faltas_mes || 0,
-        total_atestados: kpisMes[0].total_atestados_mes || 0,
+        total_atestaçãos: kpisMes[0].total_atestaçãos_mes || 0,
         pendentes_aprovacao: kpisMes[0].pendentes_aprovacao || 0
       },
       últimos_registros: últimosRegistros
@@ -1919,14 +1919,14 @@ app.post('/api/rh/jornadas', authMiddleware, async (req, res) => {
     } = req.body;
 
     if (!nome || !entrada_manha || !saida_final) {
-      return res.status(400).json({ message: 'Dados incompletos' });
+      return res.status(400).json({ message: 'Daçãos incompletos' });
     }
 
     const result = await dbQuery(
       `INSERT INTO jornada_trabalho 
        (nome, descrição, entrada_manha, saida_almoco, entrada_tarde, saida_final, carga_horaria_diaria, carga_horaria_semanal, tolerancia_atraso, tolerancia_saida, dias_trabalho)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [nome, descrição || null, entrada_manha, saida_almoco || null, entrada_tarde || null, saida_final, carga_horaria_diaria || 8, carga_horaria_semanal || 40, tolerancia_atraso || 10, tolerancia_saida || 10, dias_trabalho ? JSON.stringify(dias_trabalho) : null]
+       VALUES (, , , , , , , , , , )`,
+      [nome, descrição || null, entrada_manha, saida_almoco || null, entrada_tarde || null, saida_final, carga_horaria_diaria || 8, carga_horaria_semanal || 40, tolerancia_atraso || 10, tolerancia_saida || 10, dias_trabalho  JSON.stringify(dias_trabalho) : null]
     );
 
     res.status(201).json({ id: result.insertId, message: 'Jornada criada com sucesso' });
@@ -1945,7 +1945,7 @@ app.get('/api/rh/ferias/saldo/:funcionarioId', authMiddleware, async (req, res) 
 
     const períodos = await dbQuery(
       `SELECT * FROM ferias_periodos 
-       WHERE funcionario_id = ? 
+       WHERE funcionario_id =  
        AND status IN ('ativo', 'em_gozo')
        ORDER BY data_inicio DESC`,
       [funcionarioId]
@@ -1957,7 +1957,7 @@ app.get('/api/rh/ferias/saldo/:funcionarioId', authMiddleware, async (req, res) 
     res.json({
       períodos,
       total_dias_disponivel: totalDisponivel,
-      próximo_vencimento: próximoVencimento ? próximoVencimento.data_limite_gozo : null
+      próximo_vencimento: próximoVencimento  próximoVencimento.data_limite_gozo : null
     });
   } catch (error) {
     logger.error('Erro ao consultar saldo:', error);
@@ -1982,10 +1982,10 @@ app.post('/api/rh/ferias/solicitar', authMiddleware, async (req, res) => {
     } = req.body;
 
     if (!funcionario_id || !data_inicio || !data_fim || !período_aquisitivo_inicio || !período_aquisitivo_fim) {
-      return res.status(400).json({ message: 'Dados incompletos' });
+      return res.status(400).json({ message: 'Daçãos incompletos' });
     }
 
-    // Calcular dias solicitados
+    // Calcular dias solicitaçãos
     const inicio = new Date(data_inicio);
     const fim = new Date(data_fim);
     const diasCorridos = Math.ceil((fim - inicio) / (1000 * 60 * 60 * 24)) + 1;
@@ -1993,14 +1993,14 @@ app.post('/api/rh/ferias/solicitar', authMiddleware, async (req, res) => {
     // Verificar saldo disponível
     const [período] = await dbQuery(
       `SELECT * FROM ferias_periodos 
-       WHERE funcionario_id = ? 
-       AND data_inicio = ? 
-       AND data_fim = ?`,
+       WHERE funcionario_id =  
+       AND data_inicio =  
+       AND data_fim = `,
       [funcionario_id, período_aquisitivo_inicio, período_aquisitivo_fim]
     );
 
     if (!período.length) {
-      return res.status(404).json({ message: 'Período aquisitivo não encontrado' });
+      return res.status(404).json({ message: 'Período aquisitivo não encontração' });
     }
 
     const diasNecessarios = diasCorridos + (dias_abono || 0);
@@ -2008,7 +2008,7 @@ app.post('/api/rh/ferias/solicitar', authMiddleware, async (req, res) => {
       return res.status(400).json({ 
         message: 'Saldo insuficiente',
         disponivel: período[0].dias_disponivel,
-        solicitado: diasNecessarios
+        solicitação: diasNecessarios
       });
     }
 
@@ -2016,8 +2016,8 @@ app.post('/api/rh/ferias/solicitar', authMiddleware, async (req, res) => {
     const result = await dbQuery(
       `INSERT INTO ferias_solicitacoes 
        (funcionario_id, período_aquisitivo_inicio, período_aquisitivo_fim, data_inicio, data_fim, 
-        dias_solicitados, dias_corridos, tipo, fracao, dias_abono, adiantamento_13, observacoes, status)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pendente')`,
+        dias_solicitaçãos, dias_corridos, tipo, fracao, dias_abono, adiantamento_13, observacoes, status)
+       VALUES (, , , , , , , , , , , , 'pendente')`,
       [funcionario_id, período_aquisitivo_inicio, período_aquisitivo_fim, data_inicio, data_fim,
        diasCorridos, diasCorridos, tipo || 'integral', fracao || null, dias_abono || 0, 
        adiantamento_13 || false, observacoes || null]
@@ -2026,7 +2026,7 @@ app.post('/api/rh/ferias/solicitar', authMiddleware, async (req, res) => {
     res.status(201).json({ 
       id: result.insertId, 
       message: 'Solicitação de férias registrada com sucesso',
-      dias_solicitados: diasCorridos
+      dias_solicitaçãos: diasCorridos
     });
   } catch (error) {
     logger.error('Erro ao solicitar férias:', error);
@@ -2042,16 +2042,16 @@ app.get('/api/rh/ferias/minhas/:funcionarioId', authMiddleware, async (req, res)
 
     let query = `
       SELECT fs.*, 
-             aprovador.nome as aprovador_nome
+             aprovaçãor.nome as aprovaçãor_nome
       FROM ferias_solicitacoes fs
-      LEFT JOIN funcionarios aprovador ON fs.aprovado_por = aprovador.id
-      WHERE fs.funcionario_id = ?
+      LEFT JOIN funcionarios aprovaçãor ON fs.aprovação_por = aprovaçãor.id
+      WHERE fs.funcionario_id = 
     `;
 
     const params = [funcionarioId];
 
     if (status) {
-      query += ` AND fs.status = ?`;
+      query += ` AND fs.status = `;
       params.push(status);
     }
 
@@ -2076,7 +2076,7 @@ app.get('/api/rh/ferias/pendentes', authMiddleware, async (req, res) => {
              f.cargo,
              f.departamento,
              gestor.nome as gestor_nome,
-             DATEDIFF(CURDATE(), fs.solicitado_em) as dias_aguardando
+             DATEDIFF(CURDATE(), fs.solicitação_em) as dias_aguardando
       FROM ferias_solicitacoes fs
       JOIN funcionarios f ON fs.funcionario_id = f.id
       LEFT JOIN funcionarios gestor ON f.gestor_id = gestor.id
@@ -2086,11 +2086,11 @@ app.get('/api/rh/ferias/pendentes', authMiddleware, async (req, res) => {
     const params = [];
 
     if (departamento) {
-      query += ` AND f.departamento = ?`;
+      query += ` AND f.departamento = `;
       params.push(departamento);
     }
 
-    query += ` ORDER BY fs.solicitado_em ASC`;
+    query += ` ORDER BY fs.solicitação_em ASC`;
 
     const pendentes = await dbQuery(query, params);
     res.json(pendentes);
@@ -2112,10 +2112,10 @@ app.post('/api/rh/ferias/aprovar', authMiddleware, async (req, res) => {
     await dbQuery(
       `UPDATE ferias_solicitacoes 
        SET status = 'aprovada', 
-           aprovado_por = ?, 
-           aprovado_em = NOW(),
-           observacoes_rh = ?
-       WHERE id = ? AND status = 'pendente'`,
+           aprovação_por = , 
+           aprovação_em = NOW(),
+           observacoes_rh = 
+       WHERE id =  AND status = 'pendente'`,
       [req.user.id, observacoes_rh || null, solicitacao_id]
     );
 
@@ -2138,10 +2138,10 @@ app.post('/api/rh/ferias/reprovar', authMiddleware, async (req, res) => {
     await dbQuery(
       `UPDATE ferias_solicitacoes 
        SET status = 'reprovada', 
-           aprovado_por = ?, 
-           aprovado_em = NOW(),
-           motivo_reprovacao = ?
-       WHERE id = ? AND status = 'pendente'`,
+           aprovação_por = , 
+           aprovação_em = NOW(),
+           motivo_reprovacao = 
+       WHERE id =  AND status = 'pendente'`,
       [req.user.id, motivo_reprovacao, solicitacao_id]
     );
 
@@ -2163,7 +2163,7 @@ app.post('/api/rh/ferias/cancelar', authMiddleware, async (req, res) => {
 
     // Verificar se pode cancelar (apenas pendentes ou aprovadas antes da data)
     const [solicitacao] = await dbQuery(
-      'SELECT * FROM ferias_solicitacoes WHERE id = ?',
+      'SELECT * FROM ferias_solicitacoes WHERE id = ',
       [solicitacao_id]
     );
 
@@ -2184,7 +2184,7 @@ app.post('/api/rh/ferias/cancelar', authMiddleware, async (req, res) => {
     }
 
     await dbQuery(
-      'UPDATE ferias_solicitacoes SET status = \'cancelada\' WHERE id = ?',
+      'UPDATE ferias_solicitacoes SET status = \'cancelada\' WHERE id = ',
       [solicitacao_id]
     );
 
@@ -2214,14 +2214,14 @@ app.get('/api/rh/ferias/calendario', authMiddleware, async (req, res) => {
 
     if (mes && ano) {
       query += ` AND (
-        (MONTH(fs.data_inicio) = ? AND YEAR(fs.data_inicio) = ?) OR
-        (MONTH(fs.data_fim) = ? AND YEAR(fs.data_fim) = ?)
+        (MONTH(fs.data_inicio) =  AND YEAR(fs.data_inicio) = ) OR
+        (MONTH(fs.data_fim) =  AND YEAR(fs.data_fim) = )
       )`;
       params.push(mes, ano, mes, ano);
     }
 
     if (departamento) {
-      query += ` AND f.departamento = ?`;
+      query += ` AND f.departamento = `;
       params.push(departamento);
     }
 
@@ -2379,25 +2379,25 @@ function calcularINSS(salarioBase, ano = 2025) {
     { inicio: 4000.04, fim: 7786.02, aliquota: 0.14 }
   ];
   
-  let inssAcumulado = 0;
+  let inssAcumulação = 0;
   let salarioRestante = salarioBase;
   
   for (const faixa of faixas) {
     if (salarioRestante <= 0) break;
     
     if (salarioBase <= faixa.fim) {
-      inssAcumulado += salarioRestante * faixa.aliquota;
+      inssAcumulação += salarioRestante * faixa.aliquota;
       salarioRestante = 0;
     } else {
       const valorFaixa = faixa.fim - faixa.inicio + 0.01;
-      inssAcumulado += valorFaixa * faixa.aliquota;
+      inssAcumulação += valorFaixa * faixa.aliquota;
       salarioRestante -= valorFaixa;
     }
   }
   
   return {
-    valor: Math.round(inssAcumulado * 100) / 100,
-    aliquota: salarioBase > 0 ? Math.round((inssAcumulado / salarioBase) * 10000) / 10000 : 0
+    valor: Math.round(inssAcumulação * 100) / 100,
+    aliquota: salarioBase > 0  Math.round((inssAcumulação / salarioBase) * 10000) / 10000 : 0
   };
 }
 
@@ -2426,7 +2426,7 @@ function calcularIRRF(baseCalculo, dependentes = 0, ano = 2025) {
   const irrfValor = Math.round(((baseTributavel * faixa.aliquota) - faixa.parcela) * 100) / 100;
   
   return {
-    valor: irrfValor > 0 ? irrfValor : 0,
+    valor: irrfValor > 0  irrfValor : 0,
     aliquota: faixa.aliquota
   };
 }
@@ -2442,7 +2442,7 @@ app.post('/api/rh/folha/criar', authMiddleware, async (req, res) => {
   try {
     // Verificar se já existe
     const [existing] = await pool.query(
-      'SELECT id FROM rh_folhas_pagamento WHERE mes = ? AND ano = ? AND tipo = ?',
+      'SELECT id FROM rh_folhas_pagamento WHERE mes =  AND ano =  AND tipo = ',
       [mes, ano, tipo]
     );
     
@@ -2451,7 +2451,7 @@ app.post('/api/rh/folha/criar', authMiddleware, async (req, res) => {
     }
     
     const [result] = await pool.query(
-      'INSERT INTO rh_folhas_pagamento (mes, ano, tipo, created_by) VALUES (?, ?, ?, ?)',
+      'INSERT INTO rh_folhas_pagamento (mes, ano, tipo, created_by) VALUES (, , , )',
       [mes, ano, tipo, req.user.userId]
     );
     
@@ -2478,7 +2478,7 @@ app.post('/api/rh/folha/calcular', authMiddleware, async (req, res) => {
   
   try {
     // Buscar folha
-    const [folha] = await pool.query('SELECT * FROM rh_folhas_pagamento WHERE id = ?', [folha_id]);
+    const [folha] = await pool.query('SELECT * FROM rh_folhas_pagamento WHERE id = ', [folha_id]);
     if (folha.length === 0) {
       return res.status(404).json({ error: 'Folha não encontrada' });
     }
@@ -2488,18 +2488,18 @@ app.post('/api/rh/folha/calcular', authMiddleware, async (req, res) => {
     const params = [];
     
     if (funcionarios_ids && funcionarios_ids.length > 0) {
-      query += ' AND id IN (?)';
+      query += ' AND id IN ()';
       params.push(funcionarios_ids);
     }
     
     const [funcionarios] = await pool.query(query, params);
     
-    let holeritesCriados = 0;
+    let holeritesCriaçãos = 0;
     
     for (const func of funcionarios) {
       // Verificar se já tem holerite
       const [existingH] = await pool.query(
-        'SELECT id FROM rh_holerites WHERE folha_id = ? AND funcionario_id = ?',
+        'SELECT id FROM rh_holerites WHERE folha_id =  AND funcionario_id = ',
         [folha_id, func.id]
       );
       
@@ -2522,7 +2522,7 @@ app.post('/api/rh/folha/calcular', authMiddleware, async (req, res) => {
           inss_base, inss_aliquota, inss_valor,
           irrf_base, irrf_aliquota, irrf_valor,
           fgts_base
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (, , , , , , , , , )
       `, [
         folha_id, func.id, salarioBase,
         salarioBase, inss.aliquota, inss.valor,
@@ -2530,12 +2530,12 @@ app.post('/api/rh/folha/calcular', authMiddleware, async (req, res) => {
         salarioBase
       ]);
       
-      holeritesCriados++;
+      holeritesCriaçãos++;
     }
     
     res.json({ 
       success: true, 
-      holerites_criados: holeritesCriados 
+      holerites_criaçãos: holeritesCriaçãos 
     });
   } catch (error) {
     logger.error('Erro ao calcular folha:', error);
@@ -2546,7 +2546,7 @@ app.post('/api/rh/folha/calcular', authMiddleware, async (req, res) => {
 // GET /api/rh/folha/:id - Detalhes da folha
 app.get('/api/rh/folha/:id', authMiddleware, async (req, res) => {
   try {
-    const [folha] = await pool.query('SELECT * FROM rh_folhas_pagamento WHERE id = ?', [req.params.id]);
+    const [folha] = await pool.query('SELECT * FROM rh_folhas_pagamento WHERE id = ', [req.params.id]);
     
     if (folha.length === 0) {
       return res.status(404).json({ error: 'Folha não encontrada' });
@@ -2556,7 +2556,7 @@ app.get('/api/rh/folha/:id', authMiddleware, async (req, res) => {
       SELECT h.*, f.nome AS funcionario_nome
       FROM rh_holerites h
       LEFT JOIN funcionarios f ON h.funcionario_id = f.id
-      WHERE h.folha_id = ?
+      WHERE h.folha_id = 
       ORDER BY f.nome
     `, [req.params.id]);
     
@@ -2579,12 +2579,12 @@ app.get('/api/rh/folha/listar', authMiddleware, async (req, res) => {
     const params = [];
     
     if (ano) {
-      query += ' AND ano = ?';
+      query += ' AND ano = ';
       params.push(ano);
     }
     
     if (tipo) {
-      query += ' AND tipo = ?';
+      query += ' AND tipo = ';
       params.push(tipo);
     }
     
@@ -2607,16 +2607,16 @@ app.get('/api/rh/holerite/:id', authMiddleware, async (req, res) => {
       FROM rh_holerites h
       LEFT JOIN funcionarios f ON h.funcionario_id = f.id
       LEFT JOIN rh_folhas_pagamento fp ON h.folha_id = fp.id
-      WHERE h.id = ?
+      WHERE h.id = 
     `, [req.params.id]);
     
     if (holerite.length === 0) {
-      return res.status(404).json({ error: 'Holerite não encontrado' });
+      return res.status(404).json({ error: 'Holerite não encontração' });
     }
     
     // Buscar itens adicionais
     const [itens] = await pool.query(
-      'SELECT * FROM rh_holerite_itens WHERE holerite_id = ?',
+      'SELECT * FROM rh_holerite_itens WHERE holerite_id = ',
       [req.params.id]
     );
     
@@ -2639,12 +2639,12 @@ app.get('/api/rh/holerite/funcionario/:funcionario_id', authMiddleware, async (r
       SELECT h.*, fp.mes, fp.ano, fp.tipo, fp.status AS folha_status
       FROM rh_holerites h
       INNER JOIN rh_folhas_pagamento fp ON h.folha_id = fp.id
-      WHERE h.funcionario_id = ?
+      WHERE h.funcionario_id = 
     `;
     const params = [req.params.funcionario_id];
     
     if (ano) {
-      query += ' AND fp.ano = ?';
+      query += ' AND fp.ano = ';
       params.push(ano);
     }
     
@@ -2677,11 +2677,11 @@ app.put('/api/rh/holerite/:id', authMiddleware, async (req, res) => {
   }
   
   try {
-    const setClause = fields.map(f => `${f} = ?`).join(', ');
+    const setClause = fields.map(f => `${f} = `).join(', ');
     const values = fields.map(f => updates[f]);
     values.push(req.params.id);
     
-    await pool.query(`UPDATE rh_holerites SET ${setClause} WHERE id = ?`, values);
+    await pool.query(`UPDATE rh_holerites SET ${setClause} WHERE id = `, values);
     
     res.json({ success: true });
   } catch (error) {
@@ -2700,7 +2700,7 @@ app.post('/api/rh/holerite/:id/item', authMiddleware, async (req, res) => {
   
   try {
     await pool.query(
-      'INSERT INTO rh_holerite_itens (holerite_id, tipo, código, descrição, referencia, valor) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO rh_holerite_itens (holerite_id, tipo, código, descrição, referencia, valor) VALUES (, , , , , )',
       [req.params.id, tipo, código, descrição, referencia, valor]
     );
     
@@ -2722,9 +2722,9 @@ app.post('/api/rh/decimo-terceiro/calcular', authMiddleware, async (req, res) =>
   try {
     // Buscar salário atual
     const salarioBase = 2500.00; // Valor padrão
-    const mesesTrabalhados = 12;
+    const mesesTrabalhaçãos = 12;
     
-    const valorBruto = (salarioBase / 12) * mesesTrabalhados;
+    const valorBruto = (salarioBase / 12) * mesesTrabalhaçãos;
     
     // Calcular INSS
     const inss = calcularINSS(valorBruto);
@@ -2737,10 +2737,10 @@ app.post('/api/rh/decimo-terceiro/calcular', authMiddleware, async (req, res) =>
     
     const [result] = await pool.query(`
       INSERT INTO rh_decimo_terceiro (
-        funcionario_id, ano, meses_trabalhados, valor_bruto,
+        funcionario_id, ano, meses_trabalhaçãos, valor_bruto,
         inss, irrf, valor_liquido, parcela
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `, [funcionario_id, ano, mesesTrabalhados, valorBruto, inss.valor, irrf.valor, valorLiquido, parcela]);
+      ) VALUES (, , , , , , , )
+    `, [funcionario_id, ano, mesesTrabalhaçãos, valorBruto, inss.valor, irrf.valor, valorLiquido, parcela]);
     
     res.json({
       success: true,
@@ -2760,7 +2760,7 @@ app.post('/api/rh/decimo-terceiro/calcular', authMiddleware, async (req, res) =>
 app.get('/api/rh/decimo-terceiro/:funcionario_id', authMiddleware, async (req, res) => {
   try {
     const [decimosTerceiros] = await pool.query(
-      'SELECT * FROM rh_decimo_terceiro WHERE funcionario_id = ? ORDER BY ano DESC',
+      'SELECT * FROM rh_decimo_terceiro WHERE funcionario_id =  ORDER BY ano DESC',
       [req.params.funcionario_id]
     );
     
@@ -2775,24 +2775,24 @@ app.get('/api/rh/decimo-terceiro/:funcionario_id', authMiddleware, async (req, r
 app.post('/api/rh/rescisao/calcular', authMiddleware, async (req, res) => {
   const { 
     funcionario_id, tipo_rescisao, data_demissao, 
-    aviso_previo_trabalhado = false, dias_aviso_previo = 30 
+    aviso_previo_trabalhação = false, dias_aviso_previo = 30 
   } = req.body;
   
   if (!funcionario_id || !tipo_rescisao || !data_demissao) {
-    return res.status(400).json({ error: 'Dados incompletos' });
+    return res.status(400).json({ error: 'Daçãos incompletos' });
   }
   
   try {
     const salarioBase = 2500.00; // Valor padrão
     
-    // Cálculo simplificado
+    // Cálculo simplificação
     const saldoSalario = salarioBase / 30 * 10; // 10 dias exemplo
-    const avisoIndenizado = aviso_previo_trabalhado ? 0 : salarioBase;
+    const avisoIndenização = aviso_previo_trabalhação  0 : salarioBase;
     const feriasProporcionais = salarioBase;
     const tercoFerias = salarioBase / 3;
     const decimoTerceiroProp = salarioBase;
     
-    const totalProventos = saldoSalario + avisoIndenizado + feriasProporcionais + tercoFerias + decimoTerceiroProp;
+    const totalProventos = saldoSalario + avisoIndenização + feriasProporcionais + tercoFerias + decimoTerceiroProp;
     
     // Impostos
     const inss = calcularINSS(totalProventos);
@@ -2803,21 +2803,21 @@ app.post('/api/rh/rescisao/calcular', authMiddleware, async (req, res) => {
     
     // FGTS e multa
     const fgtsDepositar = salarioBase * 0.08;
-    const multaFgts = tipo_rescisao === 'SEM_JUSTA_CAUSA' ? fgtsDepositar * 0.40 : 0;
+    const multaFgts = tipo_rescisao === 'SEM_JUSTA_CAUSA'  fgtsDepositar * 0.40 : 0;
     
     const [result] = await pool.query(`
       INSERT INTO rh_rescisoes (
         funcionario_id, tipo_rescisao, data_demissao,
-        aviso_previo_trabalhado, dias_aviso_previo,
-        saldo_salario, aviso_previo_indenizado, ferias_proporcionais,
+        aviso_previo_trabalhação, dias_aviso_previo,
+        saldo_salario, aviso_previo_indenização, ferias_proporcionais,
         terco_ferias_proporcionais, decimo_terceiro_proporcional,
         total_proventos, inss, irrf, total_descontos, valor_liquido,
         fgts_depositar, multa_fgts, created_by
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (, , , , , , , , , , , , , , , , , )
     `, [
       funcionario_id, tipo_rescisao, data_demissao,
-      aviso_previo_trabalhado, dias_aviso_previo,
-      saldoSalario, avisoIndenizado, feriasProporcionais,
+      aviso_previo_trabalhação, dias_aviso_previo,
+      saldoSalario, avisoIndenização, feriasProporcionais,
       tercoFerias, decimoTerceiroProp,
       totalProventos, inss.valor, irrf.valor, totalDescontos, valorLiquido,
       fgtsDepositar, multaFgts, req.user.userId
@@ -2842,11 +2842,11 @@ app.post('/api/rh/rescisao/calcular', authMiddleware, async (req, res) => {
 app.get('/api/rh/rescisao/:funcionario_id', authMiddleware, async (req, res) => {
   try {
     const [rescisao] = await pool.query(
-      'SELECT * FROM rh_rescisoes WHERE funcionario_id = ? ORDER BY data_demissao DESC',
+      'SELECT * FROM rh_rescisoes WHERE funcionario_id =  ORDER BY data_demissao DESC',
       [req.params.funcionario_id]
     );
     
-    res.json(rescisao.length > 0 ? rescisao[0] : null);
+    res.json(rescisao.length > 0  rescisao[0] : null);
   } catch (error) {
     logger.error('Erro ao buscar rescisão:', error);
     res.status(500).json({ error: 'Erro ao buscar rescisão' });
@@ -2858,20 +2858,20 @@ app.get('/api/rh/folha/dashboard', authMiddleware, async (req, res) => {
   const { ano } = req.query;
   
   try {
-    let query = 'SELECT * FROM vw_indicadores_folha WHERE 1=1';
+    let query = 'SELECT * FROM vw_indicaçãores_folha WHERE 1=1';
     const params = [];
     
     if (ano) {
-      query += ' AND ano = ?';
+      query += ' AND ano = ';
       params.push(ano);
     } else {
       query += ' AND ano = YEAR(CURDATE())';
     }
     
-    const [indicadores] = await pool.query(query, params);
+    const [indicaçãores] = await pool.query(query, params);
     
-    // Totalizador anual
-    const totais = indicadores.reduce((acc, curr) => ({
+    // Totalizaçãor anual
+    const totais = indicaçãores.reduce((acc, curr) => ({
       total_proventos: acc.total_proventos + parseFloat(curr.custo_total_proventos || 0),
       total_liquido: acc.total_liquido + parseFloat(curr.total_liquido_pago || 0),
       total_encargos: acc.total_encargos + parseFloat(curr.total_encargos_fgts || 0),
@@ -2886,7 +2886,7 @@ app.get('/api/rh/folha/dashboard', authMiddleware, async (req, res) => {
     });
     
     res.json({
-      por_mes: indicadores,
+      por_mes: indicaçãores,
       totais_anuais: totais
     });
   } catch (error) {
@@ -2905,7 +2905,7 @@ app.get('/api/rh/folha/relatório/centro-custo', authMiddleware, async (req, res
   
   try {
     const [relatório] = await pool.query(
-      'SELECT * FROM vw_folha_por_centro_custo WHERE mes = ? AND ano = ? ORDER BY total_liquido DESC',
+      'SELECT * FROM vw_folha_por_centro_custo WHERE mes =  AND ano =  ORDER BY total_liquido DESC',
       [mes, ano]
     );
     
@@ -2921,11 +2921,11 @@ app.get('/api/rh/impostos/config', authMiddleware, async (req, res) => {
   const { tipo, ano = 2025 } = req.query;
   
   try {
-    let query = 'SELECT * FROM rh_impostos_config WHERE ativo = TRUE AND ano = ?';
+    let query = 'SELECT * FROM rh_impostos_config WHERE ativo = TRUE AND ano = ';
     const params = [ano];
     
     if (tipo) {
-      query += ' AND tipo = ?';
+      query += ' AND tipo = ';
       params.push(tipo);
     }
     
@@ -2958,14 +2958,14 @@ app.post('/api/rh/beneficios/vincular', authMiddleware, async (req, res) => {
   const { funcionario_id, beneficio_tipo_id, valor_mensal, quantidade = 1, data_inicio, observacoes } = req.body;
   
   if (!funcionario_id || !beneficio_tipo_id || !valor_mensal || !data_inicio) {
-    return res.status(400).json({ error: 'Dados incompletos' });
+    return res.status(400).json({ error: 'Daçãos incompletos' });
   }
   
   try {
     const [result] = await pool.query(`
       INSERT INTO rh_funcionarios_beneficios (
         funcionario_id, beneficio_tipo_id, valor_mensal, quantidade, data_inicio, observacoes
-      ) VALUES (?, ?, ?, ?, ?, ?)
+      ) VALUES (, , , , , )
     `, [funcionario_id, beneficio_tipo_id, valor_mensal, quantidade, data_inicio, observacoes]);
     
     res.json({ success: true, id: result.insertId });
@@ -2982,7 +2982,7 @@ app.get('/api/rh/beneficios/funcionario/:id', authMiddleware, async (req, res) =
       SELECT fb.*, bt.nome AS beneficio_nome, bt.código, bt.descrição
       FROM rh_funcionarios_beneficios fb
       INNER JOIN rh_beneficios_tipos bt ON fb.beneficio_tipo_id = bt.id
-      WHERE fb.funcionario_id = ? AND fb.ativo = TRUE
+      WHERE fb.funcionario_id =  AND fb.ativo = TRUE
       ORDER BY bt.nome
     `, [req.params.id]);
     
@@ -2999,8 +2999,8 @@ app.put('/api/rh/beneficios/:id/cancelar', authMiddleware, async (req, res) => {
   
   try {
     await pool.query(
-      'UPDATE rh_funcionarios_beneficios SET data_fim = ?, observacoes = CONCAT(COALESCE(observacoes, ""), " - Cancelado: ", ?), ativo = FALSE WHERE id = ?',
-      [data_fim || new Date(), motivo || 'Não informado', req.params.id]
+      'UPDATE rh_funcionarios_beneficios SET data_fim = , observacoes = CONCAT(COALESCE(observacoes, ""), " - Cancelação: ", ), ativo = FALSE WHERE id = ',
+      [data_fim || new Date(), motivo || 'Não informação', req.params.id]
     );
     
     res.json({ success: true });
@@ -3031,7 +3031,7 @@ app.post('/api/rh/dependentes/adicionar', authMiddleware, async (req, res) => {
   const { funcionario_id, nome, cpf, data_nascimento, grau_parentesco, tem_plano_saude, irrf_dependente } = req.body;
   
   if (!funcionario_id || !nome || !data_nascimento || !grau_parentesco) {
-    return res.status(400).json({ error: 'Dados incompletos' });
+    return res.status(400).json({ error: 'Daçãos incompletos' });
   }
   
   try {
@@ -3039,7 +3039,7 @@ app.post('/api/rh/dependentes/adicionar', authMiddleware, async (req, res) => {
       INSERT INTO rh_dependentes (
         funcionario_id, nome, cpf, data_nascimento, grau_parentesco,
         tem_plano_saude, irrf_dependente
-      ) VALUES (?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (, , , , , , )
     `, [funcionario_id, nome, cpf, data_nascimento, grau_parentesco, tem_plano_saude || false, irrf_dependente || false]);
     
     res.json({ success: true, id: result.insertId });
@@ -3057,7 +3057,7 @@ app.get('/api/rh/dependentes/funcionario/:id', authMiddleware, async (req, res) 
         d.*,
         TIMESTAMPDIFF(YEAR, d.data_nascimento, CURDATE()) AS idade
       FROM rh_dependentes d
-      WHERE d.funcionario_id = ? AND d.ativo = TRUE
+      WHERE d.funcionario_id =  AND d.ativo = TRUE
       ORDER BY d.grau_parentesco, d.nome
     `, [req.params.id]);
     
@@ -3080,11 +3080,11 @@ app.put('/api/rh/dependentes/:id', authMiddleware, async (req, res) => {
   }
   
   try {
-    const setClause = fields.map(f => `${f} = ?`).join(', ');
+    const setClause = fields.map(f => `${f} = `).join(', ');
     const values = fields.map(f => updates[f]);
     values.push(req.params.id);
     
-    await pool.query(`UPDATE rh_dependentes SET ${setClause} WHERE id = ?`, values);
+    await pool.query(`UPDATE rh_dependentes SET ${setClause} WHERE id = `, values);
     
     res.json({ success: true });
   } catch (error) {
@@ -3099,8 +3099,8 @@ app.delete('/api/rh/dependentes/:id', authMiddleware, async (req, res) => {
   
   try {
     await pool.query(
-      'UPDATE rh_dependentes SET ativo = FALSE, data_exclusao = CURDATE(), motivo_exclusao = ? WHERE id = ?',
-      [motivo || 'Não informado', req.params.id]
+      'UPDATE rh_dependentes SET ativo = FALSE, data_exclusao = CURDATE(), motivo_exclusao =  WHERE id = ',
+      [motivo || 'Não informação', req.params.id]
     );
     
     res.json({ success: true });
@@ -3131,8 +3131,8 @@ app.get('/api/rh/beneficios/relatório/custos', authMiddleware, async (req, res)
     const params = [];
     
     if (mes && ano) {
-      query += ` AND (fb.data_inicio <= LAST_DAY(CONCAT(?, '-', ?, '-01')) 
-                  AND (fb.data_fim IS NULL OR fb.data_fim >= CONCAT(?, '-', ?, '-01')))`;
+      query += ` AND (fb.data_inicio <= LAST_DAY(CONCAT(, '-', , '-01')) 
+                  AND (fb.data_fim IS NULL OR fb.data_fim >= CONCAT(, '-', , '-01')))`;
       params.push(ano, mes, ano, mes);
     }
     
@@ -3167,18 +3167,18 @@ app.get('/api/rh/beneficios/convenios', authMiddleware, async (req, res) => {
 
 // POST /api/rh/beneficios/convenios - Adicionar convênio
 app.post('/api/rh/beneficios/convenios', authMiddleware, async (req, res) => {
-  const { beneficio_tipo_id, nome_fornecedor, cnpj, contato, telefone, email, valor_contratado, data_inicio_contrato } = req.body;
+  const { beneficio_tipo_id, nome_fornecedor, cnpj, contato, telefone, email, valor_contratação, data_inicio_contrato } = req.body;
   
   if (!beneficio_tipo_id || !nome_fornecedor) {
-    return res.status(400).json({ error: 'Dados incompletos' });
+    return res.status(400).json({ error: 'Daçãos incompletos' });
   }
   
   try {
     const [result] = await pool.query(`
       INSERT INTO rh_beneficios_convenios (
-        beneficio_tipo_id, nome_fornecedor, cnpj, contato, telefone, email, valor_contratado, data_inicio_contrato
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `, [beneficio_tipo_id, nome_fornecedor, cnpj, contato, telefone, email, valor_contratado, data_inicio_contrato]);
+        beneficio_tipo_id, nome_fornecedor, cnpj, contato, telefone, email, valor_contratação, data_inicio_contrato
+      ) VALUES (, , , , , , , )
+    `, [beneficio_tipo_id, nome_fornecedor, cnpj, contato, telefone, email, valor_contratação, data_inicio_contrato]);
     
     res.json({ success: true, id: result.insertId });
   } catch (error) {
@@ -3191,11 +3191,11 @@ app.post('/api/rh/beneficios/convenios', authMiddleware, async (req, res) => {
 app.get('/api/rh/vale-transporte/:funcionario_id', authMiddleware, async (req, res) => {
   try {
     const [vt] = await pool.query(
-      'SELECT * FROM rh_vale_transporte WHERE funcionario_id = ? AND ativo = TRUE ORDER BY data_inicio DESC LIMIT 1',
+      'SELECT * FROM rh_vale_transporte WHERE funcionario_id =  AND ativo = TRUE ORDER BY data_inicio DESC LIMIT 1',
       [req.params.funcionario_id]
     );
     
-    res.json(vt.length > 0 ? vt[0] : null);
+    res.json(vt.length > 0  vt[0] : null);
   } catch (error) {
     logger.error('Erro ao buscar VT:', error);
     res.status(500).json({ error: 'Erro ao buscar vale transporte' });
@@ -3207,7 +3207,7 @@ app.post('/api/rh/vale-transporte', authMiddleware, async (req, res) => {
   const { funcionario_id, tipo_transporte, linha_ida, linha_volta, valor_unitario, quantidade_dia, dias_uteis, data_inicio } = req.body;
   
   if (!funcionario_id || !valor_unitario || !data_inicio) {
-    return res.status(400).json({ error: 'Dados incompletos' });
+    return res.status(400).json({ error: 'Daçãos incompletos' });
   }
   
   try {
@@ -3217,7 +3217,7 @@ app.post('/api/rh/vale-transporte', authMiddleware, async (req, res) => {
       INSERT INTO rh_vale_transporte (
         funcionario_id, tipo_transporte, linha_ida, linha_volta, valor_unitario,
         quantidade_dia, dias_uteis, valor_mensal, data_inicio
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      ) VALUES (, , , , , , , , )
     `, [funcionario_id, tipo_transporte, linha_ida, linha_volta, valor_unitario, quantidade_dia || 2, dias_uteis || 22, valorMensal, data_inicio]);
     
     res.json({ success: true, id: result.insertId, valor_mensal: valorMensal });
@@ -3258,8 +3258,8 @@ app.get('/api/rh/avaliacoes/competencias', authMiddleware, async (req, res) => {
 // 3. Criar/atualizar avaliação de desempenho
 app.post('/api/rh/avaliacoes/criar', authMiddleware, async (req, res) => {
   const { 
-    funcionario_id, período_id, avaliador_id, tipo_avaliacao, 
-    pontos_fortes, pontos_melhoria, comentarios_avaliador, competencias 
+    funcionario_id, período_id, avaliaçãor_id, tipo_avaliacao, 
+    pontos_fortes, pontos_melhoria, comentarios_avaliaçãor, competencias 
   } = req.body;
   
   const conn = await pool.getConnection();
@@ -3269,10 +3269,10 @@ app.post('/api/rh/avaliacoes/criar', authMiddleware, async (req, res) => {
     // Criar avaliação
     const [result] = await conn.query(`
       INSERT INTO rh_avaliacoes_desempenho 
-      (funcionario_id, período_id, avaliador_id, tipo_avaliacao, data_avaliacao, status,
-       pontos_fortes, pontos_melhoria, comentarios_avaliador) 
-      VALUES (?, ?, ?, ?, CURDATE(), 'RASCUNHO', ?, ?, ?)
-    `, [funcionario_id, período_id, avaliador_id, tipo_avaliacao, pontos_fortes, pontos_melhoria, comentarios_avaliador]);
+      (funcionario_id, período_id, avaliaçãor_id, tipo_avaliacao, data_avaliacao, status,
+       pontos_fortes, pontos_melhoria, comentarios_avaliaçãor) 
+      VALUES (, , , , CURDATE(), 'RASCUNHO', , , )
+    `, [funcionario_id, período_id, avaliaçãor_id, tipo_avaliacao, pontos_fortes, pontos_melhoria, comentarios_avaliaçãor]);
     
     const avaliacaoId = result.insertId;
     
@@ -3281,7 +3281,7 @@ app.post('/api/rh/avaliacoes/criar', authMiddleware, async (req, res) => {
       for (const comp of competencias) {
         await conn.query(`
           INSERT INTO rh_avaliacao_itens (avaliacao_id, competencia_id, nota, peso, comentario)
-          VALUES (?, ?, ?, ?, ?)
+          VALUES (, , , , )
         `, [avaliacaoId, comp.competencia_id, comp.nota, comp.peso || 1.0, comp.comentario || null]);
       }
     }
@@ -3302,11 +3302,11 @@ app.get('/api/rh/avaliacoes/funcionario/:id', authMiddleware, async (req, res) =
   try {
     const [avaliacoes] = await pool.query(`
       SELECT a.*, p.nome AS período_nome, 
-             av.nome_completo AS avaliador_nome
+             av.nome_completo AS avaliaçãor_nome
       FROM rh_avaliacoes_desempenho a
       INNER JOIN rh_periodos_avaliacao p ON a.período_id = p.id
-      LEFT JOIN funcionarios av ON a.avaliador_id = av.id
-      WHERE a.funcionario_id = ?
+      LEFT JOIN funcionarios av ON a.avaliaçãor_id = av.id
+      WHERE a.funcionario_id = 
       ORDER BY a.data_avaliacao DESC
     `, [req.params.id]);
     
@@ -3322,12 +3322,12 @@ app.get('/api/rh/avaliacoes/:id', authMiddleware, async (req, res) => {
   try {
     const [avaliacoes] = await pool.query(`
       SELECT a.*, f.nome_completo AS funcionario_nome, f.cargo,
-             av.nome_completo AS avaliador_nome, p.nome AS período_nome
+             av.nome_completo AS avaliaçãor_nome, p.nome AS período_nome
       FROM rh_avaliacoes_desempenho a
       INNER JOIN funcionarios f ON a.funcionario_id = f.id
-      LEFT JOIN funcionarios av ON a.avaliador_id = av.id
+      LEFT JOIN funcionarios av ON a.avaliaçãor_id = av.id
       INNER JOIN rh_periodos_avaliacao p ON a.período_id = p.id
-      WHERE a.id = ?
+      WHERE a.id = 
     `, [req.params.id]);
     
     if (avaliacoes.length === 0) {
@@ -3338,7 +3338,7 @@ app.get('/api/rh/avaliacoes/:id', authMiddleware, async (req, res) => {
       SELECT ai.*, c.nome AS competencia_nome, c.categoria
       FROM rh_avaliacao_itens ai
       INNER JOIN rh_competencias c ON ai.competencia_id = c.id
-      WHERE ai.avaliacao_id = ?
+      WHERE ai.avaliacao_id = 
       ORDER BY c.categoria, c.nome
     `, [req.params.id]);
     
@@ -3351,13 +3351,13 @@ app.get('/api/rh/avaliacoes/:id', authMiddleware, async (req, res) => {
 
 // 6. Finalizar/aprovar avaliação
 app.put('/api/rh/avaliacoes/:id/finalizar', authMiddleware, async (req, res) => {
-  const { comentarios_avaliado } = req.body;
+  const { comentarios_avaliação } = req.body;
   try {
     await pool.query(`
       UPDATE rh_avaliacoes_desempenho 
-      SET status = 'CONCLUIDA', comentarios_avaliado = ?
-      WHERE id = ?
-    `, [comentarios_avaliado, req.params.id]);
+      SET status = 'CONCLUIDA', comentarios_avaliação = 
+      WHERE id = 
+    `, [comentarios_avaliação, req.params.id]);
     
     res.json({ success: true });
   } catch (error) {
@@ -3378,7 +3378,7 @@ app.post('/api/rh/metas/criar', authMiddleware, async (req, res) => {
       INSERT INTO rh_metas 
       (funcionario_id, período_id, titulo, descrição, categoria, tipo, valor_meta, 
        unidade_medida, data_inicio, data_fim, status, responsavel_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'PLANEJADA', ?)
+      VALUES (, , , , , , , , , , 'PLANEJADA', )
     `, [funcionario_id, período_id, titulo, descrição, categoria, tipo, valor_meta, unidade_medida, data_inicio, data_fim, responsavel_id]);
     
     res.json({ success: true, id: result.insertId });
@@ -3390,13 +3390,13 @@ app.post('/api/rh/metas/criar', authMiddleware, async (req, res) => {
 
 // 8. Atualizar progresso da meta
 app.put('/api/rh/metas/:id/progresso', authMiddleware, async (req, res) => {
-  const { valor_realizado, observacoes } = req.body;
+  const { valor_realização, observacoes } = req.body;
   try {
     await pool.query(`
       UPDATE rh_metas 
-      SET valor_realizado = ?, observacoes = ?, status = 'EM_ANDAMENTO'
-      WHERE id = ?
-    `, [valor_realizado, observacoes, req.params.id]);
+      SET valor_realização = , observacoes = , status = 'EM_ANDAMENTO'
+      WHERE id = 
+    `, [valor_realização, observacoes, req.params.id]);
     
     res.json({ success: true });
   } catch (error) {
@@ -3414,7 +3414,7 @@ app.get('/api/rh/metas/funcionario/:id', authMiddleware, async (req, res) => {
       FROM rh_metas m
       LEFT JOIN rh_periodos_avaliacao p ON m.período_id = p.id
       LEFT JOIN funcionarios r ON m.responsavel_id = r.id
-      WHERE m.funcionario_id = ?
+      WHERE m.funcionario_id = 
       ORDER BY m.data_fim DESC
     `, [req.params.id]);
     
@@ -3428,7 +3428,7 @@ app.get('/api/rh/metas/funcionario/:id', authMiddleware, async (req, res) => {
 // 10. Adicionar feedback 360°
 app.post('/api/rh/feedback360/adicionar', authMiddleware, async (req, res) => {
   const { 
-    avaliacao_id, avaliado_id, avaliador_id, tipo_relacao, 
+    avaliacao_id, avaliação_id, avaliaçãor_id, tipo_relacao, 
     comunicacao, trabalho_equipe, lideranca, resolucao_problemas, 
     proatividade, qualidade_trabalho, pontualidade, comentarios, anonimo 
   } = req.body;
@@ -3436,11 +3436,11 @@ app.post('/api/rh/feedback360/adicionar', authMiddleware, async (req, res) => {
   try {
     const [result] = await pool.query(`
       INSERT INTO rh_feedback_360 
-      (avaliacao_id, avaliado_id, avaliador_id, tipo_relacao, comunicacao, trabalho_equipe,
+      (avaliacao_id, avaliação_id, avaliaçãor_id, tipo_relacao, comunicacao, trabalho_equipe,
        lideranca, resolucao_problemas, proatividade, qualidade_trabalho, pontualidade,
        comentarios, anonimo, data_feedback)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, CURDATE())
-    `, [avaliacao_id, avaliado_id, avaliador_id, tipo_relacao, comunicacao, trabalho_equipe, lideranca, resolucao_problemas, proatividade, qualidade_trabalho, pontualidade, comentarios, anonimo]);
+      VALUES (, , , , , , , , , , , , , CURDATE())
+    `, [avaliacao_id, avaliação_id, avaliaçãor_id, tipo_relacao, comunicacao, trabalho_equipe, lideranca, resolucao_problemas, proatividade, qualidade_trabalho, pontualidade, comentarios, anonimo]);
     
     res.json({ success: true, id: result.insertId });
   } catch (error) {
@@ -3454,10 +3454,10 @@ app.get('/api/rh/feedback360/funcionario/:id', authMiddleware, async (req, res) 
   try {
     const [feedbacks] = await pool.query(`
       SELECT f.*, 
-             CASE WHEN f.anonimo = TRUE THEN 'Anônimo' ELSE av.nome_completo END AS avaliador_nome
+             CASE WHEN f.anonimo = TRUE THEN 'Anônimo' ELSE av.nome_completo END AS avaliaçãor_nome
       FROM rh_feedback_360 f
-      LEFT JOIN funcionarios av ON f.avaliador_id = av.id
-      WHERE f.avaliado_id = ?
+      LEFT JOIN funcionarios av ON f.avaliaçãor_id = av.id
+      WHERE f.avaliação_id = 
       ORDER BY f.data_feedback DESC
     `, [req.params.id]);
     
@@ -3472,7 +3472,7 @@ app.get('/api/rh/feedback360/funcionario/:id', authMiddleware, async (req, res) 
         ROUND(AVG(qualidade_trabalho), 2) AS media_qualidade,
         ROUND(AVG(pontualidade), 2) AS media_pontualidade
       FROM rh_feedback_360
-      WHERE avaliado_id = ?
+      WHERE avaliação_id = 
     `, [req.params.id]);
     
     res.json({ feedbacks, medias: medias[0] });
@@ -3486,16 +3486,16 @@ app.get('/api/rh/feedback360/funcionario/:id', authMiddleware, async (req, res) 
 app.post('/api/rh/pdi/criar', authMiddleware, async (req, res) => {
   const { 
     funcionario_id, período_id, competencia_desenvolver, acao_desenvolvimento,
-    tipo_acao, prioridade, prazo_conclusao, custo_estimado, responsavel_acompanhamento 
+    tipo_acao, prioridade, prazo_conclusao, custo_estimação, responsavel_acompanhamento 
   } = req.body;
   
   try {
     const [result] = await pool.query(`
       INSERT INTO rh_pdi 
       (funcionario_id, período_id, competencia_desenvolver, acao_desenvolvimento, tipo_acao,
-       prioridade, prazo_conclusao, custo_estimado, status, responsavel_acompanhamento)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'PLANEJADO', ?)
-    `, [funcionario_id, período_id, competencia_desenvolver, acao_desenvolvimento, tipo_acao, prioridade, prazo_conclusao, custo_estimado, responsavel_acompanhamento]);
+       prioridade, prazo_conclusao, custo_estimação, status, responsavel_acompanhamento)
+      VALUES (, , , , , , , , 'PLANEJADO', )
+    `, [funcionario_id, período_id, competencia_desenvolver, acao_desenvolvimento, tipo_acao, prioridade, prazo_conclusao, custo_estimação, responsavel_acompanhamento]);
     
     res.json({ success: true, id: result.insertId });
   } catch (error) {
@@ -3506,15 +3506,15 @@ app.post('/api/rh/pdi/criar', authMiddleware, async (req, res) => {
 
 // 13. Atualizar progresso PDI
 app.put('/api/rh/pdi/:id/progresso', authMiddleware, async (req, res) => {
-  const { percentual_conclusao, resultado_obtido, status } = req.body;
+  const { percentual_conclusao, resultação_obtido, status } = req.body;
   try {
-    const dataField = status === 'CONCLUIDO' ? ', data_conclusao = CURDATE()' : '';
+    const dataField = status === 'CONCLUIDO'  ', data_conclusao = CURDATE()' : '';
     
     await pool.query(`
       UPDATE rh_pdi 
-      SET percentual_conclusao = ?, resultado_obtido = ?, status = ? ${dataField}
-      WHERE id = ?
-    `, [percentual_conclusao, resultado_obtido, status, req.params.id]);
+      SET percentual_conclusao = , resultação_obtido = , status =  ${dataField}
+      WHERE id = 
+    `, [percentual_conclusao, resultação_obtido, status, req.params.id]);
     
     res.json({ success: true });
   } catch (error) {
@@ -3530,7 +3530,7 @@ app.get('/api/rh/pdi/funcionario/:id', authMiddleware, async (req, res) => {
       SELECT p.*, r.nome_completo AS responsavel_nome
       FROM rh_pdi p
       LEFT JOIN funcionarios r ON p.responsavel_acompanhamento = r.id
-      WHERE p.funcionario_id = ?
+      WHERE p.funcionario_id = 
       ORDER BY p.prioridade DESC, p.prazo_conclusao
     `, [req.params.id]);
     
@@ -3547,13 +3547,13 @@ app.get('/api/rh/avaliacoes/dashboard', authMiddleware, async (req, res) => {
     const [stats] = await pool.query(`
       SELECT 
         (SELECT COUNT(*) FROM rh_avaliacoes_desempenho WHERE status = 'CONCLUIDA') AS avaliacoes_concluidas,
-        (SELECT COUNT(DISTINCT funcionario_id) FROM rh_avaliacoes_desempenho) AS funcionarios_avaliados,
+        (SELECT COUNT(DISTINCT funcionario_id) FROM rh_avaliacoes_desempenho) AS funcionarios_avaliaçãos,
         (SELECT ROUND(AVG(nota_final), 2) FROM rh_avaliacoes_desempenho WHERE nota_final IS NOT NULL) AS nota_media,
         (SELECT COUNT(*) FROM rh_metas WHERE status = 'ATINGIDA') AS metas_atingidas,
         (SELECT COUNT(*) FROM rh_metas) AS total_metas,
         (SELECT ROUND(AVG(percentual_atingido), 2) FROM rh_metas WHERE percentual_atingido IS NOT NULL) AS percentual_medio_metas,
         (SELECT COUNT(*) FROM rh_pdi WHERE status = 'CONCLUIDO') AS pdis_concluidos,
-        (SELECT SUM(custo_estimado) FROM rh_pdi) AS investimento_total_pdi
+        (SELECT SUM(custo_estimação) FROM rh_pdi) AS investimento_total_pdi
     `);
     
     const [classificacoes] = await pool.query(`
@@ -3581,9 +3581,9 @@ app.post('/api/rh/promocoes/registrar', authMiddleware, async (req, res) => {
     const [result] = await pool.query(`
       INSERT INTO rh_historico_promocoes 
       (funcionario_id, avaliacao_id, cargo_anterior, cargo_novo, salario_anterior,
-       salario_novo, tipo_movimentacao, motivo, data_efetivacao, aprovado_por)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `, [funcionario_id, avaliacao_id, cargo_anterior, cargo_novo, salario_anterior, salario_novo, tipo_movimentacao, motivo, data_efetivacao, req.user?.id || 1]);
+       salario_novo, tipo_movimentacao, motivo, data_efetivacao, aprovação_por)
+      VALUES (, , , , , , , , , )
+    `, [funcionario_id, avaliacao_id, cargo_anterior, cargo_novo, salario_anterior, salario_novo, tipo_movimentacao, motivo, data_efetivacao, req.user.id || 1]);
     
     res.json({ success: true, id: result.insertId });
   } catch (error) {
@@ -3596,10 +3596,10 @@ app.post('/api/rh/promocoes/registrar', authMiddleware, async (req, res) => {
 app.get('/api/rh/promocoes/funcionario/:id', authMiddleware, async (req, res) => {
   try {
     const [promocoes] = await pool.query(`
-      SELECT p.*, a.nome_completo AS aprovado_por_nome
+      SELECT p.*, a.nome_completo AS aprovação_por_nome
       FROM rh_historico_promocoes p
-      LEFT JOIN funcionarios a ON p.aprovado_por = a.id
-      WHERE p.funcionario_id = ?
+      LEFT JOIN funcionarios a ON p.aprovação_por = a.id
+      WHERE p.funcionario_id = 
       ORDER BY p.data_efetivacao DESC
     `, [req.params.id]);
     
@@ -3615,7 +3615,7 @@ app.get('/api/rh/promocoes/funcionario/:id', authMiddleware, async (req, res) =>
 
 // Error handler (Multer and general)
 app.use((err, req, res, next) => {
-  logger.error('Unhandled error:', err && err.message ? err.message : err)
+  logger.error('Unhandled error:', err && err.message  err.message : err)
   if (err instanceof multer.MulterError) {
     return res.status(400).json({ message: err.message })
   }
@@ -3635,18 +3635,18 @@ function tryStartServer(port, retryCount = 0) {
   const alternativePorts = [3000, 3001, 3002, 3003, 3004, 3005] // Portas alternativas
   
   const server = app.listen(port, LISTEN_ADDR, () => {
-    // Sucesso: servidor iniciado
+    // Sucesso: servidor iniciação
     const addr = server.address && server.address()
-    const boundHost = addr && addr.address ? addr.address : LISTEN_ADDR
-    const boundPort = addr && addr.port ? addr.port : port
+    const boundHost = addr && addr.address  addr.address : LISTEN_ADDR
+    const boundPort = addr && addr.port  addr.port : port
     
     // Log de sucesso com destaque se não for a porta 3000
     if (boundPort !== 3000) {
-      logger.info(`🔄 Porta 3000 ocupada. Servidor iniciado na porta alternativa ${boundPort}!`)
-      console.log(`🔄 Porta 3000 ocupada. Servidor iniciado na porta alternativa ${boundPort}!`)
+      logger.info(`🔄 Porta 3000 ocupada. Servidor iniciação na porta alternativa ${boundPort}!`)
+      console.log(`🔄 Porta 3000 ocupada. Servidor iniciação na porta alternativa ${boundPort}!`)
     }
     
-    logger.info(`Servidor a correr! Aceda à aplicação em http://${boundHost === '0.0.0.0' ? '127.0.0.1' : boundHost}:${boundPort}`)
+    logger.info(`Servidor a correr! Aceda à aplicação em http://${boundHost === '0.0.0.0'  '127.0.0.1' : boundHost}:${boundPort}`)
     try {
       logger.info('Server.address: ' + JSON.stringify(addr))
       console.log('Server listening:', JSON.stringify(addr))
@@ -3710,7 +3710,7 @@ function handleServerError(err) {
 // Iniciar o servidor começando pela porta preferida (PORT ou 3000)
 const server = tryStartServer(PORT)
 
-// Handler de erro removido - agora está integrado na função tryStartServer
+// Handler de erro removido - agora está integração na função tryStartServer
 
 // Graceful shutdown helpers: ensure server and DB are closed on signals or fatal errors
 async function gracefulShutdown (reason) {
@@ -3725,10 +3725,10 @@ async function gracefulShutdown (reason) {
           if (db && typeof db.end === 'function') {
             db.end((dbErr) => {
               try { if (dbErr) logger.warn('Erro ao fechar ligação DB:', dbErr) } catch (_) {}
-              process.exit(closeErr || dbErr ? 1 : 0)
+              process.exit(closeErr || dbErr  1 : 0)
             })
           } else {
-            process.exit(closeErr ? 1 : 0)
+            process.exit(closeErr  1 : 0)
           }
         } catch (e) {
           try { logger.warn('Erro ao encerrar DB durante shutdown:', e) } catch (_) {}
@@ -3756,11 +3756,11 @@ async function gracefulShutdown (reason) {
 process.on('SIGINT', () => gracefulShutdown('SIGINT'))
 process.on('SIGTERM', () => gracefulShutdown('SIGTERM'))
 process.on('uncaughtException', (err) => {
-  try { logger.error('uncaughtException - iniciando shutdown:', err && err.stack ? err.stack : err) } catch (_) {}
+  try { logger.error('uncaughtException - iniciando shutdown:', err && err.stack  err.stack : err) } catch (_) {}
   // give a moment to log then shutdown
   setTimeout(() => gracefulShutdown('uncaughtException'), 50)
 })
 process.on('unhandledRejection', (reason) => {
-  try { logger.warn('unhandledRejection - iniciando shutdown:', reason && reason.stack ? reason.stack : reason) } catch (_) {}
+  try { logger.warn('unhandledRejection - iniciando shutdown:', reason && reason.stack  reason.stack : reason) } catch (_) {}
   setTimeout(() => gracefulShutdown('unhandledRejection'), 50)
 })

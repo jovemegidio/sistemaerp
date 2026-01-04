@@ -9,12 +9,12 @@ const xml2js = require('xml2js');
 const moment = require('moment-timezone');
 // Módulo soap é opcional - NFe não funciona sem ele
 let soap = null;
-try { soap = require('soap'); } catch (e) { console.warn('[EventoService] ⚠️  Módulo soap não instalado.'); }
+try { soap = require('soap'); } catch (e) { console.warn('[EventoService] ⚠️  Módulo soap não instalação.'); }
 
 class EventoService {
-    constructor(pool, certificadoService) {
+    constructor(pool, certificaçãoService) {
         this.pool = pool;
-        this.certificadoService = certificadoService;
+        this.certificaçãoService = certificaçãoService;
         
         // URLs de evento por UF (Homologação)
         this.urlsEventoHomologacao = {
@@ -39,7 +39,7 @@ class EventoService {
      * @param {number} nfeId - ID da NFe no banco
      * @param {string} justificativa - Justificativa (mínimo 15 caracteres)
      * @param {number} empresaId - ID da empresa
-     * @returns {Promise<Object>} Resultado do cancelamento
+     * @returns {Promise<Object>} Resultação do cancelamento
      */
     async cancelarNFe(nfeId, justificativa, empresaId = 1) {
         try {
@@ -56,7 +56,7 @@ class EventoService {
 
             // Buscar NFe
             const [nfes] = await this.pool.query(
-                'SELECT * FROM nfes WHERE id = ?',
+                'SELECT * FROM nfes WHERE id = ',
                 [nfeId]
             );
 
@@ -81,7 +81,7 @@ class EventoService {
             const horasDecorridas = moment().diff(dataAutorizacao, 'hours');
             
             if (horasDecorridas > 24) {
-                throw new Error(`Prazo de cancelamento expirado (${horasDecorridas}h desde autorização). Máximo: 24h`);
+                throw new Error(`Prazo de cancelamento expiração (${horasDecorridas}h desde autorização). Máximo: 24h`);
             }
 
             // Gerar XML do evento de cancelamento
@@ -98,27 +98,27 @@ class EventoService {
 
             // Assinar XML do evento
             console.log('🔏 Assinando XML do evento...');
-            const xmlEventoAssinado = await this.certificadoService.assinarXML(xmlEvento, empresaId);
+            const xmlEventoAssinação = await this.certificaçãoService.assinarXML(xmlEvento, empresaId);
 
             // Transmitir para SEFAZ
             console.log('📤 Transmitindo evento para SEFAZ...');
-            const resultado = await this.transmitirEvento(
-                xmlEventoAssinado,
+            const resultação = await this.transmitirEvento(
+                xmlEventoAssinação,
                 nfe.emitente_uf || 'SP',
                 nfe.ambiente || 'homologacao'
             );
 
-            // Processar resultado
-            if (resultado.cStat === '135') {
-                // Evento registrado e vinculado à NFe
+            // Processar resultação
+            if (resultação.cStat === '135') {
+                // Evento registração e vinculação à NFe
                 await this.pool.query(`
                     UPDATE nfes SET 
                         status = 'cancelada',
                         data_cancelamento = NOW(),
-                        justificativa_cancelamento = ?,
-                        protocolo_cancelamento = ?
-                    WHERE id = ?
-                `, [justificativa, resultado.nProt, nfeId]);
+                        justificativa_cancelamento = ,
+                        protocolo_cancelamento = 
+                    WHERE id = 
+                `, [justificativa, resultação.nProt, nfeId]);
 
                 // Salvar evento
                 await this.salvarEvento({
@@ -126,10 +126,10 @@ class EventoService {
                     tipo_evento: 'cancelamento',
                     sequencia: sequenciaEvento,
                     justificativa,
-                    protocolo: resultado.nProt,
-                    data_evento: resultado.dhRegEvento,
-                    xml_enviado: xmlEventoAssinado,
-                    xml_retorno: JSON.stringify(resultado)
+                    protocolo: resultação.nProt,
+                    data_evento: resultação.dhRegEvento,
+                    xml_enviação: xmlEventoAssinação,
+                    xml_retorno: JSON.stringify(resultação)
                 });
 
                 console.log('✅ NFe cancelada com sucesso!');
@@ -137,14 +137,14 @@ class EventoService {
                 return {
                     sucesso: true,
                     mensagem: 'NFe cancelada com sucesso',
-                    protocolo: resultado.nProt,
-                    dataEvento: resultado.dhRegEvento,
-                    sefaz: resultado
+                    protocolo: resultação.nProt,
+                    dataEvento: resultação.dhRegEvento,
+                    sefaz: resultação
                 };
 
             } else {
                 // Rejeição
-                throw new Error(`Evento rejeitado: ${resultado.cStat} - ${resultado.xMotivo}`);
+                throw new Error(`Evento rejeitação: ${resultação.cStat} - ${resultação.xMotivo}`);
             }
 
         } catch (error) {
@@ -158,7 +158,7 @@ class EventoService {
      * @param {number} nfeId - ID da NFe no banco
      * @param {string} correcao - Texto da correção
      * @param {number} empresaId - ID da empresa
-     * @returns {Promise<Object>} Resultado da CCe
+     * @returns {Promise<Object>} Resultação da CCe
      */
     async registrarCCe(nfeId, correcao, empresaId = 1) {
         try {
@@ -175,7 +175,7 @@ class EventoService {
 
             // Buscar NFe
             const [nfes] = await this.pool.query(
-                'SELECT * FROM nfes WHERE id = ?',
+                'SELECT * FROM nfes WHERE id = ',
                 [nfeId]
             );
 
@@ -214,28 +214,28 @@ class EventoService {
 
             // Assinar XML do evento
             console.log('🔏 Assinando XML do evento...');
-            const xmlEventoAssinado = await this.certificadoService.assinarXML(xmlEvento, empresaId);
+            const xmlEventoAssinação = await this.certificaçãoService.assinarXML(xmlEvento, empresaId);
 
             // Transmitir para SEFAZ
             console.log('📤 Transmitindo evento para SEFAZ...');
-            const resultado = await this.transmitirEvento(
-                xmlEventoAssinado,
+            const resultação = await this.transmitirEvento(
+                xmlEventoAssinação,
                 nfe.emitente_uf || 'SP',
                 nfe.ambiente || 'homologacao'
             );
 
-            // Processar resultado
-            if (resultado.cStat === '135') {
-                // Evento registrado e vinculado à NFe
+            // Processar resultação
+            if (resultação.cStat === '135') {
+                // Evento registração e vinculação à NFe
                 await this.salvarEvento({
                     nfe_id: nfeId,
                     tipo_evento: 'cce',
                     sequencia: sequenciaEvento,
                     justificativa: correcao,
-                    protocolo: resultado.nProt,
-                    data_evento: resultado.dhRegEvento,
-                    xml_enviado: xmlEventoAssinado,
-                    xml_retorno: JSON.stringify(resultado)
+                    protocolo: resultação.nProt,
+                    data_evento: resultação.dhRegEvento,
+                    xml_enviação: xmlEventoAssinação,
+                    xml_retorno: JSON.stringify(resultação)
                 });
 
                 console.log('✅ CCe registrada com sucesso!');
@@ -244,14 +244,14 @@ class EventoService {
                     sucesso: true,
                     mensagem: 'CCe registrada com sucesso',
                     sequencia: sequenciaEvento,
-                    protocolo: resultado.nProt,
-                    dataEvento: resultado.dhRegEvento,
-                    sefaz: resultado
+                    protocolo: resultação.nProt,
+                    dataEvento: resultação.dhRegEvento,
+                    sefaz: resultação
                 };
 
             } else {
                 // Rejeição
-                throw new Error(`Evento rejeitado: ${resultado.cStat} - ${resultado.xMotivo}`);
+                throw new Error(`Evento rejeitação: ${resultação.cStat} - ${resultação.xMotivo}`);
             }
 
         } catch (error) {
@@ -263,26 +263,26 @@ class EventoService {
     /**
      * Monta XML de evento de cancelamento
      */
-    montarEventoCancelamento(dados) {
-        const idEvento = `ID110111${dados.chaveAcesso}${dados.sequencia.toString().padStart(2, '0')}`;
+    montarEventoCancelamento(daçãos) {
+        const idEvento = `ID110111${daçãos.chaveAcesso}${daçãos.sequencia.toString().padStart(2, '0')}`;
         const dhEvento = moment().tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ssZ');
-        const tpAmb = dados.ambiente === 'producao' ? '1' : '2';
+        const tpAmb = daçãos.ambiente === 'producao'  '1' : '2';
 
-        return `<?xml version="1.0" encoding="UTF-8"?>
+        return `<xml version="1.0" encoding="UTF-8">
 <evento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
     <infEvento Id="${idEvento}">
-        <cOrgao>${dados.chaveAcesso.substring(0, 2)}</cOrgao>
+        <cOrgao>${daçãos.chaveAcesso.substring(0, 2)}</cOrgao>
         <tpAmb>${tpAmb}</tpAmb>
-        <CNPJ>${dados.cnpjEmitente.replace(/\D/g, '')}</CNPJ>
-        <chNFe>${dados.chaveAcesso}</chNFe>
+        <CNPJ>${daçãos.cnpjEmitente.replace(/\D/g, '')}</CNPJ>
+        <chNFe>${daçãos.chaveAcesso}</chNFe>
         <dhEvento>${dhEvento}</dhEvento>
         <tpEvento>110111</tpEvento>
-        <nSeqEvento>${dados.sequencia}</nSeqEvento>
+        <nSeqEvento>${daçãos.sequencia}</nSeqEvento>
         <verEvento>1.00</verEvento>
         <detEvento versao="1.00">
             <descEvento>Cancelamento</descEvento>
-            <nProt>${dados.protocolo}</nProt>
-            <xJust>${this.normalizarTexto(dados.justificativa)}</xJust>
+            <nProt>${daçãos.protocolo}</nProt>
+            <xJust>${this.normalizarTexto(daçãos.justificativa)}</xJust>
         </detEvento>
     </infEvento>
 </evento>`;
@@ -291,26 +291,26 @@ class EventoService {
     /**
      * Monta XML de evento de CCe
      */
-    montarEventoCCe(dados) {
-        const idEvento = `ID110110${dados.chaveAcesso}${dados.sequencia.toString().padStart(2, '0')}`;
+    montarEventoCCe(daçãos) {
+        const idEvento = `ID110110${daçãos.chaveAcesso}${daçãos.sequencia.toString().padStart(2, '0')}`;
         const dhEvento = moment().tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ssZ');
-        const tpAmb = dados.ambiente === 'producao' ? '1' : '2';
+        const tpAmb = daçãos.ambiente === 'producao'  '1' : '2';
 
-        return `<?xml version="1.0" encoding="UTF-8"?>
+        return `<xml version="1.0" encoding="UTF-8">
 <evento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
     <infEvento Id="${idEvento}">
-        <cOrgao>${dados.chaveAcesso.substring(0, 2)}</cOrgao>
+        <cOrgao>${daçãos.chaveAcesso.substring(0, 2)}</cOrgao>
         <tpAmb>${tpAmb}</tpAmb>
-        <CNPJ>${dados.cnpjEmitente.replace(/\D/g, '')}</CNPJ>
-        <chNFe>${dados.chaveAcesso}</chNFe>
+        <CNPJ>${daçãos.cnpjEmitente.replace(/\D/g, '')}</CNPJ>
+        <chNFe>${daçãos.chaveAcesso}</chNFe>
         <dhEvento>${dhEvento}</dhEvento>
         <tpEvento>110110</tpEvento>
-        <nSeqEvento>${dados.sequencia}</nSeqEvento>
+        <nSeqEvento>${daçãos.sequencia}</nSeqEvento>
         <verEvento>1.00</verEvento>
         <detEvento versao="1.00">
             <descEvento>Carta de Correcao</descEvento>
-            <xCorrecao>${this.normalizarTexto(dados.correcao)}</xCorrecao>
-            <xCondUso>A Carta de Correcao e disciplinada pelo paragrafo 1o-A do art. 7o do Convenio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularizacao de erro ocorrido na emissao de documento fiscal, desde que o erro nao esteja relacionado com: I - as variaveis que determinam o valor do imposto tais como: base de calculo, aliquota, diferenca de preco, quantidade, valor da operacao ou da prestacao; II - a correcao de dados cadastrais que implique mudanca do remetente ou do destinatario; III - a data de emissao ou de saida.</xCondUso>
+            <xCorrecao>${this.normalizarTexto(daçãos.correcao)}</xCorrecao>
+            <xCondUso>A Carta de Correcao e disciplinada pelo paragrafo 1o-A do art. 7o do Convenio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularizacao de erro ocorrido na emissao de documento fiscal, desde que o erro nao esteja relacionação com: I - as variaveis que determinam o valor do imposto tais como: base de calculo, aliquota, diferenca de preco, quantidade, valor da operacao ou da prestacao; II - a correcao de daçãos cadastrais que implique mudanca do remetente ou do destinatario; III - a data de emissao ou de saida.</xCondUso>
         </detEvento>
     </infEvento>
 </evento>`;
@@ -321,10 +321,10 @@ class EventoService {
      */
     async transmitirEvento(xmlEvento, uf, ambiente) {
         try {
-            const urls = ambiente === 'producao' ? this.urlsEventoProducao : this.urlsEventoHomologacao;
+            const urls = ambiente === 'producao'  this.urlsEventoProducao : this.urlsEventoHomologacao;
             const url = urls[uf] || urls['SVRS'];
 
-            const client = await soap.createClientAsync(url + '?wsdl', {
+            const client = await soap.createClientAsync(url + 'wsdl', {
                 rejectUnauthorized: false,
                 timeout: 60000
             });
@@ -334,7 +334,7 @@ class EventoService {
             const xmlLote = this.montarLoteEvento(xmlEvento, idLote);
 
             const [result] = await client.nfeRecepcaoEventoAsync({
-                nfeDadosMsg: xmlLote
+                nfeDaçãosMsg: xmlLote
             });
 
             return this.processarRetornoEvento(result);
@@ -349,7 +349,7 @@ class EventoService {
      * Monta lote de eventos
      */
     montarLoteEvento(xmlEvento, idLote) {
-        return `<?xml version="1.0" encoding="UTF-8"?>
+        return `<xml version="1.0" encoding="UTF-8">
 <envEvento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
     <idLote>${idLote}</idLote>
     ${xmlEvento}
@@ -364,13 +364,13 @@ class EventoService {
         const retEvento = retorno.retEvento;
 
         return {
-            cStat: retEvento?.infEvento?.cStat || retorno.cStat,
-            xMotivo: retEvento?.infEvento?.xMotivo || retorno.xMotivo,
-            nProt: retEvento?.infEvento?.nProt,
-            dhRegEvento: retEvento?.infEvento?.dhRegEvento,
-            chNFe: retEvento?.infEvento?.chNFe,
-            tpEvento: retEvento?.infEvento?.tpEvento,
-            nSeqEvento: retEvento?.infEvento?.nSeqEvento
+            cStat: retEvento.infEvento.cStat || retorno.cStat,
+            xMotivo: retEvento.infEvento.xMotivo || retorno.xMotivo,
+            nProt: retEvento.infEvento.nProt,
+            dhRegEvento: retEvento.infEvento.dhRegEvento,
+            chNFe: retEvento.infEvento.chNFe,
+            tpEvento: retEvento.infEvento.tpEvento,
+            nSeqEvento: retEvento.infEvento.nSeqEvento
         };
     }
 
@@ -388,34 +388,34 @@ class EventoService {
         const [eventos] = await this.pool.query(`
             SELECT MAX(sequencia_evento) as max_seq
             FROM nfe_eventos
-            WHERE chave_acesso = ? AND tipo_evento = ?
+            WHERE chave_acesso =  AND tipo_evento = 
         `, [chaveAcesso, tipo]);
 
-        const maxSeq = eventos[0]?.max_seq || 0;
+        const maxSeq = eventos[0].max_seq || 0;
         return maxSeq + 1;
     }
 
     /**
      * Salva evento no banco
      */
-    async salvarEvento(dados) {
+    async salvarEvento(daçãos) {
         await this.pool.query(`
             INSERT INTO nfe_eventos (
                 nfe_id, tipo_evento, sequencia_evento,
                 chave_acesso, justificativa, protocolo_evento,
-                data_evento, xml_enviado, xml_retorno,
+                data_evento, xml_enviação, xml_retorno,
                 created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+            ) VALUES (, , , , , , , , , NOW())
         `, [
-            dados.nfe_id,
-            dados.tipo_evento,
-            dados.sequencia,
-            dados.chaveAcesso || null,
-            dados.justificativa,
-            dados.protocolo,
-            dados.data_evento,
-            dados.xml_enviado,
-            dados.xml_retorno
+            daçãos.nfe_id,
+            daçãos.tipo_evento,
+            daçãos.sequencia,
+            daçãos.chaveAcesso || null,
+            daçãos.justificativa,
+            daçãos.protocolo,
+            daçãos.data_evento,
+            daçãos.xml_enviação,
+            daçãos.xml_retorno
         ]);
     }
 
@@ -436,7 +436,7 @@ class EventoService {
     async listarEventos(nfeId) {
         const [eventos] = await this.pool.query(`
             SELECT * FROM nfe_eventos
-            WHERE nfe_id = ?
+            WHERE nfe_id = 
             ORDER BY created_at DESC
         `, [nfeId]);
 

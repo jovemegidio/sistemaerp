@@ -23,10 +23,10 @@ const {
 // Load environment variables
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
-// Sistema de logs melhorado
+// Sistema de logs melhoração
 const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
 const logger = {
-    debug: LOG_LEVEL === 'debug' ? console.log : () => {},
+    debug: LOG_LEVEL === 'debug'  console.log : () => {},
     info: console.log,
     warn: console.warn,
     error: console.error
@@ -83,7 +83,7 @@ function formatarCpfCnpjExcel(valor) {
 
 // Tratamento global de erros para evitar crashes
 process.on('uncaughtException', (err) => {
-    logger.error('❌ Erro não tratado capturado:', err.message);
+    logger.error('❌ Erro não tratação capturação:', err.message);
     logger.error('Stack:', err.stack);
     // Não parar o servidor, apenas logar
 });
@@ -103,7 +103,7 @@ try {
 }
 
 const app = express();
-const PORT = process.env.PORT_PCP ? parseInt(process.env.PORT_PCP, 10) : 3001;
+const PORT = process.env.PORT_PCP  parseInt(process.env.PORT_PCP, 10) : 3001;
 
 // 🚀 PERFORMANCE: Compression para respostas HTTP (reduz ~70% do tamanho)
 let compression;
@@ -117,13 +117,13 @@ try {
             return compression.filter(req, res);
         }
     }));
-    logger.info('[INIT] ✅ Compression ativado');
+    logger.info('[INIT] ✅ Compression ativação');
 } catch (e) {
     logger.warn('[INIT] ⚠️ Compression não disponível');
 }
 
 // --- CONFIGURAÇÃO DA LIGAÇÃO À BASE DE DADOS ---
-// 🚀 PERFORMANCE: Pool otimizado para melhor throughput
+// 🚀 PERFORMANCE: Pool otimização para melhor throughput
 const db = mysql.createPool({
     host: process.env.DB_HOST || 'interchange.proxy.rlwy.net',
     user: process.env.DB_USER || 'root',
@@ -131,7 +131,7 @@ const db = mysql.createPool({
     database: process.env.DB_NAME || 'railway',
     port: process.env.DB_PORT || 19396,
     waitForConnections: true,
-    connectionLimit: 20, // Aumentado para melhor concorrência
+    connectionLimit: 20, // Aumentação para melhor concorrência
     queueLimit: 0,
     enableKeepAlive: true, // Mantém conexões vivas
     keepAliveInitialDelay: 10000, // 10s
@@ -207,7 +207,7 @@ app.get('/favicon.ico', (req, res) => {
     res.sendFile(path.join(__dirname, 'Favicon Aluforce.webp'));
 });
 
-// Static files will be served after API route registration to avoid static fallback shadowing API endpoints.
+// Static files will be served after API route registration to avoid static fallback shaçãowing API endpoints.
 // (See later insertion before API 404 handler.)
 
 // Simple in-memory session store (for dev). Keys are session ids stored in cookie 'pcp_session'
@@ -217,12 +217,12 @@ function getSessionIdFromReq(req) {
     const cookie = req.headers && req.headers.cookie;
     if (!cookie) return null;
     const m = cookie.match(/pcp_session=([^;]+)/);
-    return m ? m[1] : null;
+    return m  m[1] : null;
 }
 
 function authRequired(req, res, next) {
     const sid = getSessionIdFromReq(req);
-    if (!sid || !sessions.has(sid)) return res.status(401).json({ message: 'Não autenticado' });
+    if (!sid || !sessions.has(sid)) return res.status(401).json({ message: 'Não autenticação' });
     req.user = sessions.get(sid).user;
     next();
 }
@@ -259,13 +259,13 @@ function authRequired(req, res, next) {
 
     // Quando cliente conectar, podemos enviar lista inicial
     io.on('connection', (socket) => {
-        logger.debug('Cliente Socket.IO conectado:', socket.id);
-        // Envia estado atual dos materiais
+        logger.debug('Cliente Socket.IO conectação:', socket.id);
+        // Envia estação atual dos materiais
         (async () => {
             try {
                 const [rows] = await db.query("SELECT * FROM materiais ORDER BY descricao ASC");
                 socket.emit('materials_changed', rows);
-                // Envia estado atual dos produtos
+                // Envia estação atual dos produtos
                 try {
                     const [prods] = await db.query("SELECT * FROM produtos ORDER BY descricao ASC");
                     socket.emit('products_changed', prods);
@@ -285,7 +285,7 @@ app.get('/api/pcp/clientes', async (req, res) => {
         // Se query vazia, retornar primeiros 20 clientes
         try {
             const sql = `SELECT id, nome, razao_social, nome_fantasia, cnpj_cpf, cnpj, cpf, contato, email, telefone, 
-                                endereco, cidade, estado, cep
+                                endereco, cidade, estação, cep
                          FROM clientes 
                          ORDER BY COALESCE(nome, razao_social, nome_fantasia) 
                          LIMIT 20`;
@@ -303,7 +303,7 @@ app.get('/api/pcp/clientes', async (req, res) => {
                     telefone: r.telefone || '', 
                     endereco: r.endereco || '', 
                     cidade: r.cidade || '',
-                    estado: r.estado || '', 
+                    estação: r.estação || '', 
                     cep: r.cep || '', 
                     email_nfe: r.email || ''
                 })));
@@ -315,15 +315,15 @@ app.get('/api/pcp/clientes', async (req, res) => {
     try {
         // Buscar na tabela clientes com campos que realmente existem
         const sql = `SELECT id, nome, razao_social, nome_fantasia, cnpj_cpf, contato, email, telefone, 
-                            endereco, cidade, estado, cep
+                            endereco, cidade, estação, cep
                      FROM clientes 
-                     WHERE (nome LIKE ? OR razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj_cpf LIKE ?) 
+                     WHERE (nome LIKE  OR razao_social LIKE  OR nome_fantasia LIKE  OR cnpj_cpf LIKE ) 
                      ORDER BY COALESCE(nome, razao_social, nome_fantasia) 
                      LIMIT 20`;
         const [rows] = await db.query(sql, [like, like, like, like]);
         
         if (Array.isArray(rows) && rows.length) {
-            const resultado = rows.map(r => ({
+            const resultação = rows.map(r => ({
                 id: r.id,
                 nome: r.nome || r.razao_social || r.nome_fantasia || '',
                 razao_social: r.razao_social || '',
@@ -334,10 +334,10 @@ app.get('/api/pcp/clientes', async (req, res) => {
                 telefone: r.telefone || '',
                 endereco: r.endereco || '',
                 cidade: r.cidade || '',
-                estado: r.estado || '',
+                estação: r.estação || '',
                 cep: r.cep || ''
             }));
-            return res.json(resultado);
+            return res.json(resultação);
         }
         
         // Fallback: buscar em outras tabelas se necessário
@@ -348,13 +348,13 @@ app.get('/api/pcp/clientes', async (req, res) => {
     }
 });
 
-// Endpoint para buscar transportadoras
-app.get('/api/pcp/transportadoras', async (req, res) => {
+// Endpoint para buscar transportaçãoras
+app.get('/api/pcp/transportaçãoras', async (req, res) => {
     const q = (req.query.q || '').toString().trim();
     if (!q) {
-        // Se query vazia, retornar dados estáticos
+        // Se query vazia, retornar daçãos estáticos
         const fallback = [
-            { nome: 'Transportadora Rápida Ltda', cnpj: '12.345.678/0001-90', email: 'contato@rapida.com', telefone: '(11) 98765-4321', endereco: 'Av. Principal, 1000, São Paulo - SP', cep: '01234-567' },
+            { nome: 'Transportaçãora Rápida Ltda', cnpj: '12.345.678/0001-90', email: 'contato@rapida.com', telefone: '(11) 98765-4321', endereco: 'Av. Principal, 1000, São Paulo - SP', cep: '01234-567' },
             { nome: 'Logística Express', cnpj: '98.765.432/0001-10', email: 'express@logistica.com', telefone: '(21) 91234-5678', endereco: 'Rua das Flores, 500, Rio de Janeiro - RJ', cep: '20123-456' },
             { nome: 'Cargas Brasil', cnpj: '11.222.333/0001-44', email: 'contato@cargasbrasil.com', telefone: '(11) 3456-7890', endereco: 'Rua Industrial, 200, São Paulo - SP', cep: '03456-789' }
         ];
@@ -362,17 +362,17 @@ app.get('/api/pcp/transportadoras', async (req, res) => {
     }
     const like = `%${q.replace(/[%_]/g, '\\$&')}%`;
     try {
-        // Buscar na tabela transportadoras usando campos corretos
-        const sql = `SELECT id, razao_social, nome_fantasia, cnpj_cpf, email, telefone, bairro, cidade, estado, contato
-                     FROM transportadoras 
-                     WHERE (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj_cpf LIKE ?) 
+        // Buscar na tabela transportaçãoras usando campos corretos
+        const sql = `SELECT id, razao_social, nome_fantasia, cnpj_cpf, email, telefone, bairro, cidade, estação, contato
+                     FROM transportaçãoras 
+                     WHERE (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj_cpf LIKE ) 
                      ORDER BY COALESCE(razao_social, nome_fantasia) 
                      LIMIT 20`;
         const [rows] = await db.query(sql, [like, like, like]);
         
         if (Array.isArray(rows) && rows.length) {
-            const resultado = rows.map(r => {
-                const endereco = [r.bairro, r.cidade, r.estado].filter(Boolean).join(', ');
+            const resultação = rows.map(r => {
+                const endereco = [r.bairro, r.cidade, r.estação].filter(Boolean).join(', ');
                 return {
                     id: r.id,
                     nome: r.razao_social || r.nome_fantasia || '',
@@ -382,18 +382,18 @@ app.get('/api/pcp/transportadoras', async (req, res) => {
                     endereco: endereco,
                     cep: '', // Não tem CEP na tabela
                     cidade: r.cidade || '',
-                    estado: r.estado || ''
+                    estação: r.estação || ''
                 };
             });
-            return res.json(resultado);
+            return res.json(resultação);
         }
         
         return res.json([]);
     } catch (error) {
-        logger.error('Erro na busca de transportadoras:', error);
-        // Retornar dados estáticos como fallback
+        logger.error('Erro na busca de transportaçãoras:', error);
+        // Retornar daçãos estáticos como fallback
         const fallback = [
-            { nome: 'Transportadora Rápida Ltda', cnpj: '12.345.678/0001-90', email: 'contato@rapida.com', telefone: '(11) 98765-4321', endereco: 'Av. Principal, 1000, São Paulo - SP', cep: '01234-567' },
+            { nome: 'Transportaçãora Rápida Ltda', cnpj: '12.345.678/0001-90', email: 'contato@rapida.com', telefone: '(11) 98765-4321', endereco: 'Av. Principal, 1000, São Paulo - SP', cep: '01234-567' },
             { nome: 'Logística Express', cnpj: '98.765.432/0001-10', email: 'express@logistica.com', telefone: '(21) 91234-5678', endereco: 'Rua das Flores, 500, Rio de Janeiro - RJ', cep: '20123-456' }
         ].filter(t => t.nome.toLowerCase().includes(q.toLowerCase()));
         return res.json(fallback);
@@ -407,18 +407,18 @@ app.post('/api/pcp/login', authLimiter, validateRequired(['email', 'password']),
         logger.debug(`[LOGIN] attempt for identifier=${email}`);
         
         // For this database, we only have 'email' as identifier column
-        const sql = `SELECT * FROM usuarios_pcp WHERE email = ? LIMIT 1`;
+        const sql = `SELECT * FROM usuarios_pcp WHERE email =  LIMIT 1`;
         const [rows] = await db.query(sql, [email]);
         
         if (!rows || rows.length === 0) {
             logger.debug('[LOGIN] user not found for email=', email);
-            return res.status(401).json({ message: 'Email/usuário não encontrado.' });
+            return res.status(401).json({ message: 'Email/usuário não encontração.' });
         }
 
         const user = rows[0];
         logger.debug('[LOGIN] found user id=', user.id, 'email=', user.email);
         const stored = (user.senha || user.password || '').toString();
-        const masked = stored ? `${stored.slice(0,4)}...len=${stored.length}` : '(empty)';
+        const masked = stored  `${stored.slice(0,4)}...len=${stored.length}` : '(empty)';
         logger.debug('[LOGIN] stored password meta=', masked);
 
         // If bcrypt is available and stored password looks like a bcrypt hash, prefer bcrypt compare
@@ -434,7 +434,7 @@ app.post('/api/pcp/login', authLimiter, validateRequired(['email', 'password']),
                     return res.json({ message: 'Login bem-sucedido!', userData: user });
                 }
             } catch (e) {
-                logger.error('[LOGIN] bcrypt compare error:', e && e.message ? e.message : e);
+                logger.error('[LOGIN] bcrypt compare error:', e && e.message  e.message : e);
             }
             // If bcrypt compare fails, authentication fails
             logger.debug('[LOGIN] bcrypt compare failed or not matched');
@@ -445,7 +445,7 @@ app.post('/api/pcp/login', authLimiter, validateRequired(['email', 'password']),
         logger.warn('[LOGIN] Authentication failed - senha deve estar em bcrypt hash');
         return res.status(401).json({ 
             message: 'Email ou senha inválidos.',
-            hint: 'Se esqueceu sua senha, contate o administrador para resetá-la.'
+            hint: 'Se esqueceu sua senha, contate o administraçãor para resetá-la.'
         });
     } catch (error) {
         logger.error('Erro no login:', error);
@@ -480,7 +480,7 @@ app.post('/api/auth/verify-email', async (req, res) => {
         
         for (const col of identifierCols) {
             try {
-                const sql = `SELECT id, email, nome, departamento FROM usuarios_pcp WHERE ${col} = ? LIMIT 1`;
+                const sql = `SELECT id, email, nome, departamento FROM usuarios_pcp WHERE ${col} =  LIMIT 1`;
                 const [rows] = await db.query(sql, [email]);
                 if (rows && rows.length > 0) { 
                     user = rows[0]; 
@@ -496,12 +496,12 @@ app.post('/api/auth/verify-email', async (req, res) => {
         
         if (!user) {
             console.log(`[PASSWORD_RESET] email not found: ${email}`);
-            return res.status(404).json({ message: 'Email não encontrado no sistema.' });
+            return res.status(404).json({ message: 'Email não encontração no sistema.' });
         }
         
         console.log(`[PASSWORD_RESET] email found, user id: ${user.id}`);
         res.json({ 
-            message: 'Email encontrado.',
+            message: 'Email encontração.',
             userId: user.id 
         });
         
@@ -511,7 +511,7 @@ app.post('/api/auth/verify-email', async (req, res) => {
     }
 });
 
-// Rota 2: Verificar dados do usuário (nome e departamento)
+// Rota 2: Verificar daçãos do usuário (nome e departamento)
 app.post('/api/auth/verify-user-data', async (req, res) => {
     const { userId, name, department } = req.body;
     
@@ -519,17 +519,17 @@ app.post('/api/auth/verify-user-data', async (req, res) => {
         console.log(`[PASSWORD_RESET] verify data for user id: ${userId}`);
         
         if (!userId || !name || !department) {
-            return res.status(400).json({ message: 'Dados incompletos.' });
+            return res.status(400).json({ message: 'Daçãos incompletos.' });
         }
         
-        // Buscar usuário e verificar dados
+        // Buscar usuário e verificar daçãos
         const [rows] = await db.query(
-            'SELECT id, nome, departamento FROM usuarios_pcp WHERE id = ? LIMIT 1',
+            'SELECT id, nome, departamento FROM usuarios_pcp WHERE id =  LIMIT 1',
             [userId]
         );
         
         if (!rows || rows.length === 0) {
-            return res.status(404).json({ message: 'Usuário não encontrado.' });
+            return res.status(404).json({ message: 'Usuário não encontração.' });
         }
         
         const user = rows[0];
@@ -550,16 +550,16 @@ app.post('/api/auth/verify-user-data', async (req, res) => {
         if (!nameMatch || !deptMatch) {
             console.log(`[PASSWORD_RESET] data mismatch for user ${userId}: name=${nameMatch}, dept=${deptMatch}`);
             return res.status(400).json({ 
-                message: 'Os dados não conferem com nossos registros. Verifique o nome completo e departamento.' 
+                message: 'Os daçãos não conferem com nossos registros. Verifique o nome completo e departamento.' 
             });
         }
         
         console.log(`[PASSWORD_RESET] data verified for user ${userId}`);
-        res.json({ message: 'Dados verificados com sucesso.' });
+        res.json({ message: 'Daçãos verificaçãos com sucesso.' });
         
     } catch (error) {
         console.error('[PASSWORD_RESET] verify data error:', error);
-        res.status(500).json({ message: 'Erro no servidor ao verificar dados.' });
+        res.status(500).json({ message: 'Erro no servidor ao verificar daçãos.' });
     }
 });
 
@@ -571,7 +571,7 @@ app.post('/api/auth/change-password', async (req, res) => {
         console.log(`[PASSWORD_RESET] change password for user id: ${userId}`);
         
         if (!userId || !newPassword) {
-            return res.status(400).json({ message: 'Dados incompletos.' });
+            return res.status(400).json({ message: 'Daçãos incompletos.' });
         }
         
         if (newPassword.length < 6) {
@@ -580,12 +580,12 @@ app.post('/api/auth/change-password', async (req, res) => {
         
         // Verificar se usuário existe
         const [userRows] = await db.query(
-            'SELECT id FROM usuarios_pcp WHERE id = ? LIMIT 1',
+            'SELECT id FROM usuarios_pcp WHERE id =  LIMIT 1',
             [userId]
         );
         
         if (!userRows || userRows.length === 0) {
-            return res.status(404).json({ message: 'Usuário não encontrado.' });
+            return res.status(404).json({ message: 'Usuário não encontração.' });
         }
         
         // Criptografar nova senha se bcrypt estiver disponível
@@ -607,7 +607,7 @@ app.post('/api/auth/change-password', async (req, res) => {
         
         for (const col of passwordCols) {
             try {
-                const sql = `UPDATE usuarios_pcp SET ${col} = ?, updated_at = NOW() WHERE id = ?`;
+                const sql = `UPDATE usuarios_pcp SET ${col} = , updated_at = NOW() WHERE id = `;
                 const [result] = await db.query(sql, [hashedPassword, userId]);
                 
                 if (result.affectedRows > 0) {
@@ -625,13 +625,13 @@ app.post('/api/auth/change-password', async (req, res) => {
         
         if (!updated) {
             console.error(`[PASSWORD_RESET] no password column found or update failed for user ${userId}`);
-            return res.status(500).json({ message: 'Erro ao atualizar senha no banco de dados.' });
+            return res.status(500).json({ message: 'Erro ao atualizar senha no banco de daçãos.' });
         }
         
         // Log da alteração para auditoria
         try {
             await db.query(
-                'INSERT INTO audit_log (user_id, action, details, created_at) VALUES (?, ?, ?, NOW())',
+                'INSERT INTO audit_log (user_id, action, details, created_at) VALUES (, , , NOW())',
                 [userId, 'PASSWORD_RESET', `Password reset via recovery process for email: ${email}`]
             );
         } catch (auditError) {
@@ -659,7 +659,7 @@ app.get('/api/pcp/dashboard', authRequired, async (req, res) => {
         res.json({ totals: totals[0], recentPedidos: pedidos });
     } catch (err) {
         logger.error('Dashboard error:', err.message);
-        res.status(500).json({ message: 'Erro ao buscar dados do dashboard.' });
+        res.status(500).json({ message: 'Erro ao buscar daçãos do dashboard.' });
     }
 });
 
@@ -701,12 +701,12 @@ app.get('/api/pcp/produtos/codigo/:codigo', async (req, res) => {
     try {
         const { codigo } = req.params;
         const [rows] = await db.query(
-            "SELECT * FROM produtos WHERE codigo = ? OR codigo LIKE ? LIMIT 1", 
+            "SELECT * FROM produtos WHERE codigo =  OR codigo LIKE  LIMIT 1", 
             [codigo, `%${codigo}%`]
         );
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Produto não encontrado' });
+            return res.status(404).json({ message: 'Produto não encontração' });
         }
         
         res.json(rows[0]);
@@ -721,12 +721,12 @@ app.get('/api/pcp/produtos/gtin/:gtin', async (req, res) => {
     try {
         const { gtin } = req.params;
         const [rows] = await db.query(
-            "SELECT * FROM produtos WHERE gtin = ? LIMIT 1", 
+            "SELECT * FROM produtos WHERE gtin =  LIMIT 1", 
             [gtin]
         );
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Produto não encontrado com este GTIN' });
+            return res.status(404).json({ message: 'Produto não encontração com este GTIN' });
         }
         
         res.json(rows[0]);
@@ -741,12 +741,12 @@ app.get('/api/pcp/produtos/sku/:sku', async (req, res) => {
     try {
         const { sku } = req.params;
         const [rows] = await db.query(
-            "SELECT * FROM produtos WHERE sku = ? LIMIT 1", 
+            "SELECT * FROM produtos WHERE sku =  LIMIT 1", 
             [sku]
         );
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Produto não encontrado com este SKU' });
+            return res.status(404).json({ message: 'Produto não encontração com este SKU' });
         }
         
         res.json(rows[0]);
@@ -770,13 +770,13 @@ app.post('/api/pcp/ordens', async (req, res) => {
     async function getTableColumns(tableName) {
         if (tableColsCache[tableName]) return tableColsCache[tableName];
         try {
-            const schema = (db && db.config && db.config.connectionConfig && db.config.connectionConfig.database) ? db.config.connectionConfig.database : 'aluforce_vendas';
-            const [cols] = await db.query('SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema = ? AND table_name = ?', [schema, tableName]);
-            const names = Array.isArray(cols) ? cols.map(r => r.COLUMN_NAME) : [];
+            const schema = (db && db.config && db.config.connectionConfig && db.config.connectionConfig.database)  db.config.connectionConfig.database : 'aluforce_vendas';
+            const [cols] = await db.query('SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema =  AND table_name = ', [schema, tableName]);
+            const names = Array.isArray(cols)  cols.map(r => r.COLUMN_NAME) : [];
             tableColsCache[tableName] = names;
             return names;
         } catch (e) {
-            console.error('Erro ao consultar information_schema para', tableName, e && e.message ? e.message : e);
+            console.error('Erro ao consultar information_schema para', tableName, e && e.message  e.message : e);
             return [];
         }
     }
@@ -801,11 +801,11 @@ app.post('/api/pcp/ordens', async (req, res) => {
             }
         }
 
-        // transportadora object handling: flatten into extras.transportadora_* or store under JSON field
-        if (req.body.transportadora && typeof req.body.transportadora === 'object') {
-            const t = req.body.transportadora;
-            // try to persist individual transportadora fields if columns exist
-            const tFields = { nome: 'transportadora_nome', fone: 'transportadora_fone', cep: 'transportadora_cep', endereco: 'transportadora_endereco', cpf_cnpj: 'transportadora_cpf_cnpj', email_nfe: 'transportadora_email_nfe' };
+        // transportaçãora object handling: flatten into extras.transportaçãora_* or store under JSON field
+        if (req.body.transportaçãora && typeof req.body.transportaçãora === 'object') {
+            const t = req.body.transportaçãora;
+            // try to persist individual transportaçãora fields if columns exist
+            const tFields = { nome: 'transportaçãora_nome', fone: 'transportaçãora_fone', cep: 'transportaçãora_cep', endereco: 'transportaçãora_endereco', cpf_cnpj: 'transportaçãora_cpf_cnpj', email_nfe: 'transportaçãora_email_nfe' };
             for (const k of Object.keys(tFields)) {
                 const col = tFields[k];
                 if (t[k] && cols.includes(col)) {
@@ -817,24 +817,24 @@ app.post('/api/pcp/ordens', async (req, res) => {
             }
         }
 
-        // Server-side validations: transportadora email and cpf/cnpj
-        if (extras.transportadora_email_nfe || (req.body.transportadora && req.body.transportadora.email_nfe)) {
-            const email = extras.transportadora_email_nfe || req.body.transportadora.email_nfe;
+        // Server-side validations: transportaçãora email and cpf/cnpj
+        if (extras.transportaçãora_email_nfe || (req.body.transportaçãora && req.body.transportaçãora.email_nfe)) {
+            const email = extras.transportaçãora_email_nfe || req.body.transportaçãora.email_nfe;
             if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                return res.status(400).json({ message: 'E-mail NFe da transportadora inválido.' });
+                return res.status(400).json({ message: 'E-mail NFe da transportaçãora inválido.' });
             }
         }
-        if (extras.transportadora_cpf_cnpj || (req.body.transportadora && req.body.transportadora.cpf_cnpj)) {
-            const doc = (extras.transportadora_cpf_cnpj || req.body.transportadora.cpf_cnpj || '').toString().replace(/[^0-9]/g, '');
+        if (extras.transportaçãora_cpf_cnpj || (req.body.transportaçãora && req.body.transportaçãora.cpf_cnpj)) {
+            const doc = (extras.transportaçãora_cpf_cnpj || req.body.transportaçãora.cpf_cnpj || '').toString().replace(/[^0-9]/g, '');
             if (doc && !(doc.length === 11 || doc.length === 14)) {
-                return res.status(400).json({ message: 'CPF/CNPJ da transportadora inválido (deve conter 11 ou 14 dígitos).' });
+                return res.status(400).json({ message: 'CPF/CNPJ da transportaçãora inválido (deve conter 11 ou 14 dígitos).' });
             }
         }
 
         // If client sent items JSON (from new UI table), include it in extras so it can be persisted
         if (req.body.items_json) {
             try {
-                const parsed = typeof req.body.items_json === 'string' ? JSON.parse(req.body.items_json) : req.body.items_json;
+                const parsed = typeof req.body.items_json === 'string'  JSON.parse(req.body.items_json) : req.body.items_json;
                 if (Array.isArray(parsed) && parsed.length > 0) {
                     extras.items = parsed;
                 }
@@ -842,7 +842,7 @@ app.post('/api/pcp/ordens', async (req, res) => {
         }
 
         // If there's a JSON / extras column available in the table, store extras there
-        const jsonCandidates = ['extra', 'extras', 'meta', 'metadata', 'dados', 'detalhes', 'details'];
+        const jsonCandidates = ['extra', 'extras', 'meta', 'metadata', 'daçãos', 'detalhes', 'details'];
         let usedJsonField = null;
         for (const jc of jsonCandidates) {
             if (cols.includes(jc)) { usedJsonField = jc; break; }
@@ -855,7 +855,7 @@ app.post('/api/pcp/ordens', async (req, res) => {
             } else {
                 // fallback: append JSON-encoded extras to observacoes so data is not lost
                 try {
-                    const existing = observacoes ? observacoes + '\n' : '';
+                    const existing = observacoes  observacoes + '\n' : '';
                     observacoes = existing + JSON.stringify(extras);
                     // update observacoes value in the values array (it's at index 4)
                     const obsIndex = insertCols.indexOf('observacoes');
@@ -864,12 +864,12 @@ app.post('/api/pcp/ordens', async (req, res) => {
             }
         }
 
-        const placeholders = insertCols.map(() => '?').join(', ');
+        const placeholders = insertCols.map(() => '').join(', ');
         const sql = `INSERT INTO ordens_producao (${insertCols.join(', ')}) VALUES (${placeholders})`;
         const [result] = await db.query(sql, values);
         res.status(201).json({ message: 'Ordem criada com sucesso!', id: result.insertId });
     } catch (error) {
-        console.error('Erro ao criar ordem:', error && error.message ? error.message : error);
+        console.error('Erro ao criar ordem:', error && error.message  error.message : error);
         res.status(500).json({ message: 'Erro ao criar ordem.' });
     }
 });
@@ -879,9 +879,9 @@ app.put('/api/pcp/ordens/:id/status', async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
     try {
-        const [result] = await db.query("UPDATE ordens_producao SET status = ? WHERE id = ?", [status, id]);
+        const [result] = await db.query("UPDATE ordens_producao SET status =  WHERE id = ", [status, id]);
         if (result.affectedRows > 0) {
-            res.json({ message: "Status atualizado com sucesso!" });
+            res.json({ message: "Status atualização com sucesso!" });
         } else {
             res.status(404).json({ message: "Ordem não encontrada." });
         }
@@ -897,11 +897,11 @@ app.put('/api/pcp/ordens/:id/status', async (req, res) => {
 // Rota para criar um novo material
 app.post('/api/pcp/materiais', async (req, res) => {
     const { codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao } = req.body;
-    const sql = "INSERT INTO materiais (codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao) VALUES (?, ?, ?, ?, ?)";
+    const sql = "INSERT INTO materiais (codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao) VALUES (, , , , )";
     try {
         const [result] = await db.query(sql, [codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao]);
-    res.status(201).json({ message: "Material criado com sucesso!", id: result.insertId });
-    // Broadcast para clientes conectados
+    res.status(201).json({ message: "Material criação com sucesso!", id: result.insertId });
+    // Broadcast para clientes conectaçãos
     broadcastMaterials();
     } catch (error) {
         console.error("Erro ao criar material:", error);
@@ -925,7 +925,7 @@ app.get('/api/pcp/materiais', async (req, res) => {
 app.get('/api/pcp/produtos', async (req, res) => {
     console.log('[API_PRODUTOS] Requisição recebida:', req.query);
     try {
-        // support pagination: ?page=1&limit=6
+        // support pagination: page=1&limit=6
     let page = parseInt(req.query.page, 10) || 1;
     let limit = parseInt(req.query.limit, 10) || 10;
         if (page < 1) page = 1;
@@ -941,16 +941,16 @@ app.get('/api/pcp/produtos', async (req, res) => {
         try {
             console.log('[API_PRODUTOS] Buscando colunas da tabela produtos...');
             const [cols] = await db.query('SHOW COLUMNS FROM produtos');
-            columns = Array.isArray(cols) ? cols.map(c => c.Field) : [];
+            columns = Array.isArray(cols)  cols.map(c => c.Field) : [];
             console.log('[API_PRODUTOS] Colunas encontradas:', columns.length);
         } catch (e) {
             // if table missing or permission issues, respond gracefully
-            console.error('[API_PRODUTOS] Erro ao buscar colunas:', e && e.message ? e.message : e);
+            console.error('[API_PRODUTOS] Erro ao buscar colunas:', e && e.message  e.message : e);
             return res.status(500).json({ message: 'Erro ao acessar tabela produtos.' });
         }
 
         const has = (name) => columns.includes(name);
-        const orderColumn = has('descricao') ? 'descricao' : (has('nome') ? 'nome' : (has('codigo') ? 'codigo' : 'id'));
+        const orderColumn = has('descricao')  'descricao' : (has('nome')  'nome' : (has('codigo')  'codigo' : 'id'));
 
         // fetch rows with limit (optionally filtered by q) using only existing searchable columns
         let rows = [];
@@ -958,33 +958,33 @@ app.get('/api/pcp/produtos', async (req, res) => {
         if (q) {
             const whereParts = [];
             const params = [];
-            if (has('codigo')) { whereParts.push('codigo LIKE ?'); params.push(like); }
-            if (has('descricao')) { whereParts.push('descricao LIKE ?'); params.push(like); }
-            if (has('nome')) { whereParts.push('nome LIKE ?'); params.push(like); }
-            if (has('variacao')) { whereParts.push('variacao LIKE ?'); params.push(like); }
+            if (has('codigo')) { whereParts.push('codigo LIKE '); params.push(like); }
+            if (has('descricao')) { whereParts.push('descricao LIKE '); params.push(like); }
+            if (has('nome')) { whereParts.push('nome LIKE '); params.push(like); }
+            if (has('variacao')) { whereParts.push('variacao LIKE '); params.push(like); }
 
             if (whereParts.length === 0) {
                 // nothing to search against
                 rows = [];
                 total = 0;
             } else {
-                const sql = `SELECT * FROM produtos WHERE ${whereParts.join(' OR ')} ORDER BY ${orderColumn} ASC LIMIT ? OFFSET ?`;
+                const sql = `SELECT * FROM produtos WHERE ${whereParts.join(' OR ')} ORDER BY ${orderColumn} ASC LIMIT  OFFSET `;
                 params.push(limit, offset);
                 const [rs] = await db.query(sql, params);
                 rows = rs;
                 // count
                 const countSql = `SELECT COUNT(*) AS total FROM produtos WHERE ${whereParts.join(' OR ')}`;
                 const [countRes] = await db.query(countSql, params.slice(0, params.length - 2));
-                total = countRes && countRes[0] ? countRes[0].total : 0;
+                total = countRes && countRes[0]  countRes[0].total : 0;
             }
         } else {
-            const sql = `SELECT * FROM produtos ORDER BY ${orderColumn} ASC LIMIT ? OFFSET ?`;
+            const sql = `SELECT * FROM produtos ORDER BY ${orderColumn} ASC LIMIT  OFFSET `;
             console.log('[API_PRODUTOS] Executando query:', sql, [limit, offset]);
             const [rs] = await db.query(sql, [limit, offset]);
             rows = rs;
-            console.log('[API_PRODUTOS] Produtos retornados:', rows.length);
+            console.log('[API_PRODUTOS] Produtos retornaçãos:', rows.length);
             const [countRes] = await db.query('SELECT COUNT(*) AS total FROM produtos');
-            total = countRes && countRes[0] ? countRes[0].total : 0;
+            total = countRes && countRes[0]  countRes[0].total : 0;
             console.log('[API_PRODUTOS] Total no banco:', total);
         }
 
@@ -1025,7 +1025,7 @@ app.get('/api/pcp/produtos', async (req, res) => {
     });
     res.json({ page, limit, total, rows: normalizedRows, columns });
     } catch (error) {
-        console.error('[API_PRODUTOS] ERRO FATAL:', error && error.message ? error.message : error);
+        console.error('[API_PRODUTOS] ERRO FATAL:', error && error.message  error.message : error);
         console.error('[API_PRODUTOS] Stack:', error.stack);
         // Provide minimal debug info in a separate endpoint for local troubleshooting
         res.status(500).json({ message: 'Erro ao buscar produtos.', error: error.message });
@@ -1049,7 +1049,7 @@ app.get('/api/pcp/ordens-kanban', async (req, res) => {
                 CREATE TABLE IF NOT EXISTS ordens_producao_kanban (
                     id INT AUTO_INCREMENT PRIMARY KEY,
                     numero VARCHAR(50) NOT NULL,
-                    status ENUM('a_produzir', 'produzindo', 'qualidade', 'conferido', 'concluido', 'armazenado') DEFAULT 'a_produzir',
+                    status ENUM('a_produzir', 'produzindo', 'qualidade', 'conferido', 'concluido', 'armazenação') DEFAULT 'a_produzir',
                     status_texto VARCHAR(50) DEFAULT 'Em dia',
                     produto VARCHAR(255) NOT NULL,
                     descricao TEXT,
@@ -1066,7 +1066,7 @@ app.get('/api/pcp/ordens-kanban', async (req, res) => {
             console.log('[API_ORDENS_KANBAN] Tabela criada com sucesso');
         }
 
-        // Busca dados
+        // Busca daçãos
         const [rows] = await db.query(`
             SELECT 
                 id, numero, status, status_texto as statusTexto, produto, descricao, 
@@ -1080,7 +1080,7 @@ app.get('/api/pcp/ordens-kanban', async (req, res) => {
                     WHEN status = 'qualidade' THEN 3
                     WHEN status = 'conferido' THEN 4
                     WHEN status = 'concluido' THEN 5
-                    WHEN status = 'armazenado' THEN 6
+                    WHEN status = 'armazenação' THEN 6
                 END,
                 data_conclusao ASC
         `);
@@ -1103,12 +1103,12 @@ app.post('/api/pcp/ordens-kanban', async (req, res) => {
         // Verificar se está atrasada
         const hoje = new Date();
         const dataConc = new Date(dataConclusao);
-        const statusTexto = dataConc < hoje ? 'Atrasada' : 'Em dia';
+        const statusTexto = dataConc < hoje  'Atrasada' : 'Em dia';
 
         const [result] = await db.query(`
             INSERT INTO ordens_producao_kanban 
             (numero, status, status_texto, produto, descricao, codigo, data_conclusao, quantidade, produzido, unidade, observacoes)
-            VALUES (?, 'a_produzir', ?, ?, ?, ?, ?, ?, 0, ?, ?)
+            VALUES (, 'a_produzir', , , , , , , 0, , )
         `, [numero, statusTexto, produto, descricao || '', codigo || '', dataConclusao, quantidade, unidade || 'M', observacoes || '']);
 
         const novaOrdem = {
@@ -1144,27 +1144,27 @@ app.put('/api/pcp/ordens-kanban/:id', async (req, res) => {
 
         // Determinar status texto
         let statusTexto = 'Em dia';
-        if (status === 'concluido' || status === 'armazenado') {
+        if (status === 'concluido' || status === 'armazenação') {
             statusTexto = 'Concluída';
         }
 
-        // Se status for concluido ou armazenado, atualiza produzido = quantidade
-        if (status === 'concluido' || status === 'armazenado') {
+        // Se status for concluido ou armazenação, atualiza produzido = quantidade
+        if (status === 'concluido' || status === 'armazenação') {
             await db.query(`
                 UPDATE ordens_producao_kanban 
-                SET status = ?, status_texto = ?, produzido = quantidade
-                WHERE id = ?
+                SET status = , status_texto = , produzido = quantidade
+                WHERE id = 
             `, [status, statusTexto, id]);
         } else {
             await db.query(`
                 UPDATE ordens_producao_kanban 
-                SET status = ?, status_texto = ?
-                WHERE id = ?
+                SET status = , status_texto = 
+                WHERE id = 
             `, [status, statusTexto, id]);
         }
 
         console.log('[API_ORDENS_KANBAN] Ordem atualizada');
-        res.json({ success: true, message: 'Status atualizado com sucesso' });
+        res.json({ success: true, message: 'Status atualização com sucesso' });
 
     } catch (error) {
         console.error('[API_ORDENS_KANBAN] Erro ao atualizar:', error.message);
@@ -1182,8 +1182,8 @@ app.get('/api/pcp/ordens-producao', async (req, res) => {
         const [tables] = await db.query("SHOW TABLES LIKE 'ordens_producao'");
         
         if (!tables || tables.length === 0) {
-            console.log('[API_ORDENS_PRODUCAO] Tabela não existe, retornando dados de exemplo');
-            // Retorna dados de exemplo para teste
+            console.log('[API_ORDENS_PRODUCAO] Tabela não existe, retornando daçãos de exemplo');
+            // Retorna daçãos de exemplo para teste
             const ordensExemplo = [
                 {
                     id: 1,
@@ -1255,11 +1255,11 @@ app.get('/api/pcp/ordens-producao', async (req, res) => {
                 success: true, 
                 data: ordensExemplo,
                 total: ordensExemplo.length,
-                message: 'Dados de exemplo (tabela não criada ainda)'
+                message: 'Daçãos de exemplo (tabela não criada ainda)'
             });
         }
 
-        // Se a tabela existe, busca os dados reais
+        // Se a tabela existe, busca os daçãos reais
         const [rows] = await db.query(`
             SELECT 
                 id, codigo, produto_nome, quantidade, unidade,
@@ -1308,7 +1308,7 @@ app.post('/api/pcp/ordens-producao', async (req, res) => {
             INSERT INTO ordens_producao 
             (codigo, produto_nome, quantidade, unidade, status, prioridade, 
              data_inicio, data_prevista, responsavel, progresso, observacoes)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?)
+            VALUES (, , , , , , , , , 0, )
         `, [codigo, produto_nome, quantidade, unidade, status, prioridade, 
             data_inicio, data_prevista, responsavel, observacoes]);
 
@@ -1347,7 +1347,7 @@ app.put('/api/pcp/ordens-producao/:id', async (req, res) => {
 
         Object.keys(updates).forEach(key => {
             if (allowedFields.includes(key)) {
-                fields.push(`${key} = ?`);
+                fields.push(`${key} = `);
                 values.push(updates[key]);
             }
         });
@@ -1363,7 +1363,7 @@ app.put('/api/pcp/ordens-producao/:id', async (req, res) => {
         await db.query(`
             UPDATE ordens_producao 
             SET ${fields.join(', ')}, updated_at = NOW()
-            WHERE id = ?
+            WHERE id = 
         `, values);
 
         console.log('[API_ORDENS_PRODUCAO] Ordem atualizada');
@@ -1392,8 +1392,8 @@ app.get('/api/pcp/faturamentos', async (req, res) => {
         const [tables] = await db.query("SHOW TABLES LIKE 'programacao_faturamento'");
         
         if (!tables || tables.length === 0) {
-            console.log('[API_FATURAMENTOS] Tabela não existe, retornando dados de exemplo');
-            // Retorna dados de exemplo para teste
+            console.log('[API_FATURAMENTOS] Tabela não existe, retornando daçãos de exemplo');
+            // Retorna daçãos de exemplo para teste
             const faturamentosExemplo = [
                 {
                     id: 1,
@@ -1466,11 +1466,11 @@ app.get('/api/pcp/faturamentos', async (req, res) => {
                 success: true, 
                 data: faturamentosExemplo,
                 total: faturamentosExemplo.length,
-                message: 'Dados de exemplo (tabela não criada ainda)'
+                message: 'Daçãos de exemplo (tabela não criada ainda)'
             });
         }
 
-        // Se a tabela existe, busca os dados reais
+        // Se a tabela existe, busca os daçãos reais
         const [rows] = await db.query(`
             SELECT 
                 id, numero, cliente_nome, valor, status, tipo,
@@ -1517,13 +1517,13 @@ app.post('/api/pcp/faturamentos', async (req, res) => {
         const [result] = await db.query(`
             INSERT INTO programacao_faturamento 
             (numero, cliente_nome, valor, status, tipo, data_programada, observacoes)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (, , , , , , )
         `, [numero, cliente_nome, valor, status, tipo, data_programada, observacoes]);
 
-        console.log('[API_FATURAMENTOS] Faturamento criado com ID:', result.insertId);
+        console.log('[API_FATURAMENTOS] Faturamento criação com ID:', result.insertId);
         res.status(201).json({ 
             success: true, 
-            message: 'Faturamento criado com sucesso',
+            message: 'Faturamento criação com sucesso',
             id: result.insertId 
         });
 
@@ -1554,7 +1554,7 @@ app.put('/api/pcp/faturamentos/:id', async (req, res) => {
 
         Object.keys(updates).forEach(key => {
             if (allowedFields.includes(key)) {
-                fields.push(`${key} = ?`);
+                fields.push(`${key} = `);
                 values.push(updates[key]);
             }
         });
@@ -1570,13 +1570,13 @@ app.put('/api/pcp/faturamentos/:id', async (req, res) => {
         await db.query(`
             UPDATE programacao_faturamento 
             SET ${fields.join(', ')}, updated_at = NOW()
-            WHERE id = ?
+            WHERE id = 
         `, values);
 
-        console.log('[API_FATURAMENTOS] Faturamento atualizado');
+        console.log('[API_FATURAMENTOS] Faturamento atualização');
         res.json({ 
             success: true, 
-            message: 'Faturamento atualizado com sucesso' 
+            message: 'Faturamento atualização com sucesso' 
         });
 
     } catch (error) {
@@ -1591,7 +1591,7 @@ app.put('/api/pcp/faturamentos/:id', async (req, res) => {
 
 // Criar novo produto
 app.post('/api/pcp/produtos', async (req, res) => {
-    console.log('[CREATE_PRODUCT] Endpoint chamado');
+    console.log('[CREATE_PRODUCT] Endpoint chamação');
     const { 
         codigo, nome, descricao, sku, gtin, variacao, marca,
         categoria, unidade, preco_custo, preco_venda, 
@@ -1633,7 +1633,7 @@ app.post('/api/pcp/produtos', async (req, res) => {
         const sql = `INSERT INTO produtos 
             (codigo, nome, descricao, sku, gtin, variacao, marca, categoria, unidade, 
              preco_custo, preco_venda, estoque_atual, estoque_minimo, estoque_maximo) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`;
+            VALUES (, , , , , , , , , , , , , )`;
             
         const values = [
             codigo, 
@@ -1654,7 +1654,7 @@ app.post('/api/pcp/produtos', async (req, res) => {
         
         const [result] = await db.query(sql, values);
         
-        console.log('[CREATE_PRODUCT] Produto criado com sucesso:', {
+        console.log('[CREATE_PRODUCT] Produto criação com sucesso:', {
             id: result.insertId,
             codigo,
             sku,
@@ -1662,7 +1662,7 @@ app.post('/api/pcp/produtos', async (req, res) => {
         });
         
         res.status(201).json({ 
-            message: 'Produto criado com sucesso', 
+            message: 'Produto criação com sucesso', 
             id: result.insertId,
             sku: sku,
             gtin: gtin
@@ -1697,7 +1697,7 @@ app.put('/api/pcp/produtos/:id', async (req, res) => {
         estoque, estoque_minimo, estoque_maximo, observacoes 
     } = req.body;
     
-    console.log('[UPDATE_PRODUCT] Dados recebidos:', { id, codigo, nome, estoque, estoque_minimo, preco, preco_venda });
+    console.log('[UPDATE_PRODUCT] Daçãos recebidos:', { id, codigo, nome, estoque, estoque_minimo, preco, preco_venda });
     
     try {
         // Validação do GTIN (se fornecido)
@@ -1731,30 +1731,30 @@ app.put('/api/pcp/produtos/:id', async (req, res) => {
         }
         
         // Usar preco_venda se preco não foi fornecido diretamente
-        const precoVendaFinal = preco_venda !== undefined ? preco_venda : (preco || 0);
-        const estoqueAtualFinal = estoque !== undefined ? estoque : 0;
-        const estoqueMinimoFinal = estoque_minimo !== undefined ? estoque_minimo : 0;
+        const precoVendaFinal = preco_venda !== undefined  preco_venda : (preco || 0);
+        const estoqueAtualFinal = estoque !== undefined  estoque : 0;
+        const estoqueMinimoFinal = estoque_minimo !== undefined  estoque_minimo : 0;
         
         console.log('[UPDATE_PRODUCT] Valores finais:', { precoVendaFinal, estoqueAtualFinal, estoqueMinimoFinal });
         
         const sql = `UPDATE produtos SET 
-            codigo = ?, 
-            nome = ?, 
-            descricao = ?, 
-            sku = ?, 
-            gtin = ?, 
-            variacao = ?, 
-            marca = ?,
-            categoria = ?,
-            unidade_medida = ?,
-            ncm = ?,
-            preco_custo = ?,
-            preco_venda = ?,
-            estoque_atual = ?,
-            estoque_minimo = ?,
-            estoque_maximo = ?,
-            observacoes = ?
-        WHERE id = ?`;
+            codigo = , 
+            nome = , 
+            descricao = , 
+            sku = , 
+            gtin = , 
+            variacao = , 
+            marca = ,
+            categoria = ,
+            unidade_medida = ,
+            ncm = ,
+            preco_custo = ,
+            preco_venda = ,
+            estoque_atual = ,
+            estoque_minimo = ,
+            estoque_maximo = ,
+            observacoes = 
+        WHERE id = `;
         
         const values = [
             codigo, 
@@ -1781,11 +1781,11 @@ app.put('/api/pcp/produtos/:id', async (req, res) => {
         const [result] = await db.query(sql, values);
         
         if (result.affectedRows > 0) {
-            console.log('[UPDATE_PRODUCT] ✅ Produto atualizado com sucesso:', { id, codigo, estoque: estoqueAtualFinal, preco: precoVendaFinal });
-            res.json({ message: 'Produto atualizado com sucesso' });
+            console.log('[UPDATE_PRODUCT] ✅ Produto atualização com sucesso:', { id, codigo, estoque: estoqueAtualFinal, preco: precoVendaFinal });
+            res.json({ message: 'Produto atualização com sucesso' });
             broadcastProducts();
         } else {
-            res.status(404).json({ message: 'Produto não encontrado' });
+            res.status(404).json({ message: 'Produto não encontração' });
         }
     } catch (err) {
         console.error('[UPDATE_PRODUCT] ❌ Erro ao atualizar produto:', err.message, err.sql);
@@ -1808,12 +1808,12 @@ app.put('/api/pcp/produtos/:id', async (req, res) => {
 app.delete('/api/pcp/produtos/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const [result] = await db.query('DELETE FROM produtos WHERE id = ?', [id]);
+        const [result] = await db.query('DELETE FROM produtos WHERE id = ', [id]);
         if (result.affectedRows > 0) {
             res.json({ message: 'Produto excluído' });
             broadcastProducts();
         } else {
-            res.status(404).json({ message: 'Produto não encontrado' });
+            res.status(404).json({ message: 'Produto não encontração' });
         }
     } catch (err) {
         console.error('Erro ao excluir produto:', err.message);
@@ -1874,8 +1874,8 @@ app.get('/api/pcp/produtos/catalogo/csv', async (req, res) => {
         const csvContent = [
             'ID,Código,Nome,GTIN,SKU,Marca,Descrição',
             ...produtos.map(p => {
-                const nome = (p.nome || '').replace(/"/g, '""').replace(/\?/g, '²');
-                const desc = (p.descricao || '').replace(/"/g, '""').replace(/\?/g, '²');
+                const nome = (p.nome || '').replace(/"/g, '""').replace(/\/g, '²');
+                const desc = (p.descricao || '').replace(/"/g, '""').replace(/\/g, '²');
                 return `${p.id},"${p.codigo}","${nome}","${p.gtin}","${p.sku || ''}","${p.marca || 'Aluforce'}","${desc}"`;
             })
         ].join('\n');
@@ -2016,15 +2016,15 @@ async function gerarCatalogoMateriais() {
                     Estoque: ${estoqueAtual} ${material.unidade || 'UN'}
                     <span class="estoque-status ${estoqueClass}">${estoqueText}</span>
                 </div>
-                ${material.custo ? `<div class="material-info">Custo: R$ ${parseFloat(material.custo).toFixed(2)}</div>` : ''}
-                ${material.fornecedor ? `<div class="material-info">Fornecedor: ${material.fornecedor}</div>` : ''}
-                ${material.localizacao ? `<div class="material-info">Localização: ${material.localizacao}</div>` : ''}
+                ${material.custo  `<div class="material-info">Custo: R$ ${parseFloat(material.custo).toFixed(2)}</div>` : ''}
+                ${material.fornecedor  `<div class="material-info">Fornecedor: ${material.fornecedor}</div>` : ''}
+                ${material.localizacao  `<div class="material-info">Localização: ${material.localizacao}</div>` : ''}
             </div>`;
         }).join('')}
     </div>
     
     <div class="footer">
-        <div>Catálogo gerado automaticamente pelo Sistema PCP Aluforce</div>
+        <div>Catálogo geração automaticamente pelo Sistema PCP Aluforce</div>
         <div>Data: ${new Date().toLocaleString('pt-BR')}</div>
     </div>
 </body>
@@ -2033,7 +2033,7 @@ async function gerarCatalogoMateriais() {
         const catalogoPath = path.join(__dirname, 'catalogo_materiais_' + new Date().toISOString().split('T')[0] + '.html');
         fs.writeFileSync(catalogoPath, html, 'utf8');
         
-        console.log('Catálogo de materiais gerado:', catalogoPath);
+        console.log('Catálogo de materiais geração:', catalogoPath);
         
     } catch (error) {
         console.error('Erro ao gerar catálogo de materiais:', error);
@@ -2045,11 +2045,11 @@ async function gerarCatalogoMateriais() {
 app.get('/api/pcp/materiais/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const [rows] = await db.query("SELECT * FROM materiais WHERE id = ?", [id]);
+        const [rows] = await db.query("SELECT * FROM materiais WHERE id = ", [id]);
         if (rows.length > 0) {
             res.json(rows[0]);
         } else {
-            res.status(404).json({ message: 'Material não encontrado.' });
+            res.status(404).json({ message: 'Material não encontração.' });
         }
     } catch (error) {
         console.error('Erro ao buscar material por id:', error.message);
@@ -2061,12 +2061,12 @@ app.get('/api/pcp/materiais/:id', async (req, res) => {
 app.delete('/api/pcp/materiais/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const [result] = await db.query('DELETE FROM materiais WHERE id = ?', [id]);
+        const [result] = await db.query('DELETE FROM materiais WHERE id = ', [id]);
         if (result.affectedRows > 0) {
             res.json({ message: 'Material excluído com sucesso.' });
             broadcastMaterials();
         } else {
-            res.status(404).json({ message: 'Material não encontrado.' });
+            res.status(404).json({ message: 'Material não encontração.' });
         }
     } catch (error) {
         console.error('Erro ao excluir material:', error.message);
@@ -2079,13 +2079,13 @@ app.put('/api/pcp/materiais/:id', async (req, res) => {
     const { id } = req.params;
     const { descricao, unidade_medida, quantidade_estoque, fornecedor_padrao } = req.body;
     try {
-        const sql = "UPDATE materiais SET descricao = ?, unidade_medida = ?, quantidade_estoque = ?, fornecedor_padrao = ? WHERE id = ?";
+        const sql = "UPDATE materiais SET descricao = , unidade_medida = , quantidade_estoque = , fornecedor_padrao =  WHERE id = ";
         const [result] = await db.query(sql, [descricao, unidade_medida, quantidade_estoque, fornecedor_padrao, id]);
         if (result.affectedRows > 0) {
-            res.json({ message: "Material atualizado com sucesso!" });
+            res.json({ message: "Material atualização com sucesso!" });
             broadcastMaterials();
         } else {
-            res.status(404).json({ message: "Material não encontrado." });
+            res.status(404).json({ message: "Material não encontração." });
         }
     } catch (error) {
         console.error("Erro ao atualizar material:", error);
@@ -2100,12 +2100,12 @@ app.put('/api/pcp/materiais/:id', async (req, res) => {
 app.post('/api/pcp/ordens-compra', async (req, res) => {
     const { material_id, quantidade, previsao_entrega } = req.body;
     try {
-        const sql = "INSERT INTO ordens_compra (material_id, quantidade, data_pedido, previsao_entrega, status) VALUES (?, ?, CURDATE(), ?, 'Pendente')";
+        const sql = "INSERT INTO ordens_compra (material_id, quantidade, data_pedido, previsao_entrega, status) VALUES (, , CURDATE(), , 'Pendente')";
         const [result] = await db.query(sql, [material_id, quantidade, previsao_entrega]);
         res.status(201).json({ message: "Ordem de compra criada com sucesso!", id: result.insertId });
         // opcional: reduzir estoque do material correspondente
         try {
-            await db.query("UPDATE materiais SET quantidade_estoque = quantidade_estoque - ? WHERE id = ?", [quantidade, material_id]);
+            await db.query("UPDATE materiais SET quantidade_estoque = quantidade_estoque -  WHERE id = ", [quantidade, material_id]);
         } catch (err) {
             console.error('Erro ao ajustar estoque após ordem de compra:', err.message);
         }
@@ -2119,7 +2119,7 @@ app.post('/api/pcp/ordens-compra', async (req, res) => {
 // Endpoints para a tabela `pedidos` (se existir) - listar/criar/atualizar
 app.get('/api/pcp/pedidos', async (req, res) => {
     try {
-        // Support pagination: ?page=1&limit=10
+        // Support pagination: page=1&limit=10
         let page = parseInt(req.query.page, 10) || 1;
         let limit = parseInt(req.query.limit, 10) || 10;
         if (page < 1) page = 1;
@@ -2132,7 +2132,7 @@ app.get('/api/pcp/pedidos', async (req, res) => {
                      LEFT JOIN clientes c ON p.cliente_id = c.id
                      LEFT JOIN empresas e ON p.empresa_id = e.id
                      ORDER BY p.created_at DESC, p.id DESC
-                     LIMIT ? OFFSET ?`;
+                     LIMIT  OFFSET `;
 
         const [rows] = await db.query(sql, [limit, offset]);
 
@@ -2148,22 +2148,22 @@ app.get('/api/pcp/pedidos', async (req, res) => {
 
         res.json({ page, limit, rows: normalized });
     } catch (err) {
-        console.error('Erro ao buscar pedidos:', err && err.message ? err.message : err);
+        console.error('Erro ao buscar pedidos:', err && err.message  err.message : err);
         // Return empty array so frontend can continue working even if table layout differs
         res.json([]);
     }
 });
 
 // Return only approved / billed orders (flexible matching on status)
-app.get('/api/pcp/pedidos/faturados', async (req, res) => {
+app.get('/api/pcp/pedidos/faturaçãos', async (req, res) => {
     try {
-    // support pagination: ?page=1&limit=50
+    // support pagination: page=1&limit=50
     let page = parseInt(req.query.page,10) || 1;
     let limit = parseInt(req.query.limit,10) || 50;
     if (page < 1) page = 1;
     if (limit < 1) limit = 50;
     const offset = (page - 1) * limit;
-    const sql = `SELECT id, valor, descricao, status, created_at, data_prevista, prazo_entrega, cliente_id, empresa_id, produtos_preview, endereco_entrega, municipio_entrega FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%') ORDER BY created_at DESC LIMIT ? OFFSET ?`;
+    const sql = `SELECT id, valor, descricao, status, created_at, data_prevista, prazo_entrega, cliente_id, empresa_id, produtos_preview, endereco_entrega, municipio_entrega FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%') ORDER BY created_at DESC LIMIT  OFFSET `;
     const [rows] = await db.query(sql, [limit, offset]);
         // produtos_preview may be stored as JSON string; attempt to parse for clients
         const normalized = (rows || []).map(r => {
@@ -2172,10 +2172,10 @@ app.get('/api/pcp/pedidos/faturados', async (req, res) => {
         });
     // total count for pagination
     const [countRows] = await db.query("SELECT COUNT(*) AS total FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%')");
-    const total = countRows && countRows[0] ? countRows[0].total : 0;
+    const total = countRows && countRows[0]  countRows[0].total : 0;
     res.json({ page, limit, total, rows: normalized });
     } catch (err) {
-        console.error('Erro ao buscar pedidos faturados:', err && err.message ? err.message : err);
+        console.error('Erro ao buscar pedidos faturaçãos:', err && err.message  err.message : err);
         res.json([]);
     }
 });
@@ -2187,14 +2187,14 @@ app.get('/api/pcp/pedidos/prazos', async (req, res) => {
     let limit = parseInt(req.query.limit,10) || 50;
     if (page < 1) page = 1; if (limit < 1) limit = 50;
     const offset = (page - 1) * limit;
-    const sql = `SELECT id, cliente_id, descricao, status, created_at, data_prevista, prazo_entrega, produtos_preview, endereco_entrega FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%') ORDER BY data_prevista IS NULL, data_prevista ASC LIMIT ? OFFSET ?`;
+    const sql = `SELECT id, cliente_id, descricao, status, created_at, data_prevista, prazo_entrega, produtos_preview, endereco_entrega FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%') ORDER BY data_prevista IS NULL, data_prevista ASC LIMIT  OFFSET `;
     const [rows] = await db.query(sql, [limit, offset]);
     const normalized = (rows || []).map(r => { try { if (r.produtos_preview && typeof r.produtos_preview === 'string') r.produtos_preview = JSON.parse(r.produtos_preview); } catch(e){} return r; });
     const [countRows] = await db.query("SELECT COUNT(*) AS total FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%')");
-    const total = countRows && countRows[0] ? countRows[0].total : 0;
+    const total = countRows && countRows[0]  countRows[0].total : 0;
     res.json({ page, limit, total, rows: normalized });
     } catch (err) {
-        console.error('Erro ao buscar prazos de pedidos:', err && err.message ? err.message : err);
+        console.error('Erro ao buscar prazos de pedidos:', err && err.message  err.message : err);
         res.json([]);
     }
 });
@@ -2204,12 +2204,12 @@ app.get('/api/pcp/acompanhamento', async (req, res) => {
     try {
         // totals and recent pedidos
     const [totalsRows] = await db.query('SELECT COUNT(*) AS total_pedidos FROM pedidos');
-    const totals = totalsRows && totalsRows[0] ? totalsRows[0] : { total_pedidos: 0 };
+    const totals = totalsRows && totalsRows[0]  totalsRows[0] : { total_pedidos: 0 };
     const [recent] = await db.query(`SELECT id, descricao, status, created_at, produtos_preview, data_prevista FROM pedidos ORDER BY created_at DESC LIMIT 20`);
     const normalized = (recent || []).map(r => { try { if (r.produtos_preview && typeof r.produtos_preview === 'string') r.produtos_preview = JSON.parse(r.produtos_preview); } catch(e){} return r; });
     res.json({ totals, recentPedidos: normalized });
     } catch (err) {
-        console.error('Erro no acompanhamento:', err && err.message ? err.message : err);
+        console.error('Erro no acompanhamento:', err && err.message  err.message : err);
         res.status(500).json({ totals: { total_pedidos: 0 }, recentPedidos: [] });
     }
 });
@@ -2217,8 +2217,8 @@ app.get('/api/pcp/acompanhamento', async (req, res) => {
 app.post('/api/pcp/pedidos', async (req, res) => {
     const { cliente, produto_id, quantidade, status } = req.body;
     try {
-        const [result] = await db.query('INSERT INTO pedidos (cliente, produto_id, quantidade, data_pedido, status) VALUES (?, ?, ?, CURDATE(), ?)', [cliente, produto_id, quantidade, status || 'Pendente']);
-        res.status(201).json({ message: 'Pedido criado', id: result.insertId });
+        const [result] = await db.query('INSERT INTO pedidos (cliente, produto_id, quantidade, data_pedido, status) VALUES (, , , CURDATE(), )', [cliente, produto_id, quantidade, status || 'Pendente']);
+        res.status(201).json({ message: 'Pedido criação', id: result.insertId });
         // atualizar materiais se necessário
         broadcastMaterials();
     } catch (err) {
@@ -2231,12 +2231,12 @@ app.put('/api/pcp/pedidos/:id', async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
     try {
-        const [result] = await db.query('UPDATE pedidos SET status = ? WHERE id = ?', [status, id]);
+        const [result] = await db.query('UPDATE pedidos SET status =  WHERE id = ', [status, id]);
         if (result.affectedRows > 0) {
-            res.json({ message: 'Pedido atualizado' });
+            res.json({ message: 'Pedido atualização' });
             broadcastMaterials();
         } else {
-            res.status(404).json({ message: 'Pedido não encontrado' });
+            res.status(404).json({ message: 'Pedido não encontração' });
         }
     } catch (err) {
         console.error('Erro ao atualizar pedido:', err.message);
@@ -2270,7 +2270,7 @@ app.get('/api/pcp/ordens-compra/:id/pdf', async (req, res) => {
             `SELECT oc.id, oc.quantidade, oc.data_pedido, oc.previsao_entrega, oc.status, m.codigo_material, m.descricao as material_descricao, m.unidade_medida
              FROM ordens_compra oc
              JOIN materiais m ON oc.material_id = m.id
-             WHERE oc.id = ? LIMIT 1`, [id]
+             WHERE oc.id =  LIMIT 1`, [id]
         );
         if (!rows || rows.length === 0) return res.status(404).json({ message: 'Ordem de compra não encontrada' });
         const ord = rows[0];
@@ -2285,8 +2285,8 @@ app.get('/api/pcp/ordens-compra/:id/pdf', async (req, res) => {
         doc.fontSize(16).text('Ordem de Compra', { align: 'center' });
         doc.moveDown();
         doc.fontSize(11).text(`Número: ${ord.id}`);
-        doc.text(`Data do Pedido: ${ord.data_pedido ? ord.data_pedido.toISOString().slice(0,10) : ord.data_pedido}`);
-        doc.text(`Previsão de Entrega: ${ord.previsao_entrega ? ord.previsao_entrega.toISOString().slice(0,10) : ord.previsao_entrega}`);
+        doc.text(`Data do Pedido: ${ord.data_pedido  ord.data_pedido.toISOString().slice(0,10) : ord.data_pedido}`);
+        doc.text(`Previsão de Entrega: ${ord.previsao_entrega  ord.previsao_entrega.toISOString().slice(0,10) : ord.previsao_entrega}`);
         doc.moveDown();
         doc.fontSize(12).text('Material:', { underline: true });
         doc.fontSize(11).text(`Código: ${ord.codigo_material}`);
@@ -2300,7 +2300,7 @@ app.get('/api/pcp/ordens-compra/:id/pdf', async (req, res) => {
     doc.pipe(res);
     doc.end();
     } catch (err) {
-        console.error('Erro ao gerar PDF da ordem de compra:', err && err.message ? err.message : err);
+        console.error('Erro ao gerar PDF da ordem de compra:', err && err.message  err.message : err);
         res.status(500).json({ message: 'Erro ao gerar PDF.' });
     }
 });
@@ -2319,7 +2319,7 @@ app.get('/api/pcp/ordens-compra/:id/excel', async (req, res) => {
              m.codigo_material, m.descricao as material_descricao, m.unidade_medida
              FROM ordens_compra oc
              JOIN materiais m ON oc.material_id = m.id
-             WHERE oc.id = ? LIMIT 1`, [id]
+             WHERE oc.id =  LIMIT 1`, [id]
         );
         if (!rows || rows.length === 0) return res.status(404).json({ message: 'Ordem de compra não encontrada' });
         const ord = rows[0];
@@ -2336,8 +2336,8 @@ app.get('/api/pcp/ordens-compra/:id/excel', async (req, res) => {
         // Order details
         worksheet.addRow([]);
         worksheet.addRow(['Número da Ordem:', ord.id]);
-        worksheet.addRow(['Data do Pedido:', ord.data_pedido ? ord.data_pedido.toISOString().slice(0,10) : '']);
-        worksheet.addRow(['Previsão de Entrega:', ord.previsao_entrega ? ord.previsao_entrega.toISOString().slice(0,10) : '']);
+        worksheet.addRow(['Data do Pedido:', ord.data_pedido  ord.data_pedido.toISOString().slice(0,10) : '']);
+        worksheet.addRow(['Previsão de Entrega:', ord.previsao_entrega  ord.previsao_entrega.toISOString().slice(0,10) : '']);
         worksheet.addRow(['Status:', ord.status || 'Pendente']);
         
         // Material section
@@ -2360,7 +2360,7 @@ app.get('/api/pcp/ordens-compra/:id/excel', async (req, res) => {
         res.end();
 
     } catch (err) {
-        console.error('Erro ao gerar Excel da ordem de compra:', err && err.message ? err.message : err);
+        console.error('Erro ao gerar Excel da ordem de compra:', err && err.message  err.message : err);
         res.status(500).json({ message: 'Erro ao gerar Excel.' });
     }
 });
@@ -2403,9 +2403,9 @@ app.get('/api/pcp/relatorio/ordens-excel', authRequired, async (req, res) => {
                 ordem.codigo_produto,
                 ordem.descricao_produto,
                 ordem.quantidade,
-                ordem.data_previsao_entrega ? ordem.data_previsao_entrega.toISOString().slice(0,10) : '',
+                ordem.data_previsao_entrega  ordem.data_previsao_entrega.toISOString().slice(0,10) : '',
                 ordem.status,
-                ordem.data_criacao ? ordem.data_criacao.toISOString().slice(0,10) : '',
+                ordem.data_criacao  ordem.data_criacao.toISOString().slice(0,10) : '',
                 ordem.observacoes
             ]);
         });
@@ -2438,11 +2438,11 @@ app.get('/api/pcp/alertas/estoque-baixo', authRequired, async (req, res) => {
             SELECT id, codigo_material, descricao, quantidade_estoque, unidade_medida,
                    CASE 
                        WHEN quantidade_estoque = 0 THEN 'CRÍTICO'
-                       WHEN quantidade_estoque <= ? THEN 'BAIXO'
+                       WHEN quantidade_estoque <=  THEN 'BAIXO'
                        ELSE 'OK'
                    END as nivel_alerta
             FROM materiais 
-            WHERE quantidade_estoque <= ?
+            WHERE quantidade_estoque <= 
             ORDER BY quantidade_estoque ASC
         `, [limite, limite]);
 
@@ -2456,7 +2456,7 @@ app.get('/api/pcp/alertas/estoque-baixo', authRequired, async (req, res) => {
                 total_alertas: materiais.length,
                 criticos: criticos,
                 baixos: baixos,
-                limite_configurado: limite
+                limite_configuração: limite
             },
             timestamp: new Date().toISOString()
         });
@@ -2495,7 +2495,7 @@ app.get('/api/pcp/estoque/movimentacoes', authRequired, async (req, res) => {
             FROM movimentacoes_estoque me
             JOIN materiais m ON me.material_id = m.id
             ORDER BY me.data_movimento DESC
-            LIMIT ? OFFSET ?
+            LIMIT  OFFSET 
         `, [limit, offset]);
 
         const [total] = await db.query('SELECT COUNT(*) as total FROM movimentacoes_estoque');
@@ -2522,9 +2522,9 @@ app.post('/api/pcp/estoque/movimentacao', authRequired, async (req, res) => {
     
     try {
         // Buscar quantidade atual do material
-        const [material] = await db.query('SELECT quantidade_estoque FROM materiais WHERE id = ?', [material_id]);
+        const [material] = await db.query('SELECT quantidade_estoque FROM materiais WHERE id = ', [material_id]);
         if (!material || material.length === 0) {
-            return res.status(404).json({ message: 'Material não encontrado' });
+            return res.status(404).json({ message: 'Material não encontração' });
         }
         
         const quantidadeAnterior = material[0].quantidade_estoque;
@@ -2553,13 +2553,13 @@ app.post('/api/pcp/estoque/movimentacao', authRequired, async (req, res) => {
         await db.query('START TRANSACTION');
 
         // Atualizar estoque do material
-        await db.query('UPDATE materiais SET quantidade_estoque = ? WHERE id = ?', [novaQuantidade, material_id]);
+        await db.query('UPDATE materiais SET quantidade_estoque =  WHERE id = ', [novaQuantidade, material_id]);
 
         // Registrar movimentação
         await db.query(`
             INSERT INTO movimentacoes_estoque 
             (material_id, tipo, quantidade, quantidade_anterior, quantidade_atual, observacoes, usuario_id) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            VALUES (, , , , , , )
         `, [material_id, tipo, quantidade, quantidadeAnterior, novaQuantidade, observacoes, req.user.id]);
 
         await db.query('COMMIT');
@@ -2589,11 +2589,11 @@ app.get('/api/pcp/relatorios/produtividade', authRequired, async (req, res) => {
         let params = [];
         
         if (data_inicio && data_fim) {
-            whereClause = 'WHERE data_previsao_entrega BETWEEN ? AND ?';
+            whereClause = 'WHERE data_previsao_entrega BETWEEN  AND ';
             params = [data_inicio, data_fim];
         }
 
-        const [resultados] = await db.query(`
+        const [resultaçãos] = await db.query(`
             SELECT 
                 status,
                 COUNT(*) as quantidade,
@@ -2625,11 +2625,11 @@ app.get('/api/pcp/relatorios/produtividade', authRequired, async (req, res) => {
             ${whereClause}
         `, params);
 
-        const produtividade = geral[0].total_ordens > 0 ? 
+        const produtividade = geral[0].total_ordens > 0  
             (geral[0].concluidas / geral[0].total_ordens * 100).toFixed(2) : 0;
 
         res.json({
-            por_status: resultados,
+            por_status: resultaçãos,
             resumo_geral: {
                 ...geral[0],
                 taxa_produtividade: `${produtividade}%`,
@@ -2653,7 +2653,7 @@ app.get('/api/pcp/relatorios/custos', authRequired, async (req, res) => {
         let params = [];
         
         if (data_inicio && data_fim) {
-            whereClause = 'WHERE oc.data_pedido BETWEEN ? AND ?';
+            whereClause = 'WHERE oc.data_pedido BETWEEN  AND ';
             params = [data_inicio, data_fim];
         }
 
@@ -2703,7 +2703,7 @@ app.get('/api/pcp/relatorios/custos', authRequired, async (req, res) => {
     }
 });
 
-// Export geral para Excel (todos os dados)
+// Export geral para Excel (todos os daçãos)
 app.get('/api/pcp/export/completo-excel', authRequired, async (req, res) => {
     try {
         let ExcelJS;
@@ -2723,8 +2723,8 @@ app.get('/api/pcp/export/completo-excel', authRequired, async (req, res) => {
                 ordem.descricao_produto,
                 ordem.quantidade,
                 ordem.status,
-                ordem.data_previsao_entrega ? ordem.data_previsao_entrega.toISOString().slice(0,10) : '',
-                ordem.data_criacao ? ordem.data_criacao.toISOString().slice(0,10) : ''
+                ordem.data_previsao_entrega  ordem.data_previsao_entrega.toISOString().slice(0,10) : '',
+                ordem.data_criacao  ordem.data_criacao.toISOString().slice(0,10) : ''
             ]);
         });
 
@@ -2759,8 +2759,8 @@ app.get('/api/pcp/export/completo-excel', authRequired, async (req, res) => {
                 compra.codigo_material,
                 compra.material_descricao,
                 compra.quantidade,
-                compra.data_pedido ? compra.data_pedido.toISOString().slice(0,10) : '',
-                compra.previsao_entrega ? compra.previsao_entrega.toISOString().slice(0,10) : '',
+                compra.data_pedido  compra.data_pedido.toISOString().slice(0,10) : '',
+                compra.previsao_entrega  compra.previsao_entrega.toISOString().slice(0,10) : '',
                 compra.status
             ]);
         });
@@ -2782,8 +2782,8 @@ app.get('/api/pcp/export/completo-excel', authRequired, async (req, res) => {
         res.end();
 
     } catch (err) {
-        console.error('Erro ao exportar dados completos:', err);
-        res.status(500).json({ message: 'Erro ao exportar dados completos.' });
+        console.error('Erro ao exportar daçãos completos:', err);
+        res.status(500).json({ message: 'Erro ao exportar daçãos completos.' });
     }
 });
 
@@ -2804,9 +2804,9 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
             if (fs.existsSync(templatePath)) {
                 workbook = new ExcelJS.Workbook();
                 await workbook.xlsx.readFile(templatePath);
-                console.log('[EXCEL] Template carregado:', templatePath);
+                console.log('[EXCEL] Template carregação:', templatePath);
             } else {
-                throw new Error('Template não encontrado');
+                throw new Error('Template não encontração');
             }
         } catch (err) {
             console.log('[EXCEL] Criando novo template...');
@@ -2849,36 +2849,36 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
 
         // Extrair todos os campos do corpo da requisição
         const {
-            // Dados do Produto
+            // Daçãos do Produto
             codigo_produto,
             descricao_produto,
             quantidade,
-            // Dados de preço/valor
+            // Daçãos de preço/valor
             valor_unitario = req.body.custo_unitario || req.body.preco_venda || 0,
             // Configurações do produto
             embalagem = req.body.embalagem || '',
             lances = req.body.lances || '',
-            // Dados do Pedido/Orçamento
+            // Daçãos do Pedido/Orçamento
             numero_orcamento = req.body.numero_orcamento || `ORC-${new Date().getFullYear()}-${String(Date.now()).slice(-3)}`,
             numero_pedido = req.body.numero_pedido || `PED-${new Date().getFullYear()}-${String(Date.now()).slice(-3)}`,
             data_liberacao = req.body.data_liberacao || new Date().toISOString().slice(0,10),
             data_previsao_entrega,
-            // Dados Comerciais
+            // Daçãos Comerciais
             vendedor = req.body.vendedor || 'Vendedor Padrão',
-            // Dados do Cliente
+            // Daçãos do Cliente
             cliente,
             contato_cliente,
             email_cliente,
             fone_cliente,
             tipo_frete = req.body.tipo_frete || 'CIF',
-            // Dados da Transportadora
-            transportadora_nome = req.body.transportadora_nome || '',
-            transportadora_fone = req.body.transportadora_fone || '',
-            transportadora_cep = req.body.transportadora_cep || '',
-            transportadora_endereco = req.body.transportadora_endereco || '',
-            // Dados para Cobrança
-            transportadora_cpf_cnpj = req.body.transportadora_cpf_cnpj || '',
-            transportadora_email_nfe = req.body.transportadora_email_nfe || '',
+            // Daçãos da Transportaçãora
+            transportaçãora_nome = req.body.transportaçãora_nome || '',
+            transportaçãora_fone = req.body.transportaçãora_fone || '',
+            transportaçãora_cep = req.body.transportaçãora_cep || '',
+            transportaçãora_endereco = req.body.transportaçãora_endereco || '',
+            // Daçãos para Cobrança
+            transportaçãora_cpf_cnpj = req.body.transportaçãora_cpf_cnpj || '',
+            transportaçãora_email_nfe = req.body.transportaçãora_email_nfe || '',
             // Observações
             observacoes
         } = req.body;
@@ -2897,7 +2897,7 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
                         cell.value = value;
                         preenchidas++;
                         if (preenchidas === 1 && label) {
-                            console.log(`[EXCEL] ${label}: ${cellAddr} = ${value.toString().substring(0, 50)}${value.toString().length > 50 ? '...' : ''}`);
+                            console.log(`[EXCEL] ${label}: ${cellAddr} = ${value.toString().substring(0, 50)}${value.toString().length > 50  '...' : ''}`);
                         }
                     }
                 } catch (e) {
@@ -2929,19 +2929,19 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
         camposPreenchidos += 5;
         
         // === TRANSPORTADORA COMPLETA ===
-        preencherCelulasSeguro(['C12', 'D12', 'E12'], transportadora_nome, 'Nome Transportadora');
-        preencherCelulasSeguro(['G12', 'H12'], transportadora_fone, 'Fone Transportadora');
-        preencherCelulasSeguro(['C13', 'D13'], transportadora_cep, 'CEP');
-        preencherCelulasSeguro(['F13', 'G13', 'H13', 'I13'], transportadora_endereco, 'Endereço');
+        preencherCelulasSeguro(['C12', 'D12', 'E12'], transportaçãora_nome, 'Nome Transportaçãora');
+        preencherCelulasSeguro(['G12', 'H12'], transportaçãora_fone, 'Fone Transportaçãora');
+        preencherCelulasSeguro(['C13', 'D13'], transportaçãora_cep, 'CEP');
+        preencherCelulasSeguro(['F13', 'G13', 'H13', 'I13'], transportaçãora_endereco, 'Endereço');
         camposPreenchidos += 4;
         
-        // CPF/CNPJ com formato especial - usar valor padrão se não informado
-        const cnpjTransportadoraFinal = transportadora_cpf_cnpj || '00000000000000';
+        // CPF/CNPJ com formato especial - usar valor padrão se não informação
+        const cnpjTransportaçãoraFinal = transportaçãora_cpf_cnpj || '00000000000000';
         ['C15', 'D15'].forEach(cellAddr => {
             try {
                 const cell = worksheet.getCell(cellAddr);
-                // Garantir que o CNPJ seja tratado como texto
-                const cnpjTexto = String(cnpjTransportadoraFinal).replace(/[^0-9]/g, '');
+                // Garantir que o CNPJ seja tratação como texto
+                const cnpjTexto = String(cnpjTransportaçãoraFinal).replace(/[^0-9]/g, '');
                 cell.value = `'${cnpjTexto}`; // Apostrofe força texto
                 cell.numFmt = '@'; // Formato texto
                 console.log(`[EXCEL] CPF/CNPJ: ${cellAddr} = ${cnpjTexto}`);
@@ -2958,7 +2958,7 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
         });
         camposPreenchidos++;
         
-        preencherCelulasSeguro(['G15', 'H15'], transportadora_email_nfe, 'Email NFe');
+        preencherCelulasSeguro(['G15', 'H15'], transportaçãora_email_nfe, 'Email NFe');
         camposPreenchidos++;
         
         // === PRODUTOS NA TABELA ===
@@ -3043,11 +3043,11 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
 
         console.log(`[EXCEL] Total de campos preenchidos: ${camposPreenchidos}`);
 
-        // PREENCHER CÉLULAS ESPECÍFICAS DA TABELA DE PRODUTOS (linhas 18-32 baseado nas imagens)
+        // PREENCHER CÉLULAS ESPECÍFICAS DA TABELA DE PRODUTOS (linhas 18-32 baseação nas imagens)
         try {
             console.log('[EXCEL] Preenchendo tabela de produtos...');
             
-            // Linha 18 (primeira linha de dados da tabela) - baseado na análise das imagens
+            // Linha 18 (primeira linha de daçãos da tabela) - baseação na análise das imagens
             const linhaProduto = 18; // Ajustar conforme a linha real da tabela
             
             // Preencher primeira linha da tabela de produtos
@@ -3065,7 +3065,7 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
             console.log(`[EXCEL] Tabela linha ${linhaProduto}: ${codigo_produto} | ${descricao_produto} | ${quantidade} | R$ ${valor_unitario} | Total: R$ ${valorTotal}`);
             
             // PREENCHER TOTAL DO PEDIDO
-            const totalPedidoCell = worksheet.getCell('I34'); // Baseado na análise - "Total do Pedido:$"
+            const totalPedidoCell = worksheet.getCell('I34'); // Baseação na análise - "Total do Pedido:$"
             if (totalPedidoCell) {
                 totalPedidoCell.value = valorTotal;
                 console.log(`[EXCEL] Total do Pedido: ${totalPedidoCell.address} = R$ ${valorTotal}`);
@@ -3086,41 +3086,41 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
             }
             
             // PREENCHER DADOS DA TRANSPORTADORA (seção específica)
-            // Nome da transportadora
-            if (transportadora_nome) {
-                const nomeCell = worksheet.getCell('C12'); // Baseado na imagem
+            // Nome da transportaçãora
+            if (transportaçãora_nome) {
+                const nomeCell = worksheet.getCell('C12'); // Baseação na imagem
                 if (nomeCell) {
-                    nomeCell.value = transportadora_nome;
-                    console.log(`[EXCEL] Transportadora Nome: C12 = ${transportadora_nome}`);
+                    nomeCell.value = transportaçãora_nome;
+                    console.log(`[EXCEL] Transportaçãora Nome: C12 = ${transportaçãora_nome}`);
                 }
             }
             
-            // Fone da transportadora  
-            if (transportadora_fone) {
-                const foneTranspCell = worksheet.getCell('G12'); // Baseado na imagem
+            // Fone da transportaçãora  
+            if (transportaçãora_fone) {
+                const foneTranspCell = worksheet.getCell('G12'); // Baseação na imagem
                 if (foneTranspCell) {
-                    foneTranspCell.value = transportadora_fone;
-                    console.log(`[EXCEL] Transportadora Fone: G12 = ${transportadora_fone}`);
+                    foneTranspCell.value = transportaçãora_fone;
+                    console.log(`[EXCEL] Transportaçãora Fone: G12 = ${transportaçãora_fone}`);
                 }
             }
             
             // CPF/CNPJ - formato correto (não científico)
-            if (transportadora_cpf_cnpj) {
+            if (transportaçãora_cpf_cnpj) {
                 const cpfCell = worksheet.getCell('C15');
                 if (cpfCell) {
                     // Garantir formato de texto para evitar notação científica
-                    cpfCell.value = String(transportadora_cpf_cnpj);
+                    cpfCell.value = String(transportaçãora_cpf_cnpj);
                     cpfCell.numFmt = '@'; // Formato texto
-                    console.log(`[EXCEL] CPF/CNPJ: C15 = ${transportadora_cpf_cnpj}`);
+                    console.log(`[EXCEL] CPF/CNPJ: C15 = ${transportaçãora_cpf_cnpj}`);
                 }
             }
             
             // Email NFe
-            if (transportadora_email_nfe) {
+            if (transportaçãora_email_nfe) {
                 const emailNfeCell = worksheet.getCell('G15');
                 if (emailNfeCell) {
-                    emailNfeCell.value = transportadora_email_nfe;
-                    console.log(`[EXCEL] Email NFe: G15 = ${transportadora_email_nfe}`);
+                    emailNfeCell.value = transportaçãora_email_nfe;
+                    console.log(`[EXCEL] Email NFe: G15 = ${transportaçãora_email_nfe}`);
                 }
             }
             
@@ -3139,7 +3139,7 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
         // Salvar ordem no banco primeiro
         const [result] = await db.query(
             `INSERT INTO ordens_producao (codigo_produto, descricao_produto, quantidade, data_previsao_entrega, cliente, observacoes, status) 
-             VALUES (?, ?, ?, ?, ?, ?, 'Rascunho')`,
+             VALUES (, , , , , , 'Rascunho')`,
             [codigo_produto, descricao_produto, quantidade, data_previsao_entrega, cliente, observacoes]
         );
         
@@ -3172,15 +3172,15 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         console.log('[MODAL-EXCEL] === PROCESSANDO ORDEM DO MODAL ===');
         console.log('[MODAL-EXCEL] Content-Type:', req.headers['content-type']);
         console.log('[MODAL-EXCEL] Body recebido:', req.body);
-        console.log('[MODAL-EXCEL] Body keys:', req.body ? Object.keys(req.body) : 'UNDEFINED');
+        console.log('[MODAL-EXCEL] Body keys:', req.body  Object.keys(req.body) : 'UNDEFINED');
 
         // Verificar se req.body existe
         if (!req.body) {
             console.log('[MODAL-EXCEL] ❌ req.body é undefined ou null');
-            return res.status(400).json({ message: 'Dados não recebidos corretamente' });
+            return res.status(400).json({ message: 'Daçãos não recebidos corretamente' });
         }
 
-        // Extrair dados do formulário - CORRIGIDO para nova estrutura
+        // Extrair daçãos do formulário - CORRIGIDO para nova estrutura
         const {
             // Cliente
             cliente,
@@ -3203,40 +3203,40 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             variacao,
             embalagem,
             lances,
-            // Transportadora (pode vir como objeto ou campos individuais)
-            transportadora,
-            transportadora_nome,
-            transportadora_fone,
-            transportadora_cep,
-            transportadora_endereco,
-            transportadora_cpf_cnpj,
-            transportadora_email_nfe,
+            // Transportaçãora (pode vir como objeto ou campos individuais)
+            transportaçãora,
+            transportaçãora_nome,
+            transportaçãora_fone,
+            transportaçãora_cep,
+            transportaçãora_endereco,
+            transportaçãora_cpf_cnpj,
+            transportaçãora_email_nfe,
             // Itens (JSON string) - fallback
             items_json
         } = req.body;
         
-        // Mapear transportadora corretamente
-        const transportadoraData = transportadora || {};
-        const transportadoraNome = transportadoraData.nome || transportadora_nome || '';
-        const transportadoraFone = transportadoraData.fone || transportadora_fone || '';
-        const transportadoraCep = transportadoraData.cep || transportadora_cep || '';
-        const transportadoraEndereco = transportadoraData.endereco || transportadora_endereco || '';
-        const transportadoraCpfCnpj = transportadoraData.cpf_cnpj || transportadora_cpf_cnpj || '';
-        const transportadoraEmailNfe = transportadoraData.email_nfe || transportadora_email_nfe || '';
+        // Mapear transportaçãora corretamente
+        const transportaçãoraData = transportaçãora || {};
+        const transportaçãoraNome = transportaçãoraData.nome || transportaçãora_nome || '';
+        const transportaçãoraFone = transportaçãoraData.fone || transportaçãora_fone || '';
+        const transportaçãoraCep = transportaçãoraData.cep || transportaçãora_cep || '';
+        const transportaçãoraEndereco = transportaçãoraData.endereco || transportaçãora_endereco || '';
+        const transportaçãoraCpfCnpj = transportaçãoraData.cpf_cnpj || transportaçãora_cpf_cnpj || '';
+        const transportaçãoraEmailNfe = transportaçãoraData.email_nfe || transportaçãora_email_nfe || '';
         
-        console.log('[MODAL-EXCEL] Transportadora mapeada:', {
-            nome: transportadoraNome,
-            fone: transportadoraFone,
-            cep: transportadoraCep,
-            endereco: transportadoraEndereco,
-            cpf_cnpj: transportadoraCpfCnpj,
-            email_nfe: transportadoraEmailNfe
+        console.log('[MODAL-EXCEL] Transportaçãora mapeada:', {
+            nome: transportaçãoraNome,
+            fone: transportaçãoraFone,
+            cep: transportaçãoraCep,
+            endereco: transportaçãoraEndereco,
+            cpf_cnpj: transportaçãoraCpfCnpj,
+            email_nfe: transportaçãoraEmailNfe
         });
 
         // Parse dos itens - CORRIGIDO para suportar múltiplos formatos
         let itens = [];
         
-        // Primeiro, tentar usar 'produtos' (formato do index.html coletarDadosOP())
+        // Primeiro, tentar usar 'produtos' (formato do index.html coletarDaçãosOP())
         if (req.body.produtos && Array.isArray(req.body.produtos)) {
             itens = req.body.produtos;
             console.log('[MODAL-EXCEL] Itens de req.body.produtos:', itens.length, 'produtos');
@@ -3252,15 +3252,15 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         else if (req.body.items_json) {
             try {
                 itens = JSON.parse(req.body.items_json);
-                console.log('[MODAL-EXCEL] Itens parseados do JSON:', itens.length, 'produtos');
+                console.log('[MODAL-EXCEL] Itens parseaçãos do JSON:', itens.length, 'produtos');
             } catch (e) {
                 console.log('[MODAL-EXCEL] Erro ao parsear items_json');
                 itens = [];
             }
         }
-        // Fallback final para dados individuais
+        // Fallback final para daçãos individuais
         else {
-            console.log('[MODAL-EXCEL] Usando fallback para dados individuais');
+            console.log('[MODAL-EXCEL] Usando fallback para daçãos individuais');
             itens = [{
                 codigo: req.body.codigo_produto || '',
                 descricao: req.body.descricao_produto || '',
@@ -3292,9 +3292,9 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             await workbook.xlsx.readFile(templatePath, {
                 ignoreReadErrors: true
             });
-            console.log('[MODAL-EXCEL] Template carregado com sucesso');
+            console.log('[MODAL-EXCEL] Template carregação com sucesso');
         } else {
-            return res.status(500).json({ message: 'Template Ordem de Produção.xlsx não encontrado' });
+            return res.status(500).json({ message: 'Template Ordem de Produção.xlsx não encontração' });
         }
 
         // Buscar a primeira planilha (VENDAS_PCP)
@@ -3371,7 +3371,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         // === MAPEAMENTO CORRETO BASEADO NA ANÁLISE DO TEMPLATE ===
         
         // **LINHA 4 - CABEÇALHO PRINCIPAL (Orçamento, Revisão, Pedido, Data Liberação)**
-        // Baseado na análise: A4="Orçamento:", D4="Revisão:", F4="Pedido:", H4="Dt. liberação:"
+        // Baseação na análise: A4="Orçamento:", D4="Revisão:", F4="Pedido:", H4="Dt. liberação:"
         if (numero_orcamento) {
             // 🔧 CORREÇÃO 1: Extrair apenas o número do orçamento (01, 001, etc.)
             let numeroLimpo = numero_orcamento;
@@ -3379,174 +3379,174 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             if (match) {
                 numeroLimpo = match[1].padStart(3, '0'); // Preenche com zeros à esquerda para ter 3 dígitos
             }
-            camposPreenchidos += preencherCelula('C4', numeroLimpo, 'Orçamento (Número)') ? 1 : 0; // Valor na célula C4
+            camposPreenchidos += preencherCelula('C4', numeroLimpo, 'Orçamento (Número)')  1 : 0; // Valor na célula C4
             
             // 🆕 PREENCHER TAMBÉM NA ABA PRODUÇÃO
             if (temAbaProducao) {
                 preencherCelula('C4', numeroLimpo, '', null, worksheetProducao);
             }
         }
-        // Revisão - sempre preencher, padrão '00' se não informado
+        // Revisão - sempre preencher, padrão '00' se não informação
         const revisaoFinal = revisao || '00';
         console.log(`[MODAL-EXCEL] 🔍 Revisão recebida: "${revisao}" -> usando: "${revisaoFinal}"`);
-        camposPreenchidos += preencherCelula('E4', revisaoFinal, 'Revisão') ? 1 : 0; // Valor na célula E4
+        camposPreenchidos += preencherCelula('E4', revisaoFinal, 'Revisão')  1 : 0; // Valor na célula E4
         if (temAbaProducao) {
             preencherCelula('E4', revisaoFinal, '', null, worksheetProducao);
         }
         
-        // Pedido - se não informado, usar sequencial ou padrão
+        // Pedido - se não informação, usar sequencial ou padrão
         const pedidoFinal = pedido_referencia || '0';
-        camposPreenchidos += preencherCelula('G4', pedidoFinal, 'Pedido') ? 1 : 0; // Valor na célula G4
+        camposPreenchidos += preencherCelula('G4', pedidoFinal, 'Pedido')  1 : 0; // Valor na célula G4
         if (temAbaProducao) {
             preencherCelula('G4', pedidoFinal, '', null, worksheetProducao);
         }
         
         // Data de liberação - se não informada, usar data atual
-        const dataLiberacaoFinal = data_liberacao ? new Date(data_liberacao).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR');
-        camposPreenchidos += preencherCelula('J4', dataLiberacaoFinal, 'Data Liberação') ? 1 : 0; // Valor na célula J4
+        const dataLiberacaoFinal = data_liberacao  new Date(data_liberacao).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR');
+        camposPreenchidos += preencherCelula('J4', dataLiberacaoFinal, 'Data Liberação')  1 : 0; // Valor na célula J4
         if (temAbaProducao) {
             preencherCelula('J4', dataLiberacaoFinal, '', null, worksheetProducao);
         }
 
         
         // **LINHA 6 - VENDEDOR E PRAZO DE ENTREGA**
-        // Baseado na análise: A6="VENDEDOR:", F6="Prazo de entrega:"
+        // Baseação na análise: A6="VENDEDOR:", F6="Prazo de entrega:"
         if (vendedor) {
-            camposPreenchidos += preencherCelula('C6', vendedor, 'Vendedor') ? 1 : 0; // Valor na célula C6
+            camposPreenchidos += preencherCelula('C6', vendedor, 'Vendedor')  1 : 0; // Valor na célula C6
             if (temAbaProducao) {
                 preencherCelula('C6', vendedor, '', null, worksheetProducao);
             }
         }
         if (data_previsao_entrega) {
             const dataFormatada = new Date(data_previsao_entrega).toLocaleDateString('pt-BR');
-            camposPreenchidos += preencherCelula('H6', dataFormatada, 'Prazo Entrega') ? 1 : 0; // Valor na célula H6
+            camposPreenchidos += preencherCelula('H6', dataFormatada, 'Prazo Entrega')  1 : 0; // Valor na célula H6
             if (temAbaProducao) {
                 preencherCelula('H6', dataFormatada, '', null, worksheetProducao);
             }
         }
         
         // **LINHA 7 - CLIENTE**
-        // Baseado na análise: A7="Cliente:"
+        // Baseação na análise: A7="Cliente:"
         if (cliente) {
-            camposPreenchidos += preencherCelula('C7', cliente, 'Cliente') ? 1 : 0; // Valor na célula C7
+            camposPreenchidos += preencherCelula('C7', cliente, 'Cliente')  1 : 0; // Valor na célula C7
             if (temAbaProducao) {
                 preencherCelula('C7', cliente, '', null, worksheetProducao);
             }
         }
         
         // **LINHA 8 - CONTATO E TELEFONE**
-        // Baseado na análise: A8="Contato:", G8="Fone:"
+        // Baseação na análise: A8="Contato:", G8="Fone:"
         if (contato) {
-            camposPreenchidos += preencherCelula('C8', contato, 'Contato') ? 1 : 0; // Valor na célula C8
+            camposPreenchidos += preencherCelula('C8', contato, 'Contato')  1 : 0; // Valor na célula C8
             if (temAbaProducao) {
                 preencherCelula('C8', contato, '', null, worksheetProducao);
             }
         }
         if (telefone) {
-            camposPreenchidos += preencherCelula('H8', telefone, 'Telefone') ? 1 : 0; // Valor na célula H8
+            camposPreenchidos += preencherCelula('H8', telefone, 'Telefone')  1 : 0; // Valor na célula H8
             if (temAbaProducao) {
                 preencherCelula('H8', telefone, '', null, worksheetProducao);
             }
         }
         
         // **LINHA 9 - EMAIL E FRETE**
-        // Baseado na análise: A9="Email:", H9="Frete:"
+        // Baseação na análise: A9="Email:", H9="Frete:"
         if (email) {
-            camposPreenchidos += preencherCelula('C9', email, 'Email') ? 1 : 0; // Valor na célula C9
+            camposPreenchidos += preencherCelula('C9', email, 'Email')  1 : 0; // Valor na célula C9
             if (temAbaProducao) {
                 preencherCelula('C9', email, '', null, worksheetProducao);
             }
         }
         if (frete) {
-            camposPreenchidos += preencherCelula('J9', frete, 'Frete') ? 1 : 0; // Valor na célula J9
+            camposPreenchidos += preencherCelula('J9', frete, 'Frete')  1 : 0; // Valor na célula J9
             if (temAbaProducao) {
                 preencherCelula('J9', frete, '', null, worksheetProducao);
             }
         }
         
         // **SEÇÃO TRANSPORTADORA (Linhas 12-15)**
-        // Baseado na análise: A12="Nome:", A13="Cep:", A15="CPF/CNPJ:"
+        // Baseação na análise: A12="Nome:", A13="Cep:", A15="CPF/CNPJ:"
         
-        // Nome da transportadora - usar valor do modal
-        const nomeTransportadoraFinal = transportadoraNome || 'A DEFINIR';
-        camposPreenchidos += preencherCelula('C12', nomeTransportadoraFinal, 'Nome Transportadora') ? 1 : 0; // Valor na célula C12
+        // Nome da transportaçãora - usar valor do modal
+        const nomeTransportaçãoraFinal = transportaçãoraNome || 'A DEFINIR';
+        camposPreenchidos += preencherCelula('C12', nomeTransportaçãoraFinal, 'Nome Transportaçãora')  1 : 0; // Valor na célula C12
         if (temAbaProducao) {
-            preencherCelula('C12', nomeTransportadoraFinal, '', null, worksheetProducao);
+            preencherCelula('C12', nomeTransportaçãoraFinal, '', null, worksheetProducao);
         }
         
-        // Telefone da transportadora - usar valor do modal
-        const foneTransportadoraFinal = transportadoraFone || '(11) 99999-9999';
-        camposPreenchidos += preencherCelula('H12', foneTransportadoraFinal, 'Fone Transportadora') ? 1 : 0; // Valor na célula H12
+        // Telefone da transportaçãora - usar valor do modal
+        const foneTransportaçãoraFinal = transportaçãoraFone || '(11) 99999-9999';
+        camposPreenchidos += preencherCelula('H12', foneTransportaçãoraFinal, 'Fone Transportaçãora')  1 : 0; // Valor na célula H12
         if (temAbaProducao) {
-            preencherCelula('H12', foneTransportadoraFinal, '', null, worksheetProducao);
+            preencherCelula('H12', foneTransportaçãoraFinal, '', null, worksheetProducao);
         }
         
-        // CEP da transportadora - usar valor do modal
-        const cepTransportadoraFinal = transportadoraCep || '00000-000';
-        camposPreenchidos += preencherCelula('C13', cepTransportadoraFinal, 'CEP') ? 1 : 0; // Valor na célula C13
+        // CEP da transportaçãora - usar valor do modal
+        const cepTransportaçãoraFinal = transportaçãoraCep || '00000-000';
+        camposPreenchidos += preencherCelula('C13', cepTransportaçãoraFinal, 'CEP')  1 : 0; // Valor na célula C13
         if (temAbaProducao) {
-            preencherCelula('C13', cepTransportadoraFinal, '', null, worksheetProducao);
+            preencherCelula('C13', cepTransportaçãoraFinal, '', null, worksheetProducao);
         }
         
-        // Endereço da transportadora - usar valor do modal
-        const enderecoTransportadoraFinal = transportadoraEndereco || 'A DEFINIR';
-        camposPreenchidos += preencherCelula('F13', enderecoTransportadoraFinal, 'Endereço') ? 1 : 0; // Valor na célula F13
+        // Endereço da transportaçãora - usar valor do modal
+        const enderecoTransportaçãoraFinal = transportaçãoraEndereco || 'A DEFINIR';
+        camposPreenchidos += preencherCelula('F13', enderecoTransportaçãoraFinal, 'Endereço')  1 : 0; // Valor na célula F13
         if (temAbaProducao) {
-            preencherCelula('F13', enderecoTransportadoraFinal, '', null, worksheetProducao);
+            preencherCelula('F13', enderecoTransportaçãoraFinal, '', null, worksheetProducao);
         }
         
-        // Email para NFe da transportadora - usar valor padrão se não informado
-        const emailTransportadoraFinal = transportadora_email_nfe || 'teste@empresa.com';
-        camposPreenchidos += preencherCelula('H13', emailTransportadoraFinal, 'Email NFe') ? 1 : 0; // Valor na célula H13
+        // Email para NFe da transportaçãora - usar valor padrão se não informação
+        const emailTransportaçãoraFinal = transportaçãora_email_nfe || 'teste@empresa.com';
+        camposPreenchidos += preencherCelula('H13', emailTransportaçãoraFinal, 'Email NFe')  1 : 0; // Valor na célula H13
         if (temAbaProducao) {
-            preencherCelula('H13', emailTransportadoraFinal, '', null, worksheetProducao);
+            preencherCelula('H13', emailTransportaçãoraFinal, '', null, worksheetProducao);
         }
         
-        if (transportadoraCpfCnpj) {
+        if (transportaçãoraCpfCnpj) {
             // 🔧 CORREÇÃO 2: Corrigir formatação do CPF/CNPJ para não bugar
-            let cpfCnpjLimpo = transportadoraCpfCnpj.replace(/\D/g, '');
-            let cpfCnpjFormatado = '';
+            let cpfCnpjLimpo = transportaçãoraCpfCnpj.replace(/\D/g, '');
+            let cpfCnpjFormatação = '';
             
             if (cpfCnpjLimpo.length === 11) {
                 // CPF: 000.000.000-00
-                cpfCnpjFormatado = cpfCnpjLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+                cpfCnpjFormatação = cpfCnpjLimpo.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
             } else if (cpfCnpjLimpo.length === 14) {
                 // CNPJ: 00.000.000/0000-00
-                cpfCnpjFormatado = cpfCnpjLimpo.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+                cpfCnpjFormatação = cpfCnpjLimpo.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
             } else {
-                cpfCnpjFormatado = transportadoraCpfCnpj;
+                cpfCnpjFormatação = transportaçãoraCpfCnpj;
             }
             
             // 🔧 CORREÇÃO CRÍTICA: Usar formato texto para evitar notação científica
             const cell = worksheet.getCell('C15');
-            cell.value = cpfCnpjFormatado;
+            cell.value = cpfCnpjFormatação;
             cell.numFmt = '@'; // Formato texto obrigatório
-            console.log(`[MODAL-EXCEL] CPF/CNPJ Formatado: C15 = ${cpfCnpjFormatado}`);
+            console.log(`[MODAL-EXCEL] CPF/CNPJ Formatação: C15 = ${cpfCnpjFormatação}`);
             camposPreenchidos++;
             
             // Aplicar também na aba de produção se existir
             if (temAbaProducao) {
                 const cellProd = worksheetProducao.getCell('C15');
-                cellProd.value = cpfCnpjFormatado;
+                cellProd.value = cpfCnpjFormatação;
                 cellProd.numFmt = '@'; // Formato texto obrigatório
             }
         }
         
-        if (transportadoraEmailNfe) {
-            camposPreenchidos += preencherCelula('G15', transportadoraEmailNfe, 'Email NFe') ? 1 : 0; // Valor na célula G15
+        if (transportaçãoraEmailNfe) {
+            camposPreenchidos += preencherCelula('G15', transportaçãoraEmailNfe, 'Email NFe')  1 : 0; // Valor na célula G15
             if (temAbaProducao) {
-                preencherCelula('G15', transportadoraEmailNfe, '', null, worksheetProducao);
+                preencherCelula('G15', transportaçãoraEmailNfe, '', null, worksheetProducao);
             }
         }
         
         // === TABELA DE PRODUTOS (Linha 17+) ===
-        // Baseado na análise: B17="Cod.", C17="Produto", F17="Embalagem:", G17="Lance(s)", H17="Qtd.", I17="V. Un. R$", J17="V. Total. R$"
+        // Baseação na análise: B17="Cod.", C17="Produto", F17="Embalagem:", G17="Lance(s)", H17="Qtd.", I17="V. Un. R$", J17="V. Total. R$"
         let valorTotalGeral = 0;
         const linhaProdutoInicial = 18; // Produtos começam na linha 18
         
         console.log(`[MODAL-EXCEL] Processando ${itens.length} itens na tabela de produtos...`);
         
-        // 🔧 CORREÇÃO 4: Buscar nomes completos dos produtos da base de dados
+        // 🔧 CORREÇÃO 4: Buscar nomes completos dos produtos da base de daçãos
         for (let index = 0; index < itens.length; index++) {
             const item = itens[index];
             const linha = linhaProdutoInicial + index;
@@ -3562,20 +3562,20 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             // 🔧 CORREÇÃO FINAL: Buscar nome completo SEMPRE para TODOS os produtos
             if (codigo) {
                 try {
-                    // Buscar produto na base de dados usando diferentes métodos
+                    // Buscar produto na base de daçãos usando diferentes métodos
                     let produtoRows = [];
                     
                     // Primeira tentativa: busca exata por código
-                    [produtoRows] = await db.query("SELECT * FROM produtos WHERE codigo = ? LIMIT 1", [codigo]);
+                    [produtoRows] = await db.query("SELECT * FROM produtos WHERE codigo =  LIMIT 1", [codigo]);
                     
                     // Segunda tentativa: busca parcial se não encontrou
                     if (produtoRows.length === 0) {
-                        [produtoRows] = await db.query("SELECT * FROM produtos WHERE codigo LIKE ? LIMIT 1", [`%${codigo}%`]);
+                        [produtoRows] = await db.query("SELECT * FROM produtos WHERE codigo LIKE  LIMIT 1", [`%${codigo}%`]);
                     }
                     
                     // Terceira tentativa: busca por SKU ou GTIN
                     if (produtoRows.length === 0) {
-                        [produtoRows] = await db.query("SELECT * FROM produtos WHERE sku = ? OR gtin = ? LIMIT 1", [codigo, codigo]);
+                        [produtoRows] = await db.query("SELECT * FROM produtos WHERE sku =  OR gtin =  LIMIT 1", [codigo, codigo]);
                     }
                     
                     if (produtoRows.length > 0) {
@@ -3601,7 +3601,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
                         descricao = nomeCompleto;
                         console.log(`[EXCEL] ✅ Produto ${codigo}: Nome completo = ${descricao}`);
                     } else {
-                        console.log(`[EXCEL] ⚠️ Produto ${codigo} não encontrado na base`);
+                        console.log(`[EXCEL] ⚠️ Produto ${codigo} não encontração na base`);
                         descricao = descricao || codigo;
                     }
                 } catch (error) {
@@ -3610,7 +3610,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
                 }
             }
             
-            // 🔧 CORREÇÃO 3: Mapeamento correto dos produtos baseado na análise real
+            // 🔧 CORREÇÃO 3: Mapeamento correto dos produtos baseação na análise real
             // A18: Número sequencial (1, 2, 3...)
             // B18: Código
             // C18: Produto/Descrição (ocupa C, D, E)
@@ -3621,10 +3621,10 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             // J18: Valor Total
             
             // Preencher na aba VENDAS_PCP
-            camposPreenchidos += preencherCelula(`A${linha}`, index + 1, `Item ${index + 1} - Seq`) ? 1 : 0;
+            camposPreenchidos += preencherCelula(`A${linha}`, index + 1, `Item ${index + 1} - Seq`)  1 : 0;
             
             if (codigo) {
-                camposPreenchidos += preencherCelula(`B${linha}`, codigo, `Item ${index + 1} - Código`) ? 1 : 0;
+                camposPreenchidos += preencherCelula(`B${linha}`, codigo, `Item ${index + 1} - Código`)  1 : 0;
                 // Também preencher na aba PRODUÇÃO - Coluna B da linha do produto
                 if (temAbaProducao) {
                     preencherCelula(`B${linhaProducao}`, codigo, `[PRODUÇÃO] Código linha ${linhaProducao}`, null, worksheetProducao);
@@ -3632,7 +3632,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             }
             if (descricao) {
                 // Produto ocupa células C, D, E na aba VENDAS_PCP
-                camposPreenchidos += preencherCelula(`C${linha}`, descricao, `Item ${index + 1} - Descrição`) ? 1 : 0;
+                camposPreenchidos += preencherCelula(`C${linha}`, descricao, `Item ${index + 1} - Descrição`)  1 : 0;
                 // 🔧 CORREÇÃO: Preencher nome do produto na aba PRODUÇÃO
                 if (temAbaProducao) {
                     // Na aba PRODUÇÃO, o produto vai na coluna C (igual à VENDAS)
@@ -3645,8 +3645,8 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             const embalagemItem = item.embalagem || embalagem || 'Bobina';
             const lancesItem = item.lances || lances || '';
             
-            camposPreenchidos += preencherCelula(`F${linha}`, embalagemItem, `Item ${index + 1} - Embalagem`) ? 1 : 0;
-            camposPreenchidos += preencherCelula(`G${linha}`, lancesItem, `Item ${index + 1} - Lances`) ? 1 : 0;
+            camposPreenchidos += preencherCelula(`F${linha}`, embalagemItem, `Item ${index + 1} - Embalagem`)  1 : 0;
+            camposPreenchidos += preencherCelula(`G${linha}`, lancesItem, `Item ${index + 1} - Lances`)  1 : 0;
             
             // 🔧 CORREÇÃO: Preencher embalagem e lances também na aba PRODUÇÃO
             if (temAbaProducao) {
@@ -3655,7 +3655,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             }
             
             if (quantidade) {
-                camposPreenchidos += preencherCelula(`H${linha}`, quantidade, `Item ${index + 1} - Quantidade`) ? 1 : 0;
+                camposPreenchidos += preencherCelula(`H${linha}`, quantidade, `Item ${index + 1} - Quantidade`)  1 : 0;
                 // Também preencher na aba PRODUÇÃO - Coluna J
                 if (temAbaProducao) {
                     preencherCelula(`J${linhaProducao}`, quantidade, `[PRODUÇÃO] Qtd linha ${linhaProducao}`, null, worksheetProducao);
@@ -3752,7 +3752,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         }
         
         // **TOTAL GERAL DO PEDIDO**
-        // Baseado na análise: I34="Total do Pedido:$"
+        // Baseação na análise: I34="Total do Pedido:$"
         if (valorTotalGeral > 0) {
             const linhaTotalGeral = 34; // Linha fixa conforme template
             
@@ -3785,46 +3785,46 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         }
         
         // **SEÇÃO OBSERVAÇÕES**
-        // Baseado na análise: A36="Observações do Pedido"
+        // Baseação na análise: A36="Observações do Pedido"
         if (observacoes) {
             // Observações na área específica (A37+)
             const linhaObservacoes = 37;
-            camposPreenchidos += preencherCelula(`A${linhaObservacoes}`, observacoes, 'Observações do Pedido') ? 1 : 0;
+            camposPreenchidos += preencherCelula(`A${linhaObservacoes}`, observacoes, 'Observações do Pedido')  1 : 0;
         }
         
         // **SEÇÃO CONDIÇÕES DE PAGAMENTO**
-        // Baseado na análise: A43="CONDIÇOES DE PAGAMENTO.", A44="FORMAS DE PAGAMENTO", F44="Método de Pagamento", I44="Valor Total $"
+        // Baseação na análise: A43="CONDIÇOES DE PAGAMENTO.", A44="FORMAS DE PAGAMENTO", F44="Método de Pagamento", I44="Valor Total $"
         const linhaPagamento = 43; // Linha fixa conforme template
         
         // Linha PARCELADO (linha 45)
-        const linhaParcelado = 45;
-        camposPreenchidos += preencherCelula(`A${linhaParcelado}`, 'PARCELADO', 'Parcelado') ? 1 : 0;
-        camposPreenchidos += preencherCelula(`E${linhaParcelado}`, '100%', 'Perc Parcelado') ? 1 : 0;
-        camposPreenchidos += preencherCelula(`F${linhaParcelado}`, 'FATURAMENTO', 'Método Pagamento') ? 1 : 0;
+        const linhaParcelação = 45;
+        camposPreenchidos += preencherCelula(`A${linhaParcelação}`, 'PARCELADO', 'Parcelação')  1 : 0;
+        camposPreenchidos += preencherCelula(`E${linhaParcelação}`, '100%', 'Perc Parcelação')  1 : 0;
+        camposPreenchidos += preencherCelula(`F${linhaParcelação}`, 'FATURAMENTO', 'Método Pagamento')  1 : 0;
         
         // Aplicar formatação de moeda brasileira no valor total
         if (valorTotalGeral > 0) {
             try {
-                const cellParcelado = worksheet.getCell(`I${linhaParcelado}`);
-                if (!cellParcelado.formula && !cellParcelado.sharedFormula) {
-                    cellParcelado.formula = null;
-                    cellParcelado.sharedFormula = null;
-                    cellParcelado.value = valorTotalGeral;
-                    cellParcelado.numFmt = 'R$ #,##0.00';
-                    console.log(`[MODAL-EXCEL] Valor Total Parcelado: I${linhaParcelado} = R$ ${valorTotalGeral.toFixed(2)}`);
+                const cellParcelação = worksheet.getCell(`I${linhaParcelação}`);
+                if (!cellParcelação.formula && !cellParcelação.sharedFormula) {
+                    cellParcelação.formula = null;
+                    cellParcelação.sharedFormula = null;
+                    cellParcelação.value = valorTotalGeral;
+                    cellParcelação.numFmt = 'R$ #,##0.00';
+                    console.log(`[MODAL-EXCEL] Valor Total Parcelação: I${linhaParcelação} = R$ ${valorTotalGeral.toFixed(2)}`);
                     camposPreenchidos++;
                 } else {
-                    console.log(`[MODAL-EXCEL] ⚠️ I${linhaParcelado} contém fórmula, usando valor direto`);
+                    console.log(`[MODAL-EXCEL] ⚠️ I${linhaParcelação} contém fórmula, usando valor direto`);
                 }
             } catch (e) {
-                console.log(`[MODAL-EXCEL] ⚠️ Erro ao definir valor parcelado: ${e.message}`);
+                console.log(`[MODAL-EXCEL] ⚠️ Erro ao definir valor parcelação: ${e.message}`);
             }
         }
         
         // Linha ENTREGA (linha 46)
         const linhaEntrega = 46;
-        camposPreenchidos += preencherCelula(`A${linhaEntrega}`, 'ENTREGA', 'Entrega') ? 1 : 0;
-        camposPreenchidos += preencherCelula(`E${linhaEntrega}`, '0%', 'Perc Entrega') ? 1 : 0;
+        camposPreenchidos += preencherCelula(`A${linhaEntrega}`, 'ENTREGA', 'Entrega')  1 : 0;
+        camposPreenchidos += preencherCelula(`E${linhaEntrega}`, '0%', 'Perc Entrega')  1 : 0;
         
         // Valor R$ na coluna da direita (mesmo se for 0)
         try {
@@ -3844,23 +3844,23 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         }
         
         // **SEÇÃO EMBALAGEM**
-        // Baseado na análise: F48="EMBALAGEM:"
+        // Baseação na análise: F48="EMBALAGEM:"
         if (embalagem) {
-            camposPreenchidos += preencherCelula('H48', embalagem, 'Embalagem Geral') ? 1 : 0;
+            camposPreenchidos += preencherCelula('H48', embalagem, 'Embalagem Geral')  1 : 0;
         }
         
         // **CAMPOS ADICIONAIS DO MODAL**
         // Variação - pode ir em uma área específica
         if (variacao) {
             const linhaVariacao = linhaPagamento + 5;
-            camposPreenchidos += preencherCelula(`A${linhaVariacao}`, 'Variação:', 'Label Variação') ? 1 : 0;
-            camposPreenchidos += preencherCelula(`B${linhaVariacao}`, variacao, 'Variação') ? 1 : 0;
+            camposPreenchidos += preencherCelula(`A${linhaVariacao}`, 'Variação:', 'Label Variação')  1 : 0;
+            camposPreenchidos += preencherCelula(`B${linhaVariacao}`, variacao, 'Variação')  1 : 0;
         }
         
         console.log(`[MODAL-EXCEL] Total de campos preenchidos: ${camposPreenchidos}`);
         console.log(`[MODAL-EXCEL] Valor total da ordem: R$ ${valorTotalGeral.toFixed(2)}`);
 
-        // 🔧 CORREÇÃO 4: Implementar nome do arquivo personalizado
+        // 🔧 CORREÇÃO 4: Implementar nome do arquivo personalização
         const dataAtual = new Date();
         const dataFormatada = dataAtual.toLocaleDateString('pt-BR').replace(/\//g, '-');
         
@@ -3918,17 +3918,17 @@ app.get('/api/pcp/produtos/buscar/:codigo', async (req, res) => {
                 gtin,
                 sku
             FROM produtos 
-            WHERE codigo LIKE ? OR gtin LIKE ? OR sku LIKE ?
+            WHERE codigo LIKE  OR gtin LIKE  OR sku LIKE 
             LIMIT 1
         `, [`%${codigo}%`, `%${codigo}%`, `%${codigo}%`]);
         
         if (produtos.length > 0) {
             const produto = produtos[0];
             
-            // Simular preço baseado no código (enquanto não temos tabela de preços)
+            // Simular preço baseação no código (enquanto não temos tabela de preços)
             let preco_unitario = 10.00; // Preço padrão
             
-            // Lógica para determinar preço baseado no tipo de cabo
+            // Lógica para determinar preço baseação no tipo de cabo
             if (produto.codigo.includes('10mm')) preco_unitario = 15.50;
             else if (produto.codigo.includes('16mm')) preco_unitario = 22.30;
             else if (produto.codigo.includes('25mm')) preco_unitario = 35.80;
@@ -3953,11 +3953,11 @@ app.get('/api/pcp/produtos/buscar/:codigo', async (req, res) => {
                 sku: produto.sku
             };
             
-            console.log(`[PRODUTOS] ✅ Produto encontrado: ${produto.codigo} - ${produto.descricao}`);
+            console.log(`[PRODUTOS] ✅ Produto encontração: ${produto.codigo} - ${produto.descricao}`);
             res.json(produtoCompleto);
         } else {
-            console.log(`[PRODUTOS] ❌ Produto não encontrado: ${codigo}`);
-            res.status(404).json({ message: 'Produto não encontrado' });
+            console.log(`[PRODUTOS] ❌ Produto não encontração: ${codigo}`);
+            res.status(404).json({ message: 'Produto não encontração' });
         }
         
     } catch (error) {
@@ -3984,28 +3984,28 @@ app.get('/api/pcp/produtos/autocomplete', async (req, res) => {
                 nome as descricao,
                 descricao as descricao_completa
             FROM produtos 
-            WHERE codigo LIKE ? OR nome LIKE ? OR descricao LIKE ?
+            WHERE codigo LIKE  OR nome LIKE  OR descricao LIKE 
             ORDER BY 
                 CASE 
-                    WHEN codigo LIKE ? THEN 1
-                    WHEN nome LIKE ? THEN 2
+                    WHEN codigo LIKE  THEN 1
+                    WHEN nome LIKE  THEN 2
                     ELSE 3
                 END,
                 codigo
             LIMIT 10
         `, [
             `%${q}%`, `%${q}%`, `%${q}%`,
-            `${q}%`, `${q}%` // Para priorizar resultados que começam com o termo
+            `${q}%`, `${q}%` // Para priorizar resultaçãos que começam com o termo
         ]);
         
-        const resultados = produtos.map(produto => ({
+        const resultaçãos = produtos.map(produto => ({
             codigo: produto.codigo,
             descricao: produto.descricao || produto.descricao_completa,
             label: `${produto.codigo} - ${produto.descricao || produto.descricao_completa}`
         }));
         
-        console.log(`[PRODUTOS] ✅ Encontrados ${resultados.length} produtos para autocomplete`);
-        res.json(resultados);
+        console.log(`[PRODUTOS] ✅ Encontraçãos ${resultaçãos.length} produtos para autocomplete`);
+        res.json(resultaçãos);
         
     } catch (error) {
         console.error('[PRODUTOS] ❌ Erro no autocomplete:', error);
@@ -4014,7 +4014,7 @@ app.get('/api/pcp/produtos/autocomplete', async (req, res) => {
 });
 
 // Sistema de backup automático
-// fs e path já foram importados no início do arquivo
+// fs e path já foram importaçãos no início do arquivo
 
 // Configurar backup automático com cron
 let cron;
@@ -4034,7 +4034,7 @@ try {
     });
 
 } catch (e) {
-    console.log('[BACKUP] node-cron não disponível, backups automáticos desabilitados');
+    console.log('[BACKUP] node-cron não disponível, backups automáticos desabilitaçãos');
 }
 
 async function executarBackupCompleto() {
@@ -4075,7 +4075,7 @@ async function executarBackupCompleto() {
             `);
 
             await db.query(
-                'INSERT INTO backup_historico (tipo, status, detalhes, arquivo_path) VALUES (?, ?, ?, ?)',
+                'INSERT INTO backup_historico (tipo, status, detalhes, arquivo_path) VALUES (, , , )',
                 ['AUTO', 'SUCESSO', `Backup automático de ${tabelas.length} tabelas`, backupDir]
             );
         } catch (err) {
@@ -4099,7 +4099,7 @@ async function gerarRelatorioSemanal() {
                 SUM(quantidade) as total_pecas,
                 COUNT(CASE WHEN status = 'Concluído' THEN 1 END) as ordens_concluidas
             FROM ordens_producao 
-            WHERE data_criacao BETWEEN ? AND ?
+            WHERE data_criacao BETWEEN  AND 
         `, [dataInicio, dataFim]);
 
         const [materiaisBaixos] = await db.query(`
@@ -4117,7 +4117,7 @@ async function gerarRelatorioSemanal() {
                 ...stats[0],
                 materiais_baixo_estoque: materiaisBaixos[0].materiais_baixo_estoque
             },
-            gerado_em: new Date().toISOString()
+            geração_em: new Date().toISOString()
         };
 
         const filename = path.join(__dirname, 'backups', 'relatorios', 
@@ -4128,7 +4128,7 @@ async function gerarRelatorioSemanal() {
         }
 
         fs.writeFileSync(filename, JSON.stringify(relatorio, null, 2));
-        console.log('[BACKUP] Relatório semanal gerado:', filename);
+        console.log('[BACKUP] Relatório semanal geração:', filename);
 
     } catch (err) {
         console.error('[BACKUP] Erro ao gerar relatório semanal:', err);
@@ -4140,7 +4140,7 @@ app.post('/api/pcp/backup/manual', authRequired, async (req, res) => {
     try {
         await executarBackupCompleto();
         res.json({ 
-            message: 'Backup manual executado com sucesso',
+            message: 'Backup manual executação com sucesso',
             timestamp: new Date().toISOString()
         });
     } catch (err) {
@@ -4165,7 +4165,7 @@ app.get('/api/pcp/backup/historico', authRequired, async (req, res) => {
 });
 
 
-// Inicia o servidor HTTP (com Socket.IO integrado)
+// Inicia o servidor HTTP (com Socket.IO integração)
 // Try to listen on requested port, but if it's already in use, try the next few ports.
 function tryListen(startPort, maxTries = 10) {
     let attempt = 0;
@@ -4193,7 +4193,7 @@ function tryListen(startPort, maxTries = 10) {
                     process.exit(1);
                 }
             } else {
-                logger.error('❌ Erro ao iniciar o servidor:', err && err.message ? err.message : err);
+                logger.error('❌ Erro ao iniciar o servidor:', err && err.message  err.message : err);
                 process.exit(1);
             }
         });
@@ -4207,7 +4207,7 @@ tryListen(PORT, 12);
 app.get('/api/pcp/produtos/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const [rows] = await db.query('SELECT * FROM produtos WHERE id = ?', [id]);
+        const [rows] = await db.query('SELECT * FROM produtos WHERE id = ', [id]);
         if (rows.length > 0) {
             const r = rows[0];
             // normalize variacao to array for clients (same behaviour as list endpoint)
@@ -4224,7 +4224,7 @@ app.get('/api/pcp/produtos/:id', async (req, res) => {
                 }
             } catch (e) { /* ignore parse errors */ }
             res.json(r);
-        } else res.status(404).json({ message: 'Produto não encontrado' });
+        } else res.status(404).json({ message: 'Produto não encontração' });
     } catch (err) {
         console.error('Erro ao buscar produto:', err.message);
         res.status(500).json({ message: 'Erro ao buscar produto.' });
@@ -4253,9 +4253,9 @@ app.get('/api/pcp/search', async (req, res) => {
             const [rows] = await db.query(
                 `SELECT id, codigo_produto, descricao_produto, quantidade, data_previsao_entrega, status
                  FROM ordens_producao
-                 WHERE codigo_produto LIKE ? OR descricao_produto LIKE ?
+                 WHERE codigo_produto LIKE  OR descricao_produto LIKE 
                  ORDER BY data_previsao_entrega ASC
-                 LIMIT ? OFFSET ?`, [like, like, limit, offset]
+                 LIMIT  OFFSET `, [like, like, limit, offset]
             );
             return rows;
         }
@@ -4264,9 +4264,9 @@ app.get('/api/pcp/search', async (req, res) => {
             const [rows] = await db.query(
                 `SELECT id, codigo_material, descricao, unidade_medida, quantidade_estoque
                  FROM materiais
-                 WHERE codigo_material LIKE ? OR descricao LIKE ?
+                 WHERE codigo_material LIKE  OR descricao LIKE 
                  ORDER BY descricao ASC
-                 LIMIT ? OFFSET ?`, [like, like, limit, offset]
+                 LIMIT  OFFSET `, [like, like, limit, offset]
             );
             return rows;
         }
@@ -4275,9 +4275,9 @@ app.get('/api/pcp/search', async (req, res) => {
             const [rows] = await db.query(
                 `SELECT id, codigo, descricao, unidade_medida, quantidade_estoque, custo_unitario
                  FROM produtos
-                 WHERE codigo LIKE ? OR descricao LIKE ?
+                 WHERE codigo LIKE  OR descricao LIKE 
                  ORDER BY descricao ASC
-                 LIMIT ? OFFSET ?`, [like, like, limit, offset]
+                 LIMIT  OFFSET `, [like, like, limit, offset]
             );
             return rows;
         }
@@ -4290,9 +4290,9 @@ app.get('/api/pcp/search', async (req, res) => {
                     `SELECT p.id, p.cliente, p.produto_id, p.quantidade, p.status, p.data_pedido, pr.codigo as produto_codigo, pr.descricao as produto_descricao
                      FROM pedidos p
                      LEFT JOIN produtos pr ON p.produto_id = pr.id
-                     WHERE p.id = ?
+                     WHERE p.id = 
                      ORDER BY p.data_pedido DESC
-                     LIMIT ? OFFSET ?`, [possibleId, limit, offset]
+                     LIMIT  OFFSET `, [possibleId, limit, offset]
                 );
                 return rows;
             }
@@ -4300,9 +4300,9 @@ app.get('/api/pcp/search', async (req, res) => {
                 `SELECT p.id, p.cliente, p.produto_id, p.quantidade, p.status, p.data_pedido, pr.codigo as produto_codigo, pr.descricao as produto_descricao
                  FROM pedidos p
                  LEFT JOIN produtos pr ON p.produto_id = pr.id
-                 WHERE p.cliente LIKE ? OR pr.codigo LIKE ? OR pr.descricao LIKE ?
+                 WHERE p.cliente LIKE  OR pr.codigo LIKE  OR pr.descricao LIKE 
                  ORDER BY p.data_pedido DESC
-                 LIMIT ? OFFSET ?`, [like, like, like, limit, offset]
+                 LIMIT  OFFSET `, [like, like, like, limit, offset]
             );
             return rows;
         }
@@ -4315,22 +4315,22 @@ app.get('/api/pcp/search', async (req, res) => {
         // counts for pagination/UX
         let ordensTotal = 0, materiaisTotal = 0, produtosTotal = 0;
         try {
-            const [ordensCountRows] = await db.query(`SELECT COUNT(*) AS total FROM ordens_producao WHERE codigo_produto LIKE ? OR descricao_produto LIKE ?`, [like, like]);
-            ordensTotal = ordensCountRows[0]?.total || 0;
+            const [ordensCountRows] = await db.query(`SELECT COUNT(*) AS total FROM ordens_producao WHERE codigo_produto LIKE  OR descricao_produto LIKE `, [like, like]);
+            ordensTotal = ordensCountRows[0].total || 0;
         } catch (e) { ordensTotal = 0; }
         try {
-            const [materiaisCountRows] = await db.query(`SELECT COUNT(*) AS total FROM materiais WHERE codigo_material LIKE ? OR descricao LIKE ?`, [like, like]);
-            materiaisTotal = materiaisCountRows[0]?.total || 0;
+            const [materiaisCountRows] = await db.query(`SELECT COUNT(*) AS total FROM materiais WHERE codigo_material LIKE  OR descricao LIKE `, [like, like]);
+            materiaisTotal = materiaisCountRows[0].total || 0;
         } catch (e) { materiaisTotal = 0; }
         try {
-            const [produtosCountRows] = await db.query(`SELECT COUNT(*) AS total FROM produtos WHERE codigo LIKE ? OR descricao LIKE ?`, [like, like]);
-            produtosTotal = produtosCountRows[0]?.total || 0;
+            const [produtosCountRows] = await db.query(`SELECT COUNT(*) AS total FROM produtos WHERE codigo LIKE  OR descricao LIKE `, [like, like]);
+            produtosTotal = produtosCountRows[0].total || 0;
         } catch (e) { produtosTotal = 0; }
         // pedidos count
         let pedidosTotal = 0;
         try {
-            const [pedidosCountRows] = await db.query(`SELECT COUNT(*) AS total FROM pedidos p LEFT JOIN produtos pr ON p.produto_id = pr.id WHERE p.id = ? OR p.cliente LIKE ? OR pr.codigo LIKE ? OR pr.descricao LIKE ?`, [q, like, like, like]);
-            pedidosTotal = pedidosCountRows[0]?.total || 0;
+            const [pedidosCountRows] = await db.query(`SELECT COUNT(*) AS total FROM pedidos p LEFT JOIN produtos pr ON p.produto_id = pr.id WHERE p.id =  OR p.cliente LIKE  OR pr.codigo LIKE  OR pr.descricao LIKE `, [q, like, like, like]);
+            pedidosTotal = pedidosCountRows[0].total || 0;
         } catch (e) { pedidosTotal = 0; }
 
         // include pagination metadata and totals
@@ -4352,7 +4352,7 @@ app.get('/health', async (req, res) => {
             pid: process.pid
         };
         
-        // Testar banco de dados
+        // Testar banco de daçãos
         try {
             await db.query('SELECT 1');
             health.database = 'connected';
@@ -4391,7 +4391,7 @@ app.get('/api/pcp/me', authRequired, async (req, res) => {
         // First try usuarios_pcp table (our main PCP users)
         try {
             if (user.email) {
-                const [rows] = await db.query('SELECT foto_url FROM usuarios_pcp WHERE email = ? LIMIT 1', [user.email]);
+                const [rows] = await db.query('SELECT foto_url FROM usuarios_pcp WHERE email =  LIMIT 1', [user.email]);
                 if (rows && rows[0] && rows[0].foto_url) foto = rows[0].foto_url;
             }
         } catch (e) {
@@ -4402,7 +4402,7 @@ app.get('/api/pcp/me', authRequired, async (req, res) => {
         // Then try funcionarios table as fallback
         try {
             if (!foto && user.email) {
-                const [rows] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE email = ? LIMIT 1', [user.email]);
+                const [rows] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE email =  LIMIT 1', [user.email]);
                 if (rows && rows[0] && rows[0].foto_perfil_url) foto = rows[0].foto_perfil_url;
             }
         } catch (e) {
@@ -4411,13 +4411,13 @@ app.get('/api/pcp/me', authRequired, async (req, res) => {
         }
         try {
             if (!foto && user.id) {
-                const [rows2] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE usuario_id = ? LIMIT 1', [user.id]);
+                const [rows2] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE usuario_id =  LIMIT 1', [user.id]);
                 if (rows2 && rows2[0] && rows2[0].foto_perfil_url) foto = rows2[0].foto_perfil_url;
             }
         } catch (e) { /* ignore */ }
         try {
             if (!foto && user.id) {
-                const [rows3] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE id = ? LIMIT 1', [user.id]);
+                const [rows3] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE id =  LIMIT 1', [user.id]);
                 if (rows3 && rows3[0] && rows3[0].foto_perfil_url) foto = rows3[0].foto_perfil_url;
             }
         } catch (e) { /* ignore */ }
@@ -4432,8 +4432,8 @@ app.get('/api/pcp/me', authRequired, async (req, res) => {
         };
         res.json({ user: safe });
     } catch (err) {
-        console.error('/api/pcp/me error:', err && err.message ? err.message : err);
-        res.status(500).json({ message: 'Erro ao obter dados do usuário.' });
+        console.error('/api/pcp/me error:', err && err.message  err.message : err);
+        res.status(500).json({ message: 'Erro ao obter daçãos do usuário.' });
     }
 });
 
@@ -4459,7 +4459,7 @@ app.get('/api/pcp/users-list', async (req, res) => {
         
         res.json({ users: sanitizedUsers });
     } catch (err) {
-        console.error('/api/pcp/users-list error:', err && err.message ? err.message : err);
+        console.error('/api/pcp/users-list error:', err && err.message  err.message : err);
         res.status(500).json({ message: 'Erro ao obter lista de usuários.' });
     }
 });
@@ -4473,7 +4473,7 @@ app.post('/api/pcp/logout', (req, res) => {
         res.setHeader('Set-Cookie', 'pcp_session=; HttpOnly; Path=/; Max-Age=0; SameSite=Lax');
         return res.json({ message: 'Logged out' });
     } catch (err) {
-        console.error('Logout error:', err && err.message ? err.message : err);
+        console.error('Logout error:', err && err.message  err.message : err);
         return res.status(500).json({ message: 'Erro ao deslogar' });
     }
 });
@@ -4485,23 +4485,23 @@ app.get('/api/pcp/pedidos/:id', async (req, res) => {
     
     try {
         // Query the pedidos table directly - no JOIN since produto_id column doesn't exist
-        const [rows] = await db.query('SELECT * FROM pedidos WHERE id = ?', [id]);
-        console.log(`[DEBUG] Query resultado: ${rows ? rows.length : 0} linhas`);
+        const [rows] = await db.query('SELECT * FROM pedidos WHERE id = ', [id]);
+        console.log(`[DEBUG] Query resultação: ${rows  rows.length : 0} linhas`);
         
         if (!rows || rows.length === 0) {
-            console.log(`[DEBUG] Pedido ${id} não encontrado`);
-            return res.status(404).json({ message: 'Pedido não encontrado' });
+            console.log(`[DEBUG] Pedido ${id} não encontração`);
+            return res.status(404).json({ message: 'Pedido não encontração' });
         }
         
         // Return the pedido with produtos_preview field (which contains product info as JSON)
         const pedido = rows[0];
-        console.log(`[DEBUG] Pedido encontrado:`, pedido.descricao);
+        console.log(`[DEBUG] Pedido encontração:`, pedido.descricao);
         
         // Parse produtos_preview if it exists and is valid JSON
         if (pedido.produtos_preview) {
             try {
                 pedido.produtos = JSON.parse(pedido.produtos_preview);
-                console.log(`[DEBUG] Produtos parseados: ${pedido.produtos.length} itens`);
+                console.log(`[DEBUG] Produtos parseaçãos: ${pedido.produtos.length} itens`);
             } catch (e) {
                 console.warn('Erro ao parsear produtos_preview:', e.message);
                 pedido.produtos = [];
@@ -4514,19 +4514,19 @@ app.get('/api/pcp/pedidos/:id', async (req, res) => {
         console.log(`[DEBUG] Retornando pedido completo`);
         res.json(pedido);
     } catch (err) {
-        console.error('Erro ao buscar pedido ID', id, ':', err && err.message ? err.message : err);
+        console.error('Erro ao buscar pedido ID', id, ':', err && err.message  err.message : err);
         res.status(500).json({ message: 'Erro ao buscar pedido.', error: err.message });
     }
 });
 
-// Debug endpoint: return raw rows or error for faturados query (temporary)
-app.get('/api/pcp/debug/pedidos-faturados', async (req, res) => {
+// Debug endpoint: return raw rows or error for faturaçãos query (temporary)
+app.get('/api/pcp/debug/pedidos-faturaçãos', async (req, res) => {
     try {
         const sql = `SELECT id, valor, descricao, status, created_at, data_prevista, prazo_entrega, cliente_id, empresa_id, produtos_preview, endereco_entrega, municipio_entrega FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%') ORDER BY created_at DESC LIMIT 50`;
         const [rows] = await db.query(sql);
         return res.json({ ok: true, rows: rows.slice(0,10) });
     } catch (err) {
-        return res.status(500).json({ ok: false, error: (err && err.message) ? err.message : String(err) });
+        return res.status(500).json({ ok: false, error: (err && err.message)  err.message : String(err) });
     }
 });
 
@@ -4535,10 +4535,10 @@ app.get('/api/pcp/debug/pedidos-faturados', async (req, res) => {
 app.post('/api/pcp/locations', authRequired, async (req, res) => {
     const { code, name, description } = req.body;
     try {
-        const [r] = await db.query('INSERT INTO locations (code, name, description) VALUES (?, ?, ?)', [code, name, description]);
+        const [r] = await db.query('INSERT INTO locations (code, name, description) VALUES (, , )', [code, name, description]);
         res.status(201).json({ id: r.insertId, code, name });
     } catch (e) {
-        console.error('Erro ao criar location:', e && e.message ? e.message : e);
+        console.error('Erro ao criar location:', e && e.message  e.message : e);
         res.status(500).json({ message: 'Erro ao criar location.' });
     }
 });
@@ -4549,7 +4549,7 @@ app.get('/api/pcp/locations', authRequired, async (req, res) => {
         const [rows] = await db.query('SELECT id, code, name, description FROM locations ORDER BY name ASC');
         res.json(rows);
     } catch (e) {
-        console.error('Erro ao listar locations:', e && e.message ? e.message : e);
+        console.error('Erro ao listar locations:', e && e.message  e.message : e);
         res.status(500).json({ message: 'Erro ao listar locations.' });
     }
 });
@@ -4563,18 +4563,18 @@ app.post('/api/pcp/stock_movements', authRequired, async (req, res) => {
         if (tipo === 'OUT') {
             if (!location_from) return res.status(400).json({ message: 'location_from é obrigatório para movimentos OUT.' });
             const [rows] = await db.query(`
-                SELECT COALESCE(SUM(CASE WHEN tipo='IN' THEN quantidade WHEN tipo='OUT' THEN -quantidade WHEN tipo='TRANSFER' AND location_to=? THEN quantidade WHEN tipo='TRANSFER' AND location_from=? THEN -quantidade WHEN tipo='ADJUST' THEN quantidade ELSE 0 END),0) AS saldo
-                FROM stock_movements WHERE produto_id = ?
+                SELECT COALESCE(SUM(CASE WHEN tipo='IN' THEN quantidade WHEN tipo='OUT' THEN -quantidade WHEN tipo='TRANSFER' AND location_to= THEN quantidade WHEN tipo='TRANSFER' AND location_from= THEN -quantidade WHEN tipo='ADJUST' THEN quantidade ELSE 0 END),0) AS saldo
+                FROM stock_movements WHERE produto_id = 
             `, [location_from, location_from, produto_id]);
-            const saldo = rows && rows[0] ? parseFloat(rows[0].saldo) : 0;
+            const saldo = rows && rows[0]  parseFloat(rows[0].saldo) : 0;
             if (saldo < quantidade) return res.status(400).json({ message: `Saldo insuficiente na localização ${location_from}. Saldo atual: ${saldo}` });
         }
-        const sql = 'INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
-        const created_by = req.user ? req.user.id : null;
+        const sql = 'INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (, , , , , , , )';
+        const created_by = req.user  req.user.id : null;
         const [r] = await db.query(sql, [produto_id, location_from || null, location_to || null, quantidade, tipo, referencia || null, lote || null, created_by]);
         res.status(201).json({ id: r.insertId });
     } catch (e) {
-        console.error('Erro ao gravar movimento:', e && e.message ? e.message : e);
+        console.error('Erro ao gravar movimento:', e && e.message  e.message : e);
         res.status(500).json({ message: 'Erro ao gravar movimento.' });
     }
 });
@@ -4586,17 +4586,17 @@ app.post('/api/pcp/transfer', authRequired, async (req, res) => {
     try {
         // compute current saldo for produto at from_location
         const [rows] = await db.query(`
-            SELECT COALESCE(SUM(CASE WHEN tipo='IN' THEN quantidade WHEN tipo='OUT' THEN -quantidade WHEN tipo='TRANSFER' AND location_to=? THEN quantidade WHEN tipo='TRANSFER' AND location_from=? THEN -quantidade WHEN tipo='ADJUST' THEN quantidade ELSE 0 END),0) AS saldo
-            FROM stock_movements WHERE produto_id = ?
+            SELECT COALESCE(SUM(CASE WHEN tipo='IN' THEN quantidade WHEN tipo='OUT' THEN -quantidade WHEN tipo='TRANSFER' AND location_to= THEN quantidade WHEN tipo='TRANSFER' AND location_from= THEN -quantidade WHEN tipo='ADJUST' THEN quantidade ELSE 0 END),0) AS saldo
+            FROM stock_movements WHERE produto_id = 
         `, [from_location, from_location, produto_id]);
-        const saldo = rows && rows[0] ? parseFloat(rows[0].saldo) : 0;
+        const saldo = rows && rows[0]  parseFloat(rows[0].saldo) : 0;
         if (saldo < quantidade) return res.status(400).json({ message: `Saldo insuficiente na localização ${from_location}. Saldo atual: ${saldo}` });
         // Insert transfer as two entries or as a single transfer record depending on your accounting; we'll use single transfer record
-        const created_by = req.user ? req.user.id : null;
-        const [r] = await db.query('INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', [produto_id, from_location, to_location, quantidade, 'TRANSFER', referencia || null, lote || null, created_by]);
+        const created_by = req.user  req.user.id : null;
+        const [r] = await db.query('INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (, , , , , , , )', [produto_id, from_location, to_location, quantidade, 'TRANSFER', referencia || null, lote || null, created_by]);
         res.status(201).json({ id: r.insertId });
     } catch (e) {
-        console.error('Erro ao executar transfer:', e && e.message ? e.message : e);
+        console.error('Erro ao executar transfer:', e && e.message  e.message : e);
         res.status(500).json({ message: 'Erro ao executar transfer.' });
     }
 });
@@ -4611,12 +4611,12 @@ app.get('/api/pcp/stock_balance/:produto_id', authRequired, async (req, res) => 
                     SUM(CASE WHEN sm.tipo = 'IN' THEN sm.quantidade WHEN sm.tipo = 'OUT' THEN -sm.quantidade WHEN sm.tipo = 'TRANSFER' AND sm.location_to = l.id THEN sm.quantidade WHEN sm.tipo = 'TRANSFER' AND sm.location_from = l.id THEN -sm.quantidade WHEN sm.tipo = 'ADJUST' THEN sm.quantidade ELSE 0 END) AS saldo
              FROM stock_movements sm
              LEFT JOIN locations l ON l.id = sm.location_to OR l.id = sm.location_from
-             WHERE sm.produto_id = ?
+             WHERE sm.produto_id = 
              GROUP BY COALESCE(l.id,0), COALESCE(l.code,'_UNLOC_'), COALESCE(l.name,'Unallocated')`, [produto_id]
         );
         res.json({ produto_id, balances: rows });
     } catch (e) {
-        console.error('Erro ao calcular saldo:', e && e.message ? e.message : e);
+        console.error('Erro ao calcular saldo:', e && e.message  e.message : e);
         res.status(500).json({ message: 'Erro ao calcular saldo.' });
     }
 });
@@ -4626,20 +4626,20 @@ app.get('/api/pcp/stock_balance/:produto_id', authRequired, async (req, res) => 
 // =============================================
 app.post('/api/gerar-ordem-excel', async (req, res) => {
     try {
-        const dados = req.body;
+        const daçãos = req.body;
         
         // Normalizar nomes de campos (aceitar diferentes variantes)
-        const numPedido = dados.num_pedido || dados.numero_sequencial || dados.numero_pedido || '';
-        const numOrcamento = dados.num_orcamento || dados.numero_orcamento || '';
+        const numPedido = daçãos.num_pedido || daçãos.numero_sequencial || daçãos.numero_pedido || '';
+        const numOrcamento = daçãos.num_orcamento || daçãos.numero_orcamento || '';
         
-        logger.info('[GERAR ORDEM EXCEL] Recebendo dados:', { numPedido, numOrcamento, produtos: dados.produtos?.length });
+        logger.info('[GERAR ORDEM EXCEL] Recebendo daçãos:', { numPedido, numOrcamento, produtos: daçãos.produtos.length });
         
         // Validações básicas - ser mais flexível
-        if (!numPedido && !numOrcamento && !dados.cliente) {
+        if (!numPedido && !numOrcamento && !daçãos.cliente) {
             return res.status(400).json({ message: 'Preencha pelo menos o número do pedido, orçamento ou cliente' });
         }
         
-        if (!dados.produtos || dados.produtos.length === 0) {
+        if (!daçãos.produtos || daçãos.produtos.length === 0) {
             return res.status(400).json({ message: 'Adicione pelo menos um produto' });
         }
         
@@ -4647,8 +4647,8 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         const templatePath = path.join(__dirname, 'Ordem de Produção Aluforce - Copia.xlsx');
         
         if (!fs.existsSync(templatePath)) {
-            logger.error('[GERAR ORDEM EXCEL] Template não encontrado:', templatePath);
-            return res.status(400).json({ message: 'Template Excel não encontrado: ' + templatePath });
+            logger.error('[GERAR ORDEM EXCEL] Template não encontração:', templatePath);
+            return res.status(400).json({ message: 'Template Excel não encontração: ' + templatePath });
         }
         
         const ExcelJS = require('exceljs');
@@ -4663,35 +4663,35 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         
         // PREENCHER VENDAS_PCP (Linhas 4-15) - As fórmulas da planilha PRODUÇÃO referenciam essas células
         wsVendas.getCell('C4').value = numOrcamento;
-        wsVendas.getCell('E4').value = dados.revisao || '00';
+        wsVendas.getCell('E4').value = daçãos.revisao || '00';
         wsVendas.getCell('G4').value = numPedido;
         
-        if (dados.data_liberacao) {
+        if (daçãos.data_liberacao) {
             // Tentar múltiplos formatos de data
             let dataLib;
-            if (dados.data_liberacao.includes('/')) {
+            if (daçãos.data_liberacao.includes('/')) {
                 // Formato brasileiro DD/MM/YYYY
-                const [dia, mes, ano] = dados.data_liberacao.split('/');
+                const [dia, mes, ano] = daçãos.data_liberacao.split('/');
                 dataLib = new Date(ano, mes - 1, dia);
             } else {
                 // Formato ISO YYYY-MM-DD
-                dataLib = new Date(dados.data_liberacao + 'T00:00:00');
+                dataLib = new Date(daçãos.data_liberacao + 'T00:00:00');
             }
             wsVendas.getCell('J4').value = dataLib;
             wsVendas.getCell('J4').numFmt = 'dd/mm/yyyy';
         }
         
         // Vendedor
-        wsVendas.getCell('C6').value = dados.vendedor || '';
+        wsVendas.getCell('C6').value = daçãos.vendedor || '';
         
-        // Prazo de Entrega - H6 tem fórmula =J4+30, só preencher se prazo específico foi informado
-        if (dados.prazo_entrega && dados.prazo_entrega.trim()) {
+        // Prazo de Entrega - H6 tem fórmula =J4+30, só preencher se prazo específico foi informação
+        if (daçãos.prazo_entrega && daçãos.prazo_entrega.trim()) {
             let dataPrazo;
-            if (dados.prazo_entrega.includes('/')) {
-                const [dia, mes, ano] = dados.prazo_entrega.split('/');
+            if (daçãos.prazo_entrega.includes('/')) {
+                const [dia, mes, ano] = daçãos.prazo_entrega.split('/');
                 dataPrazo = new Date(ano, mes - 1, dia);
             } else {
-                dataPrazo = new Date(dados.prazo_entrega + 'T00:00:00');
+                dataPrazo = new Date(daçãos.prazo_entrega + 'T00:00:00');
             }
             wsVendas.getCell('H6').value = dataPrazo;
             wsVendas.getCell('H6').numFmt = 'dd/mm/yyyy';
@@ -4699,59 +4699,59 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         // Se não informar prazo, deixa a fórmula =J4+30 calcular automaticamente
         
         // Cliente
-        wsVendas.getCell('C7').value = dados.cliente || '';
+        wsVendas.getCell('C7').value = daçãos.cliente || '';
         
         // Contato
-        wsVendas.getCell('C8').value = dados.contato_cliente || dados.contato || '';
+        wsVendas.getCell('C8').value = daçãos.contato_cliente || daçãos.contato || '';
         
         // Fone
-        wsVendas.getCell('H8').value = dados.fone_cliente || dados.telefone || '';
+        wsVendas.getCell('H8').value = daçãos.fone_cliente || daçãos.telefone || '';
         
         // Email
-        wsVendas.getCell('C9').value = dados.email_cliente || dados.email || '';
+        wsVendas.getCell('C9').value = daçãos.email_cliente || daçãos.email || '';
         
         // Frete
-        wsVendas.getCell('J9').value = dados.tipo_frete || 'FOB';
+        wsVendas.getCell('J9').value = daçãos.tipo_frete || 'FOB';
         
         // CEP
-        wsVendas.getCell('C13').value = dados.cep || '';
+        wsVendas.getCell('C13').value = daçãos.cep || '';
         
         // Endereço
-        wsVendas.getCell('F13').value = dados.endereco || '';
+        wsVendas.getCell('F13').value = daçãos.endereco || '';
         
-        // Dados para cobrança (Linha 14) - Em branco por padrão
+        // Daçãos para cobrança (Linha 14) - Em branco por padrão
         // NÃO PREENCHER - deve ficar vazio conforme modelo padrão
         wsVendas.getCell('C14').value = '';
         wsVendas.getCell('D14').value = '';
         wsVendas.getCell('E14').value = '';
         
-        // CPF/CNPJ - Formatado com pontuação
-        const cpfCnpjFormatado = formatarCpfCnpjExcel(dados.cpf_cnpj || '');
-        wsVendas.getCell('C15').value = cpfCnpjFormatado;
+        // CPF/CNPJ - Formatação com pontuação
+        const cpfCnpjFormatação = formatarCpfCnpjExcel(daçãos.cpf_cnpj || '');
+        wsVendas.getCell('C15').value = cpfCnpjFormatação;
         
-        // Email NF-e (usa o email do cliente se não informado)
-        wsVendas.getCell('G15').value = dados.email_nfe || dados.email_cliente || dados.email || '';
+        // Email NF-e (usa o email do cliente se não informação)
+        wsVendas.getCell('G15').value = daçãos.email_nfe || daçãos.email_cliente || daçãos.email || '';
         
         // PRODUTOS na planilha VENDAS_PCP (Linhas 18-32)
         // IMPORTANTE: Apenas preenchemos B (código), F, G, H, I
-        // As colunas C, D, E têm fórmulas VLOOKUP que buscam nome do produto baseado no código
+        // As colunas C, D, E têm fórmulas VLOOKUP que buscam nome do produto baseação no código
         // A coluna J tem fórmula =I*H para calcular valor total
-        // A planilha PRODUÇÃO usa VLOOKUP para buscar código de cores baseado no código (coluna P)
+        // A planilha PRODUÇÃO usa VLOOKUP para buscar código de cores baseação no código (coluna P)
         
         let linhaVendas = 18;
         let itemNum = 1;
-        for (const produto of dados.produtos.slice(0, 15)) { // Limite de 15 produtos
+        for (const produto of daçãos.produtos.slice(0, 15)) { // Limite de 15 produtos
             // Coluna A: Número do item (1, 2, 3...)
             wsVendas.getCell(`A${linhaVendas}`).value = itemNum;
             
-            // Coluna B: Código do produto (OBRIGATÓRIO - usado pelos VLOOKUPs)
+            // Coluna B: Código do produto (OBRIGATÓRIO - usação pelos VLOOKUPs)
             // O código deve estar exatamente como na tabela de lookup (ex: TRN10, DUN16, etc)
             wsVendas.getCell(`B${linhaVendas}`).value = produto.codigo || '';
             
             // Colunas C, D, E: NÃO PREENCHER - têm fórmulas VLOOKUP que buscam nome do produto
             // As fórmulas são: =IFERROR(VLOOKUP(B18,N18:O198,2,0),"")
             // Se o código do produto existir na tabela N:O, o nome aparecerá automaticamente
-            // Se precisar forçar o nome (produto não cadastrado na tabela), preencher apenas se código não existe
+            // Se precisar forçar o nome (produto não cadastração na tabela), preencher apenas se código não existe
             if (!produto.codigo && (produto.descricao || produto.nome || produto.produto)) {
                 // Produto sem código - preencher nome manualmente
                 const nomeProduto = produto.descricao || produto.nome || produto.produto || '';
@@ -4782,34 +4782,34 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         // ===== CAMPOS ADICIONAIS CONFORME MAPEAMENTO =====
         
         // TRANSPORTADORA (Linhas 11-15) - Células corretas conforme MAPEAMENTO_EXCEL_OP.md
-        wsVendas.getCell('C12').value = dados.transportadora_nome || '';
+        wsVendas.getCell('C12').value = daçãos.transportaçãora_nome || '';
         // H12 = Fórmula =H8 (não preencher)
-        wsVendas.getCell('C13').value = dados.transportadora_cep || dados.cep || '';
-        wsVendas.getCell('F13').value = dados.transportadora_endereco || dados.endereco || '';
+        wsVendas.getCell('C13').value = daçãos.transportaçãora_cep || daçãos.cep || '';
+        wsVendas.getCell('F13').value = daçãos.transportaçãora_endereco || daçãos.endereco || '';
         
-        // CPF/CNPJ da transportadora com formatação (se diferente do cliente)
-        const cpfCnpjTransp = dados.transportadora_cpf_cnpj || dados.cpf_cnpj || '';
+        // CPF/CNPJ da transportaçãora com formatação (se diferente do cliente)
+        const cpfCnpjTransp = daçãos.transportaçãora_cpf_cnpj || daçãos.cpf_cnpj || '';
         wsVendas.getCell('C15').value = formatarCpfCnpjExcel(cpfCnpjTransp);
         // G15 = Fórmula =C9 (não preencher)
         
         // OBSERVAÇÕES (Linhas 36-42)
-        const observacoes = dados.observacoes_pedido || dados.observacoes || '';
+        const observacoes = daçãos.observacoes_pedido || daçãos.observacoes || '';
         if (observacoes) {
             wsVendas.getCell('A37').value = observacoes;
         }
         
         // PAGAMENTO (Linhas 43-46) - Suporta múltiplas formas de pagamento
-        if (dados.formas_pagamento && dados.formas_pagamento.length > 0) {
+        if (daçãos.formas_pagamento && daçãos.formas_pagamento.length > 0) {
             // Linha 45: Primeira forma de pagamento
-            const pgto1 = dados.formas_pagamento[0];
+            const pgto1 = daçãos.formas_pagamento[0];
             wsVendas.getCell('A45').value = pgto1.forma || 'A_VISTA';
             wsVendas.getCell('E45').value = (pgto1.percentual || 100) / 100; // Converter para decimal
             wsVendas.getCell('E45').numFmt = '0%';
             wsVendas.getCell('F45').value = pgto1.metodo || 'BOLETO';
             
             // Linha 46: Segunda forma de pagamento (se houver)
-            if (dados.formas_pagamento.length > 1) {
-                const pgto2 = dados.formas_pagamento[1];
+            if (daçãos.formas_pagamento.length > 1) {
+                const pgto2 = daçãos.formas_pagamento[1];
                 wsVendas.getCell('A46').value = pgto2.forma || '';
                 wsVendas.getCell('E46').value = (pgto2.percentual || 0) / 100;
                 wsVendas.getCell('E46').numFmt = '0%';
@@ -4817,29 +4817,29 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
             }
         } else {
             // Compatibilidade com formato antigo
-            if (dados.forma_pagamento) {
-                wsVendas.getCell('A45').value = dados.forma_pagamento.toUpperCase();
+            if (daçãos.forma_pagamento) {
+                wsVendas.getCell('A45').value = daçãos.forma_pagamento.toUpperCase();
             }
-            if (dados.metodo_pagamento) {
-                wsVendas.getCell('F45').value = dados.metodo_pagamento.toUpperCase();
+            if (daçãos.metodo_pagamento) {
+                wsVendas.getCell('F45').value = daçãos.metodo_pagamento.toUpperCase();
             }
             // E45 é percentual (1 = 100%)
-            const percentual = dados.percentual_pagamento ? dados.percentual_pagamento / 100 : 1;
+            const percentual = daçãos.percentual_pagamento  daçãos.percentual_pagamento / 100 : 1;
             wsVendas.getCell('E45').value = percentual;
             wsVendas.getCell('E45').numFmt = '0%';
         }
         // I45 = Fórmula =I35 (não preencher)
         
         // ENTREGA (Linhas 48-54)
-        if (dados.qtd_volumes) {
-            wsVendas.getCell('D48').value = parseInt(dados.qtd_volumes) || 1;
+        if (daçãos.qtd_volumes) {
+            wsVendas.getCell('D48').value = parseInt(daçãos.qtd_volumes) || 1;
         }
-        if (dados.tipo_embalagem_entrega) {
-            wsVendas.getCell('H48').value = dados.tipo_embalagem_entrega;
+        if (daçãos.tipo_embalagem_entrega) {
+            wsVendas.getCell('H48').value = daçãos.tipo_embalagem_entrega;
         }
         // Observações de entrega
-        if (dados.observacoes_entrega) {
-            wsVendas.getCell('E51').value = dados.observacoes_entrega;
+        if (daçãos.observacoes_entrega) {
+            wsVendas.getCell('E51').value = daçãos.observacoes_entrega;
         }
         
         // ===== PLANILHA PRODUÇÃO =====
@@ -4855,7 +4855,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
             
             // Percorrer produtos e preencher P.LIQUIDO e LOTE
             let indexProd = 0;
-            for (const produto of dados.produtos.slice(0, 15)) {
+            for (const produto of daçãos.produtos.slice(0, 15)) {
                 // Linha do produto na PRODUÇÃO: 13, 16, 19, 22... (13 + index * 3)
                 const linhaProduto = 13 + (indexProd * 3);
                 // Linha de peso/lote: logo abaixo do produto
@@ -4888,7 +4888,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(nomeArquivo)}"`);
         res.setHeader('Content-Length', buffer.length);
         
-        logger.info('[GERAR ORDEM EXCEL] Arquivo gerado com sucesso:', nomeArquivo);
+        logger.info('[GERAR ORDEM EXCEL] Arquivo geração com sucesso:', nomeArquivo);
         res.send(buffer);
         
     } catch (error) {
@@ -4896,14 +4896,14 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         logger.error('[GERAR ORDEM EXCEL] Stack:', error.stack);
         res.status(500).json({ 
             message: 'Erro ao gerar ordem de produção em Excel', 
-            error: process.env.NODE_ENV === 'development' ? error.message : undefined 
+            error: process.env.NODE_ENV === 'development'  error.message : undefined 
         });
     }
 });
 
-// Endpoint duplicado removido - usando versão completa acima com VENDAS_PCP
+// Endpoint duplicação removido - usando versão completa acima com VENDAS_PCP
 
-// Serve static files (after API routes) so API endpoints are not shadowed by static fallback
+// Serve static files (after API routes) so API endpoints are not shaçãowed by static fallback
 app.use(express.static(__dirname));
 
 // API JSON 404 handler: make sure any unmatched /api routes return JSON (not HTML)
@@ -4916,7 +4916,7 @@ app.use((req, res, next) => {
 
 // Global error handler: if API request, always return JSON
 app.use((err, req, res, next) => {
-    logger.error('❌ Erro global capturado:', err.message);
+    logger.error('❌ Erro global capturação:', err.message);
     logger.error('URL:', req.url);
     logger.error('Method:', req.method);
     logger.error('Stack:', err.stack);
@@ -4924,7 +4924,7 @@ app.use((err, req, res, next) => {
     if (req.isApi) {
         return res.status(500).json({ 
             message: 'Erro interno no servidor', 
-            error: process.env.NODE_ENV === 'development' ? err.message : undefined
+            error: process.env.NODE_ENV === 'development'  err.message : undefined
         });
     }
     res.status(500).send('Erro interno no servidor');

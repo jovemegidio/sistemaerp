@@ -1,4 +1,4 @@
-// middleware/errorHandler.js - Sistema de Error Handling Centralizado
+// middleware/errorHandler.js - Sistema de Error Handling Centralização
 const winston = require('winston');
 const path = require('path');
 

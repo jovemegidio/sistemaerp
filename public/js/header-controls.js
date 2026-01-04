@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (localStorage.getItem('darkMode') === '1') {
             if (bodyEl) bodyEl.classList.add('dark-mode');
             if (headerEl) headerEl.classList.add('dark');
-            console.log('[Header] Dark mode aplicado');
+            console.log('[Header] Dark mode aplicação');
         }
     } catch(e) {
         console.error('[Header] Erro ao carregar dark mode:', e);
@@ -29,15 +29,15 @@ document.addEventListener('DOMContentLoaded', function() {
             
             try { 
                 const isDark = bodyEl && bodyEl.classList.contains('dark-mode');
-                localStorage.setItem('darkMode', isDark ? '1' : '0');
-                console.log('[Header] Dark mode:', isDark ? 'ON' : 'OFF');
+                localStorage.setItem('darkMode', isDark  '1' : '0');
+                console.log('[Header] Dark mode:', isDark  'ON' : 'OFF');
             } catch(e) {
                 console.error('[Header] Erro ao salvar dark mode:', e);
             }
         });
-        console.log('[Header] ✅ Dark mode toggle configurado');
+        console.log('[Header] ✅ Dark mode toggle configuração');
     } else {
-        console.warn('[Header] ⚠️ Botão dark mode não encontrado');
+        console.warn('[Header] ⚠️ Botão dark mode não encontração');
     }
 
     // ========== SEARCH ==========
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     try {
-                        const r = await fetch('/api/financeiro/busca-global?q=' + encodeURIComponent(q), { 
+                        const r = await fetch('/api/financeiro/busca-globalq=' + encodeURIComponent(q), { 
                             credentials: 'include' 
                         });
                         
@@ -102,16 +102,16 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         if (headerSearchResults) {
                             headerSearchResults.innerHTML = '';
-                            (json.resultados || []).slice(0, 10).forEach(item => {
+                            (json.resultaçãos || []).slice(0, 10).forEach(item => {
                                 const div = document.createElement('div');
                                 div.className = 'search-result-item';
-                                div.textContent = (item.tipo ? item.tipo + ': ' : '') + 
+                                div.textContent = (item.tipo  item.tipo + ': ' : '') + 
                                                  (item.nome || item.número || item.valor || JSON.stringify(item));
                                 headerSearchResults.appendChild(div);
                             });
                             
-                            if ((json.resultados || []).length === 0) {
-                                headerSearchResults.innerHTML = '<div class="search-no-results">Nenhum resultado encontrado</div>';
+                            if ((json.resultaçãos || []).length === 0) {
+                                headerSearchResults.innerHTML = '<div class="search-no-results">Nenhum resultação encontração</div>';
                             }
                         }
                     } catch (error) {
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         console.log('[Header] ✅ Busca configurada');
     } else {
-        console.warn('[Header] ⚠️ Botão de busca não encontrado');
+        console.warn('[Header] ⚠️ Botão de busca não encontração');
     }
 
     // ========== NOTIFICATIONS ==========
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         console.log('[Header] ✅ Notificações configuradas');
     } else {
-        console.warn('[Header] ⚠️ Botão de notificações não encontrado');
+        console.warn('[Header] ⚠️ Botão de notificações não encontração');
     }
 
     // ========== PROFILE DROPDOWN ==========
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.stopPropagation();
             dropdownOpen = !dropdownOpen;
             profileDropdown.classList.toggle('show', dropdownOpen);
-            console.log('[Header] Profile dropdown:', dropdownOpen ? 'ABERTO' : 'FECHADO');
+            console.log('[Header] Profile dropdown:', dropdownOpen  'ABERTO' : 'FECHADO');
         });
         
         // Fechar ao clicar fora
@@ -166,13 +166,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (dropdownOpen && !profileDropdown.contains(e.target) && !profileBtn.contains(e.target)) {
                 dropdownOpen = false;
                 profileDropdown.classList.remove('show');
-                console.log('[Header] Profile dropdown fechado (click fora)');
+                console.log('[Header] Profile dropdown fechação (click fora)');
             }
         });
         
-        console.log('[Header] ✅ Profile dropdown configurado');
+        console.log('[Header] ✅ Profile dropdown configuração');
     } else {
-        console.warn('[Header] ⚠️ Profile dropdown não encontrado');
+        console.warn('[Header] ⚠️ Profile dropdown não encontração');
     }
 
     // ========== PROFILE MODAL ==========
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 profileDropdown.classList.remove('show');
             }
         });
-        console.log('[Header] ✅ Profile modal configurado');
+        console.log('[Header] ✅ Profile modal configuração');
     }
 
     // ========== LOGOUT ==========
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logoutOption) {
         logoutOption.addEventListener('click', async function(e) {
             e.preventDefault();
-            console.log('[Header] 🚪 Logout iniciado');
+            console.log('[Header] 🚪 Logout iniciação');
             
             try {
                 // Limpar cookie no servidor
@@ -220,21 +220,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('[Header] Erro ao fazer logout no servidor:', error);
             }
             
-            // Limpar dados locais
+            // Limpar daçãos locais
             localStorage.removeItem('authToken');
             localStorage.removeItem('userData');
             sessionStorage.removeItem('authToken');
             sessionStorage.removeItem('userData');
-            console.log('[Header] ✅ Dados locais limpos');
+            console.log('[Header] ✅ Daçãos locais limpos');
             
             // Redirecionar para login
             console.log('[Header] ↩️ Redirecionando para login...');
             window.location.href = '/login.html';
         });
-        console.log('[Header] ✅ Logout configurado');
+        console.log('[Header] ✅ Logout configuração');
     } else {
-        console.warn('[Header] ⚠️ Botão de logout não encontrado');
+        console.warn('[Header] ⚠️ Botão de logout não encontração');
     }
 
-    console.log('[Header] ✅ Todos os controles inicializados');
+    console.log('[Header] ✅ Todos os controles inicializaçãos');
 });

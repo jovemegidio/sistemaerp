@@ -19,8 +19,8 @@
 
     function loadRecebimentos() {
         recebimentos = [
-            { id: 1, pedido: 'PC-001', fornecedor: 'Alum Brasil Ltda', material: 'Alumínio 6061-T6', quantidade: 500, unidade: 'kg', dataRecebimento: '2025-01-20', nf: '12345', conferido: true, status: 'aprovado' },
-            { id: 2, pedido: 'PC-002', fornecedor: 'Metal Line Indústria', material: 'Parafusos M8x20', quantidade: 1000, unidade: 'pç', dataRecebimento: '2025-01-18', nf: '12346', conferido: true, status: 'aprovado' },
+            { id: 1, pedido: 'PC-001', fornecedor: 'Alum Brasil Ltda', material: 'Alumínio 6061-T6', quantidade: 500, unidade: 'kg', dataRecebimento: '2025-01-20', nf: '12345', conferido: true, status: 'aprovação' },
+            { id: 2, pedido: 'PC-002', fornecedor: 'Metal Line Indústria', material: 'Parafusos M8x20', quantidade: 1000, unidade: 'pç', dataRecebimento: '2025-01-18', nf: '12346', conferido: true, status: 'aprovação' },
             { id: 3, pedido: 'PC-003', fornecedor: 'Aço Forte Materiais', material: 'Aço 1020 Chapa', quantidade: 300, unidade: 'kg', dataRecebimento: '2025-01-22', nf: '12347', conferido: false, status: 'pendente' },
             { id: 4, pedido: 'PC-004', fornecedor: 'QuímicaBR Produtos', material: 'Tinta Epóxi Branca', quantidade: 200, unidade: 'L', dataRecebimento: '2025-01-19', nf: '12348', conferido: true, status: 'divergencia' },
             { id: 5, pedido: 'PC-005', fornecedor: 'Embalagens Master', material: 'Caixa Papelão 40x30x20', quantidade: 500, unidade: 'un', dataRecebimento: '2025-01-25', nf: '12349', conferido: false, status: 'pendente' }
@@ -82,7 +82,7 @@
                     </thead>
                     <tbody>
                         ${recebimentos.map(r => `
-                            <tr class="${r.status === 'divergencia' ? 'row-warning' : ''}">
+                            <tr class="${r.status === 'divergencia'  'row-warning' : ''}">
                                 <td><strong>${r.pedido}</strong></td>
                                 <td>${r.fornecedor}</td>
                                 <td>${r.material}</td>
@@ -91,19 +91,19 @@
                                 <td>${formatDate(r.dataRecebimento)}</td>
                                 <td>
                                     ${r.conferido 
-                                        ? '<span class="badge badge-success"><i class="fas fa-check"></i> Sim</span>'
+                                         '<span class="badge badge-success"><i class="fas fa-check"></i> Sim</span>'
                                         : '<span class="badge badge-warning"><i class="fas fa-clock"></i> Não</span>'}
                                 </td>
                                 <td>
-                                    ${r.status === 'aprovado' ? '<span class="badge badge-success">Aprovado</span>' : ''}
-                                    ${r.status === 'pendente' ? '<span class="badge badge-warning">Pendente</span>' : ''}
-                                    ${r.status === 'divergencia' ? '<span class="badge badge-danger">Divergência</span>' : ''}
+                                    ${r.status === 'aprovação'  '<span class="badge badge-success">Aprovação</span>' : ''}
+                                    ${r.status === 'pendente'  '<span class="badge badge-warning">Pendente</span>' : ''}
+                                    ${r.status === 'divergencia'  '<span class="badge badge-danger">Divergência</span>' : ''}
                                 </td>
                                 <td>
                                     <button class="btn-action btn-view" onclick="verRecebimento(${r.id})" title="Visualizar">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    ${!r.conferido ? `
+                                    ${!r.conferido  `
                                         <button class="btn-action btn-success" onclick="conferirRecebimento(${r.id})" title="Conferir">
                                             <i class="fas fa-check"></i>
                                         </button>

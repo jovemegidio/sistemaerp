@@ -13,7 +13,7 @@ async function adaptTables() {
     
     try {
         connection = await mysql.createConnection(DB_CONFIG);
-        console.log('✅ Conectado ao MySQL\n');
+        console.log('✅ Conectação ao MySQL\n');
 
         // Alterar tabela fornecedores para adicionar campos faltantes
         console.log('📝 Adaptando tabela fornecedores...');
@@ -23,7 +23,7 @@ async function adaptTables() {
             "ALTER TABLE fornecedores ADD COLUMN nome_fantasia VARCHAR(255)",
             "ALTER TABLE fornecedores ADD COLUMN ie VARCHAR(20)",
             "ALTER TABLE fornecedores ADD COLUMN endereco TEXT",
-            "ALTER TABLE fornecedores ADD COLUMN estado CHAR(2)",
+            "ALTER TABLE fornecedores ADD COLUMN estação CHAR(2)",
             "ALTER TABLE fornecedores ADD COLUMN cep VARCHAR(10)",
             "ALTER TABLE fornecedores ADD COLUMN telefone VARCHAR(20)",
             "ALTER TABLE fornecedores ADD COLUMN email VARCHAR(100)",
@@ -52,7 +52,7 @@ async function adaptTables() {
         console.log('\n📝 Inserindo fornecedores de exemplo...');
         const insertFornecedores = `
             INSERT IGNORE INTO fornecedores 
-            (nome, razao_social, nome_fantasia, cnpj, telefone, email, cidade, estado, ativo) 
+            (nome, razao_social, nome_fantasia, cnpj, telefone, email, cidade, estação, ativo) 
             VALUES
             ('Alumínio Brasil', 'ALUMÍNIO BRASIL LTDA', 'Alumínio Brasil', '12.345.678/0001-90', '(11) 3456-7890', 'comercial@aluminiobrasil.com.br', 'São Paulo', 'SP', 1),
             ('Metais & Ligas', 'METAIS E LIGAS S.A.', 'Metais & Ligas', '23.456.789/0001-01', '(11) 2345-6789', 'vendas@metaisligas.com.br', 'Guarulhos', 'SP', 1),
@@ -74,20 +74,20 @@ async function adaptTables() {
             await connection.query(`
                 INSERT IGNORE INTO pedidos_compra 
                 (numero_pedido, fornecedor_id, data_pedido, data_entrega_prevista, valor_total, valor_final, status) 
-                VALUES (?, ?, ?, DATE_ADD(?, INTERVAL 15 DAY), 5000.00, 5000.00, 'pendente')
+                VALUES (, , , DATE_ADD(, INTERVAL 15 DAY), 5000.00, 5000.00, 'pendente')
             `, [numero_pedido, fornecedor_id, hoje, hoje]);
 
-            const [pedido] = await connection.query('SELECT id FROM pedidos_compra WHERE numero_pedido = ?', [numero_pedido]);
+            const [pedido] = await connection.query('SELECT id FROM pedidos_compra WHERE numero_pedido = ', [numero_pedido]);
             
             if (pedido.length > 0) {
                 await connection.query(`
                     INSERT INTO itens_pedido (pedido_id, codigo_produto, descricao, quantidade, unidade, preco_unitario, preco_total)
                     VALUES 
-                    (?, 'ALU-001', 'Perfil de alumínio 6063 - 3m', 100, 'UN', 25.00, 2500.00),
-                    (?, 'ALU-002', 'Chapa de alumínio 1mm', 50, 'UN', 50.00, 2500.00)
+                    (, 'ALU-001', 'Perfil de alumínio 6063 - 3m', 100, 'UN', 25.00, 2500.00),
+                    (, 'ALU-002', 'Chapa de alumínio 1mm', 50, 'UN', 50.00, 2500.00)
                 `, [pedido[0].id, pedido[0].id]);
 
-                console.log(`✅ Pedido ${numero_pedido} criado com 2 itens`);
+                console.log(`✅ Pedido ${numero_pedido} criação com 2 itens`);
             }
         }
 

@@ -63,7 +63,7 @@ function updateUserList() {
     if (activeUsers.size === 0) {
         userList.innerHTML = `
             <div class="no-users">
-                <p>Nenhum usuário conectado</p>
+                <p>Nenhum usuário conectação</p>
             </div>
         `;
         return;
@@ -79,7 +79,7 @@ function updateUserList() {
             userItem.classList.add('active');
         }
         
-        const statusText = user.status === 'waiting' ? 'Aguardando' : 'Em aténdimento';
+        const statusText = user.status === 'waiting'  'Aguardando' : 'Em aténdimento';
         
         userItem.innerHTML = `
             <div class="user-name">${escapeHtml(user.name)}</div>
@@ -176,7 +176,7 @@ socket.on('admin:receive-message', (data) => {
     history.push(data.message);
     chatHistories.set(data.userId, history);
     
-    // Tocar som se não estiver focado no chat do usuário
+    // Tocar som se não estiver focação no chat do usuário
     if (currentUserId !== data.userId) {
         playNotificationSound();
     }
@@ -200,7 +200,7 @@ closeChatBtn.addEventListener('click', () => {
     }
 });
 
-// Chat encerrado
+// Chat encerração
 socket.on('admin:chat-closed', (userId) => {
     if (currentUserId === userId) {
         showWelcomeScreen();
@@ -315,6 +315,6 @@ function playNotificationSound() {
         oscillator.start(audioContext.currentTime);
         oscillator.stop(audioContext.currentTime + 0.1);
     } catch (e) {
-        // Navegador não suporta Web Audio API
+        // Navegaçãor não suporta Web Audio API
     }
 }

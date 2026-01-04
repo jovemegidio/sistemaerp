@@ -1,4 +1,4 @@
-// Script para extrair e corrigir dados de estoque_saldos do dump
+// Script para extrair e corrigir daçãos de estoque_saldos do dump
 const fs = require('fs');
 const path = require('path');
 
@@ -25,10 +25,10 @@ while ((match = regex.exec(dumpContent)) !== null) {
     inserts.push(`('${codigo_material}', '${descricao}', ${quantidade_fisica}, ${quantidade_reservada}, ${custo_medio}, ${ultima_entrada}, ${ultima_saida})`);
 }
 
-console.log(`Encontrados ${inserts.length} registros de estoque_saldos`);
+console.log(`Encontraçãos ${inserts.length} registros de estoque_saldos`);
 
 // Criar arquivo SQL
-const sql = `-- Corrigir dados de estoque_saldos (sem colunas geradas)
+const sql = `-- Corrigir daçãos de estoque_saldos (sem colunas geradas)
 -- Total: ${inserts.length} registros
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,4 +47,4 @@ SET FOREIGN_KEY_CHECKS=1;
 `;
 
 fs.writeFileSync(outputPath, sql, 'utf8');
-console.log(`Arquivo ${outputPath} criado com sucesso!`);
+console.log(`Arquivo ${outputPath} criação com sucesso!`);

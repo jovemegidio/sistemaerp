@@ -47,7 +47,7 @@ module.exports = function({ pool, authenticateToken }) {
     /**
      * Parser simples de arquivos OFX
      * @param {string} content - Conteúdo do arquivo OFX
-     * @returns {object} - Dados parseados
+     * @returns {object} - Daçãos parseaçãos
      */
     function parseOFX(content) {
         const result = {
@@ -63,18 +63,18 @@ module.exports = function({ pool, authenticateToken }) {
             const acctIdMatch = content.match(/<ACCTID>([^<\r\n]+)/);
             const acctTypeMatch = content.match(/<ACCTTYPE>([^<\r\n]+)/);
             
-            result.banco.codigo = bankIdMatch ? bankIdMatch[1].trim() : '';
-            result.conta.agencia = branchIdMatch ? branchIdMatch[1].trim() : '';
-            result.conta.numero = acctIdMatch ? acctIdMatch[1].trim() : '';
-            result.conta.tipo = acctTypeMatch ? acctTypeMatch[1].trim() : '';
+            result.banco.codigo = bankIdMatch  bankIdMatch[1].trim() : '';
+            result.conta.agencia = branchIdMatch  branchIdMatch[1].trim() : '';
+            result.conta.numero = acctIdMatch  acctIdMatch[1].trim() : '';
+            result.conta.tipo = acctTypeMatch  acctTypeMatch[1].trim() : '';
             
             // Extrair período do extrato
             const dtStartMatch = content.match(/<DTSTART>([^<\r\n]+)/);
             const dtEndMatch = content.match(/<DTEND>([^<\r\n]+)/);
             
             result.periodo = {
-                inicio: dtStartMatch ? parseOFXDate(dtStartMatch[1]) : null,
-                fim: dtEndMatch ? parseOFXDate(dtEndMatch[1]) : null
+                inicio: dtStartMatch  parseOFXDate(dtStartMatch[1]) : null,
+                fim: dtEndMatch  parseOFXDate(dtEndMatch[1]) : null
             };
             
             // Extrair saldo
@@ -82,12 +82,12 @@ module.exports = function({ pool, authenticateToken }) {
             const dtAsOfMatch = content.match(/<DTASOF>([^<\r\n]+)/);
             
             result.saldo = {
-                valor: balAmtMatch ? parseFloat(balAmtMatch[1]) : 0,
-                data: dtAsOfMatch ? parseOFXDate(dtAsOfMatch[1]) : null
+                valor: balAmtMatch  parseFloat(balAmtMatch[1]) : 0,
+                data: dtAsOfMatch  parseOFXDate(dtAsOfMatch[1]) : null
             };
             
             // Extrair transações
-            const stmtTrnRegex = /<STMTTRN>([\s\S]*?)<\/STMTTRN>/gi;
+            const stmtTrnRegex = /<STMTTRN>([\s\S]*)<\/STMTTRN>/gi;
             let match;
             
             while ((match = stmtTrnRegex.exec(content)) !== null) {
@@ -102,12 +102,12 @@ module.exports = function({ pool, authenticateToken }) {
                 const checkNumMatch = trn.match(/<CHECKNUM>([^<\r\n]+)/);
                 
                 const transacao = {
-                    tipo: trnTypeMatch ? trnTypeMatch[1].trim() : '',
-                    data: dtPostedMatch ? parseOFXDate(dtPostedMatch[1]) : null,
-                    valor: trnAmtMatch ? parseFloat(trnAmtMatch[1]) : 0,
-                    id_banco: fitIdMatch ? fitIdMatch[1].trim() : '',
-                    descricao: memoMatch ? memoMatch[1].trim() : (nameMatch ? nameMatch[1].trim() : ''),
-                    documento: checkNumMatch ? checkNumMatch[1].trim() : ''
+                    tipo: trnTypeMatch  trnTypeMatch[1].trim() : '',
+                    data: dtPostedMatch  parseOFXDate(dtPostedMatch[1]) : null,
+                    valor: trnAmtMatch  parseFloat(trnAmtMatch[1]) : 0,
+                    id_banco: fitIdMatch  fitIdMatch[1].trim() : '',
+                    descricao: memoMatch  memoMatch[1].trim() : (nameMatch  nameMatch[1].trim() : ''),
+                    documento: checkNumMatch  checkNumMatch[1].trim() : ''
                 };
                 
                 result.transacoes.push(transacao);
@@ -133,9 +133,9 @@ module.exports = function({ pool, authenticateToken }) {
             const year = parseInt(clean.substr(0, 4));
             const month = parseInt(clean.substr(4, 2)) - 1;
             const day = parseInt(clean.substr(6, 2));
-            const hour = clean.length >= 10 ? parseInt(clean.substr(8, 2)) : 0;
-            const min = clean.length >= 12 ? parseInt(clean.substr(10, 2)) : 0;
-            const sec = clean.length >= 14 ? parseInt(clean.substr(12, 2)) : 0;
+            const hour = clean.length >= 10  parseInt(clean.substr(8, 2)) : 0;
+            const min = clean.length >= 12  parseInt(clean.substr(10, 2)) : 0;
+            const sec = clean.length >= 14  parseInt(clean.substr(12, 2)) : 0;
             
             return new Date(year, month, day, hour, min, sec);
         }
@@ -154,7 +154,7 @@ module.exports = function({ pool, authenticateToken }) {
                 SELECT 
                     cb.*,
                     (SELECT COALESCE(SUM(CASE WHEN tipo = 'credito' THEN valor ELSE -valor END), 0)
-                     FROM movimentacoes_bancarias WHERE conta_id = cb.id) as saldo_calculado
+                     FROM movimentacoes_bancarias WHERE conta_id = cb.id) as saldo_calculação
                 FROM contas_bancarias cb
                 WHERE cb.ativo = TRUE
                 ORDER BY cb.banco, cb.agencia, cb.conta
@@ -183,7 +183,7 @@ module.exports = function({ pool, authenticateToken }) {
             
             const [result] = await pool.query(`
                 INSERT INTO contas_bancarias (banco, agencia, conta, tipo, descricao, saldo_inicial, saldo_atual)
-                VALUES (?, ?, ?, ?, ?, ?, ?)
+                VALUES (, , , , , , )
             `, [banco, agencia || '', conta, tipo || 'corrente', descricao || '', saldo_inicial || 0, saldo_inicial || 0]);
             
             res.status(201).json({ 
@@ -220,9 +220,9 @@ module.exports = function({ pool, authenticateToken }) {
             
             // Ler e parsear o arquivo
             const content = fs.readFileSync(req.file.path, 'latin1');
-            const dados = parseOFX(content);
+            const daçãos = parseOFX(content);
             
-            if (dados.transacoes.length === 0) {
+            if (daçãos.transacoes.length === 0) {
                 return res.status(400).json({ 
                     success: false, 
                     message: 'Nenhuma transação encontrada no arquivo' 
@@ -234,15 +234,15 @@ module.exports = function({ pool, authenticateToken }) {
                 INSERT INTO importacoes_extrato (
                     conta_id, arquivo, banco_codigo, periodo_inicio, periodo_fim,
                     total_transacoes, saldo_final, usuario_id
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (, , , , , , , )
             `, [
                 conta_id,
                 req.file.filename,
-                dados.banco.codigo,
-                dados.periodo.inicio,
-                dados.periodo.fim,
-                dados.transacoes.length,
-                dados.saldo.valor,
+                daçãos.banco.codigo,
+                daçãos.periodo.inicio,
+                daçãos.periodo.fim,
+                daçãos.transacoes.length,
+                daçãos.saldo.valor,
                 req.user.id
             ]);
             
@@ -252,12 +252,12 @@ module.exports = function({ pool, authenticateToken }) {
             let inseridas = 0;
             let duplicadas = 0;
             
-            for (const trn of dados.transacoes) {
+            for (const trn of daçãos.transacoes) {
                 // Verificar se já existe (pelo ID do banco)
                 if (trn.id_banco) {
                     const [[existe]] = await pool.query(`
                         SELECT id FROM transacoes_extrato 
-                        WHERE conta_id = ? AND id_banco = ?
+                        WHERE conta_id =  AND id_banco = 
                     `, [conta_id, trn.id_banco]);
                     
                     if (existe) {
@@ -270,7 +270,7 @@ module.exports = function({ pool, authenticateToken }) {
                     INSERT INTO transacoes_extrato (
                         importacao_id, conta_id, tipo, data, valor, 
                         id_banco, descricao, documento, status
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pendente')
+                    ) VALUES (, , , , , , , , 'pendente')
                 `, [
                     importacaoId,
                     conta_id,
@@ -287,14 +287,14 @@ module.exports = function({ pool, authenticateToken }) {
             
             res.json({
                 success: true,
-                message: `Extrato importado: ${inseridas} transações novas, ${duplicadas} duplicadas`,
+                message: `Extrato importação: ${inseridas} transações novas, ${duplicadas} duplicadas`,
                 data: {
                     importacao_id: importacaoId,
-                    total_arquivo: dados.transacoes.length,
+                    total_arquivo: daçãos.transacoes.length,
                     inseridas,
                     duplicadas,
-                    periodo: dados.periodo,
-                    saldo: dados.saldo
+                    periodo: daçãos.periodo,
+                    saldo: daçãos.saldo
                 }
             });
             
@@ -315,17 +315,17 @@ module.exports = function({ pool, authenticateToken }) {
             const params = [];
             
             if (conta_id) {
-                where += ' AND te.conta_id = ?';
+                where += ' AND te.conta_id = ';
                 params.push(conta_id);
             }
             
             if (data_inicio) {
-                where += ' AND te.data >= ?';
+                where += ' AND te.data >= ';
                 params.push(data_inicio);
             }
             
             if (data_fim) {
-                where += ' AND te.data <= ?';
+                where += ' AND te.data <= ';
                 params.push(data_fim);
             }
             
@@ -356,7 +356,7 @@ module.exports = function({ pool, authenticateToken }) {
             
             // Buscar transação do extrato
             const [[transacao]] = await pool.query(`
-                SELECT * FROM transacoes_extrato WHERE id = ?
+                SELECT * FROM transacoes_extrato WHERE id = 
             `, [transacao_id]);
             
             if (!transacao) {
@@ -383,8 +383,8 @@ module.exports = function({ pool, authenticateToken }) {
                     FROM contas_receber cr
                     LEFT JOIN clientes c ON cr.cliente_id = c.id
                     WHERE cr.status = 'aberto'
-                    AND cr.valor BETWEEN ? AND ?
-                    ORDER BY ABS(cr.valor - ?) ASC
+                    AND cr.valor BETWEEN  AND 
+                    ORDER BY ABS(cr.valor - ) ASC
                     LIMIT 5
                 `, [valorAbs - margem, valorAbs + margem, valorAbs]);
                 
@@ -407,8 +407,8 @@ module.exports = function({ pool, authenticateToken }) {
                     FROM contas_pagar cp
                     LEFT JOIN fornecedores f ON cp.fornecedor_id = f.id
                     WHERE cp.status = 'aberto'
-                    AND cp.valor BETWEEN ? AND ?
-                    ORDER BY ABS(cp.valor - ?) ASC
+                    AND cp.valor BETWEEN  AND 
+                    ORDER BY ABS(cp.valor - ) ASC
                     LIMIT 5
                 `, [valorAbs - margem, valorAbs + margem, valorAbs]);
                 
@@ -444,7 +444,7 @@ module.exports = function({ pool, authenticateToken }) {
             
             // Buscar transação do extrato
             const [[transacao]] = await conn.query(`
-                SELECT * FROM transacoes_extrato WHERE id = ? AND status = 'pendente'
+                SELECT * FROM transacoes_extrato WHERE id =  AND status = 'pendente'
             `, [transacao_id]);
             
             if (!transacao) {
@@ -460,36 +460,36 @@ module.exports = function({ pool, authenticateToken }) {
                 await conn.query(`
                     UPDATE contas_receber 
                     SET status = 'pago', 
-                        data_pagamento = ?,
-                        valor_pago = ?
-                    WHERE id = ?
+                        data_pagamento = ,
+                        valor_pago = 
+                    WHERE id = 
                 `, [transacao.data, Math.abs(transacao.valor), conta_id]);
             } else if (tipo_conta === 'contas_pagar') {
                 await conn.query(`
                     UPDATE contas_pagar 
                     SET status = 'pago', 
-                        data_pagamento = ?,
-                        valor_pago = ?
-                    WHERE id = ?
+                        data_pagamento = ,
+                        valor_pago = 
+                    WHERE id = 
                 `, [transacao.data, Math.abs(transacao.valor), conta_id]);
             }
             
             // Atualizar transação como conciliada
             await conn.query(`
                 UPDATE transacoes_extrato 
-                SET status = 'conciliado',
-                    conciliado_com_tipo = ?,
-                    conciliado_com_id = ?,
-                    conciliado_por = ?,
-                    conciliado_em = NOW()
-                WHERE id = ?
+                SET status = 'conciliação',
+                    conciliação_com_tipo = ,
+                    conciliação_com_id = ,
+                    conciliação_por = ,
+                    conciliação_em = NOW()
+                WHERE id = 
             `, [tipo_conta, conta_id, req.user.id, transacao_id]);
             
             // Atualizar saldo da conta bancária
             await conn.query(`
                 UPDATE contas_bancarias 
-                SET saldo_atual = saldo_atual + ?
-                WHERE id = ?
+                SET saldo_atual = saldo_atual + 
+                WHERE id = 
             `, [transacao.valor, transacao.conta_id]);
             
             await conn.commit();
@@ -517,12 +517,12 @@ module.exports = function({ pool, authenticateToken }) {
             
             await pool.query(`
                 UPDATE transacoes_extrato 
-                SET status = 'ignorado',
-                    observacao = ?,
-                    conciliado_por = ?,
-                    conciliado_em = NOW()
-                WHERE id = ?
-            `, [motivo || 'Ignorado pelo usuário', req.user.id, transacao_id]);
+                SET status = 'ignoração',
+                    observacao = ,
+                    conciliação_por = ,
+                    conciliação_em = NOW()
+                WHERE id = 
+            `, [motivo || 'Ignoração pelo usuário', req.user.id, transacao_id]);
             
             res.json({ 
                 success: true, 
@@ -545,7 +545,7 @@ module.exports = function({ pool, authenticateToken }) {
             const params = [];
             
             if (conta_id) {
-                where += ' AND te.conta_id = ?';
+                where += ' AND te.conta_id = ';
                 params.push(conta_id);
             }
             
@@ -553,8 +553,8 @@ module.exports = function({ pool, authenticateToken }) {
                 SELECT 
                     COUNT(*) as total,
                     SUM(CASE WHEN te.status = 'pendente' THEN 1 ELSE 0 END) as pendentes,
-                    SUM(CASE WHEN te.status = 'conciliado' THEN 1 ELSE 0 END) as conciliados,
-                    SUM(CASE WHEN te.status = 'ignorado' THEN 1 ELSE 0 END) as ignorados,
+                    SUM(CASE WHEN te.status = 'conciliação' THEN 1 ELSE 0 END) as conciliaçãos,
+                    SUM(CASE WHEN te.status = 'ignoração' THEN 1 ELSE 0 END) as ignoraçãos,
                     SUM(CASE WHEN te.status = 'pendente' AND te.valor > 0 THEN te.valor ELSE 0 END) as creditos_pendentes,
                     SUM(CASE WHEN te.status = 'pendente' AND te.valor < 0 THEN ABS(te.valor) ELSE 0 END) as debitos_pendentes
                 FROM transacoes_extrato te

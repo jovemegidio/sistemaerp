@@ -1,5 +1,5 @@
 /**
- * Script unificado para o Portal do Funcionário e para a Área Administrativa.
+ * Script unificação para o Portal do Funcionário e para a Área Administrativa.
  * * O código detecta em qual página está (admin ou funcionário) e inicializa
  * apenas as funcionalidades relevantes para evitar conflitos.
  */
@@ -11,13 +11,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const isEmployeePage = document.getElementById('welcome-message')
 
   if (isAdminPage) {
-    console.log('Inicializando a Área do Administrador...')
+    console.log('Inicializando a Área do Administraçãor...')
     initAdminPage()
   } else if (isEmployeePage) {
     console.log('Inicializando o Portal do Funcionário...')
     initEmployeePage()
   } else {
-    console.warn('Nenhum contexto (Admin ou Funcionário) detectado. O script não foi totalmente inicializado.')
+    console.warn('Nenhum contexto (Admin ou Funcionário) detectação. O script não foi totalmente inicialização.')
   }
 })
 
@@ -42,9 +42,9 @@ function loadPage(pageName) {
   const mainContent = document.querySelector('.content-area') || document.querySelector('main') || document.querySelector('.main-content')
   
   if (!mainContent) {
-    console.error('Contêiner principal não encontrado para carregar a página')
+    console.error('Contêiner principal não encontração para carregar a página')
     if (window.headerControls) {
-      window.headerControls.showToast('Erro: Contêiner não encontrado', 'error')
+      window.headerControls.showToast('Erro: Contêiner não encontração', 'error')
     }
     return
   }
@@ -52,7 +52,7 @@ function loadPage(pageName) {
   // Log de carregamento (sem notificação)
   console.log(`🔄 Carregando ${getPageDisplayName(pageName)}...`)
 
-  // Mostra indicador de carregamento
+  // Mostra indicaçãor de carregamento
   mainContent.innerHTML = `
     <div style="display: flex; justify-content: center; align-items: center; height: 400px; flex-direction: column;">
       <div style="width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid #3498db; border-radius: 50%; animation: spin 1s linear infinite;"></div>
@@ -81,7 +81,7 @@ function loadPage(pageName) {
       
       // Verificar se existe body, senão usar o conteúdo completo
       const bodyElement = tempDiv.querySelector('body')
-      const pageContent = bodyElement ? bodyElement.innerHTML : html
+      const pageContent = bodyElement  bodyElement.innerHTML : html
       
       mainContent.innerHTML = pageContent
       
@@ -100,7 +100,7 @@ function loadPage(pageName) {
       console.log(`Página ${pageName} carregada com sucesso`)
       
       // Log de sucesso (sem notificação)
-      console.log(`✅ ${getPageDisplayName(pageName)} carregado`)
+      console.log(`✅ ${getPageDisplayName(pageName)} carregação`)
       
       // Aplicar visualização atual (grid/list)
       if (window.headerControls && window.headerControls.currentView) {
@@ -198,12 +198,12 @@ function initAdminPage () {
   async function carregarFuncionarios () {
     try {
       const response = await fetch(API_URL, { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) })
-      if (!response.ok) throw new Error('Erro ao buscar dados da API.')
+      if (!response.ok) throw new Error('Erro ao buscar daçãos da API.')
       const funcionarios = await response.json()
 
       tabelaCorpo.innerHTML = ''
       if (funcionarios.length === 0) {
-        tabelaCorpo.innerHTML = '<tr><td colspan="5">Nenhum funcionário cadastrado.</td></tr>'
+        tabelaCorpo.innerHTML = '<tr><td colspan="5">Nenhum funcionário cadastração.</td></tr>'
         return
       }
 
@@ -220,7 +220,7 @@ function initAdminPage () {
       })
     } catch (error) {
       console.error('Erro ao carregar funcionários:', error)
-      tabelaCorpo.innerHTML = '<tr><td colspan="5" style="color: red;">Não foi possível carregar os dados. Verifique se a API está online.</td></tr>'
+      tabelaCorpo.innerHTML = '<tr><td colspan="5" style="color: red;">Não foi possível carregar os daçãos. Verifique se a API está online.</td></tr>'
     }
   }
 
@@ -239,7 +239,7 @@ function initAdminPage () {
         body: JSON.stringify(novoFuncionario)
       })
       if (!response.ok) throw new Error('Erro ao cadastrar funcionário.')
-      showToast('Funcionário cadastrado com sucesso!', 'success')
+      showToast('Funcionário cadastração com sucesso!', 'success')
       formNovoFuncionario.reset()
       carregarFuncionarios()
       document.querySelector('.nav-link[href="#dashboard-section"]').click() // Volta para a dashboard
@@ -263,7 +263,7 @@ function initAdminPage () {
         body: formData
       })
       if (!response.ok) throw new Error('Falha no upload do arquivo.')
-      showToast('Arquivo enviado com sucesso!', 'success')
+      showToast('Arquivo enviação com sucesso!', 'success')
       inputFile.value = '' // Limpa o input
       abrirModalDetalhes(currentFuncionarioId) // Recarrega os detalhes do modal
     } catch (error) {
@@ -290,9 +290,9 @@ function initAdminPage () {
       if (!response.ok) throw new Error('Não foi possível buscar os detalhes do funcionário.')
       const func = await response.json()
 
-      const dataAdmissao = func.data_admissao ? new Date(func.data_admissao).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : 'N/A'
-      const atéstados = func.atéstados && func.atéstados.length > 0 ? func.atéstados.map(a => `<li>${a}</li>`).join('') : '<li>Nenhum atéstado registrado.</li>'
-      const holerites = func.holerites && func.holerites.length > 0 ? func.holerites.map(h => `<li>${h}</li>`).join('') : '<li>Nenhum holerite registrado.</li>'
+      const dataAdmissao = func.data_admissao  new Date(func.data_admissao).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : 'N/A'
+      const atéstaçãos = func.atéstaçãos && func.atéstaçãos.length > 0  func.atéstaçãos.map(a => `<li>${a}</li>`).join('') : '<li>Nenhum atéstação registração.</li>'
+      const holerites = func.holerites && func.holerites.length > 0  func.holerites.map(h => `<li>${h}</li>`).join('') : '<li>Nenhum holerite registração.</li>'
 
       detalhesContent.innerHTML = `
                 <p><strong>ID:</strong> ${func.id}</p>
@@ -300,7 +300,7 @@ function initAdminPage () {
                 <p><strong>Email:</strong> ${func.email}</p>
                 <p><strong>Cargo:</strong> ${func.cargo}</p>
                 <p><strong>Admissão:</strong> ${dataAdmissao}</p>
-                <hr><h4>Atéstados:</h4><ul>${atéstados}</ul>
+                <hr><h4>Atéstaçãos:</h4><ul>${atéstaçãos}</ul>
                 <h4>Holerites:</h4><ul>${holerites}</ul>`
     } catch (error) {
       detalhesContent.innerHTML = `<p style="color: red;">${error.message}</p>`
@@ -327,7 +327,7 @@ function initAdminPage () {
   })
 
   document.getElementById('btn-upload-holerite').addEventListener('click', () => uploadArquivo('holerite', 'arquivo-holerite'))
-  document.getElementById('btn-upload-atéstado').addEventListener('click', () => uploadArquivo('atéstado', 'arquivo-atéstado'))
+  document.getElementById('btn-upload-atéstação').addEventListener('click', () => uploadArquivo('atéstação', 'arquivo-atéstação'))
 
   if (closeModalButton) closeModalButton.addEventListener('click', fecharModal)
   window.addEventListener('click', e => { if (e.target === modal) fecharModal() })
@@ -347,29 +347,29 @@ function initEmployeePage () {
 
   console.log('🔍 SCRIPT.JS initEmployeePage: Iniciando verificações...')
 
-  // Tenta obter os dados do localStorage. Em um sistema real, isso viria de uma API.
+  // Tenta obter os daçãos do localStorage. Em um sistema real, isso viria de uma API.
   const authToken = localStorage.getItem('authToken')
   let userData = null
   try {
     userData = JSON.parse(localStorage.getItem('userData'))
-    console.log('🔍 SCRIPT.JS: UserData carregado:', {
+    console.log('🔍 SCRIPT.JS: UserData carregação:', {
       hasUserData: !!userData,
-      id: userData?.id,
-      nome: userData?.nome,
-      nome_completo: userData?.nome_completo,
-      email: userData?.email,
-      role: userData?.role
+      id: userData.id,
+      nome: userData.nome,
+      nome_completo: userData.nome_completo,
+      email: userData.email,
+      role: userData.role
     })
   } catch {
-    // Se os dados estiverem corrompidos, trata como nulos
-    console.log('❌ SCRIPT.JS: Dados corrompidos no localStorage')
+    // Se os daçãos estiverem corrompidos, trata como nulos
+    console.log('❌ SCRIPT.JS: Daçãos corrompidos no localStorage')
     userData = null
   }
 
-  // Se não houver token ou dados de usuário, redireciona para o login
+  // Se não houver token ou daçãos de usuário, redireciona para o login
   if (!authToken || !userData || (!userData.nome && !userData.nome_completo && !userData.email)) {
-    // Usuário não autenticado - redireciona para a página de login
-    console.warn('Usuário não autenticado. Redirecionando para login.', {
+    // Usuário não autenticação - redireciona para a página de login
+    console.warn('Usuário não autenticação. Redirecionando para login.', {
       hasToken: !!authToken,
       hasUserData: !!userData,
       userData: userData
@@ -398,7 +398,7 @@ function initEmployeePage () {
       endereco: data.endereco,
       telefone: data.telefone,
       email: data.email,
-      estado_civil: data.estadoCivil,
+      estação_civil: data.estaçãoCivil,
       dependentes: data.dependentes || 0,
       data_admissao: data.dataAdmissao
     }
@@ -408,9 +408,9 @@ function initEmployeePage () {
       if (element) element.value = value || ''
     })
 
-    document.getElementById('banco').textContent = data.banco || 'Não informado'
-    document.getElementById('agencia').textContent = data.agencia || 'Não informado'
-    document.getElementById('conta_corrente').textContent = data.conta || 'Não informado'
+    document.getElementById('banco').textContent = data.banco || 'Não informação'
+    document.getElementById('agencia').textContent = data.agencia || 'Não informação'
+    document.getElementById('conta_corrente').textContent = data.conta || 'Não informação'
   }
 
   // --- FUNÇÕES DE EVENTOS (FUNCIONÁRIO) ---
@@ -427,16 +427,16 @@ function initEmployeePage () {
     // Logout
     document.getElementById('logout-btn').addEventListener('click', handleLogout)
 
-    // Edição de dados
+    // Edição de daçãos
     document.getElementById('edit-btn').addEventListener('click', enableFormEditing)
-    document.getElementById('dados-form').addEventListener('submit', handleFormSubmit)
+    document.getElementById('daçãos-form').addEventListener('submit', handleFormSubmit)
 
     // Holerite e Ponto
     document.getElementById('view-holerite').addEventListener('click', loadHolerite)
     document.getElementById('view-ponto').addEventListener('click', loadPonto)
 
-    // Atéstado
-    document.getElementById('atéstado-form').addEventListener('submit', handleAtestadoSubmit)
+    // Atéstação
+    document.getElementById('atéstação-form').addEventListener('submit', handleAtestaçãoSubmit)
   }
 
   function handleNavLinkClick (e) {
@@ -454,12 +454,12 @@ function initEmployeePage () {
     e.preventDefault()
     localStorage.removeItem('authToken')
     localStorage.removeItem('userData')
-    showToast('Você foi desconectado.', 'success')
+    showToast('Você foi desconectação.', 'success')
     window.location.href = '/login.html'
   }
 
   function enableFormEditing () {
-    ['telefone', 'estado_civil', 'dependentes'].forEach(id => {
+    ['telefone', 'estação_civil', 'dependentes'].forEach(id => {
       document.getElementById(id).disabled = false
     })
     document.getElementById('edit-btn').style.display = 'none'
@@ -469,8 +469,8 @@ function initEmployeePage () {
   function handleFormSubmit (e) {
     e.preventDefault()
     // Simulação de salvamento
-    showToast('Dados salvos com sucesso! (Simulação)', 'success');
-    ['telefone', 'estado_civil', 'dependentes'].forEach(id => {
+    showToast('Daçãos salvos com sucesso! (Simulação)', 'success');
+    ['telefone', 'estação_civil', 'dependentes'].forEach(id => {
       document.getElementById(id).disabled = true
     })
     document.getElementById('edit-btn').style.display = 'inline-block'
@@ -481,7 +481,7 @@ function initEmployeePage () {
     const mes = document.getElementById('holerite-mes').value
     const viewer = document.getElementById('holerite-viewer')
     viewer.innerHTML = `<p class="loading">Carregando holerite de ${mes}...</p>
-                            <iframe src="holerite_simulado.pdf" style="width:100%; height:500px;" title="Visualizador de Holerite"></iframe>`
+                            <iframe src="holerite_simulação.pdf" style="width:100%; height:500px;" title="Visualizaçãor de Holerite"></iframe>`
   }
 
   function loadPonto () {
@@ -491,16 +491,16 @@ function initEmployeePage () {
                             `
   }
 
-  function handleAtestadoSubmit (e) {
+  function handleAtestaçãoSubmit (e) {
     e.preventDefault()
-    const fileInput = document.getElementById('atéstado-file')
+    const fileInput = document.getElementById('atéstação-file')
     const uploadStatus = document.getElementById('upload-status')
     if (fileInput.files.length > 0) {
       uploadStatus.textContent = 'Enviando...'
       uploadStatus.style.color = 'blue'
       // Simulação de upload
       setTimeout(() => {
-        uploadStatus.textContent = 'Atéstado enviado com sucesso!'
+        uploadStatus.textContent = 'Atéstação enviação com sucesso!'
         uploadStatus.style.color = 'green'
         e.target.reset()
       }, 1500)

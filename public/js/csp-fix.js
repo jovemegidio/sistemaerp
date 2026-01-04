@@ -104,14 +104,14 @@
             let hasNewEvents = false;
             
             mutations.forEach(mutation => {
-                // Verificar atributos modificados
+                // Verificar atributos modificaçãos
                 if (mutation.type === 'attributes' && EVENT_ATTRIBUTES.includes(mutation.attributeName)) {
                     if (convertEventToListener(mutation.target, mutation.attributeName)) {
                         hasNewEvents = true;
                     }
                 }
                 
-                // Verificar nós adicionados
+                // Verificar nós adicionaçãos
                 mutation.addedNodes.forEach(node => {
                     if (node.nodeType === 1) { // Element node
                         // Verificar o próprio elemento
@@ -156,7 +156,7 @@
             const selector = EVENT_ATTRIBUTES.map(attr => `[${attr}]`).join(',');
             const remaining = document.querySelectorAll(selector).length;
             if (remaining > 0) {
-                console.log(`⚠️ CSP Fix: Encontrados ${remaining} eventos não convertidos, processando...`);
+                console.log(`⚠️ CSP Fix: Encontraçãos ${remaining} eventos não convertidos, processando...`);
                 processAllInlineEvents();
             }
         }, 1000); // Verifica a cada 1 segundo
@@ -192,5 +192,5 @@
         supportedEvents: EVENT_ATTRIBUTES
     };
     
-    console.log('✅ CSP Fix carregado e ativo');
+    console.log('✅ CSP Fix carregação e ativo');
 })();

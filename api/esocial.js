@@ -18,7 +18,7 @@ module.exports = function({ pool, authenticateToken }) {
 
     // Eventos de Tabelas (S-1xxx)
     const EVENTOS_TABELAS = {
-        'S-1000': 'Informações do Empregador',
+        'S-1000': 'Informações do Empregaçãor',
         'S-1005': 'Tabela de Estabelecimentos',
         'S-1010': 'Tabela de Rubricas',
         'S-1020': 'Tabela de Lotações Tributárias',
@@ -28,26 +28,26 @@ module.exports = function({ pool, authenticateToken }) {
         'S-1050': 'Tabela de Horários',
         'S-1060': 'Tabela de Ambientes de Trabalho',
         'S-1070': 'Tabela de Processos Administrativos/Judiciais',
-        'S-1080': 'Tabela de Operadores Portuários'
+        'S-1080': 'Tabela de Operaçãores Portuários'
     };
 
     // Eventos Não Periódicos (S-2xxx)
     const EVENTOS_NAO_PERIODICOS = {
-        'S-2190': 'Registro Preliminar de Trabalhador',
+        'S-2190': 'Registro Preliminar de Trabalhaçãor',
         'S-2200': 'Cadastramento Inicial / Admissão',
-        'S-2205': 'Alteração de Dados Cadastrais',
+        'S-2205': 'Alteração de Daçãos Cadastrais',
         'S-2206': 'Alteração de Contrato de Trabalho',
         'S-2210': 'Comunicação de Acidente de Trabalho',
-        'S-2220': 'Monitoramento da Saúde do Trabalhador',
+        'S-2220': 'Monitoramento da Saúde do Trabalhaçãor',
         'S-2230': 'Afastamento Temporário',
         'S-2240': 'Condições Ambientais do Trabalho',
         'S-2298': 'Reintegração',
         'S-2299': 'Desligamento',
-        'S-2300': 'Trabalhador Sem Vínculo - Início',
-        'S-2306': 'Trabalhador Sem Vínculo - Alteração',
-        'S-2399': 'Trabalhador Sem Vínculo - Término',
+        'S-2300': 'Trabalhaçãor Sem Vínculo - Início',
+        'S-2306': 'Trabalhaçãor Sem Vínculo - Alteração',
+        'S-2399': 'Trabalhaçãor Sem Vínculo - Término',
         'S-2400': 'Cadastro de Beneficiário',
-        'S-2405': 'Alteração de Dados Cadastrais do Beneficiário',
+        'S-2405': 'Alteração de Daçãos Cadastrais do Beneficiário',
         'S-2410': 'Cadastro de Benefício',
         'S-2416': 'Alteração do Cadastro de Benefício',
         'S-2418': 'Reativação de Benefício',
@@ -58,12 +58,12 @@ module.exports = function({ pool, authenticateToken }) {
 
     // Eventos Periódicos (S-1200 a S-1299)
     const EVENTOS_PERIODICOS = {
-        'S-1200': 'Remuneração de Trabalhador Vinculado',
-        'S-1202': 'Remuneração de Servidor Vinculado a RPPS',
+        'S-1200': 'Remuneração de Trabalhaçãor Vinculação',
+        'S-1202': 'Remuneração de Servidor Vinculação a RPPS',
         'S-1207': 'Benefícios',
         'S-1210': 'Pagamentos de Rendimentos do Trabalho',
         'S-1260': 'Comercialização da Produção Rural PF',
-        'S-1270': 'Contratação de Trabalhadores Avulsos',
+        'S-1270': 'Contratação de Trabalhaçãores Avulsos',
         'S-1280': 'Informações Complementares aos Eventos Periódicos',
         'S-1298': 'Reabertura dos Eventos Periódicos',
         'S-1299': 'Fechamento dos Eventos Periódicos'
@@ -83,10 +83,10 @@ module.exports = function({ pool, authenticateToken }) {
                 SELECT COUNT(*) as total FROM esocial_eventos WHERE status = 'pendente'
             `).catch(() => [[{ total: 0 }]]);
 
-            // Eventos enviados no mês
-            const [[enviados]] = await pool.query(`
+            // Eventos enviaçãos no mês
+            const [[enviaçãos]] = await pool.query(`
                 SELECT COUNT(*) as total FROM esocial_eventos 
-                WHERE status = 'enviado' 
+                WHERE status = 'enviação' 
                 AND MONTH(data_envio) = MONTH(CURDATE())
             `).catch(() => [[{ total: 0 }]]);
 
@@ -120,7 +120,7 @@ module.exports = function({ pool, authenticateToken }) {
                 data: {
                     resumo: {
                         pendentes: pendentes.total || 0,
-                        enviados: enviados.total || 0,
+                        enviaçãos: enviaçãos.total || 0,
                         erros: erros.total || 0,
                         funcionarios_ativos: funcionarios.total || 0
                     },
@@ -160,15 +160,15 @@ module.exports = function({ pool, authenticateToken }) {
             const params = [];
 
             if (status) {
-                where += ' AND e.status = ?';
+                where += ' AND e.status = ';
                 params.push(status);
             }
             if (tipo_evento) {
-                where += ' AND e.tipo_evento = ?';
+                where += ' AND e.tipo_evento = ';
                 params.push(tipo_evento);
             }
             if (funcionario_id) {
-                where += ' AND e.funcionario_id = ?';
+                where += ' AND e.funcionario_id = ';
                 params.push(funcionario_id);
             }
 
@@ -180,8 +180,8 @@ module.exports = function({ pool, authenticateToken }) {
                 FROM esocial_eventos e
                 LEFT JOIN rh_funcionarios f ON e.funcionario_id = f.id
                 ${where}
-                ORDER BY e.criado_em DESC
-                LIMIT ? OFFSET ?
+                ORDER BY e.criação_em DESC
+                LIMIT  OFFSET 
             `, [...params, parseInt(limit), offset]);
 
             const [[{ total }]] = await pool.query(
@@ -213,7 +213,7 @@ module.exports = function({ pool, authenticateToken }) {
             const { 
                 tipo_evento, 
                 funcionario_id, 
-                dados_evento,
+                daçãos_evento,
                 periodo_apuracao
             } = req.body;
 
@@ -236,19 +236,19 @@ module.exports = function({ pool, authenticateToken }) {
             const [result] = await pool.query(`
                 INSERT INTO esocial_eventos (
                     tipo_evento, funcionario_id, periodo_apuracao, 
-                    dados_evento, status, usuario_id
-                ) VALUES (?, ?, ?, ?, 'pendente', ?)
+                    daçãos_evento, status, usuario_id
+                ) VALUES (, , , , 'pendente', )
             `, [
                 tipo_evento, 
                 funcionario_id || null, 
                 periodo_apuracao || null,
-                JSON.stringify(dados_evento || {}),
+                JSON.stringify(daçãos_evento || {}),
                 req.user.id
             ]);
 
             res.json({
                 success: true,
-                message: 'Evento criado',
+                message: 'Evento criação',
                 data: { id: result.insertId, tipo_evento }
             });
         } catch (error) {
@@ -265,21 +265,21 @@ module.exports = function({ pool, authenticateToken }) {
             const { id } = req.params;
 
             const [[evento]] = await pool.query(
-                'SELECT * FROM esocial_eventos WHERE id = ?',
+                'SELECT * FROM esocial_eventos WHERE id = ',
                 [id]
             );
 
             if (!evento) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Evento não encontrado' 
+                    message: 'Evento não encontração' 
                 });
             }
 
-            if (evento.status === 'enviado') {
+            if (evento.status === 'enviação') {
                 return res.status(400).json({ 
                     success: false, 
-                    message: 'Evento já foi enviado' 
+                    message: 'Evento já foi enviação' 
                 });
             }
 
@@ -289,16 +289,16 @@ module.exports = function({ pool, authenticateToken }) {
 
             await pool.query(`
                 UPDATE esocial_eventos 
-                SET status = 'enviado', 
-                    protocolo = ?,
+                SET status = 'enviação', 
+                    protocolo = ,
                     data_envio = NOW(),
                     updated_at = NOW()
-                WHERE id = ?
+                WHERE id = 
             `, [protocolo, id]);
 
             res.json({
                 success: true,
-                message: 'Evento enviado com sucesso',
+                message: 'Evento enviação com sucesso',
                 data: { id, protocolo }
             });
         } catch (error) {
@@ -323,19 +323,19 @@ module.exports = function({ pool, authenticateToken }) {
                 FROM rh_funcionarios f
                 LEFT JOIN rh_cargos c ON f.cargo_id = c.id
                 LEFT JOIN rh_departamentos d ON f.departamento_id = d.id
-                WHERE f.id = ?
+                WHERE f.id = 
             `, [funcionario_id]);
 
             if (!funcionario) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Funcionário não encontrado' 
+                    message: 'Funcionário não encontração' 
                 });
             }
 
             // Verificar se já existe evento de admissão
             const [[existente]] = await pool.query(
-                'SELECT id FROM esocial_eventos WHERE funcionario_id = ? AND tipo_evento = "S-2200"',
+                'SELECT id FROM esocial_eventos WHERE funcionario_id =  AND tipo_evento = "S-2200"',
                 [funcionario_id]
             );
 
@@ -347,24 +347,24 @@ module.exports = function({ pool, authenticateToken }) {
                 });
             }
 
-            // Montar dados do evento S-2200
-            const dadosEvento = {
-                cpfTrab: funcionario.cpf?.replace(/\D/g, ''),
+            // Montar daçãos do evento S-2200
+            const daçãosEvento = {
+                cpfTrab: funcionario.cpf.replace(/\D/g, ''),
                 nmTrab: funcionario.nome,
                 sexo: funcionario.sexo || 'M',
                 racaCor: funcionario.raca_cor || 1,
-                estCiv: funcionario.estado_civil || 1,
+                estCiv: funcionario.estação_civil || 1,
                 grauInstr: funcionario.grau_instrucao || '01',
                 nmSoc: funcionario.nome_social || null,
                 dtNascto: funcionario.data_nascimento,
                 paisNascto: '105', // Brasil
                 paisNac: '105',
                 endereco: {
-                    tpLograd: funcionario.tipo_logradouro || 'R',
+                    tpLograd: funcionario.tipo_lograçãouro || 'R',
                     dscLograd: funcionario.endereco,
                     nrLograd: funcionario.numero || 'S/N',
                     bairro: funcionario.bairro,
-                    cep: funcionario.cep?.replace(/\D/g, ''),
+                    cep: funcionario.cep.replace(/\D/g, ''),
                     codMunic: funcionario.codigo_municipio,
                     uf: funcionario.uf
                 },
@@ -374,10 +374,10 @@ module.exports = function({ pool, authenticateToken }) {
                     tpRegPrev: 1, // RGPS
                     dtAdm: funcionario.data_admissao,
                     tpAdmissao: 1, // Admissão
-                    codCateg: funcionario.categoria_trabalhador || '101' // Empregado geral
+                    codCateg: funcionario.categoria_trabalhaçãor || '101' // Empregação geral
                 },
                 cargo: {
-                    codCargo: funcionario.cargo_id?.toString().padStart(5, '0'),
+                    codCargo: funcionario.cargo_id.toString().padStart(5, '0'),
                     nmCargo: funcionario.cargo_nome
                 },
                 remuneracao: {
@@ -389,13 +389,13 @@ module.exports = function({ pool, authenticateToken }) {
             // Criar evento
             const [result] = await pool.query(`
                 INSERT INTO esocial_eventos (
-                    tipo_evento, funcionario_id, dados_evento, status, usuario_id
-                ) VALUES ('S-2200', ?, ?, 'pendente', ?)
-            `, [funcionario_id, JSON.stringify(dadosEvento), req.user.id]);
+                    tipo_evento, funcionario_id, daçãos_evento, status, usuario_id
+                ) VALUES ('S-2200', , , 'pendente', )
+            `, [funcionario_id, JSON.stringify(daçãosEvento), req.user.id]);
 
             res.json({
                 success: true,
-                message: 'Evento S-2200 (Admissão) criado',
+                message: 'Evento S-2200 (Admissão) criação',
                 data: { 
                     evento_id: result.insertId, 
                     funcionario: funcionario.nome 
@@ -431,14 +431,14 @@ module.exports = function({ pool, authenticateToken }) {
             }
 
             const [[funcionario]] = await pool.query(
-                'SELECT * FROM rh_funcionarios WHERE id = ?',
+                'SELECT * FROM rh_funcionarios WHERE id = ',
                 [funcionario_id]
             );
 
             if (!funcionario) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Funcionário não encontrado' 
+                    message: 'Funcionário não encontração' 
                 });
             }
 
@@ -448,15 +448,15 @@ module.exports = function({ pool, authenticateToken }) {
                 'demissao_com_justa_causa': '02',
                 'pedido_demissao': '03',
                 'termino_contrato': '04',
-                'aposentadoria': '05',
+                'aposentaçãoria': '05',
                 'falecimento': '06',
                 'acordo_comum': '33'
             };
 
             const codigoMotivo = motivosDesligamento[motivo_desligamento] || '01';
 
-            const dadosEvento = {
-                cpfTrab: funcionario.cpf?.replace(/\D/g, ''),
+            const daçãosEvento = {
+                cpfTrab: funcionario.cpf.replace(/\D/g, ''),
                 matricula: funcionario.matricula || funcionario.id.toString().padStart(6, '0'),
                 dtDeslig: data_desligamento,
                 mtvDeslig: codigoMotivo,
@@ -467,22 +467,22 @@ module.exports = function({ pool, authenticateToken }) {
             // Criar evento de desligamento
             const [result] = await pool.query(`
                 INSERT INTO esocial_eventos (
-                    tipo_evento, funcionario_id, dados_evento, status, usuario_id
-                ) VALUES ('S-2299', ?, ?, 'pendente', ?)
-            `, [funcionario_id, JSON.stringify(dadosEvento), req.user.id]);
+                    tipo_evento, funcionario_id, daçãos_evento, status, usuario_id
+                ) VALUES ('S-2299', , , 'pendente', )
+            `, [funcionario_id, JSON.stringify(daçãosEvento), req.user.id]);
 
             // Atualizar status do funcionário
             await pool.query(`
                 UPDATE rh_funcionarios 
-                SET status = 'desligado', 
-                    data_desligamento = ?,
-                    motivo_desligamento = ?
-                WHERE id = ?
+                SET status = 'desligação', 
+                    data_desligamento = ,
+                    motivo_desligamento = 
+                WHERE id = 
             `, [data_desligamento, motivo_desligamento, funcionario_id]);
 
             res.json({
                 success: true,
-                message: 'Evento S-2299 (Desligamento) criado',
+                message: 'Evento S-2299 (Desligamento) criação',
                 data: { 
                     evento_id: result.insertId, 
                     funcionario: funcionario.nome,
@@ -518,7 +518,7 @@ module.exports = function({ pool, authenticateToken }) {
             const params = [];
 
             if (funcionarios_ids && funcionarios_ids.length > 0) {
-                where += ` AND f.id IN (${funcionarios_ids.map(() => '?').join(',')})`;
+                where += ` AND f.id IN (${funcionarios_ids.map(() => '').join(',')})`;
                 params.push(...funcionarios_ids);
             }
 
@@ -529,27 +529,27 @@ module.exports = function({ pool, authenticateToken }) {
                 ${where}
             `, params);
 
-            const eventosGerados = [];
+            const eventosGeraçãos = [];
 
             for (const func of funcionarios) {
                 // Verificar se já existe evento para o período
                 const [[existente]] = await pool.query(
-                    'SELECT id FROM esocial_eventos WHERE funcionario_id = ? AND tipo_evento = "S-1200" AND periodo_apuracao = ?',
+                    'SELECT id FROM esocial_eventos WHERE funcionario_id =  AND tipo_evento = "S-1200" AND periodo_apuracao = ',
                     [func.id, periodo_apuracao]
                 );
 
                 if (existente) continue;
 
-                const dadosEvento = {
-                    cpfTrab: func.cpf?.replace(/\D/g, ''),
+                const daçãosEvento = {
+                    cpfTrab: func.cpf.replace(/\D/g, ''),
                     perApur: periodo_apuracao,
                     dmDev: [{
                         ideDmDev: '1',
-                        codCateg: func.categoria_trabalhador || '101',
+                        codCateg: func.categoria_trabalhaçãor || '101',
                         infoPerApur: {
                             ideEstab: {
                                 tpInsc: 1,
-                                nrInsc: process.env.CNPJ_EMPRESA?.replace(/\D/g, '')
+                                nrInsc: process.env.CNPJ_EMPRESA.replace(/\D/g, '')
                             },
                             remunPerApur: [{
                                 matricula: func.matricula || func.id.toString().padStart(6, '0'),
@@ -565,11 +565,11 @@ module.exports = function({ pool, authenticateToken }) {
 
                 const [result] = await pool.query(`
                     INSERT INTO esocial_eventos (
-                        tipo_evento, funcionario_id, periodo_apuracao, dados_evento, status, usuario_id
-                    ) VALUES ('S-1200', ?, ?, ?, 'pendente', ?)
-                `, [func.id, periodo_apuracao, JSON.stringify(dadosEvento), req.user.id]);
+                        tipo_evento, funcionario_id, periodo_apuracao, daçãos_evento, status, usuario_id
+                    ) VALUES ('S-1200', , , , 'pendente', )
+                `, [func.id, periodo_apuracao, JSON.stringify(daçãosEvento), req.user.id]);
 
-                eventosGerados.push({
+                eventosGeraçãos.push({
                     evento_id: result.insertId,
                     funcionario: func.nome
                 });
@@ -577,8 +577,8 @@ module.exports = function({ pool, authenticateToken }) {
 
             res.json({
                 success: true,
-                message: `${eventosGerados.length} evento(s) S-1200 criado(s)`,
-                data: eventosGerados
+                message: `${eventosGeraçãos.length} evento(s) S-1200 criação(s)`,
+                data: eventosGeraçãos
             });
         } catch (error) {
             console.error('[ESOCIAL] Erro ao criar remuneração:', error);
@@ -650,7 +650,7 @@ module.exports = function({ pool, authenticateToken }) {
                 INSERT INTO esocial_rubricas (
                     codigo, descricao, natureza, tipo_rubrica,
                     incidencia_previdencia, incidencia_irrf, incidencia_fgts
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (, , , , , , )
             `, [
                 codigo, descricao, natureza || '1000', tipo_rubrica || 1,
                 incidencia_previdencia || 11, incidencia_irrf || 11, incidencia_fgts || 11

@@ -50,7 +50,7 @@ const puppeteer = require('puppeteer');
     await browser.close()
     process.exit(0)
   } catch (e) {
-    console.error('dump error', e && e.stack ? e.stack : e)
+    console.error('dump error', e && e.stack  e.stack : e)
     process.exit(2)
   }
 })()

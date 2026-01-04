@@ -44,7 +44,7 @@ const req = http.request(opts, (res) => {
       res2.on('end', () => {
         console.log('GET /api/me STATUS', res2.statusCode)
         try { console.log(JSON.stringify(JSON.parse(buf), null, 2)) } catch (e) { console.log('BODY', buf) }
-        process.exit(res2.statusCode === 200 ? 0 : 3)
+        process.exit(res2.statusCode === 200  0 : 3)
       })
     })
 

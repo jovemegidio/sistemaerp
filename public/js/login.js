@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Helper para chamadas à API: usa config.js para determinar URL base
   // GitHub Pages → Railway API, Local → mesmo servidor
   function apiFetch(path, options = {}) {
-    const baseUrl = window.ALUFORCE_CONFIG?.API_BASE_URL || '';
+    const baseUrl = window.ALUFORCE_CONFIG.API_BASE_URL || '';
     const url = baseUrl + path;
     return fetch(url, {
       ...options,
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     'guilherme': 'Guilherme.webp'
   };
 
-  // Função para obter o avatar de um usuário baseado no email
+  // Função para obter o avatar de um usuário baseação no email
   function getUserAvatar(username) {
     const formats = ['webp', 'svg', 'jpg', 'png'];
     
@@ -51,13 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Tenta encontrar avatar com diferentes formatos (webp prioritário)
     for (const format of formats) {
       const potentialPath = `avatars/${username}.${format}`;
-      return potentialPath; // Retorna o primeiro formato (será validado no carregamento)
+      return potentialPath; // Retorna o primeiro formato (será validação no carregamento)
     }
     
     return null;
   }
 
-  // Funcionalidade de avatar dinâmico baseado no email
+  // Funcionalidade de avatar dinâmico baseação no email
   if (emailInput && userAvatar) {
     let avatarTimeout;
     
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Funcionalidade de mostrar/ocultar senha
   if (passwordToggle && passwordInput) {
     passwordToggle.addEventListener('click', () => {
-      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      const type = passwordInput.getAttribute('type') === 'password'  'text' : 'password';
       passwordInput.setAttribute('type', type);
       
       // Atualiza o ícone
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentStep = 1;
   let userVerificationData = {};
 
-  // Funcionalidade "Esqueceu a senha?"
+  // Funcionalidade "Esqueceu a senha"
   if (forgotPasswordLink && forgotPasswordModal) {
     forgotPasswordLink.addEventListener('click', (e) => {
       e.preventDefault();
@@ -187,9 +187,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Abrir modal
   function openForgotPasswordModal() {
-    const email = emailInput ? emailInput.value.trim() : '';
+    const email = emailInput  emailInput.value.trim() : '';
     
-    // Pre-preenche email se já digitado
+    // Pre-preenche email se já digitação
     const verifyEmailInput = document.getElementById('verify-email');
     if (verifyEmailInput && email) {
       verifyEmailInput.value = email;
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Fechar modal clicando fora
-  forgotPasswordModal?.addEventListener('click', (e) => {
+  forgotPasswordModal.addEventListener('click', (e) => {
     if (e.target === forgotPasswordModal) {
       closeForgotPasswordModal();
     }
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fechar modal com ESC
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && forgotPasswordModal?.classList.contains('show')) {
+    if (e.key === 'Escape' && forgotPasswordModal.classList.contains('show')) {
       closeForgotPasswordModal();
     }
   });
@@ -271,8 +271,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const nextStep1 = document.getElementById('next-step-1');
   const cancelStep1 = document.getElementById('cancel-step-1');
   
-  nextStep1?.addEventListener('click', async () => {
-    const email = document.getElementById('verify-email')?.value.trim();
+  nextStep1.addEventListener('click', async () => {
+    const email = document.getElementById('verify-email').value.trim();
     
     if (!email || !email.includes('@')) {
       showModalMessage('Por favor, digite um email válido.', 'error');
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (response.ok || data.success) {
-        showModalMessage('✅ Link de recuperação enviado! Verifique seu email para continuar.', 'success');
+        showModalMessage('✅ Link de recuperação enviação! Verifique seu email para continuar.', 'success');
         
         // Fechar modal após 3 segundos
         setTimeout(() => {
@@ -322,18 +322,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  cancelStep1?.addEventListener('click', closeForgotPasswordModal);
+  cancelStep1.addEventListener('click', closeForgotPasswordModal);
 
   // ================================
-  // STEP 2: Verificar Dados
+  // STEP 2: Verificar Daçãos
   // ================================
   
   const nextStep2 = document.getElementById('next-step-2');
   const backStep2 = document.getElementById('back-step-2');
   
-  nextStep2?.addEventListener('click', async () => {
-    const name = document.getElementById('verify-name')?.value.trim();
-    const department = document.getElementById('verify-department')?.value;
+  nextStep2.addEventListener('click', async () => {
+    const name = document.getElementById('verify-name').value.trim();
+    const department = document.getElementById('verify-department').value;
     
     if (!name || !department) {
       showModalMessage('Por favor, preencha todos os campos.', 'error');
@@ -344,7 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nextStep2.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
     
     try {
-      // Verificar dados do usuário
+      // Verificar daçãos do usuário
       const response = await apiFetch('/api/auth/verify-user-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -373,10 +373,10 @@ document.addEventListener('DOMContentLoaded', () => {
         userVerificationData.department = department;
         showStep(3);
       } else {
-        showModalMessage(data.message || 'Dados não conferem com nossos registros.', 'error');
+        showModalMessage(data.message || 'Daçãos não conferem com nossos registros.', 'error');
       }
     } catch (error) {
-      console.error('Erro ao verificar dados:', error);
+      console.error('Erro ao verificar daçãos:', error);
       showModalMessage('Erro de conexão. Tente novamente.', 'error');
     } finally {
       nextStep2.disabled = false;
@@ -384,7 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  backStep2?.addEventListener('click', () => showStep(1));
+  backStep2.addEventListener('click', () => showStep(1));
 
   // ================================
   // STEP 3: Nova Senha
@@ -395,8 +395,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const changePasswordBtn = document.getElementById('change-password');
   const backStep3 = document.getElementById('back-step-3');
   
-  // Verificador de força da senha
-  newPasswordInput?.addEventListener('input', (e) => {
+  // Verificaçãor de força da senha
+  newPasswordInput.addEventListener('input', (e) => {
     checkPasswordStrength(e.target.value);
   });
   
@@ -442,9 +442,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return '#22c55e';
   }
   
-  changePasswordBtn?.addEventListener('click', async () => {
-    const newPassword = newPasswordInput?.value;
-    const confirmPassword = confirmPasswordInput?.value;
+  changePasswordBtn.addEventListener('click', async () => {
+    const newPassword = newPasswordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
     
     if (!newPassword || !confirmPassword) {
       showModalMessage('Por favor, preencha ambos os campos de senha.', 'error');
@@ -511,7 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  backStep3?.addEventListener('click', () => showStep(2));
+  backStep3.addEventListener('click', () => showStep(2));
   
   // Função para mostrar mensagens no modal
   function showModalMessage(message, type = 'error') {
@@ -523,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Cria nova mensagem
     const messageDiv = document.createElement('div');
-    messageDiv.className = `modal-message ${type === 'success' ? 'success-message' : 'error-message'} visible`;
+    messageDiv.className = `modal-message ${type === 'success'  'success-message' : 'error-message'} visible`;
     messageDiv.textContent = message;
     
     // Adiciona após o cabeçalho
@@ -534,7 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Remove após 5 segundos
     setTimeout(() => {
-      messageDiv?.remove();
+      messageDiv.remove();
     }, 5000);
   }
 
@@ -543,7 +543,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageDiv = errorMessageDiv;
     if (!messageDiv) return;
     
-    messageDiv.className = type === 'success' ? 'success-message visible' : 'error-message visible';
+    messageDiv.className = type === 'success'  'success-message visible' : 'error-message visible';
     messageDiv.textContent = message;
     
     // Remove a mensagem após 5 segundos
@@ -578,7 +578,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Redireciona automaticamente para o dashboard
         window.location.href = '/index.html';
       } else {
-        console.log('[LOGIN/REMEMBER] Token inválido ou expirado');
+        console.log('[LOGIN/REMEMBER] Token inválido ou expiração');
       }
     } catch (error) {
       console.log('[LOGIN/REMEMBER] Sem token de lembrar-me ou erro:', error.message);
@@ -611,12 +611,12 @@ document.addEventListener('DOMContentLoaded', () => {
   function setLoading(loading) {
   if (!submitBtn) return;
   submitBtn.disabled = loading;
-  submitBtn.setAttribute('aria-busy', loading ? 'true' : 'false');
+  submitBtn.setAttribute('aria-busy', loading  'true' : 'false');
   // Toggle the loading class; CSS controls spinner visibility and layout
   submitBtn.classList.toggle('loading', loading);
   // Ensure the visible text is still present for screen readers
   const textEl = submitBtn.querySelector('.btn-text');
-  if (textEl) textEl.setAttribute('aria-hidden', loading ? 'true' : 'false');
+  if (textEl) textEl.setAttribute('aria-hidden', loading  'true' : 'false');
   // Avoid inline style manipulation so CSS can manage layout and animation
   }
 
@@ -634,8 +634,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const usernameEl = document.getElementById('email');
     const passwordEl = document.getElementById('password');
-    const username = usernameEl ? usernameEl.value.trim() : '';
-    const password = passwordEl ? passwordEl.value : '';
+    const username = usernameEl  usernameEl.value.trim() : '';
+    const password = passwordEl  passwordEl.value : '';
 
     if (!username || !password) {
       if (errorMessageDiv) {
@@ -664,7 +664,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (!response.ok) {
         // server provided message preferred
-        const msg = (data && data.message) ? data.message : `Erro de autenticação (${response.status})`;
+        const msg = (data && data.message)  data.message : `Erro de autenticação (${response.status})`;
         throw new Error(msg);
       }
 
@@ -681,10 +681,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const isGitHubPages = window.location.hostname.includes('github.io');
       
       if (isGitHubPages && data.token) {
-        console.log('[LOGIN] ✅ Ambiente cross-origin detectado (GitHub Pages). Usando token JWT.');
-        const railwayBase = window.ALUFORCE_CONFIG?.API_BASE_URL || 'https://sistemaerp-production-a924.up.railway.app';
+        console.log('[LOGIN] ✅ Ambiente cross-origin detectação (GitHub Pages). Usando token JWT.');
+        const railwayBase = window.ALUFORCE_CONFIG.API_BASE_URL || 'https://sistemaerp-production-a924.up.railway.app';
         console.log('[LOGIN] Redirecionando para Railway com token...');
-        window.location.href = railwayBase + '/dashboard?token=' + encodeURIComponent(data.token);
+        window.location.href = railwayBase + '/dashboardtoken=' + encodeURIComponent(data.token);
         return;
       }
 
@@ -693,7 +693,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const redirectTo = data.redirectTo;
         console.log('[LOGIN] ✅ Login bem-sucedido! Servidor sugeriu redirect:', redirectTo);
 
-        // Se "Lembrar-me" estiver marcado, cria token persistente (só funciona em same-origin)
+        // Se "Lembrar-me" estiver marcação, cria token persistente (só funciona em same-origin)
         if (rememberCheckbox && rememberCheckbox.checked && data.user) {
           console.log('[LOGIN] Criando token de lembrar-me...');
           try {
@@ -708,7 +708,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             
             if (rememberResp.ok) {
-              console.log('[LOGIN] ✅ Token de lembrar-me criado');
+              console.log('[LOGIN] ✅ Token de lembrar-me criação');
             } else {
               console.warn('[LOGIN] ⚠️ Falha ao criar token de lembrar-me');
             }
@@ -747,7 +747,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Caso não haja redirect sugerido, confirme a sessão via /api/me antes de redirecionar para o dashboard.
       
-      // Se "Lembrar-me" estiver marcado, cria token persistente
+      // Se "Lembrar-me" estiver marcação, cria token persistente
       if (rememberCheckbox && rememberCheckbox.checked && data.user) {
         console.log('[LOGIN] Criando token de lembrar-me...');
         try {
@@ -762,7 +762,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
           
           if (rememberResp.ok) {
-            console.log('[LOGIN] ✅ Token de lembrar-me criado');
+            console.log('[LOGIN] ✅ Token de lembrar-me criação');
           } else {
             console.warn('[LOGIN] ⚠️ Falha ao criar token de lembrar-me');
           }
@@ -783,7 +783,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } catch (error) {
       if (errorMessageDiv) {
-        const msg = error && error.message ? error.message : 'Erro ao efetuar login';
+        const msg = error && error.message  error.message : 'Erro ao efetuar login';
         errorMessageDiv.textContent = msg;
         errorMessageDiv.classList.add('visible');
         // focus the email field so user can retry quickly

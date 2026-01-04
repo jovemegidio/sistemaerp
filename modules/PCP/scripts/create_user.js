@@ -25,20 +25,20 @@ async function main() {
     console.log('Hash generated (masked):', hash.slice(0,6) + '...' + hash.length);
 
     // Check if user exists by email
-    const [rows] = await conn.execute('SELECT id FROM usuarios_pcp WHERE email = ? LIMIT 1', [email]);
+    const [rows] = await conn.execute('SELECT id FROM usuarios_pcp WHERE email =  LIMIT 1', [email]);
     if (rows && rows.length > 0) {
       const id = rows[0].id;
-      const [r] = await conn.execute('UPDATE usuarios_pcp SET senha = ?, nome = ? WHERE id = ?', [hash, nome, id]);
+      const [r] = await conn.execute('UPDATE usuarios_pcp SET senha = , nome =  WHERE id = ', [hash, nome, id]);
       console.log('Updated existing user id=', id, ' affectedRows=', r.affectedRows);
     } else {
       // Try inserting; some schemas may require additional columns but email/nome/senha should be acceptable
       try {
-        const [r] = await conn.execute('INSERT INTO usuarios_pcp (email, nome, senha) VALUES (?, ?, ?)', [email, nome, hash]);
+        const [r] = await conn.execute('INSERT INTO usuarios_pcp (email, nome, senha) VALUES (, , )', [email, nome, hash]);
         console.log('Inserted new user id=', r.insertId);
       } catch (insErr) {
         console.error('Insert failed:', insErr.message || insErr);
         // fallback: attempt to update by nome if email-only insert fails
-        const [upd] = await conn.execute('UPDATE usuarios_pcp SET senha = ? WHERE nome = ?', [hash, nome]);
+        const [upd] = await conn.execute('UPDATE usuarios_pcp SET senha =  WHERE nome = ', [hash, nome]);
         console.log('Attempted fallback update by nome, affectedRows=', upd.affectedRows);
       }
     }

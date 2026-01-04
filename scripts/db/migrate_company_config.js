@@ -16,7 +16,7 @@ async function migrate() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de dados...');
+        console.log('🔌 Conectando ao banco de daçãos...');
         connection = await mysql.createConnection(dbConfig);
         console.log('✅ Conexão estabelecida!\n');
 
@@ -40,17 +40,17 @@ async function migrate() {
                 complemento VARCHAR(100),
                 bairro VARCHAR(100),
                 cidade VARCHAR(100),
-                estado CHAR(2),
+                estação CHAR(2),
                 cep VARCHAR(10),
                 
                 -- Mídias
                 logo_path VARCHAR(255),
                 favicon_path VARCHAR(255) DEFAULT '/Favicon Aluforce.webp',
                 
-                -- Certificado Digital
-                certificado_a1_path VARCHAR(255),
-                certificado_senha VARCHAR(255),
-                certificado_validade DATE,
+                -- Certificação Digital
+                certificação_a1_path VARCHAR(255),
+                certificação_senha VARCHAR(255),
+                certificação_validade DATE,
                 
                 -- NF-e
                 nfe_agente_ativo BOOLEAN DEFAULT FALSE,
@@ -117,7 +117,7 @@ async function migrate() {
                 descricao TEXT,
                 departamento_id INT,
                 responsavel_id INT,
-                status ENUM('planejamento', 'em_andamento', 'pausado', 'concluido', 'cancelado') DEFAULT 'planejamento',
+                status ENUM('planejamento', 'em_andamento', 'pausação', 'concluido', 'cancelação') DEFAULT 'planejamento',
                 data_inicio DATE,
                 data_previsao_fim DATE,
                 data_fim_real DATE,
@@ -133,8 +133,8 @@ async function migrate() {
         `);
         console.log('✅ Tabela projetos criada\n');
 
-        // 5. Inserir dados iniciais da empresa
-        console.log('📝 Inserindo dados iniciais da empresa...');
+        // 5. Inserir daçãos iniciais da empresa
+        console.log('📝 Inserindo daçãos iniciais da empresa...');
         await connection.execute(`
             INSERT INTO empresa_config (
                 razao_social, 
@@ -143,7 +143,7 @@ async function migrate() {
                 telefone, 
                 email,
                 cidade,
-                estado,
+                estação,
                 favicon_path
             ) VALUES (
                 'ALUFORCE INDÚSTRIA E COMÉRCIO LTDA',
@@ -157,7 +157,7 @@ async function migrate() {
             )
             ON DUPLICATE KEY UPDATE updated_at = CURRENT_TIMESTAMP
         `);
-        console.log('✅ Dados iniciais inseridos\n');
+        console.log('✅ Daçãos iniciais inseridos\n');
 
         // 6. Inserir categorias padrão
         console.log('📝 Inserindo categorias padrão...');
@@ -172,7 +172,7 @@ async function migrate() {
         for (const cat of categoriasPadrao) {
             await connection.execute(`
                 INSERT INTO categorias (nome, cor, icone, ordem)
-                VALUES (?, ?, ?, ?)
+                VALUES (, , , )
                 ON DUPLICATE KEY UPDATE nome = nome
             `, [cat.nome, cat.cor, cat.icone, categoriasPadrao.indexOf(cat)]);
         }
@@ -192,7 +192,7 @@ async function migrate() {
         for (const dept of departamentosPadrao) {
             await connection.execute(`
                 INSERT INTO departamentos (nome, sigla, cor, icone, ordem)
-                VALUES (?, ?, ?, ?, ?)
+                VALUES (, , , , )
                 ON DUPLICATE KEY UPDATE nome = nome
             `, [dept.nome, dept.sigla, dept.cor, dept.icone, departamentosPadrao.indexOf(dept)]);
         }

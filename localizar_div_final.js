@@ -6,7 +6,7 @@ function findUnbalancedDiv(content) {
     let lineNumber = 1;
     let position = 0;
     
-    const regex = /<\/?div[^>]*>/gi;
+    const regex = /<\/div[^>]*>/gi;
     let match;
     
     const allDivs = [];
@@ -59,7 +59,7 @@ function findUnbalancedDiv(content) {
         const suggestedLine = lines.length - 10;
         
         console.log(`\n💡 SUGESTÁO: Adicionar </div> próximo à linha ${suggestedLine}`);
-        console.log('   Procure por uma seção que parece não ter fechamento apropriado.');
+        console.log('   Procure por uma seção que parece não ter fechamento apropriação.');
         
         return {
             unbalanced: true,

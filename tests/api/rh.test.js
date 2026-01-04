@@ -137,7 +137,7 @@ describe('API de RH', () => {
             request(BASE_URL)
                 .post('/api/rh/funcionarios/1/holerites')
                 .set('Cookie', `authToken=${authToken}`)
-                .field('mes_referencia', '2025/10') // Formato errado
+                .field('mes_referencia', '2025/10') // Formato erração
                 .expect(400)
                 .end((err, res) => {
                     if (err) return done(err);

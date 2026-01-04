@@ -11,10 +11,10 @@ const knowledgeBase = {
     rh: {
         keywords: ['rh', 'recursos humanos', 'férias', 'folha', 'pagamento', 'benefícios', 'ponto'],
         responses: {
-            general: 'Posso te ajudar com:\n\n• Consultar Férias\n• Folha de Pagamento\n• Benefícios (VT, VA, Plano)\n• Controle de Ponto\n• Atestados e Documentos',
-            ferias: 'Para consultar suas férias, acesse:\nRH > Colaboradores > Meu Perfil > Férias',
-            folha: 'Sua folha de pagamento está disponível em:\nRH > Colaboradores > Holerites',
-            beneficios: 'Para consultar benefícios:\nRH > Colaboradores > Meus Benefícios'
+            general: 'Posso te ajudar com:\n\n• Consultar Férias\n• Folha de Pagamento\n• Benefícios (VT, VA, Plano)\n• Controle de Ponto\n• Atestaçãos e Documentos',
+            ferias: 'Para consultar suas férias, acesse:\nRH > Colaboraçãores > Meu Perfil > Férias',
+            folha: 'Sua folha de pagamento está disponível em:\nRH > Colaboraçãores > Holerites',
+            beneficios: 'Para consultar benefícios:\nRH > Colaboraçãores > Meus Benefícios'
         }
     },
     compras: {
@@ -71,7 +71,7 @@ router.post('/chat', async (req, res) => {
         }
         
         const msg = message.toLowerCase();
-        const userName = context?.userName || 'Usuário';
+        const userName = context.userName || 'Usuário';
         
         // Detectar módulo
         let detectedModule = null;
@@ -120,10 +120,10 @@ router.post('/chat', async (req, res) => {
             ];
             
         } else if (msg.includes('obrigad') || msg.includes('valeu') || msg.includes('ok')) {
-            response = 'Fico feliz em ajudar! 😊\n\nPrecisa de mais alguma coisa?';
+            response = 'Fico feliz em ajudar! 😊\n\nPrecisa de mais alguma coisa';
             options = [
                 { label: '✅ Sim, tenho outra dúvida', value: 'ajuda' },
-                { label: '❌ Não, obrigado', value: 'fim' }
+                { label: '❌ Não, obrigação', value: 'fim' }
             ];
             
         } else {

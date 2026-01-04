@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -301,7 +301,7 @@
             border-radius: 12px;
             padding: 20px 24px;
             margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -373,7 +373,7 @@
             border-radius: 12px;
             padding: 16px 20px;
             margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex;
             gap: 16px;
             align-items: center;
@@ -427,7 +427,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .stat-card.highlight {
@@ -501,7 +501,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .chart-card-header {
@@ -544,7 +544,7 @@
         .table-card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
@@ -646,7 +646,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             cursor: pointer;
             transition: all 0.2s;
             border: 2px solid transparent;
@@ -827,7 +827,7 @@
                             <option value="">Todos</option>
                         </select>
                     </div>
-                    <button class="btn-primary" onclick="carregarDados()">
+                    <button class="btn-primary" onclick="carregarDaçãos()">
                         <i class="fas fa-filter"></i> Filtrar
                     </button>
                 </div>
@@ -953,8 +953,8 @@
                     </div>
                     <div class="report-card" onclick="gerarRelatorio('metas')">
                         <div class="report-card-icon purple"><i class="fas fa-bullseye"></i></div>
-                        <h4>Metas vs Realizado</h4>
-                        <p>Comparativo de metas e resultados</p>
+                        <h4>Metas vs Realização</h4>
+                        <p>Comparativo de metas e resultaçãos</p>
                     </div>
                 </div>
             </div>
@@ -993,7 +993,7 @@
             return null;
         }
 
-        // Carregar dados do usuário logado via API
+        // Carregar daçãos do usuário logação via API
         async function carregarUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
@@ -1001,8 +1001,8 @@
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
-                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp'  user.avatar : null;
                     if (!userAvatar) {
                         userAvatar = getAvatarFromEmail(user.email, userName);
                     }
@@ -1043,7 +1043,7 @@
             }
         }
 
-        async function carregarDados() {
+        async function carregarDaçãos() {
             await Promise.all([
                 carregarEstatisticas(),
                 carregarGraficoVendas(),
@@ -1144,8 +1144,8 @@
             
             try {
                 // Buscar período dos filtros
-                const dataInicio = document.getElementById('filterDataInicio')?.value || '';
-                const dataFim = document.getElementById('filterDataFim')?.value || '';
+                const dataInicio = document.getElementById('filterDataInicio').value || '';
+                const dataFim = document.getElementById('filterDataFim').value || '';
                 
                 const params = new URLSearchParams({ limit: 5 });
                 if (dataInicio) params.append('data_inicio', dataInicio);
@@ -1155,7 +1155,7 @@
                 
                 // Tentar API de top-vendedores primeiro
                 try {
-                    const response = await fetch(`/api/vendas/dashboard/top-vendedores?${params.toString()}`, { credentials: 'include' });
+                    const response = await fetch(`/api/vendas/dashboard/top-vendedores${params.toString()}`, { credentials: 'include' });
                     if (response.ok) {
                         const data = await response.json();
                         if (Array.isArray(data) && data.length > 0) {
@@ -1169,7 +1169,7 @@
                 // Fallback: buscar dos pedidos e agregar por vendedor
                 if (vendedores.length === 0) {
                     try {
-                        const pedidosResponse = await fetch(`/api/vendas/pedidos?${new URLSearchParams({ data_inicio: dataInicio, data_fim: dataFim }).toString()}`, { credentials: 'include' });
+                        const pedidosResponse = await fetch(`/api/vendas/pedidos${new URLSearchParams({ data_inicio: dataInicio, data_fim: dataFim }).toString()}`, { credentials: 'include' });
                         
                         if (pedidosResponse.ok) {
                             const pedidos = await pedidosResponse.json();
@@ -1206,7 +1206,7 @@
                         <tr>
                             <td colspan="4" style="text-align: center; padding: 20px; color: #94a3b8;">
                                 <i class="fas fa-user-slash" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
-                                Nenhum vendedor encontrado no período
+                                Nenhum vendedor encontração no período
                             </td>
                         </tr>
                     `;
@@ -1215,7 +1215,7 @@
                 
                 tbody.innerHTML = vendedores.map((v, i) => `
                     <tr>
-                        <td><span class="rank-badge ${i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'normal'}">${i + 1}</span></td>
+                        <td><span class="rank-badge ${i === 0  'gold' : i === 1  'silver' : i === 2  'bronze' : 'normal'}">${i + 1}</span></td>
                         <td>${v.nome || 'Vendedor'}</td>
                         <td>${v.vendas || v.qtd_pedidos || '-'}</td>
                         <td class="valor-cell">R$ ${(v.valor || 0).toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
@@ -1240,8 +1240,8 @@
             
             try {
                 // Buscar período dos filtros
-                const dataInicio = document.getElementById('filterDataInicio')?.value || '';
-                const dataFim = document.getElementById('filterDataFim')?.value || '';
+                const dataInicio = document.getElementById('filterDataInicio').value || '';
+                const dataFim = document.getElementById('filterDataFim').value || '';
                 
                 const params = new URLSearchParams({ limit: 5 });
                 if (dataInicio) params.append('data_inicio', dataInicio);
@@ -1251,7 +1251,7 @@
                 let produtos = [];
                 
                 try {
-                    const response = await fetch(`/api/vendas/dashboard/top-produtos?${params.toString()}`, { credentials: 'include' });
+                    const response = await fetch(`/api/vendas/dashboard/top-produtos${params.toString()}`, { credentials: 'include' });
                     if (response.ok) {
                         produtos = await response.json();
                     }
@@ -1259,18 +1259,18 @@
                     console.warn('API top-produtos não disponível, buscando via itens:', apiErr);
                 }
                 
-                // Se a API não retornou dados, buscar manualmente dos pedidos
+                // Se a API não retornou daçãos, buscar manualmente dos pedidos
                 if (!produtos || produtos.length === 0) {
-                    const pedidosResponse = await fetch(`/api/vendas/pedidos?${new URLSearchParams({ data_inicio: dataInicio, data_fim: dataFim }).toString()}`, { credentials: 'include' });
+                    const pedidosResponse = await fetch(`/api/vendas/pedidos${new URLSearchParams({ data_inicio: dataInicio, data_fim: dataFim }).toString()}`, { credentials: 'include' });
                     
                     if (pedidosResponse.ok) {
                         const pedidos = await pedidosResponse.json();
                         const produtosMap = {};
                         
                         // Buscar apenas os primeiros 20 pedidos para performance
-                        const pedidosLimitados = pedidos.slice(0, 20);
+                        const pedidosLimitaçãos = pedidos.slice(0, 20);
                         
-                        for (const pedido of pedidosLimitados) {
+                        for (const pedido of pedidosLimitaçãos) {
                             try {
                                 const itensResponse = await fetch(`/api/vendas/pedidos/${pedido.id}/itens`, { credentials: 'include' });
                                 if (itensResponse.ok) {
@@ -1304,7 +1304,7 @@
                         <tr>
                             <td colspan="4" style="text-align: center; padding: 20px; color: #94a3b8;">
                                 <i class="fas fa-box-open" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
-                                Nenhum produto encontrado no período
+                                Nenhum produto encontração no período
                             </td>
                         </tr>
                     `;
@@ -1313,7 +1313,7 @@
                 
                 tbody.innerHTML = produtos.map((p, i) => `
                     <tr>
-                        <td><span class="rank-badge ${i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : 'normal'}">${i + 1}</span></td>
+                        <td><span class="rank-badge ${i === 0  'gold' : i === 1  'silver' : i === 2  'bronze' : 'normal'}">${i + 1}</span></td>
                         <td>
                             <div class="produto-info">
                                 <span class="produto-nome">${truncarTexto(p.nome, 35)}</span>
@@ -1343,9 +1343,9 @@
             const categorias = {
                 'Alumínio': ['alumínio', 'aluminio', 'perfil', 'vergalhão', 'vergalhao'],
                 'Cabos': ['cabo', 'condutor', 'fio', 'triplex', 'quadruplex', 'multiplex', 'caa', 'ca', 'acsr'],
-                'Acessórios': ['kit', 'ferragem', 'conector', 'emenda', 'terminal', 'isolador', 'braçadeira', 'bracadeira', 'alça', 'alca'],
+                'Acessórios': ['kit', 'ferragem', 'conector', 'emenda', 'terminal', 'isolaçãor', 'braçadeira', 'bracadeira', 'alça', 'alca'],
                 'Serviços': ['instalação', 'instalacao', 'mão de obra', 'mao de obra', 'serviço', 'servico', 'frete', 'montagem'],
-                'Vidros': ['vidro', 'temperado', 'laminado', 'espelho']
+                'Vidros': ['vidro', 'temperação', 'laminação', 'espelho']
             };
             
             const nomeLower = nome.toLowerCase();
@@ -1361,7 +1361,7 @@
 
         function truncarTexto(texto, maxLength) {
             if (!texto) return '-';
-            return texto.length > maxLength ? texto.substring(0, maxLength) + '...' : texto;
+            return texto.length > maxLength  texto.substring(0, maxLength) + '...' : texto;
         }
 
         function formatarQuantidade(qtd) {
@@ -1369,7 +1369,7 @@
             if (qtd >= 1000) {
                 return (qtd / 1000).toFixed(1) + 'k';
             }
-            return Number.isInteger(qtd) ? qtd.toString() : qtd.toFixed(2);
+            return Number.isInteger(qtd)  qtd.toString() : qtd.toFixed(2);
         }
 
         function atualizarGraficoVendas() {
@@ -1381,69 +1381,69 @@
         // ==============================================
         
         async function gerarRelatorio(tipo) {
-            const dataInicio = document.getElementById('filterDataInicio')?.value || '';
-            const dataFim = document.getElementById('filterDataFim')?.value || '';
+            const dataInicio = document.getElementById('filterDataInicio').value || '';
+            const dataFim = document.getElementById('filterDataFim').value || '';
             const dataAtual = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-            const periodoStr = dataInicio && dataFim ? 
+            const periodoStr = dataInicio && dataFim  
                 `${new Date(dataInicio).toLocaleDateString('pt-BR')} a ${new Date(dataFim).toLocaleDateString('pt-BR')}` : 
                 'Últimos 30 dias';
 
-            // Carregar dados reais da API
-            let dadosRelatorio = await carregarDadosRelatorio(tipo, dataInicio, dataFim);
+            // Carregar daçãos reais da API
+            let daçãosRelatorio = await carregarDaçãosRelatorio(tipo, dataInicio, dataFim);
             
             const relatorios = {
                 'vendas-periodo': {
                     titulo: 'RELATÓRIO DE VENDAS POR PERÍODO',
                     icone: 'fa-calendar-alt',
                     cor: '#f97316',
-                    gerador: () => gerarRelatorioVendasPeriodo(dadosRelatorio, periodoStr, dataAtual)
+                    geraçãor: () => gerarRelatorioVendasPeriodo(daçãosRelatorio, periodoStr, dataAtual)
                 },
                 'clientes-ativos': {
                     titulo: 'RELATÓRIO DE CLIENTES ATIVOS',
                     icone: 'fa-user-check',
                     cor: '#22c55e',
-                    gerador: () => gerarRelatorioClientesAtivos(dadosRelatorio, periodoStr, dataAtual)
+                    geraçãor: () => gerarRelatorioClientesAtivos(daçãosRelatorio, periodoStr, dataAtual)
                 },
                 'comissoes': {
                     titulo: 'RELATÓRIO DE COMISSÕES',
                     icone: 'fa-hand-holding-usd',
                     cor: '#3b82f6',
-                    gerador: () => gerarRelatorioComissoes(dadosRelatorio, periodoStr, dataAtual)
+                    geraçãor: () => gerarRelatorioComissoes(daçãosRelatorio, periodoStr, dataAtual)
                 },
                 'metas': {
                     titulo: 'RELATÓRIO DE METAS VS REALIZADO',
                     icone: 'fa-bullseye',
                     cor: '#a855f7',
-                    gerador: () => gerarRelatorioMetas(dadosRelatorio, periodoStr, dataAtual)
+                    geraçãor: () => gerarRelatorioMetas(daçãosRelatorio, periodoStr, dataAtual)
                 }
             };
 
             const config = relatorios[tipo];
             if (config) {
-                config.gerador();
+                config.geraçãor();
             }
         }
 
-        async function carregarDadosRelatorio(tipo, dataInicio, dataFim) {
+        async function carregarDaçãosRelatorio(tipo, dataInicio, dataFim) {
             try {
                 const params = new URLSearchParams();
                 if (dataInicio) params.append('data_inicio', dataInicio);
                 if (dataFim) params.append('data_fim', dataFim);
                 
-                // Buscar dados gerais
+                // Buscar daçãos gerais
                 const [pedidosRes, clientesRes, vendedoresRes] = await Promise.all([
-                    fetch(`/api/vendas/pedidos?${params.toString()}`, { credentials: 'include' }),
-                    fetch('/api/vendas/empresas?ativas=true', { credentials: 'include' }),
-                    fetch('/api/vendas/dashboard/top-vendedores?limit=10', { credentials: 'include' })
+                    fetch(`/api/vendas/pedidos${params.toString()}`, { credentials: 'include' }),
+                    fetch('/api/vendas/empresasativas=true', { credentials: 'include' }),
+                    fetch('/api/vendas/dashboard/top-vendedoreslimit=10', { credentials: 'include' })
                 ]);
 
-                const pedidos = pedidosRes.ok ? await pedidosRes.json() : [];
-                const clientes = clientesRes.ok ? await clientesRes.json() : [];
-                const vendedores = vendedoresRes.ok ? await vendedoresRes.json() : [];
+                const pedidos = pedidosRes.ok  await pedidosRes.json() : [];
+                const clientes = clientesRes.ok  await clientesRes.json() : [];
+                const vendedores = vendedoresRes.ok  await vendedoresRes.json() : [];
 
                 return { pedidos, clientes, vendedores };
             } catch (error) {
-                console.error('Erro ao carregar dados:', error);
+                console.error('Erro ao carregar daçãos:', error);
                 return { pedidos: [], clientes: [], vendedores: [] };
             }
         }
@@ -1471,13 +1471,13 @@
                             <span class="slogan">Qualidade e Inovação em Condutores Elétricos</span>
                         </div>
                     </div>
-                    <div class="dados-empresa">
+                    <div class="daçãos-empresa">
                         <strong>I. M. DOS REIS - ALUFORCE</strong><br>
                         <strong>INDÚSTRIA E COMÉRCIO DE CONDUTORES</strong><br>
-                        <span class="separador"></span>
+                        <span class="separaçãor"></span>
                         CNPJ: 08.192.479/0001-60<br>
                         IE: 103.385.861-110<br>
-                        <span class="separador"></span>
+                        <span class="separaçãor"></span>
                         RUA ERNESTINA, 270 - VILA SÃO JOÃO<br>
                         Ferraz de Vasconcelos - SP | CEP: 08527-400<br>
                         Tel: (11) 94723-8729
@@ -1553,17 +1553,17 @@
                     display: block;
                     margin-top: 4px;
                 }
-                .dados-empresa {
+                .daçãos-empresa {
                     text-align: right;
                     font-size: 9px;
                     color: #475569;
                     line-height: 1.6;
                 }
-                .dados-empresa strong { 
+                .daçãos-empresa strong { 
                     color: #1e293b; 
                     font-size: 10px;
                 }
-                .dados-empresa .separador {
+                .daçãos-empresa .separaçãor {
                     display: block;
                     height: 4px;
                 }
@@ -1577,7 +1577,7 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                    box-shaçãow: 0 4px 15px rgba(0,0,0,0.1);
                 }
                 .titulo-relatorio h2 {
                     font-size: 15px;
@@ -1737,7 +1737,7 @@
                 .status-badge.amarelo { background: #fef3c7; color: #92400e; }
                 .status-badge.vermelho { background: #fee2e2; color: #991b1b; }
 
-                .totalizador {
+                .totalizaçãor {
                     background: linear-gradient(135deg, #f8fafc, #f1f5f9);
                     border: 2px solid #e2e8f0;
                     border-radius: 10px;
@@ -1747,22 +1747,22 @@
                     justify-content: space-around;
                     align-items: center;
                 }
-                .totalizador-item {
+                .totalizaçãor-item {
                     text-align: center;
                 }
-                .totalizador-label {
+                .totalizaçãor-label {
                     font-size: 9px;
                     color: #64748b;
                     text-transform: uppercase;
                     font-weight: 600;
                 }
-                .totalizador-valor {
+                .totalizaçãor-valor {
                     font-size: 18px;
                     font-weight: 800;
                     color: #1e293b;
                     margin-top: 5px;
                 }
-                .totalizador-valor.destaque {
+                .totalizaçãor-valor.destaque {
                     color: ${corPrincipal};
                 }
 
@@ -1823,7 +1823,7 @@
             const R = (num >> 16) + amt;
             const G = (num >> 8 & 0x00FF) + amt;
             const B = (num & 0x0000FF) + amt;
-            return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 + (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+            return '#' + (0x1000000 + (R < 255  R < 1  0 : R : 255) * 0x10000 + (G < 255  G < 1  0 : G : 255) * 0x100 + (B < 255  B < 1  0 : B : 255)).toString(16).slice(1);
         }
 
         function formatarMoeda(valor) {
@@ -1831,13 +1831,13 @@
         }
 
         // RELATÓRIO 1: VENDAS POR PERÍODO
-        function gerarRelatorioVendasPeriodo(dados, periodoStr, dataAtual) {
-            const pedidos = dados.pedidos || [];
-            const totalFaturado = pedidos.filter(p => p.status === 'faturado').reduce((sum, p) => sum + (parseFloat(p.valor) || 0), 0);
+        function gerarRelatorioVendasPeriodo(daçãos, periodoStr, dataAtual) {
+            const pedidos = daçãos.pedidos || [];
+            const totalFaturação = pedidos.filter(p => p.status === 'faturação').reduce((sum, p) => sum + (parseFloat(p.valor) || 0), 0);
             const totalPedidos = pedidos.length;
-            const ticketMedio = totalPedidos > 0 ? totalFaturado / totalPedidos : 0;
-            const pedidosFaturados = pedidos.filter(p => p.status === 'faturado').length;
-            const taxaConversao = totalPedidos > 0 ? ((pedidosFaturados / totalPedidos) * 100).toFixed(1) : 0;
+            const ticketMedio = totalPedidos > 0  totalFaturação / totalPedidos : 0;
+            const pedidosFaturaçãos = pedidos.filter(p => p.status === 'faturação').length;
+            const taxaConversao = totalPedidos > 0  ((pedidosFaturaçãos / totalPedidos) * 100).toFixed(1) : 0;
 
             // Agrupar por dia
             const vendasPorDia = {};
@@ -1871,7 +1871,7 @@
     <div class="stats-grid">
         <div class="stat-box laranja">
             <div class="stat-label">Faturamento Total</div>
-            <div class="stat-value">${formatarMoeda(totalFaturado)}</div>
+            <div class="stat-value">${formatarMoeda(totalFaturação)}</div>
         </div>
         <div class="stat-box azul">
             <div class="stat-label">Total de Pedidos</div>
@@ -1937,18 +1937,18 @@
         </tbody>
     </table>
 
-    <div class="totalizador">
-        <div class="totalizador-item">
-            <div class="totalizador-label">Total Faturado</div>
-            <div class="totalizador-valor destaque">${formatarMoeda(totalFaturado)}</div>
+    <div class="totalizaçãor">
+        <div class="totalizaçãor-item">
+            <div class="totalizaçãor-label">Total Faturação</div>
+            <div class="totalizaçãor-valor destaque">${formatarMoeda(totalFaturação)}</div>
         </div>
-        <div class="totalizador-item">
-            <div class="totalizador-label">Pedidos Faturados</div>
-            <div class="totalizador-valor">${pedidosFaturados}</div>
+        <div class="totalizaçãor-item">
+            <div class="totalizaçãor-label">Pedidos Faturaçãos</div>
+            <div class="totalizaçãor-valor">${pedidosFaturaçãos}</div>
         </div>
-        <div class="totalizador-item">
-            <div class="totalizador-label">Ticket Médio</div>
-            <div class="totalizador-valor">${formatarMoeda(ticketMedio)}</div>
+        <div class="totalizaçãor-item">
+            <div class="totalizaçãor-label">Ticket Médio</div>
+            <div class="totalizaçãor-valor">${formatarMoeda(ticketMedio)}</div>
         </div>
     </div>
 
@@ -1959,11 +1959,11 @@
         }
 
         // RELATÓRIO 2: CLIENTES ATIVOS
-        function gerarRelatorioClientesAtivos(dados, periodoStr, dataAtual) {
-            const pedidos = dados.pedidos || [];
-            const clientes = dados.clientes || [];
+        function gerarRelatorioClientesAtivos(daçãos, periodoStr, dataAtual) {
+            const pedidos = daçãos.pedidos || [];
+            const clientes = daçãos.clientes || [];
             
-            // Calcular dados por cliente
+            // Calcular daçãos por cliente
             const clientesMap = {};
             pedidos.forEach(p => {
                 const clienteId = p.empresa_id || p.cliente_id;
@@ -1982,7 +1982,7 @@
             const clientesAtivos = Object.values(clientesMap).sort((a, b) => b.valor - a.valor);
             const totalClientes = clientesAtivos.length;
             const totalFaturamento = clientesAtivos.reduce((sum, c) => sum + c.valor, 0);
-            const ticketMedioCliente = totalClientes > 0 ? totalFaturamento / totalClientes : 0;
+            const ticketMedioCliente = totalClientes > 0  totalFaturamento / totalClientes : 0;
 
             const janelaImpressao = window.open('', '_blank');
             janelaImpressao.document.write(`<!DOCTYPE html>
@@ -2037,34 +2037,34 @@
         </thead>
         <tbody>
             ${clientesAtivos.slice(0, 25).map((c, i) => {
-                const diasUltimoPedido = c.ultimoPedido ? Math.floor((new Date() - c.ultimoPedido) / (1000 * 60 * 60 * 24)) : 999;
-                const status = diasUltimoPedido <= 30 ? 'verde' : diasUltimoPedido <= 60 ? 'amarelo' : 'vermelho';
-                const statusLabel = diasUltimoPedido <= 30 ? 'Ativo' : diasUltimoPedido <= 60 ? 'Atenção' : 'Inativo';
+                const diasUltimoPedido = c.ultimoPedido  Math.floor((new Date() - c.ultimoPedido) / (1000 * 60 * 60 * 24)) : 999;
+                const status = diasUltimoPedido <= 30  'verde' : diasUltimoPedido <= 60  'amarelo' : 'vermelho';
+                const statusLabel = diasUltimoPedido <= 30  'Ativo' : diasUltimoPedido <= 60  'Atenção' : 'Inativo';
                 return `
                 <tr>
                     <td style="text-align: center;"><strong>${i + 1}</strong></td>
                     <td><strong>${c.nome}</strong></td>
                     <td style="text-align: center;">${c.pedidos}</td>
                     <td style="text-align: right;" class="valor-cell">${formatarMoeda(c.valor)}</td>
-                    <td style="text-align: center;">${c.ultimoPedido ? c.ultimoPedido.toLocaleDateString('pt-BR') : '-'}</td>
+                    <td style="text-align: center;">${c.ultimoPedido  c.ultimoPedido.toLocaleDateString('pt-BR') : '-'}</td>
                     <td style="text-align: center;"><span class="status-badge ${status}">${statusLabel}</span></td>
                 </tr>
             `}).join('')}
         </tbody>
     </table>
 
-    <div class="totalizador">
-        <div class="totalizador-item">
-            <div class="totalizador-label">Total de Clientes</div>
-            <div class="totalizador-valor destaque">${totalClientes}</div>
+    <div class="totalizaçãor">
+        <div class="totalizaçãor-item">
+            <div class="totalizaçãor-label">Total de Clientes</div>
+            <div class="totalizaçãor-valor destaque">${totalClientes}</div>
         </div>
-        <div class="totalizador-item">
-            <div class="totalizador-label">Faturamento Total</div>
-            <div class="totalizador-valor">${formatarMoeda(totalFaturamento)}</div>
+        <div class="totalizaçãor-item">
+            <div class="totalizaçãor-label">Faturamento Total</div>
+            <div class="totalizaçãor-valor">${formatarMoeda(totalFaturamento)}</div>
         </div>
-        <div class="totalizador-item">
-            <div class="totalizador-label">Média por Cliente</div>
-            <div class="totalizador-valor">${formatarMoeda(ticketMedioCliente)}</div>
+        <div class="totalizaçãor-item">
+            <div class="totalizaçãor-label">Média por Cliente</div>
+            <div class="totalizaçãor-valor">${formatarMoeda(ticketMedioCliente)}</div>
         </div>
     </div>
 
@@ -2075,15 +2075,15 @@
         }
 
         // RELATÓRIO 3: COMISSÕES
-        function gerarRelatorioComissoes(dados, periodoStr, dataAtual) {
-            const vendedores = dados.vendedores || [];
-            const pedidos = dados.pedidos || [];
+        function gerarRelatorioComissoes(daçãos, periodoStr, dataAtual) {
+            const vendedores = daçãos.vendedores || [];
+            const pedidos = daçãos.pedidos || [];
             
             // Calcular comissões (5% padrão)
             const taxaComissao = 0.05;
             const vendedoresMap = {};
             
-            pedidos.filter(p => p.status === 'faturado').forEach(p => {
+            pedidos.filter(p => p.status === 'faturação').forEach(p => {
                 const vendedorNome = p.vendedor || p.vendedor_nome || 'Vendedor';
                 const vendedorId = p.vendedor_id || vendedorNome;
                 if (!vendedoresMap[vendedorId]) {
@@ -2143,7 +2143,7 @@
         </div>
         <div class="stat-box roxo">
             <div class="stat-label">Média Comissão</div>
-            <div class="stat-value">${formatarMoeda(vendedoresList.length > 0 ? totalComissoes / vendedoresList.length : 0)}</div>
+            <div class="stat-value">${formatarMoeda(vendedoresList.length > 0  totalComissoes / vendedoresList.length : 0)}</div>
         </div>
     </div>
 
@@ -2199,16 +2199,16 @@
         }
 
         // RELATÓRIO 4: METAS VS REALIZADO
-        function gerarRelatorioMetas(dados, periodoStr, dataAtual) {
-            const vendedores = dados.vendedores || [];
-            const pedidos = dados.pedidos || [];
+        function gerarRelatorioMetas(daçãos, periodoStr, dataAtual) {
+            const vendedores = daçãos.vendedores || [];
+            const pedidos = daçãos.pedidos || [];
             
             // Simular metas (em produção, viria do banco)
             const metaGlobal = 500000;
             const metaPorVendedor = metaGlobal / Math.max(vendedores.length, 5);
             
             const vendedoresMap = {};
-            pedidos.filter(p => p.status === 'faturado').forEach(p => {
+            pedidos.filter(p => p.status === 'faturação').forEach(p => {
                 const vendedorNome = p.vendedor || p.vendedor_nome || 'Vendedor';
                 const vendedorId = p.vendedor_id || vendedorNome;
                 if (!vendedoresMap[vendedorId]) {
@@ -2218,8 +2218,8 @@
             });
 
             const vendedoresList = Object.values(vendedoresMap).sort((a, b) => b.valor - a.valor);
-            const totalRealizado = vendedoresList.reduce((sum, v) => sum + v.valor, 0);
-            const percentualGlobal = ((totalRealizado / metaGlobal) * 100).toFixed(1);
+            const totalRealização = vendedoresList.reduce((sum, v) => sum + v.valor, 0);
+            const percentualGlobal = ((totalRealização / metaGlobal) * 100).toFixed(1);
 
             const janelaImpressao = window.open('', '_blank');
             janelaImpressao.document.write(`<!DOCTYPE html>
@@ -2227,7 +2227,7 @@
 <head>
     <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
     <meta charset="UTF-8">
-    <title>Relatório Metas vs Realizado - ALUFORCE</title>
+    <title>Relatório Metas vs Realização - ALUFORCE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         ${getEstilosBase('#a855f7')}
@@ -2296,8 +2296,8 @@
             <div class="meta-global-valor">${formatarMoeda(metaGlobal)}</div>
         </div>
         <div class="meta-global-item">
-            <div class="meta-global-label">Realizado</div>
-            <div class="meta-global-valor">${formatarMoeda(totalRealizado)}</div>
+            <div class="meta-global-label">Realização</div>
+            <div class="meta-global-valor">${formatarMoeda(totalRealização)}</div>
         </div>
         <div class="meta-global-item">
             <div class="meta-global-label">Atingimento</div>
@@ -2305,7 +2305,7 @@
         </div>
         <div class="meta-global-item">
             <div class="meta-global-label">Faltam</div>
-            <div class="meta-global-valor">${formatarMoeda(Math.max(0, metaGlobal - totalRealizado))}</div>
+            <div class="meta-global-valor">${formatarMoeda(Math.max(0, metaGlobal - totalRealização))}</div>
         </div>
     </div>
 
@@ -2316,7 +2316,7 @@
                 <th style="width: 5%;">#</th>
                 <th>Vendedor</th>
                 <th style="text-align: right;">Meta</th>
-                <th style="text-align: right;">Realizado</th>
+                <th style="text-align: right;">Realização</th>
                 <th style="width: 25%;">Progresso</th>
                 <th style="text-align: center;">Status</th>
             </tr>
@@ -2324,9 +2324,9 @@
         <tbody>
             ${vendedoresList.map((v, i) => {
                 const percentual = ((v.valor / v.meta) * 100).toFixed(1);
-                const corBarra = percentual >= 100 ? 'verde' : percentual >= 70 ? 'amarelo' : 'vermelho';
-                const statusLabel = percentual >= 100 ? 'Atingido' : percentual >= 70 ? 'Em Progresso' : 'Atenção';
-                const statusCor = percentual >= 100 ? 'verde' : percentual >= 70 ? 'amarelo' : 'vermelho';
+                const corBarra = percentual >= 100  'verde' : percentual >= 70  'amarelo' : 'vermelho';
+                const statusLabel = percentual >= 100  'Atingido' : percentual >= 70  'Em Progresso' : 'Atenção';
+                const statusCor = percentual >= 100  'verde' : percentual >= 70  'amarelo' : 'vermelho';
                 return `
                 <tr>
                     <td style="text-align: center;"><strong>${i + 1}</strong></td>
@@ -2345,18 +2345,18 @@
         </tbody>
     </table>
 
-    <div class="totalizador">
-        <div class="totalizador-item">
-            <div class="totalizador-label">Meta Total</div>
-            <div class="totalizador-valor">${formatarMoeda(metaGlobal)}</div>
+    <div class="totalizaçãor">
+        <div class="totalizaçãor-item">
+            <div class="totalizaçãor-label">Meta Total</div>
+            <div class="totalizaçãor-valor">${formatarMoeda(metaGlobal)}</div>
         </div>
-        <div class="totalizador-item">
-            <div class="totalizador-label">Total Realizado</div>
-            <div class="totalizador-valor destaque">${formatarMoeda(totalRealizado)}</div>
+        <div class="totalizaçãor-item">
+            <div class="totalizaçãor-label">Total Realização</div>
+            <div class="totalizaçãor-valor destaque">${formatarMoeda(totalRealização)}</div>
         </div>
-        <div class="totalizador-item">
-            <div class="totalizador-label">% Atingimento</div>
-            <div class="totalizador-valor">${percentualGlobal}%</div>
+        <div class="totalizaçãor-item">
+            <div class="totalizaçãor-label">% Atingimento</div>
+            <div class="totalizaçãor-valor">${percentualGlobal}%</div>
         </div>
     </div>
 
@@ -2368,22 +2368,22 @@
 
         function getStatusColor(status) {
             const cores = {
-                'faturado': 'verde',
-                'aprovado': 'azul',
+                'faturação': 'verde',
+                'aprovação': 'azul',
                 'analise': 'amarelo',
                 'orçamento': 'azul',
-                'cancelado': 'vermelho'
+                'cancelação': 'vermelho'
             };
             return cores[status] || 'cinza';
         }
 
         function getStatusLabel(status) {
             const labels = {
-                'faturado': 'Faturado',
-                'aprovado': 'Aprovado',
+                'faturação': 'Faturação',
+                'aprovação': 'Aprovação',
                 'analise': 'Em Análise',
                 'orçamento': 'Orçamento',
-                'cancelado': 'Cancelado'
+                'cancelação': 'Cancelação'
             };
             return labels[status] || status;
         }
@@ -2394,11 +2394,11 @@
 
         function exportarRelatorio() {
             const dataAtual = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-            const dataInicio = document.getElementById('filterDataInicio')?.value || '';
-            const dataFim = document.getElementById('filterDataFim')?.value || '';
-            const periodoStr = dataInicio && dataFim ? 
+            const dataInicio = document.getElementById('filterDataInicio').value || '';
+            const dataFim = document.getElementById('filterDataFim').value || '';
+            const periodoStr = dataInicio && dataFim  
                 `${new Date(dataInicio).toLocaleDateString('pt-BR')} a ${new Date(dataFim).toLocaleDateString('pt-BR')}` : 
-                'Período Selecionado';
+                'Período Selecionação';
             
             const janelaImpressao = window.open('', '_blank');
             janelaImpressao.document.write(`<!DOCTYPE html>
@@ -2450,13 +2450,13 @@
             color: #64748b;
             margin-top: 2px;
         }
-        .dados-empresa {
+        .daçãos-empresa {
             text-align: right;
             font-size: 9px;
             color: #475569;
             line-height: 1.5;
         }
-        .dados-empresa strong { color: #1e293b; }
+        .daçãos-empresa strong { color: #1e293b; }
         
         .titulo-relatorio {
             background: linear-gradient(135deg, #f97316, #ea580c);
@@ -2527,7 +2527,7 @@
                 <p>CABOS DE ALUMÍNIO</p>
             </div>
         </div>
-        <div class="dados-empresa">
+        <div class="daçãos-empresa">
             <strong>I. M. DOS REIS - ALUFORCE INDÚSTRIA E COMÉRCIO DE CONDUTORES</strong><br>
             CNPJ: 08.192.479/0001-60 | IE: 103.385.861-110<br>
             RUA ERNESTINA, 270 - VILA SÃO JOÃO<br>
@@ -2544,24 +2544,24 @@
     <div class="stats-grid">
         <div class="stat-box laranja">
             <div class="stat-label">Faturamento Total</div>
-            <div class="stat-value">${document.getElementById('faturamentoTotal')?.textContent || 'R$ 0,00'}</div>
+            <div class="stat-value">${document.getElementById('faturamentoTotal').textContent || 'R$ 0,00'}</div>
         </div>
         <div class="stat-box azul">
             <div class="stat-label">Total de Vendas</div>
-            <div class="stat-value">${document.getElementById('totalVendas')?.textContent || '0'}</div>
+            <div class="stat-value">${document.getElementById('totalVendas').textContent || '0'}</div>
         </div>
         <div class="stat-box verde">
             <div class="stat-label">Ticket Médio</div>
-            <div class="stat-value">${document.getElementById('ticketMedio')?.textContent || 'R$ 0,00'}</div>
+            <div class="stat-value">${document.getElementById('ticketMedio').textContent || 'R$ 0,00'}</div>
         </div>
         <div class="stat-box roxo">
             <div class="stat-label">Taxa de Conversão</div>
-            <div class="stat-value">${document.getElementById('taxaConversao')?.textContent || '0%'}</div>
+            <div class="stat-value">${document.getElementById('taxaConversao').textContent || '0%'}</div>
         </div>
     </div>
     
     <p style="text-align: center; color: #64748b; font-size: 10px; margin: 30px 0;">
-        Para relatórios detalhados com gráficos e rankings, acesse o sistema ALUFORCE ERP.
+        Para relatórios detalhaçãos com gráficos e rankings, acesse o sistema ALUFORCE ERP.
     </p>
     
     <div class="footer">
@@ -2578,7 +2578,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             carregarUsuario();
             carregarVendedoresSelect();
-            carregarDados();
+            carregarDaçãos();
 
             // Set default date filters
             const hoje = new Date();
@@ -2624,14 +2624,14 @@
                     const usuarios = await usuariosResponse.json();
                     const vendedoresNomes = ['marcia', 'augusto', 'renata', 'fabiano', 'fabiola'];
                     
-                    const vendedoresFiltrados = usuarios.filter(u => {
+                    const vendedoresFiltraçãos = usuarios.filter(u => {
                         const nome = (u.nome || u.username || '').toLowerCase();
                         return vendedoresNomes.some(vn => nome.includes(vn));
                     });
 
-                    if (vendedoresFiltrados.length > 0) {
+                    if (vendedoresFiltraçãos.length > 0) {
                         select.innerHTML = '<option value="">Todos</option>';
-                        vendedoresFiltrados.forEach(v => {
+                        vendedoresFiltraçãos.forEach(v => {
                             const option = document.createElement('option');
                             option.value = v.id;
                             option.textContent = v.nome || v.username;

@@ -1,12 +1,12 @@
 /**
- * COMPRAS MAIN - Controlador Principal do Módulo de Compras
+ * COMPRAS MAIN - Controlaçãor Principal do Módulo de Compras
  * Inicialização e gerenciamento geral
  */
 
 (function() {
     'use strict';
 
-    // Estado global do módulo
+    // Estação global do módulo
     window.ComprasModule = {
         currentSection: 'dashboard',
         userData: null,
@@ -17,9 +17,9 @@
      * Inicializar módulo
      */
     function init() {
-        console.log('🛒 Módulo de Compras inicializado');
+        console.log('🛒 Módulo de Compras inicialização');
         
-        // Carregar dados do usuário
+        // Carregar daçãos do usuário
         loadUserData();
         
         // Inicializar dashboard
@@ -31,7 +31,7 @@
     }
 
     /**
-     * Carregar dados do usuário
+     * Carregar daçãos do usuário
      */
     function loadUserData() {
         try {
@@ -40,7 +40,7 @@
                 window.ComprasModule.userData = JSON.parse(userData);
             }
         } catch (error) {
-            console.error('Erro ao carregar dados do usuário:', error);
+            console.error('Erro ao carregar daçãos do usuário:', error);
         }
     }
 
@@ -66,10 +66,10 @@
         getStatusBadge: function(status) {
             const badges = {
                 'pendente': '<span class="badge badge-warning">Pendente</span>',
-                'aprovado': '<span class="badge badge-success">Aprovado</span>',
+                'aprovação': '<span class="badge badge-success">Aprovação</span>',
                 'em_transito': '<span class="badge badge-info">Em Trânsito</span>',
                 'recebido': '<span class="badge badge-success">Recebido</span>',
-                'cancelado': '<span class="badge badge-danger">Cancelado</span>',
+                'cancelação': '<span class="badge badge-danger">Cancelação</span>',
                 'ativo': '<span class="badge badge-success">Ativo</span>',
                 'inativo': '<span class="badge badge-secondary">Inativo</span>'
             };

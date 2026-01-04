@@ -26,13 +26,13 @@ app.get('/api/vendas/kanban/pedidos', authenticateToken, async (req, res) => {
 
         // Se não for admin, mostrar apenas seus pedidos
         if (!isAdmin) {
-            query += ` AND p.vendedor_id = ?`;
+            query += ` AND p.vendedor_id = `;
         }
 
         query += ` ORDER BY p.data_pedido DESC`;
 
         const pedidos = isAdmin 
-            ? await db.query(query)
+             await db.query(query)
             : await db.query(query, [userId]);
 
         res.json({
@@ -52,13 +52,13 @@ app.post('/api/vendas/kanban/atualizar-status', authenticateToken, async (req, r
         const { pedido_id, status } = req.body;
 
         await db.query(
-            'UPDATE pedidos_vendas SET status = ?, updated_at = NOW() WHERE numero_pedido = ?',
+            'UPDATE pedidos_vendas SET status = , updated_at = NOW() WHERE numero_pedido = ',
             [status, pedido_id]
         );
 
         res.json({
             success: true,
-            message: 'Status atualizado com sucesso'
+            message: 'Status atualização com sucesso'
         });
 
     } catch (error) {
@@ -76,9 +76,9 @@ app.get('/api/vendas/dashboard/vendedor', authenticateToken, async (req, res) =>
 
         // Metas
         const metaMensal = await db.query(
-            `SELECT meta_valor, realizado_valor, (realizado_valor / meta_valor * 100) as percentual
+            `SELECT meta_valor, realização_valor, (realização_valor / meta_valor * 100) as percentual
              FROM metas_vendedores 
-             WHERE vendedor_id = ? AND mes = ? AND ano = ?`,
+             WHERE vendedor_id =  AND mes =  AND ano = `,
             [userId, mesAtual, anoAtual]
         );
 
@@ -86,13 +86,13 @@ app.get('/api/vendas/dashboard/vendedor', authenticateToken, async (req, res) =>
         const pedidosStats = await db.query(
             `SELECT 
                 COUNT(*) as total,
-                SUM(CASE WHEN status IN ('pedido_aprovado', 'faturar', 'faturado', 'recibo') THEN 1 ELSE 0 END) as aprovados,
+                SUM(CASE WHEN status IN ('pedido_aprovação', 'faturar', 'faturação', 'recibo') THEN 1 ELSE 0 END) as aprovaçãos,
                 SUM(CASE WHEN status = 'analise_credito' THEN 1 ELSE 0 END) as em_analise,
-                SUM(CASE WHEN status = 'rejeitado' THEN 1 ELSE 0 END) as rejeitados,
+                SUM(CASE WHEN status = 'rejeitação' THEN 1 ELSE 0 END) as rejeitaçãos,
                 SUM(valor_total) as valor_total,
                 AVG(valor_total) as ticket_medio
              FROM pedidos_vendas
-             WHERE vendedor_id = ? AND MONTH(data_pedido) = ? AND YEAR(data_pedido) = ?`,
+             WHERE vendedor_id =  AND MONTH(data_pedido) =  AND YEAR(data_pedido) = `,
             [userId, mesAtual, anoAtual]
         );
 
@@ -105,7 +105,7 @@ app.get('/api/vendas/dashboard/vendedor', authenticateToken, async (req, res) =>
              FROM itens_pedido ip
              JOIN pedidos_vendas p ON ip.pedido_id = p.id
              JOIN produtos pr ON ip.produto_id = pr.id
-             WHERE p.vendedor_id = ? AND MONTH(p.data_pedido) = ? AND YEAR(p.data_pedido) = ?
+             WHERE p.vendedor_id =  AND MONTH(p.data_pedido) =  AND YEAR(p.data_pedido) = 
              GROUP BY pr.id, pr.nome
              ORDER BY valor DESC
              LIMIT 5`,
@@ -115,7 +115,7 @@ app.get('/api/vendas/dashboard/vendedor', authenticateToken, async (req, res) =>
         res.json({
             success: true,
             metas: {
-                mensal: metaMensal[0] || { meta_valor: 150000, realizado_valor: 0, percentual: 0 }
+                mensal: metaMensal[0] || { meta_valor: 150000, realização_valor: 0, percentual: 0 }
             },
             pedidos: pedidosStats[0] || {},
             topProdutos: topProdutos || []
@@ -134,7 +134,7 @@ app.get('/api/vendas/dashboard/admin', authenticateToken, async (req, res) => {
         const isAdmin = req.user.setor === 'TI' || req.user.cargo === 'Diretor' || req.user.cargo === 'Gerente';
         
         if (!isAdmin) {
-            return res.json({ success: false, error: 'Acesso negado' });
+            return res.json({ success: false, error: 'Acesso negação' });
         }
 
         const mesAtual = new Date().getMonth() + 1;
@@ -146,9 +146,9 @@ app.get('/api/vendas/dashboard/admin', authenticateToken, async (req, res) => {
                 SUM(valor_total) as faturamento_total,
                 COUNT(*) as pedidos_total,
                 AVG(valor_total) as ticket_medio,
-                (SUM(CASE WHEN status IN ('pedido_aprovado', 'faturar', 'faturado', 'recibo') THEN 1 ELSE 0 END) / COUNT(*) * 100) as taxa_conversao
+                (SUM(CASE WHEN status IN ('pedido_aprovação', 'faturar', 'faturação', 'recibo') THEN 1 ELSE 0 END) / COUNT(*) * 100) as taxa_conversao
              FROM pedidos_vendas
-             WHERE MONTH(data_pedido) = ? AND YEAR(data_pedido) = ?`,
+             WHERE MONTH(data_pedido) =  AND YEAR(data_pedido) = `,
             [mesAtual, anoAtual]
         );
 
@@ -161,8 +161,8 @@ app.get('/api/vendas/dashboard/admin', authenticateToken, async (req, res) => {
                 m.meta_valor as meta,
                 (SUM(p.valor_total) / m.meta_valor * 100) as atingimento
              FROM usuarios u
-             LEFT JOIN pedidos_vendas p ON p.vendedor_id = u.id AND MONTH(p.data_pedido) = ? AND YEAR(p.data_pedido) = ?
-             LEFT JOIN metas_vendedores m ON m.vendedor_id = u.id AND m.mes = ? AND m.ano = ?
+             LEFT JOIN pedidos_vendas p ON p.vendedor_id = u.id AND MONTH(p.data_pedido) =  AND YEAR(p.data_pedido) = 
+             LEFT JOIN metas_vendedores m ON m.vendedor_id = u.id AND m.mes =  AND m.ano = 
              WHERE u.setor = 'Vendas' OR u.cargo LIKE '%Vendedor%'
              GROUP BY u.id, u.nome, m.meta_valor
              ORDER BY valor DESC`,
@@ -199,7 +199,7 @@ app.get('/api/vendas/dashboard/admin', authenticateToken, async (req, res) => {
 app.get('/api/vendas/clientes', authenticateToken, async (req, res) => {
     try {
         const clientes = await db.query(
-            `SELECT id, nome, cnpj, email, telefone, cidade, estado, status, DATE_FORMAT(created_at, '%d/%m/%Y') as cadastro
+            `SELECT id, nome, cnpj, email, telefone, cidade, estação, status, DATE_FORMAT(created_at, '%d/%m/%Y') as cadastro
              FROM clientes
              ORDER BY nome ASC`
         );
@@ -217,17 +217,17 @@ app.get('/api/vendas/clientes', authenticateToken, async (req, res) => {
 
 app.post('/api/vendas/clientes', authenticateToken, async (req, res) => {
     try {
-        const { nome, cnpj, email, telefone, endereco, cidade, estado } = req.body;
+        const { nome, cnpj, email, telefone, endereco, cidade, estação } = req.body;
 
         const result = await db.query(
-            `INSERT INTO clientes (nome, cnpj, email, telefone, endereco, cidade, estado, status, created_at)
-             VALUES (?, ?, ?, ?, ?, ?, ?, 'ativo', NOW())`,
-            [nome, cnpj, email, telefone, endereco, cidade, estado]
+            `INSERT INTO clientes (nome, cnpj, email, telefone, endereco, cidade, estação, status, created_at)
+             VALUES (, , , , , , , 'ativo', NOW())`,
+            [nome, cnpj, email, telefone, endereco, cidade, estação]
         );
 
         res.json({
             success: true,
-            message: 'Cliente cadastrado com sucesso',
+            message: 'Cliente cadastração com sucesso',
             cliente_id: result.insertId
         });
 
@@ -240,18 +240,18 @@ app.post('/api/vendas/clientes', authenticateToken, async (req, res) => {
 app.put('/api/vendas/clientes/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
-        const { nome, cnpj, email, telefone, endereco, cidade, estado, status } = req.body;
+        const { nome, cnpj, email, telefone, endereco, cidade, estação, status } = req.body;
 
         await db.query(
             `UPDATE clientes 
-             SET nome = ?, cnpj = ?, email = ?, telefone = ?, endereco = ?, cidade = ?, estado = ?, status = ?, updated_at = NOW()
-             WHERE id = ?`,
-            [nome, cnpj, email, telefone, endereco, cidade, estado, status, id]
+             SET nome = , cnpj = , email = , telefone = , endereco = , cidade = , estação = , status = , updated_at = NOW()
+             WHERE id = `,
+            [nome, cnpj, email, telefone, endereco, cidade, estação, status, id]
         );
 
         res.json({
             success: true,
-            message: 'Cliente atualizado com sucesso'
+            message: 'Cliente atualização com sucesso'
         });
 
     } catch (error) {
@@ -264,11 +264,11 @@ app.delete('/api/vendas/clientes/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
 
-        await db.query('UPDATE clientes SET status = "inativo", updated_at = NOW() WHERE id = ?', [id]);
+        await db.query('UPDATE clientes SET status = "inativo", updated_at = NOW() WHERE id = ', [id]);
 
         res.json({
             success: true,
-            message: 'Cliente inativado com sucesso'
+            message: 'Cliente inativação com sucesso'
         });
 
     } catch (error) {

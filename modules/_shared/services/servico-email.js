@@ -37,7 +37,7 @@ class ServicoEmail {
     }
 
     /**
-     * Inicializa o transportador de email
+     * Inicializa o transportaçãor de email
      */
     async inicializar() {
         if (!this.config.auth.user || !this.config.auth.pass) {
@@ -65,7 +65,7 @@ class ServicoEmail {
         }
 
         if (!this.transporter) {
-            return { success: false, message: 'Serviço de email não configurado' };
+            return { success: false, message: 'Serviço de email não configuração' };
         }
 
         try {
@@ -79,12 +79,12 @@ class ServicoEmail {
 
             const info = await this.transporter.sendMail(mailOptions);
             
-            console.log(`[ServicoEmail] Email enviado: ${info.messageId}`);
+            console.log(`[ServicoEmail] Email enviação: ${info.messageId}`);
             
             return { 
                 success: true, 
                 messageId: info.messageId,
-                message: 'Email enviado com sucesso'
+                message: 'Email enviação com sucesso'
             };
 
         } catch (error) {
@@ -101,8 +101,8 @@ class ServicoEmail {
     async enviarOrcamento(orcamento, cliente) {
         const html = `
             <h2>Orçamento #${orcamento.id}</h2>
-            <p>Prezado(a) ${cliente.nome},</p>
-            <p>Segue abaixo o orçamento solicitado:</p>
+            <p>Prezação(a) ${cliente.nome},</p>
+            <p>Segue abaixo o orçamento solicitação:</p>
             
             <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
                 <thead>
@@ -136,7 +136,7 @@ class ServicoEmail {
             <p><strong>Validade:</strong> ${orcamento.validade || '30 dias'}</p>
             <p><strong>Condição de Pagamento:</strong> ${orcamento.condicao_pagamento || 'A combinar'}</p>
             
-            ${orcamento.observacoes ? `<p><strong>Observações:</strong> ${orcamento.observacoes}</p>` : ''}
+            ${orcamento.observacoes  `<p><strong>Observações:</strong> ${orcamento.observacoes}</p>` : ''}
             
             <p style="margin-top: 20px;">Aguardamos seu retorno!</p>
         `;
@@ -149,13 +149,13 @@ class ServicoEmail {
     }
 
     /**
-     * Envia confirmação de pedido aprovado
+     * Envia confirmação de pedido aprovação
      */
-    async enviarPedidoAprovado(pedido, cliente) {
+    async enviarPedidoAprovação(pedido, cliente) {
         const html = `
-            <h2>✅ Pedido Aprovado!</h2>
-            <p>Prezado(a) ${cliente.nome},</p>
-            <p>Seu pedido <strong>#${pedido.id}</strong> foi aprovado e está em processamento.</p>
+            <h2>✅ Pedido Aprovação!</h2>
+            <p>Prezação(a) ${cliente.nome},</p>
+            <p>Seu pedido <strong>#${pedido.id}</strong> foi aprovação e está em processamento.</p>
             
             <div style="background: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; margin: 20px 0;">
                 <p><strong>Valor Total:</strong> ${this.formatarMoeda(pedido.valor_total)}</p>
@@ -167,7 +167,7 @@ class ServicoEmail {
 
         return this.enviar(
             cliente.email,
-            `Pedido #${pedido.id} Aprovado - ${this.empresa.nome}`,
+            `Pedido #${pedido.id} Aprovação - ${this.empresa.nome}`,
             html
         );
     }
@@ -180,7 +180,7 @@ class ServicoEmail {
     async enviarCotacao(cotacao, fornecedor) {
         const html = `
             <h2>Solicitação de Cotação #${cotacao.id}</h2>
-            <p>Prezado(a) ${fornecedor.contato || fornecedor.nome},</p>
+            <p>Prezação(a) ${fornecedor.contato || fornecedor.nome},</p>
             <p>Solicitamos gentilmente sua cotação para os itens abaixo:</p>
             
             <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
@@ -225,12 +225,12 @@ class ServicoEmail {
     }
 
     /**
-     * Envia pedido de compra aprovado para fornecedor
+     * Envia pedido de compra aprovação para fornecedor
      */
     async enviarPedidoCompra(pedido, fornecedor) {
         const html = `
             <h2>Pedido de Compra #${pedido.numero_pedido}</h2>
-            <p>Prezado(a) ${fornecedor.contato || fornecedor.nome},</p>
+            <p>Prezação(a) ${fornecedor.contato || fornecedor.nome},</p>
             <p>Confirmamos o pedido de compra conforme detalhamento abaixo:</p>
             
             <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
@@ -263,7 +263,7 @@ class ServicoEmail {
             </table>
             
             <p><strong>Previsão de Entrega:</strong> ${this.formatarData(pedido.data_previsao)}</p>
-            <p><strong>Condição de Pagamento:</strong> ${pedido.condicao_pagamento || 'Conforme negociado'}</p>
+            <p><strong>Condição de Pagamento:</strong> ${pedido.condicao_pagamento || 'Conforme negociação'}</p>
             
             <p style="margin-top: 20px;">Por favor, confirme o recebimento deste pedido.</p>
         `;
@@ -285,17 +285,17 @@ class ServicoEmail {
         
         const html = `
             <h2>⏰ Lembrete de Vencimento</h2>
-            <p>Prezado(a) ${cliente.nome},</p>
-            <p>Este é um lembrete de que você possui um título com vencimento ${diasRestantes === 0 ? 'HOJE' : `em ${diasRestantes} dia(s)`}.</p>
+            <p>Prezação(a) ${cliente.nome},</p>
+            <p>Este é um lembrete de que você possui um título com vencimento ${diasRestantes === 0  'HOJE' : `em ${diasRestantes} dia(s)`}.</p>
             
             <div style="background: #fef3c7; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0;">
                 <p><strong>Descrição:</strong> ${conta.descricao}</p>
                 <p><strong>Valor:</strong> ${this.formatarMoeda(conta.valor)}</p>
                 <p><strong>Vencimento:</strong> ${this.formatarData(conta.data_vencimento)}</p>
-                ${conta.numero_nf ? `<p><strong>NF:</strong> ${conta.numero_nf}</p>` : ''}
+                ${conta.numero_nf  `<p><strong>NF:</strong> ${conta.numero_nf}</p>` : ''}
             </div>
             
-            <p>Caso já tenha efetuado o pagamento, por favor desconsidere este aviso.</p>
+            <p>Caso já tenha efetuação o pagamento, por favor desconsidere este aviso.</p>
         `;
 
         return this.enviar(
@@ -313,14 +313,14 @@ class ServicoEmail {
         
         const html = `
             <h2>⚠️ Aviso de Título Vencido</h2>
-            <p>Prezado(a) ${cliente.nome},</p>
+            <p>Prezação(a) ${cliente.nome},</p>
             <p>Identificamos que o título abaixo encontra-se vencido há <strong>${diasVencido} dia(s)</strong>:</p>
             
             <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0;">
                 <p><strong>Descrição:</strong> ${conta.descricao}</p>
                 <p><strong>Valor Original:</strong> ${this.formatarMoeda(conta.valor)}</p>
                 <p><strong>Vencimento:</strong> ${this.formatarData(conta.data_vencimento)}</p>
-                ${conta.juros ? `<p><strong>Juros/Multa:</strong> ${this.formatarMoeda(conta.juros + (conta.multa || 0))}</p>` : ''}
+                ${conta.juros  `<p><strong>Juros/Multa:</strong> ${this.formatarMoeda(conta.juros + (conta.multa || 0))}</p>` : ''}
             </div>
             
             <p>Solicitamos a regularização do pagamento o mais breve possível.</p>
@@ -342,7 +342,7 @@ class ServicoEmail {
     async enviarNFe(nfe, destinatario, anexos = []) {
         const html = `
             <h2>📄 Nota Fiscal Eletrônica</h2>
-            <p>Prezado(a) ${destinatario.nome},</p>
+            <p>Prezação(a) ${destinatario.nome},</p>
             <p>Segue a Nota Fiscal Eletrônica referente à sua compra:</p>
             
             <div style="background: #f0f9ff; border-left: 4px solid #0284c7; padding: 15px; margin: 20px 0;">
@@ -376,7 +376,7 @@ class ServicoEmail {
     async enviarHolerite(funcionario, competencia, anexo) {
         const html = `
             <h2>📋 Holerite - ${competencia}</h2>
-            <p>Prezado(a) ${funcionario.nome},</p>
+            <p>Prezação(a) ${funcionario.nome},</p>
             <p>Segue em anexo seu holerite referente à competência <strong>${competencia}</strong>.</p>
             
             <p>Este documento também está disponível no Portal do Funcionário.</p>
@@ -390,7 +390,7 @@ class ServicoEmail {
             funcionario.email,
             `Holerite ${competencia} - ${this.empresa.nome}`,
             html,
-            { attachments: anexo ? [anexo] : [] }
+            { attachments: anexo  [anexo] : [] }
         );
     }
 
@@ -400,13 +400,13 @@ class ServicoEmail {
     async enviarFeriasAprovadas(funcionario, ferias) {
         const html = `
             <h2>🏖️ Férias Aprovadas!</h2>
-            <p>Prezado(a) ${funcionario.nome},</p>
+            <p>Prezação(a) ${funcionario.nome},</p>
             <p>Suas férias foram aprovadas conforme solicitação:</p>
             
             <div style="background: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; margin: 20px 0;">
                 <p><strong>Período:</strong> ${this.formatarData(ferias.data_inicio)} a ${this.formatarData(ferias.data_fim)}</p>
                 <p><strong>Dias:</strong> ${ferias.dias_totais} dias</p>
-                ${ferias.abono ? `<p><strong>Abono Pecuniário:</strong> ${ferias.dias_abono} dias</p>` : ''}
+                ${ferias.abono  `<p><strong>Abono Pecuniário:</strong> ${ferias.dias_abono} dias</p>` : ''}
             </div>
             
             <p><strong>Data de Retorno:</strong> ${this.formatarData(ferias.data_retorno)}</p>
@@ -449,7 +449,7 @@ class ServicoEmail {
             ${this.empresa.telefone} | ${this.empresa.site}
         </p>
         <p style="margin: 10px 0 0; color: #999; font-size: 11px;">
-            Este é um email automático enviado pelo Sistema Aluforce ERP.<br>
+            Este é um email automático enviação pelo Sistema Aluforce ERP.<br>
             Por favor, não responda diretamente a este email.
         </p>
     </div>
@@ -481,7 +481,7 @@ class ServicoEmail {
      */
     getTemplates() {
         return {
-            // Templates podem ser customizados aqui
+            // Templates podem ser customizaçãos aqui
         };
     }
 }

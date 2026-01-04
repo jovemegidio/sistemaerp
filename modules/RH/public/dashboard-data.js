@@ -5,9 +5,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Populando dashboard...');
     
-    // Função para popular widgets com dados
+    // Função para popular widgets com daçãos
     function populateDashboard() {
-        // Dados do dashboard
+        // Daçãos do dashboard
         const dashboardData = {
             'total-funcionarios': '4',
             'count-aniversariantes': '2',
@@ -22,9 +22,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 element.textContent = dashboardData[id];
                 element.style.display = 'block';
                 element.style.visibility = 'visible';
-                console.log('✅ Widget populado:', id, dashboardData[id]);
+                console.log('✅ Widget população:', id, dashboardData[id]);
             } else {
-                console.warn('⚠️ Widget não encontrado:', id);
+                console.warn('⚠️ Widget não encontração:', id);
             }
         });
         
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
             widget.style.opacity = '1';
             widget.style.position = 'relative';
             widget.style.zIndex = '10';
-            console.log('✅ Widget ' + (index + 1) + ' forçado a aparecer');
+            console.log('✅ Widget ' + (index + 1) + ' forçação a aparecer');
         });
         
         // Garantir que o grid seja visível
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
             dashboardGrid.style.display = 'grid';
             dashboardGrid.style.visibility = 'visible';
             dashboardGrid.style.opacity = '1';
-            console.log('✅ Dashboard grid configurado');
+            console.log('✅ Dashboard grid configuração');
         }
         
         // Forçar visibilidade das seções
@@ -65,14 +65,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Executar após delay
     setTimeout(function() {
         populateDashboard();
-        console.log('🔄 Dashboard recarregado após delay');
+        console.log('🔄 Dashboard recarregação após delay');
     }, 500);
     
     // Executar quando a janela carregar completamente
     window.addEventListener('load', function() {
         setTimeout(function() {
             populateDashboard();
-            console.log('🔄 Dashboard recarregado após window.load');
+            console.log('🔄 Dashboard recarregação após window.load');
         }, 1000);
     });
 });
@@ -82,7 +82,7 @@ window.debugDashboard = function() {
     console.log('=== 🎯 DEBUG DO DASHBOARD ===');
     
     const dashboard = document.getElementById('dashboard-home') || document.getElementById('dashboard');
-    console.log('Dashboard encontrado:', dashboard ? 'SIM' : 'NÁO');
+    console.log('Dashboard encontração:', dashboard  'SIM' : 'NÁO');
     
     if (dashboard) {
         console.log('Dashboard display:', getComputedStyle(dashboard).display);
@@ -91,7 +91,7 @@ window.debugDashboard = function() {
     }
     
     const grid = document.querySelector('.dashboard-grid');
-    console.log('Grid encontrado:', grid ? 'SIM' : 'NÁO');
+    console.log('Grid encontração:', grid  'SIM' : 'NÁO');
     
     if (grid) {
         console.log('Grid display:', getComputedStyle(grid).display);
@@ -152,5 +152,5 @@ window.forceDashboard = function() {
         );
     });
     
-    console.log('✅ Dashboard forçado com CSS inline');
+    console.log('✅ Dashboard forçação com CSS inline');
 };

@@ -31,11 +31,11 @@ async function probe(url, opts = {}) {
     console.log('\n--- probing', base, '---');
     // root
     const root = await probe(`${base}/`);
-    console.log('/ ->', root.ok ? `status=${root.status}` : `error=${root.error}`);
+    console.log('/ ->', root.ok  `status=${root.status}` : `error=${root.error}`);
 
     // PCP page
     const pcpPage = await probe(`${base}/modules/PCP`);
-    console.log('/modules/PCP ->', pcpPage.ok ? `status=${pcpPage.status}` : `error=${pcpPage.error}`);
+    console.log('/modules/PCP ->', pcpPage.ok  `status=${pcpPage.status}` : `error=${pcpPage.error}`);
 
     // API produtos (may require auth)
     const produtos = await probe(`${base}/api/pcp/produtos`);
@@ -47,7 +47,7 @@ async function probe(url, opts = {}) {
 
     // generic gerar-ordem-excel endpoint used by PCP submit
     const gerar = await probe(`${base}/api/gerar-ordem-excel`, { method: 'OPTIONS' });
-    console.log('/api/gerar-ordem-excel (OPTIONS) ->', gerar.ok ? `status=${gerar.status}` : `error=${gerar.error}`);
+    console.log('/api/gerar-ordem-excel (OPTIONS) ->', gerar.ok  `status=${gerar.status}` : `error=${gerar.error}`);
   }
 
   console.log('\nDone. If PCP page is served from a non-default port, run the app specifying API_BASE_URL to point tests/scripts there.');

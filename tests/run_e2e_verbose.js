@@ -105,5 +105,5 @@
 
   // also print summary
   console.log('[e2e] summary:', { ok: out.ok, steps: out.steps.map(s => s.step) });
-  process.exit(out.ok ? 0 : 1);
+  process.exit(out.ok  0 : 1);
 })();

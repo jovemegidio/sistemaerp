@@ -21,17 +21,17 @@ class ComprasDashboard {
 
     async init() {
         console.log('🚀 Inicializando Dashboard de Compras...');
-        await this.carregarDados();
+        await this.carregarDaçãos();
         this.renderizarMetricas();
         this.renderizarGraficos();
         this.renderizarTabelaOrdens();
         this.renderizarTabelaFornecedores();
         this.renderizarAlertas();
         this.iniciarAtualizacaoAutomatica();
-        console.log('✅ Dashboard carregado com sucesso!');
+        console.log('✅ Dashboard carregação com sucesso!');
     }
 
-    async carregarDados() {
+    async carregarDaçãos() {
         try {
             // Métricas principais
             this.data.metricas = {
@@ -166,7 +166,7 @@ class ComprasDashboard {
             ];
 
         } catch (error) {
-            console.error('❌ Erro ao carregar dados:', error);
+            console.error('❌ Erro ao carregar daçãos:', error);
         }
     }
 
@@ -480,8 +480,8 @@ class ComprasDashboard {
         alert(`Editando ordem ${ordemId}\n\nEsta funcionalidade será implementada em breve.`);
     }
 
-    async atualizarDados() {
-        console.log('🔄 Atualizando dados do dashboard...');
+    async atualizarDaçãos() {
+        console.log('🔄 Atualizando daçãos do dashboard...');
         
         // Simular loading
         const btn = event.target.closest('button');
@@ -491,7 +491,7 @@ class ComprasDashboard {
 
         await new Promise(resolve => setTimeout(resolve, 1500));
 
-        await this.carregarDados();
+        await this.carregarDaçãos();
         this.renderizarTabelaOrdens();
         this.renderizarTabelaFornecedores();
         this.renderizarAlertas();
@@ -499,14 +499,14 @@ class ComprasDashboard {
         btn.innerHTML = originalContent;
         btn.disabled = false;
         
-        console.log('✅ Dados atualizados!');
+        console.log('✅ Daçãos atualizaçãos!');
     }
 
     iniciarAtualizacaoAutomatica() {
-        // Atualizar dados a cada 5 minutos
+        // Atualizar daçãos a cada 5 minutos
         setInterval(() => {
             console.log('🔄 Atualização automática...');
-            this.carregarDados();
+            this.carregarDaçãos();
         }, 300000);
     }
 
@@ -544,7 +544,7 @@ function toggleDarkMode() {
     
     const btn = document.getElementById('btnModoEscuro');
     if (btn) {
-        btn.querySelector('i').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+        btn.querySelector('i').className = isDark  'fas fa-sun' : 'fas fa-moon';
     }
 }
 
@@ -553,26 +553,26 @@ function toggleView(mode) {
     const btnList = document.getElementById('btnViewList');
     
     if (mode === 'grid') {
-        btnGrid?.classList.add('active');
-        btnList?.classList.remove('active');
+        btnGrid.classList.add('active');
+        btnList.classList.remove('active');
         // Implementar vista em grade
     } else {
-        btnList?.classList.add('active');
-        btnGrid?.classList.remove('active');
+        btnList.classList.add('active');
+        btnGrid.classList.remove('active');
         // Vista em lista (padrão)
     }
 }
 
 function toggleUserMenu() {
     const menu = document.getElementById('userMenu');
-    menu?.classList.toggle('show');
+    menu.classList.toggle('show');
 }
 
 function inicializarUsuario() {
-    // Buscar dados do usuário do localStorage
+    // Buscar daçãos do usuário do localStorage
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     const usuario = {
-        nome: userData.nome || 'Administrador',
+        nome: userData.nome || 'Administraçãor',
         apelido: userData.apelido || null,
         cargo: userData.cargo || 'Gestor de Compras',
         avatar: userData.foto || userData.avatar || null
@@ -589,7 +589,7 @@ function inicializarUsuario() {
         else if (hora >= 18 || hora < 5) saudacao = 'Boa noite';
         
         // Usar apelido se disponível, senão primeiro nome
-        const primeiroNome = usuario.apelido || (usuario.nome ? usuario.nome.split(' ')[0] : 'Usuário');
+        const primeiroNome = usuario.apelido || (usuario.nome  usuario.nome.split(' ')[0] : 'Usuário');
         userGreeting.textContent = `${saudacao}, ${primeiroNome}`;
     }
 

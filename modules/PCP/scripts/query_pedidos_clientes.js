@@ -4,21 +4,21 @@ const mysql = require('mysql2/promise');
   try {
     const conn = await mysql.createConnection(cfg);
     const out = {};
-    const [pRows] = await conn.query('SELECT id, cliente, cliente_id, empresa_id, status FROM pedidos WHERE id = ?', [8]);
+    const [pRows] = await conn.query('SELECT id, cliente, cliente_id, empresa_id, status FROM pedidos WHERE id = ', [8]);
     out.pedido8 = pRows[0] || null;
-    const [c1] = await conn.query('SELECT * FROM clientes WHERE id = ?', [1]);
+    const [c1] = await conn.query('SELECT * FROM clientes WHERE id = ', [1]);
     out.cliente_id_1 = c1[0] || null;
-    const [e1] = await conn.query('SELECT * FROM empresas WHERE id = ?', [1]);
+    const [e1] = await conn.query('SELECT * FROM empresas WHERE id = ', [1]);
     out.empresa_id_1 = e1[0] || null;
     const like = '%26047384%';
-    const [cByCnpj] = await conn.query("SELECT * FROM clientes WHERE REPLACE(REPLACE(REPLACE(cnpj, '.', ''), '/', ''), '-', '') LIKE ?", [like.replace(/\D/g, '')]);
+    const [cByCnpj] = await conn.query("SELECT * FROM clientes WHERE REPLACE(REPLACE(REPLACE(cnpj, '.', ''), '/', ''), '-', '') LIKE ", [like.replace(/\D/g, '')]);
     out.clientes_matching = cByCnpj || [];
-    const [eByCnpj] = await conn.query("SELECT * FROM empresas WHERE REPLACE(REPLACE(REPLACE(cnpj, '.', ''), '/', ''), '-', '') LIKE ?", [like.replace(/\D/g, '')]);
+    const [eByCnpj] = await conn.query("SELECT * FROM empresas WHERE REPLACE(REPLACE(REPLACE(cnpj, '.', ''), '/', ''), '-', '') LIKE ", [like.replace(/\D/g, '')]);
     out.empresas_matching = eByCnpj || [];
     console.log(JSON.stringify(out, null, 2));
     await conn.end();
   } catch (err) {
-    console.error('ERROR', err && err.message ? err.message : err);
+    console.error('ERROR', err && err.message  err.message : err);
     process.exit(1);
   }
 })();

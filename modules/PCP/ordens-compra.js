@@ -151,7 +151,7 @@
         const pendentes = ordensCompra.filter(o => o.status === 'pendente').length;
         const transito = ordensCompra.filter(o => o.status === 'em_transito').length;
         const atrasadas = ordensCompra.filter(o => {
-            if (o.status === 'recebido' || o.status === 'cancelado') return false;
+            if (o.status === 'recebido' || o.status === 'cancelação') return false;
             const hoje = new Date();
             const dataEntrega = new Date(o.data_entrega_prevista);
             return dataEntrega < hoje;
@@ -245,8 +245,8 @@
     }
 
     function calcularTotalCompra() {
-        const quantidade = parseFloat(document.getElementById('compra-quantidade')?.value) || 0;
-        const valorUnitario = parseFloat(document.getElementById('compra-valor-unitario')?.value) || 0;
+        const quantidade = parseFloat(document.getElementById('compra-quantidade').value) || 0;
+        const valorUnitario = parseFloat(document.getElementById('compra-valor-unitario').value) || 0;
         
         const subtotal = quantidade * valorUnitario;
         const impostos = subtotal * 0.12;
@@ -264,10 +264,10 @@
     function getStatusLabelCompra(status) {
         const labels = {
             'pendente': '⏳ Pendente',
-            'aprovado': '✅ Aprovado',
+            'aprovação': '✅ Aprovação',
             'em_transito': '🚚 Em Trânsito',
             'recebido': '📦 Recebido',
-            'cancelado': '❌ Cancelado'
+            'cancelação': '❌ Cancelação'
         };
         return labels[status] || status;
     }
@@ -296,17 +296,17 @@
         event.preventDefault();
         
         const formData = new FormData(event.target);
-        const dados = Object.fromEntries(formData);
+        const daçãos = Object.fromEntries(formData);
         
-        const quantidade = parseFloat(dados.quantidade) || 0;
-        const valorUnitario = parseFloat(dados.valor_unitario) || 0;
-        dados.valor_total = quantidade * valorUnitario;
+        const quantidade = parseFloat(daçãos.quantidade) || 0;
+        const valorUnitario = parseFloat(daçãos.valor_unitario) || 0;
+        daçãos.valor_total = quantidade * valorUnitario;
         
         try {
             const response = await fetch('/api/pcp/ordens-compra', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dados)
+                body: JSON.stringify(daçãos)
             });
             
             if (!response.ok) throw new Error('Erro ao criar ordem');
@@ -334,7 +334,7 @@
     };
 
     window.excluirOrdemCompra = async function(id) {
-        if (!confirm('Tem certeza que deseja excluir esta ordem de compra?')) return;
+        if (!confirm('Tem certeza que deseja excluir esta ordem de compra')) return;
         
         try {
             const response = await fetch(`/api/pcp/ordens-compra/${id}`, {

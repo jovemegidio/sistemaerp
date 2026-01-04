@@ -13,18 +13,18 @@ app.post('/api/financeiro/contas-pagar/:id/pagar', checkFinanceiroPermission('co
         const { id } = req.params;
         const { valor_pago, data_pagamento, conta_bancaria_id, forma_pagamento_id, observacoes } = req.body;
 
-        const [conta] = await pool.query('SELECT * FROM contas_pagar WHERE id = ?', [id]);
+        const [conta] = await pool.query('SELECT * FROM contas_pagar WHERE id = ', [id]);
         if (!conta || conta.length === 0) {
             return res.status(404).json({ message: 'Conta não encontrada' });
         }
 
         const valorTotal = conta[0].valor + (conta[0].valor_juros || 0) + (conta[0].valor_multa || 0) - (conta[0].valor_desconto || 0);
-        const status = valor_pago >= valorTotal ? 'pago' : 'pendente';
+        const status = valor_pago >= valorTotal  'pago' : 'pendente';
 
         await pool.query(
             `UPDATE contas_pagar 
-             SET status = ?, valor_pago = ?, data_pagamento = ?, conta_bancaria_id = ?, forma_pagamento_id = ?, observacoes = ?
-             WHERE id = ?`,
+             SET status = , valor_pago = , data_pagamento = , conta_bancaria_id = , forma_pagamento_id = , observacoes = 
+             WHERE id = `,
             [status, valor_pago, data_pagamento || new Date().toISOString().split('T')[0], conta_bancaria_id, forma_pagamento_id, observacoes, id]
         );
 
@@ -33,12 +33,12 @@ app.post('/api/financeiro/contas-pagar/:id/pagar', checkFinanceiroPermission('co
             await pool.query(
                 `INSERT INTO movimentacoes_bancarias 
                  (conta_bancaria_id, tipo, valor, descricao, data_movimento, conta_pagar_id, forma_pagamento_id) 
-                 VALUES (?, 'saida', ?, ?, ?, ?, ?)`,
+                 VALUES (, 'saida', , , , , )`,
                 [conta_bancaria_id, valor_pago, conta[0].descricao, data_pagamento || new Date().toISOString().split('T')[0], id, forma_pagamento_id]
             );
         }
 
-        res.json({ success: true, message: 'Pagamento registrado com sucesso' });
+        res.json({ success: true, message: 'Pagamento registração com sucesso' });
 
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao marcar como pago:', err);
@@ -74,7 +74,7 @@ app.get('/api/financeiro/contas-pagar/vencendo', checkFinanceiroPermission('cont
             `SELECT *, DATEDIFF(vencimento, CURDATE()) as dias_para_vencer 
              FROM contas_pagar 
              WHERE status = 'pendente' 
-             AND vencimento BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL ? DAY)
+             AND vencimento BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL  DAY)
              ORDER BY vencimento ASC`,
             [prazo]
         );
@@ -122,12 +122,12 @@ app.post('/api/financeiro/contas-pagar/lote/pagar', checkFinanceiroPermission('c
 
         let totalPago = 0;
         for (const contaId of contas) {
-            const [conta] = await pool.query('SELECT valor FROM contas_pagar WHERE id = ?', [contaId]);
+            const [conta] = await pool.query('SELECT valor FROM contas_pagar WHERE id = ', [contaId]);
             if (conta && conta.length > 0) {
                 await pool.query(
                     `UPDATE contas_pagar 
-                     SET status = 'pago', valor_pago = valor, data_pagamento = ?, conta_bancaria_id = ?, forma_pagamento_id = ?
-                     WHERE id = ?`,
+                     SET status = 'pago', valor_pago = valor, data_pagamento = , conta_bancaria_id = , forma_pagamento_id = 
+                     WHERE id = `,
                     [data_pagamento || new Date().toISOString().split('T')[0], conta_bancaria_id, forma_pagamento_id, contaId]
                 );
                 totalPago += conta[0].valor;
@@ -137,7 +137,7 @@ app.post('/api/financeiro/contas-pagar/lote/pagar', checkFinanceiroPermission('c
                     await pool.query(
                         `INSERT INTO movimentacoes_bancarias 
                          (conta_bancaria_id, tipo, valor, descricao, data_movimento, conta_pagar_id, forma_pagamento_id) 
-                         VALUES (?, 'saida', ?, 'Pagamento em lote', ?, ?, ?)`,
+                         VALUES (, 'saida', , 'Pagamento em lote', , , )`,
                         [conta_bancaria_id, conta[0].valor, data_pagamento || new Date().toISOString().split('T')[0], contaId, forma_pagamento_id]
                     );
                 }
@@ -166,18 +166,18 @@ app.post('/api/financeiro/contas-receber/:id/receber', checkFinanceiroPermission
         const { id } = req.params;
         const { valor_recebido, data_recebimento, conta_bancaria_id, forma_recebimento_id, observacoes } = req.body;
 
-        const [conta] = await pool.query('SELECT * FROM contas_receber WHERE id = ?', [id]);
+        const [conta] = await pool.query('SELECT * FROM contas_receber WHERE id = ', [id]);
         if (!conta || conta.length === 0) {
             return res.status(404).json({ message: 'Conta não encontrada' });
         }
 
         const valorTotal = conta[0].valor + (conta[0].valor_juros || 0) + (conta[0].valor_multa || 0) - (conta[0].valor_desconto || 0);
-        const status = valor_recebido >= valorTotal ? 'recebido' : 'pendente';
+        const status = valor_recebido >= valorTotal  'recebido' : 'pendente';
 
         await pool.query(
             `UPDATE contas_receber 
-             SET status = ?, valor_recebido = ?, data_recebimento = ?, conta_bancaria_id = ?, forma_recebimento_id = ?, observacoes = ?
-             WHERE id = ?`,
+             SET status = , valor_recebido = , data_recebimento = , conta_bancaria_id = , forma_recebimento_id = , observacoes = 
+             WHERE id = `,
             [status, valor_recebido, data_recebimento || new Date().toISOString().split('T')[0], conta_bancaria_id, forma_recebimento_id, observacoes, id]
         );
 
@@ -186,12 +186,12 @@ app.post('/api/financeiro/contas-receber/:id/receber', checkFinanceiroPermission
             await pool.query(
                 `INSERT INTO movimentacoes_bancarias 
                  (conta_bancaria_id, tipo, valor, descricao, data_movimento, conta_receber_id, forma_pagamento_id) 
-                 VALUES (?, 'entrada', ?, ?, ?, ?, ?)`,
+                 VALUES (, 'entrada', , , , , )`,
                 [conta_bancaria_id, valor_recebido, conta[0].descricao, data_recebimento || new Date().toISOString().split('T')[0], id, forma_recebimento_id]
             );
         }
 
-        res.json({ success: true, message: 'Recebimento registrado com sucesso' });
+        res.json({ success: true, message: 'Recebimento registração com sucesso' });
 
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao marcar como recebido:', err);
@@ -303,8 +303,8 @@ app.get('/api/financeiro/dashboard', authenticateToken, async (req, res) => {
             SELECT COALESCE(SUM(saldo_atual), 0) as saldo_total FROM contas_bancarias WHERE ativo = TRUE
         `);
 
-        // Saldo projetado (receber - pagar pendentes)
-        const saldoProjetado = (statsReceber[0].a_receber || 0) - (statsPagar[0].a_pagar || 0);
+        // Saldo projetação (receber - pagar pendentes)
+        const saldoProjetação = (statsReceber[0].a_receber || 0) - (statsPagar[0].a_pagar || 0);
 
         res.json({
             receber: {
@@ -318,13 +318,13 @@ app.get('/api/financeiro/dashboard', authenticateToken, async (req, res) => {
                 vencido: statsPagar[0].vencido || 0
             },
             saldo_atual: saldoBancos[0].saldo_total || 0,
-            saldo_projetado: saldoProjetado,
+            saldo_projetação: saldoProjetação,
             vencendo_hoje: vencendoHoje[0].total || 0
         });
 
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao buscar dashboard:', err);
-        res.status(500).json({ message: 'Erro ao buscar dados do dashboard' });
+        res.status(500).json({ message: 'Erro ao buscar daçãos do dashboard' });
     }
 });
 
@@ -344,23 +344,23 @@ app.get('/api/financeiro/fluxo-caixa', authenticateToken, async (req, res) => {
             FROM (
                 SELECT vencimento, valor, 'receber' as tipo 
                 FROM contas_receber 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
                 UNION ALL
                 SELECT vencimento, valor, 'pagar' as tipo 
                 FROM contas_pagar 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
             ) as todas_contas
             GROUP BY DATE(vencimento)
             ORDER BY data ASC
         `, [inicio, fim, inicio, fim]);
 
-        // Calcular saldo acumulado
-        let saldoAcumulado = 0;
+        // Calcular saldo acumulação
+        let saldoAcumulação = 0;
         const fluxoComSaldo = fluxo.map(item => {
-            saldoAcumulado += (item.entradas - item.saidas);
+            saldoAcumulação += (item.entradas - item.saidas);
             return {
                 ...item,
-                saldo: saldoAcumulado
+                saldo: saldoAcumulação
             };
         });
 
@@ -385,12 +385,12 @@ app.get('/api/financeiro/fluxo-caixa/projecao', authenticateToken, async (req, r
 
         const [projecao] = await pool.query(`
             SELECT 
-                SUM(CASE WHEN tipo = 'receber' AND vencimento <= ? THEN valor ELSE 0 END) as receber_30,
-                SUM(CASE WHEN tipo = 'receber' AND vencimento <= ? THEN valor ELSE 0 END) as receber_60,
-                SUM(CASE WHEN tipo = 'receber' AND vencimento <= ? THEN valor ELSE 0 END) as receber_90,
-                SUM(CASE WHEN tipo = 'pagar' AND vencimento <= ? THEN valor ELSE 0 END) as pagar_30,
-                SUM(CASE WHEN tipo = 'pagar' AND vencimento <= ? THEN valor ELSE 0 END) as pagar_60,
-                SUM(CASE WHEN tipo = 'pagar' AND vencimento <= ? THEN valor ELSE 0 END) as pagar_90
+                SUM(CASE WHEN tipo = 'receber' AND vencimento <=  THEN valor ELSE 0 END) as receber_30,
+                SUM(CASE WHEN tipo = 'receber' AND vencimento <=  THEN valor ELSE 0 END) as receber_60,
+                SUM(CASE WHEN tipo = 'receber' AND vencimento <=  THEN valor ELSE 0 END) as receber_90,
+                SUM(CASE WHEN tipo = 'pagar' AND vencimento <=  THEN valor ELSE 0 END) as pagar_30,
+                SUM(CASE WHEN tipo = 'pagar' AND vencimento <=  THEN valor ELSE 0 END) as pagar_60,
+                SUM(CASE WHEN tipo = 'pagar' AND vencimento <=  THEN valor ELSE 0 END) as pagar_90
             FROM (
                 SELECT vencimento, valor, 'receber' as tipo 
                 FROM contas_receber 
@@ -437,7 +437,7 @@ app.get('/api/financeiro/fluxo-caixa/projecao', authenticateToken, async (req, r
 // RELATÓRIOS
 // ============================================================
 
-// DRE (Demonstração de Resultados do Exercício)
+// DRE (Demonstração de Resultaçãos do Exercício)
 app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) => {
     try {
         const { mes, ano } = req.query;
@@ -454,7 +454,7 @@ app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) =>
                 SUM(cr.valor) as total
             FROM contas_receber cr
             LEFT JOIN categorias_financeiras c ON cr.categoria = c.nome
-            WHERE cr.vencimento BETWEEN ? AND ? AND cr.status != 'cancelado'
+            WHERE cr.vencimento BETWEEN  AND  AND cr.status != 'cancelação'
             GROUP BY c.nome
             ORDER BY total DESC
         `, [dataInicio, dataFim]);
@@ -466,14 +466,14 @@ app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) =>
                 SUM(cp.valor) as total
             FROM contas_pagar cp
             LEFT JOIN categorias_financeiras c ON cp.categoria = c.nome
-            WHERE cp.vencimento BETWEEN ? AND ? AND cp.status != 'cancelado'
+            WHERE cp.vencimento BETWEEN  AND  AND cp.status != 'cancelação'
             GROUP BY c.nome
             ORDER BY total DESC
         `, [dataInicio, dataFim]);
 
         const totalReceitas = receitas.reduce((sum, r) => sum + (parseFloat(r.total) || 0), 0);
         const totalDespesas = despesas.reduce((sum, d) => sum + (parseFloat(d.total) || 0), 0);
-        const resultado = totalReceitas - totalDespesas;
+        const resultação = totalReceitas - totalDespesas;
 
         res.json({
             periodo: { mes: mesAtual, ano: anoAtual },
@@ -485,8 +485,8 @@ app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) =>
                 detalhes: despesas,
                 total: totalDespesas
             },
-            resultado: resultado,
-            margem: totalReceitas > 0 ? ((resultado / totalReceitas) * 100).toFixed(2) : 0
+            resultação: resultação,
+            margem: totalReceitas > 0  ((resultação / totalReceitas) * 100).toFixed(2) : 0
         });
 
     } catch (err) {
@@ -500,7 +500,7 @@ app.get('/api/financeiro/relatorios/aging', authenticateToken, async (req, res) 
     try {
         const { tipo } = req.query; // 'pagar' ou 'receber'
 
-        const tabela = tipo === 'pagar' ? 'contas_pagar' : 'contas_receber';
+        const tabela = tipo === 'pagar'  'contas_pagar' : 'contas_receber';
 
         const [aging] = await pool.query(`
             SELECT 
@@ -554,11 +554,11 @@ app.get('/api/financeiro/relatorios/por-categoria', authenticateToken, async (re
             LEFT JOIN (
                 SELECT categoria, valor, 'receber' as tipo_conta 
                 FROM contas_receber 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
                 UNION ALL
                 SELECT categoria, valor, 'pagar' as tipo_conta 
                 FROM contas_pagar 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
             ) t ON c.nome = t.categoria
             WHERE c.ativo = TRUE
         `;
@@ -579,7 +579,7 @@ app.get('/api/financeiro/relatorios/por-categoria', authenticateToken, async (re
     }
 });
 
-// Exportar dados (preparar JSON para Excel/PDF)
+// Exportar daçãos (preparar JSON para Excel/PDF)
 app.get('/api/financeiro/relatorios/exportar', authenticateToken, async (req, res) => {
     try {
         const { tipo, data_inicio, data_fim, formato } = req.query;
@@ -587,43 +587,43 @@ app.get('/api/financeiro/relatorios/exportar', authenticateToken, async (req, re
         const inicio = data_inicio || new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
         const fim = data_fim || new Date().toISOString().split('T')[0];
 
-        let dados = [];
+        let daçãos = [];
 
         if (tipo === 'pagar') {
             const [contas] = await pool.query(
-                'SELECT * FROM contas_pagar WHERE vencimento BETWEEN ? AND ? ORDER BY vencimento ASC',
+                'SELECT * FROM contas_pagar WHERE vencimento BETWEEN  AND  ORDER BY vencimento ASC',
                 [inicio, fim]
             );
-            dados = contas;
+            daçãos = contas;
         } else if (tipo === 'receber') {
             const [contas] = await pool.query(
-                'SELECT * FROM contas_receber WHERE vencimento BETWEEN ? AND ? ORDER BY vencimento ASC',
+                'SELECT * FROM contas_receber WHERE vencimento BETWEEN  AND  ORDER BY vencimento ASC',
                 [inicio, fim]
             );
-            dados = contas;
+            daçãos = contas;
         } else {
             // Ambos
             const [pagar] = await pool.query(
-                'SELECT *, "pagar" as tipo_conta FROM contas_pagar WHERE vencimento BETWEEN ? AND ?',
+                'SELECT *, "pagar" as tipo_conta FROM contas_pagar WHERE vencimento BETWEEN  AND ',
                 [inicio, fim]
             );
             const [receber] = await pool.query(
-                'SELECT *, "receber" as tipo_conta FROM contas_receber WHERE vencimento BETWEEN ? AND ?',
+                'SELECT *, "receber" as tipo_conta FROM contas_receber WHERE vencimento BETWEEN  AND ',
                 [inicio, fim]
             );
-            dados = [...pagar, ...receber].sort((a, b) => new Date(a.vencimento) - new Date(b.vencimento));
+            daçãos = [...pagar, ...receber].sort((a, b) => new Date(a.vencimento) - new Date(b.vencimento));
         }
 
         res.json({
             tipo: tipo || 'todos',
             periodo: { inicio, fim },
-            total_registros: dados.length,
-            dados: dados
+            total_registros: daçãos.length,
+            daçãos: daçãos
         });
 
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao exportar:', err);
-        res.status(500).json({ message: 'Erro ao exportar dados' });
+        res.status(500).json({ message: 'Erro ao exportar daçãos' });
     }
 });
 

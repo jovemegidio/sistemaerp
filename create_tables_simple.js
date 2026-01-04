@@ -94,13 +94,13 @@ const tablasSQL = {
     
     frete_tabelas: `CREATE TABLE IF NOT EXISTS frete_tabelas (
         id INT PRIMARY KEY AUTO_INCREMENT,
-        transportadora_id INT NOT NULL,
+        transportaçãora_id INT NOT NULL,
         nome VARCHAR(100) NOT NULL,
         tipo_calculo VARCHAR(20) DEFAULT 'peso',
         valor_minimo DECIMAL(10,2) DEFAULT 0,
         ativa BOOLEAN DEFAULT TRUE,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        INDEX idx_transportadora (transportadora_id)
+        INDEX idx_transportaçãora (transportaçãora_id)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`,
     
     frete_faixas: `CREATE TABLE IF NOT EXISTS frete_faixas (
@@ -122,7 +122,7 @@ const tablasSQL = {
         numero INT NOT NULL,
         serie INT DEFAULT 1,
         nfe_id INT,
-        transportadora_id INT NOT NULL,
+        transportaçãora_id INT NOT NULL,
         data_emissao DATETIME NOT NULL,
         valor_carga DECIMAL(15,2) NOT NULL,
         valor_frete DECIMAL(15,2) NOT NULL,
@@ -138,7 +138,7 @@ const tablasSQL = {
         chave_acesso CHAR(44),
         numero INT NOT NULL,
         serie INT DEFAULT 1,
-        transportadora_id INT NOT NULL,
+        transportaçãora_id INT NOT NULL,
         data_emissao DATETIME NOT NULL,
         uf_inicio CHAR(2) NOT NULL,
         uf_fim CHAR(2) NOT NULL,

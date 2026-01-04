@@ -4,7 +4,7 @@ const fs = require('fs');
 
 function request(opts, body) {
   return new Promise((resolve, reject) => {
-    const lib = opts.protocol === 'https:' ? https : http;
+    const lib = opts.protocol === 'https:'  https : http;
     const req = lib.request(opts, res => {
       let chunks = [];
       res.on('data', c => chunks.push(c));
@@ -45,7 +45,7 @@ function request(opts, body) {
     if (!id) {
       // try to find id by email
       try {
-        const arr = Array.isArray(listRes.body) ? listRes.body : [];
+        const arr = Array.isArray(listRes.body)  listRes.body : [];
         const found = arr.find(x => x.email === 'teste.rh.automacao@aluforce.ind.br');
         if (found) id = found.id;
       } catch(e){ /* ignore parse errors while finding id */ }
@@ -61,13 +61,13 @@ function request(opts, body) {
 
     report.ok = true;
   } catch (err) {
-    report.error = err && err.message ? err.message : String(err);
+    report.error = err && err.message  err.message : String(err);
   }
 
   try {
     fs.writeFileSync(__dirname + '/e2e_report2.json', JSON.stringify(report, null, 2));
     console.log('WROTE e2e_report2.json');
   } catch (e) {
-    console.error('failed to write report:', e && e.message ? e.message : e);
+    console.error('failed to write report:', e && e.message  e.message : e);
   }
 })();

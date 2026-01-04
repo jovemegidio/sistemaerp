@@ -19,7 +19,7 @@ async function configurePermissions() {
                     password: pass,
                     database: 'aluforce_vendas'
                 });
-                console.log(`✅ Conectado com senha: "${pass || '(vazia)'}"`);
+                console.log(`✅ Conectação com senha: "${pass || '(vazia)'}"`);
                 break;
             } catch (e) {
                 if (e.code === 'ER_ACCESS_DENIED_ERROR') {
@@ -30,7 +30,7 @@ async function configurePermissions() {
         }
 
         if (!connection) {
-            throw new Error('Não foi possível conectar ao banco de dados com nenhuma senha');
+            throw new Error('Não foi possível conectar ao banco de daçãos com nenhuma senha');
         }
 
         // Permissões completas de vendas
@@ -62,17 +62,17 @@ async function configurePermissions() {
 
         // 1. Primeiro, garantir que todos os admins têm is_admin = 1
         const [resultAdmin] = await connection.execute(
-            `UPDATE usuarios SET is_admin = 1 WHERE email IN (?, ?)`,
+            `UPDATE usuarios SET is_admin = 1 WHERE email IN (, )`,
             ['ti@aluforce.ind.br', 'admin@aluforce.ind.br']
         );
-        console.log(`👑 Admins configurados: ${resultAdmin.affectedRows} registros`);
+        console.log(`👑 Admins configuraçãos: ${resultAdmin.affectedRows} registros`);
 
         // 2. Atualizar permissões para cada usuário
         for (const usuario of usuariosVendas) {
             try {
                 // Tentar atualizar por email exato
                 let [result] = await connection.execute(
-                    `UPDATE usuarios SET permissoes_vendas = ? WHERE email = ?`,
+                    `UPDATE usuarios SET permissoes_vendas =  WHERE email = `,
                     [permissoesVendas, usuario.email]
                 );
 
@@ -83,7 +83,7 @@ async function configurePermissions() {
 
                 // Tentar por nome
                 [result] = await connection.execute(
-                    `UPDATE usuarios SET permissoes_vendas = ? WHERE nome LIKE ?`,
+                    `UPDATE usuarios SET permissoes_vendas =  WHERE nome LIKE `,
                     [permissoesVendas, `%${usuario.nome}%`]
                 );
 
@@ -95,7 +95,7 @@ async function configurePermissions() {
                 // Tentar por login
                 const login = usuario.email.split('@')[0];
                 [result] = await connection.execute(
-                    `UPDATE usuarios SET permissoes_vendas = ? WHERE login = ?`,
+                    `UPDATE usuarios SET permissoes_vendas =  WHERE login = `,
                     [permissoesVendas, login]
                 );
 
@@ -104,7 +104,7 @@ async function configurePermissions() {
                     continue;
                 }
 
-                console.log(`⚠️  ${usuario.nome} (${usuario.email}) - Usuário não encontrado`);
+                console.log(`⚠️  ${usuario.nome} (${usuario.email}) - Usuário não encontração`);
 
             } catch (error) {
                 console.error(`❌ Erro ao atualizar ${usuario.email}:`, error.message);
@@ -125,7 +125,7 @@ async function configurePermissions() {
         usuarios.forEach(u => {
             const name = (u.nome || '').padEnd(20).substring(0, 20);
             const emailLogin = (u.email || u.login || '').padEnd(30).substring(0, 30);
-            const admin = u.is_admin ? '👑' : '  ';
+            const admin = u.is_admin  '👑' : '  ';
             console.log(`${u.id}\t${name}\t${emailLogin}\t${admin}\t${u.vendas_perm}`);
         });
 

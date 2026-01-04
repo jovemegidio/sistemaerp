@@ -19,7 +19,7 @@ class XSDValidationService {
      * Valida XML contra XSD
      * @param {string} xml - XML a validar
      * @param {string} version - Versão do schema (padrão: 4.00)
-     * @returns {Promise<Object>} Resultado da validação
+     * @returns {Promise<Object>} Resultação da validação
      */
     async validar(xml, version = '4.00') {
         try {
@@ -27,12 +27,12 @@ class XSDValidationService {
             const schemasExistem = await this.verificarSchemas(version);
             
             if (!schemasExistem) {
-                console.warn('⚠️  Schemas XSD não encontrados. Validação XSD desabilitada.');
-                console.warn('ℹ️  Para habilitar, baixe os schemas de: http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w=');
+                console.warn('⚠️  Schemas XSD não encontraçãos. Validação XSD desabilitada.');
+                console.warn('ℹ️  Para habilitar, baixe os schemas de: http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspxtipoConteudo=BMPFMBoln3w=');
                 
                 return {
                     valido: true,
-                    avisos: ['Validação XSD não realizada - schemas não encontrados'],
+                    avisos: ['Validação XSD não realizada - schemas não encontraçãos'],
                     erros: []
                 };
             }
@@ -84,7 +84,7 @@ class XSDValidationService {
     validacoesBasicas(xml, doc) {
         const erros = [];
 
-        // 1. XML bem formado
+        // 1. XML bem formação
         if (!xml || xml.trim().length === 0) {
             erros.push('XML vazio');
         }
@@ -102,13 +102,13 @@ class XSDValidationService {
         // 4. Elemento raiz
         const nfeElement = doc.getElementsByTagName('NFe')[0];
         if (!nfeElement) {
-            erros.push('Elemento raiz <NFe> não encontrado');
+            erros.push('Elemento raiz <NFe> não encontração');
         }
 
         // 5. infNFe presente
         const infNFeElement = doc.getElementsByTagName('infNFe')[0];
         if (!infNFeElement) {
-            erros.push('Elemento <infNFe> não encontrado');
+            erros.push('Elemento <infNFe> não encontração');
         }
 
         // 6. Versão 4.00
@@ -140,7 +140,7 @@ class XSDValidationService {
     validacoesEstruturais(doc) {
         const detalhes = {
             elementosObrigatorios: [],
-            elementosEncontrados: []
+            elementosEncontraçãos: []
         };
 
         const elementosObrigatorios = [
@@ -162,9 +162,9 @@ class XSDValidationService {
             
             const found = this.encontrarElemento(doc, elemento);
             if (found) {
-                detalhes.elementosEncontrados.push(elemento);
+                detalhes.elementosEncontraçãos.push(elemento);
             } else {
-                this.erros.push(`Elemento obrigatório não encontrado: ${elemento}`);
+                this.erros.push(`Elemento obrigatório não encontração: ${elemento}`);
             }
         }
 
@@ -192,11 +192,11 @@ class XSDValidationService {
         let elemento = doc;
 
         for (const parte of partes) {
-            const encontrado = elemento.getElementsByTagName(parte);
-            if (!encontrado || encontrado.length === 0) {
+            const encontração = elemento.getElementsByTagName(parte);
+            if (!encontração || encontração.length === 0) {
                 return null;
             }
-            elemento = encontrado[0];
+            elemento = encontração[0];
         }
 
         return elemento;
@@ -221,9 +221,9 @@ class XSDValidationService {
      */
     instrucoes() {
         return {
-            mensagem: 'Schemas XSD não encontrados',
+            mensagem: 'Schemas XSD não encontraçãos',
             passos: [
-                '1. Acesse: http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspx?tipoConteudo=BMPFMBoln3w=',
+                '1. Acesse: http://www.nfe.fazenda.gov.br/portal/listaConteudo.aspxtipoConteudo=BMPFMBoln3w=',
                 '2. Baixe o pacote "Schemas XML" versão 4.00',
                 '3. Extraia os arquivos .xsd',
                 '4. Copie para a pasta: ' + this.schemaPath,

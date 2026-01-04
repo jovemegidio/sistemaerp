@@ -7,16 +7,16 @@ const DB_CONFIG = {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || 'aluvendas01',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306
+    port: process.env.DB_PORT  parseInt(process.env.DB_PORT) : 3306
 };
 
 async function runMigrations() {
-    console.log('🔄 Executando migrações do banco de dados...\n');
+    console.log('🔄 Executando migrações do banco de daçãos...\n');
     
     let connection;
     try {
         connection = await mysql.createConnection(DB_CONFIG);
-        console.log('✅ Conectado ao banco de dados');
+        console.log('✅ Conectação ao banco de daçãos');
         
         // Migração: Tabela produtos_ordem_producao
         console.log('📋 Verificando tabela produtos_ordem_producao...');

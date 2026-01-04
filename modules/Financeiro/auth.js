@@ -1,8 +1,8 @@
 /**
  * SISTEMA DE CONTROLE DE ACESSO - MÓDULO FINANCEIRO ALUFORCE
  * 
- * Integrado com o sistema de autenticação do painel de controle
- * Usa o usuário já logado no sistema principal
+ * Integração com o sistema de autenticação do painel de controle
+ * Usa o usuário já logação no sistema principal
  */
 
 // =============================================================================
@@ -10,7 +10,7 @@
 // =============================================================================
 
 const PERMISSOES_FINANCEIRO = {
-    // Administradores - Acesso total ao módulo financeiro
+    // Administraçãores - Acesso total ao módulo financeiro
     'ti': {
         nome: 'TI',
         perfil: 'admin',
@@ -106,7 +106,7 @@ const PERMISSOES_FINANCEIRO = {
 // Definição de perfis
 const PERFIS = {
     'admin': {
-        nome: 'Administrador',
+        nome: 'Administraçãor',
         descrição: 'Acesso total ao módulo financeiro',
         cor: '#e74c3c'
     },
@@ -129,23 +129,23 @@ const PERFIS = {
 class SistemaAutenticacao {
     constructor() {
         this.usuarioAtual = null;
-        this.carregarUsuarioLogado();
+        this.carregarUsuarioLogação();
     }
 
     /**
-     * Carrega usuário logado do painel de controle Aluforce
+     * Carrega usuário logação do painel de controle Aluforce
      */
-    carregarUsuarioLogado() {
+    carregarUsuarioLogação() {
         // Tenta pegar o usuário do sessionStorage do painel de controle
         let usuarioSistema = null;
         
         // Método 1: SessionStorage do sistema principal
-        const sessaoPrincipal = sessionStorage.getItem('usuario_logado') || 
+        const sessaoPrincipal = sessionStorage.getItem('usuario_logação') || 
                                 sessionStorage.getItem('user') ||
                                 sessionStorage.getItem('currentUser');
         
         // Método 2: LocalStorage do sistema principal
-        const localPrincipal = localStorage.getItem('usuario_logado') ||
+        const localPrincipal = localStorage.getItem('usuario_logação') ||
                                localStorage.getItem('user') ||
                                localStorage.getItem('currentUser');
 
@@ -162,13 +162,13 @@ class SistemaAutenticacao {
         }
 
         // Se não encontrou usuário, verifica se há variável global
-        if (!usuarioSistema && typeof window.usuarioLogado !== 'undefined') {
-            usuarioSistema = window.usuarioLogado;
+        if (!usuarioSistema && typeof window.usuarioLogação !== 'undefined') {
+            usuarioSistema = window.usuarioLogação;
         }
 
         // Se não encontrou de jeito nenhum, usa um usuário padrão para desenvolvimento
         if (!usuarioSistema) {
-            console.warn('⚠️ Usuário não encontrado no sistema principal. Usando modo de desenvolvimento.');
+            console.warn('⚠️ Usuário não encontração no sistema principal. Usando modo de desenvolvimento.');
             // TODO: Remover em produção - apenas para desenvolvimento
             usuarioSistema = { usuario: 'ti', nome: 'TI (Dev Mode)' };
         }
@@ -191,20 +191,20 @@ class SistemaAutenticacao {
             nome: permissoesUsuario.nome || usuarioSistema.nome || usuarioNome,
             perfil: permissoesUsuario.perfil,
             permissoes: permissoesUsuario.permissoes,
-            sistemaOriginal: usuarioSistema // Mantém dados originais do sistema
+            sistemaOriginal: usuarioSistema // Mantém daçãos originais do sistema
         };
 
         // Log de acesso
         this.registrarLog('acesso_modulo', `Usuário ${this.usuarioAtual.nome} acessou o módulo financeiro`);
 
-        console.log('✅ Usuário carregado:', this.usuarioAtual.nome, '| Perfil:', this.usuarioAtual.perfil);
+        console.log('✅ Usuário carregação:', this.usuarioAtual.nome, '| Perfil:', this.usuarioAtual.perfil);
     }
 
     /**
      * Recarrega permissões do usuário
      */
     recarregarPermissoes() {
-        this.carregarUsuarioLogado();
+        this.carregarUsuarioLogação();
     }
 
     /**
@@ -220,9 +220,9 @@ class SistemaAutenticacao {
     }
 
     /**
-     * Verifica se usuário está autenticado
+     * Verifica se usuário está autenticação
      */
-    estaAutenticado() {
+    estaAutenticação() {
         return this.usuarioAtual !== null;
     }
 
@@ -297,11 +297,11 @@ class SistemaAutenticacao {
         const log = {
             timestamp: new Date().toISOString(),
             tipo: tipo,
-            usuario: this.usuarioAtual ? this.usuarioAtual.nome : 'Sistema',
+            usuario: this.usuarioAtual  this.usuarioAtual.nome : 'Sistema',
             mensagem: mensagem
         };
 
-        // Salvar logs no localStorage (limitado aos últimos 100)
+        // Salvar logs no localStorage (limitação aos últimos 100)
         let logs = JSON.parse(localStorage.getItem('logs_auditoria_financeiro') || '[]');
         logs.unshift(log);
         logs = logs.slice(0, 100); // Manter apenas últimos 100
@@ -322,20 +322,20 @@ class SistemaAutenticacao {
      * Protege página - verifica se usuário tem permissão
      */
     protegerPagina(permissoesRequeridas = []) {
-        // Verifica se está autenticado
-        if (!this.estaAutenticado()) {
+        // Verifica se está autenticação
+        if (!this.estaAutenticação()) {
             this.redirecionarParaPainel();
             return false;
         }
 
-        // Se não há permissões específicas, apenas estar autenticado é suficiente
+        // Se não há permissões específicas, apenas estar autenticação é suficiente
         if (permissoesRequeridas.length === 0) {
             return true;
         }
 
         // Verifica permissões
         if (!this.temQualquerPermissao(permissoesRequeridas)) {
-            this.mostrarAcessoNegado();
+            this.mostrarAcessoNegação();
             return false;
         }
 
@@ -346,19 +346,19 @@ class SistemaAutenticacao {
      * Redireciona para painel de controle principal
      */
     redirecionarParaPainel() {
-        alert('⚠️ Você precisa estar logado no sistema para acessar o módulo financeiro.');
+        alert('⚠️ Você precisa estar logação no sistema para acessar o módulo financeiro.');
         window.location.href = '../index.html'; // ou '/painel' ou a URL do seu painel
     }
 
     /**
-     * Mostra mensagem de acesso negado
+     * Mostra mensagem de acesso negação
      */
-    mostrarAcessoNegado() {
+    mostrarAcessoNegação() {
         document.body.innerHTML = `
             <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-family: 'Segoe UI', sans-serif;">
-                <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; max-width: 500px;">
+                <div style="background: white; padding: 40px; border-radius: 15px; box-shaçãow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; max-width: 500px;">
                     <i class="fas fa-ban" style="font-size: 80px; color: #e74c3c; margin-bottom: 20px;"></i>
-                    <h1 style="color: #2c3e50; margin-bottom: 10px;">Acesso Negado</h1>
+                    <h1 style="color: #2c3e50; margin-bottom: 10px;">Acesso Negação</h1>
                     <p style="color: #7f8c8d; margin-bottom: 30px;">
                         Você não tem permissão para acessar está página.
                     </p>
@@ -378,7 +378,7 @@ class SistemaAutenticacao {
     }
 
     /**
-     * Oculta elementos da interface baseado em permissões
+     * Oculta elementos da interface baseação em permissões
      */
     aplicarPermissoesUI() {
         // Elementos que requerem permissões específicas
@@ -412,7 +412,7 @@ class SistemaAutenticacao {
             }
         });
 
-        // Mostrar informações do usuário logado
+        // Mostrar informações do usuário logação
         this.mostrarInfoUsuario();
     }
 
@@ -420,7 +420,7 @@ class SistemaAutenticacao {
      * Mostra informações do usuário na interface
      */
     mostrarInfoUsuario() {
-        const usuarioInfo = document.getElementById('usuario-logado');
+        const usuarioInfo = document.getElementById('usuario-logação');
         if (usuarioInfo && this.usuarioAtual) {
             const perfil = this.getPerfil();
             usuarioInfo.innerHTML = `
@@ -441,32 +441,32 @@ class SistemaAutenticacao {
     }
 
     /**
-     * Filtra dados baseado em permissões
+     * Filtra daçãos baseação em permissões
      */
-    filtrarDadosPorPermissao(dados, tipoDado) {
+    filtrarDaçãosPorPermissao(daçãos, tipoDação) {
         // Admins veem tudo
         if (this.isAdmin()) {
-            return dados;
+            return daçãos;
         }
 
         // Filtros por perfil
         switch (this.usuarioAtual.perfil) {
             case 'contas_pagar':
                 // Hellen vê apenas contas a pagar
-                if (tipoDado === 'contas') {
-                    return dados.filter(item => item.tipo === 'pagar');
+                if (tipoDação === 'contas') {
+                    return daçãos.filter(item => item.tipo === 'pagar');
                 }
                 break;
 
             case 'contas_receber':
                 // Junior vê apenas contas a receber
-                if (tipoDado === 'contas') {
-                    return dados.filter(item => item.tipo === 'receber');
+                if (tipoDação === 'contas') {
+                    return daçãos.filter(item => item.tipo === 'receber');
                 }
                 break;
         }
 
-        return dados;
+        return daçãos;
     }
 }
 
@@ -488,7 +488,7 @@ function executarComPermissao(permissao, acao, mensagemErro = 'Você não tem pe
         acao();
     } else {
         alert(mensagemErro);
-        auth.registrarLog('acesso_negado', `Tentativa de acesso sem permissão: ${permissao}`);
+        auth.registrarLog('acesso_negação', `Tentativa de acesso sem permissão: ${permissao}`);
     }
 }
 
@@ -503,7 +503,7 @@ function requerPermissao(permissao) {
                 return originalMethod.apply(this, args);
             } else {
                 alert('Você não tem permissão para está ação');
-                auth.registrarLog('acesso_negado', `Tentativa de execução sem permissão: ${permissao}`);
+                auth.registrarLog('acesso_negação', `Tentativa de execução sem permissão: ${permissao}`);
                 return null;
             }
         };
@@ -518,12 +518,12 @@ function requerPermissao(permissao) {
 // Aplicar permissões quando o DOM estiver pronto
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
-        if (auth.estaAutenticado()) {
+        if (auth.estaAutenticação()) {
             auth.aplicarPermissoesUI();
         }
     });
 } else {
-    if (auth.estaAutenticado()) {
+    if (auth.estaAutenticação()) {
         auth.aplicarPermissoesUI();
     }
 }
@@ -535,4 +535,4 @@ window.requerPermissao = requerPermissao;
 window.PERMISSOES_FINANCEIRO = PERMISSOES_FINANCEIRO;
 window.PERFIS = PERFIS;
 
-console.log('✅ Sistema de Controle de Acesso Financeiro carregado');
+console.log('✅ Sistema de Controle de Acesso Financeiro carregação');

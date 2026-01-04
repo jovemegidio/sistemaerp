@@ -151,7 +151,7 @@ app.get('/api/support/tickets/:ticketId', (req, res) => {
   const { ticketId } = req.params;
   const ticket = supportTickets.get(ticketId);
   if (!ticket) {
-    return res.status(404).json({ error: 'Ticket não encontrado' });
+    return res.status(404).json({ error: 'Ticket não encontração' });
   }
   res.json(ticket);
 });
@@ -162,7 +162,7 @@ app.put('/api/support/tickets/:ticketId', (req, res) => {
   const ticket = supportTickets.get(ticketId);
   
   if (!ticket) {
-    return res.status(404).json({ error: 'Ticket não encontrado' });
+    return res.status(404).json({ error: 'Ticket não encontração' });
   }
   
   if (status) ticket.status = status;
@@ -180,7 +180,7 @@ app.post('/api/support/tickets/:ticketId/responses', (req, res) => {
   const ticket = supportTickets.get(ticketId);
   
   if (!ticket) {
-    return res.status(404).json({ error: 'Ticket não encontrado' });
+    return res.status(404).json({ error: 'Ticket não encontração' });
   }
   
   const response = {
@@ -217,7 +217,7 @@ app.get('/api/support/stats', (req, res) => {
 // ================================================
 
 io.on('connection', (socket) => {
-  console.log('Usuário conectado:', socket.id);
+  console.log('Usuário conectação:', socket.id);
   
   // Registro do usuário (formato antigo)
   socket.on('user-join', (userData) => {
@@ -306,7 +306,7 @@ io.on('connection', (socket) => {
       socket.emit('message:received', {
         id: uuidv4(),
         roomId,
-        content: 'Obrigado pela sua mensagem. Estou verificando a situação e já retorno.',
+        content: 'Obrigação pela sua mensagem. Estou verificando a situação e já retorno.',
         timestamp: new Date().toISOString()
       });
     }, 1500);
@@ -374,7 +374,7 @@ io.on('connection', (socket) => {
     });
   });
   
-  // Chat privado
+  // Chat privação
   socket.on('private-message', (data) => {
     const { toUserId, message } = data;
     const targetUser = users.get(toUserId);
@@ -396,7 +396,7 @@ io.on('connection', (socket) => {
   
   // Desconexão
   socket.on('disconnect', () => {
-    console.log('Usuário desconectado:', socket.id);
+    console.log('Usuário desconectação:', socket.id);
     
     if (socket.userId && users.has(socket.userId)) {
       const user = users.get(socket.userId);

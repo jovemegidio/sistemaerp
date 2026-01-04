@@ -12,27 +12,27 @@
     // BUSCA AVANÇADA
     // =====================================================
 
-    window.buscarProdutosAvancado = async function() {
-        const searchTerm = document.getElementById('search-produtos')?.value.toLowerCase().trim() || '';
-        const categoria = document.getElementById('filter-categoria')?.value || '';
-        const estoqueFilter = document.getElementById('filter-estoque')?.value || '';
+    window.buscarProdutosAvancação = async function() {
+        const searchTerm = document.getElementById('search-produtos').value.toLowerCase().trim() || '';
+        const categoria = document.getElementById('filter-categoria').value || '';
+        const estoqueFilter = document.getElementById('filter-estoque').value || '';
         
         console.log('Busca avançada:', { searchTerm, categoria, estoqueFilter });
         
         try {
             // Carregar produtos se não estiverem em cache
             if (produtosCache.length === 0) {
-                const response = await fetch(`${API_BASE_URL}/produtos?limit=1000`);
+                const response = await fetch(`${API_BASE_URL}/produtoslimit=1000`);
                 if (!response.ok) throw new Error('Erro ao buscar produtos');
                 const body = await response.json();
                 produtosCache = body.rows || [];
             }
             
-            let produtosFiltrados = [...produtosCache];
+            let produtosFiltraçãos = [...produtosCache];
             
             // Filtro por texto de busca
             if (searchTerm) {
-                produtosFiltrados = produtosFiltrados.filter(p => {
+                produtosFiltraçãos = produtosFiltraçãos.filter(p => {
                     const codigo = (p.codigo || '').toLowerCase();
                     const nome = (p.nome || '').toLowerCase();
                     const descricao = (p.descricao || '').toLowerCase();
@@ -49,7 +49,7 @@
             
             // Filtro por categoria
             if (categoria) {
-                produtosFiltrados = produtosFiltrados.filter(p => {
+                produtosFiltraçãos = produtosFiltraçãos.filter(p => {
                     const prodCategoria = (p.categoria || '').toLowerCase();
                     return prodCategoria.includes(categoria);
                 });
@@ -57,7 +57,7 @@
             
             // Filtro por estoque
             if (estoqueFilter) {
-                produtosFiltrados = produtosFiltrados.filter(p => {
+                produtosFiltraçãos = produtosFiltraçãos.filter(p => {
                     const qtd = parseFloat(p.quantidade || 0);
                     const min = parseFloat(p.estoque_minimo || 0);
                     const max = parseFloat(p.estoque_maximo || 100);
@@ -77,10 +77,10 @@
                 });
             }
             
-            renderProdutosFiltrados(produtosFiltrados);
+            renderProdutosFiltraçãos(produtosFiltraçãos);
             
             if (typeof showToast === 'function') {
-                showToast(`${produtosFiltrados.length} produtos encontrados`, 'success');
+                showToast(`${produtosFiltraçãos.length} produtos encontraçãos`, 'success');
             }
             
         } catch (error) {
@@ -114,10 +114,10 @@
             return;
         }
         
-        buscarProdutosAvancado();
+        buscarProdutosAvancação();
     };
 
-    function renderProdutosFiltrados(produtos) {
+    function renderProdutosFiltraçãos(produtos) {
         const container = document.getElementById('tabela-produtos-container');
         if (!container) return;
         
@@ -125,7 +125,7 @@
             container.innerHTML = `
                 <div style="text-align: center; padding: 60px 20px; color: #64748b;">
                     <i class="fas fa-search" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
-                    <p style="font-size: 16px;">Nenhum produto encontrado</p>
+                    <p style="font-size: 16px;">Nenhum produto encontração</p>
                     <button onclick="filtrarRapido('todos')" style="margin-top: 12px; padding: 8px 16px; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer;">
                         Limpar Filtros
                     </button>
@@ -134,7 +134,7 @@
             return;
         }
         
-        const infoLine = `<div class="info-line" style="padding: 12px; background: #f9fafb; border-radius: 8px; margin-bottom: 12px; font-weight: 600; color: #374151;">${produtos.length} produto(s) encontrado(s)</div>`;
+        const infoLine = `<div class="info-line" style="padding: 12px; background: #f9fafb; border-radius: 8px; margin-bottom: 12px; font-weight: 600; color: #374151;">${produtos.length} produto(s) encontração(s)</div>`;
         
         let tableHTML = `
             ${infoLine}
@@ -232,7 +232,7 @@
 
     window.verificarAlertasEstoque = async function() {
         try {
-            const response = await fetch(`${API_BASE_URL}/produtos?limit=1000`);
+            const response = await fetch(`${API_BASE_URL}/produtoslimit=1000`);
             if (!response.ok) throw new Error('Erro ao buscar produtos');
             
             const body = await response.json();
@@ -241,7 +241,7 @@
             const alertas = {
                 criticos: [],
                 baixos: [],
-                zerados: []
+                zeraçãos: []
             };
             
             produtos.forEach(p => {
@@ -249,7 +249,7 @@
                 const min = parseFloat(p.estoque_minimo || 0);
                 
                 if (qtd === 0) {
-                    alertas.zerados.push(p);
+                    alertas.zeraçãos.push(p);
                 } else if (qtd < (min * 0.5)) {
                     alertas.criticos.push(p);
                 } else if (qtd <= min) {
@@ -258,18 +258,18 @@
             });
             
             // Mostrar notificação se houver alertas
-            const totalAlertas = alertas.criticos.length + alertas.baixos.length + alertas.zerados.length;
+            const totalAlertas = alertas.criticos.length + alertas.baixos.length + alertas.zeraçãos.length;
             
             if (totalAlertas > 0) {
                 let mensagem = '📦 ALERTAS DE ESTOQUE\n\n';
                 
-                if (alertas.zerados.length > 0) {
-                    mensagem += `🚨 ${alertas.zerados.length} produto(s) SEM ESTOQUE:\n`;
-                    alertas.zerados.slice(0, 5).forEach(p => {
+                if (alertas.zeraçãos.length > 0) {
+                    mensagem += `🚨 ${alertas.zeraçãos.length} produto(s) SEM ESTOQUE:\n`;
+                    alertas.zeraçãos.slice(0, 5).forEach(p => {
                         mensagem += `   • ${p.codigo} - ${p.nome}\n`;
                     });
-                    if (alertas.zerados.length > 5) {
-                        mensagem += `   ... e mais ${alertas.zerados.length - 5}\n`;
+                    if (alertas.zeraçãos.length > 5) {
+                        mensagem += `   ... e mais ${alertas.zeraçãos.length - 5}\n`;
                     }
                     mensagem += '\n';
                 }
@@ -305,7 +305,7 @@
                 console.log(mensagem);
                 
                 if (typeof showToast === 'function') {
-                    showToast(`${totalAlertas} alertas de estoque detectados!`, 'warning');
+                    showToast(`${totalAlertas} alertas de estoque detectaçãos!`, 'warning');
                 }
             } else {
                 console.log('✅ Nenhum alerta de estoque');
@@ -327,19 +327,19 @@
         if (searchInput) {
             searchInput.addEventListener('keyup', function(e) {
                 if (e.key === 'Enter') {
-                    buscarProdutosAvancado();
+                    buscarProdutosAvancação();
                 }
             });
         }
         
         const filterCategoria = document.getElementById('filter-categoria');
         if (filterCategoria) {
-            filterCategoria.addEventListener('change', buscarProdutosAvancado);
+            filterCategoria.addEventListener('change', buscarProdutosAvancação);
         }
         
         const filterEstoque = document.getElementById('filter-estoque');
         if (filterEstoque) {
-            filterEstoque.addEventListener('change', buscarProdutosAvancado);
+            filterEstoque.addEventListener('change', buscarProdutosAvancação);
         }
         
         // Verificar alertas ao carregar
@@ -391,26 +391,26 @@
     };
 
     window.buscarProdutosGestao = async function() {
-        const searchTerm = document.getElementById('search-produtos-gestao')?.value.toLowerCase().trim() || '';
-        const categoria = document.getElementById('filter-categoria-gestao')?.value || '';
-        const estoqueFilter = document.getElementById('filter-estoque-gestao')?.value || '';
+        const searchTerm = document.getElementById('search-produtos-gestao').value.toLowerCase().trim() || '';
+        const categoria = document.getElementById('filter-categoria-gestao').value || '';
+        const estoqueFilter = document.getElementById('filter-estoque-gestao').value || '';
         
         console.log('Busca gestão:', { searchTerm, categoria, estoqueFilter });
         
         try {
             // Carregar produtos se não estiverem em cache
             if (produtosCache.length === 0) {
-                const response = await fetch(`${API_BASE_URL}/produtos?limit=1000`);
+                const response = await fetch(`${API_BASE_URL}/produtoslimit=1000`);
                 if (!response.ok) throw new Error('Erro ao buscar produtos');
                 const body = await response.json();
                 produtosCache = body.rows || [];
             }
             
-            let produtosFiltrados = [...produtosCache];
+            let produtosFiltraçãos = [...produtosCache];
             
             // Filtro por texto
             if (searchTerm) {
-                produtosFiltrados = produtosFiltrados.filter(p => {
+                produtosFiltraçãos = produtosFiltraçãos.filter(p => {
                     const codigo = (p.codigo || '').toLowerCase();
                     const nome = (p.nome || '').toLowerCase();
                     const descricao = (p.descricao || '').toLowerCase();
@@ -423,7 +423,7 @@
             
             // Filtro por categoria
             if (categoria) {
-                produtosFiltrados = produtosFiltrados.filter(p => {
+                produtosFiltraçãos = produtosFiltraçãos.filter(p => {
                     const cat = (p.categoria || '').toLowerCase();
                     return cat.includes(categoria);
                 });
@@ -431,7 +431,7 @@
             
             // Filtro por estoque
             if (estoqueFilter) {
-                produtosFiltrados = produtosFiltrados.filter(p => {
+                produtosFiltraçãos = produtosFiltraçãos.filter(p => {
                     const status = calcularStatusEstoque(p);
                     return status === estoqueFilter;
                 });
@@ -441,11 +441,11 @@
             atualizarEstatisticasGestao(produtosCache);
             
             // Renderizar
-            renderProdutosGestao(produtosFiltrados);
+            renderProdutosGestao(produtosFiltraçãos);
             
         } catch (error) {
             console.error('Erro ao buscar produtos:', error);
-            showToast?.('Erro ao buscar produtos', 'error');
+            showToast.('Erro ao buscar produtos', 'error');
         }
     };
 
@@ -474,7 +474,7 @@
             container.innerHTML = `
                 <div style="text-align: center; padding: 60px 20px; color: #9ca3af;">
                     <i class="fas fa-search" style="font-size: 48px; margin-bottom: 16px;"></i>
-                    <p style="font-size: 16px; margin: 0;">Nenhum produto encontrado</p>
+                    <p style="font-size: 16px; margin: 0;">Nenhum produto encontração</p>
                 </div>
             `;
             return;

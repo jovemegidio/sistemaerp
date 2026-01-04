@@ -23,9 +23,9 @@ async function computeAndPersist() {
     const startStr = `${start.getFullYear()}-${String(start.getMonth() + 1).padStart(2, '0')}-01`;
 
     const [rows] = await pool.query(
-      `SELECT DATE_FORMAT(created_at, '%Y-%m') AS ym, COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS total
+      `SELECT DATE_FORMAT(created_at, '%Y-%m') AS ym, COALESCE(SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS total
        FROM pedidos
-       WHERE created_at >= ?
+       WHERE created_at >= 
        GROUP BY ym
        ORDER BY ym ASC`,
       [startStr]
@@ -49,9 +49,9 @@ async function computeAndPersist() {
       const d = new Date(start.getFullYear(), start.getMonth() + i, 1);
       const ym = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
       labels.push(d.toLocaleString('pt-BR', { month: 'short', year: 'numeric' }));
-      const v = map.has(ym) ? map.get(ym) : 0;
+      const v = map.has(ym)  map.get(ym) : 0;
       values.push(v);
-      try { await pool.query('INSERT INTO dashboard_aggregates (ym, total) VALUES (?, ?) ON DUPLICATE KEY UPDATE total = VALUES(total), created_at = CURRENT_TIMESTAMP', [ym, v]); } catch (e) { }
+      try { await pool.query('INSERT INTO dashboard_aggregates (ym, total) VALUES (, ) ON DUPLICATE KEY UPDATE total = VALUES(total), created_at = CURRENT_TIMESTAMP', [ym, v]); } catch (e) { }
     }
 
     // top vendedores last 30 days
@@ -59,10 +59,10 @@ async function computeAndPersist() {
     const startTop = new Date(now.getFullYear(), now.getMonth(), now.getDate() - (periodDays - 1));
     const startTopStr = `${startTop.getFullYear()}-${String(startTop.getMonth() + 1).padStart(2, '0')}-${String(startTop.getDate()).padStart(2, '0')}`;
     const [topRows] = await pool.query(
-      `SELECT u.id, u.nome, COALESCE(SUM(CASE WHEN p.status = 'faturado' THEN p.valor ELSE 0 END), 0) AS valor
+      `SELECT u.id, u.nome, COALESCE(SUM(CASE WHEN p.status = 'faturação' THEN p.valor ELSE 0 END), 0) AS valor
        FROM pedidos p
        JOIN usuarios u ON p.vendedor_id = u.id
-       WHERE p.created_at >= ?
+       WHERE p.created_at >= 
        GROUP BY u.id, u.nome
        ORDER BY valor DESC
        LIMIT 10`,
@@ -81,7 +81,7 @@ async function computeAndPersist() {
 
     console.log('Aggregates computed and cached');
   } catch (e) {
-    console.error('Worker compute error', e && e.message ? e.message : e);
+    console.error('Worker compute error', e && e.message  e.message : e);
     throw e;
   } finally {
     try { if (pool) await pool.end(); } catch (e) {}
@@ -101,7 +101,7 @@ if (require.main === module) {
     }, { connection });
 
     worker.on('completed', job => console.log('Job completed', job.id));
-    worker.on('failed', (job, err) => console.error('Job failed', job && job.id, err && err.message ? err.message : err));
+    worker.on('failed', (job, err) => console.error('Job failed', job && job.id, err && err.message  err.message : err));
 
     console.log('Worker started, listening for jobs on queue', queueName);
   }

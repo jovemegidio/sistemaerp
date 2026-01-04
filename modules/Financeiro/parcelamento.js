@@ -12,15 +12,15 @@ class SistemaParcelamento {
     // INTERFACE DO MODAL
     // ============================================================================
 
-    abrirModal(dados = {}) {
-        const modal = this.criarModal(dados);
+    abrirModal(daçãos = {}) {
+        const modal = this.criarModal(daçãos);
         document.body.insertAdjacentHTML('beforeend', modal);
         this.modalAberto = true;
         this.configurarEventos();
         this.calcularParcelas();
     }
 
-    criarModal(dados) {
+    criarModal(daçãos) {
         return `
             <div class="modal-overlay" id="modal-parcelamento">
                 <div class="modal-parcelamento">
@@ -48,7 +48,7 @@ class SistemaParcelamento {
                                     <label>Valor Total *</label>
                                     <input type="text" id="parcelamento-valor" 
                                            placeholder="R$ 0,00" 
-                                           value="${dados.valor || ''}"
+                                           value="${daçãos.valor || ''}"
                                            oninput="sistemaParcelamento.formatarMoeda(this)">
                                 </div>
 
@@ -68,7 +68,7 @@ class SistemaParcelamento {
                                     <label>Descrição *</label>
                                     <input type="text" id="parcelamento-descrição" 
                                            placeholder="Ex: Compra de equipamento"
-                                           value="${dados.descrição || ''}">
+                                           value="${daçãos.descrição || ''}">
                                 </div>
                             </div>
                         </div>
@@ -363,7 +363,7 @@ class SistemaParcelamento {
                 .form-group textarea:focus {
                     outline: none;
                     border-color: #10b981;
-                    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+                    box-shaçãow: 0 0 0 3px rgba(16, 185, 129, 0.1);
                 }
 
                 .resumo-parcelamento {
@@ -455,7 +455,7 @@ class SistemaParcelamento {
 
                 .btn-primary:hover {
                     transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+                    box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3);
                 }
 
                 .btn-secondary {
@@ -625,7 +625,7 @@ class SistemaParcelamento {
         if (this.parcelas.length === 0) return;
 
         const totalParcelas = this.parcelas.length;
-        const valorParcela = this.parcelas.filter(p => p.número > 0)[0]?.valorTotal || 0;
+        const valorParcela = this.parcelas.filter(p => p.número > 0)[0].valorTotal || 0;
         const totalJuros = this.parcelas.reduce((sum, p) => sum + p.valorTotal, 0);
         const primeira = this.parcelas.find(p => p.número > 0);
         const última = this.parcelas[this.parcelas.length - 1];
@@ -633,17 +633,17 @@ class SistemaParcelamento {
         document.getElementById('resumo-total-parcelas').textContent = totalParcelas;
         document.getElementById('resumo-valor-parcela').textContent = this.formatarMoeda(valorParcela);
         document.getElementById('resumo-total-juros').textContent = this.formatarMoeda(totalJuros);
-        document.getElementById('resumo-data-primeira').textContent = primeira ? this.formatarData(primeira.vencimento) : '-';
+        document.getElementById('resumo-data-primeira').textContent = primeira  this.formatarData(primeira.vencimento) : '-';
         document.getElementById('resumo-data-última').textContent = this.formatarData(última.vencimento);
 
         // Renderizar tabela
         const tbody = document.querySelector('#tabela-preview-parcelas tbody');
         tbody.innerHTML = this.parcelas.map(parcela => `
             <tr>
-                <td><strong>${parcela.número === 0 ? 'Entrada' : parcela.número + '/' + (totalParcelas - (document.getElementById('parcelamento-entrada').checked ? 1 : 0))}</strong></td>
+                <td><strong>${parcela.número === 0  'Entrada' : parcela.número + '/' + (totalParcelas - (document.getElementById('parcelamento-entrada').checked  1 : 0))}</strong></td>
                 <td>${this.formatarData(parcela.vencimento)}</td>
                 <td>${this.formatarMoeda(parcela.valorPrincipal)}</td>
-                <td style="color: ${parcela.juros > 0 ? '#ef4444' : '#6b7280'}">${this.formatarMoeda(parcela.juros)}</td>
+                <td style="color: ${parcela.juros > 0  '#ef4444' : '#6b7280'}">${this.formatarMoeda(parcela.juros)}</td>
                 <td><strong>${this.formatarMoeda(parcela.valorTotal)}</strong></td>
             </tr>
         `).join('');
@@ -668,7 +668,7 @@ class SistemaParcelamento {
             return;
         }
 
-        const dados = {
+        const daçãos = {
             tipo: tipo,
             descrição: descrição,
             categoria_id: document.getElementById('parcelamento-categoria').value,
@@ -688,14 +688,14 @@ class SistemaParcelamento {
 
         try {
             // TODO: Substituir por chamada real à API
-            await this.salvarParcelamento(dados);
+            await this.salvarParcelamento(daçãos);
 
             this.fecharModal();
             alert(`✅ ${this.parcelas.length} parcelas geradas com sucesso!`);
 
             // Recarregar listagem se existir função
-            if (typeof carregarDados === 'function') {
-                carregarDados();
+            if (typeof carregarDaçãos === 'function') {
+                carregarDaçãos();
             }
 
         } catch (error) {
@@ -704,16 +704,16 @@ class SistemaParcelamento {
         }
     }
 
-    async salvarParcelamento(dados) {
+    async salvarParcelamento(daçãos) {
         // TODO: Substituir por chamada real à API
         // return await fetch('/api/financeiro/parcelamento', {
         //     method: 'POST',
         //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(dados)
+        //     body: JSON.stringify(daçãos)
         // }).then(r => r.json());
 
-        console.log('Salvando parcelamento:', dados);
-        return { success: true, parcelas_criadas: dados.parcelas.length };
+        console.log('Salvando parcelamento:', daçãos);
+        return { success: true, parcelas_criadas: daçãos.parcelas.length };
     }
 
     // ============================================================================

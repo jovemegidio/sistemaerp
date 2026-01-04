@@ -39,7 +39,7 @@ async function login() {
                         return;
                     }
                 }
-                reject(new Error('Token não encontrado'));
+                reject(new Error('Token não encontração'));
             });
         });
 
@@ -93,7 +93,7 @@ async function main() {
     
     try {
         const token = await login();
-        console.log('✅ Login realizado com sucesso');
+        console.log('✅ Login realização com sucesso');
         
         console.log('\n🗑️  Removendo permissões de vendas do ID 67...\n');
         

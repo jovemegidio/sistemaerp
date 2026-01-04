@@ -10,7 +10,7 @@ module.exports = {
         checkPeriod: 60000 // Verificar a cada 1 minuto
     },
     
-    // Pool de conexões MySQL otimizado
+    // Pool de conexões MySQL otimização
     database: {
         connectionLimit: 20,
         queueLimit: 0,
@@ -34,7 +34,7 @@ module.exports = {
     
     // Logs
     logging: {
-        level: process.env.NODE_ENV === 'production' ? 'error' : 'info',
+        level: process.env.NODE_ENV === 'production'  'error' : 'info',
         maxFiles: 5,
         maxSize: '10m'
     },

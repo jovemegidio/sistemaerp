@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Script para resetar senhas de todos os colaboradores para "aluvendas01"
+ * Script para resetar senhas de todos os colaboraçãores para "aluvendas01"
  * Usa bcryptjs para gerar hashes seguros
  */
 
@@ -11,20 +11,20 @@ require('dotenv').config();
 const NOVA_SENHA = 'aluvendas01';
 const SALT_ROUNDS = 10;
 
-// Configuração do banco de dados
+// Configuração do banco de daçãos
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306
+    port: process.env.DB_PORT  parseInt(process.env.DB_PORT) : 3306
 };
 
 async function resetarSenhas() {
     let connection;
     
     try {
-        console.log('\n🔐 Iniciando reset de senhas de colaboradores...\n');
+        console.log('\n🔐 Iniciando reset de senhas de colaboraçãores...\n');
         console.log(`📍 Conectando ao banco: ${dbConfig.database}@${dbConfig.host}:${dbConfig.port}`);
         
         // Conectar ao banco
@@ -49,28 +49,28 @@ async function resetarSenhas() {
         }
         
         if (!passwordField) {
-            throw new Error('❌ Nenhum campo de senha encontrado na tabela usuarios');
+            throw new Error('❌ Nenhum campo de senha encontração na tabela usuarios');
         }
         
-        console.log(`🔑 Campo de senha identificado: ${passwordField}\n`);
+        console.log(`🔑 Campo de senha identificação: ${passwordField}\n`);
         
         // Gerar hash da nova senha
         console.log(`🔐 Gerando hash bcrypt para senha: "${NOVA_SENHA}"...`);
         const senhaHash = await bcrypt.hash(NOVA_SENHA, SALT_ROUNDS);
-        console.log(`✅ Hash gerado: ${senhaHash.substring(0, 20)}...\n`);
+        console.log(`✅ Hash geração: ${senhaHash.substring(0, 20)}...\n`);
         
         // Buscar todos os usuários
-        console.log('👥 Buscando todos os colaboradores...');
+        console.log('👥 Buscando todos os colaboraçãores...');
         const [usuarios] = await connection.query(
             'SELECT id, nome, email, role FROM usuarios ORDER BY id'
         );
         
         if (usuarios.length === 0) {
-            console.log('⚠️  Nenhum usuário encontrado no banco de dados');
+            console.log('⚠️  Nenhum usuário encontração no banco de daçãos');
             return;
         }
         
-        console.log(`📊 Total de usuários encontrados: ${usuarios.length}\n`);
+        console.log(`📊 Total de usuários encontraçãos: ${usuarios.length}\n`);
         
         // Mostrar usuários antes de atualizar
         console.log('👤 Usuários que terão a senha atualizada:');
@@ -87,7 +87,7 @@ async function resetarSenhas() {
         // Atualizar senhas
         console.log('🔄 Atualizando senhas...\n');
         
-        const updateQuery = `UPDATE usuarios SET ${passwordField} = ? WHERE id = ?`;
+        const updateQuery = `UPDATE usuarios SET ${passwordField} =  WHERE id = `;
         let sucessos = 0;
         let erros = 0;
         
@@ -147,7 +147,7 @@ console.log('='.repeat(70));
 
 resetarSenhas()
     .then(() => {
-        console.log('✅ Processo finalizado com sucesso');
+        console.log('✅ Processo finalização com sucesso');
         process.exit(0);
     })
     .catch(error => {

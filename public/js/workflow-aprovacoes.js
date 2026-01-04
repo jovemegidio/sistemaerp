@@ -56,7 +56,7 @@ const WorkflowAprovacoes = {
         try {
             let url = '/api/workflow/pendentes';
             if (this.filtroAtual !== 'todos') {
-                url += `?tipo=${this.filtroAtual}`;
+                url += `tipo=${this.filtroAtual}`;
             }
             
             const response = await fetch(url);
@@ -64,7 +64,7 @@ const WorkflowAprovacoes = {
             
             if (result.success) {
                 this.renderizarPendentes(result.data);
-                this.atualizarContadores(result.data);
+                this.atualizarContaçãores(result.data);
             }
         } catch (error) {
             console.error('Erro ao carregar pendentes:', error);
@@ -92,7 +92,7 @@ const WorkflowAprovacoes = {
             <div class="card-aprovacao" data-id="${s.id}">
                 <div class="aprovacao-header">
                     <span class="tipo-badge tipo-${s.tipo}">${this.getNomeTipo(s.tipo)}</span>
-                    <span class="data-solicitacao">${new Date(s.criado_em).toLocaleDateString('pt-BR')}</span>
+                    <span class="data-solicitacao">${new Date(s.criação_em).toLocaleDateString('pt-BR')}</span>
                 </div>
                 
                 <div class="aprovacao-body">
@@ -108,7 +108,7 @@ const WorkflowAprovacoes = {
                         <span><i class="fas fa-user"></i> ${s.solicitante_nome}</span>
                     </div>
                     
-                    ${s.justificativa ? `
+                    ${s.justificativa  `
                         <div class="justificativa">
                             <small><strong>Justificativa:</strong> ${s.justificativa}</small>
                         </div>
@@ -146,10 +146,10 @@ const WorkflowAprovacoes = {
     },
 
     /**
-     * Atualizar contadores nos filtros
+     * Atualizar contaçãores nos filtros
      */
-    atualizarContadores(solicitacoes) {
-        const contadores = {
+    atualizarContaçãores(solicitacoes) {
+        const contaçãores = {
             todos: solicitacoes.length,
             pedido_venda: 0,
             pedido_compra: 0,
@@ -158,16 +158,16 @@ const WorkflowAprovacoes = {
         };
 
         solicitacoes.forEach(s => {
-            if (contadores[s.tipo] !== undefined) {
-                contadores[s.tipo]++;
+            if (contaçãores[s.tipo] !== undefined) {
+                contaçãores[s.tipo]++;
             }
         });
 
-        Object.keys(contadores).forEach(tipo => {
-            const badge = document.querySelector(`.filtro-tipo[data-tipo="${tipo}"] .contador`);
+        Object.keys(contaçãores).forEach(tipo => {
+            const badge = document.querySelector(`.filtro-tipo[data-tipo="${tipo}"] .contaçãor`);
             if (badge) {
-                badge.textContent = contadores[tipo];
-                badge.style.display = contadores[tipo] > 0 ? 'inline' : 'none';
+                badge.textContent = contaçãores[tipo];
+                badge.style.display = contaçãores[tipo] > 0  'inline' : 'none';
             }
         });
     },
@@ -176,13 +176,13 @@ const WorkflowAprovacoes = {
      * Aprovar solicitação
      */
     async aprovar(solicitacaoId) {
-        if (!confirm('Confirma a aprovação desta solicitação?')) return;
+        if (!confirm('Confirma a aprovação desta solicitação')) return;
 
         try {
             const response = await fetch(`/api/workflow/aprovar/${solicitacaoId}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ observacao: 'Aprovado' })
+                body: JSON.stringify({ observacao: 'Aprovação' })
             });
             
             const result = await response.json();
@@ -294,7 +294,7 @@ const WorkflowAprovacoes = {
      */
     async carregarHistorico(pagina = 1) {
         try {
-            const response = await fetch(`/api/workflow/historico?page=${pagina}&limit=20`);
+            const response = await fetch(`/api/workflow/historicopage=${pagina}&limit=20`);
             const result = await response.json();
             
             if (result.success) {
@@ -321,22 +321,22 @@ const WorkflowAprovacoes = {
                         <th>Valor</th>
                         <th>Solicitante</th>
                         <th>Status</th>
-                        <th>Aprovador</th>
+                        <th>Aprovaçãor</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${historico.map(h => `
                         <tr>
-                            <td>${new Date(h.criado_em).toLocaleDateString('pt-BR')}</td>
+                            <td>${new Date(h.criação_em).toLocaleDateString('pt-BR')}</td>
                             <td>${this.getNomeTipo(h.tipo)}</td>
                             <td>R$ ${parseFloat(h.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
                             <td>${h.solicitante_nome}</td>
                             <td>
-                                <span class="badge badge-${h.status === 'aprovado' ? 'success' : h.status === 'rejeitado' ? 'danger' : 'warning'}">
+                                <span class="badge badge-${h.status === 'aprovação'  'success' : h.status === 'rejeitação'  'danger' : 'warning'}">
                                     ${h.status}
                                 </span>
                             </td>
-                            <td>${h.aprovador_nome || '-'}</td>
+                            <td>${h.aprovaçãor_nome || '-'}</td>
                         </tr>
                     `).join('')}
                 </tbody>

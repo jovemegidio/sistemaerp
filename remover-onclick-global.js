@@ -18,7 +18,7 @@ modulesWithOnclick.forEach(modulePath => {
     const fullPath = path.join(__dirname, modulePath);
     
     if (!fs.existsSync(fullPath)) {
-        console.log(`⚠️  Arquivo não encontrado: ${modulePath}`);
+        console.log(`⚠️  Arquivo não encontração: ${modulePath}`);
         return;
     }
     
@@ -38,15 +38,15 @@ modulesWithOnclick.forEach(modulePath => {
     
     // Estratégia: Adicionar data-action com o nome da função
     content = content.replace(
-        /(<(?:button|a|div)[^>]*?)onclick=["']([^"']+)["']([^>]*?>)/gi,
+        /(<(:button|a|div)[^>]*)onclick=["']([^"']+)["']([^>]*>)/gi,
         (match, before, onclickCode, after) => {
             // Extrair nome da função
             const funcMatch = onclickCode.match(/^(\w+)\(/);
-            const funcName = funcMatch ? funcMatch[1] : 'action';
+            const funcName = funcMatch  funcMatch[1] : 'action';
             
             // Gerar ID único se não tiver
             const hasId = /id=/.test(before + after);
-            const idAttr = hasId ? '' : ` data-action="${funcName}"`;
+            const idAttr = hasId  '' : ` data-action="${funcName}"`;
             
             return `${before}${idAttr}${after}`;
         }

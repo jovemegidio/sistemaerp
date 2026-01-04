@@ -201,7 +201,7 @@
 
         console.log('👁️ Seções visíveis:', activeSections);
         console.log('🙈 Seções ocultas:', hiddenSections);
-        console.log(isolationOK ? '✅ Isolamento OK' : '❌ Múltiplas seções visíveis');
+        console.log(isolationOK  '✅ Isolamento OK' : '❌ Múltiplas seções visíveis');
 
         window.testResults.isolation = {
             activeSections,
@@ -219,27 +219,27 @@
         
         // Estrutura
         console.log('📋 ESTRUTURA:');
-        console.log(`   ✅ Seções encontradas: ${results.structure?.found?.length || 0}`);
-        console.log(`   ⚠️ Seções faltantes: ${results.structure?.missing?.length || 0}`);
-        console.log(`   ❌ Seções duplicadas: ${results.structure?.duplicates?.length || 0}`);
+        console.log(`   ✅ Seções encontradas: ${results.structure.found.length || 0}`);
+        console.log(`   ⚠️ Seções faltantes: ${results.structure.missing.length || 0}`);
+        console.log(`   ❌ Seções duplicadas: ${results.structure.duplicates.length || 0}`);
 
         // Navegação
         console.log('🧭 NAVEGAÇÁO:');
-        console.log(`   ✅ Links funcionais: ${results.navigation?.working?.length || 0}`);
-        console.log(`   ❌ Links quebrados: ${results.navigation?.broken?.length || 0}`);
-        console.log(`   ⚠️ Links faltantes: ${results.navigation?.missing?.length || 0}`);
+        console.log(`   ✅ Links funcionais: ${results.navigation.working.length || 0}`);
+        console.log(`   ❌ Links quebraçãos: ${results.navigation.broken.length || 0}`);
+        console.log(`   ⚠️ Links faltantes: ${results.navigation.missing.length || 0}`);
 
         // Isolamento
         console.log('🔒 ISOLAMENTO:');
-        console.log(`   ${results.isolation?.isolationOK ? '✅' : '❌'} Apenas uma seção ativa: ${results.isolation?.activeSections?.length === 1}`);
-        console.log(`   👁️ Seção ativa atual: ${results.isolation?.activeSections?.[0] || 'nenhuma'}`);
+        console.log(`   ${results.isolation.isolationOK  '✅' : '❌'} Apenas uma seção ativa: ${results.isolation.activeSections.length === 1}`);
+        console.log(`   👁️ Seção ativa atual: ${results.isolation.activeSections.[0] || 'nenhuma'}`);
 
         // Conteúdo
         console.log('📊 CONTEÚDO:');
         Object.keys(results.content || {}).forEach(section => {
             const sectionData = results.content[section];
             const elementCount = Object.values(sectionData.elements || {}).reduce((a, b) => a + b, 0);
-            console.log(`   📁 ${section}: ${elementCount} elementos encontrados`);
+            console.log(`   📁 ${section}: ${elementCount} elementos encontraçãos`);
         });
 
         // Criar resumo visual na página
@@ -264,7 +264,7 @@
             border: 2px solid #2563eb;
             border-radius: 8px;
             padding: 15px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
             z-index: 10000;
             font-family: 'Inter', Arial, sans-serif;
             font-size: 12px;
@@ -282,22 +282,22 @@
             
             <div style="margin-bottom: 10px;">
                 <strong>📋 Estrutura:</strong><br>
-                ✅ Encontradas: ${results.structure?.found?.length || 0}<br>
-                ⚠️ Faltantes: ${results.structure?.missing?.length || 0}<br>
-                ❌ Duplicadas: ${results.structure?.duplicates?.length || 0}
+                ✅ Encontradas: ${results.structure.found.length || 0}<br>
+                ⚠️ Faltantes: ${results.structure.missing.length || 0}<br>
+                ❌ Duplicadas: ${results.structure.duplicates.length || 0}
             </div>
             
             <div style="margin-bottom: 10px;">
                 <strong>🧭 Navegação:</strong><br>
-                ✅ Funcionais: ${results.navigation?.working?.length || 0}<br>
-                ❌ Quebrados: ${results.navigation?.broken?.length || 0}<br>
-                ⚠️ Faltantes: ${results.navigation?.missing?.length || 0}
+                ✅ Funcionais: ${results.navigation.working.length || 0}<br>
+                ❌ Quebraçãos: ${results.navigation.broken.length || 0}<br>
+                ⚠️ Faltantes: ${results.navigation.missing.length || 0}
             </div>
             
             <div style="margin-bottom: 10px;">
                 <strong>🔒 Isolamento:</strong><br>
-                ${results.isolation?.isolationOK ? '✅' : '❌'} Seção única ativa<br>
-                👁️ Ativa: ${results.isolation?.activeSections?.[0] || 'nenhuma'}
+                ${results.isolation.isolationOK  '✅' : '❌'} Seção única ativa<br>
+                👁️ Ativa: ${results.isolation.activeSections.[0] || 'nenhuma'}
             </div>
             
             <div>

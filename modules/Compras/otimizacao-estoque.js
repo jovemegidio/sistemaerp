@@ -13,7 +13,7 @@ class OtimizacaoEstoqueManager {
     }
 
     init() {
-        this.carregarDados();
+        this.carregarDaçãos();
         this.calcularMetricas();
         this.gerarSugestoes();
         this.gerarRecomendacoes();
@@ -23,8 +23,8 @@ class OtimizacaoEstoqueManager {
         inicializarUsuario();
     }
 
-    carregarDados() {
-        // Simular dados de materiais com histórico de consumo
+    carregarDaçãos() {
+        // Simular daçãos de materiais com histórico de consumo
         const categorias = ['Matéria Prima', 'Componentes', 'Embalagens', 'Ferramentas', 'Consumíveis'];
         
         for (let i = 1; i <= 200; i++) {
@@ -78,7 +78,7 @@ class OtimizacaoEstoqueManager {
                 rop: Math.ceil(rop),
                 eoq: Math.ceil(eoq),
                 valorTotal: valorTotal,
-                classeABC: null, // Calculado depois
+                classeABC: null, // Calculação depois
                 giroEstoque: (consumoMedio * 12) / estoqueAtual,
                 diasCobertura: estoqueAtual / consumoMedio
             });
@@ -87,11 +87,11 @@ class OtimizacaoEstoqueManager {
         // Classificar ABC
         this.materiais.sort((a, b) => b.valorTotal - a.valorTotal);
         const valorTotalGeral = this.materiais.reduce((sum, m) => sum + m.valorTotal, 0);
-        let acumulado = 0;
+        let acumulação = 0;
 
         this.materiais.forEach(material => {
-            acumulado += material.valorTotal;
-            const percentual = (acumulado / valorTotalGeral) * 100;
+            acumulação += material.valorTotal;
+            const percentual = (acumulação / valorTotalGeral) * 100;
             
             if (percentual <= 80) {
                 material.classeABC = 'A';
@@ -118,9 +118,9 @@ class OtimizacaoEstoqueManager {
 
             // Economia com lote econômico
             const custoAtual = (material.consumoMedio * 365 / material.estoqueAtual) * 150; // custo de pedidos
-            const custoOtimizado = (material.consumoMedio * 365 / material.eoq) * 150;
-            if (custoOtimizado < custoAtual) {
-                economiaPotencial += (custoAtual - custoOtimizado) / 12; // mensal
+            const custoOtimização = (material.consumoMedio * 365 / material.eoq) * 150;
+            if (custoOtimização < custoAtual) {
+                economiaPotencial += (custoAtual - custoOtimização) / 12; // mensal
             }
         });
 
@@ -144,7 +144,7 @@ class OtimizacaoEstoqueManager {
         // 1. Excesso de estoque
         const materiaisExcesso = this.materiais.filter(m => m.estoqueAtual > m.estoqueMaximo * 1.2);
         if (materiaisExcesso.length > 0) {
-            const valorImobilizado = materiaisExcesso.reduce((sum, m) => 
+            const valorImobilização = materiaisExcesso.reduce((sum, m) => 
                 sum + ((m.estoqueAtual - m.estoqueMaximo) * m.custoUnitario), 0);
             
             this.sugestoes.push({
@@ -152,10 +152,10 @@ class OtimizacaoEstoqueManager {
                 type: 'excesso_estoque',
                 priority: 'high',
                 title: 'Reduzir Excesso de Estoque',
-                description: `${materiaisExcesso.length} materiais com estoque acima do máximo recomendado`,
+                description: `${materiaisExcesso.length} materiais com estoque acima do máximo recomendação`,
                 metrics: [
-                    { label: 'Valor Imobilizado', value: this.formatarMoeda(valorImobilizado) },
-                    { label: 'Materiais Afetados', value: materiaisExcesso.length }
+                    { label: 'Valor Imobilização', value: this.formatarMoeda(valorImobilização) },
+                    { label: 'Materiais Afetaçãos', value: materiaisExcesso.length }
                 ],
                 actions: ['Revisar Limites', 'Bloquear Compras'],
                 actionHandlers: ['reviewLimits', 'blockPurchases']
@@ -181,21 +181,21 @@ class OtimizacaoEstoqueManager {
         }
 
         // 3. Otimizar lotes de compra
-        const materiaisLoteNaoOtimizado = this.materiais.filter(m => 
+        const materiaisLoteNaoOtimização = this.materiais.filter(m => 
             Math.abs(m.estoqueAtual - m.eoq) > m.eoq * 0.3
         );
-        if (materiaisLoteNaoOtimizado.length > 15) {
-            const economiaPotencial = materiaisLoteNaoOtimizado.length * 250; // média por item
+        if (materiaisLoteNaoOtimização.length > 15) {
+            const economiaPotencial = materiaisLoteNaoOtimização.length * 250; // média por item
             
             this.sugestoes.push({
                 id: 3,
                 type: 'otimizar_lotes',
                 priority: 'medium',
                 title: 'Ajustar Lotes de Compra',
-                description: `${materiaisLoteNaoOtimizado.length} materiais com tamanho de lote não otimizado`,
+                description: `${materiaisLoteNaoOtimização.length} materiais com tamanho de lote não otimização`,
                 metrics: [
                     { label: 'Economia Mensal', value: this.formatarMoeda(economiaPotencial) },
-                    { label: 'Itens para Ajustar', value: materiaisLoteNaoOtimizado.length }
+                    { label: 'Itens para Ajustar', value: materiaisLoteNaoOtimização.length }
                 ],
                 actions: ['Aplicar EOQ', 'Simular'],
                 actionHandlers: ['applyEOQ', 'simulate']
@@ -207,7 +207,7 @@ class OtimizacaoEstoqueManager {
             m.classeABC === 'C' && m.estoqueAtual > m.estoqueMaximo
         );
         if (materiaisCExcesso.length > 0) {
-            const valorImobilizado = materiaisCExcesso.reduce((sum, m) => 
+            const valorImobilização = materiaisCExcesso.reduce((sum, m) => 
                 sum + (m.estoqueAtual * m.custoUnitario), 0);
             
             this.sugestoes.push({
@@ -217,7 +217,7 @@ class OtimizacaoEstoqueManager {
                 title: 'Revisar Itens Classe C',
                 description: `Itens de baixo valor com estoque excessivo`,
                 metrics: [
-                    { label: 'Valor Imobilizado', value: this.formatarMoeda(valorImobilizado) },
+                    { label: 'Valor Imobilização', value: this.formatarMoeda(valorImobilização) },
                     { label: 'Itens Classe C', value: materiaisCExcesso.length }
                 ],
                 actions: ['Ajustar Estoques', 'Ver Lista'],
@@ -254,7 +254,7 @@ class OtimizacaoEstoqueManager {
                 description: `${materiaisTendenciaAlta.length} materiais com tendência de alta demanda (+15%)`,
                 metrics: [
                     { label: 'Crescimento Médio', value: '+18%' },
-                    { label: 'Materiais Afetados', value: materiaisTendenciaAlta.length }
+                    { label: 'Materiais Afetaçãos', value: materiaisTendenciaAlta.length }
                 ],
                 actions: ['Ajustar Mínimos', 'Revisar Previsões'],
                 actionHandlers: ['adjustMinimums', 'reviewForecasts']
@@ -303,7 +303,7 @@ class OtimizacaoEstoqueManager {
                 valorPedido: valorPedido,
                 diasCobertura: material.diasCobertura,
                 classeABC: material.classeABC,
-                urgencia: material.estoqueAtual < material.estoqueMinimo ? 'Alta' : 'Média'
+                urgencia: material.estoqueAtual < material.estoqueMinimo  'Alta' : 'Média'
             });
         });
 
@@ -485,7 +485,7 @@ class OtimizacaoEstoqueManager {
         list.innerHTML = '';
 
         if (this.sugestoes.length === 0) {
-            list.innerHTML = '<li style="padding: 40px; text-align: center; color: var(--text-secondary);">Nenhuma sugestão no momento. Seu estoque está otimizado! 🎉</li>';
+            list.innerHTML = '<li style="padding: 40px; text-align: center; color: var(--text-secondary);">Nenhuma sugestão no momento. Seu estoque está otimização! 🎉</li>';
             document.getElementById('totalSugestoes').textContent = '0';
             return;
         }
@@ -504,7 +504,7 @@ class OtimizacaoEstoqueManager {
             `).join('');
 
             const actionsHTML = sugestao.actions.map((action, index) => `
-                <button class="suggestion-btn ${index === 0 ? 'suggestion-btn-primary' : 'suggestion-btn-secondary'}" 
+                <button class="suggestion-btn ${index === 0  'suggestion-btn-primary' : 'suggestion-btn-secondary'}" 
                         onclick="otimizacaoManager.handleAction('${sugestao.actionHandlers[index]}', ${sugestao.id})">
                     ${action}
                 </button>
@@ -581,23 +581,23 @@ class OtimizacaoEstoqueManager {
                 alert('Abrindo ferramenta de revisão de limites...');
                 break;
             case 'blockPurchases':
-                if (confirm('Deseja bloquear compras automáticas para estes materiais?')) {
+                if (confirm('Deseja bloquear compras automáticas para estes materiais')) {
                     alert('Compras bloqueadas com sucesso!');
                 }
                 break;
             case 'createOrders':
-                window.location.href = 'pedidos-new.html?auto=true';
+                window.location.href = 'pedidos-new.htmlauto=true';
                 break;
             case 'viewMaterials':
-                window.location.href = 'materiais-new.html?filter=estoque_baixo';
+                window.location.href = 'materiais-new.htmlfilter=estoque_baixo';
                 break;
             case 'applyEOQ':
-                if (confirm('Aplicar lote econômico (EOQ) para todos os materiais sugeridos?')) {
-                    alert('Lotes econômicos aplicados com sucesso!\n\nOs parâmetros de compra foram atualizados.');
+                if (confirm('Aplicar lote econômico (EOQ) para todos os materiais sugeridos')) {
+                    alert('Lotes econômicos aplicaçãos com sucesso!\n\nOs parâmetros de compra foram atualizaçãos.');
                 }
                 break;
             case 'simulate':
-                alert('Abrindo simulador de cenários...');
+                alert('Abrindo simulaçãor de cenários...');
                 break;
             case 'adjustStock':
                 alert('Abrindo ferramenta de ajuste de estoques...');
@@ -612,16 +612,16 @@ class OtimizacaoEstoqueManager {
                 alert('Criando plano de ação para melhoria do giro...');
                 break;
             case 'adjustMinimums':
-                if (confirm('Aumentar estoques mínimos dos materiais com tendência de alta?')) {
-                    alert('Estoques mínimos ajustados com sucesso!');
+                if (confirm('Aumentar estoques mínimos dos materiais com tendência de alta')) {
+                    alert('Estoques mínimos ajustaçãos com sucesso!');
                 }
                 break;
             case 'reviewForecasts':
                 alert('Abrindo módulo de previsão de demanda...');
                 break;
             case 'anticipateOrders':
-                if (confirm('Antecipar pedidos para materiais com lead time longo?')) {
-                    alert('Pedidos antecipados criados com sucesso!');
+                if (confirm('Antecipar pedidos para materiais com lead time longo')) {
+                    alert('Pedidos antecipaçãos criaçãos com sucesso!');
                 }
                 break;
             case 'findSupplier':
@@ -633,22 +633,22 @@ class OtimizacaoEstoqueManager {
     }
 
     gerarPedidosAutomaticos() {
-        const pedidosGerados = this.recomendacoes.length;
+        const pedidosGeraçãos = this.recomendacoes.length;
         const valorTotal = this.recomendacoes.reduce((sum, r) => sum + r.valorPedido, 0);
 
-        if (confirm(`Gerar ${pedidosGerados} pedidos automáticos?\n\nValor total: ${this.formatarMoeda(valorTotal)}`)) {
-            alert(`✅ ${pedidosGerados} pedidos criados com sucesso!\n\nOs pedidos estão aguardando aprovação no módulo de Pedidos de Compra.`);
+        if (confirm(`Gerar ${pedidosGeraçãos} pedidos automáticos\n\nValor total: ${this.formatarMoeda(valorTotal)}`)) {
+            alert(`✅ ${pedidosGeraçãos} pedidos criaçãos com sucesso!\n\nOs pedidos estão aguardando aprovação no módulo de Pedidos de Compra.`);
             
             // Notificar sistema
             if (window.notificationSystem) {
                 window.notificationSystem.addNotification({
                     type: 'pedido_aprovacao',
-                    title: 'Pedidos Automáticos Gerados',
-                    message: `${pedidosGerados} pedidos criados pela otimização de estoque`,
+                    title: 'Pedidos Automáticos Geraçãos',
+                    message: `${pedidosGeraçãos} pedidos criaçãos pela otimização de estoque`,
                     icon: 'fas fa-robot',
                     color: '#8b5cf6',
                     priority: 'medium',
-                    link: 'pedidos-new.html?filter=pendente'
+                    link: 'pedidos-new.htmlfilter=pendente'
                 });
                 window.notificationSystem.renderizarBadge();
             }
@@ -708,7 +708,7 @@ function toggleDarkMode() {
     localStorage.setItem('darkMode', isDark);
     
     const icon = document.querySelector('#btnModoEscuro i');
-    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    icon.className = isDark  'fas fa-sun' : 'fas fa-moon';
     
     if (otimizacaoManager && otimizacaoManager.charts) {
         Object.values(otimizacaoManager.charts).forEach(chart => chart.update());
@@ -722,7 +722,7 @@ function toggleSidebar() {
 
 function toggleUserMenu() {
     const menu = document.getElementById('userMenu');
-    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    menu.style.display = menu.style.display === 'block'  'none' : 'block';
 }
 
 function inicializarUsuario() {
@@ -733,11 +733,11 @@ function inicializarUsuario() {
     if (hora >= 12 && hora < 18) saudacao = 'Boa tarde';
     else if (hora >= 18 || hora < 5) saudacao = 'Boa noite';
 
-    // Buscar dados do usuário do localStorage
+    // Buscar daçãos do usuário do localStorage
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     
     // Usar apelido se disponível, senão primeiro nome
-    const primeiroNome = userData.apelido || (userData.nome ? userData.nome.split(' ')[0] : 'Usuário');
+    const primeiroNome = userData.apelido || (userData.nome  userData.nome.split(' ')[0] : 'Usuário');
     
     const userGreeting = document.getElementById('userGreeting');
     if (userGreeting) {

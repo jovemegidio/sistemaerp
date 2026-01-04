@@ -6,10 +6,10 @@
 // ===== MIDDLEWARE: Verificar permissões financeiras =====
 function checkFinanceiroPermission(area) {
     return async (req, res, next) => {
-        const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+        const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
         
         if (!token) {
-            return res.status(401).json({ message: 'Não autenticado' });
+            return res.status(401).json({ message: 'Não autenticação' });
         }
 
         try {
@@ -18,21 +18,21 @@ function checkFinanceiroPermission(area) {
 
             // Buscar permissões
             const [users] = await pool.query(
-                'SELECT permissoes_financeiro, is_admin FROM funcionarios WHERE id = ? OR email = ?',
+                'SELECT permissoes_financeiro, is_admin FROM funcionarios WHERE id =  OR email = ',
                 [user.id, user.email]
             );
 
             let userData = users[0];
             if (!userData) {
                 const [usuarios] = await pool.query(
-                    'SELECT permissoes_financeiro, is_admin FROM usuarios WHERE id = ? OR email = ?',
+                    'SELECT permissoes_financeiro, is_admin FROM usuarios WHERE id =  OR email = ',
                     [user.id, user.email]
                 );
                 userData = usuarios[0];
             }
 
             if (!userData) {
-                return res.status(403).json({ message: 'Usuário não encontrado' });
+                return res.status(403).json({ message: 'Usuário não encontração' });
             }
 
             // Admin tem acesso total
@@ -86,12 +86,12 @@ app.get('/api/financeiro/categorias', authenticateToken, async (req, res) => {
         const params = [];
 
         if (tipo && tipo !== 'todos') {
-            query += ' AND (tipo = ? OR tipo = "ambos")';
+            query += ' AND (tipo =  OR tipo = "ambos")';
             params.push(tipo);
         }
 
         if (ativo !== undefined) {
-            query += ' AND ativo = ?';
+            query += ' AND ativo = ';
             params.push(ativo === 'true' || ativo === '1');
         }
 
@@ -117,7 +117,7 @@ app.post('/api/financeiro/categorias', authenticateToken, async (req, res) => {
 
         const [result] = await pool.query(
             `INSERT INTO categorias_financeiras (nome, tipo, cor, icone, orcamento_mensal, descricao) 
-             VALUES (?, ?, ?, ?, ?, ?)`,
+             VALUES (, , , , , )`,
             [nome, tipo, cor || '#3b82f6', icone || 'fa-folder', orcamento_mensal || 0, descricao]
         );
 
@@ -141,8 +141,8 @@ app.put('/api/financeiro/categorias/:id', authenticateToken, async (req, res) =>
 
         await pool.query(
             `UPDATE categorias_financeiras 
-             SET nome = ?, tipo = ?, cor = ?, icone = ?, orcamento_mensal = ?, descricao = ?, ativo = ?
-             WHERE id = ?`,
+             SET nome = , tipo = , cor = , icone = , orcamento_mensal = , descricao = , ativo = 
+             WHERE id = `,
             [nome, tipo, cor, icone, orcamento_mensal, descricao, ativo, id]
         );
 
@@ -160,8 +160,8 @@ app.delete('/api/financeiro/categorias/:id', authenticateToken, async (req, res)
         const { id } = req.params;
 
         // Verificar se categoria está sendo usada
-        const [usoPagar] = await pool.query('SELECT COUNT(*) as total FROM contas_pagar WHERE categoria = (SELECT nome FROM categorias_financeiras WHERE id = ?)', [id]);
-        const [usoReceber] = await pool.query('SELECT COUNT(*) as total FROM contas_receber WHERE categoria = (SELECT nome FROM categorias_financeiras WHERE id = ?)', [id]);
+        const [usoPagar] = await pool.query('SELECT COUNT(*) as total FROM contas_pagar WHERE categoria = (SELECT nome FROM categorias_financeiras WHERE id = )', [id]);
+        const [usoReceber] = await pool.query('SELECT COUNT(*) as total FROM contas_receber WHERE categoria = (SELECT nome FROM categorias_financeiras WHERE id = )', [id]);
 
         if (usoPagar[0].total > 0 || usoReceber[0].total > 0) {
             return res.status(400).json({ 
@@ -169,7 +169,7 @@ app.delete('/api/financeiro/categorias/:id', authenticateToken, async (req, res)
             });
         }
 
-        await pool.query('DELETE FROM categorias_financeiras WHERE id = ?', [id]);
+        await pool.query('DELETE FROM categorias_financeiras WHERE id = ', [id]);
         res.json({ success: true, message: 'Categoria excluída com sucesso' });
 
     } catch (err) {
@@ -206,11 +206,11 @@ app.get('/api/financeiro/categorias/estatisticas', authenticateToken, async (req
             LEFT JOIN (
                 SELECT categoria, valor, 'pagar' as tipo 
                 FROM contas_pagar 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
                 UNION ALL
                 SELECT categoria, valor, 'receber' as tipo 
                 FROM contas_receber 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
             ) p ON c.nome = p.categoria
             WHERE c.ativo = TRUE
             GROUP BY c.id, c.nome, c.tipo, c.cor, c.orcamento_mensal
@@ -238,7 +238,7 @@ app.get('/api/financeiro/bancos', authenticateToken, async (req, res) => {
         const params = [];
 
         if (ativo !== undefined) {
-            query += ' AND ativo = ?';
+            query += ' AND ativo = ';
             params.push(ativo === 'true' || ativo === '1');
         }
 
@@ -269,7 +269,7 @@ app.post('/api/financeiro/bancos', authenticateToken, async (req, res) => {
 
         const [result] = await pool.query(
             `INSERT INTO contas_bancarias (banco, agencia, conta, digito, tipo, saldo_inicial, saldo_atual, limite, cor, principal, observacoes) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+             VALUES (, , , , , , , , , , )`,
             [banco, agencia, conta, digito, tipo || 'corrente', saldo_inicial || 0, saldo_inicial || 0, limite || 0, cor || '#3b82f6', principal || false, observacoes]
         );
 
@@ -293,13 +293,13 @@ app.put('/api/financeiro/bancos/:id', authenticateToken, async (req, res) => {
 
         // Se marcar como principal, desmarcar outras
         if (principal) {
-            await pool.query('UPDATE contas_bancarias SET principal = FALSE WHERE id != ?', [id]);
+            await pool.query('UPDATE contas_bancarias SET principal = FALSE WHERE id != ', [id]);
         }
 
         await pool.query(
             `UPDATE contas_bancarias 
-             SET banco = ?, agencia = ?, conta = ?, digito = ?, tipo = ?, saldo_inicial = ?, limite = ?, cor = ?, principal = ?, ativo = ?, observacoes = ?
-             WHERE id = ?`,
+             SET banco = , agencia = , conta = , digito = , tipo = , saldo_inicial = , limite = , cor = , principal = , ativo = , observacoes = 
+             WHERE id = `,
             [banco, agencia, conta, digito, tipo, saldo_inicial, limite, cor, principal, ativo, observacoes, id]
         );
 
@@ -317,7 +317,7 @@ app.delete('/api/financeiro/bancos/:id', authenticateToken, async (req, res) => 
         const { id } = req.params;
 
         // Verificar se tem movimentações
-        const [movs] = await pool.query('SELECT COUNT(*) as total FROM movimentacoes_bancarias WHERE conta_bancaria_id = ?', [id]);
+        const [movs] = await pool.query('SELECT COUNT(*) as total FROM movimentacoes_bancarias WHERE conta_bancaria_id = ', [id]);
         
         if (movs[0].total > 0) {
             return res.status(400).json({ 
@@ -325,7 +325,7 @@ app.delete('/api/financeiro/bancos/:id', authenticateToken, async (req, res) => 
             });
         }
 
-        await pool.query('DELETE FROM contas_bancarias WHERE id = ?', [id]);
+        await pool.query('DELETE FROM contas_bancarias WHERE id = ', [id]);
         res.json({ success: true, message: 'Conta bancária excluída com sucesso' });
 
     } catch (err) {
@@ -347,7 +347,7 @@ app.get('/api/financeiro/formas-pagamento', authenticateToken, async (req, res) 
         const params = [];
 
         if (ativo !== undefined) {
-            query += ' AND ativo = ?';
+            query += ' AND ativo = ';
             params.push(ativo === 'true' || ativo === '1');
         }
 
@@ -372,7 +372,7 @@ app.post('/api/financeiro/formas-pagamento', authenticateToken, async (req, res)
         }
 
         const [result] = await pool.query(
-            'INSERT INTO formas_pagamento (nome, tipo, icone) VALUES (?, ?, ?)',
+            'INSERT INTO formas_pagamento (nome, tipo, icone) VALUES (, , )',
             [nome, tipo || 'outros', icone || 'fa-money-bill']
         );
 
@@ -398,7 +398,7 @@ app.post('/api/financeiro/parcelas/gerar', authenticateToken, async (req, res) =
         const { conta_id, tipo, total_parcelas, valor_total, primeira_parcela } = req.body;
 
         if (!conta_id || !tipo || !total_parcelas || !valor_total || !primeira_parcela) {
-            return res.status(400).json({ message: 'Dados incompletos' });
+            return res.status(400).json({ message: 'Daçãos incompletos' });
         }
 
         const valorParcela = (valor_total / total_parcelas).toFixed(2);
@@ -410,7 +410,7 @@ app.post('/api/financeiro/parcelas/gerar', authenticateToken, async (req, res) =
 
             // Última parcela ajusta diferença de arredondamento
             const valor = i === total_parcelas 
-                ? (valor_total - (valorParcela * (total_parcelas - 1))).toFixed(2)
+                 (valor_total - (valorParcela * (total_parcelas - 1))).toFixed(2)
                 : valorParcela;
 
             parcelas.push([
@@ -425,14 +425,14 @@ app.post('/api/financeiro/parcelas/gerar', authenticateToken, async (req, res) =
 
         await pool.query(
             `INSERT INTO parcelas (conta_origem_id, tipo, numero_parcela, total_parcelas, valor, vencimento) 
-             VALUES ?`,
+             VALUES `,
             [parcelas]
         );
 
         // Atualizar conta original
         const updateQuery = tipo === 'pagar' 
-            ? `UPDATE contas_pagar SET parcela_total = ? WHERE id = ?`
-            : `UPDATE contas_receber SET parcela_total = ? WHERE id = ?`;
+             `UPDATE contas_pagar SET parcela_total =  WHERE id = `
+            : `UPDATE contas_receber SET parcela_total =  WHERE id = `;
 
         await pool.query(updateQuery, [total_parcelas, conta_id]);
 
@@ -454,7 +454,7 @@ app.get('/api/financeiro/parcelas/:conta_id/:tipo', authenticateToken, async (re
         const { conta_id, tipo } = req.params;
 
         const [parcelas] = await pool.query(
-            'SELECT * FROM parcelas WHERE conta_origem_id = ? AND tipo = ? ORDER BY numero_parcela ASC',
+            'SELECT * FROM parcelas WHERE conta_origem_id =  AND tipo =  ORDER BY numero_parcela ASC',
             [conta_id, tipo]
         );
 
@@ -474,10 +474,10 @@ app.post('/api/financeiro/parcelas/:id/pagar', authenticateToken, async (req, re
 
         await pool.query(
             `UPDATE parcelas 
-             SET status = ?, valor_pago = ?, data_pagamento = ?
-             WHERE id = ?`,
+             SET status = , valor_pago = , data_pagamento = 
+             WHERE id = `,
             [
-                valor_pago >= (await pool.query('SELECT valor FROM parcelas WHERE id = ?', [id]))[0][0].valor ? 'pago' : 'pendente',
+                valor_pago >= (await pool.query('SELECT valor FROM parcelas WHERE id = ', [id]))[0][0].valor  'pago' : 'pendente',
                 valor_pago,
                 data_pagamento || new Date().toISOString().split('T')[0],
                 id
@@ -505,12 +505,12 @@ app.get('/api/financeiro/recorrencias', authenticateToken, async (req, res) => {
         const params = [];
 
         if (tipo) {
-            query += ' AND r.tipo = ?';
+            query += ' AND r.tipo = ';
             params.push(tipo);
         }
 
         if (ativa !== undefined) {
-            query += ' AND r.ativa = ?';
+            query += ' AND r.ativa = ';
             params.push(ativa === 'true' || ativa === '1');
         }
 
@@ -535,7 +535,7 @@ app.post('/api/financeiro/recorrencias', authenticateToken, async (req, res) => 
         } = req.body;
 
         if (!descricao || !tipo || !valor || !dia_vencimento || !data_inicio) {
-            return res.status(400).json({ message: 'Dados obrigatórios faltando' });
+            return res.status(400).json({ message: 'Daçãos obrigatórios faltando' });
         }
 
         // Calcular próxima geração
@@ -549,7 +549,7 @@ app.post('/api/financeiro/recorrencias', authenticateToken, async (req, res) => 
             `INSERT INTO recorrencias 
              (descricao, tipo, valor, categoria_id, fornecedor_id, cliente_id, dia_vencimento, 
               forma_pagamento_id, conta_bancaria_id, data_inicio, data_fim, observacoes, proxima_geracao) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+             VALUES (, , , , , , , , , , , , )`,
             [descricao, tipo, valor, categoria_id, fornecedor_id, cliente_id, dia_vencimento, 
              forma_pagamento_id, conta_bancaria_id, data_inicio, data_fim, observacoes, 
              proximaGeracao.toISOString().split('T')[0]]
@@ -579,10 +579,10 @@ app.put('/api/financeiro/recorrencias/:id', authenticateToken, async (req, res) 
 
         await pool.query(
             `UPDATE recorrencias 
-             SET descricao = ?, tipo = ?, valor = ?, categoria_id = ?, fornecedor_id = ?, cliente_id = ?,
-                 dia_vencimento = ?, forma_pagamento_id = ?, conta_bancaria_id = ?, 
-                 ativa = ?, data_fim = ?, observacoes = ?
-             WHERE id = ?`,
+             SET descricao = , tipo = , valor = , categoria_id = , fornecedor_id = , cliente_id = ,
+                 dia_vencimento = , forma_pagamento_id = , conta_bancaria_id = , 
+                 ativa = , data_fim = , observacoes = 
+             WHERE id = `,
             [descricao, tipo, valor, categoria_id, fornecedor_id, cliente_id, dia_vencimento, 
              forma_pagamento_id, conta_bancaria_id, ativa, data_fim, observacoes, id]
         );
@@ -599,7 +599,7 @@ app.put('/api/financeiro/recorrencias/:id', authenticateToken, async (req, res) 
 app.delete('/api/financeiro/recorrencias/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
-        await pool.query('DELETE FROM recorrencias WHERE id = ?', [id]);
+        await pool.query('DELETE FROM recorrencias WHERE id = ', [id]);
         res.json({ success: true, message: 'Recorrência excluída com sucesso' });
 
     } catch (err) {
@@ -617,8 +617,8 @@ app.post('/api/financeiro/recorrencias/processar', authenticateToken, async (req
         const [recorrencias] = await pool.query(
             `SELECT * FROM recorrencias 
              WHERE ativa = TRUE 
-             AND (data_fim IS NULL OR data_fim >= ?)
-             AND (proxima_geracao IS NULL OR proxima_geracao <= ?)`,
+             AND (data_fim IS NULL OR data_fim >= )
+             AND (proxima_geracao IS NULL OR proxima_geracao <= )`,
             [hoje, hoje]
         );
 
@@ -634,7 +634,7 @@ app.post('/api/financeiro/recorrencias/processar', authenticateToken, async (req
                     `INSERT INTO contas_pagar 
                      (fornecedor_id, descricao, valor, vencimento, categoria, forma_pagamento_id, 
                       conta_bancaria_id, recorrente, recorrencia_id, status, observacoes) 
-                     VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, ?, 'pendente', ?)`,
+                     VALUES (, , , , , , , TRUE, , 'pendente', )`,
                     [rec.fornecedor_id, rec.descricao, rec.valor, vencimento.toISOString().split('T')[0],
                      rec.categoria_id, rec.forma_pagamento_id, rec.conta_bancaria_id, rec.id, rec.observacoes]
                 );
@@ -643,7 +643,7 @@ app.post('/api/financeiro/recorrencias/processar', authenticateToken, async (req
                     `INSERT INTO contas_receber 
                      (cliente_id, descricao, valor, vencimento, categoria, forma_recebimento_id, 
                       conta_bancaria_id, status, observacoes) 
-                     VALUES (?, ?, ?, ?, ?, ?, ?, 'pendente', ?)`,
+                     VALUES (, , , , , , , 'pendente', )`,
                     [rec.cliente_id, rec.descricao, rec.valor, vencimento.toISOString().split('T')[0],
                      rec.categoria_id, rec.forma_pagamento_id, rec.conta_bancaria_id, rec.observacoes]
                 );
@@ -654,7 +654,7 @@ app.post('/api/financeiro/recorrencias/processar', authenticateToken, async (req
             proximaGeracao.setMonth(proximaGeracao.getMonth() + 1);
 
             await pool.query(
-                'UPDATE recorrencias SET ultima_geracao = ?, proxima_geracao = ? WHERE id = ?',
+                'UPDATE recorrencias SET ultima_geracao = , proxima_geracao =  WHERE id = ',
                 [hoje, proximaGeracao.toISOString().split('T')[0], rec.id]
             );
 

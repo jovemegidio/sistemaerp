@@ -12,14 +12,14 @@ const DB_HOST = process.env.DB_HOST || 'localhost'
 const DB_USER = process.env.DB_USER || 'root'
 const DB_PASS = process.env.DB_PASS || ''
 const DB_NAME = process.env.DB_NAME || 'aluforce_vendas'
-const DB_PORT = process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
+const DB_PORT = process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 3306
 
 const columns = {
   nacionalidade: 'VARCHAR(80)',
   naturalidade: 'VARCHAR(80)',
   filiacao_mae: 'VARCHAR(150)',
   filiacao_pai: 'VARCHAR(150)',
-  dados_conjuge: 'TEXT',
+  daçãos_conjuge: 'TEXT',
   zona_eleitoral: 'VARCHAR(60)',
   seção_eleitoral: 'VARCHAR(60)',
   ctps_numero: 'VARCHAR(60)',
@@ -35,7 +35,7 @@ async function main () {
   try {
     for (const [col, type] of Object.entries(columns)) {
       const [rows] = await conn.execute(
-        'SELECT COUNT(*) AS cnt FROM information_schema.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = \'funcionarios\' AND COLUMN_NAME = ?',
+        'SELECT COUNT(*) AS cnt FROM information_schema.COLUMNS WHERE TABLE_SCHEMA =  AND TABLE_NAME = \'funcionarios\' AND COLUMN_NAME = ',
         [DB_NAME, col]
       )
       const exists = rows[0] && rows[0].cnt && rows[0].cnt > 0
@@ -54,7 +54,7 @@ async function main () {
     }
     console.log('Migration script finished.')
   } catch (err) {
-    console.error('Migration failed:', err && err.message ? err.message : err)
+    console.error('Migration failed:', err && err.message  err.message : err)
     process.exitCode = 2
   } finally {
     try { await conn.end() } catch (e) {}

@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Relatórios Financeiros - Aluforce</title>
-    <link rel="stylesheet" href="../../_shared/modern-saas.css?v=3.0">
+    <link rel="stylesheet" href="../../_shared/modern-saas.cssv=3.0">
     <link rel="stylesheet" href="../../_shared/header-sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -18,7 +18,7 @@
             background: white;
             padding: 10px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
             overflow-x: auto;
         }
 
@@ -46,7 +46,7 @@
         .report-tab.active {
             background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .report-content {
@@ -62,7 +62,7 @@
             padding: 24px;
             border-radius: 12px;
             margin-bottom: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .filters-grid {
@@ -127,7 +127,7 @@
 
         .btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .charts-grid {
@@ -141,7 +141,7 @@
             background: white;
             padding: 28px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .chart-header {
@@ -171,7 +171,7 @@
             background: white;
             padding: 24px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
             position: relative;
             overflow: hidden;
         }
@@ -223,7 +223,7 @@
             background: white;
             padding: 24px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
             cursor: pointer;
             transition: all 0.3s;
             border-left: 4px solid var(--card-color);
@@ -231,7 +231,7 @@
 
         .report-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+            box-shaçãow: 0 8px 20px rgba(0,0,0,0.12);
         }
 
         .report-card-icon {
@@ -426,8 +426,8 @@
                         </div>
                         <div class="stat-card" style="--stat-color: #3b82f6; --stat-bg: rgba(59, 130, 246, 0.1);">
                             <div class="stat-icon"><i class="fas fa-balance-scale"></i></div>
-                            <div class="stat-value" id="stat-resultado">R$ 0,00</div>
-                            <div class="stat-label">Resultado Líquido</div>
+                            <div class="stat-value" id="stat-resultação">R$ 0,00</div>
+                            <div class="stat-label">Resultação Líquido</div>
                         </div>
                         <div class="stat-card" style="--stat-color: #f59e0b; --stat-bg: rgba(245, 158, 11, 0.1);">
                             <div class="stat-icon"><i class="fas fa-percent"></i></div>
@@ -509,7 +509,7 @@
                 <!-- Aba DRE -->
                 <div id="aba-dre" class="report-content">
                     <div class="filters-section">
-                        <h3 style="margin-bottom: 20px; font-size: 18px; font-weight: 700;">Demonstração do Resultado do Exercício</h3>
+                        <h3 style="margin-bottom: 20px; font-size: 18px; font-weight: 700;">Demonstração do Resultação do Exercício</h3>
                         <div class="filters-grid">
                             <div class="filter-group">
                                 <label class="filter-label">Mês/Ano</label>
@@ -526,10 +526,10 @@
                         </div>
                     </div>
 
-                    <div style="background: white; border-radius: 12px; padding: 32px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+                    <div style="background: white; border-radius: 12px; padding: 32px; box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);">
                         <div style="text-align: center; padding: 60px; color: #9ca3af;">
                             <i class="fas fa-file-invoice" style="font-size: 64px; margin-bottom: 20px; display: block;"></i>
-                            <p style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Demonstração do Resultado</p>
+                            <p style="font-size: 18px; font-weight: 600; margin-bottom: 8px;">Demonstração do Resultação</p>
                             <p style="font-size: 14px;">Selecione um período e clique em "Gerar DRE"</p>
                         </div>
                     </div>
@@ -540,12 +540,12 @@
 
     <script>
         // Toggle sidebar
-        document.getElementById('toggle-sidebar')?.addEventListener('click', () => {
+        document.getElementById('toggle-sidebar').addEventListener('click', () => {
             document.querySelector('.sidebar').classList.toggle('active');
             document.getElementById('sidebar-overlay').classList.toggle('active');
         });
 
-        document.getElementById('sidebar-overlay')?.addEventListener('click', () => {
+        document.getElementById('sidebar-overlay').addEventListener('click', () => {
             document.querySelector('.sidebar').classList.remove('active');
             document.getElementById('sidebar-overlay').classList.remove('active');
         });
@@ -589,14 +589,14 @@
             const dataFim = document.getElementById('data-fim-geral').value;
 
             try {
-                const response = await fetch(`/api/financeiro/relatorios/geral?inicio=${dataInicio}&fim=${dataFim}`, {
+                const response = await fetch(`/api/financeiro/relatorios/geralinicio=${dataInicio}&fim=${dataFim}`, {
                     credentials: 'include'
                 });
 
                 if (response.ok) {
-                    const dados = await response.json();
-                    atualizarEstatisticas(dados);
-                    renderizarGraficos(dados);
+                    const daçãos = await response.json();
+                    atualizarEstatisticas(daçãos);
+                    renderizarGraficos(daçãos);
                 }
             } catch (error) {
                 console.error('Erro ao gerar relatório:', error);
@@ -604,22 +604,22 @@
             }
         }
 
-        function atualizarEstatisticas(dados) {
+        function atualizarEstatisticas(daçãos) {
             document.getElementById('stat-receitas').textContent = 
-                $ ${(dados.receitas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(daçãos.receitas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('stat-despesas').textContent = 
-                $ ${(dados.despesas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(daçãos.despesas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             
-            const resultado = (dados.receitas || 0) - (dados.despesas || 0);
-            document.getElementById('stat-resultado').textContent = 
-                $ ${resultado.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-            document.getElementById('stat-resultado').style.color = resultado >= 0 ? '#1e40af' : '#ef4444';
+            const resultação = (daçãos.receitas || 0) - (daçãos.despesas || 0);
+            document.getElementById('stat-resultação').textContent = 
+                $ ${resultação.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('stat-resultação').style.color = resultação >= 0  '#1e40af' : '#ef4444';
             
-            const margem = dados.receitas > 0 ? ((resultado / dados.receitas) * 100).toFixed(1) : 0;
+            const margem = daçãos.receitas > 0  ((resultação / daçãos.receitas) * 100).toFixed(1) : 0;
             document.getElementById('stat-margem').textContent = `${margem}%`;
         }
 
-        function renderizarGraficos(dados) {
+        function renderizarGraficos(daçãos) {
             // Gráfico Comparativo
             const ctxComp = document.getElementById('chart-comparativo');
             if (chartComp) chartComp.destroy();
@@ -627,16 +627,16 @@
             chartComp = new Chart(ctxComp, {
                 type: 'bar',
                 data: {
-                    labels: dados.labels || ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+                    labels: daçãos.labels || ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
                     datasets: [
                         {
                             label: 'Receitas',
-                            data: dados.receitas_mes || [50000, 45000, 60000, 55000, 70000, 65000],
+                            data: daçãos.receitas_mes || [50000, 45000, 60000, 55000, 70000, 65000],
                             backgroundColor: '#1e40af'
                         },
                         {
                             label: 'Despesas',
-                            data: dados.despesas_mes || [35000, 38000, 42000, 40000, 45000, 43000],
+                            data: daçãos.despesas_mes || [35000, 38000, 42000, 40000, 45000, 43000],
                             backgroundColor: '#ef4444'
                         }
                     ]
@@ -657,9 +657,9 @@
             chartCat = new Chart(ctxCat, {
                 type: 'doughnut',
                 data: {
-                    labels: dados.categorias_labels || ['Operacionais', 'Pessoal', 'Administrativas', 'Impostos', 'Outras'],
+                    labels: daçãos.categorias_labels || ['Operacionais', 'Pessoal', 'Administrativas', 'Impostos', 'Outras'],
                     datasets: [{
-                        data: dados.categorias_valores || [35, 25, 20, 15, 5],
+                        data: daçãos.categorias_valores || [35, 25, 20, 15, 5],
                         backgroundColor: ['#3b82f6', '#1e40af', '#f59e0b', '#ef4444', '#8b5cf6']
                     }]
                 },
@@ -688,7 +688,7 @@
         function exportarRelatorio() {
             // Função para exportar relatório profissional
             const dataAtual = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-            const periodo = document.getElementById('periodo-geral')?.options[document.getElementById('periodo-geral').selectedIndex]?.text || 'Período Selecionado';
+            const periodo = document.getElementById('periodo-geral').options[document.getElementById('periodo-geral').selectedIndex].text || 'Período Selecionação';
             
             const janelaImpressao = window.open('', '_blank');
             janelaImpressao.document.write(`<!DOCTYPE html>
@@ -740,13 +740,13 @@
             color: #64748b;
             margin-top: 2px;
         }
-        .dados-empresa {
+        .daçãos-empresa {
             text-align: right;
             font-size: 9px;
             color: #475569;
             line-height: 1.5;
         }
-        .dados-empresa strong { color: #1e293b; }
+        .daçãos-empresa strong { color: #1e293b; }
         
         .titulo-relatorio {
             background: linear-gradient(135deg, #1e40af, #3b82f6);
@@ -817,7 +817,7 @@
                 <p>CABOS DE ALUMÍNIO</p>
             </div>
         </div>
-        <div class="dados-empresa">
+        <div class="daçãos-empresa">
             <strong>I. M. DOS REIS - ALUFORCE INDÚSTRIA E COMÉRCIO DE CONDUTORES</strong><br>
             CNPJ: 08.192.479/0001-60 | IE: 103.385.861-110<br>
             RUA ERNESTINA, 270 - VILA SÃO JOÃO<br>
@@ -834,24 +834,24 @@
     <div class="stats-grid">
         <div class="stat-box verde">
             <div class="stat-label">Total Receitas</div>
-            <div class="stat-value">${document.getElementById('stat-receitas')?.textContent || 'R$ 0,00'}</div>
+            <div class="stat-value">${document.getElementById('stat-receitas').textContent || 'R$ 0,00'}</div>
         </div>
         <div class="stat-box vermelho">
             <div class="stat-label">Total Despesas</div>
-            <div class="stat-value">${document.getElementById('stat-despesas')?.textContent || 'R$ 0,00'}</div>
+            <div class="stat-value">${document.getElementById('stat-despesas').textContent || 'R$ 0,00'}</div>
         </div>
         <div class="stat-box azul">
-            <div class="stat-label">Resultado Líquido</div>
-            <div class="stat-value">${document.getElementById('stat-resultado')?.textContent || 'R$ 0,00'}</div>
+            <div class="stat-label">Resultação Líquido</div>
+            <div class="stat-value">${document.getElementById('stat-resultação').textContent || 'R$ 0,00'}</div>
         </div>
         <div class="stat-box amarelo">
             <div class="stat-label">Margem Líquida</div>
-            <div class="stat-value">${document.getElementById('stat-margem')?.textContent || '0%'}</div>
+            <div class="stat-value">${document.getElementById('stat-margem').textContent || '0%'}</div>
         </div>
     </div>
     
     <p style="text-align: center; color: #64748b; font-size: 10px; margin: 30px 0;">
-        Para relatórios detalhados com gráficos, acesse o sistema ALUFORCE ERP.
+        Para relatórios detalhaçãos com gráficos, acesse o sistema ALUFORCE ERP.
     </p>
     
     <div class="footer">
@@ -864,15 +864,15 @@
             setTimeout(() => janelaImpressao.print(), 500);
         }
         
-        // Carregar dados do usuário
-        async function carregarUsuarioLogado() {
+        // Carregar daçãos do usuário
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
 
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -959,22 +959,22 @@
             document.getElementById('data-fim-geral').value = hoje.toISOString().split('T')[0];
             document.getElementById('mes-dre').value = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}`;
             
-            // Carregar dados iniciais
+            // Carregar daçãos iniciais
             setTimeout(() => {
                 renderizarGraficos({ labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'] });
             }, 500);
             
-            carregarUsuarioLogado();
+            carregarUsuarioLogação();
         });
     </script>
     
     <!-- Sistema de Notificações -->
-    <script src="js/notifications-manager.js?v=20251208"></script>
-    <script src="js/notification-button.js?v=20251208"></script>
+    <script src="js/notifications-manager.jsv=20251208"></script>
+    <script src="js/notification-button.jsv=20251208"></script>
 
     <!-- Sistema de Chat e Suporte (widgets condicionais por usuário) -->
     <!-- ti@aluforce.ind.br = Central de Suporte | Outros usuários = Chat normal -->
     <!-- Sistema de Monitoramento de Conexão -->
-    <script src="../../_shared/connection-monitor.js?v=20251223"></script></body>
+    <script src="../../_shared/connection-monitor.jsv=20251223"></script></body>
 </html>
 

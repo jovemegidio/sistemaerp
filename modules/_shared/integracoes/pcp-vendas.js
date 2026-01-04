@@ -17,7 +17,7 @@ class IntegracaoPCPVendas {
      * Gera Ordem de Produção a partir de um pedido de venda
      * @param {number} pedidoId - ID do pedido em Vendas
      * @param {object} opcoes - Opções de geração
-     * @returns {Promise<object>} Resultado da operação
+     * @returns {Promise<object>} Resultação da operação
      */
     async gerarOrdemProducao(pedidoId, opcoes = {}) {
         const {
@@ -28,29 +28,29 @@ class IntegracaoPCPVendas {
         } = opcoes;
 
         try {
-            // 1. Buscar dados do pedido
+            // 1. Buscar daçãos do pedido
             const pedido = await this.buscarPedidoVendas(pedidoId, token);
             
             if (!pedido) {
-                throw new Error(`Pedido ${pedidoId} não encontrado`);
+                throw new Error(`Pedido ${pedidoId} não encontração`);
             }
 
             // 2. Validar pedido
-            if (!['aprovado', 'em_producao'].includes(pedido.status)) {
+            if (!['aprovação', 'em_producao'].includes(pedido.status)) {
                 throw new Error(`Pedido com status '${pedido.status}' não pode gerar OP`);
             }
 
-            // 3. Preparar dados da OP
+            // 3. Preparar daçãos da OP
             const dataEntrega = dataPrevisao || pedido.data_previsao || this.calcularDataPrevisao(7);
             
-            const dadosOP = {
+            const daçãosOP = {
                 pedido_vendas_id: pedidoId,
                 numero_pedido_cliente: pedido.id,
                 cliente_id: pedido.empresa_id,
                 cliente_nome: pedido.empresa_nome || pedido.cliente_nome,
                 prioridade,
                 data_previsao: dataEntrega,
-                observacoes: observacoes || `Gerado do pedido de venda #${pedidoId}`,
+                observacoes: observacoes || `Geração do pedido de venda #${pedidoId}`,
                 itens: pedido.itens.map(item => ({
                     produto_codigo: item.codigo,
                     produto_descricao: item.descricao,
@@ -66,25 +66,25 @@ class IntegracaoPCPVendas {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token  `Bearer ${token}` : ''
                 },
-                body: JSON.stringify(dadosOP)
+                body: JSON.stringify(daçãosOP)
             });
 
-            const resultado = await response.json();
+            const resultação = await response.json();
 
             if (!response.ok) {
-                throw new Error(resultado.message || 'Erro ao criar Ordem de Produção');
+                throw new Error(resultação.message || 'Erro ao criar Ordem de Produção');
             }
 
             // 5. Atualizar pedido de venda com referência da OP
-            await this.vincularOPAoPedido(pedidoId, resultado.id, token);
+            await this.vincularOPAoPedido(pedidoId, resultação.id, token);
 
             return {
                 success: true,
                 message: 'Ordem de Produção criada com sucesso',
-                op_id: resultado.id,
-                op_numero: resultado.numero,
+                op_id: resultação.id,
+                op_numero: resultação.numero,
                 data_previsao: dataEntrega
             };
 
@@ -99,13 +99,13 @@ class IntegracaoPCPVendas {
     }
 
     /**
-     * Busca dados do pedido no módulo Vendas
+     * Busca daçãos do pedido no módulo Vendas
      */
     async buscarPedidoVendas(pedidoId, token) {
         try {
             const response = await fetch(`${this.vendasUrl}/api/vendas/pedidos/${pedidoId}`, {
                 headers: {
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token  `Bearer ${token}` : ''
                 }
             });
 
@@ -125,7 +125,7 @@ class IntegracaoPCPVendas {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token  `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({
                     op_id: opId,
@@ -138,13 +138,13 @@ class IntegracaoPCPVendas {
     }
 
     /**
-     * Atualiza status do pedido baseado no progresso da OP
+     * Atualiza status do pedido baseação no progresso da OP
      */
     async sincronizarStatusOP(opId, novoStatus, token) {
         try {
-            // Buscar OP para pegar pedido vinculado
+            // Buscar OP para pegar pedido vinculação
             const opResponse = await fetch(`${this.pcpUrl}/api/pcp/ordens-producao/${opId}`, {
-                headers: { 'Authorization': token ? `Bearer ${token}` : '' }
+                headers: { 'Authorization': token  `Bearer ${token}` : '' }
             });
 
             if (!opResponse.ok) return { success: false };
@@ -152,7 +152,7 @@ class IntegracaoPCPVendas {
             const op = await opResponse.json();
             
             if (!op.pedido_vendas_id) {
-                return { success: true, message: 'OP sem pedido vinculado' };
+                return { success: true, message: 'OP sem pedido vinculação' };
             }
 
             // Mapear status da OP para status do pedido
@@ -162,7 +162,7 @@ class IntegracaoPCPVendas {
                 'qualidade': 'em_producao',
                 'conferido': 'em_producao',
                 'concluido': 'produzido',
-                'armazenado': 'pronto_faturar'
+                'armazenação': 'pronto_faturar'
             };
 
             const novoStatusPedido = statusMap[novoStatus];
@@ -172,7 +172,7 @@ class IntegracaoPCPVendas {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': token ? `Bearer ${token}` : ''
+                        'Authorization': token  `Bearer ${token}` : ''
                     },
                     body: JSON.stringify({ status: novoStatusPedido })
                 });
@@ -191,9 +191,9 @@ class IntegracaoPCPVendas {
     async listarOPsDoPedido(pedidoId, token) {
         try {
             const response = await fetch(
-                `${this.pcpUrl}/api/pcp/ordens-producao?pedido_vendas_id=${pedidoId}`,
+                `${this.pcpUrl}/api/pcp/ordens-producaopedido_vendas_id=${pedidoId}`,
                 {
-                    headers: { 'Authorization': token ? `Bearer ${token}` : '' }
+                    headers: { 'Authorization': token  `Bearer ${token}` : '' }
                 }
             );
 
@@ -224,7 +224,7 @@ class IntegracaoPCPVendas {
                 const estoqueResponse = await fetch(
                     `${this.pcpUrl}/api/pcp/estoque/produto/${item.codigo}`,
                     {
-                        headers: { 'Authorization': token ? `Bearer ${token}` : '' }
+                        headers: { 'Authorization': token  `Bearer ${token}` : '' }
                     }
                 );
 
@@ -248,7 +248,7 @@ class IntegracaoPCPVendas {
                 disponivel: indisponibilidades.length === 0,
                 itens_indisponiveis: indisponibilidades,
                 message: indisponibilidades.length > 0 
-                    ? `${indisponibilidades.length} item(s) com estoque insuficiente`
+                     `${indisponibilidades.length} item(s) com estoque insuficiente`
                     : 'Todos os materiais disponíveis'
             };
 
@@ -262,14 +262,14 @@ class IntegracaoPCPVendas {
      */
     calcularDataPrevisao(diasUteis = 7) {
         const data = new Date();
-        let diasAdicionados = 0;
+        let diasAdicionaçãos = 0;
         
-        while (diasAdicionados < diasUteis) {
+        while (diasAdicionaçãos < diasUteis) {
             data.setDate(data.getDate() + 1);
             const diaSemana = data.getDay();
-            // Pular sábado (6) e domingo (0)
+            // Pular sábação (6) e domingo (0)
             if (diaSemana !== 0 && diaSemana !== 6) {
-                diasAdicionados++;
+                diasAdicionaçãos++;
             }
         }
         
@@ -277,7 +277,7 @@ class IntegracaoPCPVendas {
     }
 
     /**
-     * Obtém status consolidado de produção para um pedido
+     * Obtém status consolidação de produção para um pedido
      */
     async statusProducaoPedido(pedidoId, token) {
         const ops = await this.listarOPsDoPedido(pedidoId, token);
@@ -288,27 +288,27 @@ class IntegracaoPCPVendas {
 
         const statusCount = {};
         let totalItens = 0;
-        let itensFinalizados = 0;
+        let itensFinalizaçãos = 0;
 
         for (const op of ops) {
             statusCount[op.status] = (statusCount[op.status] || 0) + 1;
             
             if (op.itens) {
                 totalItens += op.itens.length;
-                itensFinalizados += op.itens.filter(i => 
-                    ['concluido', 'armazenado'].includes(i.status)
+                itensFinalizaçãos += op.itens.filter(i => 
+                    ['concluido', 'armazenação'].includes(i.status)
                 ).length;
             }
         }
 
         const percentualConcluido = totalItens > 0 
-            ? Math.round((itensFinalizados / totalItens) * 100) 
+             Math.round((itensFinalizaçãos / totalItens) * 100) 
             : 0;
 
         // Determinar status geral
         let statusGeral = 'em_andamento';
-        if (ops.every(op => ['concluido', 'armazenado'].includes(op.status))) {
-            statusGeral = 'finalizado';
+        if (ops.every(op => ['concluido', 'armazenação'].includes(op.status))) {
+            statusGeral = 'finalização';
         } else if (ops.every(op => op.status === 'a_produzir')) {
             statusGeral = 'aguardando';
         }

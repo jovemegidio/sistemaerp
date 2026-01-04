@@ -15,18 +15,18 @@
     // Mensagens motivacionais por período do dia
     const messages = {
         madrugada: [
-            "Trabalhando até tarde? Lembre-se de descansar!",
+            "Trabalhando até tarde Lembre-se de descansar!",
             "A dedicação faz a diferença. Cuide-se!",
-            "Noite produtiva pela frente?",
+            "Noite produtiva pela frente",
             "Grandes conquistas exigem grandes esforços."
         ],
         manha: [
-            "Pronto para mais um dia produtivo?",
+            "Pronto para mais um dia produtivo",
             "Novos desafios aguardam. Vamos lá!",
             "Que seu dia seja repleto de conquistas!",
             "Energia renovada para grandes realizações!",
             "Um ótimo dia de trabalho começa agora!",
-            "Café tomado? Vamos começar!",
+            "Café tomação Vamos começar!",
             "Hoje é um novo dia de oportunidades."
         ],
         tarde: [
@@ -35,23 +35,23 @@
             "Mantenha o foco, você está indo bem!",
             "Metade do dia, dobro de energia!",
             "Produtividade em alta. Continue assim!",
-            "Hora de acelerar e entregar resultados!"
+            "Hora de acelerar e entregar resultaçãos!"
         ],
         noite: [
-            "Finalizando o expediente com chave de ouro?",
+            "Finalizando o expediente com chave de ouro",
             "Ótimo trabalho hoje! Hora de organizar.",
-            "Revisando as conquistas do dia?",
+            "Revisando as conquistas do dia",
             "Prepare-se para encerrar bem o dia!",
             "Missão do dia quase cumprida!"
         ]
     };
     
     // Nomes dos dias e meses em português
-    const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado'];
+    const dias = ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábação'];
     const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
     
     /**
-     * Obtém dados da saudação baseado na hora atual
+     * Obtém daçãos da saudação baseação na hora atual
      */
     function getGreetingData() {
         const hora = new Date().getHours();
@@ -129,7 +129,7 @@
                 timeLabelEl.textContent = saudacao;
             }
             
-            // Atualiza mensagem apenas se mudou o período ou é forçado
+            // Atualiza mensagem apenas se mudou o período ou é forçação
             if (messageEl && (forceMessage || periodo !== lastPeriodo)) {
                 messageEl.textContent = mensagem;
                 lastPeriodo = periodo;
@@ -153,7 +153,7 @@
             }
         }, 1000);
         
-        console.log('✅ Premium Greeting inicializado');
+        console.log('✅ Premium Greeting inicialização');
     };
     
     // Auto-inicializa quando o DOM estiver pronto

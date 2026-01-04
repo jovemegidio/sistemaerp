@@ -16,13 +16,13 @@
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.1);
             transition: transform 0.2s;
         }
         
         .nfe-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .nfe-header {
@@ -99,7 +99,7 @@
             color: white;
             padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
         }
         
         .stat-card.green {
@@ -142,7 +142,7 @@
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.1);
         }
         
         .filter-row {
@@ -187,7 +187,7 @@
             <div class="stat-card orange">
                 <i class="fas fa-dollar-sign" style="font-size: 24px; opacity: 0.8;"></i>
                 <div class="stat-value" id="statValor">-</div>
-                <div class="stat-label">Faturado (Mês)</div>
+                <div class="stat-label">Faturação (Mês)</div>
             </div>
         </div>
 
@@ -233,8 +233,8 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label>Pedido de Venda <span class="required">*</span></label>
-                    <input type="number" id="pedidoId" class="form-control" placeholder="ID do pedido aprovado">
-                    <small>Apenas pedidos com status "aprovado" podem gerar NF-e</small>
+                    <input type="number" id="pedidoId" class="form-control" placeholder="ID do pedido aprovação">
+                    <small>Apenas pedidos com status "aprovação" podem gerar NF-e</small>
                 </div>
                 
                 <div class="form-group">
@@ -264,7 +264,7 @@
         // Configuração da API
         const API_URL = '/api/faturamento';
 
-        // Carregar dados ao iniciar
+        // Carregar daçãos ao iniciar
         document.addEventListener('DOMContentLoaded', () => {
             carregarEstatisticas();
             carregarNFes();
@@ -295,7 +295,7 @@
                 const dataInicio = document.getElementById('filtroDataInicio').value;
                 const dataFim = document.getElementById('filtroDataFim').value;
                 
-                let url = `${API_URL}/nfes?`;
+                let url = `${API_URL}/nfes`;
                 if (status) url += `status=${status}&`;
                 if (dataInicio) url += `data_inicio=${dataInicio}&`;
                 if (dataFim) url += `data_fim=${dataFim}&`;
@@ -359,12 +359,12 @@
                         <button class="btn btn-small btn-primary" onclick="verDetalhes(${nfe.id})">
                             <i class="fas fa-eye"></i> Ver Detalhes
                         </button>
-                        ${nfe.status === 'pendente' ? `
+                        ${nfe.status === 'pendente'  `
                             <button class="btn btn-small btn-success" onclick="enviarSEFAZ(${nfe.id})">
                                 <i class="fas fa-paper-plane"></i> Enviar SEFAZ
                             </button>
                         ` : ''}
-                        ${nfe.status === 'autorizada' ? `
+                        ${nfe.status === 'autorizada'  `
                             <button class="btn btn-small btn-secondary" onclick="baixarDANFE(${nfe.id})">
                                 <i class="fas fa-download"></i> DANFE
                             </button>
@@ -422,7 +422,7 @@
                 return;
             }
             
-            if (!confirm('Confirma o cancelamento desta NF-e?')) return;
+            if (!confirm('Confirma o cancelamento desta NF-e')) return;
             
             try {
                 const response = await fetch(`${API_URL}/nfes/${id}/cancelar`, {
@@ -448,12 +448,12 @@
 
         // Ver detalhes
         async function verDetalhes(id) {
-            window.open(`/modules/Faturamento/public/detalhes.html?id=${id}`, '_blank');
+            window.open(`/modules/Faturamento/public/detalhes.htmlid=${id}`, '_blank');
         }
 
         // Enviar SEFAZ (placeholder)
         function enviarSEFAZ(id) {
-            alert('Funcionalidade de envio para SEFAZ em desenvolvimento.\nRequer certificado digital A1 ou A3.');
+            alert('Funcionalidade de envio para SEFAZ em desenvolvimento.\nRequer certificação digital A1 ou A3.');
         }
 
         // Baixar DANFE (placeholder)
@@ -497,5 +497,5 @@
     </script>
     
     <!-- Sistema de Monitoramento de Conexão -->
-    <script src="../../_shared/connection-monitor.js?v=20251223"></script></body>
+    <script src="../../_shared/connection-monitor.jsv=20251223"></script></body>
 </html>

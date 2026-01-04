@@ -19,7 +19,7 @@ async function main() {
       const nome = r.nome || '';
       const senha = (r.senha || '').toString();
       const isBcrypt = /^\$2[aby]\$/.test(senha);
-      const masked = senha ? `${senha.slice(0,6)}...len=${senha.length}` : '(empty)';
+      const masked = senha  `${senha.slice(0,6)}...len=${senha.length}` : '(empty)';
       console.log(`id=${id} email='${email}' nome='${nome}' bcrypt=${isBcrypt} senha=${masked}`);
     }
   } catch (err) {

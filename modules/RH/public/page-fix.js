@@ -17,7 +17,7 @@ function initPageFixes() {
     // 1. Corrigir seções duplicadas
     fixDuplicatedSections();
     
-    // 2. Corrigir IDs duplicados  
+    // 2. Corrigir IDs duplicaçãos  
     fixDuplicatedIds();
     
     // 3. Garantir separação correta de conteúdo
@@ -58,7 +58,7 @@ function fixDuplicatedSections() {
     console.log(`✅ ${sectionsToRemove.length} seções duplicadas removidas`);
 }
 
-// Função 2: Corrigir IDs duplicados
+// Função 2: Corrigir IDs duplicaçãos
 function fixDuplicatedIds() {
     const idMap = new Map();
     const elementsToFix = [];
@@ -72,14 +72,14 @@ function fixDuplicatedIds() {
         }
     });
     
-    // Corrigir IDs duplicados
+    // Corrigir IDs duplicaçãos
     elementsToFix.forEach(function(item, index) {
         const newId = item.originalId + '_fixed_' + (index + 1);
         item.element.id = newId;
-        console.log('🔧 ID duplicado corrigido:', item.originalId, '→', newId);
+        console.log('🔧 ID duplicação corrigido:', item.originalId, '→', newId);
     });
     
-    console.log(`✅ ${elementsToFix.length} IDs duplicados corrigidos`);
+    console.log(`✅ ${elementsToFix.length} IDs duplicaçãos corrigidos`);
 }
 
 // Função 3: Garantir separação correta de conteúdo
@@ -109,7 +109,7 @@ function ensureContentSeparation() {
         
         if (activeSection) {
             showSection(activeSection);
-            console.log('✅ Dashboard ativado como padrão');
+            console.log('✅ Dashboard ativação como padrão');
         }
     }
     
@@ -157,7 +157,7 @@ function fixNavigation() {
     console.log('✅ Navegação corrigida');
 }
 
-// Função 5: Corrigir widgets duplicados
+// Função 5: Corrigir widgets duplicaçãos
 function fixDuplicatedWidgets() {
     const widgetClasses = ['.widget', '.card', '.dashboard-widget'];
     const processedWidgets = new Set();
@@ -172,7 +172,7 @@ function fixDuplicatedWidgets() {
                 // Verificar se está em uma seção inativa
                 const parentSection = widget.closest('.content-section');
                 if (parentSection && !parentSection.classList.contains('active')) {
-                    console.log('🔧 Widget duplicado removido:', identifier);
+                    console.log('🔧 Widget duplicação removido:', identifier);
                     widget.remove();
                 }
             } else if (content) {
@@ -181,7 +181,7 @@ function fixDuplicatedWidgets() {
         });
     });
     
-    console.log('✅ Widgets duplicados corrigidos');
+    console.log('✅ Widgets duplicaçãos corrigidos');
 }
 
 // Função para mostrar seção
@@ -228,7 +228,7 @@ function navigateToSection(sectionId) {
             activeLink.classList.add('active');
         }
         
-        // Carregar dados da seção se necessário
+        // Carregar daçãos da seção se necessário
         loadSectionData(sectionId);
         
         // Scroll para o topo
@@ -242,7 +242,7 @@ function navigateToSection(sectionId) {
     }
 }
 
-// Carregar dados específicos da seção
+// Carregar daçãos específicos da seção
 function loadSectionData(sectionId) {
     switch(sectionId) {
         case 'dashboard-home':
@@ -297,7 +297,7 @@ window.debugPageStructure = function() {
         });
     });
     
-    console.log('IDs duplicados:');
+    console.log('IDs duplicaçãos:');
     const ids = {};
     const duplicates = [];
     document.querySelectorAll('[id]').forEach(function(element) {
@@ -310,8 +310,8 @@ window.debugPageStructure = function() {
     });
     
     if (duplicates.length > 0) {
-        console.warn('⚠️ IDs duplicados:', duplicates);
+        console.warn('⚠️ IDs duplicaçãos:', duplicates);
     } else {
-        console.log('✅ Nenhum ID duplicado');
+        console.log('✅ Nenhum ID duplicação');
     }
 };

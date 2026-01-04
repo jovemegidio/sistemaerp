@@ -11,7 +11,7 @@
   try {
     const email = 'test.login.local@local';
     const plain = 'Test@1234';
-    const [existing] = await pool.query('SELECT id FROM usuarios WHERE email = ? LIMIT 1', [email]);
+    const [existing] = await pool.query('SELECT id FROM usuarios WHERE email =  LIMIT 1', [email]);
     if (existing.length > 0) {
       console.log(JSON.stringify({ created: false, reason: 'already_exists', email }));
       return;
@@ -35,14 +35,14 @@
 
     const colsNames = Object.keys(toInsert);
     const values = Object.values(toInsert);
-    const placeholders = colsNames.map(() => '?').join(', ');
+    const placeholders = colsNames.map(() => '').join(', ');
 
     const sql = `INSERT INTO usuarios (${colsNames.join(', ')}) VALUES (${placeholders})`;
     const [result] = await pool.query(sql, values);
 
     console.log(JSON.stringify({ created: true, id: result.insertId, email, password: plain }));
   } catch (err) {
-    console.error('ERROR', err && err.message ? err.message : err);
+    console.error('ERROR', err && err.message  err.message : err);
     process.exitCode = 2;
   } finally {
     await pool.end();

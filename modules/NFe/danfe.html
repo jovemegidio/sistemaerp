@@ -9,9 +9,9 @@
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/chat-widget.css?v=20251210">
-    <script src="js/chat-widget.js?v=1765417597"></script>
+    <link href="https://fonts.googleapis.com/css2family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/chat-widget.cssv=20251210">
+    <script src="js/chat-widget.jsv=1765417597"></script>
     
     <style>
         :root {
@@ -238,7 +238,7 @@
         .form-control:focus {
             outline: none;
             border-color: var(--nfe-primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            box-shaçãow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
 
         /* Options Grid */
@@ -284,7 +284,7 @@
             transition: all 0.2s;
         }
 
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3); }
 
         .btn-secondary {
             display: inline-flex;
@@ -368,7 +368,7 @@
             justify-content: center;
             color: white;
             font-size: 28px;
-            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            box-shaçãow: 0 4px 12px rgba(37, 211, 102, 0.4);
             text-decoration: none;
             z-index: 1000;
         }
@@ -470,9 +470,9 @@
                             <h4>DANFE Paisagem</h4>
                             <p>Formato horizontal (A4)</p>
                         </div>
-                        <div class="option-card" data-tipo="simplificado">
+                        <div class="option-card" data-tipo="simplificação">
                             <i class="fas fa-file-invoice"></i>
-                            <h4>DANFE Simplificado</h4>
+                            <h4>DANFE Simplificação</h4>
                             <p>Versão compacta para NFC-e</p>
                         </div>
                     </div>
@@ -599,15 +599,15 @@
         function gerarPDF() { gerarPreview(); setTimeout(() => window.print(), 500); }
         function imprimir() { gerarPreview(); setTimeout(() => window.print(), 500); }
 
-        // Carregar dados do usuário com avatar e saudação
-        async function carregarDadosUsuario() {
+        // Carregar daçãos do usuário com avatar e saudação
+        async function carregarDaçãosUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || user.name || 'Usuário';
-                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (userName  userName.split(' ')[0] : 'Usuário');
                     
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -679,7 +679,7 @@
                 }
             } catch (e) { console.log('Erro ao carregar usuário:', e); }
         }
-        document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+        document.addEventListener('DOMContentLoaded', carregarDaçãosUsuario);
     </script></body>
 </html>
 

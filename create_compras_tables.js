@@ -13,7 +13,7 @@ async function createTables() {
     
     try {
         connection = await mysql.createConnection(DB_CONFIG);
-        console.log('✅ Conectado ao MySQL');
+        console.log('✅ Conectação ao MySQL');
 
         const sql = `
 -- Tabela de Fornecedores
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS fornecedores (
     ie VARCHAR(20),
     endereco TEXT,
     cidade VARCHAR(100),
-    estado CHAR(2),
+    estação CHAR(2),
     cep VARCHAR(10),
     telefone VARCHAR(20),
     email VARCHAR(100),
@@ -47,14 +47,14 @@ CREATE TABLE IF NOT EXISTS pedidos_compra (
     data_pedido DATE NOT NULL,
     data_entrega_prevista DATE,
     data_entrega_real DATE,
-    status ENUM('pendente', 'aprovado', 'parcial', 'recebido', 'cancelado') DEFAULT 'pendente',
+    status ENUM('pendente', 'aprovação', 'parcial', 'recebido', 'cancelação') DEFAULT 'pendente',
     valor_total DECIMAL(15,2) NOT NULL DEFAULT 0,
     desconto DECIMAL(15,2) DEFAULT 0,
     frete DECIMAL(15,2) DEFAULT 0,
     valor_final DECIMAL(15,2) NOT NULL DEFAULT 0,
     observacoes TEXT,
     usuario_solicitante_id INT,
-    usuario_aprovador_id INT,
+    usuario_aprovaçãor_id INT,
     data_aprovacao TIMESTAMP NULL,
     motivo_cancelamento TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -133,14 +133,14 @@ CREATE TABLE IF NOT EXISTS historico_aprovacoes (
     id INT PRIMARY KEY AUTO_INCREMENT,
     pedido_id INT NOT NULL,
     usuario_id INT NOT NULL,
-    acao ENUM('solicitado', 'aprovado', 'rejeitado') NOT NULL,
+    acao ENUM('solicitação', 'aprovação', 'rejeitação') NOT NULL,
     observacoes TEXT,
     data_acao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (pedido_id) REFERENCES pedidos_compra(id) ON DELETE CASCADE,
     INDEX idx_pedido (pedido_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT IGNORE INTO fornecedores (razao_social, nome_fantasia, cnpj, telefone, email, cidade, estado, ativo) VALUES
+INSERT IGNORE INTO fornecedores (razao_social, nome_fantasia, cnpj, telefone, email, cidade, estação, ativo) VALUES
 ('ALUMÍNIO BRASIL LTDA', 'Alumínio Brasil', '12.345.678/0001-90', '(11) 3456-7890', 'comercial@aluminiobrasil.com.br', 'São Paulo', 'SP', 1),
 ('METAIS E LIGAS S.A.', 'Metais & Ligas', '23.456.789/0001-01', '(11) 2345-6789', 'vendas@metaisligas.com.br', 'Guarulhos', 'SP', 1),
 ('FORNECEDOR INDUSTRIAL LTDA', 'FI Ind.', '34.567.890/0001-12', '(11) 4567-8901', 'atendimento@fiindustrial.com.br', 'Osasco', 'SP', 1);
@@ -151,7 +151,7 @@ INSERT IGNORE INTO fornecedores (razao_social, nome_fantasia, cnpj, telefone, em
         for (const statement of statements) {
             if (statement.trim()) {
                 await connection.query(statement);
-                console.log('✅ Executado:', statement.substring(0, 50) + '...');
+                console.log('✅ Executação:', statement.substring(0, 50) + '...');
             }
         }
 

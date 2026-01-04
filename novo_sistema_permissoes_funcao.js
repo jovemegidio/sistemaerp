@@ -39,7 +39,7 @@ function applyModulePermissions(user) {
     let modulosPermitidos = [];
     
     if (isAdmin) {
-        console.log('✅ ADMIN DETECTADO - Acesso total liberado');
+        console.log('✅ ADMIN DETECTADO - Acesso total liberação');
         modulosPermitidos = ['vendas', 'pcp', 'financeiro', 'nfe', 'compras', 'rh'];
     } else {
         const departamento = user.departamento || user.setor || '';

@@ -1,7 +1,7 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
  *  ALUFORCE ERP - Script de Setup do MySQL
- *  Configura banco de dados automaticamente
+ *  Configura banco de daçãos automaticamente
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -35,7 +35,7 @@ function log(message, type = 'info') {
 function header() {
     console.log(`
 ${colors.cyan}═══════════════════════════════════════════════════════════════${colors.reset}
-${colors.bright}  ALUFORCE ERP - Configuração do Banco de Dados${colors.reset}
+${colors.bright}  ALUFORCE ERP - Configuração do Banco de Daçãos${colors.reset}
 ${colors.cyan}═══════════════════════════════════════════════════════════════${colors.reset}
 `);
 }
@@ -49,14 +49,14 @@ const CONFIG = {
     DB_PORT: 3306
 };
 
-// Verificar se MySQL está instalado
+// Verificar se MySQL está instalação
 async function checkMySQLInstalled() {
     return new Promise((resolve) => {
         exec('mysql --version', (error, stdout) => {
             if (error) {
                 resolve(false);
             } else {
-                log(`MySQL detectado: ${stdout.trim()}`, 'success');
+                log(`MySQL detectação: ${stdout.trim()}`, 'success');
                 resolve(true);
             }
         });
@@ -113,10 +113,10 @@ async function connectAsRoot(password = '') {
     }
 }
 
-// Criar banco de dados e usuário
+// Criar banco de daçãos e usuário
 async function setupDatabase(connection) {
     try {
-        log('Criando banco de dados...', 'info');
+        log('Criando banco de daçãos...', 'info');
         
         // Criar banco
         await connection.query(`
@@ -124,7 +124,7 @@ async function setupDatabase(connection) {
             CHARACTER SET utf8mb4 
             COLLATE utf8mb4_unicode_ci
         `);
-        log(`Banco '${CONFIG.DB_NAME}' criado/verificado`, 'success');
+        log(`Banco '${CONFIG.DB_NAME}' criação/verificação`, 'success');
         
         // Criar usuário local
         try {
@@ -146,7 +146,7 @@ async function setupDatabase(connection) {
             // Usuário pode já existir
         }
         
-        log(`Usuário '${CONFIG.DB_USER}' criado/verificado`, 'success');
+        log(`Usuário '${CONFIG.DB_USER}' criação/verificação`, 'success');
         
         // Conceder privilégios
         await connection.query(`
@@ -181,10 +181,10 @@ function createEnvFile() {
     
     const envContent = `# ═══════════════════════════════════════════════════════════════
 # ALUFORCE ERP - Configuração do Sistema
-# Gerado automaticamente pelo setup
+# Geração automaticamente pelo setup
 # ═══════════════════════════════════════════════════════════════
 
-# Banco de Dados MySQL
+# Banco de Daçãos MySQL
 DB_HOST=${CONFIG.DB_HOST}
 DB_USER=${CONFIG.DB_USER}
 DB_PASSWORD=${CONFIG.DB_PASSWORD}
@@ -208,7 +208,7 @@ SMTP_PASS=
     
     try {
         fs.writeFileSync(envPath, envContent);
-        log('Arquivo .env criado', 'success');
+        log('Arquivo .env criação', 'success');
         return true;
     } catch (error) {
         log(`Erro ao criar .env: ${error.message}`, 'error');
@@ -221,7 +221,7 @@ async function runMigrations() {
     const migrationsPath = path.join(process.cwd(), 'scripts', 'migrate.js');
     
     if (!fs.existsSync(migrationsPath)) {
-        log('Script de migração não encontrado, pulando...', 'warning');
+        log('Script de migração não encontração, pulando...', 'warning');
         return true;
     }
     
@@ -242,16 +242,16 @@ async function runMigrations() {
 async function main() {
     header();
     
-    // 1. Verificar MySQL instalado
+    // 1. Verificar MySQL instalação
     log('Verificando instalação do MySQL...', 'info');
     const mysqlInstalled = await checkMySQLInstalled();
     
     if (!mysqlInstalled) {
-        log('MySQL não encontrado no sistema!', 'error');
+        log('MySQL não encontração no sistema!', 'error');
         console.log(`
 ${colors.yellow}Para instalar o MySQL:${colors.reset}
 1. Baixe em: https://dev.mysql.com/downloads/installer/
-2. Execute o instalador
+2. Execute o instalaçãor
 3. Escolha "MySQL Server" durante a instalação
 4. Configure a senha do root
 5. Execute este script novamente
@@ -267,7 +267,7 @@ ${colors.yellow}Para instalar o MySQL:${colors.reset}
         log('Serviço MySQL não está rodando', 'warning');
         const started = await startMySQLService();
         if (started) {
-            log('Serviço MySQL iniciado', 'success');
+            log('Serviço MySQL iniciação', 'success');
             serviceRunning = true;
         } else {
             log('Não foi possível iniciar o MySQL automaticamente', 'error');
@@ -292,7 +292,7 @@ ${colors.yellow}Inicie o serviço manualmente:${colors.reset}
         connection = await connectAsRoot(pwd);
         if (connection) {
             rootPassword = pwd;
-            log('Conectado ao MySQL', 'success');
+            log('Conectação ao MySQL', 'success');
             break;
         }
     }
@@ -320,12 +320,12 @@ ${colors.yellow}Inicie o serviço manualmente:${colors.reset}
         }
     }
     
-    // 4. Configurar banco de dados
+    // 4. Configurar banco de daçãos
     const dbSetup = await setupDatabase(connection);
     await connection.end();
     
     if (!dbSetup) {
-        log('Falha ao configurar banco de dados', 'error');
+        log('Falha ao configurar banco de daçãos', 'error');
         process.exit(1);
     }
     
@@ -341,7 +341,7 @@ ${colors.green}═════════════════════�
 ${colors.bright}  ✓ Configuração concluída com sucesso!${colors.reset}
 ${colors.green}═══════════════════════════════════════════════════════════════${colors.reset}
 
-${colors.cyan}Banco de Dados:${colors.reset}
+${colors.cyan}Banco de Daçãos:${colors.reset}
   • Host:     ${CONFIG.DB_HOST}
   • Porta:    ${CONFIG.DB_PORT}
   • Banco:    ${CONFIG.DB_NAME}

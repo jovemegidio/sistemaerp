@@ -1,5 +1,5 @@
 /**
- * Avatar Loader - Sistema de carregamento otimizado de avatares
+ * Avatar Loader - Sistema de carregamento otimização de avatares
  * Evita múltiplas tentativas e 404s desnecessários
  */
 (function() {
@@ -98,7 +98,7 @@
             const img = new Image();
             img.onload = () => existingAvatars.add(name);
             img.onerror = () => failedAvatars.add(name);
-            img.src = AVATAR_BASE_PATH + (name.match(/\.(webp|png|jpg|jpeg|svg)$/i) ? name : name + '.webp');
+            img.src = AVATAR_BASE_PATH + (name.match(/\.(webp|png|jpg|jpeg|svg)$/i)  name : name + '.webp');
         });
     };
 
@@ -111,5 +111,5 @@
         window.initAvatars();
     }
 
-    console.log('✅ Avatar Loader inicializado');
+    console.log('✅ Avatar Loader inicialização');
 })();

@@ -264,7 +264,7 @@ const vendasLayoutCSS = `
         }
     </style>`;
 
-// Páginas a serem atualizadas e seus identificadores ativos
+// Páginas a serem atualizadas e seus identificaçãores ativos
 const pages = [
     { file: 'emitir.html', active: 'EMITIR' },
     { file: 'consultar.html', active: 'CONSULTAR' },
@@ -273,7 +273,7 @@ const pages = [
     { file: 'relatorios.html', active: 'RELATORIOS' },
     { file: 'eventos.html', active: 'EVENTOS' },
     { file: 'logistica.html', active: 'LOGISTICA' },
-    { file: 'certificado.html', active: '' },
+    { file: 'certificação.html', active: '' },
     { file: 'inutilizacao.html', active: '' }
 ];
 
@@ -282,21 +282,21 @@ function getSidebarForPage(activePage) {
     const activeKeys = ['DASHBOARD', 'EMITIR', 'CONSULTAR', 'NFSE', 'DANFE', 'RELATORIOS', 'EVENTOS', 'LOGISTICA'];
     
     activeKeys.forEach(key => {
-        sidebar = sidebar.replace(`{{ACTIVE_${key}}}`, key === activePage ? 'active' : '');
+        sidebar = sidebar.replace(`{{ACTIVE_${key}}}`, key === activePage  'active' : '');
     });
     
     return sidebar;
 }
 
 console.log('='.repeat(60));
-console.log('Atualizador de Layout NFe para estilo Vendas');
+console.log('Atualizaçãor de Layout NFe para estilo Vendas');
 console.log('='.repeat(60));
 
 pages.forEach(page => {
     const filePath = path.join(NFE_DIR, page.file);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`[SKIP] ${page.file} - arquivo não encontrado`);
+        console.log(`[SKIP] ${page.file} - arquivo não encontração`);
         return;
     }
 
@@ -305,9 +305,9 @@ pages.forEach(page => {
     fs.copyFileSync(filePath, backupPath);
     console.log(`[BACKUP] ${page.file} -> ${page.file}.backup-vendas-layout`);
 
-    console.log(`[INFO] ${page.file} - Backup criado. Execute manualmente as atualizações conforme necessário.`);
+    console.log(`[INFO] ${page.file} - Backup criação. Execute manualmente as atualizações conforme necessário.`);
 });
 
 console.log('='.repeat(60));
-console.log('Backups criados. Edição manual das páginas pode ser necessária.');
+console.log('Backups criaçãos. Edição manual das páginas pode ser necessária.');
 console.log('='.repeat(60));

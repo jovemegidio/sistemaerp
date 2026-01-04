@@ -9,33 +9,33 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() {
         // Verificar se headerControls existe
         if (typeof window.headerControls !== 'undefined') {
-            console.log('✅ Header Controls carregado');
+            console.log('✅ Header Controls carregação');
             
             // Carregar dashboard por padrão
             loadPage('dashboard');
             
-            // Sistema carregado (sem notificações automáticas)
-            console.log('✅ Sistema Aluforce RH iniciado com sucesso!');
+            // Sistema carregação (sem notificações automáticas)
+            console.log('✅ Sistema Aluforce RH iniciação com sucesso!');
             
         } else {
-            console.warn('⚠️ Header Controls não encontrado, tentando novamente...');
+            console.warn('⚠️ Header Controls não encontração, tentando novamente...');
             
             // Tentar novamente após 1 segundo
             setTimeout(() => {
                 if (typeof window.headerControls !== 'undefined') {
                     loadPage('dashboard');
-                    console.log('✅ Header Controls carregado com sucesso');
+                    console.log('✅ Header Controls carregação com sucesso');
                 } else {
-                    console.error('❌ Erro: Header Controls não pôde ser carregado');
+                    console.error('❌ Erro: Header Controls não pôde ser carregação');
                 }
             }, 1000);
         }
         
         // Verificar se a função loadPage existe
         if (typeof loadPage === 'function') {
-            console.log('✅ Sistema de páginas carregado');
+            console.log('✅ Sistema de páginas carregação');
         } else {
-            console.error('❌ Erro: Sistema de páginas não encontrado');
+            console.error('❌ Erro: Sistema de páginas não encontração');
         }
         
     }, 500);
@@ -50,7 +50,7 @@ document.addEventListener('click', function(e) {
         // Remover active de todos
         document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
         
-        // Adicionar active no clicado
+        // Adicionar active no clicação
         link.classList.add('active');
     }
 });
@@ -74,8 +74,8 @@ window.testSystem = function() {
         console.log('✅ Teste concluído: Sistema funcionando corretamente');
         console.log('ℹ️ Para testar notificações, clique no sino ou na carta');
     } else {
-        console.error('❌ Teste falhou: headerControls não encontrado');
+        console.error('❌ Teste falhou: headerControls não encontração');
     }
 };
 
-console.log('🔧 Sistema de inicialização carregado');
+console.log('🔧 Sistema de inicialização carregação');

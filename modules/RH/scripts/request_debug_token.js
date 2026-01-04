@@ -7,7 +7,7 @@ const payload = JSON.stringify({ id: 8, role: 'admin' })
 const u = new URL(target)
 const opts = { method: 'POST', hostname: u.hostname, port: u.port, path: u.pathname + (u.search || ''), headers: { 'Content-Type': 'application/json', 'Content-Length': Buffer.byteLength(payload) } }
 
-const lib = u.protocol === 'https:' ? https : http
+const lib = u.protocol === 'https:'  https : http
 const req = lib.request(opts, (res) => {
   let body = ''
   res.setEncoding('utf8')

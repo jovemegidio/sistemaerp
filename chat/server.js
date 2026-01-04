@@ -15,7 +15,7 @@ const dbConfig = {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
     database: process.env.DB_NAME || 'railway',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 19396
+    port: process.env.DB_PORT  parseInt(process.env.DB_PORT) : 19396
 };
 
 let pool;
@@ -29,7 +29,7 @@ initDB();
 app.use(express.static('public'));
 app.use(express.json());
 
-// Armazenar conversas ativas (em produção, usar banco de dados)
+// Armazenar conversas ativas (em produção, usar banco de daçãos)
 const activeChats = new Map();
 const chatHistory = new Map();
 const waitingUsers = new Set();
@@ -38,14 +38,14 @@ const waitingUsers = new Set();
 const bobResponses = {
     greetings: ['olá', 'oi', 'bom dia', 'boa tarde', 'boa noite', 'ola', 'hey', 'oii'],
     help: ['ajuda', 'help', 'socorro', 'preciso de ajuda', 'duvida', 'dúvida'],
-    problem: ['problema', 'erro', 'bug', 'não funciona', 'não está funcionando', 'quebrado', 'travou', 'lento'],
+    problem: ['problema', 'erro', 'bug', 'não funciona', 'não está funcionando', 'quebração', 'travou', 'lento'],
     nfe: ['nota', 'nfe', 'nf-e', 'fiscal', 'danfe', 'xml'],
     pcp: ['pcp', 'produção', 'producao', 'ordem', 'op'],
     vendas: ['venda', 'orcamento', 'orçamento', 'pedido', 'cliente'],
     support: ['suporte', 'atendente', 'humano', 'pessoa', 'falar com alguém', 'transferir', 'ti'],
     financeiro: ['financeiro', 'conta', 'pagamento', 'recebimento', 'boleto', 'fatura', 'débito', 'crédito'],
     rh: ['rh', 'recursos humanos', 'funcionário', 'folha', 'ponto', 'benefício', 'admissão', 'demissão'],
-    compras: ['compras', 'compra', 'fornecedor', 'cotação', 'pedido de compra', 'entrada de mercadoria']
+    compras: ['compras', 'compra', 'fornecedor', 'cotação', 'pedido de compra', 'entrada de mercaçãoria']
 };
 
 function getAIResponse(message) {
@@ -54,7 +54,7 @@ function getAIResponse(message) {
     // Saudações - Apresenta opções principais
     if (bobResponses.greetings.some(word => lowerMessage.includes(word))) {
         return {
-            text: '👋 Olá! Eu sou o Bob, assistente virtual da ALUFORCE!\n\nComo posso ajudar você hoje?\n\n📚 Ajuda - Central de conhecimento\n💬 Falar com Suporte - Contato com TI\n🔧 Problema Técnico - Resolver erros\n📄 Nota Fiscal - Dúvidas sobre NF-e',
+            text: '👋 Olá! Eu sou o Bob, assistente virtual da ALUFORCE!\n\nComo posso ajudar você hoje\n\n📚 Ajuda - Central de conhecimento\n💬 Falar com Suporte - Contato com TI\n🔧 Problema Técnico - Resolver erros\n📄 Nota Fiscal - Dúvidas sobre NF-e',
             transferToHuman: false
         };
     }
@@ -71,7 +71,7 @@ function getAIResponse(message) {
     // Falar com Suporte - Notifica TI
     if (bobResponses.support.some(word => lowerMessage.includes(word))) {
         return {
-            text: '🎧 Entendi! Vou transferir sua solicitação para nossa equipe de TI.\n\n📧 Email de contato: ti@aluforce.ind.br\n\nUm atendente será notificado e entrará em contato em breve. Você também pode enviar um email diretamente se preferir!',
+            text: '🎧 Entendi! Vou transferir sua solicitação para nossa equipe de TI.\n\n📧 Email de contato: ti@aluforce.ind.br\n\nUm atendente será notificação e entrará em contato em breve. Você também pode enviar um email diretamente se preferir!',
             transferToHuman: true,
             notifySupport: true
         };
@@ -80,7 +80,7 @@ function getAIResponse(message) {
     // Problemas técnicos
     if (bobResponses.problem.some(word => lowerMessage.includes(word))) {
         return {
-            text: '🔧 Entendo que você está com um problema técnico. Vou te ajudar!\n\nPode me contar:\n• Qual módulo está apresentando o problema? (Vendas, PCP, NF-e, etc.)\n• Qual erro aparece na tela?\n• O que você estava fazendo quando o erro aconteceu?\n\nOu se preferir, posso te conectar diretamente com o suporte técnico.',
+            text: '🔧 Entendo que você está com um problema técnico. Vou te ajudar!\n\nPode me contar:\n• Qual módulo está apresentando o problema (Vendas, PCP, NF-e, etc.)\n• Qual erro aparece na tela\n• O que você estava fazendo quando o erro aconteceu\n\nOu se preferir, posso te conectar diretamente com o suporte técnico.',
             transferToHuman: false
         };
     }
@@ -88,7 +88,7 @@ function getAIResponse(message) {
     // Nota Fiscal - Opções específicas
     if (bobResponses.nfe.some(word => lowerMessage.includes(word))) {
         return {
-            text: '📄 Certo! Vou te ajudar com Nota Fiscal.\n\nEscolha uma opção:\n\n📤 Emitir NF-e - Como emitir uma nota\n🔍 Consultar NF-e - Verificar status\n❌ Cancelar NF-e - Processo de cancelamento\n📥 Baixar XML/DANFE - Download de arquivos\n⚙️ Configurar Certificado - Setup inicial\n\nOu diga qual é sua dúvida específica!',
+            text: '📄 Certo! Vou te ajudar com Nota Fiscal.\n\nEscolha uma opção:\n\n📤 Emitir NF-e - Como emitir uma nota\n🔍 Consultar NF-e - Verificar status\n❌ Cancelar NF-e - Processo de cancelamento\n📥 Baixar XML/DANFE - Download de arquivos\n⚙️ Configurar Certificação - Setup inicial\n\nOu diga qual é sua dúvida específica!',
             transferToHuman: false
         };
     }
@@ -105,7 +105,7 @@ function getAIResponse(message) {
     // Vendas
     if (bobResponses.vendas.some(word => lowerMessage.includes(word))) {
         return {
-            text: '💰 Ótimo! Vou te ajudar com Vendas.\n\nPosso te orientar sobre:\n• Criar orçamento\n• Cadastrar cliente\n• Converter orçamento em pedido\n• Consultar histórico\n• Gerar relatórios\n\nQual sua dúvida específica?',
+            text: '💰 Ótimo! Vou te ajudar com Vendas.\n\nPosso te orientar sobre:\n• Criar orçamento\n• Cadastrar cliente\n• Converter orçamento em pedido\n• Consultar histórico\n• Gerar relatórios\n\nQual sua dúvida específica',
             transferToHuman: false
         };
     }
@@ -113,7 +113,7 @@ function getAIResponse(message) {
     // Financeiro
     if (bobResponses.financeiro.some(word => lowerMessage.includes(word))) {
         return {
-            text: '💳 Precisa de ajuda com o Financeiro?\n\nPosso te orientar sobre:\n• Lançar contas a pagar/receber\n• Gerar boletos\n• Baixar pagamentos\n• Fluxo de caixa\n• Relatórios financeiros\n\nQual sua dúvida específica?',
+            text: '💳 Precisa de ajuda com o Financeiro\n\nPosso te orientar sobre:\n• Lançar contas a pagar/receber\n• Gerar boletos\n• Baixar pagamentos\n• Fluxo de caixa\n• Relatórios financeiros\n\nQual sua dúvida específica',
             transferToHuman: false
         };
     }
@@ -121,7 +121,7 @@ function getAIResponse(message) {
     // RH
     if (bobResponses.rh.some(word => lowerMessage.includes(word))) {
         return {
-            text: '👥 RH - Recursos Humanos.\n\nPosso te ajudar com:\n• Cadastro de funcionários\n• Folha de pagamento\n• Controle de ponto\n• Benefícios\n• Admissão/Demissão\n\nQual sua dúvida específica?',
+            text: '👥 RH - Recursos Humanos.\n\nPosso te ajudar com:\n• Cadastro de funcionários\n• Folha de pagamento\n• Controle de ponto\n• Benefícios\n• Admissão/Demissão\n\nQual sua dúvida específica',
             transferToHuman: false
         };
     }
@@ -129,7 +129,7 @@ function getAIResponse(message) {
     // Compras
     if (bobResponses.compras.some(word => lowerMessage.includes(word))) {
         return {
-            text: '🛒 Compras.\n\nPosso te ajudar com:\n• Criar pedido de compra\n• Cadastro de fornecedores\n• Cotação de preços\n• Entrada de mercadorias\n• Relatórios de compras\n\nQual sua dúvida específica?',
+            text: '🛒 Compras.\n\nPosso te ajudar com:\n• Criar pedido de compra\n• Cadastro de fornecedores\n• Cotação de preços\n• Entrada de mercaçãorias\n• Relatórios de compras\n\nQual sua dúvida específica',
             transferToHuman: false
         };
     }
@@ -141,7 +141,7 @@ function getAIResponse(message) {
     };
 }
 
-// API para obter informações do usuário logado
+// API para obter informações do usuário logação
 app.get('/api/user-info', (req, res) => {
     const userInfo = os.userInfo();
     const userName = userInfo.username;
@@ -149,10 +149,10 @@ app.get('/api/user-info', (req, res) => {
     // Tentar obter nome completo do Windows (se disponível)
     let fullName = userName;
     
-    // Gerar email baseado no usuário (pode ser customizado)
+    // Gerar email baseação no usuário (pode ser customização)
     const email = `${userName.toLowerCase()}@empresa.com`;
     
-    // Avatar baseado nas iniciais
+    // Avatar baseação nas iniciais
     const initials = userName.substring(0, 2).toUpperCase();
     
     res.json({
@@ -187,7 +187,7 @@ app.get('/api/avatar/:username', (req, res) => {
     res.send(svg);
 });
 
-// Rota principal - página do colaborador
+// Rota principal - página do colaboraçãor
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -201,7 +201,7 @@ app.get('/admin', (req, res) => {
 io.on('connection', (socket) => {
     console.log('Nova conexão:', socket.id);
 
-    // Usuário (colaborador) entra no chat
+    // Usuário (colaboraçãor) entra no chat
     socket.on('user:join', async (userData) => {
         const userId = socket.id;
         const userInfo = {
@@ -223,7 +223,7 @@ io.on('connection', (socket) => {
         let sessionId = null;
         try {
             const [result] = await pool.query(
-                'INSERT INTO chat_sessions (user_id, user_name, user_email, started_at, status) VALUES (?, ?, ?, NOW(), ?)',
+                'INSERT INTO chat_sessions (user_id, user_name, user_email, started_at, status) VALUES (, , , NOW(), )',
                 [userId, userData.name, userData.email, 'active']
             );
             sessionId = result.insertId;
@@ -237,7 +237,7 @@ io.on('connection', (socket) => {
             id: Date.now(),
             from: 'bob',
             userName: 'Bob',
-            text: `👋 Olá ${userData.name}! Eu sou o Bob, assistente virtual da ALUFORCE!\n\nEstou aqui para ajudar com:\n📚 Ajuda - Tutoriais e guias\n💬 Falar com Suporte - Contato direto com TI\n🔧 Problema Técnico - Resolver erros do sistema\n\nComo posso te ajudar hoje? 😊`,
+            text: `👋 Olá ${userData.name}! Eu sou o Bob, assistente virtual da ALUFORCE!\n\nEstou aqui para ajudar com:\n📚 Ajuda - Tutoriais e guias\n💬 Falar com Suporte - Contato direto com TI\n🔧 Problema Técnico - Resolver erros do sistema\n\nComo posso te ajudar hoje 😊`,
             timestamp: new Date()
         };
 
@@ -247,7 +247,7 @@ io.on('connection', (socket) => {
         if (sessionId) {
             try {
                 await pool.query(
-                    'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (?, ?, ?, NOW())',
+                    'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (, , , NOW())',
                     [sessionId, 'bob', welcomeMessage.text]
                 );
             } catch (err) {
@@ -257,7 +257,7 @@ io.on('connection', (socket) => {
 
         socket.emit('user:joined', { 
             userId, 
-            message: 'Conectado com Bob - Assistente Virtual',
+            message: 'Conectação com Bob - Assistente Virtual',
             welcomeMessage: welcomeMessage
         });
         
@@ -266,14 +266,14 @@ io.on('connection', (socket) => {
 
     // Admin entra no sistema
     socket.on('admin:join', (adminData) => {
-        // Verificar se é ti@aluforce.ind.br (admin autorizado)
+        // Verificar se é ti@aluforce.ind.br (admin autorização)
         const isAuthorized = adminData && adminData.email === 'ti@aluforce.ind.br';
         
         if (!isAuthorized) {
             socket.emit('admin:unauthorized', { 
-                message: 'Acesso negado. Apenas ti@aluforce.ind.br tem permissão de admin.' 
+                message: 'Acesso negação. Apenas ti@aluforce.ind.br tem permissão de admin.' 
             });
-            console.log(`⛔ Tentativa de acesso admin não autorizado: ${adminData?.email || 'desconhecido'}`);
+            console.log(`⛔ Tentativa de acesso admin não autorização: ${adminData.email || 'desconhecido'}`);
             return;
         }
 
@@ -290,7 +290,7 @@ io.on('connection', (socket) => {
         });
         socket.emit('admin:all-history', allHistory);
         
-        console.log(`✅ Admin autorizado conectado: ${adminData.email} (${socket.id})`);
+        console.log(`✅ Admin autorização conectação: ${adminData.email} (${socket.id})`);
     });
 
     // Admin aceita atender um usuário
@@ -336,7 +336,7 @@ io.on('connection', (socket) => {
             if (user.sessionId) {
                 try {
                     await pool.query(
-                        'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (?, ?, ?, NOW())',
+                        'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (, , , NOW())',
                         [user.sessionId, 'user', message.text]
                     );
                 } catch (err) {
@@ -380,7 +380,7 @@ io.on('connection', (socket) => {
             if (user.sessionId) {
                 try {
                     await pool.query(
-                        'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (?, ?, ?, NOW())',
+                        'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (, , , NOW())',
                         [user.sessionId, 'admin', message.text]
                     );
                 } catch (err) {
@@ -420,7 +420,7 @@ io.on('connection', (socket) => {
             console.log(`Usuário ${user.name} desconectou`);
         }
 
-        console.log('Desconectado:', socket.id);
+        console.log('Desconectação:', socket.id);
     });
 
     // Encerrar chat manualmente
@@ -429,7 +429,7 @@ io.on('connection', (socket) => {
         if (user) {
             // Notificar usuário
             io.to(user.socketId).emit('chat:closed', { 
-                message: 'Chat encerrado pelo atendente.' 
+                message: 'Chat encerração pelo atendente.' 
             });
 
             // Notificar admin
@@ -454,7 +454,7 @@ function startServer() {
         console.log(``);
         console.log(`✅ Servidor rodando na porta ${PORT}`);
         console.log(`📍 Acesse:`);
-        console.log(`   - Interface Colaboradores: http://localhost:${PORT}`);
+        console.log(`   - Interface Colaboraçãores: http://localhost:${PORT}`);
         console.log(`   - Painel Admin: http://localhost:${PORT}/admin`);
         console.log(`   - WebSocket: ws://localhost:${PORT}`);
         console.log(``);
@@ -463,7 +463,7 @@ function startServer() {
     });
 }
 
-// Se executado diretamente, iniciar servidor
+// Se executação diretamente, iniciar servidor
 if (require.main === module) {
     startServer();
 }

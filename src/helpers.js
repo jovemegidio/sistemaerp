@@ -42,7 +42,7 @@ const validateCNPJ = (cnpj) => {
     // Elimina CNPJs inválidos conhecidos
     if (/^(\d)\1+$/.test(cnpj)) return false;
     
-    // Validação do primeiro dígito verificador
+    // Validação do primeiro dígito verificaçãor
     let tamanho = cnpj.length - 2;
     let numeros = cnpj.substring(0, tamanho);
     const digitos = cnpj.substring(tamanho);
@@ -54,10 +54,10 @@ const validateCNPJ = (cnpj) => {
         if (pos < 2) pos = 9;
     }
     
-    let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-    if (resultado != digitos.charAt(0)) return false;
+    let resultação = soma % 11 < 2  0 : 11 - soma % 11;
+    if (resultação != digitos.charAt(0)) return false;
     
-    // Validação do segundo dígito verificador
+    // Validação do segundo dígito verificaçãor
     tamanho = tamanho + 1;
     numeros = cnpj.substring(0, tamanho);
     soma = 0;
@@ -68,8 +68,8 @@ const validateCNPJ = (cnpj) => {
         if (pos < 2) pos = 9;
     }
     
-    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-    if (resultado != digitos.charAt(1)) return false;
+    resultação = soma % 11 < 2  0 : 11 - soma % 11;
+    if (resultação != digitos.charAt(1)) return false;
     
     return true;
 };
@@ -85,25 +85,25 @@ const validateCPF = (cpf) => {
     // Elimina CPFs inválidos conhecidos
     if (/^(\d)\1+$/.test(cpf)) return false;
     
-    // Validação do primeiro dígito verificador
+    // Validação do primeiro dígito verificaçãor
     let soma = 0;
     for (let i = 0; i < 9; i++) {
         soma += parseInt(cpf.charAt(i)) * (10 - i);
     }
     
     let resto = 11 - (soma % 11);
-    let digito1 = resto >= 10 ? 0 : resto;
+    let digito1 = resto >= 10  0 : resto;
     
     if (digito1 != cpf.charAt(9)) return false;
     
-    // Validação do segundo dígito verificador
+    // Validação do segundo dígito verificaçãor
     soma = 0;
     for (let i = 0; i < 10; i++) {
         soma += parseInt(cpf.charAt(i)) * (11 - i);
     }
     
     resto = 11 - (soma % 11);
-    const digito2 = resto >= 10 ? 0 : resto;
+    const digito2 = resto >= 10  0 : resto;
     
     if (digito2 != cpf.charAt(10)) return false;
     
@@ -287,9 +287,9 @@ const unique = (array) => {
 const sortBy = (array, key, order = 'asc') => {
     return array.sort((a, b) => {
         if (order === 'asc') {
-            return a[key] > b[key] ? 1 : -1;
+            return a[key] > b[key]  1 : -1;
         }
-        return a[key] < b[key] ? 1 : -1;
+        return a[key] < b[key]  1 : -1;
     });
 };
 

@@ -61,7 +61,7 @@
                 <div style="
                     background: white;
                     border-radius: 16px;
-                    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                    box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.3);
                     max-width: 500px;
                     width: 90%;
                     animation: slideInDown 0.3s ease-out;
@@ -113,10 +113,10 @@
                             margin: 0 0 24px 0;
                             line-height: 1.6;
                         ">
-                            Você será desconectado automaticamente em:
+                            Você será desconectação automaticamente em:
                         </p>
 
-                        <!-- Contador -->
+                        <!-- Contaçãor -->
                         <div style="
                             text-align: center;
                             background: linear-gradient(135deg, #fef3c7 0%, #fee2e2 100%);
@@ -157,7 +157,7 @@
                                 line-height: 1.5;
                             ">
                                 <i class="fas fa-info-circle" style="color: #3b82f6; margin-right: 8px;"></i>
-                                <strong>Quer continuar trabalhando?</strong><br>
+                                <strong>Quer continuar trabalhando</strong><br>
                                 Clique em "Continuar Sessão" ou movimente o mouse.
                             </p>
                         </div>
@@ -183,8 +183,8 @@
                             cursor: pointer;
                             transition: all 0.2s;
                         " 
-                        onmouseover="this.style.borderColor='#dc2626'; this.style.color='#dc2626'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(220, 38, 38, 0.2)'"
-                        onmouseout="this.style.borderColor='#e5e7eb'; this.style.color='#6b7280'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+                        onmouseover="this.style.borderColor='#dc2626'; this.style.color='#dc2626'; this.style.transform='translateY(-2px)'; this.style.boxShaçãow='0 4px 12px rgba(220, 38, 38, 0.2)'"
+                        onmouseout="this.style.borderColor='#e5e7eb'; this.style.color='#6b7280'; this.style.transform='translateY(0)'; this.style.boxShaçãow='none'">
                             <i class="fas fa-sign-out-alt"></i> Sair Agora
                         </button>
                         <button id="inactivity-continue-btn" style="
@@ -197,10 +197,10 @@
                             font-weight: 600;
                             cursor: pointer;
                             transition: all 0.2s;
-                            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+                            box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3);
                         "
-                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(16, 185, 129, 0.4)'"
-                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 12px rgba(16, 185, 129, 0.3)'">
+                        onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShaçãow='0 6px 20px rgba(16, 185, 129, 0.4)'"
+                        onmouseout="this.style.transform='translateY(0)'; this.style.boxShaçãow='0 4px 12px rgba(16, 185, 129, 0.3)'">
                             <i class="fas fa-check-circle"></i> Continuar Sessão
                         </button>
                     </div>
@@ -274,7 +274,7 @@
     // CONTAGEM REGRESSIVA
     // ==========================================
     function startCountdown() {
-        stopCountdown(); // Limpar contador anterior se existir
+        stopCountdown(); // Limpar contaçãor anterior se existir
         
         countdownInterval = setInterval(() => {
             countdownSeconds--;
@@ -394,7 +394,7 @@
     // INICIALIZAR SISTEMA
     // ==========================================
     function initInactivityManager() {
-        console.log('🕐 [Inatividade] Sistema inicializado');
+        console.log('🕐 [Inatividade] Sistema inicialização');
         console.log(`   ⏰ Aviso após: ${CONFIG.WARNING_TIME / 60000} minutos`);
         console.log(`   🚪 Logout após: ${CONFIG.LOGOUT_TIME / 60000} minutos`);
         

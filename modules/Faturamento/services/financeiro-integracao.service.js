@@ -12,18 +12,18 @@ class FinanceiroIntegracaoService {
     /**
      * Gerar contas a receber a partir da NFe
      */
-    async gerarContasReceber(nfe_id, dadosPagamento) {
+    async gerarContasReceber(nfe_id, daçãosPagamento) {
         const connection = await this.pool.getConnection();
         
         try {
             await connection.beginTransaction();
             
-            // Buscar dados da NFe
+            // Buscar daçãos da NFe
             const [nfe] = await connection.query(`
                 SELECT n.*, c.id as cliente_id, c.nome as cliente_nome
                 FROM nfe n
                 LEFT JOIN clientes c ON n.cliente_id = c.id
-                WHERE n.id = ?
+                WHERE n.id = 
             `, [nfe_id]);
             
             if (nfe.length === 0) {
@@ -34,7 +34,7 @@ class FinanceiroIntegracaoService {
             const valorTotal = parseFloat(nfeData.valor_total);
             
             // Determinar parcelas
-            const parcelas = this.calcularParcelas(valorTotal, dadosPagamento);
+            const parcelas = this.calcularParcelas(valorTotal, daçãosPagamento);
             
             // Criar conta a receber principal
             const [contaReceber] = await connection.query(`
@@ -48,7 +48,7 @@ class FinanceiroIntegracaoService {
                     data_vencimento,
                     status,
                     created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, 'aberto', NOW())
+                ) VALUES (, , , , , , , 'aberto', NOW())
             `, [
                 nfeData.cliente_id,
                 nfe_id,
@@ -72,7 +72,7 @@ class FinanceiroIntegracaoService {
                         data_vencimento,
                         status,
                         created_at
-                    ) VALUES (?, ?, ?, ?, 'aberto', NOW())
+                    ) VALUES (, , , , 'aberto', NOW())
                 `, [
                     conta_receber_id,
                     parcela.numero,
@@ -84,8 +84,8 @@ class FinanceiroIntegracaoService {
             // Atualizar NFe com referência da conta a receber
             await connection.query(`
                 UPDATE nfe 
-                SET conta_receber_id = ?
-                WHERE id = ?
+                SET conta_receber_id = 
+                WHERE id = 
             `, [conta_receber_id, nfe_id]);
             
             await connection.commit();
@@ -108,9 +108,9 @@ class FinanceiroIntegracaoService {
     /**
      * Calcular parcelas de pagamento
      */
-    calcularParcelas(valorTotal, dadosPagamento) {
+    calcularParcelas(valorTotal, daçãosPagamento) {
         const parcelas = [];
-        const { numeroParcelas = 1, diaVencimento = 30, intervalo = 30 } = dadosPagamento;
+        const { numeroParcelas = 1, diaVencimento = 30, intervalo = 30 } = daçãosPagamento;
         
         const valorParcela = valorTotal / numeroParcelas;
         const dataBase = new Date();
@@ -121,7 +121,7 @@ class FinanceiroIntegracaoService {
             
             parcelas.push({
                 numero: i + 1,
-                valor: i === numeroParcelas - 1 ? 
+                valor: i === numeroParcelas - 1  
                        (valorTotal - (valorParcela * (numeroParcelas - 1))) : // Ajusta última parcela
                        valorParcela,
                 vencimento: dataVencimento.toISOString().split('T')[0]
@@ -134,20 +134,20 @@ class FinanceiroIntegracaoService {
     /**
      * Registrar pagamento/baixa
      */
-    async registrarPagamento(parcela_id, dadosPagamento) {
+    async registrarPagamento(parcela_id, daçãosPagamento) {
         const connection = await this.pool.getConnection();
         
         try {
             await connection.beginTransaction();
             
-            const { valor_pago, data_pagamento, forma_pagamento, observacoes } = dadosPagamento;
+            const { valor_pago, data_pagamento, forma_pagamento, observacoes } = daçãosPagamento;
             
             // Buscar parcela
             const [parcela] = await connection.query(`
                 SELECT p.*, cr.cliente_id
                 FROM contas_receber_parcelas p
                 INNER JOIN contas_receber cr ON p.conta_receber_id = cr.id
-                WHERE p.id = ?
+                WHERE p.id = 
             `, [parcela_id]);
             
             if (parcela.length === 0) {
@@ -160,8 +160,8 @@ class FinanceiroIntegracaoService {
             
             // Calcular juros e multa se houver atraso
             const diasAtraso = this.calcularDiasAtraso(parcelaData.data_vencimento, data_pagamento);
-            const juros = diasAtraso > 0 ? valorOriginal * 0.01 : 0; // 1% de multa
-            const mora = diasAtraso > 0 ? (valorOriginal * 0.001 * diasAtraso) : 0; // 0,1% ao dia
+            const juros = diasAtraso > 0  valorOriginal * 0.01 : 0; // 1% de multa
+            const mora = diasAtraso > 0  (valorOriginal * 0.001 * diasAtraso) : 0; // 0,1% ao dia
             
             const valorTotal = valorOriginal + juros + mora;
             const desconto = valorTotal - valorPago;
@@ -178,13 +178,13 @@ class FinanceiroIntegracaoService {
                     forma_pagamento,
                     observacoes,
                     created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+                ) VALUES (, , , , , , , , NOW())
             `, [
                 parcela_id,
                 valorPago,
                 juros,
                 mora,
-                desconto > 0 ? desconto : 0,
+                desconto > 0  desconto : 0,
                 data_pagamento,
                 forma_pagamento,
                 observacoes
@@ -193,15 +193,15 @@ class FinanceiroIntegracaoService {
             // Atualizar status da parcela
             await connection.query(`
                 UPDATE contas_receber_parcelas
-                SET status = 'pago', data_pagamento = ?
-                WHERE id = ?
+                SET status = 'pago', data_pagamento = 
+                WHERE id = 
             `, [data_pagamento, parcela_id]);
             
             // Verificar se todas as parcelas foram pagas
             const [parcelasAbertas] = await connection.query(`
                 SELECT COUNT(*) as abertas
                 FROM contas_receber_parcelas
-                WHERE conta_receber_id = ? AND status = 'aberto'
+                WHERE conta_receber_id =  AND status = 'aberto'
             `, [parcelaData.conta_receber_id]);
             
             if (parcelasAbertas[0].abertas === 0) {
@@ -209,7 +209,7 @@ class FinanceiroIntegracaoService {
                 await connection.query(`
                     UPDATE contas_receber
                     SET status = 'pago', valor_saldo = 0
-                    WHERE id = ?
+                    WHERE id = 
                 `, [parcelaData.conta_receber_id]);
             }
             
@@ -220,7 +220,7 @@ class FinanceiroIntegracaoService {
                 valor_pago: valorPago,
                 juros,
                 mora,
-                desconto: desconto > 0 ? desconto : 0,
+                desconto: desconto > 0  desconto : 0,
                 dias_atraso: diasAtraso
             };
             
@@ -235,7 +235,7 @@ class FinanceiroIntegracaoService {
     /**
      * Gerar boleto bancário
      */
-    async gerarBoleto(parcela_id, dadosBanco) {
+    async gerarBoleto(parcela_id, daçãosBanco) {
         const connection = await this.pool.getConnection();
         
         try {
@@ -249,12 +249,12 @@ class FinanceiroIntegracaoService {
                     c.cnpj,
                     c.endereco,
                     c.cidade,
-                    c.estado,
+                    c.estação,
                     c.cep
                 FROM contas_receber_parcelas p
                 INNER JOIN contas_receber cr ON p.conta_receber_id = cr.id
                 INNER JOIN clientes c ON cr.cliente_id = c.id
-                WHERE p.id = ?
+                WHERE p.id = 
             `, [parcela_id]);
             
             if (parcela.length === 0) {
@@ -264,16 +264,16 @@ class FinanceiroIntegracaoService {
             const parcelaData = parcela[0];
             
             // Gerar nosso número (específico de cada banco)
-            const nossoNumero = this.gerarNossoNumero(dadosBanco.banco, parcela_id);
+            const nossoNumero = this.gerarNossoNumero(daçãosBanco.banco, parcela_id);
             
             // Gerar código de barras
             const codigoBarras = this.gerarCodigoBarras({
-                banco: dadosBanco.banco,
+                banco: daçãosBanco.banco,
                 moeda: '9',
                 valor: parcelaData.valor,
                 vencimento: parcelaData.data_vencimento,
-                agencia: dadosBanco.agencia,
-                conta: dadosBanco.conta,
+                agencia: daçãosBanco.agencia,
+                conta: daçãosBanco.conta,
                 nossoNumero
             });
             
@@ -291,7 +291,7 @@ class FinanceiroIntegracaoService {
                     conta,
                     status,
                     created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'emitido', NOW())
+                ) VALUES (, , , , , , , , , 'emitido', NOW())
             `, [
                 parcela_id,
                 nossoNumero,
@@ -299,9 +299,9 @@ class FinanceiroIntegracaoService {
                 this.formatarLinhaDigitavel(codigoBarras),
                 parcelaData.valor,
                 parcelaData.data_vencimento,
-                dadosBanco.banco,
-                dadosBanco.agencia,
-                dadosBanco.conta
+                daçãosBanco.banco,
+                daçãosBanco.agencia,
+                daçãosBanco.conta
             ]);
             
             await connection.commit();
@@ -333,7 +333,7 @@ class FinanceiroIntegracaoService {
             
             // Buscar conta a receber
             const [conta] = await connection.query(`
-                SELECT id FROM contas_receber WHERE nfe_id = ?
+                SELECT id FROM contas_receber WHERE nfe_id = 
             `, [nfe_id]);
             
             if (conta.length > 0) {
@@ -342,23 +342,23 @@ class FinanceiroIntegracaoService {
                 // Cancelar parcelas abertas
                 await connection.query(`
                     UPDATE contas_receber_parcelas
-                    SET status = 'cancelado'
-                    WHERE conta_receber_id = ? AND status = 'aberto'
+                    SET status = 'cancelação'
+                    WHERE conta_receber_id =  AND status = 'aberto'
                 `, [conta_id]);
                 
                 // Cancelar conta
                 await connection.query(`
                     UPDATE contas_receber
-                    SET status = 'cancelado', valor_saldo = 0
-                    WHERE id = ?
+                    SET status = 'cancelação', valor_saldo = 0
+                    WHERE id = 
                 `, [conta_id]);
                 
                 // Cancelar boletos
                 await connection.query(`
                     UPDATE financeiro_boletos b
                     INNER JOIN contas_receber_parcelas p ON b.parcela_id = p.id
-                    SET b.status = 'cancelado'
-                    WHERE p.conta_receber_id = ? AND b.status = 'emitido'
+                    SET b.status = 'cancelação'
+                    WHERE p.conta_receber_id =  AND b.status = 'emitido'
                 `, [conta_id]);
             }
             
@@ -398,22 +398,22 @@ class FinanceiroIntegracaoService {
         const params = [];
         
         if (status) {
-            query += ' AND cr.status = ?';
+            query += ' AND cr.status = ';
             params.push(status);
         }
         
         if (data_inicio) {
-            query += ' AND cr.data_emissao >= ?';
+            query += ' AND cr.data_emissao >= ';
             params.push(data_inicio);
         }
         
         if (data_fim) {
-            query += ' AND cr.data_emissao <= ?';
+            query += ' AND cr.data_emissao <= ';
             params.push(data_fim);
         }
         
         if (cliente_id) {
-            query += ' AND cr.cliente_id = ?';
+            query += ' AND cr.cliente_id = ';
             params.push(cliente_id);
         }
         
@@ -433,7 +433,7 @@ class FinanceiroIntegracaoService {
         const pag = new Date(dataPagamento);
         const diff = pag.getTime() - venc.getTime();
         const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
-        return dias > 0 ? dias : 0;
+        return dias > 0  dias : 0;
     }
     
     gerarNossoNumero(banco, id) {
@@ -441,9 +441,9 @@ class FinanceiroIntegracaoService {
         return id.toString().padStart(11, '0');
     }
     
-    gerarCodigoBarras(dados) {
+    gerarCodigoBarras(daçãos) {
         // Implementação simplificada - usar biblioteca específica em produção
-        const { banco, moeda, valor, vencimento } = dados;
+        const { banco, moeda, valor, vencimento } = daçãos;
         
         // Código do banco (3 dígitos)
         let codigo = banco.toString().padStart(3, '0');
@@ -451,7 +451,7 @@ class FinanceiroIntegracaoService {
         // Código da moeda (1 dígito)
         codigo += moeda;
         
-        // DV (será calculado depois)
+        // DV (será calculação depois)
         codigo += '0';
         
         // Fator de vencimento (4 dígitos)
@@ -459,8 +459,8 @@ class FinanceiroIntegracaoService {
         codigo += fatorVencimento.toString().padStart(4, '0');
         
         // Valor (10 dígitos)
-        const valorFormatado = Math.floor(parseFloat(valor) * 100).toString().padStart(10, '0');
-        codigo += valorFormatado;
+        const valorFormatação = Math.floor(parseFloat(valor) * 100).toString().padStart(10, '0');
+        codigo += valorFormatação;
         
         // Campo livre (25 dígitos) - específico de cada banco
         codigo += '0'.repeat(25);
@@ -481,17 +481,17 @@ class FinanceiroIntegracaoService {
     
     calcularDVCodigoBarras(codigo) {
         // Módulo 11
-        const multiplicadores = [2, 3, 4, 5, 6, 7, 8, 9];
+        const multiplicaçãores = [2, 3, 4, 5, 6, 7, 8, 9];
         let soma = 0;
-        let multiplicadorIndex = 0;
+        let multiplicaçãorIndex = 0;
         
         for (let i = codigo.length - 1; i >= 0; i--) {
-            soma += parseInt(codigo[i]) * multiplicadores[multiplicadorIndex];
-            multiplicadorIndex = (multiplicadorIndex + 1) % multiplicadores.length;
+            soma += parseInt(codigo[i]) * multiplicaçãores[multiplicaçãorIndex];
+            multiplicaçãorIndex = (multiplicaçãorIndex + 1) % multiplicaçãores.length;
         }
         
         const resto = soma % 11;
-        const dv = resto === 0 || resto === 1 ? 1 : 11 - resto;
+        const dv = resto === 0 || resto === 1  1 : 11 - resto;
         
         return dv;
     }

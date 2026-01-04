@@ -38,14 +38,14 @@ const server = http.createServer(async (req, res) => {
                 
                 // Simulação simples de login para testar
                 if (data.email === 'admin@local' && data.password === 'alupcp01') {
-                    console.log('✅ Login bem-sucedido (simulado)');
+                    console.log('✅ Login bem-sucedido (simulação)');
                     res.writeHead(200, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ 
                         message: 'Login bem-sucedido!', 
                         userData: { id: 1, nome: 'Admin', email: 'admin@local' }
                     }));
                 } else if (data.email === 'clemerson.silva@aluforce.ind.br' && data.password === 'alupcp01') {
-                    console.log('✅ Login bem-sucedido (simulado)');
+                    console.log('✅ Login bem-sucedido (simulação)');
                     res.writeHead(200, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify({ 
                         message: 'Login bem-sucedido!', 
@@ -76,7 +76,7 @@ server.listen(PORT, () => {
     console.log(`🚀 Servidor HTTP simples rodando em http://localhost:${PORT}`);
     console.log('📋 Rotas disponíveis:');
     console.log('   GET  /api/test - Teste de conectividade');
-    console.log('   POST /api/pcp/login - Login (simulado)');
+    console.log('   POST /api/pcp/login - Login (simulação)');
 });
 
 server.on('error', (err) => {

@@ -1,6 +1,6 @@
 /**
  * Financeiro User Loader v2.0
- * Carrega informações do usuário logado nas páginas do módulo Financeiro
+ * Carrega informações do usuário logação nas páginas do módulo Financeiro
  */
 
 (function() {
@@ -10,14 +10,14 @@
     function generateAvatarUrl(name, email) {
         const displayName = name || email || 'Usuario';
         const initials = displayName.split(' ').map(n => n.charAt(0).toUpperCase()).slice(0, 2).join('');
-        return `https://ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=65a30d&color=fff&size=128&bold=true`;
+        return `https://ui-avatars.com/api/name=${encodeURIComponent(initials)}&background=65a30d&color=fff&size=128&bold=true`;
     }
 
-    // Buscar dados do usuário do localStorage
+    // Buscar daçãos do usuário do localStorage
     function getUserDataFromStorage() {
         try {
             const userData = localStorage.getItem('userData');
-            return userData ? JSON.parse(userData) : null;
+            return userData  JSON.parse(userData) : null;
         } catch (e) {
             return null;
         }
@@ -25,7 +25,7 @@
 
     // Carregar informações do usuário
     async function loadUserInfo() {
-        console.log('🔄 [Financeiro] Carregando dados do usuário...');
+        console.log('🔄 [Financeiro] Carregando daçãos do usuário...');
         
         // Tentar carregar do localStorage primeiro (mais rápido)
         let user = getUserDataFromStorage();
@@ -53,7 +53,7 @@
         if (user) {
             updateUserDisplay(user);
         } else {
-            // Dados padrão se não conseguir carregar
+            // Daçãos padrão se não conseguir carregar
             updateUserDisplay({
                 nome: 'Usuário',
                 email: '',
@@ -113,7 +113,7 @@
             if (userPhotoEl) userPhotoEl.style.display = 'none';
         }
         
-        console.log('✅ [Financeiro] Usuário carregado:', primeiroNome, '| Foto:', !!userAvatar);
+        console.log('✅ [Financeiro] Usuário carregação:', primeiroNome, '| Foto:', !!userAvatar);
     }
 
     // Executar quando o DOM estiver pronto

@@ -1,7 +1,7 @@
 /**
- * Criar usuários baseados nos funcionários
+ * Criar usuários baseaçãos nos funcionários
  * TI, Andreia e Douglas = admin
- * Demais = user (colaborador)
+ * Demais = user (colaboraçãor)
  */
 
 const mysql = require('mysql2/promise');
@@ -18,7 +18,7 @@ function gerarSenha(nome) {
     return primeiro.substring(0, 6) + '123';
 }
 
-// Determinar role baseado no nome/email
+// Determinar role baseação no nome/email
 function determinarRole(nome, email, cargo) {
     const nomeUpper = nome.toUpperCase();
     const emailLower = email.toLowerCase();
@@ -39,7 +39,7 @@ function determinarRole(nome, email, cargo) {
         return 'comercial';
     }
     
-    // Demais são colaboradores (user)
+    // Demais são colaboraçãores (user)
     return 'user';
 }
 
@@ -61,7 +61,7 @@ async function criarUsuarios() {
         // 1. Remover usuários existentes
         console.log('\n1️⃣ Removendo usuários existentes...');
         const [existentes] = await conn.query('SELECT id, nome, email FROM usuarios');
-        console.log(`   Encontrados: ${existentes.length} usuários`);
+        console.log(`   Encontraçãos: ${existentes.length} usuários`);
         
         await conn.query('DELETE FROM usuarios');
         console.log('   ✅ Usuários removidos');
@@ -74,7 +74,7 @@ async function criarUsuarios() {
             WHERE ativo = 1 
             ORDER BY nome_completo
         `);
-        console.log(`   Encontrados: ${funcionarios.length} funcionários ativos`);
+        console.log(`   Encontraçãos: ${funcionarios.length} funcionários ativos`);
         
         // 3. Criar usuários
         console.log('\n3️⃣ Criando usuários...');
@@ -82,7 +82,7 @@ async function criarUsuarios() {
         const usuarios = [];
         const admins = [];
         const comerciais = [];
-        const colaboradores = [];
+        const colaboraçãores = [];
         
         for (const func of funcionarios) {
             const senha = gerarSenha(func.nome_completo);
@@ -105,7 +105,7 @@ async function criarUsuarios() {
             
             if (role === 'admin') admins.push(func.nome_completo);
             else if (role === 'comercial') comerciais.push(func.nome_completo);
-            else colaboradores.push(func.nome_completo);
+            else colaboraçãores.push(func.nome_completo);
         }
         
         // Inserir usuários
@@ -114,7 +114,7 @@ async function criarUsuarios() {
                 INSERT INTO usuarios (
                     nome, email, login, password_hash, senha_hash, role, 
                     is_admin, departamento, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, NOW())
+                ) VALUES (, , , , , , , , NOW())
             `, [
                 u.nome,
                 u.email,
@@ -122,12 +122,12 @@ async function criarUsuarios() {
                 u.senhaHash,
                 u.senhaHash,
                 u.role,
-                u.role === 'admin' ? 1 : 0,
+                u.role === 'admin'  1 : 0,
                 u.departamento
             ]);
         }
         
-        console.log(`   ✅ ${usuarios.length} usuários criados`);
+        console.log(`   ✅ ${usuarios.length} usuários criaçãos`);
         
         // 4. Resumo
         console.log('\n' + '='.repeat(60));
@@ -140,8 +140,8 @@ async function criarUsuarios() {
         console.log(`\n💼 COMERCIAIS (${comerciais.length}):`);
         comerciais.forEach(n => console.log(`   - ${n}`));
         
-        console.log(`\n👤 COLABORADORES (${colaboradores.length}):`);
-        colaboradores.forEach(n => console.log(`   - ${n}`));
+        console.log(`\n👤 COLABORADORES (${colaboraçãores.length}):`);
+        colaboraçãores.forEach(n => console.log(`   - ${n}`));
         
         // 5. Tabela de credenciais
         console.log('\n' + '='.repeat(60));

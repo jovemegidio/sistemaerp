@@ -3,7 +3,7 @@
 // Adicionar ao arquivo /server.js principal
 // ======================================
 
-// Pool de conexão para banco aluforce_vendas (se separado)
+// Pool de conexão para banco aluforce_vendas (se separação)
 const vendasPool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -43,7 +43,7 @@ app.get('/api/vendas/dashboard/vendedor', authorizeArea('vendas'), async (req, r
                 SUM(CASE WHEN p.status = 'convertido' THEN 1 ELSE 0 END) as minhas_vendas,
                 SUM(CASE WHEN p.status = 'convertido' THEN p.valor_total ELSE 0 END) as meu_faturamento
             FROM pedidos p
-            WHERE p.vendedor_id = ? AND p.data_criacao >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+            WHERE p.vendedor_id =  AND p.data_criacao >= DATE_SUB(NOW(), INTERVAL 30 DAY)
         `, [userId]);
         res.json(results[0]);
     } catch (error) {
@@ -69,11 +69,11 @@ app.get('/api/vendas/pedidos', authorizeArea('vendas'), async (req, res) => {
         
         const params = [];
         if (status) {
-            query += ' WHERE p.status = ?';
+            query += ' WHERE p.status = ';
             params.push(status);
         }
         
-        query += ' ORDER BY p.data_criacao DESC LIMIT ?';
+        query += ' ORDER BY p.data_criacao DESC LIMIT ';
         params.push(parseInt(limite));
         
         const [pedidos] = await vendasPool.query(query, params);
@@ -96,11 +96,11 @@ app.get('/api/vendas/pedidos/:id', authorizeArea('vendas'), async (req, res) => 
             LEFT JOIN clientes c ON p.cliente_id = c.id
             LEFT JOIN empresas e ON p.empresa_id = e.id
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontrado' });
+            return res.status(404).json({ error: 'Pedido não encontração' });
         }
         
         res.json(pedidos[0]);
@@ -126,13 +126,13 @@ app.post('/api/vendas/pedidos', authorizeArea('vendas'), async (req, res) => {
         const [result] = await vendasPool.query(`
             INSERT INTO pedidos 
             (cliente_id, empresa_id, vendedor_id, produtos, valor_total, observacoes, status, data_criacao)
-            VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+            VALUES (, , , , , , , NOW())
         `, [cliente_id, empresa_id, vendedor_id, JSON.stringify(produtos), valor_total, observacoes, status]);
         
         res.json({
             success: true,
             id: result.insertId,
-            message: 'Pedido criado com sucesso'
+            message: 'Pedido criação com sucesso'
         });
     } catch (error) {
         console.error('Erro ao criar pedido:', error);
@@ -154,12 +154,12 @@ app.put('/api/vendas/pedidos/:id', authorizeArea('vendas'), async (req, res) => 
         
         await vendasPool.query(`
             UPDATE pedidos
-            SET cliente_id = ?, empresa_id = ?, produtos = ?, valor_total = ?, 
-                observacoes = ?, status = ?, data_atualizacao = NOW()
-            WHERE id = ?
+            SET cliente_id = , empresa_id = , produtos = , valor_total = , 
+                observacoes = , status = , data_atualizacao = NOW()
+            WHERE id = 
         `, [cliente_id, empresa_id, JSON.stringify(produtos), valor_total, observacoes, status, id]);
         
-        res.json({ success: true, message: 'Pedido atualizado com sucesso' });
+        res.json({ success: true, message: 'Pedido atualização com sucesso' });
     } catch (error) {
         console.error('Erro ao atualizar pedido:', error);
         res.status(500).json({ error: 'Erro ao atualizar pedido' });
@@ -169,7 +169,7 @@ app.put('/api/vendas/pedidos/:id', authorizeArea('vendas'), async (req, res) => 
 app.delete('/api/vendas/pedidos/:id', authorizeArea('vendas'), async (req, res) => {
     try {
         const { id } = req.params;
-        await vendasPool.query('DELETE FROM pedidos WHERE id = ?', [id]);
+        await vendasPool.query('DELETE FROM pedidos WHERE id = ', [id]);
         res.json({ success: true, message: 'Pedido excluído com sucesso' });
     } catch (error) {
         console.error('Erro ao excluir pedido:', error);
@@ -185,7 +185,7 @@ app.get('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome LIKE ? OR email LIKE ? OR telefone LIKE ?';
+            query += ' WHERE nome LIKE  OR email LIKE  OR telefone LIKE ';
             const searchTerm = `%${search}%`;
             params.push(searchTerm, searchTerm, searchTerm);
         }
@@ -203,10 +203,10 @@ app.get('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
 app.get('/api/vendas/clientes/:id', authorizeArea('vendas'), async (req, res) => {
     try {
         const { id } = req.params;
-        const [clientes] = await vendasPool.query('SELECT * FROM clientes WHERE id = ?', [id]);
+        const [clientes] = await vendasPool.query('SELECT * FROM clientes WHERE id = ', [id]);
         
         if (clientes.length === 0) {
-            return res.status(404).json({ error: 'Cliente não encontrado' });
+            return res.status(404).json({ error: 'Cliente não encontração' });
         }
         
         res.json(clientes[0]);
@@ -222,13 +222,13 @@ app.post('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
         
         const [result] = await vendasPool.query(`
             INSERT INTO clientes (nome, email, telefone, cpf, endereco, data_criacao)
-            VALUES (?, ?, ?, ?, ?, NOW())
+            VALUES (, , , , , NOW())
         `, [nome, email, telefone, cpf, endereco]);
         
         res.json({
             success: true,
             id: result.insertId,
-            message: 'Cliente criado com sucesso'
+            message: 'Cliente criação com sucesso'
         });
     } catch (error) {
         console.error('Erro ao criar cliente:', error);
@@ -244,7 +244,7 @@ app.get('/api/vendas/empresas', authorizeArea('vendas'), async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome_fantasia LIKE ? OR razao_social LIKE ? OR cnpj LIKE ?';
+            query += ' WHERE nome_fantasia LIKE  OR razao_social LIKE  OR cnpj LIKE ';
             const searchTerm = `%${search}%`;
             params.push(searchTerm, searchTerm, searchTerm);
         }
@@ -262,7 +262,7 @@ app.get('/api/vendas/empresas', authorizeArea('vendas'), async (req, res) => {
 app.get('/api/vendas/empresas/:id', authorizeArea('vendas'), async (req, res) => {
     try {
         const { id } = req.params;
-        const [empresas] = await vendasPool.query('SELECT * FROM empresas WHERE id = ?', [id]);
+        const [empresas] = await vendasPool.query('SELECT * FROM empresas WHERE id = ', [id]);
         
         if (empresas.length === 0) {
             return res.status(404).json({ error: 'Empresa não encontrada' });
@@ -281,7 +281,7 @@ app.post('/api/vendas/empresas', authorizeArea('vendas'), async (req, res) => {
         
         const [result] = await vendasPool.query(`
             INSERT INTO empresas (nome_fantasia, razao_social, cnpj, email, telefone, endereco, data_criacao)
-            VALUES (?, ?, ?, ?, ?, ?, NOW())
+            VALUES (, , , , , , NOW())
         `, [nome_fantasia, razao_social, cnpj, email, telefone, endereco]);
         
         res.json({
@@ -301,7 +301,7 @@ app.get('/api/vendas/notificacoes', authorizeArea('vendas'), async (req, res) =>
         const userId = req.user.id;
         const [notificacoes] = await vendasPool.query(`
             SELECT * FROM notificacoes 
-            WHERE usuario_id = ? 
+            WHERE usuario_id =  
             ORDER BY data_criacao DESC 
             LIMIT 20
         `, [userId]);

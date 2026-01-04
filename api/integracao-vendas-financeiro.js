@@ -1,6 +1,6 @@
 /**
  * API DE INTEGRAÇÃO: VENDAS → FINANCEIRO
- * Gera contas a receber automaticamente a partir de pedidos faturados
+ * Gera contas a receber automaticamente a partir de pedidos faturaçãos
  * 
  * @author Aluforce ERP
  * @version 1.0.0
@@ -12,7 +12,7 @@ const router = express.Router();
 
 /**
  * POST /api/integracao/vendas-financeiro/gerar-receber
- * Gera contas a receber a partir de um pedido de venda faturado
+ * Gera contas a receber a partir de um pedido de venda faturação
  */
 router.post('/gerar-receber', async (req, res) => {
     const { pedido_id, parcelas, condicao_pagamento, observacoes } = req.body;
@@ -27,7 +27,7 @@ router.post('/gerar-receber', async (req, res) => {
     try {
         const pool = req.app.locals.pool;
         
-        // 1. Buscar dados do pedido de venda
+        // 1. Buscar daçãos do pedido de venda
         const [pedidos] = await pool.execute(`
             SELECT 
                 p.*,
@@ -36,13 +36,13 @@ router.post('/gerar-receber', async (req, res) => {
                 e.email as cliente_email
             FROM pedidos p
             LEFT JOIN empresas e ON p.empresa_id = e.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [pedido_id]);
         
         if (pedidos.length === 0) {
             return res.status(404).json({ 
                 success: false, 
-                message: 'Pedido não encontrado' 
+                message: 'Pedido não encontração' 
             });
         }
         
@@ -51,7 +51,7 @@ router.post('/gerar-receber', async (req, res) => {
         // 2. Verificar se já existe contas geradas para este pedido
         const [existentes] = await pool.execute(`
             SELECT COUNT(*) as total FROM contas_receber 
-            WHERE pedido_origem_id = ? AND tipo_origem = 'VENDA'
+            WHERE pedido_origem_id =  AND tipo_origem = 'VENDA'
         `, [pedido_id]);
         
         if (existentes[0].total > 0) {
@@ -109,7 +109,7 @@ router.post('/gerar-receber', async (req, res) => {
                     categoria,
                     observacoes,
                     created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+                ) VALUES (, , , , , , , , , , , , , , NOW())
             `, [
                 `Venda #${pedido.numero_pedido || pedido_id} - Parcela ${i + 1}/${numParcelas}`,
                 valorParcela.toFixed(2),
@@ -117,14 +117,14 @@ router.post('/gerar-receber', async (req, res) => {
                 dataBase.toISOString().split('T')[0],
                 'pendente',
                 pedido.empresa_id || pedido.cliente_id,
-                pedido.cliente_nome || 'Cliente não identificado',
+                pedido.cliente_nome || 'Cliente não identificação',
                 numeroDocumento,
                 i + 1,
                 numParcelas,
                 pedido_id,
                 'VENDA',
                 'Vendas',
-                observacoes || `Gerado automaticamente do pedido de venda #${pedido_id}`
+                observacoes || `Geração automaticamente do pedido de venda #${pedido_id}`
             ]);
             
             contasGeradas.push({
@@ -149,21 +149,21 @@ router.post('/gerar-receber', async (req, res) => {
                 parcelas: numParcelas,
                 contas_geradas: contasGeradas.length
             }),
-            usuario_id: req.user?.id
+            usuario_id: req.user.id
         });
         
         // 6. Atualizar status do pedido
         await pool.execute(`
             UPDATE pedidos 
-            SET financeiro_gerado = 1, 
+            SET financeiro_geração = 1, 
                 data_financeiro = NOW() 
-            WHERE id = ?
+            WHERE id = 
         `, [pedido_id]);
         
         res.json({
             success: true,
             message: `${contasGeradas.length} conta(s) a receber gerada(s) com sucesso`,
-            dados: {
+            daçãos: {
                 pedido_id,
                 valor_total: valorTotal,
                 parcelas: numParcelas,
@@ -183,7 +183,7 @@ router.post('/gerar-receber', async (req, res) => {
 
 /**
  * POST /api/integracao/vendas-financeiro/cancelar-receber
- * Cancela contas a receber quando pedido é cancelado
+ * Cancela contas a receber quando pedido é cancelação
  */
 router.post('/cancelar-receber', async (req, res) => {
     const { pedido_id, motivo } = req.body;
@@ -201,7 +201,7 @@ router.post('/cancelar-receber', async (req, res) => {
         // Buscar contas vinculadas ao pedido
         const [contas] = await pool.execute(`
             SELECT id, status, valor FROM contas_receber 
-            WHERE pedido_origem_id = ? AND tipo_origem = 'VENDA'
+            WHERE pedido_origem_id =  AND tipo_origem = 'VENDA'
         `, [pedido_id]);
         
         if (contas.length === 0) {
@@ -224,11 +224,11 @@ router.post('/cancelar-receber', async (req, res) => {
         // Cancelar todas as contas pendentes
         const [result] = await pool.execute(`
             UPDATE contas_receber 
-            SET status = 'cancelado',
-                observacoes = CONCAT(IFNULL(observacoes, ''), '\n[CANCELADO] ', ?),
+            SET status = 'cancelação',
+                observacoes = CONCAT(IFNULL(observacoes, ''), '\n[CANCELADO] ', ),
                 updated_at = NOW()
-            WHERE pedido_origem_id = ? AND tipo_origem = 'VENDA' AND status = 'pendente'
-        `, [motivo || 'Pedido cancelado', pedido_id]);
+            WHERE pedido_origem_id =  AND tipo_origem = 'VENDA' AND status = 'pendente'
+        `, [motivo || 'Pedido cancelação', pedido_id]);
         
         // Registrar log
         await registrarLogIntegracao(pool, {
@@ -242,7 +242,7 @@ router.post('/cancelar-receber', async (req, res) => {
                 contas_canceladas: result.affectedRows,
                 motivo
             }),
-            usuario_id: req.user?.id
+            usuario_id: req.user.id
         });
         
         res.json({
@@ -276,7 +276,7 @@ router.get('/status/:pedido_id', async (req, res) => {
                 id, descricao, valor, data_vencimento, status,
                 parcela, total_parcelas, numero_documento
             FROM contas_receber 
-            WHERE pedido_origem_id = ? AND tipo_origem = 'VENDA'
+            WHERE pedido_origem_id =  AND tipo_origem = 'VENDA'
             ORDER BY parcela
         `, [pedido_id]);
         
@@ -325,22 +325,22 @@ router.get('/status/:pedido_id', async (req, res) => {
 /**
  * Função auxiliar para registrar logs de integração
  */
-async function registrarLogIntegracao(pool, dados) {
+async function registrarLogIntegracao(pool, daçãos) {
     try {
         await pool.execute(`
             INSERT INTO logs_integracao (
                 tipo, origem_modulo, destino_modulo, 
                 referencia_id, acao, detalhes, 
                 usuario_id, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+            ) VALUES (, , , , , , , NOW())
         `, [
-            dados.tipo,
-            dados.origem_modulo,
-            dados.destino_modulo,
-            dados.referencia_id,
-            dados.acao,
-            dados.detalhes,
-            dados.usuario_id
+            daçãos.tipo,
+            daçãos.origem_modulo,
+            daçãos.destino_modulo,
+            daçãos.referencia_id,
+            daçãos.acao,
+            daçãos.detalhes,
+            daçãos.usuario_id
         ]);
     } catch (error) {
         console.error('[Log Integração] Erro ao registrar:', error.message);

@@ -9,7 +9,7 @@ async function main(){
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT,10) : 3306,
+    port: process.env.DB_PORT  parseInt(process.env.DB_PORT,10) : 3306,
   };
 
   console.log('Connecting to DB', config.host, config.database, 'as', config.user);
@@ -18,13 +18,13 @@ async function main(){
   try {
     // Acquire a named lock to prevent concurrent migration runs
     try {
-      const [got] = await db.query("SELECT GET_LOCK(?, 10) as acquired", [lockName]);
+      const [got] = await db.query("SELECT GET_LOCK(, 10) as acquired", [lockName]);
       if (!got || !got[0] || got[0].acquired != 1) {
         throw new Error('Could not acquire migration lock — another process may be running migrations');
       }
       console.log('Acquired migration lock.');
     } catch (err) {
-      console.error('Failed to acquire migration lock:', err && err.message ? err.message : err);
+      console.error('Failed to acquire migration lock:', err && err.message  err.message : err);
       throw err;
     }
 
@@ -48,12 +48,12 @@ async function main(){
     `);
 
     async function isApplied(name){
-      const [rows] = await db.query('SELECT 1 FROM migrations WHERE name = ? LIMIT 1', [name]);
+      const [rows] = await db.query('SELECT 1 FROM migrations WHERE name =  LIMIT 1', [name]);
       return rows.length > 0;
     }
 
     async function markApplied(name){
-      await db.query('INSERT INTO migrations (name) VALUES (?)', [name]);
+      await db.query('INSERT INTO migrations (name) VALUES ()', [name]);
     }
 
     async function applyMigration(name, fn){
@@ -70,7 +70,7 @@ async function main(){
 
     // Helper to read current product columns
     async function productColumns(){
-      const [cols] = await db.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'produtos'", [config.database]);
+      const [cols] = await db.query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA =  AND TABLE_NAME = 'produtos'", [config.database]);
       return cols.map(r=>r.COLUMN_NAME.toLowerCase());
     }
 
@@ -102,7 +102,7 @@ async function main(){
         const [r] = await db.query("UPDATE produtos SET descricao = nome WHERE (descricao IS NULL OR descricao = '') AND (nome IS NOT NULL AND nome <> '')");
         console.log('Rows updated for descricao:', r.affectedRows || 0);
       } catch (err) {
-        console.warn('Failed to populate `descricao` (continuing):', err && err.message ? err.message : err);
+        console.warn('Failed to populate `descricao` (continuing):', err && err.message  err.message : err);
       }
     });
 
@@ -121,18 +121,18 @@ async function main(){
         }
         const out = String(res.stdout || '').trim();
         // Expect script to print the backup filename on the last line
-        const lines = out.split(/\r?\n/).filter(Boolean);
-        const maybeName = lines.length ? lines[lines.length-1].trim() : '';
+        const lines = out.split(/\r\n/).filter(Boolean);
+        const maybeName = lines.length  lines[lines.length-1].trim() : '';
         if (maybeName && maybeName.includes('backups')) {
           // record the backup in migration_backups
-          await db.query('INSERT INTO migration_backups (migration_name, backup_path) VALUES (?, ?)', [migrationName, maybeName]);
+          await db.query('INSERT INTO migration_backups (migration_name, backup_path) VALUES (, )', [migrationName, maybeName]);
           console.log('Backup saved as', maybeName);
           return maybeName;
         }
         console.log('Backup script finished but no backup filename detected.');
         return null;
       } catch (err) {
-        console.warn('Pre-migration backup failed:', err && err.message ? err.message : err);
+        console.warn('Pre-migration backup failed:', err && err.message  err.message : err);
         return null;
       }
     }
@@ -157,7 +157,7 @@ async function main(){
         } else {
           console.log('Pre-drop backup not created or failed.');
         }
-        const ans = await promptYesNo('Do you want to DROP column `foto_url` now? (y/N) ');
+        const ans = await promptYesNo('Do you want to DROP column `foto_url` now (y/N) ');
         if (ans) {
           console.log('Dropping `foto_url`...');
           await db.query('ALTER TABLE produtos DROP COLUMN foto_url');
@@ -170,14 +170,14 @@ async function main(){
 
     console.log('\nAll migrations run (idempotent runner).');
   } catch (err) {
-    console.error('Migration error:', err && err.message ? err.message : err);
+    console.error('Migration error:', err && err.message  err.message : err);
   } finally {
     try {
       // Release lock if held
-      await db.query("SELECT RELEASE_LOCK(?)", [lockName]);
+      await db.query("SELECT RELEASE_LOCK()", [lockName]);
       console.log('Released migration lock.');
     } catch (e) {
-      console.warn('Failed to release migration lock:', e && e.message ? e.message : e);
+      console.warn('Failed to release migration lock:', e && e.message  e.message : e);
     }
     await db.end();
   }

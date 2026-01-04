@@ -21,8 +21,8 @@ console.log('');
 
 console.log('1. 📄 SIMULAÇÁO EM SCRIPT:');
 console.log('   Arquivo: emitir_ordem_via_api.js');
-console.log('   Formato: JSON estruturado');
-console.log('   Status: ✅ Dados validados e prontos');
+console.log('   Formato: JSON estruturação');
+console.log('   Status: ✅ Daçãos validaçãos e prontos');
 console.log('');
 
 console.log('2. 🗃️ BANCO DE DADOS:');
@@ -46,7 +46,7 @@ console.log('📖 MÉTODO 1 - INTERFACE WEB (RECOMENDADO):');
 console.log('   1. Abrir: http://localhost:3000/modules/PCP');
 console.log('   2. Fazer login (se necessário)');
 console.log('   3. Clicar "Nova Ordem de Produção"');
-console.log('   4. Preencher dados:');
+console.log('   4. Preencher daçãos:');
 console.log('      - Produto: Digite "ALU" e selecione ALUFORCE CB CA ASTER');
 console.log('      - Quantidade: 100');
 console.log('      - Data Entrega: 10/11/2025');
@@ -58,14 +58,14 @@ console.log('');
 console.log('📖 MÉTODO 2 - ENDPOINT DIRETO:');
 console.log('   POST /api/pcp/ordens');
 console.log('   Headers: Authorization + Content-Type');
-console.log('   Body: JSON com dados da ordem');
+console.log('   Body: JSON com daçãos da ordem');
 console.log('   Status: Requer token de autenticação');
 console.log('');
 
 console.log('📖 MÉTODO 3 - GERAÇÁO DE EXCEL:');
 console.log('   POST /api/gerar-ordem-excel');
 console.log('   Função: Gera arquivo Excel/CSV');
-console.log('   Resultado: Download automático');
+console.log('   Resultação: Download automático');
 console.log('   Status: ✅ Funcionando');
 console.log('');
 
@@ -79,7 +79,7 @@ console.log('');
 console.log('🎯 CONCLUSÁO:');
 console.log('   ✅ Sistema 100% funcional');
 console.log('   ✅ 330 produtos disponíveis');
-console.log('   ✅ Autocomplete otimizado');
+console.log('   ✅ Autocomplete otimização');
 console.log('   ✅ APIs respondendo');
 console.log('   ✅ Interface pronta para uso');
 console.log('');

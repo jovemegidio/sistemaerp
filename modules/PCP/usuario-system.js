@@ -1,11 +1,11 @@
-// Script para gerenciar avatar e informações do usuário logado
+// Script para gerenciar avatar e informações do usuário logação
 (function() {
     'use strict';
     
     let currentUser = null;
     
     // Função para carregar informações do usuário atual
-    async function carregarUsuarioLogado() {
+    async function carregarUsuarioLogação() {
         try {
             const response = await fetch('/api/pcp/me', {
                 method: 'GET',
@@ -15,11 +15,11 @@
             if (response.ok) {
                 const data = await response.json();
                 currentUser = data.user;
-                console.log('👤 Usuário logado:', currentUser);
+                console.log('👤 Usuário logação:', currentUser);
                 atualizarInterfaceUsuario(currentUser);
                 return currentUser;
             } else {
-                console.warn('⚠️ Não foi possível carregar dados do usuário');
+                console.warn('⚠️ Não foi possível carregar daçãos do usuário');
                 return null;
             }
         } catch (error) {
@@ -28,7 +28,7 @@
         }
     }
     
-    // Função para atualizar todos os elementos da interface com os dados do usuário
+    // Função para atualizar todos os elementos da interface com os daçãos do usuário
     function atualizarInterfaceUsuario(user) {
         if (!user) return;
         
@@ -45,7 +45,7 @@
         }
         
         // Usar apelido se disponível, senão primeiro nome
-        const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+        const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
         
         // Atualizar nome na saudação principal (header)
         const userNameEl = document.getElementById('user-name');
@@ -68,7 +68,7 @@
             
             // Fallback para quando a imagem não carregar
             img.onerror = function() {
-                console.log(`⚠️ Avatar não encontrado para ${user.nome}, usando fallback`);
+                console.log(`⚠️ Avatar não encontração para ${user.nome}, usando fallback`);
                 this.style.display = 'none';
                 
                 // Criar avatar com iniciais se não existe
@@ -120,8 +120,8 @@
                     element.textContent = user.email || '';
                     break;
                 case 'role':
-                    const roleLabel = user.role === 'admin' ? 'Administrador' : 
-                                    user.role === 'pcp' ? 'PCP' : 'Usuário';
+                    const roleLabel = user.role === 'admin'  'Administraçãor' : 
+                                    user.role === 'pcp'  'PCP' : 'Usuário';
                     element.textContent = roleLabel;
                     break;
             }
@@ -137,13 +137,13 @@
         }
         
         // Tentar encontrar avatar por nome
-        const nomeSimplificado = user.nome ? 
+        const nomeSimplificação = user.nome  
             user.nome.toLowerCase()
                 .replace(/\s+/g, '')
                 .normalize('NFD')
                 .replace(/[\u0300-\u036f]/g, '') : 'default';
         
-        return `/avatars/${nomeSimplificado}.webp`;
+        return `/avatars/${nomeSimplificação}.webp`;
     }
     
     // Função para obter iniciais do nome
@@ -244,7 +244,7 @@
         }
     }
     
-    // Função para adicionar CSS personalizado para avatares
+    // Função para adicionar CSS personalização para avatares
     function adicionarEstilosAvatar() {
         const style = document.createElement('style');
         style.textContent = `
@@ -291,12 +291,12 @@
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
                 border: 2px solid rgba(255, 255, 255, 0.2);
-                transition: transform 0.2s ease, box-shadow 0.2s ease;
+                transition: transform 0.2s ease, box-shaçãow 0.2s ease;
             }
             
             .user-avatar:hover {
                 transform: scale(1.05);
-                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
             
             .user-text {
@@ -321,18 +321,18 @@
         // Adicionar estilos
         adicionarEstilosAvatar();
         
-        // Carregar dados do usuário
-        await carregarUsuarioLogado();
+        // Carregar daçãos do usuário
+        await carregarUsuarioLogação();
         
         // Configurar eventos
         configurarLogout();
         
-        console.log('✅ Sistema de usuário inicializado');
+        console.log('✅ Sistema de usuário inicialização');
     }
     
     // Expor funções globalmente para uso em outros scripts
     window.UsuarioSystem = {
-        carregarUsuario: carregarUsuarioLogado,
+        carregarUsuario: carregarUsuarioLogação,
         atualizarInterface: atualizarInterfaceUsuario,
         getCurrentUser: () => currentUser,
         logout: executarLogout

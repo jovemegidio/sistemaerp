@@ -19,7 +19,7 @@
             margin: 0 auto;
             background: white;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shaçãow: 0 10px 25px rgba(0,0,0,0.1);
             overflow: hidden;
         }
         .header {
@@ -224,12 +224,12 @@
             <!-- Aba Database -->
             <div id="tab-database" class="tab-content" style="display:none">
                 <div class="test-section">
-                    <h3>🗄️ Verificação do Banco de Dados</h3>
+                    <h3>🗄️ Verificação do Banco de Daçãos</h3>
                     <button class="btn btn-primary" onclick="testDatabaseStructure()">
                         🏗️ Verificar Estrutura
                     </button>
                     <button class="btn btn-primary" onclick="testSKUGeneration()">
-                        🏷️ Verificar SKUs Gerados
+                        🏷️ Verificar SKUs Geraçãos
                     </button>
                     <button class="btn btn-danger" onclick="testDataIntegrity()">
                         🔍 Verificar Integridade
@@ -285,11 +285,11 @@
             event.target.classList.add('active');
         }
 
-        // Função para adicionar resultado
+        // Função para adicionar resultação
         function addResult(type, message, status) {
             const container = document.getElementById(`${type}-results`);
             const timestamp = new Date().toLocaleTimeString();
-            const icon = status === 'success' ? '✅' : status === 'error' ? '❌' : status === 'warning' ? '⚠️' : 'ℹ️';
+            const icon = status === 'success'  '✅' : status === 'error'  '❌' : status === 'warning'  '⚠️' : 'ℹ️';
             
             const result = document.createElement('div');
             result.className = esult ${status}`;
@@ -303,7 +303,7 @@
         async function checkInitialStatus() {
             try {
                 // Verificar servidor
-                const response = await fetch('/api/pcp/produtos?limit=1');
+                const response = await fetch('/api/pcp/produtoslimit=1');
                 if (response.ok) {
                     document.getElementById('server-status').innerHTML = 
                         '<span class="status-badge badge-online">Online</span>';
@@ -333,9 +333,9 @@
                     const withGTIN = produtos.filter(p => p.gtin && p.gtin.trim() !== '').length;
                     
                     document.getElementById('sku-count').innerHTML = 
-                        `<span class="status-badge badge-${withSKU > 0 ? 'online' : 'offline'}">${withSKU} com SKU</span>`;
+                        `<span class="status-badge badge-${withSKU > 0  'online' : 'offline'}">${withSKU} com SKU</span>`;
                     document.getElementById('gtin-count').innerHTML = 
-                        `<span class="status-badge badge-${withGTIN > 0 ? 'online' : 'offline'}">${withGTIN} com GTIN</span>`;
+                        `<span class="status-badge badge-${withGTIN > 0  'online' : 'offline'}">${withGTIN} com GTIN</span>`;
                 }
             } catch (error) {
                 console.error('Erro ao verificar SKUs/GTINs:', error);
@@ -368,7 +368,7 @@
                 const testProduct = {
                     codigo: 'TEST_' + Date.now(),
                     nome: 'Produto de Teste',
-                    descricao: 'Produto criado para teste',
+                    descricao: 'Produto criação para teste',
                     sku: 'TEST_' + Date.now(),
                     marca: 'Teste',
                     unidade_medida: 'un',
@@ -386,7 +386,7 @@
 
                 if (response.ok) {
                     const data = await response.json();
-                    addResult('api', `Produto criado com sucesso! ID: ${data.id}`, 'success');
+                    addResult('api', `Produto criação com sucesso! ID: ${data.id}`, 'success');
                     
                     // Tentar excluir o produto de teste
                     const deleteResponse = await fetch(`/api/pcp/produtos/${data.id}`, {
@@ -409,7 +409,7 @@
         function testModalExists() {
             const modal = document.getElementById('product-edit-modal');
             if (modal) {
-                addResult('frontend', 'Modal de edição encontrado no DOM', 'success');
+                addResult('frontend', 'Modal de edição encontração no DOM', 'success');
                 
                 // Verificar elementos do modal
                 const elements = [
@@ -424,13 +424,13 @@
                 elements.forEach(id => {
                     const element = document.getElementById(id);
                     if (element) {
-                        addResult('frontend', `Elemento ${id} encontrado`, 'success');
+                        addResult('frontend', `Elemento ${id} encontração`, 'success');
                     } else {
-                        addResult('frontend', `Elemento ${id} não encontrado`, 'error');
+                        addResult('frontend', `Elemento ${id} não encontração`, 'error');
                     }
                 });
             } else {
-                addResult('frontend', 'Modal de edição não encontrado', 'error');
+                addResult('frontend', 'Modal de edição não encontração', 'error');
             }
         }
 
@@ -439,10 +439,10 @@
             const editButtons = document.querySelectorAll('.btn-editar-prod');
             const deleteButtons = document.querySelectorAll('.btn-excluir-prod');
             
-            addResult('frontend', `Encontrados ${editButtons.length} botões de editar`, 
-                editButtons.length > 0 ? 'success' : 'warning');
-            addResult('frontend', `Encontrados ${deleteButtons.length} botões de excluir`, 
-                deleteButtons.length > 0 ? 'success' : 'warning');
+            addResult('frontend', `Encontraçãos ${editButtons.length} botões de editar`, 
+                editButtons.length > 0  'success' : 'warning');
+            addResult('frontend', `Encontraçãos ${deleteButtons.length} botões de excluir`, 
+                deleteButtons.length > 0  'success' : 'warning');
         }
 
         // Testar estilos CSS
@@ -459,10 +459,10 @@
                 if (elements.length > 0) {
                     const style = window.getComputedStyle(elements[0]);
                     const hasBackground = style.backgroundColor !== 'rgba(0, 0, 0, 0)';
-                    addResult('frontend', `${test.description}: ${hasBackground ? 'Estilizado' : 'Sem estilo'}`, 
-                        hasBackground ? 'success' : 'warning');
+                    addResult('frontend', `${test.description}: ${hasBackground  'Estilização' : 'Sem estilo'}`, 
+                        hasBackground  'success' : 'warning');
                 } else {
-                    addResult('frontend', `${test.description}: Elementos não encontrados`, 'warning');
+                    addResult('frontend', `${test.description}: Elementos não encontraçãos`, 'warning');
                 }
             });
         }
@@ -487,14 +487,14 @@
         // Testar modo escuro
         function testDarkMode() {
             const body = document.body;
-            const currentTheme = body.classList.contains('dark-mode') ? 'escuro' : 'claro';
+            const currentTheme = body.classList.contains('dark-mode')  'escuro' : 'claro';
             addResult('frontend', `Modo atual: ${currentTheme}`, 'info');
             
             // Tentar alternar
             if (typeof toggleDarkModeFromButton === 'function') {
                 toggleDarkModeFromButton();
-                const newTheme = body.classList.contains('dark-mode') ? 'escuro' : 'claro';
-                addResult('frontend', `Modo alternado para: ${newTheme}`, 'success');
+                const newTheme = body.classList.contains('dark-mode')  'escuro' : 'claro';
+                addResult('frontend', `Modo alternação para: ${newTheme}`, 'success');
             } else {
                 addResult('frontend', 'Função de alternância não encontrada', 'error');
             }
@@ -504,11 +504,11 @@
         function testLogoSwitch() {
             const logos = document.querySelectorAll('.header-logo');
             addResult('frontend', `Encontradas ${logos.length} logos`, 
-                logos.length > 0 ? 'success' : 'warning');
+                logos.length > 0  'success' : 'warning');
             
             logos.forEach((logo, index) => {
                 const src = logo.src || logo.getAttribute('src');
-                addResult('frontend', `Logo ${index + 1}: ${src ? src.split('/').pop() : 'sem src'}`, 'info');
+                addResult('frontend', `Logo ${index + 1}: ${src  src.split('/').pop() : 'sem src'}`, 'info');
             });
         }
 
@@ -520,13 +520,13 @@
 
         // Testar geração de SKU
         function testSKUGeneration() {
-            addResult('database', 'Verificando SKUs gerados...', 'info');
+            addResult('database', 'Verificando SKUs geraçãos...', 'info');
             // Implementar verificação de SKUs
         }
 
-        // Testar integridade dos dados
+        // Testar integridade dos daçãos
         function testDataIntegrity() {
-            addResult('database', 'Verificando integridade dos dados...', 'info');
+            addResult('database', 'Verificando integridade dos daçãos...', 'info');
             // Implementar verificações de integridade
         }
 
@@ -534,8 +534,8 @@
         async function testFileExists(filename) {
             try {
                 const response = await fetch(filename, { method: 'HEAD' });
-                addResult('files', `${filename}: ${response.ok ? 'Existe' : 'Não encontrado'}`, 
-                    response.ok ? 'success' : 'error');
+                addResult('files', `${filename}: ${response.ok  'Existe' : 'Não encontração'}`, 
+                    response.ok  'success' : 'error');
             } catch (error) {
                 addResult('files', `${filename}: Erro ao verificar`, 'error');
             }
@@ -544,7 +544,7 @@
         // Inicializar diagnóstico
         document.addEventListener('DOMContentLoaded', function() {
             checkInitialStatus();
-            addResult('api', 'Sistema de diagnóstico iniciado', 'info');
+            addResult('api', 'Sistema de diagnóstico iniciação', 'info');
         });
     </script></body>
 </html>

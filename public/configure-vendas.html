@@ -4,7 +4,7 @@
     <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Configurar Permiss�es - Vendas</title>
+    <title>Configurar Permisses - Vendas</title>
     
     <style>
         body {
@@ -18,7 +18,7 @@
             background: white;
             padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shaçãow: 0 2px 10px rgba(0,0,0,0.1);
         }
         h1 {
             color: #333;
@@ -76,10 +76,10 @@
     </style></head>
 <body>
     <div class="container">
-        <h1>?? Configurar Permiss�es de Vendas</h1>
-        <p>Este utilit�rio configura permiss�es de acesso ao m�dulo de Vendas para os usu�rios especificados.</p>
+        <h1> Configurar Permisses de Vendas</h1>
+        <p>Este utilitrio configura permisses de acesso ao mdulo de Vendas para os usurios especificaçãos.</p>
         
-        <p><strong>Usu�rios que receber�o permiss�es:</strong></p>
+        <p><strong>Usurios que recebero permisses:</strong></p>
         <ul>
             <li>ti@aluforce.ind.br</li>
             <li>douglas@aluforce.ind.br</li>
@@ -95,7 +95,7 @@
         </ul>
 
         <button id="configureBtn" onclick="configurePermissions()">
-            Configurar Permiss�es
+            Configurar Permisses
         </button>
 
         <div id="result" class="hidden"></div>
@@ -123,7 +123,7 @@
 
                 if (response.ok && data.success) {
                     let html = '<div class="success">';
-                    html += '<h3>? Permiss�es configuradas com sucesso!</h3>';
+                    html += '<h3> Permisses configuradas com sucesso!</h3>';
                     html += '<div class="user-list">';
                     
                     data.results.forEach(result => {
@@ -132,13 +132,13 @@
                         
                         switch(result.status) {
                             case 'success':
-                                statusText = `? Atualizado (${result.affected} registros)`;
+                                statusText = ` Atualização (${result.affected} registros)`;
                                 break;
                             case 'not_found':
-                                statusText = '?? Usu�rio n�o encontrado no banco';
+                                statusText = ' Usurio no encontração no banco';
                                 break;
                             case 'error':
-                                statusText = `? Erro: ${result.message}`;
+                                statusText = ` Erro: ${result.message}`;
                                 break;
                         }
                         
@@ -153,7 +153,7 @@
                 } else {
                     resultDiv.className = '';
                     resultDiv.classList.add('error');
-                    resultDiv.innerHTML = `<h3>? Erro</h3><p>${data.error || 'Erro desconhecido'}</p>`;
+                    resultDiv.innerHTML = `<h3> Erro</h3><p>${data.error || 'Erro desconhecido'}</p>`;
                 }
                 
                 resultDiv.style.display = 'block';
@@ -161,27 +161,27 @@
             } catch (error) {
                 resultDiv.className = '';
                 resultDiv.classList.add('error');
-                resultDiv.innerHTML = `<h3>? Erro de Comunica��o</h3><p>${error.message}</p>`;
+                resultDiv.innerHTML = `<h3> Erro de Comunicao</h3><p>${error.message}</p>`;
                 resultDiv.style.display = 'block';
             } finally {
                 btn.disabled = false;
-                btn.textContent = 'Configurar Permiss�es';
+                btn.textContent = 'Configurar Permisses';
             }
         }
 
-        // Verificar se est� autenticado ao carregar
+        // Verificar se est autenticação ao carregar
         window.addEventListener('DOMContentLoaded', async () => {
             try {
                 const resp = await fetch('/api/me', { credentials: 'include' });
                 if (!resp.ok) {
-                    alert('Voc� precisa estar logado como administrador!');
+                    alert('Voc precisa estar logação como administraçãor!');
                     window.location.href = '/login.html';
                     return;
                 }
                 
                 const user = await resp.json();
                 if (!user.is_admin && user.role !== 'admin') {
-                    alert('Acesso negado - apenas administradores podem acessar est� p�gina');
+                    alert('Acesso negação - apenas administraçãores podem acessar est pgina');
                     window.location.href = '/';
                 }
             } catch (e) {

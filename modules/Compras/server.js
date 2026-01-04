@@ -70,9 +70,9 @@ app.get('/api/compras/dashboard', (req, res) => {
         total_pedidos: 268,
         pedidos_por_status: [
             { status: 'pendente', quantidade: 45 },
-            { status: 'aprovado', quantidade: 123 },
+            { status: 'aprovação', quantidade: 123 },
             { status: 'recebido', quantidade: 89 },
-            { status: 'cancelado', quantidade: 11 }
+            { status: 'cancelação', quantidade: 11 }
         ],
         valor_total_pedidos: 1250890.50,
         requisicoes_pendentes: 12,
@@ -95,7 +95,7 @@ app.post('/api/pedidos', (req, res) => {
 
     res.json({
         success: true,
-        message: 'Pedido criado com sucesso',
+        message: 'Pedido criação com sucesso',
         pedido: novoPedido
     });
 });
@@ -117,9 +117,9 @@ app.use((req, res) => {
 // Inicializar servidor
 async function startServer() {
     try {
-        // Inicializar banco de dados
+        // Inicializar banco de daçãos
         await initDatabase();
-        console.log('✅ Banco de dados inicializado');
+        console.log('✅ Banco de daçãos inicialização');
         
         // Iniciar servidor
         app.listen(PORT, () => {

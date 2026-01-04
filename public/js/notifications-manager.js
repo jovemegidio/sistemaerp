@@ -13,7 +13,7 @@ const NotificationsManager = (function() {
     let panel, overlay, listContainer, badge, tabs;
 
     /**
-     * Inicializa o gerenciador de notificações
+     * Inicializa o gerenciaçãor de notificações
      */
     function init() {
         console.log('🔔 Inicializando NotificationsManager...');
@@ -33,7 +33,7 @@ const NotificationsManager = (function() {
         // Carregar alertas reais dos módulos
         loadAlertsFromModules();
         
-        console.log('✅ NotificationsManager inicializado');
+        console.log('✅ NotificationsManager inicialização');
     }
 
     /**
@@ -139,7 +139,7 @@ const NotificationsManager = (function() {
 
     /**
      * Adiciona uma nova notificação
-     * @param {Object} notification - Dados da notificação
+     * @param {Object} notification - Daçãos da notificação
      * @param {boolean} syncToServer - Se deve enviar para o servidor (padrão: true)
      */
     function addNotification(notification, syncToServer = true) {
@@ -170,7 +170,7 @@ const NotificationsManager = (function() {
             }
         }
 
-        // Enviar para o servidor se solicitado (para notificações importantes)
+        // Enviar para o servidor se solicitação (para notificações importantes)
         if (syncToServer && notification.persistent) {
             sendToServer(newNotif);
         }
@@ -198,7 +198,7 @@ const NotificationsManager = (function() {
             listContainer.innerHTML = `
                 <div class="notifications-empty">
                     <i class="fas fa-bell-slash"></i>
-                    <p>Nenhuma notificação ${currentFilter !== 'all' ? 'nesta categoria' : 'no momento'}</p>
+                    <p>Nenhuma notificação ${currentFilter !== 'all'  'nesta categoria' : 'no momento'}</p>
                 </div>
             `;
             return;
@@ -206,13 +206,13 @@ const NotificationsManager = (function() {
 
         // Renderizar notificações
         listContainer.innerHTML = filtered.map(notif => {
-            const iconClass = notif.icone ? `fas ${notif.icone}` : getIconForType(notif.type);
+            const iconClass = notif.icone  `fas ${notif.icone}` : getIconForType(notif.type);
             const moduloBadge = notif.modulo && notif.modulo !== 'sistema' 
-                ? `<span class="notification-module-badge">${notif.modulo}</span>` 
+                 `<span class="notification-module-badge">${notif.modulo}</span>` 
                 : '';
             
             return `
-            <div class="notification-item ${notif.read ? '' : 'unread'}" data-id="${notif.id}" ${notif.link ? `data-link="${notif.link}"` : ''}>
+            <div class="notification-item ${notif.read  '' : 'unread'}" data-id="${notif.id}" ${notif.link  `data-link="${notif.link}"` : ''}>
                 <div class="notification-icon ${notif.type}">
                     <i class="${iconClass}"></i>
                 </div>
@@ -227,7 +227,7 @@ const NotificationsManager = (function() {
                         </span>
                     </div>
                 </div>
-                ${!notif.read ? '<span class="notification-new-badge"></span>' : ''}
+                ${!notif.read  '<span class="notification-new-badge"></span>' : ''}
             </div>
         `}).join('');
 
@@ -248,7 +248,7 @@ const NotificationsManager = (function() {
     }
 
     /**
-     * Retorna o ícone apropriado para cada tipo
+     * Retorna o ícone apropriação para cada tipo
      */
     function getIconForType(type) {
         const icons = {
@@ -327,13 +327,13 @@ const NotificationsManager = (function() {
     async function clearAll() {
         // Verificar se showConfirmModal existe, senão usar fallback
         const confirmFn = typeof window.showConfirmModal === 'function' 
-            ? window.showConfirmModal 
-            : async (opts) => confirm(opts.message || 'Deseja continuar?');
+             window.showConfirmModal 
+            : async (opts) => confirm(opts.message || 'Deseja continuar');
         
         const confirmed = await confirmFn({
             type: 'danger',
             title: 'Limpar Notificações',
-            message: 'Tem certeza que deseja limpar todas as notificações? Esta ação não pode ser desfeita.',
+            message: 'Tem certeza que deseja limpar todas as notificações Esta ação não pode ser desfeita.',
             confirmText: 'Limpar Todas',
             cancelText: 'Cancelar'
         });
@@ -373,7 +373,7 @@ const NotificationsManager = (function() {
         badge = document.querySelector('.notification-dot');
         if (badge) {
             if (unreadCount > 0) {
-                badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+                badge.textContent = unreadCount > 99  '99+' : unreadCount;
                 badge.style.display = 'flex';
             } else {
                 badge.style.display = 'none';
@@ -442,12 +442,12 @@ const NotificationsManager = (function() {
                 const demoTitles = [
                     'Bem-vindo ao ALUFORCE!',
                     'Atualização disponível',
-                    'Backup agendado',
+                    'Backup agendação',
                     'Bem-vindo',
                     'Nova atualização'
                 ];
                 const demoMessages = [
-                    'Sistema iniciado com sucesso',
+                    'Sistema iniciação com sucesso',
                     'Versão 2.0',
                     'backup automático',
                     'Explore todos os módulos'
@@ -491,7 +491,7 @@ const NotificationsManager = (function() {
      */
     async function loadFromServer() {
         try {
-            const response = await fetch('/api/notificacoes?limite=20', {
+            const response = await fetch('/api/notificacoeslimite=20', {
                 credentials: 'include'
             });
             
@@ -591,7 +591,7 @@ const NotificationsManager = (function() {
                                 alertaKey: alertaKey,
                                 title: alerta.titulo,
                                 message: alerta.mensagem,
-                                type: alerta.tipo === 'danger' ? 'error' : alerta.tipo,
+                                type: alerta.tipo === 'danger'  'error' : alerta.tipo,
                                 time: new Date().toISOString(),
                                 read: false,
                                 modulo: alerta.modulo,

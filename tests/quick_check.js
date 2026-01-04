@@ -17,7 +17,7 @@
     // 3) Access RH list with token
   const rhWith = await fetch(`${BASE}/api/rh/funcionarios`, { headers: { Authorization: 'Bearer '+token } });
     const rhWithBody = await rhWith.json().catch(()=>null);
-    out.steps.push({ name: 'rh_with_token', status: rhWith.status, bodySample: Array.isArray(rhWithBody)? rhWithBody.slice(0,5): rhWithBody });
+    out.steps.push({ name: 'rh_with_token', status: rhWith.status, bodySample: Array.isArray(rhWithBody) rhWithBody.slice(0,5): rhWithBody });
 
     // 4) Fetch Vendas page HTML to check loader markup presence
   const vendasHtml = await fetch(`${BASE}/Sistema/Vendas/vendas.html`);

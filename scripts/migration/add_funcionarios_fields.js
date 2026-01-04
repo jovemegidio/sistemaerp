@@ -18,7 +18,7 @@ const camposNecessarios = [
     { campo: 'endereco', tipo: 'VARCHAR(255)', descricao: 'Endereço completo' },
     { campo: 'cep', tipo: 'VARCHAR(10)', descricao: 'CEP' },
     { campo: 'cidade', tipo: 'VARCHAR(100)', descricao: 'Cidade' },
-    { campo: 'estado', tipo: 'VARCHAR(2)', descricao: 'Estado (UF)' },
+    { campo: 'estação', tipo: 'VARCHAR(2)', descricao: 'Estação (UF)' },
     { campo: 'data_admissao', tipo: 'DATE', descricao: 'Data de admissão' },
     { campo: 'senha', tipo: 'VARCHAR(255)', descricao: 'Senha hash' },
     { campo: 'status', tipo: 'ENUM("ativo", "inativo")', default: 'ativo', descricao: 'Status do funcionário' },
@@ -29,16 +29,16 @@ async function verificarEAdicionarCampos() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de dados...');
+        console.log('🔌 Conectando ao banco de daçãos...');
         connection = await mysql.createConnection(dbConfig);
-        console.log('✅ Conectado com sucesso!\n');
+        console.log('✅ Conectação com sucesso!\n');
         
         // Verificar campos existentes
         console.log('🔍 Verificando campos existentes na tabela funcionarios...');
         const [columns] = await connection.query(`
             SELECT COLUMN_NAME 
             FROM INFORMATION_SCHEMA.COLUMNS 
-            WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'funcionarios'
+            WHERE TABLE_SCHEMA =  AND TABLE_NAME = 'funcionarios'
         `, [dbConfig.database]);
         
         const camposExistentes = columns.map(c => c.COLUMN_NAME.toLowerCase());
@@ -46,7 +46,7 @@ async function verificarEAdicionarCampos() {
         console.log('');
         
         // Adicionar campos faltantes
-        let camposAdicionados = 0;
+        let camposAdicionaçãos = 0;
         let camposJaExistentes = 0;
         
         for (const campo of camposNecessarios) {
@@ -61,8 +61,8 @@ async function verificarEAdicionarCampos() {
                     }
                     
                     await connection.query(sql);
-                    console.log(`✅ Campo '${campo.campo}' adicionado com sucesso - ${campo.descricao}`);
-                    camposAdicionados++;
+                    console.log(`✅ Campo '${campo.campo}' adicionação com sucesso - ${campo.descricao}`);
+                    camposAdicionaçãos++;
                 } catch (error) {
                     console.error(`❌ Erro ao adicionar campo '${campo.campo}':`, error.message);
                 }
@@ -72,9 +72,9 @@ async function verificarEAdicionarCampos() {
         console.log('\n' + '='.repeat(60));
         console.log('📊 RESUMO DA MIGRAÇÁO');
         console.log('='.repeat(60));
-        console.log(`✅ Campos adicionados: ${camposAdicionados}`);
+        console.log(`✅ Campos adicionaçãos: ${camposAdicionaçãos}`);
         console.log(`⏭️  Campos já existentes: ${camposJaExistentes}`);
-        console.log(`📦 Total de campos verificados: ${camposNecessarios.length}`);
+        console.log(`📦 Total de campos verificaçãos: ${camposNecessarios.length}`);
         console.log('='.repeat(60));
         
         // Mostrar estrutura final da tabela

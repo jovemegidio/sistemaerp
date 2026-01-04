@@ -4,7 +4,7 @@ async function main() {
   const dbConfig = { host: 'localhost', user: 'root', password: '@dminalu', database: 'aluforce_vendas', port: 3306 };
   const conn = await mysql.createConnection(dbConfig);
   try {
-    const [cols] = await conn.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'produtos'", [dbConfig.database]);
+    const [cols] = await conn.execute("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA =  AND TABLE_NAME = 'produtos'", [dbConfig.database]);
     const colNames = cols.map(r => r.COLUMN_NAME || r.column_name);
     if (!colNames.includes('descricao')) {
       console.log('Adding column descricao to produtos');
@@ -17,7 +17,7 @@ async function main() {
     const [res] = await conn.execute("UPDATE produtos SET descricao = nome WHERE (descricao IS NULL OR descricao = '') AND (nome IS NOT NULL AND nome <> '')");
     console.log('Rows affected:', res.affectedRows);
   } catch (err) {
-    console.error('Migration error:', err && err.message ? err.message : err);
+    console.error('Migration error:', err && err.message  err.message : err);
     process.exitCode = 2;
   } finally {
     await conn.end();

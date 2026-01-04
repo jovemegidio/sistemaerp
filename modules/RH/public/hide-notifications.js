@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (mainPanel) {
             mainPanel.style.display = 'none';
             mainPanel.style.visibility = 'hidden';
-            console.log('✅ Painel principal de notificações ocultado');
+            console.log('✅ Painel principal de notificações ocultação');
         }
         
         // 2. Ocultar qualquer elemento com classes relacionadas a notificações visíveis
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 element.style.display = 'none';
                 element.style.visibility = 'hidden';
                 element.style.opacity = '0';
-                console.log(`✅ Elemento de notificação ${index + 1} ocultado:`, element.className);
+                console.log(`✅ Elemento de notificação ${index + 1} ocultação:`, element.className);
             }
         });
         
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (parentPanel && !parentPanel.closest('#notifications-panel')) {
                     parentPanel.style.display = 'none';
                     parentPanel.style.visibility = 'hidden';
-                    console.log('✅ Painel com "LIMPAR TODAS" ocultado:', parentPanel.className);
+                    console.log('✅ Painel com "LIMPAR TODAS" ocultação:', parentPanel.className);
                 }
             }
         });
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const badge = document.getElementById('notification-count');
         if (badge) {
             badge.style.display = 'none'; // Iniciar oculto
-            console.log('✅ Badge de notificação inicializado como oculto');
+            console.log('✅ Badge de notificação inicialização como oculto');
         }
         
         console.log('🎯 Correção de visibilidade aplicada com sucesso');
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (mutation.type === 'childList' && mutation.addedNodes.length > 0) {
                 mutation.addedNodes.forEach(node => {
                     if (node.nodeType === Node.ELEMENT_NODE) {
-                        // Verificar se o novo elemento é relacionado a notificações
+                        // Verificar se o novo elemento é relacionação a notificações
                         if (node.className && node.className.includes('notification') || 
                             node.id && node.id.includes('notification') ||
                             (node.textContent && node.textContent.includes('LIMPAR TODAS'))) {
@@ -92,10 +92,10 @@ document.addEventListener('DOMContentLoaded', function() {
         attributeFilter: ['style', 'class']
     });
     
-    console.log('👁️ Observer de notificações iniciado');
+    console.log('👁️ Observer de notificações iniciação');
 });
 
-// Função para mostrar apenas o painel do sino quando clicado
+// Função para mostrar apenas o painel do sino quando clicação
 window.showOnlyBellNotifications = function() {
     // Ocultar todos os painéis primeiro
     const allPanels = document.querySelectorAll('[class*="notification"], [id*="notification"]');
@@ -114,4 +114,4 @@ window.showOnlyBellNotifications = function() {
     }
 };
 
-console.log('🚫 Sistema de ocultação de notificações carregado');
+console.log('🚫 Sistema de ocultação de notificações carregação');

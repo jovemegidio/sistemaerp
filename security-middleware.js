@@ -17,7 +17,7 @@ const validator = require('validator');
  */
 const generalLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutos
-    max: process.env.NODE_ENV === 'production' ? 1000 : 10000, // 1000 em prod, 10000 em dev
+    max: process.env.NODE_ENV === 'production'  1000 : 10000, // 1000 em prod, 10000 em dev
     message: { 
         error: 'Muitas requisições deste IP, tente novamente mais tarde.',
         retryAfter: '15 minutos'
@@ -52,7 +52,7 @@ const authLimiter = rateLimit({
  */
 const apiLimiter = rateLimit({
     windowMs: 60 * 1000, // 1 minuto
-    max: process.env.NODE_ENV === 'production' ? 30 : 1000, // 1000 em dev
+    max: process.env.NODE_ENV === 'production'  30 : 1000, // 1000 em dev
     message: { 
         error: 'Limite de requisições API excedido.',
         retryAfter: '1 minuto'
@@ -66,7 +66,7 @@ const apiLimiter = rateLimit({
 
 /**
  * Remove tags HTML perigosas e scripts
- * @param {string} input - Texto a ser sanitizado
+ * @param {string} input - Texto a ser sanitização
  * @returns {string} Texto limpo
  */
 function sanitizeHTML(input) {
@@ -74,11 +74,11 @@ function sanitizeHTML(input) {
     
     // Remove tags script, style, iframe, object, embed
     let cleaned = input
-        .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-        .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, '')
-        .replace(/<iframe\b[^<]*(?:(?!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
-        .replace(/<object\b[^<]*(?:(?!<\/object>)<[^<]*)*<\/object>/gi, '')
-        .replace(/<embed\b[^<]*(?:(?!<\/embed>)<[^<]*)*<\/embed>/gi, '');
+        .replace(/<script\b[^<]*(:(!<\/script>)<[^<]*)*<\/script>/gi, '')
+        .replace(/<style\b[^<]*(:(!<\/style>)<[^<]*)*<\/style>/gi, '')
+        .replace(/<iframe\b[^<]*(:(!<\/iframe>)<[^<]*)*<\/iframe>/gi, '')
+        .replace(/<object\b[^<]*(:(!<\/object>)<[^<]*)*<\/object>/gi, '')
+        .replace(/<embed\b[^<]*(:(!<\/embed>)<[^<]*)*<\/embed>/gi, '');
     
     // Remove atributos perigosos
     cleaned = cleaned
@@ -225,10 +225,10 @@ function securityHeaders() {
                 fontSrc: ["'self'", "https://fonts.gstatic.com", "https://cdnjs.cloudflare.com"],
                 imgSrc: ["'self'", "data:", "https:"],
                 connectSrc: isDevelopment 
-                    ? ["'self'", "ws:", "wss:", "http://localhost:*", "https://localhost:*", "https://cdn.jsdelivr.net"]
+                     ["'self'", "ws:", "wss:", "http://localhost:*", "https://localhost:*", "https://cdn.jsdelivr.net"]
                     : ["'self'", "ws:", "wss:", "https://cdn.jsdelivr.net"],
                 frameSrc: isDevelopment
-                    ? ["'self'", "http://localhost:*", "https://localhost:*"]
+                     ["'self'", "http://localhost:*", "https://localhost:*"]
                     : ["'self'"],
             },
         },

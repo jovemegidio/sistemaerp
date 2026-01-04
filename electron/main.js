@@ -90,7 +90,7 @@ function createMainWindow() {
         }
     });
 
-    // Maximizar se estava maximizado
+    // Maximizar se estava maximização
     if (windowState.isMaximized) {
         mainWindow.maximize();
     }
@@ -125,11 +125,11 @@ function createMainWindow() {
         mainWindow = null;
     });
 
-    // Salvar estado ao redimensionar
+    // Salvar estação ao redimensionar
     mainWindow.on('resize', saveWindowState);
     mainWindow.on('move', saveWindowState);
 
-    // Abrir links externos no navegador padrão
+    // Abrir links externos no navegaçãor padrão
     mainWindow.webContents.setWindowOpenHandler(({ url }) => {
         if (!url.startsWith('http://localhost')) {
             shell.openExternal(url);
@@ -173,10 +173,10 @@ function createApplicationMenu() {
         {
             label: 'Arquivo',
             submenu: [
-                { label: 'Recarregar', accelerator: 'CmdOrCtrl+R', click: () => mainWindow?.reload() },
-                { label: 'Forçar Recarregamento', accelerator: 'CmdOrCtrl+Shift+R', click: () => mainWindow?.webContents.reloadIgnoringCache() },
+                { label: 'Recarregar', accelerator: 'CmdOrCtrl+R', click: () => mainWindow.reload() },
+                { label: 'Forçar Recarregamento', accelerator: 'CmdOrCtrl+Shift+R', click: () => mainWindow.webContents.reloadIgnoringCache() },
                 { type: 'separator' },
-                { label: 'Minimizar para Bandeja', click: () => mainWindow?.hide() },
+                { label: 'Minimizar para Bandeja', click: () => mainWindow.hide() },
                 { type: 'separator' },
                 { label: 'Sair', accelerator: 'Alt+F4', click: () => { isQuitting = true; app.quit(); } }
             ]
@@ -184,13 +184,13 @@ function createApplicationMenu() {
         {
             label: 'Visualizar',
             submenu: [
-                { label: 'Tela Cheia', accelerator: 'F11', click: () => mainWindow?.setFullScreen(!mainWindow.isFullScreen()) },
+                { label: 'Tela Cheia', accelerator: 'F11', click: () => mainWindow.setFullScreen(!mainWindow.isFullScreen()) },
                 { type: 'separator' },
-                { label: 'Aumentar Zoom', accelerator: 'CmdOrCtrl+Plus', click: () => { const z = mainWindow?.webContents.getZoomFactor() || 1; mainWindow?.webContents.setZoomFactor(Math.min(z + 0.1, 2)); } },
-                { label: 'Diminuir Zoom', accelerator: 'CmdOrCtrl+-', click: () => { const z = mainWindow?.webContents.getZoomFactor() || 1; mainWindow?.webContents.setZoomFactor(Math.max(z - 0.1, 0.5)); } },
-                { label: 'Zoom Padrão', accelerator: 'CmdOrCtrl+0', click: () => mainWindow?.webContents.setZoomFactor(1) },
+                { label: 'Aumentar Zoom', accelerator: 'CmdOrCtrl+Plus', click: () => { const z = mainWindow.webContents.getZoomFactor() || 1; mainWindow.webContents.setZoomFactor(Math.min(z + 0.1, 2)); } },
+                { label: 'Diminuir Zoom', accelerator: 'CmdOrCtrl+-', click: () => { const z = mainWindow.webContents.getZoomFactor() || 1; mainWindow.webContents.setZoomFactor(Math.max(z - 0.1, 0.5)); } },
+                { label: 'Zoom Padrão', accelerator: 'CmdOrCtrl+0', click: () => mainWindow.webContents.setZoomFactor(1) },
                 { type: 'separator' },
-                { label: 'Ferramentas do Desenvolvedor', accelerator: 'F12', click: () => mainWindow?.webContents.toggleDevTools() }
+                { label: 'Ferramentas do Desenvolvedor', accelerator: 'F12', click: () => mainWindow.webContents.toggleDevTools() }
             ]
         },
         {
@@ -211,7 +211,7 @@ function createApplicationMenu() {
             submenu: [
                 { label: 'Sobre', click: showAboutDialog },
                 { type: 'separator' },
-                { label: 'Verificar Atualizações', click: () => { dialog.showMessageBox(mainWindow, { type: 'info', title: 'Atualizações', message: 'Sistema atualizado', detail: `Versão: ${CONFIG.APP_VERSION}` }); } }
+                { label: 'Verificar Atualizações', click: () => { dialog.showMessageBox(mainWindow, { type: 'info', title: 'Atualizações', message: 'Sistema atualização', detail: `Versão: ${CONFIG.APP_VERSION}` }); } }
             ]
         }
     ];
@@ -224,24 +224,24 @@ function createApplicationMenu() {
  */
 function createTrayIcon() {
     try {
-        let trayIconPath = fs.existsSync(iconPath) ? iconPath : iconPathAlt;
-        let trayIcon = fs.existsSync(trayIconPath) ? nativeImage.createFromPath(trayIconPath) : nativeImage.createEmpty();
+        let trayIconPath = fs.existsSync(iconPath)  iconPath : iconPathAlt;
+        let trayIcon = fs.existsSync(trayIconPath)  nativeImage.createFromPath(trayIconPath) : nativeImage.createEmpty();
 
         tray = new Tray(trayIcon.resize({ width: 16, height: 16 }));
         
         const contextMenu = Menu.buildFromTemplate([
-            { label: 'Abrir Aluforce', click: () => { mainWindow?.show(); mainWindow?.focus(); } },
+            { label: 'Abrir Aluforce', click: () => { mainWindow.show(); mainWindow.focus(); } },
             { type: 'separator' },
-            { label: 'Dashboard', click: () => { mainWindow?.show(); navigateTo('/'); } },
-            { label: 'PCP', click: () => { mainWindow?.show(); navigateTo('/modules/PCP/index.html'); } },
-            { label: 'Financeiro', click: () => { mainWindow?.show(); navigateTo('/modules/Financeiro/index.html'); } },
+            { label: 'Dashboard', click: () => { mainWindow.show(); navigateTo('/'); } },
+            { label: 'PCP', click: () => { mainWindow.show(); navigateTo('/modules/PCP/index.html'); } },
+            { label: 'Financeiro', click: () => { mainWindow.show(); navigateTo('/modules/Financeiro/index.html'); } },
             { type: 'separator' },
             { label: 'Sair', click: () => { isQuitting = true; app.quit(); } }
         ]);
 
         tray.setToolTip(CONFIG.APP_NAME);
         tray.setContextMenu(contextMenu);
-        tray.on('double-click', () => { mainWindow?.show(); mainWindow?.focus(); });
+        tray.on('double-click', () => { mainWindow.show(); mainWindow.focus(); });
     } catch (error) {
         console.error('Erro ao criar tray:', error);
     }
@@ -271,7 +271,7 @@ function saveWindowState() {
 function loadWindowState() {
     try {
         const p = path.join(app.getPath('userData'), 'window-state.json');
-        return fs.existsSync(p) ? JSON.parse(fs.readFileSync(p, 'utf8')) : {};
+        return fs.existsSync(p)  JSON.parse(fs.readFileSync(p, 'utf8')) : {};
     } catch (e) { return {}; }
 }
 
@@ -324,7 +324,7 @@ async function startServer() {
     console.log('Iniciando servidor embutido...');
     updateSplashStatus('Iniciando servidor...');
     
-    // Detectar se está rodando empacotado ou em desenvolvimento
+    // Detectar se está rodando empacotação ou em desenvolvimento
     const isPackaged = app.isPackaged;
     
     // Usar app.getAppPath() que funciona corretamente com asar
@@ -335,20 +335,20 @@ async function startServer() {
     console.log('Server path:', serverPath);
     
     if (!fs.existsSync(serverPath)) {
-        throw new Error('Arquivo server.js não encontrado em: ' + serverPath);
+        throw new Error('Arquivo server.js não encontração em: ' + serverPath);
     }
     
     return new Promise((resolve, reject) => {
         try {
             // Configurar variáveis de ambiente
             process.env.PORT = CONFIG.SERVER_PORT.toString();
-            process.env.NODE_ENV = isPackaged ? 'production' : 'development';
+            process.env.NODE_ENV = isPackaged  'production' : 'development';
             process.env.APP_BASE_PATH = appPath;
             
             // Carregar e executar o servidor
             require(serverPath);
             
-            console.log('Servidor embutido iniciado');
+            console.log('Servidor embutido iniciação');
             setTimeout(resolve, 1500);
         } catch (error) {
             console.error('Erro ao iniciar servidor embutido:', error);
@@ -359,7 +359,7 @@ async function startServer() {
 
 function stopServer() {
     // Servidor embutido - não precisa parar manualmente
-    console.log('Servidor embutido será encerrado com a aplicação');
+    console.log('Servidor embutido será encerração com a aplicação');
 }
 
 function updateSplashStatus(message) {
@@ -401,12 +401,12 @@ if (!gotTheLock) {
         } catch (error) {
             console.error('Erro:', error);
             closeSplash();
-            dialog.showErrorBox('Erro ao Iniciar', `Erro: ${error.message}\n\nVerifique se o servidor pode ser iniciado.`);
+            dialog.showErrorBox('Erro ao Iniciar', `Erro: ${error.message}\n\nVerifique se o servidor pode ser iniciação.`);
             app.quit();
         }
     });
 
-    app.on('activate', () => { mainWindow ? mainWindow.show() : createMainWindow(); });
+    app.on('activate', () => { mainWindow  mainWindow.show() : createMainWindow(); });
     app.on('window-all-closed', () => { if (process.platform !== 'darwin') { isQuitting = true; app.quit(); } });
     app.on('before-quit', () => { isQuitting = true; saveWindowState(); stopServer(); });
     app.on('quit', () => { stopServer(); if (tray) tray.destroy(); });

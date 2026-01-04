@@ -8,10 +8,10 @@
 const SERVER_START_TIME = Date.now();
 console.log('🚀 Iniciando ALUFORCE v2.0...\n');
 
-// Detectar se está rodando em modo empacotado (Electron)
+// Detectar se está rodando em modo empacotação (Electron)
 const isPackaged = __dirname.includes('app.asar') || process.env.NODE_ENV === 'production';
 if (isPackaged) {
-    console.log('📦 Modo empacotado detectado');
+    console.log('📦 Modo empacotação detectação');
 }
 
 // =================================================================
@@ -41,7 +41,7 @@ const userPermissions = require('./public/js/permissions');
 const logger = require('./src/logger');
 const rateLimit = require('express-rate-limit');
 
-// Importar security middleware centralizado
+// Importar security middleware centralização
 const {
     generalLimiter,
     authLimiter,
@@ -51,7 +51,7 @@ const {
     cleanExpiredSessions
 } = require('./security-middleware');
 
-// Importar express-validator para validação de dados
+// Importar express-validator para validação de daçãos
 const { body, param, query, validationResult } = require('express-validator');
 
 // Função utilitária para parse seguro de JSON
@@ -74,10 +74,10 @@ const asyncHandler = fn => (req, res, next) => {
 
 // Função para iniciar servidor de chat
 function startChatServer() {
-    // Desabilitar servidor de chat separado em ambiente Railway/produção
-    // O chat é integrado via Socket.io no servidor principal
+    // Desabilitar servidor de chat separação em ambiente Railway/produção
+    // O chat é integração via Socket.io no servidor principal
     if (process.env.RAILWAY_ENVIRONMENT || process.env.NODE_ENV === 'production') {
-        console.log('⚠️  Servidor de chat separado desabilitado em produção (usa Socket.io integrado)');
+        console.log('⚠️  Servidor de chat separação desabilitação em produção (usa Socket.io integração)');
         return;
     }
     
@@ -85,7 +85,7 @@ function startChatServer() {
         const chatServerPath = path.join(__dirname, 'chat', 'server.js');
         
         if (!fs.existsSync(chatServerPath)) {
-            console.log('⚠️  Servidor de chat não encontrado em:', chatServerPath);
+            console.log('⚠️  Servidor de chat não encontração em:', chatServerPath);
             return;
         }
         
@@ -98,14 +98,14 @@ function startChatServer() {
         process.env.DB_NAME = process.env.DB_NAME || 'railway';
         process.env.DB_PORT = process.env.DB_PORT || '19396';
         
-        // Em modo empacotado, usar require() em vez de spawn
+        // Em modo empacotação, usar require() em vez de spawn
         if (isPackaged) {
             try {
                 const chatServer = require(chatServerPath);
                 if (chatServer && chatServer.startServer) {
                     process.env.PORT = '3002';
                     chatServer.startServer();
-                    console.log('✅ Servidor de chat iniciado via require (porta 3002)');
+                    console.log('✅ Servidor de chat iniciação via require (porta 3002)');
                 }
             } catch (err) {
                 console.error('❌ Erro ao carregar servidor de chat:', err.message);
@@ -146,11 +146,11 @@ function startChatServer() {
         
         chatServerProcess.on('exit', (code, signal) => {
             if (code !== null && code !== 0) {
-                console.log(`⚠️  Servidor de chat encerrado com código ${code}`);
+                console.log(`⚠️  Servidor de chat encerração com código ${code}`);
             }
         });
         
-        console.log('✅ Servidor de chat iniciado na porta 3002');
+        console.log('✅ Servidor de chat iniciação na porta 3002');
         
     } catch (error) {
         console.error('❌ Erro ao iniciar servidor de chat:', error.message);
@@ -162,7 +162,7 @@ function stopChatServer() {
     if (chatServerProcess) {
         try {
             chatServerProcess.kill('SIGTERM');
-            console.log('🔵 Servidor de chat encerrado');
+            console.log('🔵 Servidor de chat encerração');
         } catch (error) {
             console.error('⚠️  Erro ao encerrar servidor de chat:', error.message);
         }
@@ -174,9 +174,9 @@ let supportServerProcess = null;
 
 // Função para iniciar servidor de suporte
 function startSupportServer() {
-    // Desabilitar servidor de suporte separado em ambiente Railway/produção
+    // Desabilitar servidor de suporte separação em ambiente Railway/produção
     if (process.env.RAILWAY_ENVIRONMENT || process.env.NODE_ENV === 'production') {
-        console.log('⚠️  Servidor de suporte separado desabilitado em produção');
+        console.log('⚠️  Servidor de suporte separação desabilitação em produção');
         return;
     }
     
@@ -184,20 +184,20 @@ function startSupportServer() {
         const supportServerPath = path.join(__dirname, 'Sistema de Suporte', 'server.js');
         
         if (!fs.existsSync(supportServerPath)) {
-            console.log('⚠️  Servidor de suporte não encontrado em:', supportServerPath);
+            console.log('⚠️  Servidor de suporte não encontração em:', supportServerPath);
             return;
         }
         
         console.log('\n🟣 Iniciando servidor de suporte...');
         
-        // Em modo empacotado, usar require() em vez de spawn
+        // Em modo empacotação, usar require() em vez de spawn
         if (isPackaged) {
             try {
                 const supportServer = require(supportServerPath);
                 if (supportServer && supportServer.startServer) {
                     process.env.PORT = '3003';
                     supportServer.startServer();
-                    console.log('✅ Servidor de suporte iniciado via require (porta 3003)');
+                    console.log('✅ Servidor de suporte iniciação via require (porta 3003)');
                 }
             } catch (err) {
                 console.error('❌ Erro ao carregar servidor de suporte:', err.message);
@@ -243,11 +243,11 @@ function startSupportServer() {
         
         supportServerProcess.on('exit', (code, signal) => {
             if (code !== null && code !== 0) {
-                console.log(`⚠️  Servidor de suporte encerrado com código ${code}`);
+                console.log(`⚠️  Servidor de suporte encerração com código ${code}`);
             }
         });
         
-        console.log('✅ Servidor de suporte iniciado na porta 3003');
+        console.log('✅ Servidor de suporte iniciação na porta 3003');
         
     } catch (error) {
         console.error('❌ Erro ao iniciar servidor de suporte:', error.message);
@@ -259,7 +259,7 @@ function stopSupportServer() {
     if (supportServerProcess) {
         try {
             supportServerProcess.kill('SIGTERM');
-            console.log('🟣 Servidor de suporte encerrado');
+            console.log('🟣 Servidor de suporte encerração');
         } catch (error) {
             console.error('⚠️  Erro ao encerrar servidor de suporte:', error.message);
         }
@@ -271,7 +271,7 @@ const app = express();
 const PORT = parseInt(process.env.PORT) || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
 
-// 🚀 HEALTH CHECK IMEDIATO - Responde antes de qualquer middleware pesado
+// 🚀 HEALTH CHECK IMEDIATO - Responde antes de qualquer middleware pesação
 // Isso garante que o Railway detecte o servidor como "healthy" rapidamente
 app.get('/health', (req, res) => {
     res.status(200).send('OK');
@@ -280,12 +280,12 @@ app.get('/api/health', (req, res) => {
     res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// 🔍 Endpoint de diagnóstico do banco de dados
+// 🔍 Endpoint de diagnóstico do banco de daçãos
 app.get('/api/db-check', async (req, res) => {
     try {
         // O pool é definido mais abaixo no código, usar require dinâmico ou verificar se existe
         if (typeof pool === 'undefined') {
-            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicializado - aguarde' });
+            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicialização - aguarde' });
         }
         const [rows] = await pool.query('SELECT COUNT(*) as total FROM usuarios');
         res.json({ 
@@ -307,7 +307,7 @@ app.get('/api/db-check', async (req, res) => {
 app.get('/api/debug-users', async (req, res) => {
     try {
         if (typeof pool === 'undefined') {
-            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicializado' });
+            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicialização' });
         }
         const [usuarios] = await pool.query('SELECT id, email, nome, role, status FROM usuarios LIMIT 10');
         const [funcionarios] = await pool.query('SELECT id, email, nome_completo, role, status FROM funcionarios WHERE email IS NOT NULL LIMIT 10');
@@ -324,7 +324,7 @@ app.get('/api/debug-users', async (req, res) => {
 app.get('/api/reset-test-password', async (req, res) => {
     try {
         if (typeof pool === 'undefined') {
-            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicializado' });
+            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicialização' });
         }
         const bcrypt = require('bcryptjs');
         // Senha: Aluforce2025!
@@ -332,7 +332,7 @@ app.get('/api/reset-test-password', async (req, res) => {
         
         // Atualizar o usuário ti@aluforce.ind.br
         await pool.query(
-            'UPDATE usuarios SET senha_hash = ?, password_hash = ? WHERE email = ?',
+            'UPDATE usuarios SET senha_hash = , password_hash =  WHERE email = ',
             [hashedPassword, hashedPassword, 'ti@aluforce.ind.br']
         );
         
@@ -358,19 +358,19 @@ app.post('/api/test-login', express.json(), async (req, res) => {
         }
         
         debug.push('2. Buscando usuário no banco...');
-        const [rows] = await pool.query('SELECT id, email, nome, senha_hash, password_hash FROM usuarios WHERE email = ? LIMIT 1', [email]);
+        const [rows] = await pool.query('SELECT id, email, nome, senha_hash, password_hash FROM usuarios WHERE email =  LIMIT 1', [email]);
         
         if (!rows || rows.length === 0) {
-            debug.push('3. Usuário NÃO encontrado');
-            return res.json({ status: 'error', debug, message: 'Usuário não encontrado' });
+            debug.push('3. Usuário NÃO encontração');
+            return res.json({ status: 'error', debug, message: 'Usuário não encontração' });
         }
         
         const user = rows[0];
-        debug.push(`3. Usuário encontrado: ${user.nome} (id: ${user.id})`);
+        debug.push(`3. Usuário encontração: ${user.nome} (id: ${user.id})`);
         debug.push(`4. Tem senha_hash: ${!!user.senha_hash}, Tem password_hash: ${!!user.password_hash}`);
         
         const hashToCheck = user.senha_hash || user.password_hash;
-        debug.push(`5. Hash a verificar (primeiros 20 chars): ${hashToCheck ? hashToCheck.substring(0, 20) : 'NENHUM'}`);
+        debug.push(`5. Hash a verificar (primeiros 20 chars): ${hashToCheck  hashToCheck.substring(0, 20) : 'NENHUM'}`);
         
         if (!hashToCheck) {
             return res.json({ status: 'error', debug, message: 'Usuário sem senha cadastrada' });
@@ -379,7 +379,7 @@ app.post('/api/test-login', express.json(), async (req, res) => {
         debug.push('6. Verificando senha com bcrypt...');
         const bcrypt = require('bcryptjs');
         const isValid = await bcrypt.compare(password, hashToCheck);
-        debug.push(`7. Resultado bcrypt: ${isValid ? 'VÁLIDA' : 'INVÁLIDA'}`);
+        debug.push(`7. Resultação bcrypt: ${isValid  'VÁLIDA' : 'INVÁLIDA'}`);
         
         if (isValid) {
             debug.push('8. LOGIN SUCESSO!');
@@ -399,7 +399,7 @@ app.post('/api/test-login', express.json(), async (req, res) => {
 app.get('/api/reset-all-passwords', async (req, res) => {
     try {
         if (typeof pool === 'undefined') {
-            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicializado' });
+            return res.status(500).json({ status: 'error', message: 'Pool ainda não inicialização' });
         }
         const bcrypt = require('bcryptjs');
         // Senha padrão: Aluforce2025!
@@ -407,16 +407,16 @@ app.get('/api/reset-all-passwords', async (req, res) => {
         
         // Atualizar todos os usuários ativos
         const [result] = await pool.query(
-            'UPDATE usuarios SET senha_hash = ?, password_hash = ? WHERE status IS NULL OR status != "inativo"',
+            'UPDATE usuarios SET senha_hash = , password_hash =  WHERE status IS NULL OR status != "inativo"',
             [hashedPassword, hashedPassword]
         );
         
-        // Listar usuários atualizados
+        // Listar usuários atualizaçãos
         const [usuarios] = await pool.query('SELECT id, email, nome FROM usuarios WHERE status IS NULL OR status != "inativo" LIMIT 50');
         
         res.json({ 
             status: 'ok', 
-            message: `${result.affectedRows} usuários atualizados com senha: Aluforce2025!`,
+            message: `${result.affectedRows} usuários atualizaçãos com senha: Aluforce2025!`,
             usuarios: usuarios.map(u => ({ id: u.id, email: u.email, nome: u.nome }))
         });
     } catch (error) {
@@ -434,7 +434,7 @@ const JWT_SECRET = process.env.JWT_SECRET || 'aluforce-railway-secret-key-2026-s
 
 // Validar JWT Secret em produção - apenas logar aviso, não encerrar
 if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
-    logger.warn('AVISO: variável de ambiente JWT_SECRET não definida. Usando chave padrão (não recomendado para produção).');
+    logger.warn('AVISO: variável de ambiente JWT_SECRET não definida. Usando chave padrão (não recomendação para produção).');
 }
 
 // =================================================================
@@ -453,7 +453,7 @@ function initEmailTransporter() {
             secure: process.env.SMTP_SECURE === 'true', // true para 465, false para outras portas
             auth: {
                 user: process.env.SMTP_USER || 'sistema@aluforce.ind.br',
-                pass: process.env.SMTP_PASS || '' // Deixe vazio se não configurado
+                pass: process.env.SMTP_PASS || '' // Deixe vazio se não configuração
             },
             tls: {
                 rejectUnauthorized: false // Para ambientes de desenvolvimento
@@ -464,14 +464,14 @@ function initEmailTransporter() {
         if (process.env.SMTP_USER && process.env.SMTP_PASS) {
             emailTransporter.verify((error, success) => {
                 if (error) {
-                    logger.warn('[EMAIL] ⚠️  SMTP não configurado ou erro na conexão:', error.message);
-                    logger.warn('[EMAIL] 📧 Emails não serão enviados. Configure variáveis de ambiente SMTP_*');
+                    logger.warn('[EMAIL] ⚠️  SMTP não configuração ou erro na conexão:', error.message);
+                    logger.warn('[EMAIL] 📧 Emails não serão enviaçãos. Configure variáveis de ambiente SMTP_*');
                 } else {
-                    logger.info('[EMAIL] ✅ Servidor SMTP configurado e pronto para enviar emails');
+                    logger.info('[EMAIL] ✅ Servidor SMTP configuração e pronto para enviar emails');
                 }
             });
         } else {
-            logger.warn('[EMAIL] ⚠️  Credenciais SMTP não configuradas. Emails não serão enviados.');
+            logger.warn('[EMAIL] ⚠️  Credenciais SMTP não configuradas. Emails não serão enviaçãos.');
             logger.warn('[EMAIL] 💡 Configure SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS no .env');
         }
     } catch (error) {
@@ -485,8 +485,8 @@ initEmailTransporter();
 // Função auxiliar para enviar emails
 async function sendEmail(to, subject, html, text) {
     if (!emailTransporter || !process.env.SMTP_USER) {
-        logger.warn(`[EMAIL] Email não enviado (SMTP não configurado): ${subject}`);
-        return { success: false, error: 'SMTP não configurado' };
+        logger.warn(`[EMAIL] Email não enviação (SMTP não configuração): ${subject}`);
+        return { success: false, error: 'SMTP não configuração' };
     }
 
     try {
@@ -498,7 +498,7 @@ async function sendEmail(to, subject, html, text) {
             html: html
         });
 
-        logger.info(`[EMAIL] ✅ Email enviado: ${subject} → ${to} (ID: ${info.messageId})`);
+        logger.info(`[EMAIL] ✅ Email enviação: ${subject} → ${to} (ID: ${info.messageId})`);
         return { success: true, messageId: info.messageId };
     } catch (error) {
         logger.error(`[EMAIL] ❌ Erro ao enviar email: ${error.message}`);
@@ -507,15 +507,15 @@ async function sendEmail(to, subject, html, text) {
 }
 
 // =================================================================
-// 3. MIDDLEWARES DE AUTORIZAÇÁO (declarados antes de serem usados)
+// 3. MIDDLEWARES DE AUTORIZAÇÁO (declaraçãos antes de serem usaçãos)
 // =================================================================
 
-// Middleware para validar resultado das validações
+// Middleware para validar resultação das validações
 const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.status(400).json({ 
-            message: 'Dados inválidos',
+            message: 'Daçãos inválidos',
             errors: errors.array() 
         });
     }
@@ -545,24 +545,24 @@ const pedidoValidation = [
     validate
 ];
 
-// Middleware para autorizar apenas administradores ou RH (usado em RH)
+// Middleware para autorizar apenas administraçãores ou RH (usação em RH)
 const authorizeAdmin = (req, res, next) => {
-    const userRole = req.user?.role?.toLowerCase() || '';
-    const isAdmin = userRole === 'admin' || req.user?.is_admin === 1 || req.user?.is_admin === true;
+    const userRole = req.user.role.toLowerCase() || '';
+    const isAdmin = userRole === 'admin' || req.user.is_admin === 1 || req.user.is_admin === true;
     const isRH = userRole === 'rh' || userRole === 'recursos humanos';
     
     if (isAdmin || isRH) {
         return next();
     }
-    return res.status(403).json({ message: 'Acesso negado. Requer privilégios de administrador ou RH.' });
+    return res.status(403).json({ message: 'Acesso negação. Requer privilégios de administraçãor ou RH.' });
 };
 
-// Middleware para controle de acesso por área baseado em permissões de usuário
+// Middleware para controle de acesso por área baseação em permissões de usuário
 const authorizeArea = (area) => {
     return (req, res, next) => {
         if (!req.user || !req.user.nome) {
-            logger.warn(`[AUTH-AREA] Usuário não autenticado para área: ${area}`);
-            return res.status(401).json({ message: 'Usuário não autenticado.' });
+            logger.warn(`[AUTH-AREA] Usuário não autenticação para área: ${area}`);
+            return res.status(401).json({ message: 'Usuário não autenticação.' });
         }
         
         const firstName = req.user.nome.split(' ')[0].toLowerCase();
@@ -576,24 +576,24 @@ const authorizeArea = (area) => {
                         String(req.user.role).toLowerCase() === 'admin';
         
         if (isAdmin) {
-            logger.info(`[AUTH-AREA] Admin ${firstName} autorizado para ${area}`);
+            logger.info(`[AUTH-AREA] Admin ${firstName} autorização para ${area}`);
             return next();
         }
         
         // Verificar se o usuário tem acesso à área
         if (userPermissions.hasAccess(firstName, area)) {
-            logger.info(`[AUTH-AREA] Usuário ${firstName} autorizado para ${area}`);
+            logger.info(`[AUTH-AREA] Usuário ${firstName} autorização para ${area}`);
             return next();
         }
         
-        logger.warn(`[AUTH-AREA] Acesso negado para ${firstName} à área ${area}`);
+        logger.warn(`[AUTH-AREA] Acesso negação para ${firstName} à área ${area}`);
         return res.status(403).json({ 
-            message: `Acesso negado à área ${area}. Você não tem permissão para acessar este módulo.`  
+            message: `Acesso negação à área ${area}. Você não tem permissão para acessar este módulo.`  
         });
     };
 };
 
-// Configuração do Banco de Dados (use variáveis de ambiente para testes/produção)
+// Configuração do Banco de Daçãos (use variáveis de ambiente para testes/produção)
 // Permite sobrescrever host/user/password/database sem editar o código.
 
 // ⚠️ VALIDAÇÃO DE SEGURANÇA - Apenas avisos, não encerra o servidor
@@ -608,7 +608,7 @@ const DB_CONFIG = {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASSWORD || 'iiilOZutDOnPCwxgiTKeMuEaIzSwplcu',
     database: process.env.DB_NAME || 'railway',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 19396,
+    port: process.env.DB_PORT  parseInt(process.env.DB_PORT) : 19396,
     waitForConnections: true,
     connectionLimit: parseInt(process.env.DB_CONN_LIMIT) || 30, // Pool maior
     queueLimit: 0,
@@ -622,14 +622,14 @@ const DB_CONFIG = {
     dateStrings: true
 };
 
-// Criação do Pool de Conexão com o Banco de Dados
+// Criação do Pool de Conexão com o Banco de Daçãos
 const pool = mysql.createPool(DB_CONFIG);
 
 console.log(`🔌 MySQL pool config -> host=${DB_CONFIG.host} user=${DB_CONFIG.user} port=${DB_CONFIG.port} database=${DB_CONFIG.database}`);
 
 // Testar conexão imediatamente
 pool.query('SELECT 1').then(() => {
-    console.log('✅ Conexão com banco de dados OK');
+    console.log('✅ Conexão com banco de daçãos OK');
 }).catch(err => {
     console.error('❌ Erro na conexão com banco:', err.message);
 });
@@ -679,7 +679,7 @@ function cacheClear(pattern) {
     }
 }
 
-// Limpar cache expirado a cada 5 minutos
+// Limpar cache expiração a cada 5 minutos
 setInterval(() => {
     const now = Date.now();
     for (const [key, item] of memoryCache.entries()) {
@@ -689,10 +689,10 @@ setInterval(() => {
     }
 }, 300000);
 
-console.log('⚡ Sistema de cache em memória ativado');
+console.log('⚡ Sistema de cache em memória ativação');
 // =================================================================
 
-// Helper: enviarEmail - tenta usar nodemailer se configurado via env, senão faz log
+// Helper: enviarEmail - tenta usar nodemailer se configuração via env, senão faz log
 async function enviarEmail(to, subject, text, html) {
     // Requer variáveis de ambiente para envio real (SMTP)
     const host = process.env.SMTP_HOST;
@@ -703,7 +703,7 @@ async function enviarEmail(to, subject, text, html) {
         try {
             const transporter = nodemailer.createTransport({ host, port: parseInt(port) || 587, secure: false, auth: { user, pass } });
             await transporter.sendMail({ from: user, to, subject, text, html });
-            console.log(`✉️ Email enviado para ${to} assunto='${subject}'`);
+            console.log(`✉️ Email enviação para ${to} assunto='${subject}'`);
             return true;
         } catch (err) {
             console.error('Falha ao enviar email via SMTP:', err);
@@ -711,7 +711,7 @@ async function enviarEmail(to, subject, text, html) {
         }
     }
     // Fallback: apenas log
-    console.log(`(simulado) enviarEmail -> to=${to} subject=${subject} text=${String(text).slice(0,200)}`);
+    console.log(`(simulação) enviarEmail -> to=${to} subject=${subject} text=${String(text).slice(0,200)}`);
     return true;
 }
 
@@ -724,12 +724,12 @@ app.use(express.json());
 // Middleware para interpretar bodies de formulários (application/x-www-form-urlencoded)
 app.use(express.urlencoded({ extended: true }));
 
-// Aplicar security middleware centralizado
+// Aplicar security middleware centralização
 app.use(securityHeaders());
 app.use(generalLimiter);
 app.use(sanitizeInput);
 
-// CORS configurado para permitir GitHub Pages e Railway
+// CORS configuração para permitir GitHub Pages e Railway
 const allowedOrigins = [
     'http://localhost:3000', 
     'http://127.0.0.1:3000',
@@ -824,12 +824,12 @@ app.use(compression({
         }
         return compression.filter(req, res);
     },
-    level: 6,  // Nível de compressão (0-9, onde 6 é padrão balanceado)
+    level: 6,  // Nível de compressão (0-9, onde 6 é padrão balanceação)
     threshold: 1024,  // Só comprimir respostas > 1KB
     memLevel: 8  // Otimizar uso de memória
 }));
 
-// Middleware para servir avatar padrão quando não encontrado
+// Middleware para servir avatar padrão quando não encontração
 app.get('/avatars/:filename', (req, res, next) => {
     const avatarPath = path.join(__dirname, 'public', 'avatars', req.params.filename);
     const defaultAvatar = path.join(__dirname, 'public', 'avatars', 'default.webp');
@@ -880,7 +880,7 @@ app.use(express.static(path.join(__dirname, 'public'), {
 app.use('/socket.io', express.static(path.join(__dirname, 'node_modules', 'socket.io', 'client-dist')));
 
 // Middleware específico para correção de MIME types
-// NOTA: CORS já configurado acima com cors() - não sobrescrever!
+// NOTA: CORS já configuração acima com cors() - não sobrescrever!
 app.use((req, res, next) => {
     // Adicionar headers CORS dinâmicos (compatível com credentials)
     const origin = req.headers.origin;
@@ -904,7 +904,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     res.header('Access-Control-Expose-Headers', 'set-cookie');
     
-    // Configurar MIME types corretos baseado na extensão do arquivo
+    // Configurar MIME types corretos baseação na extensão do arquivo
     const url = req.url.toLowerCase();
     if (url.endsWith('.css')) {
         res.setHeader('Content-Type', 'text/css');
@@ -971,7 +971,7 @@ app.use('/Compras', express.static(path.join(__dirname, 'modules', 'Compras')));
 app.use('/RecursosHumanos', express.static(path.join(__dirname, 'modules', 'RH', 'public')));
 app.use('/RH', express.static(path.join(__dirname, 'modules', 'RH', 'public'))); // Compatibilidade
 
-// Servir arquivos compartilhados dos módulos
+// Servir arquivos compartilhaçãos dos módulos
 app.use('/_shared', express.static(path.join(__dirname, 'modules', '_shared')));
 
 // Rotas específicas para cada módulo (para URLs /modules/MODULO/...)
@@ -1042,7 +1042,7 @@ const storage = multer.diskStorage({
         let subfolder = 'outros';
         if (file.fieldname === 'foto') subfolder = 'fotos';
         if (file.fieldname === 'holerite') subfolder = 'holerites';
-        if (file.fieldname === 'atestado') subfolder = 'atestados';
+        if (file.fieldname === 'atestação') subfolder = 'atestaçãos';
         if (file.fieldname === 'logo' || file.fieldname === 'favicon') subfolder = 'empresa';
         if (file.fieldname === 'avatar') subfolder = 'avatars';
         const dest = path.join(uploadDir, subfolder);
@@ -1078,7 +1078,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'modules', 'RH', 'public
 app.get('/RecursosHumanos', authenticatePage, (req, res) => {
     // SEMPRE serve o index.html, que fará o redirecionamento inteligente no cliente
     // Isso permite que o JavaScript verifique cookies e localStorage antes de decidir
-    console.log('[RH] Servindo index.html - JavaScript fará redirecionamento baseado em autenticação');
+    console.log('[RH] Servindo index.html - JavaScript fará redirecionamento baseação em autenticação');
     res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'index.html'));
 });
 
@@ -1086,13 +1086,13 @@ app.get('/RecursosHumanos', authenticatePage, (req, res) => {
 app.get('/RH/areaadm.html', authenticatePage, (req, res) => {
     if (req.user && (req.user.nome || req.user.email)) {
         // Verificar por nome e também por email (prefixo antes do @)
-        const firstName = req.user.nome ? req.user.nome.split(' ')[0].toLowerCase() : '';
-        const emailPrefix = req.user.email ? req.user.email.split('@')[0].toLowerCase() : '';
+        const firstName = req.user.nome  req.user.nome.split(' ')[0].toLowerCase() : '';
+        const emailPrefix = req.user.email  req.user.email.split('@')[0].toLowerCase() : '';
         
         if (userPermissions.isAdmin(firstName) || userPermissions.isAdmin(emailPrefix)) {
             res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'areaadm.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Esta área é restrita a administradores.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Esta área é restrita a administraçãores.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1112,8 +1112,8 @@ app.get('/RH/dashboard.html', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'dashboard.html'));
 });
 
-app.get('/RH/dados-pessoais.html', authenticatePage, (req, res) => {
-    res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'dados-pessoais.html'));
+app.get('/RH/daçãos-pessoais.html', authenticatePage, (req, res) => {
+    res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'daçãos-pessoais.html'));
 });
 
 app.get('/RH/holerites.html', authenticatePage, (req, res) => {
@@ -1124,18 +1124,18 @@ app.get('/RH/solicitacoes.html', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'solicitacoes.html'));
 });
 
-// Rotas para páginas do colaborador RH (em /rh/pages/)
+// Rotas para páginas do colaboraçãor RH (em /rh/pages/)
 app.get('/rh/pages/:page', authenticatePage, (req, res) => {
     const page = req.params.page;
     // Remove .html se vier na URL
-    const fileName = page.endsWith('.html') ? page : `${page}.html`;
+    const fileName = page.endsWith('.html')  page : `${page}.html`;
     const filePath = path.join(__dirname, 'modules', 'RH', 'public', 'pages', fileName);
     
     // Verifica se o arquivo existe
     if (require('fs').existsSync(filePath)) {
         res.sendFile(filePath);
     } else {
-        console.log(`[RH] Arquivo não encontrado: ${filePath}`);
+        console.log(`[RH] Arquivo não encontração: ${filePath}`);
         res.status(404).send('<h1>Página não encontrada</h1>');
     }
 });
@@ -1149,20 +1149,20 @@ app.get('/rh/solicitacoes', authenticatePage, (req, res) => {
 app.get('/rh/areaadm', authenticatePage, (req, res) => {
     if (req.user && (req.user.nome || req.user.email)) {
         // Verificar por nome e também por email (prefixo antes do @)
-        const firstName = req.user.nome ? req.user.nome.split(' ')[0].toLowerCase() : '';
-        const emailPrefix = req.user.email ? req.user.email.split('@')[0].toLowerCase() : '';
+        const firstName = req.user.nome  req.user.nome.split(' ')[0].toLowerCase() : '';
+        const emailPrefix = req.user.email  req.user.email.split('@')[0].toLowerCase() : '';
         
         if (userPermissions.isAdmin(firstName) || userPermissions.isAdmin(emailPrefix)) {
             res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'areaadm.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Esta área é restrita a administradores.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Esta área é restrita a administraçãores.</p>');
         }
     } else {
         res.redirect('/login.html');
     }
 });
 
-// Rota para funcionário/dashboard colaborador (minúsculo)
+// Rota para funcionário/dashboard colaboraçãor (minúsculo)
 app.get('/rh/funcionario', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'funcionario.html'));
 });
@@ -1196,7 +1196,7 @@ app.get('/Vendas/', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'kanban.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1210,7 +1210,7 @@ app.get('/Vendas/kanban.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'kanban.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1228,7 +1228,7 @@ app.get('/Vendas/pedidos.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'pedidos.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1241,7 +1241,7 @@ app.get('/Vendas/clientes.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'clientes.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1254,7 +1254,7 @@ app.get('/Vendas/dashboard.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'dashboard.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1267,7 +1267,7 @@ app.get('/Vendas/dashboard-admin.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'dashboard-admin.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1280,7 +1280,7 @@ app.get('/Vendas/relatorios.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'vendas')) {
             res.sendFile(path.join(__dirname, 'modules', 'Vendas', 'public', 'relatorios.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Vendas.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1298,7 +1298,7 @@ app.get('/PCP/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'pcp')) {
             res.sendFile(path.join(__dirname, 'modules', 'PCP', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de PCP.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de PCP.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1311,7 +1311,7 @@ app.get('/modules/PCP/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'pcp')) {
             res.sendFile(path.join(__dirname, 'modules', 'PCP', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de PCP.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de PCP.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1325,7 +1325,7 @@ app.get('/CRM/crm.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'crm')) {
             res.sendFile(path.join(__dirname, 'modules', 'CRM', 'crm.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de CRM.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de CRM.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1339,7 +1339,7 @@ app.get('/NFe/nfe.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'nfe')) {
             res.sendFile(path.join(__dirname, 'modules', 'NFe', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de NF-e.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de NF-e.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1353,7 +1353,7 @@ app.get('/Compras/compras.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'compras')) {
             res.sendFile(path.join(__dirname, 'modules', 'Compras', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1367,28 +1367,28 @@ app.get('/Compras', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'compras')) {
             res.sendFile(path.join(__dirname, 'modules', 'Compras', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
         }
     } else {
         res.redirect('/login.html');
     }
 });
 
-// Todas as rotas de Compras agora servem o novo index.html unificado
+// Todas as rotas de Compras agora servem o novo index.html unificação
 app.get('/Compras/:page', authenticatePage, (req, res) => {
     if (req.user && req.user.nome) {
         const firstName = req.user.nome.split(' ')[0].toLowerCase();
         if (userPermissions.hasAccess(firstName, 'compras')) {
             res.sendFile(path.join(__dirname, 'modules', 'Compras', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
         }
     } else {
         res.redirect('/login.html');
     }
 });
 
-// Rotas de acesso direto aos módulos (redirecionam para login se não autenticado)
+// Rotas de acesso direto aos módulos (redirecionam para login se não autenticação)
 app.get('/modules/RH/public/dashboard.html', authenticatePage, (req, res) => {
     res.sendFile(path.join(__dirname, 'modules', 'RH', 'public', 'dashboard.html'));
 });
@@ -1420,7 +1420,7 @@ app.get('/modules/RH/public/*.html', authenticatePage, (req, res) => {
     const filePath = path.join(__dirname, 'modules', 'RH', 'public', requestedPath);
     res.sendFile(filePath, (err) => {
         if (err) {
-            console.error('[RH] Arquivo não encontrado:', filePath);
+            console.error('[RH] Arquivo não encontração:', filePath);
             res.status(404).send('Página não encontrada');
         }
     });
@@ -1428,13 +1428,13 @@ app.get('/modules/RH/public/*.html', authenticatePage, (req, res) => {
 
 // Rota para página de teste de sincronização de estoque
 app.get('/teste-sincronizacao-estoque.html', authenticatePage, (req, res) => {
-    console.log('[TESTE] Acesso à página de teste de sincronização por:', req.user?.email);
+    console.log('[TESTE] Acesso à página de teste de sincronização por:', req.user.email);
     res.sendFile(path.join(__dirname, 'teste-sincronizacao-estoque.html'));
 });
 
 // Rota para Dashboard de Integração
 app.get('/dashboard-integracao.html', authenticatePage, (req, res) => {
-    console.log('[INTEGRACAO] Acesso ao dashboard de integração por:', req.user?.email);
+    console.log('[INTEGRACAO] Acesso ao dashboard de integração por:', req.user.email);
     res.sendFile(path.join(__dirname, 'dashboard-integracao.html'));
 });
 
@@ -1458,7 +1458,7 @@ app.get('/modules/Compras/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'compras')) {
             res.sendFile(path.join(__dirname, 'modules', 'Compras', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1475,7 +1475,7 @@ app.get('/modules/Compras/public/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'compras')) {
             res.sendFile(path.join(__dirname, 'modules', 'Compras', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Compras.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1523,7 +1523,7 @@ app.get('/modules/Financeiro/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'financeiro')) {
             res.sendFile(path.join(__dirname, 'modules', 'Financeiro', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1562,7 +1562,7 @@ app.get('/modules/NFe/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'nfe')) {
             res.sendFile(path.join(__dirname, 'modules', 'NFe', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de NF-e.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de NF-e.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -1597,7 +1597,7 @@ app.get('/modules/Faturamento/index.html', authenticatePage, (req, res) => {
     if (req.user && req.user.permissoes && req.user.permissoes.includes('nfe')) {
         res.sendFile(path.join(__dirname, 'modules', 'Faturamento', 'public', 'index.html'));
     } else {
-        res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo de Faturamento.</p>');
+        res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo de Faturamento.</p>');
     }
 });
 
@@ -1640,25 +1640,25 @@ const initCronJobs = () => {
     cron.schedule('0 7 * * *', async () => {
         if (!DB_AVAILABLE) return;
         try {
-            const [rows] = await pool.query('SELECT COUNT(*) AS total, SUM(valor) AS faturado FROM vendas WHERE DATE(data) = CURDATE()');
-            const texto = `Relatório diário:\nTotal de vendas: ${rows[0].total}\nFaturamento: R$ ${rows[0].faturado}`;
+            const [rows] = await pool.query('SELECT COUNT(*) AS total, SUM(valor) AS faturação FROM vendas WHERE DATE(data) = CURDATE()');
+            const texto = `Relatório diário:\nTotal de vendas: ${rows[0].total}\nFaturamento: R$ ${rows[0].faturação}`;
             await enviarEmail('diretoria@empresa.com', 'Relatório Diário de Vendas', texto);
-            console.log('Relatório diário enviado por email.');
+            console.log('Relatório diário enviação por email.');
         } catch (err) {
-            console.warn('Erro no cron diário:', err && err.message ? err.message : err);
+            console.warn('Erro no cron diário:', err && err.message  err.message : err);
         }
     });
 
-    // 2. Backup automático do banco de dados (simples)
+    // 2. Backup automático do banco de daçãos (simples)
     cron.schedule('0 2 * * *', async () => {
         if (!DB_AVAILABLE) return;
         try {
             const backupFile = path.join(__dirname, `backup-db-${Date.now()}.sql`);
-            fs.writeFileSync(backupFile, '-- backup simulado --');
-            await enviarEmail('ti@empresa.com', 'Backup Automático', `Backup gerado: ${backupFile}`);
-            console.log('Backup automático realizado e notificado.');
+            fs.writeFileSync(backupFile, '-- backup simulação --');
+            await enviarEmail('ti@empresa.com', 'Backup Automático', `Backup geração: ${backupFile}`);
+            console.log('Backup automático realização e notificação.');
         } catch (err) {
-            console.warn('Erro no cron de backup:', err && err.message ? err.message : err);
+            console.warn('Erro no cron de backup:', err && err.message  err.message : err);
         }
     });
 
@@ -1672,7 +1672,7 @@ const initCronJobs = () => {
             }
             console.log('Notificações de cobrança enviadas.');
         } catch (err) {
-            console.warn('Erro no cron de cobranças:', err && err.message ? err.message : err);
+            console.warn('Erro no cron de cobranças:', err && err.message  err.message : err);
         }
     });
     
@@ -1690,13 +1690,13 @@ const initCronJobs = () => {
         }
     });
     
-    // 5. Alertar sobre pedidos atrasados (todos os dias às 9h)
+    // 5. Alertar sobre pedidos atrasaçãos (todos os dias às 9h)
     cron.schedule('0 9 * * *', async () => {
         if (!DB_AVAILABLE) return;
         try {
-            logger.info('[COMPRAS-CRON] Verificando pedidos atrasados...');
+            logger.info('[COMPRAS-CRON] Verificando pedidos atrasaçãos...');
             
-            const [pedidosAtrasados] = await pool.query(`
+            const [pedidosAtrasaçãos] = await pool.query(`
                 SELECT pc.id, pc.numero_pedido, pc.data_entrega_prevista,
                        f.razao_social as fornecedor,
                        u.id as solicitante_id, u.email as solicitante_email,
@@ -1705,29 +1705,29 @@ const initCronJobs = () => {
                 JOIN fornecedores f ON pc.fornecedor_id = f.id
                 JOIN usuarios u ON pc.usuario_solicitante = u.id
                 WHERE pc.data_entrega_prevista < CURDATE()
-                  AND pc.status NOT IN ('recebido', 'cancelado')
+                  AND pc.status NOT IN ('recebido', 'cancelação')
             `);
             
-            for (const pedido of pedidosAtrasados) {
+            for (const pedido of pedidosAtrasaçãos) {
                 // Criar notificação
                 await pool.execute(
                     `INSERT INTO compras_notificacoes 
                     (usuario_id, tipo, titulo, mensagem, entidade_tipo, entidade_id, prioridade, enviar_email)
-                    VALUES (?, 'entrega_atrasada', ?, ?, 'pedido_compra', ?, 'alta', TRUE)`,
+                    VALUES (, 'entrega_atrasada', , , 'pedido_compra', , 'alta', TRUE)`,
                     [
                         pedido.solicitante_id,
                         'Pedido com entrega atrasada',
-                        `O pedido ${pedido.numero_pedido} do fornecedor ${pedido.fornecedor} está ${pedido.dias_atraso} dias atrasado.`,
+                        `O pedido ${pedido.numero_pedido} do fornecedor ${pedido.fornecedor} está ${pedido.dias_atraso} dias atrasação.`,
                         pedido.id
                     ]
                 );
                 
-                // Enviar email se configurado
+                // Enviar email se configuração
                 if (pedido.solicitante_email && emailTransporter) {
                     await sendEmail(
                         pedido.solicitante_email,
-                        'Alerta: Pedido de compra atrasado',
-                        `<h2>Pedido Atrasado</h2>
+                        'Alerta: Pedido de compra atrasação',
+                        `<h2>Pedido Atrasação</h2>
                         <p>O pedido <strong>${pedido.numero_pedido}</strong> está com <strong>${pedido.dias_atraso} dias</strong> de atraso.</p>
                         <p><strong>Fornecedor:</strong> ${pedido.fornecedor}</p>
                         <p><strong>Data prevista:</strong> ${pedido.data_entrega_prevista}</p>
@@ -1736,9 +1736,9 @@ const initCronJobs = () => {
                 }
             }
             
-            logger.info(`[COMPRAS-CRON] ✅ Verificados ${pedidosAtrasados.length} pedidos atrasados`);
+            logger.info(`[COMPRAS-CRON] ✅ Verificaçãos ${pedidosAtrasaçãos.length} pedidos atrasaçãos`);
         } catch (err) {
-            logger.error('[COMPRAS-CRON] Erro ao verificar pedidos atrasados:', err);
+            logger.error('[COMPRAS-CRON] Erro ao verificar pedidos atrasaçãos:', err);
         }
     });
     
@@ -1767,13 +1767,13 @@ const initCronJobs = () => {
             `);
             
             // Buscar responsável por compras para notificar
-            const [comprador] = await pool.query(`
+            const [compraçãor] = await pool.query(`
                 SELECT id, email FROM usuarios 
                 WHERE area = 'compras' AND ativo = 1 
                 ORDER BY id LIMIT 1
             `);
             
-            if (comprador.length > 0) {
+            if (compraçãor.length > 0) {
                 for (const fornecedor of fornecedores) {
                     const docsVencendo = [];
                     
@@ -1786,9 +1786,9 @@ const initCronJobs = () => {
                     await pool.execute(
                         `INSERT INTO compras_notificacoes 
                         (usuario_id, tipo, titulo, mensagem, entidade_tipo, entidade_id, prioridade, enviar_email)
-                        VALUES (?, 'documentacao_vencendo', ?, ?, 'fornecedor', ?, 'normal', TRUE)`,
+                        VALUES (, 'documentacao_vencendo', , , 'fornecedor', , 'normal', TRUE)`,
                         [
-                            comprador[0].id,
+                            compraçãor[0].id,
                             'Documentação de fornecedor vencendo',
                             `Fornecedor ${fornecedor.razao_social} com documentação vencendo em até 30 dias: ${docsVencendo.join(', ')}`,
                             fornecedor.id
@@ -1797,7 +1797,7 @@ const initCronJobs = () => {
                 }
             }
             
-            logger.info(`[COMPRAS-CRON] ✅ Verificados ${fornecedores.length} fornecedores com documentação vencendo`);
+            logger.info(`[COMPRAS-CRON] ✅ Verificaçãos ${fornecedores.length} fornecedores com documentação vencendo`);
         } catch (err) {
             logger.error('[COMPRAS-CRON] Erro ao verificar documentação:', err);
         }
@@ -1810,23 +1810,23 @@ const initCronJobs = () => {
             logger.info('[COMPRAS-CRON] Verificando aprovações pendentes...');
             
             const [aprovacoesAtrasadas] = await pool.query(`
-                SELECT wa.id, wa.aprovador_id, wa.entidade_tipo, wa.entidade_id,
-                       u.email as aprovador_email,
+                SELECT wa.id, wa.aprovaçãor_id, wa.entidade_tipo, wa.entidade_id,
+                       u.email as aprovaçãor_email,
                        pc.numero_pedido, pc.valor_total,
                        DATEDIFF(CURDATE(), wa.data_solicitacao) as dias_pendente
                 FROM workflow_aprovacoes wa
-                JOIN usuarios u ON wa.aprovador_id = u.id
+                JOIN usuarios u ON wa.aprovaçãor_id = u.id
                 LEFT JOIN pedidos_compra pc ON wa.entidade_id = pc.id AND wa.entidade_tipo = 'pedido_compra'
                 WHERE wa.status = 'pendente'
-                  AND wa.lembrete_enviado = FALSE
+                  AND wa.lembrete_enviação = FALSE
                   AND DATEDIFF(CURDATE(), wa.data_solicitacao) >= 2
             `);
             
             for (const aprovacao of aprovacoesAtrasadas) {
                 // Enviar email de lembrete
-                if (aprovacao.aprovador_email && emailTransporter) {
+                if (aprovacao.aprovaçãor_email && emailTransporter) {
                     await sendEmail(
-                        aprovacao.aprovador_email,
+                        aprovacao.aprovaçãor_email,
                         'Lembrete: Aprovação pendente',
                         `<h2>Aprovação Pendente</h2>
                         <p>Você tem uma aprovação pendente há <strong>${aprovacao.dias_pendente} dias</strong>.</p>
@@ -1836,14 +1836,14 @@ const initCronJobs = () => {
                     );
                 }
                 
-                // Marcar lembrete como enviado
+                // Marcar lembrete como enviação
                 await pool.execute(
-                    'UPDATE workflow_aprovacoes SET lembrete_enviado = TRUE, data_lembrete = NOW() WHERE id = ?',
+                    'UPDATE workflow_aprovacoes SET lembrete_enviação = TRUE, data_lembrete = NOW() WHERE id = ',
                     [aprovacao.id]
                 );
             }
             
-            logger.info(`[COMPRAS-CRON] ✅ Enviados ${aprovacoesAtrasadas.length} lembretes de aprovação`);
+            logger.info(`[COMPRAS-CRON] ✅ Enviaçãos ${aprovacoesAtrasadas.length} lembretes de aprovação`);
         } catch (err) {
             logger.error('[COMPRAS-CRON] Erro ao enviar lembretes:', err);
         }
@@ -1866,7 +1866,7 @@ const initCronJobs = () => {
                         SELECT AVG((nota_qualidade + nota_prazo + nota_preco + nota_atendimento + IFNULL(nota_entrega, 0)) / 5)
                         FROM fornecedor_avaliacoes WHERE fornecedor_id = f.id
                     ),
-                    total_pedidos = (SELECT COUNT(*) FROM pedidos_compra WHERE fornecedor_id = f.id AND status != 'cancelado'),
+                    total_pedidos = (SELECT COUNT(*) FROM pedidos_compra WHERE fornecedor_id = f.id AND status != 'cancelação'),
                     total_compras = (SELECT SUM(valor_total) FROM pedidos_compra WHERE fornecedor_id = f.id AND status = 'recebido')
                 WHERE id IN (SELECT DISTINCT fornecedor_id FROM fornecedor_avaliacoes)
             `);
@@ -1888,7 +1888,7 @@ const initCronJobs = () => {
             await expirarReservas();
             await alertasEstoqueBaixo();
             
-            logger.info('[ESTOQUE-CRON] ✅ Jobs de estoque executados');
+            logger.info('[ESTOQUE-CRON] ✅ Jobs de estoque executaçãos');
         } catch (err) {
             logger.error('[ESTOQUE-CRON] Erro ao executar jobs de estoque:', err);
         }
@@ -1915,7 +1915,7 @@ const initCronJobs = () => {
             `);
             
             if (clientesInativos.affectedRows > 0) {
-                logger.info(`[CLIENTES-CRON] ✅ ${clientesInativos.affectedRows} clientes inativados por falta de movimentação`);
+                logger.info(`[CLIENTES-CRON] ✅ ${clientesInativos.affectedRows} clientes inativaçãos por falta de movimentação`);
             } else {
                 logger.info('[CLIENTES-CRON] ✅ Nenhum cliente para inativar');
             }
@@ -1924,7 +1924,7 @@ const initCronJobs = () => {
         }
     });
     
-    logger.info('✅ Todos os cron jobs configurados (incluindo Compras e Estoque)');
+    logger.info('✅ Todos os cron jobs configuraçãos (incluindo Compras e Estoque)');
 };
 
 // =================================================================
@@ -1947,7 +1947,7 @@ const authenticateToken = (req, res, next) => {
     
     // Se não encontrou no header, tentar cookies
     if (!token) {
-        token = req.cookies?.authToken || req.cookies?.token;
+        token = req.cookies.authToken || req.cookies.token;
     }
     
     // Por último, tentar query string
@@ -1957,14 +1957,14 @@ const authenticateToken = (req, res, next) => {
     
     console.log('[AUTH] Verificando token:', { 
         hasAuth: !!authHeader, 
-        hasCookie: !!req.cookies?.token, 
-        hasAuthCookie: !!req.cookies?.authToken,
+        hasCookie: !!req.cookies.token, 
+        hasAuthCookie: !!req.cookies.authToken,
         tokenExists: !!token,
-        tokenSource: token ? (req.cookies?.authToken ? 'cookie' : authHeader ? 'header' : 'query') : 'none'
+        tokenSource: token  (req.cookies.authToken  'cookie' : authHeader  'header' : 'query') : 'none'
     });
     
     if (!token) {
-        console.log('[AUTH] Nenhum token encontrado');
+        console.log('[AUTH] Nenhum token encontração');
         return res.status(401).json({ message: 'Token de autenticação não fornecido.' });
     }
 
@@ -1972,7 +1972,7 @@ const authenticateToken = (req, res, next) => {
         if (err) {
             console.log('[AUTH] Token inválido:', err.message);
             if (err.name === 'TokenExpiredError') {
-                return res.status(401).json({ message: 'Token expirado. Faça login novamente.' });
+                return res.status(401).json({ message: 'Token expiração. Faça login novamente.' });
             }
             return res.status(403).json({ message: 'Token inválido. Faça login novamente.' });
         }
@@ -1984,19 +1984,19 @@ const authenticateToken = (req, res, next) => {
 
 // Middleware para autorizar admin ou comercial para Vendas/CRM
 const authorizeAdminOrComercial = (req, res, next) => {
-    if (req.user?.role === 'admin' || req.user?.role === 'comercial') {
+    if (req.user.role === 'admin' || req.user.role === 'comercial') {
         return next();
     }
-    return res.status(403).json({ message: 'Acesso negado. Requer privilégios de administrador ou comercial.' });
+    return res.status(403).json({ message: 'Acesso negação. Requer privilégios de administraçãor ou comercial.' });
 };
 
-// ACL: Controle de acesso detalhado por nível de usuário (Exemplo para Financeiro)
+// ACL: Controle de acesso detalhação por nível de usuário (Exemplo para Financeiro)
 function authorizeACL(permission) {
     return (req, res, next) => {
-        if (req.user?.permissions?.includes(permission) || req.user?.role === 'admin') {
+        if (req.user.permissions.includes(permission) || req.user.role === 'admin') {
             return next();
         }
-        return res.status(403).json({ message: 'Acesso negado. Permissão insuficiente.' });
+        return res.status(403).json({ message: 'Acesso negação. Permissão insuficiente.' });
     };
 }
 
@@ -2009,14 +2009,14 @@ function setDbAvailable(val) {
     DB_AVAILABLE = !!val;
 }
 
-// Middleware para proteger rotas /api quando o banco de dados estiver indisponível.
-// Deve ser montado ANTES dos routers da API para garantir que chamadas a endpoints
-// dependentes do banco sejam interceptadas em modo degradado.
+// Middleware para proteger rotas /api quando o banco de daçãos estiver indisponível.
+// Deve ser montação ANTES dos routers da API para garantir que chamadas a endpoints
+// dependentes do banco sejam interceptadas em modo degradação.
 const apiDbGuard = (req, res, next) => {
     // Quando DB_AVAILABLE for true, tudo segue normalmente
     if (typeof DB_AVAILABLE === 'undefined' || DB_AVAILABLE === true) return next();
 
-    // Em modo degradado (DB indisponível), permitir apenas um pequeno conjunto de endpoints
+    // Em modo degradação (DB indisponível), permitir apenas um pequeno conjunto de endpoints
     // que verificam autenticação local via JWT (não consultam o DB).
     const whitelist = ['/me', '/permissions', '/login', '/logout'];
     try {
@@ -2030,29 +2030,29 @@ const apiDbGuard = (req, res, next) => {
 
     // Para todas as outras rotas da API, retornar 503 (service unavailable)
     return res.status(503).json({
-        message: 'Serviço temporariamente indisponível: conexão com o banco de dados indisponível. Tente novamente mais tarde.'
+        message: 'Serviço temporariamente indisponível: conexão com o banco de daçãos indisponível. Tente novamente mais tarde.'
     });
 };
 
 // Expor um header útil em todas as respostas indicando disponibilidade do DB
 app.use((req, res, next) => {
-    res.setHeader('X-DB-Available', DB_AVAILABLE ? '1' : '0');
+    res.setHeader('X-DB-Available', DB_AVAILABLE  '1' : '0');
     next();
 });
 
 // Montar o guard e o router de autenticação ANTES de registrar os routers específicos
 app.use('/api', apiDbGuard);
-// Protege o endpoint de login contra brute-force (aplicado antes do authRouter)
+// Protege o endpoint de login contra brute-force (aplicação antes do authRouter)
 const loginLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutos
-    max: process.env.NODE_ENV === 'production' ? 10 : 100, // 100 em dev, 10 em produção
+    max: process.env.NODE_ENV === 'production'  10 : 100, // 100 em dev, 10 em produção
     message: { message: 'Muitas tentativas de login. Aguarde 15 minutos e tente novamente.' },
     standardHeaders: true, // Return rate limit info in headers
     legacyHeaders: false, // Disable X-RateLimit-* headers
 });
 app.use('/api/login', loginLimiter);
 
-// NOTA: authRouter desabilitado - usando rota de login otimizada do server.js (linha 11688)
+// NOTA: authRouter desabilitação - usando rota de login otimizada do server.js (linha 11688)
 // O authRouter fazia SHOW COLUMNS em cada login, causando timeouts intermitentes
 // app.use('/api', authRouter);
 
@@ -2076,7 +2076,7 @@ apiNfeRouter.use(authorizeArea('nfe'));
 apiNfeRouter.post('/calcular-impostos', async (req, res, next) => {
     const { valor, municipio } = req.body;
     let impostos = {
-        ISS: municipio === 'SP' ? valor * 0.05 : valor * 0.03,
+        ISS: municipio === 'SP'  valor * 0.05 : valor * 0.03,
         PIS: valor * 0.0065,
         COFINS: valor * 0.03,
         CSLL: valor * 0.01,
@@ -2088,7 +2088,7 @@ apiNfeRouter.post('/calcular-impostos', async (req, res, next) => {
 // 2. Sugestão de Preenchimento com Base no Histórico
 apiNfeRouter.get('/sugestao/:cliente_id', async (req, res, next) => {
     const { cliente_id } = req.params;
-    const [rows] = await pool.query('SELECT descricao_servico, valor FROM nfe WHERE cliente_id = ? ORDER BY data_emissao DESC LIMIT 1', [cliente_id]);
+    const [rows] = await pool.query('SELECT descricao_servico, valor FROM nfe WHERE cliente_id =  ORDER BY data_emissao DESC LIMIT 1', [cliente_id]);
     if (rows.length) {
         res.json({ sugestao: rows[0] });
     } else {
@@ -2096,12 +2096,12 @@ apiNfeRouter.get('/sugestao/:cliente_id', async (req, res, next) => {
     }
 });
 
-// 3. Validação de Dados em Tempo Real (simulação de API pública)
+// 3. Validação de Daçãos em Tempo Real (simulação de API pública)
 apiNfeRouter.post('/validar-cliente', async (req, res, next) => {
     const { cnpj, cpf, inscricao_municipal } = req.body;
     // Em produção, integrar com APIs públicas
     const valido = (cnpj || cpf) && inscricao_municipal;
-    res.json({ valido, mensagem: valido ? 'Dados válidos.' : 'Dados inválidos.' });
+    res.json({ valido, mensagem: valido  'Daçãos válidos.' : 'Daçãos inválidos.' });
 });
 
 // 4. Emissão de NF-e (com integração ao Financeiro)
@@ -2109,9 +2109,9 @@ apiNfeRouter.post('/emitir', async (req, res, next) => {
     try {
         const { cliente_id, servico_id, descricao_servico, valor, impostos, vencimento } = req.body;
         // Simula emissão e gravação da NF-e
-        await pool.query('INSERT INTO nfe (cliente_id, servico_id, descricao_servico, valor, impostos, status, data_emissao) VALUES (?, ?, ?, ?, ?, "autorizada", NOW())', [cliente_id, servico_id, descricao_servico, valor, JSON.stringify(impostos)]);
+        await pool.query('INSERT INTO nfe (cliente_id, servico_id, descricao_servico, valor, impostos, status, data_emissao) VALUES (, , , , , "autorizada", NOW())', [cliente_id, servico_id, descricao_servico, valor, JSON.stringify(impostos)]);
         // Integração: cria conta a receber no Financeiro
-        await pool.query('INSERT INTO contas_receber (cliente_id, valor, descricao, status, vencimento) VALUES (?, ?, ?, "pendente", ?)', [cliente_id, valor, descricao_servico, vencimento]);
+        await pool.query('INSERT INTO contas_receber (cliente_id, valor, descricao, status, vencimento) VALUES (, , , "pendente", )', [cliente_id, valor, descricao_servico, vencimento]);
         res.json({ message: 'NF-e emitida e integrada ao Financeiro.' });
     } catch (error) {
         next(error);
@@ -2120,8 +2120,8 @@ apiNfeRouter.post('/emitir', async (req, res, next) => {
 
 // 5. Envio Automático por E-mail (simulação)
 apiNfeRouter.post('/enviar-email', async (req, res, next) => {
-    // Recebe dados da NF-e e cliente
-    res.json({ message: 'E-mail enviado ao cliente com PDF/XML (simulação).' });
+    // Recebe daçãos da NF-e e cliente
+    res.json({ message: 'E-mail enviação ao cliente com PDF/XML (simulação).' });
 });
 
 // 6. Cancelamento e Carta de Correção
@@ -2129,7 +2129,7 @@ apiNfeRouter.post('/cancelar/:nfe_id', async (req, res, next) => {
     try {
         const { nfe_id } = req.params;
         const { motivo } = req.body;
-        await pool.query('UPDATE nfe SET status = "cancelada", motivo_cancelamento = ? WHERE id = ?', [motivo, nfe_id]);
+        await pool.query('UPDATE nfe SET status = "cancelada", motivo_cancelamento =  WHERE id = ', [motivo, nfe_id]);
         res.json({ message: 'NF-e cancelada.' });
     } catch (error) { next(error); }
 });
@@ -2138,7 +2138,7 @@ apiNfeRouter.post('/carta-correcao/:nfe_id', async (req, res, next) => {
     try {
         const { nfe_id } = req.params;
         const { correcao } = req.body;
-        await pool.query('UPDATE nfe SET carta_correcao = ? WHERE id = ?', [correcao, nfe_id]);
+        await pool.query('UPDATE nfe SET carta_correcao =  WHERE id = ', [correcao, nfe_id]);
         res.json({ message: 'Carta de Correção registrada.' });
     } catch (error) { next(error); }
 });
@@ -2146,10 +2146,10 @@ apiNfeRouter.post('/carta-correcao/:nfe_id', async (req, res, next) => {
 // 7. Relatórios Gerenciais
 apiNfeRouter.get('/relatorios/faturamento', async (req, res, next) => {
     const { inicio, fim, cliente_id, servico_id } = req.query;
-    let where = 'data_emissao >= ? AND data_emissao <= ?';
+    let where = 'data_emissao >=  AND data_emissao <= ';
     let params = [inicio, fim];
-    if (cliente_id) { where += ' AND cliente_id = ?'; params.push(cliente_id); }
-    if (servico_id) { where += ' AND servico_id = ?'; params.push(servico_id); }
+    if (cliente_id) { where += ' AND cliente_id = '; params.push(cliente_id); }
+    if (servico_id) { where += ' AND servico_id = '; params.push(servico_id); }
     const [rows] = await pool.query(`SELECT cliente_id, servico_id, SUM(valor) AS total FROM nfe WHERE ${where} GROUP BY cliente_id, servico_id`, params);
     res.json(rows);
 });
@@ -2162,34 +2162,34 @@ apiNfeRouter.get('/dashboard', async (req, res, next) => {
     res.json({ autorizadas: autorizadas[0], canceladas: canceladas[0], pendentes: pendentes[0] });
 });
 
-// 9. Livro de Registro de Serviços Prestados
+// 9. Livro de Registro de Serviços Prestaçãos
 apiNfeRouter.get('/livro-registro', async (req, res, next) => {
     const { inicio, fim } = req.query;
-    const [rows] = await pool.query('SELECT * FROM nfe WHERE data_emissao >= ? AND data_emissao <= ?', [inicio, fim]);
+    const [rows] = await pool.query('SELECT * FROM nfe WHERE data_emissao >=  AND data_emissao <= ', [inicio, fim]);
     res.json(rows);
 });
 
 // Integração com o Painel da Contabilidade (download XMLs em lote)
 apiNfeRouter.get('/contabilidade/xmls', async (req, res, next) => {
     const { inicio, fim } = req.query;
-    const [rows] = await pool.query('SELECT xml_arquivo FROM nfe WHERE data_emissao >= ? AND data_emissao <= ?', [inicio, fim]);
+    const [rows] = await pool.query('SELECT xml_arquivo FROM nfe WHERE data_emissao >=  AND data_emissao <= ', [inicio, fim]);
     res.json(rows);
 });
 
 // Armazenamento e Gestão de XMLs
 apiNfeRouter.get('/xml/:nfe_id', async (req, res, next) => {
     const { nfe_id } = req.params;
-    const [[nfe]] = await pool.query('SELECT xml_arquivo FROM nfe WHERE id = ?', [nfe_id]);
+    const [[nfe]] = await pool.query('SELECT xml_arquivo FROM nfe WHERE id = ', [nfe_id]);
     if (!nfe) return res.status(404).json({ message: 'NF-e não encontrada.' });
 
     res.json({ xml: nfe.xml_arquivo });
 });
 
-// Monta o router da NF-e (separado em arquivo em routes/apiNfe.js)
+// Monta o router da NF-e (separação em arquivo em routes/apiNfe.js)
 app.use('/api/nfe', require('./src/routes/apiNfe')({ pool, authenticateToken, authorizeArea }));
 
-// Monta o router de certificado digital NFe
-app.use('/api/nfe/certificado', require('./src/nfe/controllers/CertificadoController')(pool));
+// Monta o router de certificação digital NFe
+app.use('/api/nfe/certificação', require('./src/nfe/controllers/CertificaçãoController')(pool));
 
 // Monta o router de emissão de NFe (Sprint 2)
 const NFeController = require('./src/nfe/controllers/NFeController');
@@ -2202,46 +2202,46 @@ app.use('/api/admin', require('./src/routes/apiAdmin')(pool));
 // ===================== ROTAS LOGÍSTICA =====================
 const apiLogisticaRouter = express.Router();
 
-// Dashboard da Logística - Contadores por status (sem autenticação para permitir acesso via navegador)
+// Dashboard da Logística - Contaçãores por status (sem autenticação para permitir acesso via navegaçãor)
 apiLogisticaRouter.get('/dashboard', async (req, res, next) => {
     console.log('[LOGISTICA/DASHBOARD] Requisição recebida');
     try {
-        // Contar pedidos faturados que ainda não foram despachados (status_logistica IS NULL ou 'pendente')
+        // Contar pedidos faturaçãos que ainda não foram despachaçãos (status_logistica IS NULL ou 'pendente')
         const [[aguardando]] = await pool.query(`
             SELECT COUNT(*) as total FROM pedidos 
-            WHERE status = 'faturado' 
+            WHERE status = 'faturação' 
             AND (status_logistica IS NULL OR status_logistica = 'pendente' OR status_logistica = 'aguardando_separacao' OR status_logistica = '')
         `);
         console.log('[LOGISTICA/DASHBOARD] Aguardando:', aguardando);
         
         const [[separacao]] = await pool.query(`
             SELECT COUNT(*) as total FROM pedidos 
-            WHERE status = 'faturado' AND status_logistica = 'em_separacao'
+            WHERE status = 'faturação' AND status_logistica = 'em_separacao'
         `);
         
         const [[expedicao]] = await pool.query(`
             SELECT COUNT(*) as total FROM pedidos 
-            WHERE status = 'faturado' AND status_logistica = 'em_expedicao'
+            WHERE status = 'faturação' AND status_logistica = 'em_expedicao'
         `);
         
         const [[transporte]] = await pool.query(`
             SELECT COUNT(*) as total FROM pedidos 
-            WHERE status = 'faturado' AND status_logistica = 'em_transporte'
+            WHERE status = 'faturação' AND status_logistica = 'em_transporte'
         `);
         
         const [[entregues]] = await pool.query(`
             SELECT COUNT(*) as total FROM pedidos 
-            WHERE status = 'faturado' AND status_logistica = 'entregue'
+            WHERE status = 'faturação' AND status_logistica = 'entregue'
         `);
         
         const result = {
-            aguardando_separacao: aguardando?.total || 0,
-            em_separacao: separacao?.total || 0,
-            em_expedicao: expedicao?.total || 0,
-            em_transporte: transporte?.total || 0,
-            entregues: entregues?.total || 0
+            aguardando_separacao: aguardando.total || 0,
+            em_separacao: separacao.total || 0,
+            em_expedicao: expedicao.total || 0,
+            em_transporte: transporte.total || 0,
+            entregues: entregues.total || 0
         };
-        console.log('[LOGISTICA/DASHBOARD] Resultado:', result);
+        console.log('[LOGISTICA/DASHBOARD] Resultação:', result);
         res.json(result);
     } catch (error) {
         console.error('[LOGISTICA/DASHBOARD] Erro:', error);
@@ -2259,7 +2259,7 @@ apiLogisticaRouter.get('/dashboard', async (req, res, next) => {
 apiLogisticaRouter.get('/pedidos', async (req, res, next) => {
     console.log('[LOGISTICA/PEDIDOS] Requisição recebida');
     try {
-        const { status, transportadora, nfe, data_inicio, data_fim, limit = 100 } = req.query;
+        const { status, transportaçãora, nfe, data_inicio, data_fim, limit = 100 } = req.query;
         
         let query = `
             SELECT 
@@ -2271,7 +2271,7 @@ apiLogisticaRouter.get('/pedidos', async (req, res, next) => {
                 p.status_logistica,
                 p.prioridade,
                 p.created_at,
-                p.faturado_em,
+                p.faturação_em,
                 p.data_prevista,
                 p.prazo_entrega,
                 p.observacao,
@@ -2279,10 +2279,10 @@ apiLogisticaRouter.get('/pedidos', async (req, res, next) => {
                 c.nome as cliente_nome,
                 c.nome_fantasia as cliente_fantasia,
                 c.cidade as cliente_cidade,
-                c.estado as cliente_uf
+                c.estação as cliente_uf
             FROM pedidos p
             LEFT JOIN clientes c ON p.cliente_id = c.id
-            WHERE p.status = 'faturado'
+            WHERE p.status = 'faturação'
         `;
         
         const params = [];
@@ -2292,43 +2292,43 @@ apiLogisticaRouter.get('/pedidos', async (req, res, next) => {
             if (status === 'pendente' || status === 'aguardando_separacao') {
                 query += ' AND (p.status_logistica IS NULL OR p.status_logistica = "pendente" OR p.status_logistica = "aguardando_separacao" OR p.status_logistica = "")';
             } else {
-                query += ' AND p.status_logistica = ?';
+                query += ' AND p.status_logistica = ';
                 params.push(status);
             }
         }
         
         if (nfe && nfe !== '') {
-            query += ' AND p.id = ?';
+            query += ' AND p.id = ';
             params.push(nfe);
         }
         
         if (data_inicio) {
-            query += ' AND DATE(p.created_at) >= ?';
+            query += ' AND DATE(p.created_at) >= ';
             params.push(data_inicio);
         }
         
         if (data_fim) {
-            query += ' AND DATE(p.created_at) <= ?';
+            query += ' AND DATE(p.created_at) <= ';
             params.push(data_fim);
         }
         
-        query += ' ORDER BY p.prioridade DESC, p.created_at DESC LIMIT ?';
+        query += ' ORDER BY p.prioridade DESC, p.created_at DESC LIMIT ';
         params.push(parseInt(limit));
         
         console.log('[LOGISTICA/PEDIDOS] Query:', query);
         console.log('[LOGISTICA/PEDIDOS] Params:', params);
         
         const [rows] = await pool.query(query, params);
-        console.log('[LOGISTICA/PEDIDOS] Rows encontrados:', rows.length);
+        console.log('[LOGISTICA/PEDIDOS] Rows encontraçãos:', rows.length);
         
-        // Formatar dados para o frontend
+        // Formatar daçãos para o frontend
         const pedidos = rows.map(row => ({
             id: row.id,
             pedido_id: row.pedido_id,
             nfe_numero: '-',
-            cliente: row.cliente_fantasia || row.cliente_nome || 'Cliente não informado',
-            cidade_uf: row.cliente_cidade && row.cliente_uf ? `${row.cliente_cidade}/${row.cliente_uf}` : '-',
-            transportadora: 'Não definida',
+            cliente: row.cliente_fantasia || row.cliente_nome || 'Cliente não informação',
+            cidade_uf: row.cliente_cidade && row.cliente_uf  `${row.cliente_cidade}/${row.cliente_uf}` : '-',
+            transportaçãora: 'Não definida',
             status: row.status_logistica || 'pendente',
             previsao: row.data_prevista || row.prazo_entrega || '-',
             prioridade: row.prioridade || 'normal',
@@ -2359,46 +2359,46 @@ apiLogisticaRouter.put('/pedidos/:id/status', async (req, res, next) => {
         }
         
         await pool.query(
-            'UPDATE pedidos SET status_logistica = ?, observacao = CONCAT(COALESCE(observacao, ""), ?) WHERE id = ?',
-            [status_logistica, observacao ? `\n[LOG] ${new Date().toLocaleString('pt-BR')}: ${observacao}` : '', id]
+            'UPDATE pedidos SET status_logistica = , observacao = CONCAT(COALESCE(observacao, ""), ) WHERE id = ',
+            [status_logistica, observacao  `\n[LOG] ${new Date().toLocaleString('pt-BR')}: ${observacao}` : '', id]
         );
         
         // Se status for 'entregue', atualizar também o status principal
         if (status_logistica === 'entregue') {
-            await pool.query('UPDATE pedidos SET status = "entregue" WHERE id = ?', [id]);
+            await pool.query('UPDATE pedidos SET status = "entregue" WHERE id = ', [id]);
         }
         
-        res.json({ message: 'Status atualizado com sucesso', status: status_logistica });
+        res.json({ message: 'Status atualização com sucesso', status: status_logistica });
     } catch (error) {
         console.error('[LOGISTICA/STATUS] Erro:', error);
         next(error);
     }
 });
 
-// Atribuir transportadora a um pedido
-apiLogisticaRouter.put('/pedidos/:id/transportadora', async (req, res, next) => {
+// Atribuir transportaçãora a um pedido
+apiLogisticaRouter.put('/pedidos/:id/transportaçãora', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const { transportadora_id, previsao_entrega } = req.body;
+        const { transportaçãora_id, previsao_entrega } = req.body;
         
         await pool.query(
-            'UPDATE pedidos SET transportadora_id = ?, data_prevista = ? WHERE id = ?',
-            [transportadora_id, previsao_entrega, id]
+            'UPDATE pedidos SET transportaçãora_id = , data_prevista =  WHERE id = ',
+            [transportaçãora_id, previsao_entrega, id]
         );
         
-        res.json({ message: 'Transportadora atribuída com sucesso' });
+        res.json({ message: 'Transportaçãora atribuída com sucesso' });
     } catch (error) {
         console.error('[LOGISTICA/TRANSPORTADORA] Erro:', error);
         next(error);
     }
 });
 
-// Listar transportadoras disponíveis
-apiLogisticaRouter.get('/transportadoras', async (req, res, next) => {
+// Listar transportaçãoras disponíveis
+apiLogisticaRouter.get('/transportaçãoras', async (req, res, next) => {
     try {
         const [rows] = await pool.query(`
             SELECT id, razao_social, nome_fantasia, cnpj_cpf, telefone, email 
-            FROM transportadoras 
+            FROM transportaçãoras 
             ORDER BY nome_fantasia, razao_social
         `);
         res.json(rows);
@@ -2411,19 +2411,19 @@ apiLogisticaRouter.get('/transportadoras', async (req, res, next) => {
 // Criar nova expedição (manual)
 apiLogisticaRouter.post('/expedicao', async (req, res, next) => {
     try {
-        const { nfe, pedido, cliente, transportadora_id, status, previsao, prioridade, observacoes } = req.body;
+        const { nfe, pedido, cliente, transportaçãora_id, status, previsao, prioridade, observacoes } = req.body;
         
-        // Se for baseado em um pedido existente, atualizar
+        // Se for baseação em um pedido existente, atualizar
         if (pedido) {
             await pool.query(`
                 UPDATE pedidos SET 
-                    status_logistica = ?,
-                    transportadora_id = ?,
-                    data_prevista = ?,
-                    prioridade = ?,
-                    observacao = CONCAT(COALESCE(observacao, ''), ?)
-                WHERE id = ?
-            `, [status || 'pendente', transportadora_id, previsao, prioridade, observacoes ? `\n[EXP] ${observacoes}` : '', pedido]);
+                    status_logistica = ,
+                    transportaçãora_id = ,
+                    data_prevista = ,
+                    prioridade = ,
+                    observacao = CONCAT(COALESCE(observacao, ''), )
+                WHERE id = 
+            `, [status || 'pendente', transportaçãora_id, previsao, prioridade, observacoes  `\n[EXP] ${observacoes}` : '', pedido]);
             
             return res.json({ message: 'Expedição criada com sucesso', pedido_id: pedido });
         }
@@ -2491,12 +2491,12 @@ apiComprasRouter.get('/fornecedores', async (req, res, next) => {
         const params = [];
         
         if (search) {
-            whereClause += ' AND (nome LIKE ? OR cnpj LIKE ? OR email LIKE ?)';
+            whereClause += ' AND (nome LIKE  OR cnpj LIKE  OR email LIKE )';
             params.push(`%${search}%`, `%${search}%`, `%${search}%`);
         }
         
         if (ativo !== undefined) {
-            whereClause += ' AND ativo = ?';
+            whereClause += ' AND ativo = ';
             params.push(ativo === 'true');
         }
         
@@ -2504,7 +2504,7 @@ apiComprasRouter.get('/fornecedores', async (req, res, next) => {
             SELECT * FROM fornecedores 
             ${whereClause}
             ORDER BY nome 
-            LIMIT ? OFFSET ?
+            LIMIT  OFFSET 
         `, [...params, parseInt(limit), offset]);
         
         const [total] = await pool.query(`
@@ -2536,19 +2536,19 @@ apiComprasRouter.post('/fornecedores', fornecedorValidation, asyncHandler(async 
         const [result] = await pool.query(`
             INSERT INTO fornecedores 
             (nome, cnpj, email, telefone, endereco, contato_principal, ativo, data_cadastro)
-            VALUES (?, ?, ?, ?, ?, ?, ?, NOW())
+            VALUES (, , , , , , , NOW())
         `, [nome, cnpj, email, telefone, endereco, contato_principal, ativo]);
 
         res.status(201).json({
             success: true,
-            message: 'Fornecedor criado com sucesso',
+            message: 'Fornecedor criação com sucesso',
             data: { id: result.insertId }
         });
     } catch (error) {
         if (error.code === 'ER_DUP_ENTRY') {
             return res.status(400).json({
                 success: false,
-                message: 'CNPJ já cadastrado'
+                message: 'CNPJ já cadastração'
             });
         }
         next(error);
@@ -2565,17 +2565,17 @@ apiComprasRouter.get('/pedidos', async (req, res, next) => {
         const params = [];
         
         if (status) {
-            whereClause += ' AND pc.status = ?';
+            whereClause += ' AND pc.status = ';
             params.push(status);
         }
         
         if (fornecedor_id) {
-            whereClause += ' AND pc.fornecedor_id = ?';
+            whereClause += ' AND pc.fornecedor_id = ';
             params.push(fornecedor_id);
         }
         
         if (data_inicio && data_fim) {
-            whereClause += ' AND pc.data_pedido BETWEEN ? AND ?';
+            whereClause += ' AND pc.data_pedido BETWEEN  AND ';
             params.push(data_inicio, data_fim);
         }
         
@@ -2588,7 +2588,7 @@ apiComprasRouter.get('/pedidos', async (req, res, next) => {
             LEFT JOIN fornecedores f ON pc.fornecedor_id = f.id
             ${whereClause}
             ORDER BY pc.data_pedido DESC
-            LIMIT ? OFFSET ?
+            LIMIT  OFFSET 
         `, [...params, parseInt(limit), offset]);
 
         res.json({
@@ -2620,7 +2620,7 @@ apiComprasRouter.post('/pedidos', pedidoValidation, asyncHandler(async (req, res
             const [pedidoResult] = await connection.query(`
                 INSERT INTO pedidos_compras 
                 (fornecedor_id, valor_total, status, data_pedido, observacoes, usuario_id)
-                VALUES (?, ?, 'pendente', NOW(), ?, ?)
+                VALUES (, , 'pendente', NOW(), , )
             `, [fornecedor_id, valor_total, observacoes, req.user.id]);
             
             const pedido_id = pedidoResult.insertId;
@@ -2630,7 +2630,7 @@ apiComprasRouter.post('/pedidos', pedidoValidation, asyncHandler(async (req, res
                 await connection.query(`
                     INSERT INTO itens_pedido_compras 
                     (pedido_id, produto_descricao, quantidade, preco_unitario, subtotal)
-                    VALUES (?, ?, ?, ?, ?)
+                    VALUES (, , , , )
                 `, [pedido_id, item.descricao, item.quantidade, item.preco_unitario, item.quantidade * item.preco_unitario]);
             }
             
@@ -2638,7 +2638,7 @@ apiComprasRouter.post('/pedidos', pedidoValidation, asyncHandler(async (req, res
             
             res.status(201).json({
                 success: true,
-                message: 'Pedido de compra criado com sucesso',
+                message: 'Pedido de compra criação com sucesso',
                 data: { id: pedido_id }
             });
         } catch (error) {
@@ -2657,16 +2657,16 @@ apiComprasRouter.get('/relatorios/gastos-periodo', async (req, res, next) => {
     try {
         const { data_inicio, data_fim, fornecedor_id } = req.query;
         
-        let whereClause = 'WHERE pc.status = "aprovado"';
+        let whereClause = 'WHERE pc.status = "aprovação"';
         const params = [];
         
         if (data_inicio && data_fim) {
-            whereClause += ' AND pc.data_pedido BETWEEN ? AND ?';
+            whereClause += ' AND pc.data_pedido BETWEEN  AND ';
             params.push(data_inicio, data_fim);
         }
         
         if (fornecedor_id) {
-            whereClause += ' AND pc.fornecedor_id = ?';
+            whereClause += ' AND pc.fornecedor_id = ';
             params.push(fornecedor_id);
         }
         
@@ -2752,16 +2752,16 @@ apiFinanceiroRouter.post('/conciliacao/importar-ofx', async (req, res, next) => 
     res.json({ message: 'Importação de OFX recebida. (Simulação)' });
 });
 apiFinanceiroRouter.get('/conciliacao', async (req, res, next) => {
-    res.json({ conciliados: [], divergentes: [] });
+    res.json({ conciliaçãos: [], divergentes: [] });
 });
 
-// 2. Fluxo de Caixa Detalhado e Projetado
+// 2. Fluxo de Caixa Detalhação e Projetação
 apiFinanceiroRouter.get('/fluxo-caixa', async (req, res, next) => {
     try {
         const [receber] = await pool.query('SELECT SUM(valor) AS total FROM contas_receber WHERE status != "pago"');
         const [pagar] = await pool.query('SELECT SUM(valor) AS total FROM contas_pagar WHERE status != "pago"');
         res.json({
-            saldoAtual: (receber[0]?.total || 0) - (pagar[0]?.total || 0),
+            saldoAtual: (receber[0].total || 0) - (pagar[0].total || 0),
             projecao: [
                 { dias: 30, saldo: 10000 },
                 { dias: 60, saldo: 8000 },
@@ -2776,7 +2776,7 @@ apiFinanceiroRouter.get('/centros-custo', async (req, res, next) => {
     res.json([{ id: 1, nome: 'Vendas' }, { id: 2, nome: 'Marketing' }, { id: 3, nome: 'Filial SP' }]);
 });
 apiFinanceiroRouter.post('/centros-custo', async (req, res, next) => {
-    res.status(201).json({ message: 'Centro de custo criado.' });
+    res.status(201).json({ message: 'Centro de custo criação.' });
 });
 
 // 4. Gestão de Transações Recorrentes
@@ -2797,11 +2797,11 @@ apiFinanceiroRouter.post('/emitir-nfse', async (req, res, next) => {
 
 // 6. Anexo de Comprovantes Digitais
 apiFinanceiroRouter.post('/anexar-comprovante', upload.single('comprovante'), async (req, res, next) => {
-    if (!req.file) return res.status(400).json({ message: 'Arquivo não enviado.' });
-    res.json({ message: 'Comprovante anexado!', url: `/uploads/comprovantes/${req.file.filename}` });
+    if (!req.file) return res.status(400).json({ message: 'Arquivo não enviação.' });
+    res.json({ message: 'Comprovante anexação!', url: `/uploads/comprovantes/${req.file.filename}` });
 });
 
-// 7. Dashboard de Indicadores-Chave (KPIs) - VERSÁO MELHORADA
+// 7. Dashboard de Indicaçãores-Chave (KPIs) - VERSÁO MELHORADA
 apiFinanceiroRouter.get('/dashboard-kpis', async (req, res, next) => {
     try {
         // Receitas do mês atual
@@ -2829,7 +2829,7 @@ apiFinanceiroRouter.get('/dashboard-kpis', async (req, res, next) => {
             WHERE status != 'pago' AND data_vencimento < CURRENT_DATE()
         `);
         
-        // Fluxo de caixa projetado próximos 30 dias
+        // Fluxo de caixa projetação próximos 30 dias
         const [fluxo30dias] = await pool.query(`
             SELECT 
                 COALESCE(SUM(CASE WHEN tipo = 'receber' THEN valor ELSE 0 END), 0) as receitas_projetadas,
@@ -2846,8 +2846,8 @@ apiFinanceiroRouter.get('/dashboard-kpis', async (req, res, next) => {
         const receita_mes = receitas[0].total;
         const despesa_mes = despesas[0].total;
         const lucro_mes = receita_mes - despesa_mes;
-        const margem_lucro = receita_mes > 0 ? ((lucro_mes / receita_mes) * 100).toFixed(2) : 0;
-        const inadimplencia = receita_mes > 0 ? ((atrasadas[0].valor_total / receita_mes) * 100).toFixed(2) : 0;
+        const margem_lucro = receita_mes > 0  ((lucro_mes / receita_mes) * 100).toFixed(2) : 0;
+        const inadimplencia = receita_mes > 0  ((atrasadas[0].valor_total / receita_mes) * 100).toFixed(2) : 0;
 
         res.json({
             success: true,
@@ -2859,10 +2859,10 @@ apiFinanceiroRouter.get('/dashboard-kpis', async (req, res, next) => {
                 inadimplencia: `${inadimplencia}%`,
                 contas_atrasadas: atrasadas[0].count,
                 valor_contas_atrasadas: atrasadas[0].valor_total,
-                fluxo_projetado_30_dias: {
+                fluxo_projetação_30_dias: {
                     receitas: fluxo30dias[0].receitas_projetadas,
                     despesas: fluxo30dias[0].despesas_projetadas,
-                    saldo_projetado: fluxo30dias[0].receitas_projetadas - fluxo30dias[0].despesas_projetadas
+                    saldo_projetação: fluxo30dias[0].receitas_projetadas - fluxo30dias[0].despesas_projetadas
                 },
                 periodo: new Date().toISOString().slice(0, 7)
             }
@@ -2882,12 +2882,12 @@ apiFinanceiroRouter.get('/contas-receber', async (req, res, next) => {
         const params = [];
         
         if (status) {
-            whereClause += ' AND status = ?';
+            whereClause += ' AND status = ';
             params.push(status);
         }
         
         if (vencimento_inicio && vencimento_fim) {
-            whereClause += ' AND data_vencimento BETWEEN ? AND ?';
+            whereClause += ' AND data_vencimento BETWEEN  AND ';
             params.push(vencimento_inicio, vencimento_fim);
         }
         
@@ -2898,12 +2898,12 @@ apiFinanceiroRouter.get('/contas-receber', async (req, res, next) => {
                     WHEN cr.data_vencimento < CURRENT_DATE() AND cr.status != 'pago' THEN 'em_atraso'
                     WHEN cr.data_vencimento = CURRENT_DATE() AND cr.status != 'pago' THEN 'vence_hoje'
                     ELSE cr.status
-                END as status_detalhado,
+                END as status_detalhação,
                 DATEDIFF(CURRENT_DATE(), cr.data_vencimento) as dias_atraso
             FROM contas_receber cr
             ${whereClause}
             ORDER BY cr.data_vencimento ASC
-            LIMIT ? OFFSET ?
+            LIMIT  OFFSET 
         `, [...params, parseInt(limit), offset]);
 
         res.json({
@@ -2929,7 +2929,7 @@ apiFinanceiroRouter.post('/contas-receber', async (req, res, next) => {
         const [result] = await pool.query(`
             INSERT INTO contas_receber 
             (cliente_nome, valor, data_vencimento, descricao, categoria, status, data_cadastro)
-            VALUES (?, ?, ?, ?, ?, 'pendente', NOW())
+            VALUES (, , , , , 'pendente', NOW())
         `, [cliente_nome, valor, data_vencimento, descricao, categoria]);
 
         res.status(201).json({
@@ -2952,12 +2952,12 @@ apiFinanceiroRouter.get('/contas-pagar', async (req, res, next) => {
         const params = [];
         
         if (status) {
-            whereClause += ' AND status = ?';
+            whereClause += ' AND status = ';
             params.push(status);
         }
         
         if (vencimento_inicio && vencimento_fim) {
-            whereClause += ' AND data_vencimento BETWEEN ? AND ?';
+            whereClause += ' AND data_vencimento BETWEEN  AND ';
             params.push(vencimento_inicio, vencimento_fim);
         }
         
@@ -2968,12 +2968,12 @@ apiFinanceiroRouter.get('/contas-pagar', async (req, res, next) => {
                     WHEN cp.data_vencimento < CURRENT_DATE() AND cp.status != 'pago' THEN 'em_atraso'
                     WHEN cp.data_vencimento = CURRENT_DATE() AND cp.status != 'pago' THEN 'vence_hoje'
                     ELSE cp.status
-                END as status_detalhado,
+                END as status_detalhação,
                 DATEDIFF(CURRENT_DATE(), cp.data_vencimento) as dias_atraso
             FROM contas_pagar cp
             ${whereClause}
             ORDER BY cp.data_vencimento ASC
-            LIMIT ? OFFSET ?
+            LIMIT  OFFSET 
         `, [...params, parseInt(limit), offset]);
 
         res.json({
@@ -2999,7 +2999,7 @@ apiFinanceiroRouter.post('/contas-pagar', async (req, res, next) => {
         const [result] = await pool.query(`
             INSERT INTO contas_pagar 
             (fornecedor_nome, valor, data_vencimento, descricao, categoria, status, data_cadastro)
-            VALUES (?, ?, ?, ?, ?, 'pendente', NOW())
+            VALUES (, , , , , 'pendente', NOW())
         `, [fornecedor_nome, valor, data_vencimento, descricao, categoria]);
 
         res.status(201).json({
@@ -3012,16 +3012,16 @@ apiFinanceiroRouter.post('/contas-pagar', async (req, res, next) => {
     }
 });
 
-// 10. Relatórios Financeiros Avançados - MELHORADOS
+// 10. Relatórios Financeiros Avançaçãos - MELHORADOS
 apiFinanceiroRouter.get('/relatorios/dre', async (req, res, next) => {
     try {
         const { ano = new Date().getFullYear(), mes } = req.query;
         
-        let whereClause = 'WHERE YEAR(data_vencimento) = ?';
+        let whereClause = 'WHERE YEAR(data_vencimento) = ';
         const params = [ano];
         
         if (mes) {
-            whereClause += ' AND MONTH(data_vencimento) = ?';
+            whereClause += ' AND MONTH(data_vencimento) = ';
             params.push(mes);
         }
         
@@ -3052,7 +3052,7 @@ apiFinanceiroRouter.get('/relatorios/dre', async (req, res, next) => {
         res.json({
             success: true,
             data: {
-                periodo: mes ? `${mes}/${ano}` : ano.toString(),
+                periodo: mes  `${mes}/${ano}` : ano.toString(),
                 receitas: {
                     categorias: receitas,
                     total: total_receitas
@@ -3061,11 +3061,11 @@ apiFinanceiroRouter.get('/relatorios/dre', async (req, res, next) => {
                     categorias: despesas,
                     total: total_despesas
                 },
-                resultado: {
+                resultação: {
                     lucro_bruto: total_receitas,
                     despesas_operacionais: total_despesas,
                     lucro_liquido: lucro_liquido,
-                    margem_liquida: total_receitas > 0 ? ((lucro_liquido / total_receitas) * 100).toFixed(2) + '%' : '0%'
+                    margem_liquida: total_receitas > 0  ((lucro_liquido / total_receitas) * 100).toFixed(2) + '%' : '0%'
                 }
             }
         });
@@ -3074,7 +3074,7 @@ apiFinanceiroRouter.get('/relatorios/dre', async (req, res, next) => {
     }
 });
 
-// 11. Fluxo de Caixa Detalhado - NOVA FUNCIONALIDADE
+// 11. Fluxo de Caixa Detalhação - NOVA FUNCIONALIDADE
 apiFinanceiroRouter.get('/fluxo-caixa', async (req, res, next) => {
     try {
         const { data_inicio, data_fim } = req.query;
@@ -3095,7 +3095,7 @@ apiFinanceiroRouter.get('/fluxo-caixa', async (req, res, next) => {
                 descricao,
                 categoria
             FROM contas_receber 
-            WHERE data_vencimento BETWEEN ? AND ? AND status = 'pago'
+            WHERE data_vencimento BETWEEN  AND  AND status = 'pago'
             
             UNION ALL
             
@@ -3107,23 +3107,23 @@ apiFinanceiroRouter.get('/fluxo-caixa', async (req, res, next) => {
                 descricao,
                 categoria
             FROM contas_pagar 
-            WHERE data_vencimento BETWEEN ? AND ? AND status = 'pago'
+            WHERE data_vencimento BETWEEN  AND  AND status = 'pago'
             
             ORDER BY data ASC
         `, [data_inicio, data_fim, data_inicio, data_fim]);
         
-        // Calcular saldo acumulado
-        let saldo_acumulado = 0;
-        const fluxo_detalhado = movimentacoes.map(mov => {
+        // Calcular saldo acumulação
+        let saldo_acumulação = 0;
+        const fluxo_detalhação = movimentacoes.map(mov => {
             if (mov.tipo === 'entrada') {
-                saldo_acumulado += mov.valor;
+                saldo_acumulação += mov.valor;
             } else {
-                saldo_acumulado -= mov.valor;
+                saldo_acumulação -= mov.valor;
             }
             
             return {
                 ...mov,
-                saldo_acumulado
+                saldo_acumulação
             };
         });
 
@@ -3131,11 +3131,11 @@ apiFinanceiroRouter.get('/fluxo-caixa', async (req, res, next) => {
             success: true,
             data: {
                 periodo: { inicio: data_inicio, fim: data_fim },
-                movimentacoes: fluxo_detalhado,
+                movimentacoes: fluxo_detalhação,
                 resumo: {
                     total_entradas: movimentacoes.filter(m => m.tipo === 'entrada').reduce((sum, m) => sum + m.valor, 0),
                     total_saidas: movimentacoes.filter(m => m.tipo === 'saida').reduce((sum, m) => sum + m.valor, 0),
-                    saldo_final: saldo_acumulado
+                    saldo_final: saldo_acumulação
                 }
             }
         });
@@ -3222,9 +3222,9 @@ apiFinanceiroRouter.post('/integracao/vendas/venda-ganha', [
 ], async (req, res, next) => {
     try {
         const { pedido_id, cliente_id, valor, descricao } = req.body;
-        await pool.query('INSERT INTO contas_receber (pedido_id, cliente_id, valor, descricao, status) VALUES (?, ?, ?, ?, "pendente")', [pedido_id, cliente_id, valor, descricao]);
-        await pool.query('UPDATE pedidos SET status = "faturado" WHERE id = ?', [pedido_id]);
-        res.json({ message: 'Conta a receber e pedido faturado gerados.' });
+        await pool.query('INSERT INTO contas_receber (pedido_id, cliente_id, valor, descricao, status) VALUES (, , , , "pendente")', [pedido_id, cliente_id, valor, descricao]);
+        await pool.query('UPDATE pedidos SET status = "faturação" WHERE id = ', [pedido_id]);
+        res.json({ message: 'Conta a receber e pedido faturação geraçãos.' });
     } catch (error) { next(error); }
 });
 
@@ -3239,11 +3239,11 @@ apiFinanceiroRouter.post('/integracao/estoque/nf-compra', [
 ], async (req, res, next) => {
     try {
         const { fornecedor_id, valor, itens } = req.body; // itens: [{material_id, quantidade}]
-        await pool.query('INSERT INTO contas_pagar (fornecedor_id, valor, status) VALUES (?, ?, "pendente")', [fornecedor_id, valor]);
+        await pool.query('INSERT INTO contas_pagar (fornecedor_id, valor, status) VALUES (, , "pendente")', [fornecedor_id, valor]);
         for (const item of itens) {
-            await pool.query('UPDATE materiais SET quantidade_estoque = quantidade_estoque + ? WHERE id = ?', [item.quantidade, item.material_id]);
+            await pool.query('UPDATE materiais SET quantidade_estoque = quantidade_estoque +  WHERE id = ', [item.quantidade, item.material_id]);
         }
-        res.json({ message: 'Financeiro e estoque atualizados.' });
+        res.json({ message: 'Financeiro e estoque atualizaçãos.' });
     } catch (error) { next(error); }
 });
 
@@ -3263,7 +3263,7 @@ apiFinanceiroRouter.post('/api-aberta/contas-receber', [
 ], async (req, res, next) => {
     try {
         const { cliente_id, valor, descricao } = req.body;
-        await pool.query('INSERT INTO contas_receber (cliente_id, valor, descricao, status) VALUES (?, ?, ?, "pendente")', [cliente_id, valor, descricao]);
+        await pool.query('INSERT INTO contas_receber (cliente_id, valor, descricao, status) VALUES (, , , "pendente")', [cliente_id, valor, descricao]);
         res.status(201).json({ message: 'Conta a receber criada via API.' });
     } catch (error) { next(error); }
 });
@@ -3273,7 +3273,7 @@ apiFinanceiroRouter.post('/contas-pagar', authorizeACL('lancar_conta'), async (r
     res.json({ message: 'Conta a pagar lançada (simulação).' });
 });
 apiFinanceiroRouter.post('/contas-pagar/aprovar', authorizeACL('aprovar_pagamento'), async (req, res, next) => {
-    res.json({ message: 'Pagamento aprovado (simulação).' });
+    res.json({ message: 'Pagamento aprovação (simulação).' });
 });
 apiFinanceiroRouter.get('/relatorios/lucratividade', authorizeACL('ver_relatorio'), async (req, res, next) => {
     res.json({ lucro: 8000 });
@@ -3292,7 +3292,7 @@ apiFinanceiroRouter.post('/audit-trail', [
         const { acao, entidade, entidade_id } = req.body;
         const usuario_id = req.user.id;
         const ip = req.ip;
-        await pool.query('INSERT INTO audit_trail (usuario_id, acao, entidade, entidade_id, ip, data) VALUES (?, ?, ?, ?, ?, NOW())', [usuario_id, acao, entidade, entidade_id, ip]);
+        await pool.query('INSERT INTO audit_trail (usuario_id, acao, entidade, entidade_id, ip, data) VALUES (, , , , , NOW())', [usuario_id, acao, entidade, entidade_id, ip]);
         res.status(201).json({ message: 'Ação registrada na trilha de auditoria.' });
     } catch (error) { next(error); }
 });
@@ -3305,7 +3305,7 @@ apiFinanceiroRouter.get('/audit-trail', authorizeACL('ver_auditoria'), async (re
 
 // Gestão de Orçamento
 apiFinanceiroRouter.post('/orcamentos', authorizeACL('criar_orcamento'), async (req, res, next) => {
-    res.status(201).json({ message: 'Orçamento criado (simulação).' });
+    res.status(201).json({ message: 'Orçamento criação (simulação).' });
 });
 apiFinanceiroRouter.get('/orcamentos', authorizeACL('ver_orcamento'), async (req, res, next) => {
     res.json([{ categoria: 'Marketing', limite: 10000, gasto: 5000 }]);
@@ -3333,7 +3333,7 @@ apiFinanceiroRouter.get('/busca-global', async (req, res, next) => {
     try {
         const { q: _q } = req.query; // query param accepted but not used in this stub
         res.json({
-            resultados: [
+            resultaçãos: [
                 { tipo: 'cliente', nome: 'Empresa X', id: 1 },
                 { tipo: 'conta_receber', valor: 1200, id: 10 },
                 { tipo: 'nota_fiscal', numero: 'NF12345', id: 5 }
@@ -3345,15 +3345,15 @@ apiFinanceiroRouter.get('/busca-global', async (req, res, next) => {
 // Endpoints básicos mantidos para compatibilidade
 apiFinanceiroRouter.get('/faturamento', async (req, res, next) => {
     try {
-        const [rows] = await pool.query('SELECT SUM(valor) AS total FROM pedidos WHERE status = "faturado"');
-        res.json({ total: rows[0]?.total || 0 });
+        const [rows] = await pool.query('SELECT SUM(valor) AS total FROM pedidos WHERE status = "faturação"');
+        res.json({ total: rows[0].total || 0 });
     } catch (error) { next(error); }
 });
 apiFinanceiroRouter.get('/balanco', async (req, res, next) => {
     try {
         const [[receber]] = await pool.query('SELECT SUM(valor) AS total FROM contas_receber WHERE status != "pago"');
         const [[pagar]] = await pool.query('SELECT SUM(valor) AS total FROM contas_pagar WHERE status != "pago"');
-        res.json({ receber: receber?.total || 0, pagar: pagar?.total || 0, saldo: (receber?.total || 0) - (pagar?.total || 0) });
+        res.json({ receber: receber.total || 0, pagar: pagar.total || 0, saldo: (receber.total || 0) - (pagar.total || 0) });
     } catch (error) { next(error); }
 });
 
@@ -3371,26 +3371,26 @@ const apiPCPRouter = express.Router();
 apiPCPRouter.use(authenticateToken);
 apiPCPRouter.use(authorizeArea('pcp'));
 
-// Rota /me para o PCP retornar dados do usuário logado
+// Rota /me para o PCP retornar daçãos do usuário logação
 apiPCPRouter.get('/me', async (req, res) => {
     try {
         if (!req.user) {
-            return res.status(401).json({ message: 'Não autenticado' });
+            return res.status(401).json({ message: 'Não autenticação' });
         }
         
-        // Buscar dados completos do usuário no banco com JOIN para foto do funcionário
+        // Buscar daçãos completos do usuário no banco com JOIN para foto do funcionário
         const [[dbUser]] = await pool.query(
             `SELECT u.id, u.nome, u.email, u.role, u.is_admin, 
                     u.permissoes_pcp as permissoes, u.foto, u.avatar,
                     f.foto_perfil_url as foto_funcionario
              FROM usuarios u
              LEFT JOIN funcionarios f ON u.email = f.email
-             WHERE u.id = ?`,
+             WHERE u.id = `,
             [req.user.id]
         );
         
         if (!dbUser) {
-            return res.status(404).json({ message: 'Usuário não encontrado' });
+            return res.status(404).json({ message: 'Usuário não encontração' });
         }
         
         // Parse permissões
@@ -3407,7 +3407,7 @@ apiPCPRouter.get('/me', async (req, res) => {
         // Determinar a foto (prioridade: avatar > foto > foto_funcionario)
         const fotoUsuario = dbUser.avatar || dbUser.foto || dbUser.foto_funcionario || "/avatars/default.webp";
         
-        // Retornar dados completos do usuário
+        // Retornar daçãos completos do usuário
         res.json({
             user: {
                 id: dbUser.id,
@@ -3423,7 +3423,7 @@ apiPCPRouter.get('/me', async (req, res) => {
         });
     } catch (error) {
         console.error('[API/PCP/ME] Erro ao buscar usuário:', error);
-        res.status(500).json({ message: 'Erro ao buscar dados do usuário' });
+        res.status(500).json({ message: 'Erro ao buscar daçãos do usuário' });
     }
 });
 
@@ -3459,10 +3459,10 @@ apiPCPRouter.get('/dashboard', async (req, res, next) => {
         );
         
         res.json({
-            totalProdutos: produtosResult?.total || 0,
-            ordensEmProducao: ordensResult?.total || 0,
-            estoqueBaixo: estoqueBaixoResult?.total || 0,
-            entregasPendentes: entregasResult?.total || 0
+            totalProdutos: produtosResult.total || 0,
+            ordensEmProducao: ordensResult.total || 0,
+            estoqueBaixo: estoqueBaixoResult.total || 0,
+            entregasPendentes: entregasResult.total || 0
         });
     } catch (error) {
         console.error('[PCP/DASHBOARD] Erro:', error);
@@ -3481,7 +3481,7 @@ apiPCPRouter.get('/ordens', async (req, res, next) => {
     try {
         const limit = parseInt(req.query.limit) || 500;
         const offset = parseInt(req.query.offset) || 0;
-        const [rows] = await pool.query('SELECT * FROM ordens_producao ORDER BY id DESC LIMIT ? OFFSET ?', [limit, offset]);
+        const [rows] = await pool.query('SELECT * FROM ordens_producao ORDER BY id DESC LIMIT  OFFSET ', [limit, offset]);
         res.json(rows);
     } catch (error) { next(error); }
 });
@@ -3497,23 +3497,23 @@ apiPCPRouter.post('/ordens', [
 ], async (req, res, next) => {
     try {
         const { codigo_produto, descricao_produto, quantidade, data_previsao_entrega, observacoes } = req.body;
-        const sql = 'INSERT INTO ordens_producao (codigo_produto, descricao_produto, quantidade, data_previsao_entrega, observacoes, status) VALUES (?, ?, ?, ?, ?, \'A Fazer\')';
+        const sql = 'INSERT INTO ordens_producao (codigo_produto, descricao_produto, quantidade, data_previsao_entrega, observacoes, status) VALUES (, , , , , \'A Fazer\')';
         const [result] = await pool.query(sql, [codigo_produto, descricao_produto, quantidade, data_previsao_entrega, observacoes]);
         res.status(201).json({ message: 'Ordem criada com sucesso!', id: result.insertId });
     } catch (error) { next(error); }
 });
 apiPCPRouter.put('/ordens/:id/status', [
     param('id').isInt({ min: 1 }).withMessage('ID da ordem inválido'),
-    body('status').isIn(['A Fazer', 'Em Andamento', 'Concluído', 'Cancelado'])
-        .withMessage('Status inválido. Use: A Fazer, Em Andamento, Concluído ou Cancelado'),
+    body('status').isIn(['A Fazer', 'Em Andamento', 'Concluído', 'Cancelação'])
+        .withMessage('Status inválido. Use: A Fazer, Em Andamento, Concluído ou Cancelação'),
     validate
 ], async (req, res, next) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
-        const [result] = await pool.query('UPDATE ordens_producao SET status = ? WHERE id = ?', [status, id]);
+        const [result] = await pool.query('UPDATE ordens_producao SET status =  WHERE id = ', [status, id]);
         if (result.affectedRows > 0) {
-            res.json({ message: 'Status atualizado com sucesso!' });
+            res.json({ message: 'Status atualização com sucesso!' });
         } else {
             res.status(404).json({ message: 'Ordem não encontrada.' });
         }
@@ -3525,7 +3525,7 @@ apiPCPRouter.get('/materiais', async (req, res, next) => {
     try {
         const limit = parseInt(req.query.limit) || 1000;
         const offset = parseInt(req.query.offset) || 0;
-        const [rows] = await pool.query('SELECT * FROM materiais ORDER BY descricao ASC LIMIT ? OFFSET ?', [limit, offset]);
+        const [rows] = await pool.query('SELECT * FROM materiais ORDER BY descricao ASC LIMIT  OFFSET ', [limit, offset]);
         res.json(rows);
     } catch (error) { next(error); }
 });
@@ -3542,9 +3542,9 @@ apiPCPRouter.post('/materiais', [
 ], async (req, res, next) => {
     try {
         const { codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao } = req.body;
-        const sql = 'INSERT INTO materiais (codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao) VALUES (?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO materiais (codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao) VALUES (, , , , )';
         const [result] = await pool.query(sql, [codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao]);
-        res.status(201).json({ message: 'Material criado com sucesso!', id: result.insertId });
+        res.status(201).json({ message: 'Material criação com sucesso!', id: result.insertId });
     } catch (error) { next(error); }
 });
 apiPCPRouter.put('/materiais/:id', [
@@ -3560,12 +3560,12 @@ apiPCPRouter.put('/materiais/:id', [
     try {
         const { id } = req.params;
         const { descricao, unidade_medida, quantidade_estoque, fornecedor_padrao } = req.body;
-        const sql = 'UPDATE materiais SET descricao = ?, unidade_medida = ?, quantidade_estoque = ?, fornecedor_padrao = ? WHERE id = ?';
+        const sql = 'UPDATE materiais SET descricao = , unidade_medida = , quantidade_estoque = , fornecedor_padrao =  WHERE id = ';
         const [result] = await pool.query(sql, [descricao, unidade_medida, quantidade_estoque, fornecedor_padrao, id]);
         if (result.affectedRows > 0) {
-            res.json({ message: 'Material atualizado com sucesso!' });
+            res.json({ message: 'Material atualização com sucesso!' });
         } else {
-            res.status(404).json({ message: 'Material não encontrado.' });
+            res.status(404).json({ message: 'Material não encontração.' });
         }
     } catch (error) { next(error); }
 });
@@ -3578,13 +3578,13 @@ apiPCPRouter.delete('/materiais/:id', [
         const { id } = req.params;
         
         // Verificar se material existe
-        const [existing] = await pool.query('SELECT id FROM materiais WHERE id = ?', [id]);
+        const [existing] = await pool.query('SELECT id FROM materiais WHERE id = ', [id]);
         if (existing.length === 0) {
-            return res.status(404).json({ message: 'Material não encontrado.' });
+            return res.status(404).json({ message: 'Material não encontração.' });
         }
         
         // Verificar se há dependências (ordens de compra)
-        const [dependencies] = await pool.query('SELECT COUNT(*) as count FROM ordens_compra WHERE material_id = ?', [id]);
+        const [dependencies] = await pool.query('SELECT COUNT(*) as count FROM ordens_compra WHERE material_id = ', [id]);
         if (dependencies[0].count > 0) {
             return res.status(400).json({ 
                 message: 'Não é possível excluir. Material possui ordens de compra associadas.' 
@@ -3592,7 +3592,7 @@ apiPCPRouter.delete('/materiais/:id', [
         }
         
         // Deletar material
-        const [result] = await pool.query('DELETE FROM materiais WHERE id = ?', [id]);
+        const [result] = await pool.query('DELETE FROM materiais WHERE id = ', [id]);
         res.json({ message: 'Material excluído com sucesso!' });
     } catch (error) { next(error); }
 });
@@ -3613,7 +3613,7 @@ apiPCPRouter.post('/ordens-compra', [
 ], async (req, res, next) => {
     try {
         const { material_id, quantidade, previsao_entrega } = req.body;
-        const sql = 'INSERT INTO ordens_compra (material_id, quantidade, data_pedido, previsao_entrega, status) VALUES (?, ?, CURDATE(), ?, \'Pendente\')';
+        const sql = 'INSERT INTO ordens_compra (material_id, quantidade, data_pedido, previsao_entrega, status) VALUES (, , CURDATE(), , \'Pendente\')';
         const [result] = await pool.query(sql, [material_id, quantidade, previsao_entrega]);
         res.status(201).json({ message: 'Ordem de compra criada com sucesso!', id: result.insertId });
     } catch (error) { next(error); }
@@ -3629,7 +3629,7 @@ apiPCPRouter.get('/produtos', async (req, res, next) => {
         
         // Filtros opcionais
         const categoria = req.query.categoria;
-        const estoque = req.query.estoque; // 'todos', 'com-estoque', 'baixo', 'zerado'
+        const estoque = req.query.estoque; // 'todos', 'com-estoque', 'baixo', 'zeração'
         const search = req.query.search || req.query.q; // Aceita ambos os parâmetros
         
         // Construir query base
@@ -3638,7 +3638,7 @@ apiPCPRouter.get('/produtos', async (req, res, next) => {
         
         // Filtro por categoria
         if (categoria && categoria !== 'todas') {
-            whereConditions.push('categoria = ?');
+            whereConditions.push('categoria = ');
             queryParams.push(categoria);
         }
         
@@ -3647,18 +3647,18 @@ apiPCPRouter.get('/produtos', async (req, res, next) => {
             whereConditions.push('estoque_atual > 0');
         } else if (estoque === 'baixo') {
             whereConditions.push('estoque_atual > 0 AND estoque_atual < 10');
-        } else if (estoque === 'zerado') {
+        } else if (estoque === 'zeração') {
             whereConditions.push('estoque_atual = 0');
         }
         
         // Filtro por busca (código, nome, EAN-13, SKU, NCM)
         if (search) {
             const searchPattern = `%${search}%`;
-            whereConditions.push('(codigo LIKE ? OR nome LIKE ? OR gtin LIKE ? OR sku LIKE ? OR ncm LIKE ?)');
+            whereConditions.push('(codigo LIKE  OR nome LIKE  OR gtin LIKE  OR sku LIKE  OR ncm LIKE )');
             queryParams.push(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern);
         }
         
-        const whereClause = whereConditions.length > 0 ? 'WHERE ' + whereConditions.join(' AND ') : '';
+        const whereClause = whereConditions.length > 0  'WHERE ' + whereConditions.join(' AND ') : '';
         
         // Query principal com todos os campos necessários
         const query = `
@@ -3682,7 +3682,7 @@ apiPCPRouter.get('/produtos', async (req, res, next) => {
             FROM produtos 
             ${whereClause}
             ORDER BY nome ASC
-            LIMIT ? OFFSET ?
+            LIMIT  OFFSET 
         `;
         
         queryParams.push(limit, offset);
@@ -3748,7 +3748,7 @@ apiPCPRouter.get('/produtos/search', async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10;
         
         if (!query) {
-            const [rows] = await pool.query('SELECT * FROM produtos WHERE status = "ativo" LIMIT ?', [limit]);
+            const [rows] = await pool.query('SELECT * FROM produtos WHERE status = "ativo" LIMIT ', [limit]);
             return res.json(rows);
         }
         
@@ -3756,15 +3756,15 @@ apiPCPRouter.get('/produtos/search', async (req, res, next) => {
         const [rows] = await pool.query(`
             SELECT * FROM produtos 
             WHERE status = "ativo" 
-            AND (codigo LIKE ? OR nome LIKE ? OR sku LIKE ? OR gtin LIKE ?)
+            AND (codigo LIKE  OR nome LIKE  OR sku LIKE  OR gtin LIKE )
             ORDER BY 
                 CASE 
-                    WHEN codigo = ? THEN 1
-                    WHEN codigo LIKE ? THEN 2
-                    WHEN nome LIKE ? THEN 3
+                    WHEN codigo =  THEN 1
+                    WHEN codigo LIKE  THEN 2
+                    WHEN nome LIKE  THEN 3
                     ELSE 4
                 END
-            LIMIT ?
+            LIMIT 
         `, [searchPattern, searchPattern, searchPattern, searchPattern, query, `${query}%`, `${query}%`, limit]);
         res.json(rows);
     } catch (error) { next(error); }
@@ -3774,10 +3774,10 @@ apiPCPRouter.get('/produtos/search', async (req, res, next) => {
 apiPCPRouter.get('/produtos/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM produtos WHERE id = ?', [id]);
+        const [rows] = await pool.query('SELECT * FROM produtos WHERE id = ', [id]);
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Produto não encontrado' });
+            return res.status(404).json({ message: 'Produto não encontração' });
         }
         
         res.json(rows[0]);
@@ -3808,7 +3808,7 @@ apiPCPRouter.post('/produtos', [
                 codigo, sku, gtin, nome, descricao, categoria, marca, variacao,
                 embalagem, lances, preco, custo, estoque, estoque_minimo,
                 localizacao, peso, dimensoes, ncm, cest, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (, , , , , , , , , , , , , , , , , , , )
         `, [
             codigo, sku || null, gtin || null, nome, descricao || null,
             categoria, marca, variacao || null, embalagem || 'UN',
@@ -3827,15 +3827,15 @@ apiPCPRouter.post('/produtos', [
             dimensoes, ncm, cest, status: status || 'ativo'
         };
 
-        // Broadcast para todos os clientes conectados
+        // Broadcast para todos os clientes conectaçãos
         if (global.io) {
             global.io.emit('product-created', newProduct);
-            console.log('🔄 WebSocket: Produto criado emitido para todos os clientes');
+            console.log('🔄 WebSocket: Produto criação emitido para todos os clientes');
         }
 
         res.json({ 
             success: true, 
-            message: 'Produto criado com sucesso',
+            message: 'Produto criação com sucesso',
             id: result.insertId 
         });
     } catch (error) { next(error); }
@@ -3865,27 +3865,27 @@ apiPCPRouter.put('/produtos/:id', [
 
         // Usar valores compatíveis - priorizar campos específicos
         const custoFinal = custo_unitario || preco_custo || 0;
-        const precoVendaFinal = preco_venda !== undefined ? preco_venda : (preco || 0);
-        const estoqueFinal = estoque !== undefined ? estoque : (quantidade_estoque || 0);
+        const precoVendaFinal = preco_venda !== undefined  preco_venda : (preco || 0);
+        const estoqueFinal = estoque !== undefined  estoque : (quantidade_estoque || 0);
         const unidadeFinal = unidade_medida || unidade || 'UN';
         const observacoesFinal = observacoes || obs_internas || null;
 
-        console.log('[SERVER.JS PUT /produtos/:id] Dados recebidos:', { id, estoque, quantidade_estoque, estoqueFinal, preco_venda, preco, precoVendaFinal });
+        console.log('[SERVER.JS PUT /produtos/:id] Daçãos recebidos:', { id, estoque, quantidade_estoque, estoqueFinal, preco_venda, preco, precoVendaFinal });
 
         const [result] = await pool.query(`
             UPDATE produtos SET
-                codigo = ?, sku = ?, gtin = ?, nome = ?, descricao = ?,
-                categoria = ?, marca = ?, variacao = ?, custo_unitario = ?,
-                preco_venda = ?, estoque_atual = ?, quantidade_estoque = ?,
-                estoque_minimo = ?, estoque_maximo = ?, localizacao = ?, 
-                ncm = ?, cest = ?, status = ?, unidade_medida = ?, embalagem = ?,
-                peso = ?, largura = ?, altura = ?, comprimento = ?,
-                tensao = ?, secao = ?, material_condutor = ?, isolacao = ?,
-                norma = ?, cor = ?, fornecedor_principal = ?,
-                prazo_entrega = ?, qtd_minima_compra = ?,
-                obs_internas = ?, obs_fornecedor = ?, obs_venda = ?,
-                ativo = ?, tipo_produto = ?
-            WHERE id = ?
+                codigo = , sku = , gtin = , nome = , descricao = ,
+                categoria = , marca = , variacao = , custo_unitario = ,
+                preco_venda = , estoque_atual = , quantidade_estoque = ,
+                estoque_minimo = , estoque_maximo = , localizacao = , 
+                ncm = , cest = , status = , unidade_medida = , embalagem = ,
+                peso = , largura = , altura = , comprimento = ,
+                tensao = , secao = , material_condutor = , isolacao = ,
+                norma = , cor = , fornecedor_principal = ,
+                prazo_entrega = , qtd_minima_compra = ,
+                obs_internas = , obs_fornecedor = , obs_venda = ,
+                ativo = , tipo_produto = 
+            WHERE id = 
         `, [
             codigo, sku || null, gtin || null, nome, descricao || null,
             categoria || null, marca || null, variacao || null, custoFinal,
@@ -3897,15 +3897,15 @@ apiPCPRouter.put('/produtos/:id', [
             norma || null, cor || null, fornecedor_principal || null,
             prazo_entrega || 0, qtd_minima_compra || 1,
             observacoesFinal, obs_fornecedor || null, obs_venda || null,
-            ativo !== undefined ? ativo : 1, tipo_produto || 'produto',
+            ativo !== undefined  ativo : 1, tipo_produto || 'produto',
             id
         ]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Produto não encontrado' });
+            return res.status(404).json({ message: 'Produto não encontração' });
         }
 
-        console.log('[SERVER.JS PUT /produtos/:id] ✅ Produto atualizado com sucesso:', { id, estoqueFinal, precoVendaFinal });
+        console.log('[SERVER.JS PUT /produtos/:id] ✅ Produto atualização com sucesso:', { id, estoqueFinal, precoVendaFinal });
 
         // Emitir evento WebSocket para sincronização em tempo real
         const updatedProduct = {
@@ -3915,15 +3915,15 @@ apiPCPRouter.put('/produtos/:id', [
             status: status || 'ativo'
         };
 
-        // Broadcast para todos os clientes conectados
+        // Broadcast para todos os clientes conectaçãos
         if (global.io) {
             global.io.emit('product-updated', updatedProduct);
-            console.log(`🔄 WebSocket: Produto ${id} atualizado emitido para todos os clientes`);
+            console.log(`🔄 WebSocket: Produto ${id} atualização emitido para todos os clientes`);
         }
 
         res.json({ 
             success: true, 
-            message: 'Produto atualizado com sucesso' 
+            message: 'Produto atualização com sucesso' 
         });
     } catch (error) { next(error); }
 });
@@ -3933,10 +3933,10 @@ apiPCPRouter.delete('/produtos/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
 
-        const [result] = await pool.query('DELETE FROM produtos WHERE id = ?', [id]);
+        const [result] = await pool.query('DELETE FROM produtos WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Produto não encontrado' });
+            return res.status(404).json({ message: 'Produto não encontração' });
         }
 
         // Emitir evento WebSocket para sincronização em tempo real
@@ -3978,10 +3978,10 @@ apiPCPRouter.get('/faturamentos', async (req, res, next) => {
 apiPCPRouter.get('/faturamentos/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM programacao_faturamento WHERE id = ?', [id]);
+        const [rows] = await pool.query('SELECT * FROM programacao_faturamento WHERE id = ', [id]);
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Faturamento não encontrado' });
+            return res.status(404).json({ message: 'Faturamento não encontração' });
         }
         
         res.json(rows[0]);
@@ -4005,7 +4005,7 @@ apiPCPRouter.post('/faturamentos', [
         const sql = `
             INSERT INTO programacao_faturamento 
             (numero, cliente_id, cliente_nome, valor, status, tipo, data_programada, data_vencimento, observacoes, created_at) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+            VALUES (, , , , , , , , , NOW())
         `;
         
         const [result] = await pool.query(sql, [
@@ -4022,7 +4022,7 @@ apiPCPRouter.post('/faturamentos', [
 
         res.status(201).json({ 
             success: true, 
-            message: 'Faturamento criado com sucesso',
+            message: 'Faturamento criação com sucesso',
             id: result.insertId 
         });
     } catch (error) { next(error); }
@@ -4036,10 +4036,10 @@ apiPCPRouter.put('/faturamentos/:id', async (req, res, next) => {
         
         const sql = `
             UPDATE programacao_faturamento 
-            SET cliente_nome = ?, valor = ?, status = ?, tipo = ?, 
-                data_programada = ?, data_vencimento = ?, numero_nfe = ?, 
-                chave_acesso = ?, observacoes = ?, updated_at = NOW()
-            WHERE id = ?
+            SET cliente_nome = , valor = , status = , tipo = , 
+                data_programada = , data_vencimento = , numero_nfe = , 
+                chave_acesso = , observacoes = , updated_at = NOW()
+            WHERE id = 
         `;
         
         const [result] = await pool.query(sql, [
@@ -4048,12 +4048,12 @@ apiPCPRouter.put('/faturamentos/:id', async (req, res, next) => {
         ]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Faturamento não encontrado' });
+            return res.status(404).json({ message: 'Faturamento não encontração' });
         }
 
         res.json({ 
             success: true, 
-            message: 'Faturamento atualizado com sucesso' 
+            message: 'Faturamento atualização com sucesso' 
         });
     } catch (error) { next(error); }
 });
@@ -4062,10 +4062,10 @@ apiPCPRouter.put('/faturamentos/:id', async (req, res, next) => {
 apiPCPRouter.delete('/faturamentos/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [result] = await pool.query('DELETE FROM programacao_faturamento WHERE id = ?', [id]);
+        const [result] = await pool.query('DELETE FROM programacao_faturamento WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Faturamento não encontrado' });
+            return res.status(404).json({ message: 'Faturamento não encontração' });
         }
 
         res.json({ 
@@ -4113,7 +4113,7 @@ apiPCPRouter.get('/ordens-kanban', async (req, res, next) => {
                 id DESC
         `);
         
-        // Mapear status para o formato esperado pelo frontend
+        // Mapear status para o formato esperação pelo frontend
         const ordensFormatadas = rows.map(ordem => ({
             ...ordem,
             statusKanban: mapStatusToKanban(ordem.status),
@@ -4156,10 +4156,10 @@ apiPCPRouter.post('/ordens-kanban', async (req, res, next) => {
         const codigoOrdem = `OP N° ${ano}/${String(proximoNumero).padStart(5, '0')}`;
         
         // Nome do produto (pode vir do array ou do campo direto)
-        const nomeProduto = produto || (produtos && produtos[0]?.descricao) || cliente || 'Produto não especificado';
-        const codigoProduto = codigo || (produtos && produtos[0]?.codigo) || '';
-        const qtd = quantidade || (produtos && produtos[0]?.quantidade) || 0;
-        const und = unidade || (produtos && produtos[0]?.unidade) || 'M';
+        const nomeProduto = produto || (produtos && produtos[0].descricao) || cliente || 'Produto não especificação';
+        const codigoProduto = codigo || (produtos && produtos[0].codigo) || '';
+        const qtd = quantidade || (produtos && produtos[0].quantidade) || 0;
+        const und = unidade || (produtos && produtos[0].unidade) || 'M';
         
         // Observações - aceita ambos os campos
         const obs = observacoes || observacoes_pedido || null;
@@ -4169,10 +4169,10 @@ apiPCPRouter.post('/ordens-kanban', async (req, res, next) => {
                 codigo, produto_nome, quantidade, unidade, 
                 status, prioridade, data_prevista, responsavel, observacoes,
                 progresso, quantidade_produzida, created_at, updated_at
-            ) VALUES (?, ?, ?, ?, 'ativa', ?, ?, ?, ?, 0, 0, NOW(), NOW())
+            ) VALUES (, , , , 'ativa', , , , , 0, 0, NOW(), NOW())
         `, [
             codigoOrdem,
-            `${nomeProduto}${codigoProduto ? ' - ' + codigoProduto : ''}`,
+            `${nomeProduto}${codigoProduto  ' - ' + codigoProduto : ''}`,
             qtd,
             und,
             prioridade || 'media',
@@ -4215,7 +4215,7 @@ apiPCPRouter.patch('/ordens-kanban/:id', async (req, res, next) => {
         
         if (status) {
             const statusDB = mapKanbanToStatus(status);
-            updates.push('status = ?');
+            updates.push('status = ');
             params.push(statusDB);
             
             // Se concluída, registrar data de conclusão
@@ -4226,26 +4226,26 @@ apiPCPRouter.patch('/ordens-kanban/:id', async (req, res, next) => {
         }
         
         if (produzido !== undefined || quantidade_produzida !== undefined) {
-            const qtdProduzida = produzido ?? quantidade_produzida;
-            updates.push('quantidade_produzida = ?');
+            const qtdProduzida = produzido  quantidade_produzida;
+            updates.push('quantidade_produzida = ');
             params.push(qtdProduzida);
             
             // Calcular progresso automaticamente
-            const [ordemAtual] = await pool.query('SELECT quantidade FROM ordens_producao WHERE id = ?', [id]);
+            const [ordemAtual] = await pool.query('SELECT quantidade FROM ordens_producao WHERE id = ', [id]);
             if (ordemAtual.length > 0 && ordemAtual[0].quantidade > 0) {
                 const progresso = Math.min(100, (qtdProduzida / ordemAtual[0].quantidade) * 100);
-                updates.push('progresso = ?');
+                updates.push('progresso = ');
                 params.push(progresso.toFixed(2));
             }
         }
         
         if (responsavel) {
-            updates.push('responsavel = ?');
+            updates.push('responsavel = ');
             params.push(responsavel);
         }
         
         if (observacoes !== undefined) {
-            updates.push('observacoes = ?');
+            updates.push('observacoes = ');
             params.push(observacoes);
         }
         
@@ -4257,12 +4257,12 @@ apiPCPRouter.patch('/ordens-kanban/:id', async (req, res, next) => {
         params.push(id);
         
         await pool.query(`
-            UPDATE ordens_producao SET ${updates.join(', ')} WHERE id = ?
+            UPDATE ordens_producao SET ${updates.join(', ')} WHERE id = 
         `, params);
         
         // Buscar ordem atualizada
         const [ordemAtualizada] = await pool.query(`
-            SELECT * FROM ordens_producao WHERE id = ?
+            SELECT * FROM ordens_producao WHERE id = 
         `, [id]);
         
         console.log('✅ Ordem', id, 'atualizada');
@@ -4281,7 +4281,7 @@ apiPCPRouter.delete('/ordens-kanban/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
         
-        const [result] = await pool.query('DELETE FROM ordens_producao WHERE id = ?', [id]);
+        const [result] = await pool.query('DELETE FROM ordens_producao WHERE id = ', [id]);
         
         if (result.affectedRows === 0) {
             return res.status(404).json({ erro: 'Ordem não encontrada' });
@@ -4302,7 +4302,7 @@ function mapStatusToKanban(status) {
         'em_producao': 'produzindo',
         'pendente': 'qualidade',
         'concluida': 'concluido',
-        'cancelada': 'cancelado'
+        'cancelada': 'cancelação'
     };
     return map[status] || 'a_produzir';
 }
@@ -4325,8 +4325,8 @@ function mapKanbanToStatus(statusKanban) {
         'qualidade': 'pendente',
         'conferido': 'pendente',
         'concluido': 'concluida',
-        'armazenado': 'concluida',
-        'cancelado': 'cancelada'
+        'armazenação': 'concluida',
+        'cancelação': 'cancelada'
     };
     return map[statusKanban] || 'ativa';
 }
@@ -4349,7 +4349,7 @@ apiPCPRouter.get('/ordens-producao', async (req, res, next) => {
 // ÚLTIMO PEDIDO - Para gerar número sequencial
 apiPCPRouter.get('/ultimo-pedido', async (req, res, next) => {
     try {
-        // Buscar último número de pedido registrado
+        // Buscar último número de pedido registração
         const [rows] = await pool.query(`
             SELECT numero_pedido, num_pedido 
             FROM ordens_producao 
@@ -4392,7 +4392,7 @@ app.get('/health', (req, res) => {
         },
         version: require('./package.json').version || '2.0.0',
         environment: process.env.NODE_ENV || 'development',
-        database: DB_AVAILABLE ? 'connected' : 'disconnected',
+        database: DB_AVAILABLE  'connected' : 'disconnected',
         features: {
             excel_generation: true,
             pdf_generation: false,
@@ -4421,8 +4421,8 @@ app.get('/metrics', (req, res) => {
             environment: process.env.NODE_ENV || 'development'
         },
         database: {
-            status: DB_AVAILABLE ? 'connected' : 'disconnected',
-            pool_connections: DB_AVAILABLE ? 'active' : 'inactive'
+            status: DB_AVAILABLE  'connected' : 'disconnected',
+            pool_connections: DB_AVAILABLE  'active' : 'inactive'
         }
     };
 
@@ -4431,7 +4431,7 @@ app.get('/metrics', (req, res) => {
 aluforce_uptime_seconds ${metrics.process.uptime}
 aluforce_memory_used_bytes ${metrics.process.memory.heapUsed}
 aluforce_memory_total_bytes ${metrics.process.memory.heapTotal}
-aluforce_database_connected ${DB_AVAILABLE ? 1 : 0}
+aluforce_database_connected ${DB_AVAILABLE  1 : 0}
 aluforce_app_version_info{version="${metrics.application.version}",environment="${metrics.application.environment}"} 1
 `);
 });
@@ -4449,11 +4449,11 @@ aluforce_app_version_info{version="${metrics.application.version}",environment="
             const [satisfaction] = await pool.query('SELECT AVG(satisfaction) AS avg FROM chat_sessions WHERE satisfaction IS NOT NULL');
 
             res.json({
-                totalSessions: sessions[0]?.total || 0,
-                avgResponseTime: Math.round(responseTimes[0]?.avgTime || 0),
+                totalSessions: sessions[0].total || 0,
+                avgResponseTime: Math.round(responseTimes[0].avgTime || 0),
                 modules: modules.map(m => m.module || 'Outro'),
                 messagesByModule: modules.map(m => m.count),
-                userSatisfaction: Math.round(satisfaction[0]?.avg || 0)
+                userSatisfaction: Math.round(satisfaction[0].avg || 0)
             });
         } catch (err) {
             res.status(500).json({ error: 'Erro ao buscar analytics', details: err.message });
@@ -4519,7 +4519,7 @@ app.post('/api/templates/create', async (req, res) => {
         res.json({
             success: true,
             templateId,
-            message: 'Template criado com sucesso'
+            message: 'Template criação com sucesso'
         });
     } catch (error) {
         res.status(500).json({
@@ -4549,7 +4549,7 @@ app.post('/api/templates/update', async (req, res) => {
         
         res.json({
             success: true,
-            message: 'Template atualizado com sucesso'
+            message: 'Template atualização com sucesso'
         });
     } catch (error) {
         res.status(500).json({
@@ -4559,7 +4559,7 @@ app.post('/api/templates/update', async (req, res) => {
     }
 });
 
-// API para criar template personalizado
+// API para criar template personalização
 app.post('/api/templates/customize', async (req, res) => {
     try {
         const { baseTemplateId, customizations, userInfo } = req.body;
@@ -4573,7 +4573,7 @@ app.post('/api/templates/customize', async (req, res) => {
         res.json({
             success: true,
             customTemplateId,
-            message: 'Template personalizado criado com sucesso'
+            message: 'Template personalização criação com sucesso'
         });
     } catch (error) {
         res.status(500).json({
@@ -4691,7 +4691,7 @@ app.post('/api/templates/import', upload.single('templateFile'), async (req, res
         res.json({
             success: true,
             templateId,
-            message: 'Template importado com sucesso'
+            message: 'Template importação com sucesso'
         });
     } catch (error) {
         res.status(500).json({
@@ -4716,7 +4716,7 @@ app.get('/api/clientes', async (req, res) => {
             
             const [clientes] = await pool.query(query);
             
-            const clientesFormatados = clientes.map(cliente => ({
+            const clientesFormataçãos = clientes.map(cliente => ({
                 id: cliente.id,
                 nome: cliente.nome || cliente.razao_social || cliente.nome_fantasia || '',
                 contato: cliente.contato || cliente.nome_contato || '',
@@ -4728,18 +4728,18 @@ app.get('/api/clientes', async (req, res) => {
                 email: cliente.email || '',
                 email_nfe: cliente.email_nfe || cliente.email || '',
                 cep: cliente.cep || '',
-                endereco: cliente.endereco || cliente.logradouro || '',
+                endereco: cliente.endereco || cliente.lograçãouro || '',
                 numero: cliente.numero || '',
                 bairro: cliente.bairro || '',
                 cidade: cliente.cidade || '',
-                uf: cliente.uf || cliente.estado || '',
+                uf: cliente.uf || cliente.estação || '',
                 ativo: cliente.ativo === 1 || cliente.ativo === true,
                 data_criacao: cliente.data_criacao,
                 data_atualizacao: cliente.data_atualizacao
             }));
             
-            console.log(`✅ Gestão: Encontrados ${clientesFormatados.length} clientes`);
-            return res.json(clientesFormatados);
+            console.log(`✅ Gestão: Encontraçãos ${clientesFormataçãos.length} clientes`);
+            return res.json(clientesFormataçãos);
         }
         
         // Modo autocomplete: retorna apenas campos básicos
@@ -4749,7 +4749,7 @@ app.get('/api/clientes', async (req, res) => {
         let params = [];
         
         if (termo && termo.length >= 2) {
-            query += ` AND (nome LIKE ? OR cnpj LIKE ? OR contato LIKE ?)`;
+            query += ` AND (nome LIKE  OR cnpj LIKE  OR contato LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike, termoLike];
         }
@@ -4759,7 +4759,7 @@ app.get('/api/clientes', async (req, res) => {
         const [clientes] = await pool.query(query, params);
         
         // Formatar resposta
-        const clientesFormatados = clientes.map(cliente => ({
+        const clientesFormataçãos = clientes.map(cliente => ({
             id: cliente.id,
             nome: cliente.nome || '',
             contato: cliente.contato || '',
@@ -4768,8 +4768,8 @@ app.get('/api/clientes', async (req, res) => {
             email: cliente.email || ''
         }));
         
-        console.log(`✅ Encontrados ${clientesFormatados.length} clientes`);
-        res.json(clientesFormatados);
+        console.log(`✅ Encontraçãos ${clientesFormataçãos.length} clientes`);
+        res.json(clientesFormataçãos);
         
     } catch (error) {
         console.error('❌ Erro ao buscar clientes:', error);
@@ -4795,17 +4795,17 @@ app.post('/api/clientes', async (req, res) => {
             INSERT INTO clientes (
                 nome, contato, cnpj, cpf, inscricao_estadual,
                 telefone, celular, email, email_nfe,
-                cep, endereco, logradouro, numero, bairro, cidade, uf, estado, ativo
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                cep, endereco, lograçãouro, numero, bairro, cidade, uf, estação, ativo
+            ) VALUES (, , , , , , , , , , , , , , , , , )
         `, [
             nome, contato || null, cnpj || null, cpf || null, inscricao_estadual || null,
             telefone || null, celular || null, email || null, email_nfe || null,
             cep || null, endereco || null, endereco || null, numero || null, bairro || null, cidade || null, uf || null, uf || null,
-            ativo !== undefined ? (ativo ? 1 : 0) : 1
+            ativo !== undefined  (ativo  1 : 0) : 1
         ]);
         
-        console.log(`✅ Cliente criado com ID: ${result.insertId}`);
-        res.status(201).json({ id: result.insertId, message: 'Cliente criado com sucesso' });
+        console.log(`✅ Cliente criação com ID: ${result.insertId}`);
+        res.status(201).json({ id: result.insertId, message: 'Cliente criação com sucesso' });
         
     } catch (error) {
         console.error('❌ Erro ao criar cliente:', error);
@@ -4831,25 +4831,25 @@ app.put('/api/clientes/:id', async (req, res) => {
         
         const [result] = await pool.query(`
             UPDATE clientes SET
-                nome = ?, contato = ?, cnpj = ?, cpf = ?, inscricao_estadual = ?,
-                telefone = ?, celular = ?, email = ?, email_nfe = ?,
-                cep = ?, endereco = ?, logradouro = ?, numero = ?, bairro = ?, cidade = ?, uf = ?, estado = ?, ativo = ?,
+                nome = , contato = , cnpj = , cpf = , inscricao_estadual = ,
+                telefone = , celular = , email = , email_nfe = ,
+                cep = , endereco = , lograçãouro = , numero = , bairro = , cidade = , uf = , estação = , ativo = ,
                 data_atualizacao = NOW()
-            WHERE id = ?
+            WHERE id = 
         `, [
             nome, contato || null, cnpj || null, cpf || null, inscricao_estadual || null,
             telefone || null, celular || null, email || null, email_nfe || null,
             cep || null, endereco || null, endereco || null, numero || null, bairro || null, cidade || null, uf || null, uf || null,
-            ativo !== undefined ? (ativo ? 1 : 0) : 1,
+            ativo !== undefined  (ativo  1 : 0) : 1,
             id
         ]);
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ error: 'Cliente não encontrado' });
+            return res.status(404).json({ error: 'Cliente não encontração' });
         }
         
-        console.log(`✅ Cliente ${id} atualizado com sucesso`);
-        res.json({ message: 'Cliente atualizado com sucesso' });
+        console.log(`✅ Cliente ${id} atualização com sucesso`);
+        res.json({ message: 'Cliente atualização com sucesso' });
         
     } catch (error) {
         console.error('❌ Erro ao atualizar cliente:', error);
@@ -4882,9 +4882,9 @@ app.get('/api/pcp/users-list', async (req, res) => {
             'egidio': '/avatars/egidio.webp'
         };
         
-        // Retornar dados sanitizados (sem senhas)
+        // Retornar daçãos sanitizaçãos (sem senhas)
         const sanitizedUsers = users.map(user => {
-            const firstName = user.nome ? user.nome.split(' ')[0].toLowerCase() : '';
+            const firstName = user.nome  user.nome.split(' ')[0].toLowerCase() : '';
             let fotoUrl = user.foto_perfil_url || user.avatar || avatarMap[firstName] || '/avatars/default.webp';
             
             return {
@@ -4898,7 +4898,7 @@ app.get('/api/pcp/users-list', async (req, res) => {
         
         res.json({ users: sanitizedUsers });
     } catch (err) {
-        console.error('/api/pcp/users-list error:', err && err.message ? err.message : err);
+        console.error('/api/pcp/users-list error:', err && err.message  err.message : err);
         res.status(500).json({ message: 'Erro ao obter lista de usuários.', users: [] });
     }
 });
@@ -4924,7 +4924,7 @@ app.get('/api/pcp/materiais', async (req, res) => {
         let params = [];
         
         if (termo && termo.length >= 2) {
-            query += ` AND (codigo_material LIKE ? OR descricao LIKE ?)`;
+            query += ` AND (codigo_material LIKE  OR descricao LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike];
         }
@@ -4934,7 +4934,7 @@ app.get('/api/pcp/materiais', async (req, res) => {
         const [materiais] = await pool.query(query, params);
         
         // Formatar resposta
-        const materiaisFormatados = materiais.map(material => ({
+        const materiaisFormataçãos = materiais.map(material => ({
             id: material.id,
             codigo_material: material.codigo_material || '',
             descricao: material.descricao || '',
@@ -4945,13 +4945,13 @@ app.get('/api/pcp/materiais', async (req, res) => {
             categoria: 'Material'
         }));
         
-        console.log(`✅ Encontrados ${materiaisFormatados.length} materiais`);
-        res.json(materiaisFormatados);
+        console.log(`✅ Encontraçãos ${materiaisFormataçãos.length} materiais`);
+        res.json(materiaisFormataçãos);
         
     } catch (error) {
         console.error('❌ Erro ao buscar materiais:', error);
         
-        // Fallback com dados de exemplo
+        // Fallback com daçãos de exemplo
         const materiaisExemplo = [
             {
                 id: 1,
@@ -4979,10 +4979,10 @@ app.get('/api/pcp/materiais', async (req, res) => {
     }
 });
 
-// API para buscar transportadoras
-app.get('/api/transportadoras', async (req, res) => {
+// API para buscar transportaçãoras
+app.get('/api/transportaçãoras', async (req, res) => {
     try {
-        console.log('🚛 Buscando transportadoras para autocomplete...');
+        console.log('🚛 Buscando transportaçãoras para autocomplete...');
         
         const { termo } = req.query;
         let query = `
@@ -4996,24 +4996,24 @@ app.get('/api/transportadoras', async (req, res) => {
                 email,
                 bairro,
                 cidade,
-                estado
-            FROM transportadoras 
+                estação
+            FROM transportaçãoras 
             WHERE 1=1
         `;
         let params = [];
         
         if (termo && termo.length >= 2) {
-            query += ` AND (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj_cpf LIKE ?)`;
+            query += ` AND (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj_cpf LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike, termoLike];
         }
         
         query += ' ORDER BY razao_social LIMIT 50';
         
-        const [transportadoras] = await pool.query(query, params);
+        const [transportaçãoras] = await pool.query(query, params);
         
         // Formatar resposta
-        const transportadorasFormatadas = transportadoras.map(transp => ({
+        const transportaçãorasFormatadas = transportaçãoras.map(transp => ({
             id: transp.id,
             nome: transp.razao_social || transp.nome_fantasia || '',
             nome_empresa: transp.razao_social || '',
@@ -5024,20 +5024,20 @@ app.get('/api/transportadoras', async (req, res) => {
             telefone: transp.telefone || '',
             fone: transp.telefone || '',
             email: transp.email || '',
-            endereco: transp.bairro && transp.cidade ? `${transp.bairro}, ${transp.cidade}/${transp.estado}` : `${transp.cidade || ''}/${transp.estado || ''}`,
+            endereco: transp.bairro && transp.cidade  `${transp.bairro}, ${transp.cidade}/${transp.estação}` : `${transp.cidade || ''}/${transp.estação || ''}`,
             cidade: transp.cidade || '',
-            estado: transp.estado || '',
+            estação: transp.estação || '',
             cep: ''
         }));
         
-        console.log(`✅ Encontradas ${transportadorasFormatadas.length} transportadoras`);
-        res.json(transportadorasFormatadas);
+        console.log(`✅ Encontradas ${transportaçãorasFormatadas.length} transportaçãoras`);
+        res.json(transportaçãorasFormatadas);
         
     } catch (error) {
-        console.error('❌ Erro ao buscar transportadoras:', error);
+        console.error('❌ Erro ao buscar transportaçãoras:', error);
         
-        // Fallback com dados de exemplo
-        const transportadorasExemplo = [
+        // Fallback com daçãos de exemplo
+        const transportaçãorasExemplo = [
             {
                 id: 1,
                 nome: 'TRANSPORTES RÁPIDO LTDA',
@@ -5064,12 +5064,12 @@ app.get('/api/transportadoras', async (req, res) => {
             }
         ];
         
-        res.json(transportadorasExemplo);
+        res.json(transportaçãorasExemplo);
     }
 });
 
 // =================== ENDPOINTS DE COMPATIBILIDADE ===================
-// Aliases para os endpoints esperados pelo frontend
+// Aliases para os endpoints esperaçãos pelo frontend
 
 // Alias para empresas/buscar -> clientes
 app.get('/api/empresas/buscar', async (req, res) => {
@@ -5077,11 +5077,11 @@ app.get('/api/empresas/buscar', async (req, res) => {
         console.log('🔄 Redirecionando /api/empresas/buscar para /api/clientes');
         
         const { termo } = req.query;
-        let query = 'SELECT id, nome, contato, cnpj, cpf, telefone, celular, email, email_nfe, endereco, logradouro, numero, bairro, cidade, uf, estado, cep FROM clientes WHERE ativo = 1';
+        let query = 'SELECT id, nome, contato, cnpj, cpf, telefone, celular, email, email_nfe, endereco, lograçãouro, numero, bairro, cidade, uf, estação, cep FROM clientes WHERE ativo = 1';
         let params = [];
         
         if (termo && termo.length >= 1) { // Funciona com 1 caractere
-            query += ` AND (nome LIKE ? OR cnpj LIKE ? OR contato LIKE ?)`;
+            query += ` AND (nome LIKE  OR cnpj LIKE  OR contato LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike, termoLike];
         }
@@ -5091,10 +5091,10 @@ app.get('/api/empresas/buscar', async (req, res) => {
         const [clientes] = await pool.query(query, params);
         
         // Formatar resposta com mapeamento de campos
-        const clientesFormatados = clientes.map(cliente => ({
+        const clientesFormataçãos = clientes.map(cliente => ({
             id: cliente.id,
             nome: cliente.nome || '',
-            razao_social: cliente.nome || '', // Campo alternativo esperado
+            razao_social: cliente.nome || '', // Campo alternativo esperação
             nome_fantasia: cliente.nome || '',
             contato: cliente.contato || '',
             nome_contato: cliente.contato || '',
@@ -5106,17 +5106,17 @@ app.get('/api/empresas/buscar', async (req, res) => {
             email: cliente.email || '',
             email_nfe: cliente.email_nfe || cliente.email || '',
             endereco: cliente.endereco || '',
-            logradouro: cliente.logradouro || '',
+            lograçãouro: cliente.lograçãouro || '',
             numero: cliente.numero || '',
             bairro: cliente.bairro || '',
             cidade: cliente.cidade || '',
-            uf: cliente.uf || cliente.estado || '',
-            estado: cliente.estado || cliente.uf || '',
+            uf: cliente.uf || cliente.estação || '',
+            estação: cliente.estação || cliente.uf || '',
             cep: cliente.cep || ''
         }));
         
-        console.log(`✅ Endpoint /api/empresas/buscar retornou ${clientesFormatados.length} registros`);
-        res.json(clientesFormatados);
+        console.log(`✅ Endpoint /api/empresas/buscar retornou ${clientesFormataçãos.length} registros`);
+        res.json(clientesFormataçãos);
         
     } catch (error) {
         console.error('❌ Erro em /api/empresas/buscar:', error);
@@ -5124,17 +5124,17 @@ app.get('/api/empresas/buscar', async (req, res) => {
     }
 });
 
-// Backwards-compatible endpoint: /api/empresas (aceita ?limit=... e ?termo=...)
+// Backwards-compatible endpoint: /api/empresas (aceita limit=... e termo=...)
 app.get('/api/empresas', async (req, res) => {
     try {
-        console.log('🔄 Alias compatível /api/empresas chamado');
+        console.log('🔄 Alias compatível /api/empresas chamação');
         const { termo } = req.query;
-        const limit = req.query.limit ? Math.max(1, Math.min(1000, parseInt(req.query.limit))) : 500;
+        const limit = req.query.limit  Math.max(1, Math.min(1000, parseInt(req.query.limit))) : 500;
 
-        let query = 'SELECT id, nome, contato, cnpj, cpf, telefone, celular, email, email_nfe, endereco, logradouro, numero, bairro, cidade, uf, estado, cep FROM clientes WHERE ativo = 1';
+        let query = 'SELECT id, nome, contato, cnpj, cpf, telefone, celular, email, email_nfe, endereco, lograçãouro, numero, bairro, cidade, uf, estação, cep FROM clientes WHERE ativo = 1';
         let params = [];
         if (termo && termo.length >= 1) {
-            query += ` AND (nome LIKE ? OR cnpj LIKE ? OR contato LIKE ?)`;
+            query += ` AND (nome LIKE  OR cnpj LIKE  OR contato LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike, termoLike];
         }
@@ -5143,7 +5143,7 @@ app.get('/api/empresas', async (req, res) => {
 
         const [clientes] = await pool.query(query, params);
 
-        const clientesFormatados = clientes.map(cliente => ({
+        const clientesFormataçãos = clientes.map(cliente => ({
             id: cliente.id,
             nome: cliente.nome || '',
             razao_social: cliente.nome || '',
@@ -5158,27 +5158,27 @@ app.get('/api/empresas', async (req, res) => {
             email: cliente.email || '',
             email_nfe: cliente.email_nfe || cliente.email || '',
             endereco: cliente.endereco || '',
-            logradouro: cliente.logradouro || '',
+            lograçãouro: cliente.lograçãouro || '',
             numero: cliente.numero || '',
             bairro: cliente.bairro || '',
             cidade: cliente.cidade || '',
-            uf: cliente.uf || cliente.estado || '',
-            estado: cliente.estado || cliente.uf || '',
+            uf: cliente.uf || cliente.estação || '',
+            estação: cliente.estação || cliente.uf || '',
             cep: cliente.cep || ''
         }));
 
-        console.log(`✅ Endpoint /api/empresas retornou ${clientesFormatados.length} registros (limit=${limit})`);
-        res.json(clientesFormatados);
+        console.log(`✅ Endpoint /api/empresas retornou ${clientesFormataçãos.length} registros (limit=${limit})`);
+        res.json(clientesFormataçãos);
     } catch (error) {
         console.error('❌ Erro em /api/empresas:', error);
         res.status(500).json({ error: 'Erro ao buscar empresas' });
     }
 });
 
-// Alias para transportadoras/buscar -> transportadoras
-app.get('/api/transportadoras/buscar', async (req, res) => {
+// Alias para transportaçãoras/buscar -> transportaçãoras
+app.get('/api/transportaçãoras/buscar', async (req, res) => {
     try {
-        console.log('🔄 Redirecionando /api/transportadoras/buscar para /api/transportadoras');
+        console.log('🔄 Redirecionando /api/transportaçãoras/buscar para /api/transportaçãoras');
         
         const { termo } = req.query;
         let query = `
@@ -5190,23 +5190,23 @@ app.get('/api/transportadoras/buscar', async (req, res) => {
                 telefone, 
                 email,
                 endereco
-            FROM transportadoras 
+            FROM transportaçãoras 
             WHERE ativo = 1
         `;
         let params = [];
         
         if (termo && termo.length >= 1) { // Funciona com 1 caractere
-            query += ` AND (nome LIKE ? OR cnpj LIKE ?)`;
+            query += ` AND (nome LIKE  OR cnpj LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike];
         }
         
         query += ' ORDER BY nome LIMIT 50';
         
-        const [transportadoras] = await pool.query(query, params);
+        const [transportaçãoras] = await pool.query(query, params);
         
         // Formatar resposta com mapeamento de campos
-        const transportadorasFormatadas = transportadoras.map(transp => ({
+        const transportaçãorasFormatadas = transportaçãoras.map(transp => ({
             id: transp.id,
             nome_empresa: transp.nome || '',
             nome: transp.nome || '', // Campo alternativo
@@ -5217,14 +5217,14 @@ app.get('/api/transportadoras/buscar', async (req, res) => {
             endereco: transp.endereco || ''
         }));
         
-        console.log(`✅ Endpoint /api/transportadoras/buscar retornou ${transportadorasFormatadas.length} registros`);
-        res.json(transportadorasFormatadas);
+        console.log(`✅ Endpoint /api/transportaçãoras/buscar retornou ${transportaçãorasFormatadas.length} registros`);
+        res.json(transportaçãorasFormatadas);
         
     } catch (error) {
-        console.error('❌ Erro em /api/transportadoras/buscar:', error);
+        console.error('❌ Erro em /api/transportaçãoras/buscar:', error);
         
-        // Fallback com dados de exemplo
-        const transportadorasExemplo = [
+        // Fallback com daçãos de exemplo
+        const transportaçãorasExemplo = [
             {
                 id: 1,
                 nome_empresa: 'TRANSPORTES RÁPIDO LTDA',
@@ -5238,7 +5238,7 @@ app.get('/api/transportadoras/buscar', async (req, res) => {
             }
         ];
         
-        res.json(transportadorasExemplo);
+        res.json(transportaçãorasExemplo);
     }
 });
 
@@ -5248,7 +5248,7 @@ app.get('/api/produtos/buscar', async (req, res) => {
         console.log('🔄 Buscando em produtos e materiais...');
         
         const { termo } = req.query;
-        let produtosCombinados = [];
+        let produtosCombinaçãos = [];
         
         // 1. Buscar na tabela produtos
         try {
@@ -5268,7 +5268,7 @@ app.get('/api/produtos/buscar', async (req, res) => {
             let paramsProdutos = [];
             
             if (termo && termo.length >= 1) {
-                queryProdutos += ` AND (codigo LIKE ? OR nome LIKE ? OR descricao LIKE ?)`;
+                queryProdutos += ` AND (codigo LIKE  OR nome LIKE  OR descricao LIKE )`;
                 const termoLike = `%${termo}%`;
                 paramsProdutos = [termoLike, termoLike, termoLike];
             }
@@ -5278,7 +5278,7 @@ app.get('/api/produtos/buscar', async (req, res) => {
             const [produtos] = await pool.query(queryProdutos, paramsProdutos);
             
             // Formatar produtos
-            const produtosFormatados = produtos.map(produto => ({
+            const produtosFormataçãos = produtos.map(produto => ({
                 id: `p_${produto.id}`, // Prefixo para distinguir de materiais
                 codigo: produto.codigo || '',
                 codigo_material: produto.codigo || '',
@@ -5297,8 +5297,8 @@ app.get('/api/produtos/buscar', async (req, res) => {
                 sku: produto.sku || ''
             }));
             
-            produtosCombinados = [...produtosCombinados, ...produtosFormatados];
-            console.log(`✅ Encontrados ${produtosFormatados.length} produtos`);
+            produtosCombinaçãos = [...produtosCombinaçãos, ...produtosFormataçãos];
+            console.log(`✅ Encontraçãos ${produtosFormataçãos.length} produtos`);
             
         } catch (errorProdutos) {
             console.log(`⚠️ Erro ao buscar produtos: ${errorProdutos.message}`);
@@ -5321,7 +5321,7 @@ app.get('/api/produtos/buscar', async (req, res) => {
             let paramsMateriais = [];
             
             if (termo && termo.length >= 1) {
-                queryMateriais += ` AND (codigo_material LIKE ? OR descricao LIKE ?)`;
+                queryMateriais += ` AND (codigo_material LIKE  OR descricao LIKE )`;
                 const termoLike = `%${termo}%`;
                 paramsMateriais = [termoLike, termoLike];
             }
@@ -5331,7 +5331,7 @@ app.get('/api/produtos/buscar', async (req, res) => {
             const [materiais] = await pool.query(queryMateriais, paramsMateriais);
             
             // Formatar materiais
-            const materiaisFormatados = materiais.map(material => ({
+            const materiaisFormataçãos = materiais.map(material => ({
                 id: `m_${material.id}`, // Prefixo para distinguir de produtos
                 codigo: material.codigo_material || '',
                 codigo_material: material.codigo_material || '',
@@ -5347,34 +5347,34 @@ app.get('/api/produtos/buscar', async (req, res) => {
                 tipo: 'material'
             }));
             
-            produtosCombinados = [...produtosCombinados, ...materiaisFormatados];
-            console.log(`✅ Encontrados ${materiaisFormatados.length} materiais`);
+            produtosCombinaçãos = [...produtosCombinaçãos, ...materiaisFormataçãos];
+            console.log(`✅ Encontraçãos ${materiaisFormataçãos.length} materiais`);
             
         } catch (errorMateriais) {
             console.log(`⚠️ Erro ao buscar materiais: ${errorMateriais.message}`);
         }
         
         // Ordenar por relevância (produtos primeiro, depois materiais)
-        produtosCombinados.sort((a, b) => {
+        produtosCombinaçãos.sort((a, b) => {
             if (a.tipo === 'produto' && b.tipo === 'material') return -1;
             if (a.tipo === 'material' && b.tipo === 'produto') return 1;
             return a.nome.localeCompare(b.nome);
         });
         
-        console.log(`✅ Total de produtos+materiais encontrados: ${produtosCombinados.length}`);
-        res.json(produtosCombinados);
+        console.log(`✅ Total de produtos+materiais encontraçãos: ${produtosCombinaçãos.length}`);
+        res.json(produtosCombinaçãos);
         
     } catch (error) {
         console.error('❌ Erro em /api/produtos/buscar:', error);
         
-        // Fallback com dados de exemplo  
+        // Fallback com daçãos de exemplo  
         const produtosExemplo = [
             {
                 id: 1,
                 codigo: 'CABO-01',
                 codigo_material: 'CABO-01',
-                descricao: 'Cabo de Aço Galvanizado 6mm',
-                nome: 'Cabo de Aço Galvanizado 6mm',
+                descricao: 'Cabo de Aço Galvanização 6mm',
+                nome: 'Cabo de Aço Galvanização 6mm',
                 unidade_medida: 'MT',
                 preco: 15.50,
                 preco_unitario: 15.50,
@@ -5388,9 +5388,9 @@ app.get('/api/produtos/buscar', async (req, res) => {
     }
 });
 
-console.log('✅ Endpoints de compatibilidade criados:');
+console.log('✅ Endpoints de compatibilidade criaçãos:');
 console.log('   📍 /api/empresas/buscar -> /api/clientes');
-console.log('   📍 /api/transportadoras/buscar -> /api/transportadoras');  
+console.log('   📍 /api/transportaçãoras/buscar -> /api/transportaçãoras');  
 console.log('   📍 /api/produtos/buscar -> /api/pcp/materiais');
 
 // =================== API PARA PRODUTOS REAIS DA TABELA PRODUTOS ===================
@@ -5401,9 +5401,9 @@ app.get('/api/produtos', async (req, res) => {
         console.log('🛍️ Buscando produtos da tabela produtos...');
         
         const { termo } = req.query;
-        // permitir ?limit=NUM (padrão 1000) ou ?limit=0 para sem LIMIT
+        // permitir limit=NUM (padrão 1000) ou limit=0 para sem LIMIT
         const rawLimit = req.query.limit;
-        let limitParam = typeof rawLimit !== 'undefined' ? parseInt(rawLimit) : 1000;
+        let limitParam = typeof rawLimit !== 'undefined'  parseInt(rawLimit) : 1000;
         if (isNaN(limitParam) || limitParam < 0) limitParam = 1000;
 
         let query = `
@@ -5423,7 +5423,7 @@ app.get('/api/produtos', async (req, res) => {
         let params = [];
         
         if (termo && termo.length >= 1) { // Funciona com 1 caractere
-            query += ` AND (codigo LIKE ? OR nome LIKE ? OR descricao LIKE ?)`;
+            query += ` AND (codigo LIKE  OR nome LIKE  OR descricao LIKE )`;
             const termoLike = `%${termo}%`;
             params = [termoLike, termoLike, termoLike];
         }
@@ -5432,14 +5432,14 @@ app.get('/api/produtos', async (req, res) => {
         if (limitParam === 0) {
             query += ' ORDER BY nome';
         } else {
-            query += ' ORDER BY nome LIMIT ?';
+            query += ' ORDER BY nome LIMIT ';
             params.push(limitParam);
         }
         
         const [produtos] = await pool.query(query, params);
         
         // Formatar resposta compatível com frontend
-        const produtosFormatados = produtos.map(produto => {
+        const produtosFormataçãos = produtos.map(produto => {
             // Tentar obter preço da coluna custo_unitario
             const preco = produto.custo_unitario || 0;
             
@@ -5458,13 +5458,13 @@ app.get('/api/produtos', async (req, res) => {
             };
         });
         
-        console.log(`✅ Endpoint /api/produtos retornou ${produtosFormatados.length} registros`);
+        console.log(`✅ Endpoint /api/produtos retornou ${produtosFormataçãos.length} registros`);
         
         // Formato compatível com frontend que espera {rows: [...]}
         res.json({
-            rows: produtosFormatados,
-            items: produtosFormatados,
-            total: produtosFormatados.length
+            rows: produtosFormataçãos,
+            items: produtosFormataçãos,
+            total: produtosFormataçãos.length
         });
         
     } catch (error) {
@@ -5476,7 +5476,7 @@ app.get('/api/produtos', async (req, res) => {
                 id: 1,
                 codigo: 'DUN10',
                 nome: 'CABO DUPLEX NEUTRO NU 2x10mm² LABOR 0,6/1KV',
-                descricao: 'Cabo multiplexado duplex com neutro nu, condutor de alumínio',
+                descricao: 'Cabo multiplexação duplex com neutro nu, condutor de alumínio',
                 variacao: 'Preto / Nu',
                 marca: 'Aluforce',
                 gtin: '789' + Date.now().toString().slice(-10),
@@ -5489,7 +5489,7 @@ app.get('/api/produtos', async (req, res) => {
                 id: 2,
                 codigo: 'TRI25',
                 nome: 'CABO TRIPLEX 3x25mm² (2#25 + 1#25) LABOR 0,6/1KV',
-                descricao: 'Cabo multiplexado triplex, condutor de alumínio',
+                descricao: 'Cabo multiplexação triplex, condutor de alumínio',
                 variacao: 'Preto / Preto / Nu',
                 marca: 'Aluforce',
                 gtin: '789' + Date.now().toString().slice(-10),
@@ -5502,7 +5502,7 @@ app.get('/api/produtos', async (req, res) => {
                 id: 3,
                 codigo: 'QDN50',
                 nome: 'CABO QUADRUPLEX NEUTRO NU 3x50mm² + 1x50mm² LABOR 0,6/1KV',
-                descricao: 'Cabo multiplexado quadruplex com neutro nu, condutor de alumínio',
+                descricao: 'Cabo multiplexação quadruplex com neutro nu, condutor de alumínio',
                 variacao: 'Preto / Preto / Preto / Nu',
                 marca: 'Aluforce',
                 gtin: '789' + Date.now().toString().slice(-10),
@@ -5515,7 +5515,7 @@ app.get('/api/produtos', async (req, res) => {
                 id: 4,
                 codigo: 'DUN10_LAB',
                 nome: 'CABO DUPLEX NEUTRO NU 2x10mm² LABOR 0,6/1KV',
-                descricao: 'Cabo multiplexado duplex com neutro nu - LABOR ENERGY',
+                descricao: 'Cabo multiplexação duplex com neutro nu - LABOR ENERGY',
                 variacao: 'Preto / Nu',
                 marca: 'Labor Energy',
                 gtin: '789' + Date.now().toString().slice(-10),
@@ -5528,7 +5528,7 @@ app.get('/api/produtos', async (req, res) => {
                 id: 5,
                 codigo: 'TRI25_LAB',
                 nome: 'CABO TRIPLEX 3x25mm² (2#25 + 1#25) LABOR 0,6/1KV',
-                descricao: 'Cabo multiplexado triplex - LABOR ENERGY',
+                descricao: 'Cabo multiplexação triplex - LABOR ENERGY',
                 variacao: 'Preto / Preto / Nu',
                 marca: 'Labor Energy',
                 gtin: '789' + Date.now().toString().slice(-10),
@@ -5549,42 +5549,42 @@ app.get('/api/produtos', async (req, res) => {
 app.post('/api/produtos', async (req, res) => {
     try {
         console.log('➕ Criando novo produto...');
-        const dados = req.body;
+        const daçãos = req.body;
         
         // Validar campos obrigatórios
-        if (!dados.codigo || !dados.nome) {
+        if (!daçãos.codigo || !daçãos.nome) {
             return res.status(400).json({ error: 'Código e Nome são obrigatórios' });
         }
         
         // Verificar se código já existe
-        const [existe] = await pool.query('SELECT id FROM produtos WHERE codigo = ?', [dados.codigo]);
+        const [existe] = await pool.query('SELECT id FROM produtos WHERE codigo = ', [daçãos.codigo]);
         if (existe.length > 0) {
             return res.status(400).json({ error: 'Código já existe' });
         }
         
         // Construir INSERT dinamicamente com campos básicos
         const camposParaInserir = {
-            codigo: dados.codigo,
-            nome: dados.nome,
-            descricao: dados.descricao || '',
-            gtin: dados.gtin || '',
-            sku: dados.sku || '',
-            marca: dados.marca || 'Aluforce',
-            variacao: dados.variacao || '',
-            custo_unitario: parseFloat(dados.preco || 0)
+            codigo: daçãos.codigo,
+            nome: daçãos.nome,
+            descricao: daçãos.descricao || '',
+            gtin: daçãos.gtin || '',
+            sku: daçãos.sku || '',
+            marca: daçãos.marca || 'Aluforce',
+            variacao: daçãos.variacao || '',
+            custo_unitario: parseFloat(daçãos.preco || 0)
         };
         
         // Adicionar campos opcionais se fornecidos
         const camposOpcionais = {
-            unidade_medida: dados.unidade_medida,
-            ncm: dados.ncm,
-            categoria: dados.categoria,
-            tensao: dados.tensao,
-            secao: dados.secao,
-            material_condutor: dados.material_condutor,
-            isolacao: dados.isolacao,
-            norma: dados.norma,
-            cor: dados.cor
+            unidade_medida: daçãos.unidade_medida,
+            ncm: daçãos.ncm,
+            categoria: daçãos.categoria,
+            tensao: daçãos.tensao,
+            secao: daçãos.secao,
+            material_condutor: daçãos.material_condutor,
+            isolacao: daçãos.isolacao,
+            norma: daçãos.norma,
+            cor: daçãos.cor
         };
         
         Object.keys(camposOpcionais).forEach(campo => {
@@ -5595,20 +5595,20 @@ app.post('/api/produtos', async (req, res) => {
         
         const colunas = Object.keys(camposParaInserir);
         const valores = Object.values(camposParaInserir);
-        const placeholders = colunas.map(() => '?').join(', ');
+        const placeholders = colunas.map(() => '').join(', ');
         
         const query = `INSERT INTO produtos (${colunas.join(', ')}) VALUES (${placeholders})`;
         
         const [result] = await pool.query(query, valores);
         
-        console.log(`✅ Produto criado com ID: ${result.insertId}`);
+        console.log(`✅ Produto criação com ID: ${result.insertId}`);
         
         res.json({
             success: true,
             id: result.insertId,
-            codigo: dados.codigo,
-            nome: dados.nome,
-            message: 'Produto criado com sucesso'
+            codigo: daçãos.codigo,
+            nome: daçãos.nome,
+            message: 'Produto criação com sucesso'
         });
         
     } catch (error) {
@@ -5623,14 +5623,14 @@ app.post('/api/produtos', async (req, res) => {
 app.put('/api/produtos/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        const dados = req.body;
+        const daçãos = req.body;
         
         console.log(`🔄 Atualizando produto ID: ${id}`);
         
         // Verificar se produto existe
-        const [produto] = await pool.query('SELECT id FROM produtos WHERE id = ?', [id]);
+        const [produto] = await pool.query('SELECT id FROM produtos WHERE id = ', [id]);
         if (produto.length === 0) {
-            return res.status(404).json({ error: 'Produto não encontrado' });
+            return res.status(404).json({ error: 'Produto não encontração' });
         }
         
         // Obter colunas existentes na tabela produtos
@@ -5649,57 +5649,57 @@ app.put('/api/produtos/:id', async (req, res) => {
         
         // Mapeamento de campos do frontend para o banco
         const mapeamentoCampos = {
-            codigo: dados.codigo,
-            nome: dados.nome,
-            descricao: dados.descricao,
-            gtin: dados.gtin,
-            sku: dados.sku,
-            marca: dados.marca,
-            variacao: dados.variacao,
-            unidade_medida: dados.unidade_medida,
-            ncm: dados.ncm,
-            categoria: dados.categoria,
-            tensao: dados.tensao,
-            secao: dados.secao,
-            material_condutor: dados.material_condutor,
-            isolacao: dados.isolacao,
-            norma: dados.norma,
-            cor: dados.cor,
-            localizacao: dados.localizacao,
-            fornecedor: dados.fornecedor,
-            fornecedor_principal: dados.fornecedor_principal,
-            prazo_entrega: dados.prazo_entrega,
-            qtd_minima_compra: dados.qtd_minima_compra,
-            estoque_minimo: dados.estoque_minimo,
-            estoque_maximo: dados.estoque_maximo,
-            estoque_atual: dados.estoque_atual,
-            estoque_disponivel: dados.estoque_disponivel,
-            estoque_reservado: dados.estoque_reservado,
-            estoque_transito: dados.estoque_transito,
-            custo_aquisicao: dados.custo_aquisicao,
-            custo_adicional: dados.custo_adicional,
-            custo_total: dados.custo_total,
-            markup: dados.markup,
-            margem_lucro: dados.margem_lucro,
-            peso: dados.peso,
-            largura: dados.largura,
-            altura: dados.altura,
-            comprimento: dados.comprimento,
-            obs_internas: dados.obs_internas,
-            obs_fornecedor: dados.obs_fornecedor,
-            obs_venda: dados.obs_venda,
-            controle_lote: dados.controle_lote,
-            familia: dados.familia
+            codigo: daçãos.codigo,
+            nome: daçãos.nome,
+            descricao: daçãos.descricao,
+            gtin: daçãos.gtin,
+            sku: daçãos.sku,
+            marca: daçãos.marca,
+            variacao: daçãos.variacao,
+            unidade_medida: daçãos.unidade_medida,
+            ncm: daçãos.ncm,
+            categoria: daçãos.categoria,
+            tensao: daçãos.tensao,
+            secao: daçãos.secao,
+            material_condutor: daçãos.material_condutor,
+            isolacao: daçãos.isolacao,
+            norma: daçãos.norma,
+            cor: daçãos.cor,
+            localizacao: daçãos.localizacao,
+            fornecedor: daçãos.fornecedor,
+            fornecedor_principal: daçãos.fornecedor_principal,
+            prazo_entrega: daçãos.prazo_entrega,
+            qtd_minima_compra: daçãos.qtd_minima_compra,
+            estoque_minimo: daçãos.estoque_minimo,
+            estoque_maximo: daçãos.estoque_maximo,
+            estoque_atual: daçãos.estoque_atual,
+            estoque_disponivel: daçãos.estoque_disponivel,
+            estoque_reservação: daçãos.estoque_reservação,
+            estoque_transito: daçãos.estoque_transito,
+            custo_aquisicao: daçãos.custo_aquisicao,
+            custo_adicional: daçãos.custo_adicional,
+            custo_total: daçãos.custo_total,
+            markup: daçãos.markup,
+            margem_lucro: daçãos.margem_lucro,
+            peso: daçãos.peso,
+            largura: daçãos.largura,
+            altura: daçãos.altura,
+            comprimento: daçãos.comprimento,
+            obs_internas: daçãos.obs_internas,
+            obs_fornecedor: daçãos.obs_fornecedor,
+            obs_venda: daçãos.obs_venda,
+            controle_lote: daçãos.controle_lote,
+            familia: daçãos.familia
         };
         
         // Adicionar campo de preço (pode ser preco, preco_venda ou custo_unitario)
-        if (dados.preco !== undefined) {
+        if (daçãos.preco !== undefined) {
             if (colunasExistentes.includes('preco')) {
-                mapeamentoCampos.preco = dados.preco;
+                mapeamentoCampos.preco = daçãos.preco;
             } else if (colunasExistentes.includes('preco_venda')) {
-                mapeamentoCampos.preco_venda = dados.preco;
+                mapeamentoCampos.preco_venda = daçãos.preco;
             } else if (colunasExistentes.includes('custo_unitario')) {
-                mapeamentoCampos.custo_unitario = dados.preco;
+                mapeamentoCampos.custo_unitario = daçãos.preco;
             }
         }
         
@@ -5714,23 +5714,23 @@ app.put('/api/produtos/:id', async (req, res) => {
             return res.status(400).json({ error: 'Nenhum campo válido para atualizar' });
         }
         
-        console.log('📝 Campos que serão atualizados:', Object.keys(camposParaAtualizar).join(', '));
+        console.log('📝 Campos que serão atualizaçãos:', Object.keys(camposParaAtualizar).join(', '));
         
         // Construir SET clause
-        const setClauses = Object.keys(camposParaAtualizar).map(campo => `${campo} = ?`);
+        const setClauses = Object.keys(camposParaAtualizar).map(campo => `${campo} = `);
         const valores = Object.values(camposParaAtualizar);
-        valores.push(id); // WHERE id = ?
+        valores.push(id); // WHERE id = 
         
-        const query = `UPDATE produtos SET ${setClauses.join(', ')} WHERE id = ?`;
+        const query = `UPDATE produtos SET ${setClauses.join(', ')} WHERE id = `;
         
         await pool.query(query, valores);
         
-        console.log(`✅ Produto ${id} atualizado com sucesso`);
+        console.log(`✅ Produto ${id} atualização com sucesso`);
         
         res.json({
             success: true,
             id: parseInt(id),
-            message: 'Produto atualizado com sucesso'
+            message: 'Produto atualização com sucesso'
         });
         
     } catch (error) {
@@ -5746,10 +5746,10 @@ app.get('/api/produtos/:id', async (req, res) => {
     try {
         const { id } = req.params;
         
-        const [produtos] = await pool.query('SELECT * FROM produtos WHERE id = ?', [id]);
+        const [produtos] = await pool.query('SELECT * FROM produtos WHERE id = ', [id]);
         
         if (produtos.length === 0) {
-            return res.status(404).json({ error: 'Produto não encontrado' });
+            return res.status(404).json({ error: 'Produto não encontração' });
         }
         
         res.json(produtos[0]);
@@ -5793,8 +5793,8 @@ app.get('/api/alertas-estoque', async (req, res) => {
         
         const [produtos] = await pool.query(query);
         
-        // Classificar produtos por status de estoque (simulado)
-        const alertasFormatados = produtos.map((produto, index) => {
+        // Classificar produtos por status de estoque (simulação)
+        const alertasFormataçãos = produtos.map((produto, index) => {
             // Simular quantidade_atual e estoque_minimo
             const quantidade_atual = Math.floor(Math.random() * 50);
             const estoque_minimo = 20;
@@ -5816,19 +5816,19 @@ app.get('/api/alertas-estoque', async (req, res) => {
                 estoque_minimo: estoque_minimo,
                 localizacao: produto.marca || 'Não informada',
                 status: status,
-                fornecedor: produto.marca || 'Não informado',
+                fornecedor: produto.marca || 'Não informação',
                 custo_unitario: parseFloat(produto.custo_unitario) || 0,
                 preco: parseFloat(produto.custo_unitario) || 0
             };
         });
         
         // Filtrar apenas produtos com status baixo ou crítico
-        const alertasFiltrados = alertasFormatados.filter(a => a.status === 'baixo' || a.status === 'critico');
+        const alertasFiltraçãos = alertasFormataçãos.filter(a => a.status === 'baixo' || a.status === 'critico');
         
-        console.log(`✅ ${alertasFiltrados.length} alertas de estoque encontrados`);
+        console.log(`✅ ${alertasFiltraçãos.length} alertas de estoque encontraçãos`);
         res.json({
-            total: alertasFiltrados.length,
-            alertas: alertasFiltrados
+            total: alertasFiltraçãos.length,
+            alertas: alertasFiltraçãos
         });
         
     } catch (error) {
@@ -5863,7 +5863,7 @@ app.get('/api/configuracoes/empresa', async (req, res) => {
                 email VARCHAR(100),
                 site VARCHAR(255),
                 cep VARCHAR(10),
-                estado VARCHAR(2),
+                estação VARCHAR(2),
                 cidade VARCHAR(100),
                 bairro VARCHAR(100),
                 endereco VARCHAR(255),
@@ -5879,14 +5879,14 @@ app.get('/api/configuracoes/empresa', async (req, res) => {
         if (rows.length > 0) {
             res.json(rows[0]);
         } else {
-            // Retorna dados padrão da Aluforce
+            // Retorna daçãos padrão da Aluforce
             res.json({
                 razao_social: 'I. M. DOS REIS - ALUFORCE INDUSTRIA E COMERCIO DE CONDUTORES',
                 nome_fantasia: 'ALUFORCE INDUSTRIA E COMERCIO DE CONDUTORES ELETRICOS',
                 cnpj: '68.192.475/0001-60',
                 telefone: '(11) 91793-9089',
                 cep: '08537-400',
-                estado: 'SP',
+                estação: 'SP',
                 cidade: 'Ferraz de Vasconcelos (SP)',
                 bairro: 'VILA SÃO JOÃO',
                 endereco: 'RUA ERNESTINA',
@@ -5907,7 +5907,7 @@ app.post('/api/configuracoes/empresa', async (req, res) => {
         
         const {
             razao_social, nome_fantasia, cnpj, inscricao_estadual, inscricao_municipal,
-            telefone, email, site, cep, estado, cidade, bairro, endereco, numero, complemento
+            telefone, email, site, cep, estação, cidade, bairro, endereco, numero, complemento
         } = req.body;
         
         // Verificar se já existe registro
@@ -5917,12 +5917,12 @@ app.post('/api/configuracoes/empresa', async (req, res) => {
             // Atualizar registro existente
             await pool.query(`
                 UPDATE configuracoes_empresa 
-                SET razao_social = ?, nome_fantasia = ?, cnpj = ?, inscricao_estadual = ?,
-                    inscricao_municipal = ?, telefone = ?, email = ?, site = ?, cep = ?,
-                    estado = ?, cidade = ?, bairro = ?, endereco = ?, numero = ?, complemento = ?
-                WHERE id = ?
+                SET razao_social = , nome_fantasia = , cnpj = , inscricao_estadual = ,
+                    inscricao_municipal = , telefone = , email = , site = , cep = ,
+                    estação = , cidade = , bairro = , endereco = , numero = , complemento = 
+                WHERE id = 
             `, [razao_social, nome_fantasia, cnpj, inscricao_estadual, inscricao_municipal,
-                telefone, email, site, cep, estado, cidade, bairro, endereco, numero, complemento,
+                telefone, email, site, cep, estação, cidade, bairro, endereco, numero, complemento,
                 existing[0].id]);
             
             console.log('✅ Configurações atualizadas');
@@ -5931,10 +5931,10 @@ app.post('/api/configuracoes/empresa', async (req, res) => {
             await pool.query(`
                 INSERT INTO configuracoes_empresa 
                 (razao_social, nome_fantasia, cnpj, inscricao_estadual, inscricao_municipal,
-                 telefone, email, site, cep, estado, cidade, bairro, endereco, numero, complemento)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 telefone, email, site, cep, estação, cidade, bairro, endereco, numero, complemento)
+                VALUES (, , , , , , , , , , , , , , )
             `, [razao_social, nome_fantasia, cnpj, inscricao_estadual, inscricao_municipal,
-                telefone, email, site, cep, estado, cidade, bairro, endereco, numero, complemento]);
+                telefone, email, site, cep, estação, cidade, bairro, endereco, numero, complemento]);
             
             console.log('✅ Configurações criadas');
         }
@@ -5960,26 +5960,26 @@ app.post('/api/configuracoes/upload-logo', upload.single('logo'), async (req, re
         console.log('🖼️ Upload de logo da empresa...');
         
         if (!req.file) {
-            return res.status(400).json({ success: false, error: 'Nenhum arquivo enviado' });
+            return res.status(400).json({ success: false, error: 'Nenhum arquivo enviação' });
         }
         
         const logoPath = '/uploads/empresa/' + req.file.filename;
         
-        // Atualizar URL do logo no banco de dados
+        // Atualizar URL do logo no banco de daçãos
         const [existing] = await pool.query('SELECT id FROM configuracoes_empresa LIMIT 1');
         
         if (existing.length > 0) {
-            await pool.query('UPDATE configuracoes_empresa SET logo_url = ? WHERE id = ?', [logoPath, existing[0].id]);
+            await pool.query('UPDATE configuracoes_empresa SET logo_url =  WHERE id = ', [logoPath, existing[0].id]);
         } else {
-            await pool.query('INSERT INTO configuracoes_empresa (logo_url) VALUES (?)', [logoPath]);
+            await pool.query('INSERT INTO configuracoes_empresa (logo_url) VALUES ()', [logoPath]);
         }
         
-        console.log('✅ Logo atualizado:', logoPath);
+        console.log('✅ Logo atualização:', logoPath);
         
         res.json({ 
             success: true, 
             url: logoPath,
-            message: 'Logo atualizado com sucesso!' 
+            message: 'Logo atualização com sucesso!' 
         });
         
     } catch (error) {
@@ -5998,26 +5998,26 @@ app.post('/api/configuracoes/upload-favicon', upload.single('favicon'), async (r
         console.log('🖼️ Upload de favicon da empresa...');
         
         if (!req.file) {
-            return res.status(400).json({ success: false, error: 'Nenhum arquivo enviado' });
+            return res.status(400).json({ success: false, error: 'Nenhum arquivo enviação' });
         }
         
         const faviconPath = '/uploads/empresa/' + req.file.filename;
         
-        // Atualizar URL do favicon no banco de dados
+        // Atualizar URL do favicon no banco de daçãos
         const [existing] = await pool.query('SELECT id FROM configuracoes_empresa LIMIT 1');
         
         if (existing.length > 0) {
-            await pool.query('UPDATE configuracoes_empresa SET favicon_url = ? WHERE id = ?', [faviconPath, existing[0].id]);
+            await pool.query('UPDATE configuracoes_empresa SET favicon_url =  WHERE id = ', [faviconPath, existing[0].id]);
         } else {
-            await pool.query('INSERT INTO configuracoes_empresa (favicon_url) VALUES (?)', [faviconPath]);
+            await pool.query('INSERT INTO configuracoes_empresa (favicon_url) VALUES ()', [faviconPath]);
         }
         
-        console.log('✅ Favicon atualizado:', faviconPath);
+        console.log('✅ Favicon atualização:', faviconPath);
         
         res.json({ 
             success: true, 
             url: faviconPath,
-            message: 'Favicon atualizado com sucesso!' 
+            message: 'Favicon atualização com sucesso!' 
         });
         
     } catch (error) {
@@ -6033,9 +6033,9 @@ app.post('/api/configuracoes/upload-favicon', upload.single('favicon'), async (r
 // ========================================
 // API: POPULAR DADOS DE EXEMPLO
 // ========================================
-app.post('/api/admin/popular-dados', async (req, res) => {
+app.post('/api/admin/popular-daçãos', async (req, res) => {
     try {
-        console.log('📝 Populando dados de exemplo...');
+        console.log('📝 Populando daçãos de exemplo...');
         
         // 1. Verificar produtos
         const [produtos] = await pool.query('SELECT COUNT(*) as total FROM produtos');
@@ -6043,22 +6043,22 @@ app.post('/api/admin/popular-dados', async (req, res) => {
         
         if (produtos[0].total === 0) {
             const produtosExemplo = [
-                ['DUN10', 'CABO DUPLEX NEUTRO NU 2x10mm² LABOR 0,6/1KV', 'Preto / Nu', 'Labor Energy', 'Cabo multiplexado duplex com neutro nu', '7894567890123', 'SKU-DUN10', 28.90],
-                ['TRI25', 'CABO TRIPLEX 3x25mm² LABOR 0,6/1KV', 'Preto / Preto / Nu', 'Labor Energy', 'Cabo multiplexado triplex', '7894567890124', 'SKU-TRI25', 65.90],
-                ['QDN50', 'CABO QUADRUPLEX 3x50mm² + 1x50mm² LABOR 0,6/1KV', 'Preto / Preto / Preto / Nu', 'Labor Energy', 'Cabo multiplexado quadruplex', '7894567890125', 'SKU-QDN50', 125.50],
-                ['DUN16', 'CABO DUPLEX NEUTRO NU 2x16mm² LABOR 0,6/1KV', 'Preto / Nu', 'Aluforce', 'Cabo multiplexado duplex', '7894567890126', 'SKU-DUN16', 38.90],
-                ['TRI35', 'CABO TRIPLEX 3x35mm² LABOR 0,6/1KV', 'Preto / Preto / Nu', 'Aluforce', 'Cabo multiplexado triplex', '7894567890127', 'SKU-TRI35', 85.90],
-                ['QDN70', 'CABO QUADRUPLEX 3x70mm² + 1x70mm² LABOR 0,6/1KV', 'Preto / Preto / Preto / Nu', 'Aluforce', 'Cabo multiplexado quadruplex', '7894567890128', 'SKU-QDN70', 165.50],
-                ['DUN25', 'CABO DUPLEX NEUTRO NU 2x25mm² LABOR 0,6/1KV', 'Preto / Nu', 'Labor Energy', 'Cabo multiplexado duplex', '7894567890129', 'SKU-DUN25', 58.90],
-                ['TRI50', 'CABO TRIPLEX 3x50mm² LABOR 0,6/1KV', 'Preto / Preto / Nu', 'Labor Energy', 'Cabo multiplexado triplex', '7894567890130', 'SKU-TRI50', 105.90],
-                ['QDN95', 'CABO QUADRUPLEX 3x95mm² + 1x95mm² LABOR 0,6/1KV', 'Preto / Preto / Preto / Nu', 'Aluforce', 'Cabo multiplexado quadruplex', '7894567890131', 'SKU-QDN95', 225.50],
-                ['DUN35', 'CABO DUPLEX NEUTRO NU 2x35mm² LABOR 0,6/1KV', 'Preto / Nu', 'Aluforce', 'Cabo multiplexado duplex', '7894567890132', 'SKU-DUN35', 78.90]
+                ['DUN10', 'CABO DUPLEX NEUTRO NU 2x10mm² LABOR 0,6/1KV', 'Preto / Nu', 'Labor Energy', 'Cabo multiplexação duplex com neutro nu', '7894567890123', 'SKU-DUN10', 28.90],
+                ['TRI25', 'CABO TRIPLEX 3x25mm² LABOR 0,6/1KV', 'Preto / Preto / Nu', 'Labor Energy', 'Cabo multiplexação triplex', '7894567890124', 'SKU-TRI25', 65.90],
+                ['QDN50', 'CABO QUADRUPLEX 3x50mm² + 1x50mm² LABOR 0,6/1KV', 'Preto / Preto / Preto / Nu', 'Labor Energy', 'Cabo multiplexação quadruplex', '7894567890125', 'SKU-QDN50', 125.50],
+                ['DUN16', 'CABO DUPLEX NEUTRO NU 2x16mm² LABOR 0,6/1KV', 'Preto / Nu', 'Aluforce', 'Cabo multiplexação duplex', '7894567890126', 'SKU-DUN16', 38.90],
+                ['TRI35', 'CABO TRIPLEX 3x35mm² LABOR 0,6/1KV', 'Preto / Preto / Nu', 'Aluforce', 'Cabo multiplexação triplex', '7894567890127', 'SKU-TRI35', 85.90],
+                ['QDN70', 'CABO QUADRUPLEX 3x70mm² + 1x70mm² LABOR 0,6/1KV', 'Preto / Preto / Preto / Nu', 'Aluforce', 'Cabo multiplexação quadruplex', '7894567890128', 'SKU-QDN70', 165.50],
+                ['DUN25', 'CABO DUPLEX NEUTRO NU 2x25mm² LABOR 0,6/1KV', 'Preto / Nu', 'Labor Energy', 'Cabo multiplexação duplex', '7894567890129', 'SKU-DUN25', 58.90],
+                ['TRI50', 'CABO TRIPLEX 3x50mm² LABOR 0,6/1KV', 'Preto / Preto / Nu', 'Labor Energy', 'Cabo multiplexação triplex', '7894567890130', 'SKU-TRI50', 105.90],
+                ['QDN95', 'CABO QUADRUPLEX 3x95mm² + 1x95mm² LABOR 0,6/1KV', 'Preto / Preto / Preto / Nu', 'Aluforce', 'Cabo multiplexação quadruplex', '7894567890131', 'SKU-QDN95', 225.50],
+                ['DUN35', 'CABO DUPLEX NEUTRO NU 2x35mm² LABOR 0,6/1KV', 'Preto / Nu', 'Aluforce', 'Cabo multiplexação duplex', '7894567890132', 'SKU-DUN35', 78.90]
             ];
             
             for (const prod of produtosExemplo) {
                 await pool.query(`
                     INSERT INTO produtos (codigo, nome, variacao, marca, descricao, gtin, sku, custo_unitario)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                    VALUES (, , , , , , , )
                 `, prod);
                 produtosInseridos++;
             }
@@ -6085,7 +6085,7 @@ app.post('/api/admin/popular-dados', async (req, res) => {
             for (const mat of materiaisExemplo) {
                 await pool.query(`
                     INSERT INTO materiais (codigo_material, descricao, unidade_medida, custo_unitario, quantidade_estoque, fornecedor_padrao)
-                    VALUES (?, ?, ?, ?, ?, ?)
+                    VALUES (, , , , , )
                 `, mat);
                 materiaisInseridos++;
             }
@@ -6095,11 +6095,11 @@ app.post('/api/admin/popular-dados', async (req, res) => {
         const [produtosTotal] = await pool.query('SELECT COUNT(*) as total FROM produtos');
         const [materiaisTotal] = await pool.query('SELECT COUNT(*) as total FROM materiais');
         
-        console.log(`✅ Dados populados: ${produtosInseridos} produtos + ${materiaisInseridos} materiais`);
+        console.log(`✅ Daçãos populaçãos: ${produtosInseridos} produtos + ${materiaisInseridos} materiais`);
         
         res.json({
             success: true,
-            message: 'Dados populados com sucesso',
+            message: 'Daçãos populaçãos com sucesso',
             produtosInseridos,
             materiaisInseridos,
             totais: {
@@ -6109,10 +6109,10 @@ app.post('/api/admin/popular-dados', async (req, res) => {
         });
         
     } catch (error) {
-        console.error('❌ Erro ao popular dados:', error);
+        console.error('❌ Erro ao popular daçãos:', error);
         res.status(500).json({ 
             success: false,
-            error: 'Erro ao popular dados',
+            error: 'Erro ao popular daçãos',
             message: error.message
         });
     }
@@ -6143,13 +6143,13 @@ app.post('/api/configuracoes/venda-produtos', async (req, res) => {
         if (existing.length > 0) {
             await pool.query(`
                 UPDATE configuracoes_venda_produtos 
-                SET etapas = ?, tabelas_preco = ?, numeracao = ?, reserva_estoque = ?
-                WHERE id = ?
+                SET etapas = , tabelas_preco = , numeracao = , reserva_estoque = 
+                WHERE id = 
             `, [JSON.stringify(etapas), JSON.stringify(tabelas_preco), JSON.stringify(numeracao), JSON.stringify(reserva_estoque), existing[0].id]);
         } else {
             await pool.query(`
                 INSERT INTO configuracoes_venda_produtos (etapas, tabelas_preco, numeracao, reserva_estoque)
-                VALUES (?, ?, ?, ?)
+                VALUES (, , , )
             `, [JSON.stringify(etapas), JSON.stringify(tabelas_preco), JSON.stringify(numeracao), JSON.stringify(reserva_estoque)]);
         }
         
@@ -6180,13 +6180,13 @@ app.post('/api/configuracoes/venda-servicos', async (req, res) => {
         if (existing.length > 0) {
             await pool.query(`
                 UPDATE configuracoes_venda_servicos 
-                SET etapas = ?, proposta = ?, numeracao = ?
-                WHERE id = ?
+                SET etapas = , proposta = , numeracao = 
+                WHERE id = 
             `, [JSON.stringify(etapas), JSON.stringify(proposta), JSON.stringify(numeracao), existing[0].id]);
         } else {
             await pool.query(`
                 INSERT INTO configuracoes_venda_servicos (etapas, proposta, numeracao)
-                VALUES (?, ?, ?)
+                VALUES (, , )
             `, [JSON.stringify(etapas), JSON.stringify(proposta), JSON.stringify(numeracao)]);
         }
         
@@ -6217,13 +6217,13 @@ app.post('/api/configuracoes/clientes-fornecedores', async (req, res) => {
         if (existing.length > 0) {
             await pool.query(`
                 UPDATE configuracoes_clientes_fornecedores 
-                SET validacoes = ?, credito = ?, tags = ?
-                WHERE id = ?
+                SET validacoes = , credito = , tags = 
+                WHERE id = 
             `, [JSON.stringify(validacoes), JSON.stringify(credito), JSON.stringify(tags), existing[0].id]);
         } else {
             await pool.query(`
                 INSERT INTO configuracoes_clientes_fornecedores (validacoes, credito, tags)
-                VALUES (?, ?, ?)
+                VALUES (, , )
             `, [JSON.stringify(validacoes), JSON.stringify(credito), JSON.stringify(tags)]);
         }
         
@@ -6255,13 +6255,13 @@ app.post('/api/configuracoes/financas', async (req, res) => {
         if (existing.length > 0) {
             await pool.query(`
                 UPDATE configuracoes_financas 
-                SET contas_atraso = ?, email_remessa = ?, juros_mes = ?, multa_atraso = ?
-                WHERE id = ?
+                SET contas_atraso = , email_remessa = , juros_mes = , multa_atraso = 
+                WHERE id = 
             `, [contas_atraso, email_remessa, juros_mes, multa_atraso, existing[0].id]);
         } else {
             await pool.query(`
                 INSERT INTO configuracoes_financas (contas_atraso, email_remessa, juros_mes, multa_atraso)
-                VALUES (?, ?, ?, ?)
+                VALUES (, , , )
             `, [contas_atraso, email_remessa, juros_mes, multa_atraso]);
         }
         
@@ -6300,7 +6300,7 @@ app.post('/api/configuracoes/familias-produtos', async (req, res) => {
     try {
         const { nome, codigo } = req.body;
         const [result] = await pool.query(
-            'INSERT INTO familias_produtos (nome, codigo) VALUES (?, ?)',
+            'INSERT INTO familias_produtos (nome, codigo) VALUES (, )',
             [nome, codigo]
         );
         res.json({ success: true, id: result.insertId });
@@ -6312,7 +6312,7 @@ app.post('/api/configuracoes/familias-produtos', async (req, res) => {
 
 app.delete('/api/configuracoes/familias-produtos/:id', async (req, res) => {
     try {
-        await pool.query('DELETE FROM familias_produtos WHERE id = ?', [req.params.id]);
+        await pool.query('DELETE FROM familias_produtos WHERE id = ', [req.params.id]);
         res.json({ success: true });
     } catch (error) {
         console.error('Erro ao excluir família:', error);
@@ -6350,7 +6350,7 @@ app.post('/api/configuracoes/caracteristicas-produtos', async (req, res) => {
     try {
         const { nome, conteudos_possiveis, visualizar_em, preenchimento } = req.body;
         const [result] = await pool.query(
-            'INSERT INTO caracteristicas_produtos (nome, conteudos_possiveis, visualizar_em, preenchimento) VALUES (?, ?, ?, ?)',
+            'INSERT INTO caracteristicas_produtos (nome, conteudos_possiveis, visualizar_em, preenchimento) VALUES (, , , )',
             [nome, conteudos_possiveis, visualizar_em, preenchimento]
         );
         res.json({ success: true, id: result.insertId });
@@ -6362,7 +6362,7 @@ app.post('/api/configuracoes/caracteristicas-produtos', async (req, res) => {
 
 app.delete('/api/configuracoes/caracteristicas-produtos/:id', async (req, res) => {
     try {
-        await pool.query('DELETE FROM caracteristicas_produtos WHERE id = ?', [req.params.id]);
+        await pool.query('DELETE FROM caracteristicas_produtos WHERE id = ', [req.params.id]);
         res.json({ success: true });
     } catch (error) {
         console.error('Erro ao excluir característica:', error);
@@ -6432,19 +6432,19 @@ app.post('/api/configuracoes/vendedores', async (req, res) => {
         const senhaHash = await bcrypt.hash(senhaTemp, 10);
         
         const [usuario] = await pool.query(
-            'INSERT INTO usuarios (nome, email, senha, tipo) VALUES (?, ?, ?, ?)',
+            'INSERT INTO usuarios (nome, email, senha, tipo) VALUES (, , , )',
             [nome, email, senhaHash, 'vendedor']
         );
         
         // Dar permissão ao módulo de vendas
         await pool.query(
-            'INSERT INTO permissoes_modulos (usuario_id, modulo) VALUES (?, ?)',
+            'INSERT INTO permissoes_modulos (usuario_id, modulo) VALUES (, )',
             [usuario.insertId, 'vendas']
         );
         
         // Criar registro de vendedor
         const [result] = await pool.query(
-            'INSERT INTO vendedores (nome, email, comissao, permissoes, situacao, usuario_id) VALUES (?, ?, ?, ?, ?, ?)',
+            'INSERT INTO vendedores (nome, email, comissao, permissoes, situacao, usuario_id) VALUES (, , , , , )',
             [nome, email, comissao, permissoes, situacao, usuario.insertId]
         );
         
@@ -6458,17 +6458,17 @@ app.post('/api/configuracoes/vendedores', async (req, res) => {
 app.delete('/api/configuracoes/vendedores/:id', async (req, res) => {
     try {
         // Buscar usuario_id do vendedor
-        const [vendedor] = await pool.query('SELECT usuario_id FROM vendedores WHERE id = ?', [req.params.id]);
+        const [vendedor] = await pool.query('SELECT usuario_id FROM vendedores WHERE id = ', [req.params.id]);
         
         if (vendedor.length > 0 && vendedor[0].usuario_id) {
             // Remover permissões
-            await pool.query('DELETE FROM permissoes_modulos WHERE usuario_id = ?', [vendedor[0].usuario_id]);
+            await pool.query('DELETE FROM permissoes_modulos WHERE usuario_id = ', [vendedor[0].usuario_id]);
             // Remover usuário
-            await pool.query('DELETE FROM usuarios WHERE id = ?', [vendedor[0].usuario_id]);
+            await pool.query('DELETE FROM usuarios WHERE id = ', [vendedor[0].usuario_id]);
         }
         
         // Remover vendedor
-        await pool.query('DELETE FROM vendedores WHERE id = ?', [req.params.id]);
+        await pool.query('DELETE FROM vendedores WHERE id = ', [req.params.id]);
         res.json({ success: true });
     } catch (error) {
         console.error('Erro ao excluir vendedor:', error);
@@ -6480,10 +6480,10 @@ app.delete('/api/configuracoes/vendedores/:id', async (req, res) => {
 // COMPRADORES
 // =========================
 
-app.get('/api/configuracoes/compradores', async (req, res) => {
+app.get('/api/configuracoes/compraçãores', async (req, res) => {
     try {
         await pool.query(`
-            CREATE TABLE IF NOT EXISTS compradores (
+            CREATE TABLE IF NOT EXISTS compraçãores (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 nome VARCHAR(255) NOT NULL,
                 situacao ENUM('ativo', 'inativo') DEFAULT 'ativo',
@@ -6493,7 +6493,7 @@ app.get('/api/configuracoes/compradores', async (req, res) => {
             )
         `);
         
-        const [compradores] = await pool.query(`
+        const [compraçãores] = await pool.query(`
             SELECT 
                 id,
                 nome,
@@ -6501,36 +6501,36 @@ app.get('/api/configuracoes/compradores', async (req, res) => {
                 COALESCE(incluido_por, 'Sistema') as incluido_por,
                 created_at as inclusao,
                 updated_at as última_alteracao
-            FROM compradores 
+            FROM compraçãores 
             ORDER BY nome
         `);
-        res.json(compradores);
+        res.json(compraçãores);
     } catch (error) {
-        console.error('Erro ao buscar compradores:', error);
+        console.error('Erro ao buscar compraçãores:', error);
         res.status(500).json({ error: error.message });
     }
 });
 
-app.post('/api/configuracoes/compradores', async (req, res) => {
+app.post('/api/configuracoes/compraçãores', async (req, res) => {
     try {
         const { nome, situacao, incluido_por } = req.body;
         const [result] = await pool.query(
-            'INSERT INTO compradores (nome, situacao, incluido_por) VALUES (?, ?, ?)',
+            'INSERT INTO compraçãores (nome, situacao, incluido_por) VALUES (, , )',
             [nome, situacao, incluido_por]
         );
         res.json({ success: true, id: result.insertId });
     } catch (error) {
-        console.error('Erro ao criar comprador:', error);
+        console.error('Erro ao criar compraçãor:', error);
         res.status(500).json({ success: false, error: error.message });
     }
 });
 
-app.delete('/api/configuracoes/compradores/:id', async (req, res) => {
+app.delete('/api/configuracoes/compraçãores/:id', async (req, res) => {
     try {
-        await pool.query('DELETE FROM compradores WHERE id = ?', [req.params.id]);
+        await pool.query('DELETE FROM compraçãores WHERE id = ', [req.params.id]);
         res.json({ success: true });
     } catch (error) {
-        console.error('Erro ao excluir comprador:', error);
+        console.error('Erro ao excluir compraçãor:', error);
         res.status(500).json({ success: false, error: error.message });
     }
 });
@@ -6550,7 +6550,7 @@ app.post('/api/test-session/start', async (req, res) => {
         const userInfo = {
             userId: req.body.userId,
             userName: req.body.userName || 'Usuário Anônimo',
-            department: req.body.department || 'Não informado',
+            department: req.body.department || 'Não informação',
             userAgent: req.headers['user-agent'],
             ipAddress: req.ip || req.connection.remoteAddress
         };
@@ -6570,7 +6570,7 @@ app.post('/api/test-session/start', async (req, res) => {
     }
 });
 
-// API para registrar resultado de teste
+// API para registrar resultação de teste
 app.post('/api/test-session/result', async (req, res) => {
     try {
         const { sessionId, testResult } = req.body;
@@ -6587,7 +6587,7 @@ app.post('/api/test-session/result', async (req, res) => {
         res.json({
             success: true,
             testId,
-            message: 'Resultado de teste registrado com sucesso'
+            message: 'Resultação de teste registração com sucesso'
         });
     } catch (error) {
         res.status(500).json({
@@ -6614,7 +6614,7 @@ app.post('/api/test-session/feedback', async (req, res) => {
         res.json({
             success: true,
             feedbackId,
-            message: 'Feedback registrado com sucesso'
+            message: 'Feedback registração com sucesso'
         });
     } catch (error) {
         res.status(500).json({
@@ -6663,10 +6663,10 @@ app.get('/api/test-session/report', async (req, res) => {
 // ROTAS DA API DE CONFIGURAÇÓES DO SISTEMA
 // =================================================================
 
-// GET - Buscar dados da empresa
+// GET - Buscar daçãos da empresa
 app.get('/api/configuracoes/empresa', async (req, res) => {
     try {
-        console.log('📋 Buscando dados da empresa...');
+        console.log('📋 Buscando daçãos da empresa...');
         
         const [rows] = await pool.query(`
             SELECT * FROM configuracoes_empresa 
@@ -6679,19 +6679,19 @@ app.get('/api/configuracoes/empresa', async (req, res) => {
             res.json({});
         }
     } catch (error) {
-        console.error('❌ Erro ao buscar dados da empresa:', error);
-        res.status(500).json({ error: 'Erro ao buscar dados da empresa' });
+        console.error('❌ Erro ao buscar daçãos da empresa:', error);
+        res.status(500).json({ error: 'Erro ao buscar daçãos da empresa' });
     }
 });
 
-// POST - Salvar dados da empresa
+// POST - Salvar daçãos da empresa
 app.post('/api/configuracoes/empresa', async (req, res) => {
     try {
-        console.log('💾 Salvando dados da empresa...');
+        console.log('💾 Salvando daçãos da empresa...');
         
         const {
             razao_social, nome_fantasia, cnpj, inscricao_estadual, inscricao_municipal,
-            telefone, email, site, cep, estado, cidade, bairro, endereco, numero, complemento
+            telefone, email, site, cep, estação, cidade, bairro, endereco, numero, complemento
         } = req.body;
 
         // Verificar se já existe registro
@@ -6701,14 +6701,14 @@ app.post('/api/configuracoes/empresa', async (req, res) => {
             // Atualizar registro existente
             await pool.query(`
                 UPDATE configuracoes_empresa SET
-                    razao_social = ?, nome_fantasia = ?, cnpj = ?, inscricao_estadual = ?,
-                    inscricao_municipal = ?, telefone = ?, email = ?, site = ?,
-                    cep = ?, estado = ?, cidade = ?, bairro = ?, endereco = ?, numero = ?,
-                    complemento = ?, updated_at = NOW()
-                WHERE id = ?
+                    razao_social = , nome_fantasia = , cnpj = , inscricao_estadual = ,
+                    inscricao_municipal = , telefone = , email = , site = ,
+                    cep = , estação = , cidade = , bairro = , endereco = , numero = ,
+                    complemento = , updated_at = NOW()
+                WHERE id = 
             `, [
                 razao_social, nome_fantasia, cnpj, inscricao_estadual, inscricao_municipal,
-                telefone, email, site, cep, estado, cidade, bairro, endereco, numero,
+                telefone, email, site, cep, estação, cidade, bairro, endereco, numero,
                 complemento, existing[0].id
             ]);
         } else {
@@ -6716,21 +6716,21 @@ app.post('/api/configuracoes/empresa', async (req, res) => {
             await pool.query(`
                 INSERT INTO configuracoes_empresa (
                     razao_social, nome_fantasia, cnpj, inscricao_estadual, inscricao_municipal,
-                    telefone, email, site, cep, estado, cidade, bairro, endereco, numero,
+                    telefone, email, site, cep, estação, cidade, bairro, endereco, numero,
                     complemento, created_at, updated_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())
+                ) VALUES (, , , , , , , , , , , , , , , NOW(), NOW())
             `, [
                 razao_social, nome_fantasia, cnpj, inscricao_estadual, inscricao_municipal,
-                telefone, email, site, cep, estado, cidade, bairro, endereco, numero, complemento
+                telefone, email, site, cep, estação, cidade, bairro, endereco, numero, complemento
             ]);
         }
         
-        console.log('✅ Dados da empresa salvos com sucesso');
-        res.json({ success: true, message: 'Dados salvos com sucesso' });
+        console.log('✅ Daçãos da empresa salvos com sucesso');
+        res.json({ success: true, message: 'Daçãos salvos com sucesso' });
         
     } catch (error) {
-        console.error('❌ Erro ao salvar dados da empresa:', error);
-        res.status(500).json({ error: 'Erro ao salvar dados da empresa' });
+        console.error('❌ Erro ao salvar daçãos da empresa:', error);
+        res.status(500).json({ error: 'Erro ao salvar daçãos da empresa' });
     }
 });
 
@@ -6762,7 +6762,7 @@ app.post('/api/configuracoes/categorias', async (req, res) => {
         
         const [result] = await pool.query(`
             INSERT INTO categorias (nome, descricao, cor, ativo, created_at, updated_at)
-            VALUES (?, ?, ?, 1, NOW(), NOW())
+            VALUES (, , , 1, NOW(), NOW())
         `, [nome, descricao, cor || '#6366f1']);
         
         console.log('✅ Categoria criada com sucesso');
@@ -6782,7 +6782,7 @@ app.delete('/api/configuracoes/categorias/:id', async (req, res) => {
         const { id } = req.params;
         
         await pool.query(`
-            UPDATE categorias SET ativo = 0, updated_at = NOW() WHERE id = ?
+            UPDATE categorias SET ativo = 0, updated_at = NOW() WHERE id = 
         `, [id]);
         
         console.log('✅ Categoria excluída com sucesso');
@@ -6799,7 +6799,7 @@ app.get('/api/configuracoes/categorias/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const [categorias] = await pool.query(`
-            SELECT id, nome, descricao, cor FROM categorias WHERE id = ? AND ativo = 1
+            SELECT id, nome, descricao, cor FROM categorias WHERE id =  AND ativo = 1
         `, [id]);
         
         if (categorias.length === 0) {
@@ -6820,7 +6820,7 @@ app.put('/api/configuracoes/categorias/:id', async (req, res) => {
         const { nome, descricao, cor } = req.body;
         
         await pool.query(`
-            UPDATE categorias SET nome = ?, descricao = ?, cor = ?, updated_at = NOW() WHERE id = ?
+            UPDATE categorias SET nome = , descricao = , cor = , updated_at = NOW() WHERE id = 
         `, [nome, descricao, cor, id]);
         
         console.log('✅ Categoria atualizada com sucesso');
@@ -6859,10 +6859,10 @@ app.post('/api/configuracoes/departamentos', async (req, res) => {
         
         const [result] = await pool.query(`
             INSERT INTO departamentos (nome, descricao, responsavel, ativo, created_at, updated_at)
-            VALUES (?, ?, ?, 1, NOW(), NOW())
+            VALUES (, , , 1, NOW(), NOW())
         `, [nome, descricao, responsavel || null]);
         
-        console.log('✅ Departamento criado com sucesso');
+        console.log('✅ Departamento criação com sucesso');
         res.json({ success: true, id: result.insertId });
         
     } catch (error) {
@@ -6879,7 +6879,7 @@ app.delete('/api/configuracoes/departamentos/:id', async (req, res) => {
         const { id } = req.params;
         
         await pool.query(`
-            UPDATE departamentos SET ativo = 0, updated_at = NOW() WHERE id = ?
+            UPDATE departamentos SET ativo = 0, updated_at = NOW() WHERE id = 
         `, [id]);
         
         console.log('✅ Departamento excluído com sucesso');
@@ -6896,11 +6896,11 @@ app.get('/api/configuracoes/departamentos/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const [departamentos] = await pool.query(`
-            SELECT id, nome, descricao, responsavel FROM departamentos WHERE id = ? AND ativo = 1
+            SELECT id, nome, descricao, responsavel FROM departamentos WHERE id =  AND ativo = 1
         `, [id]);
         
         if (departamentos.length === 0) {
-            return res.status(404).json({ error: 'Departamento não encontrado' });
+            return res.status(404).json({ error: 'Departamento não encontração' });
         }
         
         res.json(departamentos[0]);
@@ -6917,10 +6917,10 @@ app.put('/api/configuracoes/departamentos/:id', async (req, res) => {
         const { nome, descricao, responsavel } = req.body;
         
         await pool.query(`
-            UPDATE departamentos SET nome = ?, descricao = ?, responsavel = ?, updated_at = NOW() WHERE id = ?
+            UPDATE departamentos SET nome = , descricao = , responsavel = , updated_at = NOW() WHERE id = 
         `, [nome, descricao, responsavel, id]);
         
-        console.log('✅ Departamento atualizado com sucesso');
+        console.log('✅ Departamento atualização com sucesso');
         res.json({ success: true });
     } catch (error) {
         console.error('❌ Erro ao atualizar departamento:', error);
@@ -6957,18 +6957,18 @@ app.post('/api/configuracoes/projetos', async (req, res) => {
         // Mapear status do frontend para o ENUM do banco
         const statusMap = {
             'ativo': 'em_andamento',
-            'pausado': 'pausado',
+            'pausação': 'pausação',
             'concluido': 'concluido',
-            'cancelado': 'cancelado'
+            'cancelação': 'cancelação'
         };
         const dbStatus = statusMap[status] || 'em_andamento';
         
         const [result] = await pool.query(`
             INSERT INTO projetos (nome, descricao, data_inicio, data_previsao_fim, status, ativo, created_at, updated_at)
-            VALUES (?, ?, ?, ?, ?, 1, NOW(), NOW())
+            VALUES (, , , , , 1, NOW(), NOW())
         `, [nome, descricao, data_inicio || null, data_fim || null, dbStatus]);
         
-        console.log('✅ Projeto criado com sucesso');
+        console.log('✅ Projeto criação com sucesso');
         res.json({ success: true, id: result.insertId });
         
     } catch (error) {
@@ -6985,7 +6985,7 @@ app.delete('/api/configuracoes/projetos/:id', async (req, res) => {
         const { id } = req.params;
         
         await pool.query(`
-            UPDATE projetos SET ativo = 0, updated_at = NOW() WHERE id = ?
+            UPDATE projetos SET ativo = 0, updated_at = NOW() WHERE id = 
         `, [id]);
         
         console.log('✅ Projeto excluído com sucesso');
@@ -7002,11 +7002,11 @@ app.get('/api/configuracoes/projetos/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const [projetos] = await pool.query(`
-            SELECT id, nome, descricao, data_inicio, data_previsao_fim as data_fim, status FROM projetos WHERE id = ? AND ativo = 1
+            SELECT id, nome, descricao, data_inicio, data_previsao_fim as data_fim, status FROM projetos WHERE id =  AND ativo = 1
         `, [id]);
         
         if (projetos.length === 0) {
-            return res.status(404).json({ error: 'Projeto não encontrado' });
+            return res.status(404).json({ error: 'Projeto não encontração' });
         }
         
         res.json(projetos[0]);
@@ -7025,17 +7025,17 @@ app.put('/api/configuracoes/projetos/:id', async (req, res) => {
         // Mapear status do frontend para o ENUM do banco
         const statusMap = {
             'ativo': 'em_andamento',
-            'pausado': 'pausado',
+            'pausação': 'pausação',
             'concluido': 'concluido',
-            'cancelado': 'cancelado'
+            'cancelação': 'cancelação'
         };
         const dbStatus = statusMap[status] || 'em_andamento';
         
         await pool.query(`
-            UPDATE projetos SET nome = ?, descricao = ?, data_inicio = ?, data_previsao_fim = ?, status = ?, updated_at = NOW() WHERE id = ?
+            UPDATE projetos SET nome = , descricao = , data_inicio = , data_previsao_fim = , status = , updated_at = NOW() WHERE id = 
         `, [nome, descricao, data_inicio || null, data_fim || null, dbStatus, id]);
         
-        console.log('✅ Projeto atualizado com sucesso');
+        console.log('✅ Projeto atualização com sucesso');
         res.json({ success: true });
     } catch (error) {
         console.error('❌ Erro ao atualizar projeto:', error);
@@ -7043,85 +7043,85 @@ app.put('/api/configuracoes/projetos/:id', async (req, res) => {
     }
 });
 
-// GET - Buscar dados do certificado (integrado com módulo NFe)
-app.get('/api/configuracoes/certificado', async (req, res) => {
+// GET - Buscar daçãos do certificação (integração com módulo NFe)
+app.get('/api/configuracoes/certificação', async (req, res) => {
     try {
-        console.log('📋 Buscando certificado digital...');
+        console.log('📋 Buscando certificação digital...');
         
         const empresaId = 1; // Empresa padrão
         
         // Primeiro tentar buscar da tabela nfe_configuracoes (mais completa)
         const [nfeConfig] = await pool.query(`
-            SELECT certificado_validade as validade, 
-                   certificado_cnpj as cnpj,
-                   certificado_nome as nome,
+            SELECT certificação_validade as validade, 
+                   certificação_cnpj as cnpj,
+                   certificação_nome as nome,
                    created_at, 
                    updated_at,
-                   CASE WHEN certificado_pfx IS NOT NULL THEN 1 ELSE 0 END as tem_certificado
+                   CASE WHEN certificação_pfx IS NOT NULL THEN 1 ELSE 0 END as tem_certificação
             FROM nfe_configuracoes 
-            WHERE empresa_id = ?
+            WHERE empresa_id = 
             LIMIT 1
         `, [empresaId]);
         
-        if (nfeConfig && nfeConfig.length > 0 && nfeConfig[0].tem_certificado) {
+        if (nfeConfig && nfeConfig.length > 0 && nfeConfig[0].tem_certificação) {
             const cert = nfeConfig[0];
-            const diasRestantes = cert.validade ? 
+            const diasRestantes = cert.validade  
                 Math.ceil((new Date(cert.validade) - new Date()) / (1000 * 60 * 60 * 24)) : null;
             
             res.json({
-                configurado: true,
+                configuração: true,
                 validade: cert.validade,
                 cnpj: cert.cnpj,
                 nome: cert.nome,
                 diasRestantes: diasRestantes,
-                status: diasRestantes > 30 ? 'valido' : diasRestantes > 0 ? 'expirando' : 'expirado',
+                status: diasRestantes > 30  'valido' : diasRestantes > 0  'expirando' : 'expiração',
                 created_at: cert.created_at,
                 updated_at: cert.updated_at
             });
             return;
         }
         
-        // Fallback: buscar da tabela certificados_digitais
+        // Fallback: buscar da tabela certificaçãos_digitais
         const [rows] = await pool.query(`
             SELECT validade, created_at, updated_at 
-            FROM certificados_digitais 
+            FROM certificaçãos_digitais 
             ORDER BY id DESC LIMIT 1
         `);
         
         if (rows.length > 0) {
             res.json({
-                configurado: true,
+                configuração: true,
                 ...rows[0]
             });
         } else {
             res.json({
-                configurado: false
+                configuração: false
             });
         }
     } catch (error) {
-        console.error('❌ Erro ao buscar certificado:', error);
-        res.status(500).json({ error: 'Erro ao buscar certificado' });
+        console.error('❌ Erro ao buscar certificação:', error);
+        res.status(500).json({ error: 'Erro ao buscar certificação' });
     }
 });
 
-// POST - Salvar certificado digital (integrado com módulo NFe)
-app.post('/api/configuracoes/certificado', upload.single('certificado'), async (req, res) => {
+// POST - Salvar certificação digital (integração com módulo NFe)
+app.post('/api/configuracoes/certificação', upload.single('certificação'), async (req, res) => {
     try {
-        console.log('💾 Salvando certificado digital...');
+        console.log('💾 Salvando certificação digital...');
         
         if (!req.file) {
-            return res.status(400).json({ error: 'Arquivo de certificado não enviado' });
+            return res.status(400).json({ error: 'Arquivo de certificação não enviação' });
         }
         
         const { senha } = req.body;
         if (!senha) {
-            return res.status(400).json({ error: 'Senha do certificado é obrigatória' });
+            return res.status(400).json({ error: 'Senha do certificação é obrigatória' });
         }
         
         const empresaId = 1; // Empresa padrão
         const pfxBuffer = req.file.buffer;
         
-        // Validar certificado usando node-forge
+        // Validar certificação usando node-forge
         let certInfo = null;
         try {
             const forge = require('node-forge');
@@ -7136,28 +7136,28 @@ app.post('/api/configuracoes/certificado', upload.single('certificado'), async (
                 
                 // Extrair informações
                 const cn = cert.subject.getField('CN');
-                const cnValue = cn ? cn.value : '';
+                const cnValue = cn  cn.value : '';
                 const cnpjMatch = cnValue.match(/(\d{14})/);
                 
                 certInfo = {
-                    cnpj: cnpjMatch ? cnpjMatch[1] : '',
+                    cnpj: cnpjMatch  cnpjMatch[1] : '',
                     razaoSocial: cnValue.split(':')[0].trim(),
                     validade: cert.validity.notAfter,
                     emissao: cert.validity.notBefore
                 };
                 
-                // Verificar se certificado está válido
+                // Verificar se certificação está válido
                 const agora = new Date();
                 if (cert.validity.notAfter < agora) {
-                    return res.status(400).json({ error: 'Certificado expirado' });
+                    return res.status(400).json({ error: 'Certificação expiração' });
                 }
             }
         } catch (forgeError) {
-            console.error('❌ Erro ao validar certificado:', forgeError.message);
+            console.error('❌ Erro ao validar certificação:', forgeError.message);
             if (forgeError.message.includes('Invalid password')) {
-                return res.status(400).json({ error: 'Senha do certificado incorreta' });
+                return res.status(400).json({ error: 'Senha do certificação incorreta' });
             }
-            return res.status(400).json({ error: 'Certificado inválido: ' + forgeError.message });
+            return res.status(400).json({ error: 'Certificação inválido: ' + forgeError.message });
         }
         
         // Criptografar senha (base64 simples - em produção usar algo mais seguro)
@@ -7165,7 +7165,7 @@ app.post('/api/configuracoes/certificado', upload.single('certificado'), async (
         
         // Verificar se já existe configuração para a empresa na tabela nfe_configuracoes
         const [existing] = await pool.query(
-            'SELECT id FROM nfe_configuracoes WHERE empresa_id = ?',
+            'SELECT id FROM nfe_configuracoes WHERE empresa_id = ',
             [empresaId]
         );
         
@@ -7173,41 +7173,41 @@ app.post('/api/configuracoes/certificado', upload.single('certificado'), async (
             // Atualizar configuração existente
             await pool.query(`
                 UPDATE nfe_configuracoes 
-                SET certificado_pfx = ?,
-                    certificado_senha = ?,
-                    certificado_validade = ?,
-                    certificado_cnpj = ?,
-                    certificado_nome = ?,
+                SET certificação_pfx = ,
+                    certificação_senha = ,
+                    certificação_validade = ,
+                    certificação_cnpj = ,
+                    certificação_nome = ,
                     updated_at = NOW()
-                WHERE empresa_id = ?
+                WHERE empresa_id = 
             `, [
                 pfxBuffer,
                 senhaCriptografada,
-                certInfo ? certInfo.validade : null,
-                certInfo ? certInfo.cnpj : null,
-                certInfo ? certInfo.razaoSocial : req.file.originalname,
+                certInfo  certInfo.validade : null,
+                certInfo  certInfo.cnpj : null,
+                certInfo  certInfo.razaoSocial : req.file.originalname,
                 empresaId
             ]);
         } else {
             // Criar nova configuração
             await pool.query(`
                 INSERT INTO nfe_configuracoes 
-                (empresa_id, certificado_pfx, certificado_senha, certificado_validade, certificado_cnpj, certificado_nome, ambiente, created_at, updated_at)
-                VALUES (?, ?, ?, ?, ?, ?, 'homologacao', NOW(), NOW())
+                (empresa_id, certificação_pfx, certificação_senha, certificação_validade, certificação_cnpj, certificação_nome, ambiente, created_at, updated_at)
+                VALUES (, , , , , , 'homologacao', NOW(), NOW())
             `, [
                 empresaId,
                 pfxBuffer,
                 senhaCriptografada,
-                certInfo ? certInfo.validade : null,
-                certInfo ? certInfo.cnpj : null,
-                certInfo ? certInfo.razaoSocial : req.file.originalname
+                certInfo  certInfo.validade : null,
+                certInfo  certInfo.cnpj : null,
+                certInfo  certInfo.razaoSocial : req.file.originalname
             ]);
         }
         
-        // Também salvar na tabela certificados_digitais para compatibilidade
+        // Também salvar na tabela certificaçãos_digitais para compatibilidade
         await pool.query(`
-            INSERT INTO certificados_digitais (arquivo_nome, senha_hash, validade, created_at, updated_at)
-            VALUES (?, ?, ?, NOW(), NOW())
+            INSERT INTO certificaçãos_digitais (arquivo_nome, senha_hash, validade, created_at, updated_at)
+            VALUES (, , , NOW(), NOW())
             ON DUPLICATE KEY UPDATE 
                 arquivo_nome = VALUES(arquivo_nome),
                 senha_hash = VALUES(senha_hash),
@@ -7216,15 +7216,15 @@ app.post('/api/configuracoes/certificado', upload.single('certificado'), async (
         `, [
             req.file.originalname, 
             senhaCriptografada, 
-            certInfo ? certInfo.validade : new Date(Date.now() + 365*24*60*60*1000)
+            certInfo  certInfo.validade : new Date(Date.now() + 365*24*60*60*1000)
         ]);
         
-        console.log('✅ Certificado salvo com sucesso nas tabelas nfe_configuracoes e certificados_digitais');
+        console.log('✅ Certificação salvo com sucesso nas tabelas nfe_configuracoes e certificaçãos_digitais');
         
         res.json({ 
             success: true,
-            message: 'Certificado instalado com sucesso',
-            info: certInfo ? {
+            message: 'Certificação instalação com sucesso',
+            info: certInfo  {
                 cnpj: certInfo.cnpj,
                 razaoSocial: certInfo.razaoSocial,
                 validade: certInfo.validade,
@@ -7233,8 +7233,8 @@ app.post('/api/configuracoes/certificado', upload.single('certificado'), async (
         });
         
     } catch (error) {
-        console.error('❌ Erro ao salvar certificado:', error);
-        res.status(500).json({ error: 'Erro ao salvar certificado: ' + error.message });
+        console.error('❌ Erro ao salvar certificação:', error);
+        res.status(500).json({ error: 'Erro ao salvar certificação: ' + error.message });
     }
 });
 
@@ -7274,14 +7274,14 @@ app.post('/api/configuracoes/nfe-import', async (req, res) => {
             // Atualizar
             await pool.query(`
                 UPDATE configuracoes_nfe SET
-                    ativo = ?, data_ativacao = ?, updated_at = NOW()
-                WHERE id = ?
+                    ativo = , data_ativacao = , updated_at = NOW()
+                WHERE id = 
             `, [ativo, data_ativacao, existing[0].id]);
         } else {
             // Inserir
             await pool.query(`
                 INSERT INTO configuracoes_nfe (ativo, data_ativacao, created_at, updated_at)
-                VALUES (?, ?, NOW(), NOW())
+                VALUES (, , NOW(), NOW())
             `, [ativo, data_ativacao]);
         }
         
@@ -7406,7 +7406,7 @@ app.post('/api/print/add', upload.single('file'), async (req, res) => {
         res.json({
             success: true,
             jobId: job.id,
-            message: 'Arquivo adicionado à fila de impressão'
+            message: 'Arquivo adicionação à fila de impressão'
         });
     } catch (error) {
         console.error('❌ Erro ao adicionar à fila:', error);
@@ -7538,7 +7538,7 @@ app.get('/api/pcp/ultimo-pedido', async (req, res) => {
         
         const connection = await pool.getConnection();
         try {
-            // Buscar o maior número de pedido registrado
+            // Buscar o maior número de pedido registração
             const [rows] = await connection.query(`
                 SELECT MAX(CAST(numero_pedido AS UNSIGNED)) as ultimo_numero
                 FROM ordens_producao
@@ -7578,21 +7578,21 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
     try {
         console.log('📊 Iniciando geração de Ordem de Produção em Excel...');
         
-        const dadosOrdem = req.body;
+        const daçãosOrdem = req.body;
         
         console.log('🔍 DADOS RECEBIDOS - TRANSPORTADORA:', {
-            transportadora_nome: dadosOrdem.transportadora_nome,
-            transportadora_fone: dadosOrdem.transportadora_fone,
-            transportadora_cep: dadosOrdem.transportadora_cep,
-            transportadora_endereco: dadosOrdem.transportadora_endereco,
-            transportadora_cpf_cnpj: dadosOrdem.transportadora_cpf_cnpj,
-            transportadora_email_nfe: dadosOrdem.transportadora_email_nfe
+            transportaçãora_nome: daçãosOrdem.transportaçãora_nome,
+            transportaçãora_fone: daçãosOrdem.transportaçãora_fone,
+            transportaçãora_cep: daçãosOrdem.transportaçãora_cep,
+            transportaçãora_endereco: daçãosOrdem.transportaçãora_endereco,
+            transportaçãora_cpf_cnpj: daçãosOrdem.transportaçãora_cpf_cnpj,
+            transportaçãora_email_nfe: daçãosOrdem.transportaçãora_email_nfe
         });
         
-        // Validar dados obrigatórios
-        if (!dadosOrdem.numero_orcamento || !dadosOrdem.cliente) {
+        // Validar daçãos obrigatórios
+        if (!daçãosOrdem.numero_orcamento || !daçãosOrdem.cliente) {
             return res.status(400).json({ 
-                error: 'Dados obrigatórios não fornecidos (numero_orcamento, cliente)' 
+                error: 'Daçãos obrigatórios não fornecidos (numero_orcamento, cliente)' 
             });
         }
 
@@ -7603,14 +7603,14 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
             const fs = require('fs');
             const path = require('path');
             
-            console.log('✅ ExcelJS carregado');
+            console.log('✅ ExcelJS carregação');
             
             // Usar caminho relativo simples para evitar problemas de encoding
             // 🔧 USAR TEMPLATE ORIGINAL COMPLETO para preservar formatação e fórmulas
             const templatePath = 'modules/PCP/Ordem de Produção.xlsx';
-            const dataOrdem = dadosOrdem.data_liberacao || new Date().toLocaleDateString('pt-BR');
+            const dataOrdem = daçãosOrdem.data_liberacao || new Date().toLocaleDateString('pt-BR');
             // Formatar nome do cliente para nome de arquivo válido
-            const nomeCliente = (dadosOrdem.cliente || dadosOrdem.cliente_razao || 'Cliente').replace(/[/\\:*?"<>|]/g, '_').trim();
+            const nomeCliente = (daçãosOrdem.cliente || daçãosOrdem.cliente_razao || 'Cliente').replace(/[/\\:*"<>|]/g, '_').trim();
             const nomeArquivo = `Ordem de Produção - ${nomeCliente} - ERP.xlsx`;
             const outputPath = path.join(__dirname, nomeArquivo);
             
@@ -7619,14 +7619,14 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
             
             // Verificar se template existe
             if (!fs.existsSync(templatePath)) {
-                throw new Error(`Template não encontrado: ${templatePath}`);
+                throw new Error(`Template não encontração: ${templatePath}`);
             }
             
             // Usar função existente que carrega e preenche o template
-            const fileBuffer = await gerarExcelOrdemProducaoCompleta(dadosOrdem, ExcelJS, templatePath);
+            const fileBuffer = await gerarExcelOrdemProducaoCompleta(daçãosOrdem, ExcelJS, templatePath);
             
-            console.log('✅ Template processado');
-            console.log(`📊 Buffer gerado: ${fileBuffer.length} bytes`);
+            console.log('✅ Template processação');
+            console.log(`📊 Buffer geração: ${fileBuffer.length} bytes`);
             
             // Configurar headers para download
             res.setHeader('Content-Disposition', `attachment; filename="${nomeArquivo}"`);
@@ -7635,16 +7635,16 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
             
             res.send(fileBuffer);
             
-            console.log(`✅ Excel gerado com sucesso usando template: ${nomeArquivo}`);
+            console.log(`✅ Excel geração com sucesso usando template: ${nomeArquivo}`);
             
         } catch (excelError) {
             console.log('❌ ERRO ao gerar XLSX:', excelError.message);
             console.log('📍 Stack trace:', excelError.stack);
             
             // Fallback para CSV
-            const csvBuffer = await gerarExcelOrdemProducaoFallback(dadosOrdem);
+            const csvBuffer = await gerarExcelOrdemProducaoFallback(daçãosOrdem);
             
-            const nomeCliente = (dadosOrdem.cliente || 'Cliente').replace(/[/\\:*?"<>|]/g, '_').trim();
+            const nomeCliente = (daçãosOrdem.cliente || 'Cliente').replace(/[/\\:*"<>|]/g, '_').trim();
             const nomeArquivo = `Ordem de Produção - ${nomeCliente} - ERP.csv`;
             
             res.setHeader('Content-Disposition', `attachment; filename="${nomeArquivo}"`);
@@ -7653,7 +7653,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
             
             res.send(csvBuffer);
             
-            console.log(`✅ CSV gerado com sucesso como fallback: ${nomeArquivo}`);
+            console.log(`✅ CSV geração com sucesso como fallback: ${nomeArquivo}`);
         }
         
     } catch (error) {
@@ -7666,7 +7666,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
 });
 
 // Função para gerar Excel da Ordem de Produção usando ExcelJS COM TEMPLATE CORRETO
-async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
+async function gerarExcelOrdemProducaoCompleta(daçãos, ExcelJS, templatePath) {
     console.log('📂 Carregando template Excel...');
     
     const workbook = new ExcelJS.Workbook();
@@ -7680,7 +7680,7 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
         throw new Error('Aba VENDAS_PCP não encontrada no template!');
     }
     
-    console.log(`✅ Template carregado! Abas encontradas: ${workbook.worksheets.map(w => w.name).join(', ')}`);
+    console.log(`✅ Template carregação! Abas encontradas: ${workbook.worksheets.map(w => w.name).join(', ')}`);
     console.log('🔧 Usando template PREENCHIDO - fórmulas serão preservadas!\n');
     console.log('✏️ Preenchendo aba VENDAS_PCP...\n');
     
@@ -7691,23 +7691,23 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     console.log('📝 Preenchendo cabeçalho...');
     
     // C4 - Número do Orçamento (como número se possível)
-    const numOrcamento = dados.numero_orcamento || '';
-    abaVendas.getCell('C4').value = isNaN(numOrcamento) ? numOrcamento : parseFloat(numOrcamento);
+    const numOrcamento = daçãos.numero_orcamento || '';
+    abaVendas.getCell('C4').value = isNaN(numOrcamento)  numOrcamento : parseFloat(numOrcamento);
     
     // G4 - Número do Pedido (como número se possível)
-    const numPedido = dados.numero_pedido || dados.num_pedido || '0';
+    const numPedido = daçãos.numero_pedido || daçãos.num_pedido || '0';
     // Se for vazio ou NaN, usar 0
-    const numPedidoFinal = numPedido === '' || numPedido === null || numPedido === undefined ? '0' : numPedido;
-    abaVendas.getCell('G4').value = isNaN(numPedidoFinal) ? numPedidoFinal : parseFloat(numPedidoFinal);
+    const numPedidoFinal = numPedido === '' || numPedido === null || numPedido === undefined  '0' : numPedido;
+    abaVendas.getCell('G4').value = isNaN(numPedidoFinal)  numPedidoFinal : parseFloat(numPedidoFinal);
     
     // J4 - Data de Liberação (como objeto Date)
-    if (dados.data_liberacao) {
+    if (daçãos.data_liberacao) {
         // Se já é Date, usa direto
-        if (dados.data_liberacao instanceof Date) {
-            abaVendas.getCell('J4').value = dados.data_liberacao;
+        if (daçãos.data_liberacao instanceof Date) {
+            abaVendas.getCell('J4').value = daçãos.data_liberacao;
         } else {
             // Tentar converter string para Date (formato dd/mm/yyyy ou yyyy-mm-dd)
-            const dataStr = String(dados.data_liberacao);
+            const dataStr = String(daçãos.data_liberacao);
             let dataObj;
             
             if (dataStr.includes('/')) {
@@ -7728,19 +7728,19 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     }
     
     // Vendedor (linha 6)
-    abaVendas.getCell('C6').value = dados.vendedor || '';
+    abaVendas.getCell('C6').value = daçãos.vendedor || '';
     
     // 🔧 H6 - Calcular prazo de entrega (data liberação + dias) ao invés de usar fórmula
-    if (dados.prazo_entrega) {
+    if (daçãos.prazo_entrega) {
         // Se veio uma data específica, usar
-        if (dados.prazo_entrega instanceof Date) {
-            abaVendas.getCell('H6').value = dados.prazo_entrega;
-        } else if (typeof dados.prazo_entrega === 'string' && dados.prazo_entrega.includes('/')) {
+        if (daçãos.prazo_entrega instanceof Date) {
+            abaVendas.getCell('H6').value = daçãos.prazo_entrega;
+        } else if (typeof daçãos.prazo_entrega === 'string' && daçãos.prazo_entrega.includes('/')) {
             // Tentar parsear data no formato dd/mm/yyyy
-            const [d, m, y] = dados.prazo_entrega.split('/');
+            const [d, m, y] = daçãos.prazo_entrega.split('/');
             abaVendas.getCell('H6').value = new Date(parseInt(y), parseInt(m) - 1, parseInt(d));
         } else {
-            abaVendas.getCell('H6').value = dados.prazo_entrega;
+            abaVendas.getCell('H6').value = daçãos.prazo_entrega;
         }
         abaVendas.getCell('H6').numFmt = 'dd/mm/yyyy';
     } else {
@@ -7755,63 +7755,63 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     }
     
     // Cliente (linhas 7-9)
-    abaVendas.getCell('C7').value = dados.cliente || '';
-    abaVendas.getCell('C8').value = dados.contato || dados.contato_cliente || '';
+    abaVendas.getCell('C7').value = daçãos.cliente || '';
+    abaVendas.getCell('C8').value = daçãos.contato || daçãos.contato_cliente || '';
     
     // H8 - Telefone (como número se possível, sem formatação)
-    const telefone = dados.telefone || dados.fone_cliente || '';
+    const telefone = daçãos.telefone || daçãos.fone_cliente || '';
     const telefoneNum = String(telefone).replace(/\D/g, ''); // Remove não-dígitos
-    abaVendas.getCell('H8').value = telefoneNum ? parseFloat(telefoneNum) : telefone;
+    abaVendas.getCell('H8').value = telefoneNum  parseFloat(telefoneNum) : telefone;
     
-    abaVendas.getCell('C9').value = dados.email || dados.email_cliente || '';
-    abaVendas.getCell('J9').value = dados.frete || dados.tipo_frete || '';
+    abaVendas.getCell('C9').value = daçãos.email || daçãos.email_cliente || '';
+    abaVendas.getCell('J9').value = daçãos.frete || daçãos.tipo_frete || '';
     
     // ========================================
     // ABA VENDAS_PCP - TRANSPORTADORA (linhas 12-15)
     // ========================================
     
-    console.log('🚚 Preenchendo dados da transportadora...');
+    console.log('🚚 Preenchendo daçãos da transportaçãora...');
     console.log('DEBUG TRANSPORTADORA:', {
-        nome: dados.transportadora_nome,
-        cep: dados.transportadora_cep,
-        endereco: dados.transportadora_endereco,
-        cpf_cnpj: dados.transportadora_cpf_cnpj
+        nome: daçãos.transportaçãora_nome,
+        cep: daçãos.transportaçãora_cep,
+        endereco: daçãos.transportaçãora_endereco,
+        cpf_cnpj: daçãos.transportaçãora_cpf_cnpj
     });
     
-    // C12 - Nome da Transportadora
-    const nomeTransp = dados.transportadora_nome || dados.transportadora?.nome || '';
+    // C12 - Nome da Transportaçãora
+    const nomeTransp = daçãos.transportaçãora_nome || daçãos.transportaçãora.nome || '';
     abaVendas.getCell('C12').value = nomeTransp;
-    console.log(`   Transportadora Nome: ${nomeTransp}`);
+    console.log(`   Transportaçãora Nome: ${nomeTransp}`);
     
-    // 🔧 H12 - Telefone da transportadora (calcular ao invés de fórmula)
-    const telefoneTransp = dados.transportadora_fone || dados.transportadora?.fone || telefone || '';
+    // 🔧 H12 - Telefone da transportaçãora (calcular ao invés de fórmula)
+    const telefoneTransp = daçãos.transportaçãora_fone || daçãos.transportaçãora.fone || telefone || '';
     if (telefoneTransp) {
         const telefoneTranspNum = String(telefoneTransp).replace(/\D/g, '');
-        abaVendas.getCell('H12').value = telefoneTranspNum ? parseFloat(telefoneTranspNum) : telefoneTransp;
-        console.log(`   Transportadora Fone: ${telefoneTransp}`);
+        abaVendas.getCell('H12').value = telefoneTranspNum  parseFloat(telefoneTranspNum) : telefoneTransp;
+        console.log(`   Transportaçãora Fone: ${telefoneTransp}`);
     } else {
         abaVendas.getCell('H12').value = '';
     }
     
-    // C13 - CEP da Transportadora
-    const cepTransp = dados.transportadora_cep || dados.transportadora?.cep || '';
+    // C13 - CEP da Transportaçãora
+    const cepTransp = daçãos.transportaçãora_cep || daçãos.transportaçãora.cep || '';
     abaVendas.getCell('C13').value = cepTransp;
-    console.log(`   Transportadora CEP: ${cepTransp}`);
+    console.log(`   Transportaçãora CEP: ${cepTransp}`);
     
-    // F13 - Endereço da Transportadora
-    const endTransp = dados.transportadora_endereco || dados.transportadora?.endereco || '';
+    // F13 - Endereço da Transportaçãora
+    const endTransp = daçãos.transportaçãora_endereco || daçãos.transportaçãora.endereco || '';
     abaVendas.getCell('F13').value = endTransp;
-    console.log(`   Transportadora Endereço: ${endTransp}`);
+    console.log(`   Transportaçãora Endereço: ${endTransp}`);
     
     // ========================================
     // ABA VENDAS_PCP - DADOS PARA COBRANÇA (linha 14)
     // ========================================
     
-    console.log('💰 Preenchendo dados para cobrança...');
+    console.log('💰 Preenchendo daçãos para cobrança...');
     
     // C14 - CPF/CNPJ para Cobrança (manter como TEXTO para evitar notação científica)
     // Priorizar cpf_cnpj do formulário principal
-    const cpfCnpjCobranca = dados.cpf_cnpj || dados.cpf_cnpj_cobranca || dados.cliente_cpf_cnpj || '';
+    const cpfCnpjCobranca = daçãos.cpf_cnpj || daçãos.cpf_cnpj_cobranca || daçãos.cliente_cpf_cnpj || '';
     let cpfCnpjStr = String(cpfCnpjCobranca).replace(/\D/g, ''); // Remove não-dígitos
     const cellC14 = abaVendas.getCell('C14');
     if (cpfCnpjStr && cpfCnpjStr.length >= 11) {
@@ -7824,14 +7824,14 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     console.log(`   CPF/CNPJ Cobrança: ${cpfCnpjStr}`);
     
     // G14 - Email NF-e para Cobrança (PRIORIZAR EMAIL DO CLIENTE!)
-    const emailNfeCobranca = dados.email_nfe_cobranca || dados.email_cliente || dados.email || 
-                             dados.email_nfe;
+    const emailNfeCobranca = daçãos.email_nfe_cobranca || daçãos.email_cliente || daçãos.email || 
+                             daçãos.email_nfe;
     if (emailNfeCobranca) {
         abaVendas.getCell('G14').value = emailNfeCobranca;
     }
     
-    // C15 - CPF/CNPJ da Transportadora (manter como TEXTO para evitar notação científica)
-    const cnpjTransp = dados.transportadora_cpf_cnpj || dados.transportadora?.cpf_cnpj || '';
+    // C15 - CPF/CNPJ da Transportaçãora (manter como TEXTO para evitar notação científica)
+    const cnpjTransp = daçãos.transportaçãora_cpf_cnpj || daçãos.transportaçãora.cpf_cnpj || '';
     // CRÍTICO: Não usar parseFloat() - causa notação científica (3.64086E+13)
     // Manter como string com formato de texto
     let cnpjStr = String(cnpjTransp).replace(/\D/g, ''); // Remove não-dígitos
@@ -7844,9 +7844,9 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     // Formatação visual igual ao template preenchido
     cellC15.numFmt = '[<=99999999999]000.000.000-00;00.000.000/0000-00';
     
-    // 🔧 G15 - Email NF-e da transportadora (calcular ao invés de fórmula)
-    const emailNfe = dados.transportadora_email_nfe || dados.transportadora?.email_nfe || 
-                     dados.email_nfe || dados.email_cliente;
+    // 🔧 G15 - Email NF-e da transportaçãora (calcular ao invés de fórmula)
+    const emailNfe = daçãos.transportaçãora_email_nfe || daçãos.transportaçãora.email_nfe || 
+                     daçãos.email_nfe || daçãos.email_cliente;
     if (emailNfe) {
         abaVendas.getCell('G15').value = emailNfe;
     }
@@ -7866,7 +7866,7 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     // │ G       │ Lance(s) (1x1000, 1x500, etc)                          │
     // │ H       │ Quantidade                                             │
     // │ I       │ Valor Unitário R$                                      │
-    // │ J       │ Valor Total R$ (calculado)                             │
+    // │ J       │ Valor Total R$ (calculação)                             │
     // └─────────┴────────────────────────────────────────────────────────┘
     // 
     // ⚠️ IMPORTANTE: 
@@ -7877,7 +7877,7 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     // ========================================
     
     console.log('📦 Preenchendo produtos...');
-    let produtos = dados.produtos || dados.items || dados.itens || [];
+    let produtos = daçãos.produtos || daçãos.items || daçãos.itens || [];
     
     // Converter string JSON se necessário
     if (typeof produtos === 'string') {
@@ -7907,7 +7907,7 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
             catalogoProdutos[String(cod).trim().toUpperCase()] = String(desc).trim();
         }
     }
-    console.log(`📚 Catálogo carregado: ${Object.keys(catalogoProdutos).length} produtos`);
+    console.log(`📚 Catálogo carregação: ${Object.keys(catalogoProdutos).length} produtos`);
     
     produtos.forEach((prod, index) => {
         if (prod && linhaAtual <= LINHA_MAXIMA_PRODUTOS) {
@@ -7925,14 +7925,14 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
             // A - Número do item (sequencial)
             abaVendas.getCell(`A${linhaAtual}`).value = index + 1;
             
-            // B - Código do produto (usado pelo VLOOKUP da coluna C)
+            // B - Código do produto (usação pelo VLOOKUP da coluna C)
             abaVendas.getCell(`B${linhaAtual}`).value = codigoProd;
             
             // C - Atualizar o RESULT da fórmula VLOOKUP para garantir que aparece a descrição
-            // Preservar a fórmula mas forçar o resultado
+            // Preservar a fórmula mas forçar o resultação
             const cellC = abaVendas.getCell(`C${linhaAtual}`);
             if (cellC.value && typeof cellC.value === 'object' && cellC.value.formula) {
-                // Manter a fórmula e adicionar o resultado
+                // Manter a fórmula e adicionar o resultação
                 cellC.value = {
                     formula: cellC.value.formula,
                     result: descricaoCatalogo
@@ -7957,7 +7957,7 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
             abaVendas.getCell(`I${linhaAtual}`).value = valorUnitario;
             abaVendas.getCell(`I${linhaAtual}`).numFmt = 'R$ #,##0.00';
             
-            // J - Valor Total (calculado, não fórmula para garantir valor correto)
+            // J - Valor Total (calculação, não fórmula para garantir valor correto)
             const valorTotal = quantidade * valorUnitario;
             abaVendas.getCell(`J${linhaAtual}`).value = valorTotal;
             abaVendas.getCell(`J${linhaAtual}`).numFmt = 'R$ #,##0.00';
@@ -7996,7 +7996,7 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     // Template mostra: I34="Total do Pedido:$" e I35=fórmula de soma
     abaVendas.getCell('I35').value = totalGeral;
     abaVendas.getCell('I35').numFmt = 'R$ #,##0.00';
-    console.log(`💰 Total Geral calculado: R$ ${totalGeral.toFixed(2)}`);
+    console.log(`💰 Total Geral calculação: R$ ${totalGeral.toFixed(2)}`);
     
     console.log(`✅ ${produtos.length} produtos preenchidos!`);
     
@@ -8005,10 +8005,10 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     // ========================================
     
     // Observações do Pedido (área 36-42 tem merge de células A-J)
-    if (dados.observacoes || dados.observacoes_pedido) {
+    if (daçãos.observacoes || daçãos.observacoes_pedido) {
         console.log('📝 Preenchendo observações do pedido...');
         // Linha 37-42 são células mescladas para observações
-        const obs = dados.observacoes || dados.observacoes_pedido || '';
+        const obs = daçãos.observacoes || daçãos.observacoes_pedido || '';
         abaVendas.getCell('B37').value = obs;
     }
     
@@ -8019,16 +8019,16 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     console.log('💳 Preenchendo condições de pagamento...');
     
     // Linha 45: Primeira forma de pagamento
-    if (dados.forma_pagamento) {
-        abaVendas.getCell('A45').value = dados.forma_pagamento;
-        abaVendas.getCell('B45').value = dados.forma_pagamento;
-        abaVendas.getCell('C45').value = dados.forma_pagamento;
-        abaVendas.getCell('D45').value = dados.forma_pagamento;
+    if (daçãos.forma_pagamento) {
+        abaVendas.getCell('A45').value = daçãos.forma_pagamento;
+        abaVendas.getCell('B45').value = daçãos.forma_pagamento;
+        abaVendas.getCell('C45').value = daçãos.forma_pagamento;
+        abaVendas.getCell('D45').value = daçãos.forma_pagamento;
     }
     
     // E45: Percentual
-    if (dados.percentual_pagamento) {
-        const perc = parseFloat(dados.percentual_pagamento) / 100;
+    if (daçãos.percentual_pagamento) {
+        const perc = parseFloat(daçãos.percentual_pagamento) / 100;
         abaVendas.getCell('E45').value = perc;
         abaVendas.getCell('E45').numFmt = '0%';
     } else {
@@ -8037,28 +8037,28 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     }
     
     // F-H45: Método de pagamento
-    if (dados.metodo_pagamento) {
-        abaVendas.getCell('F45').value = dados.metodo_pagamento;
-        abaVendas.getCell('G45').value = dados.metodo_pagamento;
-        abaVendas.getCell('H45').value = dados.metodo_pagamento;
+    if (daçãos.metodo_pagamento) {
+        abaVendas.getCell('F45').value = daçãos.metodo_pagamento;
+        abaVendas.getCell('G45').value = daçãos.metodo_pagamento;
+        abaVendas.getCell('H45').value = daçãos.metodo_pagamento;
     }
     
-    // I45 e J45: Valor total (referência ao total calculado)
+    // I45 e J45: Valor total (referência ao total calculação)
     abaVendas.getCell('I45').value = totalGeral;
     abaVendas.getCell('I45').numFmt = 'R$ #,##0.00';
     abaVendas.getCell('J45').value = totalGeral;
     abaVendas.getCell('J45').numFmt = 'R$ #,##0.00';
     
     // Linha 46: Segunda parcela (se houver)
-    if (dados.forma_pagamento && dados.forma_pagamento.toUpperCase() === 'PARCELADO') {
+    if (daçãos.forma_pagamento && daçãos.forma_pagamento.toUpperCase() === 'PARCELADO') {
         abaVendas.getCell('A46').value = 'ENTREGA';
         abaVendas.getCell('B46').value = 'ENTREGA';
         abaVendas.getCell('C46').value = 'ENTREGA';
         abaVendas.getCell('D46').value = 'ENTREGA';
         
         // E46: Percentual restante (100% - E45)
-        if (dados.percentual_pagamento) {
-            const percRestante = 1 - (parseFloat(dados.percentual_pagamento) / 100);
+        if (daçãos.percentual_pagamento) {
+            const percRestante = 1 - (parseFloat(daçãos.percentual_pagamento) / 100);
             abaVendas.getCell('E46').value = percRestante;
             abaVendas.getCell('E46').numFmt = '0%';
         }
@@ -8069,9 +8069,9 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     // ========================================
     
     // Linha 51-54: Observações adicionais (células E-J mescladas)
-    if (dados.observacoes || dados.observacoes_pedido) {
+    if (daçãos.observacoes || daçãos.observacoes_pedido) {
         console.log('📝 Preenchendo observações finais...');
-        const obs = dados.observacoes || dados.observacoes_pedido || '';
+        const obs = daçãos.observacoes || daçãos.observacoes_pedido || '';
         
         // E51-J54 são células mescladas para observações detalhadas
         abaVendas.getCell('E51').value = obs;
@@ -8087,26 +8087,26 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
     // ========================================
     
     console.log('💳 Preenchendo condições de pagamento...');
-    if (dados.condicoes_pagamento) {
-        abaVendas.getCell('A43').value = `Condições: ${dados.condicoes_pagamento}`;
+    if (daçãos.condicoes_pagamento) {
+        abaVendas.getCell('A43').value = `Condições: ${daçãos.condicoes_pagamento}`;
     }
     
     // ========================================
     // ABA VENDAS_PCP - VOLUMES E EMBALAGEM (linha 48)
     // ========================================
     
-    if (dados.qtd_volumes) {
-        abaVendas.getCell('C48').value = dados.qtd_volumes;
+    if (daçãos.qtd_volumes) {
+        abaVendas.getCell('C48').value = daçãos.qtd_volumes;
     }
     
-    if (dados.tipo_embalagem_entrega) {
-        abaVendas.getCell('H48').value = dados.tipo_embalagem_entrega;
+    if (daçãos.tipo_embalagem_entrega) {
+        abaVendas.getCell('H48').value = daçãos.tipo_embalagem_entrega;
     }
     
     // ========================================
     // ========================================
     // REFORÇO FINAL: Preencher C15 (CNPJ) para garantir que nunca fique vazio
-    let cnpjTranspFinal = dados.transportadora_cpf_cnpj || (dados.transportadora && dados.transportadora.cpf_cnpj) || '';
+    let cnpjTranspFinal = daçãos.transportaçãora_cpf_cnpj || (daçãos.transportaçãora && daçãos.transportaçãora.cpf_cnpj) || '';
     let cnpjStrFinal = String(cnpjTranspFinal).replace(/\D/g, '');
     if (!cnpjStrFinal || cnpjStrFinal.length < 11) {
         cnpjStrFinal = '36408556000169';
@@ -8168,61 +8168,61 @@ async function gerarExcelOrdemProducaoCompleta(dados, ExcelJS, templatePath) {
             }
         });
         
-        console.log(`   ✅ ${Math.min(produtos.length, linhasProducao.length)} produtos atualizados na aba PRODUÇÃO`);
+        console.log(`   ✅ ${Math.min(produtos.length, linhasProducao.length)} produtos atualizaçãos na aba PRODUÇÃO`);
     }
     
-    console.log('\n✅ Excel completo gerado com sucesso!');
+    console.log('\n✅ Excel completo geração com sucesso!');
     console.log('📊 Estrutura:');
     console.log('   - Cabeçalho: C4, G4, J4, C6, C7-C9');
-    console.log('   - Transportadora: C12, C13, F13, C15, H12, G15');
+    console.log('   - Transportaçãora: C12, C13, F13, C15, H12, G15');
     console.log(`   - Produtos: ${produtos.length} itens (linhas 18-${linhaAtual - 1})`);
     console.log('   - Pagamento: M, N, O, P, Q preenchidos');
     console.log(`   - Total Geral: R$ ${totalGeral.toFixed(2)}`);
-    console.log('   ✨ Todos os valores calculados diretamente (sem fórmulas)\n');
+    console.log('   ✨ Todos os valores calculaçãos diretamente (sem fórmulas)\n');
     
     return await workbook.xlsx.writeBuffer();
 }
 
 // Função fallback para CSV
-async function gerarExcelOrdemProducaoFallback(dados) {
+async function gerarExcelOrdemProducaoFallback(daçãos) {
     const csv = [];
     
     // Header da Ordem de Produção
     csv.push(['ORDEM DE PRODUÇÁO ALUFORCE']);
     csv.push(['']);
-    csv.push(['Dados da Ordem:']);
-    csv.push(['Número do Orçamento:', dados.numero_orcamento || '']);
-    csv.push(['Número do Pedido:', dados.numero_pedido || '']);
-    csv.push(['Data de Liberação:', dados.data_liberacao || '']);
-    csv.push(['Vendedor:', dados.vendedor || '']);
-    csv.push(['Prazo de Entrega:', dados.prazo_entrega || '']);
+    csv.push(['Daçãos da Ordem:']);
+    csv.push(['Número do Orçamento:', daçãos.numero_orcamento || '']);
+    csv.push(['Número do Pedido:', daçãos.numero_pedido || '']);
+    csv.push(['Data de Liberação:', daçãos.data_liberacao || '']);
+    csv.push(['Vendedor:', daçãos.vendedor || '']);
+    csv.push(['Prazo de Entrega:', daçãos.prazo_entrega || '']);
     csv.push(['']);
     
-    // Dados do Cliente
-    csv.push(['Dados do Cliente:']);
-    csv.push(['Nome do Cliente:', dados.cliente || '']);
-    csv.push(['Contato:', dados.contato_cliente || '']);
-    csv.push(['Telefone:', dados.fone_cliente || '']);
-    csv.push(['Email:', dados.email_cliente || '']);
-    csv.push(['Tipo de Frete:', dados.tipo_frete || '']);
+    // Daçãos do Cliente
+    csv.push(['Daçãos do Cliente:']);
+    csv.push(['Nome do Cliente:', daçãos.cliente || '']);
+    csv.push(['Contato:', daçãos.contato_cliente || '']);
+    csv.push(['Telefone:', daçãos.fone_cliente || '']);
+    csv.push(['Email:', daçãos.email_cliente || '']);
+    csv.push(['Tipo de Frete:', daçãos.tipo_frete || '']);
     csv.push(['']);
     
-    // Dados da Transportadora
-    csv.push(['Dados da Transportadora:']);
-    csv.push(['Nome:', dados.transportadora_nome || '']);
-    csv.push(['Telefone:', dados.transportadora_fone || '']);
-    csv.push(['CEP:', dados.transportadora_cep || '']);
-    csv.push(['Endereço:', dados.transportadora_endereco || '']);
-    csv.push(['CPF/CNPJ:', dados.transportadora_cpf_cnpj || '']);
-    csv.push(['Email NFe:', dados.transportadora_email_nfe || '']);
+    // Daçãos da Transportaçãora
+    csv.push(['Daçãos da Transportaçãora:']);
+    csv.push(['Nome:', daçãos.transportaçãora_nome || '']);
+    csv.push(['Telefone:', daçãos.transportaçãora_fone || '']);
+    csv.push(['CEP:', daçãos.transportaçãora_cep || '']);
+    csv.push(['Endereço:', daçãos.transportaçãora_endereco || '']);
+    csv.push(['CPF/CNPJ:', daçãos.transportaçãora_cpf_cnpj || '']);
+    csv.push(['Email NFe:', daçãos.transportaçãora_email_nfe || '']);
     csv.push(['']);
     
     // Produtos
     csv.push(['PRODUTOS:']);
     csv.push(['Código', 'Descrição', 'Embalagem', 'Lances', 'Quantidade', 'Valor Unitário', 'Total']);
     
-    if (dados.produtos && Array.isArray(dados.produtos)) {
-        dados.produtos.forEach(produto => {
+    if (daçãos.produtos && Array.isArray(daçãos.produtos)) {
+        daçãos.produtos.forEach(produto => {
             const total = (produto.quantidade || 0) * (produto.valor_unitario || 0);
             csv.push([
                 produto.codigo || '',
@@ -8236,7 +8236,7 @@ async function gerarExcelOrdemProducaoFallback(dados) {
         });
         
         // Total geral
-        const valorTotal = dados.produtos.reduce((total, produto) => {
+        const valorTotal = daçãos.produtos.reduce((total, produto) => {
             return total + ((produto.quantidade || 0) * (produto.valor_unitario || 0));
         }, 0);
         
@@ -8247,18 +8247,18 @@ async function gerarExcelOrdemProducaoFallback(dados) {
     
     // Observações
     csv.push(['OBSERVAÇÕES:']);
-    csv.push([dados.observacoes_pedido || 'Nenhuma observação especial.']);
+    csv.push([daçãos.observacoes_pedido || 'Nenhuma observação especial.']);
     csv.push(['']);
     
-    // Dados de Pagamento e Entrega
+    // Daçãos de Pagamento e Entrega
     csv.push(['CONDIÇÕES DE PAGAMENTO:']);
-    csv.push([dados.condicoes_pagamento || '30 dias após faturamento']);
+    csv.push([daçãos.condicoes_pagamento || '30 dias após faturamento']);
     csv.push(['']);
     csv.push(['DADOS DE ENTREGA:']);
-    csv.push(['Data Prevista:', dados.data_previsao_entrega || '']);
-    csv.push(['Quantidade de Volumes:', dados.qtd_volumes || '']);
-    csv.push(['Tipo de Embalagem:', dados.tipo_embalagem_entrega || '']);
-    csv.push(['Observações de Entrega:', dados.observacoes_entrega || '']);
+    csv.push(['Data Prevista:', daçãos.data_previsao_entrega || '']);
+    csv.push(['Quantidade de Volumes:', daçãos.qtd_volumes || '']);
+    csv.push(['Tipo de Embalagem:', daçãos.tipo_embalagem_entrega || '']);
+    csv.push(['Observações de Entrega:', daçãos.observacoes_entrega || '']);
     
     // Converter CSV para Buffer
     const csvString = csv.map(row => row.join('\t')).join('\n');
@@ -8274,7 +8274,7 @@ apiPCPRouter.get('/pedidos', async (req, res, next) => {
         const limit = parseInt(req.query.limit) || 10;
         const offset = (page - 1) * limit;
         
-        const [rows] = await pool.query('SELECT * FROM pedidos ORDER BY id DESC LIMIT ? OFFSET ?', [limit, offset]);
+        const [rows] = await pool.query('SELECT * FROM pedidos ORDER BY id DESC LIMIT  OFFSET ', [limit, offset]);
         const [[{ total }]] = await pool.query('SELECT COUNT(*) as total FROM pedidos');
         
         res.json({ pedidos: rows, total, page, limit });
@@ -8282,9 +8282,9 @@ apiPCPRouter.get('/pedidos', async (req, res, next) => {
 });
 
 // PEDIDOS FATURADOS
-apiPCPRouter.get('/pedidos/faturados', async (req, res, next) => {
+apiPCPRouter.get('/pedidos/faturaçãos', async (req, res, next) => {
     try {
-        const [rows] = await pool.query("SELECT * FROM pedidos WHERE status = 'faturado' ORDER BY id DESC LIMIT 10");
+        const [rows] = await pool.query("SELECT * FROM pedidos WHERE status = 'faturação' ORDER BY id DESC LIMIT 10");
         res.json(rows);
     } catch (error) { next(error); }
 });
@@ -8309,12 +8309,12 @@ apiPCPRouter.get('/acompanhamento', async (req, res, next) => {
 apiPCPRouter.get('/clientes', async (req, res, next) => {
     try {
         const query = req.query.q || '';
-        const limit = parseInt(req.query.limit) || 500; // Aumentado para 500 resultados
+        const limit = parseInt(req.query.limit) || 500; // Aumentação para 500 resultaçãos
         const empresaId = req.query.empresa_id || 1; // Default empresa 1
         
         if (!query) {
             const [rows] = await pool.query(
-                'SELECT id, nome, nome_fantasia, razao_social, cnpj, cnpj_cpf, contato, email, telefone, vendedor_responsavel FROM clientes WHERE empresa_id = ? ORDER BY nome LIMIT ?', 
+                'SELECT id, nome, nome_fantasia, razao_social, cnpj, cnpj_cpf, contato, email, telefone, vendedor_responsavel FROM clientes WHERE empresa_id =  ORDER BY nome LIMIT ', 
                 [empresaId, limit]
             );
             return res.json(rows);
@@ -8324,9 +8324,9 @@ apiPCPRouter.get('/clientes', async (req, res, next) => {
         const [rows] = await pool.query(
             `SELECT id, nome, nome_fantasia, razao_social, cnpj, cnpj_cpf, contato, email, telefone, vendedor_responsavel 
              FROM clientes 
-             WHERE empresa_id = ? AND (nome LIKE ? OR nome_fantasia LIKE ? OR razao_social LIKE ? OR cnpj LIKE ? OR cnpj_cpf LIKE ?) 
+             WHERE empresa_id =  AND (nome LIKE  OR nome_fantasia LIKE  OR razao_social LIKE  OR cnpj LIKE  OR cnpj_cpf LIKE ) 
              ORDER BY nome 
-             LIMIT ?`,
+             LIMIT `,
             [empresaId, searchPattern, searchPattern, searchPattern, searchPattern, searchPattern, limit]
         );
         res.json(rows);
@@ -8334,19 +8334,19 @@ apiPCPRouter.get('/clientes', async (req, res, next) => {
 });
 
 // TRANSPORTADORAS - Autocomplete
-apiPCPRouter.get('/transportadoras', async (req, res, next) => {
+apiPCPRouter.get('/transportaçãoras', async (req, res, next) => {
     try {
         const query = req.query.q || '';
         const limit = parseInt(req.query.limit) || 10;
         
         if (!query) {
-            const [rows] = await pool.query('SELECT * FROM transportadoras LIMIT ?', [limit]);
+            const [rows] = await pool.query('SELECT * FROM transportaçãoras LIMIT ', [limit]);
             return res.json(rows);
         }
         
         const searchPattern = `%${query}%`;
         const [rows] = await pool.query(
-            'SELECT * FROM transportadoras WHERE nome LIKE ? OR cnpj LIKE ? OR cpf LIKE ? LIMIT ?',
+            'SELECT * FROM transportaçãoras WHERE nome LIKE  OR cnpj LIKE  OR cpf LIKE  LIMIT ',
             [searchPattern, searchPattern, searchPattern, limit]
         );
         res.json(rows);
@@ -8367,11 +8367,11 @@ apiPCPRouter.post('/ordem-producao-completa', async (req, res, next) => {
             fone_cliente = '',
             email_cliente = '',
             tipo_frete = 'FOB',
-            transportadora_nome = '',
-            transportadora_fone = '',
-            transportadora_endereco = '',
-            transportadora_cpf_cnpj = '',
-            transportadora_email_nfe = '',
+            transportaçãora_nome = '',
+            transportaçãora_fone = '',
+            transportaçãora_endereco = '',
+            transportaçãora_cpf_cnpj = '',
+            transportaçãora_email_nfe = '',
             produtos = [],
             observacoes_pedido = '',
             condicoes_pagamento = '30 dias',
@@ -8390,10 +8390,10 @@ apiPCPRouter.post('/ordem-producao-completa', async (req, res, next) => {
             valorTotal += (produto.quantidade || 0) * (produto.valor_unitario || 0);
         });
 
-        console.log(`💰 Valor total calculado: R$ ${valorTotal.toFixed(2)}`);
+        console.log(`💰 Valor total calculação: R$ ${valorTotal.toFixed(2)}`);
 
-        // Preparar dados para o script de geração
-        const dadosCompletos = {
+        // Preparar daçãos para o script de geração
+        const daçãosCompletos = {
             numero_sequencial: novoSequencial,
             numero_orcamento: numeroOrcamento,
             numero_pedido: numeroPedido,
@@ -8405,11 +8405,11 @@ apiPCPRouter.post('/ordem-producao-completa', async (req, res, next) => {
             fone_cliente,
             email_cliente,
             tipo_frete,
-            transportadora_nome,
-            transportadora_fone,
-            transportadora_endereco,
-            transportadora_cpf_cnpj,
-            transportadora_email_nfe,
+            transportaçãora_nome,
+            transportaçãora_fone,
+            transportaçãora_endereco,
+            transportaçãora_cpf_cnpj,
+            transportaçãora_email_nfe,
             produtos: produtos.map(p => ({
                 codigo: p.codigo || '',
                 descricao: p.descricao || p.nome || '',
@@ -8423,28 +8423,28 @@ apiPCPRouter.post('/ordem-producao-completa', async (req, res, next) => {
             data_previsao_entrega: prazo_entrega
         };
 
-        // Gerar Excel usando novo gerador funcional
+        // Gerar Excel usando novo geraçãor funcional
         const TemplateXlsxGenerator = require('./template-xlsx-generator');
         
         try {
-            console.log('🔧 Usando novo gerador funcional...');
+            console.log('🔧 Usando novo geraçãor funcional...');
             
-            const gerador = new TemplateXlsxGenerator();
+            const geraçãor = new TemplateXlsxGenerator();
             const filename = `ORDEM_PRODUCAO_${novoSequencial}_${Date.now()}.xlsx`;
             const outputPath = path.join(__dirname, filename);
             
-            // Preparar dados no formato esperado
-            const dadosFormatados = {
-                numero_orcamento: dadosCompletos.numero_orcamento,
-                data_orcamento: dadosCompletos.data_liberacao,
-                vendedor: dadosCompletos.vendedor,
-                cliente: dadosCompletos.cliente,
-                cliente_contato: dadosCompletos.contato_cliente,
-                cliente_telefone: dadosCompletos.fone_cliente,
-                cliente_email: dadosCompletos.email_cliente,
-                transportadora: dadosCompletos.transportadora_nome,
-                frete: dadosCompletos.tipo_frete,
-                prazo_entrega: dadosCompletos.prazo_entrega,
+            // Preparar daçãos no formato esperação
+            const daçãosFormataçãos = {
+                numero_orcamento: daçãosCompletos.numero_orcamento,
+                data_orcamento: daçãosCompletos.data_liberacao,
+                vendedor: daçãosCompletos.vendedor,
+                cliente: daçãosCompletos.cliente,
+                cliente_contato: daçãosCompletos.contato_cliente,
+                cliente_telefone: daçãosCompletos.fone_cliente,
+                cliente_email: daçãosCompletos.email_cliente,
+                transportaçãora: daçãosCompletos.transportaçãora_nome,
+                frete: daçãosCompletos.tipo_frete,
+                prazo_entrega: daçãosCompletos.prazo_entrega,
                 produtos: produtos.map(p => ({
                     codigo: p.codigo || '',
                     descricao: p.descricao || p.nome || '',
@@ -8453,15 +8453,15 @@ apiPCPRouter.post('/ordem-producao-completa', async (req, res, next) => {
                     preco_unitario: p.valor_unitario || 0,
                     total: (p.quantidade || 0) * (p.valor_unitario || 0)
                 })),
-                observacoes: dadosCompletos.observacoes_pedido || 'Produto conforme especificação técnica.'
+                observacoes: daçãosCompletos.observacoes_pedido || 'Produto conforme especificação técnica.'
             };
             
-            // Gerar arquivo usando novo gerador
-            const resultado = await gerador.aplicarMapeamentoCompleto(dadosFormatados, outputPath);
+            // Gerar arquivo usando novo geraçãor
+            const resultação = await geraçãor.aplicarMapeamentoCompleto(daçãosFormataçãos, outputPath);
             
-            if (resultado.sucesso) {
-                console.log(`✅ Ordem de produção gerada com novo gerador: ${filename}`);
-                console.log(`💰 Total: R$ ${resultado.totalGeral.toFixed(2)}`);
+            if (resultação.sucesso) {
+                console.log(`✅ Ordem de produção gerada com novo geraçãor: ${filename}`);
+                console.log(`💰 Total: R$ ${resultação.totalGeral.toFixed(2)}`);
                 
                 // Retornar arquivo para download
                 res.download(outputPath, `Ordem_Producao_${numeroOrcamento}.xlsx`, (err) => {
@@ -8477,7 +8477,7 @@ apiPCPRouter.post('/ordem-producao-completa', async (req, res, next) => {
                     }
                 });
             } else {
-                throw new Error('Falha na geração do arquivo com novo gerador');
+                throw new Error('Falha na geração do arquivo com novo geraçãor');
             }
 
         } catch (excelError) {
@@ -8496,7 +8496,7 @@ apiPCPRouter.post('/ordem-producao-completa', async (req, res, next) => {
 });
 
 // Função para gerar ordem com ExcelJS (formato válido)
-async function gerarOrdemComExcelJS(workbook, worksheet, dados, outputPath) {
+async function gerarOrdemComExcelJS(workbook, worksheet, daçãos, outputPath) {
     console.log('\n🎯 GERANDO ORDEM COM EXCELJS...');
     
     // === CABEÇALHO ===
@@ -8509,57 +8509,57 @@ async function gerarOrdemComExcelJS(workbook, worksheet, dados, outputPath) {
     worksheet.getRow(1).height = 30;
     
     // === DADOS DA ORDEM ===
-    worksheet.getCell('A3').value = 'Dados da Ordem:';
+    worksheet.getCell('A3').value = 'Daçãos da Ordem:';
     worksheet.getCell('A3').font = { bold: true };
     
     worksheet.getCell('A4').value = 'Número do Orçamento:';
-    worksheet.getCell('B4').value = dados.numero_orcamento || dados.orcamento || '';
+    worksheet.getCell('B4').value = daçãos.numero_orcamento || daçãos.orcamento || '';
     
     worksheet.getCell('D4').value = 'Número do Pedido:';
-    worksheet.getCell('E4').value = dados.numero_pedido || dados.pedido || '';
+    worksheet.getCell('E4').value = daçãos.numero_pedido || daçãos.pedido || '';
     
     worksheet.getCell('A5').value = 'Data de Liberação:';
-    worksheet.getCell('B5').value = dados.data_liberacao || new Date().toLocaleDateString('pt-BR');
+    worksheet.getCell('B5').value = daçãos.data_liberacao || new Date().toLocaleDateString('pt-BR');
     
     worksheet.getCell('D5').value = 'Vendedor:';
-    worksheet.getCell('E5').value = dados.vendedor_nome || dados.vendedor || '';
+    worksheet.getCell('E5').value = daçãos.vendedor_nome || daçãos.vendedor || '';
     
     worksheet.getCell('G5').value = 'Prazo de Entrega:';
-    worksheet.getCell('H5').value = dados.prazo_entrega || '';
+    worksheet.getCell('H5').value = daçãos.prazo_entrega || '';
     
     // === DADOS DO CLIENTE ===
-    worksheet.getCell('A7').value = 'Dados do Cliente:';
+    worksheet.getCell('A7').value = 'Daçãos do Cliente:';
     worksheet.getCell('A7').font = { bold: true };
     
     worksheet.getCell('A8').value = 'Nome do Cliente:';
-    worksheet.getCell('B8').value = dados.cliente_nome || dados.cliente || '';
+    worksheet.getCell('B8').value = daçãos.cliente_nome || daçãos.cliente || '';
     
     worksheet.getCell('A9').value = 'Contato:';
-    worksheet.getCell('B9').value = dados.cliente_contato || '';
+    worksheet.getCell('B9').value = daçãos.cliente_contato || '';
     
     worksheet.getCell('D9').value = 'Telefone:';
-    worksheet.getCell('E9').value = dados.cliente_fone || dados.cliente_telefone || '';
+    worksheet.getCell('E9').value = daçãos.cliente_fone || daçãos.cliente_telefone || '';
     
     worksheet.getCell('A10').value = 'Email:';
-    worksheet.getCell('B10').value = dados.cliente_email || '';
+    worksheet.getCell('B10').value = daçãos.cliente_email || '';
     
     worksheet.getCell('D10').value = 'Tipo de Frete:';
-    worksheet.getCell('E10').value = dados.frete || '';
+    worksheet.getCell('E10').value = daçãos.frete || '';
     
     // === DADOS DA TRANSPORTADORA ===
-    worksheet.getCell('A12').value = 'Dados da Transportadora:';
+    worksheet.getCell('A12').value = 'Daçãos da Transportaçãora:';
     worksheet.getCell('A12').font = { bold: true };
     
-    const transportadoraFields = [
-        { label: 'Nome:', cell: 'B13', value: dados.transportadora_nome || '' },
-        { label: 'Telefone:', cell: 'B14', value: dados.transportadora_fone || dados.transportadora_telefone || '' },
-        { label: 'CEP:', cell: 'B15', value: dados.transportadora_cep || '' },
-        { label: 'Endereço:', cell: 'B16', value: dados.transportadora_endereco || '' },
-        { label: 'CPF/CNPJ:', cell: 'B17', value: dados.transportadora_cpf_cnpj || '' },
-        { label: 'Email NFe:', cell: 'B18', value: dados.transportadora_email_nfe || dados.email_nfe || '' }
+    const transportaçãoraFields = [
+        { label: 'Nome:', cell: 'B13', value: daçãos.transportaçãora_nome || '' },
+        { label: 'Telefone:', cell: 'B14', value: daçãos.transportaçãora_fone || daçãos.transportaçãora_telefone || '' },
+        { label: 'CEP:', cell: 'B15', value: daçãos.transportaçãora_cep || '' },
+        { label: 'Endereço:', cell: 'B16', value: daçãos.transportaçãora_endereco || '' },
+        { label: 'CPF/CNPJ:', cell: 'B17', value: daçãos.transportaçãora_cpf_cnpj || '' },
+        { label: 'Email NFe:', cell: 'B18', value: daçãos.transportaçãora_email_nfe || daçãos.email_nfe || '' }
     ];
     
-    transportadoraFields.forEach((field, index) => {
+    transportaçãoraFields.forEach((field, index) => {
         worksheet.getCell(`A${13 + index}`).value = field.label;
         worksheet.getCell(field.cell).value = field.value;
     });
@@ -8575,13 +8575,13 @@ async function gerarOrdemComExcelJS(workbook, worksheet, dados, outputPath) {
     headerRow.font = { bold: true };
     headerRow.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFD9E1F2' } };
     
-    let produtos = dados.produtos || dados.itens || [];
+    let produtos = daçãos.produtos || daçãos.itens || [];
     if (typeof produtos === 'string') {
         try { produtos = JSON.parse(produtos); } catch(e) { produtos = []; }
     }
     
     let totalGeral = 0;
-    let produtosProcessados = 0;
+    let produtosProcessaçãos = 0;
     
     currentRow++;
     produtos.forEach((produto, index) => {
@@ -8601,7 +8601,7 @@ async function gerarOrdemComExcelJS(workbook, worksheet, dados, outputPath) {
         ];
         
         totalGeral += total;
-        produtosProcessados++;
+        produtosProcessaçãos++;
     });
     
     currentRow += produtos.length + 1;
@@ -8616,13 +8616,13 @@ async function gerarOrdemComExcelJS(workbook, worksheet, dados, outputPath) {
     currentRow += 2;
     worksheet.getCell(`A${currentRow}`).value = 'OBSERVAÇÕES:';
     worksheet.getCell(`A${currentRow}`).font = { bold: true };
-    worksheet.getCell(`A${currentRow + 1}`).value = dados.observacoes || 'Nenhuma observação especial.';
+    worksheet.getCell(`A${currentRow + 1}`).value = daçãos.observacoes || 'Nenhuma observação especial.';
     
     // === CONDIÇÕES DE PAGAMENTO ===
     currentRow += 3;
     worksheet.getCell(`A${currentRow}`).value = 'CONDIÇÕES DE PAGAMENTO:';
     worksheet.getCell(`A${currentRow}`).font = { bold: true };
-    worksheet.getCell(`A${currentRow + 1}`).value = dados.condicoes_pagamento || '30 dias após faturamento';
+    worksheet.getCell(`A${currentRow + 1}`).value = daçãos.condicoes_pagamento || '30 dias após faturamento';
     
     // === DADOS DE ENTREGA ===
     currentRow += 3;
@@ -8630,16 +8630,16 @@ async function gerarOrdemComExcelJS(workbook, worksheet, dados, outputPath) {
     worksheet.getCell(`A${currentRow}`).font = { bold: true };
     
     worksheet.getCell(`A${currentRow + 1}`).value = 'Data Prevista:';
-    worksheet.getCell(`B${currentRow + 1}`).value = dados.data_entrega || '';
+    worksheet.getCell(`B${currentRow + 1}`).value = daçãos.data_entrega || '';
     
     worksheet.getCell(`A${currentRow + 2}`).value = 'Quantidade de Volumes:';
-    worksheet.getCell(`B${currentRow + 2}`).value = dados.quantidade_volumes || '';
+    worksheet.getCell(`B${currentRow + 2}`).value = daçãos.quantidade_volumes || '';
     
     worksheet.getCell(`A${currentRow + 3}`).value = 'Tipo de Embalagem:';
-    worksheet.getCell(`B${currentRow + 3}`).value = dados.tipo_embalagem || '';
+    worksheet.getCell(`B${currentRow + 3}`).value = daçãos.tipo_embalagem || '';
     
     worksheet.getCell(`A${currentRow + 4}`).value = 'Observações de Entrega:';
-    worksheet.getCell(`B${currentRow + 4}`).value = dados.observacoes_entrega || '';
+    worksheet.getCell(`B${currentRow + 4}`).value = daçãos.observacoes_entrega || '';
     
     // Ajustar largura das colunas
     worksheet.columns = [
@@ -8655,21 +8655,21 @@ async function gerarOrdemComExcelJS(workbook, worksheet, dados, outputPath) {
     return {
         sucesso: true,
         totalGeral,
-        produtosProcessados,
+        produtosProcessaçãos,
         arquivo: outputPath
     };
 }
 
-// Nova rota otimizada para gerar ordem de produção com gerador funcional
+// Nova rota otimizada para gerar ordem de produção com geraçãor funcional
 apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
     try {
         console.log('🏭 Gerando ordem via rota otimizada com ExcelJS...');
         
         const ExcelJS = require('exceljs');
         
-        // Preparar dados recebidos
-        const dadosOrdem = req.body;
-        console.log('📋 Dados recebidos:', Object.keys(dadosOrdem));
+        // Preparar daçãos recebidos
+        const daçãosOrdem = req.body;
+        console.log('📋 Daçãos recebidos:', Object.keys(daçãosOrdem));
         
         // Gerar número de ordem único
         const numeroOrdem = `OP${Date.now()}`;
@@ -8684,56 +8684,56 @@ apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
         const worksheet = workbook.addWorksheet('Ordem de Produção');
         
         // Gerar ordem usando ExcelJS
-        const resultado = await gerarOrdemComExcelJS(workbook, worksheet, dadosOrdem, outputPath);
+        const resultação = await gerarOrdemComExcelJS(workbook, worksheet, daçãosOrdem, outputPath);
         
-        if (resultado.sucesso) {
+        if (resultação.sucesso) {
             console.log(`✅ Ordem gerada: ${filename}`);
-            console.log(`💰 Total: R$ ${resultado.totalGeral.toFixed(2)}`);
-            console.log(`📦 Produtos: ${resultado.produtosProcessados}`);
+            console.log(`💰 Total: R$ ${resultação.totalGeral.toFixed(2)}`);
+            console.log(`📦 Produtos: ${resultação.produtosProcessaçãos}`);
             
-            // Salvar ordem no banco de dados
+            // Salvar ordem no banco de daçãos
             try {
                 const [insertResult] = await pool.query(`
                     INSERT INTO ordens_producao (
                         numero_ordem, numero_orcamento, numero_pedido, data_liberacao,
                         vendedor_nome, cliente_nome, cliente_fone, cliente_email, cliente_contato,
-                        transportadora_nome, transportadora_fone, transportadora_cep, 
-                        transportadora_endereco, transportadora_cpf_cnpj, transportadora_email_nfe,
-                        frete, prazo_entrega, percentual_parcelado, metodo_parcelado,
+                        transportaçãora_nome, transportaçãora_fone, transportaçãora_cep, 
+                        transportaçãora_endereco, transportaçãora_cpf_cnpj, transportaçãora_email_nfe,
+                        frete, prazo_entrega, percentual_parcelação, metodo_parcelação,
                         produtos, total_geral, quantidade_produtos,
                         observacoes, observacoes_pedido,
                         arquivo_xlsx, caminho_arquivo,
-                        status, criado_por
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        status, criação_por
+                    ) VALUES (, , , , , , , , , , , , , , , , , , , , , , , , , , , )
                 `, [
                     numeroOrdem,
-                    dadosOrdem.numero_orcamento || dadosOrdem.orcamento || null,
-                    dadosOrdem.numero_pedido || dadosOrdem.pedido || null,
-                    dadosOrdem.data_liberacao || new Date(),
-                    dadosOrdem.vendedor_nome || dadosOrdem.vendedor || null,
-                    dadosOrdem.cliente_nome || dadosOrdem.cliente || null,
-                    dadosOrdem.cliente_fone || null,
-                    dadosOrdem.cliente_email || null,
-                    dadosOrdem.cliente_contato || null,
-                    dadosOrdem.transportadora_nome || null,
-                    dadosOrdem.transportadora_fone || dadosOrdem.transportadora_telefone || null,
-                    dadosOrdem.transportadora_cep || null,
-                    dadosOrdem.transportadora_endereco || null,
-                    dadosOrdem.transportadora_cpf_cnpj || null,
-                    dadosOrdem.transportadora_email_nfe || dadosOrdem.email_nfe || null,
-                    dadosOrdem.frete || null,
-                    dadosOrdem.prazo_entrega || null,
-                    dadosOrdem.percentual_parcelado || 100.00,
-                    dadosOrdem.metodo_parcelado || 'FATURAMENTO',
-                    JSON.stringify(dadosOrdem.produtos || []),
-                    resultado.totalGeral,
-                    resultado.produtosProcessados,
-                    dadosOrdem.observacoes || null,
-                    dadosOrdem.observacoes_pedido || null,
+                    daçãosOrdem.numero_orcamento || daçãosOrdem.orcamento || null,
+                    daçãosOrdem.numero_pedido || daçãosOrdem.pedido || null,
+                    daçãosOrdem.data_liberacao || new Date(),
+                    daçãosOrdem.vendedor_nome || daçãosOrdem.vendedor || null,
+                    daçãosOrdem.cliente_nome || daçãosOrdem.cliente || null,
+                    daçãosOrdem.cliente_fone || null,
+                    daçãosOrdem.cliente_email || null,
+                    daçãosOrdem.cliente_contato || null,
+                    daçãosOrdem.transportaçãora_nome || null,
+                    daçãosOrdem.transportaçãora_fone || daçãosOrdem.transportaçãora_telefone || null,
+                    daçãosOrdem.transportaçãora_cep || null,
+                    daçãosOrdem.transportaçãora_endereco || null,
+                    daçãosOrdem.transportaçãora_cpf_cnpj || null,
+                    daçãosOrdem.transportaçãora_email_nfe || daçãosOrdem.email_nfe || null,
+                    daçãosOrdem.frete || null,
+                    daçãosOrdem.prazo_entrega || null,
+                    daçãosOrdem.percentual_parcelação || 100.00,
+                    daçãosOrdem.metodo_parcelação || 'FATURAMENTO',
+                    JSON.stringify(daçãosOrdem.produtos || []),
+                    resultação.totalGeral,
+                    resultação.produtosProcessaçãos,
+                    daçãosOrdem.observacoes || null,
+                    daçãosOrdem.observacoes_pedido || null,
                     filename,
                     outputPath,
                     'pendente',
-                    req.user ? req.user.id : null
+                    req.user  req.user.id : null
                 ]);
                 
                 console.log(`✅ Ordem salva no banco: ID ${insertResult.insertId}`);
@@ -8743,20 +8743,20 @@ apiPCPRouter.post('/gerar-ordem', async (req, res, next) => {
                     ordemId: insertResult.insertId,
                     numeroOrdem: numeroOrdem,
                     arquivo: filename,
-                    totalGeral: resultado.totalGeral,
-                    produtosProcessados: resultado.produtosProcessados,
+                    totalGeral: resultação.totalGeral,
+                    produtosProcessaçãos: resultação.produtosProcessaçãos,
                     mensagem: 'Ordem de produção gerada e registrada com sucesso!'
                 });
             } catch (dbError) {
                 console.error('❌ Erro ao salvar ordem no banco:', dbError);
-                // Mesmo com erro no banco, retorna sucesso do arquivo gerado
+                // Mesmo com erro no banco, retorna sucesso do arquivo geração
                 res.json({
                     sucesso: true,
                     arquivo: filename,
-                    totalGeral: resultado.totalGeral,
-                    produtosProcessados: resultado.produtosProcessados,
+                    totalGeral: resultação.totalGeral,
+                    produtosProcessaçãos: resultação.produtosProcessaçãos,
                     mensagem: 'Ordem de produção gerada com sucesso! (Erro ao registrar no banco)',
-                    avisoDb: 'Falha ao salvar no banco de dados'
+                    avisoDb: 'Falha ao salvar no banco de daçãos'
                 });
             }
         } else {
@@ -8785,33 +8785,33 @@ apiPCPRouter.get('/ordens', async (req, res, next) => {
                 vendedor_nome, cliente_nome,
                 total_geral, quantidade_produtos,
                 status, arquivo_xlsx,
-                criado_em, atualizado_em
+                criação_em, atualização_em
             FROM ordens_producao
             WHERE 1=1
         `;
         const params = [];
         
         if (status) {
-            query += ` AND status = ?`;
+            query += ` AND status = `;
             params.push(status);
         }
         
         if (data_inicio) {
-            query += ` AND data_emissao >= ?`;
+            query += ` AND data_emissao >= `;
             params.push(data_inicio);
         }
         
         if (data_fim) {
-            query += ` AND data_emissao <= ?`;
+            query += ` AND data_emissao <= `;
             params.push(data_fim);
         }
         
         if (cliente) {
-            query += ` AND cliente_nome LIKE ?`;
+            query += ` AND cliente_nome LIKE `;
             params.push(`%${cliente}%`);
         }
         
-        query += ` ORDER BY data_emissao DESC LIMIT ? OFFSET ?`;
+        query += ` ORDER BY data_emissao DESC LIMIT  OFFSET `;
         params.push(parseInt(limit), parseInt(offset));
         
         const [ordens] = await pool.query(query, params);
@@ -8819,8 +8819,8 @@ apiPCPRouter.get('/ordens', async (req, res, next) => {
         // Contar total de ordens (para paginação)
         const [countResult] = await pool.query(`
             SELECT COUNT(*) as total FROM ordens_producao WHERE 1=1
-            ${status ? 'AND status = ?' : ''}
-        `, status ? [status] : []);
+            ${status  'AND status = ' : ''}
+        `, status  [status] : []);
         
         res.json({
             ordens,
@@ -8867,7 +8867,7 @@ apiPCPRouter.get('/ordens/:id', async (req, res, next) => {
         const { id } = req.params;
         
         const [ordens] = await pool.query(`
-            SELECT * FROM ordens_producao WHERE id = ?
+            SELECT * FROM ordens_producao WHERE id = 
         `, [id]);
         
         if (ordens.length === 0) {
@@ -8906,11 +8906,11 @@ apiPCPRouter.patch('/ordens/:id/status', async (req, res, next) => {
         
         await pool.query(`
             UPDATE ordens_producao 
-            SET status = ?, atualizado_em = CURRENT_TIMESTAMP 
-            WHERE id = ?
+            SET status = , atualização_em = CURRENT_TIMESTAMP 
+            WHERE id = 
         `, [status, id]);
         
-        res.json({ sucesso: true, mensagem: 'Status atualizado com sucesso' });
+        res.json({ sucesso: true, mensagem: 'Status atualização com sucesso' });
     } catch (error) {
         console.error('❌ Erro ao atualizar status:', error);
         next(error);
@@ -8928,7 +8928,7 @@ apiPCPRouter.get('/vendedores', async (req, res, next) => {
                 SELECT id, nome_completo as nome, cargo, departamento 
                 FROM funcionarios 
                 WHERE status = 'ativo' AND (cargo LIKE '%vendedor%' OR cargo LIKE '%comercial%' OR departamento LIKE '%vendas%' OR departamento LIKE '%comercial%')
-                LIMIT ?
+                LIMIT 
             `, [limit]);
             return res.json(rows);
         }
@@ -8939,8 +8939,8 @@ apiPCPRouter.get('/vendedores', async (req, res, next) => {
             FROM funcionarios 
             WHERE status = 'ativo' 
             AND (cargo LIKE '%vendedor%' OR cargo LIKE '%comercial%' OR departamento LIKE '%vendas%' OR departamento LIKE '%comercial%')
-            AND (nome_completo LIKE ? OR cargo LIKE ?)
-            LIMIT ?
+            AND (nome_completo LIKE  OR cargo LIKE )
+            LIMIT 
         `, [searchPattern, searchPattern, limit]);
         res.json(rows);
     } catch (error) { next(error); }
@@ -8990,7 +8990,7 @@ apiPCPRouter.post('/gerar-pedido-compra', async (req, res, next) => {
             INSERT INTO pedidos_compras (
                 fornecedor_id, valor_total, origem, origem_id, 
                 prioridade, data_entrega_prevista, observacoes, usuario_id
-            ) VALUES (?, ?, 'pcp', ?, ?, ?, ?, ?)
+            ) VALUES (, , 'pcp', , , , , )
         `, [
             fornecedor_id,
             valorTotal,
@@ -8998,7 +8998,7 @@ apiPCPRouter.post('/gerar-pedido-compra', async (req, res, next) => {
             prioridade,
             data_entrega_prevista,
             observacoes,
-            req.user ? req.user.id : null
+            req.user  req.user.id : null
         ]);
 
         const pedidoId = result.insertId;
@@ -9009,7 +9009,7 @@ apiPCPRouter.post('/gerar-pedido-compra', async (req, res, next) => {
                 INSERT INTO itens_pedido_compras (
                     pedido_id, produto_id, produto_descricao,
                     quantidade, preco_unitario, subtotal
-                ) VALUES (?, ?, ?, ?, ?, ?)
+                ) VALUES (, , , , , )
             `, [
                 pedidoId,
                 material.produto_id,
@@ -9022,8 +9022,8 @@ apiPCPRouter.post('/gerar-pedido-compra', async (req, res, next) => {
             // Criar/atualizar notificação de estoque
             await pool.query(`
                 UPDATE notificacoes_estoque 
-                SET status = 'em_compra', pedido_compra_id = ?
-                WHERE produto_id = ? AND status = 'pendente'
+                SET status = 'em_compra', pedido_compra_id = 
+                WHERE produto_id =  AND status = 'pendente'
             `, [pedidoId, material.produto_id]);
         }
 
@@ -9031,12 +9031,12 @@ apiPCPRouter.post('/gerar-pedido-compra', async (req, res, next) => {
         if (ordem_producao_id) {
             await pool.query(`
                 UPDATE ordens_producao
-                SET pedidos_compra_vinculados = JSON_ARRAY_APPEND(
-                    COALESCE(pedidos_compra_vinculados, '[]'),
+                SET pedidos_compra_vinculaçãos = JSON_ARRAY_APPEND(
+                    COALESCE(pedidos_compra_vinculaçãos, '[]'),
                     '$',
-                    ?
+                    
                 )
-                WHERE id = ?
+                WHERE id = 
             `, [pedidoId, ordem_producao_id]);
         }
 
@@ -9044,7 +9044,7 @@ apiPCPRouter.post('/gerar-pedido-compra', async (req, res, next) => {
             sucesso: true,
             pedido_id: pedidoId,
             valor_total: valorTotal,
-            mensagem: 'Pedido de compra criado com sucesso'
+            mensagem: 'Pedido de compra criação com sucesso'
         });
 
     } catch (error) {
@@ -9073,12 +9073,12 @@ apiPCPRouter.get('/notificacoes-estoque', async (req, res, next) => {
         const params = [];
 
         if (status) {
-            query += ` AND n.status = ?`;
+            query += ` AND n.status = `;
             params.push(status);
         }
 
         if (tipo) {
-            query += ` AND n.tipo = ?`;
+            query += ` AND n.tipo = `;
             params.push(tipo);
         }
 
@@ -9088,7 +9088,7 @@ apiPCPRouter.get('/notificacoes-estoque', async (req, res, next) => {
                 WHEN 'estoque_critico' THEN 2
                 WHEN 'estoque_baixo' THEN 3
             END,
-            n.criado_em DESC
+            n.criação_em DESC
         `;
 
         const [notificacoes] = await pool.query(query, params);
@@ -9106,18 +9106,18 @@ apiPCPRouter.patch('/notificacoes-estoque/:id', async (req, res, next) => {
         const { id } = req.params;
         const { status, observacoes } = req.body;
 
-        if (!['resolvido', 'ignorado'].includes(status)) {
+        if (!['resolvido', 'ignoração'].includes(status)) {
             return res.status(400).json({ erro: 'Status inválido' });
         }
 
         await pool.query(`
             UPDATE notificacoes_estoque
-            SET status = ?, 
+            SET status = , 
                 resolvido_em = CURRENT_TIMESTAMP,
-                resolvido_por = ?,
-                observacoes = ?
-            WHERE id = ?
-        `, [status, req.user ? req.user.id : null, observacoes, id]);
+                resolvido_por = ,
+                observacoes = 
+            WHERE id = 
+        `, [status, req.user  req.user.id : null, observacoes, id]);
 
         res.json({ sucesso: true, mensagem: 'Notificação atualizada' });
 
@@ -9134,7 +9134,7 @@ apiPCPRouter.get('/ordens/:id/materiais-necessarios', async (req, res, next) => 
 
         // Buscar ordem
         const [ordens] = await pool.query(`
-            SELECT produtos FROM ordens_producao WHERE id = ?
+            SELECT produtos FROM ordens_producao WHERE id = 
         `, [id]);
 
         if (ordens.length === 0) {
@@ -9156,7 +9156,7 @@ apiPCPRouter.get('/ordens/:id/materiais-necessarios', async (req, res, next) => 
             const [produtos] = await pool.query(`
                 SELECT id, codigo, descricao, estoque_atual, estoque_minimo, unidade
                 FROM produtos
-                WHERE codigo = ? OR descricao LIKE ?
+                WHERE codigo =  OR descricao LIKE 
                 LIMIT 1
             `, [produto.codigo, `%${produto.codigo}%`]);
 
@@ -9174,7 +9174,7 @@ apiPCPRouter.get('/ordens/:id/materiais-necessarios', async (req, res, next) => 
                         quantidade_necessaria: quantidadeNecessaria,
                         estoque_atual: p.estoque_atual,
                         deficit: deficit,
-                        criticidade: p.estoque_atual === 0 ? 'critico' : 'atencao'
+                        criticidade: p.estoque_atual === 0  'critico' : 'atencao'
                     });
                 }
             }
@@ -9199,26 +9199,26 @@ const apiRHRouter = express.Router();
 apiRHRouter.use(authenticateToken);
 apiRHRouter.use(authorizeArea('rh'));
 
-// Rota /me para o RH retornar dados do usuário logado
+// Rota /me para o RH retornar daçãos do usuário logação
 apiRHRouter.get('/me', async (req, res) => {
     try {
         if (!req.user) {
-            return res.status(401).json({ message: 'Não autenticado' });
+            return res.status(401).json({ message: 'Não autenticação' });
         }
         
-        // Buscar dados completos do usuário no banco com JOIN para foto do funcionário
+        // Buscar daçãos completos do usuário no banco com JOIN para foto do funcionário
         const [[dbUser]] = await pool.query(
             `SELECT u.id, u.nome, u.email, u.role, u.is_admin, 
                     u.permissoes_rh as permissoes, u.foto, u.avatar,
                     f.foto_perfil_url as foto_funcionario
              FROM usuarios u
              LEFT JOIN funcionarios f ON u.email = f.email
-             WHERE u.id = ?`,
+             WHERE u.id = `,
             [req.user.id]
         );
         
         if (!dbUser) {
-            return res.status(404).json({ message: 'Usuário não encontrado' });
+            return res.status(404).json({ message: 'Usuário não encontração' });
         }
         
         // Parse permissões
@@ -9235,7 +9235,7 @@ apiRHRouter.get('/me', async (req, res) => {
         // Determinar a foto (prioridade: avatar > foto > foto_funcionario)
         const fotoUsuario = dbUser.avatar || dbUser.foto || dbUser.foto_funcionario || "/avatars/default.webp";
         
-        // Retornar dados completos do usuário
+        // Retornar daçãos completos do usuário
         res.json({
             user: {
                 id: dbUser.id,
@@ -9251,7 +9251,7 @@ apiRHRouter.get('/me', async (req, res) => {
         });
     } catch (error) {
         console.error('[API/RH/ME] Erro ao buscar usuário:', error);
-        res.status(500).json({ message: 'Erro ao buscar dados do usuário' });
+        res.status(500).json({ message: 'Erro ao buscar daçãos do usuário' });
     }
 });
 
@@ -9273,10 +9273,10 @@ apiRHRouter.post('/funcionarios', [
         const { nome_completo, email, senha, role } = req.body;
         const hashed = await bcrypt.hash(senha, 10);
         try {
-            const [result] = await pool.query('INSERT INTO usuarios (nome, email, senha_hash, password_hash, role) VALUES (?, ?, ?, ?, ?)', [nome_completo, email, hashed, hashed, role || 'user']);
+            const [result] = await pool.query('INSERT INTO usuarios (nome, email, senha_hash, password_hash, role) VALUES (, , , , )', [nome_completo, email, hashed, hashed, role || 'user']);
             res.status(201).json({ id: result.insertId });
         } catch (err) {
-            if (err && err.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'Email já cadastrado.' });
+            if (err && err.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'Email já cadastração.' });
             throw err;
         }
     } catch (error) { next(error); }
@@ -9292,33 +9292,33 @@ apiRHRouter.get('/funcionarios', authorizeAdmin, async (req, res, next) => {
                 id, nome_completo, email, cpf, rg, telefone,
                 cargo, departamento, status, role,
                 data_nascimento, data_admissao,
-                estado_civil, nacionalidade, naturalidade,
+                estação_civil, nacionalidade, naturalidade,
                 endereco, foto_perfil_url, foto_thumb_url,
                 pis_pasep, ctps_numero, ctps_serie,
                 banco, agencia, conta_corrente,
-                dependentes, cnh, certificado_reservista,
+                dependentes, cnh, certificação_reservista,
                 titulo_eleitor, zona_eleitoral, secao_eleitoral,
-                filiacao_mae, filiacao_pai, dados_conjuge
+                filiacao_mae, filiacao_pai, daçãos_conjuge
             FROM funcionarios 
             WHERE 1=1
         `;
         const params = [];
         
         if (status) {
-            sql += ' AND status = ?';
+            sql += ' AND status = ';
             params.push(status);
         }
         if (departamento) {
-            sql += ' AND departamento = ?';
+            sql += ' AND departamento = ';
             params.push(departamento);
         }
         if (search) {
-            sql += ' AND (nome_completo LIKE ? OR email LIKE ? OR cargo LIKE ? OR cpf LIKE ?)';
+            sql += ' AND (nome_completo LIKE  OR email LIKE  OR cargo LIKE  OR cpf LIKE )';
             const searchTerm = `%${search}%`;
             params.push(searchTerm, searchTerm, searchTerm, searchTerm);
         }
         
-        sql += ' ORDER BY nome_completo ASC LIMIT ? OFFSET ?';
+        sql += ' ORDER BY nome_completo ASC LIMIT  OFFSET ';
         params.push(parseInt(limit), parseInt(offset));
         
         const [rows] = await pool.query(sql, params);
@@ -9364,7 +9364,7 @@ apiRHRouter.get('/cargos', authorizeAdmin, async (req, res, next) => {
                 COUNT(*) as total_funcionarios,
                 CASE 
                     WHEN cargo LIKE '%Diretor%' OR cargo LIKE '%Gerente%' THEN 'Executivo'
-                    WHEN cargo LIKE '%Gerente%' OR cargo LIKE '%Coordenador%' OR cargo LIKE '%Supervisor%' THEN 'Gerencial'
+                    WHEN cargo LIKE '%Gerente%' OR cargo LIKE '%Coordenaçãor%' OR cargo LIKE '%Supervisor%' THEN 'Gerencial'
                     WHEN cargo LIKE '%Analista%' OR cargo LIKE '%Tecnico%' THEN 'Técnico'
                     ELSE 'Operacional'
                 END as nivel,
@@ -9373,10 +9373,10 @@ apiRHRouter.get('/cargos', authorizeAdmin, async (req, res, next) => {
                     WHEN cargo LIKE '%Gerente%' THEN '1421-05'
                     WHEN cargo LIKE '%Analista%' THEN '2521-05'
                     WHEN cargo LIKE '%Tecnico%' THEN '3132-05'
-                    WHEN cargo LIKE '%Operador%' THEN '8111-10'
+                    WHEN cargo LIKE '%Operaçãor%' THEN '8111-10'
                     WHEN cargo LIKE '%Consultor%' THEN '3541-25'
                     WHEN cargo LIKE '%Vendedor%' THEN '5211-10'
-                    WHEN cargo LIKE '%Comprador%' THEN '3542-05'
+                    WHEN cargo LIKE '%Compraçãor%' THEN '3542-05'
                     WHEN cargo LIKE '%Auxiliar%' THEN '5143-20'
                     WHEN cargo LIKE '%Assistente%' THEN '4110-10'
                     ELSE '9999-00'
@@ -9411,25 +9411,25 @@ apiRHRouter.get('/funcionarios/:id', async (req, res, next) => {
         
         // Verificar se é o próprio usuário ou admin
         if (req.user.id !== parseInt(id) && req.user.role !== 'admin' && req.user.is_admin !== 1) {
-            return res.status(403).json({ message: 'Acesso negado' });
+            return res.status(403).json({ message: 'Acesso negação' });
         }
         
-        // Buscar dados na tabela funcionarios (mais completa)
+        // Buscar daçãos na tabela funcionarios (mais completa)
         const [rows] = await pool.query(`
             SELECT 
                 id, nome_completo, email, cpf, rg, telefone, 
                 data_nascimento, data_admissao, cargo, departamento,
-                endereco, cep, cidade, estado, bairro, status,
-                estado_civil, nacionalidade, naturalidade,
-                filiacao_mae, filiacao_pai, dados_conjuge,
+                endereco, cep, cidade, estação, bairro, status,
+                estação_civil, nacionalidade, naturalidade,
+                filiacao_mae, filiacao_pai, daçãos_conjuge,
                 pis_pasep, ctps, ctps_numero, ctps_serie,
                 titulo_eleitor, zona_eleitoral, secao_eleitoral,
-                certificado_reservista, cnh,
-                banco, agencia, conta_corrente, dados_bancarios,
+                certificação_reservista, cnh,
+                banco, agencia, conta_corrente, daçãos_bancarios,
                 foto_perfil_url, foto_thumb_url,
                 dependentes, role, salario, tipo_contrato
             FROM funcionarios 
-            WHERE id = ?
+            WHERE id = 
         `, [id]);
         
         if (rows.length === 0) {
@@ -9440,11 +9440,11 @@ apiRHRouter.get('/funcionarios/:id', async (req, res, next) => {
                     '' as telefone, null as data_nascimento, '' as departamento,
                     '' as apelido, '' as bio, foto
                 FROM usuarios 
-                WHERE id = ?
+                WHERE id = 
             `, [id]);
             
             if (userRows.length === 0) {
-                return res.status(404).json({ message: 'Funcionário não encontrado' });
+                return res.status(404).json({ message: 'Funcionário não encontração' });
             }
             
             return res.json(userRows[0]);
@@ -9467,15 +9467,15 @@ apiRHRouter.delete('/funcionarios/:id', [
         const { id } = req.params;
         
         // Verificar se o funcionário existe
-        const [funcionario] = await pool.query('SELECT id FROM funcionarios WHERE id = ?', [id]);
+        const [funcionario] = await pool.query('SELECT id FROM funcionarios WHERE id = ', [id]);
         if (funcionario.length === 0) {
             // Tenta verificar na tabela usuarios
-            const [usuario] = await pool.query('SELECT id FROM usuarios WHERE id = ?', [id]);
+            const [usuario] = await pool.query('SELECT id FROM usuarios WHERE id = ', [id]);
             if (usuario.length === 0) {
-                return res.status(404).json({ message: 'Funcionário não encontrado.' });
+                return res.status(404).json({ message: 'Funcionário não encontração.' });
             }
             // Deleta da tabela usuarios
-            await pool.query('DELETE FROM usuarios WHERE id = ?', [id]);
+            await pool.query('DELETE FROM usuarios WHERE id = ', [id]);
             return res.status(204).send();
         }
         
@@ -9491,7 +9491,7 @@ apiRHRouter.delete('/funcionarios/:id', [
         // Deletar registros de todas as tabelas relacionadas
         for (const fk of fkTables) {
             try {
-                await pool.query(`DELETE FROM \`${fk.TABLE_NAME}\` WHERE \`${fk.COLUMN_NAME}\` = ?`, [id]);
+                await pool.query(`DELETE FROM \`${fk.TABLE_NAME}\` WHERE \`${fk.COLUMN_NAME}\` = `, [id]);
             } catch (err) {
                 // Ignora erros de tabela inexistente
                 if (err.errno !== 1146) {
@@ -9501,9 +9501,9 @@ apiRHRouter.delete('/funcionarios/:id', [
         }
         
         // Agora deleta o funcionário
-        const [result] = await pool.query('DELETE FROM funcionarios WHERE id = ?', [id]);
+        const [result] = await pool.query('DELETE FROM funcionarios WHERE id = ', [id]);
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Funcionário não encontrado.' });
+            return res.status(404).json({ message: 'Funcionário não encontração.' });
         }
         
         res.status(204).send();
@@ -9522,64 +9522,64 @@ apiRHRouter.put('/funcionarios/:id', [
             nome_completo, email, cpf, rg, telefone,
             cargo, departamento, status,
             data_nascimento, data_admissao,
-            estado_civil, nacionalidade, naturalidade,
+            estação_civil, nacionalidade, naturalidade,
             endereco, pis_pasep, ctps_numero, ctps_serie,
             banco, agencia, conta_corrente,
-            dependentes, cnh, certificado_reservista,
+            dependentes, cnh, certificação_reservista,
             titulo_eleitor, zona_eleitoral, secao_eleitoral,
-            filiacao_mae, filiacao_pai, dados_conjuge
+            filiacao_mae, filiacao_pai, daçãos_conjuge
         } = req.body;
         
         const [result] = await pool.query(`
             UPDATE funcionarios SET
-                nome_completo = COALESCE(?, nome_completo),
-                email = COALESCE(?, email),
-                cpf = COALESCE(?, cpf),
-                rg = COALESCE(?, rg),
-                telefone = COALESCE(?, telefone),
-                cargo = COALESCE(?, cargo),
-                departamento = COALESCE(?, departamento),
-                status = COALESCE(?, status),
-                data_nascimento = COALESCE(?, data_nascimento),
-                data_admissao = COALESCE(?, data_admissao),
-                estado_civil = COALESCE(?, estado_civil),
-                nacionalidade = COALESCE(?, nacionalidade),
-                naturalidade = COALESCE(?, naturalidade),
-                endereco = COALESCE(?, endereco),
-                pis_pasep = COALESCE(?, pis_pasep),
-                ctps_numero = COALESCE(?, ctps_numero),
-                ctps_serie = COALESCE(?, ctps_serie),
-                banco = COALESCE(?, banco),
-                agencia = COALESCE(?, agencia),
-                conta_corrente = COALESCE(?, conta_corrente),
-                dependentes = COALESCE(?, dependentes),
-                cnh = COALESCE(?, cnh),
-                certificado_reservista = COALESCE(?, certificado_reservista),
-                titulo_eleitor = COALESCE(?, titulo_eleitor),
-                zona_eleitoral = COALESCE(?, zona_eleitoral),
-                secao_eleitoral = COALESCE(?, secao_eleitoral),
-                filiacao_mae = COALESCE(?, filiacao_mae),
-                filiacao_pai = COALESCE(?, filiacao_pai),
-                dados_conjuge = COALESCE(?, dados_conjuge)
-            WHERE id = ?
+                nome_completo = COALESCE(, nome_completo),
+                email = COALESCE(, email),
+                cpf = COALESCE(, cpf),
+                rg = COALESCE(, rg),
+                telefone = COALESCE(, telefone),
+                cargo = COALESCE(, cargo),
+                departamento = COALESCE(, departamento),
+                status = COALESCE(, status),
+                data_nascimento = COALESCE(, data_nascimento),
+                data_admissao = COALESCE(, data_admissao),
+                estação_civil = COALESCE(, estação_civil),
+                nacionalidade = COALESCE(, nacionalidade),
+                naturalidade = COALESCE(, naturalidade),
+                endereco = COALESCE(, endereco),
+                pis_pasep = COALESCE(, pis_pasep),
+                ctps_numero = COALESCE(, ctps_numero),
+                ctps_serie = COALESCE(, ctps_serie),
+                banco = COALESCE(, banco),
+                agencia = COALESCE(, agencia),
+                conta_corrente = COALESCE(, conta_corrente),
+                dependentes = COALESCE(, dependentes),
+                cnh = COALESCE(, cnh),
+                certificação_reservista = COALESCE(, certificação_reservista),
+                titulo_eleitor = COALESCE(, titulo_eleitor),
+                zona_eleitoral = COALESCE(, zona_eleitoral),
+                secao_eleitoral = COALESCE(, secao_eleitoral),
+                filiacao_mae = COALESCE(, filiacao_mae),
+                filiacao_pai = COALESCE(, filiacao_pai),
+                daçãos_conjuge = COALESCE(, daçãos_conjuge)
+            WHERE id = 
         `, [
             nome_completo, email, cpf, rg, telefone,
             cargo, departamento, status,
             data_nascimento, data_admissao,
-            estado_civil, nacionalidade, naturalidade,
+            estação_civil, nacionalidade, naturalidade,
             endereco, pis_pasep, ctps_numero, ctps_serie,
             banco, agencia, conta_corrente,
-            dependentes, cnh, certificado_reservista,
+            dependentes, cnh, certificação_reservista,
             titulo_eleitor, zona_eleitoral, secao_eleitoral,
-            filiacao_mae, filiacao_pai, dados_conjuge,
+            filiacao_mae, filiacao_pai, daçãos_conjuge,
             id
         ]);
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Funcionário não encontrado.' });
+            return res.status(404).json({ message: 'Funcionário não encontração.' });
         }
         
-        res.json({ message: 'Funcionário atualizado com sucesso!' });
+        res.json({ message: 'Funcionário atualização com sucesso!' });
     } catch (error) { 
         console.error('Erro ao atualizar funcionário:', error);
         next(error); 
@@ -9599,12 +9599,12 @@ apiRHRouter.post('/funcionarios/novo', [
             nome_completo, email, cpf, rg, telefone,
             cargo, departamento, status = 'Ativo',
             data_nascimento, data_admissao,
-            estado_civil, nacionalidade, naturalidade,
+            estação_civil, nacionalidade, naturalidade,
             endereco, pis_pasep, ctps_numero, ctps_serie,
             banco, agencia, conta_corrente,
-            dependentes, cnh, certificado_reservista,
+            dependentes, cnh, certificação_reservista,
             titulo_eleitor, zona_eleitoral, secao_eleitoral,
-            filiacao_mae, filiacao_pai, dados_conjuge,
+            filiacao_mae, filiacao_pai, daçãos_conjuge,
             senha = 'aluforce123'
         } = req.body;
         
@@ -9616,33 +9616,33 @@ apiRHRouter.post('/funcionarios/novo', [
                 nome_completo, email, senha, password_hash, cpf, rg, telefone,
                 cargo, departamento, status, role,
                 data_nascimento, data_admissao,
-                estado_civil, nacionalidade, naturalidade,
+                estação_civil, nacionalidade, naturalidade,
                 endereco, pis_pasep, ctps_numero, ctps_serie,
                 banco, agencia, conta_corrente,
-                dependentes, cnh, certificado_reservista,
+                dependentes, cnh, certificação_reservista,
                 titulo_eleitor, zona_eleitoral, secao_eleitoral,
-                filiacao_mae, filiacao_pai, dados_conjuge,
+                filiacao_mae, filiacao_pai, daçãos_conjuge,
                 forcar_troca_senha
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'funcionario', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+            ) VALUES (, , , , , , , , , , 'funcionario', , , , , , , , , , , , , , , , , , , , , , 1)
         `, [
             nome_completo, email, hashed, hashed, cpf, rg, telefone,
             cargo, departamento, status,
             data_nascimento, data_admissao,
-            estado_civil, nacionalidade, naturalidade,
+            estação_civil, nacionalidade, naturalidade,
             endereco, pis_pasep, ctps_numero, ctps_serie,
             banco, agencia, conta_corrente,
-            dependentes || 0, cnh, certificado_reservista,
+            dependentes || 0, cnh, certificação_reservista,
             titulo_eleitor, zona_eleitoral, secao_eleitoral,
-            filiacao_mae, filiacao_pai, dados_conjuge
+            filiacao_mae, filiacao_pai, daçãos_conjuge
         ]);
         
         res.status(201).json({ 
             id: result.insertId,
-            message: 'Funcionário criado com sucesso!'
+            message: 'Funcionário criação com sucesso!'
         });
     } catch (error) {
         if (error.code === 'ER_DUP_ENTRY') {
-            return res.status(409).json({ message: 'Email ou CPF já cadastrado.' });
+            return res.status(409).json({ message: 'Email ou CPF já cadastração.' });
         }
         console.error('Erro ao criar funcionário:', error);
         next(error);
@@ -9683,7 +9683,7 @@ apiRHRouter.post('/funcionarios/:id/foto', [
                 await sharp(req.file.path)
                     .resize(200, 200, { fit: 'cover' })
                     .toFile(thumbPath);
-                console.log('✅ Thumbnail criado:', thumbPath);
+                console.log('✅ Thumbnail criação:', thumbPath);
             } catch (sharpErr) {
                 console.error('⚠️ Erro ao criar thumbnail:', sharpErr);
                 // Continua mesmo se thumbnail falhar
@@ -9691,7 +9691,7 @@ apiRHRouter.post('/funcionarios/:id/foto', [
         }
         
         // Atualizar foto no banco (apenas colunas que existem: foto_perfil_url e foto_thumb_url)
-        await pool.query('UPDATE funcionarios SET foto_perfil_url = ?, foto_thumb_url = ? WHERE id = ?', [caminhoFoto, thumbUrl, id]);
+        await pool.query('UPDATE funcionarios SET foto_perfil_url = , foto_thumb_url =  WHERE id = ', [caminhoFoto, thumbUrl, id]);
         console.log('✅ Foto atualizada no banco para funcionário:', id);
         
         res.json({ 
@@ -9712,7 +9712,7 @@ apiRHRouter.post('/funcionarios/importar', [
 ], upload.single('arquivo'), async (req, res, next) => {
     try {
         if (!req.file) {
-            return res.status(400).json({ message: 'Arquivo não enviado.' });
+            return res.status(400).json({ message: 'Arquivo não enviação.' });
         }
         
         // Por enquanto retorna sucesso - a implementação completa depende da lib de parsing
@@ -9729,7 +9729,7 @@ apiRHRouter.post('/funcionarios/importar', [
 // HOLERITES
 apiRHRouter.get('/funcionarios/:id/holerites', async (req, res, next) => {
     try {
-        const [rows] = await pool.query('SELECT * FROM holerites WHERE funcionario_id = ? ORDER BY mes_referencia DESC', [req.params.id]);
+        const [rows] = await pool.query('SELECT * FROM holerites WHERE funcionario_id =  ORDER BY mes_referencia DESC', [req.params.id]);
         rows.forEach(h => h.arquivo_url = `/uploads/holerites/${h.arquivo}`);
         res.json(rows);
     } catch (e) { next(e); }
@@ -9742,66 +9742,66 @@ apiRHRouter.post('/funcionarios/:id/holerites', [
     validate
 ], upload.single('holerite'), async (req, res, next) => {
     try {
-        if (!req.file) return res.status(400).json({ message: 'Arquivo não enviado.' });
+        if (!req.file) return res.status(400).json({ message: 'Arquivo não enviação.' });
         const { mes_referencia } = req.body;
-        await pool.query('INSERT INTO holerites (funcionario_id, mes_referencia, arquivo) VALUES (?, ?, ?)', [req.params.id, mes_referencia, req.file.filename]);
-        res.status(201).json({ message: 'Holerite anexado!' });
+        await pool.query('INSERT INTO holerites (funcionario_id, mes_referencia, arquivo) VALUES (, , )', [req.params.id, mes_referencia, req.file.filename]);
+        res.status(201).json({ message: 'Holerite anexação!' });
     } catch (e) { next(e); }
 });
 
 // ATESTADOS
-apiRHRouter.get('/atestados', async (req, res, next) => {
+apiRHRouter.get('/atestaçãos', async (req, res, next) => {
     try {
         const funcionario_id = req.query.funcionario_id || req.user.id;
-        const [rows] = await pool.query('SELECT * FROM atestados WHERE funcionario_id = ? ORDER BY data_atestado DESC', [funcionario_id]);
-        rows.forEach(a => a.arquivo_url = `/uploads/atestados/${a.arquivo}`);
+        const [rows] = await pool.query('SELECT * FROM atestaçãos WHERE funcionario_id =  ORDER BY data_atestação DESC', [funcionario_id]);
+        rows.forEach(a => a.arquivo_url = `/uploads/atestaçãos/${a.arquivo}`);
         res.json(rows);
     } catch (e) { next(e); }
 });
 
-// Buscar meus atestados (usuário logado)
-apiRHRouter.get('/meus-atestados', async (req, res, next) => {
+// Buscar meus atestaçãos (usuário logação)
+apiRHRouter.get('/meus-atestaçãos', async (req, res, next) => {
     try {
         const funcionarioId = req.user.id;
         
         const [rows] = await pool.query(`
-            SELECT * FROM atestados 
-            WHERE funcionario_id = ? 
+            SELECT * FROM atestaçãos 
+            WHERE funcionario_id =  
             ORDER BY created_at DESC
         `, [funcionarioId]);
         
         rows.forEach(a => {
-            if (a.arquivo) a.arquivo_url = `/uploads/atestados/${a.arquivo}`;
+            if (a.arquivo) a.arquivo_url = `/uploads/atestaçãos/${a.arquivo}`;
         });
         
         res.json(rows);
     } catch (e) { 
-        console.error('Erro ao buscar atestados:', e);
+        console.error('Erro ao buscar atestaçãos:', e);
         next(e); 
     }
 });
 
-// Buscar atestados de um funcionário específico (admin)
-apiRHRouter.get('/funcionarios/:id/atestados', async (req, res, next) => {
+// Buscar atestaçãos de um funcionário específico (admin)
+apiRHRouter.get('/funcionarios/:id/atestaçãos', async (req, res, next) => {
     try {
         const funcionarioId = req.params.id;
         
         // Garantir que a tabela existe e tem as colunas necessárias
         await pool.query(`
-            CREATE TABLE IF NOT EXISTS atestados (
+            CREATE TABLE IF NOT EXISTS atestaçãos (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 funcionario_id INT NOT NULL,
-                data_atestado DATE,
+                data_atestação DATE,
                 data_inicio DATE,
                 data_fim DATE,
                 dias_afastamento INT,
-                tipo VARCHAR(100) DEFAULT 'Atestado Médico',
+                tipo VARCHAR(100) DEFAULT 'Atestação Médico',
                 cid VARCHAR(20),
                 arquivo VARCHAR(255),
                 observacoes TEXT,
                 status VARCHAR(20) DEFAULT 'Pendente',
                 motivo_recusa TEXT,
-                aprovado_por INT,
+                aprovação_por INT,
                 data_aprovacao DATETIME,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (funcionario_id) REFERENCES funcionarios(id) ON DELETE CASCADE
@@ -9810,12 +9810,12 @@ apiRHRouter.get('/funcionarios/:id/atestados', async (req, res, next) => {
         
         // Verificar e adicionar colunas que podem faltar
         const colunasExtras = [
-            "ALTER TABLE atestados ADD COLUMN IF NOT EXISTS dias_afastamento INT",
-            "ALTER TABLE atestados ADD COLUMN IF NOT EXISTS tipo VARCHAR(100) DEFAULT 'Atestado Médico'",
-            "ALTER TABLE atestados ADD COLUMN IF NOT EXISTS cid VARCHAR(20)",
-            "ALTER TABLE atestados ADD COLUMN IF NOT EXISTS motivo_recusa TEXT",
-            "ALTER TABLE atestados ADD COLUMN IF NOT EXISTS aprovado_por INT",
-            "ALTER TABLE atestados ADD COLUMN IF NOT EXISTS data_aprovacao DATETIME"
+            "ALTER TABLE atestaçãos ADD COLUMN IF NOT EXISTS dias_afastamento INT",
+            "ALTER TABLE atestaçãos ADD COLUMN IF NOT EXISTS tipo VARCHAR(100) DEFAULT 'Atestação Médico'",
+            "ALTER TABLE atestaçãos ADD COLUMN IF NOT EXISTS cid VARCHAR(20)",
+            "ALTER TABLE atestaçãos ADD COLUMN IF NOT EXISTS motivo_recusa TEXT",
+            "ALTER TABLE atestaçãos ADD COLUMN IF NOT EXISTS aprovação_por INT",
+            "ALTER TABLE atestaçãos ADD COLUMN IF NOT EXISTS data_aprovacao DATETIME"
         ];
         
         for (const sql of colunasExtras) {
@@ -9824,78 +9824,78 @@ apiRHRouter.get('/funcionarios/:id/atestados', async (req, res, next) => {
         
         const [rows] = await pool.query(`
             SELECT a.*, f.nome_completo as funcionario_nome
-            FROM atestados a
+            FROM atestaçãos a
             LEFT JOIN funcionarios f ON a.funcionario_id = f.id
-            WHERE a.funcionario_id = ? 
+            WHERE a.funcionario_id =  
             ORDER BY a.created_at DESC
         `, [funcionarioId]);
         
         rows.forEach(a => {
-            if (a.arquivo) a.arquivo_url = `/uploads/atestados/${a.arquivo}`;
+            if (a.arquivo) a.arquivo_url = `/uploads/atestaçãos/${a.arquivo}`;
         });
         
         res.json(rows);
     } catch (e) { 
-        console.error('Erro ao buscar atestados:', e);
+        console.error('Erro ao buscar atestaçãos:', e);
         next(e); 
     }
 });
 
-// Aprovar atestado
-apiRHRouter.put('/atestados/:id/aprovar', [authorizeAdmin], async (req, res, next) => {
+// Aprovar atestação
+apiRHRouter.put('/atestaçãos/:id/aprovar', [authorizeAdmin], async (req, res, next) => {
     try {
         const { id } = req.params;
         await pool.query(
-            'UPDATE atestados SET status = ?, aprovado_por = ?, data_aprovacao = NOW() WHERE id = ?',
-            ['Aprovado', req.user.id, id]
+            'UPDATE atestaçãos SET status = , aprovação_por = , data_aprovacao = NOW() WHERE id = ',
+            ['Aprovação', req.user.id, id]
         );
-        res.json({ message: 'Atestado aprovado com sucesso!' });
+        res.json({ message: 'Atestação aprovação com sucesso!' });
     } catch (e) { next(e); }
 });
 
-// Recusar atestado
-apiRHRouter.put('/atestados/:id/recusar', [authorizeAdmin], async (req, res, next) => {
+// Recusar atestação
+apiRHRouter.put('/atestaçãos/:id/recusar', [authorizeAdmin], async (req, res, next) => {
     try {
         const { id } = req.params;
         const { motivo } = req.body;
         await pool.query(
-            'UPDATE atestados SET status = ?, motivo_recusa = ?, aprovado_por = ?, data_aprovacao = NOW() WHERE id = ?',
-            ['Recusado', motivo || '', req.user.id, id]
+            'UPDATE atestaçãos SET status = , motivo_recusa = , aprovação_por = , data_aprovacao = NOW() WHERE id = ',
+            ['Recusação', motivo || '', req.user.id, id]
         );
-        res.json({ message: 'Atestado recusado.' });
+        res.json({ message: 'Atestação recusação.' });
     } catch (e) { next(e); }
 });
 
-apiRHRouter.post('/atestados', upload.single('arquivo'), async (req, res, next) => {
+apiRHRouter.post('/atestaçãos', upload.single('arquivo'), async (req, res, next) => {
     try {
-        if (!req.file) return res.status(400).json({ message: 'Arquivo não enviado.' });
+        if (!req.file) return res.status(400).json({ message: 'Arquivo não enviação.' });
         
         const funcionario_id = req.body.funcionario_id || req.user.id;
         const data_inicio = req.body.data_inicio;
         const data_fim = req.body.data_fim;
         const nome_medico = req.body.nome_medico || null;
         const crm = req.body.crm || null;
-        const tipo_atestado = req.body.tipo_atestado || null;
+        const tipo_atestação = req.body.tipo_atestação || null;
         const cid = req.body.cid || null;
         const observacoes = req.body.observacoes || null;
-        const data_atestado = new Date().toISOString().slice(0, 10);
+        const data_atestação = new Date().toISOString().slice(0, 10);
         
         // Criar tabela se não existir com todos os campos
         await pool.query(`
-            CREATE TABLE IF NOT EXISTS atestados (
+            CREATE TABLE IF NOT EXISTS atestaçãos (
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 funcionario_id INT NOT NULL,
-                data_atestado DATE,
+                data_atestação DATE,
                 data_inicio DATE,
                 data_fim DATE,
                 arquivo VARCHAR(255),
                 nome_medico VARCHAR(255),
                 crm VARCHAR(50),
-                tipo_atestado VARCHAR(100),
+                tipo_atestação VARCHAR(100),
                 cid VARCHAR(20),
                 observacoes TEXT,
                 status VARCHAR(20) DEFAULT 'Pendente',
-                aprovado_por INT,
+                aprovação_por INT,
                 data_aprovacao DATETIME,
                 motivo_recusa TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -9904,25 +9904,25 @@ apiRHRouter.post('/atestados', upload.single('arquivo'), async (req, res, next) 
         
         // Adicionar colunas se não existirem (para tabelas já criadas)
         const colunasExtras = [
-            'ALTER TABLE atestados ADD COLUMN IF NOT EXISTS nome_medico VARCHAR(255)',
-            'ALTER TABLE atestados ADD COLUMN IF NOT EXISTS crm VARCHAR(50)',
-            'ALTER TABLE atestados ADD COLUMN IF NOT EXISTS tipo_atestado VARCHAR(100)',
-            'ALTER TABLE atestados ADD COLUMN IF NOT EXISTS cid VARCHAR(20)'
+            'ALTER TABLE atestaçãos ADD COLUMN IF NOT EXISTS nome_medico VARCHAR(255)',
+            'ALTER TABLE atestaçãos ADD COLUMN IF NOT EXISTS crm VARCHAR(50)',
+            'ALTER TABLE atestaçãos ADD COLUMN IF NOT EXISTS tipo_atestação VARCHAR(100)',
+            'ALTER TABLE atestaçãos ADD COLUMN IF NOT EXISTS cid VARCHAR(20)'
         ];
         for (const sql of colunasExtras) {
             try { await pool.query(sql); } catch (e) { /* coluna já existe */ }
         }
         
         await pool.query(
-            `INSERT INTO atestados 
-            (funcionario_id, data_atestado, data_inicio, data_fim, arquivo, nome_medico, crm, tipo_atestado, cid, observacoes) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, 
-            [funcionario_id, data_atestado, data_inicio, data_fim, req.file.filename, nome_medico, crm, tipo_atestado, cid, observacoes]
+            `INSERT INTO atestaçãos 
+            (funcionario_id, data_atestação, data_inicio, data_fim, arquivo, nome_medico, crm, tipo_atestação, cid, observacoes) 
+            VALUES (, , , , , , , , , )`, 
+            [funcionario_id, data_atestação, data_inicio, data_fim, req.file.filename, nome_medico, crm, tipo_atestação, cid, observacoes]
         );
         
-        res.status(201).json({ message: 'Atestado enviado com sucesso!' });
+        res.status(201).json({ message: 'Atestação enviação com sucesso!' });
     } catch (e) { 
-        console.error('Erro ao enviar atestado:', e);
+        console.error('Erro ao enviar atestação:', e);
         next(e); 
     }
 });
@@ -9968,8 +9968,8 @@ apiRHRouter.post('/avisos', [
 ], async (req, res, next) => {
     try {
         const { titulo, conteudo } = req.body;
-        await pool.query('INSERT INTO avisos (titulo, conteudo, data_publicacao) VALUES (?, ?, NOW())', [titulo, conteudo]);
-        res.status(201).json({ message: 'Aviso publicado!' });
+        await pool.query('INSERT INTO avisos (titulo, conteudo, data_publicacao) VALUES (, , NOW())', [titulo, conteudo]);
+        res.status(201).json({ message: 'Aviso publicação!' });
     } catch (e) { next(e); }
 });
 apiRHRouter.delete('/avisos/:id', [
@@ -9978,8 +9978,8 @@ apiRHRouter.delete('/avisos/:id', [
     validate
 ], async (req, res, next) => {
     try {
-        const [result] = await pool.query('DELETE FROM avisos WHERE id = ?', [req.params.id]);
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontrado.' });
+        const [result] = await pool.query('DELETE FROM avisos WHERE id = ', [req.params.id]);
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontração.' });
         res.status(204).send();
     } catch (e) { next(e); }
 });
@@ -10017,13 +10017,13 @@ async function criarTabelaSolicitacoes() {
 }
 criarTabelaSolicitacoes();
 
-// Listar solicitações do usuário logado
+// Listar solicitações do usuário logação
 apiRHRouter.get('/solicitacoes', async (req, res, next) => {
     try {
         const userEmail = req.user.email;
         const [rows] = await pool.query(`
             SELECT * FROM rh_solicitacoes 
-            WHERE funcionario_email = ? 
+            WHERE funcionario_email =  
             ORDER BY created_at DESC
         `, [userEmail]);
         
@@ -10032,8 +10032,8 @@ apiRHRouter.get('/solicitacoes', async (req, res, next) => {
             total: rows.length,
             pendentes: rows.filter(r => r.status === 'Pendente').length,
             em_analise: rows.filter(r => r.status === 'Em Análise').length,
-            aprovadas: rows.filter(r => r.status === 'Aprovada' || r.status === 'Aprovado').length,
-            recusadas: rows.filter(r => r.status === 'Recusada' || r.status === 'Recusado').length
+            aprovadas: rows.filter(r => r.status === 'Aprovada' || r.status === 'Aprovação').length,
+            recusadas: rows.filter(r => r.status === 'Recusada' || r.status === 'Recusação').length
         };
         
         res.json({ solicitacoes: rows, stats });
@@ -10051,11 +10051,11 @@ apiRHRouter.get('/solicitacoes/todas', authorizeAdmin, async (req, res, next) =>
         const params = [];
         
         if (status) {
-            sql += ' AND status = ?';
+            sql += ' AND status = ';
             params.push(status);
         }
         if (tipo) {
-            sql += ' AND tipo = ?';
+            sql += ' AND tipo = ';
             params.push(tipo);
         }
         
@@ -10081,12 +10081,12 @@ apiRHRouter.post('/solicitacoes', upload.single('anexo'), async (req, res, next)
             assuntoFinal = tipo;
         }
         
-        const anexoFile = req.file ? req.file.filename : null;
+        const anexoFile = req.file  req.file.filename : null;
         
         const [result] = await pool.query(`
             INSERT INTO rh_solicitacoes 
             (funcionario_id, funcionario_nome, funcionario_email, tipo, categoria, assunto, descricao, prioridade, anexo)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (, , , , , , , , )
         `, [funcionario_id || null, userName, userEmail, tipo, categoria, assuntoFinal, descricao, prioridade || 'normal', anexoFile]);
         
         res.status(201).json({ 
@@ -10107,11 +10107,11 @@ apiRHRouter.put('/solicitacoes/:id/status', authorizeAdmin, async (req, res, nex
         
         await pool.query(`
             UPDATE rh_solicitacoes 
-            SET status = ?, resposta = ?, respondido_por = ?, data_resposta = NOW()
-            WHERE id = ?
+            SET status = , resposta = , respondido_por = , data_resposta = NOW()
+            WHERE id = 
         `, [status, resposta || null, req.user.id, id]);
         
-        res.json({ message: 'Status atualizado com sucesso!' });
+        res.json({ message: 'Status atualização com sucesso!' });
     } catch (e) { next(e); }
 });
 
@@ -10122,7 +10122,7 @@ apiRHRouter.delete('/solicitacoes/:id', async (req, res, next) => {
         const userEmail = req.user.email;
         
         // Verificar se a solicitação pertence ao usuário
-        const [rows] = await pool.query('SELECT * FROM rh_solicitacoes WHERE id = ?', [id]);
+        const [rows] = await pool.query('SELECT * FROM rh_solicitacoes WHERE id = ', [id]);
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Solicitação não encontrada.' });
         }
@@ -10133,7 +10133,7 @@ apiRHRouter.delete('/solicitacoes/:id', async (req, res, next) => {
             return res.status(403).json({ message: 'Sem permissão para deletar esta solicitação.' });
         }
         
-        await pool.query('DELETE FROM rh_solicitacoes WHERE id = ?', [id]);
+        await pool.query('DELETE FROM rh_solicitacoes WHERE id = ', [id]);
         res.json({ message: 'Solicitação deletada.' });
     } catch (e) { next(e); }
 });
@@ -10182,7 +10182,7 @@ apiRHRouter.get('/funcionarios/:id/doc-status', async (req, res, next) => {
         
         // Verificar se é o próprio usuário ou admin
         if (req.user.id !== parseInt(id) && req.user.role !== 'admin' && req.user.is_admin !== 1) {
-            return res.status(403).json({ message: 'Acesso negado' });
+            return res.status(403).json({ message: 'Acesso negação' });
         }
         
         // Buscar status de documentos
@@ -10193,10 +10193,10 @@ apiRHRouter.get('/funcionarios/:id/doc-status', async (req, res, next) => {
                 CASE WHEN ctps IS NOT NULL AND ctps != '' THEN 1 ELSE 0 END as ctps_ok,
                 CASE WHEN pis_pasep IS NOT NULL AND pis_pasep != '' THEN 1 ELSE 0 END as pis_ok,
                 CASE WHEN titulo_eleitor IS NOT NULL AND titulo_eleitor != '' THEN 1 ELSE 0 END as titulo_ok,
-                CASE WHEN certificado_reservista IS NOT NULL AND certificado_reservista != '' THEN 1 ELSE 0 END as reservista_ok,
+                CASE WHEN certificação_reservista IS NOT NULL AND certificação_reservista != '' THEN 1 ELSE 0 END as reservista_ok,
                 CASE WHEN cnh IS NOT NULL AND cnh != '' THEN 1 ELSE 0 END as cnh_ok
             FROM funcionarios 
-            WHERE id = ?
+            WHERE id = 
         `, [id]);
         
         if (rows.length === 0) {
@@ -10223,23 +10223,23 @@ const rhAPIsCompletas = require('./src/routes/rh_apis_completas');
 app.use('/api/rh', rhAPIsCompletas);
 
 // ===================== API DO USUÁRIO =====================
-// Rota para obter informações do usuário logado
+// Rota para obter informações do usuário logação
 app.get('/api/user/me', authenticateToken, async (req, res) => {
     try {
         if (!req.user) {
-            return res.status(401).json({ error: 'Usuário não autenticado' });
+            return res.status(401).json({ error: 'Usuário não autenticação' });
         }
 
         // Buscar informações completas do usuário no banco
         const [rows] = await pool.query(
-            'SELECT id, nome_completo as nome, email, departamento as setor, avatar, foto_perfil_url FROM funcionarios WHERE email = ?',
+            'SELECT id, nome_completo as nome, email, departamento as setor, avatar, foto_perfil_url FROM funcionarios WHERE email = ',
             [req.user.email]
         );
 
         if (rows.length > 0) {
             const user = rows[0];
-            // Determinar avatar baseado no nome (fallback)
-            const firstName = user.nome ? user.nome.split(' ')[0].toLowerCase() : '';
+            // Determinar avatar baseação no nome (fallback)
+            const firstName = user.nome  user.nome.split(' ')[0].toLowerCase() : '';
             const avatarMap = {
                 'douglas': '/avatars/douglas.webp',
                 'andreia': '/avatars/andreia.webp',
@@ -10258,7 +10258,7 @@ app.get('/api/user/me', authenticateToken, async (req, res) => {
             if (user.foto_perfil_url && user.foto_perfil_url !== 'default.webp') {
                 fotoUrl = user.foto_perfil_url;
             } else if (user.avatar && user.avatar !== 'default.webp') {
-                fotoUrl = user.avatar.startsWith('/') ? user.avatar : `/avatars/${user.avatar}`;
+                fotoUrl = user.avatar.startsWith('/')  user.avatar : `/avatars/${user.avatar}`;
             } else if (avatarMap[firstName]) {
                 fotoUrl = avatarMap[firstName];
             }
@@ -10296,7 +10296,7 @@ app.post('/api/notify-support', express.json(), async (req, res) => {
         if (!userName || !userEmail || !message) {
             return res.status(400).json({ 
                 success: false, 
-                error: 'Dados incompletos' 
+                error: 'Daçãos incompletos' 
             });
         }
 
@@ -10350,7 +10350,7 @@ app.post('/api/notify-support', express.json(), async (req, res) => {
                     </div>
                     <div class="footer">
                         Sistema ALUFORCE v2.0 | Chat Widget com Bob<br>
-                        © ${new Date().getFullYear()} ALUFORCE - Todos os direitos reservados
+                        © ${new Date().getFullYear()} ALUFORCE - Todos os direitos reservaçãos
                     </div>
                 </div>
             </body>
@@ -10360,15 +10360,15 @@ app.post('/api/notify-support', express.json(), async (req, res) => {
         // Tentar enviar email
         const emailResult = await sendEmail(
             'ti@aluforce.ind.br',
-            `[CHAT] Suporte solicitado por ${userName}`,
+            `[CHAT] Suporte solicitação por ${userName}`,
             emailHtml
         );
 
         res.json({ 
             success: true, 
             message: emailResult.success 
-                ? 'Notificação enviada ao suporte técnico via email' 
-                : 'Notificação registrada (email não enviado - SMTP não configurado)',
+                 'Notificação enviada ao suporte técnico via email' 
+                : 'Notificação registrada (email não enviação - SMTP não configuração)',
             supportEmail: 'ti@aluforce.ind.br',
             emailSent: emailResult.success
         });
@@ -10388,15 +10388,15 @@ app.get('/api/verificar-sessao', async (req, res) => {
         // Busca token em múltiplas fontes sem retornar 401
         const authHeader = req.headers['authorization'];
         const token = (authHeader && authHeader.split(' ')[1]) || 
-                     req.cookies?.authToken || 
-                     req.cookies?.token || 
+                     req.cookies.authToken || 
+                     req.cookies.token || 
                      req.query.token;
         
-        console.log('[VERIFICAR-SESSAO] Token encontrado:', !!token);
+        console.log('[VERIFICAR-SESSAO] Token encontração:', !!token);
         
         if (!token) {
-            console.log('[VERIFICAR-SESSAO] Nenhum token - retornando não autenticado');
-            return res.json({ autenticado: false });
+            console.log('[VERIFICAR-SESSAO] Nenhum token - retornando não autenticação');
+            return res.json({ autenticação: false });
         }
 
         // Verificar token JWT usando promise
@@ -10411,14 +10411,14 @@ app.get('/api/verificar-sessao', async (req, res) => {
         });
 
         if (!user) {
-            return res.json({ autenticado: false });
+            return res.json({ autenticação: false });
         }
 
         console.log('[VERIFICAR-SESSAO] Token válido para:', user.email);
         
         // Buscar informações completas do usuário
         const [rows] = await pool.query(
-            'SELECT id, nome_completo as nome, email, departamento as setor, role FROM funcionarios WHERE email = ?',
+            'SELECT id, nome_completo as nome, email, departamento as setor, role FROM funcionarios WHERE email = ',
             [user.email]
         );
 
@@ -10442,10 +10442,10 @@ app.get('/api/verificar-sessao', async (req, res) => {
             const isAdmin = user.is_admin === 1 || user.role === 'admin' || 
                            ['douglas', 'andreia', 'ti', 'antonio'].includes(firstName);
 
-            console.log('[VERIFICAR-SESSAO] Usuário autenticado:', firstName, 'Admin:', isAdmin);
+            console.log('[VERIFICAR-SESSAO] Usuário autenticação:', firstName, 'Admin:', isAdmin);
 
             return res.json({
-                autenticado: true,
+                autenticação: true,
                 usuario: {
                     id: dbUser.id,
                     nome: dbUser.nome,
@@ -10454,7 +10454,7 @@ app.get('/api/verificar-sessao', async (req, res) => {
                     setor: dbUser.setor,
                     role: dbUser.role || 'user',
                     isAdmin: isAdmin,
-                    is_admin: isAdmin ? 1 : 0,
+                    is_admin: isAdmin  1 : 0,
                     avatar: avatarMap[firstName] || 'default.webp'
                 }
             });
@@ -10464,10 +10464,10 @@ app.get('/api/verificar-sessao', async (req, res) => {
             const isAdmin = user.is_admin === 1 || user.role === 'admin' || 
                            ['douglas', 'andreia', 'ti', 'antonio'].includes(firstName);
 
-            console.log('[VERIFICAR-SESSAO] Usuário autenticado (fallback):', firstName);
+            console.log('[VERIFICAR-SESSAO] Usuário autenticação (fallback):', firstName);
 
             return res.json({
-                autenticado: true,
+                autenticação: true,
                 usuario: {
                     id: user.id,
                     nome: user.nome || user.email,
@@ -10476,14 +10476,14 @@ app.get('/api/verificar-sessao', async (req, res) => {
                     setor: 'N/A',
                     role: user.role || 'user',
                     isAdmin: isAdmin,
-                    is_admin: isAdmin ? 1 : 0,
+                    is_admin: isAdmin  1 : 0,
                     avatar:'/avatars/default.webp'
                 }
             });
         }
     } catch (error) {
         console.error('[VERIFICAR-SESSAO] Erro ao buscar usuário:', error);
-        return res.json({ autenticado: false });
+        return res.json({ autenticação: false });
     }
 });
 
@@ -10504,7 +10504,7 @@ app.get('/api/avisos', authenticateToken, async (req, res) => {
         
         const usuario_id = req.user.id;
         const [rows] = await pool.query(
-            'SELECT * FROM avisos WHERE usuario_id = ? OR usuario_id IS NULL ORDER BY created_at DESC LIMIT 50',
+            'SELECT * FROM avisos WHERE usuario_id =  OR usuario_id IS NULL ORDER BY created_at DESC LIMIT 50',
             [usuario_id]
         );
         res.json(rows);
@@ -10538,7 +10538,7 @@ app.get('/api/funcionarios/:id/doc-status', authenticateToken, async (req, res) 
         const { id } = req.params;
         
         if (req.user.id !== parseInt(id) && req.user.role !== 'admin' && req.user.is_admin !== 1) {
-            return res.status(403).json({ message: 'Acesso negado' });
+            return res.status(403).json({ message: 'Acesso negação' });
         }
         
         const [rows] = await pool.query(`
@@ -10548,10 +10548,10 @@ app.get('/api/funcionarios/:id/doc-status', authenticateToken, async (req, res) 
                 CASE WHEN ctps IS NOT NULL AND ctps != '' THEN 1 ELSE 0 END as ctps_ok,
                 CASE WHEN pis_pasep IS NOT NULL AND pis_pasep != '' THEN 1 ELSE 0 END as pis_ok,
                 CASE WHEN titulo_eleitor IS NOT NULL AND titulo_eleitor != '' THEN 1 ELSE 0 END as titulo_ok,
-                CASE WHEN certificado_reservista IS NOT NULL AND certificado_reservista != '' THEN 1 ELSE 0 END as reservista_ok,
+                CASE WHEN certificação_reservista IS NOT NULL AND certificação_reservista != '' THEN 1 ELSE 0 END as reservista_ok,
                 CASE WHEN cnh IS NOT NULL AND cnh != '' THEN 1 ELSE 0 END as cnh_ok
             FROM funcionarios 
-            WHERE id = ?
+            WHERE id = 
         `, [id]);
         
         if (rows.length === 0) {
@@ -10584,7 +10584,7 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
         let resumoFinanceiro = {
             receitas: 0,
             despesas: 0,
-            lucro_estimado: 0,
+            lucro_estimação: 0,
             margem_percentual: 0,
             faturamento_periodo: 0,
             nfes_emitidas: 0
@@ -10595,32 +10595,32 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
             const [receitasResult] = await pool.query(`
                 SELECT COALESCE(SUM(valor), 0) as total 
                 FROM contas_receber 
-                WHERE status = 'pago' AND data_pagamento >= ?
+                WHERE status = 'pago' AND data_pagamento >= 
             `, [dataInicioStr]);
-            resumoFinanceiro.receitas = receitasResult[0]?.total || 0;
+            resumoFinanceiro.receitas = receitasResult[0].total || 0;
             
             // Despesas (títulos a pagar pagos)
             const [despesasResult] = await pool.query(`
                 SELECT COALESCE(SUM(valor), 0) as total 
                 FROM contas_pagar 
-                WHERE status = 'pago' AND data_pagamento >= ?
+                WHERE status = 'pago' AND data_pagamento >= 
             `, [dataInicioStr]);
-            resumoFinanceiro.despesas = despesasResult[0]?.total || 0;
+            resumoFinanceiro.despesas = despesasResult[0].total || 0;
             
             // Calcular lucro e margem
-            resumoFinanceiro.lucro_estimado = resumoFinanceiro.receitas - resumoFinanceiro.despesas;
+            resumoFinanceiro.lucro_estimação = resumoFinanceiro.receitas - resumoFinanceiro.despesas;
             resumoFinanceiro.margem_percentual = resumoFinanceiro.receitas > 0 
-                ? ((resumoFinanceiro.lucro_estimado / resumoFinanceiro.receitas) * 100).toFixed(1)
+                 ((resumoFinanceiro.lucro_estimação / resumoFinanceiro.receitas) * 100).toFixed(1)
                 : 0;
             
-            // Faturamento (pedidos faturados)
+            // Faturamento (pedidos faturaçãos)
             const [faturamentoResult] = await pool.query(`
                 SELECT COALESCE(SUM(valor), 0) as total, COUNT(*) as nfes
                 FROM pedidos 
-                WHERE status = 'faturado' AND data_criacao >= ?
+                WHERE status = 'faturação' AND data_criacao >= 
             `, [dataInicioStr]);
-            resumoFinanceiro.faturamento_periodo = faturamentoResult[0]?.total || 0;
-            resumoFinanceiro.nfes_emitidas = faturamentoResult[0]?.nfes || 0;
+            resumoFinanceiro.faturamento_periodo = faturamentoResult[0].total || 0;
+            resumoFinanceiro.nfes_emitidas = faturamentoResult[0].nfes || 0;
         } catch (e) {
             console.log('[Dashboard] Erro ao buscar financeiro:', e.message);
         }
@@ -10631,14 +10631,14 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
             const [vendasResult] = await pool.query(`
                 SELECT COUNT(*) as total,
                        COALESCE(AVG(valor), 0) as ticket,
-                       SUM(CASE WHEN status IN ('aprovado', 'faturar', 'faturado', 'entregue') THEN 1 ELSE 0 END) as convertidos
+                       SUM(CASE WHEN status IN ('aprovação', 'faturar', 'faturação', 'entregue') THEN 1 ELSE 0 END) as convertidos
                 FROM pedidos 
-                WHERE data_criacao >= ?
+                WHERE data_criacao >= 
             `, [dataInicioStr]);
-            vendas.total_pedidos = vendasResult[0]?.total || 0;
-            vendas.ticket_medio = vendasResult[0]?.ticket || 0;
+            vendas.total_pedidos = vendasResult[0].total || 0;
+            vendas.ticket_medio = vendasResult[0].ticket || 0;
             vendas.taxa_conversao = vendas.total_pedidos > 0 
-                ? ((vendasResult[0]?.convertidos || 0) / vendas.total_pedidos * 100).toFixed(1)
+                 ((vendasResult[0].convertidos || 0) / vendas.total_pedidos * 100).toFixed(1)
                 : 0;
         } catch (e) {
             console.log('[Dashboard] Erro ao buscar vendas:', e.message);
@@ -10651,10 +10651,10 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
                 SELECT COUNT(*) as total,
                        SUM(CASE WHEN status IN ('pendente', 'aguardando', 'analise') THEN 1 ELSE 0 END) as pendentes
                 FROM pedidos_compra 
-                WHERE data_criacao >= ?
+                WHERE data_criacao >= 
             `, [dataInicioStr]);
-            compras.total_pedidos = comprasResult[0]?.total || 0;
-            compras.pedidos_pendentes = comprasResult[0]?.pendentes || 0;
+            compras.total_pedidos = comprasResult[0].total || 0;
+            compras.pedidos_pendentes = comprasResult[0].pendentes || 0;
         } catch (e) {
             console.log('[Dashboard] Erro ao buscar compras:', e.message);
         }
@@ -10666,11 +10666,11 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
                 SELECT COUNT(*) as total,
                        SUM(CASE WHEN status = 'concluida' THEN 1 ELSE 0 END) as concluidas
                 FROM ordens_producao 
-                WHERE data_criacao >= ?
+                WHERE data_criacao >= 
             `, [dataInicioStr]);
-            producao.ordens_producao = pcpResult[0]?.total || 0;
+            producao.ordens_producao = pcpResult[0].total || 0;
             producao.eficiencia_percentual = producao.ordens_producao > 0
-                ? ((pcpResult[0]?.concluidas || 0) / producao.ordens_producao * 100).toFixed(1)
+                 ((pcpResult[0].concluidas || 0) / producao.ordens_producao * 100).toFixed(1)
                 : 0;
                 
             // Alertas de estoque baixo
@@ -10678,7 +10678,7 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
                 SELECT COUNT(*) as alertas FROM produtos 
                 WHERE estoque_atual <= estoque_minimo AND estoque_minimo > 0
             `);
-            producao.alertas_estoque = estoqueResult[0]?.alertas || 0;
+            producao.alertas_estoque = estoqueResult[0].alertas || 0;
         } catch (e) {
             console.log('[Dashboard] Erro ao buscar PCP:', e.message);
         }
@@ -10689,22 +10689,22 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
             const [rhResult] = await pool.query(`
                 SELECT COUNT(*) as total FROM funcionarios WHERE ativo = 1 OR ativo IS NULL
             `);
-            rh.total_funcionarios = rhResult[0]?.total || 0;
+            rh.total_funcionarios = rhResult[0].total || 0;
             
-            // Férias (aproximado)
+            // Férias (aproximação)
             const [feriasResult] = await pool.query(`
                 SELECT COUNT(*) as ferias FROM funcionarios 
                 WHERE status_ferias = 'em_ferias' OR situacao = 'ferias'
             `);
-            rh.ferias_programadas = feriasResult[0]?.ferias || 0;
+            rh.ferias_programadas = feriasResult[0].ferias || 0;
             
             // Aniversariantes do mês
             const mesAtual = new Date().getMonth() + 1;
             const [anivResult] = await pool.query(`
                 SELECT COUNT(*) as aniversarios FROM funcionarios 
-                WHERE MONTH(data_nascimento) = ? AND (ativo = 1 OR ativo IS NULL)
+                WHERE MONTH(data_nascimento) =  AND (ativo = 1 OR ativo IS NULL)
             `, [mesAtual]);
-            rh.aniversariantes_mes = anivResult[0]?.aniversarios || 0;
+            rh.aniversariantes_mes = anivResult[0].aniversarios || 0;
         } catch (e) {
             console.log('[Dashboard] Erro ao buscar RH:', e.message);
         }
@@ -10717,7 +10717,7 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
                 SELECT COUNT(*) as vencendo FROM contas_pagar 
                 WHERE status != 'pago' AND DATE(data_vencimento) = CURDATE()
             `);
-            if (titulosResult[0]?.vencendo > 0) {
+            if (titulosResult[0].vencendo > 0) {
                 alertas.push({
                     tipo: 'warning',
                     modulo: 'Financeiro',
@@ -10731,7 +10731,7 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
                 SELECT COUNT(*) as aguardando FROM pedidos 
                 WHERE status IN ('orcamento', 'analise')
             `);
-            if (pedidosResult[0]?.aguardando > 0) {
+            if (pedidosResult[0].aguardando > 0) {
                 alertas.push({
                     tipo: 'info',
                     modulo: 'Vendas',
@@ -10761,7 +10761,7 @@ app.get('/api/dashboard/executivo', authenticateToken, async (req, res) => {
             rh,
             alertas,
             periodo_dias: periodo,
-            atualizado_em: new Date().toISOString()
+            atualização_em: new Date().toISOString()
         });
         
     } catch (error) {
@@ -10808,29 +10808,29 @@ app.get('/api/debug/usuarios-schema', debugOnlyMiddleware, async (req, res) => {
 // internal-e2e-run removed after testing
 
 
-// === KANBAN PÚBLICO === (Rota pública ANTES do router autenticado)
+// === KANBAN PÚBLICO === (Rota pública ANTES do router autenticação)
 app.get('/api/vendas/kanban/pedidos', async (req, res) => {
     try {
         let pedidos = [];
         
-        // Dados de exemplo para demonstração
+        // Daçãos de exemplo para demonstração
         const pedidosExemplo = [
             { id: 101, cliente: 'COMERCIAL ELETRICA PAPIRO LTDA', valor: 13084.67, status: 'orcamento', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 3x' },
             { id: 102, cliente: 'AFS ELETRICA', valor: 21615.00, status: 'orcamento', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 4x' },
             { id: 103, cliente: 'IMPACTO ELETRICA', valor: 80780.00, status: 'analise', origem: 'Omie', vendedor: 'Vendedor 2', parcelas: 'em 4x' },
-            { id: 104, cliente: 'GASPARZINHO DISTRIBUIDORA', valor: 7500.00, status: 'analise', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 3x', transportadora: 'ACEVILLE TRANSPORTES LTDA' },
-            { id: 105, cliente: 'AL CONESUL VALVULAS INDUSTRIAIS LTDA', valor: 3000.00, status: 'aprovado', origem: 'Omie', vendedor: 'Vendedor 2', parcelas: 'em 3x' },
-            { id: 106, cliente: 'COMERCIAL MARTINS LTDA', valor: 11540.00, status: 'aprovado', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 2x', transportadora: 'TRANSVALEN TRANSPORTES LTDA' },
+            { id: 104, cliente: 'GASPARZINHO DISTRIBUIDORA', valor: 7500.00, status: 'analise', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 3x', transportaçãora: 'ACEVILLE TRANSPORTES LTDA' },
+            { id: 105, cliente: 'AL CONESUL VALVULAS INDUSTRIAIS LTDA', valor: 3000.00, status: 'aprovação', origem: 'Omie', vendedor: 'Vendedor 2', parcelas: 'em 3x' },
+            { id: 106, cliente: 'COMERCIAL MARTINS LTDA', valor: 11540.00, status: 'aprovação', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 2x', transportaçãora: 'TRANSVALEN TRANSPORTES LTDA' },
             { id: 107, cliente: 'ILUMINACAO PAULISTANA SPE S/A', valor: 529.00, status: 'faturar', origem: 'Omie', vendedor: 'Vendedor 2', parcelas: 'a vista' },
             { id: 108, cliente: 'BELLA ELETRICA E HIDRAULICA LTDA', valor: 7224.00, status: 'faturar', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'a vista' },
-            { id: 109, cliente: 'SARAIVA MATERIAIS ELETRICOS', valor: 34325.00, status: 'faturado', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 4x', nf: '00000251' },
-            { id: 110, cliente: 'LF ELETRIFICACOES', valor: 3185.00, status: 'faturado', origem: 'Omie', vendedor: 'Vendedor 2', parcelas: 'em 3x', nf: '00000249', transportadora: 'DLT LOGISTICA EM TRANSPORTES LTDA' },
+            { id: 109, cliente: 'SARAIVA MATERIAIS ELETRICOS', valor: 34325.00, status: 'faturação', origem: 'Omie', vendedor: 'Vendedor 1', parcelas: 'em 4x', nf: '00000251' },
+            { id: 110, cliente: 'LF ELETRIFICACOES', valor: 3185.00, status: 'faturação', origem: 'Omie', vendedor: 'Vendedor 2', parcelas: 'em 3x', nf: '00000249', transportaçãora: 'DLT LOGISTICA EM TRANSPORTES LTDA' },
         ];
         
         try {
             const [result] = await pool.query(`
                 SELECT p.*, 
-                       COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informado') as cliente_nome,
+                       COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informação') as cliente_nome,
                        c.email as cliente_email,
                        c.telefone as cliente_telefone,
                        u.nome as vendedor_nome
@@ -10842,20 +10842,20 @@ app.get('/api/vendas/kanban/pedidos', async (req, res) => {
             `);
             pedidos = result;
         } catch (poolError) {
-            console.warn('⚠️ Erro ao buscar pedidos, usando dados de exemplo:', poolError.message);
+            console.warn('⚠️ Erro ao buscar pedidos, usando daçãos de exemplo:', poolError.message);
             return res.json(pedidosExemplo);
         }
         
         if (!pedidos || pedidos.length === 0) {
-            console.log('📋 Nenhum pedido encontrado, usando dados de exemplo');
+            console.log('📋 Nenhum pedido encontração, usando daçãos de exemplo');
             return res.json(pedidosExemplo);
         }
         
-        const pedidosFormatados = pedidos.map(p => ({
+        const pedidosFormataçãos = pedidos.map(p => ({
             id: p.id,
             numero: `Pedido Nº ${p.id}`,
-            cliente: p.cliente_nome || 'Cliente não informado',
-            cliente_nome: p.cliente_nome || 'Cliente não informado',
+            cliente: p.cliente_nome || 'Cliente não informação',
+            cliente_nome: p.cliente_nome || 'Cliente não informação',
             valor: parseFloat(p.valor || p.valor_total || 0),
             valor_total: parseFloat(p.valor || p.valor_total || 0),
             status: p.status || 'orcamento',
@@ -10863,13 +10863,13 @@ app.get('/api/vendas/kanban/pedidos', async (req, res) => {
             vendedor: p.vendedor_nome || 'Não atribuído',
             vendedor_nome: p.vendedor_nome || 'Não atribuído',
             parcelas: p.condicao_pagamento || 'a vista',
-            transportadora: p.metodo_envio || null,
+            transportaçãora: p.metodo_envio || null,
             nf: p.nota_fiscal || null,
             data_pedido: p.created_at,
             observacao: p.observacao
         }));
         
-        res.json(pedidosFormatados);
+        res.json(pedidosFormataçãos);
     } catch (error) {
         console.error('❌ Erro no Kanban:', error);
         res.status(500).json({ error: 'Erro ao buscar pedidos para o Kanban' });
@@ -10886,15 +10886,15 @@ app.get('/api/vendas/produtos/autocomplete/:termo', async (req, res) => {
         const [rows] = await pool.query(
             `SELECT id, codigo, nome as descricao, unidade_medida as unidade, preco_venda, estoque_atual, localizacao as local_estoque 
              FROM produtos 
-             WHERE ativo = 1 AND (codigo LIKE ? OR nome LIKE ? OR gtin LIKE ?)
+             WHERE ativo = 1 AND (codigo LIKE  OR nome LIKE  OR gtin LIKE )
              ORDER BY 
                 CASE 
-                    WHEN codigo = ? THEN 1 
-                    WHEN codigo LIKE ? THEN 2 
+                    WHEN codigo =  THEN 1 
+                    WHEN codigo LIKE  THEN 2 
                     ELSE 3 
                 END,
                 nome ASC
-             LIMIT ?`,
+             LIMIT `,
             [`%${termo}%`, `%${termo}%`, `%${termo}%`, termo, `${termo}%`, limit]
         );
         
@@ -10911,7 +10911,7 @@ app.get('/api/vendas/pedidos/:id/itens', async (req, res) => {
     try {
         const { id } = req.params;
         const [itens] = await pool.query(
-            'SELECT * FROM pedido_itens WHERE pedido_id = ? ORDER BY id ASC',
+            'SELECT * FROM pedido_itens WHERE pedido_id =  ORDER BY id ASC',
             [id]
         );
         res.json(itens);
@@ -10927,26 +10927,26 @@ const apiVendasRouter = express.Router();
 apiVendasRouter.use(authenticateToken);
 apiVendasRouter.use(authorizeArea('vendas'));
 
-// Rota /me para Vendas retornar dados do usuário logado
+// Rota /me para Vendas retornar daçãos do usuário logação
 apiVendasRouter.get('/me', async (req, res) => {
     try {
         if (!req.user) {
-            return res.status(401).json({ message: 'Não autenticado' });
+            return res.status(401).json({ message: 'Não autenticação' });
         }
         
-        // Buscar dados completos do usuário no banco com JOIN para foto do funcionário
+        // Buscar daçãos completos do usuário no banco com JOIN para foto do funcionário
         const [[dbUser]] = await pool.query(
             `SELECT u.id, u.nome, u.email, u.role, u.is_admin, 
                     u.permissoes_vendas as permissoes, u.foto, u.avatar,
                     f.foto_perfil_url as foto_funcionario
              FROM usuarios u
              LEFT JOIN funcionarios f ON u.email = f.email
-             WHERE u.id = ?`,
+             WHERE u.id = `,
             [req.user.id]
         );
         
         if (!dbUser) {
-            return res.status(404).json({ message: 'Usuário não encontrado' });
+            return res.status(404).json({ message: 'Usuário não encontração' });
         }
         
         // Parse permissões
@@ -10963,7 +10963,7 @@ apiVendasRouter.get('/me', async (req, res) => {
         // Determinar a foto (prioridade: avatar > foto > foto_funcionario)
         const fotoUsuario = dbUser.avatar || dbUser.foto || dbUser.foto_funcionario || "/avatars/default.webp";
         
-        // Retornar dados completos do usuário
+        // Retornar daçãos completos do usuário
         res.json({
             user: {
                 id: dbUser.id,
@@ -10979,7 +10979,7 @@ apiVendasRouter.get('/me', async (req, res) => {
         });
     } catch (error) {
         console.error('[API/VENDAS/ME] Erro ao buscar usuário:', error);
-        res.status(500).json({ message: 'Erro ao buscar dados do usuário' });
+        res.status(500).json({ message: 'Erro ao buscar daçãos do usuário' });
     }
 });
 
@@ -11022,12 +11022,12 @@ apiVendasRouter.get('/dashboard/top-vendedores', async (req, res, next) => {
                    SUM(p.valor_total) as total_vendas
             FROM usuarios u
             INNER JOIN pedidos p ON u.id = p.vendedor_id
-            WHERE p.status != 'cancelado'
+            WHERE p.status != 'cancelação'
               AND MONTH(p.created_at) = MONTH(CURDATE()) 
               AND YEAR(p.created_at) = YEAR(CURDATE())
             GROUP BY u.id, u.nome, u.avatar, u.foto
             ORDER BY total_vendas DESC
-            LIMIT ?
+            LIMIT 
         `, [limit]);
         res.json(rows);
     } catch (error) {
@@ -11044,7 +11044,7 @@ apiVendasRouter.get('/dashboard/graficos', async (req, res, next) => {
             SELECT DATE_FORMAT(created_at, '%Y-%m') as mes,
                    SUM(valor_total) as total
             FROM pedidos
-            WHERE status != 'cancelado'
+            WHERE status != 'cancelação'
               AND created_at >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
             GROUP BY DATE_FORMAT(created_at, '%Y-%m')
             ORDER BY mes ASC
@@ -11078,7 +11078,7 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
         let params = [];
 
         if (period && period !== 'all') {
-            whereClause = `WHERE p.created_at >= CURDATE() - INTERVAL ? DAY`;
+            whereClause = `WHERE p.created_at >= CURDATE() - INTERVAL  DAY`;
             params.push(parseInt(period));
         }
         params.push(parseInt(limit), offset);
@@ -11086,7 +11086,7 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
         const [rows] = await pool.query(`
             SELECT p.id, p.valor, p.valor as valor_total, p.status, p.created_at, p.created_at as data_pedido, 
                    p.vendedor_id, p.cliente_id, p.observacao,
-                   COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informado') AS cliente_nome,
+                   COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informação') AS cliente_nome,
                    c.email AS cliente_email, c.telefone AS cliente_telefone,
                    e.nome_fantasia AS empresa_nome, 
                    u.nome AS vendedor_nome
@@ -11096,7 +11096,7 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
             ${whereClause}
             ORDER BY p.id DESC
-            LIMIT ? OFFSET ?
+            LIMIT  OFFSET 
         `, params);
         res.json(rows);
     } catch (error) { next(error); }
@@ -11108,7 +11108,7 @@ apiVendasRouter.get('/pedidos/search', async (req, res, next) => {
         const [rows] = await pool.query(`
             SELECT p.id, p.valor, p.valor as valor_total, p.status, p.created_at, p.created_at as data_pedido,
                    p.vendedor_id, p.cliente_id, p.observacao,
-                   COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informado') AS cliente_nome,
+                   COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informação') AS cliente_nome,
                    c.email AS cliente_email, c.telefone AS cliente_telefone,
                    e.nome_fantasia AS empresa_nome, 
                    u.nome AS vendedor_nome
@@ -11116,8 +11116,8 @@ apiVendasRouter.get('/pedidos/search', async (req, res, next) => {
             LEFT JOIN clientes c ON p.cliente_id = c.id
             LEFT JOIN empresas e ON p.empresa_id = e.id
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
-            WHERE c.nome_fantasia LIKE ? OR c.razao_social LIKE ? OR c.nome LIKE ? 
-               OR e.nome_fantasia LIKE ? OR p.id LIKE ? OR u.nome LIKE ?
+            WHERE c.nome_fantasia LIKE  OR c.razao_social LIKE  OR c.nome LIKE  
+               OR e.nome_fantasia LIKE  OR p.id LIKE  OR u.nome LIKE 
             ORDER BY p.id DESC
         `, [query, query, query, query, query, query]);
         res.json(rows);
@@ -11128,7 +11128,7 @@ apiVendasRouter.get('/pedidos/:id', async (req, res, next) => {
         const { id } = req.params;
         const [[pedido]] = await pool.query(`
             SELECT p.*, p.valor as valor_total, p.created_at as data_pedido,
-                   COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informado') AS cliente_nome,
+                   COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informação') AS cliente_nome,
                    c.email AS cliente_email, c.telefone AS cliente_telefone,
                    e.nome_fantasia AS empresa_nome, e.razao_social AS empresa_razao_social, 
                    u.nome AS vendedor_nome
@@ -11136,9 +11136,9 @@ apiVendasRouter.get('/pedidos/:id', async (req, res, next) => {
             LEFT JOIN clientes c ON p.cliente_id = c.id
             LEFT JOIN empresas e ON p.empresa_id = e.id
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [id]);
-        if (!pedido) return res.status(404).json({ message: "Pedido não encontrado." });
+        if (!pedido) return res.status(404).json({ message: "Pedido não encontração." });
         res.json(pedido);
     } catch (error) { next(error); }
 });
@@ -11153,10 +11153,10 @@ apiVendasRouter.post('/pedidos', [
         const vendedor_id = req.user.id;
         
         await pool.query(
-            'INSERT INTO pedidos (empresa_id, vendedor_id, valor, descricao, status) VALUES (?, ?, ?, ?, ?)',
+            'INSERT INTO pedidos (empresa_id, vendedor_id, valor, descricao, status) VALUES (, , , , )',
             [empresa_id, vendedor_id, valor, descricao || null, 'orcamento']
         );
-        res.status(201).json({ message: 'Pedido criado com sucesso!' });
+        res.status(201).json({ message: 'Pedido criação com sucesso!' });
     } catch (error) { next(error); }
 });
 apiVendasRouter.put('/pedidos/:id', [
@@ -11171,18 +11171,18 @@ apiVendasRouter.put('/pedidos/:id', [
         const { empresa_id, valor, descricao } = req.body;
         
         const [result] = await pool.query(
-            `UPDATE pedidos SET empresa_id = ?, valor = ?, descricao = ? WHERE id = ?`,
+            `UPDATE pedidos SET empresa_id = , valor = , descricao =  WHERE id = `,
             [empresa_id, valor, descricao || null, id]
         );
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Pedido não encontrado.' });
-        res.json({ message: 'Pedido atualizado com sucesso.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Pedido não encontração.' });
+        res.json({ message: 'Pedido atualização com sucesso.' });
     } catch (error) { next(error); }
 });
 apiVendasRouter.delete('/pedidos/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [result] = await pool.query('DELETE FROM pedidos WHERE id = ?', [id]);
-        if (result.affectedRows === 0) return res.status(404).json({ message: "Pedido não encontrado." });
+        const [result] = await pool.query('DELETE FROM pedidos WHERE id = ', [id]);
+        if (result.affectedRows === 0) return res.status(404).json({ message: "Pedido não encontração." });
         res.status(204).send();
     } catch (error) { next(error); }
 });
@@ -11193,12 +11193,12 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         const { id } = req.params;
         const updates = req.body;
         
-        console.log(`📝 PATCH /pedidos/${id} - Dados recebidos:`, updates);
+        console.log(`📝 PATCH /pedidos/${id} - Daçãos recebidos:`, updates);
         
         // Verificar se pedido existe
-        const [existingRows] = await pool.query('SELECT * FROM pedidos WHERE id = ?', [id]);
+        const [existingRows] = await pool.query('SELECT * FROM pedidos WHERE id = ', [id]);
         if (existingRows.length === 0) {
-            return res.status(404).json({ message: 'Pedido não encontrado.' });
+            return res.status(404).json({ message: 'Pedido não encontração.' });
         }
         
         // Construir query de atualização dinâmica
@@ -11208,52 +11208,52 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         // Atualizar vendedor_id se vendedor_nome foi fornecido
         if (updates.vendedor_nome !== undefined && updates.vendedor_nome !== '') {
             const [vendedorRows] = await pool.query(
-                'SELECT id, nome FROM usuarios WHERE nome LIKE ? OR apelido LIKE ? LIMIT 1', 
+                'SELECT id, nome FROM usuarios WHERE nome LIKE  OR apelido LIKE  LIMIT 1', 
                 [`%${updates.vendedor_nome}%`, `%${updates.vendedor_nome}%`]
             );
             if (vendedorRows.length > 0) {
-                fieldsToUpdate.push('vendedor_id = ?');
+                fieldsToUpdate.push('vendedor_id = ');
                 values.push(vendedorRows[0].id);
             }
         }
         
         if (updates.observacao !== undefined) {
-            fieldsToUpdate.push('observacao = ?');
+            fieldsToUpdate.push('observacao = ');
             values.push(updates.observacao);
         }
         
         if (updates.status !== undefined) {
-            fieldsToUpdate.push('status = ?');
+            fieldsToUpdate.push('status = ');
             values.push(updates.status);
         }
         
         if (updates.valor !== undefined) {
-            fieldsToUpdate.push('valor = ?');
+            fieldsToUpdate.push('valor = ');
             values.push(updates.valor);
         }
         
         if (updates.frete !== undefined) {
-            fieldsToUpdate.push('frete = ?');
+            fieldsToUpdate.push('frete = ');
             values.push(updates.frete);
         }
         
         if (updates.descricao !== undefined) {
-            fieldsToUpdate.push('descricao = ?');
+            fieldsToUpdate.push('descricao = ');
             values.push(updates.descricao);
         }
         
         if (updates.prioridade !== undefined) {
-            fieldsToUpdate.push('prioridade = ?');
+            fieldsToUpdate.push('prioridade = ');
             values.push(updates.prioridade);
         }
         
         if (updates.cliente_id !== undefined) {
-            fieldsToUpdate.push('cliente_id = ?');
+            fieldsToUpdate.push('cliente_id = ');
             values.push(updates.cliente_id || null);
         }
         
         if (updates.empresa_id !== undefined) {
-            fieldsToUpdate.push('empresa_id = ?');
+            fieldsToUpdate.push('empresa_id = ');
             values.push(updates.empresa_id || null);
         }
         
@@ -11263,16 +11263,16 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         
         values.push(id);
         
-        const query = `UPDATE pedidos SET ${fieldsToUpdate.join(', ')} WHERE id = ?`;
+        const query = `UPDATE pedidos SET ${fieldsToUpdate.join(', ')} WHERE id = `;
         const [result] = await pool.query(query, values);
         
         if (result.affectedRows === 0) {
-            return res.status(404).json({ message: 'Pedido não encontrado.' });
+            return res.status(404).json({ message: 'Pedido não encontração.' });
         }
         
-        console.log(`✅ Pedido ${id} atualizado com sucesso!`);
+        console.log(`✅ Pedido ${id} atualização com sucesso!`);
         
-        // Buscar pedido atualizado para retornar
+        // Buscar pedido atualização para retornar
         const [updatedRows] = await pool.query(`
             SELECT p.*, 
                    c.nome as cliente_nome,
@@ -11280,11 +11280,11 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
             FROM pedidos p
             LEFT JOIN clientes c ON p.cliente_id = c.id
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [id]);
         
         res.json({ 
-            message: 'Pedido atualizado com sucesso.',
+            message: 'Pedido atualização com sucesso.',
             pedido: updatedRows[0] || null
         });
     } catch (error) {
@@ -11300,7 +11300,7 @@ apiVendasRouter.put('/pedidos/:id/status', async (req, res, next) => {
         
         console.log(`📝 Atualizando status do pedido ${id} para: ${status}`);
         
-        const validStatuses = ['orcamento', 'orçamento', 'analise', 'analise-credito', 'aprovado', 'pedido-aprovado', 'faturar', 'faturado', 'entregue', 'cancelado', 'recibo'];
+        const validStatuses = ['orcamento', 'orçamento', 'analise', 'analise-credito', 'aprovação', 'pedido-aprovação', 'faturar', 'faturação', 'entregue', 'cancelação', 'recibo'];
         if (!status || !validStatuses.includes(status)) {
             console.log(`❌ Status inválido: ${status}`);
             return res.status(400).json({ message: 'Status inválido.' });
@@ -11321,12 +11321,12 @@ apiVendasRouter.put('/pedidos/:id/status', async (req, res, next) => {
             isAdmin = adminsNomes.some(admin => nomeMin.includes(admin));
         }
         
-        console.log(`🔐 Verificação de permissão - Usuário: ${user.nome || user.email} | Admin: ${isAdmin} | Status desejado: ${status}`);
+        console.log(`🔐 Verificação de permissão - Usuário: ${user.nome || user.email} | Admin: ${isAdmin} | Status desejação: ${status}`);
         
         // Vendedores (não-admin) só podem mover até "analise"
         if (!isAdmin) {
             // Verificar se é dono do pedido
-            const [pedidoRows] = await pool.query('SELECT vendedor_id FROM pedidos WHERE id = ?', [id]);
+            const [pedidoRows] = await pool.query('SELECT vendedor_id FROM pedidos WHERE id = ', [id]);
             if (pedidoRows.length > 0) {
                 const pedido = pedidoRows[0];
                 if (pedido.vendedor_id && user.id && pedido.vendedor_id !== user.id) {
@@ -11339,20 +11339,20 @@ apiVendasRouter.put('/pedidos/:id/status', async (req, res, next) => {
             const allowedForVendedor = ['orcamento', 'orçamento', 'analise', 'analise-credito'];
             if (!allowedForVendedor.includes(status)) {
                 console.log(`❌ Vendedor tentou mover para status ${status} - apenas admin pode`);
-                return res.status(403).json({ message: 'Apenas administradores podem mover pedidos após "Análise de Crédito".' });
+                return res.status(403).json({ message: 'Apenas administraçãores podem mover pedidos após "Análise de Crédito".' });
             }
         }
         
         // Atualiza status (usando updated_at se existir, senão só status)
-        const [result] = await pool.query('UPDATE pedidos SET status = ? WHERE id = ?', [status, id]);
+        const [result] = await pool.query('UPDATE pedidos SET status =  WHERE id = ', [status, id]);
         
         if (result.affectedRows === 0) {
-            console.log(`❌ Pedido ${id} não encontrado`);
-            return res.status(404).json({ message: "Pedido não encontrado." });
+            console.log(`❌ Pedido ${id} não encontração`);
+            return res.status(404).json({ message: "Pedido não encontração." });
         }
         
-        console.log(`✅ Status do pedido ${id} atualizado para: ${status} por ${user.nome || user.email} (Admin: ${isAdmin})`);
-        res.json({ message: 'Status atualizado com sucesso.', success: true });
+        console.log(`✅ Status do pedido ${id} atualização para: ${status} por ${user.nome || user.email} (Admin: ${isAdmin})`);
+        res.json({ message: 'Status atualização com sucesso.', success: true });
     } catch (error) { 
         console.error('❌ Erro ao atualizar status:', error);
         next(error); 
@@ -11387,22 +11387,22 @@ apiVendasRouter.post('/pedidos/:id/historico', async (req, res, next) => {
         // Tentar inserir com colunas corretas (usuario_id/usuario_nome ou user_id/user_name)
         try {
             await pool.query(
-                'INSERT INTO pedido_historico (pedido_id, usuario_id, usuario_nome, acao, descricao, meta) VALUES (?, ?, ?, ?, ?, ?)',
-                [id, user.id || null, usuario || user.nome || 'Sistema', tipo || action || 'status', descricao || '', meta ? JSON.stringify(meta) : null]
+                'INSERT INTO pedido_historico (pedido_id, usuario_id, usuario_nome, acao, descricao, meta) VALUES (, , , , , )',
+                [id, user.id || null, usuario || user.nome || 'Sistema', tipo || action || 'status', descricao || '', meta  JSON.stringify(meta) : null]
             );
         } catch (e) {
             // Fallback para colunas alternativas
             await pool.query(
-                'INSERT INTO pedido_historico (pedido_id, descricao, acao, meta) VALUES (?, ?, ?, ?)',
-                [id, `${usuario || user.nome || 'Sistema'}: ${descricao || ''}`, tipo || action || 'status', meta ? JSON.stringify(meta) : null]
+                'INSERT INTO pedido_historico (pedido_id, descricao, acao, meta) VALUES (, , , )',
+                [id, `${usuario || user.nome || 'Sistema'}: ${descricao || ''}`, tipo || action || 'status', meta  JSON.stringify(meta) : null]
             );
         }
         
-        res.status(201).json({ message: 'Histórico registrado com sucesso!' });
+        res.status(201).json({ message: 'Histórico registração com sucesso!' });
     } catch (error) {
         console.error('❌ Erro ao registrar histórico:', error);
         // Não bloqueia a operação principal
-        res.status(201).json({ message: 'Histórico não registrado (tabela não configurada)', warning: true });
+        res.status(201).json({ message: 'Histórico não registração (tabela não configurada)', warning: true });
     }
 });
 
@@ -11413,18 +11413,18 @@ apiVendasRouter.get('/empresas', async (req, res, next) => {
         const offset = (parseInt(page) - 1) * parseInt(limit);
         
         // Verificar se o usuário é admin ou vendedor
-        const isAdmin = req.user && (req.user.is_admin || req.user.role === 'admin' || req.user.role === 'administrador');
+        const isAdmin = req.user && (req.user.is_admin || req.user.role === 'admin' || req.user.role === 'administraçãor');
         
         let query = 'SELECT * FROM empresas';
         let params = [];
         
         // Se não for admin, filtrar apenas empresas do vendedor
         if (!isAdmin && req.user && req.user.id) {
-            query += ' WHERE vendedor_id = ? OR vendedor_id IS NULL';
+            query += ' WHERE vendedor_id =  OR vendedor_id IS NULL';
             params.push(req.user.id);
         }
         
-        query += ' ORDER BY nome_fantasia ASC LIMIT ? OFFSET ?';
+        query += ' ORDER BY nome_fantasia ASC LIMIT  OFFSET ';
         params.push(parseInt(limit), offset);
         
         const [rows] = await pool.query(query, params);
@@ -11437,14 +11437,14 @@ apiVendasRouter.get('/empresas/search', async (req, res, next) => {
         const queryStr = `%${q}%`;
         
         // Verificar se o usuário é admin ou vendedor
-        const isAdmin = req.user && (req.user.is_admin || req.user.role === 'admin' || req.user.role === 'administrador');
+        const isAdmin = req.user && (req.user.is_admin || req.user.role === 'admin' || req.user.role === 'administraçãor');
         
-        let query = `SELECT id, nome_fantasia, cnpj FROM empresas WHERE (nome_fantasia LIKE ? OR razao_social LIKE ? OR cnpj LIKE ?)`;
+        let query = `SELECT id, nome_fantasia, cnpj FROM empresas WHERE (nome_fantasia LIKE  OR razao_social LIKE  OR cnpj LIKE )`;
         let params = [queryStr, queryStr, queryStr];
         
         // Se não for admin, filtrar apenas empresas do vendedor
         if (!isAdmin && req.user && req.user.id) {
-            query += ' AND (vendedor_id = ? OR vendedor_id IS NULL)';
+            query += ' AND (vendedor_id =  OR vendedor_id IS NULL)';
             params.push(req.user.id);
         }
         
@@ -11457,7 +11457,7 @@ apiVendasRouter.get('/empresas/search', async (req, res, next) => {
 apiVendasRouter.get('/empresas/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [[empresa]] = await pool.query('SELECT * FROM empresas WHERE id = ?', [id]);
+        const [[empresa]] = await pool.query('SELECT * FROM empresas WHERE id = ', [id]);
         if (!empresa) return res.status(404).json({ message: 'Empresa não encontrada.' });
         res.json(empresa);
     } catch (error) { next(error); }
@@ -11466,10 +11466,10 @@ apiVendasRouter.get('/empresas/:id/details', async (req, res, next) => {
     try {
         const { id } = req.params;
         const [empresaResult, kpisResult, pedidosResult, clientesResult] = await Promise.all([
-            pool.query('SELECT * FROM empresas WHERE id = ?', [id]),
-            pool.query(`SELECT COUNT(*) AS totalPedidos, COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturado, COALESCE(AVG(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS ticketMedio FROM pedidos WHERE empresa_id = ?`, [id]),
-            pool.query('SELECT id, valor, status, created_at FROM pedidos WHERE empresa_id = ? ORDER BY created_at DESC', [id]),
-            pool.query('SELECT id, nome, email, telefone FROM clientes WHERE empresa_id = ? ORDER BY nome ASC', [id])
+            pool.query('SELECT * FROM empresas WHERE id = ', [id]),
+            pool.query(`SELECT COUNT(*) AS totalPedidos, COALESCE(SUM(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS totalFaturação, COALESCE(AVG(CASE WHEN status = 'faturação' THEN valor ELSE 0 END), 0) AS ticketMedio FROM pedidos WHERE empresa_id = `, [id]),
+            pool.query('SELECT id, valor, status, created_at FROM pedidos WHERE empresa_id =  ORDER BY created_at DESC', [id]),
+            pool.query('SELECT id, nome, email, telefone FROM clientes WHERE empresa_id =  ORDER BY nome ASC', [id])
         ]);
         const [details] = empresaResult[0];
         if (!details) return res.status(404).json({ message: 'Empresa não encontrada.' });
@@ -11490,18 +11490,18 @@ apiVendasRouter.post('/empresas', [
     validate
 ], async (req, res, next) => {
     try {
-        const { cnpj, nome_fantasia, razao_social, email, telefone, cep, logradouro, numero, bairro, municipio, uf } = req.body;
+        const { cnpj, nome_fantasia, razao_social, email, telefone, cep, lograçãouro, numero, bairro, municipio, uf } = req.body;
         
         // Associar o vendedor que está cadastrando a empresa
-        const vendedor_id = req.user ? req.user.id : null;
+        const vendedor_id = req.user  req.user.id : null;
         
         await pool.query(
-            `INSERT INTO empresas (cnpj, nome_fantasia, razao_social, email, telefone, cep, logradouro, numero, bairro, municipio, uf, vendedor_id, created_by) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-            [cnpj, nome_fantasia, razao_social || null, email || null, telefone || null, cep || null, logradouro || null, numero || null, bairro || null, municipio || null, uf || null, vendedor_id, vendedor_id]
+            `INSERT INTO empresas (cnpj, nome_fantasia, razao_social, email, telefone, cep, lograçãouro, numero, bairro, municipio, uf, vendedor_id, created_by) VALUES (, , , , , , , , , , , , )`,
+            [cnpj, nome_fantasia, razao_social || null, email || null, telefone || null, cep || null, lograçãouro || null, numero || null, bairro || null, municipio || null, uf || null, vendedor_id, vendedor_id]
         );
         res.status(201).json({ message: 'Empresa cadastrada com sucesso!' });
     } catch (error) {
-        if (error.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'Este CNPJ já está cadastrado.' });
+        if (error.code === 'ER_DUP_ENTRY') return res.status(409).json({ message: 'Este CNPJ já está cadastração.' });
         next(error);
     }
 });
@@ -11513,7 +11513,7 @@ apiVendasRouter.get('/clientes', async (req, res, next) => {
         const offset = (parseInt(page) - 1) * parseInt(limit);
         
         // Verificar se o usuário é admin ou vendedor
-        const isAdmin = req.user && (req.user.is_admin || req.user.role === 'admin' || req.user.role === 'administrador');
+        const isAdmin = req.user && (req.user.is_admin || req.user.role === 'admin' || req.user.role === 'administraçãor');
         
         let query = `
             SELECT c.id, c.nome, c.email, c.telefone, e.nome_fantasia AS empresa_nome
@@ -11524,11 +11524,11 @@ apiVendasRouter.get('/clientes', async (req, res, next) => {
         
         // Se não for admin, filtrar apenas clientes de empresas do vendedor
         if (!isAdmin && req.user && req.user.id) {
-            query += ' WHERE e.vendedor_id = ? OR e.vendedor_id IS NULL';
+            query += ' WHERE e.vendedor_id =  OR e.vendedor_id IS NULL';
             params.push(req.user.id);
         }
         
-        query += ' ORDER BY c.nome ASC LIMIT ? OFFSET ?';
+        query += ' ORDER BY c.nome ASC LIMIT  OFFSET ';
         params.push(parseInt(limit), offset);
         
         const [rows] = await pool.query(query, params);
@@ -11538,8 +11538,8 @@ apiVendasRouter.get('/clientes', async (req, res, next) => {
 apiVendasRouter.get('/clientes/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [[cliente]] = await pool.query('SELECT * FROM clientes WHERE id = ?', [id]);
-        if (!cliente) return res.status(404).json({ message: 'Cliente não encontrado.' });
+        const [[cliente]] = await pool.query('SELECT * FROM clientes WHERE id = ', [id]);
+        if (!cliente) return res.status(404).json({ message: 'Cliente não encontração.' });
         res.json(cliente);
     } catch (error) { next(error); }
 });
@@ -11555,10 +11555,10 @@ apiVendasRouter.post('/clientes', [
         const { nome, email, telefone, empresa_id } = req.body;
         
         await pool.query(
-            'INSERT INTO clientes (nome, email, telefone, empresa_id) VALUES (?, ?, ?, ?)',
+            'INSERT INTO clientes (nome, email, telefone, empresa_id) VALUES (, , , )',
             [nome, email || null, telefone || null, empresa_id]
         );
-        res.status(201).json({ message: 'Cliente cadastrado com sucesso!' });
+        res.status(201).json({ message: 'Cliente cadastração com sucesso!' });
     } catch (error) { next(error); }
 });
 apiVendasRouter.put('/clientes/:id', async (req, res, next) => {
@@ -11567,18 +11567,18 @@ apiVendasRouter.put('/clientes/:id', async (req, res, next) => {
         const { nome, email, telefone, empresa_id } = req.body;
         if (!nome || !empresa_id) return res.status(400).json({ message: 'Nome e empresa são obrigatórios.' });
         const [result] = await pool.query(
-            `UPDATE clientes SET nome = ?, email = ?, telefone = ?, empresa_id = ? WHERE id = ?`,
+            `UPDATE clientes SET nome = , email = , telefone = , empresa_id =  WHERE id = `,
             [nome, email, telefone, empresa_id, id]
         );
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontrado.' });
-        res.json({ message: 'Cliente atualizado com sucesso.' });
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontração.' });
+        res.json({ message: 'Cliente atualização com sucesso.' });
     } catch (error) { next(error); }
 });
 apiVendasRouter.delete('/clientes/:id', authorizeAdmin, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [result] = await pool.query('DELETE FROM clientes WHERE id = ?', [id]);
-        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontrado.' });
+        const [result] = await pool.query('DELETE FROM clientes WHERE id = ', [id]);
+        if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontração.' });
         res.status(204).send();
     } catch (error) { next(error); }
 });
@@ -11589,7 +11589,7 @@ apiVendasRouter.post('/clientes/:id/interacoes', async (req, res, next) => {
         const { id: usuario_id } = req.user;
         if (!tipo || !anotacao) return res.status(400).json({ message: 'Tipo e anotação são obrigatórios.' });
         await pool.query(
-            'INSERT INTO cliente_interacoes (cliente_id, usuario_id, tipo, anotacao) VALUES (?, ?, ?, ?)',
+            'INSERT INTO cliente_interacoes (cliente_id, usuario_id, tipo, anotacao) VALUES (, , , )',
             [cliente_id, usuario_id, tipo, anotacao]
         );
         res.status(201).json({ message: 'Interação registrada com sucesso!' });
@@ -11606,20 +11606,20 @@ apiVendasRouter.get('/metas', authorizeAdminOrComercial, async (req, res, next) 
 apiVendasRouter.post('/metas', authorizeAdminOrComercial, async (req, res, next) => {
     try {
         const { vendedor_id, periodo, tipo, valor_meta } = req.body;
-        await pool.query('INSERT INTO metas_vendas (vendedor_id, periodo, tipo, valor_meta) VALUES (?, ?, ?, ?)', [vendedor_id || null, periodo, tipo, valor_meta]);
+        await pool.query('INSERT INTO metas_vendas (vendedor_id, periodo, tipo, valor_meta) VALUES (, , , )', [vendedor_id || null, periodo, tipo, valor_meta]);
         res.status(201).json({ message: 'Meta criada com sucesso!' });
     } catch (error) { next(error); }
 });
 apiVendasRouter.put('/metas/:id', authorizeAdminOrComercial, async (req, res, next) => {
     try {
         const { vendedor_id, periodo, tipo, valor_meta } = req.body;
-        await pool.query('UPDATE metas_vendas SET vendedor_id=?, periodo=?, tipo=?, valor_meta=? WHERE id=?', [vendedor_id || null, periodo, tipo, valor_meta, req.params.id]);
+        await pool.query('UPDATE metas_vendas SET vendedor_id=, periodo=, tipo=, valor_meta= WHERE id=', [vendedor_id || null, periodo, tipo, valor_meta, req.params.id]);
         res.json({ message: 'Meta atualizada com sucesso!' });
     } catch (error) { next(error); }
 });
 apiVendasRouter.delete('/metas/:id', authorizeAdminOrComercial, async (req, res, next) => {
     try {
-        await pool.query('DELETE FROM metas_vendas WHERE id=?', [req.params.id]);
+        await pool.query('DELETE FROM metas_vendas WHERE id=', [req.params.id]);
         res.json({ message: 'Meta excluída com sucesso!' });
     } catch (error) { next(error); }
 });
@@ -11628,10 +11628,10 @@ apiVendasRouter.get('/metas/progresso', authorizeAdminOrComercial, async (req, r
         const [metas] = await pool.query('SELECT * FROM metas_vendas');
         const progresso = [];
         for (const meta of metas) {
-            let where = 'status = "faturado" AND DATE_FORMAT(created_at, "%Y-%m") = ?';
+            let where = 'status = "faturação" AND DATE_FORMAT(created_at, "%Y-%m") = ';
             let params = [meta.periodo];
             if (meta.vendedor_id) {
-                where += ' AND vendedor_id = ?';
+                where += ' AND vendedor_id = ';
                 params.push(meta.vendedor_id);
             }
             const [[{ totalVendido = 0 } = {}]] = await pool.query(`SELECT SUM(valor) AS totalVendido FROM pedidos WHERE ${where}`, params);
@@ -11643,10 +11643,10 @@ apiVendasRouter.get('/metas/progresso', authorizeAdminOrComercial, async (req, r
 apiVendasRouter.get('/comissoes', authorizeAdminOrComercial, async (req, res, next) => {
     try {
         const { periodo } = req.query; // Ex: '2025-08'
-        let where = 'p.status = "faturado"';
+        let where = 'p.status = "faturação"';
         let params = [];
         if (periodo) {
-            where += ' AND DATE_FORMAT(p.created_at, "%Y-%m") = ?';
+            where += ' AND DATE_FORMAT(p.created_at, "%Y-%m") = ';
             params.push(periodo);
         }
         const [rows] = await pool.query(`
@@ -11663,10 +11663,10 @@ apiVendasRouter.get('/comissoes', authorizeAdminOrComercial, async (req, res, ne
 apiVendasRouter.get('/relatorios/vendas', authorizeAdminOrComercial, async (req, res, next) => {
     try {
         const { inicio, fim, vendedor_id } = req.query;
-        let where = 'p.created_at >= ? AND p.created_at <= ?';
+        let where = 'p.created_at >=  AND p.created_at <= ';
         let params = [inicio, fim];
         if (vendedor_id) {
-            where += ' AND p.vendedor_id = ?';
+            where += ' AND p.vendedor_id = ';
             params.push(vendedor_id);
         }
         const [rows] = await pool.query(`
@@ -11686,7 +11686,7 @@ apiVendasRouter.get('/relatorios/funil', authorizeAdminOrComercial, async (req, 
         const [rows] = await pool.query(`
             SELECT status, COUNT(*) AS total
             FROM pedidos
-            WHERE created_at >= ? AND created_at <= ?
+            WHERE created_at >=  AND created_at <= 
             GROUP BY status
         `, [inicio, fim]);
         res.json(rows);
@@ -11695,11 +11695,11 @@ apiVendasRouter.get('/relatorios/funil', authorizeAdminOrComercial, async (req, 
 // Alias para dashboard-stats
 apiVendasRouter.get('/dashboard', authorizeAdminOrComercial, async (req, res, next) => {
     try {
-        const [faturadoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturadoMes FROM pedidos WHERE status = 'faturado' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
-        const [pendentesResult] = await pool.query(`SELECT COUNT(*) AS pedidosPendentes FROM pedidos WHERE status IN ('orcamento', 'analise', 'aprovado')`);
+        const [faturaçãoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturaçãoMes FROM pedidos WHERE status = 'faturação' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
+        const [pendentesResult] = await pool.query(`SELECT COUNT(*) AS pedidosPendentes FROM pedidos WHERE status IN ('orcamento', 'analise', 'aprovação')`);
         const [clientesResult] = await pool.query(`SELECT COUNT(*) AS novosClientesMes FROM empresas WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
         res.json({
-            totalFaturadoMes: faturadoResult[0].totalFaturadoMes,
+            totalFaturaçãoMes: faturaçãoResult[0].totalFaturaçãoMes,
             pedidosPendentes: pendentesResult[0].pedidosPendentes,
             novosClientesMes: clientesResult[0].novosClientesMes
         });
@@ -11707,11 +11707,11 @@ apiVendasRouter.get('/dashboard', authorizeAdminOrComercial, async (req, res, ne
 });
 apiVendasRouter.get('/dashboard-stats', authorizeAdminOrComercial, async (req, res, next) => {
     try {
-        const [faturadoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturadoMes FROM pedidos WHERE status = 'faturado' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
-        const [pendentesResult] = await pool.query(`SELECT COUNT(*) AS pedidosPendentes FROM pedidos WHERE status IN ('orcamento', 'analise', 'aprovado')`);
+        const [faturaçãoResult] = await pool.query(`SELECT COALESCE(SUM(valor), 0) AS totalFaturaçãoMes FROM pedidos WHERE status = 'faturação' AND MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
+        const [pendentesResult] = await pool.query(`SELECT COUNT(*) AS pedidosPendentes FROM pedidos WHERE status IN ('orcamento', 'analise', 'aprovação')`);
         const [clientesResult] = await pool.query(`SELECT COUNT(*) AS novosClientesMes FROM empresas WHERE MONTH(created_at) = MONTH(CURRENT_DATE()) AND YEAR(created_at) = YEAR(CURRENT_DATE())`);
         res.json({
-            totalFaturadoMes: faturadoResult[0].totalFaturadoMes,
+            totalFaturaçãoMes: faturaçãoResult[0].totalFaturaçãoMes,
             pedidosPendentes: pendentesResult[0].pedidosPendentes,
             novosClientesMes: clientesResult[0].novosClientesMes
         });
@@ -11723,7 +11723,7 @@ apiVendasRouter.get('/pedidos/:id/itens', async (req, res, next) => {
     try {
         const { id } = req.params;
         const [itens] = await pool.query(
-            'SELECT * FROM pedido_itens WHERE pedido_id = ? ORDER BY id ASC',
+            'SELECT * FROM pedido_itens WHERE pedido_id =  ORDER BY id ASC',
             [id]
         );
         res.json(itens);
@@ -11751,11 +11751,11 @@ apiVendasRouter.post('/pedidos/:id/itens', async (req, res, next) => {
         
         const [result] = await pool.query(
             `INSERT INTO pedido_itens (pedido_id, codigo, descricao, quantidade, quantidade_parcial, unidade, local_estoque, preco_unitario, desconto, total)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+             VALUES (, , , , , , , , , )`,
             [id, codigo, descricao, qty, qtyParcial, unidade || 'UN', local_estoque || 'PADRAO - Local de Estoque Padrão', preco, desc, total]
         );
         
-        res.status(201).json({ message: 'Item adicionado com sucesso!', id: result.insertId });
+        res.status(201).json({ message: 'Item adicionação com sucesso!', id: result.insertId });
     } catch (error) {
         next(error);
     }
@@ -11774,11 +11774,11 @@ apiVendasRouter.put('/pedidos/:pedidoId/itens/:itemId', async (req, res, next) =
         const total = (qty * preco) - desc;
         
         await pool.query(
-            `UPDATE pedido_itens SET codigo = ?, descricao = ?, quantidade = ?, quantidade_parcial = ?, unidade = ?, local_estoque = ?, preco_unitario = ?, desconto = ?, total = ? WHERE id = ? AND pedido_id = ?`,
+            `UPDATE pedido_itens SET codigo = , descricao = , quantidade = , quantidade_parcial = , unidade = , local_estoque = , preco_unitario = , desconto = , total =  WHERE id =  AND pedido_id = `,
             [codigo, descricao, qty, qtyParcial, unidade, local_estoque, preco, desc, total, itemId, pedidoId]
         );
         
-        res.json({ message: 'Item atualizado com sucesso!' });
+        res.json({ message: 'Item atualização com sucesso!' });
     } catch (error) {
         next(error);
     }
@@ -11789,12 +11789,12 @@ apiVendasRouter.get('/pedidos/:pedidoId/itens/:itemId', async (req, res, next) =
     try {
         const { pedidoId, itemId } = req.params;
         const [rows] = await pool.query(
-            'SELECT * FROM pedido_itens WHERE id = ? AND pedido_id = ?',
+            'SELECT * FROM pedido_itens WHERE id =  AND pedido_id = ',
             [itemId, pedidoId]
         );
         
         if (rows.length === 0) {
-            return res.status(404).json({ message: 'Item não encontrado.' });
+            return res.status(404).json({ message: 'Item não encontração.' });
         }
         
         res.json(rows[0]);
@@ -11807,7 +11807,7 @@ apiVendasRouter.get('/pedidos/:pedidoId/itens/:itemId', async (req, res, next) =
 apiVendasRouter.delete('/pedidos/:pedidoId/itens/:itemId', async (req, res, next) => {
     try {
         const { pedidoId, itemId } = req.params;
-        await pool.query('DELETE FROM pedido_itens WHERE id = ? AND pedido_id = ?', [itemId, pedidoId]);
+        await pool.query('DELETE FROM pedido_itens WHERE id =  AND pedido_id = ', [itemId, pedidoId]);
         res.json({ message: 'Item excluído com sucesso!' });
     } catch (error) {
         next(error);
@@ -11823,15 +11823,15 @@ apiVendasRouter.get('/produtos/autocomplete/:termo', async (req, res, next) => {
         const [rows] = await pool.query(
             `SELECT id, codigo, descricao, unidade, preco_venda, estoque_atual, local_estoque 
              FROM produtos 
-             WHERE situacao = 'ativo' AND (codigo LIKE ? OR descricao LIKE ? OR ean LIKE ?)
+             WHERE situacao = 'ativo' AND (codigo LIKE  OR descricao LIKE  OR ean LIKE )
              ORDER BY 
                 CASE 
-                    WHEN codigo = ? THEN 1 
-                    WHEN codigo LIKE ? THEN 2 
+                    WHEN codigo =  THEN 1 
+                    WHEN codigo LIKE  THEN 2 
                     ELSE 3 
                 END,
                 descricao ASC
-             LIMIT ?`,
+             LIMIT `,
             [`%${termo}%`, `%${termo}%`, `%${termo}%`, termo, `${termo}%`, limit]
         );
         
@@ -11850,8 +11850,8 @@ app.use('/api/vendas', apiVendasRouter);
 // =================================================================
 
 // --- ROTA DE LOGIN / AUTH (API) ---
-// Nota: o guard de disponibilidade do DB e o `authRouter` são montados
-// antes das rotas da API para garantir comportamento consistente em modo degradado.
+// Nota: o guard de disponibilidade do DB e o `authRouter` são montaçãos
+// antes das rotas da API para garantir comportamento consistente em modo degradação.
 
 // ============================================================================
 // ENDPOINTS TEMPORÁRIOS REMOVIDOS - USAR SCRIPT EM /scripts/update_permissions.js
@@ -11873,35 +11873,35 @@ app.post('/api/login', authLimiter, async (req, res) => {
 
         // Buscar usuário na tabela usuarios primeiro
         console.log('🔍 [LOGIN DEBUG] Buscando na tabela usuarios...');
-        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email = ? LIMIT 1', [email]);
-        let user = (rows && rows.length) ? rows[0] : null;
+        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email =  LIMIT 1', [email]);
+        let user = (rows && rows.length)  rows[0] : null;
         
-        console.log(`🔍 [LOGIN DEBUG] Usuário encontrado em usuarios: ${user ? 'SIM' : 'NÁO'}`);
+        console.log(`🔍 [LOGIN DEBUG] Usuário encontração em usuarios: ${user  'SIM' : 'NÁO'}`);
         
         // Verificar se usuário está inativo
         if (user && user.status && user.status.toLowerCase() === 'inativo') {
             console.log('❌ [LOGIN DEBUG] Usuário está INATIVO - bloqueando login');
-            return res.status(403).json({ message: 'Sua conta está inativa. Entre em contato com o administrador.' });
+            return res.status(403).json({ message: 'Sua conta está inativa. Entre em contato com o administraçãor.' });
         }
 
-        // Se não encontrado em usuarios, tentar na tabela funcionarios
+        // Se não encontração em usuarios, tentar na tabela funcionarios
         if (!user) {
             console.log('🔍 [LOGIN DEBUG] Buscando na tabela funcionarios...');
             try {
-                const [frows] = await pool.query('SELECT * FROM funcionarios WHERE email = ? LIMIT 1', [email]);
+                const [frows] = await pool.query('SELECT * FROM funcionarios WHERE email =  LIMIT 1', [email]);
                 if (frows && frows.length) {
                     const f = frows[0];
-                    console.log(`🔍 [LOGIN DEBUG] Funcionário encontrado: ${f.nome_completo || f.nome}`);
-                    console.log(`🔍 [LOGIN DEBUG] Funcionário tem senha: ${f.senha ? 'SIM' : 'NÁO'}`);
-                    console.log(`🔍 [LOGIN DEBUG] Funcionário tem senha_hash: ${f.senha_hash ? 'SIM' : 'NÁO'}`);
+                    console.log(`🔍 [LOGIN DEBUG] Funcionário encontração: ${f.nome_completo || f.nome}`);
+                    console.log(`🔍 [LOGIN DEBUG] Funcionário tem senha: ${f.senha  'SIM' : 'NÁO'}`);
+                    console.log(`🔍 [LOGIN DEBUG] Funcionário tem senha_hash: ${f.senha_hash  'SIM' : 'NÁO'}`);
                     
                     // Converter role para is_admin (tabela funcionarios não tem is_admin)
-                    const roleAdmin = (f.role === 'admin' || f.role === 'administrador');
+                    const roleAdmin = (f.role === 'admin' || f.role === 'administraçãor');
                     
                     // Verificar se funcionário está inativo
                     if (f.status && f.status.toLowerCase() === 'inativo') {
                         console.log('❌ [LOGIN DEBUG] Funcionário está INATIVO - bloqueando login');
-                        return res.status(403).json({ message: 'Sua conta está inativa. Entre em contato com o administrador.' });
+                        return res.status(403).json({ message: 'Sua conta está inativa. Entre em contato com o administraçãor.' });
                     }
                     
                     user = {
@@ -11909,12 +11909,12 @@ app.post('/api/login', authLimiter, async (req, res) => {
                         nome: f.nome_completo || f.nome || null,
                         email: f.email,
                         role: f.role || 'funcionario',
-                        is_admin: roleAdmin ? 1 : 0,
+                        is_admin: roleAdmin  1 : 0,
                         senha_hash: f.password_hash || f.senha_hash || null,
                         senha: f.senha || null
                     };
                 } else {
-                    console.log('❌ [LOGIN DEBUG] Funcionário não encontrado');
+                    console.log('❌ [LOGIN DEBUG] Funcionário não encontração');
                 }
             } catch (e) {
                 console.error('❌ [LOGIN DEBUG] Erro ao buscar funcionario:', e);
@@ -11922,7 +11922,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
         }
 
         if (!user) {
-            console.log('❌ [LOGIN DEBUG] Usuário não encontrado em nenhuma tabela');
+            console.log('❌ [LOGIN DEBUG] Usuário não encontração em nenhuma tabela');
             return res.status(401).json({ message: 'Credenciais inválidas.' });
         }
 
@@ -11937,7 +11937,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
                 console.log('🔍 [LOGIN DEBUG] Tentando verificação com bcrypt...');
                 const bcrypt = require('bcryptjs');
                 senhaValida = await bcrypt.compare(password, user.senha_hash);
-                console.log(`🔍 [LOGIN DEBUG] Bcrypt resultado: ${senhaValida ? 'VÁLIDA' : 'INVÁLIDA'}`);
+                console.log(`🔍 [LOGIN DEBUG] Bcrypt resultação: ${senhaValida  'VÁLIDA' : 'INVÁLIDA'}`);
             } catch (e) {
                 console.error('❌ [LOGIN DEBUG] Erro bcrypt:', e);
             }
@@ -11947,7 +11947,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
         if (!senhaValida && user.senha) {
             console.log('🔍 [LOGIN DEBUG] Tentando verificação com senha em texto plano...');
             senhaValida = (user.senha === password);
-            console.log(`🔍 [LOGIN DEBUG] Texto plano resultado: ${senhaValida ? 'VÁLIDA' : 'INVÁLIDA'}`);
+            console.log(`🔍 [LOGIN DEBUG] Texto plano resultação: ${senhaValida  'VÁLIDA' : 'INVÁLIDA'}`);
             console.log(`🔍 [LOGIN DEBUG] Senha fornecida: "${password}" vs Armazenada: "${user.senha}"`);
         }
 
@@ -11982,7 +11982,7 @@ app.post('/api/login', authLimiter, async (req, res) => {
 
         // Resposta de sucesso - inclui token para compatibilidade com localStorage
         res.json({
-            message: 'Login realizado com sucesso',
+            message: 'Login realização com sucesso',
             token: token, // Token JWT para localStorage (compatibilidade com módulos que usam Bearer token)
             user: {
                 id: user.id,
@@ -12008,14 +12008,14 @@ app.post('/api/login', authLimiter, async (req, res) => {
 // SISTEMA DE SUPORTE - APIs de Tickets
 // ============================================================================
 
-// Dados em memória para tickets de suporte (em produção usar banco de dados)
+// Daçãos em memória para tickets de suporte (em produção usar banco de daçãos)
 let suporteTickets = [];
 let suporteKnowledge = [
-    { id: 1, titulo: 'Como criar um novo orçamento?', categoria: 'Vendas', conteudo: 'Para criar um novo orçamento, acesse o módulo Vendas e clique no botão "+ Novo Orçamento".' },
-    { id: 2, titulo: 'Como faturar um pedido?', categoria: 'Vendas', conteudo: 'Para faturar, abra o pedido desejado e clique em "Faturar Agora" na barra lateral.' },
-    { id: 3, titulo: 'Como adicionar um funcionário?', categoria: 'RH', conteudo: 'Acesse o módulo RH, vá em Funcionários e clique em "Adicionar Funcionário".' },
-    { id: 4, titulo: 'Como gerar relatórios?', categoria: 'Geral', conteudo: 'Cada módulo possui uma seção de Relatórios. Acesse a seção desejada e escolha o tipo de relatório.' },
-    { id: 5, titulo: 'Como alterar minha senha?', categoria: 'Conta', conteudo: 'Clique no seu avatar no canto superior direito e selecione "Meu Perfil" para alterar sua senha.' }
+    { id: 1, titulo: 'Como criar um novo orçamento', categoria: 'Vendas', conteudo: 'Para criar um novo orçamento, acesse o módulo Vendas e clique no botão "+ Novo Orçamento".' },
+    { id: 2, titulo: 'Como faturar um pedido', categoria: 'Vendas', conteudo: 'Para faturar, abra o pedido desejação e clique em "Faturar Agora" na barra lateral.' },
+    { id: 3, titulo: 'Como adicionar um funcionário', categoria: 'RH', conteudo: 'Acesse o módulo RH, vá em Funcionários e clique em "Adicionar Funcionário".' },
+    { id: 4, titulo: 'Como gerar relatórios', categoria: 'Geral', conteudo: 'Cada módulo possui uma seção de Relatórios. Acesse a seção desejada e escolha o tipo de relatório.' },
+    { id: 5, titulo: 'Como alterar minha senha', categoria: 'Conta', conteudo: 'Clique no seu avatar no canto superior direito e selecione "Meu Perfil" para alterar sua senha.' }
 ];
 
 // GET /api/suporte/tickets/pendentes - Listar tickets pendentes para o admin
@@ -12038,7 +12038,7 @@ app.get('/api/tickets/stats', (req, res) => {
     try {
         const total = suporteTickets.length;
         const pendentes = suporteTickets.filter(t => t.status === 'pendente' || t.status === 'aberto').length;
-        const resolvidos = suporteTickets.filter(t => t.status === 'resolvido' || t.status === 'fechado').length;
+        const resolvidos = suporteTickets.filter(t => t.status === 'resolvido' || t.status === 'fechação').length;
         const emAndamento = suporteTickets.filter(t => t.status === 'em_andamento').length;
         
         res.json({
@@ -12085,8 +12085,8 @@ app.post('/api/suporte/tickets', (req, res) => {
             status: 'aberto',
             userId: userId || null,
             userName: userName || 'Usuário',
-            criadoEm: new Date().toISOString(),
-            atualizadoEm: new Date().toISOString(),
+            criaçãoEm: new Date().toISOString(),
+            atualizaçãoEm: new Date().toISOString(),
             respostas: []
         };
         
@@ -12094,7 +12094,7 @@ app.post('/api/suporte/tickets', (req, res) => {
         
         res.json({
             success: true,
-            message: 'Ticket criado com sucesso!',
+            message: 'Ticket criação com sucesso!',
             ticket: novoTicket
         });
     } catch (error) {
@@ -12110,7 +12110,7 @@ app.get('/api/suporte/tickets/:id', (req, res) => {
         const ticket = suporteTickets.find(t => t.id === ticketId);
         
         if (!ticket) {
-            return res.status(404).json({ success: false, message: 'Ticket não encontrado' });
+            return res.status(404).json({ success: false, message: 'Ticket não encontração' });
         }
         
         res.json({ success: true, ticket });
@@ -12127,7 +12127,7 @@ app.put('/api/suporte/tickets/:id', (req, res) => {
         const ticketIndex = suporteTickets.findIndex(t => t.id === ticketId);
         
         if (ticketIndex === -1) {
-            return res.status(404).json({ success: false, message: 'Ticket não encontrado' });
+            return res.status(404).json({ success: false, message: 'Ticket não encontração' });
         }
         
         const { status, resposta, atendente } = req.body;
@@ -12141,15 +12141,15 @@ app.put('/api/suporte/tickets/:id', (req, res) => {
                 id: Date.now(),
                 texto: resposta,
                 atendente: atendente || 'Suporte',
-                criadoEm: new Date().toISOString()
+                criaçãoEm: new Date().toISOString()
             });
         }
         
-        suporteTickets[ticketIndex].atualizadoEm = new Date().toISOString();
+        suporteTickets[ticketIndex].atualizaçãoEm = new Date().toISOString();
         
         res.json({
             success: true,
-            message: 'Ticket atualizado!',
+            message: 'Ticket atualização!',
             ticket: suporteTickets[ticketIndex]
         });
     } catch (error) {
@@ -12183,12 +12183,12 @@ app.get('/api/suporte/tickets/user/:userId', (req, res) => {
 // SISTEMA DE AUDIT LOG - HISTÓRICO DE ALTERAÇÕES
 // ============================================================================
 
-// Armazenamento em memória (pode migrar para banco de dados depois)
+// Armazenamento em memória (pode migrar para banco de daçãos depois)
 let auditLogs = [];
 
 /**
  * Função para registrar uma ação no audit log
- * @param {Object} logData - Dados do log
+ * @param {Object} logData - Daçãos do log
  */
 function registrarAuditLog(logData) {
     const log = {
@@ -12198,7 +12198,7 @@ function registrarAuditLog(logData) {
         acao: logData.acao || 'Ação',
         modulo: logData.modulo || 'Sistema',
         descricao: logData.descricao || '',
-        dados: logData.dados || null,
+        daçãos: logData.daçãos || null,
         ip: logData.ip || null,
         data: new Date().toISOString()
     };
@@ -12246,14 +12246,14 @@ app.get('/api/audit-log', (req, res) => {
             logs = logs.filter(l => new Date(l.data) <= fim);
         }
         
-        // Limita resultado
-        const resultado = logs.slice(0, parseInt(limite));
+        // Limita resultação
+        const resultação = logs.slice(0, parseInt(limite));
         
         res.json({
             success: true,
-            logs: resultado,
+            logs: resultação,
             total: auditLogs.length,
-            filtrados: logs.length
+            filtraçãos: logs.length
         });
     } catch (error) {
         console.error('Erro ao buscar logs:', error);
@@ -12264,7 +12264,7 @@ app.get('/api/audit-log', (req, res) => {
 // POST /api/audit-log - Registrar nova entrada
 app.post('/api/audit-log', (req, res) => {
     try {
-        const { usuario, usuarioId, acao, modulo, descricao, dados } = req.body;
+        const { usuario, usuarioId, acao, modulo, descricao, daçãos } = req.body;
         
         const log = registrarAuditLog({
             usuario,
@@ -12272,8 +12272,8 @@ app.post('/api/audit-log', (req, res) => {
             acao,
             modulo,
             descricao,
-            dados,
-            ip: req.ip || req.connection?.remoteAddress
+            daçãos,
+            ip: req.ip || req.connection.remoteAddress
         });
         
         res.json({ success: true, log });
@@ -12289,7 +12289,7 @@ setTimeout(() => {
         usuario: 'Sistema',
         acao: 'Iniciou',
         modulo: 'Sistema',
-        descricao: 'Sistema Aluforce iniciado com sucesso'
+        descricao: 'Sistema Aluforce iniciação com sucesso'
     });
 }, 1000);
 
@@ -12297,13 +12297,13 @@ setTimeout(() => {
 // FIM DO SISTEMA DE AUDIT LOG
 // ============================================================================
 
-// Endpoint para o front-end verificar se está autenticado via cookie
+// Endpoint para o front-end verificar se está autenticação via cookie
 // ⚡ OTIMIZADO COM CACHE EM MEMÓRIA
 app.get('/api/me', async (req, res) => {
-    const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+    const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
     
     if (!token) {
-        return res.status(401).json({ message: 'Não autenticado' });
+        return res.status(401).json({ message: 'Não autenticação' });
     }
     
     // ⚡ Verificar cache primeiro
@@ -12313,15 +12313,15 @@ app.get('/api/me', async (req, res) => {
         return res.json(cachedUser);
     }
     
-    console.log('[API/ME] ✅ Token encontrado:', token ? `${token.substring(0, 20)}...` : 'null');
+    console.log('[API/ME] ✅ Token encontração:', token  `${token.substring(0, 20)}...` : 'null');
     try {
         const user = jwt.verify(token, JWT_SECRET);
         console.log('[API/ME] JWT válido para usuário:', user && user.email);
         
-        // Buscar dados completos do usuário no banco (tentar usuarios primeiro, depois funcionarios)
+        // Buscar daçãos completos do usuário no banco (tentar usuarios primeiro, depois funcionarios)
         let dbUser = null;
         try {
-            // Buscar usuario com possível foto do funcionario vinculado por email
+            // Buscar usuario com possível foto do funcionario vinculação por email
             const [rows] = await pool.query(
                 `SELECT u.id, u.nome, u.email, u.role, u.is_admin, 
                         u.apelido, u.telefone, u.data_nascimento, u.bio, u.departamento,
@@ -12332,28 +12332,28 @@ app.get('/api/me', async (req, res) => {
                         f.foto_perfil_url as foto_funcionario
                  FROM usuarios u
                  LEFT JOIN funcionarios f ON u.email = f.email
-                 WHERE u.id = ?`,
+                 WHERE u.id = `,
                 [user.id]
             );
-            dbUser = rows && rows[0] ? rows[0] : null;
+            dbUser = rows && rows[0]  rows[0] : null;
             
             // Se não encontrou em usuarios, buscar em funcionarios
             if (!dbUser) {
-                console.log('[API/ME] Usuário não encontrado em usuarios, tentando funcionarios...');
+                console.log('[API/ME] Usuário não encontração em usuarios, tentando funcionarios...');
                 const [frows] = await pool.query(
-                    'SELECT id, nome_completo as nome, email, role, foto_perfil_url as avatar FROM funcionarios WHERE id = ?',
+                    'SELECT id, nome_completo as nome, email, role, foto_perfil_url as avatar FROM funcionarios WHERE id = ',
                     [user.id]
                 );
-                const func = frows && frows[0] ? frows[0] : null;
+                const func = frows && frows[0]  frows[0] : null;
                 if (func) {
                     // Converter role para is_admin
-                    const roleAdmin = (func.role === 'admin' || func.role === 'administrador');
+                    const roleAdmin = (func.role === 'admin' || func.role === 'administraçãor');
                     dbUser = {
                         id: func.id,
                         nome: func.nome,
                         email: func.email,
                         role: func.role || 'funcionario',
-                        is_admin: roleAdmin ? 1 : 0,
+                        is_admin: roleAdmin  1 : 0,
                         avatar: func.avatar || "/avatars/default.webp",
                         // Funcionários não têm permissões granulares, apenas role
                         permissoes_pcp: null,
@@ -12363,7 +12363,7 @@ app.get('/api/me', async (req, res) => {
                         permissoes_financeiro: null,
                         permissoes_nfe: null
                     };
-                    console.log('[API/ME] Funcionário encontrado:', func.nome, '- role:', func.role, '- is_admin:', dbUser.is_admin);
+                    console.log('[API/ME] Funcionário encontração:', func.nome, '- role:', func.role, '- is_admin:', dbUser.is_admin);
                 }
             }
             
@@ -12375,10 +12375,10 @@ app.get('/api/me', async (req, res) => {
                     if (typeof perm === 'string') {
                         try {
                             const parsed = JSON.parse(perm);
-                            return Array.isArray(parsed) ? parsed : [];
+                            return Array.isArray(parsed)  parsed : [];
                         } catch (e) {
                             // Se não é JSON, pode ser string simples como "rh" ou "vendas"
-                            return perm.trim() ? [perm.trim()] : [];
+                            return perm.trim()  [perm.trim()] : [];
                         }
                     }
                     return [];
@@ -12398,12 +12398,12 @@ app.get('/api/me', async (req, res) => {
                 // Se não tem areas definidas, usar as permissões combinadas
                 if (areasUsuario.length === 0) {
                     areasUsuario = [
-                        ...permissoes_pcp.length > 0 ? ['pcp'] : [],
-                        ...permissoes_rh.length > 0 ? ['rh'] : [],
-                        ...permissoes_vendas.length > 0 ? ['vendas'] : [],
-                        ...permissoes_compras.length > 0 ? ['compras'] : [],
-                        ...permissoes_financeiro.length > 0 ? ['financeiro'] : [],
-                        ...permissoes_nfe.length > 0 ? ['nfe'] : []
+                        ...permissoes_pcp.length > 0  ['pcp'] : [],
+                        ...permissoes_rh.length > 0  ['rh'] : [],
+                        ...permissoes_vendas.length > 0  ['vendas'] : [],
+                        ...permissoes_compras.length > 0  ['compras'] : [],
+                        ...permissoes_financeiro.length > 0  ['financeiro'] : [],
+                        ...permissoes_nfe.length > 0  ['nfe'] : []
                     ];
                 }
                 
@@ -12445,7 +12445,7 @@ app.get('/api/me', async (req, res) => {
             console.error('[API/ME] Erro ao buscar usuário no banco:', dbErr);
         }
         
-        // Fallback: retornar dados do token
+        // Fallback: retornar daçãos do token
         return res.json({ 
             id: user.id, 
             nome: user.nome, 
@@ -12461,20 +12461,20 @@ app.get('/api/me', async (req, res) => {
 
 // Alias para /api/usuario/atual (compatibilidade com Vendas)
 app.get('/api/usuario/atual', async (req, res) => {
-    const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+    const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
     if (!token) {
-        return res.status(401).json({ message: 'Não autenticado' });
+        return res.status(401).json({ message: 'Não autenticação' });
     }
     try {
         const user = jwt.verify(token, JWT_SECRET);
-        // Buscar dados do usuário no banco com JOIN para foto do funcionário
+        // Buscar daçãos do usuário no banco com JOIN para foto do funcionário
         const [rows] = await pool.query(
             `SELECT u.id, u.nome, u.email, u.role, u.is_admin, 
                     u.foto, u.avatar,
                     f.foto_perfil_url as foto_funcionario
              FROM usuarios u
              LEFT JOIN funcionarios f ON u.email = f.email
-             WHERE u.id = ?`,
+             WHERE u.id = `,
             [user.id]
         );
         if (rows && rows[0]) {
@@ -12487,7 +12487,7 @@ app.get('/api/usuario/atual', async (req, res) => {
                 foto_perfil_url: fotoUsuario
             });
         }
-        // Fallback para dados do token
+        // Fallback para daçãos do token
         return res.json({ id: user.id, nome: user.nome, email: user.email, role: user.role });
     } catch (err) {
         return res.status(401).json({ message: 'Token inválido' });
@@ -12496,13 +12496,13 @@ app.get('/api/usuario/atual', async (req, res) => {
 
 // Endpoint para obter permissões do usuário
 app.get('/api/permissions', (req, res) => {
-    const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
-    if (!token) return res.status(401).json({ message: 'Não autenticado' });
+    const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
+    if (!token) return res.status(401).json({ message: 'Não autenticação' });
     
     try {
         const user = jwt.verify(token, JWT_SECRET);
-        const firstName = user.nome ? user.nome.split(' ')[0].toLowerCase() : '';
-        const emailPrefix = user.email ? user.email.split('@')[0].toLowerCase() : '';
+        const firstName = user.nome  user.nome.split(' ')[0].toLowerCase() : '';
+        const emailPrefix = user.email  user.email.split('@')[0].toLowerCase() : '';
         
         const permissions = {
             areas: userPermissions.getUserAreas(firstName) || userPermissions.getUserAreas(emailPrefix),
@@ -12518,8 +12518,8 @@ app.get('/api/permissions', (req, res) => {
 
 // Atualizar perfil do usuário (nome, apelido, telefone, bio, etc.) - aceita token via cookie ou Authorization header
 app.put('/api/me', async (req, res) => {
-    const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
-    if (!token) return res.status(401).json({ message: 'Não autenticado' });
+    const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
+    if (!token) return res.status(401).json({ message: 'Não autenticação' });
     try {
         const user = jwt.verify(token, JWT_SECRET);
         const { nome, apelido, telefone, data_nascimento, bio } = req.body || {};
@@ -12530,9 +12530,9 @@ app.put('/api/me', async (req, res) => {
         }
 
         // Limpar apelido se for string vazia
-        const apelidoFinal = (apelido && apelido.trim() !== '') ? apelido.trim() : null;
+        const apelidoFinal = (apelido && apelido.trim() !== '')  apelido.trim() : null;
         
-        // Em modo DEV_MOCK, apenas retorna objeto atualizado sem persistir
+        // Em modo DEV_MOCK, apenas retorna objeto atualização sem persistir
         if (process.env.DEV_MOCK === '1' || process.env.DEV_MOCK === 'true') {
             const updated = Object.assign({}, user);
             if (nome) updated.nome = nome;
@@ -12547,27 +12547,27 @@ app.put('/api/me', async (req, res) => {
         const updates = [];
         const params = [];
         
-        if (nome) { updates.push('nome = ?'); params.push(nome); }
-        updates.push('apelido = ?');
+        if (nome) { updates.push('nome = '); params.push(nome); }
+        updates.push('apelido = ');
         params.push(apelidoFinal);
-        if (telefone !== undefined) { updates.push('telefone = ?'); params.push(telefone || null); }
-        if (data_nascimento !== undefined) { updates.push('data_nascimento = ?'); params.push(data_nascimento || null); }
-        if (bio !== undefined) { updates.push('bio = ?'); params.push(bio || null); }
+        if (telefone !== undefined) { updates.push('telefone = '); params.push(telefone || null); }
+        if (data_nascimento !== undefined) { updates.push('data_nascimento = '); params.push(data_nascimento || null); }
+        if (bio !== undefined) { updates.push('bio = '); params.push(bio || null); }
         
         if (updates.length > 0) {
             params.push(user.id);
-            const sql = `UPDATE usuarios SET ${updates.join(', ')} WHERE id = ?`;
+            const sql = `UPDATE usuarios SET ${updates.join(', ')} WHERE id = `;
             console.log('[API/ME PUT] 📝 Atualizando usuário:', user.email);
             await pool.query(sql, params);
         }
         
-        // Buscar usuário atualizado com todas as informações
+        // Buscar usuário atualização com todas as informações
         const [[updatedUser]] = await pool.query(
             `SELECT id, nome, email, role, is_admin, apelido, telefone, data_nascimento, 
                     bio, avatar, departamento, 
                     permissoes_pcp, permissoes_vendas, permissoes_rh, 
                     permissoes_compras, permissoes_financeiro, permissoes_nfe
-             FROM usuarios WHERE id = ?`,
+             FROM usuarios WHERE id = `,
             [user.id]
         );
 
@@ -12578,9 +12578,9 @@ app.put('/api/me', async (req, res) => {
             if (typeof perm === 'string') {
                 try {
                     const parsed = JSON.parse(perm);
-                    return Array.isArray(parsed) ? parsed : [];
+                    return Array.isArray(parsed)  parsed : [];
                 } catch (e) {
-                    return perm.trim() ? [perm.trim()] : [];
+                    return perm.trim()  [perm.trim()] : [];
                 }
             }
             return [];
@@ -12628,13 +12628,13 @@ app.put('/api/me', async (req, res) => {
             }
         };
         
-        console.log('[API/ME PUT] ✅ Perfil atualizado:', user.email);
+        console.log('[API/ME PUT] ✅ Perfil atualização:', user.email);
 
-        console.log('[API/ME PUT] ✅ Perfil atualizado com sucesso. Apelido:', apelidoFinal);
+        console.log('[API/ME PUT] ✅ Perfil atualização com sucesso. Apelido:', apelidoFinal);
         
         return res.json(response);
     } catch (err) {
-        console.error('Erro em PUT /api/me:', err && err.stack ? err.stack : err);
+        console.error('Erro em PUT /api/me:', err && err.stack  err.stack : err);
         return res.status(500).json({ message: 'Erro ao atualizar perfil' });
     }
 });
@@ -12673,9 +12673,9 @@ const uploadAvatar = multer({
 });
 
 app.post('/api/upload-avatar', (req, res, next) => {
-    const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+    const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
     if (!token) {
-        return res.status(401).json({ error: 'Não autenticado' });
+        return res.status(401).json({ error: 'Não autenticação' });
     }
     
     try {
@@ -12689,15 +12689,15 @@ app.post('/api/upload-avatar', (req, res, next) => {
 }, uploadAvatar.single('avatar'), async (req, res) => {
     try {
         if (!req.file) {
-            return res.status(400).json({ error: 'Nenhum arquivo enviado' });
+            return res.status(400).json({ error: 'Nenhum arquivo enviação' });
         }
 
         const avatarUrl = `/avatars/${req.file.filename}`;
         
-        // Atualizar banco de dados com o caminho do avatar
+        // Atualizar banco de daçãos com o caminho do avatar
         try {
             await pool.query(
-                'UPDATE usuarios SET avatar = ? WHERE id = ?',
+                'UPDATE usuarios SET avatar =  WHERE id = ',
                 [avatarUrl, req.userId]
             );
         } catch (dbErr) {
@@ -12710,7 +12710,7 @@ app.post('/api/upload-avatar', (req, res, next) => {
         res.json({
             success: true,
             avatarUrl: avatarUrl,
-            message: 'Avatar atualizado com sucesso'
+            message: 'Avatar atualização com sucesso'
         });
 
     } catch (error) {
@@ -12737,13 +12737,13 @@ app.post('/api/auth/forgot-password', async (req, res) => {
         let userName = '';
         
         // Verificar na tabela usuarios
-        const [usuarios] = await pool.query('SELECT nome_completo, email FROM usuarios WHERE email = ?', [email]);
+        const [usuarios] = await pool.query('SELECT nome_completo, email FROM usuarios WHERE email = ', [email]);
         if (usuarios && usuarios.length > 0) {
             userExists = true;
             userName = usuarios[0].nome_completo;
         } else {
             // Verificar na tabela funcionarios
-            const [funcionarios] = await pool.query('SELECT nome_completo, email FROM funcionarios WHERE email = ?', [email]);
+            const [funcionarios] = await pool.query('SELECT nome_completo, email FROM funcionarios WHERE email = ', [email]);
             if (funcionarios && funcionarios.length > 0) {
                 userExists = true;
                 userName = funcionarios[0].nome_completo;
@@ -12751,11 +12751,11 @@ app.post('/api/auth/forgot-password', async (req, res) => {
         }
 
         // Por segurança, sempre retornar sucesso mesmo que o email não exista
-        // Isso evita que atacantes descubram quais emails estão cadastrados
+        // Isso evita que atacantes descubram quais emails estão cadastraçãos
         if (!userExists) {
-            console.log(`[RESET] Tentativa de reset para email não cadastrado: ${email}`);
+            console.log(`[RESET] Tentativa de reset para email não cadastração: ${email}`);
             return res.json({ 
-                message: 'Se o email estiver cadastrado, você receberá um link para redefinir sua senha.' 
+                message: 'Se o email estiver cadastração, você receberá um link para redefinir sua senha.' 
             });
         }
 
@@ -12769,12 +12769,12 @@ app.post('/api/auth/forgot-password', async (req, res) => {
 
         // Salvar token no banco
         await pool.query(
-            'INSERT INTO password_reset_tokens (email, token, expira_em) VALUES (?, ?, ?)',
+            'INSERT INTO password_reset_tokens (email, token, expira_em) VALUES (, , )',
             [email, token, expiresAt]
         );
 
         // Gerar link de reset
-        const resetLink = `http://localhost:${PORT}/reset-password.html?token=${token}`;
+        const resetLink = `http://localhost:${PORT}/reset-password.htmltoken=${token}`;
         
         // Enviar email
         try {
@@ -12791,7 +12791,7 @@ app.post('/api/auth/forgot-password', async (req, res) => {
                         <div style="text-align: center; margin: 30px 0;">
                             <a href="${resetLink}" style="background-color: #4CAF50; color: white; padding: 14px 28px; text-decoration: none; border-radius: 4px; display: inline-block;">Redefinir Senha</a>
                         </div>
-                        <p style="color: #666; font-size: 14px;">Ou copie e cole este link no seu navegador:</p>
+                        <p style="color: #666; font-size: 14px;">Ou copie e cole este link no seu navegaçãor:</p>
                         <p style="background-color: #f5f5f5; padding: 10px; border-radius: 4px; word-break: break-all; font-size: 12px;">${resetLink}</p>
                         <p style="color: #999; font-size: 12px; margin-top: 30px;">
                             ⏰ Este link expira em <strong>30 minutos</strong>.<br>
@@ -12805,15 +12805,15 @@ app.post('/api/auth/forgot-password', async (req, res) => {
                     </div>
                 `
             );
-            console.log(`[RESET] ✅ Email de reset enviado para: ${email}`);
+            console.log(`[RESET] ✅ Email de reset enviação para: ${email}`);
         } catch (emailErr) {
             console.error('[RESET] ❌ Erro ao enviar email:', emailErr);
-            // Mesmo que o email falhe, retornar sucesso (o token foi criado)
+            // Mesmo que o email falhe, retornar sucesso (o token foi criação)
             // Em produção, você pode querer logar isso e tentar reenviar
         }
 
         return res.json({ 
-            message: 'Se o email estiver cadastrado, você receberá um link para redefinir sua senha.',
+            message: 'Se o email estiver cadastração, você receberá um link para redefinir sua senha.',
             success: true
         });
 
@@ -12830,15 +12830,15 @@ app.post('/api/auth/forgot-password', async (req, res) => {
                         email VARCHAR(255) NOT NULL,
                         token VARCHAR(255) NOT NULL UNIQUE,
                         expira_em DATETIME NOT NULL,
-                        usado TINYINT(1) DEFAULT 0,
-                        criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                        usação TINYINT(1) DEFAULT 0,
+                        criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                         INDEX idx_token (token),
                         INDEX idx_email (email)
                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
                 `);
                 console.log('[RESET] ✅ Tabela criada! Tente novamente.');
                 return res.status(503).json({ 
-                    message: 'Sistema configurado. Por favor, tente novamente.',
+                    message: 'Sistema configuração. Por favor, tente novamente.',
                     retry: true 
                 });
             } catch (createErr) {
@@ -12860,12 +12860,12 @@ app.get('/api/auth/validate-reset-token/:token', async (req, res) => {
 
     try {
         const [tokens] = await pool.query(
-            'SELECT * FROM password_reset_tokens WHERE token = ? AND usado = 0 AND expira_em > NOW()',
+            'SELECT * FROM password_reset_tokens WHERE token =  AND usação = 0 AND expira_em > NOW()',
             [token]
         );
 
         if (!tokens || tokens.length === 0) {
-            return res.json({ valid: false, message: 'Token inválido ou expirado' });
+            return res.json({ valid: false, message: 'Token inválido ou expiração' });
         }
 
         return res.json({ valid: true, email: tokens[0].email });
@@ -12892,12 +12892,12 @@ app.post('/api/auth/reset-password', async (req, res) => {
     try {
         // Buscar token válido
         const [tokens] = await pool.query(
-            'SELECT * FROM password_reset_tokens WHERE token = ? AND usado = 0 AND expira_em > NOW()',
+            'SELECT * FROM password_reset_tokens WHERE token =  AND usação = 0 AND expira_em > NOW()',
             [token]
         );
 
         if (!tokens || tokens.length === 0) {
-            return res.status(400).json({ message: 'Token inválido ou expirado' });
+            return res.status(400).json({ message: 'Token inválido ou expiração' });
         }
 
         const resetToken = tokens[0];
@@ -12909,25 +12909,25 @@ app.post('/api/auth/reset-password', async (req, res) => {
 
         // Atualizar senha na tabela usuarios
         const [usuariosResult] = await pool.query(
-            'UPDATE usuarios SET senha_hash = ?, senha = ? WHERE email = ?',
+            'UPDATE usuarios SET senha_hash = , senha =  WHERE email = ',
             [senhaHash, novaSenha, email]
         );
 
         // Atualizar senha na tabela funcionarios
         const [funcionariosResult] = await pool.query(
-            'UPDATE funcionarios SET senha_hash = ?, senha = ? WHERE email = ?',
+            'UPDATE funcionarios SET senha_hash = , senha =  WHERE email = ',
             [senhaHash, novaSenha, email]
         );
 
-        // Marcar token como usado
+        // Marcar token como usação
         await pool.query(
-            'UPDATE password_reset_tokens SET usado = 1 WHERE token = ?',
+            'UPDATE password_reset_tokens SET usação = 1 WHERE token = ',
             [token]
         );
 
         // Invalidar todos os tokens antigos deste email
         await pool.query(
-            'UPDATE password_reset_tokens SET usado = 1 WHERE email = ? AND token != ?',
+            'UPDATE password_reset_tokens SET usação = 1 WHERE email =  AND token != ',
             [email, token]
         );
 
@@ -12967,9 +12967,9 @@ app.get(['/login.html', '/login'], (req, res) => {
 
 // Middleware que exige autenticação via JWT (cookie ou Authorization header) - para servir páginas protegidas
 function requireAuthPage(req, res, next) {
-    const token = req.headers['authorization']?.replace('Bearer ', '') || req.query.token || req.cookies?.authToken;
+    const token = req.headers['authorization'].replace('Bearer ', '') || req.query.token || req.cookies.authToken;
     if (!token) {
-        // não autenticado -> redireciona para login
+        // não autenticação -> redireciona para login
         return res.redirect('/');
     }
     try {
@@ -12982,7 +12982,7 @@ function requireAuthPage(req, res, next) {
     }
 }
 
-// Servir /dashboard e /index.html apenas para usuários autenticados
+// Servir /dashboard e /index.html apenas para usuários autenticaçãos
 app.get('/dashboard', requireAuthPage, (req, res) => {
     // Se token veio via query string, setar cookie para próximas requisições
     if (req.query.token) {
@@ -13010,10 +13010,10 @@ function authenticatePage(req, res, next) {
     // The client app uses localStorage to store the JWT and decides whether
     // to show the page or redirect to the login. Here we only attach req.user
     // when a valid JWT is present in Authorization header, query or cookie.
-    const token = req.headers['authorization']?.replace('Bearer ', '') || req.query.token || req.cookies?.authToken;
-    console.log('[AUTH] Cookie recebido:', req.cookies?.authToken);
+    const token = req.headers['authorization'].replace('Bearer ', '') || req.query.token || req.cookies.authToken;
+    console.log('[AUTH] Cookie recebido:', req.cookies.authToken);
     if (!token) {
-        console.log('[AUTH] Nenhum token JWT encontrado.');
+        console.log('[AUTH] Nenhum token JWT encontração.');
         return next(); // continue and serve the page; front-end will check auth
     }
     jwt.verify(token, JWT_SECRET, (err, user) => {
@@ -13038,7 +13038,7 @@ app.get('/Financeiro/financeiro.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'financeiro')) {
             res.sendFile(path.join(__dirname, 'modules', 'Financeiro', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -13051,7 +13051,7 @@ app.get('/Financeiro/index.html', authenticatePage, (req, res) => {
         if (userPermissions.hasAccess(firstName, 'financeiro')) {
             res.sendFile(path.join(__dirname, 'modules', 'Financeiro', 'public', 'index.html'));
         } else {
-            res.status(403).send('<h1>Acesso Negado</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
+            res.status(403).send('<h1>Acesso Negação</h1><p>Você não tem permissão para acessar o módulo Financeiro.</p>');
         }
     } else {
         res.redirect('/login.html');
@@ -13064,10 +13064,10 @@ app.get('/Financeiro/index.html', authenticatePage, (req, res) => {
 
 function checkFinanceiroPermission(requiredPermission) {
     return async (req, res, next) => {
-        const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+        const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
         
         if (!token) {
-            return res.status(401).json({ message: 'Não autenticado' });
+            return res.status(401).json({ message: 'Não autenticação' });
         }
 
         try {
@@ -13075,7 +13075,7 @@ function checkFinanceiroPermission(requiredPermission) {
             
             // Buscar permissões do usuário no banco
             const [users] = await pool.query(
-                'SELECT permissoes_financeiro, is_admin FROM funcionarios WHERE id = ? OR email = ?',
+                'SELECT permissoes_financeiro, is_admin FROM funcionarios WHERE id =  OR email = ',
                 [user.id, user.email]
             );
 
@@ -13084,12 +13084,12 @@ function checkFinanceiroPermission(requiredPermission) {
             if (!userData) {
                 // Tentar na tabela usuarios
                 const [usuarios] = await pool.query(
-                    'SELECT permissoes_financeiro, is_admin FROM usuarios WHERE id = ? OR email = ?',
+                    'SELECT permissoes_financeiro, is_admin FROM usuarios WHERE id =  OR email = ',
                     [user.id, user.email]
                 );
                 
                 if (!usuarios || usuarios.length === 0) {
-                    return res.status(403).json({ message: 'Usuário não encontrado' });
+                    return res.status(403).json({ message: 'Usuário não encontração' });
                 }
                 
                 userData = usuarios[0];
@@ -13151,10 +13151,10 @@ function checkFinanceiroPermission(requiredPermission) {
 
 // Obter permissões do usuário no Financeiro
 app.get('/api/financeiro/permissoes', async (req, res) => {
-    const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+    const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
     
     if (!token) {
-        return res.status(401).json({ message: 'Não autenticado' });
+        return res.status(401).json({ message: 'Não autenticação' });
     }
 
     try {
@@ -13162,7 +13162,7 @@ app.get('/api/financeiro/permissoes', async (req, res) => {
         
         // Buscar permissões do usuário no banco
         const [users] = await pool.query(
-            'SELECT permissoes_financeiro, is_admin FROM funcionarios WHERE id = ? OR email = ?',
+            'SELECT permissoes_financeiro, is_admin FROM funcionarios WHERE id =  OR email = ',
             [user.id, user.email]
         );
 
@@ -13171,12 +13171,12 @@ app.get('/api/financeiro/permissoes', async (req, res) => {
         if (!userData) {
             // Tentar na tabela usuarios
             const [usuarios] = await pool.query(
-                'SELECT permissoes_financeiro, is_admin FROM usuarios WHERE id = ? OR email = ?',
+                'SELECT permissoes_financeiro, is_admin FROM usuarios WHERE id =  OR email = ',
                 [user.id, user.email]
             );
             
             if (!usuarios || usuarios.length === 0) {
-                return res.status(403).json({ message: 'Usuário não encontrado' });
+                return res.status(403).json({ message: 'Usuário não encontração' });
             }
             
             userData = usuarios[0];
@@ -13232,9 +13232,9 @@ app.get('/api/financeiro/permissoes', async (req, res) => {
 app.get('/api/financeiro/contas-receber/resumo', async (req, res) => {
     try {
         // Verificar token
-        const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+        const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
         if (!token) {
-            return res.status(401).json({ message: 'Não autenticado' });
+            return res.status(401).json({ message: 'Não autenticação' });
         }
         
         // Calcular totais
@@ -13248,10 +13248,10 @@ app.get('/api/financeiro/contas-receber/resumo', async (req, res) => {
         `);
         
         res.json({
-            total_pendente: result[0]?.total_pendente || 0,
-            total_recebido: result[0]?.total_recebido || 0,
-            total_vencido: result[0]?.total_vencido || 0,
-            total_registros: result[0]?.total_registros || 0
+            total_pendente: result[0].total_pendente || 0,
+            total_recebido: result[0].total_recebido || 0,
+            total_vencido: result[0].total_vencido || 0,
+            total_registros: result[0].total_registros || 0
         });
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao buscar resumo contas a receber:', err);
@@ -13263,9 +13263,9 @@ app.get('/api/financeiro/contas-receber/resumo', async (req, res) => {
 app.get('/api/financeiro/contas-pagar/resumo', async (req, res) => {
     try {
         // Verificar token
-        const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+        const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
         if (!token) {
-            return res.status(401).json({ message: 'Não autenticado' });
+            return res.status(401).json({ message: 'Não autenticação' });
         }
         
         // Calcular totais
@@ -13279,10 +13279,10 @@ app.get('/api/financeiro/contas-pagar/resumo', async (req, res) => {
         `);
         
         res.json({
-            total_pendente: result[0]?.total_pendente || 0,
-            total_pago: result[0]?.total_pago || 0,
-            total_vencido: result[0]?.total_vencido || 0,
-            total_registros: result[0]?.total_registros || 0
+            total_pendente: result[0].total_pendente || 0,
+            total_pago: result[0].total_pago || 0,
+            total_vencido: result[0].total_vencido || 0,
+            total_registros: result[0].total_registros || 0
         });
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao buscar resumo contas a pagar:', err);
@@ -13294,9 +13294,9 @@ app.get('/api/financeiro/contas-pagar/resumo', async (req, res) => {
 app.get('/api/financeiro/contas-bancarias/saldo-total', async (req, res) => {
     try {
         // Verificar token
-        const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+        const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
         if (!token) {
-            return res.status(401).json({ message: 'Não autenticado' });
+            return res.status(401).json({ message: 'Não autenticação' });
         }
         
         // Verificar se a tabela existe
@@ -13311,7 +13311,7 @@ app.get('/api/financeiro/contas-bancarias/saldo-total', async (req, res) => {
                     FROM bancos
                     WHERE ativo = 1 OR ativo IS NULL
                 `);
-                return res.json({ saldo_total: result[0]?.saldo_total || 0 });
+                return res.json({ saldo_total: result[0].saldo_total || 0 });
             }
             return res.json({ saldo_total: 0 });
         }
@@ -13323,7 +13323,7 @@ app.get('/api/financeiro/contas-bancarias/saldo-total', async (req, res) => {
             WHERE ativa = 1 OR ativa IS NULL
         `);
         
-        res.json({ saldo_total: result[0]?.saldo_total || 0 });
+        res.json({ saldo_total: result[0].saldo_total || 0 });
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao buscar saldo bancário:', err);
         res.json({ saldo_total: 0 });
@@ -13339,22 +13339,22 @@ app.get('/api/financeiro/contas-receber', checkFinanceiroPermission('contas_rece
         const params = [];
 
         if (status) {
-            query += ' AND status = ?';
+            query += ' AND status = ';
             params.push(status);
         }
 
         if (cliente) {
-            query += ' AND (cliente_id = ? OR descricao LIKE ?)';
+            query += ' AND (cliente_id =  OR descricao LIKE )';
             params.push(cliente, `%${cliente}%`);
         }
 
         if (data_inicio) {
-            query += ' AND vencimento >= ?';
+            query += ' AND vencimento >= ';
             params.push(data_inicio);
         }
 
         if (data_fim) {
-            query += ' AND vencimento <= ?';
+            query += ' AND vencimento <= ';
             params.push(data_fim);
         }
 
@@ -13378,22 +13378,22 @@ app.get('/api/financeiro/contas-pagar', checkFinanceiroPermission('contas_pagar'
         const params = [];
 
         if (status) {
-            query += ' AND status = ?';
+            query += ' AND status = ';
             params.push(status);
         }
 
         if (fornecedor) {
-            query += ' AND (fornecedor_id = ? OR descricao LIKE ?)';
+            query += ' AND (fornecedor_id =  OR descricao LIKE )';
             params.push(fornecedor, `%${fornecedor}%`);
         }
 
         if (data_inicio) {
-            query += ' AND vencimento >= ?';
+            query += ' AND vencimento >= ';
             params.push(data_inicio);
         }
 
         if (data_fim) {
-            query += ' AND vencimento <= ?';
+            query += ' AND vencimento <= ';
             params.push(data_fim);
         }
 
@@ -13418,7 +13418,7 @@ app.post('/api/financeiro/contas-receber', checkFinanceiroPermission('contas_rec
         const { cliente_id, valor, descricao, vencimento, categoria } = req.body;
 
         const [result] = await pool.query(
-            'INSERT INTO contas_receber (cliente_id, valor, descricao, vencimento, categoria, status, criado_por) VALUES (?, ?, ?, ?, ?, "pendente", ?)',
+            'INSERT INTO contas_receber (cliente_id, valor, descricao, vencimento, categoria, status, criação_por) VALUES (, , , , , "pendente", )',
             [cliente_id, valor, descricao, vencimento, categoria, req.user.id]
         );
 
@@ -13462,7 +13462,7 @@ app.post('/api/financeiro/contas-pagar', checkFinanceiroPermission('contas_pagar
 
         const [result] = await pool.query(
             `INSERT INTO contas_pagar (fornecedor_id, valor, descricao, data_vencimento, categoria_id, banco_id, forma_pagamento, observacoes, status) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, "pendente")`,
+             VALUES (, , , , , , , , "pendente")`,
             [fornecedor_id || null, valor, descricao, dataVenc, catId || null, banco_id || null, forma_pagamento || null, observacoes || null]
         );
 
@@ -13483,7 +13483,7 @@ app.post('/api/financeiro/contas-pagar', checkFinanceiroPermission('contas_pagar
 app.get('/api/financeiro/contas-receber/:id', checkFinanceiroPermission('contas_receber'), async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM contas_receber WHERE id = ?', [id]);
+        const [rows] = await pool.query('SELECT * FROM contas_receber WHERE id = ', [id]);
         
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Conta a receber não encontrada' });
@@ -13500,7 +13500,7 @@ app.get('/api/financeiro/contas-receber/:id', checkFinanceiroPermission('contas_
 app.get('/api/financeiro/contas-pagar/:id', checkFinanceiroPermission('contas_pagar'), async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM contas_pagar WHERE id = ?', [id]);
+        const [rows] = await pool.query('SELECT * FROM contas_pagar WHERE id = ', [id]);
         
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Conta a pagar não encontrada' });
@@ -13524,7 +13524,7 @@ app.put('/api/financeiro/contas-receber/:id', checkFinanceiroPermission('contas_
         const { valor, descricao, vencimento, status, categoria } = req.body;
 
         await pool.query(
-            'UPDATE contas_receber SET valor = ?, descricao = ?, vencimento = ?, status = ?, categoria = ?, atualizado_por = ?, atualizado_em = NOW() WHERE id = ?',
+            'UPDATE contas_receber SET valor = , descricao = , vencimento = , status = , categoria = , atualização_por = , atualização_em = NOW() WHERE id = ',
             [valor, descricao, vencimento, status, categoria, req.user.id, id]
         );
 
@@ -13550,7 +13550,7 @@ app.put('/api/financeiro/contas-pagar/:id', checkFinanceiroPermission('contas_pa
         const { valor, descricao, vencimento, status, categoria } = req.body;
 
         await pool.query(
-            'UPDATE contas_pagar SET valor = ?, descricao = ?, vencimento = ?, status = ?, categoria = ?, atualizado_por = ?, atualizado_em = NOW() WHERE id = ?',
+            'UPDATE contas_pagar SET valor = , descricao = , vencimento = , status = , categoria = , atualização_por = , atualização_em = NOW() WHERE id = ',
             [valor, descricao, vencimento, status, categoria, req.user.id, id]
         );
 
@@ -13574,7 +13574,7 @@ app.delete('/api/financeiro/contas-receber/:id', checkFinanceiroPermission('cont
     try {
         const { id } = req.params;
 
-        await pool.query('DELETE FROM contas_receber WHERE id = ?', [id]);
+        await pool.query('DELETE FROM contas_receber WHERE id = ', [id]);
 
         return res.json({
             success: true,
@@ -13596,7 +13596,7 @@ app.delete('/api/financeiro/contas-pagar/:id', checkFinanceiroPermission('contas
     try {
         const { id } = req.params;
 
-        await pool.query('DELETE FROM contas_pagar WHERE id = ?', [id]);
+        await pool.query('DELETE FROM contas_pagar WHERE id = ', [id]);
 
         return res.json({
             success: true,
@@ -13623,7 +13623,7 @@ app.get('/api/compras/fornecedores', authenticateToken, async (req, res) => {
         const params = [];
         
         if (ativo !== undefined) {
-            query += ' WHERE ativo = ?';
+            query += ' WHERE ativo = ';
             params.push(ativo);
         }
         
@@ -13640,9 +13640,9 @@ app.get('/api/compras/fornecedores', authenticateToken, async (req, res) => {
 // Buscar fornecedor por ID
 app.get('/api/compras/fornecedores/:id', authenticateToken, async (req, res) => {
     try {
-        const [fornecedor] = await pool.query('SELECT * FROM fornecedores WHERE id = ?', [req.params.id]);
+        const [fornecedor] = await pool.query('SELECT * FROM fornecedores WHERE id = ', [req.params.id]);
         if (fornecedor.length === 0) {
-            return res.status(404).json({ message: 'Fornecedor não encontrado' });
+            return res.status(404).json({ message: 'Fornecedor não encontração' });
         }
         res.json(fornecedor[0]);
     } catch (err) {
@@ -13656,7 +13656,7 @@ app.post('/api/compras/fornecedores', authenticateToken, async (req, res) => {
     try {
         const {
             razao_social, nome_fantasia, cnpj, ie, endereco, cidade,
-            estado, cep, telefone, email, contato_principal,
+            estação, cep, telefone, email, contato_principal,
             condicoes_pagamento, prazo_entrega_padrao, observacoes
         } = req.body;
 
@@ -13666,12 +13666,12 @@ app.post('/api/compras/fornecedores', authenticateToken, async (req, res) => {
 
         const [result] = await pool.query(
             `INSERT INTO fornecedores (
-                razao_social, nome_fantasia, cnpj, ie, endereco, cidade, estado, cep,
+                razao_social, nome_fantasia, cnpj, ie, endereco, cidade, estação, cep,
                 telefone, email, contato_principal, condicoes_pagamento,
                 prazo_entrega_padrao, observacoes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            ) VALUES (, , , , , , , , , , , , , )`,
             [
-                razao_social, nome_fantasia, cnpj, ie, endereco, cidade, estado, cep,
+                razao_social, nome_fantasia, cnpj, ie, endereco, cidade, estação, cep,
                 telefone, email, contato_principal, condicoes_pagamento,
                 prazo_entrega_padrao, observacoes
             ]
@@ -13679,13 +13679,13 @@ app.post('/api/compras/fornecedores', authenticateToken, async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: 'Fornecedor criado com sucesso',
+            message: 'Fornecedor criação com sucesso',
             id: result.insertId
         });
     } catch (err) {
         console.error('[COMPRAS] Erro ao criar fornecedor:', err);
         if (err.code === 'ER_DUP_ENTRY') {
-            return res.status(400).json({ message: 'CNPJ já cadastrado' });
+            return res.status(400).json({ message: 'CNPJ já cadastração' });
         }
         res.status(500).json({ message: 'Erro ao criar fornecedor' });
     }
@@ -13696,26 +13696,26 @@ app.put('/api/compras/fornecedores/:id', authenticateToken, async (req, res) => 
     try {
         const {
             razao_social, nome_fantasia, cnpj, ie, endereco, cidade,
-            estado, cep, telefone, email, contato_principal,
+            estação, cep, telefone, email, contato_principal,
             condicoes_pagamento, prazo_entrega_padrao, observacoes, ativo
         } = req.body;
 
         await pool.query(
             `UPDATE fornecedores SET
-                razao_social = ?, nome_fantasia = ?, cnpj = ?, ie = ?, endereco = ?,
-                cidade = ?, estado = ?, cep = ?, telefone = ?, email = ?,
-                contato_principal = ?, condicoes_pagamento = ?,
-                prazo_entrega_padrao = ?, observacoes = ?, ativo = ?
-            WHERE id = ?`,
+                razao_social = , nome_fantasia = , cnpj = , ie = , endereco = ,
+                cidade = , estação = , cep = , telefone = , email = ,
+                contato_principal = , condicoes_pagamento = ,
+                prazo_entrega_padrao = , observacoes = , ativo = 
+            WHERE id = `,
             [
                 razao_social, nome_fantasia, cnpj, ie, endereco, cidade,
-                estado, cep, telefone, email, contato_principal,
+                estação, cep, telefone, email, contato_principal,
                 condicoes_pagamento, prazo_entrega_padrao, observacoes,
                 ativo, req.params.id
             ]
         );
 
-        res.json({ success: true, message: 'Fornecedor atualizado com sucesso' });
+        res.json({ success: true, message: 'Fornecedor atualização com sucesso' });
     } catch (err) {
         console.error('[COMPRAS] Erro ao atualizar fornecedor:', err);
         res.status(500).json({ message: 'Erro ao atualizar fornecedor' });
@@ -13725,8 +13725,8 @@ app.put('/api/compras/fornecedores/:id', authenticateToken, async (req, res) => 
 // Desativar fornecedor
 app.delete('/api/compras/fornecedores/:id', authenticateToken, async (req, res) => {
     try {
-        await pool.query('UPDATE fornecedores SET ativo = 0 WHERE id = ?', [req.params.id]);
-        res.json({ success: true, message: 'Fornecedor desativado com sucesso' });
+        await pool.query('UPDATE fornecedores SET ativo = 0 WHERE id = ', [req.params.id]);
+        res.json({ success: true, message: 'Fornecedor desativação com sucesso' });
     } catch (err) {
         console.error('[COMPRAS] Erro ao desativar fornecedor:', err);
         res.status(500).json({ message: 'Erro ao desativar fornecedor' });
@@ -13748,17 +13748,17 @@ app.get('/api/compras/materiais', authenticateToken, async (req, res) => {
         const params = [];
         
         if (ativo !== undefined) {
-            query += ' AND m.ativo = ?';
+            query += ' AND m.ativo = ';
             params.push(ativo);
         }
         
         if (categoria && categoria !== 'todos') {
-            query += ' AND m.categoria = ?';
+            query += ' AND m.categoria = ';
             params.push(categoria);
         }
         
         if (busca) {
-            query += ' AND (m.codigo LIKE ? OR m.descricao LIKE ?)';
+            query += ' AND (m.codigo LIKE  OR m.descricao LIKE )';
             params.push(`%${busca}%`, `%${busca}%`);
         }
         
@@ -13778,8 +13778,8 @@ app.get('/api/compras/materiais', authenticateToken, async (req, res) => {
         // Calcular status de cada material
         const materiaisComStatus = materiais.map(m => ({
             ...m,
-            status: m.estoque_atual === 0 ? 'critico' : 
-                    m.estoque_atual <= m.estoque_min ? 'baixo' : 'disponivel'
+            status: m.estoque_atual === 0  'critico' : 
+                    m.estoque_atual <= m.estoque_min  'baixo' : 'disponivel'
         }));
         
         res.json(materiaisComStatus);
@@ -13814,11 +13814,11 @@ app.get('/api/compras/materiais/:id', authenticateToken, async (req, res) => {
             SELECT m.*, f.razao_social as fornecedor_nome
             FROM compras_materiais m
             LEFT JOIN fornecedores f ON m.fornecedor_id = f.id
-            WHERE m.id = ?
+            WHERE m.id = 
         `, [req.params.id]);
         
         if (material.length === 0) {
-            return res.status(404).json({ message: 'Material não encontrado' });
+            return res.status(404).json({ message: 'Material não encontração' });
         }
         res.json(material[0]);
     } catch (err) {
@@ -13845,7 +13845,7 @@ app.post('/api/compras/materiais', authenticateToken, async (req, res) => {
                 codigo, descricao, categoria, unidade, especificacoes, ncm, cest,
                 codigo_barras, estoque_min, estoque_max, estoque_atual, lead_time,
                 fornecedor_id, ultimo_preco, sinc_pcp, observacoes
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            ) VALUES (, , , , , , , , , , , , , , , )`,
             [
                 codigo, descricao, categoria || 'Geral', unidade || 'UN', especificacoes,
                 ncm, cest, codigo_barras, estoque_min || 0, estoque_max || 0,
@@ -13856,7 +13856,7 @@ app.post('/api/compras/materiais', authenticateToken, async (req, res) => {
 
         res.status(201).json({ 
             success: true, 
-            message: 'Material cadastrado com sucesso',
+            message: 'Material cadastração com sucesso',
             id: result.insertId 
         });
     } catch (err) {
@@ -13879,11 +13879,11 @@ app.put('/api/compras/materiais/:id', authenticateToken, async (req, res) => {
 
         await pool.query(
             `UPDATE compras_materiais SET 
-                codigo = ?, descricao = ?, categoria = ?, unidade = ?, especificacoes = ?,
-                ncm = ?, cest = ?, codigo_barras = ?, estoque_min = ?, estoque_max = ?,
-                estoque_atual = ?, lead_time = ?, fornecedor_id = ?, ultimo_preco = ?,
-                ativo = ?, sinc_pcp = ?, observacoes = ?
-            WHERE id = ?`,
+                codigo = , descricao = , categoria = , unidade = , especificacoes = ,
+                ncm = , cest = , codigo_barras = , estoque_min = , estoque_max = ,
+                estoque_atual = , lead_time = , fornecedor_id = , ultimo_preco = ,
+                ativo = , sinc_pcp = , observacoes = 
+            WHERE id = `,
             [
                 codigo, descricao, categoria, unidade, especificacoes, ncm, cest,
                 codigo_barras, estoque_min, estoque_max, estoque_atual, lead_time,
@@ -13891,7 +13891,7 @@ app.put('/api/compras/materiais/:id', authenticateToken, async (req, res) => {
             ]
         );
 
-        res.json({ success: true, message: 'Material atualizado com sucesso' });
+        res.json({ success: true, message: 'Material atualização com sucesso' });
     } catch (err) {
         console.error('[COMPRAS] Erro ao atualizar material:', err);
         res.status(500).json({ message: 'Erro ao atualizar material' });
@@ -13901,8 +13901,8 @@ app.put('/api/compras/materiais/:id', authenticateToken, async (req, res) => {
 // Desativar material
 app.delete('/api/compras/materiais/:id', authenticateToken, async (req, res) => {
     try {
-        await pool.query('UPDATE compras_materiais SET ativo = 0 WHERE id = ?', [req.params.id]);
-        res.json({ success: true, message: 'Material desativado com sucesso' });
+        await pool.query('UPDATE compras_materiais SET ativo = 0 WHERE id = ', [req.params.id]);
+        res.json({ success: true, message: 'Material desativação com sucesso' });
     } catch (err) {
         console.error('[COMPRAS] Erro ao desativar material:', err);
         res.status(500).json({ message: 'Erro ao desativar material' });
@@ -13937,19 +13937,19 @@ app.get('/api/compras/pedidos', authenticateToken, async (req, res) => {
         const params = [];
 
         if (status) {
-            query += ' AND p.status = ?';
+            query += ' AND p.status = ';
             params.push(status);
         }
         if (fornecedor_id) {
-            query += ' AND p.fornecedor_id = ?';
+            query += ' AND p.fornecedor_id = ';
             params.push(fornecedor_id);
         }
         if (data_inicio) {
-            query += ' AND p.data_pedido >= ?';
+            query += ' AND p.data_pedido >= ';
             params.push(data_inicio);
         }
         if (data_fim) {
-            query += ' AND p.data_pedido <= ?';
+            query += ' AND p.data_pedido <= ';
             params.push(data_fim);
         }
 
@@ -13970,17 +13970,17 @@ app.get('/api/compras/pedidos/:id', authenticateToken, async (req, res) => {
             SELECT p.*, f.razao_social as fornecedor_nome
             FROM pedidos_compra p
             LEFT JOIN fornecedores f ON p.fornecedor_id = f.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [req.params.id]);
 
         if (pedido.length === 0) {
-            return res.status(404).json({ message: 'Pedido não encontrado' });
+            return res.status(404).json({ message: 'Pedido não encontração' });
         }
 
-        const [itens] = await pool.query('SELECT * FROM itens_pedido WHERE pedido_id = ?', [req.params.id]);
+        const [itens] = await pool.query('SELECT * FROM itens_pedido WHERE pedido_id = ', [req.params.id]);
         
         const [historico] = await pool.query(
-            'SELECT * FROM historico_aprovacoes WHERE pedido_id = ? ORDER BY data_acao DESC',
+            'SELECT * FROM historico_aprovacoes WHERE pedido_id =  ORDER BY data_acao DESC',
             [req.params.id]
         );
 
@@ -14009,7 +14009,7 @@ app.post('/api/compras/pedidos', authenticateToken, async (req, res) => {
 
         if (!numero_pedido || !fornecedor_id || !itens || itens.length === 0) {
             await connection.rollback();
-            return res.status(400).json({ message: 'Dados obrigatórios faltando' });
+            return res.status(400).json({ message: 'Daçãos obrigatórios faltando' });
         }
 
         // Calcular valor total
@@ -14020,7 +14020,7 @@ app.post('/api/compras/pedidos', authenticateToken, async (req, res) => {
             `INSERT INTO pedidos_compra (
                 numero_pedido, fornecedor_id, data_pedido, data_entrega_prevista,
                 valor_total, valor_final, observacoes, usuario_solicitante_id, status
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pendente')`,
+            ) VALUES (, , , , , , , , 'pendente')`,
             [numero_pedido, fornecedor_id, data_pedido, data_entrega_prevista,
              valor_total, valor_total, observacoes, req.user.id]
         );
@@ -14033,7 +14033,7 @@ app.post('/api/compras/pedidos', authenticateToken, async (req, res) => {
                 `INSERT INTO itens_pedido (
                     pedido_id, codigo_produto, descricao, quantidade, unidade,
                     preco_unitario, preco_total, observacoes
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                ) VALUES (, , , , , , , )`,
                 [
                     pedido_id, item.codigo_produto, item.descricao, item.quantidade,
                     item.unidade || 'UN', item.preco_unitario, item.preco_total,
@@ -14046,7 +14046,7 @@ app.post('/api/compras/pedidos', authenticateToken, async (req, res) => {
                 `INSERT INTO historico_precos (
                     fornecedor_id, codigo_produto, descricao, preco_unitario,
                     quantidade, pedido_id, data_compra
-                ) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                ) VALUES (, , , , , , )`,
                 [
                     fornecedor_id, item.codigo_produto, item.descricao,
                     item.preco_unitario, item.quantidade, pedido_id, data_pedido
@@ -14057,14 +14057,14 @@ app.post('/api/compras/pedidos', authenticateToken, async (req, res) => {
         // Registrar no histórico de aprovações
         await connection.query(
             `INSERT INTO historico_aprovacoes (pedido_id, usuario_id, acao, observacoes)
-             VALUES (?, ?, 'solicitado', 'Pedido criado')`,
+             VALUES (, , 'solicitação', 'Pedido criação')`,
             [pedido_id, req.user.id]
         );
 
         await connection.commit();
         res.status(201).json({
             success: true,
-            message: 'Pedido criado com sucesso',
+            message: 'Pedido criação com sucesso',
             id: pedido_id
         });
     } catch (err) {
@@ -14088,26 +14088,26 @@ app.post('/api/compras/pedidos/:id/aprovar', authenticateToken, async (req, res)
         // Atualizar pedido
         await connection.query(
             `UPDATE pedidos_compra SET
-                status = 'aprovado',
-                usuario_aprovador_id = ?,
+                status = 'aprovação',
+                usuario_aprovaçãor_id = ,
                 data_aprovacao = NOW()
-            WHERE id = ?`,
+            WHERE id = `,
             [req.user.id, req.params.id]
         );
 
         await connection.query(
             `INSERT INTO historico_aprovacoes (pedido_id, usuario_id, acao, observacoes)
-             VALUES (?, ?, 'aprovado', ?)`,
+             VALUES (, , 'aprovação', )`,
             [req.params.id, req.user.id, observacoes]
         );
 
         // === INTEGRAÇÃO FINANCEIRO ===
-        // Buscar dados do pedido para criar conta a pagar
+        // Buscar daçãos do pedido para criar conta a pagar
         const [pedidoData] = await connection.query(`
             SELECT p.*, f.razao_social as fornecedor_nome, f.cnpj, f.email
             FROM pedidos_compra p
             LEFT JOIN fornecedores f ON p.fornecedor_id = f.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [req.params.id]);
 
         if (pedidoData.length > 0) {
@@ -14127,15 +14127,15 @@ app.post('/api/compras/pedidos/:id/aprovar', authenticateToken, async (req, res)
             }
 
             // Criar conta a pagar
-            const descricaoCompleta = `Pedido de Compra #${pedido.numero_pedido || pedido.id} - ${pedido.fornecedor_nome || 'Fornecedor'}${observacoes ? ` - ${observacoes}` : ''}`;
+            const descricaoCompleta = `Pedido de Compra #${pedido.numero_pedido || pedido.id} - ${pedido.fornecedor_nome || 'Fornecedor'}${observacoes  ` - ${observacoes}` : ''}`;
             
             const [contaResult] = await connection.query(
                 `INSERT INTO contas_pagar (
                     descricao, fornecedor, valor_original, valor_restante, 
                     data_vencimento, data_emissao, categoria_id, forma_pagamento,
                     status, numero_documento, observacoes, pedido_compra_id,
-                    criado_por, criado_em
-                ) VALUES (?, ?, ?, ?, ?, NOW(), ?, ?, 'pendente', ?, ?, ?, ?, NOW())`,
+                    criação_por, criação_em
+                ) VALUES (, , , , , NOW(), , , 'pendente', , , , , NOW())`,
                 [
                     descricaoCompleta,
                     pedido.fornecedor_nome || `Fornecedor ID ${pedido.fornecedor_id}`,
@@ -14164,15 +14164,15 @@ app.post('/api/compras/pedidos/:id/aprovar', authenticateToken, async (req, res)
                     await connection.query(
                         `INSERT INTO parcelas_financeiras (
                             conta_pagar_id, numero_parcela, valor_parcela, 
-                            data_vencimento, status, criado_em
-                        ) VALUES (?, ?, ?, ?, 'pendente', NOW())`,
+                            data_vencimento, status, criação_em
+                        ) VALUES (, , , , 'pendente', NOW())`,
                         [contaId, i, valorParcela, dataVencParcela.toISOString().split('T')[0]]
                     );
                 }
 
                 // Atualizar conta para indicar parcelamento
                 await connection.query(
-                    `UPDATE contas_pagar SET observacoes = CONCAT(COALESCE(observacoes, ''), ' [Parcelado em ${parcelas}x]') WHERE id = ?`,
+                    `UPDATE contas_pagar SET observacoes = CONCAT(COALESCE(observacoes, ''), ' [Parcelação em ${parcelas}x]') WHERE id = `,
                     [contaId]
                 );
             }
@@ -14183,8 +14183,8 @@ app.post('/api/compras/pedidos/:id/aprovar', authenticateToken, async (req, res)
         await connection.commit();
         res.json({ 
             success: true, 
-            message: 'Pedido aprovado e conta a pagar criada com sucesso',
-            financeiro_integrado: true
+            message: 'Pedido aprovação e conta a pagar criada com sucesso',
+            financeiro_integração: true
         });
     } catch (err) {
         await connection.rollback();
@@ -14201,17 +14201,17 @@ app.post('/api/compras/pedidos/:id/cancelar', authenticateToken, async (req, res
         const { motivo } = req.body;
 
         await pool.query(
-            'UPDATE pedidos_compra SET status = \'cancelado\', motivo_cancelamento = ? WHERE id = ?',
+            'UPDATE pedidos_compra SET status = \'cancelação\', motivo_cancelamento =  WHERE id = ',
             [motivo, req.params.id]
         );
 
         await pool.query(
             `INSERT INTO historico_aprovacoes (pedido_id, usuario_id, acao, observacoes)
-             VALUES (?, ?, 'rejeitado', ?)`,
+             VALUES (, , 'rejeitação', )`,
             [req.params.id, req.user.id, motivo]
         );
 
-        res.json({ success: true, message: 'Pedido cancelado com sucesso' });
+        res.json({ success: true, message: 'Pedido cancelação com sucesso' });
     } catch (err) {
         console.error('[COMPRAS] Erro ao cancelar pedido:', err);
         res.status(500).json({ message: 'Erro ao cancelar pedido' });
@@ -14230,14 +14230,14 @@ app.post('/api/compras/pedidos/:id/receber', authenticateToken, async (req, res)
         // Atualizar quantidades recebidas dos itens
         for (const item of itens_recebidos) {
             await connection.query(
-                'UPDATE itens_pedido SET quantidade_recebida = quantidade_recebida + ? WHERE id = ?',
+                'UPDATE itens_pedido SET quantidade_recebida = quantidade_recebida +  WHERE id = ',
                 [item.quantidade_recebida, item.id]
             );
         }
 
         // Verificar se todos os itens foram recebidos
         const [itens] = await connection.query(
-            'SELECT * FROM itens_pedido WHERE pedido_id = ?',
+            'SELECT * FROM itens_pedido WHERE pedido_id = ',
             [req.params.id]
         );
 
@@ -14245,17 +14245,17 @@ app.post('/api/compras/pedidos/:id/receber', authenticateToken, async (req, res)
             parseFloat(item.quantidade_recebida) >= parseFloat(item.quantidade)
         );
 
-        const novoStatus = todosRecebidos ? 'recebido' : 'parcial';
+        const novoStatus = todosRecebidos  'recebido' : 'parcial';
 
         await connection.query(
-            'UPDATE pedidos_compra SET status = ?, data_entrega_real = ? WHERE id = ?',
+            'UPDATE pedidos_compra SET status = , data_entrega_real =  WHERE id = ',
             [novoStatus, data_entrega_real, req.params.id]
         );
 
         await connection.commit();
         res.json({
             success: true,
-            message: todosRecebidos ? 'Pedido recebido completamente' : 'Recebimento parcial registrado'
+            message: todosRecebidos  'Pedido recebido completamente' : 'Recebimento parcial registração'
         });
     } catch (err) {
         await connection.rollback();
@@ -14286,7 +14286,7 @@ app.get('/api/compras/dashboard', authenticateToken, async (req, res) => {
 
         // Valor total de compras do mês
         const [comprasMes] = await pool.query(
-            'SELECT SUM(valor_final) as total FROM pedidos_compra WHERE DATE_FORMAT(data_pedido, \'%Y-%m\') = ?',
+            'SELECT SUM(valor_final) as total FROM pedidos_compra WHERE DATE_FORMAT(data_pedido, \'%Y-%m\') = ',
             [mesAtual]
         );
 
@@ -14332,7 +14332,7 @@ app.get('/api/compras/dashboard', authenticateToken, async (req, res) => {
         });
     } catch (err) {
         console.error('[COMPRAS] Erro ao buscar dashboard:', err);
-        res.status(500).json({ message: 'Erro ao buscar dados do dashboard' });
+        res.status(500).json({ message: 'Erro ao buscar daçãos do dashboard' });
     }
 });
 
@@ -14349,11 +14349,11 @@ app.get('/api/compras/historico-precos', authenticateToken, async (req, res) => 
         const params = [];
 
         if (codigo_produto) {
-            query += ' AND h.codigo_produto = ?';
+            query += ' AND h.codigo_produto = ';
             params.push(codigo_produto);
         }
         if (fornecedor_id) {
-            query += ' AND h.fornecedor_id = ?';
+            query += ' AND h.fornecedor_id = ';
             params.push(fornecedor_id);
         }
 
@@ -14386,9 +14386,9 @@ app.get('/api/compras/historico-precos', authenticateToken, async (req, res) => 
                 projeto VARCHAR(200),
                 justificativa TEXT,
                 observacoes TEXT,
-                status ENUM('rascunho', 'pendente', 'aprovado', 'rejeitado', 'cotacao', 'cancelado') DEFAULT 'pendente',
-                valor_estimado DECIMAL(15,2) DEFAULT 0,
-                aprovador_id INT,
+                status ENUM('rascunho', 'pendente', 'aprovação', 'rejeitação', 'cotacao', 'cancelação') DEFAULT 'pendente',
+                valor_estimação DECIMAL(15,2) DEFAULT 0,
+                aprovaçãor_id INT,
                 data_aprovacao DATETIME,
                 motivo_rejeicao TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -14404,7 +14404,7 @@ app.get('/api/compras/historico-precos', authenticateToken, async (req, res) => 
                 descricao VARCHAR(255) NOT NULL,
                 quantidade DECIMAL(15,3) NOT NULL,
                 unidade VARCHAR(10) DEFAULT 'UN',
-                valor_estimado DECIMAL(15,2) DEFAULT 0,
+                valor_estimação DECIMAL(15,2) DEFAULT 0,
                 subtotal DECIMAL(15,2) DEFAULT 0,
                 observacao TEXT,
                 FOREIGN KEY (requisicao_id) REFERENCES requisicoes_compra(id) ON DELETE CASCADE
@@ -14430,23 +14430,23 @@ app.get('/api/compras/requisicoes', authenticateToken, async (req, res) => {
         const params = [];
 
         if (status && status !== 'todos') {
-            query += ' AND r.status = ?';
+            query += ' AND r.status = ';
             params.push(status);
         }
         if (prioridade) {
-            query += ' AND r.prioridade = ?';
+            query += ' AND r.prioridade = ';
             params.push(prioridade);
         }
         if (solicitante) {
-            query += ' AND r.solicitante LIKE ?';
+            query += ' AND r.solicitante LIKE ';
             params.push(`%${solicitante}%`);
         }
         if (data_inicio) {
-            query += ' AND r.data_solicitacao >= ?';
+            query += ' AND r.data_solicitacao >= ';
             params.push(data_inicio);
         }
         if (data_fim) {
-            query += ' AND r.data_solicitacao <= ?';
+            query += ' AND r.data_solicitacao <= ';
             params.push(data_fim);
         }
 
@@ -14463,13 +14463,13 @@ app.get('/api/compras/requisicoes', authenticateToken, async (req, res) => {
 // Buscar requisição por ID com itens
 app.get('/api/compras/requisicoes/:id', authenticateToken, async (req, res) => {
     try {
-        const [requisicao] = await pool.query('SELECT * FROM requisicoes_compra WHERE id = ?', [req.params.id]);
+        const [requisicao] = await pool.query('SELECT * FROM requisicoes_compra WHERE id = ', [req.params.id]);
 
         if (requisicao.length === 0) {
             return res.status(404).json({ message: 'Requisição não encontrada' });
         }
 
-        const [itens] = await pool.query('SELECT * FROM itens_requisicao WHERE requisicao_id = ?', [req.params.id]);
+        const [itens] = await pool.query('SELECT * FROM itens_requisicao WHERE requisicao_id = ', [req.params.id]);
 
         res.json({
             ...requisicao[0],
@@ -14522,19 +14522,19 @@ app.post('/api/compras/requisicoes', authenticateToken, async (req, res) => {
         }
 
         // Calcular valor total
-        const valor_estimado = itens ? itens.reduce((sum, item) => sum + parseFloat(item.subtotal || 0), 0) : 0;
+        const valor_estimação = itens  itens.reduce((sum, item) => sum + parseFloat(item.subtotal || 0), 0) : 0;
 
         // Inserir requisição
         const [result] = await connection.query(
             `INSERT INTO requisicoes_compra (
                 numero, solicitante, solicitante_id, centro_custo_id, centro_custo,
                 data_solicitacao, data_necessidade, prioridade, projeto,
-                justificativa, observacoes, status, valor_estimado
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                justificativa, observacoes, status, valor_estimação
+            ) VALUES (, , , , , , , , , , , , )`,
             [
                 numero, solicitante, solicitante_id || null, centro_custo_id || null, centro_custo || null,
                 data_solicitacao || new Date(), data_necessidade || null, prioridade || 'normal', projeto || null,
-                justificativa || null, observacoes || null, status || 'pendente', valor_estimado
+                justificativa || null, observacoes || null, status || 'pendente', valor_estimação
             ]
         );
 
@@ -14545,11 +14545,11 @@ app.post('/api/compras/requisicoes', authenticateToken, async (req, res) => {
             for (const item of itens) {
                 await connection.query(
                     `INSERT INTO itens_requisicao (
-                        requisicao_id, produto_id, descricao, quantidade, unidade, valor_estimado, subtotal, observacao
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                        requisicao_id, produto_id, descricao, quantidade, unidade, valor_estimação, subtotal, observacao
+                    ) VALUES (, , , , , , , )`,
                     [
                         requisicaoId, item.produto_id || null, item.descricao, item.quantidade,
-                        item.unidade || 'UN', item.valor_estimado || 0, item.subtotal || 0, item.observacao || null
+                        item.unidade || 'UN', item.valor_estimação || 0, item.subtotal || 0, item.observacao || null
                     ]
                 );
             }
@@ -14584,40 +14584,40 @@ app.put('/api/compras/requisicoes/:id', authenticateToken, async (req, res) => {
         } = req.body;
 
         // Verificar se existe
-        const [existing] = await connection.query('SELECT * FROM requisicoes_compra WHERE id = ?', [req.params.id]);
+        const [existing] = await connection.query('SELECT * FROM requisicoes_compra WHERE id = ', [req.params.id]);
         if (existing.length === 0) {
             await connection.rollback();
             return res.status(404).json({ message: 'Requisição não encontrada' });
         }
 
         // Calcular valor total
-        const valor_estimado = itens ? itens.reduce((sum, item) => sum + parseFloat(item.subtotal || 0), 0) : existing[0].valor_estimado;
+        const valor_estimação = itens  itens.reduce((sum, item) => sum + parseFloat(item.subtotal || 0), 0) : existing[0].valor_estimação;
 
         // Atualizar requisição
         await connection.query(
             `UPDATE requisicoes_compra SET
-                centro_custo_id = ?, centro_custo = ?, data_necessidade = ?, prioridade = ?,
-                projeto = ?, justificativa = ?, observacoes = ?, status = ?, valor_estimado = ?
-            WHERE id = ?`,
+                centro_custo_id = , centro_custo = , data_necessidade = , prioridade = ,
+                projeto = , justificativa = , observacoes = , status = , valor_estimação = 
+            WHERE id = `,
             [
                 centro_custo_id || null, centro_custo || null, data_necessidade || null, prioridade || 'normal',
-                projeto || null, justificativa || null, observacoes || null, status || existing[0].status, valor_estimado,
+                projeto || null, justificativa || null, observacoes || null, status || existing[0].status, valor_estimação,
                 req.params.id
             ]
         );
 
         // Atualizar itens (deletar e reinserir)
         if (itens) {
-            await connection.query('DELETE FROM itens_requisicao WHERE requisicao_id = ?', [req.params.id]);
+            await connection.query('DELETE FROM itens_requisicao WHERE requisicao_id = ', [req.params.id]);
             
             for (const item of itens) {
                 await connection.query(
                     `INSERT INTO itens_requisicao (
-                        requisicao_id, produto_id, descricao, quantidade, unidade, valor_estimado, subtotal, observacao
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                        requisicao_id, produto_id, descricao, quantidade, unidade, valor_estimação, subtotal, observacao
+                    ) VALUES (, , , , , , , )`,
                     [
                         req.params.id, item.produto_id || null, item.descricao, item.quantidade,
-                        item.unidade || 'UN', item.valor_estimado || 0, item.subtotal || 0, item.observacao || null
+                        item.unidade || 'UN', item.valor_estimação || 0, item.subtotal || 0, item.observacao || null
                     ]
                 );
             }
@@ -14638,7 +14638,7 @@ app.put('/api/compras/requisicoes/:id', authenticateToken, async (req, res) => {
 // Excluir requisição
 app.delete('/api/compras/requisicoes/:id', authenticateToken, async (req, res) => {
     try {
-        const [existing] = await pool.query('SELECT * FROM requisicoes_compra WHERE id = ?', [req.params.id]);
+        const [existing] = await pool.query('SELECT * FROM requisicoes_compra WHERE id = ', [req.params.id]);
         if (existing.length === 0) {
             return res.status(404).json({ message: 'Requisição não encontrada' });
         }
@@ -14648,7 +14648,7 @@ app.delete('/api/compras/requisicoes/:id', authenticateToken, async (req, res) =
             return res.status(400).json({ message: 'Apenas requisições pendentes ou em rascunho podem ser excluídas' });
         }
 
-        await pool.query('DELETE FROM requisicoes_compra WHERE id = ?', [req.params.id]);
+        await pool.query('DELETE FROM requisicoes_compra WHERE id = ', [req.params.id]);
 
         res.json({ message: 'Requisição excluída com sucesso' });
     } catch (err) {
@@ -14660,17 +14660,17 @@ app.delete('/api/compras/requisicoes/:id', authenticateToken, async (req, res) =
 // Aprovar/Rejeitar requisição
 app.post('/api/compras/requisicoes/:id/aprovar', authenticateToken, async (req, res) => {
     try {
-        const { aprovado, motivo } = req.body;
-        const novoStatus = aprovado ? 'aprovado' : 'rejeitado';
+        const { aprovação, motivo } = req.body;
+        const novoStatus = aprovação  'aprovação' : 'rejeitação';
 
         await pool.query(
             `UPDATE requisicoes_compra SET 
-                status = ?, aprovador_id = ?, data_aprovacao = NOW(), motivo_rejeicao = ?
-            WHERE id = ?`,
-            [novoStatus, req.user.id, aprovado ? null : motivo, req.params.id]
+                status = , aprovaçãor_id = , data_aprovacao = NOW(), motivo_rejeicao = 
+            WHERE id = `,
+            [novoStatus, req.user.id, aprovação  null : motivo, req.params.id]
         );
 
-        res.json({ message: aprovado ? 'Requisição aprovada' : 'Requisição rejeitada' });
+        res.json({ message: aprovação  'Requisição aprovada' : 'Requisição rejeitada' });
     } catch (err) {
         console.error('[COMPRAS] Erro ao aprovar/rejeitar requisição:', err);
         res.status(500).json({ message: 'Erro ao processar aprovação' });
@@ -14684,7 +14684,7 @@ app.get('/api/compras/requisicoes-stats', authenticateToken, async (req, res) =>
             SELECT 
                 COUNT(*) as total,
                 SUM(CASE WHEN status = 'pendente' THEN 1 ELSE 0 END) as pendentes,
-                SUM(CASE WHEN status = 'aprovado' THEN 1 ELSE 0 END) as aprovadas,
+                SUM(CASE WHEN status = 'aprovação' THEN 1 ELSE 0 END) as aprovadas,
                 SUM(CASE WHEN status = 'cotacao' THEN 1 ELSE 0 END) as em_cotacao,
                 SUM(CASE WHEN prioridade = 'urgente' THEN 1 ELSE 0 END) as urgentes
             FROM requisicoes_compra
@@ -14717,7 +14717,7 @@ app.get('/api/compras/requisicoes-stats', authenticateToken, async (req, res) =>
                 melhor_preco DECIMAL(15,2) DEFAULT 0,
                 fornecedor_vencedor_id INT,
                 status ENUM('aberta', 'analise', 'finalizada', 'cancelada') DEFAULT 'aberta',
-                criado_por INT,
+                criação_por INT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )
@@ -14734,7 +14734,7 @@ app.get('/api/compras/requisicoes-stats', authenticateToken, async (req, res) =>
                 condicao_pagamento VARCHAR(100),
                 observacoes TEXT,
                 data_resposta DATETIME,
-                selecionado BOOLEAN DEFAULT FALSE,
+                selecionação BOOLEAN DEFAULT FALSE,
                 FOREIGN KEY (cotacao_id) REFERENCES cotacoes_compra(id) ON DELETE CASCADE
             )
         `);
@@ -14760,7 +14760,7 @@ app.get('/api/compras/cotacoes', authenticateToken, async (req, res) => {
         const params = [];
 
         if (status && status !== 'todas') {
-            query += ' AND c.status = ?';
+            query += ' AND c.status = ';
             params.push(status);
         }
 
@@ -14777,7 +14777,7 @@ app.get('/api/compras/cotacoes', authenticateToken, async (req, res) => {
 // Buscar cotação por ID com fornecedores
 app.get('/api/compras/cotacoes/:id', authenticateToken, async (req, res) => {
     try {
-        const [cotacao] = await pool.query('SELECT * FROM cotacoes_compra WHERE id = ?', [req.params.id]);
+        const [cotacao] = await pool.query('SELECT * FROM cotacoes_compra WHERE id = ', [req.params.id]);
 
         if (cotacao.length === 0) {
             return res.status(404).json({ message: 'Cotação não encontrada' });
@@ -14787,7 +14787,7 @@ app.get('/api/compras/cotacoes/:id', authenticateToken, async (req, res) => {
             SELECT cf.*, f.razao_social, f.cnpj, f.telefone, f.email
             FROM cotacao_fornecedores cf
             LEFT JOIN fornecedores f ON cf.fornecedor_id = f.id
-            WHERE cf.cotacao_id = ?
+            WHERE cf.cotacao_id = 
         `, [req.params.id]);
 
         res.json({
@@ -14840,8 +14840,8 @@ app.post('/api/compras/cotacoes', authenticateToken, async (req, res) => {
         const [result] = await connection.query(
             `INSERT INTO cotacoes_compra (
                 numero, descricao, requisicao_id, data_abertura, data_validade,
-                quantidade, unidade, especificacoes, observacoes, criado_por
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                quantidade, unidade, especificacoes, observacoes, criação_por
+            ) VALUES (, , , , , , , , , )`,
             [
                 numero, descricao, requisicao_id || null, data_abertura || new Date(),
                 data_validade || null, quantidade || null, unidade || 'UN',
@@ -14855,7 +14855,7 @@ app.post('/api/compras/cotacoes', authenticateToken, async (req, res) => {
         if (fornecedores_ids && fornecedores_ids.length > 0) {
             for (const fornId of fornecedores_ids) {
                 await connection.query(
-                    'INSERT INTO cotacao_fornecedores (cotacao_id, fornecedor_id) VALUES (?, ?)',
+                    'INSERT INTO cotacao_fornecedores (cotacao_id, fornecedor_id) VALUES (, )',
                     [cotacaoId, fornId]
                 );
             }
@@ -14889,7 +14889,7 @@ app.put('/api/compras/cotacoes/:id', authenticateToken, async (req, res) => {
             observacoes, status, fornecedores
         } = req.body;
 
-        const [existing] = await connection.query('SELECT * FROM cotacoes_compra WHERE id = ?', [req.params.id]);
+        const [existing] = await connection.query('SELECT * FROM cotacoes_compra WHERE id = ', [req.params.id]);
         if (existing.length === 0) {
             await connection.rollback();
             return res.status(404).json({ message: 'Cotação não encontrada' });
@@ -14902,17 +14902,17 @@ app.put('/api/compras/cotacoes/:id', authenticateToken, async (req, res) => {
             if (valores.length > 0) {
                 valorMedio = valores.reduce((a, b) => a + b, 0) / valores.length;
                 melhorPreco = Math.min(...valores);
-                const vencedor = fornecedores.find(f => f.selecionado);
+                const vencedor = fornecedores.find(f => f.selecionação);
                 if (vencedor) fornecedorVencedor = vencedor.fornecedor_id;
             }
         }
 
         await connection.query(
             `UPDATE cotacoes_compra SET
-                descricao = ?, data_validade = ?, quantidade = ?, unidade = ?,
-                especificacoes = ?, observacoes = ?, status = ?, valor_medio = ?,
-                melhor_preco = ?, fornecedor_vencedor_id = ?
-            WHERE id = ?`,
+                descricao = , data_validade = , quantidade = , unidade = ,
+                especificacoes = , observacoes = , status = , valor_medio = ,
+                melhor_preco = , fornecedor_vencedor_id = 
+            WHERE id = `,
             [
                 descricao || existing[0].descricao, data_validade || existing[0].data_validade,
                 quantidade || existing[0].quantidade, unidade || existing[0].unidade,
@@ -14926,13 +14926,13 @@ app.put('/api/compras/cotacoes/:id', authenticateToken, async (req, res) => {
             for (const forn of fornecedores) {
                 await connection.query(
                     `UPDATE cotacao_fornecedores SET
-                        valor_unitario = ?, valor_total = ?, prazo_entrega = ?,
-                        condicao_pagamento = ?, observacoes = ?, data_resposta = ?, selecionado = ?
-                    WHERE cotacao_id = ? AND fornecedor_id = ?`,
+                        valor_unitario = , valor_total = , prazo_entrega = ,
+                        condicao_pagamento = , observacoes = , data_resposta = , selecionação = 
+                    WHERE cotacao_id =  AND fornecedor_id = `,
                     [
                         forn.valor_unitario || 0, forn.valor_total || 0, forn.prazo_entrega || null,
                         forn.condicao_pagamento || null, forn.observacoes || null,
-                        forn.data_resposta || null, forn.selecionado || false,
+                        forn.data_resposta || null, forn.selecionação || false,
                         req.params.id, forn.fornecedor_id
                     ]
                 );
@@ -14953,7 +14953,7 @@ app.put('/api/compras/cotacoes/:id', authenticateToken, async (req, res) => {
 // Excluir cotação
 app.delete('/api/compras/cotacoes/:id', authenticateToken, async (req, res) => {
     try {
-        const [existing] = await pool.query('SELECT * FROM cotacoes_compra WHERE id = ?', [req.params.id]);
+        const [existing] = await pool.query('SELECT * FROM cotacoes_compra WHERE id = ', [req.params.id]);
         if (existing.length === 0) {
             return res.status(404).json({ message: 'Cotação não encontrada' });
         }
@@ -14962,7 +14962,7 @@ app.delete('/api/compras/cotacoes/:id', authenticateToken, async (req, res) => {
             return res.status(400).json({ message: 'Cotações finalizadas não podem ser excluídas' });
         }
 
-        await pool.query('DELETE FROM cotacoes_compra WHERE id = ?', [req.params.id]);
+        await pool.query('DELETE FROM cotacoes_compra WHERE id = ', [req.params.id]);
         res.json({ message: 'Cotação excluída com sucesso' });
     } catch (err) {
         console.error('[COMPRAS] Erro ao excluir cotação:', err);
@@ -14991,17 +14991,17 @@ app.get('/api/compras/cotacoes-stats', authenticateToken, async (req, res) => {
 // Observação: não definir rotas públicas here para /dashboard ou /index.html —
 // elas já estão protegidas acima usando `requireAuthPage`.
 
-// Rota para tela de configurações — somente administradores
+// Rota para tela de configurações — somente administraçãores
 app.get('/config.html', authenticatePage, (req, res) => {
-    // Se não autenticado, redirecionar para raiz (front-end mostrará o login se necessário)
+    // Se não autenticação, redirecionar para raiz (front-end mostrará o login se necessário)
     if (!req.user) return res.redirect('/');
-    const firstName = req.user.nome ? req.user.nome.split(' ')[0].toLowerCase() : '';
-    const emailPrefix = req.user.email ? req.user.email.split('@')[0].toLowerCase() : '';
-    // Usa userPermissions.isAdmin para verificar lista de administradores
+    const firstName = req.user.nome  req.user.nome.split(' ')[0].toLowerCase() : '';
+    const emailPrefix = req.user.email  req.user.email.split('@')[0].toLowerCase() : '';
+    // Usa userPermissions.isAdmin para verificar lista de administraçãores
     if (userPermissions.isAdmin(firstName) || userPermissions.isAdmin(emailPrefix)) {
         return res.sendFile(path.join(__dirname, 'public', 'config.html'));
     }
-    return res.status(403).send('<h1>Acesso Negado</h1><p>Esta área é restrita a administradores.</p>');
+    return res.status(403).send('<h1>Acesso Negação</h1><p>Esta área é restrita a administraçãores.</p>');
 });
 
 // Endpoint administrativo para configurar permissões de vendas
@@ -15009,7 +15009,7 @@ app.post('/api/admin/configure-vendas-permissions', authenticateToken, async (re
     try {
         // Verificar se é admin
         if (!req.user.is_admin && req.user.role !== 'admin') {
-            return res.status(403).json({ error: 'Acesso negado - apenas administradores' });
+            return res.status(403).json({ error: 'Acesso negação - apenas administraçãores' });
         }
 
         const permissoesVendas = JSON.stringify({
@@ -15034,7 +15034,7 @@ app.post('/api/admin/configure-vendas-permissions', authenticateToken, async (re
         for (const email of usuarios) {
             try {
                 const [result] = await pool.query(
-                    'UPDATE usuarios SET permissoes_vendas = ? WHERE email = ? OR login = ? OR nome LIKE ?',
+                    'UPDATE usuarios SET permissoes_vendas =  WHERE email =  OR login =  OR nome LIKE ',
                     [permissoesVendas, email, email.split('@')[0], `%${email.split('@')[0]}%`]
                 );
                 
@@ -15055,12 +15055,12 @@ app.post('/api/admin/configure-vendas-permissions', authenticateToken, async (re
     }
 });
 
-// Endpoint para configurar permissões baseado em nomes da tabela funcionarios
+// Endpoint para configurar permissões baseação em nomes da tabela funcionarios
 app.post('/api/admin/configure-vendas-by-names', authenticateToken, async (req, res) => {
     try {
         // Verificar se é admin
         if (!req.user.is_admin && req.user.role !== 'admin') {
-            return res.status(403).json({ error: 'Acesso negado - apenas administradores' });
+            return res.status(403).json({ error: 'Acesso negação - apenas administraçãores' });
         }
 
         const permissoesVendas = JSON.stringify({
@@ -15089,9 +15089,9 @@ app.post('/api/admin/configure-vendas-by-names', authenticateToken, async (req, 
                 const [usuarios] = await pool.query(
                     `SELECT id, nome, email, login 
                      FROM usuarios 
-                     WHERE LOWER(nome) LIKE ? 
-                        OR LOWER(email) LIKE ? 
-                        OR LOWER(login) LIKE ?`,
+                     WHERE LOWER(nome) LIKE  
+                        OR LOWER(email) LIKE  
+                        OR LOWER(login) LIKE `,
                     [`%${nomeBase.toLowerCase()}%`, `%${nomeBase.toLowerCase()}%`, `%${nomeBase.toLowerCase()}%`]
                 );
 
@@ -15099,7 +15099,7 @@ app.post('/api/admin/configure-vendas-by-names', authenticateToken, async (req, 
                     for (const usuario of usuarios) {
                         try {
                             const [result] = await pool.query(
-                                'UPDATE usuarios SET permissoes_vendas = ? WHERE id = ?',
+                                'UPDATE usuarios SET permissoes_vendas =  WHERE id = ',
                                 [permissoesVendas, usuario.id]
                             );
 
@@ -15124,7 +15124,7 @@ app.post('/api/admin/configure-vendas-by-names', authenticateToken, async (req, 
                         }
                     }
                 } else {
-                    console.log(`⚠️  ${nomeBase} - Não encontrado`);
+                    console.log(`⚠️  ${nomeBase} - Não encontração`);
                     results.push({
                         name: nomeBase,
                         status: 'not_found'
@@ -15141,7 +15141,7 @@ app.post('/api/admin/configure-vendas-by-names', authenticateToken, async (req, 
             }
         }
 
-        console.log(`\n✅ Total de ${totalFound} usuários atualizados\n`);
+        console.log(`\n✅ Total de ${totalFound} usuários atualizaçãos\n`);
 
         res.json({ 
             success: true, 
@@ -15160,7 +15160,7 @@ app.post('/api/admin/remove-vendas-permission', authenticateToken, async (req, r
     try {
         // Verificar se é admin
         if (!req.user.is_admin && req.user.role !== 'admin') {
-            return res.status(403).json({ error: 'Acesso negado - apenas administradores' });
+            return res.status(403).json({ error: 'Acesso negação - apenas administraçãores' });
         }
 
         const { userId } = req.body;
@@ -15169,19 +15169,19 @@ app.post('/api/admin/remove-vendas-permission', authenticateToken, async (req, r
             return res.status(400).json({ error: 'userId é obrigatório' });
         }
 
-        // Buscar dados do usuário antes de remover
+        // Buscar daçãos do usuário antes de remover
         const [[usuario]] = await pool.query(
-            'SELECT id, nome, email, login FROM usuarios WHERE id = ?',
+            'SELECT id, nome, email, login FROM usuarios WHERE id = ',
             [userId]
         );
 
         if (!usuario) {
-            return res.status(404).json({ error: 'Usuário não encontrado' });
+            return res.status(404).json({ error: 'Usuário não encontração' });
         }
 
         // Remover permissões (setar como NULL)
         await pool.query(
-            'UPDATE usuarios SET permissoes_vendas = NULL WHERE id = ?',
+            'UPDATE usuarios SET permissoes_vendas = NULL WHERE id = ',
             [userId]
         );
 
@@ -15203,7 +15203,7 @@ app.post('/api/admin/fix-vendas-permissions', authenticateToken, async (req, res
     try {
         // Verificar se é admin
         if (!req.user.is_admin && req.user.role !== 'admin') {
-            return res.status(403).json({ error: 'Acesso negado - apenas administradores' });
+            return res.status(403).json({ error: 'Acesso negação - apenas administraçãores' });
         }
 
         // Permissões corretas em formato JSON
@@ -15228,14 +15228,14 @@ app.post('/api/admin/fix-vendas-permissions', authenticateToken, async (req, res
             try {
                 // Buscar usuário
                 const [[usuario]] = await pool.query(
-                    'SELECT id, nome, email, login FROM usuarios WHERE id = ?',
+                    'SELECT id, nome, email, login FROM usuarios WHERE id = ',
                     [id]
                 );
 
                 if (usuario) {
                     // Atualizar com JSON válido
                     await pool.query(
-                        'UPDATE usuarios SET permissoes_vendas = ? WHERE id = ?',
+                        'UPDATE usuarios SET permissoes_vendas =  WHERE id = ',
                         [permissoesCorretas, id]
                     );
 
@@ -15249,7 +15249,7 @@ app.post('/api/admin/fix-vendas-permissions', authenticateToken, async (req, res
                     });
                     fixed++;
                 } else {
-                    console.log(`⚠️  ID ${id} - Não encontrado`);
+                    console.log(`⚠️  ID ${id} - Não encontração`);
                     results.push({
                         status: 'not_found',
                         id: id
@@ -15291,7 +15291,7 @@ app.post('/api/chat', authenticateToken, async (req, res) => {
     const usuario_id = req.user.id;
     const { modulo, referencia, mensagem, setor } = req.body;
     try {
-        await pool.query('INSERT INTO chat (usuario_id, modulo, referencia, mensagem, setor, datahora) VALUES (?, ?, ?, ?, ?, NOW())', [usuario_id, modulo, referencia, mensagem, setor]);
+        await pool.query('INSERT INTO chat (usuario_id, modulo, referencia, mensagem, setor, datahora) VALUES (, , , , , NOW())', [usuario_id, modulo, referencia, mensagem, setor]);
         res.json({ success: true });
     } catch (err) {
         res.status(500).json({ error: 'Erro ao enviar mensagem' });
@@ -15303,18 +15303,18 @@ app.get('/api/chat', authenticateToken, async (req, res) => {
     const { modulo, referencia } = req.query;
     const user = req.user;
     try {
-        let query = 'SELECT c.*, u.nome FROM chat c JOIN usuarios u ON c.usuario_id = u.id WHERE c.referencia = ?';
+        let query = 'SELECT c.*, u.nome FROM chat c JOIN usuarios u ON c.usuario_id = u.id WHERE c.referencia = ';
         let params = [referencia];
         if (user.role !== 'admin') {
-            query += ' AND c.modulo = ? AND c.setor = ?';
+            query += ' AND c.modulo =  AND c.setor = ';
             params.push(modulo, user.setor);
         } else if (modulo) {
-            query += ' AND c.modulo = ?';
+            query += ' AND c.modulo = ';
             params.push(modulo);
         }
         query += ' ORDER BY c.datahora ASC';
         const [mensagens] = await pool.query(query, params);
-        res.json(Array.isArray(mensagens) ? mensagens : []);
+        res.json(Array.isArray(mensagens)  mensagens : []);
     } catch (err) {
         res.json([]);
     }
@@ -15325,8 +15325,8 @@ app.use((err, req, res, next) => {
     console.error('❌ ERRO NO SERVIDOR:', err.stack);
     if (!res.headersSent) {
         res.status(500).json({
-            message: 'Ocorreu um erro inesperado no servidor.',
-            error: process.env.NODE_ENV === 'development' ? err.message : {}
+            message: 'Ocorreu um erro inesperação no servidor.',
+            error: process.env.NODE_ENV === 'development'  err.message : {}
         });
     }
 });
@@ -15348,16 +15348,16 @@ app.get('/status', async (req, res) => {
             info.dbPing = true;
         } catch (err) {
             info.dbPing = false;
-            info.dbError = String(err && err.message ? err.message : err).slice(0, 200);
+            info.dbError = String(err && err.message  err.message : err).slice(0, 200);
         }
     }
 
     // status code 200 when service up (even if DB down); use X-DB-Available header to signal
-    res.setHeader('X-DB-Available', DB_AVAILABLE ? '1' : '0');
+    res.setHeader('X-DB-Available', DB_AVAILABLE  '1' : '0');
     return res.json(info);
 });
 
-// Global flag indicando disponibilidade do banco (declarado acima, antes das rotas)
+// Global flag indicando disponibilidade do banco (declaração acima, antes das rotas)
 
 // ⚡ Flag para pular migrações (SKIP_MIGRATIONS=1)
 const SKIP_MIGRATIONS = process.env.SKIP_MIGRATIONS === '1' || process.env.SKIP_MIGRATIONS === 'true';
@@ -15369,14 +15369,14 @@ const startServer = async () => {
     console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
     
     try {
-        // Testa a conexão com o banco de dados antes de iniciar o servidor
+        // Testa a conexão com o banco de daçãos antes de iniciar o servidor
         if (process.env.DEV_MOCK === '1' || process.env.DEV_MOCK === 'true') {
             DB_AVAILABLE = false;
             console.log('⚠️  Iniciando em modo DEV_MOCK — pulando checagem/criação de tabelas no MySQL.');
         } else {
             try {
                 await pool.query('SELECT 1');
-                console.log('✅ Conexão com o banco de dados estabelecida com sucesso.');
+                console.log('✅ Conexão com o banco de daçãos estabelecida com sucesso.');
                 console.log(`⚡ Conexão DB em ${Date.now() - startupTime}ms`);
 
                 // ⚡ OTIMIZAÇÃO: Pular migrações se SKIP_MIGRATIONS=1
@@ -15404,7 +15404,7 @@ const startServer = async () => {
                         status ENUM('pendente', 'autorizada', 'cancelada', 'rejeitada') DEFAULT 'pendente',
                         data_emissao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                         observacoes TEXT,
-                        email_enviado BOOLEAN DEFAULT FALSE,
+                        email_enviação BOOLEAN DEFAULT FALSE,
                         data_envio_email TIMESTAMP NULL,
                         usuario_id INT,
                         xml_arquivo LONGTEXT,
@@ -15510,27 +15510,27 @@ const startServer = async () => {
                     if (rows[0].count === 0) {
                         // Inserir funcionário exemplo com senha e cpf obrigatórios usando INSERT IGNORE para evitar duplicação
                         await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, departamento, cargo, data_nascimento, cpf) VALUES (6, 'Funcionário Exemplo', 'exemplo@aluforce.ind.br', 'aluvendas01', 'comercial', 'vendedor', '1990-01-01', '00000000000')`);
-                        console.log('✅ Funcionário id=6 criado automaticamente.');
+                        console.log('✅ Funcionário id=6 criação automaticamente.');
                         
                         // Inserir usuário admin para testes
                         const bcryptAdmin = require('bcryptjs');
                         const adminHash = await bcryptAdmin.hash('admin123', 10);
-                        await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, senha_hash, departamento, cargo, data_nascimento, cpf, role, is_admin) VALUES (1, 'Administrador', 'admin@aluforce.com', 'admin123', ?, 'ti', 'administrador', '1985-01-01', '11111111111', 'admin', 1)`, [adminHash]);
-                        console.log('✅ Usuário admin criado automaticamente.');
+                        await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, senha_hash, departamento, cargo, data_nascimento, cpf, role, is_admin) VALUES (1, 'Administraçãor', 'admin@aluforce.com', 'admin123', , 'ti', 'administraçãor', '1985-01-01', '11111111111', 'admin', 1)`, [adminHash]);
+                        console.log('✅ Usuário admin criação automaticamente.');
                         
                         // Inserir usuários de teste adicionais
                         const testHash = await bcryptAdmin.hash('123456', 10);
-                        await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, senha_hash, departamento, cargo, data_nascimento, cpf, role, is_admin) VALUES (2, 'Thiago Scarcella', 'thiago@aluforce.com', '123456', ?, 'gestao', 'gerente', '1990-05-15', '22222222222', 'user', 0)`, [testHash]);
-                        await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, senha_hash, departamento, cargo, data_nascimento, cpf, role, is_admin) VALUES (3, 'Guilherme Silva', 'guilherme@aluforce.com', '123456', ?, 'pcp', 'analista', '1992-08-20', '33333333333', 'user', 0)`, [testHash]);
-                        console.log('✅ Usuários de teste criados automaticamente.');
+                        await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, senha_hash, departamento, cargo, data_nascimento, cpf, role, is_admin) VALUES (2, 'Thiago Scarcella', 'thiago@aluforce.com', '123456', , 'gestao', 'gerente', '1990-05-15', '22222222222', 'user', 0)`, [testHash]);
+                        await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, senha_hash, departamento, cargo, data_nascimento, cpf, role, is_admin) VALUES (3, 'Guilherme Silva', 'guilherme@aluforce.com', '123456', , 'pcp', 'analista', '1992-08-20', '33333333333', 'user', 0)`, [testHash]);
+                        console.log('✅ Usuários de teste criaçãos automaticamente.');
                     } else {
-                        console.log('✅ Funcionário id=6 já existe (verificado).');
+                        console.log('✅ Funcionário id=6 já existe (verificação).');
                     }
                 } catch (e) {
                     // Tenta criar com INSERT IGNORE como fallback
                     try {
                         await pool.query(`INSERT IGNORE INTO funcionarios (id, nome_completo, email, senha, departamento, cargo, data_nascimento, cpf) VALUES (6, 'Funcionário Exemplo', 'exemplo@aluforce.ind.br', 'aluvendas01', 'comercial', 'vendedor', '1990-01-01', '00000000000')`);
-                        console.log('✅ Funcionário id=6 criado com INSERT IGNORE.');
+                        console.log('✅ Funcionário id=6 criação com INSERT IGNORE.');
                     } catch (e2) {
                         console.warn('⚠️ Falha ao verificar/inserir funcionário id=6:', e2.message || e2);
                     }
@@ -15574,7 +15574,7 @@ const startServer = async () => {
                     await pool.query("UPDATE produtos SET categoria = 'GERAL' WHERE categoria IS NULL OR categoria = ''");
                     await pool.query("UPDATE produtos SET unidade_medida = 'UN' WHERE unidade_medida IS NULL OR unidade_medida = ''");
                     await pool.query("UPDATE produtos SET status = 'ativo' WHERE status IS NULL OR status = ''");
-                    console.log('✅ Valores padrão aplicados aos produtos existentes');
+                    console.log('✅ Valores padrão aplicaçãos aos produtos existentes');
                 } catch (e) {
                     console.warn('⚠️ Erro ao atualizar valores padrão:', e.message);
                 }
@@ -15592,7 +15592,7 @@ const startServer = async () => {
                 for (const index of produtosIndexes) {
                     try {
                         await pool.query(index.sql);
-                        console.log(`✅ Índice '${index.name}' criado`);
+                        console.log(`✅ Índice '${index.name}' criação`);
                     } catch (e) {
                         if (e.code === 'ER_DUP_KEYNAME') {
                             // Índice já existe, tudo bem
@@ -15628,8 +15628,8 @@ const startServer = async () => {
                             email VARCHAR(255) NOT NULL,
                             token VARCHAR(255) NOT NULL UNIQUE,
                             expira_em DATETIME NOT NULL,
-                            usado TINYINT(1) DEFAULT 0,
-                            criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            usação TINYINT(1) DEFAULT 0,
+                            criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                             INDEX idx_token (token),
                             INDEX idx_email (email),
                             INDEX idx_expira_em (expira_em)
@@ -15649,7 +15649,7 @@ const startServer = async () => {
                         ALTER TABLE pedidos_compras 
                         ADD COLUMN IF NOT EXISTS origem ENUM('manual', 'pcp', 'estoque_minimo') DEFAULT 'manual' AFTER usuario_id
                     `);
-                    console.log('✅ Campo origem adicionado em pedidos_compras');
+                    console.log('✅ Campo origem adicionação em pedidos_compras');
                 } catch (e) {
                     if (!e.message.includes('Duplicate column')) {
                         console.warn('⚠️ Coluna origem já existe em pedidos_compras');
@@ -15661,7 +15661,7 @@ const startServer = async () => {
                         ALTER TABLE pedidos_compras 
                         ADD COLUMN IF NOT EXISTS origem_id INT NULL COMMENT 'ID da ordem de produção ou outro registro de origem' AFTER origem
                     `);
-                    console.log('✅ Campo origem_id adicionado em pedidos_compras');
+                    console.log('✅ Campo origem_id adicionação em pedidos_compras');
                 } catch (e) {
                     if (!e.message.includes('Duplicate column')) {
                         console.warn('⚠️ Coluna origem_id já existe em pedidos_compras');
@@ -15673,7 +15673,7 @@ const startServer = async () => {
                         ALTER TABLE pedidos_compras 
                         ADD COLUMN IF NOT EXISTS prioridade ENUM('baixa', 'media', 'alta', 'urgente') DEFAULT 'media' AFTER origem_id
                     `);
-                    console.log('✅ Campo prioridade adicionado em pedidos_compras');
+                    console.log('✅ Campo prioridade adicionação em pedidos_compras');
                 } catch (e) {
                     if (!e.message.includes('Duplicate column')) {
                         console.warn('⚠️ Coluna prioridade já existe em pedidos_compras');
@@ -15686,7 +15686,7 @@ const startServer = async () => {
                         ALTER TABLE itens_pedido_compras 
                         ADD COLUMN IF NOT EXISTS produto_id INT NULL COMMENT 'Referência ao produtos (materiais PCP)' AFTER pedido_id
                     `);
-                    console.log('✅ Campo produto_id adicionado em itens_pedido_compras');
+                    console.log('✅ Campo produto_id adicionação em itens_pedido_compras');
                 } catch (e) {
                     if (!e.message.includes('Duplicate column')) {
                         console.warn('⚠️ Coluna produto_id já existe em itens_pedido_compras');
@@ -15697,21 +15697,21 @@ const startServer = async () => {
                     // Adicionar campos em ordens_producao
                     await pool.query(`
                         ALTER TABLE ordens_producao 
-                        ADD COLUMN IF NOT EXISTS pedidos_compra_vinculados JSON NULL COMMENT 'Array de IDs de pedidos de compra relacionados' AFTER arquivo_xlsx
+                        ADD COLUMN IF NOT EXISTS pedidos_compra_vinculaçãos JSON NULL COMMENT 'Array de IDs de pedidos de compra relacionaçãos' AFTER arquivo_xlsx
                     `);
-                    console.log('✅ Campo pedidos_compra_vinculados adicionado em ordens_producao');
+                    console.log('✅ Campo pedidos_compra_vinculaçãos adicionação em ordens_producao');
                 } catch (e) {
                     if (!e.message.includes('Duplicate column')) {
-                        console.warn('⚠️ Coluna pedidos_compra_vinculados já existe');
+                        console.warn('⚠️ Coluna pedidos_compra_vinculaçãos já existe');
                     }
                 }
 
                 try {
                     await pool.query(`
                         ALTER TABLE ordens_producao 
-                        ADD COLUMN IF NOT EXISTS materiais_pendentes JSON NULL COMMENT 'Materiais aguardando compra' AFTER pedidos_compra_vinculados
+                        ADD COLUMN IF NOT EXISTS materiais_pendentes JSON NULL COMMENT 'Materiais aguardando compra' AFTER pedidos_compra_vinculaçãos
                     `);
-                    console.log('✅ Campo materiais_pendentes adicionado em ordens_producao');
+                    console.log('✅ Campo materiais_pendentes adicionação em ordens_producao');
                 } catch (e) {
                     if (!e.message.includes('Duplicate column')) {
                         console.warn('⚠️ Coluna materiais_pendentes já existe');
@@ -15728,9 +15728,9 @@ const startServer = async () => {
                             quantidade_atual DECIMAL(10,2) NOT NULL,
                             quantidade_minima DECIMAL(10,2) NOT NULL,
                             ordem_producao_id INT NULL COMMENT 'Ordem que gerou a necessidade',
-                            pedido_compra_id INT NULL COMMENT 'Pedido de compra gerado',
-                            status ENUM('pendente', 'em_compra', 'resolvido', 'ignorado') DEFAULT 'pendente',
-                            criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                            pedido_compra_id INT NULL COMMENT 'Pedido de compra geração',
+                            status ENUM('pendente', 'em_compra', 'resolvido', 'ignoração') DEFAULT 'pendente',
+                            criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                             resolvido_em TIMESTAMP NULL,
                             resolvido_por INT NULL,
                             observacoes TEXT,
@@ -15814,15 +15814,15 @@ const startServer = async () => {
 
             } catch (err) {
                 DB_AVAILABLE = false;
-                console.error('❌ Não foi possível conectar ao banco de dados MySQL:', err && err.message ? err.message : err);
-                console.log('Continuando a inicialização do servidor em modo degradado (DB indisponível).');
+                console.error('❌ Não foi possível conectar ao banco de daçãos MySQL:', err && err.message  err.message : err);
+                console.log('Continuando a inicialização do servidor em modo degradação (DB indisponível).');
             }
         }
 
         // Função para tentar iniciar o servidor com HOST e PORT
         const tryPort = async (portToTry) => {
             return new Promise((resolve, reject) => {
-                // Criar servidor HTTP/HTTPS baseado no .env
+                // Criar servidor HTTP/HTTPS baseação no .env
                 let httpServer;
                 const ENABLE_HTTPS = process.env.ENABLE_HTTPS === 'true';
                 
@@ -15842,15 +15842,15 @@ const startServer = async () => {
                             pfx: fs.readFileSync(SSL_PFX_PATH),
                             passphrase: SSL_PFX_PASSWORD || ''
                         };
-                        console.log('🔒 HTTPS habilitado (PFX):', SSL_PFX_PATH);
+                        console.log('🔒 HTTPS habilitação (PFX):', SSL_PFX_PATH);
                     } else if (SSL_CERT_PATH && SSL_KEY_PATH && fs.existsSync(SSL_CERT_PATH) && fs.existsSync(SSL_KEY_PATH)) {
                         credentials = {
                             key: fs.readFileSync(SSL_KEY_PATH, 'utf8'),
                             cert: fs.readFileSync(SSL_CERT_PATH, 'utf8')
                         };
-                        console.log('🔒 HTTPS habilitado (PEM)');
+                        console.log('🔒 HTTPS habilitação (PEM)');
                     } else {
-                        console.warn('⚠️  ENABLE_HTTPS=true mas certificados não encontrados. Usando HTTP.');
+                        console.warn('⚠️  ENABLE_HTTPS=true mas certificaçãos não encontraçãos. Usando HTTP.');
                     }
                     
                     if (credentials) {
@@ -15866,7 +15866,7 @@ const startServer = async () => {
                 const io = new Server(httpServer, {
                     cors: {
                         origin: process.env.NODE_ENV === 'production' 
-                            ? ['https://aluforce.com.br', 'https://www.aluforce.com.br']
+                             ['https://aluforce.com.br', 'https://www.aluforce.com.br']
                             : ['http://localhost:3000', 'http://127.0.0.1:3000'],
                         credentials: true
                     }
@@ -15877,14 +15877,14 @@ const startServer = async () => {
                 
                 // Socket.io - Conexões em tempo real
                 io.on('connection', (socket) => {
-                    console.log('🔌 Cliente Socket.io conectado:', socket.id);
+                    console.log('🔌 Cliente Socket.io conectação:', socket.id);
                     
                     // Evento de desconexão
                     socket.on('disconnect', () => {
-                        console.log('🔌 Cliente Socket.io desconectado:', socket.id);
+                        console.log('🔌 Cliente Socket.io desconectação:', socket.id);
                     });
                     
-                    // Eventos customizados podem ser adicionados aqui
+                    // Eventos customizaçãos podem ser adicionaçãos aqui
                     socket.on('chat-message', (msg) => {
                         io.emit('chat-message', msg);
                     });
@@ -15904,7 +15904,7 @@ const startServer = async () => {
                         });
                         // Confirma transferência para o cliente
                         socket.emit('transfer-confirmed', {
-                            message: 'Um atendente será conectado em breve'
+                            message: 'Um atendente será conectação em breve'
                         });
                     });
 
@@ -15927,7 +15927,7 @@ const startServer = async () => {
                     });
 
                     socket.on('agent-typing', (data) => {
-                        // Envia indicador de digitação para o usuário específico
+                        // Envia indicaçãor de digitação para o usuário específico
                         io.emit('agent-typing', { userId: data.userId, isTyping: data.isTyping });
                     });
 
@@ -15952,7 +15952,7 @@ const startServer = async () => {
                         console.log(`👤 Cliente ${socket.id} saiu da sala de gestão de estoque`);
                     });
 
-                    // Evento para solicitar dados atualizados
+                    // Evento para solicitar daçãos atualizaçãos
                     socket.on('request-products-update', () => {
                         socket.emit('products-update-requested');
                         console.log(`🔄 Cliente ${socket.id} solicitou atualização de produtos`);
@@ -15982,8 +15982,8 @@ app.post('/api/admin/describe-tabelas-financeiro', authenticateToken, async (req
 });
 
 app.post('/api/admin/migration-financeiro', authenticateToken, async (req, res) => {
-    if (req.user?.role !== 'admin' && req.user?.is_admin !== 1) {
-        return res.status(403).json({ error: 'Apenas administradores' });
+    if (req.user.role !== 'admin' && req.user.is_admin !== 1) {
+        return res.status(403).json({ error: 'Apenas administraçãores' });
     }
 
     try {
@@ -15993,44 +15993,44 @@ app.post('/api/admin/migration-financeiro', authenticateToken, async (req, res) 
         try {
             await pool.query('ALTER TABLE contas_pagar ADD COLUMN valor_pago DECIMAL(15,2) DEFAULT 0');
             results.push('✅ contas_pagar.valor_pago');
-        } catch (err) { results.push(`⚠️ contas_pagar.valor_pago: ${err.code === 'ER_DUP_FIELDNAME' ? 'já existe' : err.message}`); }
+        } catch (err) { results.push(`⚠️ contas_pagar.valor_pago: ${err.code === 'ER_DUP_FIELDNAME'  'já existe' : err.message}`); }
         
         try {
             await pool.query('ALTER TABLE contas_pagar ADD COLUMN data_recebimento DATE NULL');
             results.push('✅ contas_pagar.data_recebimento');
-        } catch (err) { results.push(`⚠️ contas_pagar.data_recebimento: ${err.code === 'ER_DUP_FIELDNAME' ? 'já existe' : err.message}`); }
+        } catch (err) { results.push(`⚠️ contas_pagar.data_recebimento: ${err.code === 'ER_DUP_FIELDNAME'  'já existe' : err.message}`); }
         
         try {
             await pool.query('ALTER TABLE contas_pagar ADD COLUMN observacoes TEXT');
             results.push('✅ contas_pagar.observacoes');
-        } catch (err) { results.push(`⚠️ contas_pagar.observacoes: ${err.code === 'ER_DUP_FIELDNAME' ? 'já existe' : err.message}`); }
+        } catch (err) { results.push(`⚠️ contas_pagar.observacoes: ${err.code === 'ER_DUP_FIELDNAME'  'já existe' : err.message}`); }
         
         // contas_receber
         try {
             await pool.query('ALTER TABLE contas_receber ADD COLUMN valor_recebido DECIMAL(15,2) DEFAULT 0');
             results.push('✅ contas_receber.valor_recebido');
-        } catch (err) { results.push(`⚠️ contas_receber.valor_recebido: ${err.code === 'ER_DUP_FIELDNAME' ? 'já existe' : err.message}`); }
+        } catch (err) { results.push(`⚠️ contas_receber.valor_recebido: ${err.code === 'ER_DUP_FIELDNAME'  'já existe' : err.message}`); }
         
         try {
             await pool.query('ALTER TABLE contas_receber ADD COLUMN data_recebimento DATE NULL');
             results.push('✅ contas_receber.data_recebimento');
-        } catch (err) { results.push(`⚠️ contas_receber.data_recebimento: ${err.code === 'ER_DUP_FIELDNAME' ? 'já existe' : err.message}`); }
+        } catch (err) { results.push(`⚠️ contas_receber.data_recebimento: ${err.code === 'ER_DUP_FIELDNAME'  'já existe' : err.message}`); }
         
         try {
             await pool.query('ALTER TABLE contas_receber ADD COLUMN observacoes TEXT');
             results.push('✅ contas_receber.observacoes');
-        } catch (err) { results.push(`⚠️ contas_receber.observacoes: ${err.code === 'ER_DUP_FIELDNAME' ? 'já existe' : err.message}`); }
+        } catch (err) { results.push(`⚠️ contas_receber.observacoes: ${err.code === 'ER_DUP_FIELDNAME'  'já existe' : err.message}`); }
         
         // contas_bancarias
         try {
             await pool.query('ALTER TABLE contas_bancarias ADD COLUMN observacoes TEXT');
             results.push('✅ contas_bancarias.observacoes');
-        } catch (err) { results.push(`⚠️ contas_bancarias.observacoes: ${err.code === 'ER_DUP_FIELDNAME' ? 'já existe' : err.message}`); }
+        } catch (err) { results.push(`⚠️ contas_bancarias.observacoes: ${err.code === 'ER_DUP_FIELDNAME'  'já existe' : err.message}`); }
         
         try {
             await pool.query('ALTER TABLE contas_bancarias ADD COLUMN descricao TEXT');
             results.push('✅ contas_bancarias.descricao');
-        } catch (err) { results.push(`⚠️ contas_bancarias.descricao: ${err.code === 'ER_DUP_FIELDNAME' ? 'já existe' : err.message}`); }
+        } catch (err) { results.push(`⚠️ contas_bancarias.descricao: ${err.code === 'ER_DUP_FIELDNAME'  'já existe' : err.message}`); }
         
         res.json({ success: true, results });
         
@@ -16066,15 +16066,15 @@ app.post('/api/admin/migration-financeiro', authenticateToken, async (req, res) 
                 const actualPort = result.port;
                 
                 console.log('\n' + '='.repeat(60));
-                console.log(`🚀 Servidor ALUFORCE v2.0 iniciado com sucesso!`);
+                console.log(`🚀 Servidor ALUFORCE v2.0 iniciação com sucesso!`);
                 console.log('='.repeat(60));
                 console.log(`📍 URL: http://${HOST}:${actualPort}`);
-                console.log(`🔌 Banco de Dados: ${DB_AVAILABLE ? '✅ Conectado' : '❌ Modo Degradado (sem DB)'}`);
+                console.log(`🔌 Banco de Daçãos: ${DB_AVAILABLE  '✅ Conectação' : '❌ Modo Degradação (sem DB)'}`);
                 console.log(`🌐 Ambiente: ${process.env.NODE_ENV || 'development'}`);
                 
                 if (actualPort !== PORT) {
                     console.log(`⚠️  AVISO: Porta ${PORT} estava ocupada`);
-                    console.log(`✅ Servidor iniciado na porta alternativa ${actualPort}`);
+                    console.log(`✅ Servidor iniciação na porta alternativa ${actualPort}`);
                 }
                 
                 console.log('='.repeat(60));
@@ -16109,8 +16109,8 @@ app.post('/api/admin/migration-financeiro', authenticateToken, async (req, res) 
             throw new Error(`❌ Não foi possível iniciar o servidor. Todas as portas de ${PORT} a ${currentPort - 1} estão em uso.`);
         }
     } catch (error) {
-        // Erros inesperados aqui não devem impedir o servidor de iniciar — tentamos seguir em modo degradado
-        console.error('❌ ERRO INESPERADO AO INICIAR:', error && error.stack ? error.stack : error);
+        // Erros inesperaçãos aqui não devem impedir o servidor de iniciar — tentamos seguir em modo degradação
+        console.error('❌ ERRO INESPERADO AO INICIAR:', error && error.stack  error.stack : error);
         process.exit(1);
     }
 };
@@ -16134,7 +16134,7 @@ async function stopServer() {
                         console.error('❌ Erro ao fechar servidor:', err);
                         reject(err);
                     } else {
-                        console.log('✅ Servidor HTTP encerrado');
+                        console.log('✅ Servidor HTTP encerração');
                         serverInstance = null;
                         resolve();
                     }
@@ -16146,11 +16146,11 @@ async function stopServer() {
         });
     }
     
-    // Fechar pool de conexões do banco de dados
+    // Fechar pool de conexões do banco de daçãos
     if (pool && typeof pool.end === 'function') {
         try {
             await pool.end();
-            console.log('✅ Pool de conexões do banco encerrado');
+            console.log('✅ Pool de conexões do banco encerração');
         } catch (err) {
             console.error('⚠️  Erro ao encerrar pool do banco:', err);
         }
@@ -16159,12 +16159,12 @@ async function stopServer() {
     console.log('✅ Shutdown completo');
 }
 
-// Captura erros globais não tratados
+// Captura erros globais não trataçãos
 process.on('uncaughtException', (err) => {
     console.error('❌ ERRO NÁO TRATADO:', err);
     // Em desenvolvimento, não encerra o processo automaticamente
     if (process.env.NODE_ENV === 'production') {
-        console.log('🔄 Encerrando processo devido a erro não tratado...');
+        console.log('🔄 Encerrando processo devido a erro não tratação...');
         process.exit(1);
     } else {
         console.log('🟡 Modo desenvolvimento: continuando execução apesar do erro');
@@ -16225,10 +16225,10 @@ app.get('/api/vendas/dashboard/vendedor', authorizeArea('vendas'), async (req, r
         const [results] = await pool.query(`
             SELECT 
                 COUNT(p.id) as meus_pedidos,
-                SUM(CASE WHEN p.status = 'faturado' OR p.status = 'convertido' THEN 1 ELSE 0 END) as minhas_vendas,
-                SUM(CASE WHEN p.status = 'faturado' OR p.status = 'convertido' THEN p.valor_total ELSE 0 END) as meu_faturamento
+                SUM(CASE WHEN p.status = 'faturação' OR p.status = 'convertido' THEN 1 ELSE 0 END) as minhas_vendas,
+                SUM(CASE WHEN p.status = 'faturação' OR p.status = 'convertido' THEN p.valor_total ELSE 0 END) as meu_faturamento
             FROM pedidos p
-            WHERE p.vendedor_id = ? AND p.created_at >= DATE_SUB(NOW(), INTERVAL ? DAY)
+            WHERE p.vendedor_id =  AND p.created_at >= DATE_SUB(NOW(), INTERVAL  DAY)
         `, [userId, periodo]);
         res.json(results[0] || { meus_pedidos: 0, minhas_vendas: 0, meu_faturamento: 0 });
     } catch (error) {
@@ -16245,7 +16245,7 @@ app.get('/api/vendas/pedidos', authorizeArea('vendas'), async (req, res) => {
             SELECT p.*, 
                    p.valor as valor_total,
                    p.created_at as data_pedido,
-                   COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informado') as cliente_nome, 
+                   COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informação') as cliente_nome, 
                    c.email as cliente_email,
                    c.telefone as cliente_telefone,
                    e.nome_fantasia as empresa_nome,
@@ -16258,11 +16258,11 @@ app.get('/api/vendas/pedidos', authorizeArea('vendas'), async (req, res) => {
         
         const params = [];
         if (status) {
-            query += ' WHERE p.status = ?';
+            query += ' WHERE p.status = ';
             params.push(status);
         }
         
-        query += ' ORDER BY p.id DESC LIMIT ?';
+        query += ' ORDER BY p.id DESC LIMIT ';
         params.push(parseInt(limite));
         
         const [pedidos] = await pool.query(query, params);
@@ -16289,7 +16289,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
     try {
         const { id } = req.params;
         
-        // Buscar dados completos do pedido
+        // Buscar daçãos completos do pedido
         const [pedidos] = await vendasPool.query(`
             SELECT p.*, 
                    p.valor as valor_total,
@@ -16302,7 +16302,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
                    e.endereco as cliente_endereco,
                    e.bairro as cliente_bairro,
                    e.cidade as cliente_cidade,
-                   e.estado as cliente_estado,
+                   e.estação as cliente_estação,
                    e.cep as cliente_cep,
                    e.inscricao_estadual as cliente_ie,
                    e.telefone as cliente_telefone,
@@ -16313,26 +16313,26 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
             FROM pedidos p
             LEFT JOIN empresas e ON p.empresa_id = e.id
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontrado' });
+            return res.status(404).json({ error: 'Pedido não encontração' });
         }
         
         const pedido = pedidos[0];
         
         // Buscar itens do pedido
-        let [itens] = await vendasPool.query(`SELECT * FROM pedido_itens WHERE pedido_id = ?`, [id]);
+        let [itens] = await vendasPool.query(`SELECT * FROM pedido_itens WHERE pedido_id = `, [id]);
         if (itens.length === 0) {
-            [itens] = await vendasPool.query(`SELECT * FROM itens_pedido WHERE pedido_id = ?`, [id]);
+            [itens] = await vendasPool.query(`SELECT * FROM itens_pedido WHERE pedido_id = `, [id]);
         }
         
-        // Buscar usuário gerador
-        let usuarioGerador = 'Sistema';
-        if (req.user?.id) {
-            const [usuarios] = await vendasPool.query('SELECT nome FROM usuarios WHERE id = ?', [req.user.id]);
-            if (usuarios.length > 0) usuarioGerador = usuarios[0].nome;
+        // Buscar usuário geraçãor
+        let usuarioGeraçãor = 'Sistema';
+        if (req.user.id) {
+            const [usuarios] = await vendasPool.query('SELECT nome FROM usuarios WHERE id = ', [req.user.id]);
+            if (usuarios.length > 0) usuarioGeraçãor = usuarios[0].nome;
         }
         
         // Criar documento PDF
@@ -16357,7 +16357,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
             azulHeader: '#1e3a5f',        // Azul do header
             cinzaEscuro: '#2d3748',       // Texto principal
             cinzaMedio: '#718096',        // Texto secundário
-            cinzaClaro: '#f7fafc',        // Fundos alternados
+            cinzaClaro: '#f7fafc',        // Fundos alternaçãos
             cinzaBorda: '#e2e8f0',        // Bordas suaves
             branco: '#ffffff',
             amareloFundo: '#fffff0',      // Fundo vencimentos
@@ -16365,7 +16365,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
             verde: '#38a169',             // Valor total
         };
         
-        // Dados da empresa ALUFORCE
+        // Daçãos da empresa ALUFORCE
         const empresa = {
             razaoSocial: 'I. M. DOS REIS - ALUFORCE INDÚSTRIA E COMÉRCIO DE CONDUTORES',
             cnpj: '08.192.479/0001-60',
@@ -16373,7 +16373,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
             endereco: 'RUA ERNESTINA, 270',
             bairro: 'VILA SÃO JOÃO',
             cidade: 'Ferraz de Vasconcelos',
-            estado: 'SP',
+            estação: 'SP',
             cep: '08527-400',
             telefone: '(11) 94723-8729'
         };
@@ -16392,10 +16392,10 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         if (fs.existsSync(logoPath)) {
             try {
                 doc.image(logoPath, leftMargin, y, { width: 100 });
-            } catch (e) { console.log('Logo não carregado'); }
+            } catch (e) { console.log('Logo não carregação'); }
         }
         
-        // Dados da empresa à direita
+        // Daçãos da empresa à direita
         const empresaX = 300;
         doc.fontSize(7).fillColor(cores.azulPrimario).font('Helvetica-Bold')
            .text(empresa.razaoSocial, empresaX, y + 2, { align: 'right', width: 265 });
@@ -16403,12 +16403,12 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         doc.fontSize(6.5).fillColor(cores.cinzaMedio).font('Helvetica')
            .text(`CNPJ: ${empresa.cnpj}  |  IE: ${empresa.ie}`, empresaX, y + 14, { align: 'right', width: 265 })
            .text(`${empresa.endereco} - ${empresa.bairro}`, empresaX, y + 25, { align: 'right', width: 265 })
-           .text(`${empresa.cidade} - ${empresa.estado}  |  CEP: ${empresa.cep}`, empresaX, y + 36, { align: 'right', width: 265 })
+           .text(`${empresa.cidade} - ${empresa.estação}  |  CEP: ${empresa.cep}`, empresaX, y + 36, { align: 'right', width: 265 })
            .text(`Tel: ${empresa.telefone}`, empresaX, y + 47, { align: 'right', width: 265 });
         
         y += 62;
         
-        // Linha separadora dupla elegante
+        // Linha separaçãora dupla elegante
         doc.moveTo(leftMargin, y).lineTo(rightMargin, y).strokeColor(cores.azulPrimario).lineWidth(2.5).stroke();
         doc.moveTo(leftMargin, y + 3).lineTo(rightMargin, y + 3).strokeColor(cores.azulSecundario).lineWidth(0.5).stroke();
         
@@ -16442,14 +16442,14 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         doc.rect(leftMargin, y, pageWidth, clienteHeight).strokeColor(cores.cinzaBorda).lineWidth(0.5).stroke();
         
         // Nome/Razão social em destaque
-        const nomeCliente = pedido.cliente_razao_social || pedido.cliente_nome || 'Cliente não informado';
+        const nomeCliente = pedido.cliente_razao_social || pedido.cliente_nome || 'Cliente não informação';
         doc.fontSize(9).fillColor(cores.azulPrimario).font('Helvetica-Bold')
            .text(nomeCliente.toUpperCase(), leftMargin + 10, y + 6, { width: pageWidth - 20 });
         
-        // Linha separadora fina
+        // Linha separaçãora fina
         doc.moveTo(leftMargin + 10, y + 18).lineTo(leftMargin + pageWidth - 10, y + 18).strokeColor('#e2e8f0').lineWidth(0.3).stroke();
         
-        // Dados em duas colunas
+        // Daçãos em duas colunas
         const col1 = leftMargin + 10;
         const col2 = leftMargin + 280;
         const labelW = 52;
@@ -16522,7 +16522,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         
         if (itens.length > 0) {
             itens.forEach((item, idx) => {
-                const bgColor = idx % 2 === 0 ? cores.branco : cores.cinzaClaro;
+                const bgColor = idx % 2 === 0  cores.branco : cores.cinzaClaro;
                 doc.rect(leftMargin, y, pageWidth, 15).fillColor(bgColor).fill();
                 doc.rect(leftMargin, y, pageWidth, 15).strokeColor('#edf2f7').lineWidth(0.2).stroke();
                 
@@ -16554,14 +16554,14 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         } else {
             doc.rect(leftMargin, y, pageWidth, 22).fillColor(cores.branco).fill();
             doc.rect(leftMargin, y, pageWidth, 22).strokeColor(cores.cinzaBorda).lineWidth(0.3).stroke();
-            doc.fontSize(7).fillColor(cores.cinzaMedio).text('Nenhum item adicionado', leftMargin + 10, y + 7);
+            doc.fontSize(7).fillColor(cores.cinzaMedio).text('Nenhum item adicionação', leftMargin + 10, y + 7);
             y += 22;
         }
         
         y += 8;
         
         // ============================================================
-        // BOX DE TOTAIS (lado direito) - DESIGN PREMIUM
+        // BOX DE TOTAIS (lação direito) - DESIGN PREMIUM
         // ============================================================
         const totaisX = leftMargin + 355;
         const totaisWidth = 180;
@@ -16571,7 +16571,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         doc.rect(totaisX, y, totaisWidth, 72).fillColor('#f0f9ff').fill();
         doc.rect(totaisX, y, totaisWidth, 72).strokeColor(cores.azulSecundario).lineWidth(1).stroke();
         
-        const valorTotal = totalProdutos > 0 ? totalProdutos : (parseFloat(pedido.valor_total) || 0);
+        const valorTotal = totalProdutos > 0  totalProdutos : (parseFloat(pedido.valor_total) || 0);
         const frete = parseFloat(pedido.frete) || 0;
         const ipi = parseFloat(pedido.total_ipi) || 0;
         const icmsST = parseFloat(pedido.total_icms_st) || 0;
@@ -16587,7 +16587,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         doc.text('ICMS ST:', totaisX + 10, y + 34);
         doc.text(`R$ ${icmsST.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`, totaisX + 85, y + 34, { width: 85, align: 'right' });
         
-        // Linha separadora elegante
+        // Linha separaçãora elegante
         doc.moveTo(totaisX + 8, y + 48).lineTo(totaisX + totaisWidth - 8, y + 48).strokeColor(cores.azulSecundario).lineWidth(0.8).stroke();
         
         // Total em destaque grande
@@ -16665,7 +16665,7 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         doc.font('Helvetica-Bold').text('Pedido incluído em:', leftMargin + 10, y + 8, { continued: true })
            .font('Helvetica').text(` ${new Date(pedido.created_at).toLocaleString('pt-BR')}`);
         doc.font('Helvetica-Bold').text('Previsão de Faturamento:', leftMargin + 10, y + 19, { continued: true })
-           .font('Helvetica').text(` ${pedido.data_prevista ? new Date(pedido.data_prevista).toLocaleDateString('pt-BR') : 'A combinar'}`);
+           .font('Helvetica').text(` ${pedido.data_prevista  new Date(pedido.data_prevista).toLocaleDateString('pt-BR') : 'A combinar'}`);
         doc.font('Helvetica-Bold').text('Vendedor:', leftMargin + 10, y + 30, { continued: true })
            .font('Helvetica').text(` ${pedido.vendedor_nome || '-'}`);
         
@@ -16702,12 +16702,12 @@ app.get('/api/vendas/pedidos/:id/pdf', authenticateToken, authorizeArea('vendas'
         doc.moveTo(leftMargin, footerY).lineTo(rightMargin, footerY).strokeColor(cores.azulPrimario).lineWidth(0.8).stroke();
         
         doc.fontSize(6).fillColor(cores.cinzaMedio).font('Helvetica')
-           .text(`Documento gerado em ${new Date().toLocaleString('pt-BR')} por ${usuarioGerador}`, leftMargin, footerY + 4, { align: 'center', width: pageWidth });
+           .text(`Documento geração em ${new Date().toLocaleString('pt-BR')} por ${usuarioGeraçãor}`, leftMargin, footerY + 4, { align: 'center', width: pageWidth });
         doc.fontSize(5.5).fillColor(cores.cinzaMedio)
            .text('ALUFORCE - Sistema de Gestão Empresarial  |  Este documento tem validade de 7 dias a partir da data de emissão.', leftMargin, footerY + 13, { align: 'center', width: pageWidth });
         
         doc.end();
-        console.log('📄 [PDF] PDF PREMIUM gerado com sucesso!');
+        console.log('📄 [PDF] PDF PREMIUM geração com sucesso!');
         
     } catch (error) {
         console.error('📄 [PDF] Erro:', error);
@@ -16731,29 +16731,29 @@ app.get('/api/vendas/pedidos/:id', authenticateToken, authorizeArea('vendas'), a
             LEFT JOIN clientes c ON p.cliente_id = c.id
             LEFT JOIN empresas e ON p.empresa_id = e.id
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontrado' });
+            return res.status(404).json({ error: 'Pedido não encontração' });
         }
         
         // Formatar o pedido para compatibilidade com o frontend
         const pedido = pedidos[0];
-        const pedidoFormatado = {
+        const pedidoFormatação = {
             ...pedido,
             numero: `Pedido Nº ${pedido.id}`,
             cliente: pedido.cliente_nome || '',
             vendedor: pedido.vendedor_nome || '',
             valor: parseFloat(pedido.valor) || 0,
-            data: pedido.created_at ? new Date(pedido.created_at).toISOString().slice(0, 10) : '',
+            data: pedido.created_at  new Date(pedido.created_at).toISOString().slice(0, 10) : '',
             frete: parseFloat(pedido.frete) || 0,
             origem: 'Sistema',
             tipo: pedido.prioridade || 'normal',
             produtos: safeParseJSON(pedido.produtos_preview, [])
         };
         
-        res.json(pedidoFormatado);
+        res.json(pedidoFormatação);
     } catch (error) {
         console.error('Erro ao buscar pedido:', error);
         res.status(500).json({ error: 'Erro ao buscar pedido' });
@@ -16774,14 +16774,14 @@ app.post('/api/vendas/pedidos', authenticateToken, authorizeArea('vendas'), asyn
             (cliente_id, empresa_id, vendedor_id, valor, descricao, status, 
              frete, prioridade, produtos_preview, prazo_entrega, endereco_entrega, 
              municipio_entrega, metodo_envio, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+            VALUES (, , , , , , , , , , , , , NOW())
         `, [
             cliente_id, empresa_id, vendedor_id, valor || 0, descricao || '',
             status, frete, prioridade, JSON.stringify(produtos || []),
             prazo_entrega, endereco_entrega, municipio_entrega, metodo_envio
         ]);
         
-        res.json({ success: true, id: result.insertId, message: 'Pedido criado com sucesso' });
+        res.json({ success: true, id: result.insertId, message: 'Pedido criação com sucesso' });
     } catch (error) {
         console.error('Erro ao criar pedido:', error);
         res.status(500).json({ error: 'Erro ao criar pedido' });
@@ -16801,28 +16801,28 @@ app.put('/api/vendas/pedidos/:id', authenticateToken, authorizeArea('vendas'), a
         const updates = [];
         const params = [];
         
-        if (cliente_id !== undefined) { updates.push('cliente_id = ?'); params.push(cliente_id); }
-        if (empresa_id !== undefined) { updates.push('empresa_id = ?'); params.push(empresa_id); }
-        if (valor !== undefined) { updates.push('valor = ?'); params.push(valor); }
-        if (descricao !== undefined) { updates.push('descricao = ?'); params.push(descricao); }
-        if (observacao !== undefined) { updates.push('observacao = ?'); params.push(observacao); }
-        if (status !== undefined) { updates.push('status = ?'); params.push(status); }
-        if (frete !== undefined) { updates.push('frete = ?'); params.push(frete); }
-        if (prioridade !== undefined) { updates.push('prioridade = ?'); params.push(prioridade); }
-        if (prazo_entrega !== undefined) { updates.push('prazo_entrega = ?'); params.push(prazo_entrega); }
-        if (endereco_entrega !== undefined) { updates.push('endereco_entrega = ?'); params.push(endereco_entrega); }
-        if (municipio_entrega !== undefined) { updates.push('municipio_entrega = ?'); params.push(municipio_entrega); }
-        if (metodo_envio !== undefined) { updates.push('metodo_envio = ?'); params.push(metodo_envio); }
-        if (produtos !== undefined) { updates.push('produtos_preview = ?'); params.push(JSON.stringify(produtos)); }
+        if (cliente_id !== undefined) { updates.push('cliente_id = '); params.push(cliente_id); }
+        if (empresa_id !== undefined) { updates.push('empresa_id = '); params.push(empresa_id); }
+        if (valor !== undefined) { updates.push('valor = '); params.push(valor); }
+        if (descricao !== undefined) { updates.push('descricao = '); params.push(descricao); }
+        if (observacao !== undefined) { updates.push('observacao = '); params.push(observacao); }
+        if (status !== undefined) { updates.push('status = '); params.push(status); }
+        if (frete !== undefined) { updates.push('frete = '); params.push(frete); }
+        if (prioridade !== undefined) { updates.push('prioridade = '); params.push(prioridade); }
+        if (prazo_entrega !== undefined) { updates.push('prazo_entrega = '); params.push(prazo_entrega); }
+        if (endereco_entrega !== undefined) { updates.push('endereco_entrega = '); params.push(endereco_entrega); }
+        if (municipio_entrega !== undefined) { updates.push('municipio_entrega = '); params.push(municipio_entrega); }
+        if (metodo_envio !== undefined) { updates.push('metodo_envio = '); params.push(metodo_envio); }
+        if (produtos !== undefined) { updates.push('produtos_preview = '); params.push(JSON.stringify(produtos)); }
         
         if (updates.length === 0) {
             return res.status(400).json({ error: 'Nenhum campo para atualizar' });
         }
         
         params.push(id);
-        await vendasPool.query(`UPDATE pedidos SET ${updates.join(', ')} WHERE id = ?`, params);
+        await vendasPool.query(`UPDATE pedidos SET ${updates.join(', ')} WHERE id = `, params);
         
-        res.json({ success: true, message: 'Pedido atualizado com sucesso' });
+        res.json({ success: true, message: 'Pedido atualização com sucesso' });
     } catch (error) {
         console.error('Erro ao atualizar pedido:', error);
         res.status(500).json({ error: 'Erro ao atualizar pedido' });
@@ -16834,7 +16834,7 @@ app.put('/api/vendas/pedidos/:id', authenticateToken, authorizeArea('vendas'), a
 app.delete('/api/vendas/pedidos/:id', authorizeArea('vendas'), async (req, res) => {
     try {
         const { id } = req.params;
-        await vendasPool.query('DELETE FROM pedidos WHERE id = ?', [id]);
+        await vendasPool.query('DELETE FROM pedidos WHERE id = ', [id]);
         res.json({ success: true, message: 'Pedido excluído com sucesso' });
     } catch (error) {
         console.error('Erro ao excluir pedido:', error);
@@ -16850,7 +16850,7 @@ app.get('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome LIKE ? OR email LIKE ? OR telefone LIKE ?';
+            query += ' WHERE nome LIKE  OR email LIKE  OR telefone LIKE ';
             const searchTerm = `%${search}%`;
             params.push(searchTerm, searchTerm, searchTerm);
         }
@@ -16868,10 +16868,10 @@ app.get('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
 app.get('/api/vendas/clientes/:id', authorizeArea('vendas'), async (req, res) => {
     try {
         const { id } = req.params;
-        const [clientes] = await vendasPool.query('SELECT * FROM clientes WHERE id = ?', [id]);
+        const [clientes] = await vendasPool.query('SELECT * FROM clientes WHERE id = ', [id]);
         
         if (clientes.length === 0) {
-            return res.status(404).json({ error: 'Cliente não encontrado' });
+            return res.status(404).json({ error: 'Cliente não encontração' });
         }
         
         res.json(clientes[0]);
@@ -16887,10 +16887,10 @@ app.post('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
         
         const [result] = await vendasPool.query(`
             INSERT INTO clientes (nome, email, telefone, cpf, endereco, data_criacao)
-            VALUES (?, ?, ?, ?, ?, NOW())
+            VALUES (, , , , , NOW())
         `, [nome, email, telefone, cpf, endereco]);
         
-        res.json({ success: true, id: result.insertId, message: 'Cliente criado com sucesso' });
+        res.json({ success: true, id: result.insertId, message: 'Cliente criação com sucesso' });
     } catch (error) {
         console.error('Erro ao criar cliente:', error);
         res.status(500).json({ error: 'Erro ao criar cliente' });
@@ -16905,7 +16905,7 @@ app.get('/api/vendas/empresas', authorizeArea('vendas'), async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome_fantasia LIKE ? OR razao_social LIKE ? OR cnpj LIKE ?';
+            query += ' WHERE nome_fantasia LIKE  OR razao_social LIKE  OR cnpj LIKE ';
             const searchTerm = `%${search}%`;
             params.push(searchTerm, searchTerm, searchTerm);
         }
@@ -16923,7 +16923,7 @@ app.get('/api/vendas/empresas', authorizeArea('vendas'), async (req, res) => {
 app.get('/api/vendas/empresas/:id', authorizeArea('vendas'), async (req, res) => {
     try {
         const { id } = req.params;
-        const [empresas] = await vendasPool.query('SELECT * FROM empresas WHERE id = ?', [id]);
+        const [empresas] = await vendasPool.query('SELECT * FROM empresas WHERE id = ', [id]);
         
         if (empresas.length === 0) {
             return res.status(404).json({ error: 'Empresa não encontrada' });
@@ -16939,11 +16939,11 @@ app.get('/api/vendas/empresas/:id', authorizeArea('vendas'), async (req, res) =>
 app.post('/api/vendas/empresas', authorizeArea('vendas'), async (req, res) => {
     try {
         const { nome_fantasia, razao_social, cnpj, email, telefone, endereco } = req.body;
-        const vendedor_id = req.user?.id || null;
+        const vendedor_id = req.user.id || null;
         
         const [result] = await vendasPool.query(`
             INSERT INTO empresas (nome_fantasia, razao_social, cnpj, email, telefone, endereco, data_criacao, vendedor_id, ultima_movimentacao, status_cliente)
-            VALUES (?, ?, ?, ?, ?, ?, NOW(), ?, NOW(), 'ativo')
+            VALUES (, , , , , , NOW(), , NOW(), 'ativo')
         `, [nome_fantasia, razao_social, cnpj, email, telefone, endereco, vendedor_id]);
         
         res.json({ success: true, id: result.insertId, message: 'Empresa criada com sucesso' });
@@ -16957,10 +16957,10 @@ app.post('/api/vendas/empresas', authorizeArea('vendas'), async (req, res) => {
 app.post('/api/vendas/empresas/:id/reativar', authorizeArea('vendas'), async (req, res) => {
     try {
         const { id } = req.params;
-        const vendedor_id = req.user?.id;
+        const vendedor_id = req.user.id;
         
         // Verificar se empresa está inativa
-        const [empresa] = await vendasPool.query('SELECT status_cliente, vendedor_id FROM empresas WHERE id = ?', [id]);
+        const [empresa] = await vendasPool.query('SELECT status_cliente, vendedor_id FROM empresas WHERE id = ', [id]);
         
         if (!empresa || empresa.length === 0) {
             return res.status(404).json({ error: 'Empresa não encontrada' });
@@ -16975,13 +16975,13 @@ app.post('/api/vendas/empresas/:id/reativar', authorizeArea('vendas'), async (re
         await vendasPool.query(`
             UPDATE empresas 
             SET status_cliente = 'ativo', 
-                vendedor_id = ?, 
+                vendedor_id = , 
                 ultima_movimentacao = NOW(),
                 data_inativacao = NULL
-            WHERE id = ?
+            WHERE id = 
         `, [vendedor_id, id]);
         
-        res.json({ success: true, message: 'Cliente reativado com sucesso' });
+        res.json({ success: true, message: 'Cliente reativação com sucesso' });
     } catch (error) {
         console.error('Erro ao reativar empresa:', error);
         res.status(500).json({ error: 'Erro ao reativar empresa' });
@@ -16997,7 +16997,7 @@ app.get('/api/vendas/notificacoes', authorizeArea('vendas'), async (req, res) =>
         try {
             const [notificacoes] = await pool.query(`
                 SELECT * FROM notificacoes 
-                WHERE usuario_id = ? 
+                WHERE usuario_id =  
                 ORDER BY created_at DESC 
                 LIMIT 20
             `, [userId]);
@@ -17022,7 +17022,7 @@ console.log('✅ Rotas do módulo Vendas carregadas com sucesso');
 // FIM DAS ROTAS DO MÓDULO VENDAS
 // ======================================
 
-// Graceful shutdown on signals (apenas em produção ou quando explicitamente solicitado)
+// Graceful shutdown on signals (apenas em produção ou quando explicitamente solicitação)
 process.on('SIGINT', async () => {
     console.log('\n🛑 SIGINT received: iniciando shutdown gracioso...');
     
@@ -17081,10 +17081,10 @@ if (require.main === module) {
 // ===== MIDDLEWARE: Verificar permissões financeiras =====
 function checkFinanceiroPermission(area) {
     return async (req, res, next) => {
-        const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+        const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
         
         if (!token) {
-            return res.status(401).json({ message: 'Não autenticado' });
+            return res.status(401).json({ message: 'Não autenticação' });
         }
 
         try {
@@ -17093,21 +17093,21 @@ function checkFinanceiroPermission(area) {
 
             // Buscar permissões
             const [users] = await pool.query(
-                'SELECT permissoes_financeiro, is_admin FROM funcionarios WHERE id = ? OR email = ?',
+                'SELECT permissoes_financeiro, is_admin FROM funcionarios WHERE id =  OR email = ',
                 [user.id, user.email]
             );
 
             let userData = users[0];
             if (!userData) {
                 const [usuarios] = await pool.query(
-                    'SELECT permissoes_financeiro, is_admin FROM usuarios WHERE id = ? OR email = ?',
+                    'SELECT permissoes_financeiro, is_admin FROM usuarios WHERE id =  OR email = ',
                     [user.id, user.email]
                 );
                 userData = usuarios[0];
             }
 
             if (!userData) {
-                return res.status(403).json({ message: 'Usuário não encontrado' });
+                return res.status(403).json({ message: 'Usuário não encontração' });
             }
 
             // Admin tem acesso total
@@ -17119,7 +17119,7 @@ function checkFinanceiroPermission(area) {
                     excluir: true,
                     aprovar: true
                 };
-                console.log(`[FINANCEIRO/PERM] Admin detectado: ${user.email}`);
+                console.log(`[FINANCEIRO/PERM] Admin detectação: ${user.email}`);
                 return next();
             }
 
@@ -17174,12 +17174,12 @@ app.get('/api/financeiro/categorias', authenticateToken, async (req, res) => {
         const params = [];
 
         if (tipo && tipo !== 'todos') {
-            query += ' AND (tipo = ? OR tipo = "ambos")';
+            query += ' AND (tipo =  OR tipo = "ambos")';
             params.push(tipo);
         }
 
         if (ativo !== undefined) {
-            query += ' AND ativo = ?';
+            query += ' AND ativo = ';
             params.push(ativo === 'true' || ativo === '1');
         }
 
@@ -17205,7 +17205,7 @@ app.post('/api/financeiro/categorias', authenticateToken, async (req, res) => {
 
         const [result] = await pool.query(
             `INSERT INTO categorias_financeiras (nome, tipo, cor, icone, orcamento_mensal, descricao) 
-             VALUES (?, ?, ?, ?, ?, ?)`,
+             VALUES (, , , , , )`,
             [nome, tipo, cor || '#3b82f6', icone || 'fa-folder', orcamento_mensal || 0, descricao]
         );
 
@@ -17229,8 +17229,8 @@ app.put('/api/financeiro/categorias/:id', authenticateToken, async (req, res) =>
 
         await pool.query(
             `UPDATE categorias_financeiras 
-             SET nome = ?, tipo = ?, cor = ?, icone = ?, orcamento_mensal = ?, descricao = ?, ativo = ?
-             WHERE id = ?`,
+             SET nome = , tipo = , cor = , icone = , orcamento_mensal = , descricao = , ativo = 
+             WHERE id = `,
             [nome, tipo, cor, icone, orcamento_mensal, descricao, ativo, id]
         );
 
@@ -17248,8 +17248,8 @@ app.delete('/api/financeiro/categorias/:id', authenticateToken, async (req, res)
         const { id } = req.params;
 
         // Verificar se categoria está sendo usada
-        const [usoPagar] = await pool.query('SELECT COUNT(*) as total FROM contas_pagar WHERE categoria = (SELECT nome FROM categorias_financeiras WHERE id = ?)', [id]);
-        const [usoReceber] = await pool.query('SELECT COUNT(*) as total FROM contas_receber WHERE categoria = (SELECT nome FROM categorias_financeiras WHERE id = ?)', [id]);
+        const [usoPagar] = await pool.query('SELECT COUNT(*) as total FROM contas_pagar WHERE categoria = (SELECT nome FROM categorias_financeiras WHERE id = )', [id]);
+        const [usoReceber] = await pool.query('SELECT COUNT(*) as total FROM contas_receber WHERE categoria = (SELECT nome FROM categorias_financeiras WHERE id = )', [id]);
 
         if (usoPagar[0].total > 0 || usoReceber[0].total > 0) {
             return res.status(400).json({ 
@@ -17257,7 +17257,7 @@ app.delete('/api/financeiro/categorias/:id', authenticateToken, async (req, res)
             });
         }
 
-        await pool.query('DELETE FROM categorias_financeiras WHERE id = ?', [id]);
+        await pool.query('DELETE FROM categorias_financeiras WHERE id = ', [id]);
         res.json({ success: true, message: 'Categoria excluída com sucesso' });
 
     } catch (err) {
@@ -17270,7 +17270,7 @@ app.delete('/api/financeiro/categorias/:id', authenticateToken, async (req, res)
 app.get('/api/financeiro/categorias/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM categorias_financeiras WHERE id = ?', [id]);
+        const [rows] = await pool.query('SELECT * FROM categorias_financeiras WHERE id = ', [id]);
         
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Categoria não encontrada' });
@@ -17311,11 +17311,11 @@ app.get('/api/financeiro/categorias/estatisticas', authenticateToken, async (req
             LEFT JOIN (
                 SELECT categoria_id, valor, 'pagar' as tipo 
                 FROM contas_pagar 
-                WHERE data_vencimento BETWEEN ? AND ? AND status != 'cancelada'
+                WHERE data_vencimento BETWEEN  AND  AND status != 'cancelada'
                 UNION ALL
                 SELECT categoria_id, valor, 'receber' as tipo 
                 FROM contas_receber 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
             ) p ON c.nome = p.categoria
             WHERE c.ativo = TRUE
             GROUP BY c.id, c.nome, c.tipo, c.cor, c.orcamento_mensal
@@ -17343,7 +17343,7 @@ app.get('/api/financeiro/bancos', authenticateToken, async (req, res) => {
         const params = [];
 
         if (ativo !== undefined) {
-            query += ' AND ativo = ?';
+            query += ' AND ativo = ';
             params.push(ativo === 'true' || ativo === '1');
         }
 
@@ -17370,17 +17370,17 @@ app.post('/api/financeiro/bancos', authenticateToken, async (req, res) => {
 
         // Validar tipo se fornecido
         const tipoValido = ['corrente', 'poupanca', 'investimento', 'caixa'];
-        const tipoFinal = tipo && tipoValido.includes(tipo) ? tipo : 'corrente';
+        const tipoFinal = tipo && tipoValido.includes(tipo)  tipo : 'corrente';
 
         console.log('[FINANCEIRO] Criando banco:', { nome: nomeBanco, banco, tipo: tipoFinal });
 
         const [result] = await pool.query(
             `INSERT INTO contas_bancarias (nome, banco, agencia, conta, tipo, saldo_inicial, saldo_atual, ativo) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, 1)`,
+             VALUES (, , , , , , , 1)`,
             [nomeBanco, banco || null, agencia || null, conta || null, tipoFinal, saldo_inicial || 0, saldo_inicial || 0]
         );
 
-        console.log('[FINANCEIRO] Banco criado com ID:', result.insertId);
+        console.log('[FINANCEIRO] Banco criação com ID:', result.insertId);
 
         res.status(201).json({
             success: true,
@@ -17405,8 +17405,8 @@ app.put('/api/financeiro/bancos/:id', authenticateToken, async (req, res) => {
 
         await pool.query(
             `UPDATE contas_bancarias 
-             SET nome = ?, banco = ?, agencia = ?, conta = ?, tipo = ?, saldo_inicial = ?, ativo = ?, observacoes = ?
-             WHERE id = ?`,
+             SET nome = , banco = , agencia = , conta = , tipo = , saldo_inicial = , ativo = , observacoes = 
+             WHERE id = `,
             [nomeBanco, banco, agencia, conta, tipo, saldo_inicial, ativo, observacoes, id]
         );
 
@@ -17424,7 +17424,7 @@ app.delete('/api/financeiro/bancos/:id', authenticateToken, async (req, res) => 
         const { id } = req.params;
 
         // Verificar se tem movimentações
-        const [movs] = await pool.query('SELECT COUNT(*) as total FROM movimentacoes_bancarias WHERE conta_bancaria_id = ?', [id]);
+        const [movs] = await pool.query('SELECT COUNT(*) as total FROM movimentacoes_bancarias WHERE conta_bancaria_id = ', [id]);
         
         if (movs[0].total > 0) {
             return res.status(400).json({ 
@@ -17432,7 +17432,7 @@ app.delete('/api/financeiro/bancos/:id', authenticateToken, async (req, res) => 
             });
         }
 
-        await pool.query('DELETE FROM contas_bancarias WHERE id = ?', [id]);
+        await pool.query('DELETE FROM contas_bancarias WHERE id = ', [id]);
         res.json({ success: true, message: 'Conta bancária excluída com sucesso' });
 
     } catch (err) {
@@ -17445,7 +17445,7 @@ app.delete('/api/financeiro/bancos/:id', authenticateToken, async (req, res) => 
 app.get('/api/financeiro/bancos/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM contas_bancarias WHERE id = ?', [id]);
+        const [rows] = await pool.query('SELECT * FROM contas_bancarias WHERE id = ', [id]);
         
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Conta bancária não encontrada' });
@@ -17468,18 +17468,18 @@ app.get('/api/financeiro/bancos/:id/extrato', authenticateToken, async (req, res
         const [pagas] = await pool.query(
             `SELECT 'despesa' as tipo, fornecedor as descricao, valor, data_pagamento as data
              FROM contas_pagar 
-             WHERE banco_id = ? AND status = 'paga'
-             ${inicio ? 'AND data_pagamento >= ?' : ''}
-             ${fim ? 'AND data_pagamento <= ?' : ''}`,
+             WHERE banco_id =  AND status = 'paga'
+             ${inicio  'AND data_pagamento >= ' : ''}
+             ${fim  'AND data_pagamento <= ' : ''}`,
             [id, inicio, fim].filter(Boolean)
         );
 
         const [recebidas] = await pool.query(
             `SELECT 'receita' as tipo, cliente as descricao, valor, data_recebimento as data
              FROM contas_receber 
-             WHERE banco_id = ? AND status = 'recebida'
-             ${inicio ? 'AND data_recebimento >= ?' : ''}
-             ${fim ? 'AND data_recebimento <= ?' : ''}`,
+             WHERE banco_id =  AND status = 'recebida'
+             ${inicio  'AND data_recebimento >= ' : ''}
+             ${fim  'AND data_recebimento <= ' : ''}`,
             [id, inicio, fim].filter(Boolean)
         );
 
@@ -17507,7 +17507,7 @@ app.get('/api/financeiro/formas-pagamento', authenticateToken, async (req, res) 
         const params = [];
 
         if (ativo !== undefined) {
-            query += ' AND ativo = ?';
+            query += ' AND ativo = ';
             params.push(ativo === 'true' || ativo === '1');
         }
 
@@ -17532,7 +17532,7 @@ app.post('/api/financeiro/formas-pagamento', authenticateToken, async (req, res)
         }
 
         const [result] = await pool.query(
-            'INSERT INTO formas_pagamento (nome, tipo, icone) VALUES (?, ?, ?)',
+            'INSERT INTO formas_pagamento (nome, tipo, icone) VALUES (, , )',
             [nome, tipo || 'outros', icone || 'fa-money-bill']
         );
 
@@ -17558,7 +17558,7 @@ app.post('/api/financeiro/parcelas/gerar', authenticateToken, async (req, res) =
         const { conta_id, tipo, total_parcelas, valor_total, primeira_parcela } = req.body;
 
         if (!conta_id || !tipo || !total_parcelas || !valor_total || !primeira_parcela) {
-            return res.status(400).json({ message: 'Dados incompletos' });
+            return res.status(400).json({ message: 'Daçãos incompletos' });
         }
 
         const valorParcela = (valor_total / total_parcelas).toFixed(2);
@@ -17570,7 +17570,7 @@ app.post('/api/financeiro/parcelas/gerar', authenticateToken, async (req, res) =
 
             // Última parcela ajusta diferença de arredondamento
             const valor = i === total_parcelas 
-                ? (valor_total - (valorParcela * (total_parcelas - 1))).toFixed(2)
+                 (valor_total - (valorParcela * (total_parcelas - 1))).toFixed(2)
                 : valorParcela;
 
             parcelas.push([
@@ -17585,14 +17585,14 @@ app.post('/api/financeiro/parcelas/gerar', authenticateToken, async (req, res) =
 
         await pool.query(
             `INSERT INTO parcelas (conta_origem_id, tipo, numero_parcela, total_parcelas, valor, vencimento) 
-             VALUES ?`,
+             VALUES `,
             [parcelas]
         );
 
         // Atualizar conta original
         const updateQuery = tipo === 'pagar' 
-            ? `UPDATE contas_pagar SET parcela_total = ? WHERE id = ?`
-            : `UPDATE contas_receber SET parcela_total = ? WHERE id = ?`;
+             `UPDATE contas_pagar SET parcela_total =  WHERE id = `
+            : `UPDATE contas_receber SET parcela_total =  WHERE id = `;
 
         await pool.query(updateQuery, [total_parcelas, conta_id]);
 
@@ -17615,7 +17615,7 @@ app.get('/api/financeiro/parcelas/conta/:id', authenticateToken, async (req, res
         const { tipo } = req.query; // 'pagar' ou 'receber'
 
         const [parcelas] = await pool.query(
-            'SELECT * FROM parcelas WHERE conta_id = ? AND tipo_conta = ? ORDER BY numero_parcela ASC',
+            'SELECT * FROM parcelas WHERE conta_id =  AND tipo_conta =  ORDER BY numero_parcela ASC',
             [id, tipo || 'pagar']
         );
 
@@ -17633,7 +17633,7 @@ app.get('/api/financeiro/parcelas/:conta_id/:tipo', authenticateToken, async (re
         const { conta_id, tipo } = req.params;
 
         const [parcelas] = await pool.query(
-            'SELECT * FROM parcelas WHERE conta_id = ? AND tipo_conta = ? ORDER BY numero_parcela ASC',
+            'SELECT * FROM parcelas WHERE conta_id =  AND tipo_conta =  ORDER BY numero_parcela ASC',
             [conta_id, tipo]
         );
 
@@ -17653,10 +17653,10 @@ app.post('/api/financeiro/parcelas/:id/pagar', authenticateToken, async (req, re
 
         await pool.query(
             `UPDATE parcelas 
-             SET status = ?, valor_pago = ?, data_pagamento = ?
-             WHERE id = ?`,
+             SET status = , valor_pago = , data_pagamento = 
+             WHERE id = `,
             [
-                valor_pago >= (await pool.query('SELECT valor FROM parcelas WHERE id = ?', [id]))[0][0].valor ? 'pago' : 'pendente',
+                valor_pago >= (await pool.query('SELECT valor FROM parcelas WHERE id = ', [id]))[0][0].valor  'pago' : 'pendente',
                 valor_pago,
                 data_pagamento || new Date().toISOString().split('T')[0],
                 id
@@ -17684,12 +17684,12 @@ app.get('/api/financeiro/recorrencias', authenticateToken, async (req, res) => {
         const params = [];
 
         if (tipo) {
-            query += ' AND r.tipo = ?';
+            query += ' AND r.tipo = ';
             params.push(tipo);
         }
 
         if (ativa !== undefined) {
-            query += ' AND r.ativa = ?';
+            query += ' AND r.ativa = ';
             params.push(ativa === 'true' || ativa === '1');
         }
 
@@ -17714,7 +17714,7 @@ app.post('/api/financeiro/recorrencias', authenticateToken, async (req, res) => 
         } = req.body;
 
         if (!descricao || !tipo || !valor || !dia_vencimento || !data_inicio) {
-            return res.status(400).json({ message: 'Dados obrigatórios faltando' });
+            return res.status(400).json({ message: 'Daçãos obrigatórios faltando' });
         }
 
         // Calcular próxima geração
@@ -17728,7 +17728,7 @@ app.post('/api/financeiro/recorrencias', authenticateToken, async (req, res) => 
             `INSERT INTO recorrencias 
              (descricao, tipo, valor, categoria_id, fornecedor_id, cliente_id, dia_vencimento, 
               forma_pagamento_id, conta_bancaria_id, data_inicio, data_fim, observacoes, proxima_geracao) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+             VALUES (, , , , , , , , , , , , )`,
             [descricao, tipo, valor, categoria_id, fornecedor_id, cliente_id, dia_vencimento, 
              forma_pagamento_id, conta_bancaria_id, data_inicio, data_fim, observacoes, 
              proximaGeracao.toISOString().split('T')[0]]
@@ -17758,10 +17758,10 @@ app.put('/api/financeiro/recorrencias/:id', authenticateToken, async (req, res) 
 
         await pool.query(
             `UPDATE recorrencias 
-             SET descricao = ?, tipo = ?, valor = ?, categoria_id = ?, fornecedor_id = ?, cliente_id = ?,
-                 dia_vencimento = ?, forma_pagamento_id = ?, conta_bancaria_id = ?, 
-                 ativa = ?, data_fim = ?, observacoes = ?
-             WHERE id = ?`,
+             SET descricao = , tipo = , valor = , categoria_id = , fornecedor_id = , cliente_id = ,
+                 dia_vencimento = , forma_pagamento_id = , conta_bancaria_id = , 
+                 ativa = , data_fim = , observacoes = 
+             WHERE id = `,
             [descricao, tipo, valor, categoria_id, fornecedor_id, cliente_id, dia_vencimento, 
              forma_pagamento_id, conta_bancaria_id, ativa, data_fim, observacoes, id]
         );
@@ -17778,7 +17778,7 @@ app.put('/api/financeiro/recorrencias/:id', authenticateToken, async (req, res) 
 app.delete('/api/financeiro/recorrencias/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
-        await pool.query('DELETE FROM recorrencias WHERE id = ?', [id]);
+        await pool.query('DELETE FROM recorrencias WHERE id = ', [id]);
         res.json({ success: true, message: 'Recorrência excluída com sucesso' });
 
     } catch (err) {
@@ -17791,7 +17791,7 @@ app.delete('/api/financeiro/recorrencias/:id', authenticateToken, async (req, re
 app.get('/api/financeiro/recorrencias/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM recorrencias_financeiras WHERE id = ?', [id]);
+        const [rows] = await pool.query('SELECT * FROM recorrencias_financeiras WHERE id = ', [id]);
         
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Recorrência não encontrada' });
@@ -17811,13 +17811,13 @@ app.post('/api/financeiro/recorrencias/:id/pausar', authenticateToken, async (re
         const { ativo } = req.body; // true ou false
 
         await pool.query(
-            'UPDATE recorrencias_financeiras SET ativo = ? WHERE id = ?',
-            [ativo ? 1 : 0, id]
+            'UPDATE recorrencias_financeiras SET ativo =  WHERE id = ',
+            [ativo  1 : 0, id]
         );
 
         res.json({ 
             success: true, 
-            message: ativo ? 'Recorrência reativada' : 'Recorrência pausada'
+            message: ativo  'Recorrência reativada' : 'Recorrência pausada'
         });
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao pausar/reativar recorrência:', err);
@@ -17834,8 +17834,8 @@ app.post('/api/financeiro/recorrencias/processar', authenticateToken, async (req
         const [recorrencias] = await pool.query(
             `SELECT * FROM recorrencias 
              WHERE ativa = TRUE 
-             AND (data_fim IS NULL OR data_fim >= ?)
-             AND (proxima_geracao IS NULL OR proxima_geracao <= ?)`,
+             AND (data_fim IS NULL OR data_fim >= )
+             AND (proxima_geracao IS NULL OR proxima_geracao <= )`,
             [hoje, hoje]
         );
 
@@ -17851,7 +17851,7 @@ app.post('/api/financeiro/recorrencias/processar', authenticateToken, async (req
                     `INSERT INTO contas_pagar 
                      (fornecedor_id, descricao, valor, vencimento, categoria, forma_pagamento_id, 
                       conta_bancaria_id, recorrente, recorrencia_id, status, observacoes) 
-                     VALUES (?, ?, ?, ?, ?, ?, ?, TRUE, ?, 'pendente', ?)`,
+                     VALUES (, , , , , , , TRUE, , 'pendente', )`,
                     [rec.fornecedor_id, rec.descricao, rec.valor, vencimento.toISOString().split('T')[0],
                      rec.categoria_id, rec.forma_pagamento_id, rec.conta_bancaria_id, rec.id, rec.observacoes]
                 );
@@ -17860,7 +17860,7 @@ app.post('/api/financeiro/recorrencias/processar', authenticateToken, async (req
                     `INSERT INTO contas_receber 
                      (cliente_id, descricao, valor, vencimento, categoria, forma_recebimento_id, 
                       conta_bancaria_id, status, observacoes) 
-                     VALUES (?, ?, ?, ?, ?, ?, ?, 'pendente', ?)`,
+                     VALUES (, , , , , , , 'pendente', )`,
                     [rec.cliente_id, rec.descricao, rec.valor, vencimento.toISOString().split('T')[0],
                      rec.categoria_id, rec.forma_pagamento_id, rec.conta_bancaria_id, rec.observacoes]
                 );
@@ -17871,7 +17871,7 @@ app.post('/api/financeiro/recorrencias/processar', authenticateToken, async (req
             proximaGeracao.setMonth(proximaGeracao.getMonth() + 1);
 
             await pool.query(
-                'UPDATE recorrencias SET ultima_geracao = ?, proxima_geracao = ? WHERE id = ?',
+                'UPDATE recorrencias SET ultima_geracao = , proxima_geracao =  WHERE id = ',
                 [hoje, proximaGeracao.toISOString().split('T')[0], rec.id]
             );
 
@@ -17908,18 +17908,18 @@ app.post('/api/financeiro/contas-pagar/:id/pagar', checkFinanceiroPermission('co
         const { id } = req.params;
         const { valor_pago, data_pagamento, conta_bancaria_id, forma_pagamento_id, observacoes } = req.body;
 
-        const [conta] = await pool.query('SELECT * FROM contas_pagar WHERE id = ?', [id]);
+        const [conta] = await pool.query('SELECT * FROM contas_pagar WHERE id = ', [id]);
         if (!conta || conta.length === 0) {
             return res.status(404).json({ message: 'Conta não encontrada' });
         }
 
         const valorTotal = conta[0].valor + (conta[0].valor_juros || 0) + (conta[0].valor_multa || 0) - (conta[0].valor_desconto || 0);
-        const status = valor_pago >= valorTotal ? 'pago' : 'pendente';
+        const status = valor_pago >= valorTotal  'pago' : 'pendente';
 
         await pool.query(
             `UPDATE contas_pagar 
-             SET status = ?, valor_pago = ?, data_pagamento = ?, conta_bancaria_id = ?, forma_pagamento_id = ?, observacoes = ?
-             WHERE id = ?`,
+             SET status = , valor_pago = , data_pagamento = , conta_bancaria_id = , forma_pagamento_id = , observacoes = 
+             WHERE id = `,
             [status, valor_pago, data_pagamento || new Date().toISOString().split('T')[0], conta_bancaria_id, forma_pagamento_id, observacoes, id]
         );
 
@@ -17928,12 +17928,12 @@ app.post('/api/financeiro/contas-pagar/:id/pagar', checkFinanceiroPermission('co
             await pool.query(
                 `INSERT INTO movimentacoes_bancarias 
                  (conta_bancaria_id, tipo, valor, descricao, data_movimento, conta_pagar_id, forma_pagamento_id) 
-                 VALUES (?, 'saida', ?, ?, ?, ?, ?)`,
+                 VALUES (, 'saida', , , , , )`,
                 [conta_bancaria_id, valor_pago, conta[0].descricao, data_pagamento || new Date().toISOString().split('T')[0], id, forma_pagamento_id]
             );
         }
 
-        res.json({ success: true, message: 'Pagamento registrado com sucesso' });
+        res.json({ success: true, message: 'Pagamento registração com sucesso' });
 
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao marcar como pago:', err);
@@ -17969,7 +17969,7 @@ app.get('/api/financeiro/contas-pagar/vencendo', checkFinanceiroPermission('cont
             `SELECT *, DATEDIFF(vencimento, CURDATE()) as dias_para_vencer 
              FROM contas_pagar 
              WHERE status = 'pendente' 
-             AND vencimento BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL ? DAY)
+             AND vencimento BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL  DAY)
              ORDER BY vencimento ASC`,
             [prazo]
         );
@@ -18017,12 +18017,12 @@ app.post('/api/financeiro/contas-pagar/lote/pagar', checkFinanceiroPermission('c
 
         let totalPago = 0;
         for (const contaId of contas) {
-            const [conta] = await pool.query('SELECT valor FROM contas_pagar WHERE id = ?', [contaId]);
+            const [conta] = await pool.query('SELECT valor FROM contas_pagar WHERE id = ', [contaId]);
             if (conta && conta.length > 0) {
                 await pool.query(
                     `UPDATE contas_pagar 
-                     SET status = 'pago', valor_pago = valor, data_pagamento = ?, conta_bancaria_id = ?, forma_pagamento_id = ?
-                     WHERE id = ?`,
+                     SET status = 'pago', valor_pago = valor, data_pagamento = , conta_bancaria_id = , forma_pagamento_id = 
+                     WHERE id = `,
                     [data_pagamento || new Date().toISOString().split('T')[0], conta_bancaria_id, forma_pagamento_id, contaId]
                 );
                 totalPago += conta[0].valor;
@@ -18032,7 +18032,7 @@ app.post('/api/financeiro/contas-pagar/lote/pagar', checkFinanceiroPermission('c
                     await pool.query(
                         `INSERT INTO movimentacoes_bancarias 
                          (conta_bancaria_id, tipo, valor, descricao, data_movimento, conta_pagar_id, forma_pagamento_id) 
-                         VALUES (?, 'saida', ?, 'Pagamento em lote', ?, ?, ?)`,
+                         VALUES (, 'saida', , 'Pagamento em lote', , , )`,
                         [conta_bancaria_id, conta[0].valor, data_pagamento || new Date().toISOString().split('T')[0], contaId, forma_pagamento_id]
                     );
                 }
@@ -18061,18 +18061,18 @@ app.post('/api/financeiro/contas-receber/:id/receber', checkFinanceiroPermission
         const { id } = req.params;
         const { valor_recebido, data_recebimento, conta_bancaria_id, forma_recebimento_id, observacoes } = req.body;
 
-        const [conta] = await pool.query('SELECT * FROM contas_receber WHERE id = ?', [id]);
+        const [conta] = await pool.query('SELECT * FROM contas_receber WHERE id = ', [id]);
         if (!conta || conta.length === 0) {
             return res.status(404).json({ message: 'Conta não encontrada' });
         }
 
         const valorTotal = conta[0].valor + (conta[0].valor_juros || 0) + (conta[0].valor_multa || 0) - (conta[0].valor_desconto || 0);
-        const status = valor_recebido >= valorTotal ? 'recebido' : 'pendente';
+        const status = valor_recebido >= valorTotal  'recebido' : 'pendente';
 
         await pool.query(
             `UPDATE contas_receber 
-             SET status = ?, valor_recebido = ?, data_recebimento = ?, conta_bancaria_id = ?, forma_recebimento_id = ?, observacoes = ?
-             WHERE id = ?`,
+             SET status = , valor_recebido = , data_recebimento = , conta_bancaria_id = , forma_recebimento_id = , observacoes = 
+             WHERE id = `,
             [status, valor_recebido, data_recebimento || new Date().toISOString().split('T')[0], conta_bancaria_id, forma_recebimento_id, observacoes, id]
         );
 
@@ -18081,12 +18081,12 @@ app.post('/api/financeiro/contas-receber/:id/receber', checkFinanceiroPermission
             await pool.query(
                 `INSERT INTO movimentacoes_bancarias 
                  (conta_bancaria_id, tipo, valor, descricao, data_movimento, conta_receber_id, forma_pagamento_id) 
-                 VALUES (?, 'entrada', ?, ?, ?, ?, ?)`,
+                 VALUES (, 'entrada', , , , , )`,
                 [conta_bancaria_id, valor_recebido, conta[0].descricao, data_recebimento || new Date().toISOString().split('T')[0], id, forma_recebimento_id]
             );
         }
 
-        res.json({ success: true, message: 'Recebimento registrado com sucesso' });
+        res.json({ success: true, message: 'Recebimento registração com sucesso' });
 
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao marcar como recebido:', err);
@@ -18198,8 +18198,8 @@ app.get('/api/financeiro/dashboard', authenticateToken, async (req, res) => {
             SELECT COALESCE(SUM(saldo_atual), 0) as saldo_total FROM contas_bancarias WHERE ativo = TRUE
         `);
 
-        // Saldo projetado (receber - pagar pendentes)
-        const saldoProjetado = (statsReceber[0].a_receber || 0) - (statsPagar[0].a_pagar || 0);
+        // Saldo projetação (receber - pagar pendentes)
+        const saldoProjetação = (statsReceber[0].a_receber || 0) - (statsPagar[0].a_pagar || 0);
 
         res.json({
             receber: {
@@ -18213,14 +18213,14 @@ app.get('/api/financeiro/dashboard', authenticateToken, async (req, res) => {
                 vencido: statsPagar[0].vencido || 0
             },
             saldo_atual: saldoBancos[0].saldo_total || 0,
-            saldo_projetado: saldoProjetado,
+            saldo_projetação: saldoProjetação,
             vencendo_hoje: vencendoHoje[0].total || 0
         });
 
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao buscar dashboard:', err);
         console.error('[FINANCEIRO] Stack:', err.stack);
-        res.status(500).json({ message: 'Erro ao buscar dados do dashboard', error: err.message });
+        res.status(500).json({ message: 'Erro ao buscar daçãos do dashboard', error: err.message });
     }
 });
 
@@ -18240,23 +18240,23 @@ app.get('/api/financeiro/fluxo-caixa', authenticateToken, async (req, res) => {
             FROM (
                 SELECT vencimento, valor, 'receber' as tipo 
                 FROM contas_receber 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
                 UNION ALL
                 SELECT vencimento, valor, 'pagar' as tipo 
                 FROM contas_pagar 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
             ) as todas_contas
             GROUP BY DATE(vencimento)
             ORDER BY data ASC
         `, [inicio, fim, inicio, fim]);
 
-        // Calcular saldo acumulado
-        let saldoAcumulado = 0;
+        // Calcular saldo acumulação
+        let saldoAcumulação = 0;
         const fluxoComSaldo = fluxo.map(item => {
-            saldoAcumulado += (item.entradas - item.saidas);
+            saldoAcumulação += (item.entradas - item.saidas);
             return {
                 ...item,
-                saldo: saldoAcumulado
+                saldo: saldoAcumulação
             };
         });
 
@@ -18273,7 +18273,7 @@ app.get('/api/financeiro/dashboard/grafico-receitas-despesas', authenticateToken
     try {
         const { periodo = '6' } = req.query; // últimos 6 meses por padrão
         
-        const [dados] = await pool.query(`
+        const [daçãos] = await pool.query(`
             SELECT 
                 DATE_FORMAT(data, '%Y-%m') as mes,
                 COALESCE(SUM(CASE WHEN tipo = 'receita' THEN valor ELSE 0 END), 0) as receitas,
@@ -18281,18 +18281,18 @@ app.get('/api/financeiro/dashboard/grafico-receitas-despesas', authenticateToken
             FROM (
                 SELECT data_recebimento as data, valor, 'receita' as tipo
                 FROM contas_receber
-                WHERE status IN ('recebida', 'recebido') AND data_recebimento IS NOT NULL AND data_recebimento >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)
+                WHERE status IN ('recebida', 'recebido') AND data_recebimento IS NOT NULL AND data_recebimento >= DATE_SUB(CURDATE(), INTERVAL  MONTH)
                 UNION ALL
                 SELECT data_recebimento as data, valor, 'despesa' as tipo
                 FROM contas_pagar
-                WHERE status IN ('paga', 'pago') AND data_recebimento IS NOT NULL AND data_recebimento >= DATE_SUB(CURDATE(), INTERVAL ? MONTH)
+                WHERE status IN ('paga', 'pago') AND data_recebimento IS NOT NULL AND data_recebimento >= DATE_SUB(CURDATE(), INTERVAL  MONTH)
             ) as movimentacoes
             WHERE data IS NOT NULL
             GROUP BY DATE_FORMAT(data, '%Y-%m')
             ORDER BY mes ASC
         `, [periodo, periodo]);
 
-        res.json({ success: true, dados: dados || [] });
+        res.json({ success: true, daçãos: daçãos || [] });
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao buscar gráfico:', err);
         console.error('[FINANCEIRO] Stack:', err.stack);
@@ -18300,7 +18300,7 @@ app.get('/api/financeiro/dashboard/grafico-receitas-despesas', authenticateToken
     }
 });
 
-// Fluxo de caixa do dashboard (simplificado)
+// Fluxo de caixa do dashboard (simplificação)
 app.get('/api/financeiro/dashboard/fluxo-caixa', authenticateToken, async (req, res) => {
     try {
         const [fluxo] = await pool.query(`
@@ -18343,12 +18343,12 @@ app.get('/api/financeiro/fluxo-caixa/projecao', authenticateToken, async (req, r
 
         const [projecao] = await pool.query(`
             SELECT 
-                SUM(CASE WHEN tipo = 'receber' AND vencimento <= ? THEN valor ELSE 0 END) as receber_30,
-                SUM(CASE WHEN tipo = 'receber' AND vencimento <= ? THEN valor ELSE 0 END) as receber_60,
-                SUM(CASE WHEN tipo = 'receber' AND vencimento <= ? THEN valor ELSE 0 END) as receber_90,
-                SUM(CASE WHEN tipo = 'pagar' AND vencimento <= ? THEN valor ELSE 0 END) as pagar_30,
-                SUM(CASE WHEN tipo = 'pagar' AND vencimento <= ? THEN valor ELSE 0 END) as pagar_60,
-                SUM(CASE WHEN tipo = 'pagar' AND vencimento <= ? THEN valor ELSE 0 END) as pagar_90
+                SUM(CASE WHEN tipo = 'receber' AND vencimento <=  THEN valor ELSE 0 END) as receber_30,
+                SUM(CASE WHEN tipo = 'receber' AND vencimento <=  THEN valor ELSE 0 END) as receber_60,
+                SUM(CASE WHEN tipo = 'receber' AND vencimento <=  THEN valor ELSE 0 END) as receber_90,
+                SUM(CASE WHEN tipo = 'pagar' AND vencimento <=  THEN valor ELSE 0 END) as pagar_30,
+                SUM(CASE WHEN tipo = 'pagar' AND vencimento <=  THEN valor ELSE 0 END) as pagar_60,
+                SUM(CASE WHEN tipo = 'pagar' AND vencimento <=  THEN valor ELSE 0 END) as pagar_90
             FROM (
                 SELECT vencimento, valor, 'receber' as tipo 
                 FROM contas_receber 
@@ -18395,7 +18395,7 @@ app.get('/api/financeiro/fluxo-caixa/projecao', authenticateToken, async (req, r
 // RELATÓRIOS
 // ============================================================
 
-// DRE (Demonstração de Resultados do Exercício)
+// DRE (Demonstração de Resultaçãos do Exercício)
 app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) => {
     try {
         const { mes, ano } = req.query;
@@ -18412,7 +18412,7 @@ app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) =>
                 SUM(cr.valor) as total
             FROM contas_receber cr
             LEFT JOIN categorias_financeiras c ON cr.categoria = c.nome
-            WHERE cr.vencimento BETWEEN ? AND ? AND cr.status != 'cancelado'
+            WHERE cr.vencimento BETWEEN  AND  AND cr.status != 'cancelação'
             GROUP BY c.nome
             ORDER BY total DESC
         `, [dataInicio, dataFim]);
@@ -18424,14 +18424,14 @@ app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) =>
                 SUM(cp.valor) as total
             FROM contas_pagar cp
             LEFT JOIN categorias_financeiras c ON cp.categoria = c.nome
-            WHERE cp.vencimento BETWEEN ? AND ? AND cp.status != 'cancelado'
+            WHERE cp.vencimento BETWEEN  AND  AND cp.status != 'cancelação'
             GROUP BY c.nome
             ORDER BY total DESC
         `, [dataInicio, dataFim]);
 
         const totalReceitas = receitas.reduce((sum, r) => sum + (parseFloat(r.total) || 0), 0);
         const totalDespesas = despesas.reduce((sum, d) => sum + (parseFloat(d.total) || 0), 0);
-        const resultado = totalReceitas - totalDespesas;
+        const resultação = totalReceitas - totalDespesas;
 
         res.json({
             periodo: { mes: mesAtual, ano: anoAtual },
@@ -18443,8 +18443,8 @@ app.get('/api/financeiro/relatorios/dre', authenticateToken, async (req, res) =>
                 detalhes: despesas,
                 total: totalDespesas
             },
-            resultado: resultado,
-            margem: totalReceitas > 0 ? ((resultado / totalReceitas) * 100).toFixed(2) : 0
+            resultação: resultação,
+            margem: totalReceitas > 0  ((resultação / totalReceitas) * 100).toFixed(2) : 0
         });
 
     } catch (err) {
@@ -18458,7 +18458,7 @@ app.get('/api/financeiro/relatorios/aging', authenticateToken, async (req, res) 
     try {
         const { tipo } = req.query; // 'pagar' ou 'receber'
 
-        const tabela = tipo === 'pagar' ? 'contas_pagar' : 'contas_receber';
+        const tabela = tipo === 'pagar'  'contas_pagar' : 'contas_receber';
 
         const [aging] = await pool.query(`
             SELECT 
@@ -18512,11 +18512,11 @@ app.get('/api/financeiro/relatorios/por-categoria', authenticateToken, async (re
             LEFT JOIN (
                 SELECT categoria, valor, 'receber' as tipo_conta 
                 FROM contas_receber 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
                 UNION ALL
                 SELECT categoria, valor, 'pagar' as tipo_conta 
                 FROM contas_pagar 
-                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelado'
+                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
             ) t ON c.nome = t.categoria
             WHERE c.ativo = TRUE
         `;
@@ -18537,8 +18537,8 @@ app.get('/api/financeiro/relatorios/por-categoria', authenticateToken, async (re
     }
 });
 
-// Fluxo de caixa projetado
-app.get('/api/financeiro/relatorios/fluxo-caixa-projetado', authenticateToken, async (req, res) => {
+// Fluxo de caixa projetação
+app.get('/api/financeiro/relatorios/fluxo-caixa-projetação', authenticateToken, async (req, res) => {
     try {
         const { meses = 3 } = req.query;
         const dataFim = new Date();
@@ -18552,26 +18552,26 @@ app.get('/api/financeiro/relatorios/fluxo-caixa-projetado', authenticateToken, a
             FROM (
                 SELECT vencimento, valor, 'receber' as tipo
                 FROM contas_receber
-                WHERE status = 'pendente' AND vencimento <= ?
+                WHERE status = 'pendente' AND vencimento <= 
                 UNION ALL
                 SELECT vencimento, valor, 'pagar' as tipo
                 FROM contas_pagar
-                WHERE status = 'pendente' AND vencimento <= ?
+                WHERE status = 'pendente' AND vencimento <= 
             ) as projecoes
             GROUP BY DATE_FORMAT(vencimento, '%Y-%m')
             ORDER BY mes ASC
         `, [dataFim.toISOString().split('T')[0], dataFim.toISOString().split('T')[0]]);
 
-        // Calcular saldo projetado acumulado
-        let saldoAcumulado = 0;
+        // Calcular saldo projetação acumulação
+        let saldoAcumulação = 0;
         const [saldoAtual] = await pool.query('SELECT COALESCE(SUM(saldo_atual), 0) as saldo FROM contas_bancarias WHERE ativo = 1');
-        saldoAcumulado = saldoAtual[0].saldo || 0;
+        saldoAcumulação = saldoAtual[0].saldo || 0;
 
         const projecaoComSaldo = projecao.map(item => {
-            saldoAcumulado += (item.receitas_previstas - item.despesas_previstas);
+            saldoAcumulação += (item.receitas_previstas - item.despesas_previstas);
             return {
                 ...item,
-                saldo_projetado: saldoAcumulado
+                saldo_projetação: saldoAcumulação
             };
         });
 
@@ -18582,7 +18582,7 @@ app.get('/api/financeiro/relatorios/fluxo-caixa-projetado', authenticateToken, a
     }
 });
 
-// Exportar dados (preparar JSON para Excel/PDF)
+// Exportar daçãos (preparar JSON para Excel/PDF)
 app.get('/api/financeiro/relatorios/exportar', authenticateToken, async (req, res) => {
     try {
         const { tipo, data_inicio, data_fim, formato } = req.query;
@@ -18590,43 +18590,43 @@ app.get('/api/financeiro/relatorios/exportar', authenticateToken, async (req, re
         const inicio = data_inicio || new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
         const fim = data_fim || new Date().toISOString().split('T')[0];
 
-        let dados = [];
+        let daçãos = [];
 
         if (tipo === 'pagar') {
             const [contas] = await pool.query(
-                'SELECT * FROM contas_pagar WHERE vencimento BETWEEN ? AND ? ORDER BY vencimento ASC',
+                'SELECT * FROM contas_pagar WHERE vencimento BETWEEN  AND  ORDER BY vencimento ASC',
                 [inicio, fim]
             );
-            dados = contas;
+            daçãos = contas;
         } else if (tipo === 'receber') {
             const [contas] = await pool.query(
-                'SELECT * FROM contas_receber WHERE vencimento BETWEEN ? AND ? ORDER BY vencimento ASC',
+                'SELECT * FROM contas_receber WHERE vencimento BETWEEN  AND  ORDER BY vencimento ASC',
                 [inicio, fim]
             );
-            dados = contas;
+            daçãos = contas;
         } else {
             // Ambos
             const [pagar] = await pool.query(
-                'SELECT *, "pagar" as tipo_conta FROM contas_pagar WHERE vencimento BETWEEN ? AND ?',
+                'SELECT *, "pagar" as tipo_conta FROM contas_pagar WHERE vencimento BETWEEN  AND ',
                 [inicio, fim]
             );
             const [receber] = await pool.query(
-                'SELECT *, "receber" as tipo_conta FROM contas_receber WHERE vencimento BETWEEN ? AND ?',
+                'SELECT *, "receber" as tipo_conta FROM contas_receber WHERE vencimento BETWEEN  AND ',
                 [inicio, fim]
             );
-            dados = [...pagar, ...receber].sort((a, b) => new Date(a.vencimento) - new Date(b.vencimento));
+            daçãos = [...pagar, ...receber].sort((a, b) => new Date(a.vencimento) - new Date(b.vencimento));
         }
 
         res.json({
             tipo: tipo || 'todos',
             periodo: { inicio, fim },
-            total_registros: dados.length,
-            dados: dados
+            total_registros: daçãos.length,
+            daçãos: daçãos
         });
 
     } catch (err) {
         console.error('[FINANCEIRO] Erro ao exportar:', err);
-        res.status(500).json({ message: 'Erro ao exportar dados' });
+        res.status(500).json({ message: 'Erro ao exportar daçãos' });
     }
 });
 
@@ -18648,7 +18648,7 @@ app.post('/api/financeiro/migrar-integracao-setup', async (req, res) => {
         try {
             await connection.query(`
                 ALTER TABLE contas_pagar 
-                ADD COLUMN pedido_compra_id INT NULL COMMENT 'ID do pedido de compra relacionado',
+                ADD COLUMN pedido_compra_id INT NULL COMMENT 'ID do pedido de compra relacionação',
                 ADD COLUMN venda_id INT NULL COMMENT 'ID da venda relacionada',
                 ADD INDEX idx_pedido_compra (pedido_compra_id),
                 ADD INDEX idx_venda (venda_id)
@@ -18694,10 +18694,10 @@ app.post('/api/financeiro/migrar-integracao-setup', async (req, res) => {
                 usuario_id INT NULL,
                 status ENUM('sucesso', 'erro') DEFAULT 'sucesso',
                 mensagem TEXT NULL,
-                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 INDEX idx_origem (tipo_origem, origem_id),
                 INDEX idx_destino (tipo_destino, destino_id),
-                INDEX idx_data (criado_em)
+                INDEX idx_data (criação_em)
             )
         `);
         logs.push('   ✅ Tabela criada');
@@ -18738,7 +18738,7 @@ app.post('/api/financeiro/migrar-integracao-setup', async (req, res) => {
                 IF NEW.pedido_compra_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor, NEW.criado_por, 'sucesso');
+                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor, NEW.criação_por, 'sucesso');
                 END IF;
             END
         `);
@@ -18752,11 +18752,11 @@ app.post('/api/financeiro/migrar-integracao-setup', async (req, res) => {
                 IF NEW.venda_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor, NEW.criado_por, 'sucesso');
+                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor, NEW.criação_por, 'sucesso');
                 END IF;
             END
         `);
-        logs.push('   ✅ Triggers criados');
+        logs.push('   ✅ Triggers criaçãos');
 
         await connection.commit();
         logs.push('\n✅ MIGRAÇÃO CONCLUÍDA!');
@@ -18793,7 +18793,7 @@ app.post('/api/financeiro/migrar-integracao', authenticateToken, async (req, res
         try {
             await connection.query(`
                 ALTER TABLE contas_pagar 
-                ADD COLUMN pedido_compra_id INT NULL COMMENT 'ID do pedido de compra relacionado',
+                ADD COLUMN pedido_compra_id INT NULL COMMENT 'ID do pedido de compra relacionação',
                 ADD COLUMN venda_id INT NULL COMMENT 'ID da venda relacionada',
                 ADD INDEX idx_pedido_compra (pedido_compra_id),
                 ADD INDEX idx_venda (venda_id)
@@ -18839,10 +18839,10 @@ app.post('/api/financeiro/migrar-integracao', authenticateToken, async (req, res
                 usuario_id INT NULL,
                 status ENUM('sucesso', 'erro') DEFAULT 'sucesso',
                 mensagem TEXT NULL,
-                criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                criação_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 INDEX idx_origem (tipo_origem, origem_id),
                 INDEX idx_destino (tipo_destino, destino_id),
-                INDEX idx_data (criado_em)
+                INDEX idx_data (criação_em)
             )
         `);
         logs.push('   ✅ Tabela criada');
@@ -18883,7 +18883,7 @@ app.post('/api/financeiro/migrar-integracao', authenticateToken, async (req, res
                 IF NEW.pedido_compra_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor, NEW.criado_por, 'sucesso');
+                    VALUES ('compra', NEW.pedido_compra_id, 'conta_pagar', NEW.id, NEW.valor, NEW.criação_por, 'sucesso');
                 END IF;
             END
         `);
@@ -18897,11 +18897,11 @@ app.post('/api/financeiro/migrar-integracao', authenticateToken, async (req, res
                 IF NEW.venda_id IS NOT NULL THEN
                     INSERT INTO logs_integracao_financeiro 
                     (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status)
-                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor, NEW.criado_por, 'sucesso');
+                    VALUES ('venda', NEW.venda_id, 'conta_receber', NEW.id, NEW.valor, NEW.criação_por, 'sucesso');
                 END IF;
             END
         `);
-        logs.push('   ✅ Triggers criados');
+        logs.push('   ✅ Triggers criaçãos');
 
         await connection.commit();
         logs.push('\n✅ MIGRAÇÃO CONCLUÍDA!');
@@ -18984,17 +18984,17 @@ integracaoRouter.post('/estoque/reservar', [
                 const [estoque] = await connection.query(`
                     SELECT quantidade_fisica, quantidade_reservada, quantidade_disponivel
                     FROM estoque_saldos
-                    WHERE codigo_material = ?
+                    WHERE codigo_material = 
                 `, [item.codigo_material]);
 
                 if (estoque.length === 0) {
-                    erros.push(`Material ${item.codigo_material} não encontrado no estoque`);
+                    erros.push(`Material ${item.codigo_material} não encontração no estoque`);
                     continue;
                 }
 
                 const disponivel = parseFloat(estoque[0].quantidade_disponivel);
                 if (disponivel < item.quantidade) {
-                    erros.push(`Estoque insuficiente para ${item.codigo_material}. Disponível: ${disponivel}, Solicitado: ${item.quantidade}`);
+                    erros.push(`Estoque insuficiente para ${item.codigo_material}. Disponível: ${disponivel}, Solicitação: ${item.quantidade}`);
                     continue;
                 }
 
@@ -19003,7 +19003,7 @@ integracaoRouter.post('/estoque/reservar', [
                     INSERT INTO estoque_reservas
                     (codigo_material, quantidade, tipo_origem, documento_id, documento_numero, 
                      usuario_id, data_expiracao, status)
-                    VALUES (?, ?, 'pedido_venda', ?, ?, ?, DATE_ADD(NOW(), INTERVAL ? DAY), 'ativa')
+                    VALUES (, , 'pedido_venda', , , , DATE_ADD(NOW(), INTERVAL  DAY), 'ativa')
                 `, [
                     item.codigo_material,
                     item.quantidade,
@@ -19043,7 +19043,7 @@ integracaoRouter.post('/estoque/reservar', [
             data: {
                 pedido_id,
                 reservas: reservasCriadas,
-                erros: erros.length > 0 ? erros : undefined
+                erros: erros.length > 0  erros : undefined
             }
         });
 
@@ -19058,7 +19058,7 @@ integracaoRouter.post('/estoque/reservar', [
 
 /**
  * Consumir reserva e baixar estoque físico
- * Usado quando pedido é aprovado e estoque deve ser baixado
+ * Usação quando pedido é aprovação e estoque deve ser baixação
  */
 integracaoRouter.post('/estoque/consumir-reserva', [
     body('pedido_id').isInt({ min: 1 }),
@@ -19075,7 +19075,7 @@ integracaoRouter.post('/estoque/consumir-reserva', [
         const [reservas] = await connection.query(`
             SELECT * FROM estoque_reservas
             WHERE tipo_origem = 'pedido_venda' 
-            AND documento_id = ?
+            AND documento_id = 
             AND status = 'ativa'
         `, [pedido_id]);
 
@@ -19089,7 +19089,7 @@ integracaoRouter.post('/estoque/consumir-reserva', [
             // Buscar saldo atual
             const [estoque] = await connection.query(`
                 SELECT quantidade_fisica FROM estoque_saldos
-                WHERE codigo_material = ?
+                WHERE codigo_material = 
             `, [reserva.codigo_material]);
 
             if (estoque.length === 0) continue;
@@ -19100,9 +19100,9 @@ integracaoRouter.post('/estoque/consumir-reserva', [
             // Baixar estoque físico
             await connection.query(`
                 UPDATE estoque_saldos
-                SET quantidade_fisica = quantidade_fisica - ?,
+                SET quantidade_fisica = quantidade_fisica - ,
                     ultima_saida = CURDATE()
-                WHERE codigo_material = ?
+                WHERE codigo_material = 
             `, [reserva.quantidade, reserva.codigo_material]);
 
             // Registrar movimentação
@@ -19110,7 +19110,7 @@ integracaoRouter.post('/estoque/consumir-reserva', [
                 INSERT INTO estoque_movimentacoes
                 (codigo_material, tipo_movimento, origem, quantidade, quantidade_anterior,
                  quantidade_atual, documento_tipo, documento_id, documento_numero, usuario_id)
-                VALUES (?, 'saida', 'venda', ?, ?, ?, 'pedido_venda', ?, ?, ?)
+                VALUES (, 'saida', 'venda', , , , 'pedido_venda', , , )
             `, [
                 reserva.codigo_material,
                 reserva.quantidade,
@@ -19126,7 +19126,7 @@ integracaoRouter.post('/estoque/consumir-reserva', [
                 UPDATE estoque_reservas
                 SET status = 'consumida',
                     data_consumo = NOW()
-                WHERE id = ?
+                WHERE id = 
             `, [reserva.id]);
 
             movimentacoes.push({
@@ -19141,7 +19141,7 @@ integracaoRouter.post('/estoque/consumir-reserva', [
 
         res.json({
             success: true,
-            message: `${movimentacoes.length} reserva(s) consumida(s) e estoque baixado`,
+            message: `${movimentacoes.length} reserva(s) consumida(s) e estoque baixação`,
             data: {
                 pedido_id,
                 movimentacoes
@@ -19175,7 +19175,7 @@ integracaoRouter.post('/estoque/cancelar-reserva', [
             UPDATE estoque_reservas
             SET status = 'cancelada'
             WHERE tipo_origem = 'pedido_venda'
-            AND documento_id = ?
+            AND documento_id = 
             AND status = 'ativa'
         `, [pedido_id]);
 
@@ -19200,7 +19200,7 @@ integracaoRouter.post('/estoque/cancelar-reserva', [
 
 /**
  * Aprovar pedido de venda e realizar todas as integrações
- * 1. Baixa estoque (se produto acabado)
+ * 1. Baixa estoque (se produto acabação)
  * 2. Cria conta a receber no Financeiro
  * 3. Pode criar OP no PCP (se necessário)
  */
@@ -19217,16 +19217,16 @@ integracaoRouter.post('/vendas/aprovar-pedido', [
         const { pedido_id, gerar_op = false, baixar_estoque = true } = req.body;
         const usuario_id = req.user.id;
 
-        // 1. Buscar dados do pedido
+        // 1. Buscar daçãos do pedido
         const [pedidos] = await connection.query(`
             SELECT p.*, c.nome as cliente_nome 
             FROM pedidos p 
             LEFT JOIN clientes c ON p.cliente_id = c.id 
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [pedido_id]);
 
         if (pedidos.length === 0) {
-            throw new Error('Pedido não encontrado');
+            throw new Error('Pedido não encontração');
         }
 
         const pedido = pedidos[0];
@@ -19236,17 +19236,17 @@ integracaoRouter.post('/vendas/aprovar-pedido', [
             SELECT pi.*, pr.codigo, pr.descricao 
             FROM pedido_itens pi 
             LEFT JOIN produtos pr ON pi.produto_id = pr.id 
-            WHERE pi.pedido_id = ?
+            WHERE pi.pedido_id = 
         `, [pedido_id]);
 
-        // 3. Baixar estoque (se solicitado)
+        // 3. Baixar estoque (se solicitação)
         if (baixar_estoque) {
             for (const item of itens) {
                 // Verificar estoque disponível
                 const [estoqueCheck] = await connection.query(`
                     SELECT quantidade_fisica, quantidade_reservada 
                     FROM estoque_saldos 
-                    WHERE codigo_material = ?
+                    WHERE codigo_material = 
                 `, [item.codigo]);
 
                 if (estoqueCheck.length > 0) {
@@ -19263,7 +19263,7 @@ integracaoRouter.post('/vendas/aprovar-pedido', [
                         (codigo_material, tipo_movimento, origem, quantidade, quantidade_anterior, 
                          quantidade_atual, documento_tipo, documento_id, documento_numero, 
                          usuario_id, data_movimento)
-                        VALUES (?, 'saida', 'venda', ?, ?, ?, 'pedido_venda', ?, ?, ?, NOW())
+                        VALUES (, 'saida', 'venda', , , , 'pedido_venda', , , , NOW())
                     `, [
                         item.codigo,
                         item.quantidade,
@@ -19277,9 +19277,9 @@ integracaoRouter.post('/vendas/aprovar-pedido', [
                     // Atualizar saldo
                     await connection.query(`
                         UPDATE estoque_saldos 
-                        SET quantidade_fisica = quantidade_fisica - ?,
+                        SET quantidade_fisica = quantidade_fisica - ,
                             ultima_saida = CURDATE()
-                        WHERE codigo_material = ?
+                        WHERE codigo_material = 
                     `, [item.quantidade, item.codigo]);
                 }
             }
@@ -19291,10 +19291,10 @@ integracaoRouter.post('/vendas/aprovar-pedido', [
         const [contaReceber] = await connection.query(`
             INSERT INTO contas_receber 
             (cliente_id, valor, vencimento, categoria_id, forma_pagamento_id, 
-             descricao, documento, venda_id, status, criado_por, data_criacao)
-            VALUES (?, ?, DATE_ADD(CURDATE(), INTERVAL 30 DAY), 
+             descricao, documento, venda_id, status, criação_por, data_criacao)
+            VALUES (, , DATE_ADD(CURDATE(), INTERVAL 30 DAY), 
                     (SELECT id FROM categorias_financeiras WHERE tipo = 'receita' AND nome LIKE '%Venda%' LIMIT 1),
-                    1, ?, ?, ?, 'pendente', ?, NOW())
+                    1, , , , 'pendente', , NOW())
         `, [
             pedido.cliente_id,
             valorTotal,
@@ -19304,13 +19304,13 @@ integracaoRouter.post('/vendas/aprovar-pedido', [
             usuario_id
         ]);
 
-        // 5. Gerar OP se solicitado
+        // 5. Gerar OP se solicitação
         let op_id = null;
         if (gerar_op) {
             const [op] = await connection.query(`
                 INSERT INTO ordens_producao 
                 (numero_op, pedido_id, descricao, quantidade, status, data_inicio_prevista, usuario_id)
-                VALUES (?, ?, ?, ?, 'planejada', DATE_ADD(CURDATE(), INTERVAL 1 DAY), ?)
+                VALUES (, , , , 'planejada', DATE_ADD(CURDATE(), INTERVAL 1 DAY), )
             `, [
                 `OP-${Date.now()}`,
                 pedido_id,
@@ -19324,30 +19324,30 @@ integracaoRouter.post('/vendas/aprovar-pedido', [
         // 6. Atualizar status do pedido
         await connection.query(`
             UPDATE pedidos 
-            SET status = 'aprovado', 
+            SET status = 'aprovação', 
                 data_aprovacao = NOW(),
-                aprovado_por = ?,
-                ordem_producao_id = ?
-            WHERE id = ?
+                aprovação_por = ,
+                ordem_producao_id = 
+            WHERE id = 
         `, [usuario_id, op_id, pedido_id]);
 
         // 7. Log de integração
         await connection.query(`
             INSERT INTO logs_integracao_financeiro 
             (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status, observacoes)
-            VALUES ('venda', ?, 'conta_receber', ?, ?, ?, 'sucesso', ?)
-        `, [pedido_id, contaReceber.insertId, valorTotal, usuario_id, `Pedido aprovado e integrado`]);
+            VALUES ('venda', , 'conta_receber', , , , 'sucesso', )
+        `, [pedido_id, contaReceber.insertId, valorTotal, usuario_id, `Pedido aprovação e integração`]);
 
         await connection.commit();
 
         res.json({
             success: true,
-            message: 'Pedido aprovado e integrado com sucesso',
+            message: 'Pedido aprovação e integração com sucesso',
             data: {
                 pedido_id,
                 conta_receber_id: contaReceber.insertId,
                 op_id,
-                estoque_baixado: baixar_estoque,
+                estoque_baixação: baixar_estoque,
                 valor_total: valorTotal
             }
         });
@@ -19384,16 +19384,16 @@ integracaoRouter.post('/compras/receber-pedido', [
         const { pedido_compra_id, numero_nf, itens } = req.body;
         const usuario_id = req.user.id;
 
-        // 1. Buscar dados do pedido de compra
+        // 1. Buscar daçãos do pedido de compra
         const [pedidos] = await connection.query(`
             SELECT pc.*, f.nome as fornecedor_nome 
             FROM pedidos_compra pc 
             LEFT JOIN fornecedores f ON pc.fornecedor_id = f.id 
-            WHERE pc.id = ?
+            WHERE pc.id = 
         `, [pedido_compra_id]);
 
         if (pedidos.length === 0) {
-            throw new Error('Pedido de compra não encontrado');
+            throw new Error('Pedido de compra não encontração');
         }
 
         const pedido = pedidos[0];
@@ -19409,7 +19409,7 @@ integracaoRouter.post('/compras/receber-pedido', [
             const [saldoCheck] = await connection.query(`
                 SELECT id, quantidade_fisica, custo_medio 
                 FROM estoque_saldos 
-                WHERE codigo_material = ?
+                WHERE codigo_material = 
             `, [item.codigo_material]);
 
             if (saldoCheck.length === 0) {
@@ -19417,7 +19417,7 @@ integracaoRouter.post('/compras/receber-pedido', [
                 await connection.query(`
                     INSERT INTO estoque_saldos 
                     (codigo_material, quantidade_fisica, custo_medio, ultima_entrada)
-                    VALUES (?, ?, ?, CURDATE())
+                    VALUES (, , , CURDATE())
                 `, [item.codigo_material, item.quantidade_recebida, custo]);
             } else {
                 const saldo = saldoCheck[0];
@@ -19428,10 +19428,10 @@ integracaoRouter.post('/compras/receber-pedido', [
                 // Atualizar saldo
                 await connection.query(`
                     UPDATE estoque_saldos 
-                    SET quantidade_fisica = ?,
-                        custo_medio = ?,
+                    SET quantidade_fisica = ,
+                        custo_medio = ,
                         ultima_entrada = CURDATE()
-                    WHERE codigo_material = ?
+                    WHERE codigo_material = 
                 `, [qtdNova, custoMedioNovo, item.codigo_material]);
             }
 
@@ -19441,10 +19441,10 @@ integracaoRouter.post('/compras/receber-pedido', [
                 (codigo_material, tipo_movimento, origem, quantidade, quantidade_anterior,
                  quantidade_atual, documento_tipo, documento_id, documento_numero,
                  custo_unitario, usuario_id, data_movimento)
-                VALUES (?, 'entrada', 'compra', ?, 
-                        (SELECT quantidade_fisica FROM estoque_saldos WHERE codigo_material = ?),
-                        (SELECT quantidade_fisica FROM estoque_saldos WHERE codigo_material = ?),
-                        'pedido_compra', ?, ?, ?, ?, NOW())
+                VALUES (, 'entrada', 'compra', , 
+                        (SELECT quantidade_fisica FROM estoque_saldos WHERE codigo_material = ),
+                        (SELECT quantidade_fisica FROM estoque_saldos WHERE codigo_material = ),
+                        'pedido_compra', , , , , NOW())
             `, [
                 item.codigo_material,
                 item.quantidade_recebida,
@@ -19461,10 +19461,10 @@ integracaoRouter.post('/compras/receber-pedido', [
         const [contaPagar] = await connection.query(`
             INSERT INTO contas_pagar 
             (fornecedor_id, valor, vencimento, categoria_id, forma_pagamento_id,
-             descricao, documento, pedido_compra_id, status, criado_por, data_criacao)
-            VALUES (?, ?, DATE_ADD(CURDATE(), INTERVAL 30 DAY),
+             descricao, documento, pedido_compra_id, status, criação_por, data_criacao)
+            VALUES (, , DATE_ADD(CURDATE(), INTERVAL 30 DAY),
                     (SELECT id FROM categorias_financeiras WHERE tipo = 'despesa' AND nome LIKE '%Compra%' LIMIT 1),
-                    1, ?, ?, ?, 'pendente', ?, NOW())
+                    1, , , , 'pendente', , NOW())
         `, [
             pedido.fornecedor_id,
             valorTotal,
@@ -19478,21 +19478,21 @@ integracaoRouter.post('/compras/receber-pedido', [
         await connection.query(`
             UPDATE pedidos_compra 
             SET status = 'recebido', data_recebimento = NOW()
-            WHERE id = ?
+            WHERE id = 
         `, [pedido_compra_id]);
 
         // 5. Log
         await connection.query(`
             INSERT INTO logs_integracao_financeiro 
             (tipo_origem, origem_id, tipo_destino, destino_id, valor, usuario_id, status, observacoes)
-            VALUES ('compra', ?, 'conta_pagar', ?, ?, ?, 'sucesso', ?)
-        `, [pedido_compra_id, contaPagar.insertId, valorTotal, usuario_id, `Pedido recebido e integrado`]);
+            VALUES ('compra', , 'conta_pagar', , , , 'sucesso', )
+        `, [pedido_compra_id, contaPagar.insertId, valorTotal, usuario_id, `Pedido recebido e integração`]);
 
         await connection.commit();
 
         res.json({
             success: true,
-            message: 'Pedido de compra recebido e integrado',
+            message: 'Pedido de compra recebido e integração',
             data: {
                 pedido_compra_id,
                 conta_pagar_id: contaPagar.insertId,
@@ -19514,7 +19514,7 @@ integracaoRouter.post('/compras/receber-pedido', [
 
 /**
  * Consumir materiais de uma Ordem de Produção
- * Baixa estoque dos materiais usados na produção
+ * Baixa estoque dos materiais usaçãos na produção
  */
 integracaoRouter.post('/pcp/consumir-materiais', [
     body('op_id').isInt({ min: 1 }),
@@ -19531,7 +19531,7 @@ integracaoRouter.post('/pcp/consumir-materiais', [
         const usuario_id = req.user.id;
 
         // Verificar OP
-        const [ops] = await connection.query('SELECT * FROM ordens_producao WHERE id = ?', [op_id]);
+        const [ops] = await connection.query('SELECT * FROM ordens_producao WHERE id = ', [op_id]);
         if (ops.length === 0) throw new Error('OP não encontrada');
 
         const op = ops[0];
@@ -19542,7 +19542,7 @@ integracaoRouter.post('/pcp/consumir-materiais', [
             const [saldo] = await connection.query(`
                 SELECT quantidade_fisica, quantidade_reservada 
                 FROM estoque_saldos 
-                WHERE codigo_material = ?
+                WHERE codigo_material = 
             `, [material.codigo_material]);
 
             if (saldo.length === 0 || saldo[0].quantidade_fisica < material.quantidade_consumida) {
@@ -19555,7 +19555,7 @@ integracaoRouter.post('/pcp/consumir-materiais', [
                 (codigo_material, tipo_movimento, origem, quantidade, quantidade_anterior,
                  quantidade_atual, documento_tipo, documento_id, documento_numero,
                  usuario_id, data_movimento)
-                VALUES (?, 'saida', 'producao', ?, ?, ?, 'ordem_producao', ?, ?, ?, NOW())
+                VALUES (, 'saida', 'producao', , , , 'ordem_producao', , , , NOW())
             `, [
                 material.codigo_material,
                 material.quantidade_consumida,
@@ -19569,9 +19569,9 @@ integracaoRouter.post('/pcp/consumir-materiais', [
             // Atualizar saldo
             await connection.query(`
                 UPDATE estoque_saldos 
-                SET quantidade_fisica = quantidade_fisica - ?,
+                SET quantidade_fisica = quantidade_fisica - ,
                     ultima_saida = CURDATE()
-                WHERE codigo_material = ?
+                WHERE codigo_material = 
             `, [material.quantidade_consumida, material.codigo_material]);
         }
 
@@ -19595,7 +19595,7 @@ integracaoRouter.post('/pcp/consumir-materiais', [
 // ========== INTEGRAÇÃO: PCP → ESTOQUE (Produção Finalizada) ==========
 
 /**
- * Finalizar OP e dar entrada no produto acabado
+ * Finalizar OP e dar entrada no produto acabação
  */
 integracaoRouter.post('/pcp/finalizar-op', [
     body('op_id').isInt({ min: 1 }),
@@ -19610,40 +19610,40 @@ integracaoRouter.post('/pcp/finalizar-op', [
         const { op_id, codigo_produto, quantidade_produzida } = req.body;
         const usuario_id = req.user.id;
 
-        const [ops] = await connection.query('SELECT * FROM ordens_producao WHERE id = ?', [op_id]);
+        const [ops] = await connection.query('SELECT * FROM ordens_producao WHERE id = ', [op_id]);
         if (ops.length === 0) throw new Error('OP não encontrada');
 
         const op = ops[0];
 
-        // Dar entrada no produto acabado
+        // Dar entrada no produto acabação
         await connection.query(`
             INSERT INTO estoque_movimentacoes 
             (codigo_material, tipo_movimento, origem, quantidade, quantidade_anterior,
              quantidade_atual, documento_tipo, documento_id, documento_numero,
              usuario_id, data_movimento)
-            VALUES (?, 'entrada', 'producao', ?, 
-                    COALESCE((SELECT quantidade_fisica FROM estoque_saldos WHERE codigo_material = ?), 0),
-                    COALESCE((SELECT quantidade_fisica FROM estoque_saldos WHERE codigo_material = ?), 0) + ?,
-                    'ordem_producao', ?, ?, ?, NOW())
+            VALUES (, 'entrada', 'producao', , 
+                    COALESCE((SELECT quantidade_fisica FROM estoque_saldos WHERE codigo_material = ), 0),
+                    COALESCE((SELECT quantidade_fisica FROM estoque_saldos WHERE codigo_material = ), 0) + ,
+                    'ordem_producao', , , , NOW())
         `, [codigo_produto, quantidade_produzida, codigo_produto, codigo_produto, 
             quantidade_produzida, op_id, op.numero_op, usuario_id]);
 
         // Atualizar ou criar saldo
         const [saldoCheck] = await connection.query(`
-            SELECT id FROM estoque_saldos WHERE codigo_material = ?
+            SELECT id FROM estoque_saldos WHERE codigo_material = 
         `, [codigo_produto]);
 
         if (saldoCheck.length === 0) {
             await connection.query(`
                 INSERT INTO estoque_saldos (codigo_material, quantidade_fisica, ultima_entrada)
-                VALUES (?, ?, CURDATE())
+                VALUES (, , CURDATE())
             `, [codigo_produto, quantidade_produzida]);
         } else {
             await connection.query(`
                 UPDATE estoque_saldos 
-                SET quantidade_fisica = quantidade_fisica + ?,
+                SET quantidade_fisica = quantidade_fisica + ,
                     ultima_entrada = CURDATE()
-                WHERE codigo_material = ?
+                WHERE codigo_material = 
             `, [quantidade_produzida, codigo_produto]);
         }
 
@@ -19651,7 +19651,7 @@ integracaoRouter.post('/pcp/finalizar-op', [
         await connection.query(`
             UPDATE ordens_producao 
             SET status = 'finalizada', data_finalizacao = NOW()
-            WHERE id = ?
+            WHERE id = 
         `, [op_id]);
 
         await connection.commit();
@@ -19684,15 +19684,15 @@ integracaoRouter.get('/relatorio/movimentacoes', async (req, res, next) => {
         const params = [];
 
         if (data_inicio) {
-            where += ' AND DATE(data_movimento) >= ?';
+            where += ' AND DATE(data_movimento) >= ';
             params.push(data_inicio);
         }
         if (data_fim) {
-            where += ' AND DATE(data_movimento) <= ?';
+            where += ' AND DATE(data_movimento) <= ';
             params.push(data_fim);
         }
         if (tipo) {
-            where += ' AND tipo_movimento = ?';
+            where += ' AND tipo_movimento = ';
             params.push(tipo);
         }
 
@@ -19723,8 +19723,8 @@ integracaoRouter.get('/relatorio/movimentacoes', async (req, res, next) => {
 integracaoRouter.get('/dashboard', async (req, res, next) => {
     try {
         // KPIs
-        const [pedidosAprovados] = await pool.query(`
-            SELECT COUNT(*) as total FROM pedidos WHERE status = 'aprovado' AND DATE(data_aprovacao) = CURDATE()
+        const [pedidosAprovaçãos] = await pool.query(`
+            SELECT COUNT(*) as total FROM pedidos WHERE status = 'aprovação' AND DATE(data_aprovacao) = CURDATE()
         `);
 
         const [comprasRecebidas] = await pool.query(`
@@ -19753,7 +19753,7 @@ integracaoRouter.get('/dashboard', async (req, res, next) => {
         res.json({
             success: true,
             data: {
-                pedidos_aprovados_hoje: pedidosAprovados[0].total,
+                pedidos_aprovaçãos_hoje: pedidosAprovaçãos[0].total,
                 compras_recebidas_hoje: comprasRecebidas[0].total,
                 ops_finalizadas_hoje: opsFinalizadas[0].total,
                 movimentacoes_hoje: movimentacoesHoje[0].total,
@@ -19803,7 +19803,7 @@ try {
     logger.warn('⚠️ API Integração Compras-Financeiro não carregada:', err.message);
 }
 
-// Sistema de Notificações Unificado
+// Sistema de Notificações Unificação
 try {
     const notificacoesRouter = require('./api/notificacoes');
     app.use('/api/notificacoes', notificacoesRouter);
@@ -19911,7 +19911,7 @@ try {
     logger.warn('⚠️ API Auditoria não carregada:', err.message);
 }
 
-// Sistema de Permissões Unificado
+// Sistema de Permissões Unificação
 try {
     const permissoesRouter = require('./api/permissoes')({ pool, authenticateToken });
     app.use('/api/permissoes', permissoesRouter);

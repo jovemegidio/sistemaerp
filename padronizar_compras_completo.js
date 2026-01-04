@@ -91,7 +91,7 @@ const topbarPadrao = `                <header class="topbar">
                             <button class="nav-icon-btn" title="Lista">
                                 <i class="fas fa-list"></i>
                             </button>
-                            <button class="nav-icon-btn" title="Atualizar Dados" id="btn-refresh-header">
+                            <button class="nav-icon-btn" title="Atualizar Daçãos" id="btn-refresh-header">
                                 <i class="fas fa-sync-alt"></i>
                             </button>
                             <button class="nav-icon-btn" title="Alternar Modo Escuro" id="btn-dark-mode-toggle">
@@ -102,7 +102,7 @@ const topbarPadrao = `                <header class="topbar">
                         <div class="search-wrapper" role="search" aria-label="Pesquisar">
                             <i class="fas fa-search search-icon" aria-hidden="true"></i>
                             <input id="main-search" type="search" placeholder="Buscar..." class="search-input" autocomplete="off" aria-label="Pesquisar" />
-                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultados da busca" aria-live="polite" aria-hidden="true"></div>
+                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultaçãos da busca" aria-live="polite" aria-hidden="true"></div>
                         </div>
                         
                         <button class="menu-toggle-btn" title="Menu">
@@ -165,7 +165,7 @@ arquivos.forEach(arquivo => {
     const filePath = path.join(__dirname, 'modules', 'Compras', arquivo.nome);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`⚠️  ${arquivo.nome} não encontrado`);
+        console.log(`⚠️  ${arquivo.nome} não encontração`);
         return;
     }
     
@@ -175,12 +175,12 @@ arquivos.forEach(arquivo => {
     if (!content.includes('modern-saas.css')) {
         content = content.replace(
             /<link rel="stylesheet" href="https:\/\/cdnjs\.cloudflare\.com\/ajax\/libs\/font-awesome/,
-            '    <link rel="stylesheet" href="../_shared/modern-saas.css?v=3.0">\n    <link rel="stylesheet" href="../PCP/pcp_modern_clean.css?v=2.0">\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome'
+            '    <link rel="stylesheet" href="../_shared/modern-saas.cssv=3.0">\n    <link rel="stylesheet" href="../PCP/pcp_modern_clean.cssv=2.0">\n    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome'
         );
     }
     
     // Substituir sidebar antiga por PCP padrão
-    const sidebarRegex = /<div class="aluforce-container">[\s\S]*?<aside class="aluforce-sidebar">[\s\S]*?<\/aside>[\s\S]*?<main class="aluforce-content">/;
+    const sidebarRegex = /<div class="aluforce-container">[\s\S]*<aside class="aluforce-sidebar">[\s\S]*<\/aside>[\s\S]*<main class="aluforce-content">/;
     const bodyRegex = /<body>\s*<div class="aluforce-container">/;
     
     if (sidebarRegex.test(content)) {
@@ -209,7 +209,7 @@ arquivos.forEach(arquivo => {
         );
         
         fs.writeFileSync(filePath, content, 'utf8');
-        console.log(`✅ ${arquivo.nome} - Padronizado`);
+        console.log(`✅ ${arquivo.nome} - Padronização`);
     } else {
         console.log(`⏭️  ${arquivo.nome} - Já tem estrutura PCP ou diferente`);
     }

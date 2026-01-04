@@ -30,17 +30,17 @@ router.get('/folha/listar', async (req, res) => {
         const params = [];
         
         if (mes) {
-            query += ' AND fp.mes = ?';
+            query += ' AND fp.mes = ';
             params.push(mes);
         }
         
         if (ano) {
-            query += ' AND fp.ano = ?';
+            query += ' AND fp.ano = ';
             params.push(ano);
         }
         
         if (status) {
-            query += ' AND fp.status = ?';
+            query += ' AND fp.status = ';
             params.push(status);
         }
         
@@ -76,7 +76,7 @@ router.post('/folha/processar', async (req, res) => {
         
         // Verificar se já existe folha para o período
         const [existing] = await connection.query(
-            'SELECT id FROM rh_folhas_pagamento WHERE mes = ? AND ano = ? AND tipo_folha = ?',
+            'SELECT id FROM rh_folhas_pagamento WHERE mes =  AND ano =  AND tipo_folha = ',
             [mes, ano, tipo_folha || 'mensal']
         );
         
@@ -91,8 +91,8 @@ router.post('/folha/processar', async (req, res) => {
         // Criar folha de pagamento
         const [folhaResult] = await connection.query(
             `INSERT INTO rh_folhas_pagamento 
-             (mes, ano, tipo_folha, data_processamento, processado_por, status)
-             VALUES (?, ?, ?, NOW(), ?, 'processando')`,
+             (mes, ano, tipo_folha, data_processamento, processação_por, status)
+             VALUES (, , , NOW(), , 'processando')`,
             [mes, ano, tipo_folha || 'mensal', req.user.id]
         );
         
@@ -108,7 +108,7 @@ router.post('/folha/processar', async (req, res) => {
             WHERE f.ativo = 1 AND f.status = 'ativo'`
         );
         
-        let totalProcessados = 0;
+        let totalProcessaçãos = 0;
         let totalErros = 0;
         
         for (const func of funcionarios) {
@@ -116,14 +116,14 @@ router.post('/folha/processar', async (req, res) => {
                 // Buscar proventos adicionais (horas extras, comissões, etc)
                 const [proventos] = await connection.query(
                     `SELECT tipo, valor FROM rh_holerite_itens 
-                     WHERE funcionario_id = ? AND mes = ? AND ano = ? AND categoria = 'provento'`,
+                     WHERE funcionario_id =  AND mes =  AND ano =  AND categoria = 'provento'`,
                     [func.id, mes, ano]
                 );
                 
                 // Buscar descontos adicionais
                 const [descontos] = await connection.query(
                     `SELECT tipo, valor FROM rh_holerite_itens 
-                     WHERE funcionario_id = ? AND mes = ? AND ano = ? AND categoria = 'desconto'`,
+                     WHERE funcionario_id =  AND mes =  AND ano =  AND categoria = 'desconto'`,
                     [func.id, mes, ano]
                 );
                 
@@ -151,12 +151,12 @@ router.post('/folha/processar', async (req, res) => {
                     `INSERT INTO rh_holerites 
                      (folha_id, funcionario_id, mes, ano, salario_base, total_proventos, 
                       total_descontos, inss_valor, irrf_valor, fgts_valor, salario_liquido, status)
-                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'calculado')`,
+                     VALUES (, , , , , , , , , , , 'calculação')`,
                     [folhaId, func.id, mes, ano, salarioBase, totalProventos, 
                      totalDescontos, inss.valor, irrf.valor, fgts, salarioLiquido]
                 );
                 
-                totalProcessados++;
+                totalProcessaçãos++;
             } catch (error) {
                 console.error(`Erro ao processar funcionário ${func.id}:`, error);
                 totalErros++;
@@ -167,10 +167,10 @@ router.post('/folha/processar', async (req, res) => {
         await connection.query(
             `UPDATE rh_folhas_pagamento 
              SET status = 'processada', 
-                 total_funcionarios = ?,
+                 total_funcionarios = ,
                  data_processamento = NOW()
-             WHERE id = ?`,
-            [totalProcessados, folhaId]
+             WHERE id = `,
+            [totalProcessaçãos, folhaId]
         );
         
         await connection.commit();
@@ -178,7 +178,7 @@ router.post('/folha/processar', async (req, res) => {
         res.json({
             success: true,
             folha_id: folhaId,
-            total_processados: totalProcessados,
+            total_processaçãos: totalProcessaçãos,
             total_erros: totalErros,
             message: 'Folha processada com sucesso'
         });
@@ -209,7 +209,7 @@ router.get('/folha/:id/holerites', async (req, res) => {
                 f.departamento
             FROM rh_holerites h
             JOIN funcionarios f ON h.funcionario_id = f.id
-            WHERE h.folha_id = ?
+            WHERE h.folha_id = 
             ORDER BY f.nome_completo`,
             [id]
         );
@@ -245,18 +245,18 @@ router.get('/holerite/:id/pdf', async (req, res) => {
             FROM rh_holerites h
             JOIN funcionarios f ON h.funcionario_id = f.id
             JOIN rh_folhas_pagamento fp ON h.folha_id = fp.id
-            WHERE h.id = ?`,
+            WHERE h.id = `,
             [id]
         );
         
         if (!holerite.length) {
-            return res.status(404).json({ success: false, error: 'Holerite não encontrado' });
+            return res.status(404).json({ success: false, error: 'Holerite não encontração' });
         }
         
-        // Buscar itens detalhados
+        // Buscar itens detalhaçãos
         const [itens] = await pool.query(
             `SELECT * FROM rh_holerite_itens 
-             WHERE funcionario_id = ? AND mes = ? AND ano = ?
+             WHERE funcionario_id =  AND mes =  AND ano = 
              ORDER BY categoria, tipo`,
             [holerite[0].funcionario_id, holerite[0].mes, holerite[0].ano]
         );
@@ -313,7 +313,7 @@ router.post('/beneficios/tipos', async (req, res) => {
         const [result] = await pool.query(
             `INSERT INTO rh_beneficios_tipos 
              (nome, categoria, descricao, valor_padrao, desconto_funcionario, obrigatorio, fornecedor)
-             VALUES (?, ?, ?, ?, ?, ?, ?)`,
+             VALUES (, , , , , , )`,
             [nome, categoria, descricao, valor_padrao || 0, desconto_funcionario || 0, 
              obrigatorio || false, fornecedor]
         );
@@ -321,7 +321,7 @@ router.post('/beneficios/tipos', async (req, res) => {
         res.json({
             success: true,
             id: result.insertId,
-            message: 'Tipo de benefício criado com sucesso'
+            message: 'Tipo de benefício criação com sucesso'
         });
     } catch (error) {
         console.error('❌ Erro ao criar tipo de benefício:', error);
@@ -345,7 +345,7 @@ router.get('/beneficios/funcionario/:id', async (req, res) => {
                 bt.fornecedor
             FROM rh_funcionarios_beneficios fb
             JOIN rh_beneficios_tipos bt ON fb.beneficio_tipo_id = bt.id
-            WHERE fb.funcionario_id = ? AND fb.ativo = TRUE
+            WHERE fb.funcionario_id =  AND fb.ativo = TRUE
             ORDER BY bt.categoria, bt.nome`,
             [id]
         );
@@ -375,7 +375,7 @@ router.post('/beneficios/vincular', async (req, res) => {
             `INSERT INTO rh_funcionarios_beneficios 
              (funcionario_id, beneficio_tipo_id, valor_empresa, valor_funcionario, 
               inicio_vigencia, ativo)
-             VALUES (?, ?, ?, ?, ?, TRUE)`,
+             VALUES (, , , , , TRUE)`,
             [funcionario_id, beneficio_tipo_id, valor_empresa, valor_funcionario || 0, 
              inicio_vigencia || new Date()]
         );
@@ -383,7 +383,7 @@ router.post('/beneficios/vincular', async (req, res) => {
         res.json({
             success: true,
             id: result.insertId,
-            message: 'Benefício vinculado com sucesso'
+            message: 'Benefício vinculação com sucesso'
         });
     } catch (error) {
         console.error('❌ Erro ao vincular benefício:', error);
@@ -403,15 +403,15 @@ router.put('/beneficios/:id/cancelar', async (req, res) => {
         await pool.query(
             `UPDATE rh_funcionarios_beneficios 
              SET ativo = FALSE, 
-                 fim_vigencia = ?,
-                 observacoes = ?
-             WHERE id = ?`,
+                 fim_vigencia = ,
+                 observacoes = 
+             WHERE id = `,
             [fim_vigencia || new Date(), motivo, id]
         );
         
         res.json({
             success: true,
-            message: 'Benefício cancelado com sucesso'
+            message: 'Benefício cancelação com sucesso'
         });
     } catch (error) {
         console.error('❌ Erro ao cancelar benefício:', error);
@@ -461,7 +461,7 @@ router.post('/avaliacoes/criar', async (req, res) => {
         const { 
             funcionario_id, 
             periodo_id, 
-            avaliador_id, 
+            avaliaçãor_id, 
             competencias,  // Array de {competencia_id, nota, comentario}
             pontos_fortes, 
             pontos_melhorar, 
@@ -471,10 +471,10 @@ router.post('/avaliacoes/criar', async (req, res) => {
         // Criar avaliação
         const [avalResult] = await connection.query(
             `INSERT INTO rh_avaliacoes_desempenho 
-             (funcionario_id, periodo_id, avaliador_id, pontos_fortes, 
+             (funcionario_id, periodo_id, avaliaçãor_id, pontos_fortes, 
               pontos_melhoria, plano_desenvolvimento, status, data_avaliacao)
-             VALUES (?, ?, ?, ?, ?, ?, 'concluida', NOW())`,
-            [funcionario_id, periodo_id, avaliador_id, pontos_fortes, 
+             VALUES (, , , , , , 'concluida', NOW())`,
+            [funcionario_id, periodo_id, avaliaçãor_id, pontos_fortes, 
              pontos_melhorar, plano_acao]
         );
         
@@ -486,19 +486,19 @@ router.post('/avaliacoes/criar', async (req, res) => {
             await connection.query(
                 `INSERT INTO rh_avaliacao_itens 
                  (avaliacao_id, competencia_id, nota_avaliacao, comentarios)
-                 VALUES (?, ?, ?, ?)`,
+                 VALUES (, , , )`,
                 [avaliacaoId, comp.competencia_id, comp.nota, comp.comentario || null]
             );
             somaNotas += parseFloat(comp.nota);
         }
         
         // Calcular média
-        const notaFinal = competencias.length > 0 ? somaNotas / competencias.length : 0;
+        const notaFinal = competencias.length > 0  somaNotas / competencias.length : 0;
         
         await connection.query(
             `UPDATE rh_avaliacoes_desempenho 
-             SET nota_final = ? 
-             WHERE id = ?`,
+             SET nota_final =  
+             WHERE id = `,
             [notaFinal, avaliacaoId]
         );
         
@@ -532,11 +532,11 @@ router.get('/avaliacoes/funcionario/:id', async (req, res) => {
             `SELECT 
                 a.*,
                 p.nome as periodo_nome,
-                av.nome_completo as avaliador_nome
+                av.nome_completo as avaliaçãor_nome
             FROM rh_avaliacoes_desempenho a
             JOIN rh_periodos_avaliacao p ON a.periodo_id = p.id
-            JOIN funcionarios av ON a.avaliador_id = av.id
-            WHERE a.funcionario_id = ?
+            JOIN funcionarios av ON a.avaliaçãor_id = av.id
+            WHERE a.funcionario_id = 
             ORDER BY a.data_avaliacao DESC`,
             [id]
         );

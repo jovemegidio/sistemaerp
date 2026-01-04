@@ -21,7 +21,7 @@
     function loadMateriais() {
         materiais = [
             { id: 1, codigo: 'MAT-001', nome: 'Alumínio 6061-T6', categoria: 'Matéria-Prima', unidade: 'kg', estoqueAtual: 1250, estoqueMinimo: 500, estoqueMaximo: 2000, custoMedio: 45.80, fornecedorPrincipal: 'Alum Brasil Ltda', status: 'ativo' },
-            { id: 2, codigo: 'MAT-002', nome: 'Parafuso Sextavado M8x20', categoria: 'Ferragens', unidade: 'pç', estoqueAtual: 2800, estoqueMinimo: 1000, estoqueMaximo: 5000, custoMedio: 2.50, fornecedorPrincipal: 'Ferragens Brasil', status: 'ativo' },
+            { id: 2, codigo: 'MAT-002', nome: 'Parafuso Sextavação M8x20', categoria: 'Ferragens', unidade: 'pç', estoqueAtual: 2800, estoqueMinimo: 1000, estoqueMaximo: 5000, custoMedio: 2.50, fornecedorPrincipal: 'Ferragens Brasil', status: 'ativo' },
             { id: 3, codigo: 'MAT-003', nome: 'Tinta Epóxi Branca RAL 9016', categoria: 'Químicos', unidade: 'L', estoqueAtual: 45, estoqueMinimo: 50, estoqueMaximo: 200, custoMedio: 89.90, fornecedorPrincipal: 'QuímicaBR Produtos', status: 'critico' },
             { id: 4, codigo: 'MAT-004', nome: 'Rolamento SKF 6205-2RS', categoria: 'Componentes', unidade: 'pç', estoqueAtual: 120, estoqueMinimo: 50, estoqueMaximo: 300, custoMedio: 34.20, fornecedorPrincipal: 'Metal Line Indústria', status: 'ativo' },
             { id: 5, codigo: 'MAT-005', nome: 'Aço 1020 Chapa 3mm', categoria: 'Matéria-Prima', unidade: 'kg', estoqueAtual: 890, estoqueMinimo: 300, estoqueMaximo: 1500, custoMedio: 12.30, fornecedorPrincipal: 'Aço Forte Materiais', status: 'ativo' },
@@ -38,7 +38,7 @@
 
     function render() {
         const { formatCurrency } = window.ComprasModule.utils;
-        const materiaisFiltrados = filtrarMateriais();
+        const materiaisFiltraçãos = filtrarMateriais();
 
         const totalMateriais = materiais.length;
         const materiaisCriticos = materiais.filter(m => m.status === 'critico').length;
@@ -78,11 +78,11 @@
             </div>
 
             <div class="filter-bar" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="btn-filter ${filtroCategoria === 'todos' ? 'active' : ''}" onclick="filtrarPorCategoria('todos')">
+                <button class="btn-filter ${filtroCategoria === 'todos'  'active' : ''}" onclick="filtrarPorCategoria('todos')">
                     Todos (${materiais.length})
                 </button>
                 ${categorias.map(cat => `
-                    <button class="btn-filter ${filtroCategoria === cat ? 'active' : ''}" onclick="filtrarPorCategoria('${cat}')">
+                    <button class="btn-filter ${filtroCategoria === cat  'active' : ''}" onclick="filtrarPorCategoria('${cat}')">
                         ${cat} (${materiais.filter(m => m.categoria === cat).length})
                     </button>
                 `).join('')}
@@ -104,13 +104,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                        ${materiaisFiltrados.map(m => `
-                            <tr class="${m.status === 'critico' ? 'row-warning' : ''}">
+                        ${materiaisFiltraçãos.map(m => `
+                            <tr class="${m.status === 'critico'  'row-warning' : ''}">
                                 <td><strong>${m.codigo}</strong></td>
                                 <td>${m.nome}</td>
                                 <td><span class="badge badge-info">${m.categoria}</span></td>
                                 <td>
-                                    <strong class="${m.estoqueAtual < m.estoqueMinimo ? 'text-danger' : 'text-success'}">
+                                    <strong class="${m.estoqueAtual < m.estoqueMinimo  'text-danger' : 'text-success'}">
                                         ${m.estoqueAtual} ${m.unidade}
                                     </strong>
                                 </td>
@@ -119,7 +119,7 @@
                                 <td>${m.fornecedorPrincipal}</td>
                                 <td>
                                     ${m.status === 'critico' 
-                                        ? '<span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> Crítico</span>'
+                                         '<span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> Crítico</span>'
                                         : '<span class="badge badge-success">Normal</span>'}
                                 </td>
                                 <td>

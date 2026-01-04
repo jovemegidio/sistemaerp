@@ -6,7 +6,7 @@
   function makeRequest(url, options = {}) {
     return new Promise((resolve, reject) => {
       const parsedUrl = new URL(url);
-      const client = parsedUrl.protocol === 'https:' ? https : http;
+      const client = parsedUrl.protocol === 'https:'  https : http;
       
       const req = client.request(url, {
         method: options.method || 'GET',

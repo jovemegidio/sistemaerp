@@ -30,8 +30,8 @@ function processFile(filePath) {
         /\s*<link rel="stylesheet" href="[^"]*chat-widget\.css[^"]*">\s*/g,
         /\s*<script src="[^"]*chat-widget\.js[^"]*"><\/script>\s*/g,
         // Comentários do chat
-        /\s*<!-- Chat Widget.*?-->\s*/g,
-        /\s*<!-- Bob AI.*?-->\s*/g
+        /\s*<!-- Chat Widget.*-->\s*/g,
+        /\s*<!-- Bob AI.*-->\s*/g
     ];
     
     patterns.forEach(pattern => {

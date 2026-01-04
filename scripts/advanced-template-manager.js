@@ -27,12 +27,12 @@ class AdvancedTemplateManager {
             'pedido-compras': {
                 name: 'Pedido de Compras',
                 description: 'Template para pedidos de compras',
-                fields: ['numero_pedido', 'fornecedor', 'comprador', 'produtos', 'data_entrega']
+                fields: ['numero_pedido', 'fornecedor', 'compraçãor', 'produtos', 'data_entrega']
             },
             'nota-entrega': {
                 name: 'Nota de Entrega',
                 description: 'Template para notas de entrega',
-                fields: ['numero_nota', 'cliente', 'transportadora', 'produtos', 'data_entrega']
+                fields: ['numero_nota', 'cliente', 'transportaçãora', 'produtos', 'data_entrega']
             }
         };
 
@@ -105,16 +105,16 @@ class AdvancedTemplateManager {
         return templateId;
     }
 
-    // Criar template personalizado
+    // Criar template personalização
     async createCustomTemplate(baseTemplateId, customizations, userInfo) {
         const baseTemplate = this.config.templates[baseTemplateId];
         if (!baseTemplate) {
-            throw new Error('Template base não encontrado');
+            throw new Error('Template base não encontração');
         }
 
         const customTemplateId = await this.registerTemplate({
-            name: `${baseTemplate.name} - Personalizado (${userInfo.company || 'Custom'})`,
-            description: `Template personalizado baseado em ${baseTemplate.name}`,
+            name: `${baseTemplate.name} - Personalização (${userInfo.company || 'Custom'})`,
+            description: `Template personalização baseação em ${baseTemplate.name}`,
             type: baseTemplate.type,
             filePath: await this.copyAndCustomizeTemplate(baseTemplate.filePath, customizations),
             createdBy: userInfo.userId || 'user',
@@ -149,12 +149,12 @@ class AdvancedTemplateManager {
                 await this.applyLayoutCustomizations(worksheet, customizations.layout);
             }
 
-            // Salvar template personalizado
+            // Salvar template personalização
             await workbook.xlsx.writeFile(customPath);
             
             return customPath;
         } catch (error) {
-            throw new Error(`Erro ao criar template personalizado: ${error.message}`);
+            throw new Error(`Erro ao criar template personalização: ${error.message}`);
         }
     }
 
@@ -180,14 +180,14 @@ class AdvancedTemplateManager {
                 row.eachCell((cell) => {
                     cell.font = {
                         ...cell.font,
-                        name: styling.fontFamily || cell.font?.name || 'Arial',
-                        size: styling.fontSize || cell.font?.size || 10
+                        name: styling.fontFamily || cell.font.name || 'Arial',
+                        size: styling.fontSize || cell.font.size || 10
                     };
                 });
             });
         }
 
-        // Aplicar logotipo personalizado
+        // Aplicar logotipo personalização
         if (styling.logoPath) {
             try {
                 const logoId = await worksheet.workbook.addImage({
@@ -196,8 +196,8 @@ class AdvancedTemplateManager {
                 });
 
                 worksheet.addImage(logoId, {
-                    tl: { col: styling.logoPosition?.col || 0, row: styling.logoPosition?.row || 0 },
-                    ext: { width: styling.logoSize?.width || 100, height: styling.logoSize?.height || 50 }
+                    tl: { col: styling.logoPosition.col || 0, row: styling.logoPosition.row || 0 },
+                    ext: { width: styling.logoSize.width || 100, height: styling.logoSize.height || 50 }
                 });
             } catch (error) {
                 console.warn('Erro ao adicionar logo:', error.message);
@@ -228,7 +228,7 @@ class AdvancedTemplateManager {
             });
         }
 
-        // Mesclar células conforme especificado
+        // Mesclar células conforme especificação
         if (layout.mergedCells) {
             layout.mergedCells.forEach(merge => {
                 worksheet.mergeCells(merge.range);
@@ -275,7 +275,7 @@ class AdvancedTemplateManager {
     async getTemplate(templateId) {
         const template = this.config.templates[templateId];
         if (!template) {
-            throw new Error('Template não encontrado');
+            throw new Error('Template não encontração');
         }
 
         return template;
@@ -296,7 +296,7 @@ class AdvancedTemplateManager {
             template.metadata.isDefault = true;
             await this.saveTemplateConfig();
         } else {
-            throw new Error('Template não encontrado');
+            throw new Error('Template não encontração');
         }
     }
 
@@ -310,7 +310,7 @@ class AdvancedTemplateManager {
             
             const worksheet = workbook.getWorksheet(1);
             
-            // Aplicar mapeamento de dados usando as customizações do template
+            // Aplicar mapeamento de daçãos usando as customizações do template
             await this.applyDataMapping(worksheet, data, template.customizations.cellMappings);
             
             return workbook;
@@ -321,8 +321,8 @@ class AdvancedTemplateManager {
 
     async applyDataMapping(worksheet, data, cellMappings) {
         // Aplicar mapeamento básico (similar ao sistema atual)
-        if (cellMappings.dados_basicos) {
-            Object.entries(cellMappings.dados_basicos).forEach(([field, cells]) => {
+        if (cellMappings.daçãos_basicos) {
+            Object.entries(cellMappings.daçãos_basicos).forEach(([field, cells]) => {
                 cells.forEach(cellAddr => {
                     try {
                         worksheet.getCell(cellAddr).value = data[field] || '';
@@ -352,14 +352,14 @@ class AdvancedTemplateManager {
             });
         }
 
-        // Aplicar cálculos personalizados
+        // Aplicar cálculos personalizaçãos
         if (cellMappings.calculos) {
             Object.entries(cellMappings.calculos).forEach(([field, config]) => {
                 try {
                     let valor = 0;
                     
                     if (config.tipo === 'soma_produtos') {
-                        valor = data.produtos?.reduce((sum, p) => {
+                        valor = data.produtos.reduce((sum, p) => {
                             return sum + ((p.quantidade || 0) * (p.valor_unitario || 0));
                         }, 0) || 0;
                     }
@@ -422,7 +422,7 @@ class AdvancedTemplateManager {
             stats.templatesByType[template.type]++;
 
             // Por empresa
-            const company = template.metadata.company || 'Não especificado';
+            const company = template.metadata.company || 'Não especificação';
             if (!stats.templatesByCompany[company]) {
                 stats.templatesByCompany[company] = 0;
             }

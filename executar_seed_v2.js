@@ -1,5 +1,5 @@
 /**
- * Script CORRIGIDO para SEED de dados iniciais - ALUFORCE
+ * Script CORRIGIDO para SEED de daçãos iniciais - ALUFORCE
  * Adapta-se automaticamente à estrutura real das tabelas
  */
 
@@ -41,7 +41,7 @@ async function executarSeedCorrigido() {
         console.log(`${colors.cyan}╚════════════════════════════════════════════════════════════╝${colors.reset}\n`);
 
         connection = await mysql.createConnection(dbConfig);
-        console.log(`${colors.green}✅ Conectado ao banco${colors.reset}\n`);
+        console.log(`${colors.green}✅ Conectação ao banco${colors.reset}\n`);
 
         // 1. EMPRESAS (necessário para clientes)
         console.log(`${colors.blue}🏢 Criando empresa padrão...${colors.reset}`);
@@ -65,19 +65,19 @@ async function executarSeedCorrigido() {
             console.log(`   Colunas: ${cols.join(', ')}`);
             
             // Usar password_hash ou senha_hash conforme existir
-            const senhaCol = cols.includes('password_hash') ? 'password_hash' : 
-                            cols.includes('senha_hash') ? 'senha_hash' : null;
+            const senhaCol = cols.includes('password_hash')  'password_hash' : 
+                            cols.includes('senha_hash')  'senha_hash' : null;
             
             if (senhaCol) {
                 await connection.execute(`
                     INSERT INTO usuarios (nome, email, ${senhaCol}, is_admin, role, created_at) VALUES
-                    ('Administrador', 'admin@aluforce.com', SHA2('admin123', 256), 1, 'admin', NOW()),
+                    ('Administraçãor', 'admin@aluforce.com', SHA2('admin123', 256), 1, 'admin', NOW()),
                     ('Vendedor', 'vendedor@aluforce.com', SHA2('vendedor123', 256), 0, 'vendedor', NOW()),
                     ('Financeiro', 'financeiro@aluforce.com', SHA2('financeiro123', 256), 0, 'financeiro', NOW()),
                     ('PCP', 'pcp@aluforce.com', SHA2('pcp123', 256), 0, 'pcp', NOW())
                     ON DUPLICATE KEY UPDATE nome = VALUES(nome)
                 `);
-                console.log(`   ${colors.green}✅ 4 usuários criados${colors.reset}`);
+                console.log(`   ${colors.green}✅ 4 usuários criaçãos${colors.reset}`);
             } else {
                 console.log(`   ${colors.yellow}⚠️  Coluna de senha não encontrada${colors.reset}`);
             }
@@ -93,7 +93,7 @@ async function executarSeedCorrigido() {
             
             if (hasEmpresaId) {
                 await connection.execute(`
-                    INSERT INTO clientes (nome, razao_social, nome_fantasia, cnpj, email, telefone, endereco, cidade, estado, cep, ativo, empresa_id) VALUES
+                    INSERT INTO clientes (nome, razao_social, nome_fantasia, cnpj, email, telefone, endereco, cidade, estação, cep, ativo, empresa_id) VALUES
                     ('João Silva', 'JOAO SILVA ME', 'JS Construções', '11.111.111/0001-11', 'joao@email.com', '(11) 99999-1111', 'Rua das Flores, 100', 'São Paulo', 'SP', '01000-001', 1, 1),
                     ('Maria Santos', 'MARIA SANTOS LTDA', 'MS Vidraçaria', '22.222.222/0001-22', 'maria@email.com', '(11) 99999-2222', 'Av. Principal, 200', 'São Paulo', 'SP', '01000-002', 1, 1),
                     ('Pedro Oliveira', 'PEDRO OLIVEIRA EPP', 'PO Esquadrias', '33.333.333/0001-33', 'pedro@email.com', '(11) 99999-3333', 'Rua do Comércio, 300', 'Guarulhos', 'SP', '07000-001', 1, 1),
@@ -103,7 +103,7 @@ async function executarSeedCorrigido() {
                 `);
             } else {
                 await connection.execute(`
-                    INSERT INTO clientes (nome, razao_social, nome_fantasia, cnpj, email, telefone, endereco, cidade, estado, cep, ativo) VALUES
+                    INSERT INTO clientes (nome, razao_social, nome_fantasia, cnpj, email, telefone, endereco, cidade, estação, cep, ativo) VALUES
                     ('João Silva', 'JOAO SILVA ME', 'JS Construções', '11.111.111/0001-11', 'joao@email.com', '(11) 99999-1111', 'Rua das Flores, 100', 'São Paulo', 'SP', '01000-001', 1),
                     ('Maria Santos', 'MARIA SANTOS LTDA', 'MS Vidraçaria', '22.222.222/0001-22', 'maria@email.com', '(11) 99999-2222', 'Av. Principal, 200', 'São Paulo', 'SP', '01000-002', 1),
                     ('Pedro Oliveira', 'PEDRO OLIVEIRA EPP', 'PO Esquadrias', '33.333.333/0001-33', 'pedro@email.com', '(11) 99999-3333', 'Rua do Comércio, 300', 'Guarulhos', 'SP', '07000-001', 1),
@@ -112,7 +112,7 @@ async function executarSeedCorrigido() {
                     ON DUPLICATE KEY UPDATE nome = VALUES(nome)
                 `);
             }
-            console.log(`   ${colors.green}✅ 5 clientes criados${colors.reset}`);
+            console.log(`   ${colors.green}✅ 5 clientes criaçãos${colors.reset}`);
         } catch (err) {
             console.log(`   ${colors.yellow}⚠️  Clientes: ${err.message}${colors.reset}`);
         }
@@ -124,21 +124,21 @@ async function executarSeedCorrigido() {
             console.log(`   Colunas: ${cols.slice(0, 10).join(', ')}...`);
             
             // Verificar qual coluna de nome existe
-            const nomeCol = cols.includes('nome') ? 'nome' : 
-                           cols.includes('nome_completo') ? 'nome_completo' : 
-                           cols.includes('full_name') ? 'full_name' : null;
+            const nomeCol = cols.includes('nome')  'nome' : 
+                           cols.includes('nome_completo')  'nome_completo' : 
+                           cols.includes('full_name')  'full_name' : null;
             
             if (nomeCol && cols.includes('email')) {
                 await connection.execute(`
                     INSERT INTO funcionarios (${nomeCol}, email, cargo, departamento, data_admissao, salario, ativo) VALUES
-                    ('José Pereira', 'jose@aluforce.com', 'Operador de Produção', 'PCP', '2023-01-15', 2500.00, 1),
+                    ('José Pereira', 'jose@aluforce.com', 'Operaçãor de Produção', 'PCP', '2023-01-15', 2500.00, 1),
                     ('Mariana Lima', 'mariana@aluforce.com', 'Auxiliar Administrativo', 'Administrativo', '2023-03-20', 2200.00, 1),
                     ('Roberto Costa', 'roberto@aluforce.com', 'Vendedor', 'Comercial', '2022-06-10', 3000.00, 1),
                     ('Fernanda Souza', 'fernanda@aluforce.com', 'Analista Financeiro', 'Financeiro', '2022-09-01', 4500.00, 1),
                     ('Lucas Oliveira', 'lucas@aluforce.com', 'Supervisor de Produção', 'PCP', '2021-02-15', 5000.00, 1)
                     ON DUPLICATE KEY UPDATE ${nomeCol} = VALUES(${nomeCol})
                 `);
-                console.log(`   ${colors.green}✅ 5 funcionários criados${colors.reset}`);
+                console.log(`   ${colors.green}✅ 5 funcionários criaçãos${colors.reset}`);
             } else {
                 console.log(`   ${colors.yellow}⚠️  Estrutura incompatível${colors.reset}`);
             }
@@ -159,10 +159,10 @@ async function executarSeedCorrigido() {
                     INSERT INTO categorias_produtos (codigo, nome, descricao, ativo) VALUES
                     ('CAT001', 'Esquadrias', 'Portas, janelas e esquadrias de alumínio', 1),
                     ('CAT002', 'Perfis', 'Perfis de alumínio diversos', 1),
-                    ('CAT003', 'Vidros', 'Vidros temperados e comuns', 1),
+                    ('CAT003', 'Vidros', 'Vidros temperaçãos e comuns', 1),
                     ('CAT004', 'Acessórios', 'Fechaduras, dobradiças e acessórios', 1),
                     ('CAT005', 'Matéria Prima', 'Alumínio bruto e componentes', 1),
-                    ('CAT006', 'Ferragens', 'Parafusos, rebites e fixadores', 1)
+                    ('CAT006', 'Ferragens', 'Parafusos, rebites e fixaçãores', 1)
                     ON DUPLICATE KEY UPDATE nome = VALUES(nome)
                 `);
             } else {
@@ -170,10 +170,10 @@ async function executarSeedCorrigido() {
                     INSERT INTO categorias_produtos (nome, descricao, ativo) VALUES
                     ('Esquadrias', 'Portas, janelas e esquadrias de alumínio', 1),
                     ('Perfis', 'Perfis de alumínio diversos', 1),
-                    ('Vidros', 'Vidros temperados e comuns', 1),
+                    ('Vidros', 'Vidros temperaçãos e comuns', 1),
                     ('Acessórios', 'Fechaduras, dobradiças e acessórios', 1),
                     ('Matéria Prima', 'Alumínio bruto e componentes', 1),
-                    ('Ferragens', 'Parafusos, rebites e fixadores', 1)
+                    ('Ferragens', 'Parafusos, rebites e fixaçãores', 1)
                     ON DUPLICATE KEY UPDATE nome = VALUES(nome)
                 `);
             }
@@ -193,8 +193,8 @@ async function executarSeedCorrigido() {
             
             if (produtos.length > 0) {
                 // Verificar qual coluna de produto existe
-                const prodCol = cols.includes('produto_id') ? 'produto_id' : 
-                               cols.includes('id_produto') ? 'id_produto' : null;
+                const prodCol = cols.includes('produto_id')  'produto_id' : 
+                               cols.includes('id_produto')  'id_produto' : null;
                 
                 if (prodCol) {
                     for (const prod of produtos) {
@@ -202,7 +202,7 @@ async function executarSeedCorrigido() {
                         
                         await connection.execute(`
                             INSERT INTO estoque_saldos (${prodCol}, quantidade, estoque_minimo, estoque_maximo, data_atualizacao)
-                            VALUES (?, ?, 5, ?, NOW())
+                            VALUES (, , 5, , NOW())
                             ON DUPLICATE KEY UPDATE quantidade = VALUES(quantidade)
                         `, [prod.id, quantidade, quantidade * 2]);
                     }
@@ -213,7 +213,7 @@ async function executarSeedCorrigido() {
                         
                         await connection.execute(`
                             INSERT INTO estoque_saldos (codigo_produto, quantidade, estoque_minimo, estoque_maximo, data_atualizacao)
-                            VALUES (?, ?, 5, ?, NOW())
+                            VALUES (, , 5, , NOW())
                             ON DUPLICATE KEY UPDATE quantidade = VALUES(quantidade)
                         `, [prod.codigo, quantidade, quantidade * 2]);
                     }
@@ -237,13 +237,13 @@ async function executarSeedCorrigido() {
             'funcionarios', 'estoque_saldos', 'auditoria_config'
         ];
 
-        let totalDados = 0;
+        let totalDaçãos = 0;
         for (const tabela of tabelas) {
             try {
                 const [result] = await connection.execute(`SELECT COUNT(*) as total FROM ${tabela}`);
                 const total = result[0].total;
-                totalDados += total;
-                const status = total > 0 ? colors.green + '✅' : colors.yellow + '⚠️';
+                totalDaçãos += total;
+                const status = total > 0  colors.green + '✅' : colors.yellow + '⚠️';
                 console.log(`   ${status} ${tabela.padEnd(25)} ${total.toString().padStart(5)} registros${colors.reset}`);
             } catch {
                 console.log(`   ${colors.red}❌ ${tabela.padEnd(25)} não existe${colors.reset}`);
@@ -251,7 +251,7 @@ async function executarSeedCorrigido() {
         }
 
         console.log(`\n${colors.green}════════════════════════════════════════════════════════════${colors.reset}`);
-        console.log(`${colors.green}   TOTAL DE REGISTROS INSERIDOS: ${totalDados}${colors.reset}`);
+        console.log(`${colors.green}   TOTAL DE REGISTROS INSERIDOS: ${totalDaçãos}${colors.reset}`);
         console.log(`${colors.green}════════════════════════════════════════════════════════════${colors.reset}`);
 
         console.log(`\n${colors.cyan}Credenciais de acesso:${colors.reset}`);

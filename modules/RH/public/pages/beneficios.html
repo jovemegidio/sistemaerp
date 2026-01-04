@@ -9,7 +9,7 @@
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -157,7 +157,7 @@
         }
 
         .benefit-card:hover {
-            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            box-shaçãow: 0 8px 24px rgba(0,0,0,0.1);
             transform: translateY(-2px);
         }
 
@@ -273,7 +273,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            box-shaçãow: 0 25px 50px rgba(0,0,0,0.25);
         }
 
         .modal-header {
@@ -325,7 +325,7 @@
         .form-group { margin-bottom: 16px; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.875rem; color: #374151; }
         .form-input, textarea.form-input { width: 100%; padding: 10px 14px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 0.875rem; font-family: inherit; }
-        .form-input:focus { outline: none; border-color: var(--primary-purple); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1); }
+        .form-input:focus { outline: none; border-color: var(--primary-purple); box-shaçãow: 0 0 0 3px rgba(139, 92, 246, 0.1); }
 
         /* Toast */
         .toast {
@@ -339,7 +339,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shaçãow: 0 10px 25px rgba(0,0,0,0.2);
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.3s ease;
@@ -406,7 +406,7 @@
                 <a href="espelho-ponto.html" class="sidebar-btn" title="Espelho de Ponto">
                     <i class="fas fa-clock"></i>
                 </a>
-                <a href="dados-cadastrais.html" class="sidebar-btn" title="Meus Dados">
+                <a href="daçãos-cadastrais.html" class="sidebar-btn" title="Meus Daçãos">
                     <i class="fas fa-user-edit"></i>
                 </a>
                 <a href="beneficios.html" class="sidebar-btn active" title="Benefícios">
@@ -415,7 +415,7 @@
             </nav>
 
             <div class="sidebar-bottom">
-                <a href="enviar-atestado.html" class="sidebar-btn" title="Enviar Atestado">
+                <a href="enviar-atestação.html" class="sidebar-btn" title="Enviar Atestação">
                     <i class="fas fa-notes-medical"></i>
                 </a>
                 <a href="../solicitacoes.html" class="sidebar-btn" title="Solicitações">
@@ -621,7 +621,7 @@
         // Configuração dos benefícios (salvos em localStorage para persistência)
         const STORAGE_KEY = 'aluforce_beneficios';
         
-        // Benefícios padrão da empresa (podem ser editados pelo admin)
+        // Benefícios padrão da empresa (podem ser editaçãos pelo admin)
         const beneficiosPadrao = [
             {
                 id: 1,
@@ -631,7 +631,7 @@
                 status: 'active',
                 valor: 'R$ 28,00/dia',
                 info: 'Cartão Sodexo',
-                descricao: 'Vale refeição para uso em restaurantes e estabelecimentos credenciados.'
+                descricao: 'Vale refeição para uso em restaurantes e estabelecimentos credenciaçãos.'
             },
             {
                 id: 2,
@@ -720,11 +720,11 @@
                 grid.innerHTML = `
                     <div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #94a3b8;">
                         <i class="fas fa-gift" style="font-size: 64px; margin-bottom: 20px; display: block;"></i>
-                        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">Nenhum benefício cadastrado</p>
+                        <p style="font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;">Nenhum benefício cadastração</p>
                         <p style="font-size: 0.9rem;">Entre em contato com o RH para mais informações.</p>
                     </div>
                 `;
-                atualizarContadores();
+                atualizarContaçãores();
                 return;
             }
 
@@ -745,15 +745,15 @@
                             <span class="benefit-status ${statusInfo.class}">${statusInfo.text}</span>
                         </div>
                         <div class="benefit-body">
-                            ${b.valor || b.info ? `
+                            ${b.valor || b.info  `
                             <div class="benefit-details">
-                                ${b.valor ? `
+                                ${b.valor  `
                                 <div class="detail-item">
                                     <div class="detail-label">Valor/Custo</div>
                                     <div class="detail-value">${b.valor}</div>
                                 </div>
                                 ` : ''}
-                                ${b.info ? `
+                                ${b.info  `
                                 <div class="detail-item">
                                     <div class="detail-label">Informação</div>
                                     <div class="detail-value">${b.info}</div>
@@ -761,14 +761,14 @@
                                 ` : ''}
                             </div>
                             ` : ''}
-                            ${b.descricao ? `<p class="benefit-description">${b.descricao}</p>` : ''}
+                            ${b.descricao  `<p class="benefit-description">${b.descricao}</p>` : ''}
                             <div class="benefit-actions">
-                                ${b.status === 'inactive' ? `
+                                ${b.status === 'inactive'  `
                                 <button class="btn btn-success btn-sm" onclick="solicitarAdesao(${b.id})">
                                     <i class="fas fa-plus"></i>
                                     Solicitar Adesão
                                 </button>
-                                ` : b.status === 'pending' ? `
+                                ` : b.status === 'pending'  `
                                 <button class="btn btn-primary btn-sm" onclick="ativarBeneficio(${b.id})">
                                     <i class="fas fa-check"></i>
                                     Ativar Benefício
@@ -785,10 +785,10 @@
                 `;
             }).join('');
             
-            atualizarContadores();
+            atualizarContaçãores();
         }
 
-        function atualizarContadores() {
+        function atualizarContaçãores() {
             const ativos = beneficios.filter(b => b.status === 'active').length;
             const pendentes = beneficios.filter(b => b.status === 'pending').length;
             const disponiveis = beneficios.filter(b => b.status === 'inactive').length;
@@ -805,7 +805,7 @@
                 lista.innerHTML = `
                     <div style="text-align: center; padding: 40px; color: #94a3b8;">
                         <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 12px; display: block;"></i>
-                        Nenhum benefício cadastrado
+                        Nenhum benefício cadastração
                     </div>
                 `;
                 return;
@@ -878,7 +878,7 @@
 
         function salvarBeneficio() {
             const id = document.getElementById('beneficio-id').value;
-            const dados = {
+            const daçãos = {
                 nome: document.getElementById('beneficio-nome').value,
                 fornecedor: document.getElementById('beneficio-fornecedor').value,
                 tipo: document.getElementById('beneficio-tipo').value,
@@ -888,7 +888,7 @@
                 descricao: document.getElementById('beneficio-descricao').value
             };
             
-            if (!dados.nome || !dados.tipo) {
+            if (!daçãos.nome || !daçãos.tipo) {
                 showToast('Preencha os campos obrigatórios', 'error');
                 return;
             }
@@ -897,14 +897,14 @@
                 // Editar
                 const index = beneficios.findIndex(b => b.id === parseInt(id));
                 if (index !== -1) {
-                    beneficios[index] = { ...beneficios[index], ...dados };
+                    beneficios[index] = { ...beneficios[index], ...daçãos };
                 }
-                showToast('Benefício atualizado com sucesso!', 'success');
+                showToast('Benefício atualização com sucesso!', 'success');
             } else {
                 // Novo
                 const novoId = Math.max(0, ...beneficios.map(b => b.id)) + 1;
-                beneficios.push({ id: novoId, ...dados });
-                showToast('Benefício criado com sucesso!', 'success');
+                beneficios.push({ id: novoId, ...daçãos });
+                showToast('Benefício criação com sucesso!', 'success');
             }
             
             salvarBeneficios();
@@ -917,7 +917,7 @@
             const b = beneficios.find(x => x.id === id);
             if (!b) return;
             
-            if (!confirm(`Deseja excluir o benefício "${b.nome}"?`)) return;
+            if (!confirm(`Deseja excluir o benefício "${b.nome}"`)) return;
             
             beneficios = beneficios.filter(x => x.id !== id);
             salvarBeneficios();
@@ -937,14 +937,14 @@
                 beneficios[index].status = 'active';
                 salvarBeneficios();
                 renderizarBeneficios();
-                showToast('Benefício ativado com sucesso!', 'success');
+                showToast('Benefício ativação com sucesso!', 'success');
             }
         }
 
         function verDetalhes(id) {
             const b = beneficios.find(x => x.id === id);
             if (b) {
-                // Criar modal de detalhes estilizado
+                // Criar modal de detalhes estilização
                 const tipoInfo = tipoIcones[b.tipo] || tipoIcones.other;
                 const statusInfo = statusLabels[b.status] || statusLabels.active;
                 
@@ -958,7 +958,7 @@
                 modal.innerHTML = `
                     <div class="modal-overlay" onclick="fecharModalDetalhes()"></div>
                     <div class="modal-content" style="max-width: 500px;">
-                        <div class="modal-header" style="background: linear-gradient(135deg, ${tipoInfo.class === 'health' ? '#ef4444' : tipoInfo.class === 'food' ? '#f97316' : tipoInfo.class === 'transport' ? '#10b981' : '#8b5cf6'}, ${tipoInfo.class === 'health' ? '#dc2626' : tipoInfo.class === 'food' ? '#ea580c' : tipoInfo.class === 'transport' ? '#059669' : '#7c3aed'}); border: none; border-radius: 16px 16px 0 0;">
+                        <div class="modal-header" style="background: linear-gradient(135deg, ${tipoInfo.class === 'health'  '#ef4444' : tipoInfo.class === 'food'  '#f97316' : tipoInfo.class === 'transport'  '#10b981' : '#8b5cf6'}, ${tipoInfo.class === 'health'  '#dc2626' : tipoInfo.class === 'food'  '#ea580c' : tipoInfo.class === 'transport'  '#059669' : '#7c3aed'}); border: none; border-radius: 16px 16px 0 0;">
                             <h3 style="color: white; margin: 0; display: flex; align-items: center; gap: 12px;">
                                 <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); border-radius: 12px; display: flex; align-items: center; justify-content: center;">
                                     <i class="fas ${tipoInfo.icon}" style="font-size: 1.5rem; color: white;"></i>
@@ -976,7 +976,7 @@
                             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px;">
                                 <div style="background: #f8fafc; padding: 16px; border-radius: 12px;">
                                     <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 4px;">Valor</div>
-                                    <div style="font-size: 1rem; font-weight: 600; color: #1e293b;">${b.valor || 'Não informado'}</div>
+                                    <div style="font-size: 1rem; font-weight: 600; color: #1e293b;">${b.valor || 'Não informação'}</div>
                                 </div>
                                 <div style="background: #f8fafc; padding: 16px; border-radius: 12px;">
                                     <div style="font-size: 0.75rem; color: #64748b; margin-bottom: 4px;">Status</div>
@@ -985,19 +985,19 @@
                                     </div>
                                 </div>
                             </div>
-                            ${b.info ? `
+                            ${b.info  `
                             <div style="background: #fef3c7; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; display: flex; align-items: center; gap: 10px;">
                                 <i class="fas fa-info-circle" style="color: #d97706;"></i>
                                 <span style="font-size: 0.875rem; color: #92400e;">${b.info}</span>
                             </div>
                             ` : ''}
-                            ${b.descricao ? `
+                            ${b.descricao  `
                             <div style="margin-bottom: 16px;">
                                 <div style="font-size: 0.875rem; font-weight: 600; color: #374151; margin-bottom: 8px;">Descrição</div>
                                 <p style="font-size: 0.875rem; color: #64748b; line-height: 1.6; margin: 0;">${b.descricao}</p>
                             </div>
                             ` : ''}
-                            ${b.link ? `
+                            ${b.link  `
                             <a href="${b.link}" target="_blank" class="btn btn-primary" style="width: 100%; justify-content: center;">
                                 <i class="fas fa-external-link-alt"></i>
                                 Acessar Portal
@@ -1034,7 +1034,7 @@
             }, 4000);
         }
 
-        async function carregarUsuarioLogado() {
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
@@ -1052,8 +1052,8 @@
                     
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
-                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp'  user.avatar : null;
                     if (!userAvatar) userAvatar = getAvatarFromEmail(user.email, userName);
                     
                     const userNameEl = document.getElementById('user-name');
@@ -1089,7 +1089,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             carregarBeneficios();
             renderizarBeneficios();
-            carregarUsuarioLogado();
+            carregarUsuarioLogação();
         });
 
         // Fechar modais com ESC

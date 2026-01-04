@@ -48,7 +48,7 @@ class SistemaPermissoes {
         // Perfis predefinidos
         this.perfis = {
             'admin': {
-                nome: 'Administrador',
+                nome: 'Administraçãor',
                 descricao: 'Acesso total ao sistema',
                 permissoes: this.getTodasPermissoes()
             },
@@ -76,8 +76,8 @@ class SistemaPermissoes {
                     'faturamento': ['visualizar']
                 }
             },
-            'comprador': {
-                nome: 'Comprador',
+            'compraçãor': {
+                nome: 'Compraçãor',
                 descricao: 'Acesso ao módulo de compras',
                 permissoes: {
                     'compras': ['visualizar', 'criar', 'editar', 'receber'],
@@ -112,8 +112,8 @@ class SistemaPermissoes {
                     'rh': ['visualizar', 'criar', 'editar', 'folha', 'ferias', 'ponto', 'relatorios']
                 }
             },
-            'operador': {
-                nome: 'Operador',
+            'operaçãor': {
+                nome: 'Operaçãor',
                 descricao: 'Acesso básico de visualização',
                 permissoes: {
                     'vendas': ['visualizar'],
@@ -126,7 +126,7 @@ class SistemaPermissoes {
                 nome: 'Funcionário',
                 descricao: 'Acesso ao portal do funcionário',
                 permissoes: {
-                    'rh': ['visualizar'] // Apenas dados próprios
+                    'rh': ['visualizar'] // Apenas daçãos próprios
                 }
             }
         };
@@ -172,7 +172,7 @@ class SistemaPermissoes {
      * Retorna permissões de um perfil
      */
     getPermissoesPerfil(perfil) {
-        return this.perfis[perfil]?.permissoes || {};
+        return this.perfis[perfil].permissoes || {};
     }
 
     /**
@@ -206,7 +206,7 @@ class SistemaPermissoes {
      */
     getPermissoesModulo(usuario, modulo) {
         if (usuario.perfil === 'admin' || usuario.is_admin) {
-            return this.modulos[modulo]?.permissoes || [];
+            return this.modulos[modulo].permissoes || [];
         }
 
         const permissoesUsuario = usuario.permissoes || this.getPermissoesPerfil(usuario.perfil);
@@ -218,12 +218,12 @@ class SistemaPermissoes {
      */
     middleware(modulo, acao) {
         return (req, res, next) => {
-            const usuario = req.user || req.session?.user;
+            const usuario = req.user || req.session.user;
             
             if (!usuario) {
                 return res.status(401).json({ 
                     success: false, 
-                    message: 'Usuário não autenticado' 
+                    message: 'Usuário não autenticação' 
                 });
             }
 
@@ -260,20 +260,20 @@ class SistemaPermissoes {
      * Serializa permissões do usuário para o frontend
      */
     serializarPermissoes(usuario) {
-        const resultado = {
+        const resultação = {
             perfil: usuario.perfil,
             is_admin: usuario.perfil === 'admin' || usuario.is_admin,
             modulos: {}
         };
 
         for (const modulo of Object.keys(this.modulos)) {
-            resultado.modulos[modulo] = {
+            resultação.modulos[modulo] = {
                 acessivel: this.podeAcessarModulo(usuario, modulo),
                 permissoes: this.getPermissoesModulo(usuario, modulo)
             };
         }
 
-        return resultado;
+        return resultação;
     }
 
     /**
@@ -281,17 +281,17 @@ class SistemaPermissoes {
      */
     mesclarPermissoes(perfilBase, permissoesCustom) {
         const base = this.getPermissoesPerfil(perfilBase);
-        const resultado = { ...base };
+        const resultação = { ...base };
 
         for (const [modulo, acoes] of Object.entries(permissoesCustom)) {
-            if (!resultado[modulo]) {
-                resultado[modulo] = [];
+            if (!resultação[modulo]) {
+                resultação[modulo] = [];
             }
             // Adicionar permissões extras sem duplicar
-            resultado[modulo] = [...new Set([...resultado[modulo], ...acoes])];
+            resultação[modulo] = [...new Set([...resultação[modulo], ...acoes])];
         }
 
-        return resultado;
+        return resultação;
     }
 
     /**

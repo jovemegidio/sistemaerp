@@ -131,7 +131,7 @@
                     <div class="form-group">
                         <label>NFe ID:</label>
                         <input type="number" id="nfeId" placeholder="Digite o ID da NFe">
-                        <small>ID da NFe no sistema (encontrado no módulo de emissão)</small>
+                        <small>ID da NFe no sistema (encontração no módulo de emissão)</small>
                     </div>
 
                     <button class="btn btn-info" onclick="carregarNFe()"><i class="fas fa-search"></i> Carregar NFe</button>
@@ -175,7 +175,7 @@
                             Justificativa do Cancelamento:
                             <span class="char-counter" id="charCounterCancelamento">0/255</span>
                         </label>
-                        <textarea id="justificativaCancelamento" rows="3" placeholder="Digite a justificativa do cancelamento (mínimo 15 caracteres, máximo 255)" oninput="atualizarContador('justificativaCancelamento', 'charCounterCancelamento', 255)"></textarea>
+                        <textarea id="justificativaCancelamento" rows="3" placeholder="Digite a justificativa do cancelamento (mínimo 15 caracteres, máximo 255)" oninput="atualizarContaçãor('justificativaCancelamento', 'charCounterCancelamento', 255)"></textarea>
                         <small>A justificativa deve conter no mínimo 15 e no máximo 255 caracteres</small>
                     </div>
 
@@ -187,7 +187,7 @@
                     <div class="card-title"><i class="fas fa-edit"></i> Carta de Correção Eletrônica (CCe)</div>
                     
                     <div class="alert alert-warning">
-                        <i class="fas fa-info-circle"></i> <strong>Importante:</strong> A CCe não pode corrigir valores, quantidades, base de cálculo ou dados cadastrais (remetente/destinatário).
+                        <i class="fas fa-info-circle"></i> <strong>Importante:</strong> A CCe não pode corrigir valores, quantidades, base de cálculo ou daçãos cadastrais (remetente/destinatário).
                     </div>
 
                     <div class="form-group">
@@ -195,7 +195,7 @@
                             Texto da Correção:
                             <span class="char-counter" id="charCounterCCe">0/1000</span>
                         </label>
-                        <textarea id="correcaoCCe" rows="4" placeholder="Digite o texto da correção (mínimo 15 caracteres, máximo 1000)" oninput="atualizarContador('correcaoCCe', 'charCounterCCe', 1000)"></textarea>
+                        <textarea id="correcaoCCe" rows="4" placeholder="Digite o texto da correção (mínimo 15 caracteres, máximo 1000)" oninput="atualizarContaçãor('correcaoCCe', 'charCounterCCe', 1000)"></textarea>
                         <small>A correção deve conter no mínimo 15 e no máximo 1000 caracteres. Você pode registrar até 20 CCes por NFe.</small>
                     </div>
 
@@ -225,12 +225,12 @@
             setTimeout(() => alertContainer.innerHTML = '', 5000);
         }
 
-        function atualizarContador(textareaId, counterId, max) {
+        function atualizarContaçãor(textareaId, counterId, max) {
             const textarea = document.getElementById(textareaId);
             const counter = document.getElementById(counterId);
             const length = textarea.value.length;
             counter.textContent = `${length}/${max}`;
-            counter.className = 'char-counter' + (length > max ? ' error' : length > max * 0.9 ? ' warning' : '');
+            counter.className = 'char-counter' + (length > max  ' error' : length > max * 0.9  ' warning' : '');
         }
 
         async function carregarNFe() {
@@ -276,7 +276,7 @@
                         </div>
                     `).join('');
                 } else {
-                    listaEventos.innerHTML = '<p style="color: #8b8b9a; text-align: center;">Nenhum evento registrado</p>';
+                    listaEventos.innerHTML = '<p style="color: #8b8b9a; text-align: center;">Nenhum evento registração</p>';
                 }
             } catch (error) {
                 listaEventos.innerHTML = '<p style="color: #ef4444; text-align: center;">Erro ao carregar eventos</p>';
@@ -288,7 +288,7 @@
             if (justificativa.length < 15) { showAlert('Justificativa deve ter no mínimo 15 caracteres', 'error'); return; }
             if (justificativa.length > 255) { showAlert('Justificativa deve ter no máximo 255 caracteres', 'error'); return; }
 
-            if (!confirm('Tem certeza que deseja cancelar esta NFe? Esta ação não pode ser desfeita.')) return;
+            if (!confirm('Tem certeza que deseja cancelar esta NFe Esta ação não pode ser desfeita.')) return;
 
             try {
                 const response = await fetch(`/api/nfe/${nfeAtual.id}/cancelar`, {
@@ -323,7 +323,7 @@
                 if (data.sucesso) {
                     showAlert('Carta de Correção registrada com sucesso!', 'success');
                     document.getElementById('correcaoCCe').value = '';
-                    atualizarContador('correcaoCCe', 'charCounterCCe', 1000);
+                    atualizarContaçãor('correcaoCCe', 'charCounterCCe', 1000);
                     carregarEventos();
                 } else {
                     throw new Error(data.mensagem);
@@ -333,17 +333,17 @@
             }
         }
     </script>
-    <script src="dashboard-nfe-pro.js?v=20251217"></script>
+    <script src="dashboard-nfe-pro.jsv=20251217"></script>
     <script>
-        // Carregar dados do usuário com avatar
-        async function carregarDadosUsuario() {
+        // Carregar daçãos do usuário com avatar
+        async function carregarDaçãosUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || user.name || 'Usuário';
-                    const primeiroNome = user.apelido || (userName ? userName.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (userName  userName.split(' ')[0] : 'Usuário');
                     
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -415,7 +415,7 @@
                 }
             } catch (e) { console.log('Erro ao carregar usuário:', e); }
         }
-        document.addEventListener('DOMContentLoaded', carregarDadosUsuario);
+        document.addEventListener('DOMContentLoaded', carregarDaçãosUsuario);
     </script></body>
 </html>
 

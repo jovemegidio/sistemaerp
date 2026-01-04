@@ -17,7 +17,7 @@ function walk(dir, files=[]) {
 
 const root = path.resolve(__dirname, '..');
 const files = walk(root);
-const routeRegex = /(?:app|router|[a-zA-Z0-9_]+Router)\.(get|post|put|delete|use)\s*\(\s*(['"`])([^'"`\)]+)\2/g;
+const routeRegex = /(:app|router|[a-zA-Z0-9_]+Router)\.(get|post|put|delete|use)\s*\(\s*(['"`])([^'"`\)]+)\2/g;
 const routes = {};
 
 for (const f of files) {

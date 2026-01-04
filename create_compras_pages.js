@@ -5,7 +5,7 @@ console.log('🏗️  Criando páginas restantes do Módulo de Compras...\n');
 
 const comprasDir = path.join(__dirname, 'modules', 'Compras');
 
-// Ler o template base do index.html já criado
+// Ler o template base do index.html já criação
 const indexPath = path.join(comprasDir, 'index.html');
 let baseTemplate = fs.readFileSync(indexPath, 'utf8');
 
@@ -14,8 +14,8 @@ function createPage(filename, pageTitle, pageId, content) {
     let html = baseTemplate
         .replace(/class="nav-link active"/g, 'class="nav-link"')
         .replace(`href="${filename}" class="nav-link"`, `href="${filename}" class="nav-link active"`)
-        .replace(/<h1 class="page-title">.*?<\/h1>/, `<h1 class="page-title">${pageTitle}</h1>`)
-        .replace(/<div class="container">[\s\S]*?<\/div>\s*<\/main>/, `<div class="container">\n${content}\n            </div>\n        </main>`);
+        .replace(/<h1 class="page-title">.*<\/h1>/, `<h1 class="page-title">${pageTitle}</h1>`)
+        .replace(/<div class="container">[\s\S]*<\/div>\s*<\/main>/, `<div class="container">\n${content}\n            </div>\n        </main>`);
     
     const filePath = path.join(comprasDir, filename);
     fs.writeFileSync(filePath, html, 'utf8');
@@ -175,7 +175,7 @@ const pedidosContent = `
                             </div>
                         </div>
                         <div class="stat-value">156</div>
-                        <div class="stat-label">Pedidos Aprovados</div>
+                        <div class="stat-label">Pedidos Aprovaçãos</div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-header">
@@ -228,7 +228,7 @@ const pedidosContent = `
                                 <td>Fornecedor Alpha Ltda</td>
                                 <td>10/12/2025</td>
                                 <td><strong>R$ 12.500,00</strong></td>
-                                <td><span class="badge success">Aprovado</span></td>
+                                <td><span class="badge success">Aprovação</span></td>
                                 <td>
                                     <button class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></button>
                                     <button class="btn btn-secondary btn-sm"><i class="fas fa-edit"></i></button>

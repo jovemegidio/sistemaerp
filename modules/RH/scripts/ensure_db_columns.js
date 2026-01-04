@@ -5,7 +5,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3306
+  port: process.env.DB_PORT  parseInt(process.env.DB_PORT, 10) : 3306
 })
 
 function ensureColumn (table, column, definition, cb) {
@@ -14,7 +14,7 @@ function ensureColumn (table, column, definition, cb) {
     competencia: 'competencia VARCHAR(10) DEFAULT NULL'
   }
 
-  db.query(`SHOW COLUMNS FROM \`${table}\` LIKE ?`, [column], (err, rows) => {
+  db.query(`SHOW COLUMNS FROM \`${table}\` LIKE `, [column], (err, rows) => {
     if (err) return cb(err)
     if (rows && rows.length > 0) return cb(null, false) // already exists
 
@@ -42,10 +42,10 @@ db.connect((err) => {
   if (err) return console.error('DB connect error', err)
   ensureColumn('holerites', 'competencia', 'competencia VARCHAR(10) DEFAULT NULL', (e1, added1) => {
     if (e1) console.error('Error ensuring holerites.competencia', e1)
-    else console.log('holerites.competencia added?', added1)
+    else console.log('holerites.competencia added', added1)
     ensureColumn('espelhos_ponto', 'competencia', 'competencia VARCHAR(10) DEFAULT NULL', (e2, added2) => {
       if (e2) console.error('Error ensuring espelhos_ponto.competencia', e2)
-      else console.log('espelhos_ponto.competencia added?', added2)
+      else console.log('espelhos_ponto.competencia added', added2)
       process.exit(0)
     })
   })

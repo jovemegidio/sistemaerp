@@ -5,7 +5,7 @@
 'use strict';
 
 const startTime = Date.now();
-console.log('🚀 Iniciando ALUFORCE Otimizado...\n');
+console.log('🚀 Iniciando ALUFORCE Otimização...\n');
 
 // =================================================================
 // 1. IMPORTAÇÕES ESSENCIAIS (apenas o necessário no início)
@@ -18,7 +18,7 @@ const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
-// Lazy loading para módulos pesados
+// Lazy loading para módulos pesaçãos
 let mysql, bcrypt, jwt, multer, nodemailer, io, cron;
 const lazyRequire = (name) => {
     switch(name) {
@@ -65,10 +65,10 @@ app.use(compression({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// CORS otimizado
+// CORS otimização
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://aluforce.com.br', 'https://www.aluforce.com.br']
+         ['https://aluforce.com.br', 'https://www.aluforce.com.br']
         : true,
     credentials: true
 }));
@@ -77,7 +77,7 @@ app.use(cookieParser());
 
 // Cache headers para arquivos estáticos
 const staticOptions = {
-    maxAge: process.env.NODE_ENV === 'production' ? '1d' : '0',
+    maxAge: process.env.NODE_ENV === 'production'  '1d' : '0',
     etag: true,
     lastModified: true,
     setHeaders: (res, filePath) => {
@@ -153,7 +153,7 @@ const getPool = async () => {
     try {
         await pool.query('SELECT 1');
         DB_AVAILABLE = true;
-        console.log('✅ Banco de dados conectado');
+        console.log('✅ Banco de daçãos conectação');
     } catch (err) {
         console.warn('⚠️  Banco indisponível:', err.message);
         DB_AVAILABLE = false;
@@ -167,10 +167,10 @@ const getPool = async () => {
 // =================================================================
 
 const authenticateToken = async (req, res, next) => {
-    const token = req.cookies?.authToken || req.headers['authorization']?.replace('Bearer ', '');
+    const token = req.cookies.authToken || req.headers['authorization'].replace('Bearer ', '');
     
     if (!token) {
-        return res.status(401).json({ message: 'Não autenticado' });
+        return res.status(401).json({ message: 'Não autenticação' });
     }
     
     try {
@@ -183,7 +183,7 @@ const authenticateToken = async (req, res, next) => {
 };
 
 const authenticatePage = async (req, res, next) => {
-    const token = req.cookies?.authToken;
+    const token = req.cookies.authToken;
     
     if (!token) {
         return res.redirect('/login.html');
@@ -209,7 +209,7 @@ app.get('/login.html', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    const token = req.cookies?.authToken;
+    const token = req.cookies.authToken;
     if (token) {
         return res.redirect('/home.html');
     }
@@ -234,7 +234,7 @@ app.get('/api/health', (req, res) => {
     res.json({
         status: 'ok',
         uptime: process.uptime(),
-        db: DB_AVAILABLE ? 'connected' : 'disconnected',
+        db: DB_AVAILABLE  'connected' : 'disconnected',
         memory: Math.round(process.memoryUsage().heapUsed / 1024 / 1024) + 'MB'
     });
 });
@@ -243,7 +243,7 @@ app.get('/api/health', (req, res) => {
 // 8. APIs CARREGADAS SOB DEMANDA (Lazy Loading)
 // =================================================================
 
-// Cache de routers carregados
+// Cache de routers carregaçãos
 const loadedRouters = new Map();
 
 const loadRouter = async (name, factory) => {
@@ -271,13 +271,13 @@ app.use('/api/auth', authRouter);
 app.use('/api/vendas', async (req, res, next) => {
     const dbPool = await getPool();
     if (!DB_AVAILABLE) {
-        return res.status(503).json({ error: 'Banco de dados indisponível' });
+        return res.status(503).json({ error: 'Banco de daçãos indisponível' });
     }
     req.pool = dbPool;
     next();
 });
 
-// Endpoint de Pedidos otimizado
+// Endpoint de Pedidos otimização
 app.get('/api/vendas/pedidos', authenticateToken, async (req, res) => {
     try {
         const dbPool = await getPool();
@@ -292,11 +292,11 @@ app.get('/api/vendas/pedidos', authenticateToken, async (req, res) => {
         
         const params = [];
         if (status) {
-            query += ' WHERE p.status = ?';
+            query += ' WHERE p.status = ';
             params.push(status);
         }
         
-        query += ' ORDER BY p.created_at DESC LIMIT ?';
+        query += ' ORDER BY p.created_at DESC LIMIT ';
         params.push(parseInt(limite));
         
         const [pedidos] = await dbPool.query(query, params);
@@ -314,11 +314,11 @@ app.get('/api/vendas/pedidos/:id', authenticateToken, async (req, res) => {
             SELECT p.*, c.nome as cliente_nome
             FROM pedidos p
             LEFT JOIN clientes c ON p.cliente_id = c.id
-            WHERE p.id = ?
+            WHERE p.id = 
         `, [req.params.id]);
         
         if (pedidos.length === 0) {
-            return res.status(404).json({ error: 'Pedido não encontrado' });
+            return res.status(404).json({ error: 'Pedido não encontração' });
         }
         res.json(pedidos[0]);
     } catch (error) {
@@ -336,11 +336,11 @@ app.get('/api/vendas/clientes', authenticateToken, async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome LIKE ? OR email LIKE ?';
+            query += ' WHERE nome LIKE  OR email LIKE ';
             params.push(`%${search}%`, `%${search}%`);
         }
         
-        query += ' ORDER BY nome LIMIT ?';
+        query += ' ORDER BY nome LIMIT ';
         params.push(parseInt(limite));
         
         const [clientes] = await dbPool.query(query, params);
@@ -360,11 +360,11 @@ app.get('/api/vendas/empresas', authenticateToken, async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome_fantasia LIKE ? OR cnpj LIKE ?';
+            query += ' WHERE nome_fantasia LIKE  OR cnpj LIKE ';
             params.push(`%${search}%`, `%${search}%`);
         }
         
-        query += ' ORDER BY nome_fantasia LIMIT ?';
+        query += ' ORDER BY nome_fantasia LIMIT ';
         params.push(parseInt(limite));
         
         const [empresas] = await dbPool.query(query, params);
@@ -384,11 +384,11 @@ app.get('/api/produtos', authenticateToken, async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE descricao LIKE ? OR codigo LIKE ?';
+            query += ' WHERE descricao LIKE  OR codigo LIKE ';
             params.push(`%${search}%`, `%${search}%`);
         }
         
-        query += ' LIMIT ?';
+        query += ' LIMIT ';
         params.push(parseInt(limite));
         
         const [produtos] = await dbPool.query(query, params);
@@ -412,18 +412,18 @@ const startServer = async () => {
                 
                 const elapsed = Date.now() - startTime;
                 console.log('\n' + '═'.repeat(50));
-                console.log('🚀 ALUFORCE v2.0 - Servidor Otimizado');
+                console.log('🚀 ALUFORCE v2.0 - Servidor Otimização');
                 console.log('═'.repeat(50));
                 console.log(`📍 URL: http://${HOST}:${PORT}`);
                 console.log(`⚡ Tempo de inicialização: ${elapsed}ms`);
                 console.log(`💾 Memória: ${Math.round(process.memoryUsage().heapUsed / 1024 / 1024)}MB`);
                 console.log('═'.repeat(50));
-                console.log('\n💡 Banco e APIs serão conectados sob demanda\n');
+                console.log('\n💡 Banco e APIs serão conectaçãos sob demanda\n');
                 
                 // Conectar banco em background (não bloqueia)
                 setImmediate(async () => {
                     await getPool();
-                    console.log(`⚡ Banco conectado em ${Date.now() - startTime}ms total`);
+                    console.log(`⚡ Banco conectação em ${Date.now() - startTime}ms total`);
                 });
                 
                 resolve(httpServer);
@@ -452,7 +452,7 @@ const stopServer = async () => {
         await pool.end();
     }
     
-    console.log('✅ Servidor encerrado');
+    console.log('✅ Servidor encerração');
 };
 
 process.on('SIGINT', async () => {
@@ -465,9 +465,9 @@ process.on('SIGTERM', async () => {
     process.exit(0);
 });
 
-// Tratamento de erros não capturados
+// Tratamento de erros não capturaçãos
 process.on('uncaughtException', (err) => {
-    console.error('❌ Erro não tratado:', err.message);
+    console.error('❌ Erro não tratação:', err.message);
 });
 
 process.on('unhandledRejection', (reason) => {

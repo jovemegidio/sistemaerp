@@ -1,10 +1,10 @@
-// Script para gerenciar avatar e informações do usuário logado - Módulo RH
+// Script para gerenciar avatar e informações do usuário logação - Módulo RH
 (function() {
     'use strict';
     
     let currentUser = null;
     
-    // Detectar módulo automaticamente baseado na URL
+    // Detectar módulo automaticamente baseação na URL
     function detectarModulo() {
         const path = window.location.pathname;
         if (path.includes('/modules/RH') || path.includes('/rh/')) {
@@ -12,12 +12,12 @@
         } else if (path.includes('/modules/PCP') || path.includes('/pcp/')) {
             return 'pcp';
         }
-        // Default para PCP se não detectado
+        // Default para PCP se não detectação
         return 'pcp';
     }
     
     // Função para carregar informações do usuário atual
-    async function carregarUsuarioLogado() {
+    async function carregarUsuarioLogação() {
         try {
             const modulo = detectarModulo();
             const endpoint = `/api/${modulo}/me`;
@@ -35,14 +35,14 @@
             });
             
             console.log('📡 Status da resposta:', response.status);
-            console.log('📡 Response OK?', response.ok);
+            console.log('📡 Response OK', response.ok);
             
             if (response.ok) {
                 const data = await response.json();
-                console.log('📦 Dados recebidos:', data);
+                console.log('📦 Daçãos recebidos:', data);
                 
                 currentUser = data.user;
-                console.log('👤 Usuário logado:', currentUser);
+                console.log('👤 Usuário logação:', currentUser);
                 
                 if (currentUser) {
                     console.log('✅ Usuário válido:', {
@@ -55,12 +55,12 @@
                     atualizarInterfaceUsuario(currentUser);
                     return currentUser;
                 } else {
-                    console.error('❌ Campo "user" não encontrado na resposta');
+                    console.error('❌ Campo "user" não encontração na resposta');
                     return null;
                 }
             } else {
                 const errorText = await response.text();
-                console.warn('⚠️ Não foi possível carregar dados do usuário');
+                console.warn('⚠️ Não foi possível carregar daçãos do usuário');
                 console.warn('⚠️ Status:', response.status, response.statusText);
                 console.warn('⚠️ Resposta:', errorText);
                 return null;
@@ -72,7 +72,7 @@
         }
     }
     
-    // Função para atualizar todos os elementos da interface com os dados do usuário
+    // Função para atualizar todos os elementos da interface com os daçãos do usuário
     function atualizarInterfaceUsuario(user) {
         if (!user) {
             console.warn('⚠️ atualizarInterfaceUsuario: user é null/undefined');
@@ -83,40 +83,40 @@
         
         // Atualizar nome do usuário em todos os locais
         const userTexts = document.querySelectorAll('.user-text');
-        console.log(`📝 Encontrados ${userTexts.length} elementos .user-text`);
+        console.log(`📝 Encontraçãos ${userTexts.length} elementos .user-text`);
         userTexts.forEach(element => {
-            const primeiroNome = user.nome ? user.nome.split(' ')[0] : 'Usuário';
+            const primeiroNome = user.nome  user.nome.split(' ')[0] : 'Usuário';
             element.textContent = `Olá, ${primeiroNome}`;
-            console.log(`✏️ Atualizado .user-text: "${element.textContent}"`);
+            console.log(`✏️ Atualização .user-text: "${element.textContent}"`);
         });
         
         // Atualizar nome completo
         const userNames = document.querySelectorAll('.user-name, #user-name, #userName');
-        console.log(`📝 Encontrados ${userNames.length} elementos de nome`);
+        console.log(`📝 Encontraçãos ${userNames.length} elementos de nome`);
         userNames.forEach(element => {
             element.textContent = user.nome || 'Usuário';
-            console.log(`✏️ Atualizado nome: "${element.textContent}"`);
+            console.log(`✏️ Atualização nome: "${element.textContent}"`);
         });
         
         // Atualizar email
         const userEmails = document.querySelectorAll('.user-email, #user-email, #userEmail');
-        console.log(`📝 Encontrados ${userEmails.length} elementos de email`);
+        console.log(`📝 Encontraçãos ${userEmails.length} elementos de email`);
         userEmails.forEach(element => {
             element.textContent = user.email || '';
-            console.log(`✏️ Atualizado email: "${element.textContent}"`);
+            console.log(`✏️ Atualização email: "${element.textContent}"`);
         });
         
         // Atualizar role/cargo
         const userRoles = document.querySelectorAll('.user-role, #user-role, #userRole');
-        console.log(`📝 Encontrados ${userRoles.length} elementos de cargo`);
+        console.log(`📝 Encontraçãos ${userRoles.length} elementos de cargo`);
         userRoles.forEach(element => {
             element.textContent = user.role || 'Funcionário';
-            console.log(`✏️ Atualizado cargo: "${element.textContent}"`);
+            console.log(`✏️ Atualização cargo: "${element.textContent}"`);
         });
         
         // Atualizar avatares
         const avatarImages = document.querySelectorAll('.user-avatar, .avatar-img, #userAvatar, .topbar-user-avatar img');
-        console.log(`🖼️ Encontrados ${avatarImages.length} elementos de avatar`);
+        console.log(`🖼️ Encontraçãos ${avatarImages.length} elementos de avatar`);
         
         const avatarUrl = obterURLAvatar(user);
         console.log(`🖼️ URL do avatar selecionada: ${avatarUrl}`);
@@ -129,7 +129,7 @@
                 console.warn(`⚠️ Tentando fallback: /public/avatars/default.webp`);
                 this.src = '/avatars/default.webp';
             };
-            console.log(`🖼️ Avatar atualizado: ${oldSrc} → ${img.src}`);
+            console.log(`🖼️ Avatar atualização: ${oldSrc} → ${img.src}`);
         });
     }
     
@@ -159,11 +159,11 @@
             return `/uploads/avatars/${user.avatar}`;
         }
         
-        // Prioridade 3: Tentar gerar avatar baseado no nome
+        // Prioridade 3: Tentar gerar avatar baseação no nome
         if (user.nome) {
-            const nomeNormalizado = user.nome.toLowerCase().replace(/\s+/g, '_');
-            const avatarPath = `/uploads/avatars/${nomeNormalizado}.jpg`;
-            console.log('🔄 Tentando avatar baseado no nome:', avatarPath);
+            const nomeNormalização = user.nome.toLowerCase().replace(/\s+/g, '_');
+            const avatarPath = `/uploads/avatars/${nomeNormalização}.jpg`;
+            console.log('🔄 Tentando avatar baseação no nome:', avatarPath);
             return avatarPath;
         }
         
@@ -174,7 +174,7 @@
     
     // Expor funções globalmente
     window.UsuarioSystem = {
-        carregarUsuarioLogado,
+        carregarUsuarioLogação,
         atualizarInterfaceUsuario,
         obterURLAvatar,
         getCurrentUser: () => currentUser
@@ -182,11 +182,11 @@
     
     // Carregar automaticamente quando o documento estiver pronto
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', carregarUsuarioLogado);
+        document.addEventListener('DOMContentLoaded', carregarUsuarioLogação);
     } else {
         // Se o DOM já está pronto, carregar imediatamente
-        carregarUsuarioLogado();
+        carregarUsuarioLogação();
     }
     
-    console.log('✅ Sistema de usuário inicializado');
+    console.log('✅ Sistema de usuário inicialização');
 })();

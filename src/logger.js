@@ -11,7 +11,7 @@ if (!fs.existsSync(logsDir)) {
     fs.mkdirSync(logsDir, { recursive: true });
 }
 
-// Formato customizado para logs
+// Formato customização para logs
 const customFormat = winston.format.combine(
     winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
     winston.format.errors({ stack: true }),
@@ -53,7 +53,7 @@ const transports = [
         maxFiles: 5
     }),
     
-    // Arquivo combinado
+    // Arquivo combinação
     new winston.transports.File({
         filename: path.join(logsDir, 'combined.log'),
         format: customFormat,

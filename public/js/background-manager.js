@@ -14,19 +14,19 @@
     const TRANSITION_DURATION = 2000; // 2 segundos de transição suave
     
     const BACKGROUNDS = [
-        { id: 'image-1', name: 'Edifício', class: 'bg-image-1', url: '/Fundos/Fundos (1).jpg?v=' + CACHE_VERSION },
-        { id: 'image-2', name: 'Suculenta', class: 'bg-image-2', url: '/Fundos/Fundos (2).jpg?v=' + CACHE_VERSION },
-        { id: 'image-3', name: 'Girafa', class: 'bg-image-3', url: '/Fundos/Fundos (3).jpg?v=' + CACHE_VERSION },
-        { id: 'image-4', name: 'Pier', class: 'bg-image-4', url: '/Fundos/Fundos (4).jpg?v=' + CACHE_VERSION },
-        { id: 'image-5', name: 'Luminária', class: 'bg-image-5', url: '/Fundos/Fundos (5).jpg?v=' + CACHE_VERSION },
-        { id: 'image-6', name: 'Horizonte', class: 'bg-image-6', url: '/Fundos/Fundos (6).jpg?v=' + CACHE_VERSION },
-        { id: 'image-7', name: 'Planta', class: 'bg-image-7', url: '/Fundos/Fundos (7).jpg?v=' + CACHE_VERSION },
-        { id: 'image-8', name: 'Montanhas', class: 'bg-image-8', url: '/Fundos/Fundos (8).jpg?v=' + CACHE_VERSION },
-        { id: 'image-9', name: 'Via Láctea', class: 'bg-image-9', url: '/Fundos/Fundos (9).jpg?v=' + CACHE_VERSION },
-        { id: 'image-10', name: 'Ponte', class: 'bg-image-10', url: '/Fundos/Fundos (10).jpg?v=' + CACHE_VERSION },
-        { id: 'image-11', name: 'Estrelas', class: 'bg-image-11', url: '/Fundos/Fundos (11).jpg?v=' + CACHE_VERSION },
-        { id: 'image-12', name: 'Flores 1', class: 'bg-image-12', url: '/Fundos/Fundos (12).jpg?v=' + CACHE_VERSION },
-        { id: 'image-13', name: 'Flores 2', class: 'bg-image-13', url: '/Fundos/Fundos (13).jpg?v=' + CACHE_VERSION }
+        { id: 'image-1', name: 'Edifício', class: 'bg-image-1', url: '/Fundos/Fundos (1).jpgv=' + CACHE_VERSION },
+        { id: 'image-2', name: 'Suculenta', class: 'bg-image-2', url: '/Fundos/Fundos (2).jpgv=' + CACHE_VERSION },
+        { id: 'image-3', name: 'Girafa', class: 'bg-image-3', url: '/Fundos/Fundos (3).jpgv=' + CACHE_VERSION },
+        { id: 'image-4', name: 'Pier', class: 'bg-image-4', url: '/Fundos/Fundos (4).jpgv=' + CACHE_VERSION },
+        { id: 'image-5', name: 'Luminária', class: 'bg-image-5', url: '/Fundos/Fundos (5).jpgv=' + CACHE_VERSION },
+        { id: 'image-6', name: 'Horizonte', class: 'bg-image-6', url: '/Fundos/Fundos (6).jpgv=' + CACHE_VERSION },
+        { id: 'image-7', name: 'Planta', class: 'bg-image-7', url: '/Fundos/Fundos (7).jpgv=' + CACHE_VERSION },
+        { id: 'image-8', name: 'Montanhas', class: 'bg-image-8', url: '/Fundos/Fundos (8).jpgv=' + CACHE_VERSION },
+        { id: 'image-9', name: 'Via Láctea', class: 'bg-image-9', url: '/Fundos/Fundos (9).jpgv=' + CACHE_VERSION },
+        { id: 'image-10', name: 'Ponte', class: 'bg-image-10', url: '/Fundos/Fundos (10).jpgv=' + CACHE_VERSION },
+        { id: 'image-11', name: 'Estrelas', class: 'bg-image-11', url: '/Fundos/Fundos (11).jpgv=' + CACHE_VERSION },
+        { id: 'image-12', name: 'Flores 1', class: 'bg-image-12', url: '/Fundos/Fundos (12).jpgv=' + CACHE_VERSION },
+        { id: 'image-13', name: 'Flores 2', class: 'bg-image-13', url: '/Fundos/Fundos (13).jpgv=' + CACHE_VERSION }
     ];
 
     let currentIndex = 0;
@@ -59,7 +59,7 @@
         setupVisibilityHandler();
         
         isInitialized = true;
-        console.log('✅ Sistema de backgrounds automáticos inicializado');
+        console.log('✅ Sistema de backgrounds automáticos inicialização');
         console.log(`   ⏱️ Intervalo: ${AUTO_CHANGE_INTERVAL / 1000}s | Transição: ${TRANSITION_DURATION / 1000}s`);
     }
 
@@ -133,7 +133,7 @@
             nextBackgroundElement.style.opacity = '0';
             nextBackgroundElement.style.zIndex = '-1';
             
-            // Aguardar um frame para garantir que o estilo foi aplicado
+            // Aguardar um frame para garantir que o estilo foi aplicação
             requestAnimationFrame(() => {
                 // Fade in do próximo background
                 nextBackgroundElement.style.opacity = '1';
@@ -217,7 +217,7 @@
     }
 
     /**
-     * Detecta se o background é escuro e aplica contraste adequado
+     * Detecta se o background é escuro e aplica contraste adequação
      */
     function detectAndApplyContrast(bgId) {
         // Fundos escuros (precisam de cards claros) - bg-contrast-light

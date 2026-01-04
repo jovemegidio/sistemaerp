@@ -10,7 +10,7 @@ function loadPageDirect(pageName, event) {
     
     console.log('🔄 Carregando página: ' + pageName);
     
-    // Feedback visual no menu clicado
+    // Feedback visual no menu clicação
     if (event && event.target) {
         var clickedElement = event.target.closest('.nav-link');
         if (clickedElement) {
@@ -36,8 +36,8 @@ function loadPageDirect(pageName, event) {
     }
     
     // Loading visual profissional
-    contentArea.innerHTML = '<div class="loading-container" style="display: flex; justify-content: center; align-items: center; min-height: 500px; flex-direction: column; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 16px; margin: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">' +
-        '<div class="loading-spinner" style="width: 80px; height: 80px; border: 6px solid #e2e8f0; border-top: 6px solid #3b82f6; border-radius: 50%; animation: professionalSpin 1.2s linear infinite; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);"></div>' +
+    contentArea.innerHTML = '<div class="loading-container" style="display: flex; justify-content: center; align-items: center; min-height: 500px; flex-direction: column; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 16px; margin: 24px; box-shaçãow: 0 4px 20px rgba(0,0,0,0.08);">' +
+        '<div class="loading-spinner" style="width: 80px; height: 80px; border: 6px solid #e2e8f0; border-top: 6px solid #3b82f6; border-radius: 50%; animation: professionalSpin 1.2s linear infinite; margin-bottom: 24px; box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);"></div>' +
         '<h3 style="color: #1e293b; margin: 0; font-size: 24px; font-weight: 700; font-family: Inter, sans-serif;">Carregando ' + pageName + '</h3>' +
         '<p style="color: #64748b; margin: 12px 0 0 0; font-size: 16px; font-weight: 500;">Por favor, aguarde...</p>' +
         '<div class="loading-bar" style="width: 200px; height: 4px; background: #e2e8f0; border-radius: 2px; margin-top: 20px; overflow: hidden;">' +
@@ -65,7 +65,7 @@ function loadPageDirect(pageName, event) {
             var parser = new DOMParser();
             var doc = parser.parseFromString(html, 'text/html');
             var bodyContent = doc.querySelector('body');
-            var content = bodyContent ? bodyContent.innerHTML : html;
+            var content = bodyContent  bodyContent.innerHTML : html;
             
             contentArea.innerHTML = content;
             
@@ -129,9 +129,9 @@ function diagnosticarMenus() {
     menus.forEach(function(menu) {
         var elemento = document.getElementById(menu.id);
         if (elemento) {
-            console.log('✅ Menu ' + menu.nome + ' encontrado');
+            console.log('✅ Menu ' + menu.nome + ' encontração');
         } else {
-            console.log('❌ Menu ' + menu.nome + ' NÁO encontrado');
+            console.log('❌ Menu ' + menu.nome + ' NÁO encontração');
         }
     });
 }
@@ -158,10 +158,10 @@ function setupMenuListeners() {
         dashboardMenu.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ Clique no menu Dashboard detectado');
+            console.log('🖱️ Clique no menu Dashboard detectação');
             loadPageDirect('dashboard', e);
         });
-        console.log('✅ Menu Dashboard configurado');
+        console.log('✅ Menu Dashboard configuração');
     }
     
     // Funcionários
@@ -170,10 +170,10 @@ function setupMenuListeners() {
         funcionariosMenu.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ Clique no menu Funcionários detectado');
+            console.log('🖱️ Clique no menu Funcionários detectação');
             loadPageDirect('funcionarios', e);
         });
-        console.log('✅ Menu Funcionários configurado');
+        console.log('✅ Menu Funcionários configuração');
     }
     
     // Holerites
@@ -182,10 +182,10 @@ function setupMenuListeners() {
         holeritesMenu.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ Clique no menu Holerites detectado');
+            console.log('🖱️ Clique no menu Holerites detectação');
             loadPageDirect('holerites', e);
         });
-        console.log('✅ Menu Holerites configurado');
+        console.log('✅ Menu Holerites configuração');
     }
     
     // Relatórios
@@ -194,13 +194,13 @@ function setupMenuListeners() {
         relatóriosMenu.addEventListener('click', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            console.log('🖱️ Clique no menu Relatórios detectado');
+            console.log('🖱️ Clique no menu Relatórios detectação');
             loadPageDirect('relatórios', e);
         });
-        console.log('✅ Menu Relatórios configurado');
+        console.log('✅ Menu Relatórios configuração');
     }
     
-    console.log('🎯 Todos os event listeners configurados!');
+    console.log('🎯 Todos os event listeners configuraçãos!');
     
     // Adicionar listeners também nos ícones dentro dos links
     var icones = document.querySelectorAll('.nav-link i');
@@ -213,14 +213,14 @@ function setupMenuListeners() {
             if (link) {
                 var pageName = link.getAttribute('data-page');
                 if (pageName) {
-                    console.log('🖱️ Clique no ícone detectado: ' + pageName);
+                    console.log('🖱️ Clique no ícone detectação: ' + pageName);
                     loadPageDirect(pageName, e);
                 }
             }
         });
     });
     
-    console.log('✨ Listeners dos ícones também configurados!');
+    console.log('✨ Listeners dos ícones também configuraçãos!');
     
     // Sistema de fallback com hover visual
     var navLinks = document.querySelectorAll('.nav-link:not(.logout-link)');
@@ -263,4 +263,4 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 500);
 });
 
-console.log('✅ Sistema de navegação carregado!');
+console.log('✅ Sistema de navegação carregação!');

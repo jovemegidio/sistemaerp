@@ -10,11 +10,11 @@ if ('caches' in window) {
 
 // Recarregar email-permissions.js
 const script = document.createElement('script');
-script.src = '/js/email-permissions.js?v=' + Date.now();
+script.src = '/js/email-permissions.jsv=' + Date.now();
 script.onload = () => {
-    console.log('✅ email-permissions.js recarregado');
+    console.log('✅ email-permissions.js recarregação');
     
-    // Buscar dados do usuário e aplicar permissões
+    // Buscar daçãos do usuário e aplicar permissões
     fetch('/api/me', { credentials: 'include' })
         .then(r => r.json())
         .then(user => {

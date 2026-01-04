@@ -6,14 +6,14 @@
 class DashboardExecutivoManager {
     constructor() {
         this.charts = {};
-        this.dados = {};
+        this.daçãos = {};
         this.refreshInterval = null;
         this.refreshCountdown = 30;
         this.init();
     }
 
     init() {
-        this.carregarDados();
+        this.carregarDaçãos();
         this.atualizarDateTime();
         this.atualizarKPIs();
         this.renderizarGraficos();
@@ -24,38 +24,38 @@ class DashboardExecutivoManager {
         inicializarUsuario();
     }
 
-    carregarDados() {
-        // Simular dados consolidados do sistema
+    carregarDaçãos() {
+        // Simular daçãos consolidaçãos do sistema
         const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
         
         // Compras por mês
-        this.dados.comprasPorMes = meses.map(() => Math.random() * 200000 + 150000);
+        this.daçãos.comprasPorMes = meses.map(() => Math.random() * 200000 + 150000);
         
         // Total do mês atual
-        this.dados.totalMesAtual = this.dados.comprasPorMes[this.dados.comprasPorMes.length - 1];
-        this.dados.totalMesAnterior = this.dados.comprasPorMes[this.dados.comprasPorMes.length - 2];
+        this.daçãos.totalMesAtual = this.daçãos.comprasPorMes[this.daçãos.comprasPorMes.length - 1];
+        this.daçãos.totalMesAnterior = this.daçãos.comprasPorMes[this.daçãos.comprasPorMes.length - 2];
         
         // Economia
-        this.dados.economiaTotal = this.dados.totalMesAtual * 0.095; // 9.5%
-        this.dados.economiaAnterior = this.dados.totalMesAnterior * 0.082;
+        this.daçãos.economiaTotal = this.daçãos.totalMesAtual * 0.095; // 9.5%
+        this.daçãos.economiaAnterior = this.daçãos.totalMesAnterior * 0.082;
         
         // Pedidos
-        this.dados.pedidosAtivos = 234;
-        this.dados.pedidosAprovados = 198;
-        this.dados.pedidosPendentes = 36;
+        this.daçãos.pedidosAtivos = 234;
+        this.daçãos.pedidosAprovaçãos = 198;
+        this.daçãos.pedidosPendentes = 36;
         
         // Prazo médio
-        this.dados.prazoMedio = 13.2;
-        this.dados.prazoAnterior = 15.8;
+        this.daçãos.prazoMedio = 13.2;
+        this.daçãos.prazoAnterior = 15.8;
         
         // Alertas
-        this.dados.alertasCriticos = 8;
+        this.daçãos.alertasCriticos = 8;
         
         // Taxa de aprovação
-        this.dados.taxaAprovacao = (this.dados.pedidosAprovados / this.dados.pedidosAtivos) * 100;
+        this.daçãos.taxaAprovacao = (this.daçãos.pedidosAprovaçãos / this.daçãos.pedidosAtivos) * 100;
         
         // Categorias
-        this.dados.categorias = {
+        this.daçãos.categorias = {
             'Matéria Prima': 45,
             'Componentes': 28,
             'Embalagens': 15,
@@ -64,15 +64,15 @@ class DashboardExecutivoManager {
         };
         
         // Status pedidos
-        this.dados.statusPedidos = {
-            'Aprovado': 85,
+        this.daçãos.statusPedidos = {
+            'Aprovação': 85,
             'Recebido': 120,
             'Parcial': 18,
             'Pendente': 11
         };
         
         // Top materiais
-        this.dados.topMateriais = [
+        this.daçãos.topMateriais = [
             { codigo: 'AL-6063-T5', descricao: 'Alumínio 6063 T5', quantidade: 12500, valor: 187500 },
             { codigo: 'COMP-101', descricao: 'Componente Elétrico', quantidade: 8500, valor: 153000 },
             { codigo: 'EMB-201', descricao: 'Embalagem Premium', quantidade: 15000, valor: 135000 },
@@ -81,7 +81,7 @@ class DashboardExecutivoManager {
         ];
         
         // Fornecedores
-        this.dados.fornecedores = [
+        this.daçãos.fornecedores = [
             { nome: 'Alcoa Alumínio', entregaPrazo: 92, qualidade: 96 },
             { nome: 'Hydro Alumínio', entregaPrazo: 88, qualidade: 94 },
             { nome: 'Ferragens Brasil', entregaPrazo: 85, qualidade: 91 },
@@ -90,7 +90,7 @@ class DashboardExecutivoManager {
         ];
         
         // Alertas em tempo real
-        this.dados.alertas = [
+        this.daçãos.alertas = [
             {
                 type: 'critical',
                 icon: 'fas fa-exclamation-triangle',
@@ -148,24 +148,24 @@ class DashboardExecutivoManager {
     }
 
     atualizarKPIs() {
-        // Total Comprado
-        const variacaoTotal = ((this.dados.totalMesAtual - this.dados.totalMesAnterior) / this.dados.totalMesAnterior) * 100;
-        document.getElementById('kpiTotalComprado').textContent = this.formatarMoedaCompacta(this.dados.totalMesAtual);
-        document.getElementById('kpiTotalTrend').textContent = (variacaoTotal > 0 ? '+' : '') + variacaoTotal.toFixed(1) + '%';
+        // Total Compração
+        const variacaoTotal = ((this.daçãos.totalMesAtual - this.daçãos.totalMesAnterior) / this.daçãos.totalMesAnterior) * 100;
+        document.getElementById('kpiTotalCompração').textContent = this.formatarMoedaCompacta(this.daçãos.totalMesAtual);
+        document.getElementById('kpiTotalTrend').textContent = (variacaoTotal > 0  '+' : '') + variacaoTotal.toFixed(1) + '%';
         
         // Economia
-        const variacaoEconomia = ((this.dados.economiaTotal - this.dados.economiaAnterior) / this.dados.economiaAnterior) * 100;
-        document.getElementById('kpiEconomia').textContent = this.formatarMoedaCompacta(this.dados.economiaTotal);
+        const variacaoEconomia = ((this.daçãos.economiaTotal - this.daçãos.economiaAnterior) / this.daçãos.economiaAnterior) * 100;
+        document.getElementById('kpiEconomia').textContent = this.formatarMoedaCompacta(this.daçãos.economiaTotal);
         document.getElementById('kpiEconomiaTrend').textContent = '+' + variacaoEconomia.toFixed(1) + '%';
         
         // Pedidos Ativos
-        document.getElementById('kpiPedidosAtivos').textContent = this.dados.pedidosAtivos;
+        document.getElementById('kpiPedidosAtivos').textContent = this.daçãos.pedidosAtivos;
         document.getElementById('kpiPedidosTrend').textContent = '+12%';
-        document.getElementById('kpiPedidosComp').textContent = `${this.dados.pedidosPendentes} pendentes de aprovação`;
+        document.getElementById('kpiPedidosComp').textContent = `${this.daçãos.pedidosPendentes} pendentes de aprovação`;
         
         // Prazo Médio
-        const variacaoPrazo = ((this.dados.prazoMedio - this.dados.prazoAnterior) / this.dados.prazoAnterior) * 100;
-        document.getElementById('kpiPrazoMedio').textContent = Math.round(this.dados.prazoMedio) + 'd';
+        const variacaoPrazo = ((this.daçãos.prazoMedio - this.daçãos.prazoAnterior) / this.daçãos.prazoAnterior) * 100;
+        document.getElementById('kpiPrazoMedio').textContent = Math.round(this.daçãos.prazoMedio) + 'd';
         document.getElementById('kpiPrazoTrend').textContent = variacaoPrazo.toFixed(1) + '%';
         
         const kpiPrazoTrend = document.getElementById('kpiPrazoTrend').parentElement;
@@ -175,11 +175,11 @@ class DashboardExecutivoManager {
         }
         
         // Alertas Críticos
-        document.getElementById('kpiAlertasCriticos').textContent = this.dados.alertasCriticos;
+        document.getElementById('kpiAlertasCriticos').textContent = this.daçãos.alertasCriticos;
         document.getElementById('kpiAlertasTrend').textContent = '-2 vs. semana passada';
         
         // Taxa de Aprovação
-        document.getElementById('kpiTaxaAprovacao').textContent = this.dados.taxaAprovacao.toFixed(1) + '%';
+        document.getElementById('kpiTaxaAprovacao').textContent = this.daçãos.taxaAprovacao.toFixed(1) + '%';
         document.getElementById('kpiAprovacaoTrend').textContent = '+3.2%';
     }
 
@@ -205,7 +205,7 @@ class DashboardExecutivoManager {
                 datasets: [
                     {
                         label: 'Compras Realizadas',
-                        data: this.dados.comprasPorMes,
+                        data: this.daçãos.comprasPorMes,
                         borderColor: 'rgba(139, 92, 246, 1)',
                         backgroundColor: 'rgba(139, 92, 246, 0.1)',
                         borderWidth: 3,
@@ -267,8 +267,8 @@ class DashboardExecutivoManager {
         const ctx = document.getElementById('chartCategorias');
         if (!ctx) return;
 
-        const labels = Object.keys(this.dados.categorias);
-        const valores = Object.values(this.dados.categorias);
+        const labels = Object.keys(this.daçãos.categorias);
+        const valores = Object.values(this.daçãos.categorias);
 
         const cores = [
             'rgba(139, 92, 246, 0.8)',
@@ -320,11 +320,11 @@ class DashboardExecutivoManager {
         const ctx = document.getElementById('chartStatusPedidos');
         if (!ctx) return;
 
-        const labels = Object.keys(this.dados.statusPedidos);
-        const valores = Object.values(this.dados.statusPedidos);
+        const labels = Object.keys(this.daçãos.statusPedidos);
+        const valores = Object.values(this.daçãos.statusPedidos);
 
         const cores = {
-            'Aprovado': 'rgba(245, 158, 11, 0.8)',
+            'Aprovação': 'rgba(245, 158, 11, 0.8)',
             'Recebido': 'rgba(16, 185, 129, 0.8)',
             'Parcial': 'rgba(59, 130, 246, 0.8)',
             'Pendente': 'rgba(239, 68, 68, 0.8)'
@@ -373,7 +373,7 @@ class DashboardExecutivoManager {
 
         container.innerHTML = '';
 
-        this.dados.alertas.forEach(alerta => {
+        this.daçãos.alertas.forEach(alerta => {
             const div = document.createElement('div');
             div.className = `alert-item ${alerta.type}`;
             
@@ -398,7 +398,7 @@ class DashboardExecutivoManager {
 
         container.innerHTML = '';
 
-        this.dados.topMateriais.forEach((material, index) => {
+        this.daçãos.topMateriais.forEach((material, index) => {
             const div = document.createElement('div');
             div.className = 'top-item';
             
@@ -426,14 +426,14 @@ class DashboardExecutivoManager {
 
         container.innerHTML = '';
 
-        this.dados.fornecedores.forEach(fornecedor => {
+        this.daçãos.fornecedores.forEach(fornecedor => {
             const mediaPerformance = (fornecedor.entregaPrazo + fornecedor.qualidade) / 2;
             
             const div = document.createElement('div');
             div.className = 'performance-indicator';
             
-            const corPrazo = fornecedor.entregaPrazo >= 90 ? '#10b981' : fornecedor.entregaPrazo >= 75 ? '#f59e0b' : '#ef4444';
-            const corQualidade = fornecedor.qualidade >= 95 ? '#10b981' : fornecedor.qualidade >= 85 ? '#f59e0b' : '#ef4444';
+            const corPrazo = fornecedor.entregaPrazo >= 90  '#10b981' : fornecedor.entregaPrazo >= 75  '#f59e0b' : '#ef4444';
+            const corQualidade = fornecedor.qualidade >= 95  '#10b981' : fornecedor.qualidade >= 85  '#f59e0b' : '#ef4444';
             
             div.innerHTML = `
                 <div class="performance-label">${fornecedor.nome}</div>
@@ -450,30 +450,30 @@ class DashboardExecutivoManager {
     }
 
     iniciarRefreshAutomatico() {
-        // Atualizar contador a cada segundo
+        // Atualizar contaçãor a cada segundo
         setInterval(() => {
             this.refreshCountdown--;
             
             if (this.refreshCountdown <= 0) {
                 this.refreshCountdown = 30;
-                this.atualizarDadosTempoReal();
+                this.atualizarDaçãosTempoReal();
             }
             
             document.getElementById('refreshTimer').textContent = this.refreshCountdown + 's';
         }, 1000);
     }
 
-    atualizarDadosTempoReal() {
-        // Simular atualização de dados em tempo real
+    atualizarDaçãosTempoReal() {
+        // Simular atualização de daçãos em tempo real
         
         // Pequenas variações nos KPIs
         const variacao = (Math.random() - 0.5) * 0.02; // ±1%
-        this.dados.totalMesAtual *= (1 + variacao);
+        this.daçãos.totalMesAtual *= (1 + variacao);
         
         // Atualizar alertas críticos
         if (Math.random() > 0.7) {
-            this.dados.alertasCriticos += Math.random() > 0.5 ? 1 : -1;
-            this.dados.alertasCriticos = Math.max(0, this.dados.alertasCriticos);
+            this.daçãos.alertasCriticos += Math.random() > 0.5  1 : -1;
+            this.daçãos.alertasCriticos = Math.max(0, this.daçãos.alertasCriticos);
         }
         
         // Atualizar KPIs
@@ -497,7 +497,7 @@ class DashboardExecutivoManager {
     }
 
     marcarTodosLidos() {
-        if (confirm('Marcar todos os alertas como lidos?')) {
+        if (confirm('Marcar todos os alertas como lidos')) {
             const alertas = document.querySelectorAll('.alert-item');
             alertas.forEach(alerta => {
                 alerta.style.opacity = '0.5';
@@ -529,7 +529,7 @@ function toggleDarkMode() {
     localStorage.setItem('darkMode', isDark);
     
     const icon = document.querySelector('#btnModoEscuro i');
-    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    icon.className = isDark  'fas fa-sun' : 'fas fa-moon';
     
     if (dashboardManager && dashboardManager.charts) {
         Object.values(dashboardManager.charts).forEach(chart => chart.update());
@@ -543,7 +543,7 @@ function toggleSidebar() {
 
 function toggleUserMenu() {
     const menu = document.getElementById('userMenu');
-    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    menu.style.display = menu.style.display === 'block'  'none' : 'block';
 }
 
 function inicializarUsuario() {
@@ -554,11 +554,11 @@ function inicializarUsuario() {
     if (hora >= 12 && hora < 18) saudacao = 'Boa tarde';
     else if (hora >= 18 || hora < 5) saudacao = 'Boa noite';
 
-    // Buscar dados do usuário do localStorage
+    // Buscar daçãos do usuário do localStorage
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     
     // Usar apelido se disponível, senão primeiro nome
-    const primeiroNome = userData.apelido || (userData.nome ? userData.nome.split(' ')[0] : 'Executivo');
+    const primeiroNome = userData.apelido || (userData.nome  userData.nome.split(' ')[0] : 'Executivo');
     
     const userGreeting = document.getElementById('userGreeting');
     if (userGreeting) {

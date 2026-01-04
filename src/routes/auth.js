@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
-// Configuração do Banco de Dados e modo de desenvolvimento
+// Configuração do Banco de Daçãos e modo de desenvolvimento
 const DEV_MOCK = (process.env.DEV_MOCK === '1' || process.env.DEV_MOCK === 'true');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'sua-chave-secreta-super-dificil-de-adivinhar-@123!';
@@ -29,11 +29,11 @@ if (DEV_MOCK) {
                 ]];
             }
             if (s.includes('SELECT * FROM USUARIOS WHERE EMAIL')) {
-                const email = params && params[0] ? params[0] : '';
+                const email = params && params[0]  params[0] : '';
                 const rows = mockUsers.filter(u => u.email.toLowerCase() === String(email).toLowerCase());
                 return [rows];
             }
-            // Comandos de criação/checagem podem ser ignorados no mock
+            // Comandos de criação/checagem podem ser ignoraçãos no mock
             return [[]];
         }
     };
@@ -59,7 +59,7 @@ router.post('/login', async (req, res) => {
     // Validação adicional do req.body
     if (!req.body || typeof req.body !== 'object') {
         console.error('req.body está undefined ou não é um objeto');
-        return res.status(400).json({ message: 'Dados de login inválidos' });
+        return res.status(400).json({ message: 'Daçãos de login inválidos' });
     }
     
     const { email, password } = req.body;
@@ -78,15 +78,15 @@ router.post('/login', async (req, res) => {
         } catch (err) {
             console.error('Erro ao inspecionar colunas da tabela usuarios:', err.stack || err);
             if (err && err.code === 'ER_NO_SUCH_TABLE') {
-                return res.status(500).json({ message: 'Tabela `usuarios` não encontrada no banco de dados. Verifique a configuração do DB.' });
+                return res.status(500).json({ message: 'Tabela `usuarios` não encontrada no banco de daçãos. Verifique a configuração do DB.' });
             }
-            return res.status(500).json({ message: 'Erro ao verificar esquema de usuários.', error: (err && err.message) ? err.message : String(err) });
+            return res.status(500).json({ message: 'Erro ao verificar esquema de usuários.', error: (err && err.message)  err.message : String(err) });
         }
 
         // Seleciona o usuário
-        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email = ? ORDER BY id ASC LIMIT 1', [email]);
+        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email =  ORDER BY id ASC LIMIT 1', [email]);
         if (!rows.length) {
-            return res.status(401).json({ message: 'Usuário não encontrado.' });
+            return res.status(401).json({ message: 'Usuário não encontração.' });
         }
         const user = rows[0];
 
@@ -102,7 +102,7 @@ router.post('/login', async (req, res) => {
             }
         }
         if (!hashField) {
-            return res.status(500).json({ message: 'Nenhum campo de senha encontrado na tabela `usuarios`. Verifique o esquema.' });
+            return res.status(500).json({ message: 'Nenhum campo de senha encontração na tabela `usuarios`. Verifique o esquema.' });
         }
 
         // Decide se deve usar bcrypt: se o nome do campo indica hash ou termina com '_hash'
@@ -116,7 +116,7 @@ router.post('/login', async (req, res) => {
             }
         } catch (err) {
             console.error('Erro ao comparar senha:', err.stack || err);
-            return res.status(500).json({ message: 'Erro ao verificar credenciais.', error: (err && err.message) ? err.message : String(err) });
+            return res.status(500).json({ message: 'Erro ao verificar credenciais.', error: (err && err.message)  err.message : String(err) });
         }
         if (!valid) {
             return res.status(401).json({ message: 'Senha incorreta.' });
@@ -145,10 +145,10 @@ router.post('/login', async (req, res) => {
         // Define cookie com expiração em 8 horas
         const finalCookieOptions = Object.assign({}, cookieOptions, { maxAge: 1000 * 60 * 60 * 8 });
         res.cookie('authToken', token, finalCookieOptions);
-        console.log('[AUTH/LOGIN] ✅ Cookie authToken setado para:', user.email);
+        console.log('[AUTH/LOGIN] ✅ Cookie authToken setação para:', user.email);
         console.log('[AUTH/LOGIN] Cookie options:', JSON.stringify(finalCookieOptions));
         console.log('[AUTH/LOGIN] Token (primeiros 30 chars):', token.substring(0, 30) + '...');
-        // Se a requisição vem de um navegador (ex: submission de formulário) redirecione para o painel
+        // Se a requisição vem de um navegaçãor (ex: submission de formulário) redirecione para o painel
         // Caso seja uma requisição AJAX/fetch, retorne JSON (comportamento atual)
         const acceptsHtml = typeof req.headers.accept === 'string' && req.headers.accept.indexOf('text/html') !== -1;
         const isAjax = req.xhr || req.get('X-Requested-With') === 'XMLHttpRequest' || (req.headers['content-type'] && req.headers['content-type'].indexOf('application/json') !== -1);
@@ -156,7 +156,7 @@ router.post('/login', async (req, res) => {
             // Redireciona para index.html (painel de controle)
             return res.redirect('/index.html');
         }
-        // Também retorna dados do usuário para uso imediato no cliente (AJAX)
+        // Também retorna daçãos do usuário para uso imediato no cliente (AJAX)
         // Inclui `redirectTo` (absoluto) para que clientes que usam fetch possam redirecionar a página facilmente.
         const baseUrl = (req.protocol || 'http') + '://' + (req.get('host') || req.headers.host || 'localhost');
         const redirectTo = baseUrl + '/index.html';
@@ -181,17 +181,17 @@ router.post('/login', async (req, res) => {
         res.json(payload);
     } catch (error) {
         // Log completo no servidor (stack quando disponível)
-        console.error('Erro detalhado no login:', error.stack || error);
+        console.error('Erro detalhação no login:', error.stack || error);
         // Envia apenas mensagem/texto para o cliente para evitar problemas de serialização
-        res.status(500).json({ message: 'Erro inesperado no login', error: (error && error.message) ? error.message : String(error) });
+        res.status(500).json({ message: 'Erro inesperação no login', error: (error && error.message)  error.message : String(error) });
     }
 });
 
 // Rota para logout (limpa cookie)
 router.post('/logout', (req, res) => {
-    console.log('[AUTH/LOGOUT] 🚪 Logout requisitado');
+    console.log('[AUTH/LOGOUT] 🚪 Logout requisitação');
     
-    // Limpar cookie com as mesmas opções que foi criado
+    // Limpar cookie com as mesmas opções que foi criação
     const cookieOptions = {
         httpOnly: true,
         path: '/'
@@ -206,7 +206,7 @@ router.post('/logout', (req, res) => {
     
     res.clearCookie('authToken', cookieOptions);
     console.log('[AUTH/LOGOUT] ✅ Cookie authToken limpo');
-    res.json({ ok: true, message: 'Logout realizado com sucesso' });
+    res.json({ ok: true, message: 'Logout realização com sucesso' });
 });
 
 // ===================== ROTAS DE RECUPERAÇÃO DE SENHA =====================
@@ -222,19 +222,19 @@ router.post('/auth/verify-email', async (req, res) => {
         }
         
         // Verifica se email existe no banco
-        const [rows] = await pool.query('SELECT id, nome, email, setor FROM usuarios WHERE email = ? LIMIT 1', [email]);
+        const [rows] = await pool.query('SELECT id, nome, email, setor FROM usuarios WHERE email =  LIMIT 1', [email]);
         
         if (!rows.length) {
-            return res.status(404).json({ message: 'Email não encontrado no sistema.' });
+            return res.status(404).json({ message: 'Email não encontração no sistema.' });
         }
         
         const user = rows[0];
-        console.log('[AUTH/VERIFY-EMAIL] ✅ Email encontrado, userId:', user.id);
+        console.log('[AUTH/VERIFY-EMAIL] ✅ Email encontração, userId:', user.id);
         
         res.json({ 
             success: true, 
             userId: user.id,
-            message: 'Email verificado com sucesso.'
+            message: 'Email verificação com sucesso.'
         });
     } catch (error) {
         console.error('[AUTH/VERIFY-EMAIL] Erro:', error.stack || error);
@@ -245,21 +245,21 @@ router.post('/auth/verify-email', async (req, res) => {
     }
 });
 
-// Passo 2: Verificar dados do usuário (nome e departamento)
+// Passo 2: Verificar daçãos do usuário (nome e departamento)
 router.post('/auth/verify-user-data', async (req, res) => {
     try {
         const { userId, name, department } = req.body;
-        console.log('[AUTH/VERIFY-DATA] Verificando dados para userId:', userId);
+        console.log('[AUTH/VERIFY-DATA] Verificando daçãos para userId:', userId);
         
         if (!userId || !name || !department) {
-            return res.status(400).json({ message: 'Dados incompletos.' });
+            return res.status(400).json({ message: 'Daçãos incompletos.' });
         }
         
         // Busca usuário no banco
-        const [rows] = await pool.query('SELECT id, nome, setor FROM usuarios WHERE id = ? LIMIT 1', [userId]);
+        const [rows] = await pool.query('SELECT id, nome, setor FROM usuarios WHERE id =  LIMIT 1', [userId]);
         
         if (!rows.length) {
-            return res.status(404).json({ message: 'Usuário não encontrado.' });
+            return res.status(404).json({ message: 'Usuário não encontração.' });
         }
         
         const user = rows[0];
@@ -279,15 +279,15 @@ router.post('/auth/verify-user-data', async (req, res) => {
             return res.status(401).json({ message: 'Departamento não confere com nossos registros.' });
         }
         
-        console.log('[AUTH/VERIFY-DATA] ✅ Dados verificados com sucesso');
+        console.log('[AUTH/VERIFY-DATA] ✅ Daçãos verificaçãos com sucesso');
         res.json({ 
             success: true, 
-            message: 'Dados verificados com sucesso.'
+            message: 'Daçãos verificaçãos com sucesso.'
         });
     } catch (error) {
         console.error('[AUTH/VERIFY-DATA] Erro:', error.stack || error);
         res.status(500).json({ 
-            message: 'Erro ao verificar dados.', 
+            message: 'Erro ao verificar daçãos.', 
             error: error.message 
         });
     }
@@ -300,7 +300,7 @@ router.post('/auth/change-password', async (req, res) => {
         console.log('[AUTH/CHANGE-PASSWORD] Alterando senha para userId:', userId);
         
         if (!userId || !newPassword) {
-            return res.status(400).json({ message: 'Dados incompletos.' });
+            return res.status(400).json({ message: 'Daçãos incompletos.' });
         }
         
         if (newPassword.length < 6) {
@@ -308,15 +308,15 @@ router.post('/auth/change-password', async (req, res) => {
         }
         
         // Verifica se usuário existe
-        const [rows] = await pool.query('SELECT id FROM usuarios WHERE id = ? LIMIT 1', [userId]);
+        const [rows] = await pool.query('SELECT id FROM usuarios WHERE id =  LIMIT 1', [userId]);
         
         if (!rows.length) {
-            return res.status(404).json({ message: 'Usuário não encontrado.' });
+            return res.status(404).json({ message: 'Usuário não encontração.' });
         }
         
         // Gera hash bcrypt da nova senha (salt rounds = 10)
         const hashedPassword = await bcrypt.hash(newPassword, 10);
-        console.log('[AUTH/CHANGE-PASSWORD] Hash gerado com sucesso');
+        console.log('[AUTH/CHANGE-PASSWORD] Hash geração com sucesso');
         
         // Detecta qual campo usar para senha
         const [cols] = await pool.query('SHOW COLUMNS FROM usuarios');
@@ -332,7 +332,7 @@ router.post('/auth/change-password', async (req, res) => {
         }
         
         // Atualiza senha no banco com hash bcrypt
-        await pool.query(`UPDATE usuarios SET ${passwordField} = ? WHERE id = ?`, [hashedPassword, userId]);
+        await pool.query(`UPDATE usuarios SET ${passwordField} =  WHERE id = `, [hashedPassword, userId]);
         
         console.log('[AUTH/CHANGE-PASSWORD] ✅ Senha alterada com sucesso no banco');
         
@@ -377,13 +377,13 @@ if (!DEV_MOCK) {
     ensureRefreshTokensTable();
 }
 
-// Limpa tokens expirados (executa a cada 1 hora)
+// Limpa tokens expiraçãos (executa a cada 1 hora)
 setInterval(async () => {
     if (!DEV_MOCK) {
         try {
             const [result] = await pool.query('DELETE FROM refresh_tokens WHERE expires_at < NOW()');
             if (result.affectedRows > 0) {
-                console.log(`[AUTH/CLEANUP] 🗑️ ${result.affectedRows} tokens expirados removidos`);
+                console.log(`[AUTH/CLEANUP] 🗑️ ${result.affectedRows} tokens expiraçãos removidos`);
             }
         } catch (error) {
             console.error('[AUTH/CLEANUP] Erro ao limpar tokens:', error.message);
@@ -398,14 +398,14 @@ router.post('/auth/create-remember-token', async (req, res) => {
         console.log('[AUTH/REMEMBER-TOKEN] Criando token para userId:', userId);
         
         if (!userId || !email) {
-            return res.status(400).json({ message: 'Dados incompletos.' });
+            return res.status(400).json({ message: 'Daçãos incompletos.' });
         }
         
         // Verifica se usuário existe
-        const [rows] = await pool.query('SELECT id, nome, email, role, setor FROM usuarios WHERE id = ? AND email = ? LIMIT 1', [userId, email]);
+        const [rows] = await pool.query('SELECT id, nome, email, role, setor FROM usuarios WHERE id =  AND email =  LIMIT 1', [userId, email]);
         
         if (!rows.length) {
-            return res.status(404).json({ message: 'Usuário não encontrado.' });
+            return res.status(404).json({ message: 'Usuário não encontração.' });
         }
         
         const user = rows[0];
@@ -417,11 +417,11 @@ router.post('/auth/create-remember-token', async (req, res) => {
         
         // Salva token no banco
         await pool.query(
-            'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (?, ?, ?)',
+            'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (, , )',
             [userId, rememberToken, expiresAt]
         );
         
-        console.log('[AUTH/REMEMBER-TOKEN] ✅ Token criado e salvo no banco');
+        console.log('[AUTH/REMEMBER-TOKEN] ✅ Token criação e salvo no banco');
         
         // Define cookie httpOnly com o token
         const cookieOptions = {
@@ -441,7 +441,7 @@ router.post('/auth/create-remember-token', async (req, res) => {
         
         res.json({ 
             success: true, 
-            message: 'Token de lembrar-me criado com sucesso.'
+            message: 'Token de lembrar-me criação com sucesso.'
         });
     } catch (error) {
         console.error('[AUTH/REMEMBER-TOKEN] Erro:', error.stack || error);
@@ -459,7 +459,7 @@ router.post('/auth/validate-remember-token', async (req, res) => {
         console.log('[AUTH/VALIDATE-REMEMBER] Validando token...');
         
         if (!rememberToken) {
-            return res.status(401).json({ message: 'Token não encontrado.' });
+            return res.status(401).json({ message: 'Token não encontração.' });
         }
         
         // Busca token no banco
@@ -467,14 +467,14 @@ router.post('/auth/validate-remember-token', async (req, res) => {
             SELECT rt.*, u.id, u.nome, u.email, u.role, u.setor 
             FROM refresh_tokens rt
             JOIN usuarios u ON rt.user_id = u.id
-            WHERE rt.token = ? AND rt.expires_at > NOW()
+            WHERE rt.token =  AND rt.expires_at > NOW()
             LIMIT 1
         `, [rememberToken]);
         
         if (!rows.length) {
-            // Token inválido ou expirado - limpa cookie
+            // Token inválido ou expiração - limpa cookie
             res.clearCookie('rememberToken');
-            return res.status(401).json({ message: 'Token inválido ou expirado.' });
+            return res.status(401).json({ message: 'Token inválido ou expiração.' });
         }
         
         const tokenData = rows[0];
@@ -510,7 +510,7 @@ router.post('/auth/validate-remember-token', async (req, res) => {
         res.json({ 
             success: true, 
             user: user,
-            message: 'Login automático realizado com sucesso.'
+            message: 'Login automático realização com sucesso.'
         });
     } catch (error) {
         console.error('[AUTH/VALIDATE-REMEMBER] Erro:', error.stack || error);
@@ -532,7 +532,7 @@ router.post('/auth/remove-remember-token', async (req, res) => {
         }
         
         // Remove token do banco
-        await pool.query('DELETE FROM refresh_tokens WHERE token = ?', [rememberToken]);
+        await pool.query('DELETE FROM refresh_tokens WHERE token = ', [rememberToken]);
         
         // Limpa cookie
         res.clearCookie('rememberToken');

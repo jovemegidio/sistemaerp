@@ -12,7 +12,7 @@ function normalize (str) {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
+    port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
   })
 
   const uploadsDir = path.join(__dirname, '..', 'public', 'uploads', 'fotos')
@@ -67,7 +67,7 @@ function normalize (str) {
 
     if (best && bestScore > 0) {
       const fotoUrl = `/uploads/fotos/${best}`
-      await db.execute('UPDATE funcionarios SET foto_perfil_url = ? WHERE id = ?', [fotoUrl, u.id])
+      await db.execute('UPDATE funcionarios SET foto_perfil_url =  WHERE id = ', [fotoUrl, u.id])
       report.push({ id: u.id, nome: name, matched: best, score: bestScore, foto: fotoUrl })
       console.log(`Mapped ${u.id} ${name} -> ${best} (score ${bestScore})`)
     } else {

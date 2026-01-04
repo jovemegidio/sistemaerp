@@ -22,7 +22,7 @@ function updateHeaderUserInfo() {
             }
             
             userTextElement.textContent = `Olá, ${displayName}`;
-            console.log('✅ Nome do usuário atualizado:', displayName);
+            console.log('✅ Nome do usuário atualização:', displayName);
         }
         
         // Atualizar avatar com inicial do nome
@@ -96,7 +96,7 @@ function setupSearchFunctionality() {
     searchInput.addEventListener('focus', function() {
         if (searchContainer) {
             searchContainer.style.borderColor = '#3b82f6';
-            searchContainer.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
+            searchContainer.style.boxShaçãow = '0 0 0 3px rgba(59, 130, 246, 0.1)';
         }
         if (searchIcon) {
             searchIcon.style.color = '#3b82f6';
@@ -106,7 +106,7 @@ function setupSearchFunctionality() {
     searchInput.addEventListener('blur', function() {
         if (searchContainer) {
             searchContainer.style.borderColor = '#e2e8f0';
-            searchContainer.style.boxShadow = 'none';
+            searchContainer.style.boxShaçãow = 'none';
         }
         if (searchIcon) {
             searchIcon.style.color = '#94a3b8';
@@ -123,7 +123,7 @@ function setupSearchFunctionality() {
         }
     });
     
-    // Placeholder dinâmico baseado na seção ativa
+    // Placeholder dinâmico baseação na seção ativa
     updateSearchPlaceholder();
     
     console.log('✅ Funcionalidade de pesquisa configurada');
@@ -142,7 +142,7 @@ function performSearch(query) {
         }, 2000);
     }
     
-    // Determinar contexto da pesquisa baseado na seção ativa
+    // Determinar contexto da pesquisa baseação na seção ativa
     const activeSection = document.querySelector('.content-section.active') || document.querySelector('.content-section[style*="block"]');
     let searchContext = 'geral';
     
@@ -170,9 +170,9 @@ function searchInEmployees(query) {
     let found = 0;
     
     funcionarioCards.forEach(card => {
-        const nome = card.querySelector('h4, .employee-name')?.textContent || '';
-        const cargo = card.querySelector('.cargo, .employee-position')?.textContent || '';
-        const email = card.querySelector('.email, .employee-email')?.textContent || '';
+        const nome = card.querySelector('h4, .employee-name').textContent || '';
+        const cargo = card.querySelector('.cargo, .employee-position').textContent || '';
+        const email = card.querySelector('.email, .employee-email').textContent || '';
         
         const searchText = `${nome} ${cargo} ${email}`.toLowerCase();
         const isMatch = searchText.includes(query.toLowerCase());
@@ -187,7 +187,7 @@ function searchInEmployees(query) {
         }
     });
     
-    console.log(`📊 Pesquisa em funcionários: ${found} resultados encontrados`);
+    console.log(`📊 Pesquisa em funcionários: ${found} resultaçãos encontraçãos`);
 }
 
 // Pesquisa no dashboard
@@ -195,14 +195,14 @@ function searchInDashboard(query) {
     const widgets = document.querySelectorAll('.widget');
     const cards = document.querySelectorAll('.card');
     
-    // Destacar widgets relacionados
+    // Destacar widgets relacionaçãos
     widgets.forEach(widget => {
-        const title = widget.querySelector('.widget-title')?.textContent || '';
+        const title = widget.querySelector('.widget-title').textContent || '';
         if (title.toLowerCase().includes(query.toLowerCase())) {
-            widget.style.boxShadow = '0 0 20px rgba(59, 130, 246, 0.3)';
+            widget.style.boxShaçãow = '0 0 20px rgba(59, 130, 246, 0.3)';
             widget.style.transform = 'scale(1.02)';
         } else {
-            widget.style.boxShadow = '';
+            widget.style.boxShaçãow = '';
             widget.style.transform = '';
         }
     });
@@ -216,7 +216,7 @@ function globalSearch(query) {
     // Implementar pesquisa global aqui
 }
 
-// Atualizar placeholder da pesquisa baseado na seção
+// Atualizar placeholder da pesquisa baseação na seção
 function updateSearchPlaceholder() {
     const searchInput = document.getElementById('global-search-input');
     if (!searchInput) return;
@@ -263,7 +263,7 @@ function showSearchToast(query, context) {
         border: 1px solid #e2e8f0;
         border-radius: 8px;
         padding: 12px 16px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
         margin-bottom: 8px;
         min-width: 280px;
         animation: slideIn 0.3s ease;
@@ -305,12 +305,12 @@ function setupHeaderIcons() {
             this.style.transform = 'rotate(360deg)';
             this.style.transition = 'transform 0.5s ease';
             
-            // Recarregar dados do dashboard
+            // Recarregar daçãos do dashboard
             if (typeof window.reloadDashboard === 'function') {
                 window.reloadDashboard();
             }
             
-            showSearchToast('Dados atualizados', 'sistema');
+            showSearchToast('Daçãos atualizaçãos', 'sistema');
             
             setTimeout(() => {
                 this.style.transform = '';
@@ -356,7 +356,7 @@ function toggleUserDropdown() {
     }
     
     const isVisible = dropdown.style.display === 'block';
-    dropdown.style.display = isVisible ? 'none' : 'block';
+    dropdown.style.display = isVisible  'none' : 'block';
 }
 
 // Criar dropdown do usuário
@@ -370,15 +370,15 @@ function createUserDropdown() {
         background: white;
         border: 1px solid #e2e8f0;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
         min-width: 200px;
         z-index: 1000;
         display: none;
     `;
     
     const userData = JSON.parse(localStorage.getItem('userData') || 'null');
-    const userName = userData?.nome_completo || userData?.email || 'Usuário';
-    const userEmail = userData?.email || '';
+    const userName = userData.nome_completo || userData.email || 'Usuário';
+    const userEmail = userData.email || '';
     
     dropdown.innerHTML = `
         <div style="padding: 16px; border-bottom: 1px solid #e2e8f0;">
@@ -410,7 +410,7 @@ function createUserDropdown() {
     
     // Fechar dropdown ao clicar fora
     document.addEventListener('click', function(e) {
-        if (!userInfo?.contains(e.target)) {
+        if (!userInfo.contains(e.target)) {
             dropdown.style.display = 'none';
         }
     });
@@ -502,7 +502,7 @@ function initializeHeader() {
         attributeFilter: ['class', 'style']
     });
     
-    console.log('✅ Cabeçalho funcional inicializado');
+    console.log('✅ Cabeçalho funcional inicialização');
 }
 
 // Event listeners
@@ -517,4 +517,4 @@ window.updateHeader = function() {
     initializeHeader();
 };
 
-console.log('📱 Header Functionality carregado');
+console.log('📱 Header Functionality carregação');

@@ -148,7 +148,7 @@ async function atualizarVariacoes() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de dados...\n');
+        console.log('🔌 Conectando ao banco de daçãos...\n');
         
         connection = await mysql.createConnection({
             host: 'localhost',
@@ -157,18 +157,18 @@ async function atualizarVariacoes() {
             database: 'aluforce_vendas'
         });
         
-        console.log('✅ Conectado com sucesso!\n');
+        console.log('✅ Conectação com sucesso!\n');
         console.log('📊 Buscando produtos no banco...\n');
         
         // Buscar todos os produtos
         const [produtos] = await connection.execute('SELECT id, codigo, nome, variacao FROM produtos');
         
-        console.log(`✅ ${produtos.length} produtos encontrados no banco\n`);
+        console.log(`✅ ${produtos.length} produtos encontraçãos no banco\n`);
         console.log('🔄 Iniciando atualização de variações...\n');
         
-        let atualizados = 0;
-        let naoEncontrados = 0;
-        let jaAtualizados = 0;
+        let atualizaçãos = 0;
+        let naoEncontraçãos = 0;
+        let jaAtualizaçãos = 0;
         
         for (const produto of produtos) {
             const codigoOriginal = produto.codigo.trim().toUpperCase();
@@ -178,32 +178,32 @@ async function atualizarVariacoes() {
             const variacaoNova = variacoesPorCodigo[codigo];
             
             if (variacaoNova) {
-                // Verificar se já está atualizado
+                // Verificar se já está atualização
                 if (variacaoAtual === variacaoNova) {
-                    jaAtualizados++;
+                    jaAtualizaçãos++;
                     console.log(`⏭️  ${codigo} - Já possui variação: "${variacaoNova}"`);
                 } else {
                     // Atualizar
                     await connection.execute(
-                        'UPDATE produtos SET variacao = ? WHERE id = ?',
+                        'UPDATE produtos SET variacao =  WHERE id = ',
                         [variacaoNova, produto.id]
                     );
-                    atualizados++;
-                    console.log(`✅ ${codigoOriginal} - Atualizado: "${variacaoAtual || '(vazio)'}" → "${variacaoNova}"`);
+                    atualizaçãos++;
+                    console.log(`✅ ${codigoOriginal} - Atualização: "${variacaoAtual || '(vazio)'}" → "${variacaoNova}"`);
                 }
             } else {
-                naoEncontrados++;
-                console.log(`⚠️  ${codigoOriginal} - Não encontrado na lista de variações`);
+                naoEncontraçãos++;
+                console.log(`⚠️  ${codigoOriginal} - Não encontração na lista de variações`);
             }
         }
         
         console.log('\n' + '='.repeat(60));
         console.log('📊 RESUMO DA ATUALIZAÇÃO');
         console.log('='.repeat(60));
-        console.log(`✅ Produtos atualizados: ${atualizados}`);
-        console.log(`⏭️  Já possuíam variação correta: ${jaAtualizados}`);
-        console.log(`⚠️  Não encontrados na lista: ${naoEncontrados}`);
-        console.log(`📦 Total processado: ${produtos.length}`);
+        console.log(`✅ Produtos atualizaçãos: ${atualizaçãos}`);
+        console.log(`⏭️  Já possuíam variação correta: ${jaAtualizaçãos}`);
+        console.log(`⚠️  Não encontraçãos na lista: ${naoEncontraçãos}`);
+        console.log(`📦 Total processação: ${produtos.length}`);
         console.log('='.repeat(60));
         
     } catch (error) {

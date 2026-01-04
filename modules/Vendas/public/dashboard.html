@@ -8,7 +8,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         :root {
@@ -300,7 +300,7 @@
             border-radius: 12px;
             padding: 20px 24px;
             margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -360,7 +360,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             position: relative;
             overflow: hidden;
         }
@@ -448,7 +448,7 @@
         .section-card {
             background: white;
             border-radius: 12px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
@@ -497,7 +497,7 @@
 
         .venda-item:hover {
             background: #fff;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .venda-info {
@@ -666,7 +666,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .chart-card h3 {
@@ -1006,7 +1006,7 @@
             return null;
         }
 
-        // Carregar dados do usuário logado via API
+        // Carregar daçãos do usuário logação via API
         async function carregarUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
@@ -1014,8 +1014,8 @@
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
-                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp'  user.avatar : null;
                     if (!userAvatar) {
                         userAvatar = getAvatarFromEmail(user.email, userName);
                     }
@@ -1073,11 +1073,11 @@
             }
         }
 
-        // Carregar dados do dashboard
+        // Carregar daçãos do dashboard
         async function carregarDashboard() {
             try {
-                // Carregar dados completos do dashboard do vendedor
-                const response = await fetch('/api/vendas/dashboard/vendedor?período=30', { credentials: 'include' });
+                // Carregar daçãos completos do dashboard do vendedor
+                const response = await fetch('/api/vendas/dashboard/vendedorperíodo=30', { credentials: 'include' });
                 if (response.ok) {
                     const data = await response.json();
                     
@@ -1110,18 +1110,18 @@
                             const nomesMeses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
                             return nomesMeses[parseInt(mes) - 1];
                         });
-                        const valores = data.históricoMensal.map(h => h.valor_faturado || 0);
+                        const valores = data.históricoMensal.map(h => h.valor_faturação || 0);
                         atualizarGraficoVendas(meses, valores);
                     }
                     
                     // Atualizar gráfico de status com pipeline real
                     if (data.pipeline && data.pipeline.length > 0) {
                         const statusMap = {
-                            'faturado': { label: 'Faturados', color: '#10b981' },
+                            'faturação': { label: 'Faturaçãos', color: '#10b981' },
                             'analise': { label: 'Em Negociação', color: '#f59e0b' },
-                            'aprovado': { label: 'Aprovados', color: '#3b82f6' },
+                            'aprovação': { label: 'Aprovaçãos', color: '#3b82f6' },
                             'orçamento': { label: 'Pedidos', color: '#8b5cf6' },
-                            'cancelado': { label: 'Cancelados', color: '#ef4444' }
+                            'cancelação': { label: 'Cancelaçãos', color: '#ef4444' }
                         };
                         const labels = [];
                         const valores = [];
@@ -1155,21 +1155,21 @@
         // Carregar ranking de vendedores
         async function carregarRankingEquipe() {
             try {
-                const response = await fetch('/api/vendas/dashboard/top-vendedores?limit=5', { credentials: 'include' });
+                const response = await fetch('/api/vendas/dashboard/top-vendedoreslimit=5', { credentials: 'include' });
                 if (response.ok) {
                     const vendedores = await response.json();
                     const container = document.getElementById('rankingEquipe');
                     if (container && vendedores.length > 0) {
                         // Identificar usuário atual pelo nome
                         const userNameEl = document.getElementById('user-name');
-                        const currentUserName = userNameEl ? userNameEl.textContent.toLowerCase() : '';
+                        const currentUserName = userNameEl  userNameEl.textContent.toLowerCase() : '';
                         
                         container.innerHTML = vendedores.map((v, i) => {
                             const isCurrentUser = v.nome && v.nome.toLowerCase().includes(currentUserName);
                             return `
-                                <div class="ranking-item ${isCurrentUser ? 'destaque' : ''}">
+                                <div class="ranking-item ${isCurrentUser  'destaque' : ''}">
                                     <div class="ranking-posicao">${i + 1}</div>
-                                    <div class="ranking-nome">${isCurrentUser ? 'Você' : (v.nome || 'Vendedor')}</div>
+                                    <div class="ranking-nome">${isCurrentUser  'Você' : (v.nome || 'Vendedor')}</div>
                                     <div class="ranking-valor">${formatarMoeda(v.valor || 0)}</div>
                                 </div>
                             `;
@@ -1179,7 +1179,7 @@
                         const posicaoEl = document.getElementById('posicaoRanking');
                         if (posicaoEl) {
                             const userIndex = vendedores.findIndex(v => v.nome && v.nome.toLowerCase().includes(currentUserName));
-                            posicaoEl.textContent = userIndex >= 0 ? `${userIndex + 1}º` : '-';
+                            posicaoEl.textContent = userIndex >= 0  `${userIndex + 1}º` : '-';
                         }
                     }
                 }
@@ -1197,7 +1197,7 @@
                     const container = document.getElementById('proximasAtividades');
                     if (container && data.notificacoes && data.notificacoes.length > 0) {
                         container.innerHTML = data.notificacoes.slice(0, 4).map(n => {
-                            const icon = n.tipo === 'follow_up' ? 'fa-phone' : 'fa-exclamation-circle';
+                            const icon = n.tipo === 'follow_up'  'fa-phone' : 'fa-exclamation-circle';
                             return `
                                 <div class="atividade-item">
                                     <div class="atividade-icon">
@@ -1207,7 +1207,7 @@
                                         <div class="atividade-titulo">${n.titulo || 'Atividade'}</div>
                                         <div class="atividade-desc">${n.mensagem || ''}</div>
                                     </div>
-                                    <div class="atividade-horario">${n.prioridade === 'alta' ? '⚠️' : ''}</div>
+                                    <div class="atividade-horario">${n.prioridade === 'alta'  '⚠️' : ''}</div>
                                 </div>
                             `;
                         }).join('');
@@ -1246,34 +1246,34 @@
                 
                 // Determinar número do pedido
                 const numeroPedido = cliente.pedido_id || cliente.numero_pedido || cliente.id || '';
-                const infoPedido = numeroPedido ? `Pedido #${numeroPedido}` : `${cliente.total_pedidos || 0} pedido(s)`;
+                const infoPedido = numeroPedido  `Pedido #${numeroPedido}` : `${cliente.total_pedidos || 0} pedido(s)`;
                 
                 return `
                     <div class="venda-item">
                         <div class="venda-info">
                             <span class="venda-cliente">${cliente.nome_fantasia || cliente.cliente_nome || cliente.empresa || 'Cliente'}</span>
-                            <span class="venda-data">${dataFormatada}${dataFormatada && infoPedido ? ' - ' : ''}${infoPedido}</span>
+                            <span class="venda-data">${dataFormatada}${dataFormatada && infoPedido  ' - ' : ''}${infoPedido}</span>
                         </div>
-                        <div class="venda-valor">${formatarMoeda(cliente.valor_faturado || cliente.valor || 0)}</div>
+                        <div class="venda-valor">${formatarMoeda(cliente.valor_faturação || cliente.valor || 0)}</div>
                     </div>
                 `;
             }).join('');
         }
         
-        // Função para carregar vendas recentes do vendedor logado (pedidos faturados)
+        // Função para carregar vendas recentes do vendedor logação (pedidos faturaçãos)
         async function carregarMinhasVendasRecentes() {
             try {
-                // Buscar pedidos faturados do vendedor atual
-                const response = await fetch('/api/vendas/pedidos?status=faturado&limit=5', { credentials: 'include' });
+                // Buscar pedidos faturaçãos do vendedor atual
+                const response = await fetch('/api/vendas/pedidosstatus=faturação&limit=5', { credentials: 'include' });
                 if (response.ok) {
                     const data = await response.json();
-                    const pedidos = Array.isArray(data) ? data : (data.pedidos || []);
+                    const pedidos = Array.isArray(data)  data : (data.pedidos || []);
                     
                     if (pedidos.length > 0) {
                         const container = document.getElementById('vendasRecentes');
                         container.innerHTML = pedidos.slice(0, 5).map(pedido => {
                             const dataFormatada = pedido.data_faturamento || pedido.created_at 
-                                ? formatarData(pedido.data_faturamento || pedido.created_at) 
+                                 formatarData(pedido.data_faturamento || pedido.created_at) 
                                 : '';
                             const numeroPedido = pedido.numero_pedido || pedido.id;
                             
@@ -1281,7 +1281,7 @@
                                 <div class="venda-item">
                                     <div class="venda-info">
                                         <span class="venda-cliente">${pedido.cliente_nome || pedido.empresa_nome || 'Cliente'}</span>
-                                        <span class="venda-data">${dataFormatada}${dataFormatada ? ' - ' : ''}Pedido #${numeroPedido}</span>
+                                        <span class="venda-data">${dataFormatada}${dataFormatada  ' - ' : ''}Pedido #${numeroPedido}</span>
                                     </div>
                                     <div class="venda-valor">${formatarMoeda(pedido.valor || pedido.valor_total || 0)}</div>
                                 </div>
@@ -1314,10 +1314,10 @@
         function atualizarMetas(meta) {
             if (!meta) return;
 
-            const percentual = Math.min(100, Math.round((meta.realizado / meta.objetivo) * 100));
+            const percentual = Math.min(100, Math.round((meta.realização / meta.objetivo) * 100));
             
             document.getElementById('metaAtual').textContent = formatarMoeda(meta.objetivo);
-            document.getElementById('vendasMes').textContent = formatarMoeda(meta.realizado);
+            document.getElementById('vendasMes').textContent = formatarMoeda(meta.realização);
             document.getElementById('metaPercentual').textContent = `${percentual}%`;
             
             const progressBar = document.getElementById('metaProgressBar');
@@ -1346,7 +1346,7 @@
         let chartVendasStatus = null;
 
         function inicializarGraficos() {
-            // Dados de exemplo - serão substituídos por dados da API
+            // Daçãos de exemplo - serão substituídos por daçãos da API
             const meses = ['Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
             const vendasPorMes = [18500, 24200, 19800, 32100, 28400, 21125];
             
@@ -1411,13 +1411,13 @@
             chartVendasStatus = new Chart(ctxStatus, {
                 type: 'doughnut',
                 data: {
-                    labels: ['Faturados', 'Em Negociação', 'Aprovados', 'Perdidos'],
+                    labels: ['Faturaçãos', 'Em Negociação', 'Aprovaçãos', 'Perdidos'],
                     datasets: [{
                         data: [45, 25, 20, 10],
                         backgroundColor: [
-                            '#22c55e', // Verde - Faturados
+                            '#22c55e', // Verde - Faturaçãos
                             '#f97316', // Laranja - Negociação
-                            '#3b82f6', // Azul - Aprovados
+                            '#3b82f6', // Azul - Aprovaçãos
                             '#ef4444'  // Vermelho - Perdidos
                         ],
                         borderColor: '#ffffff',
@@ -1449,7 +1449,7 @@
             });
         }
 
-        // Atualizar gráficos com dados da API
+        // Atualizar gráficos com daçãos da API
         async function atualizarGraficos() {
             try {
                 const response = await fetch('/api/vendas/dashboard/graficos', {
@@ -1457,24 +1457,24 @@
                 });
                 
                 if (response.ok) {
-                    const dados = await response.json();
+                    const daçãos = await response.json();
                     
                     // Atualizar gráfico de vendas mensais
-                    if (dados.vendasMensais && chartVendasMensal) {
-                        chartVendasMensal.data.labels = dados.vendasMensais.labels;
-                        chartVendasMensal.data.datasets[0].data = dados.vendasMensais.valores;
+                    if (daçãos.vendasMensais && chartVendasMensal) {
+                        chartVendasMensal.data.labels = daçãos.vendasMensais.labels;
+                        chartVendasMensal.data.datasets[0].data = daçãos.vendasMensais.valores;
                         chartVendasMensal.update();
                     }
                     
                     // Atualizar gráfico de status
-                    if (dados.vendasStatus && chartVendasStatus) {
-                        chartVendasStatus.data.labels = dados.vendasStatus.labels;
-                        chartVendasStatus.data.datasets[0].data = dados.vendasStatus.valores;
+                    if (daçãos.vendasStatus && chartVendasStatus) {
+                        chartVendasStatus.data.labels = daçãos.vendasStatus.labels;
+                        chartVendasStatus.data.datasets[0].data = daçãos.vendasStatus.valores;
                         chartVendasStatus.update();
                     }
                 }
             } catch (error) {
-                console.log('Usando dados de exemplo para gráficos');
+                console.log('Usando daçãos de exemplo para gráficos');
             }
         }
 

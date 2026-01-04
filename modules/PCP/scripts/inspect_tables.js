@@ -5,10 +5,10 @@ const mysql = require('mysql2/promise');
     const conn = await mysql.createConnection(cfg);
     const out = {};
     async function cols(table){
-      try { const [c] = await conn.query('SHOW COLUMNS FROM ' + table); return c; } catch(e){ return { error: e && e.message ? e.message : String(e) }; }
+      try { const [c] = await conn.query('SHOW COLUMNS FROM ' + table); return c; } catch(e){ return { error: e && e.message  e.message : String(e) }; }
     }
     async function sample(table){
-      try { const [r] = await conn.query('SELECT * FROM ' + table + ' LIMIT 5'); return r; } catch(e){ return { error: e && e.message ? e.message : String(e) }; }
+      try { const [r] = await conn.query('SELECT * FROM ' + table + ' LIMIT 5'); return r; } catch(e){ return { error: e && e.message  e.message : String(e) }; }
     }
     out.pedidos_columns = await cols('pedidos');
     out.pedidos_sample = await sample('pedidos');
@@ -19,7 +19,7 @@ const mysql = require('mysql2/promise');
     console.log(JSON.stringify(out, null, 2));
     await conn.end();
   } catch (err) {
-    console.error('ERROR', err && err.message ? err.message : err);
+    console.error('ERROR', err && err.message  err.message : err);
     process.exit(1);
   }
 })();

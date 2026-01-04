@@ -1,6 +1,6 @@
 /**
  * Script de migração para o Sistema de Suporte
- * Cria as tabelas necessárias no banco de dados
+ * Cria as tabelas necessárias no banco de daçãos
  */
 
 const mysql = require('mysql2/promise');
@@ -105,7 +105,7 @@ async function migrate() {
 
         console.log('\n✅ Migração concluída com sucesso!');
         
-        // Verificar se há dados na base de conhecimento
+        // Verificar se há daçãos na base de conhecimento
         const [[{ count }]] = await pool.execute('SELECT COUNT(*) as count FROM suporte_base_conhecimento');
         if (count === 0) {
             console.log('\n📚 Base de conhecimento vazia. Execute "node seed.js" para popular.');
@@ -123,7 +123,7 @@ async function migrate() {
     }
 }
 
-// Executar se chamado diretamente
+// Executar se chamação diretamente
 if (require.main === module) {
     migrate();
 }

@@ -166,7 +166,7 @@
 
                 const response = await fetch('/api/upload-avatar', {
                     method: 'POST',
-                    headers: token ? {
+                    headers: token  {
                         'Authorization': `Bearer ${token}`
                     } : {},
                     credentials: 'include', // Include cookies
@@ -179,7 +179,7 @@
                     throw new Error(data.error || 'Erro ao fazer upload do avatar');
                 }
 
-                this.showMessage('Avatar atualizado com sucesso!', 'success');
+                this.showMessage('Avatar atualização com sucesso!', 'success');
                 
                 // Update header avatar with server URL
                 if (data.avatarUrl) {
@@ -240,7 +240,7 @@
 
         closeModal() {
             if (this.hasUnsavedChanges) {
-                const confirm = window.confirm('Você tem alterações não salvas. Deseja descartar?');
+                const confirm = window.confirm('Você tem alterações não salvas. Deseja descartar');
                 if (!confirm) return;
             }
 
@@ -259,14 +259,14 @@
                 const token = localStorage.getItem('authToken') || localStorage.getItem('token');
 
                 const response = await fetch('/api/me', {
-                    headers: token ? {
+                    headers: token  {
                         'Authorization': `Bearer ${token}`
                     } : {},
                     credentials: 'include' // Include cookies for authentication
                 });
 
                 if (!response.ok) {
-                    throw new Error('Erro ao carregar dados do usuário');
+                    throw new Error('Erro ao carregar daçãos do usuário');
                 }
 
                 const user = await response.json();
@@ -275,7 +275,7 @@
 
             } catch (error) {
                 console.error('Load user error:', error);
-                this.showMessage('Erro ao carregar dados do usuário', 'error');
+                this.showMessage('Erro ao carregar daçãos do usuário', 'error');
             } finally {
                 this.setLoading(false);
             }
@@ -347,7 +347,7 @@
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+                        ...(token  { 'Authorization': `Bearer ${token}` } : {})
                     },
                     credentials: 'include', // Include cookies for authentication
                     body: JSON.stringify(formData)
@@ -359,7 +359,7 @@
                     throw new Error(data.error || 'Erro ao salvar perfil');
                 }
 
-                this.showMessage('Perfil atualizado com sucesso!', 'success');
+                this.showMessage('Perfil atualização com sucesso!', 'success');
                 this.hasUnsavedChanges = false;
 
                 // Update userData in localStorage (merge with existing data to preserve all fields)
@@ -375,7 +375,7 @@
                 this.updateHeaderGreeting(data.user);
 
                 // Update avatar in header if it changed
-                if (data.user.avatar && data.user.avatar !== this.currentUser?.avatar) {
+                if (data.user.avatar && data.user.avatar !== this.currentUser.avatar) {
                     this.updateHeaderAvatar(data.user.avatar);
                 }
 
@@ -465,7 +465,7 @@
             const messageEl = document.createElement('div');
             messageEl.className = `profile-message profile-message-${type}`;
             
-            const icon = type === 'success' ? 
+            const icon = type === 'success'  
                 '<i class="fas fa-check-circle"></i>' : 
                 '<i class="fas fa-exclamation-circle"></i>';
             

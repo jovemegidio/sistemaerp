@@ -6,7 +6,7 @@
 let requisicoes = [];
 let itemReqCounter = 0;
 let filtroAtual = 'todos';
-let usuarioLogado = { nome: 'Admin', departamento: 'Compras', nivel: 'gerente' };
+let usuarioLogação = { nome: 'Admin', departamento: 'Compras', nivel: 'gerente' };
 
 // Inicialização
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,19 +16,19 @@ document.addEventListener('DOMContentLoaded', () => {
 async function inicializarSistemaRequisicoes() {
     console.log('🚀 Inicializando sistema de requisições...');
     
-    // Carregar usuário logado
-    const userData = localStorage.getItem('usuarioLogado');
+    // Carregar usuário logação
+    const userData = localStorage.getItem('usuarioLogação');
     if (userData) {
         const user = JSON.parse(userData);
-        usuarioLogado.nome = user.nome || 'Admin';
+        usuarioLogação.nome = user.nome || 'Admin';
     }
     
     await carregarRequisicoes();
     document.getElementById('dataRequisicao').valueAsDate = new Date();
-    document.getElementById('solicitante').value = usuarioLogado.nome;
+    document.getElementById('solicitante').value = usuarioLogação.nome;
     gerarNumeroRequisicao();
     
-    console.log('✅ Sistema de requisições inicializado');
+    console.log('✅ Sistema de requisições inicialização');
 }
 
 // ============ GERENCIAMENTO DE DADOS ============
@@ -53,8 +53,8 @@ function abrirModalNovaRequisicao() {
     document.getElementById('formRequisicao').reset();
     document.getElementById('modalRequisicaoTitle').textContent = 'Nova Requisição de Compra';
     document.getElementById('dataRequisicao').valueAsDate = new Date();
-    document.getElementById('solicitante').value = usuarioLogado.nome;
-    document.getElementById('departamento').value = usuarioLogado.departamento;
+    document.getElementById('solicitante').value = usuarioLogação.nome;
+    document.getElementById('departamento').value = usuarioLogação.departamento;
     gerarNumeroRequisicao();
     limparItensRequisicao();
     adicionarItemRequisicao();
@@ -108,35 +108,35 @@ function adicionarItemRequisicao(itemData = null) {
     tr.innerHTML = `
         <td>
             <input type="text" class="itemReq-descricao" 
-                   value="${itemData?.descricao || ''}" 
+                   value="${itemData.descricao || ''}" 
                    placeholder="Descrição do item">
         </td>
         <td>
             <input type="number" class="itemReq-quantidade" 
-                   value="${itemData?.quantidade || 1}" 
+                   value="${itemData.quantidade || 1}" 
                    min="0.01" step="0.01"
                    onchange="calcularItemReqTotal(${itemReqCounter}); calcularTotaisRequisicao()">
         </td>
         <td>
             <select class="itemReq-unidade">
-                <option value="UN" ${itemData?.unidade === 'UN' ? 'selected' : ''}>UN</option>
-                <option value="KG" ${itemData?.unidade === 'KG' ? 'selected' : ''}>KG</option>
-                <option value="M" ${itemData?.unidade === 'M' ? 'selected' : ''}>M</option>
-                <option value="L" ${itemData?.unidade === 'L' ? 'selected' : ''}>L</option>
-                <option value="CX" ${itemData?.unidade === 'CX' ? 'selected' : ''}>CX</option>
+                <option value="UN" ${itemData.unidade === 'UN'  'selected' : ''}>UN</option>
+                <option value="KG" ${itemData.unidade === 'KG'  'selected' : ''}>KG</option>
+                <option value="M" ${itemData.unidade === 'M'  'selected' : ''}>M</option>
+                <option value="L" ${itemData.unidade === 'L'  'selected' : ''}>L</option>
+                <option value="CX" ${itemData.unidade === 'CX'  'selected' : ''}>CX</option>
             </select>
         </td>
         <td>
             <input type="number" class="itemReq-valor" 
-                   value="${itemData?.valor_estimado || 0}" 
+                   value="${itemData.valor_estimação || 0}" 
                    min="0" step="0.01"
                    placeholder="0.00"
                    onchange="calcularItemReqTotal(${itemReqCounter}); calcularTotaisRequisicao()">
         </td>
         <td>
             <input type="number" class="itemReq-total" 
-                   value="${itemData?.total_estimado || 0}" 
-                   readonly 
+                   value="${itemData.total_estimação || 0}" 
+                   reaçãonly 
                    style="background: #f9fafb; font-weight: 600;">
         </td>
         <td>
@@ -206,7 +206,7 @@ function salvarRequisicao(status) {
         return;
     }
     
-    const total = itens.reduce((sum, item) => sum + item.total_estimado, 0);
+    const total = itens.reduce((sum, item) => sum + item.total_estimação, 0);
     
     const requisicao = {
         id: requisicaoId || Date.now().toString(),
@@ -218,12 +218,12 @@ function salvarRequisicao(status) {
         data_necessaria: document.getElementById('dataNecessaria').value || null,
         justificativa: justificativa,
         status: status,
-        valor_estimado: total,
+        valor_estimação: total,
         itens: itens,
-        historico_aprovacao: requisicaoId ? 
-            requisicoes.find(r => r.id === requisicaoId)?.historico_aprovacao || [] : [],
-        created_at: requisicaoId ? 
-            requisicoes.find(r => r.id === requisicaoId)?.created_at : new Date().toISOString(),
+        historico_aprovacao: requisicaoId  
+            requisicoes.find(r => r.id === requisicaoId).historico_aprovacao || [] : [],
+        created_at: requisicaoId  
+            requisicoes.find(r => r.id === requisicaoId).created_at : new Date().toISOString(),
         updated_at: new Date().toISOString()
     };
     
@@ -241,7 +241,7 @@ function salvarRequisicao(status) {
     atualizarCards();
     fecharModalRequisicao();
     
-    const mensagem = status === 'rascunho' ? 
+    const mensagem = status === 'rascunho'  
         'Requisição salva como rascunho!' : 
         'Requisição enviada para aprovação!';
     mostrarNotificacao(mensagem, 'success');
@@ -262,8 +262,8 @@ function coletarItensRequisicao() {
             descricao: descricao,
             quantidade: quantidade,
             unidade: row.querySelector('.itemReq-unidade').value,
-            valor_estimado: valor,
-            total_estimado: quantidade * valor
+            valor_estimação: valor,
+            total_estimação: quantidade * valor
         });
     });
     
@@ -288,15 +288,15 @@ function visualizarRequisicao(requisicaoId) {
                     <div class="step-circle"><i class="fas fa-file-alt"></i></div>
                     <div class="step-label">Criada</div>
                 </div>
-                <div class="workflow-step ${req.status === 'aguardando_aprovacao' || req.status === 'aprovada' ? 'active' : ''}">
+                <div class="workflow-step ${req.status === 'aguardando_aprovacao' || req.status === 'aprovada'  'active' : ''}">
                     <div class="step-circle"><i class="fas fa-clock"></i></div>
                     <div class="step-label">Em Aprovação</div>
                 </div>
-                <div class="workflow-step ${req.status === 'aprovada' ? 'completed' : ''}">
+                <div class="workflow-step ${req.status === 'aprovada'  'completed' : ''}">
                     <div class="step-circle"><i class="fas fa-check"></i></div>
                     <div class="step-label">Aprovada</div>
                 </div>
-                <div class="workflow-step ${req.status === 'convertida' ? 'completed' : ''}">
+                <div class="workflow-step ${req.status === 'convertida'  'completed' : ''}">
                     <div class="step-circle"><i class="fas fa-shopping-cart"></i></div>
                     <div class="step-label">Convertida</div>
                 </div>
@@ -339,7 +339,7 @@ function visualizarRequisicao(requisicaoId) {
             <p style="background: #f9fafb; padding: 12px; border-radius: 8px;">${req.justificativa}</p>
         </div>
         
-        <h4 style="margin: 24px 0 16px;"><i class="fas fa-list"></i> Itens Requisitados</h4>
+        <h4 style="margin: 24px 0 16px;"><i class="fas fa-list"></i> Itens Requisitaçãos</h4>
         <table style="width: 100%; border-collapse: collapse;">
             <thead>
                 <tr style="background: #f9fafb; border-bottom: 2px solid #e5e7eb;">
@@ -356,8 +356,8 @@ function visualizarRequisicao(requisicaoId) {
                         <td style="padding: 12px;">${item.descricao}</td>
                         <td style="padding: 12px; text-align: center;">${item.quantidade}</td>
                         <td style="padding: 12px; text-align: center;">${item.unidade}</td>
-                        <td style="padding: 12px; text-align: right;">${formatarMoeda(item.valor_estimado)}</td>
-                        <td style="padding: 12px; text-align: right; font-weight: 600;">${formatarMoeda(item.total_estimado)}</td>
+                        <td style="padding: 12px; text-align: right;">${formatarMoeda(item.valor_estimação)}</td>
+                        <td style="padding: 12px; text-align: right; font-weight: 600;">${formatarMoeda(item.total_estimação)}</td>
                     </tr>
                 `).join('')}
             </tbody>
@@ -365,25 +365,25 @@ function visualizarRequisicao(requisicaoId) {
         
         <div style="background: #f9fafb; padding: 16px; border-radius: 12px; margin-top: 16px;">
             <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 700; color: #8b5cf6;">
-                <span>Valor Total Estimado:</span>
-                <span>${formatarMoeda(req.valor_estimado)}</span>
+                <span>Valor Total Estimação:</span>
+                <span>${formatarMoeda(req.valor_estimação)}</span>
             </div>
         </div>
         
-        ${req.historico_aprovacao && req.historico_aprovacao.length > 0 ? `
+        ${req.historico_aprovacao && req.historico_aprovacao.length > 0  `
             <div class="approval-timeline">
                 <h4 style="margin-bottom: 16px;"><i class="fas fa-history"></i> Histórico de Aprovação</h4>
                 ${req.historico_aprovacao.map(h => `
                     <div class="timeline-item ${h.acao}">
                         <div>
-                            <p style="font-weight: 600; margin-bottom: 4px;">${h.aprovador}</p>
+                            <p style="font-weight: 600; margin-bottom: 4px;">${h.aprovaçãor}</p>
                             <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">${formatarDataHora(h.data)}</p>
                             <p style="font-size: 14px;">
-                                <span class="badge-status badge-${h.acao === 'approved' ? 'aprovado' : 'cancelado'}">
-                                    ${h.acao === 'approved' ? 'Aprovado' : 'Rejeitado'}
+                                <span class="badge-status badge-${h.acao === 'approved'  'aprovação' : 'cancelação'}">
+                                    ${h.acao === 'approved'  'Aprovação' : 'Rejeitação'}
                                 </span>
                             </p>
-                            ${h.observacao ? `<p style="margin-top: 8px; font-size: 13px;">${h.observacao}</p>` : ''}
+                            ${h.observacao  `<p style="margin-top: 8px; font-size: 13px;">${h.observacao}</p>` : ''}
                         </div>
                     </div>
                 `).join('')}
@@ -429,7 +429,7 @@ function aprovarRequisicao(requisicaoId) {
         req.status = 'aprovada';
         req.historico_aprovacao = req.historico_aprovacao || [];
         req.historico_aprovacao.push({
-            aprovador: usuarioLogado.nome,
+            aprovaçãor: usuarioLogação.nome,
             acao: 'approved',
             data: new Date().toISOString(),
             observacao: observacao
@@ -452,7 +452,7 @@ function rejeitarRequisicao(requisicaoId) {
         req.status = 'rejeitada';
         req.historico_aprovacao = req.historico_aprovacao || [];
         req.historico_aprovacao.push({
-            aprovador: usuarioLogado.nome,
+            aprovaçãor: usuarioLogação.nome,
             acao: 'rejected',
             data: new Date().toISOString(),
             observacao: motivo
@@ -467,23 +467,23 @@ function rejeitarRequisicao(requisicaoId) {
 }
 
 function converterEmPedido(requisicaoId) {
-    if (!confirm('Converter esta requisição em pedido de compra?')) return;
+    if (!confirm('Converter esta requisição em pedido de compra')) return;
     
     const req = requisicoes.find(r => r.id === requisicaoId);
     if (req) {
         req.status = 'convertida';
         salvarRequisicoesLocal();
         
-        // Salvar dados para criar pedido
+        // Salvar daçãos para criar pedido
         localStorage.setItem('nova_pedido_da_requisicao', JSON.stringify(req));
         
         // Redirecionar para página de pedidos
-        window.location.href = 'pedidos.html?from=requisicao';
+        window.location.href = 'pedidos.htmlfrom=requisicao';
     }
 }
 
 function excluirRequisicao(requisicaoId) {
-    if (!confirm('Deseja realmente excluir esta requisição?')) return;
+    if (!confirm('Deseja realmente excluir esta requisição')) return;
     
     requisicoes = requisicoes.filter(r => r.id !== requisicaoId);
     salvarRequisicoesLocal();
@@ -503,7 +503,7 @@ function renderizarTabelaRequisicoes() {
         requisicoesFiltradas = requisicoes.filter(r => r.status === filtroAtual);
     }
     
-    const searchTerm = document.getElementById('searchRequisicao')?.value?.toLowerCase();
+    const searchTerm = document.getElementById('searchRequisicao').value.toLowerCase();
     if (searchTerm) {
         requisicoesFiltradas = requisicoesFiltradas.filter(r =>
             r.numero.toLowerCase().includes(searchTerm) ||
@@ -531,19 +531,19 @@ function renderizarTabelaRequisicoes() {
             <td>${req.departamento}</td>
             <td>${formatarData(req.data)}</td>
             <td><span class="priority-badge priority-${req.prioridade}">${req.prioridade}</span></td>
-            <td><strong>${formatarMoeda(req.valor_estimado)}</strong></td>
+            <td><strong>${formatarMoeda(req.valor_estimação)}</strong></td>
             <td><span class="badge-status badge-${req.status}">${getStatusLabelReq(req.status)}</span></td>
             <td>
                 <div style="display: flex; gap: 8px;">
                     <button class="btn-secondary-small" onclick="visualizarRequisicao('${req.id}')" title="Visualizar">
                         <i class="fas fa-eye"></i>
                     </button>
-                    ${(req.status === 'rascunho' || req.status === 'aguardando_aprovacao') ? `
+                    ${(req.status === 'rascunho' || req.status === 'aguardando_aprovacao')  `
                     <button class="btn-secondary-small" onclick="abrirModalEditarRequisicao('${req.id}')" title="Editar">
                         <i class="fas fa-edit"></i>
                     </button>
                     ` : ''}
-                    ${req.status === 'rascunho' ? `
+                    ${req.status === 'rascunho'  `
                     <button class="btn-secondary-small" onclick="excluirRequisicao('${req.id}')" title="Excluir" style="color: #dc2626;">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -592,11 +592,11 @@ function formatarMoeda(valor) {
 }
 
 function formatarData(data) {
-    return data ? new Date(data).toLocaleDateString('pt-BR') : '-';
+    return data  new Date(data).toLocaleDateString('pt-BR') : '-';
 }
 
 function formatarDataHora(data) {
-    return data ? new Date(data).toLocaleString('pt-BR') : '-';
+    return data  new Date(data).toLocaleString('pt-BR') : '-';
 }
 
 function getStatusLabelReq(status) {
@@ -632,10 +632,10 @@ function gerarRequisicoesExemplo() {
             data_necessaria: '2025-12-20',
             justificativa: 'Reposição de material para produção',
             status: 'aguardando_aprovacao',
-            valor_estimado: 15000,
+            valor_estimação: 15000,
             itens: [
-                { descricao: 'Cabo Triplex 10mm²', quantidade: 500, unidade: 'M', valor_estimado: 25, total_estimado: 12500 },
-                { descricao: 'Conectores', quantidade: 100, unidade: 'UN', valor_estimado: 25, total_estimado: 2500 }
+                { descricao: 'Cabo Triplex 10mm²', quantidade: 500, unidade: 'M', valor_estimação: 25, total_estimação: 12500 },
+                { descricao: 'Conectores', quantidade: 100, unidade: 'UN', valor_estimação: 25, total_estimação: 2500 }
             ],
             historico_aprovacao: [],
             created_at: '2025-12-10T10:00:00Z'
@@ -649,16 +649,16 @@ function gerarRequisicoesExemplo() {
             prioridade: 'normal',
             justificativa: 'Ferramentas para manutenção preventiva',
             status: 'aprovada',
-            valor_estimado: 8500,
+            valor_estimação: 8500,
             itens: [
-                { descricao: 'Jogo de chaves', quantidade: 5, unidade: 'UN', valor_estimado: 350, total_estimado: 1750 }
+                { descricao: 'Jogo de chaves', quantidade: 5, unidade: 'UN', valor_estimação: 350, total_estimação: 1750 }
             ],
             historico_aprovacao: [
                 {
-                    aprovador: 'Admin',
+                    aprovaçãor: 'Admin',
                     acao: 'approved',
                     data: '2025-12-09T15:00:00Z',
-                    observacao: 'Aprovado conforme orçamento'
+                    observacao: 'Aprovação conforme orçamento'
                 }
             ],
             created_at: '2025-12-09T09:00:00Z'

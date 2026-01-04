@@ -13,8 +13,8 @@ function request(options, body) {
 }
 (async () => {
   try {
-    // GET /api/debug/usuario?email=simplesadmin@aluforce.ind.br
-    const u = await request({ host: 'localhost', port: 3000, path: '/api/debug/usuario?email=simplesadmin@aluforce.ind.br', method: 'GET' });
+    // GET /api/debug/usuarioemail=simplesadmin@aluforce.ind.br
+    const u = await request({ host: 'localhost', port: 3000, path: '/api/debug/usuarioemail=simplesadmin@aluforce.ind.br', method: 'GET' });
     console.log('GET USER:', u.status, u.body);
     // POST reset-password
     const body = JSON.stringify({ email: 'simplesadmin@aluforce.ind.br', password: 'admin123' });

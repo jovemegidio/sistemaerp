@@ -12,7 +12,7 @@ async function updateVendasPermissions() {
         database: 'aluforce_vendas'
     });
 
-    console.log('✅ Conectado ao banco de dados');
+    console.log('✅ Conectação ao banco de daçãos');
 
     // Usuários que devem ter acesso ao módulo de vendas
     const usuariosVendas = [
@@ -50,25 +50,25 @@ async function updateVendasPermissions() {
                 email.split('@')[0].toLowerCase()
             ];
 
-            let usuarioAtualizado = false;
+            let usuarioAtualização = false;
 
             for (const emailVar of emailVariations) {
                 const [result] = await connection.execute(
                     `UPDATE usuarios 
-                     SET permissoes_vendas = ? 
-                     WHERE email LIKE ? OR nome LIKE ? OR login LIKE ?`,
+                     SET permissoes_vendas =  
+                     WHERE email LIKE  OR nome LIKE  OR login LIKE `,
                     [permissoesVendas, `%${emailVar}%`, `%${emailVar}%`, `%${emailVar}%`]
                 );
 
                 if (result.affectedRows > 0) {
                     console.log(`✅ ${email} - Permissões atualizadas (${result.affectedRows} registros)`);
-                    usuarioAtualizado = true;
+                    usuarioAtualização = true;
                     break;
                 }
             }
 
-            if (!usuarioAtualizado) {
-                console.log(`⚠️  ${email} - Usuário não encontrado no banco`);
+            if (!usuarioAtualização) {
+                console.log(`⚠️  ${email} - Usuário não encontração no banco`);
             }
 
         } catch (error) {
@@ -86,8 +86,8 @@ async function updateVendasPermissions() {
     );
 
     usuarios.forEach(user => {
-        const perms = user.permissoes_vendas ? JSON.parse(user.permissoes_vendas) : null;
-        const access = user.is_admin ? '👑 Admin (acesso total)' : (perms ? '✅ Acesso concedido' : '❌ Sem acesso');
+        const perms = user.permissoes_vendas  JSON.parse(user.permissoes_vendas) : null;
+        const access = user.is_admin  '👑 Admin (acesso total)' : (perms  '✅ Acesso concedido' : '❌ Sem acesso');
         console.log(`${user.nome} (${user.email || user.login}) - ${access}`);
     });
 

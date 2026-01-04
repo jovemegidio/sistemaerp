@@ -4,5 +4,5 @@ const s = new net.Socket();
 s.setTimeout(2000);
 s.on('connect', () => { console.log('OPEN', port); s.destroy(); process.exit(0); });
 s.on('timeout', () => { console.log('TIMEOUT', port); s.destroy(); process.exit(2); });
-s.on('error', (e) => { console.log('ERR', e && e.message ? e.message : e); process.exit(3); });
+s.on('error', (e) => { console.log('ERR', e && e.message  e.message : e); process.exit(3); });
 s.connect(port, '127.0.0.1');

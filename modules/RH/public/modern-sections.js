@@ -127,21 +127,21 @@ function filterEmployees(searchTerm) {
     
     // Filter grid view cards
     employeeCards.forEach(card => {
-        const name = card.querySelector('h4')?.textContent.toLowerCase() || '';
-        const position = card.querySelector('.position')?.textContent.toLowerCase() || '';
-        const email = card.querySelector('.employee-detail')?.textContent.toLowerCase() || '';
+        const name = card.querySelector('h4').textContent.toLowerCase() || '';
+        const position = card.querySelector('.position').textContent.toLowerCase() || '';
+        const email = card.querySelector('.employee-detail').textContent.toLowerCase() || '';
         
         const matches = name.includes(searchTerm) || 
                        position.includes(searchTerm) || 
                        email.includes(searchTerm);
         
-        card.style.display = matches ? 'block' : 'none';
+        card.style.display = matches  'block' : 'none';
     });
     
     // Filter table view rows
     tableRows.forEach(row => {
         const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(searchTerm) ? '' : 'none';
+        row.style.display = text.includes(searchTerm)  '' : 'none';
     });
 }
 
@@ -285,9 +285,9 @@ function setupReports() {
     document.querySelectorAll('[onclick*="gerarRelatorio"]').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.preventDefault();
-            const reportType = btn.textContent.includes('PDF') ? 'pdf' : 
-                              btn.textContent.includes('Funcionários') ? 'employees' :
-                              btn.textContent.includes('Financeiro') ? 'financial' : 'general';
+            const reportType = btn.textContent.includes('PDF')  'pdf' : 
+                              btn.textContent.includes('Funcionários')  'employees' :
+                              btn.textContent.includes('Financeiro')  'financial' : 'general';
             generateReport(reportType);
         });
     });
@@ -311,7 +311,7 @@ function generateReport(type) {
     // Simulate report generation
     setTimeout(() => {
         hideLoadingState('.tab-pane.active');
-        showSuccess('Relatório gerado com sucesso!');
+        showSuccess('Relatório geração com sucesso!');
     }, 2000);
 }
 
@@ -324,7 +324,7 @@ function exportReports() {
     // Simulate export process
     setTimeout(() => {
         hideLoadingState('.relatórios-header .toolbar');
-        showSuccess('Relatórios exportados com sucesso!');
+        showSuccess('Relatórios exportaçãos com sucesso!');
     }, 1500);
 }
 
@@ -402,7 +402,7 @@ function showSuccess(message) {
         color: white;
         padding: 1rem 1.5rem;
         border-radius: 8px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
         z-index: 9999;
         animation: slideInRight 0.3s ease;
     `;

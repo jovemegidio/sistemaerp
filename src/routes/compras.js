@@ -12,7 +12,7 @@ function validarCNPJ(cnpj) {
     cnpj = cnpj.replace(/[^\d]+/g, '');
     if (cnpj.length !== 14) return false;
     
-    // Validação dos dígitos verificadores
+    // Validação dos dígitos verificaçãores
     let tamanho = cnpj.length - 2;
     let numeros = cnpj.substring(0, tamanho);
     let digitos = cnpj.substring(tamanho);
@@ -24,8 +24,8 @@ function validarCNPJ(cnpj) {
         if (pos < 2) pos = 9;
     }
     
-    let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-    if (resultado != digitos.charAt(0)) return false;
+    let resultação = soma % 11 < 2  0 : 11 - soma % 11;
+    if (resultação != digitos.charAt(0)) return false;
     
     tamanho = tamanho + 1;
     numeros = cnpj.substring(0, tamanho);
@@ -37,26 +37,26 @@ function validarCNPJ(cnpj) {
         if (pos < 2) pos = 9;
     }
     
-    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
-    if (resultado != digitos.charAt(1)) return false;
+    resultação = soma % 11 < 2  0 : 11 - soma % 11;
+    if (resultação != digitos.charAt(1)) return false;
     
     return true;
 }
 
 // Middleware de log para auditoria
-async function logAcao(pool, usuarioId, acao, entidadeTipo, entidadeId, dadosAnteriores = null, dadosNovos = null, req) {
+async function logAcao(pool, usuarioId, acao, entidadeTipo, entidadeId, daçãosAnteriores = null, daçãosNovos = null, req) {
     try {
         await pool.execute(
             `INSERT INTO compras_logs 
-            (usuario_id, acao, entidade_tipo, entidade_id, dados_anteriores, dados_novos, ip_address, user_agent)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+            (usuario_id, acao, entidade_tipo, entidade_id, daçãos_anteriores, daçãos_novos, ip_address, user_agent)
+            VALUES (, , , , , , , )`,
             [
                 usuarioId,
                 acao,
                 entidadeTipo,
                 entidadeId,
-                dadosAnteriores ? JSON.stringify(dadosAnteriores) : null,
-                dadosNovos ? JSON.stringify(dadosNovos) : null,
+                daçãosAnteriores  JSON.stringify(daçãosAnteriores) : null,
+                daçãosNovos  JSON.stringify(daçãosNovos) : null,
                 req.ip,
                 req.get('user-agent')
             ]
@@ -72,7 +72,7 @@ async function criarNotificacao(pool, usuarioId, tipo, titulo, mensagem, entidad
         await pool.execute(
             `INSERT INTO compras_notificacoes 
             (usuario_id, tipo, titulo, mensagem, entidade_tipo, entidade_id, enviar_email)
-            VALUES (?, ?, ?, ?, ?, ?, ?)`,
+            VALUES (, , , , , , )`,
             [usuarioId, tipo, titulo, mensagem, entidadeTipo, entidadeId, enviarEmail]
         );
     } catch (error) {
@@ -97,27 +97,27 @@ module.exports = (pool, authenticateToken, logger) => {
             
             // Top fornecedores (por valor)
             const [topFornecedores] = await pool.execute(`
-                SELECT f.id, f.razao_social, f.cidade, f.estado,
+                SELECT f.id, f.razao_social, f.cidade, f.estação,
                        COUNT(pc.id) as total_pedidos,
                        SUM(pc.valor_total) as total_compras
                 FROM fornecedores f
                 JOIN pedidos_compra pc ON f.id = pc.fornecedor_id
-                WHERE pc.status != 'cancelado'
+                WHERE pc.status != 'cancelação'
                   AND pc.data_pedido >= DATE_SUB(CURDATE(), INTERVAL 90 DAY)
                 GROUP BY f.id
                 ORDER BY total_compras DESC
                 LIMIT 10
             `);
             
-            // Pedidos atrasados
-            const [atrasados] = await pool.execute(`
+            // Pedidos atrasaçãos
+            const [atrasaçãos] = await pool.execute(`
                 SELECT pc.id, pc.numero_pedido, pc.data_entrega_prevista,
                        f.razao_social as fornecedor,
                        DATEDIFF(CURDATE(), pc.data_entrega_prevista) as dias_atraso
                 FROM pedidos_compra pc
                 JOIN fornecedores f ON pc.fornecedor_id = f.id
                 WHERE pc.data_entrega_prevista < CURDATE()
-                  AND pc.status NOT IN ('recebido', 'cancelado')
+                  AND pc.status NOT IN ('recebido', 'cancelação')
                 ORDER BY dias_atraso DESC
                 LIMIT 10
             `);
@@ -128,7 +128,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     stats: stats[0] || {},
                     pedidosPorStatus,
                     topFornecedores,
-                    pedidosAtrasados: atrasados
+                    pedidosAtrasaçãos: atrasaçãos
                 }
             });
         } catch (error) {
@@ -148,18 +148,18 @@ module.exports = (pool, authenticateToken, logger) => {
             const params = [];
             
             if (search) {
-                query += ' AND (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj LIKE ? OR cidade LIKE ?)';
+                query += ' AND (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj LIKE  OR cidade LIKE )';
                 const searchTerm = `%${search}%`;
                 params.push(searchTerm, searchTerm, searchTerm, searchTerm);
             }
             
             if (status) {
-                query += ' AND status = ?';
+                query += ' AND status = ';
                 params.push(status);
             }
             
             if (categoria) {
-                query += ' AND categoria = ?';
+                query += ' AND categoria = ';
                 params.push(categoria);
             }
             
@@ -168,7 +168,7 @@ module.exports = (pool, authenticateToken, logger) => {
             const [countResult] = await pool.execute(countQuery, params);
             const total = countResult[0].total;
             
-            query += ' ORDER BY razao_social LIMIT ? OFFSET ?';
+            query += ' ORDER BY razao_social LIMIT  OFFSET ';
             params.push(parseInt(limit), parseInt(offset));
             
             const [fornecedores] = await pool.execute(query, params);
@@ -193,26 +193,26 @@ module.exports = (pool, authenticateToken, logger) => {
     router.get('/fornecedores/:id', authenticateToken, async (req, res) => {
         try {
             const [fornecedor] = await pool.execute(
-                'SELECT * FROM vw_fornecedores_performance WHERE id = ?',
+                'SELECT * FROM vw_fornecedores_performance WHERE id = ',
                 [req.params.id]
             );
             
             if (fornecedor.length === 0) {
-                return res.status(404).json({ error: 'Fornecedor não encontrado' });
+                return res.status(404).json({ error: 'Fornecedor não encontração' });
             }
             
             // Buscar contatos
             const [contatos] = await pool.execute(
-                'SELECT * FROM fornecedor_contatos WHERE fornecedor_id = ? AND ativo = TRUE',
+                'SELECT * FROM fornecedor_contatos WHERE fornecedor_id =  AND ativo = TRUE',
                 [req.params.id]
             );
             
             // Buscar últimas avaliações
             const [avaliacoes] = await pool.execute(
-                `SELECT fa.*, u.nome as avaliador_nome 
+                `SELECT fa.*, u.nome as avaliaçãor_nome 
                 FROM fornecedor_avaliacoes fa
-                LEFT JOIN usuarios u ON fa.avaliador_id = u.id
-                WHERE fa.fornecedor_id = ?
+                LEFT JOIN usuarios u ON fa.avaliaçãor_id = u.id
+                WHERE fa.fornecedor_id = 
                 ORDER BY fa.data_avaliacao DESC
                 LIMIT 5`,
                 [req.params.id]
@@ -222,7 +222,7 @@ module.exports = (pool, authenticateToken, logger) => {
             const [pedidos] = await pool.execute(
                 `SELECT id, numero_pedido, data_pedido, valor_total, status
                 FROM pedidos_compra
-                WHERE fornecedor_id = ?
+                WHERE fornecedor_id = 
                 ORDER BY data_pedido DESC
                 LIMIT 10`,
                 [req.params.id]
@@ -267,20 +267,20 @@ module.exports = (pool, authenticateToken, logger) => {
                     razao_social, nome_fantasia, cnpj, inscricao_estadual,
                     telefone, telefone_secundario, email, email_financeiro, site,
                     contato_principal, cargo_contato,
-                    logradouro, numero, complemento, bairro, cidade, estado, cep,
+                    lograçãouro, numero, complemento, bairro, cidade, estação, cep,
                     prazo_entrega_padrao, prazo_pagamento_padrao, condicoes_pagamento,
                     valor_minimo_pedido, categoria, tipo_fornecedor, observacoes
                 } = req.body;
                 
                 // Verificar se CNPJ já existe
                 const [existente] = await connection.execute(
-                    'SELECT id FROM fornecedores WHERE cnpj = ?',
+                    'SELECT id FROM fornecedores WHERE cnpj = ',
                     [cnpj.replace(/[^\d]+/g, '')]
                 );
                 
                 if (existente.length > 0) {
                     await connection.rollback();
-                    return res.status(400).json({ error: 'CNPJ já cadastrado' });
+                    return res.status(400).json({ error: 'CNPJ já cadastração' });
                 }
                 
                 // Gerar código do fornecedor
@@ -296,18 +296,18 @@ module.exports = (pool, authenticateToken, logger) => {
                         codigo, razao_social, nome_fantasia, cnpj, inscricao_estadual,
                         telefone, telefone_secundario, email, email_financeiro, site,
                         contato_principal, cargo_contato,
-                        logradouro, numero, complemento, bairro, cidade, estado, cep,
+                        lograçãouro, numero, complemento, bairro, cidade, estação, cep,
                         prazo_entrega_padrao, prazo_pagamento_padrao, condicoes_pagamento,
                         valor_minimo_pedido, categoria, tipo_fornecedor, observacoes,
-                        criado_por
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                        criação_por
+                    ) VALUES (, , , , , , , , , , , , , , , , , , , , , , , , , , )`,
                     [
                         codigo, razao_social, nome_fantasia, cnpj.replace(/[^\d]+/g, ''), inscricao_estadual,
                         telefone, telefone_secundario, email, email_financeiro, site,
                         contato_principal, cargo_contato,
-                        logradouro, numero, complemento, bairro, cidade, estado, cep,
+                        lograçãouro, numero, complemento, bairro, cidade, estação, cep,
                         prazo_entrega_padrao || 30, prazo_pagamento_padrao, condicoes_pagamento,
-                        valor_minimo_pedido || 0, categoria || 'homologado', tipo_fornecedor || 'outros', observacoes,
+                        valor_minimo_pedido || 0, categoria || 'homologação', tipo_fornecedor || 'outros', observacoes,
                         req.user.userId
                     ]
                 );
@@ -320,7 +320,7 @@ module.exports = (pool, authenticateToken, logger) => {
                         await connection.execute(
                             `INSERT INTO fornecedor_contatos 
                             (fornecedor_id, nome, cargo, departamento, telefone, celular, email, principal)
-                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                            VALUES (, , , , , , , )`,
                             [
                                 fornecedorId, contato.nome, contato.cargo, contato.departamento,
                                 contato.telefone, contato.celular, contato.email, contato.principal || false
@@ -333,7 +333,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 
                 await connection.commit();
                 
-                logger.info(`Fornecedor criado: ${codigo} - ${razao_social}`);
+                logger.info(`Fornecedor criação: ${codigo} - ${razao_social}`);
                 res.json({ success: true, id: fornecedorId, codigo });
                 
             } catch (error) {
@@ -354,11 +354,11 @@ module.exports = (pool, authenticateToken, logger) => {
             
             const fornecedorId = req.params.id;
             
-            // Buscar dados anteriores
-            const [anterior] = await connection.execute('SELECT * FROM fornecedores WHERE id = ?', [fornecedorId]);
+            // Buscar daçãos anteriores
+            const [anterior] = await connection.execute('SELECT * FROM fornecedores WHERE id = ', [fornecedorId]);
             if (anterior.length === 0) {
                 await connection.rollback();
-                return res.status(404).json({ error: 'Fornecedor não encontrado' });
+                return res.status(404).json({ error: 'Fornecedor não encontração' });
             }
             
             const campos = [];
@@ -366,14 +366,14 @@ module.exports = (pool, authenticateToken, logger) => {
             const camposPermitidos = [
                 'razao_social', 'nome_fantasia', 'inscricao_estadual', 'telefone', 'telefone_secundario',
                 'email', 'email_financeiro', 'site', 'contato_principal', 'cargo_contato',
-                'logradouro', 'numero', 'complemento', 'bairro', 'cidade', 'estado', 'cep',
+                'lograçãouro', 'numero', 'complemento', 'bairro', 'cidade', 'estação', 'cep',
                 'prazo_entrega_padrao', 'prazo_pagamento_padrao', 'condicoes_pagamento',
                 'valor_minimo_pedido', 'status', 'categoria', 'tipo_fornecedor', 'observacoes'
             ];
             
             for (const campo of camposPermitidos) {
                 if (req.body[campo] !== undefined) {
-                    campos.push(`${campo} = ?`);
+                    campos.push(`${campo} = `);
                     valores.push(req.body[campo]);
                 }
             }
@@ -383,11 +383,11 @@ module.exports = (pool, authenticateToken, logger) => {
                 return res.status(400).json({ error: 'Nenhum campo para atualizar' });
             }
             
-            campos.push('atualizado_por = ?', 'data_atualizacao = NOW()');
+            campos.push('atualização_por = ', 'data_atualizacao = NOW()');
             valores.push(req.user.userId, fornecedorId);
             
             await connection.execute(
-                `UPDATE fornecedores SET ${campos.join(', ')} WHERE id = ?`,
+                `UPDATE fornecedores SET ${campos.join(', ')} WHERE id = `,
                 valores
             );
             
@@ -395,7 +395,7 @@ module.exports = (pool, authenticateToken, logger) => {
             
             await connection.commit();
             
-            logger.info(`Fornecedor atualizado: ${fornecedorId}`);
+            logger.info(`Fornecedor atualização: ${fornecedorId}`);
             res.json({ success: true });
             
         } catch (error) {
@@ -414,8 +414,8 @@ module.exports = (pool, authenticateToken, logger) => {
             
             await pool.execute(
                 `INSERT INTO fornecedor_avaliacoes 
-                (fornecedor_id, pedido_id, data_avaliacao, avaliador_id, nota_qualidade, nota_prazo, nota_preco, nota_atendimento, nota_entrega, comentarios, pontos_positivos, pontos_negativos, recomenda_fornecedor)
-                VALUES (?, ?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                (fornecedor_id, pedido_id, data_avaliacao, avaliaçãor_id, nota_qualidade, nota_prazo, nota_preco, nota_atendimento, nota_entrega, comentarios, pontos_positivos, pontos_negativos, recomenda_fornecedor)
+                VALUES (, , CURDATE(), , , , , , , , , , )`,
                 [req.params.id, pedido_id, req.user.userId, nota_qualidade, nota_prazo, nota_preco, nota_atendimento, nota_entrega, comentarios, pontos_positivos, pontos_negativos, recomenda_fornecedor]
             );
             
@@ -431,7 +431,7 @@ module.exports = (pool, authenticateToken, logger) => {
                         SELECT AVG((nota_qualidade + nota_prazo + nota_preco + nota_atendimento + IFNULL(nota_entrega, 0)) / 5)
                         FROM fornecedor_avaliacoes WHERE fornecedor_id = f.id
                     )
-                WHERE id = ?
+                WHERE id = 
             `, [req.params.id]);
             
             res.json({ success: true });
@@ -452,27 +452,27 @@ module.exports = (pool, authenticateToken, logger) => {
             const params = [];
             
             if (status) {
-                query += ' AND status = ?';
+                query += ' AND status = ';
                 params.push(status);
             }
             
             if (data_inicio && data_fim) {
-                query += ' AND data_pedido BETWEEN ? AND ?';
+                query += ' AND data_pedido BETWEEN  AND ';
                 params.push(data_inicio, data_fim);
             }
             
             if (fornecedor_id) {
-                query += ' AND fornecedor_id = ?';
+                query += ' AND fornecedor_id = ';
                 params.push(fornecedor_id);
             }
             
             if (prioridade) {
-                query += ' AND prioridade = ?';
+                query += ' AND prioridade = ';
                 params.push(prioridade);
             }
             
             if (origem) {
-                query += ' AND origem = ?';
+                query += ' AND origem = ';
                 params.push(origem);
             }
             
@@ -481,7 +481,7 @@ module.exports = (pool, authenticateToken, logger) => {
             const [countResult] = await pool.execute(countQuery, params);
             const total = countResult[0].total;
             
-            query += ' ORDER BY created_at DESC LIMIT ? OFFSET ?';
+            query += ' ORDER BY created_at DESC LIMIT  OFFSET ';
             params.push(parseInt(limit), parseInt(offset));
             
             const [pedidos] = await pool.execute(query, params);
@@ -506,26 +506,26 @@ module.exports = (pool, authenticateToken, logger) => {
     router.get('/pedidos/:id', authenticateToken, async (req, res) => {
         try {
             const [pedido] = await pool.execute(
-                'SELECT * FROM vw_pedidos_completos WHERE id = ?',
+                'SELECT * FROM vw_pedidos_completos WHERE id = ',
                 [req.params.id]
             );
             
             if (pedido.length === 0) {
-                return res.status(404).json({ error: 'Pedido não encontrado' });
+                return res.status(404).json({ error: 'Pedido não encontração' });
             }
             
             // Buscar itens do pedido
             const [itens] = await pool.execute(
-                'SELECT * FROM pedidos_itens WHERE pedido_id = ?',
+                'SELECT * FROM pedidos_itens WHERE pedido_id = ',
                 [req.params.id]
             );
             
             // Buscar workflow de aprovações
             const [aprovacoes] = await pool.execute(
-                `SELECT wa.*, u.nome as aprovador_nome
+                `SELECT wa.*, u.nome as aprovaçãor_nome
                 FROM workflow_aprovacoes wa
-                LEFT JOIN usuarios u ON wa.aprovador_id = u.id
-                WHERE wa.entidade_tipo = 'pedido_compra' AND wa.entidade_id = ?
+                LEFT JOIN usuarios u ON wa.aprovaçãor_id = u.id
+                WHERE wa.entidade_tipo = 'pedido_compra' AND wa.entidade_id = 
                 ORDER BY wa.nivel`,
                 [req.params.id]
             );
@@ -535,7 +535,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 `SELECT r.*, u.nome as recebedor_nome
                 FROM recebimentos r
                 LEFT JOIN usuarios u ON r.usuario_recebedor = u.id
-                WHERE r.pedido_id = ?
+                WHERE r.pedido_id = 
                 ORDER BY r.data_recebimento DESC`,
                 [req.params.id]
             );
@@ -575,7 +575,7 @@ module.exports = (pool, authenticateToken, logger) => {
             // Gerar número do pedido
             const ano = new Date().getFullYear();
             const [ultimos] = await connection.execute(
-                "SELECT MAX(CAST(SUBSTRING(numero_pedido, 8) AS UNSIGNED)) as ultimo FROM pedidos_compra WHERE numero_pedido LIKE ?",
+                "SELECT MAX(CAST(SUBSTRING(numero_pedido, 8) AS UNSIGNED)) as ultimo FROM pedidos_compra WHERE numero_pedido LIKE ",
                 [`PC-${ano}%`]
             );
             const proximo = (ultimos[0].ultimo || 0) + 1;
@@ -593,8 +593,8 @@ module.exports = (pool, authenticateToken, logger) => {
                     prioridade, valor_produtos, desconto, frete, seguro, outras_despesas,
                     condicoes_pagamento, prazo_entrega_dias, local_entrega, forma_frete,
                     origem, pcp_ordem_id, observacoes, observacoes_internas,
-                    usuario_solicitante, criado_por, status
-                ) VALUES (?, ?, CURDATE(), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pendente')`,
+                    usuario_solicitante, criação_por, status
+                ) VALUES (, , CURDATE(), , , , , , , , , , , , , , , , , , 'pendente')`,
                 [
                     numero_pedido, fornecedor_id, data_entrega_prevista,
                     prioridade || 'normal', valor_produtos, desconto || 0, frete || 0, seguro || 0, outras_despesas || 0,
@@ -612,7 +612,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     `INSERT INTO pedidos_itens (
                         pedido_id, produto_id, codigo_produto, descricao, especificacao,
                         quantidade, unidade, preco_unitario, desconto, prazo_entrega_item, observacoes
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                    ) VALUES (, , , , , , , , , , )`,
                     [
                         pedidoId, item.produto_id, item.codigo_produto, item.descricao, item.especificacao,
                         item.quantidade, item.unidade || 'UN', item.preco_unitario, item.desconto || 0,
@@ -625,18 +625,18 @@ module.exports = (pool, authenticateToken, logger) => {
             const [config] = await connection.execute(
                 "SELECT valor FROM compras_configuracoes WHERE chave = 'pedido_aprovacao_valor_minimo'"
             );
-            const valorMinimoAprovacao = parseFloat(config[0]?.valor || 5000);
+            const valorMinimoAprovacao = parseFloat(config[0].valor || 5000);
             
             const valorTotal = valor_produtos - (desconto || 0) + (frete || 0) + (seguro || 0) + (outras_despesas || 0);
             
             if (valorTotal >= valorMinimoAprovacao) {
-                // Buscar aprovadores necessários
+                // Buscar aprovaçãores necessários
                 const [regras] = await connection.execute(
                     `SELECT * FROM workflow_regras_aprovacao 
                     WHERE entidade_tipo = 'pedido_compra' 
                       AND ativo = TRUE
-                      AND (valor_minimo IS NULL OR ? >= valor_minimo)
-                      AND (valor_maximo IS NULL OR ? <= valor_maximo)
+                      AND (valor_minimo IS NULL OR  >= valor_minimo)
+                      AND (valor_maximo IS NULL OR  <= valor_maximo)
                     ORDER BY nivel`,
                     [valorTotal, valorTotal]
                 );
@@ -645,15 +645,15 @@ module.exports = (pool, authenticateToken, logger) => {
                 for (const regra of regras) {
                     await connection.execute(
                         `INSERT INTO workflow_aprovacoes 
-                        (entidade_tipo, entidade_id, nivel, aprovador_id, status)
-                        VALUES ('pedido_compra', ?, ?, ?, 'pendente')`,
-                        [pedidoId, regra.nivel, regra.aprovador_id]
+                        (entidade_tipo, entidade_id, nivel, aprovaçãor_id, status)
+                        VALUES ('pedido_compra', , , , 'pendente')`,
+                        [pedidoId, regra.nivel, regra.aprovaçãor_id]
                     );
                     
-                    // Criar notificação para aprovador
+                    // Criar notificação para aprovaçãor
                     await criarNotificacao(
                         connection,
-                        regra.aprovador_id,
+                        regra.aprovaçãor_id,
                         'pedido_aprovacao',
                         'Pedido aguardando aprovação',
                         `O pedido ${numero_pedido} no valor de R$ ${valorTotal.toFixed(2)} aguarda sua aprovação.`,
@@ -665,7 +665,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 
                 // Atualizar status do pedido
                 await connection.execute(
-                    'UPDATE pedidos_compra SET status = "aguardando_aprovacao" WHERE id = ?',
+                    'UPDATE pedidos_compra SET status = "aguardando_aprovacao" WHERE id = ',
                     [pedidoId]
                 );
             }
@@ -674,7 +674,7 @@ module.exports = (pool, authenticateToken, logger) => {
             
             await connection.commit();
             
-            logger.info(`Pedido criado: ${numero_pedido}`);
+            logger.info(`Pedido criação: ${numero_pedido}`);
             res.json({ success: true, id: pedidoId, numero_pedido });
             
         } catch (error) {
@@ -699,8 +699,8 @@ module.exports = (pool, authenticateToken, logger) => {
             const [workflow] = await connection.execute(
                 `SELECT * FROM workflow_aprovacoes 
                 WHERE entidade_tipo = 'pedido_compra' 
-                  AND entidade_id = ? 
-                  AND aprovador_id = ? 
+                  AND entidade_id =  
+                  AND aprovaçãor_id =  
                   AND status = 'pendente'
                 ORDER BY nivel
                 LIMIT 1`,
@@ -712,13 +712,13 @@ module.exports = (pool, authenticateToken, logger) => {
                 return res.status(403).json({ error: 'Você não tem permissão para aprovar este pedido' });
             }
             
-            const novoStatus = aprovar ? 'aprovado' : 'rejeitado';
+            const novoStatus = aprovar  'aprovação' : 'rejeitação';
             
             // Atualizar workflow
             await connection.execute(
                 `UPDATE workflow_aprovacoes 
-                SET status = ?, data_acao = NOW(), comentario = ?
-                WHERE id = ?`,
+                SET status = , data_acao = NOW(), comentario = 
+                WHERE id = `,
                 [novoStatus, comentario, workflow[0].id]
             );
             
@@ -727,7 +727,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 const [pendentes] = await connection.execute(
                     `SELECT COUNT(*) as total FROM workflow_aprovacoes 
                     WHERE entidade_tipo = 'pedido_compra' 
-                      AND entidade_id = ? 
+                      AND entidade_id =  
                       AND status = 'pendente'`,
                     [pedidoId]
                 );
@@ -736,23 +736,23 @@ module.exports = (pool, authenticateToken, logger) => {
                     // Todas as aprovações concluídas
                     await connection.execute(
                         `UPDATE pedidos_compra 
-                        SET status = 'aprovado', usuario_aprovador = ?, data_aprovacao = NOW()
-                        WHERE id = ?`,
+                        SET status = 'aprovação', usuario_aprovaçãor = , data_aprovacao = NOW()
+                        WHERE id = `,
                         [req.user.userId, pedidoId]
                     );
                     
                     // Notificar solicitante
                     const [pedido] = await connection.execute(
-                        'SELECT usuario_solicitante, numero_pedido FROM pedidos_compra WHERE id = ?',
+                        'SELECT usuario_solicitante, numero_pedido FROM pedidos_compra WHERE id = ',
                         [pedidoId]
                     );
                     
                     await criarNotificacao(
                         connection,
                         pedido[0].usuario_solicitante,
-                        'pedido_aprovado',
-                        'Pedido aprovado',
-                        `Seu pedido ${pedido[0].numero_pedido} foi aprovado e pode ser enviado ao fornecedor.`,
+                        'pedido_aprovação',
+                        'Pedido aprovação',
+                        `Seu pedido ${pedido[0].numero_pedido} foi aprovação e pode ser enviação ao fornecedor.`,
                         'pedido_compra',
                         pedidoId,
                         true
@@ -762,30 +762,30 @@ module.exports = (pool, authenticateToken, logger) => {
                 // Rejeitar pedido
                 await connection.execute(
                     `UPDATE pedidos_compra 
-                    SET status = 'rejeitado', motivo_rejeicao = ?
-                    WHERE id = ?`,
+                    SET status = 'rejeitação', motivo_rejeicao = 
+                    WHERE id = `,
                     [comentario, pedidoId]
                 );
                 
                 // Notificar solicitante
                 const [pedido] = await connection.execute(
-                    'SELECT usuario_solicitante, numero_pedido FROM pedidos_compra WHERE id = ?',
+                    'SELECT usuario_solicitante, numero_pedido FROM pedidos_compra WHERE id = ',
                     [pedidoId]
                 );
                 
                 await criarNotificacao(
                     connection,
                     pedido[0].usuario_solicitante,
-                    'pedido_rejeitado',
-                    'Pedido rejeitado',
-                    `Seu pedido ${pedido[0].numero_pedido} foi rejeitado. Motivo: ${comentario}`,
+                    'pedido_rejeitação',
+                    'Pedido rejeitação',
+                    `Seu pedido ${pedido[0].numero_pedido} foi rejeitação. Motivo: ${comentario}`,
                     'pedido_compra',
                     pedidoId,
                     true
                 );
             }
             
-            await logAcao(connection, req.user.userId, aprovar ? 'aprovar_pedido' : 'rejeitar_pedido', 'pedido_compra', pedidoId, null, { comentario }, req);
+            await logAcao(connection, req.user.userId, aprovar  'aprovar_pedido' : 'rejeitar_pedido', 'pedido_compra', pedidoId, null, { comentario }, req);
             
             await connection.commit();
             res.json({ success: true });
@@ -809,8 +809,8 @@ module.exports = (pool, authenticateToken, logger) => {
             
             await connection.execute(
                 `UPDATE pedidos_compra 
-                SET status = 'cancelado', usuario_cancelamento = ?, data_cancelamento = NOW(), motivo_cancelamento = ?
-                WHERE id = ?`,
+                SET status = 'cancelação', usuario_cancelamento = , data_cancelamento = NOW(), motivo_cancelamento = 
+                WHERE id = `,
                 [req.user.userId, motivo, req.params.id]
             );
             
@@ -848,11 +848,11 @@ module.exports = (pool, authenticateToken, logger) => {
             const params = [];
             
             if (status) {
-                query += ' AND c.status = ?';
+                query += ' AND c.status = ';
                 params.push(status);
             }
             
-            query += ' GROUP BY c.id ORDER BY c.created_at DESC LIMIT ? OFFSET ?';
+            query += ' GROUP BY c.id ORDER BY c.created_at DESC LIMIT  OFFSET ';
             params.push(parseInt(limit), parseInt(offset));
             
             const [cotacoes] = await pool.execute(query, params);
@@ -874,7 +874,7 @@ module.exports = (pool, authenticateToken, logger) => {
             // Gerar número da cotação
             const ano = new Date().getFullYear();
             const [ultimos] = await connection.execute(
-                "SELECT MAX(CAST(SUBSTRING(numero_cotacao, 8) AS UNSIGNED)) as ultimo FROM cotacoes WHERE numero_cotacao LIKE ?",
+                "SELECT MAX(CAST(SUBSTRING(numero_cotacao, 8) AS UNSIGNED)) as ultimo FROM cotacoes WHERE numero_cotacao LIKE ",
                 [`COT-${ano}%`]
             );
             const proximo = (ultimos[0].ultimo || 0) + 1;
@@ -884,8 +884,8 @@ module.exports = (pool, authenticateToken, logger) => {
             const [cotacao] = await connection.execute(
                 `INSERT INTO cotacoes (
                     numero_cotacao, titulo, descricao, data_abertura, data_encerramento,
-                    tipo, usuario_responsavel, criado_por, status
-                ) VALUES (?, ?, ?, CURDATE(), ?, ?, ?, ?, 'aberta')`,
+                    tipo, usuario_responsavel, criação_por, status
+                ) VALUES (, , , CURDATE(), , , , , 'aberta')`,
                 [numero_cotacao, titulo, descricao, data_encerramento, tipo || 'preco', req.user.userId, req.user.userId]
             );
             
@@ -897,7 +897,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     `INSERT INTO cotacoes_itens (
                         cotacao_id, codigo_produto, descricao, especificacao,
                         quantidade, unidade, preco_referencia, observacoes
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                    ) VALUES (, , , , , , , )`,
                     [
                         cotacaoId, item.codigo_produto, item.descricao, item.especificacao,
                         item.quantidade, item.unidade || 'UN', item.preco_referencia, item.observacoes
@@ -945,7 +945,7 @@ module.exports = (pool, authenticateToken, logger) => {
             // Gerar número do recebimento
             const ano = new Date().getFullYear();
             const [ultimos] = await connection.execute(
-                "SELECT MAX(CAST(SUBSTRING(numero_recebimento, 8) AS UNSIGNED)) as ultimo FROM recebimentos WHERE numero_recebimento LIKE ?",
+                "SELECT MAX(CAST(SUBSTRING(numero_recebimento, 8) AS UNSIGNED)) as ultimo FROM recebimentos WHERE numero_recebimento LIKE ",
                 [`REC-${ano}%`]
             );
             const proximo = (ultimos[0].ultimo || 0) + 1;
@@ -957,7 +957,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     pedido_id, numero_recebimento, usuario_recebedor, conferente,
                     numero_nfe, serie_nfe, chave_nfe, data_emissao_nfe, valor_nfe,
                     observacoes, status
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'completo')`,
+                ) VALUES (, , , , , , , , , , 'completo')`,
                 [
                     pedido_id, numero_recebimento, req.user.userId, conferente,
                     numero_nfe, serie_nfe, chave_nfe, data_emissao_nfe, valor_nfe,
@@ -975,7 +975,7 @@ module.exports = (pool, authenticateToken, logger) => {
                         recebimento_id, pedido_item_id, quantidade_pedida, quantidade_recebida,
                         quantidade_aprovada, quantidade_rejeitada, motivo_rejeicao,
                         localizacao_estoque, lote, data_fabricacao, data_validade, observacoes
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                    ) VALUES (, , , , , , , , , , , )`,
                     [
                         recebimentoId, item.pedido_item_id, item.quantidade_pedida, item.quantidade_recebida,
                         item.quantidade_aprovada, item.quantidade_rejeitada || 0, item.motivo_rejeicao,
@@ -986,8 +986,8 @@ module.exports = (pool, authenticateToken, logger) => {
                 // Atualizar quantidade recebida no item do pedido
                 await connection.execute(
                     `UPDATE pedidos_itens 
-                    SET quantidade_recebida = quantidade_recebida + ?
-                    WHERE id = ?`,
+                    SET quantidade_recebida = quantidade_recebida + 
+                    WHERE id = `,
                     [item.quantidade_aprovada, item.pedido_item_id]
                 );
                 
@@ -999,7 +999,7 @@ module.exports = (pool, authenticateToken, logger) => {
             // Atualizar status do recebimento se houver divergência
             if (temDivergencia) {
                 await connection.execute(
-                    'UPDATE recebimentos SET status = "com_divergencia" WHERE id = ?',
+                    'UPDATE recebimentos SET status = "com_divergencia" WHERE id = ',
                     [recebimentoId]
                 );
             }
@@ -1007,7 +1007,7 @@ module.exports = (pool, authenticateToken, logger) => {
             // Verificar se pedido foi totalmente recebido
             const [pedidoItens] = await connection.execute(
                 `SELECT SUM(quantidade) as total_pedido, SUM(quantidade_recebida) as total_recebido
-                FROM pedidos_itens WHERE pedido_id = ?`,
+                FROM pedidos_itens WHERE pedido_id = `,
                 [pedido_id]
             );
             
@@ -1015,12 +1015,12 @@ module.exports = (pool, authenticateToken, logger) => {
                 await connection.execute(
                     `UPDATE pedidos_compra 
                     SET status = 'recebido', data_entrega_real = CURDATE()
-                    WHERE id = ?`,
+                    WHERE id = `,
                     [pedido_id]
                 );
             } else {
                 await connection.execute(
-                    'UPDATE pedidos_compra SET status = "parcial" WHERE id = ?',
+                    'UPDATE pedidos_compra SET status = "parcial" WHERE id = ',
                     [pedido_id]
                 );
             }
@@ -1029,7 +1029,7 @@ module.exports = (pool, authenticateToken, logger) => {
             
             await connection.commit();
             
-            logger.info(`Recebimento criado: ${numero_recebimento}`);
+            logger.info(`Recebimento criação: ${numero_recebimento}`);
             res.json({ success: true, id: recebimentoId, numero_recebimento });
             
         } catch (error) {
@@ -1050,14 +1050,14 @@ module.exports = (pool, authenticateToken, logger) => {
             
             const [notificacoes] = await pool.execute(
                 `SELECT * FROM compras_notificacoes 
-                WHERE usuario_id = ? 
+                WHERE usuario_id =  
                 ORDER BY created_at DESC 
-                LIMIT ?`,
+                LIMIT `,
                 [req.user.userId, parseInt(limit)]
             );
             
             const [naoLidas] = await pool.execute(
-                'SELECT COUNT(*) as total FROM compras_notificacoes WHERE usuario_id = ? AND lida = FALSE',
+                'SELECT COUNT(*) as total FROM compras_notificacoes WHERE usuario_id =  AND lida = FALSE',
                 [req.user.userId]
             );
             
@@ -1078,7 +1078,7 @@ module.exports = (pool, authenticateToken, logger) => {
             await pool.execute(
                 `UPDATE compras_notificacoes 
                 SET lida = TRUE, data_leitura = NOW() 
-                WHERE id = ? AND usuario_id = ?`,
+                WHERE id =  AND usuario_id = `,
                 [req.params.id, req.user.userId]
             );
             
@@ -1096,21 +1096,21 @@ module.exports = (pool, authenticateToken, logger) => {
         try {
             const { data_inicio, data_fim } = req.query;
             
-            const [resultado] = await pool.execute(`
+            const [resultação] = await pool.execute(`
                 SELECT 
                     DATE_FORMAT(pc.data_pedido, '%Y-%m') as mes,
                     COUNT(DISTINCT pc.id) as total_pedidos,
                     SUM(pc.valor_total) as valor_total,
                     COUNT(DISTINCT pc.fornecedor_id) as fornecedores_distintos,
                     AVG(pc.valor_total) as ticket_medio,
-                    SUM(CASE WHEN pc.status = 'cancelado' THEN 1 ELSE 0 END) as pedidos_cancelados
+                    SUM(CASE WHEN pc.status = 'cancelação' THEN 1 ELSE 0 END) as pedidos_cancelaçãos
                 FROM pedidos_compra pc
-                WHERE pc.data_pedido BETWEEN ? AND ?
+                WHERE pc.data_pedido BETWEEN  AND 
                 GROUP BY mes
                 ORDER BY mes
             `, [data_inicio, data_fim]);
             
-            res.json({ success: true, data: resultado });
+            res.json({ success: true, data: resultação });
         } catch (error) {
             logger.error('Erro ao gerar relatório:', error);
             res.status(500).json({ error: 'Erro ao gerar relatório' });
@@ -1122,23 +1122,23 @@ module.exports = (pool, authenticateToken, logger) => {
         try {
             const { data_inicio, data_fim, limit = 10 } = req.query;
             
-            const [resultado] = await pool.execute(`
+            const [resultação] = await pool.execute(`
                 SELECT 
-                    f.id, f.razao_social, f.cidade, f.estado,
+                    f.id, f.razao_social, f.cidade, f.estação,
                     f.avaliacao_geral,
                     COUNT(DISTINCT pc.id) as total_pedidos,
                     SUM(pc.valor_total) as valor_total,
                     AVG(DATEDIFF(pc.data_entrega_real, pc.data_entrega_prevista)) as media_atraso,
-                    SUM(CASE WHEN pc.status = 'cancelado' THEN 1 ELSE 0 END) as pedidos_cancelados
+                    SUM(CASE WHEN pc.status = 'cancelação' THEN 1 ELSE 0 END) as pedidos_cancelaçãos
                 FROM fornecedores f
                 JOIN pedidos_compra pc ON f.id = pc.fornecedor_id
-                WHERE pc.data_pedido BETWEEN ? AND ?
+                WHERE pc.data_pedido BETWEEN  AND 
                 GROUP BY f.id
                 ORDER BY valor_total DESC
-                LIMIT ?
+                LIMIT 
             `, [data_inicio, data_fim, parseInt(limit)]);
             
-            res.json({ success: true, data: resultado });
+            res.json({ success: true, data: resultação });
         } catch (error) {
             logger.error('Erro ao gerar relatório:', error);
             res.status(500).json({ error: 'Erro ao gerar relatório' });

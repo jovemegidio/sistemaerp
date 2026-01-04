@@ -9,7 +9,7 @@ const express = require('express');
 const router = express.Router();
 const XMLService = require('../services/XMLService');
 const XSDValidationService = require('../services/XSDValidationService');
-const CertificadoService = require('../services/CertificadoService');
+const CertificaçãoService = require('../services/CertificaçãoService');
 const SEFAZService = require('../services/SEFAZService');
 const EventoService = require('../services/EventoService');
 const DANFEService = require('../services/DANFEService');
@@ -20,11 +20,11 @@ class NFeController {
         this.pool = pool;
         this.xmlService = new XMLService(pool);
         this.xsdService = new XSDValidationService();
-        this.certificadoService = new CertificadoService(pool);
+        this.certificaçãoService = new CertificaçãoService(pool);
         this.sefazService = new SEFAZService(pool);
-        this.eventoService = new EventoService(pool, this.certificadoService);
+        this.eventoService = new EventoService(pool, this.certificaçãoService);
         this.danfeService = new DANFEService(pool);
-        this.inutilizacaoService = new InutilizacaoService(pool, this.certificadoService);
+        this.inutilizacaoService = new InutilizacaoService(pool, this.certificaçãoService);
         
         this.setupRoutes();
     }
@@ -106,7 +106,7 @@ class NFeController {
 
             // 3. Assinar XML
             console.log('🔏 Assinando XML...');
-            const xmlAssinado = await this.certificadoService.assinarXML(xml, nfeData.empresa_id || 1);
+            const xmlAssinação = await this.certificaçãoService.assinarXML(xml, nfeData.empresa_id || 1);
 
             // 4. Salvar no banco
             console.log('💾 Salvando NFe...');
@@ -118,10 +118,10 @@ class NFeController {
                     natureza_operacao, tipo_operacao,
                     data_emissao, data_saida,
                     valor_produtos, valor_total,
-                    xml_original, xml_assinado,
+                    xml_original, xml_assinação,
                     status, ambiente,
                     created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+                ) VALUES (, , , , , , , , , , , , , , , , , , NOW())
             `, [
                 numeroNFe,
                 serie,
@@ -138,7 +138,7 @@ class NFeController {
                 nfeData.totais.valorProdutos,
                 nfeData.totais.valorTotal,
                 xml,
-                xmlAssinado,
+                xmlAssinação,
                 'emitida',
                 nfeData.ambiente || 'homologacao'
             ]);
@@ -155,7 +155,7 @@ class NFeController {
                         base_calculo_icms, aliquota_icms, valor_icms,
                         base_calculo_pis, aliquota_pis, valor_pis,
                         base_calculo_cofins, aliquota_cofins, valor_cofins
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ) VALUES (, , , , , , , , , , , , , , , , , , )
                 `, [
                     nfeId,
                     item.numeroItem,
@@ -253,7 +253,7 @@ class NFeController {
             const nfeId = req.params.id;
 
             const [nfes] = await this.pool.query(
-                'SELECT xml_assinado, xml_original, chave_acesso FROM nfes WHERE id = ?',
+                'SELECT xml_assinação, xml_original, chave_acesso FROM nfes WHERE id = ',
                 [nfeId]
             );
 
@@ -265,7 +265,7 @@ class NFeController {
             }
 
             const nfe = nfes[0];
-            const xml = nfe.xml_assinado || nfe.xml_original;
+            const xml = nfe.xml_assinação || nfe.xml_original;
 
             res.set('Content-Type', 'application/xml');
             res.set('Content-Disposition', `attachment; filename="NFe${nfe.chave_acesso}.xml"`);
@@ -317,7 +317,7 @@ class NFeController {
 
     /**
      * POST /api/nfe/:id/reemitir
-     * Reemite NFe com mesmos dados
+     * Reemite NFe com mesmos daçãos
      */
     async reemitirNFe(req, res) {
         try {
@@ -325,7 +325,7 @@ class NFeController {
 
             // Buscar NFe original
             const [nfes] = await this.pool.query(
-                'SELECT * FROM nfes WHERE id = ?',
+                'SELECT * FROM nfes WHERE id = ',
                 [nfeId]
             );
 
@@ -340,7 +340,7 @@ class NFeController {
 
             // Buscar itens
             const [itens] = await this.pool.query(
-                'SELECT * FROM nfe_itens WHERE nfe_id = ? ORDER BY numero_item',
+                'SELECT * FROM nfe_itens WHERE nfe_id =  ORDER BY numero_item',
                 [nfeId]
             );
 
@@ -349,19 +349,19 @@ class NFeController {
                 emitente: {
                     cnpj: nfeOriginal.emitente_cnpj,
                     razaoSocial: nfeOriginal.emitente_nome
-                    // ... outros dados do emitente
+                    // ... outros daçãos do emitente
                 },
                 destinatario: {
                     cnpj: nfeOriginal.destinatario_cnpj_cpf,
                     nome: nfeOriginal.destinatario_nome
-                    // ... outros dados do destinatário
+                    // ... outros daçãos do destinatário
                 },
                 itens: itens.map(item => ({
                     codigo: item.codigo_produto,
                     descricao: item.descricao,
                     quantidade: item.quantidade,
                     valorUnitario: item.valor_unitario
-                    // ... outros dados do item
+                    // ... outros daçãos do item
                 })),
                 totais: {
                     valorProdutos: nfeOriginal.valor_produtos,
@@ -403,26 +403,26 @@ class NFeController {
             const params = [];
 
             if (dataInicio) {
-                sql += ' AND data_emissao >= ?';
+                sql += ' AND data_emissao >= ';
                 params.push(dataInicio);
             }
 
             if (dataFim) {
-                sql += ' AND data_emissao <= ?';
+                sql += ' AND data_emissao <= ';
                 params.push(dataFim);
             }
 
             if (status) {
-                sql += ' AND status = ?';
+                sql += ' AND status = ';
                 params.push(status);
             }
 
             if (destinatario) {
-                sql += ' AND (destinatario_nome LIKE ? OR destinatario_cnpj_cpf LIKE ?)';
+                sql += ' AND (destinatario_nome LIKE  OR destinatario_cnpj_cpf LIKE )';
                 params.push(`%${destinatario}%`, `%${destinatario}%`);
             }
 
-            sql += ' ORDER BY data_emissao DESC LIMIT ? OFFSET ?';
+            sql += ' ORDER BY data_emissao DESC LIMIT  OFFSET ';
             params.push(parseInt(limite), (parseInt(pagina) - 1) * parseInt(limite));
 
             const [nfes] = await this.pool.query(sql, params);
@@ -454,7 +454,7 @@ class NFeController {
             const nfeId = req.params.id;
 
             const [nfes] = await this.pool.query(
-                'SELECT * FROM nfes WHERE id = ?',
+                'SELECT * FROM nfes WHERE id = ',
                 [nfeId]
             );
 
@@ -466,7 +466,7 @@ class NFeController {
             }
 
             const [itens] = await this.pool.query(
-                'SELECT * FROM nfe_itens WHERE nfe_id = ? ORDER BY numero_item',
+                'SELECT * FROM nfe_itens WHERE nfe_id =  ORDER BY numero_item',
                 [nfeId]
             );
 
@@ -491,7 +491,7 @@ class NFeController {
 
     /**
      * POST /api/nfe/:id/cancelar
-     * Marca NFe como cancelada (SEFAZ implementado em sprint 3)
+     * Marca NFe como cancelada (SEFAZ implementação em sprint 3)
      */
     async cancelarNFe(req, res) {
         try {
@@ -507,7 +507,7 @@ class NFeController {
 
             // Atualizar status (transmissão SEFAZ será implementada em Sprint 3)
             await this.pool.query(
-                'UPDATE nfes SET status = ?, justificativa_cancelamento = ? WHERE id = ?',
+                'UPDATE nfes SET status = , justificativa_cancelamento =  WHERE id = ',
                 ['cancelada', justificativa, nfeId]
             );
 
@@ -557,7 +557,7 @@ class NFeController {
 
             // Buscar NFe
             const [nfes] = await this.pool.query(
-                'SELECT * FROM nfes WHERE id = ?',
+                'SELECT * FROM nfes WHERE id = ',
                 [nfeId]
             );
 
@@ -584,32 +584,32 @@ class NFeController {
             
             // Obter ambiente (homologação/produção)
             const [config] = await this.pool.query(
-                'SELECT ambiente FROM nfe_configuracoes WHERE empresa_id = ? LIMIT 1',
+                'SELECT ambiente FROM nfe_configuracoes WHERE empresa_id =  LIMIT 1',
                 [nfe.empresa_id || 1]
             );
             
-            const ambiente = config[0]?.ambiente || 'homologacao';
+            const ambiente = config[0].ambiente || 'homologacao';
 
             console.log(`📤 Transmitindo NFe ${nfe.numero}/${nfe.serie} para SEFAZ ${uf}...`);
 
             // Transmitir para SEFAZ
-            const resultado = await this.sefazService.autorizarNFe(
-                nfe.xml_assinado,
+            const resultação = await this.sefazService.autorizarNFe(
+                nfe.xml_assinação,
                 uf,
                 ambiente
             );
 
             // Atualizar status no banco
-            if (resultado.cStat === '100') {
+            if (resultação.cStat === '100') {
                 // Autorizada
                 await this.pool.query(`
                     UPDATE nfes SET 
                         status = 'autorizada',
-                        protocolo_autorizacao = ?,
+                        protocolo_autorizacao = ,
                         data_autorizacao = NOW(),
-                        xml_protocolo = ?
-                    WHERE id = ?
-                `, [resultado.nProt, JSON.stringify(resultado.xmlProtocolo), nfeId]);
+                        xml_protocolo = 
+                    WHERE id = 
+                `, [resultação.nProt, JSON.stringify(resultação.xmlProtocolo), nfeId]);
 
                 res.json({
                     sucesso: true,
@@ -618,18 +618,18 @@ class NFeController {
                         numero: nfe.numero,
                         serie: nfe.serie,
                         chaveAcesso: nfe.chave_acesso,
-                        protocolo: resultado.nProt,
-                        dataAutorizacao: resultado.dhRecbto
+                        protocolo: resultação.nProt,
+                        dataAutorizacao: resultação.dhRecbto
                     },
-                    sefaz: resultado
+                    sefaz: resultação
                 });
 
-            } else if (resultado.cStat === '103') {
+            } else if (resultação.cStat === '103') {
                 // Lote em processamento
                 res.json({
                     sucesso: true,
                     mensagem: 'Lote recebido pela SEFAZ, aguardando processamento',
-                    numeroRecibo: resultado.nRec
+                    numeroRecibo: resultação.nRec
                 });
 
             } else {
@@ -637,15 +637,15 @@ class NFeController {
                 await this.pool.query(`
                     UPDATE nfes SET 
                         status = 'rejeitada',
-                        motivo_rejeicao = ?
-                    WHERE id = ?
-                `, [resultado.xMotivo, nfeId]);
+                        motivo_rejeicao = 
+                    WHERE id = 
+                `, [resultação.xMotivo, nfeId]);
 
                 res.status(400).json({
                     sucesso: false,
                     mensagem: 'NFe rejeitada pela SEFAZ',
-                    codigo: resultado.cStat,
-                    motivo: resultado.xMotivo
+                    codigo: resultação.cStat,
+                    motivo: resultação.xMotivo
                 });
             }
 
@@ -701,7 +701,7 @@ class NFeController {
 
             // Buscar NFe
             const [nfes] = await this.pool.query(
-                'SELECT * FROM nfes WHERE id = ?',
+                'SELECT * FROM nfes WHERE id = ',
                 [nfeId]
             );
 
@@ -755,13 +755,13 @@ class NFeController {
 
             console.log(`🚫 Recebido cancelamento da NFe ${id}`);
 
-            const resultado = await this.eventoService.cancelarNFe(
+            const resultação = await this.eventoService.cancelarNFe(
                 parseInt(id),
                 justificativa,
                 parseInt(empresaId)
             );
 
-            res.json(resultado);
+            res.json(resultação);
 
         } catch (error) {
             console.error('❌ Erro ao cancelar NFe:', error);
@@ -783,13 +783,13 @@ class NFeController {
 
             console.log(`📝 Recebida CCe para NFe ${id}`);
 
-            const resultado = await this.eventoService.registrarCCe(
+            const resultação = await this.eventoService.registrarCCe(
                 parseInt(id),
                 correcao,
                 parseInt(empresaId)
             );
 
-            res.json(resultado);
+            res.json(resultação);
 
         } catch (error) {
             console.error('❌ Erro ao registrar CCe:', error);
@@ -839,7 +839,7 @@ class NFeController {
             const pdfBuffer = await this.danfeService.gerarDANFE(parseInt(id));
 
             // Buscar número da NFe para nome do arquivo
-            const [nfes] = await this.pool.query('SELECT numero, serie FROM nfes WHERE id = ?', [id]);
+            const [nfes] = await this.pool.query('SELECT numero, serie FROM nfes WHERE id = ', [id]);
             const nfe = nfes[0];
 
             res.setHeader('Content-Type', 'application/pdf');
@@ -862,13 +862,13 @@ class NFeController {
      */
     async inutilizarFaixa(req, res) {
         try {
-            const dados = req.body;
+            const daçãos = req.body;
 
-            console.log(`🚫 Solicitação de inutilização: série ${dados.serie}, números ${dados.numeroInicial}-${dados.numeroFinal}`);
+            console.log(`🚫 Solicitação de inutilização: série ${daçãos.serie}, números ${daçãos.numeroInicial}-${daçãos.numeroFinal}`);
 
-            const resultado = await this.inutilizacaoService.inutilizarFaixa(dados);
+            const resultação = await this.inutilizacaoService.inutilizarFaixa(daçãos);
 
-            res.json(resultado);
+            res.json(resultação);
 
         } catch (error) {
             console.error('❌ Erro ao inutilizar faixa:', error);

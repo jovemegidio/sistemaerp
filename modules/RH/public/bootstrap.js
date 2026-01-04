@@ -5,7 +5,7 @@
   let interval = 150
   let maxWait = 3500 // ms total (increased to tolerate slower token injection)
 
-  // Helper: lê cookies do navegador
+  // Helper: lê cookies do navegaçãor
   function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
@@ -13,7 +13,7 @@
     return null;
   }
 
-  // Helper: redireciona para a página correta baseado no role do usuário
+  // Helper: redireciona para a página correta baseação no role do usuário
   function redirectToCorrectPage(userData) {
     const currentPath = window.location.pathname;
     const isAdminPage = currentPath.includes('areaadm.html');
@@ -31,11 +31,11 @@
     // Se está no index, redireciona para a página correta
     if (isIndexPage) {
       if (userData.role === 'admin' || userData.is_admin || userData.rh_admin) {
-        console.log('👤 Usuário admin detectado, redirecionando para areaadm.html');
+        console.log('👤 Usuário admin detectação, redirecionando para areaadm.html');
         window.location.href = '/RecursosHumanos/areaadm.html';
         return true;
       } else {
-        console.log('👤 Usuário funcionário detectado, redirecionando para area.html');
+        console.log('👤 Usuário funcionário detectação, redirecionando para area.html');
         window.location.href = '/RecursosHumanos/area.html';
         return true;
       }
@@ -61,7 +61,7 @@
   function loadApp () {
     try {
       let s = document.createElement('script')
-      s.src = 'app.js?v=2.7'
+      s.src = 'app.jsv=2.7'
       s.defer = true
       document.body.appendChild(s)
       console.log('bootstrap: app.js injected')

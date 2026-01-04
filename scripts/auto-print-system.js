@@ -40,7 +40,7 @@ class AutoPrintSystem {
             await this.loadPrintQueue();
             await this.detectAvailablePrinters();
             this.startQueueProcessor();
-            console.log('✅ Sistema de impressão inicializado');
+            console.log('✅ Sistema de impressão inicialização');
         } catch (error) {
             console.error('❌ Erro ao inicializar sistema de impressão:', error.message);
         }
@@ -90,7 +90,7 @@ class AutoPrintSystem {
     // Converter Excel para PDF
     async convertExcelToPDF(excelFilePath, outputPath = null) {
         if (!outputPath) {
-            outputPath = excelFilePath.replace(/\.xlsx?$/i, '.pdf');
+            outputPath = excelFilePath.replace(/\.xlsx$/i, '.pdf');
         }
 
         try {
@@ -121,7 +121,7 @@ class AutoPrintSystem {
                 fs.unlink(tempHtmlPath).catch(console.error);
             }, 1000);
 
-            console.log(`📄 PDF gerado: ${outputPath}`);
+            console.log(`📄 PDF geração: ${outputPath}`);
             return outputPath;
 
         } catch (error) {
@@ -165,8 +165,8 @@ class AutoPrintSystem {
                 row.eachCell((cell, colNumber) => {
                     const value = cell.value || '';
                     const isHeader = rowNumber <= 3;
-                    const cellClass = isHeader ? 'header' : 
-                                    (typeof value === 'number' ? 'number' : '');
+                    const cellClass = isHeader  'header' : 
+                                    (typeof value === 'number'  'number' : '');
                     
                     html += `<td class="${cellClass}">${value}</td>`;
                 });
@@ -217,7 +217,7 @@ class AutoPrintSystem {
 
         await this.savePrintQueue();
         
-        console.log(`📋 Documento adicionado à fila: ${job.metadata.documentName}`);
+        console.log(`📋 Documento adicionação à fila: ${job.metadata.documentName}`);
         return job.id;
     }
 
@@ -231,7 +231,7 @@ class AutoPrintSystem {
             await this.processNextInQueue();
         }, 5000); // Verificar a cada 5 segundos
 
-        console.log('🔄 Processador de fila de impressão iniciado');
+        console.log('🔄 Processaçãor de fila de impressão iniciação');
     }
 
     async processNextInQueue() {
@@ -264,7 +264,7 @@ class AutoPrintSystem {
             job.error = error.message;
             job.failedAt = new Date().toISOString();
             
-            // Mover job falhado para o final da fila para retry
+            // Mover job falhação para o final da fila para retry
             this.printQueue.shift();
             if (job.retryCount < 3) {
                 job.retryCount = (job.retryCount || 0) + 1;
@@ -286,7 +286,7 @@ class AutoPrintSystem {
         try {
             await fs.access(filePath);
         } catch (error) {
-            throw new Error(`Arquivo não encontrado: ${filePath}`);
+            throw new Error(`Arquivo não encontração: ${filePath}`);
         }
 
         // Verificar impressora
@@ -299,7 +299,7 @@ class AutoPrintSystem {
 
         // Converter para PDF se necessário
         if (type === 'excel') {
-            const pdfPath = filePath.replace(/\.xlsx?$/i, '.pdf');
+            const pdfPath = filePath.replace(/\.xlsx$/i, '.pdf');
             fileToPrint = await this.convertExcelToPDF(filePath, pdfPath);
         }
 
@@ -318,8 +318,8 @@ class AutoPrintSystem {
                         'page-ranges': '1-999',
                         'fit-to-page': true,
                         'media': job.paperSize,
-                        'orientation-requested': job.orientation === 'landscape' ? '4' : '3',
-                        'print-color-mode': job.colorMode === 'mono' ? 'monochrome' : 'color'
+                        'orientation-requested': job.orientation === 'landscape'  '4' : '3',
+                        'print-color-mode': job.colorMode === 'mono'  'monochrome' : 'color'
                     }
                 };
 
@@ -332,7 +332,7 @@ class AutoPrintSystem {
                             type: 'PDF',
                             options: printOptions.options,
                             success: function(jobID) {
-                                console.log(`📨 Enviado para impressora: Job ID ${jobID}`);
+                                console.log(`📨 Enviação para impressora: Job ID ${jobID}`);
                                 resolve(jobID);
                             },
                             error: function(error) {
@@ -366,7 +366,7 @@ class AutoPrintSystem {
             return {
                 success: true,
                 jobId,
-                message: 'Documento adicionado à fila de impressão',
+                message: 'Documento adicionação à fila de impressão',
                 queuePosition: this.printQueue.length
             };
 
@@ -422,7 +422,7 @@ class AutoPrintSystem {
     async cancelJob(jobId) {
         const jobIndex = this.printQueue.findIndex(j => j.id === jobId);
         if (jobIndex === -1) {
-            throw new Error('Job não encontrado na fila');
+            throw new Error('Job não encontração na fila');
         }
 
         const job = this.printQueue[jobIndex];
@@ -434,7 +434,7 @@ class AutoPrintSystem {
 
         await this.savePrintQueue();
         
-        console.log(`❌ Job cancelado: ${job.metadata.documentName}`);
+        console.log(`❌ Job cancelação: ${job.metadata.documentName}`);
         return true;
     }
 
@@ -452,7 +452,7 @@ class AutoPrintSystem {
         
         await this.savePrintQueue();
         
-        console.log(`🗑️ Fila limpa: ${cancelledJobs.length} jobs cancelados`);
+        console.log(`🗑️ Fila limpa: ${cancelledJobs.length} jobs cancelaçãos`);
         return cancelledJobs.length;
     }
 
@@ -474,14 +474,14 @@ class AutoPrintSystem {
                 total: jobs24h.length,
                 completed: jobs24h.filter(j => j.status === 'completed').length,
                 failed: jobs24h.filter(j => j.status === 'failed').length,
-                successRate: jobs24h.length > 0 ? 
+                successRate: jobs24h.length > 0  
                     Math.round((jobs24h.filter(j => j.status === 'completed').length / jobs24h.length) * 100) : 0
             },
             last7d: {
                 total: jobs7d.length,
                 completed: jobs7d.filter(j => j.status === 'completed').length,
                 failed: jobs7d.filter(j => j.status === 'failed').length,
-                successRate: jobs7d.length > 0 ? 
+                successRate: jobs7d.length > 0  
                     Math.round((jobs7d.filter(j => j.status === 'completed').length / jobs7d.length) * 100) : 0
             },
             byDepartment: this.getStatsByDepartment(),
@@ -494,7 +494,7 @@ class AutoPrintSystem {
     getStatsByDepartment() {
         const departments = {};
         this.printHistory.forEach(job => {
-            const dept = job.metadata.department || 'Não especificado';
+            const dept = job.metadata.department || 'Não especificação';
             if (!departments[dept]) {
                 departments[dept] = { total: 0, completed: 0, failed: 0 };
             }
@@ -508,7 +508,7 @@ class AutoPrintSystem {
     getStatsByPrinter() {
         const printers = {};
         this.printHistory.forEach(job => {
-            const printer = job.printer || 'Não especificado';
+            const printer = job.printer || 'Não especificação';
             if (!printers[printer]) {
                 printers[printer] = { total: 0, completed: 0, failed: 0 };
             }
@@ -527,7 +527,7 @@ class AutoPrintSystem {
         }
         
         await this.savePrintQueue();
-        console.log('🛑 Sistema de impressão parado');
+        console.log('🛑 Sistema de impressão paração');
     }
 }
 

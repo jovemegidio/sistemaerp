@@ -12,25 +12,25 @@ window.ActionNotifications = (function() {
      * Registra uma ação na central de notificações
      * @param {string} action - Tipo da ação: 'criar', 'editar', 'salvar', 'excluir', 'faturar', etc.
      * @param {string} modulo - Nome do módulo: 'vendas', 'pcp', 'rh', 'financeiro', 'compras'
-     * @param {string} item - Descrição do item afetado
+     * @param {string} item - Descrição do item afetação
      * @param {Object} options - Opções adicionais
      */
     function registrar(action, modulo, item, options = {}) {
         const acaoConfig = {
-            'criar': { icon: 'fa-plus-circle', type: 'success', verbo: 'criado' },
-            'editar': { icon: 'fa-edit', type: 'info', verbo: 'editado' },
+            'criar': { icon: 'fa-plus-circle', type: 'success', verbo: 'criação' },
+            'editar': { icon: 'fa-edit', type: 'info', verbo: 'editação' },
             'salvar': { icon: 'fa-save', type: 'success', verbo: 'salvo' },
             'excluir': { icon: 'fa-trash', type: 'warning', verbo: 'excluído' },
-            'faturar': { icon: 'fa-file-invoice-dollar', type: 'success', verbo: 'faturado' },
-            'aprovar': { icon: 'fa-check', type: 'success', verbo: 'aprovado' },
-            'cancelar': { icon: 'fa-times', type: 'error', verbo: 'cancelado' },
-            'atualizar': { icon: 'fa-sync', type: 'info', verbo: 'atualizado' },
-            'importar': { icon: 'fa-upload', type: 'success', verbo: 'importado' },
-            'exportar': { icon: 'fa-download', type: 'info', verbo: 'exportado' },
+            'faturar': { icon: 'fa-file-invoice-dollar', type: 'success', verbo: 'faturação' },
+            'aprovar': { icon: 'fa-check', type: 'success', verbo: 'aprovação' },
+            'cancelar': { icon: 'fa-times', type: 'error', verbo: 'cancelação' },
+            'atualizar': { icon: 'fa-sync', type: 'info', verbo: 'atualização' },
+            'importar': { icon: 'fa-upload', type: 'success', verbo: 'importação' },
+            'exportar': { icon: 'fa-download', type: 'info', verbo: 'exportação' },
             'mover': { icon: 'fa-arrows-alt', type: 'info', verbo: 'movido' },
-            'enviar': { icon: 'fa-paper-plane', type: 'success', verbo: 'enviado' },
-            'gerar': { icon: 'fa-cog', type: 'success', verbo: 'gerado' },
-            'configurar': { icon: 'fa-cog', type: 'info', verbo: 'configurado' }
+            'enviar': { icon: 'fa-paper-plane', type: 'success', verbo: 'enviação' },
+            'gerar': { icon: 'fa-cog', type: 'success', verbo: 'geração' },
+            'configurar': { icon: 'fa-cog', type: 'info', verbo: 'configuração' }
         };
         
         const moduloConfig = {

@@ -41,7 +41,7 @@ minimizeChat.addEventListener('click', () => {
     chatButton.classList.remove('active');
 });
 
-// Enviar dados do usuário e entrar no chat
+// Enviar daçãos do usuário e entrar no chat
 userForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -56,7 +56,7 @@ userForm.addEventListener('submit', (e) => {
     }
 });
 
-// Usuário conectado com sucesso
+// Usuário conectação com sucesso
 socket.on('user:joined', (data) => {
     userId = data.userId;
     isConnected = true;
@@ -65,7 +65,7 @@ socket.on('user:joined', (data) => {
 
 // Admin aceitou o chat
 socket.on('admin:accepted', (data) => {
-    statusIndicator.textContent = 'Aténdente conectado';
+    statusIndicator.textContent = 'Aténdente conectação';
     statusIndicator.className = 'status-indicator active';
     
     messageInput.disabled = false;
@@ -97,7 +97,7 @@ socket.on('user:message-sent', (message) => {
 socket.on('user:receive-message', (message) => {
     addMessage(message, 'admin');
     
-    // Mostrar badge de notificação se widget fechado
+    // Mostrar badge de notificação se widget fechação
     if (!isWidgetOpen) {
         notificationBadge.classList.add('show');
         notificationBadge.textContent = '1';
@@ -107,12 +107,12 @@ socket.on('user:receive-message', (message) => {
     playNotificationSound();
 });
 
-// Chat encerrado
+// Chat encerração
 socket.on('chat:closed', (data) => {
     addSystemMessage(data.message);
     messageInput.disabled = true;
     sendButton.disabled = true;
-    statusIndicator.textContent = 'Chat encerrado';
+    statusIndicator.textContent = 'Chat encerração';
     statusIndicator.className = 'status-indicator';
 });
 
@@ -187,7 +187,7 @@ function playNotificationSound() {
         oscillator.start(audioContext.currentTime);
         oscillator.stop(audioContext.currentTime + 0.1);
     } catch (e) {
-        // Navegador não suporta Web Audio API
+        // Navegaçãor não suporta Web Audio API
     }
 }
 
@@ -199,7 +199,7 @@ socket.on('disconnect', () => {
     sendButton.disabled = true;
 });
 
-// Reconectado
+// Reconectação
 socket.on('connect', () => {
     if (userId && userName) {
         // Tentar reconectar

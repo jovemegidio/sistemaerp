@@ -10,8 +10,8 @@ module.exports = {
     // Versão do layout NFe
     versao: '4.00',
     
-    // Estados suportados
-    estados: {
+    // Estaçãos suportaçãos
+    estaçãos: {
         'AC': { codigo: 12, nome: 'Acre' },
         'AL': { codigo: 27, nome: 'Alagoas' },
         'AM': { codigo: 13, nome: 'Amazonas' },
@@ -60,7 +60,7 @@ module.exports = {
                 inutilizacao: 'https://hnfe.fazenda.mg.gov.br/nfe2/services/NFeInutilizacao4',
                 eventos: 'https://hnfe.fazenda.mg.gov.br/nfe2/services/NFeRecepcaoEvento4'
             },
-            'SVRS': { // Estados que usam SEFAZ Virtual RS
+            'SVRS': { // Estaçãos que usam SEFAZ Virtual RS
                 autorizacao: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeAutorizacao/NFeAutorizacao4.asmx',
                 retAutorizacao: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeRetAutorizacao/NFeRetAutorizacao4.asmx',
                 consulta: 'https://nfe-homologacao.svrs.rs.gov.br/ws/NfeConsulta/NfeConsulta4.asmx',
@@ -97,8 +97,8 @@ module.exports = {
         }
     },
     
-    // Mapeamento de estados para autorizadores
-    autorizadores: {
+    // Mapeamento de estaçãos para autorizaçãores
+    autorizaçãores: {
         'AC': 'SVRS', 'AL': 'SVRS', 'AM': 'AM', 'AP': 'SVRS', 'BA': 'BA',
         'CE': 'CE', 'DF': 'SVRS', 'ES': 'SVRS', 'GO': 'GO', 'MA': 'SVAN',
         'MG': 'MG', 'MS': 'MS', 'MT': 'MT', 'PA': 'SVAN', 'PB': 'SVRS',
@@ -139,8 +139,8 @@ module.exports = {
         SAIDA: 1
     },
     
-    // Indicador de presença
-    indicadoresPresenca: {
+    // Indicaçãor de presença
+    indicaçãoresPresenca: {
         NAO_SE_APLICA: 0,
         PRESENCIAL: 1,
         INTERNET: 2,
@@ -158,6 +158,6 @@ module.exports = {
         temporarios: process.env.NFE_TEMP_DIR || './storage/nfe/temp',
         backups: process.env.NFE_BACKUP_DIR || './storage/nfe/backups',
         danfes: process.env.NFE_DANFE_DIR || './storage/nfe/danfes',
-        certificados: process.env.NFE_CERT_DIR || './storage/nfe/certificados'
+        certificaçãos: process.env.NFE_CERT_DIR || './storage/nfe/certificaçãos'
     }
 };

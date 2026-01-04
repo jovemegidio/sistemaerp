@@ -51,7 +51,7 @@ console.log('\n🎯 BOTTOM NAVIGATION:');
 console.log('   ✅ 5 abas com ícones SVG');
 console.log('   ✅ Início (casa)');
 console.log('   ✅ Mensagens (balão + badge "1")');
-console.log('   ✅ Ajuda (?)');
+console.log('   ✅ Ajuda ()');
 console.log('   ✅ Tickets (documento)');
 console.log('   ✅ Notícias (sino)');
 console.log('   ✅ Cor ativa: ciano (#00c9d7)');
@@ -84,14 +84,14 @@ if (fs.existsSync(cssPath)) {
 
 if (fs.existsSync(jsPath)) {
     const stats = fs.statSync(jsPath);
-    console.log('   📄 chat-widget.js → ' + (stats.size / 1024).toFixed(2) + ' KB (atualizado)');
+    console.log('   📄 chat-widget.js → ' + (stats.size / 1024).toFixed(2) + ' KB (atualização)');
 }
 
 console.log('\n' + '='.repeat(70));
 console.log('🚀 COMO TESTAR:');
 console.log('='.repeat(70));
 console.log('\n1. Reinicie o servidor Node.js (Ctrl+C → node server.js)');
-console.log('2. Limpe o cache do navegador (Ctrl+Shift+Delete)');
+console.log('2. Limpe o cache do navegaçãor (Ctrl+Shift+Delete)');
 console.log('3. Recarregue a página (Ctrl+F5)');
 console.log('4. Clique no botão CIANO flutuante no canto inferior direito');
 console.log('5. Navegue pelas 5 abas na parte inferior');

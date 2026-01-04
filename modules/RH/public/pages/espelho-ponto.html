@@ -9,7 +9,7 @@
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -142,7 +142,7 @@
         /* Cards */
         .card {
             background: white; border-radius: 16px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             border: 1px solid #f1f5f9; overflow: hidden;
             margin-bottom: 24px;
         }
@@ -177,7 +177,7 @@
 
         .form-select:focus, .form-input:focus {
             outline: none; border-color: var(--primary-purple);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            box-shaçãow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .btn {
@@ -264,7 +264,7 @@
                 <a href="espelho-ponto.html" class="sidebar-btn active" title="Espelho de Ponto">
                     <i class="fas fa-clock"></i>
                 </a>
-                <a href="dados-cadastrais.html" class="sidebar-btn" title="Meus Dados">
+                <a href="daçãos-cadastrais.html" class="sidebar-btn" title="Meus Daçãos">
                     <i class="fas fa-user-edit"></i>
                 </a>
                 <a href="beneficios.html" class="sidebar-btn" title="Benefícios">
@@ -273,7 +273,7 @@
             </nav>
 
             <div class="sidebar-bottom">
-                <a href="enviar-atestado.html" class="sidebar-btn" title="Enviar Atestado">
+                <a href="enviar-atestação.html" class="sidebar-btn" title="Enviar Atestação">
                     <i class="fas fa-notes-medical"></i>
                 </a>
                 <a href="../solicitacoes.html" class="sidebar-btn" title="Solicitações">
@@ -353,8 +353,8 @@
                             <i class="fas fa-calendar-check"></i>
                         </div>
                         <div class="stat-content">
-                            <h4>Dias Trabalhados</h4>
-                            <div class="value" id="dias-trabalhados">14</div>
+                            <h4>Dias Trabalhaçãos</h4>
+                            <div class="value" id="dias-trabalhaçãos">14</div>
                         </div>
                     </div>
                     <div class="stat-card">
@@ -391,7 +391,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-list"></i>
-                            Registros Detalhados
+                            Registros Detalhaçãos
                         </h3>
                     </div>
                     <div class="card-body">
@@ -454,7 +454,7 @@
             return null;
         }
 
-        async function carregarUsuarioLogado() {
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
@@ -472,8 +472,8 @@
                     
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
-                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp' ? user.avatar : null;
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+                    let userAvatar = user.avatar && user.avatar !== '/avatars/default.webp'  user.avatar : null;
                     if (!userAvatar) userAvatar = getAvatarFromEmail(user.email, userName);
                     
                     const userNameEl = document.getElementById('user-name');
@@ -510,7 +510,7 @@
             { data: '17/12/2025', dia: 'Terça', entrada: '08:05', saidaAlmoco: '12:00', retornoAlmoco: '13:00', saida: '17:00', horas: '8h', status: 'normal' },
             { data: '16/12/2025', dia: 'Segunda', entrada: '08:15', saidaAlmoco: '12:00', retornoAlmoco: '13:00', saida: '17:00', horas: '8h', status: 'atraso' },
             { data: '15/12/2025', dia: 'Domingo', entrada: '-', saidaAlmoco: '-', retornoAlmoco: '-', saida: '-', horas: '-', status: 'folga' },
-            { data: '14/12/2025', dia: 'Sábado', entrada: '-', saidaAlmoco: '-', retornoAlmoco: '-', saida: '-', horas: '-', status: 'folga' },
+            { data: '14/12/2025', dia: 'Sábação', entrada: '-', saidaAlmoco: '-', retornoAlmoco: '-', saida: '-', horas: '-', status: 'folga' },
             { data: '13/12/2025', dia: 'Sexta', entrada: '08:00', saidaAlmoco: '12:00', retornoAlmoco: '13:00', saida: '17:00', horas: '8h', status: 'normal' },
             { data: '12/12/2025', dia: 'Quinta', entrada: '08:00', saidaAlmoco: '12:00', retornoAlmoco: '13:00', saida: '17:00', horas: '8h', status: 'normal' },
             { data: '11/12/2025', dia: 'Quarta', entrada: '08:00', saidaAlmoco: '12:00', retornoAlmoco: '13:00', saida: '17:00', horas: '8h', status: 'normal' },
@@ -543,7 +543,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            carregarUsuarioLogado();
+            carregarUsuarioLogação();
             renderPonto(pontoData);
         });
     </script></body>

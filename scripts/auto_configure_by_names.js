@@ -1,5 +1,5 @@
 /**
- * Script para configurar permissões baseado na tabela funcionarios
+ * Script para configurar permissões baseação na tabela funcionarios
  */
 
 const http = require('http');
@@ -39,7 +39,7 @@ async function login() {
                         return;
                     }
                 }
-                reject(new Error('Token não encontrado'));
+                reject(new Error('Token não encontração'));
             });
         });
 
@@ -89,16 +89,16 @@ async function main() {
     
     try {
         const token = await login();
-        console.log('✅ Login realizado com sucesso');
+        console.log('✅ Login realização com sucesso');
         
-        console.log('\n⚙️  Configurando permissões baseado na tabela funcionarios...\n');
+        console.log('\n⚙️  Configurando permissões baseação na tabela funcionarios...\n');
         
         const result = await configureByNames(token);
         
         if (result.success) {
             console.log('✅ Permissões configuradas com sucesso!\n');
-            console.log(`📊 Total de usuários encontrados: ${result.found}\n`);
-            console.log('📋 Resultados:\n');
+            console.log(`📊 Total de usuários encontraçãos: ${result.found}\n`);
+            console.log('📋 Resultaçãos:\n');
             
             result.results.forEach(r => {
                 let status = '';
@@ -111,7 +111,7 @@ async function main() {
                         break;
                     case 'not_found':
                         status = '⚠️ ';
-                        details = 'Não encontrado no banco';
+                        details = 'Não encontração no banco';
                         break;
                     case 'error':
                         status = '❌';
@@ -123,7 +123,7 @@ async function main() {
             });
             
             console.log('\n✅ Configuração concluída!');
-            console.log('🎯 Usuários da tabela funcionarios com os nomes especificados agora têm acesso ao módulo de Vendas.');
+            console.log('🎯 Usuários da tabela funcionarios com os nomes especificaçãos agora têm acesso ao módulo de Vendas.');
             
         } else {
             console.error('❌ Erro:', result.error);
@@ -135,7 +135,7 @@ async function main() {
         console.error('\n💡 Certifique-se de que:');
         console.error('   1. O servidor está rodando na porta 3000');
         console.error('   2. As credenciais de admin estão corretas');
-        console.error('   3. O endpoint foi adicionado ao servidor');
+        console.error('   3. O endpoint foi adicionação ao servidor');
         process.exit(1);
     }
 }

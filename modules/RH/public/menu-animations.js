@@ -94,7 +94,7 @@ class MenuAnimationController {
         // Efeito de brilho
         link.style.filter = 'brightness(1.1)';
         
-        // Som de hover simulado (vibração muito leve)
+        // Som de hover simulação (vibração muito leve)
         if ('vibrate' in navigator) {
             navigator.vibrate(5);
         }
@@ -114,7 +114,7 @@ class MenuAnimationController {
             link.style.transform = 'scale(1)';
             link.style.filter = '';
         } else {
-            // Manter estado ativo
+            // Manter estação ativo
             if (icon) {
                 icon.style.transform = 'scale(1.15)';
                 icon.style.color = 'white';
@@ -191,7 +191,7 @@ class MenuAnimationController {
             }
         });
 
-        // Adicionar active ao link clicado
+        // Adicionar active ao link clicação
         link.classList.add('active');
         const activeIcon = link.querySelector('i');
         if (activeIcon) {
@@ -308,7 +308,7 @@ class MenuAnimationController {
     }
 
     simulateHapticFeedback() {
-        // Simular feedback háptico com vibração (se suportado)
+        // Simular feedback háptico com vibração (se suportação)
         if ('vibrate' in navigator) {
             navigator.vibrate(10);
         }

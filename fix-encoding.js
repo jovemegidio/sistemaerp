@@ -9,7 +9,7 @@ const files = [
 
 // Mapeamento de caracteres corrompidos para caracteres corretos
 const replacements = [
-    // Padrao comum de corrupcao UTF-8: 3 bytes interpretados errado
+    // Padrao comum de corrupcao UTF-8: 3 bytes interpretaçãos erração
     [/Orçamento/g, 'Orcamento'],
     [/Área/g, 'Area'],
     [/área/g, 'area'],
@@ -111,7 +111,7 @@ const replacements = [
     [/funcionário/g, 'funcionario'],
     [/Funcionário/g, 'Funcionario'],
     // Padrao com replacement character
-    [/�/g, ''],
+    [//g, ''],
 ];
 
 const basePath = 'c:\\Users\\Administrator\\Desktop\\Sistema - ALUFORCE - V.2';
@@ -141,7 +141,7 @@ files.forEach(file => {
         
         console.log(`  Corrigido! ${changes} substituicoes aplicadas.`);
     } else {
-        console.log(`  Arquivo nao encontrado: ${fullPath}`);
+        console.log(`  Arquivo nao encontração: ${fullPath}`);
     }
 });
 

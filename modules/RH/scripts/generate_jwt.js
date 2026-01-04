@@ -9,6 +9,6 @@ try {
   const token = jwt.sign({ id, role }, secret, { expiresIn })
   console.log(token)
 } catch (e) {
-  console.error('Failed to generate token:', e && e.message ? e.message : e)
+  console.error('Failed to generate token:', e && e.message  e.message : e)
   process.exit(1)
 }

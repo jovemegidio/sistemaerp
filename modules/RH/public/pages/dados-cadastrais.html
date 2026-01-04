@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>ALUFORCE - Meus Dados Cadastrais</title>
+    <title>ALUFORCE - Meus Daçãos Cadastrais</title>
     
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
@@ -157,7 +157,7 @@
             background: white;
             border-radius: 12px;
             margin-bottom: 20px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
@@ -224,7 +224,7 @@
             border-radius: 50%;
             overflow: hidden;
             border: 4px solid white;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
             margin-bottom: 12px;
         }
 
@@ -258,7 +258,7 @@
         .status-ativo { background: #dcfce7; color: #166534; }
         .status-inativo { background: #fee2e2; color: #991b1b; }
         .status-ferias, .status-férias { background: #fef3c7; color: #92400e; }
-        .status-afastado { background: #e0e7ff; color: #3730a3; }
+        .status-afastação { background: #e0e7ff; color: #3730a3; }
 
         /* Bank Details Box */
         .bank-box {
@@ -305,7 +305,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+            box-shaçãow: 0 25px 50px rgba(0,0,0,0.25);
         }
 
         .modal-header {
@@ -375,7 +375,7 @@
         .form-input:focus, .form-textarea:focus {
             outline: none;
             border-color: var(--primary-purple);
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            box-shaçãow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .form-textarea { min-height: 120px; resize: vertical; }
@@ -392,7 +392,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shaçãow: 0 10px 25px rgba(0,0,0,0.2);
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.3s ease;
@@ -429,7 +429,7 @@
                 <a href="rh/pages/espelho-ponto" class="sidebar-btn" title="Espelho de Ponto">
                     <i class="fas fa-clock"></i>
                 </a>
-                <a href="rh/pages/enviar-atestado" class="sidebar-btn" title="Enviar Atestado">
+                <a href="rh/pages/enviar-atestação" class="sidebar-btn" title="Enviar Atestação">
                     <i class="fas fa-file-medical"></i>
                 </a>
                 <a href="rh/pages/beneficios" class="sidebar-btn" title="Benefícios">
@@ -438,7 +438,7 @@
                 <a href="rh/solicitacoes" class="sidebar-btn" title="Solicitações">
                     <i class="fas fa-paper-plane"></i>
                 </a>
-                <a href="rh/pages/dados-cadastrais" class="sidebar-btn active" title="Meus Dados">
+                <a href="rh/pages/daçãos-cadastrais" class="sidebar-btn active" title="Meus Daçãos">
                     <i class="fas fa-user-edit"></i>
                 </a>
             </nav>
@@ -462,7 +462,7 @@
                     <div class="header-brand">
                         <span>RH</span>
                         <span>|</span>
-                        <span style="color: white;">Dados Cadastrais</span>
+                        <span style="color: white;">Daçãos Cadastrais</span>
                     </div>
                 </div>
                 <div class="header-right">
@@ -485,7 +485,7 @@
                     <div class="page-header-left">
                         <h1 class="page-title">
                             <i class="fas fa-user-circle"></i>
-                            Meus Dados Cadastrais
+                            Meus Daçãos Cadastrais
                         </h1>
                         <p class="page-subtitle">Visualize suas informações pessoais e profissionais</p>
                     </div>
@@ -507,7 +507,7 @@
                         <div class="photo-container" id="foto-container">
                             <img id="funcionario-foto" src="" alt="Foto do Funcionário" style="display: none;">
                             <div id="funcionario-iniciais" class="avatar-iniciais">
-                                <span>?</span>
+                                <span></span>
                             </div>
                         </div>
                         <div class="employee-name" id="funcionario-nome-completo">Carregando...</div>
@@ -516,89 +516,89 @@
                     </div>
                 </div>
 
-                <!-- Dados Pessoais -->
+                <!-- Daçãos Pessoais -->
                 <div class="data-section">
                     <div class="section-header">
                         <i class="fas fa-id-card"></i>
-                        Dados Pessoais
+                        Daçãos Pessoais
                     </div>
                     <div class="section-body">
                         <div class="data-grid">
                             <div class="data-item full-width">
                                 <span class="data-label">Nome Completo</span>
-                                <div class="data-value" id="dado-nome">-</div>
+                                <div class="data-value" id="dação-nome">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">CPF</span>
-                                <div class="data-value" id="dado-cpf">-</div>
+                                <div class="data-value" id="dação-cpf">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">RG</span>
-                                <div class="data-value" id="dado-rg">-</div>
+                                <div class="data-value" id="dação-rg">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Data de Nascimento</span>
-                                <div class="data-value" id="dado-nascimento">-</div>
+                                <div class="data-value" id="dação-nascimento">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Telefone</span>
-                                <div class="data-value" id="dado-telefone">-</div>
+                                <div class="data-value" id="dação-telefone">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">E-mail</span>
-                                <div class="data-value" id="dado-email">-</div>
+                                <div class="data-value" id="dação-email">-</div>
                             </div>
                             <div class="data-item">
-                                <span class="data-label">Estado Civil</span>
-                                <div class="data-value" id="dado-estado-civil">-</div>
+                                <span class="data-label">Estação Civil</span>
+                                <div class="data-value" id="dação-estação-civil">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Nacionalidade</span>
-                                <div class="data-value" id="dado-nacionalidade">-</div>
+                                <div class="data-value" id="dação-nacionalidade">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Naturalidade</span>
-                                <div class="data-value" id="dado-naturalidade">-</div>
+                                <div class="data-value" id="dação-naturalidade">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Nome da Mãe</span>
-                                <div class="data-value" id="dado-mae">-</div>
+                                <div class="data-value" id="dação-mae">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Nome do Pai</span>
-                                <div class="data-value" id="dado-pai">-</div>
+                                <div class="data-value" id="dação-pai">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Dependentes</span>
-                                <div class="data-value" id="dado-dependentes">-</div>
+                                <div class="data-value" id="dação-dependentes">-</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Dados Profissionais -->
+                <!-- Daçãos Profissionais -->
                 <div class="data-section">
                     <div class="section-header">
                         <i class="fas fa-briefcase"></i>
-                        Dados Profissionais
+                        Daçãos Profissionais
                     </div>
                     <div class="section-body">
                         <div class="data-grid">
                             <div class="data-item">
                                 <span class="data-label">Cargo</span>
-                                <div class="data-value" id="dado-cargo">-</div>
+                                <div class="data-value" id="dação-cargo">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Departamento</span>
-                                <div class="data-value" id="dado-departamento">-</div>
+                                <div class="data-value" id="dação-departamento">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Data de Admissão</span>
-                                <div class="data-value" id="dado-admissao">-</div>
+                                <div class="data-value" id="dação-admissao">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Status</span>
-                                <div class="data-value" id="dado-status">-</div>
+                                <div class="data-value" id="dação-status">-</div>
                             </div>
                         </div>
                     </div>
@@ -614,27 +614,27 @@
                         <div class="data-grid">
                             <div class="data-item">
                                 <span class="data-label">PIS/PASEP</span>
-                                <div class="data-value" id="dado-pis">-</div>
+                                <div class="data-value" id="dação-pis">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">CTPS Número</span>
-                                <div class="data-value" id="dado-ctps-numero">-</div>
+                                <div class="data-value" id="dação-ctps-numero">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">CTPS Série</span>
-                                <div class="data-value" id="dado-ctps-serie">-</div>
+                                <div class="data-value" id="dação-ctps-serie">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">Título de Eleitor</span>
-                                <div class="data-value" id="dado-titulo-eleitor">-</div>
+                                <div class="data-value" id="dação-titulo-eleitor">-</div>
                             </div>
                             <div class="data-item">
                                 <span class="data-label">CNH</span>
-                                <div class="data-value" id="dado-cnh">-</div>
+                                <div class="data-value" id="dação-cnh">-</div>
                             </div>
                             <div class="data-item">
-                                <span class="data-label">Certificado Reservista</span>
-                                <div class="data-value" id="dado-reservista">-</div>
+                                <span class="data-label">Certificação Reservista</span>
+                                <div class="data-value" id="dação-reservista">-</div>
                             </div>
                         </div>
                     </div>
@@ -650,31 +650,31 @@
                         <div class="data-grid">
                             <div class="data-item full-width">
                                 <span class="data-label">Endereço Completo</span>
-                                <div class="data-value" id="dado-endereco">-</div>
+                                <div class="data-value" id="dação-endereco">-</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Dados Bancários -->
+                <!-- Daçãos Bancários -->
                 <div class="data-section">
                     <div class="section-header">
                         <i class="fas fa-university"></i>
-                        Dados Bancários
+                        Daçãos Bancários
                     </div>
                     <div class="section-body">
                         <div class="bank-box">
                             <div class="bank-item">
                                 <i class="fas fa-building"></i>
-                                <span>Banco: <strong id="dado-banco">Não informado</strong></span>
+                                <span>Banco: <strong id="dação-banco">Não informação</strong></span>
                             </div>
                             <div class="bank-item">
                                 <i class="fas fa-hashtag"></i>
-                                <span>Agência: <strong id="dado-agencia">Não informado</strong></span>
+                                <span>Agência: <strong id="dação-agencia">Não informação</strong></span>
                             </div>
                             <div class="bank-item">
                                 <i class="fas fa-credit-card"></i>
-                                <span>Conta: <strong id="dado-conta">Não informado</strong></span>
+                                <span>Conta: <strong id="dação-conta">Não informação</strong></span>
                             </div>
                         </div>
                     </div>
@@ -688,12 +688,12 @@
         <div class="modal-overlay" onclick="fecharModal()"></div>
         <div class="modal-content">
             <div class="modal-header">
-                <h3><i class="fas fa-edit"></i> Solicitar Alteração de Dados</h3>
+                <h3><i class="fas fa-edit"></i> Solicitar Alteração de Daçãos</h3>
                 <button class="modal-close" onclick="fecharModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <p style="margin-bottom: 20px; color: #64748b; font-size: 0.9rem;">
-                    Preencha os campos abaixo para solicitar alterações nos seus dados cadastrais. 
+                    Preencha os campos abaixo para solicitar alterações nos seus daçãos cadastrais. 
                     A equipe de RH irá analisar e processar sua solicitação.
                 </p>
                 <form id="formSolicitacao">
@@ -701,11 +701,11 @@
                         <label for="tipoAlteracao">Tipo de Alteração <span style="color: #ef4444;">*</span></label>
                         <select id="tipoAlteracao" class="form-input" required>
                             <option value="">Selecione o tipo...</option>
-                            <option value="Dados Pessoais">Dados Pessoais (nome, CPF, RG, etc.)</option>
+                            <option value="Daçãos Pessoais">Daçãos Pessoais (nome, CPF, RG, etc.)</option>
                             <option value="Contato">Contato (telefone, e-mail)</option>
                             <option value="Endereço">Endereço</option>
-                            <option value="Estado Civil">Estado Civil / Dependentes</option>
-                            <option value="Dados Bancários">Dados Bancários</option>
+                            <option value="Estação Civil">Estação Civil / Dependentes</option>
+                            <option value="Daçãos Bancários">Daçãos Bancários</option>
                             <option value="Documentos">Documentos (PIS, CTPS, CNH, etc.)</option>
                             <option value="Outros">Outros</option>
                         </select>
@@ -775,9 +775,9 @@
         }
 
         function getIniciais(nome) {
-            if (!nome) return '?';
+            if (!nome) return '';
             const partes = nome.trim().split(' ').filter(p => p.length > 0);
-            if (partes.length === 0) return '?';
+            if (partes.length === 0) return '';
             if (partes.length === 1) return partes[0].charAt(0).toUpperCase();
             return (partes[0].charAt(0) + partes[partes.length - 1].charAt(0)).toUpperCase();
         }
@@ -804,7 +804,7 @@
             }
         }
 
-        async function carregarDados() {
+        async function carregarDaçãos() {
             try {
                 const meResponse = await fetch('/api/me', { credentials: 'include' });
                 if (!meResponse.ok) {
@@ -815,7 +815,7 @@
                 
                 // Usar apelido se disponível, senão primeiro nome
                 const userName = user.apelido || user.nome_completo || user.nome || 'Usuário';
-                const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
                 const userNameEl = document.getElementById('user-name');
                 if (userNameEl) userNameEl.textContent = primeiroNome;
                 
@@ -866,15 +866,15 @@
                 if (funcResponse.ok) {
                     const data = await funcResponse.json();
                     // A API retorna { funcionarios: [], stats, departamentos, cargos }
-                    const funcionarios = Array.isArray(data) ? data : (data.funcionarios || []);
+                    const funcionarios = Array.isArray(data)  data : (data.funcionarios || []);
                     funcionarioData = funcionarios.find(f => 
                         f.email && f.email.toLowerCase() === user.email.toLowerCase()
                     );
                     
                     if (funcionarioData) {
-                        preencherDados(funcionarioData);
+                        preencherDaçãos(funcionarioData);
                         
-                        // Atualizar também a foto do header com dados do funcionário
+                        // Atualizar também a foto do header com daçãos do funcionário
                         const fotoFuncionario = funcionarioData.foto_perfil_url || funcionarioData.foto_thumb_url || funcionarioData.foto;
                         if (fotoFuncionario && userPhotoEl) {
                             userPhotoEl.src = fotoFuncionario;
@@ -890,30 +890,30 @@
                             if (userInitialEl) userInitialEl.style.display = 'none';
                         }
                     } else {
-                        preencherDadosBasicos(user);
+                        preencherDaçãosBasicos(user);
                     }
                 } else {
-                    preencherDadosBasicos(user);
+                    preencherDaçãosBasicos(user);
                 }
                 
             } catch (error) {
-                console.error('Erro ao carregar dados:', error);
-                showToast('Erro ao carregar dados cadastrais', 'error');
+                console.error('Erro ao carregar daçãos:', error);
+                showToast('Erro ao carregar daçãos cadastrais', 'error');
             }
         }
 
-        function preencherDadosBasicos(user) {
+        function preencherDaçãosBasicos(user) {
             const nomeEl = document.getElementById('funcionario-nome-completo');
             if (nomeEl) nomeEl.textContent = user.nome || user.apelido || 'Usuário';
             
-            setValor('dado-nome', user.nome || user.apelido);
-            setValor('dado-email', user.email);
+            setValor('dação-nome', user.nome || user.apelido);
+            setValor('dação-email', user.email);
             
-            document.getElementById('funcionario-cargo-dept').textContent = 'Dados completos não encontrados';
+            document.getElementById('funcionario-cargo-dept').textContent = 'Daçãos completos não encontraçãos';
             document.getElementById('funcionario-status').textContent = 'N/A';
         }
 
-        function preencherDados(f) {
+        function preencherDaçãos(f) {
             funcionarioData = f;
             
             const fotoEl = document.getElementById('funcionario-foto');
@@ -923,7 +923,7 @@
             let fotoUrl = f.foto_perfil_url || f.foto_thumb_url || null;
             
             if (!fotoUrl && f.foto) {
-                fotoUrl = f.foto.startsWith('/') ? f.foto : `/uploads/fotos/${f.foto}`;
+                fotoUrl = f.foto.startsWith('/')  f.foto : `/uploads/fotos/${f.foto}`;
             }
             
             if (!fotoUrl) {
@@ -960,36 +960,36 @@
             statusEl.textContent = status.toUpperCase();
             statusEl.className = 'employee-status status-' + status.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
             
-            setValor('dado-nome', f.nome_completo);
-            setValor('dado-cpf', f.cpf);
-            setValor('dado-rg', f.rg);
-            setValor('dado-nascimento', formatarData(f.data_nascimento));
-            setValor('dado-telefone', f.telefone);
-            setValor('dado-email', f.email);
-            setValor('dado-estado-civil', f.estado_civil);
-            setValor('dado-nacionalidade', f.nacionalidade);
-            setValor('dado-naturalidade', f.naturalidade);
-            setValor('dado-mae', f.filiacao_mae);
-            setValor('dado-pai', f.filiacao_pai);
-            setValor('dado-dependentes', f.dependentes !== undefined ? f.dependentes.toString() : '-');
+            setValor('dação-nome', f.nome_completo);
+            setValor('dação-cpf', f.cpf);
+            setValor('dação-rg', f.rg);
+            setValor('dação-nascimento', formatarData(f.data_nascimento));
+            setValor('dação-telefone', f.telefone);
+            setValor('dação-email', f.email);
+            setValor('dação-estação-civil', f.estação_civil);
+            setValor('dação-nacionalidade', f.nacionalidade);
+            setValor('dação-naturalidade', f.naturalidade);
+            setValor('dação-mae', f.filiacao_mae);
+            setValor('dação-pai', f.filiacao_pai);
+            setValor('dação-dependentes', f.dependentes !== undefined  f.dependentes.toString() : '-');
             
-            setValor('dado-cargo', f.cargo);
-            setValor('dado-departamento', f.departamento);
-            setValor('dado-admissao', formatarData(f.data_admissao));
-            setValor('dado-status', f.status);
+            setValor('dação-cargo', f.cargo);
+            setValor('dação-departamento', f.departamento);
+            setValor('dação-admissao', formatarData(f.data_admissao));
+            setValor('dação-status', f.status);
             
-            setValor('dado-pis', f.pis_pasep);
-            setValor('dado-ctps-numero', f.ctps_numero);
-            setValor('dado-ctps-serie', f.ctps_serie);
-            setValor('dado-titulo-eleitor', f.titulo_eleitor);
-            setValor('dado-cnh', f.cnh);
-            setValor('dado-reservista', f.certificado_reservista);
+            setValor('dação-pis', f.pis_pasep);
+            setValor('dação-ctps-numero', f.ctps_numero);
+            setValor('dação-ctps-serie', f.ctps_serie);
+            setValor('dação-titulo-eleitor', f.titulo_eleitor);
+            setValor('dação-cnh', f.cnh);
+            setValor('dação-reservista', f.certificação_reservista);
             
-            setValor('dado-endereco', f.endereco);
+            setValor('dação-endereco', f.endereco);
             
-            document.getElementById('dado-banco').textContent = f.banco || 'Não informado';
-            document.getElementById('dado-agencia').textContent = f.agencia || 'Não informado';
-            document.getElementById('dado-conta').textContent = f.conta_corrente || 'Não informado';
+            document.getElementById('dação-banco').textContent = f.banco || 'Não informação';
+            document.getElementById('dação-agencia').textContent = f.agencia || 'Não informação';
+            document.getElementById('dação-conta').textContent = f.conta_corrente || 'Não informação';
         }
 
         function abrirModalSolicitacao() {
@@ -1013,10 +1013,10 @@
             
             try {
                 const formData = new FormData();
-                formData.append('tipo', 'Alteração de Dados Cadastrais');
+                formData.append('tipo', 'Alteração de Daçãos Cadastrais');
                 formData.append('categoria', tipo);
                 formData.append('descricao', descricao);
-                formData.append('funcionario_id', funcionarioData?.id || null);
+                formData.append('funcionario_id', funcionarioData.id || null);
                 if (anexo) {
                     formData.append('anexo', anexo);
                 }
@@ -1056,7 +1056,7 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            carregarDados();
+            carregarDaçãos();
         });
     </script></body>
 </html>

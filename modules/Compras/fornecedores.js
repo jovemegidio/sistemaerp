@@ -24,7 +24,7 @@ class FornecedoresManager {
             
             const data = await response.json();
             
-            // Mapear dados do banco para o formato esperado
+            // Mapear daçãos do banco para o formato esperação
             this.fornecedores = data.map(f => ({
                 id: f.id,
                 nome: f.razao_social || f.nome_fantasia || 'Sem nome',
@@ -34,7 +34,7 @@ class FornecedoresManager {
                 contato: f.telefone || '',
                 email: f.email || '',
                 cidade: f.cidade || '',
-                estado: f.estado || '',
+                estação: f.estação || '',
                 endereco: f.endereco || '',
                 cep: f.cep || '',
                 contatoPrincipal: f.contato_principal || '',
@@ -42,9 +42,9 @@ class FornecedoresManager {
                 prazoEntrega: f.prazo_entrega_padrao || 0,
                 observacoes: f.observacoes || '',
                 pedidos: f.total_pedidos || 0,
-                totalComprado: f.valor_total_compras || 0,
+                totalCompração: f.valor_total_compras || 0,
                 avaliacao: f.avaliacao || 4.0,
-                status: f.ativo == 1 || f.ativo === true ? 'ativo' : 'inativo',
+                status: f.ativo == 1 || f.ativo === true  'ativo' : 'inativo',
                 ultimaCompra: f.ultima_compra || null,
                 dataCadastro: f.data_cadastro || null
             }));
@@ -73,7 +73,7 @@ class FornecedoresManager {
         // Avaliação média
         const comAvaliacao = this.fornecedores.filter(f => f.avaliacao > 0);
         const mediaAvaliacao = comAvaliacao.length > 0 
-            ? (comAvaliacao.reduce((sum, f) => sum + f.avaliacao, 0) / comAvaliacao.length).toFixed(1)
+             (comAvaliacao.reduce((sum, f) => sum + f.avaliacao, 0) / comAvaliacao.length).toFixed(1)
             : '0.0';
         
         // Atualizar DOM
@@ -92,22 +92,22 @@ class FornecedoresManager {
         const tbody = document.getElementById('fornecedoresTableBody');
         if (!tbody) return;
 
-        const fornecedoresFiltrados = this.filtrarFornecedoresPorStatus();
+        const fornecedoresFiltraçãos = this.filtrarFornecedoresPorStatus();
         
-        if (fornecedoresFiltrados.length === 0) {
+        if (fornecedoresFiltraçãos.length === 0) {
             tbody.innerHTML = `
                 <tr>
                     <td colspan="8" style="text-align: center; padding: 40px; color: #666;">
                         <i class="fas fa-users" style="font-size: 48px; color: #ddd; margin-bottom: 16px; display: block;"></i>
-                        Nenhum fornecedor encontrado
+                        Nenhum fornecedor encontração
                     </td>
                 </tr>
             `;
             return;
         }
 
-        tbody.innerHTML = fornecedoresFiltrados.map(forn => {
-            const cidadeUF = forn.cidade && forn.estado ? `${forn.cidade}/${forn.estado}` : (forn.cidade || forn.estado || '-');
+        tbody.innerHTML = fornecedoresFiltraçãos.map(forn => {
+            const cidadeUF = forn.cidade && forn.estação  `${forn.cidade}/${forn.estação}` : (forn.cidade || forn.estação || '-');
             
             return `
             <tr>
@@ -129,7 +129,7 @@ class FornecedoresManager {
         // Atualizar info de paginação
         const paginationInfo = document.querySelector('.pagination-info');
         if (paginationInfo) {
-            paginationInfo.innerHTML = `Mostrando <strong>1-${fornecedoresFiltrados.length}</strong> de <strong>${this.fornecedores.length}</strong>`;
+            paginationInfo.innerHTML = `Mostrando <strong>1-${fornecedoresFiltraçãos.length}</strong> de <strong>${this.fornecedores.length}</strong>`;
         }
     }
     
@@ -142,7 +142,7 @@ class FornecedoresManager {
     
     formatarCNPJ(cnpj) {
         if (!cnpj) return '-';
-        // Se já formatado, retorna
+        // Se já formatação, retorna
         if (cnpj.includes('.') || cnpj.includes('/')) return cnpj;
         // Formatar: 00.000.000/0000-00
         const clean = cnpj.replace(/\D/g, '');
@@ -161,7 +161,7 @@ class FornecedoresManager {
         if (meia) {
             html += '<i class="fas fa-star-half-alt"></i>';
         }
-        for (let i = estrelas + (meia ? 1 : 0); i < 5; i++) {
+        for (let i = estrelas + (meia  1 : 0); i < 5; i++) {
             html += '<i class="far fa-star"></i>';
         }
         
@@ -215,9 +215,9 @@ class FornecedoresManager {
     }
 
     inicializarUsuario() {
-        const usuario = JSON.parse(localStorage.getItem('usuarioLogado')) || {
-            nome: 'Administrador',
-            cargo: 'Administrador',
+        const usuario = JSON.parse(localStorage.getItem('usuarioLogação')) || {
+            nome: 'Administraçãor',
+            cargo: 'Administraçãor',
             avatar: null
         };
 
@@ -259,7 +259,7 @@ function toggleDarkMode() {
     localStorage.setItem('darkMode', isDark);
     
     const btn = document.getElementById('btnModoEscuro');
-    btn.querySelector('i').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    btn.querySelector('i').className = isDark  'fas fa-sun' : 'fas fa-moon';
 }
 
 function toggleView(mode) {
@@ -299,7 +299,7 @@ function filtrarFornecedores() {
     
     rows.forEach(row => {
         const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(searchTerm) ? '' : 'none';
+        row.style.display = text.includes(searchTerm)  '' : 'none';
     });
 }
 

@@ -23,7 +23,7 @@
             height: 64px;
             border-radius: 50%;
             background: #fff;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+            box-shaçãow: 0 4px 20px rgba(0,0,0,0.25);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -67,7 +67,7 @@
             height: 600px;
             background: #fff;
             border-radius: 20px;
-            box-shadow: 0 10px 50px rgba(0,0,0,0.25);
+            box-shaçãow: 0 10px 50px rgba(0,0,0,0.25);
             display: none;
             flex-direction: column;
             overflow: hidden;
@@ -163,9 +163,9 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 12px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s, box-shaçãow 0.2s;
         }
-        .login-screen button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,184,169,0.4); }
+        .login-screen button:hover { transform: translateY(-2px); box-shaçãow: 0 4px 12px rgba(0,184,169,0.4); }
 
         /* Main Content */
         .main-content {
@@ -402,7 +402,7 @@
             color: #6b7280;
             border: 1px solid #e5e7eb;
         }
-        .action-btn:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .action-btn:hover { transform: translateY(-1px); box-shaçãow: 0 2px 8px rgba(0,0,0,0.1); }
         .action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .messages-container {
@@ -436,7 +436,7 @@
             background: white;
             color: #1f2937;
             border-bottom-left-radius: 4px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shaçãow: 0 1px 2px rgba(0,0,0,0.05);
         }
         .message.sent .bubble {
             background: linear-gradient(135deg, #00b8a9 0%, #00d4aa 100%);
@@ -491,9 +491,9 @@
             color: white;
             cursor: pointer;
             font-size: 18px;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s, box-shaçãow 0.2s;
         }
-        .chat-input button:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,184,169,0.4); }
+        .chat-input button:hover { transform: scale(1.05); box-shaçãow: 0 4px 12px rgba(0,184,169,0.4); }
         .chat-input button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
     </style>
     <script src="/js/anti-copy-protection.js"></script></head>
@@ -519,7 +519,7 @@
         <div class="login-screen" id="loginScreen">
             <i class="bi bi-person-badge"></i>
             <h3>Central de Atendimento</h3>
-            <p>Identifique-se para come�ar a atender</p>
+            <p>Identifique-se para comear a atender</p>
             <input type="text" id="attendantName" placeholder="Seu nome" onkeypress="if(event.key==='Enter')login()">
             <button onclick="login()"><i class="bi bi-box-arrow-in-right"></i> Entrar</button>
         </div>
@@ -538,7 +538,7 @@
                 </div>
                 <div class="stat-item">
                     <div class="number" id="statToday">0</div>
-                    <div class="label">Fechados</div>
+                    <div class="label">Fechaçãos</div>
                 </div>
             </div>
 
@@ -563,7 +563,7 @@
             <div class="chat-panel" id="chatPanel">
                 <div class="chat-header">
                     <button class="back-btn" onclick="closeChat()"><i class="bi bi-arrow-left"></i></button>
-                    <div class="avatar" id="chatAvatar">?</div>
+                    <div class="avatar" id="chatAvatar"></div>
                     <div class="info">
                         <div class="name" id="chatName">Cliente</div>
                         <div class="protocol" id="chatProtocol">#000000</div>
@@ -692,7 +692,7 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="bi bi-inbox"></i>
-                        <p>${currentFilter === 'waiting' ? 'Nenhum cliente aguardando' : 'Nenhum ticket'}</p>
+                        <p>${currentFilter === 'waiting'  'Nenhum cliente aguardando' : 'Nenhum ticket'}</p>
                     </div>
                 `;
                 return;
@@ -712,7 +712,7 @@
                 else if (isHandling) statusBadge = '<span class="status-badge handling">Atendendo</span>';
 
                 return `
-                    <div class="ticket-item ${isWaiting ? 'waiting' : ''} ${isActive ? 'active' : ''}" onclick="openTicket(${ticket.id})">
+                    <div class="ticket-item ${isWaiting  'waiting' : ''} ${isActive  'active' : ''}" onclick="openTicket(${ticket.id})">
                         <div class="avatar">${initial}</div>
                         <div class="content">
                             <div class="top-row">
@@ -775,15 +775,15 @@
                     if (m.sender === 'system') {
                         return `<div class="message system"><div class="bubble">${m.message}</div></div>`;
                     }
-                    const type = m.sender === 'client' ? 'received' : 'sent';
+                    const type = m.sender === 'client'  'received' : 'sent';
                     const isAI = m.sender === 'ai';
                     const time = new Date(m.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-                    const senderName = m.sender === 'client' ? (currentTicket.clientName || 'Cliente') : 
-                                       m.sender === 'ai' ? 'IA' : (m.senderName || attendantName);
-                    const icon = m.sender === 'ai' ? '<i class="bi bi-robot"></i>' : 
-                                 m.sender === 'client' ? '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
+                    const senderName = m.sender === 'client'  (currentTicket.clientName || 'Cliente') : 
+                                       m.sender === 'ai'  'IA' : (m.senderName || attendantName);
+                    const icon = m.sender === 'ai'  '<i class="bi bi-robot"></i>' : 
+                                 m.sender === 'client'  '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
                     return `
-                        <div class="message ${type} ${isAI ? 'ai' : ''}">
+                        <div class="message ${type} ${isAI  'ai' : ''}">
                             <div class="sender">${icon} ${senderName}</div>
                             <div class="bubble">${m.message}</div>
                             <div class="time">${time}</div>
@@ -808,15 +808,15 @@
             const isHandling = currentTicket.status === 'human_handling' && currentTicket.assignedTo === attendantName;
             const isClosed = currentTicket.status === 'closed';
 
-            document.getElementById('btnTake').style.display = isWaiting ? 'flex' : 'none';
-            document.getElementById('btnClose').style.display = isHandling ? 'flex' : 'none';
+            document.getElementById('btnTake').style.display = isWaiting  'flex' : 'none';
+            document.getElementById('btnClose').style.display = isHandling  'flex' : 'none';
             document.getElementById('messageInput').disabled = !isHandling;
             document.getElementById('sendBtn').disabled = !isHandling;
             
             if (isClosed) {
                 document.getElementById('chatActions').innerHTML = `
                     <button class="action-btn secondary" disabled>
-                        <i class="bi bi-check-circle"></i> Ticket Finalizado
+                        <i class="bi bi-check-circle"></i> Ticket Finalização
                     </button>
                 `;
             }
@@ -856,11 +856,11 @@
         function addMessage(text, type, sender, isAI = false) {
             const container = document.getElementById('messages');
             const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-            const icon = isAI ? '<i class="bi bi-robot"></i>' : 
-                         type === 'received' ? '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
+            const icon = isAI  '<i class="bi bi-robot"></i>' : 
+                         type === 'received'  '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
             
             const div = document.createElement('div');
-            div.className = `message ${type} ${isAI ? 'ai' : ''}`;
+            div.className = `message ${type} ${isAI  'ai' : ''}`;
             div.innerHTML = `
                 <div class="sender">${icon} ${sender}</div>
                 <div class="bubble">${text}</div>
@@ -873,10 +873,10 @@
         // Close ticket
         function closeTicket() {
             if (!currentTicket || !socket) return;
-            if (confirm('Deseja finalizar este atendimento?')) {
+            if (confirm('Deseja finalizar este atendimento')) {
                 socket.emit('admin_close_ticket', { 
                     ticketId: currentTicket.id, 
-                    resolution: 'Atendimento finalizado' 
+                    resolution: 'Atendimento finalização' 
                 });
                 closeChat();
             }
@@ -894,7 +894,7 @@
         // Browser notification
         function showBrowserNotification(ticket) {
             if (Notification.permission === 'granted') {
-                new Notification('?? Novo cliente aguardando!', {
+                new Notification(' Novo cliente aguardando!', {
                     body: `${ticket.clientName || 'Visitante'} precisa de atendimento`,
                     icon: '/Icone-Chat.png'
                 });
@@ -904,7 +904,7 @@
         // Load tickets
         async function loadTickets() {
             try {
-                const res = await fetch('/api/tickets?status=all');
+                const res = await fetch('/api/ticketsstatus=all');
                 tickets = await res.json();
                 renderTickets();
                 updateStats();

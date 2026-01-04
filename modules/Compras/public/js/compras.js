@@ -137,7 +137,7 @@ class ComprasNavigation {
             if (data.success) {
                 const user = data.usuario;
                 // Usar apelido se disponível, senão primeiro nome
-                const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
                 
                 // Atualizar saudação dinâmica baseada na hora
                 const hour = new Date().getHours();

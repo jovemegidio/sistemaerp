@@ -1,4 +1,4 @@
-// Script para inserir produtos de teste no banco de dados
+// Script para inserir produtos de teste no banco de daçãos
 const mysql = require('mysql2/promise');
 
 const db = mysql.createPool({
@@ -17,7 +17,7 @@ const produtosTeste = [
         codigo: 'ALU001',
         nome: 'Perfil Alumínio 30x30',
         descricao: 'Perfil de Alumínio 30x30mm',
-        variacao: 'Anodizado',
+        variacao: 'Anodização',
         marca: 'Aluforce'
     },
     {
@@ -29,8 +29,8 @@ const produtosTeste = [
     },
     {
         codigo: 'VID001',
-        nome: 'Vidro Temperado',
-        descricao: 'Vidro Temperado 6mm',
+        nome: 'Vidro Temperação',
+        descricao: 'Vidro Temperação 6mm',
         variacao: 'Transparente',
         marca: 'Vitralux'
     },
@@ -74,7 +74,7 @@ async function inserirProdutosTeste() {
             try {
                 await db.query(`
                     INSERT IGNORE INTO produtos (codigo, nome, descricao, variacao, marca) 
-                    VALUES (?, ?, ?, ?, ?)
+                    VALUES (, , , , )
                 `, [produto.codigo, produto.nome, produto.descricao, produto.variacao, produto.marca]);
                 
                 console.log(`➕ Produto ${produto.codigo} - ${produto.nome}`);
@@ -112,7 +112,7 @@ async function inserirProdutosTeste() {
     }
 }
 
-// Executar se chamado diretamente
+// Executar se chamação diretamente
 if (require.main === module) {
     inserirProdutosTeste();
 }

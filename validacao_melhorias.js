@@ -11,9 +11,9 @@
 const fs = require('fs');
 const path = require('path');
 
-class ValidadorMelhorias {
+class ValidaçãorMelhorias {
     constructor() {
-        this.resultados = {
+        this.resultaçãos = {
             rh: {
                 navegacao: false,
                 estilos: false,
@@ -33,17 +33,17 @@ class ValidadorMelhorias {
         };
         
         this.melhorias = [
-            '✨ Sistema de notificações avançado implementado',
+            '✨ Sistema de notificações avançação implementação',
             '🎨 Melhorias visuais com gradientes e animações',
             '📱 Responsividade aprimorada para dispositivos móveis',
             '♿ Melhorias de acessibilidade (focus, skip-links)',
             '🧙‍♂️ Sistema wizard para criação de solicitações',
-            '📊 Dashboard de métricas com cards animados',
-            '🔍 Filtros avançados com validação em tempo real',
+            '📊 Dashboard de métricas com cards animaçãos',
+            '🔍 Filtros avançaçãos com validação em tempo real',
             '📈 Página de relatórios completa no PCP',
             '🚀 Animações de entrada (slideInUp, fadeIn)',
-            '🎯 Estados de loading e feedback visual',
-            '💾 Sistema de backup e exports melhorado',
+            '🎯 Estaçãos de loading e feedback visual',
+            '💾 Sistema de backup e exports melhoração',
             '⚙️ Configurações do sistema centralizadas',
             '🔄 Navegação aprimorada com efeitos hover',
             '📋 Cards de status com badges informativos',
@@ -61,33 +61,33 @@ class ValidadorMelhorias {
             
             if (funcionarioContent.includes('/RH/dashboard.html') && 
                 funcionarioContent.includes('setTimeout')) {
-                this.resultados.rh.navegacao = true;
+                this.resultaçãos.rh.navegacao = true;
                 console.log('✅ Navegação com redirect implementada');
             }
 
-            // Verificar estilos CSS avançados
-            const dadosPath = path.join(__dirname, 'modules/RH/public/dados-pessoais.html');
-            const dadosContent = fs.readFileSync(dadosPath, 'utf8');
+            // Verificar estilos CSS avançaçãos
+            const daçãosPath = path.join(__dirname, 'modules/RH/public/daçãos-pessoais.html');
+            const daçãosContent = fs.readFileSync(daçãosPath, 'utf8');
             
-            if (dadosContent.includes('--rh-primary:') && 
-                dadosContent.includes('slideInUp') &&
-                dadosContent.includes('notification')) {
-                this.resultados.rh.estilos = true;
+            if (daçãosContent.includes('--rh-primary:') && 
+                daçãosContent.includes('slideInUp') &&
+                daçãosContent.includes('notification')) {
+                this.resultaçãos.rh.estilos = true;
                 console.log('✅ CSS variables e animações implementadas');
             }
 
             // Verificar responsividade
-            if (dadosContent.includes('@media (max-width:') && 
-                dadosContent.includes('grid-template-columns: 1fr')) {
-                this.resultados.rh.responsividade = true;
+            if (daçãosContent.includes('@media (max-width:') && 
+                daçãosContent.includes('grid-template-columns: 1fr')) {
+                this.resultaçãos.rh.responsividade = true;
                 console.log('✅ Media queries responsivas configuradas');
             }
 
             // Verificar acessibilidade
-            if (dadosContent.includes('skip-link') && 
-                dadosContent.includes('aria-') &&
-                dadosContent.includes(':focus')) {
-                this.resultados.rh.acessibilidade = true;
+            if (daçãosContent.includes('skip-link') && 
+                daçãosContent.includes('aria-') &&
+                daçãosContent.includes(':focus')) {
+                this.resultaçãos.rh.acessibilidade = true;
                 console.log('✅ Melhorias de acessibilidade implementadas');
             }
 
@@ -106,22 +106,22 @@ class ValidadorMelhorias {
             
             if (pcpContent.includes('id="relatorios-view"') && 
                 pcpContent.includes('Dashboard de Métricas')) {
-                this.resultados.pcp.relatorios = true;
+                this.resultaçãos.pcp.relatorios = true;
                 console.log('✅ Página de relatórios criada');
             }
 
             // Verificar navegação na sidebar
             if (pcpContent.includes('id="btn-relatorios"') && 
                 pcpContent.includes('fa-chart-bar')) {
-                this.resultados.pcp.navegacao = true;
-                console.log('✅ Botão de relatórios adicionado na sidebar');
+                this.resultaçãos.pcp.navegacao = true;
+                console.log('✅ Botão de relatórios adicionação na sidebar');
             }
 
             // Verificar cards de métricas
             if (pcpContent.includes('metric-card') && 
                 pcpContent.includes('metric-value')) {
-                this.resultados.pcp.metricas = true;
-                console.log('✅ Cards de métricas implementados');
+                this.resultaçãos.pcp.metricas = true;
+                console.log('✅ Cards de métricas implementaçãos');
             }
 
             // Verificar CSS de relatórios
@@ -130,8 +130,8 @@ class ValidadorMelhorias {
             
             if (cssContent.includes('.metric-card') && 
                 cssContent.includes('grid-column: span 2')) {
-                this.resultados.pcp.filtros = true;
-                console.log('✅ CSS avançado para relatórios implementado');
+                this.resultaçãos.pcp.filtros = true;
+                console.log('✅ CSS avançação para relatórios implementação');
             }
 
         } catch (error) {
@@ -143,21 +143,21 @@ class ValidadorMelhorias {
         console.log('\n🔍 Validando Performance Geral...');
         
         try {
-            // Verificar se arquivos CSS estão otimizados
+            // Verificar se arquivos CSS estão otimizaçãos
             const holeriPath = path.join(__dirname, 'modules/RH/public/holerites.html');
             const holeriContent = fs.readFileSync(holeriPath, 'utf8');
             
             if (holeriContent.includes('transform: translateY(-') && 
                 holeriContent.includes('transition:') &&
                 holeriContent.includes('cubic-bezier')) {
-                this.resultados.geral.performance = true;
+                this.resultaçãos.geral.performance = true;
                 console.log('✅ Animações otimizadas implementadas');
             }
 
             // Verificar compatibilidade
             if (holeriContent.includes('prefers-reduced-motion') && 
                 holeriContent.includes('font-family: inherit')) {
-                this.resultados.geral.compatibilidade = true;
+                this.resultaçãos.geral.compatibilidade = true;
                 console.log('✅ Compatibilidade e acessibilidade aprimoradas');
             }
 
@@ -171,33 +171,33 @@ class ValidadorMelhorias {
         console.log('📊 RELATÓRIO DE VALIDAÇÁO DAS MELHORIAS');
         console.log('='.repeat(60));
 
-        const totalChecks = Object.values(this.resultados.rh).length + 
-                           Object.values(this.resultados.pcp).length + 
-                           Object.values(this.resultados.geral).length;
+        const totalChecks = Object.values(this.resultaçãos.rh).length + 
+                           Object.values(this.resultaçãos.pcp).length + 
+                           Object.values(this.resultaçãos.geral).length;
         
         const passedChecks = [
-            ...Object.values(this.resultados.rh),
-            ...Object.values(this.resultados.pcp),
-            ...Object.values(this.resultados.geral)
+            ...Object.values(this.resultaçãos.rh),
+            ...Object.values(this.resultaçãos.pcp),
+            ...Object.values(this.resultaçãos.geral)
         ].filter(Boolean).length;
 
         const percentual = Math.round((passedChecks / totalChecks) * 100);
 
         console.log('\n📈 Módulo RH:');
-        console.log(`   Navegação: ${this.resultados.rh.navegacao ? '✅' : '❌'}`);
-        console.log(`   Estilos: ${this.resultados.rh.estilos ? '✅' : '❌'}`);
-        console.log(`   Responsividade: ${this.resultados.rh.responsividade ? '✅' : '❌'}`);
-        console.log(`   Acessibilidade: ${this.resultados.rh.acessibilidade ? '✅' : '❌'}`);
+        console.log(`   Navegação: ${this.resultaçãos.rh.navegacao  '✅' : '❌'}`);
+        console.log(`   Estilos: ${this.resultaçãos.rh.estilos  '✅' : '❌'}`);
+        console.log(`   Responsividade: ${this.resultaçãos.rh.responsividade  '✅' : '❌'}`);
+        console.log(`   Acessibilidade: ${this.resultaçãos.rh.acessibilidade  '✅' : '❌'}`);
 
         console.log('\n📊 Módulo PCP:');
-        console.log(`   Relatórios: ${this.resultados.pcp.relatorios ? '✅' : '❌'}`);
-        console.log(`   Navegação: ${this.resultados.pcp.navegacao ? '✅' : '❌'}`);
-        console.log(`   Métricas: ${this.resultados.pcp.metricas ? '✅' : '❌'}`);
-        console.log(`   Filtros: ${this.resultados.pcp.filtros ? '✅' : '❌'}`);
+        console.log(`   Relatórios: ${this.resultaçãos.pcp.relatorios  '✅' : '❌'}`);
+        console.log(`   Navegação: ${this.resultaçãos.pcp.navegacao  '✅' : '❌'}`);
+        console.log(`   Métricas: ${this.resultaçãos.pcp.metricas  '✅' : '❌'}`);
+        console.log(`   Filtros: ${this.resultaçãos.pcp.filtros  '✅' : '❌'}`);
 
         console.log('\n⚡ Performance Geral:');
-        console.log(`   Performance: ${this.resultados.geral.performance ? '✅' : '❌'}`);
-        console.log(`   Compatibilidade: ${this.resultados.geral.compatibilidade ? '✅' : '❌'}`);
+        console.log(`   Performance: ${this.resultaçãos.geral.performance  '✅' : '❌'}`);
+        console.log(`   Compatibilidade: ${this.resultaçãos.geral.compatibilidade  '✅' : '❌'}`);
 
         console.log('\n' + '='.repeat(60));
         console.log(`🎯 RESULTADO FINAL: ${passedChecks}/${totalChecks} (${percentual}%)`);
@@ -219,10 +219,10 @@ class ValidadorMelhorias {
         console.log('   • Sistema de notificações Toast');
         console.log('   • Wizard multi-etapas para solicitações');
         console.log('   • Dashboard de métricas em tempo real');
-        console.log('   • Filtros avançados com validação');
+        console.log('   • Filtros avançaçãos com validação');
         console.log('   • Animações CSS otimizadas');
         console.log('   • Responsividade mobile-first');
-        console.log('   • Estados de loading personalizados');
+        console.log('   • Estaçãos de loading personalizaçãos');
         console.log('   • Sistema de badges de status');
         console.log('   • Navegação aprimorada com efeitos');
         console.log('   • CSS Grid responsivo');
@@ -246,13 +246,13 @@ class ValidadorMelhorias {
 
 // Executar validação
 if (require.main === module) {
-    const validador = new ValidadorMelhorias();
-    validador.executar().then(sucesso => {
-        process.exit(sucesso ? 0 : 1);
+    const validaçãor = new ValidaçãorMelhorias();
+    validaçãor.executar().then(sucesso => {
+        process.exit(sucesso  0 : 1);
     }).catch(error => {
         console.error('❌ Erro durante a validação:', error);
         process.exit(1);
     });
 }
 
-module.exports = ValidadorMelhorias;
+module.exports = ValidaçãorMelhorias;

@@ -36,7 +36,7 @@ class RealtimeSync {
             });
 
             this.setupEventHandlers();
-            console.log('🔌 Sistema de sincronização em tempo real inicializado');
+            console.log('🔌 Sistema de sincronização em tempo real inicialização');
         } catch (error) {
             console.error('❌ Erro ao inicializar Socket.io:', error);
         }
@@ -48,7 +48,7 @@ class RealtimeSync {
     setupEventHandlers() {
         // Conexão estabelecida
         this.socket.on('connect', () => {
-            console.log('✅ Socket.io conectado:', this.socket.id);
+            console.log('✅ Socket.io conectação:', this.socket.id);
             this.isConnected = true;
             this.reconnectAttempts = 0;
             
@@ -64,7 +64,7 @@ class RealtimeSync {
 
         // Desconexão
         this.socket.on('disconnect', (reason) => {
-            console.warn('⚠️ Socket.io desconectado:', reason);
+            console.warn('⚠️ Socket.io desconectação:', reason);
             this.isConnected = false;
             this.showConnectionStatus(false);
         });
@@ -82,31 +82,31 @@ class RealtimeSync {
 
         // Reconexão bem-sucedida
         this.socket.on('reconnect', (attemptNumber) => {
-            console.log(`✅ Reconectado após ${attemptNumber} tentativas`);
+            console.log(`✅ Reconectação após ${attemptNumber} tentativas`);
             this.reconnectAttempts = 0;
         });
 
         // ========== EVENTOS DE PRODUTOS ==========
         
         this.socket.on('product-created', (product) => {
-            console.log('📦 Produto criado:', product);
+            console.log('📦 Produto criação:', product);
             this.handleProductCreated(product);
         });
 
         this.socket.on('product-updated', (product) => {
-            console.log('📝 Produto atualizado:', product);
+            console.log('📝 Produto atualização:', product);
             this.handleProductUpdated(product);
         });
 
         this.socket.on('product-deleted', (data) => {
-            console.log('🗑️ Produto deletado:', data);
+            console.log('🗑️ Produto deletação:', data);
             this.handleProductDeleted(data);
         });
 
         // ========== EVENTOS DE ESTOQUE ==========
         
         this.socket.on('stock-updated', (data) => {
-            console.log('📊 Estoque atualizado:', data);
+            console.log('📊 Estoque atualização:', data);
             this.handleStockUpdated(data);
         });
 
@@ -118,17 +118,17 @@ class RealtimeSync {
         // ========== EVENTOS DE PEDIDOS ==========
         
         this.socket.on('order-created', (order) => {
-            console.log('🛒 Pedido criado:', order);
+            console.log('🛒 Pedido criação:', order);
             this.handleOrderCreated(order);
         });
 
         this.socket.on('order-updated', (order) => {
-            console.log('📋 Pedido atualizado:', order);
+            console.log('📋 Pedido atualização:', order);
             this.handleOrderUpdated(order);
         });
 
         this.socket.on('order-approved', (order) => {
-            console.log('✅ Pedido aprovado:', order);
+            console.log('✅ Pedido aprovação:', order);
             this.handleOrderApproved(order);
         });
 
@@ -190,7 +190,7 @@ class RealtimeSync {
         // Notificar UI
         this.showToast(`Novo produto: ${product.nome}`, 'success');
         
-        // Emitir evento customizado para módulos específicos
+        // Emitir evento customização para módulos específicos
         this.triggerListeners('product-created', product);
         
         // Atualizar catálogo se estiver visível
@@ -201,7 +201,7 @@ class RealtimeSync {
     }
 
     handleProductUpdated(product) {
-        this.showToast(`Produto atualizado: ${product.nome}`, 'info');
+        this.showToast(`Produto atualização: ${product.nome}`, 'info');
         this.triggerListeners('product-updated', product);
         
         // Atualizar card do produto se estiver visível
@@ -230,9 +230,9 @@ class RealtimeSync {
                 stockBadge.textContent = `${data.estoque_atual} ${data.unidade_medida || 'UN'}`;
                 
                 // Atualizar classe de estoque
-                stockBadge.classList.remove('disponivel', 'baixo', 'zerado');
+                stockBadge.classList.remove('disponivel', 'baixo', 'zeração');
                 if (data.estoque_atual === 0) {
-                    stockBadge.classList.add('zerado');
+                    stockBadge.classList.add('zeração');
                 } else if (data.estoque_atual < 10) {
                     stockBadge.classList.add('baixo');
                 } else {
@@ -252,7 +252,7 @@ class RealtimeSync {
         
         this.triggerListeners('stock-alert', data);
         
-        // Atualizar contador de alertas
+        // Atualizar contaçãor de alertas
         const alertCounter = document.getElementById('alertas-número');
         if (alertCounter) {
             const currentCount = parseInt(alertCounter.textContent) || 0;
@@ -272,7 +272,7 @@ class RealtimeSync {
     }
 
     handleOrderApproved(order) {
-        this.showToast(`Pedido #${order.id} aprovado!`, 'success');
+        this.showToast(`Pedido #${order.id} aprovação!`, 'success');
         this.triggerListeners('order-approved', order);
         
         // Atualizar estoque se for o módulo PCP
@@ -299,7 +299,7 @@ class RealtimeSync {
     // ========== MÉTODOS AUXILIARES ==========
 
     /**
-     * Registrar listener para evento customizado
+     * Registrar listener para evento customização
      */
     on(event, callback) {
         if (!this.listeners.has(event)) {
@@ -322,7 +322,7 @@ class RealtimeSync {
     }
 
     /**
-     * Disparar listeners registrados
+     * Disparar listeners registraçãos
      */
     triggerListeners(event, data) {
         if (this.listeners.has(event)) {
@@ -398,7 +398,7 @@ class RealtimeSync {
         if (indicator) {
             indicator.classList.toggle('connected', connected);
             indicator.classList.toggle('disconnected', !connected);
-            indicator.title = connected ? 'Sincronização em tempo real ativa' : 'Desconectado';
+            indicator.title = connected  'Sincronização em tempo real ativa' : 'Desconectação';
         }
     }
 
@@ -454,7 +454,7 @@ class RealtimeSync {
     }
 
     /**
-     * Ícone do toast baseado no tipo
+     * Ícone do toast baseação no tipo
      */
     getToastIcon(type) {
         const icons = {
@@ -488,7 +488,7 @@ class RealtimeSync {
         if (this.socket && this.socket.connected) {
             this.socket.emit(event, data);
         } else {
-            console.warn('⚠️ Socket desconectado, adicionando à fila:', event);
+            console.warn('⚠️ Socket desconectação, adicionando à fila:', event);
             this.pendingUpdates.push({ event, data });
         }
     }
@@ -507,7 +507,7 @@ class RealtimeSync {
         this.listeners.clear();
         this.isConnected = false;
         
-        console.log('🔌 Sistema de sincronização desconectado');
+        console.log('🔌 Sistema de sincronização desconectação');
     }
 }
 
@@ -528,4 +528,4 @@ window.addEventListener('beforeunload', () => {
     window.realtimeSync.destroy();
 });
 
-console.log('⚡ Sistema de sincronização em tempo real carregado');
+console.log('⚡ Sistema de sincronização em tempo real carregação');

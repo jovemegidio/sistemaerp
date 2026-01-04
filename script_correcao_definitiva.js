@@ -5,7 +5,7 @@
 console.log('🔧 APLICANDO CORREÇÁO DEFINITIVA DO AUTOCOMPLETE PCP');
 console.log('='.repeat(55));
 
-// Este script simula o que deve ser executado no console do browser
+// Este script simula o que deve ser executação no console do browser
 // para corrigir definitivamente o problema do autocomplete
 
 const scriptCorreção = `
@@ -16,7 +16,7 @@ const scriptCorreção = `
 
 console.log('🚀 Carregando sistema de autocomplete definitivo...');
 
-// Dados mock globais
+// Daçãos mock globais
 window.clientesMockData = [
     { id: 1, nome: "CONSTRUTORA ALMEIDA LTDA", contato: "João Silva - Compras", cnpj: "12.345.678/0001-90", telefone: "(11) 3333-4444", email: "compras@almeida.com.br", email_nfe: "nfe@almeida.com.br" },
     { id: 2, nome: "ELETRIC SOLUTIONS BRASIL", contato: "Maria Santos - Comercial", cnpj: "98.765.432/0001-10", telefone: "(11) 2222-3333", email: "comercial@electricsolutions.com.br", email_nfe: "fiscal@electricsolutions.com.br" },
@@ -25,7 +25,7 @@ window.clientesMockData = [
     { id: 5, nome: "ELETRÔNICA MODERNA LTDA", contato: "Pedro Oliveira - Técnico", cnpj: "33.444.555/0001-66", telefone: "(11) 6666-7777", email: "tecnico@eletronicamoderna.com.br", email_nfe: "nfe@eletronicamoderna.com.br" }
 ];
 
-window.transportadorasMockData = [
+window.transportaçãorasMockData = [
     { id: 1, nome: "TRANSPORTADORA EXPRESSO LTDA", telefone: "(11) 3333-4444", cep: "01234-567", endereco: "Rua das Flores, 123, Centro, São Paulo - SP", cnpj: "12.345.678/0001-90", email_nfe: "nfe@expressoTransport.com.br" },
     { id: 2, nome: "RÁPIDO LOGÍSTICA", telefone: "(11) 4444-5555", cep: "02345-678", endereco: "Av. Brasil, 456, Jardins, São Paulo - SP", cnpj: "23.456.789/0001-01", email_nfe: "fiscal@rapidologistica.com.br" },
     { id: 3, nome: "TRANSPORTE SEGURO SA", telefone: "(11) 5555-6666", cep: "03456-789", endereco: "Rua da Paz, 789, Vila Madalena, São Paulo - SP", cnpj: "34.567.890/0001-12", email_nfe: "nfe@transporteseguro.com.br" }
@@ -55,7 +55,7 @@ window.buscarClientesAutoComplete = function(termo) {
     
     const container = document.getElementById('client-suggestions');
     if (!container) {
-        console.error('❌ Container client-suggestions não encontrado!');
+        console.error('❌ Container client-suggestions não encontração!');
         return;
     }
     
@@ -69,10 +69,10 @@ window.buscarClientesAutoComplete = function(termo) {
         );
     }
     
-    console.log('✅ Encontrados:', clientes.length, 'clientes');
+    console.log('✅ Encontraçãos:', clientes.length, 'clientes');
     
     if (clientes.length === 0) {
-        container.innerHTML = '<div style="padding: 12px; color: #6b7280;">Nenhum cliente encontrado</div>';
+        container.innerHTML = '<div style="padding: 12px; color: #6b7280;">Nenhum cliente encontração</div>';
         container.style.display = 'block';
         return;
     }
@@ -90,7 +90,7 @@ window.selecionarClienteId = function(clienteId) {
     const cliente = window.clientesMockData.find(c => c.id === clienteId);
     if (!cliente) return;
     
-    console.log('✅ Cliente selecionado:', cliente.nome);
+    console.log('✅ Cliente selecionação:', cliente.nome);
     
     // Preencher campos
     const campos = [
@@ -117,46 +117,46 @@ window.selecionarClienteId = function(clienteId) {
 };
 
 // FUNÇÕES DE AUTOCOMPLETE DE TRANSPORTADORAS
-window.buscarTransportadorasAutoComplete = function(termo) {
-    console.log('🚛 Busca transportadora:', termo);
+window.buscarTransportaçãorasAutoComplete = function(termo) {
+    console.log('🚛 Busca transportaçãora:', termo);
     
     const container = document.getElementById('transport-suggestions');
     if (!container) {
-        console.error('❌ Container transport-suggestions não encontrado!');
+        console.error('❌ Container transport-suggestions não encontração!');
         return;
     }
     
-    let transportadoras = window.transportadorasMockData;
+    let transportaçãoras = window.transportaçãorasMockData;
     
     if (termo && termo.length >= 1) {
         const termoLower = termo.toLowerCase();
-        transportadoras = window.transportadorasMockData.filter(transp => 
+        transportaçãoras = window.transportaçãorasMockData.filter(transp => 
             transp.nome.toLowerCase().includes(termoLower)
         );
     }
     
-    console.log('✅ Encontradas:', transportadoras.length, 'transportadoras');
+    console.log('✅ Encontradas:', transportaçãoras.length, 'transportaçãoras');
     
-    if (transportadoras.length === 0) {
-        container.innerHTML = '<div style="padding: 12px; color: #6b7280;">Nenhuma transportadora encontrada</div>';
+    if (transportaçãoras.length === 0) {
+        container.innerHTML = '<div style="padding: 12px; color: #6b7280;">Nenhuma transportaçãora encontrada</div>';
         container.style.display = 'block';
         return;
     }
     
     let html = '';
-    transportadoras.forEach(transp => {
-        html += '<div onclick="window.selecionarTransportadoraId(' + transp.id + ')" style="padding: 12px; border-bottom: 1px solid #eee; cursor: pointer;" onmouseover="this.style.backgroundColor=\\'#f5f5f5\\'" onmouseout="this.style.backgroundColor=\\'white\\'"><div style="font-weight: bold;">' + transp.nome + '</div><div style="font-size: 12px; color: #666;">' + (transp.telefone || '') + '</div></div>';
+    transportaçãoras.forEach(transp => {
+        html += '<div onclick="window.selecionarTransportaçãoraId(' + transp.id + ')" style="padding: 12px; border-bottom: 1px solid #eee; cursor: pointer;" onmouseover="this.style.backgroundColor=\\'#f5f5f5\\'" onmouseout="this.style.backgroundColor=\\'white\\'"><div style="font-weight: bold;">' + transp.nome + '</div><div style="font-size: 12px; color: #666;">' + (transp.telefone || '') + '</div></div>';
     });
     
     container.innerHTML = html;
     container.style.display = 'block';
 };
 
-window.selecionarTransportadoraId = function(transpId) {
-    const transp = window.transportadorasMockData.find(t => t.id === transpId);
+window.selecionarTransportaçãoraId = function(transpId) {
+    const transp = window.transportaçãorasMockData.find(t => t.id === transpId);
     if (!transp) return;
     
-    console.log('✅ Transportadora selecionada:', transp.nome);
+    console.log('✅ Transportaçãora selecionada:', transp.nome);
     
     // Preencher campos
     const campos = [
@@ -189,7 +189,7 @@ window.buscarProdutosAutoComplete = function(termo) {
     
     const container = document.getElementById('product-suggestions');
     if (!container) {
-        console.error('❌ Container product-suggestions não encontrado!');
+        console.error('❌ Container product-suggestions não encontração!');
         return;
     }
     
@@ -204,10 +204,10 @@ window.buscarProdutosAutoComplete = function(termo) {
         ).slice(0, 20);
     }
     
-    console.log('✅ Encontrados:', produtos.length, 'produtos');
+    console.log('✅ Encontraçãos:', produtos.length, 'produtos');
     
     if (produtos.length === 0) {
-        container.innerHTML = '<div style="padding: 12px; color: #6b7280;">Nenhum produto encontrado</div>';
+        container.innerHTML = '<div style="padding: 12px; color: #6b7280;">Nenhum produto encontração</div>';
         container.style.display = 'block';
         return;
     }
@@ -225,7 +225,7 @@ window.selecionarProdutoId = function(produtoId) {
     const produto = window.produtosMockData.find(p => p.id === produtoId);
     if (!produto) return;
     
-    console.log('✅ Produto selecionado:', produto.nome);
+    console.log('✅ Produto selecionação:', produto.nome);
     
     // Preencher campo de produto
     const campo = document.getElementById('new-produto');
@@ -254,15 +254,15 @@ function conectarEventos() {
     if (campoCliente) {
         campoCliente.oninput = function() { window.buscarClientesAutoComplete(this.value); };
         campoCliente.onfocus = function() { window.buscarClientesAutoComplete(this.value); };
-        console.log('✅ Eventos conectados ao campo cliente');
+        console.log('✅ Eventos conectaçãos ao campo cliente');
     }
     
-    // Campo transportadora
+    // Campo transportaçãora
     const campoTransp = document.getElementById('transport-search-input');
     if (campoTransp) {
-        campoTransp.oninput = function() { window.buscarTransportadorasAutoComplete(this.value); };
-        campoTransp.onfocus = function() { window.buscarTransportadorasAutoComplete(this.value); };
-        console.log('✅ Eventos conectados ao campo transportadora');
+        campoTransp.oninput = function() { window.buscarTransportaçãorasAutoComplete(this.value); };
+        campoTransp.onfocus = function() { window.buscarTransportaçãorasAutoComplete(this.value); };
+        console.log('✅ Eventos conectaçãos ao campo transportaçãora');
     }
     
     // Campo produto
@@ -270,13 +270,13 @@ function conectarEventos() {
     if (campoProduto) {
         campoProduto.oninput = function() { window.buscarProdutosAutoComplete(this.value); };
         campoProduto.onfocus = function() { window.exibirProdutos(); };
-        console.log('✅ Eventos conectados ao campo produto');
+        console.log('✅ Eventos conectaçãos ao campo produto');
     }
 }
 
 // EXECUTAR QUANDO MODAL ABRIR
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('📄 DOM carregado, conectando eventos...');
+    console.log('📄 DOM carregação, conectando eventos...');
     conectarEventos();
     
     // Tentar conectar eventos a cada 1 segundo por 10 segundos
@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 1000);
 });
 
-console.log('🎉 Sistema de autocomplete carregado com sucesso!');
+console.log('🎉 Sistema de autocomplete carregação com sucesso!');
 console.log('📝 Para testar, digite: window.buscarClientesAutoComplete("construtora")');
 
 </script>
@@ -304,10 +304,10 @@ console.log('Este script deve ser inserido no final do arquivo HTML,');
 console.log('antes da tag </body> para funcionar corretamente.');
 console.log('');
 console.log('✅ RECURSOS DO SCRIPT:');
-console.log('• Dados mock completos (clientes, transportadoras, produtos)');
+console.log('• Daçãos mock completos (clientes, transportaçãoras, produtos)');
 console.log('• Funções de busca simplificadas');
 console.log('• Conexão automática de eventos');
-console.log('• Logs detalhados para debug');
+console.log('• Logs detalhaçãos para debug');
 console.log('• Preenchimento automático com animação');
 console.log('');
 console.log('🔧 PARA APLICAR:');
@@ -318,5 +318,5 @@ console.log('4. Salvar e testar no browser');
 console.log('');
 console.log('🧪 PARA TESTAR NO CONSOLE DO BROWSER:');
 console.log('• window.buscarClientesAutoComplete("construtora")');
-console.log('• window.buscarTransportadorasAutoComplete("expresso")');
+console.log('• window.buscarTransportaçãorasAutoComplete("expresso")');
 console.log('• window.buscarProdutosAutoComplete("cabo")');

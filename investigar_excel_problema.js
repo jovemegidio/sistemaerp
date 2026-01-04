@@ -2,7 +2,7 @@
 
 const ExcelJS = require('exceljs');
 
-console.log('🔍 INVESTIGAÇÁO: POR QUE OS DADOS NÁO PERSISTEM NO EXCEL?');
+console.log('🔍 INVESTIGAÇÁO: POR QUE OS DADOS NÁO PERSISTEM NO EXCEL');
 
 async function investigarProblema() {
     try {
@@ -16,7 +16,7 @@ async function investigarProblema() {
         await workbook.xlsx.readFile(templatePath);
         
         const worksheet = workbook.worksheets[0];
-        console.log(`✅ Template carregado: ${worksheet.name}`);
+        console.log(`✅ Template carregação: ${worksheet.name}`);
         
         // Teste 2: Adicionar um valor simples
         console.log('\n2️⃣ ADICIONANDO VALOR SIMPLES...');

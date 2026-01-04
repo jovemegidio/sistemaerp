@@ -1,6 +1,6 @@
 /**
  * 🎯 TEMPLATE XLSX GENERATOR - VERSÃO CORRIGIDA
- * Gerador de arquivos Excel 100% compatível com Microsoft Excel
+ * Geraçãor de arquivos Excel 100% compatível com Microsoft Excel
  */
 const fs = require('fs');
 const path = require('path');
@@ -49,11 +49,11 @@ class TemplateXlsxGenerator {
     }
 
     // Método principal compatível com código existente
-    async generateFromTemplate(templatePath, outputPath, dadosOrdem) {
+    async generateFromTemplate(templatePath, outputPath, daçãosOrdem) {
         console.log(`\n🏭 GERANDO ORDEM: ${outputPath}`);
         
         try {
-            return await this.aplicarMapeamentoCompleto(dadosOrdem, outputPath);
+            return await this.aplicarMapeamentoCompleto(daçãosOrdem, outputPath);
         } catch (error) {
             console.error(`❌ Erro na geração: ${error.message}`);
             throw error;
@@ -61,10 +61,10 @@ class TemplateXlsxGenerator {
     }
 
     // Aplicar mapeamento completo
-    async aplicarMapeamentoCompleto(dadosOrdem, nomeArquivo) {
+    async aplicarMapeamentoCompleto(daçãosOrdem, nomeArquivo) {
         console.log('\n🎯 APLICANDO MAPEAMENTO COMPLETO...');
         
-        // Limpar dados anteriores
+        // Limpar daçãos anteriores
         this.data = {};
         this.sharedStrings = [];
         this.sharedStringsMap = new Map();
@@ -75,33 +75,33 @@ class TemplateXlsxGenerator {
         
         // === DADOS BÁSICOS ===
         this.setCell('A4', 'Número do Orçamento:');
-        this.setCell('B4', dadosOrdem.numero_orcamento || dadosOrdem.numeroOrcamento || '');
+        this.setCell('B4', daçãosOrdem.numero_orcamento || daçãosOrdem.numeroOrcamento || '');
         this.setCell('D4', 'Data:');
-        this.setCell('E4', dadosOrdem.data_orcamento || dadosOrdem.dataOrcamento || new Date().toLocaleDateString('pt-BR'));
+        this.setCell('E4', daçãosOrdem.data_orcamento || daçãosOrdem.dataOrcamento || new Date().toLocaleDateString('pt-BR'));
         
         // === VENDEDOR ===
         this.setCell('A6', 'Vendedor:');
-        this.setCell('B6', dadosOrdem.vendedor || dadosOrdem.vendedor_nome || '');
+        this.setCell('B6', daçãosOrdem.vendedor || daçãosOrdem.vendedor_nome || '');
         
         // === CLIENTE ===
         this.setCell('A8', 'DADOS DO CLIENTE');
         this.setCell('A9', 'Razão Social:');
-        this.setCell('B9', dadosOrdem.cliente_razao || dadosOrdem.cliente || dadosOrdem.clienteRazao || '');
+        this.setCell('B9', daçãosOrdem.cliente_razao || daçãosOrdem.cliente || daçãosOrdem.clienteRazao || '');
         this.setCell('A10', 'Contato:');
-        this.setCell('B10', dadosOrdem.cliente_contato || dadosOrdem.clienteContato || '');
+        this.setCell('B10', daçãosOrdem.cliente_contato || daçãosOrdem.clienteContato || '');
         this.setCell('D10', 'Telefone:');
-        this.setCell('E10', dadosOrdem.cliente_telefone || dadosOrdem.clienteTelefone || '');
+        this.setCell('E10', daçãosOrdem.cliente_telefone || daçãosOrdem.clienteTelefone || '');
         this.setCell('A11', 'Email:');
-        this.setCell('B11', dadosOrdem.cliente_email || dadosOrdem.clienteEmail || '');
+        this.setCell('B11', daçãosOrdem.cliente_email || daçãosOrdem.clienteEmail || '');
         
         // === TRANSPORTADORA ===
         this.setCell('A13', 'DADOS DA TRANSPORTADORA');
         this.setCell('A14', 'Nome:');
-        this.setCell('B14', dadosOrdem.transportadora || dadosOrdem.transportadora_nome || '');
+        this.setCell('B14', daçãosOrdem.transportaçãora || daçãosOrdem.transportaçãora_nome || '');
         this.setCell('D14', 'Frete:');
-        this.setCell('E14', dadosOrdem.frete || '');
+        this.setCell('E14', daçãosOrdem.frete || '');
         this.setCell('A15', 'Prazo de Entrega:');
-        this.setCell('B15', dadosOrdem.prazo_entrega || dadosOrdem.prazoEntrega || '');
+        this.setCell('B15', daçãosOrdem.prazo_entrega || daçãosOrdem.prazoEntrega || '');
         
         // === PRODUTOS ===
         this.setCell('A17', 'PRODUTOS');
@@ -112,7 +112,7 @@ class TemplateXlsxGenerator {
         this.setCell('E18', 'Preço Unit.');
         this.setCell('F18', 'Total');
         
-        let produtos = dadosOrdem.produtos || dadosOrdem.itens || [];
+        let produtos = daçãosOrdem.produtos || daçãosOrdem.itens || [];
         
         // Se produtos está em string JSON, converter
         if (typeof produtos === 'string') {
@@ -164,11 +164,11 @@ class TemplateXlsxGenerator {
         // === OBSERVAÇÕES ===
         linhaProduto += 2;
         this.setCell(`A${linhaProduto}`, 'OBSERVAÇÕES:');
-        this.setCell(`A${linhaProduto + 1}`, dadosOrdem.observacoes || dadosOrdem.obs || 'Nenhuma observação.');
+        this.setCell(`A${linhaProduto + 1}`, daçãosOrdem.observacoes || daçãosOrdem.obs || 'Nenhuma observação.');
         
         // === GERAR ARQUIVO ===
         console.log('\n📦 GERANDO ARQUIVO XLSX COMPATÍVEL...');
-        const resultado = await this.criarArquivoXLSX(nomeArquivo);
+        const resultação = await this.criarArquivoXLSX(nomeArquivo);
         
         console.log(`✅ ORDEM GERADA! Total: R$ ${totalGeral.toFixed(2)}`);
         
@@ -176,15 +176,15 @@ class TemplateXlsxGenerator {
             sucesso: true,
             arquivo: nomeArquivo,
             filename: nomeArquivo,
-            size: resultado.tamanho,
+            size: resultação.tamanho,
             totalGeral: totalGeral,
-            produtosProcessados: produtos.length
+            produtosProcessaçãos: produtos.length
         };
     }
 
     // Gerar XML das strings compartilhadas
     generateSharedStringsXML() {
-        let xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        let xml = `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" count="${this.sharedStrings.length}" uniqueCount="${this.sharedStrings.length}">`;
         
         this.sharedStrings.forEach(str => {
@@ -197,7 +197,7 @@ class TemplateXlsxGenerator {
 
     // Gerar XML do worksheet
     generateWorksheetXML() {
-        let xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        let xml = `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" 
            xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
     <sheetViews>
@@ -271,7 +271,7 @@ class TemplateXlsxGenerator {
         const zip = new JSZip();
         
         // Content Types - CORRIGIDO
-        zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        zip.file('[Content_Types].xml', `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
     <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
     <Default Extension="xml" ContentType="application/xml"/>
@@ -282,13 +282,13 @@ class TemplateXlsxGenerator {
 </Types>`);
 
         // Root rels
-        zip.file('_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        zip.file('_rels/.rels', `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
     <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/>
 </Relationships>`);
 
         // Workbook
-        zip.file('xl/workbook.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        zip.file('xl/workbook.xml', `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" 
           xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
     <sheets>
@@ -297,21 +297,21 @@ class TemplateXlsxGenerator {
 </workbook>`);
 
         // Workbook rels - CORRIGIDO com sharedStrings e styles
-        zip.file('xl/_rels/workbook.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        zip.file('xl/_rels/workbook.xml.rels', `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
     <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
     <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/sharedStrings" Target="sharedStrings.xml"/>
     <Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
 </Relationships>`);
 
-        // Worksheet com dados
+        // Worksheet com daçãos
         zip.file('xl/worksheets/sheet1.xml', this.generateWorksheetXML());
         
         // Shared Strings - NOVO
         zip.file('xl/sharedStrings.xml', this.generateSharedStringsXML());
         
         // Styles - NOVO (mínimo necessário)
-        zip.file('xl/styles.xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        zip.file('xl/styles.xml', `<xml version="1.0" encoding="UTF-8" standalone="yes">
 <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
     <fonts count="1">
         <font>

@@ -22,7 +22,7 @@
             border-radius: 16px;
             padding: 30px;
             margin: 20px 0;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shaçãow: 0 8px 32px rgba(0,0,0,0.3);
         }
         .btn {
             background: #4CAF50;
@@ -71,17 +71,17 @@
             border-radius: 12px;
             overflow: hidden;
             margin: 20px 0;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            box-shaçãow: 0 8px 32px rgba(0,0,0,0.2);
         }
         h1, h2 { 
             text-align: center; 
             margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shaçãow: 2px 2px 4px rgba(0,0,0,0.3);
         }
     </style></head>
 <body>
     <div class="container">
-        <h1>🎯 Gerador de Ordem de Produção Excel</h1>
+        <h1>🎯 Geraçãor de Ordem de Produção Excel</h1>
         
         <div class="success-box">
             <h3>📋 Ordem Preparada</h3>
@@ -90,7 +90,7 @@
                 <li>✅ <strong>Contato:</strong> Evandro (energizefinanceiro@gmail.com)</li>
                 <li>✅ <strong>Itens:</strong> 4 produtos diferentes (2.000 metros total)</li>
                 <li>✅ <strong>Valor:</strong> R$ 18.025,00</li>
-                <li>✅ <strong>Transportadora:</strong> Transportes Rápidos Express</li>
+                <li>✅ <strong>Transportaçãora:</strong> Transportes Rápidos Express</li>
                 <li>✅ <strong>Entrega:</strong> 15 dias úteis</li>
             </ul>
         </div>
@@ -114,14 +114,14 @@
         
         <!-- Formulário oculto para submissão -->
         <form id="ordem-form" action="http://localhost:3001/api/pcp/ordens-producao" method="POST" style="display: none;" target="_blank">
-            <!-- Dados do cliente -->
+            <!-- Daçãos do cliente -->
             <input name="cliente" value="ENERGIZE MATERIAIS ELETRICOS — 50.160.305/0001-39 (Evandro)">
             <input name="cliente_id" value="73">
             <input name="contato" value="Evandro">
             <input name="email" value="energizefinanceiro@gmail.com">
             <input name="telefone" value="(44) 98432-1786">
             
-            <!-- Dados comerciais -->
+            <!-- Daçãos comerciais -->
             <input name="vendedor" value="Carlos Santos">
             <input name="frete" value="FOB">
             <input name="numero_orcamento" value="">
@@ -133,20 +133,20 @@
             <input name="data_previsao_entrega" value="">
             
             <!-- Observações -->
-            <textarea name="observacoes">Ordem de produção para cabos especiais - Teste completo do sistema Excel. Seguir especificações técnicas ABNT NBR 247. Embalagem cuidadosa para transporte. Produtos de alta qualidade Aluforce.</textarea>
+            <textarea name="observacoes">Ordem de produção para cabos especiais - Teste completo do sistema Excel. Seguir especificações técnicas ABNT NBR 247. Embalagem cuidaçãosa para transporte. Produtos de alta qualidade Aluforce.</textarea>
             
             <!-- Configurações -->
             <input name="variacao" value="Cor: Preto, Azul, Verde; Bitola: 10mm², 6mm², 4mm², 2.5mm²">
             <input name="embalagem" value="Bobina">
             <input name="lances" value="100,120,150,200">
             
-            <!-- Transportadora -->
-            <input name="transportadora_nome" value="Transportes Rápidos Express Ltda">
-            <input name="transportadora_fone" value="(11) 3333-4444">
-            <input name="transportadora_cep" value="01234-567">
-            <input name="transportadora_endereco" value="Rua das Transportadoras, 123 - Distrito Industrial, São Paulo - SP">
-            <input name="transportadora_cpf_cnpj" value="12.345.678/0001-90">
-            <input name="transportadora_email_nfe" value="nfe@transportesrapidos.com.br">
+            <!-- Transportaçãora -->
+            <input name="transportaçãora_nome" value="Transportes Rápidos Express Ltda">
+            <input name="transportaçãora_fone" value="(11) 3333-4444">
+            <input name="transportaçãora_cep" value="01234-567">
+            <input name="transportaçãora_endereco" value="Rua das Transportaçãoras, 123 - Distrito Industrial, São Paulo - SP">
+            <input name="transportaçãora_cpf_cnpj" value="12.345.678/0001-90">
+            <input name="transportaçãora_email_nfe" value="nfe@transportesrapidos.com.br">
             
             <!-- Itens (JSON) -->
             <input name="items_json" value="">
@@ -165,7 +165,7 @@
         
         function log(msg, type = 'info') {
             const time = new Date().toLocaleTimeString();
-            const emoji = type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️';
+            const emoji = type === 'success'  '✅' : type === 'error'  '❌' : type === 'warning'  '⚠️' : 'ℹ️';
             logDiv.innerHTML += `[${time}] ${emoji} ${msg}\n`;
             logDiv.style.display = 'block';
             logDiv.scrollTop = logDiv.scrollHeight;
@@ -179,7 +179,7 @@
         function verificarServidor() {
             log('🔍 Verificando servidor...', 'info');
             
-            fetch('http://localhost:3001/api/pcp/clientes?q=test')
+            fetch('http://localhost:3001/api/pcp/clientesq=test')
                 .then(response => {
                     if (response.ok) {
                         log('✅ Servidor está funcionando!', 'success');
@@ -189,7 +189,7 @@
                     }
                 })
                 .then(data => {
-                    log(`📊 API respondeu com ${data.length} resultados`, 'success');
+                    log(`📊 API respondeu com ${data.length} resultaçãos`, 'success');
                 })
                 .catch(error => {
                     log(`❌ Erro: ${error.message}`, 'error');
@@ -200,7 +200,7 @@
         function gerarOrdemCompleta() {
             log('🚀 === GERANDO ORDEM DE PRODUÇÃO EXCEL ===', 'success');
             
-            // Preparar dados dinâmicos
+            // Preparar daçãos dinâmicos
             const timestamp = Date.now();
             const hoje = new Date();
             const entrega = new Date(hoje.getTime() + 15 * 24 * 60 * 60 * 1000); // 15 dias
@@ -246,7 +246,7 @@
             // Calcular total
             const total = itens.reduce((sum, item) => sum + (item.quantidade * item.valor_unitario), 0);
             
-            log(`📋 Dados preparados:`, 'info');
+            log(`📋 Daçãos preparaçãos:`, 'info');
             log(`   Cliente: ENERGIZE MATERIAIS ELETRICOS`, 'info');
             log(`   Orçamento: ${form.querySelector('[name="numero_orcamento"]').value}`, 'info');
             log(`   Entrega: ${form.querySelector('[name="data_previsao_entrega"]').value}`, 'info');
@@ -254,7 +254,7 @@
             log(`   Total: R$ ${total.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`, 'info');
             
             log('\n🚀 Submetendo formulário...', 'success');
-            log('📊 O arquivo Excel será gerado em nova aba', 'warning');
+            log('📊 O arquivo Excel será geração em nova aba', 'warning');
             
             // Submeter formulário
             form.submit();
@@ -283,7 +283,7 @@
                     log('✅ Modal aberto! Agora preencha manualmente e submeta', 'success');
                     log('💡 Dica: Digite "ENERGIZE" no campo cliente', 'info');
                 } else {
-                    log('❌ Botão Nova Ordem não encontrado', 'error');
+                    log('❌ Botão Nova Ordem não encontração', 'error');
                 }
                 
             } catch (error) {

@@ -9,7 +9,7 @@ class SectionOrganizer {
     }
 
     init() {
-        console.log('🎯 Inicializando organizador de seções...');
+        console.log('🎯 Inicializando organizaçãor de seções...');
         
         // Aguardar DOM estar pronto
         if (document.readyState === 'loading') {
@@ -177,7 +177,7 @@ class SectionOrganizer {
             <div class="stats-row">
                 <div class="stat-card blue">
                     <div class="stat-header">
-                        <h3 class="stat-title">Holerites Gerados</h3>
+                        <h3 class="stat-title">Holerites Geraçãos</h3>
                         <div class="stat-icon">
                             <i class="fas fa-file-invoice"></i>
                         </div>
@@ -259,7 +259,7 @@ class SectionOrganizer {
                         <option value="trimestre">Trimestre</option>
                         <option value="semestre">Semestre</option>
                         <option value="ano">Este Ano</option>
-                        <option value="personalizado">Personalizado</option>
+                        <option value="personalização">Personalização</option>
                     </select>
                 </div>
                 <div class="section-actions">
@@ -288,7 +288,7 @@ class SectionOrganizer {
                 </div>
                 <div class="stat-card green">
                     <div class="stat-header">
-                        <h3 class="stat-title">Gerados Hoje</h3>
+                        <h3 class="stat-title">Geraçãos Hoje</h3>
                         <div class="stat-icon">
                             <i class="fas fa-calendar-day"></i>
                         </div>
@@ -298,7 +298,7 @@ class SectionOrganizer {
                 </div>
                 <div class="stat-card yellow">
                     <div class="stat-header">
-                        <h3 class="stat-title">Agendados</h3>
+                        <h3 class="stat-title">Agendaçãos</h3>
                         <div class="stat-icon">
                             <i class="fas fa-clock"></i>
                         </div>
@@ -348,7 +348,7 @@ class SectionOrganizer {
                 </div>
                 <div class="item-status">
                     <span class="status-badge ${func.status}">
-                        ${func.status === 'active' ? 'Ativo' : 'Inativo'}
+                        ${func.status === 'active'  'Ativo' : 'Inativo'}
                     </span>
                 </div>
                 <div class="item-actions">
@@ -389,7 +389,7 @@ class SectionOrganizer {
                 </div>
                 <div class="item-status">
                     <span class="status-badge ${hol.status}">
-                        ${hol.status === 'active' ? 'Processado' : 'Pendente'}
+                        ${hol.status === 'active'  'Processação' : 'Pendente'}
                     </span>
                 </div>
                 <div class="item-actions">
@@ -411,8 +411,8 @@ class SectionOrganizer {
     createRelatorioCards() {
         const relatórios = [
             { nome: 'Folha de Pagamento', descrição: 'Relatório mensal completo', tipo: 'Financeiro', status: 'active' },
-            { nome: 'Funcionários Ativos', descrição: 'Lista de colaboradores ativos', tipo: 'RH', status: 'active' },
-            { nome: 'Aniversariantes', descrição: 'Colaboradores aniversariantes do mês', tipo: 'RH', status: 'active' },
+            { nome: 'Funcionários Ativos', descrição: 'Lista de colaboraçãores ativos', tipo: 'RH', status: 'active' },
+            { nome: 'Aniversariantes', descrição: 'Colaboraçãores aniversariantes do mês', tipo: 'RH', status: 'active' },
             { nome: 'Férias e Licenças', descrição: 'Controle de ausências', tipo: 'RH', status: 'pending' },
             { nome: 'Custos por Departamento', descrição: 'Análise de custos', tipo: 'Financeiro', status: 'active' },
             { nome: 'Produtividade', descrição: 'Métricas de performance', tipo: 'Gestão', status: 'active' }
@@ -432,7 +432,7 @@ class SectionOrganizer {
                 </div>
                 <div class="item-status">
                     <span class="status-badge ${rel.status}">
-                        ${rel.status === 'active' ? 'Disponível' : 'Processando'}
+                        ${rel.status === 'active'  'Disponível' : 'Processando'}
                     </span>
                 </div>
                 <div class="item-actions">
@@ -569,4 +569,4 @@ window.downloadRelatorio = (nome) => alert(`🚧 Download relatório: ${nome}`);
     }, 200);
 });
 
-console.log('🎯 Section Organizer carregado');
+console.log('🎯 Section Organizer carregação');

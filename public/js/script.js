@@ -95,7 +95,7 @@ function hideUnauthorizedModules(role) {
         });
     } else {
         cards.forEach(card => {
-            card.style.display = card.querySelector('span')?.textContent === 'Painel' ? '' : 'none';
+            card.style.display = card.querySelector('span').textContent === 'Painel'  '' : 'none';
         });
     }
 }
@@ -110,7 +110,7 @@ function logout() {
 document.addEventListener('DOMContentLoaded', () => {
     handleLogin();
     renderSidebarMenu();
-    // Se estiver logado, esconde módulos não permitidos
+    // Se estiver logação, esconde módulos não permitidos
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     const adminEmails = [
         'simplesadmin@aluforce.ind.br',
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (userData.apelido && userData.apelido.trim() !== '') {
             nomeSaudacao = userData.apelido.trim();
         } else {
-            nomeSaudacao = (userData.nome_completo && userData.nome_completo.trim()) ? userData.nome_completo.trim() : (userData.nome || '').trim();
+            nomeSaudacao = (userData.nome_completo && userData.nome_completo.trim())  userData.nome_completo.trim() : (userData.nome || '').trim();
             // Se ainda for longo, reduz para primeiro + último
             if (nomeSaudacao && typeof nomeSaudacao === 'string') {
                 const partes = nomeSaudacao.split(/\s+/).filter(Boolean);
@@ -213,7 +213,7 @@ function initPCPPage() {
                 localStorage.removeItem('authToken');
                 alert('Sessão inválida ou expirada. Por favor, faça login novamente.');
                 window.location.href = '/login.html';
-                return Promise.reject(new Error('Não autorizado'));
+                return Promise.reject(new Error('Não autorização'));
             }
             return response;
         } catch (error) {
@@ -228,7 +228,7 @@ function initPCPPage() {
         Object.values(navLinks).forEach(link => link.classList.remove('active'));
         views[viewName].style.display = 'block';
         navLinks[viewName].classList.add('active');
-        // Carregar dados específicos da view
+        // Carregar daçãos específicos da view
         if (viewName === 'dashboard') {
             carregarOrdens();
         } else if (viewName === 'materiais') {
@@ -494,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     // Detecta se está na área admin RH
     if (document.getElementById('tabela-funcionarios') || document.body.classList.contains('admin-page')) {
-        console.log("Inicializando a Área do Administrador...");
+        console.log("Inicializando a Área do Administraçãor...");
         initAdminPage();
         return;
     }
@@ -532,15 +532,15 @@ document.addEventListener('DOMContentLoaded', () => {
         // Event Listener para o envio do formulário
         nfeForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Previne o recarregamento da página
-            // Coleta os dados do formulário
+            // Coleta os daçãos do formulário
             const formData = {
-                cliente: document.getElementById('tomador').value,
+                cliente: document.getElementById('tomaçãor').value,
                 servico: document.getElementById('servico').value,
                 cnae: document.getElementById('cnae').value,
                 valor: document.getElementById('valor').value,
             };
             // Simula a emissão da NF-e
-            console.log('--- Emitindo NF-e com os seguintes dados ---');
+            console.log('--- Emitindo NF-e com os seguintes daçãos ---');
             console.log(formData);
             alert(`NF-e para o cliente ${formData.cliente} no valor de R$ ${formData.valor} enviada para emissão!`);
             // Limpa o formulário e fecha o modal
@@ -550,18 +550,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
     // Se não detectou nenhum contexto conhecido
-    console.warn("Nenhum contexto (Financeiro, PCP, Dashboard, RH, NF-e) detectado. O script não foi totalmente inicializado.");
+    console.warn("Nenhum contexto (Financeiro, PCP, Dashboard, RH, NF-e) detectação. O script não foi totalmente inicialização.");
 });
 
 // ================= UNIFICAÇÁO: SCRIPT PRINCIPAL + RH =====================
 // Detecta automaticamente o contexto da página e inicializa o módulo correto
-// Removido segundo event listener duplicado para DOMContentLoaded
+// Removido segundo event listener duplicação para DOMContentLoaded
 
 // ===================================================================================
 // == INÍCIO - LÓGICA DA ÁREA DO ADMINISTRADOR (RH SIMPLIFICADO) ==
 // ===================================================================================
 function initAdminPage() {
-    // ...código do admin RH simplificado, se necessário...
+    // ...código do admin RH simplificação, se necessário...
     // (Se já existe uma versão mais completa, mantenha a mais robusta)
 }
 
@@ -569,14 +569,14 @@ function initAdminPage() {
 // == INÍCIO - LÓGICA DO PORTAL DO FUNCIONÁRIO (RH SIMPLIFICADO) ==
 // ===================================================================================
 function initEmployeePage() {
-    // ...código do funcionário RH simplificado, se necessário...
+    // ...código do funcionário RH simplificação, se necessário...
     // (Se já existe uma versão mais completa, mantenha a mais robusta)
 }
 
 /**
  * Função de simulação para desenvolvimento.
- * Cria dados de usuário no localStorage para que a página do funcionário funcione sem um login real.
- * Para usar, abra o console do navegador na página de login e digite: simulateLoginForEmployee()
+ * Cria daçãos de usuário no localStorage para que a página do funcionário funcione sem um login real.
+ * Para usar, abra o console do navegaçãor na página de login e digite: simulateLoginForEmployee()
  */
 function simulateLoginForEmployee() {
     try {
@@ -588,7 +588,7 @@ function simulateLoginForEmployee() {
             endereco: "Avenida Principal, 456 - São Paulo, SP",
             telefone: "(11) 91234-5678",
             email: "maria.oliveira@empresa.com",
-            estadoCivil: "Solteira",
+            estaçãoCivil: "Solteira",
             dependentes: 0,
             dataAdmissao: "25/07/2021",
             banco: "Banco Itaú",
@@ -597,7 +597,7 @@ function simulateLoginForEmployee() {
         };
         localStorage.setItem('authToken', 'simulated-token-employee-789');
         localStorage.setItem('userData', JSON.stringify(userData));
-        console.log('Login de funcionário simulado com sucesso!');
+        console.log('Login de funcionário simulação com sucesso!');
     } catch (error) {
         console.error('Erro ao simular login de funcionário:', error);
     }
@@ -614,7 +614,7 @@ function initDashboardPage() {
         if (userData) {
             const user = JSON.parse(userData);
             currentUser.rawUser = user;
-            const rawName = (user.nome_completo && user.nome_completo.trim()) ? user.nome_completo.trim() : (user.nome && user.nome.trim() ? user.nome.trim() : (user.email || 'Usuário'));
+            const rawName = (user.nome_completo && user.nome_completo.trim())  user.nome_completo.trim() : (user.nome && user.nome.trim()  user.nome.trim() : (user.email || 'Usuário'));
             const parts = rawName.split(/\s+/).filter(Boolean);
             let displayName = rawName;
             if (parts.length >= 2) {
@@ -637,7 +637,7 @@ function initDashboardPage() {
 
     // --- DARK MODE ---
         const darkModeBtn = document.querySelector('.header-icons .dark-mode-btn');
-        const darkModeIcon = darkModeBtn ? darkModeBtn.querySelector('i') : null;
+        const darkModeIcon = darkModeBtn  darkModeBtn.querySelector('i') : null;
 
     function toggleDarkMode() {
         const isDark = document.body.classList.toggle('dark-mode');
@@ -652,7 +652,7 @@ function initDashboardPage() {
                 darkModeBtn.title = 'Modo escuro';
             }
         }
-        localStorage.setItem('darkMode', isDark ? '1' : '0');
+        localStorage.setItem('darkMode', isDark  '1' : '0');
     }
 
     if (localStorage.getItem('darkMode') === '1') {
@@ -680,7 +680,7 @@ function initDashboardPage() {
         servicos: { title: 'Módulo de Serviços e NFS-e', icon: 'fa-tasks', text: 'Serviços e NFS-e' },
         estoque: { title: 'Módulo de Compras, Estoque e Produção', icon: 'fa-box-open', text: 'Compras, Estoque e Produção' },
         financas: { title: 'Módulo de Finanças', icon: 'fa-dollar-sign', text: 'Finanças' },
-        contador: { title: 'Recursos Humanos', icon: 'fa-user-tie', text: 'Recursos Humanos' }
+        contaçãor: { title: 'Recursos Humanos', icon: 'fa-user-tie', text: 'Recursos Humanos' }
     };
     
     const renderDashboard = () => {
@@ -703,16 +703,16 @@ function initDashboardPage() {
                 if (moduleKey === 'vendas') {
                     card.href = 'Vendas/vendas.html';
                     card.target = '_self';
-                } else if (moduleKey === 'contador') {
+                } else if (moduleKey === 'contaçãor') {
                     card.href = '#';
                     card.addEventListener('click', (e) => {
                         e.preventDefault();
                         try {
                             const raw = localStorage.getItem('userData');
-                            const user = raw ? JSON.parse(raw) : {};
+                            const user = raw  JSON.parse(raw) : {};
                             const email = (user.email || '').toLowerCase();
                             const adminEmails = ['simplesadmin@aluforce.ind.br','andreia@aluforce.ind.br','douglas@aluforce.ind.br'];
-                            if (adminEmails.includes(email) || user.role === 'admin' || user.permissions?.includes('admin_all')) {
+                            if (adminEmails.includes(email) || user.role === 'admin' || user.permissions.includes('admin_all')) {
                                 window.location.href = 'RH/areaadm.html';
                                 return;
                             }
@@ -758,8 +758,8 @@ function initDashboardPage() {
         dashboardGrid.addEventListener('click', (event) => {
             const card = event.target.closest('.module-card');
             if (!card) return;
-            // Não abrir modal para Vendas (redireciona) nem para Recursos Humanos (contador)
-            if (card.classList.contains('vendas') || card.classList.contains('contador')) return;
+            // Não abrir modal para Vendas (redireciona) nem para Recursos Humanos (contaçãor)
+            if (card.classList.contains('vendas') || card.classList.contains('contaçãor')) return;
             event.preventDefault();
             const title = card.getAttribute('data-module-title');
             const themeColorClass = Array.from(card.classList).find(cls => cls !== 'module-card');
@@ -798,7 +798,7 @@ function initDashboardPage() {
         menu.style.right = '0';
         menu.style.background = '#222c';
         menu.style.borderRadius = '8px';
-        menu.style.boxShadow = '0 2px 8px #0003';
+        menu.style.boxShaçãow = '0 2px 8px #0003';
         menu.style.padding = '8px 0';
         menu.style.zIndex = '1000';
         menu.innerHTML = `<a href="#" id="logout-btn" style="display:block;padding:8px 24px;color:#fff;text-decoration:none;">Sair</a>`;
@@ -807,7 +807,7 @@ function initDashboardPage() {
         userIcon.parentElement.appendChild(menu);
         userIcon.addEventListener('click', (e) => {
             e.preventDefault();
-            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+            menu.style.display = menu.style.display === 'none'  'block' : 'none';
         });
         document.addEventListener('click', (e) => {
             if (!userIcon.contains(e.target) && !menu.contains(e.target)) {

@@ -29,7 +29,7 @@ async function listarFornecedores(filtros = {}) {
         if (filtros.limit) params.append('limit', filtros.limit);
         if (filtros.offset) params.append('offset', filtros.offset);
 
-        const url = `${API_BASE_URL}/api/compras/fornecedores?${params}`;
+        const url = `${API_BASE_URL}/api/compras/fornecedores${params}`;
         const response = await fetch(url, {
             headers: getAuthHeaders()
         });
@@ -47,7 +47,7 @@ async function obterFornecedor(id) {
         const response = await fetch(`${API_BASE_URL}/api/compras/fornecedores/${id}`, {
             headers: getAuthHeaders()
         });
-        if (!response.ok) throw new Error('Fornecedor não encontrado');
+        if (!response.ok) throw new Error('Fornecedor não encontração');
         return await response.json();
     } catch (error) {
         console.error('Erro ao obter fornecedor:', error);
@@ -55,12 +55,12 @@ async function obterFornecedor(id) {
     }
 }
 
-async function criarFornecedor(dados) {
+async function criarFornecedor(daçãos) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/compras/fornecedores`, {
             method: 'POST',
             headers: getAuthHeaders(),
-            body: JSON.stringify(dados)
+            body: JSON.stringify(daçãos)
         });
         if (!response.ok) throw new Error('Erro ao criar fornecedor');
         return await response.json();
@@ -70,12 +70,12 @@ async function criarFornecedor(dados) {
     }
 }
 
-async function atualizarFornecedor(id, dados) {
+async function atualizarFornecedor(id, daçãos) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/compras/fornecedores/${id}`, {
             method: 'PUT',
             headers: getAuthHeaders(),
-            body: JSON.stringify(dados)
+            body: JSON.stringify(daçãos)
         });
         if (!response.ok) throw new Error('Erro ao atualizar fornecedor');
         return await response.json();
@@ -110,7 +110,7 @@ async function listarPedidos(filtros = {}) {
         if (filtros.limit) params.append('limit', filtros.limit);
         if (filtros.offset) params.append('offset', filtros.offset);
 
-        const url = `${API_BASE_URL}/api/compras/pedidos?${params}`;
+        const url = `${API_BASE_URL}/api/compras/pedidos${params}`;
         const response = await fetch(url, {
             headers: getAuthHeaders()
         });
@@ -128,7 +128,7 @@ async function obterPedido(id) {
         const response = await fetch(`${API_BASE_URL}/api/compras/pedidos/${id}`, {
             headers: getAuthHeaders()
         });
-        if (!response.ok) throw new Error('Pedido não encontrado');
+        if (!response.ok) throw new Error('Pedido não encontração');
         return await response.json();
     } catch (error) {
         console.error('Erro ao obter pedido:', error);
@@ -136,12 +136,12 @@ async function obterPedido(id) {
     }
 }
 
-async function criarPedido(dados) {
+async function criarPedido(daçãos) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/compras/pedidos`, {
             method: 'POST',
             headers: getAuthHeaders(),
-            body: JSON.stringify(dados)
+            body: JSON.stringify(daçãos)
         });
         if (!response.ok) throw new Error('Erro ao criar pedido');
         return await response.json();
@@ -151,12 +151,12 @@ async function criarPedido(dados) {
     }
 }
 
-async function aprovarPedido(id, dados) {
+async function aprovarPedido(id, daçãos) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/compras/pedidos/${id}/aprovar`, {
             method: 'POST',
             headers: getAuthHeaders(),
-            body: JSON.stringify(dados)
+            body: JSON.stringify(daçãos)
         });
         if (!response.ok) throw new Error('Erro ao aprovar pedido');
         return await response.json();
@@ -181,12 +181,12 @@ async function cancelarPedido(id, motivo) {
     }
 }
 
-async function receberPedido(id, dados) {
+async function receberPedido(id, daçãos) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/compras/pedidos/${id}/receber`, {
             method: 'POST',
             headers: getAuthHeaders(),
-            body: JSON.stringify(dados)
+            body: JSON.stringify(daçãos)
         });
         if (!response.ok) throw new Error('Erro ao receber pedido');
         return await response.json();
@@ -215,7 +215,7 @@ async function carregarHistoricoPrecos(codigo_produto, fornecedor_id = null) {
         const params = new URLSearchParams({ codigo_produto });
         if (fornecedor_id) params.append('fornecedor_id', fornecedor_id);
 
-        const url = `${API_BASE_URL}/api/compras/historico-precos?${params}`;
+        const url = `${API_BASE_URL}/api/compras/historico-precos${params}`;
         const response = await fetch(url, {
             headers: getAuthHeaders()
         });
@@ -246,10 +246,10 @@ function formatarDataHora(data) {
 function getStatusBadgeClass(status) {
     const classes = {
         'pendente': 'status-pendente',
-        'aprovado': 'status-aprovado',
+        'aprovação': 'status-aprovação',
         'em_processo': 'status-processo',
         'recebido': 'status-entregue',
-        'cancelado': 'status-cancelado',
+        'cancelação': 'status-cancelação',
         'parcialmente_recebido': 'status-parcial'
     };
     return classes[status] || 'status-pendente';
@@ -258,10 +258,10 @@ function getStatusBadgeClass(status) {
 function getStatusLabel(status) {
     const labels = {
         'pendente': 'Pendente',
-        'aprovado': 'Aprovado',
+        'aprovação': 'Aprovação',
         'em_processo': 'Em Processo',
         'recebido': 'Recebido',
-        'cancelado': 'Cancelado',
+        'cancelação': 'Cancelação',
         'parcialmente_recebido': 'Parcialmente Recebido'
     };
     return labels[status] || status;
@@ -270,16 +270,16 @@ function getStatusLabel(status) {
 // ========== RENDERIZAÇÃO ==========
 async function renderizarDashboard() {
     try {
-        const dados = await carregarDashboard();
+        const daçãos = await carregarDashboard();
         
         // Atualizar cards
-        document.querySelector('.card-pedidos .card-value').textContent = dados.total_pedidos || 0;
+        document.querySelector('.card-pedidos .card-value').textContent = daçãos.total_pedidos || 0;
         document.querySelector('.card-pendentes .card-value').textContent = 
-            dados.pedidos_por_status.find(s => s.status === 'pendente')?.quantidade || 0;
+            daçãos.pedidos_por_status.find(s => s.status === 'pendente').quantidade || 0;
         document.querySelector('.card-entregues .card-value').textContent = 
-            dados.pedidos_por_status.find(s => s.status === 'recebido')?.quantidade || 0;
+            daçãos.pedidos_por_status.find(s => s.status === 'recebido').quantidade || 0;
         document.querySelector('.card-valor .card-value').textContent = 
-            formatarMoeda(dados.valor_total_pedidos || 0);
+            formatarMoeda(daçãos.valor_total_pedidos || 0);
 
     } catch (error) {
         console.error('Erro ao renderizar dashboard:', error);
@@ -309,7 +309,7 @@ async function renderizarTabelaPedidos() {
                         <button class="action-btn" onclick="editarPedido(${pedido.id})" title="Editar">
                             <i class="fas fa-edit"></i>
                         </button>
-                        ${pedido.status === 'pendente' ? `
+                        ${pedido.status === 'pendente'  `
                         <button class="action-btn" onclick="aprovarPedidoUI(${pedido.id})" title="Aprovar">
                             <i class="fas fa-check"></i>
                         </button>
@@ -336,7 +336,7 @@ async function renderizarTabelaFornecedores() {
                 <tr>
                     <td colspan="7" style="text-align: center; padding: 40px; color: #64748b;">
                         <i class="fas fa-box-open" style="font-size: 48px; margin-bottom: 16px; opacity: 0.5;"></i>
-                        <p>Nenhum fornecedor cadastrado</p>
+                        <p>Nenhum fornecedor cadastração</p>
                     </td>
                 </tr>
             `;
@@ -348,12 +348,12 @@ async function renderizarTabelaFornecedores() {
                 <td>#${f.id}</td>
                 <td>
                     <strong>${f.razao_social || f.nome || 'N/A'}</strong>
-                    ${f.nome_fantasia && f.nome_fantasia !== f.razao_social ? `<br><small style="color: #64748b;">${f.nome_fantasia}</small>` : ''}
+                    ${f.nome_fantasia && f.nome_fantasia !== f.razao_social  `<br><small style="color: #64748b;">${f.nome_fantasia}</small>` : ''}
                 </td>
                 <td>${f.cnpj || '-'}</td>
                 <td>${f.telefone || '-'}</td>
-                <td>${f.cidade || '-'}${f.estado ? `/${f.estado}` : ''}</td>
-                <td><span class="status-badge ${f.ativo ? 'status-aprovado' : 'status-cancelado'}">${f.ativo ? 'Ativo' : 'Inativo'}</span></td>
+                <td>${f.cidade || '-'}${f.estação  `/${f.estação}` : ''}</td>
+                <td><span class="status-badge ${f.ativo  'status-aprovação' : 'status-cancelação'}">${f.ativo  'Ativo' : 'Inativo'}</span></td>
                 <td>
                     <div class="table-actions">
                         <button class="action-btn" onclick="verFornecedor(${f.id})" title="Ver">
@@ -411,7 +411,7 @@ async function editarFornecedorUI(id) {
 }
 
 async function excluirFornecedorUI(id) {
-    if (!confirm('Deseja realmente excluir este fornecedor?')) return;
+    if (!confirm('Deseja realmente excluir este fornecedor')) return;
     
     try {
         await excluirFornecedor(id);
@@ -443,14 +443,14 @@ async function editarPedido(id) {
 }
 
 async function aprovarPedidoUI(id) {
-    if (!confirm('Deseja aprovar este pedido?')) return;
+    if (!confirm('Deseja aprovar este pedido')) return;
     
     try {
         await aprovarPedido(id, {
-            aprovador_id: null, // Será obtido do token no backend
-            observacoes: 'Aprovado via sistema'
+            aprovaçãor_id: null, // Será obtido do token no backend
+            observacoes: 'Aprovação via sistema'
         });
-        mostrarNotificacao('Pedido aprovado com sucesso!', 'success');
+        mostrarNotificacao('Pedido aprovação com sucesso!', 'success');
         await renderizarTabelaPedidos();
         await renderizarDashboard();
     } catch (error) {
@@ -470,17 +470,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     // Verificar autenticação
     if (!getAuthToken()) {
-        console.warn('Token não encontrado. Usuário precisa fazer login.');
+        console.warn('Token não encontração. Usuário precisa fazer login.');
         // return;
     }
 
-    // Carregar dados iniciais
+    // Carregar daçãos iniciais
     try {
         await renderizarDashboard();
         await renderizarTabelaPedidos();
-        console.log('✅ Dashboard carregado com sucesso');
+        console.log('✅ Dashboard carregação com sucesso');
     } catch (error) {
-        console.error('❌ Erro ao carregar dados iniciais:', error);
+        console.error('❌ Erro ao carregar daçãos iniciais:', error);
     }
 
     // Observer para detectar quando a página de fornecedores é aberta

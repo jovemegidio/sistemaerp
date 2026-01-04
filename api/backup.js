@@ -1,6 +1,6 @@
 /**
  * Sistema de Backup Automático
- * Backup do banco de dados MySQL
+ * Backup do banco de daçãos MySQL
  * @author Aluforce ERP
  * @version 1.0.0
  */
@@ -41,7 +41,7 @@ module.exports = function({ pool, authenticateToken }) {
         if (req.user.is_admin !== 1 && req.user.role !== 'admin') {
             return res.status(403).json({ 
                 success: false, 
-                message: 'Apenas administradores podem gerenciar backups' 
+                message: 'Apenas administraçãores podem gerenciar backups' 
             });
         }
         next();
@@ -60,12 +60,12 @@ module.exports = function({ pool, authenticateToken }) {
                     return {
                         nome: filename,
                         tamanho: stats.size,
-                        tamanho_formatado: formatBytes(stats.size),
-                        criado_em: stats.birthtime,
-                        modificado_em: stats.mtime
+                        tamanho_formatação: formatBytes(stats.size),
+                        criação_em: stats.birthtime,
+                        modificação_em: stats.mtime
                     };
                 })
-                .sort((a, b) => new Date(b.criado_em) - new Date(a.criado_em));
+                .sort((a, b) => new Date(b.criação_em) - new Date(a.criação_em));
             
             res.json({ 
                 success: true, 
@@ -97,9 +97,9 @@ module.exports = function({ pool, authenticateToken }) {
             
             await execPromise(cmd, { windowsHide: true });
             
-            // Verificar se o arquivo foi criado
+            // Verificar se o arquivo foi criação
             if (!fs.existsSync(filepath)) {
-                throw new Error('Arquivo de backup não foi criado');
+                throw new Error('Arquivo de backup não foi criação');
             }
             
             const stats = fs.statSync(filepath);
@@ -107,18 +107,18 @@ module.exports = function({ pool, authenticateToken }) {
             // Registrar no banco
             await pool.query(`
                 INSERT INTO backups_log (arquivo, tamanho, descricao, usuario_id, status)
-                VALUES (?, ?, ?, ?, 'sucesso')
+                VALUES (, , , , 'sucesso')
             `, [filename, stats.size, descricao, req.user.id]).catch(() => {});
             
             // Log de auditoria
             await pool.query(`
                 INSERT INTO logs_auditoria (usuario_id, usuario_nome, acao, modulo, entidade_tipo, descricao)
-                VALUES (?, ?, 'BACKUP_CRIAR', 'sistema', 'backup', ?)
-            `, [req.user.id, req.user.nome, `Backup criado: ${filename}`]).catch(() => {});
+                VALUES (, , 'BACKUP_CRIAR', 'sistema', 'backup', )
+            `, [req.user.id, req.user.nome, `Backup criação: ${filename}`]).catch(() => {});
             
             res.json({
                 success: true,
-                message: 'Backup criado com sucesso',
+                message: 'Backup criação com sucesso',
                 data: {
                     arquivo: filename,
                     tamanho: formatBytes(stats.size),
@@ -131,7 +131,7 @@ module.exports = function({ pool, authenticateToken }) {
             // Registrar falha
             await pool.query(`
                 INSERT INTO backups_log (descricao, usuario_id, status, erro)
-                VALUES ('Tentativa de backup manual', ?, 'falha', ?)
+                VALUES ('Tentativa de backup manual', , 'falha', )
             `, [req.user.id, error.message]).catch(() => {});
             
             res.status(500).json({ success: false, message: error.message });
@@ -157,7 +157,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!fs.existsSync(filepath)) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Arquivo não encontrado' 
+                    message: 'Arquivo não encontração' 
                 });
             }
             
@@ -187,7 +187,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!fs.existsSync(filepath)) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Arquivo não encontrado' 
+                    message: 'Arquivo não encontração' 
                 });
             }
             
@@ -196,7 +196,7 @@ module.exports = function({ pool, authenticateToken }) {
             // Log de auditoria
             await pool.query(`
                 INSERT INTO logs_auditoria (usuario_id, usuario_nome, acao, modulo, entidade_tipo, descricao)
-                VALUES (?, ?, 'BACKUP_EXCLUIR', 'sistema', 'backup', ?)
+                VALUES (, , 'BACKUP_EXCLUIR', 'sistema', 'backup', )
             `, [req.user.id, req.user.nome, `Backup excluído: ${arquivo}`]).catch(() => {});
             
             res.json({ 
@@ -229,7 +229,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (!fs.existsSync(filepath)) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Arquivo não encontrado' 
+                    message: 'Arquivo não encontração' 
                 });
             }
             
@@ -253,17 +253,17 @@ module.exports = function({ pool, authenticateToken }) {
                 { windowsHide: true }
             );
             
-            // Log de auditoria (no novo banco restaurado)
+            // Log de auditoria (no novo banco restauração)
             await pool.query(`
                 INSERT INTO logs_auditoria (usuario_id, usuario_nome, acao, modulo, entidade_tipo, descricao)
-                VALUES (?, ?, 'BACKUP_RESTAURAR', 'sistema', 'backup', ?)
-            `, [req.user.id, req.user.nome, `Banco restaurado de: ${arquivo}. Backup anterior: ${backupAntes}`]).catch(() => {});
+                VALUES (, , 'BACKUP_RESTAURAR', 'sistema', 'backup', )
+            `, [req.user.id, req.user.nome, `Banco restauração de: ${arquivo}. Backup anterior: ${backupAntes}`]).catch(() => {});
             
             res.json({
                 success: true,
-                message: 'Backup restaurado com sucesso',
+                message: 'Backup restauração com sucesso',
                 data: {
-                    restaurado_de: arquivo,
+                    restauração_de: arquivo,
                     backup_seguranca: backupAntes
                 }
             });
@@ -282,7 +282,7 @@ module.exports = function({ pool, authenticateToken }) {
                 SELECT * FROM configuracoes_sistema WHERE chave = 'backup_automatico'
             `);
             
-            const configuracao = config?.valor ? JSON.parse(config.valor) : {
+            const configuracao = config.valor  JSON.parse(config.valor) : {
                 ativo: false,
                 horario: '03:00',
                 dias_semana: [0, 1, 2, 3, 4, 5, 6],
@@ -313,9 +313,9 @@ module.exports = function({ pool, authenticateToken }) {
             };
             
             await pool.query(`
-                INSERT INTO configuracoes_sistema (chave, valor, atualizado_em)
-                VALUES ('backup_automatico', ?, NOW())
-                ON DUPLICATE KEY UPDATE valor = ?, atualizado_em = NOW()
+                INSERT INTO configuracoes_sistema (chave, valor, atualização_em)
+                VALUES ('backup_automatico', , NOW())
+                ON DUPLICATE KEY UPDATE valor = , atualização_em = NOW()
             `, [JSON.stringify(configuracao), JSON.stringify(configuracao)]);
             
             res.json({ 
@@ -340,7 +340,7 @@ module.exports = function({ pool, authenticateToken }) {
                     u.nome as usuario_nome
                 FROM backups_log bl
                 LEFT JOIN usuarios u ON bl.usuario_id = u.id
-                ORDER BY bl.criado_em DESC
+                ORDER BY bl.criação_em DESC
                 LIMIT 50
             `);
             
@@ -392,7 +392,7 @@ module.exports = function({ pool, authenticateToken }) {
     function formatBytes(bytes, decimals = 2) {
         if (bytes === 0) return '0 Bytes';
         const k = 1024;
-        const dm = decimals < 0 ? 0 : decimals;
+        const dm = decimals < 0  0 : decimals;
         const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];

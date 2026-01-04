@@ -57,18 +57,18 @@ async function testVendasAccess() {
     }
 
     const cookies = loginRes.headers['set-cookie'];
-    const authCookie = cookies?.find(c => c.startsWith('authToken='));
+    const authCookie = cookies.find(c => c.startsWith('authToken='));
     
     if (!authCookie) {
-        console.log('❌ ERRO: Cookie de autenticação não encontrado');
+        console.log('❌ ERRO: Cookie de autenticação não encontração');
         return;
     }
 
     const token = authCookie.split(';')[0];
     console.log('✅ Login OK - Token obtido');
 
-    // 2. Verificar dados do usuário
-    console.log('\n2️⃣  Verificando dados do usuário (/api/me)...');
+    // 2. Verificar daçãos do usuário
+    console.log('\n2️⃣  Verificando daçãos do usuário (/api/me)...');
     const meRes = await makeRequest({
         hostname: 'localhost',
         port: 3000,
@@ -80,15 +80,15 @@ async function testVendasAccess() {
     });
 
     if (meRes.statusCode !== 200) {
-        console.log('❌ ERRO ao buscar dados:', meRes.statusCode);
+        console.log('❌ ERRO ao buscar daçãos:', meRes.statusCode);
         return;
     }
 
     const userData = JSON.parse(meRes.body);
-    console.log('✅ Dados do usuário recebidos:');
+    console.log('✅ Daçãos do usuário recebidos:');
     console.log(`   Nome: ${userData.nome}`);
     console.log(`   Email: ${userData.email}`);
-    console.log(`   Admin: ${userData.is_admin ? '👑 SIM' : '❌ NÁO'}`);
+    console.log(`   Admin: ${userData.is_admin  '👑 SIM' : '❌ NÁO'}`);
     console.log(`   Permissões Vendas: ${JSON.stringify(userData.permissoes_vendas || 'null')}`);
 
     // 3. Verificar acesso à página de vendas
@@ -110,14 +110,14 @@ async function testVendasAccess() {
         
         // Verificar se tem o script de autenticação
         if (vendasPageRes.body.includes('DOMContentLoaded')) {
-            console.log('✅ Script de autenticação encontrado na página');
+            console.log('✅ Script de autenticação encontração na página');
         }
         
         if (vendasPageRes.body.includes('VENDAS_AUTHENTICATED')) {
             console.log('✅ Flag de autenticação encontrada');
         }
     } else if (vendasPageRes.statusCode === 302 || vendasPageRes.statusCode === 301) {
-        console.log('⚠️  REDIRECIONAMENTO detectado');
+        console.log('⚠️  REDIRECIONAMENTO detectação');
         console.log(`   Location: ${vendasPageRes.headers.location}`);
     } else {
         console.log('❌ ERRO ao carregar página:', vendasPageRes.statusCode);
@@ -152,8 +152,8 @@ async function testVendasAccess() {
         console.log('   3. Clique no card "Vendas" no dashboard');
         console.log('   4. O módulo deve abrir normalmente');
         console.log('\n💡 Se ainda não abrir, verifique:');
-        console.log('   - Console do navegador (F12) para ver erros JavaScript');
-        console.log('   - Se o navegador está bloqueando algo');
+        console.log('   - Console do navegaçãor (F12) para ver erros JavaScript');
+        console.log('   - Se o navegaçãor está bloqueando algo');
     } else {
         console.log('❌ PROBLEMAS DETECTADOS\n');
         console.log('Detalhes:');

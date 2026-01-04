@@ -25,7 +25,7 @@
         bobAI: {
             active: true,
             awaitingSupport: false,
-            transferRequests: 0, // Contador de pedidos de atendimento
+            transferRequests: 0, // Contaçãor de pedidos de atendimento
             conversationContext: []
         }
     };
@@ -35,7 +35,7 @@
         {
             id: 1,
             title: 'Guia Inicial Omie',
-            description: 'Acabei de contratar o Omie. E agora, o que devo fazer? Aqui você encontra uma série de artigos que vão te apoiar nesses primeiros passos com o Omie.',
+            description: 'Acabei de contratar o Omie. E agora, o que devo fazer Aqui você encontra uma série de artigos que vão te apoiar nesses primeiros passos com o Omie.',
             articles: 23,
             icon: '📘'
         },
@@ -81,7 +81,7 @@
         // Respostas para saudações
         greetings: [
             'Olá! Sou o Bob, assistente virtual da ALUFORCE 🤖',
-            'Oi! Eu sou o Bob, sua IA de suporte! Como posso ajudar?',
+            'Oi! Eu sou o Bob, sua IA de suporte! Como posso ajudar',
             'Olá! Bob aqui! Pronto para ajudar você no que precisar! 👋'
         ],
         
@@ -90,43 +90,43 @@
             rh: {
                 keywords: ['rh', 'recursos humanos', 'funcionario', 'funcionário', 'folha', 'pagamento', 'ponto', 'ferias', 'férias', 'beneficio', 'benefício'],
                 responses: [
-                    'No módulo RH você pode: ✅ Gerenciar funcionários ✅ Controlar ponto eletrônico ✅ Gerar folha de pagamento ✅ Administrar férias e benefícios. Qual dessas opções você precisa?',
-                    'O sistema RH da ALUFORCE permite gestão completa de pessoal. Você quer saber sobre: cadastro de funcionários, controle de ponto, folha de pagamento ou benefícios?'
+                    'No módulo RH você pode: ✅ Gerenciar funcionários ✅ Controlar ponto eletrônico ✅ Gerar folha de pagamento ✅ Administrar férias e benefícios. Qual dessas opções você precisa',
+                    'O sistema RH da ALUFORCE permite gestão completa de pessoal. Você quer saber sobre: cadastro de funcionários, controle de ponto, folha de pagamento ou benefícios'
                 ]
             },
             vendas: {
                 keywords: ['venda', 'vendas', 'pedido', 'pedidos', 'cliente', 'clientes', 'orcamento', 'orçamento', 'proposta'],
                 responses: [
-                    'No módulo Vendas você pode: 📊 Criar orçamentos e propostas 📋 Gerenciar pedidos 👥 Administrar clientes 💰 Acompanhar o funil de vendas. O que você precisa fazer?',
-                    'O sistema de Vendas permite controle total do processo comercial! Posso te ajudar com: criação de pedidos, cadastro de clientes, geração de orçamentos ou acompanhamento de vendas?'
+                    'No módulo Vendas você pode: 📊 Criar orçamentos e propostas 📋 Gerenciar pedidos 👥 Administrar clientes 💰 Acompanhar o funil de vendas. O que você precisa fazer',
+                    'O sistema de Vendas permite controle total do processo comercial! Posso te ajudar com: criação de pedidos, cadastro de clientes, geração de orçamentos ou acompanhamento de vendas'
                 ]
             },
             financeiro: {
                 keywords: ['financeiro', 'contas', 'pagar', 'receber', 'boleto', 'pagamento', 'cobranca', 'cobrança', 'fluxo', 'caixa'],
                 responses: [
-                    'No Financeiro você pode: 💳 Gerenciar contas a pagar e receber 💰 Controlar fluxo de caixa 📊 Gerar boletos e cobranças 📈 Acompanhar DRE. Qual sua necessidade?',
-                    'O módulo Financeiro oferece gestão completa! Você quer saber sobre: contas a pagar, contas a receber, fluxo de caixa ou relatórios financeiros?'
+                    'No Financeiro você pode: 💳 Gerenciar contas a pagar e receber 💰 Controlar fluxo de caixa 📊 Gerar boletos e cobranças 📈 Acompanhar DRE. Qual sua necessidade',
+                    'O módulo Financeiro oferece gestão completa! Você quer saber sobre: contas a pagar, contas a receber, fluxo de caixa ou relatórios financeiros'
                 ]
             },
             pcp: {
                 keywords: ['pcp', 'producao', 'produção', 'ordem', 'op', 'material', 'materiais', 'estoque', 'planejamento'],
                 responses: [
-                    'No PCP você pode: 🏭 Criar ordens de produção 📦 Controlar materiais e estoque 📋 Planejar produção 📊 Acompanhar status de OPs. O que precisa fazer?',
-                    'O sistema PCP permite gestão completa da produção! Posso te ajudar com: ordens de produção, controle de materiais, planejamento ou consulta de estoque?'
+                    'No PCP você pode: 🏭 Criar ordens de produção 📦 Controlar materiais e estoque 📋 Planejar produção 📊 Acompanhar status de OPs. O que precisa fazer',
+                    'O sistema PCP permite gestão completa da produção! Posso te ajudar com: ordens de produção, controle de materiais, planejamento ou consulta de estoque'
                 ]
             },
             compras: {
                 keywords: ['compra', 'compras', 'fornecedor', 'fornecedores', 'cotacao', 'cotação', 'pedido compra'],
                 responses: [
-                    'No módulo Compras você pode: 🛒 Criar pedidos de compra 📋 Gerenciar fornecedores 💰 Fazer cotações 📊 Controlar aprovações. Como posso ajudar?',
-                    'O sistema de Compras oferece controle total! Você quer saber sobre: pedidos de compra, cadastro de fornecedores, cotações ou aprovações?'
+                    'No módulo Compras você pode: 🛒 Criar pedidos de compra 📋 Gerenciar fornecedores 💰 Fazer cotações 📊 Controlar aprovações. Como posso ajudar',
+                    'O sistema de Compras oferece controle total! Você quer saber sobre: pedidos de compra, cadastro de fornecedores, cotações ou aprovações'
                 ]
             },
             nfe: {
                 keywords: ['nota', 'nfe', 'nf-e', 'fiscal', 'danfe', 'xml', 'sefaz'],
                 responses: [
-                    'No módulo NF-e você pode: 📄 Emitir notas fiscais 📋 Consultar notas emitidas ❌ Cancelar NF-e 📥 Importar XML. O que você precisa?',
-                    'O sistema de NF-e permite gestão completa de notas fiscais! Posso te ajudar com: emissão, consulta, cancelamento ou importação de XML?'
+                    'No módulo NF-e você pode: 📄 Emitir notas fiscais 📋 Consultar notas emitidas ❌ Cancelar NF-e 📥 Importar XML. O que você precisa',
+                    'O sistema de NF-e permite gestão completa de notas fiscais! Posso te ajudar com: emissão, consulta, cancelamento ou importação de XML'
                 ]
             }
         },
@@ -135,7 +135,7 @@
         commonIssues: {
             login: {
                 keywords: ['login', 'senha', 'acesso', 'entrar', 'nao consigo', 'não consigo'],
-                response: 'Para problemas de login: 1️⃣ Verifique se está usando o email correto 2️⃣ Tente recuperar a senha clicando em "Esqueci minha senha" 3️⃣ Limpe o cache do navegador (Ctrl+Shift+Delete). Se o problema persistir, posso transferir você para o suporte técnico!'
+                response: 'Para problemas de login: 1️⃣ Verifique se está usando o email correto 2️⃣ Tente recuperar a senha clicando em "Esqueci minha senha" 3️⃣ Limpe o cache do navegaçãor (Ctrl+Shift+Delete). Se o problema persistir, posso transferir você para o suporte técnico!'
             },
             error: {
                 keywords: ['erro', 'error', 'bug', 'problema', 'nao funciona', 'não funciona', 'travou', 'quebrou'],
@@ -143,19 +143,19 @@
             },
             relatorio: {
                 keywords: ['relatorio', 'relatório', 'exportar', 'pdf', 'excel', 'imprimir'],
-                response: 'Para gerar relatórios: 📊 Acesse o módulo desejado ➡️ Clique em "Relatórios" no menu ➡️ Escolha o tipo de relatório ➡️ Configure os filtros (período, status, etc) ➡️ Clique em "Gerar" ou "Exportar". Posso te ajudar com algum relatório específico?'
+                response: 'Para gerar relatórios: 📊 Acesse o módulo desejação ➡️ Clique em "Relatórios" no menu ➡️ Escolha o tipo de relatório ➡️ Configure os filtros (período, status, etc) ➡️ Clique em "Gerar" ou "Exportar". Posso te ajudar com algum relatório específico'
             },
             permissao: {
-                keywords: ['permissao', 'permissão', 'acesso negado', 'nao tenho acesso', 'não tenho acesso', '403', 'bloqueado'],
-                response: 'Parece que você não tem permissão para essa função! 🔐 Entre em contato com o administrador do sistema (TI) para solicitar acesso. Ou posso transferir você para o suporte para verificar suas permissões!'
+                keywords: ['permissao', 'permissão', 'acesso negação', 'nao tenho acesso', 'não tenho acesso', '403', 'bloqueação'],
+                response: 'Parece que você não tem permissão para essa função! 🔐 Entre em contato com o administraçãor do sistema (TI) para solicitar acesso. Ou posso transferir você para o suporte para verificar suas permissões!'
             }
         },
         
         // Respostas padrão
         fallback: [
-            'Hmm, não tenho certeza sobre isso... 🤔 Você pode reformular sua pergunta? Ou se preferir, posso transferir você para um atendente humano!',
-            'Desculpe, não entendi muito bem sua dúvida. Pode me explicar de outra forma? Ou prefere falar com o suporte técnico?',
-            'Não tenho uma resposta específica para isso no momento. Quer que eu transfira você para o suporte? Eles podem te ajudar melhor!'
+            'Hmm, não tenho certeza sobre isso... 🤔 Você pode reformular sua pergunta Ou se preferir, posso transferir você para um atendente humano!',
+            'Desculpe, não entendi muito bem sua dúvida. Pode me explicar de outra forma Ou prefere falar com o suporte técnico',
+            'Não tenho uma resposta específica para isso no momento. Quer que eu transfira você para o suporte Eles podem te ajudar melhor!'
         ]
     };
 
@@ -180,7 +180,7 @@
             } else {
                 return {
                     type: 'support_request',
-                    response: `Entendo que você quer falar com um atendente! Se eu não conseguir te ajudar, posso transferir você para o suporte. Mas antes, me conte: qual é sua dúvida? (Pedido ${state.bobAI.transferRequests}/3)`,
+                    response: `Entendo que você quer falar com um atendente! Se eu não conseguir te ajudar, posso transferir você para o suporte. Mas antes, me conte: qual é sua dúvida (Pedido ${state.bobAI.transferRequests}/3)`,
                     action: 'none'
                 };
             }
@@ -254,12 +254,12 @@
             mensagem: userMessage,
             status: 'open',
             prioridade: 'medium',
-            criado_em: new Date().toISOString(),
+            criação_em: new Date().toISOString(),
             conversationHistory: state.bobAI.conversationContext
         };
         
         // Aqui você faria um POST para a API: /api/tickets
-        console.log('🎫 Ticket criado:', ticketData);
+        console.log('🎫 Ticket criação:', ticketData);
         
         // Simular salvamento
         if (typeof localStorage !== 'undefined') {
@@ -331,7 +331,7 @@
         {
             id: 2,
             title: 'Alerta de segurança!',
-            subtitle: 'Oi, está por aí?',
+            subtitle: 'Oi, está por aí',
             type: 'alert'
         },
         {
@@ -371,7 +371,7 @@
             <div class="chat-screen chat-screen-home active" id="screenHome">
                 <div class="chat-welcome">
                     <h2>Olá Antonio 👋</h2>
-                    <p>Como podemos ajudar?</p>
+                    <p>Como podemos ajudar</p>
                 </div>
 
                 <!-- Mensagem Recente -->
@@ -411,7 +411,7 @@
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
                     </svg>
-                    <input type="text" placeholder="Qual é a sua dúvida?" id="searchHelp">
+                    <input type="text" placeholder="Qual é a sua dúvida" id="searchHelp">
                 </div>
             </div>
 
@@ -438,7 +438,7 @@
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"/>
                     </svg>
-                    <input type="text" placeholder="Qual é a sua dúvida?" id="searchHelpMain">
+                    <input type="text" placeholder="Qual é a sua dúvida" id="searchHelpMain">
                 </div>
                 <div class="chat-collections-header">31 coleções</div>
                 <div class="chat-collections-list" id="collectionsList">
@@ -489,7 +489,7 @@
                         <div class="message-avatar">O</div>
                         <div class="message-content">
                             <div class="message-text">Olá,</div>
-                            <div class="message-text">Como podemos te ajudar hoje?</div>
+                            <div class="message-text">Como podemos te ajudar hoje</div>
                             <div class="message-time">Omie • AI Agent • Agora</div>
                         </div>
                     </div>
@@ -552,7 +552,7 @@
         if (!container) return;
 
         container.innerHTML = sampleMessages.map(msg => `
-            <div class="message-item ${msg.unread ? 'unread' : ''}" data-message-id="${msg.id}">
+            <div class="message-item ${msg.unread  'unread' : ''}" data-message-id="${msg.id}">
                 <div class="message-avatar" style="background: ${getAvatarColor(msg.avatar)};">
                     ${msg.avatar}
                 </div>
@@ -560,7 +560,7 @@
                     <div class="message-subject">${msg.subject}</div>
                     <div class="message-preview">${msg.sender} • ${msg.time}</div>
                 </div>
-                ${msg.unread ? '<div class="message-unread-dot"></div>' : ''}
+                ${msg.unread  '<div class="message-unread-dot"></div>' : ''}
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" style="color: #9ca3af;">
                     <path d="M7 10l5 5 5-5H7z"/>
                 </svg>
@@ -603,7 +603,7 @@
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-ticket-alt" style="font-size: 48px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                    <h3>Nenhum ticket encontrado</h3>
+                    <h3>Nenhum ticket encontração</h3>
                     <p>Você não possui tickets abertos no momento</p>
                 </div>
             `;
@@ -620,14 +620,14 @@
                     <div class="ticket-id">${ticket.id} • ${ticket.status}</div>
                     <div class="ticket-description">${ticket.description}</div>
                     <div class="ticket-meta">
-                        <span>Você será avisado aqui e por email</span>
+                        <span>Você será avisação aqui e por email</span>
                         <span>${ticket.email}</span>
                     </div>
                 </div>
             </div>
             <button class="ticket-action-btn">
                 <i class="fas fa-comment-alt"></i>
-                Alguma dúvida sobre este ticket?
+                Alguma dúvida sobre este ticket
                 <span style="margin-left: auto;">Exibir conversa</span>
             </button>
         `).join('');
@@ -639,15 +639,15 @@
 
         container.innerHTML = sampleNotices.map(notice => `
             <div class="notice-item" data-notice-id="${notice.id}">
-                ${notice.image ? `
+                ${notice.image  `
                     <div class="notice-image" style="background-image: url('${notice.image}'); background-size: cover; background-position: center;">
-                        ${notice.type === 'security' ? '<i class="fas fa-shield-alt" style="font-size: 64px; color: white;"></i>' : ''}
-                        ${notice.type === 'certificate' ? '<i class="fas fa-certificate" style="font-size: 64px; color: white;"></i>' : ''}
+                        ${notice.type === 'security'  '<i class="fas fa-shield-alt" style="font-size: 64px; color: white;"></i>' : ''}
+                        ${notice.type === 'certificate'  '<i class="fas fa-certificate" style="font-size: 64px; color: white;"></i>' : ''}
                     </div>
                 ` : ''}
                 <div class="notice-content">
                     <div class="notice-title">${notice.title}</div>
-                    ${notice.subtitle ? `<div class="notice-subtitle">${notice.subtitle}</div>` : ''}
+                    ${notice.subtitle  `<div class="notice-subtitle">${notice.subtitle}</div>` : ''}
                 </div>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M7 10l5 5 5-5H7z"/>
@@ -848,7 +848,7 @@
 
         // Analisar mensagem com BobAI
         setTimeout(() => {
-            // Remover indicador de digitação
+            // Remover indicaçãor de digitação
             const indicator = document.getElementById('typingIndicator');
             if (indicator) indicator.remove();
 
@@ -895,11 +895,11 @@
                         <div class="message-avatar" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🎫</div>
                         <div class="message-content">
                             <div class="message-text">
-                                <strong>✅ Ticket criado com sucesso!</strong><br><br>
+                                <strong>✅ Ticket criação com sucesso!</strong><br><br>
                                 <strong>Número:</strong> ${ticketNumber}<br>
                                 <strong>Status:</strong> Aguardando atendimento<br><br>
                                 Um membro da equipe de suporte TI irá te atender em breve! 
-                                Você será notificado quando houver resposta. 🔔
+                                Você será notificação quando houver resposta. 🔔
                             </div>
                             <div class="message-time">Sistema • Agora</div>
                         </div>
@@ -907,7 +907,7 @@
                     messagesContainer.appendChild(confirmMsg);
                     messagesContainer.scrollTop = messagesContainer.scrollHeight;
                     
-                    // Resetar contador
+                    // Resetar contaçãor
                     state.bobAI.transferRequests = 0;
                 }, 1500);
             }
@@ -938,7 +938,7 @@
             badge.style.display = 'flex';
         }
 
-        console.log('✅ Chat Widget Omie inicializado');
+        console.log('✅ Chat Widget Omie inicialização');
     }
 
     // Start when DOM is ready

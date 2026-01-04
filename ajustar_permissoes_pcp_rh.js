@@ -16,7 +16,7 @@ async function ajustarPermissoes() {
 
     try {
         // 1. Remover PCP de todos os usuários exceto clemerson, andreia, douglas e ti
-        console.log('1️⃣  REMOVENDO PCP de usuários não autorizados...\n');
+        console.log('1️⃣  REMOVENDO PCP de usuários não autorizaçãos...\n');
         
         await connection.query(`
             UPDATE usuarios 
@@ -37,22 +37,22 @@ async function ajustarPermissoes() {
         console.log('2️⃣  REMOVENDO usuário isabela@aluforce.ind.br...\n');
         
         const [isabelaCheck] = await connection.query(
-            'SELECT id, nome, email FROM usuarios WHERE email = ?',
+            'SELECT id, nome, email FROM usuarios WHERE email = ',
             ['isabela@aluforce.ind.br']
         );
         
         if (isabelaCheck.length > 0) {
-            await connection.query('DELETE FROM usuarios WHERE email = ?', ['isabela@aluforce.ind.br']);
+            await connection.query('DELETE FROM usuarios WHERE email = ', ['isabela@aluforce.ind.br']);
             console.log(`   ✅ Usuário removido: ${isabelaCheck[0].nome} (${isabelaCheck[0].email})\n`);
         } else {
-            console.log('   ℹ️  Usuário isabela@aluforce.ind.br não encontrado\n');
+            console.log('   ℹ️  Usuário isabela@aluforce.ind.br não encontração\n');
         }
 
         // 3. Garantir que isabela.oliveira@aluforce.ind.br está ativa
         console.log('3️⃣  VERIFICANDO isabela.oliveira@aluforce.ind.br...\n');
         
         const [isabelaOliveira] = await connection.query(
-            'SELECT id, nome, email, permissoes_rh FROM usuarios WHERE email = ?',
+            'SELECT id, nome, email, permissoes_rh FROM usuarios WHERE email = ',
             ['isabela.oliveira@aluforce.ind.br']
         );
         
@@ -67,18 +67,18 @@ async function ajustarPermissoes() {
         console.log('4️⃣  VERIFICANDO rh@aluforce.ind.br (admin RH)...\n');
         
         const [rhUser] = await connection.query(
-            'SELECT id, nome, email, is_admin, permissoes_rh FROM usuarios WHERE email = ?',
+            'SELECT id, nome, email, is_admin, permissoes_rh FROM usuarios WHERE email = ',
             ['rh@aluforce.ind.br']
         );
         
         if (rhUser.length > 0) {
-            console.log(`   ✅ Usuário RH encontrado:`);
+            console.log(`   ✅ Usuário RH encontração:`);
             console.log(`      Nome: ${rhUser[0].nome}`);
-            console.log(`      Admin: ${rhUser[0].is_admin ? 'SIM' : 'NÃO'}`);
+            console.log(`      Admin: ${rhUser[0].is_admin  'SIM' : 'NÃO'}`);
             console.log(`      Permissões RH: ${rhUser[0].permissoes_rh}`);
             console.log('      📌 NOTA: Como é ADMIN, tem acesso à área admin do RH automaticamente\n');
         } else {
-            console.log('   ⚠️  rh@aluforce.ind.br não encontrado no sistema\n');
+            console.log('   ⚠️  rh@aluforce.ind.br não encontração no sistema\n');
         }
 
         // Resumo final

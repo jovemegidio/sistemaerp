@@ -1,5 +1,5 @@
 /**
- * Test Data Collector - Sistema de Coleta de Dados de Testes
+ * Test Data Collector - Sistema de Coleta de Daçãos de Testes
  * Coleta feedback e métricas de usuários durante testes do sistema
  */
 
@@ -149,7 +149,7 @@ class TestDataCollector {
     }
 
     /**
-     * Exporta dados para análise
+     * Exporta daçãos para análise
      */
     exportData() {
         return {
@@ -162,7 +162,7 @@ class TestDataCollector {
     }
 
     /**
-     * Limpa dados antigos (mais de X dias)
+     * Limpa daçãos antigos (mais de X dias)
      */
     cleanOldData(daysToKeep = 30) {
         const cutoffDate = new Date();

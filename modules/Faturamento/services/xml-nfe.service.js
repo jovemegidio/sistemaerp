@@ -11,11 +11,11 @@ class XmlNFeService {
     /**
      * Gerar XML completo da NFe
      */
-    static gerarXML(dadosNFe) {
-        const { emitente, destinatario, itens, totais, transporte, pagamento, informacoesAdicionais } = dadosNFe;
+    static gerarXML(daçãosNFe) {
+        const { emitente, destinatario, itens, totais, transporte, pagamento, informacoesAdicionais } = daçãosNFe;
         
         // Gerar chave de acesso
-        const chaveAcesso = this.gerarChaveAcesso(dadosNFe);
+        const chaveAcesso = this.gerarChaveAcesso(daçãosNFe);
         const idNFe = `NFe${chaveAcesso}`;
         
         // Criar estrutura XML
@@ -31,7 +31,7 @@ class XmlNFeService {
             });
         
         // IDE - Identificação
-        this.adicionarIDE(xml, dadosNFe, chaveAcesso);
+        this.adicionarIDE(xml, daçãosNFe, chaveAcesso);
         
         // Emitente
         this.adicionarEmitente(xml, emitente);
@@ -70,29 +70,29 @@ class XmlNFeService {
     /**
      * Adicionar IDE (Identificação)
      */
-    static adicionarIDE(xml, dados, chaveAcesso) {
+    static adicionarIDE(xml, daçãos, chaveAcesso) {
         const ide = xml.ele('ide');
         
-        ide.ele('cUF').txt(dados.codigoUF);
-        ide.ele('cNF').txt(dados.codigoNumerico || this.gerarCodigoNumerico());
-        ide.ele('natOp').txt(dados.naturezaOperacao);
-        ide.ele('mod').txt(dados.modelo || '55');
-        ide.ele('serie').txt(dados.serie);
-        ide.ele('nNF').txt(dados.numeroNFe);
-        ide.ele('dhEmi').txt(this.formatarDataHora(dados.dataEmissao || new Date()));
-        ide.ele('dhSaiEnt').txt(this.formatarDataHora(dados.dataSaida || new Date()));
-        ide.ele('tpNF').txt(dados.tipoOperacao); // 0=Entrada, 1=Saída
-        ide.ele('idDest').txt(this.identificarDestinatario(dados.emitente.uf, dados.destinatario.uf));
-        ide.ele('cMunFG').txt(dados.emitente.codigoMunicipio);
+        ide.ele('cUF').txt(daçãos.codigoUF);
+        ide.ele('cNF').txt(daçãos.codigoNumerico || this.gerarCodigoNumerico());
+        ide.ele('natOp').txt(daçãos.naturezaOperacao);
+        ide.ele('mod').txt(daçãos.modelo || '55');
+        ide.ele('serie').txt(daçãos.serie);
+        ide.ele('nNF').txt(daçãos.numeroNFe);
+        ide.ele('dhEmi').txt(this.formatarDataHora(daçãos.dataEmissao || new Date()));
+        ide.ele('dhSaiEnt').txt(this.formatarDataHora(daçãos.dataSaida || new Date()));
+        ide.ele('tpNF').txt(daçãos.tipoOperacao); // 0=Entrada, 1=Saída
+        ide.ele('idDest').txt(this.identificarDestinatario(daçãos.emitente.uf, daçãos.destinatario.uf));
+        ide.ele('cMunFG').txt(daçãos.emitente.codigoMunicipio);
         ide.ele('tpImp').txt('1'); // 1=DANFE Retrato
-        ide.ele('tpEmis').txt(dados.tipoEmissao || '1'); // 1=Normal
+        ide.ele('tpEmis').txt(daçãos.tipoEmissao || '1'); // 1=Normal
         ide.ele('cDV').txt(chaveAcesso.substring(43));
-        ide.ele('tpAmb').txt(dados.ambiente || '2'); // 1=Produção, 2=Homologação
-        ide.ele('finNFe').txt(dados.finalidade || '1'); // 1=Normal
-        ide.ele('indFinal').txt(dados.consumidorFinal || '1'); // 1=Consumidor Final
-        ide.ele('indPres').txt(dados.indicadorPresenca || '1'); // 1=Presencial
+        ide.ele('tpAmb').txt(daçãos.ambiente || '2'); // 1=Produção, 2=Homologação
+        ide.ele('finNFe').txt(daçãos.finalidade || '1'); // 1=Normal
+        ide.ele('indFinal').txt(daçãos.consumidorFinal || '1'); // 1=Consumidor Final
+        ide.ele('indPres').txt(daçãos.indicaçãorPresenca || '1'); // 1=Presencial
         ide.ele('procEmi').txt('0'); // 0=Aplicativo do contribuinte
-        ide.ele('verProc').txt(dados.versaoAplicativo || '1.0.0');
+        ide.ele('verProc').txt(daçãos.versaoAplicativo || '1.0.0');
         
         return ide.up();
     }
@@ -108,7 +108,7 @@ class XmlNFeService {
         emit.ele('xFant').txt(emitente.nomeFantasia || emitente.razaoSocial);
         
         const enderEmit = emit.ele('enderEmit');
-        enderEmit.ele('xLgr').txt(emitente.logradouro);
+        enderEmit.ele('xLgr').txt(emitente.lograçãouro);
         enderEmit.ele('nro').txt(emitente.numero);
         if (emitente.complemento) enderEmit.ele('xCpl').txt(emitente.complemento);
         enderEmit.ele('xBairro').txt(emitente.bairro);
@@ -143,7 +143,7 @@ class XmlNFeService {
         dest.ele('xNome').txt(destinatario.nome);
         
         const enderDest = dest.ele('enderDest');
-        enderDest.ele('xLgr').txt(destinatario.logradouro);
+        enderDest.ele('xLgr').txt(destinatario.lograçãouro);
         enderDest.ele('nro').txt(destinatario.numero);
         if (destinatario.complemento) enderDest.ele('xCpl').txt(destinatario.complemento);
         enderDest.ele('xBairro').txt(destinatario.bairro);
@@ -156,7 +156,7 @@ class XmlNFeService {
         if (destinatario.telefone) enderDest.ele('fone').txt(destinatario.telefone.replace(/\D/g, ''));
         enderDest.up();
         
-        dest.ele('indIEDest').txt(destinatario.ie ? '1' : '9'); // 1=Contribuinte, 9=Não Contribuinte
+        dest.ele('indIEDest').txt(destinatario.ie  '1' : '9'); // 1=Contribuinte, 9=Não Contribuinte
         if (destinatario.ie && destinatario.ie !== 'ISENTO') {
             dest.ele('IE').txt(destinatario.ie.replace(/\D/g, ''));
         }
@@ -171,53 +171,53 @@ class XmlNFeService {
     /**
      * Adicionar Item
      */
-    static adicionarItem(xml, itemCalculado, numero, emitente, destinatario) {
+    static adicionarItem(xml, itemCalculação, numero, emitente, destinatario) {
         const det = xml.ele('det', { nItem: numero });
         
         // Produto
         const prod = det.ele('prod');
-        prod.ele('cProd').txt(itemCalculado.item.codigo);
-        prod.ele('cEAN').txt(itemCalculado.item.ean || 'SEM GTIN');
-        prod.ele('xProd').txt(itemCalculado.item.descricao);
-        prod.ele('NCM').txt(itemCalculado.item.ncm);
-        if (itemCalculado.item.cest) prod.ele('CEST').txt(itemCalculado.item.cest);
-        if (itemCalculado.item.cfop) prod.ele('CFOP').txt(itemCalculado.item.cfop);
-        prod.ele('uCom').txt(itemCalculado.item.unidade);
-        prod.ele('qCom').txt(this.formatarDecimal(itemCalculado.item.quantidade, 4));
-        prod.ele('vUnCom').txt(this.formatarDecimal(itemCalculado.item.valorUnitario, 10));
-        prod.ele('vProd').txt(this.formatarDecimal(itemCalculado.totais.valorBruto, 2));
-        prod.ele('cEANTrib').txt(itemCalculado.item.ean || 'SEM GTIN');
-        prod.ele('uTrib').txt(itemCalculado.item.unidade);
-        prod.ele('qTrib').txt(this.formatarDecimal(itemCalculado.item.quantidade, 4));
-        prod.ele('vUnTrib').txt(this.formatarDecimal(itemCalculado.item.valorUnitario, 10));
-        if (itemCalculado.totais.valorFrete > 0) prod.ele('vFrete').txt(this.formatarDecimal(itemCalculado.totais.valorFrete, 2));
-        if (itemCalculado.totais.valorSeguro > 0) prod.ele('vSeg').txt(this.formatarDecimal(itemCalculado.totais.valorSeguro, 2));
-        if (itemCalculado.totais.valorDesconto > 0) prod.ele('vDesc').txt(this.formatarDecimal(itemCalculado.totais.valorDesconto, 2));
-        if (itemCalculado.totais.valorOutros > 0) prod.ele('vOutro').txt(this.formatarDecimal(itemCalculado.totais.valorOutros, 2));
+        prod.ele('cProd').txt(itemCalculação.item.codigo);
+        prod.ele('cEAN').txt(itemCalculação.item.ean || 'SEM GTIN');
+        prod.ele('xProd').txt(itemCalculação.item.descricao);
+        prod.ele('NCM').txt(itemCalculação.item.ncm);
+        if (itemCalculação.item.cest) prod.ele('CEST').txt(itemCalculação.item.cest);
+        if (itemCalculação.item.cfop) prod.ele('CFOP').txt(itemCalculação.item.cfop);
+        prod.ele('uCom').txt(itemCalculação.item.unidade);
+        prod.ele('qCom').txt(this.formatarDecimal(itemCalculação.item.quantidade, 4));
+        prod.ele('vUnCom').txt(this.formatarDecimal(itemCalculação.item.valorUnitario, 10));
+        prod.ele('vProd').txt(this.formatarDecimal(itemCalculação.totais.valorBruto, 2));
+        prod.ele('cEANTrib').txt(itemCalculação.item.ean || 'SEM GTIN');
+        prod.ele('uTrib').txt(itemCalculação.item.unidade);
+        prod.ele('qTrib').txt(this.formatarDecimal(itemCalculação.item.quantidade, 4));
+        prod.ele('vUnTrib').txt(this.formatarDecimal(itemCalculação.item.valorUnitario, 10));
+        if (itemCalculação.totais.valorFrete > 0) prod.ele('vFrete').txt(this.formatarDecimal(itemCalculação.totais.valorFrete, 2));
+        if (itemCalculação.totais.valorSeguro > 0) prod.ele('vSeg').txt(this.formatarDecimal(itemCalculação.totais.valorSeguro, 2));
+        if (itemCalculação.totais.valorDesconto > 0) prod.ele('vDesc').txt(this.formatarDecimal(itemCalculação.totais.valorDesconto, 2));
+        if (itemCalculação.totais.valorOutros > 0) prod.ele('vOutro').txt(this.formatarDecimal(itemCalculação.totais.valorOutros, 2));
         prod.ele('indTot').txt('1'); // 1=Valor compõe total da NFe
         prod.up();
         
         // Impostos
         const imposto = det.ele('imposto');
         
-        // Valor aproximado dos tributos
-        if (itemCalculado.totais.valorTotalTributos > 0) {
-            imposto.ele('vTotTrib').txt(this.formatarDecimal(itemCalculado.totais.valorTotalTributos, 2));
+        // Valor aproximação dos tributos
+        if (itemCalculação.totais.valorTotalTributos > 0) {
+            imposto.ele('vTotTrib').txt(this.formatarDecimal(itemCalculação.totais.valorTotalTributos, 2));
         }
         
         // ICMS
-        this.adicionarICMS(imposto, itemCalculado.icms, emitente);
+        this.adicionarICMS(imposto, itemCalculação.icms, emitente);
         
         // IPI
-        if (itemCalculado.ipi.valorIPI > 0) {
-            this.adicionarIPI(imposto, itemCalculado.ipi);
+        if (itemCalculação.ipi.valorIPI > 0) {
+            this.adicionarIPI(imposto, itemCalculação.ipi);
         }
         
         // PIS
-        this.adicionarPIS(imposto, itemCalculado.pis);
+        this.adicionarPIS(imposto, itemCalculação.pis);
         
         // COFINS
-        this.adicionarCOFINS(imposto, itemCalculado.cofins);
+        this.adicionarCOFINS(imposto, itemCalculação.cofins);
         
         imposto.up();
         det.up();
@@ -337,7 +337,7 @@ class XmlNFeService {
         
         icmsTot.ele('vBC').txt(this.formatarDecimal(totais.baseCalculoICMS, 2));
         icmsTot.ele('vICMS').txt(this.formatarDecimal(totais.valorICMS, 2));
-        icmsTot.ele('vICMSDeson').txt(this.formatarDecimal(totais.valorICMSDesonerado || 0, 2));
+        icmsTot.ele('vICMSDeson').txt(this.formatarDecimal(totais.valorICMSDesoneração || 0, 2));
         icmsTot.ele('vFCPUFDest').txt(this.formatarDecimal(totais.valorFCPUFDestino || 0, 2));
         icmsTot.ele('vICMSUFDest').txt(this.formatarDecimal(totais.valorICMSUFDestino || 0, 2));
         icmsTot.ele('vICMSUFRemet').txt(this.formatarDecimal(totais.valorICMSUFRemetente || 0, 2));
@@ -368,25 +368,25 @@ class XmlNFeService {
      */
     static adicionarTransporte(xml, transporte) {
         const transp = xml.ele('transp');
-        transp.ele('modFrete').txt(transporte?.modalidade || '9'); // 9=Sem frete
+        transp.ele('modFrete').txt(transporte.modalidade || '9'); // 9=Sem frete
         
-        if (transporte && transporte.transportadora) {
+        if (transporte && transporte.transportaçãora) {
             const transporta = transp.ele('transporta');
-            if (transporte.transportadora.cnpj) {
-                transporta.ele('CNPJ').txt(transporte.transportadora.cnpj.replace(/\D/g, ''));
+            if (transporte.transportaçãora.cnpj) {
+                transporta.ele('CNPJ').txt(transporte.transportaçãora.cnpj.replace(/\D/g, ''));
             }
-            transporta.ele('xNome').txt(transporte.transportadora.nome);
-            if (transporte.transportadora.ie) {
-                transporta.ele('IE').txt(transporte.transportadora.ie);
+            transporta.ele('xNome').txt(transporte.transportaçãora.nome);
+            if (transporte.transportaçãora.ie) {
+                transporta.ele('IE').txt(transporte.transportaçãora.ie);
             }
-            if (transporte.transportadora.endereco) {
-                transporta.ele('xEnder').txt(transporte.transportadora.endereco);
+            if (transporte.transportaçãora.endereco) {
+                transporta.ele('xEnder').txt(transporte.transportaçãora.endereco);
             }
-            if (transporte.transportadora.municipio) {
-                transporta.ele('xMun').txt(transporte.transportadora.municipio);
+            if (transporte.transportaçãora.municipio) {
+                transporta.ele('xMun').txt(transporte.transportaçãora.municipio);
             }
-            if (transporte.transportadora.uf) {
-                transporta.ele('UF').txt(transporte.transportadora.uf);
+            if (transporte.transportaçãora.uf) {
+                transporta.ele('UF').txt(transporte.transportaçãora.uf);
             }
             transporta.up();
         }
@@ -402,7 +402,7 @@ class XmlNFeService {
         
         pagamento.forEach(forma => {
             const detPag = pag.ele('detPag');
-            detPag.ele('indPag').txt(forma.indicador || '0'); // 0=À vista, 1=À prazo
+            detPag.ele('indPag').txt(forma.indicaçãor || '0'); // 0=À vista, 1=À prazo
             detPag.ele('tPag').txt(forma.forma); // 01=Dinheiro, 03=Cartão, etc
             detPag.ele('vPag').txt(this.formatarDecimal(forma.valor, 2));
             detPag.up();
@@ -431,37 +431,37 @@ class XmlNFeService {
     /**
      * Gerar chave de acesso da NFe (44 dígitos)
      */
-    static gerarChaveAcesso(dados) {
-        const uf = dados.codigoUF.toString().padStart(2, '0');
-        const aamm = this.formatarAAMM(dados.dataEmissao);
-        const cnpj = dados.emitente.cnpj.replace(/\D/g, '').padStart(14, '0');
-        const mod = (dados.modelo || '55').padStart(2, '0');
-        const serie = dados.serie.toString().padStart(3, '0');
-        const numero = dados.numeroNFe.toString().padStart(9, '0');
-        const tipoEmissao = (dados.tipoEmissao || '1').toString();
-        const codigoNumerico = (dados.codigoNumerico || this.gerarCodigoNumerico()).toString().padStart(8, '0');
+    static gerarChaveAcesso(daçãos) {
+        const uf = daçãos.codigoUF.toString().padStart(2, '0');
+        const aamm = this.formatarAAMM(daçãos.dataEmissao);
+        const cnpj = daçãos.emitente.cnpj.replace(/\D/g, '').padStart(14, '0');
+        const mod = (daçãos.modelo || '55').padStart(2, '0');
+        const serie = daçãos.serie.toString().padStart(3, '0');
+        const numero = daçãos.numeroNFe.toString().padStart(9, '0');
+        const tipoEmissao = (daçãos.tipoEmissao || '1').toString();
+        const codigoNumerico = (daçãos.codigoNumerico || this.gerarCodigoNumerico()).toString().padStart(8, '0');
         
         const chave43 = uf + aamm + cnpj + mod + serie + numero + tipoEmissao + codigoNumerico;
-        const dv = this.calcularDigitoVerificador(chave43);
+        const dv = this.calcularDigitoVerificaçãor(chave43);
         
         return chave43 + dv;
     }
     
     /**
-     * Calcular dígito verificador da chave de acesso
+     * Calcular dígito verificaçãor da chave de acesso
      */
-    static calcularDigitoVerificador(chave43) {
-        const multiplicadores = [2, 3, 4, 5, 6, 7, 8, 9];
+    static calcularDigitoVerificaçãor(chave43) {
+        const multiplicaçãores = [2, 3, 4, 5, 6, 7, 8, 9];
         let soma = 0;
-        let multiplicadorIndex = 0;
+        let multiplicaçãorIndex = 0;
         
         for (let i = chave43.length - 1; i >= 0; i--) {
-            soma += parseInt(chave43[i]) * multiplicadores[multiplicadorIndex];
-            multiplicadorIndex = (multiplicadorIndex + 1) % multiplicadores.length;
+            soma += parseInt(chave43[i]) * multiplicaçãores[multiplicaçãorIndex];
+            multiplicaçãorIndex = (multiplicaçãorIndex + 1) % multiplicaçãores.length;
         }
         
         const resto = soma % 11;
-        return resto === 0 || resto === 1 ? 0 : 11 - resto;
+        return resto === 0 || resto === 1  0 : 11 - resto;
     }
     
     /**
@@ -476,7 +476,7 @@ class XmlNFeService {
      */
     static identificarDestinatario(ufEmitente, ufDestinatario) {
         if (!ufDestinatario || ufDestinatario === 'EX') return '3';
-        return ufEmitente === ufDestinatario ? '1' : '2';
+        return ufEmitente === ufDestinatario  '1' : '2';
     }
     
     /**
@@ -487,7 +487,7 @@ class XmlNFeService {
         const offset = -3; // UTC-3 (Brasília)
         const pad = (n) => n.toString().padStart(2, '0');
         
-        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${offset >= 0 ? '+' : ''}${pad(Math.abs(offset))}:00`;
+        return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}${offset >= 0  '+' : ''}${pad(Math.abs(offset))}:00`;
     }
     
     /**

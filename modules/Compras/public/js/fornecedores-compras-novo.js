@@ -19,11 +19,11 @@
     function loadFornecedores() {
         // Mock data
         fornecedores = [
-            { id: 1, nome: 'Alum Brasil Ltda', cnpj: '12.345.678/0001-90', telefone: '(11) 3456-7890', email: 'contato@alumbrasil.com.br', cidade: 'São Paulo', estado: 'SP', categoria: 'Matéria-Prima', status: 'ativo', totalCompras: 245800, ultimaCompra: '2025-01-10' },
-            { id: 2, nome: 'Metal Line Indústria', cnpj: '23.456.789/0001-01', telefone: '(11) 3567-8901', email: 'vendas@metalline.com.br', cidade: 'Guarulhos', estado: 'SP', categoria: 'Ferragens', status: 'ativo', totalCompras: 189450, ultimaCompra: '2025-01-09' },
-            { id: 3, nome: 'Aço Forte Materiais', cnpj: '34.567.890/0001-12', telefone: '(21) 3678-9012', email: 'comercial@acoforte.com.br', cidade: 'Rio de Janeiro', estado: 'RJ', categoria: 'Matéria-Prima', status: 'ativo', totalCompras: 156200, ultimaCompra: '2025-01-08' },
-            { id: 4, nome: 'QuímicaBR Produtos', cnpj: '45.678.901/0001-23', telefone: '(41) 3789-0123', email: 'atendimento@quimicabr.com.br', cidade: 'Curitiba', estado: 'PR', categoria: 'Químicos', status: 'ativo', totalCompras: 87650, ultimaCompra: '2025-01-07' },
-            { id: 5, nome: 'Embalagens Master', cnpj: '56.789.012/0001-34', telefone: '(19) 3890-1234', email: 'vendas@embalagensmastercom.br', cidade: 'Campinas', estado: 'SP', categoria: 'Embalagens', status: 'ativo', totalCompras: 37550, ultimaCompra: '2025-01-06' }
+            { id: 1, nome: 'Alum Brasil Ltda', cnpj: '12.345.678/0001-90', telefone: '(11) 3456-7890', email: 'contato@alumbrasil.com.br', cidade: 'São Paulo', estação: 'SP', categoria: 'Matéria-Prima', status: 'ativo', totalCompras: 245800, ultimaCompra: '2025-01-10' },
+            { id: 2, nome: 'Metal Line Indústria', cnpj: '23.456.789/0001-01', telefone: '(11) 3567-8901', email: 'vendas@metalline.com.br', cidade: 'Guarulhos', estação: 'SP', categoria: 'Ferragens', status: 'ativo', totalCompras: 189450, ultimaCompra: '2025-01-09' },
+            { id: 3, nome: 'Aço Forte Materiais', cnpj: '34.567.890/0001-12', telefone: '(21) 3678-9012', email: 'comercial@acoforte.com.br', cidade: 'Rio de Janeiro', estação: 'RJ', categoria: 'Matéria-Prima', status: 'ativo', totalCompras: 156200, ultimaCompra: '2025-01-08' },
+            { id: 4, nome: 'QuímicaBR Produtos', cnpj: '45.678.901/0001-23', telefone: '(41) 3789-0123', email: 'atendimento@quimicabr.com.br', cidade: 'Curitiba', estação: 'PR', categoria: 'Químicos', status: 'ativo', totalCompras: 87650, ultimaCompra: '2025-01-07' },
+            { id: 5, nome: 'Embalagens Master', cnpj: '56.789.012/0001-34', telefone: '(19) 3890-1234', email: 'vendas@embalagensmastercom.br', cidade: 'Campinas', estação: 'SP', categoria: 'Embalagens', status: 'ativo', totalCompras: 37550, ultimaCompra: '2025-01-06' }
         ];
     }
 
@@ -82,7 +82,7 @@
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-map-marker-alt"></i>
-                                <span>${f.cidade} - ${f.estado}</span>
+                                <span>${f.cidade} - ${f.estação}</span>
                             </div>
                             <div class="info-item">
                                 <i class="fas fa-tag"></i>

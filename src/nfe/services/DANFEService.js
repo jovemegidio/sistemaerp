@@ -41,7 +41,7 @@ class DANFEService {
 
             // Buscar NFe
             const [nfes] = await this.pool.query(
-                'SELECT * FROM nfes WHERE id = ?',
+                'SELECT * FROM nfes WHERE id = ',
                 [nfeId]
             );
 
@@ -53,12 +53,12 @@ class DANFEService {
 
             // Buscar itens
             const [itens] = await this.pool.query(
-                'SELECT * FROM nfe_itens WHERE nfe_id = ? ORDER BY item',
+                'SELECT * FROM nfe_itens WHERE nfe_id =  ORDER BY item',
                 [nfeId]
             );
 
-            // Parse do XML para extrair dados adicionais
-            const dadosNFe = await this.parseXML(nfe.xml_assinado || nfe.xml_gerado);
+            // Parse do XML para extrair daçãos adicionais
+            const daçãosNFe = await this.parseXML(nfe.xml_assinação || nfe.xml_geração);
 
             // Criar documento PDF
             const doc = new PDFDocument({
@@ -81,12 +81,12 @@ class DANFEService {
             });
 
             // Desenhar DANFE
-            await this.desenharCabecalho(doc, nfe, dadosNFe);
-            await this.desenharDestinatario(doc, nfe, dadosNFe);
+            await this.desenharCabecalho(doc, nfe, daçãosNFe);
+            await this.desenharDestinatario(doc, nfe, daçãosNFe);
             await this.desenharItens(doc, itens, nfe);
-            await this.desenharCalculoImposto(doc, nfe, dadosNFe);
-            await this.desenharTransportador(doc, nfe, dadosNFe);
-            await this.desenharDadosAdicionais(doc, nfe, dadosNFe);
+            await this.desenharCalculoImposto(doc, nfe, daçãosNFe);
+            await this.desenharTransportaçãor(doc, nfe, daçãosNFe);
+            await this.desenharDaçãosAdicionais(doc, nfe, daçãosNFe);
             await this.desenharRodape(doc, nfe);
 
             // Se tiver QR Code (NFCe), adicionar
@@ -98,7 +98,7 @@ class DANFEService {
             doc.end();
 
             const pdfBuffer = await pdfPromise;
-            console.log('✅ DANFE gerado com sucesso!');
+            console.log('✅ DANFE geração com sucesso!');
             
             return pdfBuffer;
 
@@ -111,7 +111,7 @@ class DANFEService {
     /**
      * Desenha cabeçalho da DANFE
      */
-    async desenharCabecalho(doc, nfe, dadosNFe) {
+    async desenharCabecalho(doc, nfe, daçãosNFe) {
         const y = this.margin;
         const boxHeight = 100;
 
@@ -121,13 +121,13 @@ class DANFEService {
         // Logo (se existir)
         // doc.image('logo.png', this.margin + 5, y + 5, { width: 80, height: 60 });
 
-        // Dados do Emitente
+        // Daçãos do Emitente
         const emitX = this.margin + 90;
         doc.fontSize(10).font('Helvetica-Bold');
         doc.text(nfe.emitente_razao_social || 'EMITENTE', emitX, y + 5, { width: 250 });
         
         doc.fontSize(8).font('Helvetica');
-        doc.text(`${nfe.emitente_logradouro || ''}, ${nfe.emitente_numero || ''}`, emitX, y + 20);
+        doc.text(`${nfe.emitente_lograçãouro || ''}, ${nfe.emitente_numero || ''}`, emitX, y + 20);
         doc.text(`${nfe.emitente_bairro || ''} - ${nfe.emitente_municipio || ''}/${nfe.emitente_uf || ''}`, emitX, y + 30);
         doc.text(`CEP: ${this.formatarCEP(nfe.emitente_cep || '')}`, emitX, y + 40);
         doc.text(`Fone: ${nfe.emitente_fone || ''}`, emitX, y + 50);
@@ -161,7 +161,7 @@ class DANFEService {
         const chaveFormatada = this.formatarChaveAcesso(nfe.chave_acesso);
         doc.text(chaveFormatada, this.margin, chaveY + 12);
 
-        // Código de barras da chave (simplificado - apenas texto)
+        // Código de barras da chave (simplificação - apenas texto)
         // Em produção, usar biblioteca de código de barras (bwip-js)
         
         // Protocolo de autorização
@@ -180,9 +180,9 @@ class DANFEService {
     }
 
     /**
-     * Desenha dados do destinatário
+     * Desenha daçãos do destinatário
      */
-    async desenharDestinatario(doc, nfe, dadosNFe) {
+    async desenharDestinatario(doc, nfe, daçãosNFe) {
         const y = this.currentY;
         const boxHeight = 60;
 
@@ -193,7 +193,7 @@ class DANFEService {
         // Retângulo
         doc.rect(this.margin, y + 10, this.pageWidth - 2 * this.margin, boxHeight).stroke();
 
-        // Dados
+        // Daçãos
         doc.fontSize(8).font('Helvetica');
         const destY = y + 15;
         
@@ -201,7 +201,7 @@ class DANFEService {
         doc.text(`CNPJ/CPF: ${this.formatarCNPJCPF(nfe.destinatario_cnpj_cpf || '')}`, this.margin + 5, destY + 12);
         doc.text(`Data de Emissão: ${this.formatarData(nfe.data_emissao)}`, this.margin + 300, destY + 12);
         
-        doc.text(`Endereço: ${nfe.destinatario_logradouro || ''}, ${nfe.destinatario_numero || ''}`, this.margin + 5, destY + 24);
+        doc.text(`Endereço: ${nfe.destinatario_lograçãouro || ''}, ${nfe.destinatario_numero || ''}`, this.margin + 5, destY + 24);
         doc.text(`Bairro: ${nfe.destinatario_bairro || ''}`, this.margin + 5, destY + 36);
         doc.text(`Município: ${nfe.destinatario_municipio || ''}`, this.margin + 200, destY + 36);
         doc.text(`UF: ${nfe.destinatario_uf || ''}`, this.margin + 400, destY + 36);
@@ -272,7 +272,7 @@ class DANFEService {
     /**
      * Desenha cálculo de impostos
      */
-    async desenharCalculoImposto(doc, nfe, dadosNFe) {
+    async desenharCalculoImposto(doc, nfe, daçãosNFe) {
         const y = this.currentY;
         const boxHeight = 70;
 
@@ -305,9 +305,9 @@ class DANFEService {
     }
 
     /**
-     * Desenha dados do transportador
+     * Desenha daçãos do transportaçãor
      */
-    async desenharTransportador(doc, nfe, dadosNFe) {
+    async desenharTransportaçãor(doc, nfe, daçãosNFe) {
         const y = this.currentY;
         const boxHeight = 50;
 
@@ -319,12 +319,12 @@ class DANFEService {
         doc.fontSize(8).font('Helvetica');
         const transpY = y + 15;
         
-        doc.text(`Razão Social: ${nfe.transportador_razao_social || 'SEM TRANSPORTADOR'}`, this.margin + 5, transpY);
+        doc.text(`Razão Social: ${nfe.transportaçãor_razao_social || 'SEM TRANSPORTADOR'}`, this.margin + 5, transpY);
         doc.text(`Frete por Conta: ${this.getModalidadeFrete(nfe.modalidade_frete)}`, this.margin + 300, transpY);
         
-        if (nfe.transportador_cnpj_cpf) {
-            doc.text(`CNPJ/CPF: ${this.formatarCNPJCPF(nfe.transportador_cnpj_cpf)}`, this.margin + 5, transpY + 12);
-            doc.text(`Endereço: ${nfe.transportador_endereco || ''}`, this.margin + 200, transpY + 12);
+        if (nfe.transportaçãor_cnpj_cpf) {
+            doc.text(`CNPJ/CPF: ${this.formatarCNPJCPF(nfe.transportaçãor_cnpj_cpf)}`, this.margin + 5, transpY + 12);
+            doc.text(`Endereço: ${nfe.transportaçãor_endereco || ''}`, this.margin + 200, transpY + 12);
         }
 
         doc.text(`Quantidade: ${nfe.volumes_quantidade || 0}`, this.margin + 5, transpY + 24);
@@ -336,9 +336,9 @@ class DANFEService {
     }
 
     /**
-     * Desenha dados adicionais
+     * Desenha daçãos adicionais
      */
-    async desenharDadosAdicionais(doc, nfe, dadosNFe) {
+    async desenharDaçãosAdicionais(doc, nfe, daçãosNFe) {
         const y = this.currentY;
         const boxHeight = 60;
 
@@ -348,13 +348,13 @@ class DANFEService {
         doc.rect(this.margin, y + 10, this.pageWidth - 2 * this.margin, boxHeight).stroke();
 
         doc.fontSize(7).font('Helvetica');
-        const dadosY = y + 15;
+        const daçãosY = y + 15;
         
         const infComplementar = nfe.informacoes_complementares || 
             'Documento emitido por ME ou EPP optante pelo Simples Nacional. Não gera direito a crédito fiscal de IPI.';
         
-        doc.text('Informações Complementares:', this.margin + 5, dadosY);
-        doc.text(infComplementar, this.margin + 5, dadosY + 10, { width: this.pageWidth - 30 });
+        doc.text('Informações Complementares:', this.margin + 5, daçãosY);
+        doc.text(infComplementar, this.margin + 5, daçãosY + 10, { width: this.pageWidth - 30 });
 
         this.currentY = y + boxHeight + 20;
     }
@@ -372,7 +372,7 @@ class DANFEService {
         });
 
         doc.fontSize(6);
-        doc.text(`Gerado em ${new Date().toLocaleString('pt-BR')} - Aluforce Sistema NFe`, 
+        doc.text(`Geração em ${new Date().toLocaleString('pt-BR')} - Aluforce Sistema NFe`, 
             this.margin, y + 10, { 
             width: this.pageWidth - 2 * this.margin, 
             align: 'center' 
@@ -423,7 +423,7 @@ class DANFEService {
     }
 
     /**
-     * Formatadores
+     * Formataçãores
      */
     formatarCNPJ(cnpj) {
         if (!cnpj) return '';
@@ -440,7 +440,7 @@ class DANFEService {
     formatarCNPJCPF(valor) {
         if (!valor) return '';
         valor = valor.replace(/\D/g, '');
-        return valor.length === 14 ? this.formatarCNPJ(valor) : this.formatarCPF(valor);
+        return valor.length === 14  this.formatarCNPJ(valor) : this.formatarCPF(valor);
     }
 
     formatarCEP(cep) {
@@ -480,7 +480,7 @@ class DANFEService {
             '2': 'Terceiros',
             '9': 'Sem Frete'
         };
-        return modalidades[modalidade] || 'Não Informado';
+        return modalidades[modalidade] || 'Não Informação';
     }
 }
 

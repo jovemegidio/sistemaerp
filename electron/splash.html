@@ -28,7 +28,7 @@
             border-radius: 20px;
             padding: 50px 60px;
             text-align: center;
-            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            box-shaçãow: 0 25px 80px rgba(0, 0, 0, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
             position: relative;
             overflow: hidden;
@@ -65,20 +65,20 @@
             align-items: center;
             justify-content: center;
             margin: 0 auto;
-            box-shadow: 0 10px 40px rgba(30, 64, 175, 0.4);
+            box-shaçãow: 0 10px 40px rgba(30, 64, 175, 0.4);
             animation: pulse 2s ease-in-out infinite;
         }
 
         @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 10px 40px rgba(30, 64, 175, 0.4); }
-            50% { transform: scale(1.05); box-shadow: 0 15px 50px rgba(30, 64, 175, 0.5); }
+            0%, 100% { transform: scale(1); box-shaçãow: 0 10px 40px rgba(30, 64, 175, 0.4); }
+            50% { transform: scale(1.05); box-shaçãow: 0 15px 50px rgba(30, 64, 175, 0.5); }
         }
 
         .logo-text {
             font-size: 48px;
             font-weight: 800;
             color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            text-shaçãow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
 
         .app-name {
@@ -137,7 +137,7 @@
             color: #475569;
         }
 
-        /* Part�culas decorativas */
+        /* Partculas decorativas */
         .particles {
             position: absolute;
             top: 0;
@@ -200,7 +200,7 @@
         </div>
         
         <h1 class="app-name">Aluforce</h1>
-        <p class="app-subtitle">Sistema de Gest�o Empresarial</p>
+        <p class="app-subtitle">Sistema de Gesto Empresarial</p>
         
         <div class="loader-container">
             <div class="loader">
@@ -216,7 +216,7 @@
     <script>
         const { ipcRenderer } = require('electron');
         
-        // Receber atualiza��es de status
+        // Receber atualizaes de status
         ipcRenderer.on('status-update', (event, message) => {
             const statusElement = document.getElementById('status');
             if (statusElement) {
@@ -227,14 +227,14 @@
         // Lista de mensagens de status
         const statusMessages = [
             'Iniciando servidor...',
-            'Carregando m�dulos...',
-            'Conectando ao banco de dados...',
+            'Carregando mdulos...',
+            'Conectando ao banco de daçãos...',
             'Preparando interface...'
         ];
 
         let currentIndex = 0;
 
-        // Alternar mensagens automaticamente se n�o receber do main
+        // Alternar mensagens automaticamente se no receber do main
         const autoStatus = setInterval(() => {
             const statusElement = document.getElementById('status');
             if (statusElement) {

@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <title>ALUFORCE - Cotações</title>
+    <title>ALUFORCE - Cotaes</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root { --sidebar-width: 56px; --header-height: 48px; --primary-purple: #38bdf8; --primary-dark: #1a1a2e; --bg-gray: #f5f5f5; --border-color: #e5e5e5; --text-primary: #1a1a1a; --text-secondary: #666; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -45,7 +45,7 @@
         .btn-primary:hover { background: #0ea5e9; }
         .btn-secondary { background: white; color: var(--text-primary); border: 1px solid var(--border-color); }
         .summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 20px; }
-        .summary-card { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 16px; }
+        .summary-card { background: white; border-radius: 12px; padding: 20px; box-shaÃ§Ã£ow: 0 2px 8px rgba(0,0,0,0.04); display: flex; align-items: center; gap: 16px; }
         .summary-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
         .summary-icon.purple { background: rgba(56,189,248,0.1); color: #38bdf8; }
         .summary-icon.green { background: rgba(34,197,94,0.1); color: #22c55e; }
@@ -53,7 +53,7 @@
         .summary-icon.orange { background: rgba(249,115,22,0.1); color: #f97316; }
         .summary-content h3 { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
         .summary-value { font-size: 24px; font-weight: 700; }
-        .filters-bar { background: white; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); flex-wrap: wrap; }
+        .filters-bar { background: white; border-radius: 12px; padding: 16px 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 16px; box-shaÃ§Ã£ow: 0 2px 8px rgba(0,0,0,0.04); flex-wrap: wrap; }
         .search-box { display: flex; align-items: center; background: #f5f5f5; border-radius: 8px; padding: 0 12px; flex: 1; max-width: 400px; }
         .search-box i { color: #999; font-size: 14px; }
         .search-box input { border: none; background: transparent; padding: 10px 12px; font-size: 14px; width: 100%; outline: none; }
@@ -61,7 +61,7 @@
         .filter-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border-color); background: white; color: var(--text-secondary); font-size: 13px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
         .filter-btn:hover { background: #f5f5f5; }
         .filter-btn.active { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
-        .table-container { background: white; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; }
+        .table-container { background: white; border-radius: 12px; box-shaÃ§Ã£ow: 0 2px 8px rgba(0,0,0,0.04); overflow: hidden; }
         .table-header { padding: 16px 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .table-header h3 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
         .data-table { width: 100%; border-collapse: collapse; }
@@ -74,7 +74,7 @@
         .status-badge.finalizada { background: #dcfce7; color: #166534; }
         .status-badge.cancelada { background: #fee2e2; color: #991b1b; }
         
-        /* Badges usados pelo JS */
+        /* Badges usaÃ§Ã£os pelo JS */
         .badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 15px; font-size: 11px; font-weight: 600; }
         .badge-secondary { background: #e2e8f0; color: #475569; }
         .badge-info { background: #dbeafe; color: #1e40af; }
@@ -84,7 +84,7 @@
         .badge-purple { background: #ede9fe; color: #7c3aed; }
         .badge-primary { background: #dbeafe; color: #2563eb; }
         
-        /* Botões de ação da tabela */
+        /* Botes de ao da tabela */
         .table-actions { display: flex; gap: 4px; }
         .btn-icon { width: 32px; height: 32px; border: none; border-radius: 8px; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s; background: #f1f5f9; color: #64748b; }
         .btn-icon:hover { background: #e2e8f0; color: #334155; }
@@ -97,7 +97,7 @@
         .btn-action.edit { background: #fef3c7; color: #d97706; }
         .btn-action.delete { background: #fee2e2; color: #dc2626; }
         
-        /* Paginação */
+        /* Paginao */
         .btn-pagination { width: 32px; height: 32px; border: 1px solid var(--border-color); background: white; border-radius: 6px; cursor: pointer; font-size: 12px; display: inline-flex; align-items: center; justify-content: center; margin: 0 2px; }
         .btn-pagination:hover { background: #f5f5f5; }
         .btn-pagination.active { background: var(--primary-purple); color: white; border-color: var(--primary-purple); }
@@ -110,7 +110,7 @@
         /* Modal Styles */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
         .modal-overlay.active { display: flex; }
-        .modal { background: white; border-radius: 16px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+        .modal { background: white; border-radius: 16px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; box-shaÃ§Ã£ow: 0 20px 60px rgba(0,0,0,0.3); }
         .modal-header { padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .modal-header h2 { font-size: 18px; font-weight: 700; display: flex; align-items: center; gap: 10px; }
         .modal-header h2 i { color: var(--primary-purple); }
@@ -120,7 +120,7 @@
         .form-group { margin-bottom: 20px; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 14px; font-family: inherit; transition: all 0.2s; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-purple); box-shadow: 0 0 0 3px rgba(56,189,248,0.1); }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-purple); box-shaÃ§Ã£ow: 0 0 0 3px rgba(56,189,248,0.1); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
         .modal-footer { padding: 20px 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 12px; }
         
@@ -138,11 +138,11 @@
                 <a href="gestao-estoque.html" class="sidebar-btn" title="Estoque"><i class="fas fa-boxes"></i></a>
                 <a href="materiais.html" class="sidebar-btn" title="Materiais"><i class="fas fa-cubes"></i></a>
                 <a href="pedidos.html" class="sidebar-btn" title="Pedidos"><i class="fas fa-shopping-cart"></i></a>
-                <a href="cotacoes.html" class="sidebar-btn active" title="Cotações"><i class="fas fa-file-invoice-dollar"></i></a>
-                <a href="requisicoes.html" class="sidebar-btn" title="Requisições"><i class="fas fa-clipboard-list"></i></a>
+                <a href="cotacoes.html" class="sidebar-btn active" title="Cotaes"><i class="fas fa-file-invoice-dollar"></i></a>
+                <a href="requisicoes.html" class="sidebar-btn" title="Requisies"><i class="fas fa-clipboard-list"></i></a>
             </nav>
             <div class="sidebar-bottom">
-                <a href="relatorios.html" class="sidebar-btn" title="Relatórios"><i class="fas fa-chart-bar"></i></a>
+                <a href="relatorios.html" class="sidebar-btn" title="Relatrios"><i class="fas fa-chart-bar"></i></a>
             </div>
         </aside>
         <main class="main-area">
@@ -152,13 +152,13 @@
                     <div class="header-brand">
                         <span>Compras</span>
                         <span>|</span>
-                        <span style="color: white;">Cotações</span>
+                        <span style="color: white;">Cotaes</span>
                     </div>
                 </div>
                 <div class="header-right">
-                    <button class="header-btn" title="Notificações"><i class="fas fa-bell"></i></button>
+                    <button class="header-btn" title="Notificaes"><i class="fas fa-bell"></i></button>
                     <div class="user-greeting">
-                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usurio</strong></span>
                         <div class="user-avatar">
                             <img src="" alt="Foto" id="user-photo">
                             <span id="user-initial">U</span>
@@ -168,34 +168,34 @@
             </header>
             <div class="page-content">
                 <div class="page-header">
-                    <h1 class="page-title"><i class="fas fa-file-invoice-dollar"></i> Cotações de Compra</h1>
+                    <h1 class="page-title"><i class="fas fa-file-invoice-dollar"></i> Cotaes de Compra</h1>
                     <div class="page-actions">
                         <button class="btn btn-secondary"><i class="fas fa-download"></i> Exportar</button>
-                        <button class="btn btn-primary" onclick="abrirModalNovaCotacao()"><i class="fas fa-plus"></i> Nova Cotação</button>
+                        <button class="btn btn-primary" onclick="abrirModalNovaCotacao()"><i class="fas fa-plus"></i> Nova Cotao</button>
                     </div>
                 </div>
                 <div class="summary-cards">
-                    <div class="summary-card"><div class="summary-icon purple"><i class="fas fa-file-invoice-dollar"></i></div><div class="summary-content"><h3>Total Cotações</h3><div class="summary-value" id="totalCotacoes">0</div></div></div>
-                    <div class="summary-card"><div class="summary-icon orange"><i class="fas fa-search-dollar"></i></div><div class="summary-content"><h3>Em Análise</h3><div class="summary-value" id="cotacoesAnalise">0</div></div></div>
+                    <div class="summary-card"><div class="summary-icon purple"><i class="fas fa-file-invoice-dollar"></i></div><div class="summary-content"><h3>Total Cotaes</h3><div class="summary-value" id="totalCotacoes">0</div></div></div>
+                    <div class="summary-card"><div class="summary-icon orange"><i class="fas fa-search-dollar"></i></div><div class="summary-content"><h3>Em Anlise</h3><div class="summary-value" id="cotacoesAnalise">0</div></div></div>
                     <div class="summary-card"><div class="summary-icon green"><i class="fas fa-check-circle"></i></div><div class="summary-content"><h3>Aprovadas</h3><div class="summary-value" id="cotacoesAprovadas">0</div></div></div>
-                    <div class="summary-card"><div class="summary-icon blue"><i class="fas fa-percentage"></i></div><div class="summary-content"><h3>Economia Média</h3><div class="summary-value" id="economiaMedia">0%</div></div></div>
+                    <div class="summary-card"><div class="summary-icon blue"><i class="fas fa-percentage"></i></div><div class="summary-content"><h3>Economia Mdia</h3><div class="summary-value" id="economiaMedia">0%</div></div></div>
                 </div>
                 <div class="filters-bar">
-                    <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchCotacao" placeholder="Buscar por código, fornecedor, material..." oninput="cotacoesManager.filtrar()"></div>
+                    <div class="search-box"><i class="fas fa-search"></i><input type="text" id="searchCotacao" placeholder="Buscar por cdigo, fornecedor, material..." oninput="cotacoesManager.filtrar()"></div>
                     <div class="filter-buttons">
                         <button class="filter-btn active" onclick="cotacoesManager.filtrarPorStatus('todos')"><i class="fas fa-list"></i> Todas</button>
                         <button class="filter-btn" onclick="cotacoesManager.filtrarPorStatus('Rascunho')"><i class="fas fa-edit"></i> Rascunho</button>
                         <button class="filter-btn" onclick="cotacoesManager.filtrarPorStatus('Enviada')"><i class="fas fa-paper-plane"></i> Enviadas</button>
-                        <button class="filter-btn" onclick="cotacoesManager.filtrarPorStatus('Em Análise')"><i class="fas fa-search-dollar"></i> Em Análise</button>
+                        <button class="filter-btn" onclick="cotacoesManager.filtrarPorStatus('Em Anlise')"><i class="fas fa-search-dollar"></i> Em Anlise</button>
                         <button class="filter-btn" onclick="cotacoesManager.filtrarPorStatus('Aprovada')"><i class="fas fa-check-circle"></i> Aprovadas</button>
                     </div>
                 </div>
                 <div class="table-container">
-                    <div class="table-header"><h3><i class="fas fa-table"></i> Lista de Cotações</h3></div>
+                    <div class="table-header"><h3><i class="fas fa-table"></i> Lista de Cotaes</h3></div>
                     <table class="data-table">
-                        <thead><tr><th><input type="checkbox" title="Selecionar todos"></th><th>Código</th><th>Data</th><th>Solicitante</th><th>Materiais</th><th>Fornecedores</th><th>Melhor Oferta</th><th>Status</th><th>Ações</th></tr></thead>
+                        <thead><tr><th><input type="checkbox" title="Selecionar todos"></th><th>Cdigo</th><th>Data</th><th>Solicitante</th><th>Materiais</th><th>Fornecedores</th><th>Melhor Oferta</th><th>Status</th><th>Aes</th></tr></thead>
                         <tbody id="cotacoesTableBody">
-                            <!-- Dados carregados dinamicamente pelo cotacoes.js -->
+                            <!-- DaÃ§Ã£os carregaÃ§Ã£os dinamicamente pelo cotacoes.js -->
                         </tbody>
                     </table>
                     <div class="table-pagination">
@@ -207,11 +207,11 @@
         </main>
     </div>
 
-    <!-- Modal Nova Cotação -->
+    <!-- Modal Nova Cotao -->
     <div class="modal-overlay" id="modalNovaCotacao">
         <div class="modal" style="max-width: 800px;">
             <div class="modal-header">
-                <h2><i class="fas fa-plus-circle"></i> <span id="modalCotacaoTitulo">Nova Cotação de Compra</span></h2>
+                <h2><i class="fas fa-plus-circle"></i> <span id="modalCotacaoTitulo">Nova Cotao de Compra</span></h2>
                 <button class="modal-close" onclick="fecharModalCotacao()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
@@ -221,8 +221,8 @@
                     
                     <div class="form-row">
                         <div class="form-group" style="flex: 2;">
-                            <label><i class="fas fa-tag" style="color: #38bdf8;"></i> Descrição/Título da Cotação *</label>
-                            <input type="text" id="cotDescricao" placeholder="Ex: Cotação de Chapas de Alumínio" required>
+                            <label><i class="fas fa-tag" style="color: #38bdf8;"></i> Descrio/Ttulo da Cotao *</label>
+                            <input type="text" id="cotDescricao" placeholder="Ex: Cotao de Chapas de Alumnio" required>
                         </div>
                         <div class="form-group">
                             <label><i class="fas fa-calendar" style="color: #38bdf8;"></i> Validade *</label>
@@ -234,9 +234,9 @@
                         <label><i class="fas fa-cubes" style="color: #38bdf8;"></i> Material/Produto *</label>
                         <select id="cotMaterial" required>
                             <option value="">Selecione o material</option>
-                            <option value="1">Chapa de Alumínio 3mm</option>
-                            <option value="2">Perfil de Alumínio</option>
-                            <option value="3">Vidro Temperado 8mm</option>
+                            <option value="1">Chapa de Alumnio 3mm</option>
+                            <option value="2">Perfil de Alumnio</option>
+                            <option value="3">Vidro TemperaÃ§Ã£o 8mm</option>
                             <option value="4">Parafusos Inox M8</option>
                             <option value="5">Silicone Estrutural</option>
                         </select>
@@ -251,19 +251,19 @@
                             <label><i class="fas fa-ruler" style="color: #38bdf8;"></i> Unidade</label>
                             <select id="cotUnidade">
                                 <option value="UN">UN - Unidade</option>
-                                <option value="M2">M² - Metro Quadrado</option>
+                                <option value="M2">M - Metro QuadraÃ§Ã£o</option>
                                 <option value="M">M - Metro Linear</option>
                                 <option value="KG">KG - Quilograma</option>
-                                <option value="PC">PC - Peça</option>
+                                <option value="PC">PC - Pea</option>
                             </select>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label><i class="fas fa-users" style="color: #38bdf8;"></i> Fornecedores para Cotação</label>
+                        <label><i class="fas fa-users" style="color: #38bdf8;"></i> Fornecedores para Cotao</label>
                         <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px;">
                             <label style="display: flex; align-items: center; gap: 6px; padding: 8px 12px; border: 1px solid #e5e5e5; border-radius: 6px; cursor: pointer;">
-                                <input type="checkbox" name="fornecedores" value="1"> Alumínio Brasil LTDA
+                                <input type="checkbox" name="fornecedores" value="1"> Alumnio Brasil LTDA
                             </label>
                             <label style="display: flex; align-items: center; gap: 6px; padding: 8px 12px; border: 1px solid #e5e5e5; border-radius: 6px; cursor: pointer;">
                                 <input type="checkbox" name="fornecedores" value="2"> Metais Premium SA
@@ -272,29 +272,29 @@
                                 <input type="checkbox" name="fornecedores" value="3"> Vidros & Cia
                             </label>
                             <label style="display: flex; align-items: center; gap: 6px; padding: 8px 12px; border: 1px solid #e5e5e5; border-radius: 6px; cursor: pointer;">
-                                <input type="checkbox" name="fornecedores" value="4"> Fixadores Industriais
+                                <input type="checkbox" name="fornecedores" value="4"> FixaÃ§Ã£ores Industriais
                             </label>
                         </div>
                     </div>
                     
                     <div class="form-group">
-                        <label><i class="fas fa-comment-alt" style="color: #38bdf8;"></i> Observações</label>
-                        <textarea id="cotObservacoes" rows="3" placeholder="Observações adicionais para os fornecedores..."></textarea>
+                        <label><i class="fas fa-comment-alt" style="color: #38bdf8;"></i> Observaes</label>
+                        <textarea id="cotObservacoes" rows="3" placeholder="Observaes adicionais para os fornecedores..."></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="fecharModalCotacao()">Cancelar</button>
-                <button class="btn btn-primary" onclick="salvarCotacao()"><i class="fas fa-save"></i> Salvar Cotação</button>
+                <button class="btn btn-primary" onclick="salvarCotacao()"><i class="fas fa-save"></i> Salvar Cotao</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Funções básicas de modal
+        // Funes bsicas de modal
         function abrirModalNovaCotacao() {
             document.getElementById('modalNovaCotacao').classList.add('active');
-            document.getElementById('modalCotacaoTitulo').textContent = 'Nova Cotação de Compra';
+            document.getElementById('modalCotacaoTitulo').textContent = 'Nova Cotao de Compra';
             document.getElementById('formCotacao').reset();
             document.getElementById('cotacaoId').value = '';
         }
@@ -310,11 +310,11 @@
             const quantidade = document.getElementById('cotQuantidade').value;
             
             if (!descricao || !validade || !material || !quantidade) {
-                alert('Por favor, preencha todos os campos obrigatórios.');
+                alert('Por favor, preencha todos os campos obrigatrios.');
                 return;
             }
             
-            alert('Cotação salva com sucesso! (Funcionalidade de integração com API em desenvolvimento)');
+            alert('Cotao salva com sucesso! (Funcionalidade de integrao com API em desenvolvimento)');
             fecharModalCotacao();
         }
         
@@ -328,7 +328,7 @@
     
     <script src="notifications.js"></script>
     <script src="cotacoes.js"></script>
-    <script src="compras-user-loader.js?v=20251228"></script>
+    <script src="compras-user-loader.jsv=20251228"></script>
     
     </body>
 </html>

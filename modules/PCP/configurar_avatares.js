@@ -15,7 +15,7 @@ async function configurarAvatares() {
             database: 'aluforce_vendas'
         });
         
-        console.log('✅ Conectado ao banco de dados\n');
+        console.log('✅ Conectação ao banco de daçãos\n');
         
         // Adicionar campo foto_url se não existir
         console.log('🔧 Verificando/adicionando campo foto_url...');
@@ -25,7 +25,7 @@ async function configurarAvatares() {
                 ALTER TABLE usuarios_pcp 
                 ADD COLUMN IF NOT EXISTS foto_url VARCHAR(255)
             `);
-            console.log('✅ Campo "foto_url" adicionado/verificado\n');
+            console.log('✅ Campo "foto_url" adicionação/verificação\n');
         } catch (e) {
             console.log('ℹ️ Campo "foto_url" já existe ou erro:', e.message);
         }
@@ -56,21 +56,21 @@ async function configurarAvatares() {
                 
                 // Verificar se usuário existe
                 const [usuario] = await connection.execute(
-                    'SELECT id, nome FROM usuarios_pcp WHERE email = ?',
+                    'SELECT id, nome FROM usuarios_pcp WHERE email = ',
                     [avatar.email]
                 );
                 
                 if (usuario.length > 0) {
                     // Atualizar foto do usuário
                     await connection.execute(
-                        'UPDATE usuarios_pcp SET foto_url = ? WHERE email = ?',
+                        'UPDATE usuarios_pcp SET foto_url =  WHERE email = ',
                         [avatar.foto, avatar.email]
                     );
                     
-                    console.log(`   ✅ Avatar configurado: ${avatar.foto}`);
+                    console.log(`   ✅ Avatar configuração: ${avatar.foto}`);
                     sucessos++;
                 } else {
-                    console.log(`   ⚠️ Usuário não encontrado: ${avatar.email}`);
+                    console.log(`   ⚠️ Usuário não encontração: ${avatar.email}`);
                 }
                 
             } catch (error) {
@@ -93,17 +93,17 @@ async function configurarAvatares() {
         
         for (const usuario of usuariosSemFoto) {
             try {
-                // Gerar URL do avatar baseado no nome
-                const nomeSimplificado = usuario.nome
+                // Gerar URL do avatar baseação no nome
+                const nomeSimplificação = usuario.nome
                     .toLowerCase()
                     .replace(/\s+/g, '')
                     .normalize('NFD')
                     .replace(/[\u0300-\u036f]/g, '');
                 
-                const avatarUrl = `/avatars/${nomeSimplificado}.webp`;
+                const avatarUrl = `/avatars/${nomeSimplificação}.webp`;
                 
                 await connection.execute(
-                    'UPDATE usuarios_pcp SET foto_url = ? WHERE id = ?',
+                    'UPDATE usuarios_pcp SET foto_url =  WHERE id = ',
                     [avatarUrl, usuario.id]
                 );
                 
@@ -119,8 +119,8 @@ async function configurarAvatares() {
         console.log('\n' + '='.repeat(60));
         console.log('📊 RELATÓRIO FINAL DE AVATARES');
         console.log('='.repeat(60));
-        console.log(`✅ Avatares configurados: ${sucessos}`);
-        console.log(`❌ Erros encontrados: ${erros}`);
+        console.log(`✅ Avatares configuraçãos: ${sucessos}`);
+        console.log(`❌ Erros encontraçãos: ${erros}`);
         
         // Mostrar status final de todos os usuários
         const [todosUsuarios] = await connection.execute(`
@@ -132,7 +132,7 @@ async function configurarAvatares() {
         console.log('\n👥 USUÁRIOS COM AVATARES:');
         console.log('='.repeat(50));
         todosUsuarios.forEach((user, index) => {
-            const foto = user.foto_url ? `📸 ${user.foto_url}` : '👤 Avatar padrão';
+            const foto = user.foto_url  `📸 ${user.foto_url}` : '👤 Avatar padrão';
             console.log(`${index + 1}. ${user.nome} (${user.email})`);
             console.log(`   ${foto}`);
         });
@@ -161,7 +161,7 @@ async function configurarAvatares() {
                 if (user.foto_url) {
                     const nomeArquivo = user.foto_url.replace('/avatars/', '');
                     const existe = arquivos.includes(nomeArquivo);
-                    const status = existe ? '✅ Existe' : '❌ Arquivo não encontrado';
+                    const status = existe  '✅ Existe' : '❌ Arquivo não encontração';
                     console.log(`   ${user.nome}: ${status}`);
                 }
             }

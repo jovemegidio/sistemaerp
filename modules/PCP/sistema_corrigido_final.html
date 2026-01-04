@@ -8,7 +8,7 @@
     <title>🚀 SISTEMA PCP - VERSÃO FINAL CORRIGIDA</title>
     
     <!-- Cache-busting extremo -->
-    <link rel="stylesheet" href="pcp_modern_clean.css?v=20.0&timestamp=1727979000&force=true">
+    <link rel="stylesheet" href="pcp_modern_clean.cssv=20.0&timestamp=1727979000&force=true">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <!-- META PARA FORÇAR ATUALIZAÇÃO -->
@@ -39,7 +39,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shaçãow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .header-left {
@@ -108,7 +108,7 @@
         .card {
             background: white;
             border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
         }
         
@@ -136,7 +136,7 @@
             background: white !important;
             border-radius: 8px !important;
             overflow: hidden !important;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
+            box-shaçãow: 0 1px 3px rgba(0,0,0,0.1) !important;
         }
         
         .estoque-table th {
@@ -180,7 +180,7 @@
             font-weight: 700 !important;
             letter-spacing: 0.05em !important;
             text-transform: uppercase !important;
-            box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3) !important;
+            box-shaçãow: 0 1px 3px rgba(16, 185, 129, 0.3) !important;
         }
         
         .gtin-text {
@@ -216,25 +216,25 @@
         .btn-editar-prod {
             background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
             color: white !important;
-            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3) !important;
+            box-shaçãow: 0 1px 3px rgba(59, 130, 246, 0.3) !important;
         }
         
         .btn-editar-prod:hover {
             background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
             transform: translateY(-1px) !important;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
+            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
         }
         
         .btn-excluir-prod {
             background: linear-gradient(135deg, #ef4444, #dc2626) !important;
             color: white !important;
-            box-shadow: 0 1px 3px rgba(239, 68, 68, 0.3) !important;
+            box-shaçãow: 0 1px 3px rgba(239, 68, 68, 0.3) !important;
         }
         
         .btn-excluir-prod:hover {
             background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
             transform: translateY(-1px) !important;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4) !important;
+            box-shaçãow: 0 4px 12px rgba(239, 68, 68, 0.4) !important;
         }
         
         /* Variações */
@@ -248,7 +248,7 @@
             margin: 0 0.25rem 0.25rem 0;
         }
         
-        /* Estados de loading */
+        /* Estaçãos de loading */
         .loading-state {
             display: flex;
             align-items: center;
@@ -606,7 +606,7 @@
                 <div id="produtos-section" class="content-section">
                     <div class="card">
                         <div class="card-header">
-                            <h3><i class="fas fa-box"></i> Produtos Cadastrados</h3>
+                            <h3><i class="fas fa-box"></i> Produtos Cadastraçãos</h3>
                         </div>
                         <div class="card-body">
                             <div id="estoque-produtos" class="produtos-container">
@@ -622,8 +622,8 @@
     </div> <!-- Fecha app-container -->
 
     <!-- Scripts com cache-busting extremo -->
-    <script src="pcp_modern.js?v=10.0&timestamp=1727979000&force=true"></script>
-    <script src="pcp.js?v=15.0&timestamp=1727979000&force=true"></script>
+    <script src="pcp_modern.jsv=10.0&timestamp=1727979000&force=true"></script>
+    <script src="pcp.jsv=15.0&timestamp=1727979000&force=true"></script>
     
     <script>
         // Configuração global
@@ -645,7 +645,7 @@
             // Carregar produtos
             if (typeof carregarProdutos === 'function') {
                 await carregarProdutos(1, 20);
-                console.log('✅ Produtos carregados');
+                console.log('✅ Produtos carregaçãos');
             } else {
                 console.error('❌ Função carregarProdutos não encontrada');
                 carregarProdutosManual();
@@ -665,7 +665,7 @@
             // Carregar materiais (usa mesma função que produtos)
             if (typeof carregarProdutos === 'function') {
                 await carregarProdutos(1, 20);
-                console.log('✅ Materiais carregados');
+                console.log('✅ Materiais carregaçãos');
             } else {
                 console.error('❌ Função carregarProdutos não encontrada');
                 carregarProdutosManual();
@@ -677,7 +677,7 @@
             try {
                 console.log('🔄 Carregando produtos manualmente...');
                 
-                const response = await fetch('/api/pcp/produtos?limit=20');
+                const response = await fetch('/api/pcp/produtoslimit=20');
                 if (!response.ok) {
                     throw new Error(`Erro na API: ${response.status}`);
                 }
@@ -686,10 +686,10 @@
                 const produtos = data.rows || [];
                 const total = data.total || 0;
                 
-                console.log(`📊 Carregados ${produtos.length} produtos de ${total} total`);
+                console.log(`📊 Carregaçãos ${produtos.length} produtos de ${total} total`);
                 
                 if (produtos.length === 0) {
-                    containers.produtos.innerHTML = '<div class="loading-state">📭 Nenhum produto encontrado</div>';
+                    containers.produtos.innerHTML = '<div class="loading-state">📭 Nenhum produto encontração</div>';
                     return;
                 }
                 
@@ -733,7 +733,7 @@
                                     variacoes = [];
                                 }
                                 
-                                const variacaoHtml = variacoes.length ? 
+                                const variacaoHtml = variacoes.length  
                                     variacoes.map(v => `<span class="var-badge">${v}</span>`).join('') : 
                                     '';
                                 
@@ -783,7 +783,7 @@
         }
 
         function excluirProduto(id) {
-            if (confirm('Confirma a exclusão do produto?')) {
+            if (confirm('Confirma a exclusão do produto')) {
                 alert(`🗑️ Excluir produto ID: ${id}`);
                 console.log('🗑️ Excluir produto:', id);
             }
@@ -791,7 +791,7 @@
 
         // Inicialização
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🚀 Sistema carregado - iniciando...');
+            console.log('🚀 Sistema carregação - iniciando...');
             
             // Atualizar saudação dinâmica baseada na hora
             const greetingTextEl = document.getElementById('greeting-text');
@@ -803,7 +803,7 @@
                 greetingTextEl.textContent = greeting;
             }
             
-            // Carregar dados do usuário
+            // Carregar daçãos do usuário
             carregarUsuarioSistema();
             
             // Aguardar scripts carregarem
@@ -812,20 +812,20 @@
             }, 1000);
         });
         
-        // Função para carregar dados do usuário
+        // Função para carregar daçãos do usuário
         async function carregarUsuarioSistema() {
             try {
                 const token = localStorage.getItem('token');
                 const response = await fetch('/api/me', {
                     credentials: 'include',
-                    headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+                    headers: token  { 'Authorization': `Bearer ${token}` } : {}
                 });
                 
                 if (response.ok) {
                     const user = await response.json();
                     
                     // Usar apelido se disponível, senão primeiro nome
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
                     
                     // Atualizar nome na saudação
                     const userNameEl = document.getElementById('user-name');

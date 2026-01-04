@@ -24,7 +24,7 @@ async function executarMigration() {
             throw new Error('Falha ao obter token de autenticação');
         }
         
-        console.log('✅ Autenticado\n');
+        console.log('✅ Autenticação\n');
         
         // Executar migration via endpoint
         console.log('📋 Executando migrations SQL...\n');
@@ -46,8 +46,8 @@ async function executarMigration() {
         ];
         
         for (const sql of migrations) {
-            const colName = sql.match(/ADD COLUMN.*?(\w+)/)?.[1] || 'unknown';
-            const tableName = sql.match(/ALTER TABLE (\w+)/)?.[1] || 'unknown';
+            const colName = sql.match(/ADD COLUMN.*(\w+)/).[1] || 'unknown';
+            const tableName = sql.match(/ALTER TABLE (\w+)/).[1] || 'unknown';
             
             try {
                 // Como não temos endpoint de migration, vou apenas documentar

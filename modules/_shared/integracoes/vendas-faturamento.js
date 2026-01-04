@@ -17,7 +17,7 @@ class IntegracaoVendasFaturamento {
      * Gera NF-e a partir de um pedido de venda
      * @param {number} pedidoId - ID do pedido em Vendas
      * @param {object} opcoes - Opções de faturamento
-     * @returns {Promise<object>} Resultado da operação
+     * @returns {Promise<object>} Resultação da operação
      */
     async faturarPedido(pedidoId, opcoes = {}) {
         const {
@@ -33,17 +33,17 @@ class IntegracaoVendasFaturamento {
         } = opcoes;
 
         try {
-            // 1. Buscar dados do pedido em Vendas
+            // 1. Buscar daçãos do pedido em Vendas
             const pedido = await this.buscarPedidoVendas(pedidoId, token);
             
             if (!pedido) {
-                throw new Error(`Pedido ${pedidoId} não encontrado`);
+                throw new Error(`Pedido ${pedidoId} não encontração`);
             }
 
-            // 2. Validar se pode ser faturado
+            // 2. Validar se pode ser faturação
             const validacao = this.validarPedidoParaFaturamento(pedido);
             if (!validacao.valido) {
-                throw new Error(`Pedido não pode ser faturado: ${validacao.erros.join(', ')}`);
+                throw new Error(`Pedido não pode ser faturação: ${validacao.erros.join(', ')}`);
             }
 
             // 3. Chamar API de faturamento
@@ -51,7 +51,7 @@ class IntegracaoVendasFaturamento {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token  `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({
                     pedido_id: pedidoId,
@@ -63,8 +63,8 @@ class IntegracaoVendasFaturamento {
                     autoIntegrarFinanceiro,
                     autoReservarEstoque,
                     autoValidarEstoque,
-                    // Dados do pedido para o faturamento
-                    dados_pedido: {
+                    // Daçãos do pedido para o faturamento
+                    daçãos_pedido: {
                         cliente_id: pedido.empresa_id,
                         vendedor_id: pedido.vendedor_id,
                         itens: pedido.itens,
@@ -76,27 +76,27 @@ class IntegracaoVendasFaturamento {
                 })
             });
 
-            const resultado = await response.json();
+            const resultação = await response.json();
 
             if (!response.ok) {
-                throw new Error(resultado.message || 'Erro ao gerar NF-e');
+                throw new Error(resultação.message || 'Erro ao gerar NF-e');
             }
 
             // 4. Atualizar status do pedido em Vendas
-            await this.atualizarStatusPedido(pedidoId, 'faturado', {
-                nfe_id: resultado.nfe_id,
-                numero_nf: resultado.numero_nf,
-                chave_acesso: resultado.chave_acesso
+            await this.atualizarStatusPedido(pedidoId, 'faturação', {
+                nfe_id: resultação.nfe_id,
+                numero_nf: resultação.numero_nf,
+                chave_acesso: resultação.chave_acesso
             }, token);
 
             return {
                 success: true,
                 message: 'NF-e gerada com sucesso',
-                nfe_id: resultado.nfe_id,
-                numero_nf: resultado.numero_nf,
-                chave_acesso: resultado.chave_acesso,
-                danfe_url: resultado.danfe_url,
-                xml_url: resultado.xml_url
+                nfe_id: resultação.nfe_id,
+                numero_nf: resultação.numero_nf,
+                chave_acesso: resultação.chave_acesso,
+                danfe_url: resultação.danfe_url,
+                xml_url: resultação.xml_url
             };
 
         } catch (error) {
@@ -110,13 +110,13 @@ class IntegracaoVendasFaturamento {
     }
 
     /**
-     * Busca dados completos do pedido no módulo Vendas
+     * Busca daçãos completos do pedido no módulo Vendas
      */
     async buscarPedidoVendas(pedidoId, token) {
         try {
             const response = await fetch(`${this.vendasUrl}/api/vendas/pedidos/${pedidoId}`, {
                 headers: {
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token  `Bearer ${token}` : ''
                 }
             });
 
@@ -132,19 +132,19 @@ class IntegracaoVendasFaturamento {
     }
 
     /**
-     * Valida se o pedido pode ser faturado
+     * Valida se o pedido pode ser faturação
      */
     validarPedidoParaFaturamento(pedido) {
         const erros = [];
 
-        // Status deve ser 'aprovado'
-        if (pedido.status !== 'aprovado') {
-            erros.push(`Status inválido: ${pedido.status}. Deve ser 'aprovado'`);
+        // Status deve ser 'aprovação'
+        if (pedido.status !== 'aprovação') {
+            erros.push(`Status inválido: ${pedido.status}. Deve ser 'aprovação'`);
         }
 
         // Deve ter cliente/empresa
         if (!pedido.empresa_id && !pedido.cliente_id) {
-            erros.push('Pedido sem cliente/empresa vinculado');
+            erros.push('Pedido sem cliente/empresa vinculação');
         }
 
         // Deve ter itens
@@ -152,9 +152,9 @@ class IntegracaoVendasFaturamento {
             erros.push('Pedido sem itens');
         }
 
-        // Não pode já ter sido faturado
-        if (pedido.nfe_id || pedido.status === 'faturado') {
-            erros.push('Pedido já foi faturado');
+        // Não pode já ter sido faturação
+        if (pedido.nfe_id || pedido.status === 'faturação') {
+            erros.push('Pedido já foi faturação');
         }
 
         // Valor deve ser maior que zero
@@ -171,20 +171,20 @@ class IntegracaoVendasFaturamento {
     /**
      * Atualiza o status do pedido após faturamento
      */
-    async atualizarStatusPedido(pedidoId, status, dadosNfe, token) {
+    async atualizarStatusPedido(pedidoId, status, daçãosNfe, token) {
         try {
             const response = await fetch(`${this.vendasUrl}/api/vendas/pedidos/${pedidoId}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token  `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({
                     status,
-                    nfe_id: dadosNfe.nfe_id,
-                    numero_nf: dadosNfe.numero_nf,
-                    chave_acesso: dadosNfe.chave_acesso,
-                    faturado_em: new Date().toISOString()
+                    nfe_id: daçãosNfe.nfe_id,
+                    numero_nf: daçãosNfe.numero_nf,
+                    chave_acesso: daçãosNfe.chave_acesso,
+                    faturação_em: new Date().toISOString()
                 })
             });
 
@@ -205,7 +205,7 @@ class IntegracaoVendasFaturamento {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token  `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({ justificativa })
             });
@@ -216,7 +216,7 @@ class IntegracaoVendasFaturamento {
             }
 
             // 2. Reverter status do pedido
-            await this.atualizarStatusPedido(pedidoId, 'aprovado', {
+            await this.atualizarStatusPedido(pedidoId, 'aprovação', {
                 nfe_id: null,
                 numero_nf: null,
                 chave_acesso: null
@@ -236,7 +236,7 @@ class IntegracaoVendasFaturamento {
         try {
             const response = await fetch(`${this.faturamentoUrl}/api/faturamento/nfes/${nfeId}`, {
                 headers: {
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token  `Bearer ${token}` : ''
                 }
             });
 
@@ -257,7 +257,7 @@ class IntegracaoVendasFaturamento {
         try {
             const response = await fetch(`${this.faturamentoUrl}/api/faturamento/nfes/${nfeId}/danfe`, {
                 headers: {
-                    'Authorization': token ? `Bearer ${token}` : ''
+                    'Authorization': token  `Bearer ${token}` : ''
                 }
             });
 

@@ -16,7 +16,7 @@ class PedidosCompras {
 
     async loadPedidos() {
         try {
-            // Dados de demonstração - substituir por API real
+            // Daçãos de demonstração - substituir por API real
             this.pedidos = [
                 { 
                     id: 'PC-2025-045', 
@@ -33,7 +33,7 @@ class PedidosCompras {
                     fornecedor: 'MetalPro Indústria', 
                     valor: 128350.00, 
                     itens: 24,
-                    status: 'aprovado', 
+                    status: 'aprovação', 
                     data: '2025-12-10',
                     prazo: '2025-12-18',
                     observacao: ''
@@ -63,17 +63,17 @@ class PedidosCompras {
                     fornecedor: 'Distribuidora Alpha', 
                     valor: 89500.00, 
                     itens: 18,
-                    status: 'cancelado', 
+                    status: 'cancelação', 
                     data: '2025-12-07',
                     prazo: '2025-12-13',
-                    observacao: 'Cancelado por divergência de preço'
+                    observacao: 'Cancelação por divergência de preço'
                 },
                 { 
                     id: 'PC-2025-040', 
                     fornecedor: 'Insumos Industriais', 
                     valor: 34200.00, 
                     itens: 10,
-                    status: 'aprovado', 
+                    status: 'aprovação', 
                     data: '2025-12-06',
                     prazo: '2025-12-12',
                     observacao: ''
@@ -92,8 +92,8 @@ class PedidosCompras {
                 bg: '#fef3c7', 
                 icon: 'clock' 
             },
-            'aprovado': { 
-                label: 'Aprovado', 
+            'aprovação': { 
+                label: 'Aprovação', 
                 color: '#10b981', 
                 bg: '#d1fae5', 
                 icon: 'check-circle' 
@@ -110,8 +110,8 @@ class PedidosCompras {
                 bg: '#a7f3d0', 
                 icon: 'check-double' 
             },
-            'cancelado': { 
-                label: 'Cancelado', 
+            'cancelação': { 
+                label: 'Cancelação', 
                 color: '#ef4444', 
                 bg: '#fee2e2', 
                 icon: 'times-circle' 
@@ -131,32 +131,32 @@ class PedidosCompras {
         const container = document.getElementById('pedidos-container');
         if (!container) return;
 
-        const pedidosFiltrados = this.filtrarPedidos();
-        const totalPedidos = pedidosFiltrados.length;
-        const valorTotal = pedidosFiltrados.reduce((sum, p) => sum + p.valor, 0);
+        const pedidosFiltraçãos = this.filtrarPedidos();
+        const totalPedidos = pedidosFiltraçãos.length;
+        const valorTotal = pedidosFiltraçãos.reduce((sum, p) => sum + p.valor, 0);
 
         container.innerHTML = `
             <!-- Toolbar -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
                 <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                    <button class="filtro-btn ${this.filtroStatus === 'todos' ? 'active' : ''}" data-filtro="todos">
+                    <button class="filtro-btn ${this.filtroStatus === 'todos'  'active' : ''}" data-filtro="todos">
                         <i class="fas fa-list"></i> Todos (${this.pedidos.length})
                     </button>
-                    <button class="filtro-btn ${this.filtroStatus === 'pendente' ? 'active' : ''}" data-filtro="pendente">
+                    <button class="filtro-btn ${this.filtroStatus === 'pendente'  'active' : ''}" data-filtro="pendente">
                         <i class="fas fa-clock"></i> Pendente
                     </button>
-                    <button class="filtro-btn ${this.filtroStatus === 'aprovado' ? 'active' : ''}" data-filtro="aprovado">
-                        <i class="fas fa-check-circle"></i> Aprovado
+                    <button class="filtro-btn ${this.filtroStatus === 'aprovação'  'active' : ''}" data-filtro="aprovação">
+                        <i class="fas fa-check-circle"></i> Aprovação
                     </button>
-                    <button class="filtro-btn ${this.filtroStatus === 'em_transito' ? 'active' : ''}" data-filtro="em_transito">
+                    <button class="filtro-btn ${this.filtroStatus === 'em_transito'  'active' : ''}" data-filtro="em_transito">
                         <i class="fas fa-truck"></i> Em Trânsito
                     </button>
-                    <button class="filtro-btn ${this.filtroStatus === 'recebido' ? 'active' : ''}" data-filtro="recebido">
+                    <button class="filtro-btn ${this.filtroStatus === 'recebido'  'active' : ''}" data-filtro="recebido">
                         <i class="fas fa-check-double"></i> Recebido
                     </button>
                 </div>
                 
-                <button id="btn-novo-pedido" style="padding: 12px 24px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); transition: all 0.2s;">
+                <button id="btn-novo-pedido" style="padding: 12px 24px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3); transition: all 0.2s;">
                     <i class="fas fa-plus-circle"></i> Novo Pedido
                 </button>
             </div>
@@ -174,7 +174,7 @@ class PedidosCompras {
             </div>
 
             <!-- Lista de Pedidos -->
-            <div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
+            <div style="background: white; border-radius: 16px; overflow: hidden; box-shaçãow: 0 4px 16px rgba(0,0,0,0.06);">
                 <div style="overflow-x: auto;">
                     <table style="width: 100%; border-collapse: collapse;">
                         <thead>
@@ -190,7 +190,7 @@ class PedidosCompras {
                             </tr>
                         </thead>
                         <tbody>
-                            ${pedidosFiltrados.map((pedido, index) => {
+                            ${pedidosFiltraçãos.map((pedido, index) => {
                                 const statusInfo = this.getStatusInfo(pedido.status);
                                 return `
                                     <tr style="border-bottom: 1px solid #f1f5f9; transition: background 0.2s;" 
@@ -198,7 +198,7 @@ class PedidosCompras {
                                         onmouseout="this.style.background='white'">
                                         <td style="padding: 16px;">
                                             <div style="font-weight: 700; color: #1e293b; font-size: 14px;">${pedido.id}</div>
-                                            ${pedido.observacao ? `<div style="font-size: 11px; color: #64748b; margin-top: 2px;">${pedido.observacao}</div>` : ''}
+                                            ${pedido.observacao  `<div style="font-size: 11px; color: #64748b; margin-top: 2px;">${pedido.observacao}</div>` : ''}
                                         </td>
                                         <td style="padding: 16px;">
                                             <div style="font-weight: 600; color: #334155;">${pedido.fornecedor}</div>
@@ -311,7 +311,7 @@ class PedidosCompras {
 
                 #btn-novo-pedido:hover {
                     transform: translateY(-2px);
-                    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+                    box-shaçãow: 0 6px 20px rgba(16, 185, 129, 0.4);
                 }
             </style>
         `;
@@ -328,7 +328,7 @@ class PedidosCompras {
         });
 
         // Novo pedido
-        document.getElementById('btn-novo-pedido')?.addEventListener('click', () => {
+        document.getElementById('btn-novo-pedido').addEventListener('click', () => {
             alert('Modal de novo pedido - Em desenvolvimento');
         });
 
@@ -350,7 +350,7 @@ class PedidosCompras {
         document.querySelectorAll('.btn-action-delete').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = e.currentTarget.dataset.id;
-                if (confirm(`Deseja realmente excluir o pedido ${id}?`)) {
+                if (confirm(`Deseja realmente excluir o pedido ${id}`)) {
                     alert(`Pedido ${id} excluído - Em desenvolvimento`);
                 }
             });

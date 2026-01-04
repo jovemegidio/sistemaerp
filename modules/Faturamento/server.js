@@ -102,7 +102,7 @@ app.listen(PORT, () => {
   console.log('🚀 ========================================');
   console.log(`🔧 Ambiente: ${process.env.NODE_ENV || 'development'}`);
   console.log(`📦 Banco: ${process.env.DB_NAME}`);
-  console.log(`🔐 NFe Ambiente: ${process.env.NFE_AMBIENTE == 1 ? 'PRODUÇÃO ⚠️' : 'HOMOLOGAÇÃO 🧪'}`);
+  console.log(`🔐 NFe Ambiente: ${process.env.NFE_AMBIENTE == 1  'PRODUÇÃO ⚠️' : 'HOMOLOGAÇÃO 🧪'}`);
   console.log('🚀 ========================================');
 });
 

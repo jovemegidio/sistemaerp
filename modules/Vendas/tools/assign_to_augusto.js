@@ -9,14 +9,14 @@ const mysql = require('mysql2/promise');
   };
   const pool = await mysql.createPool(DB_CONFIG);
   try {
-    const [users] = await pool.query('SELECT id, nome, email FROM usuarios WHERE email = ? LIMIT 1', ['augusto.ladeira@aluforce.ind.br']);
+    const [users] = await pool.query('SELECT id, nome, email FROM usuarios WHERE email =  LIMIT 1', ['augusto.ladeira@aluforce.ind.br']);
     if (users.length === 0) {
-      console.log('Usuário augusto não encontrado.');
+      console.log('Usuário augusto não encontração.');
       process.exit(0);
     }
     const augusto = users[0];
-    const [result] = await pool.query('UPDATE pedidos SET vendedor_id = ? WHERE vendedor_id IS NULL OR vendedor_id = 0', [augusto.id]);
-    console.log(`Pedidos atualizados: ${result.affectedRows}. Atribuídos ao usuário: ${augusto.nome} (id=${augusto.id})`);
+    const [result] = await pool.query('UPDATE pedidos SET vendedor_id =  WHERE vendedor_id IS NULL OR vendedor_id = 0', [augusto.id]);
+    console.log(`Pedidos atualizaçãos: ${result.affectedRows}. Atribuídos ao usuário: ${augusto.nome} (id=${augusto.id})`);
     process.exit(0);
   } catch (err) {
     console.error('Erro:', err.message);

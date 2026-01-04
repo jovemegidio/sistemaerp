@@ -9,7 +9,7 @@ const DB_CONFIG = {
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
+  port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
 }
 
 const DRY_RUN = process.argv.includes('--dry-run')
@@ -59,8 +59,8 @@ async function run () {
     for (const r of toUpdate) {
       try {
         const hashed = await bcrypt.hash(r.senha, 10)
-        await conn.execute('UPDATE funcionarios SET senha = ? WHERE id = ?', [hashed, r.id])
-        console.log(`id=${r.id} email=${r.email} -> atualizado`)
+        await conn.execute('UPDATE funcionarios SET senha =  WHERE id = ', [hashed, r.id])
+        console.log(`id=${r.id} email=${r.email} -> atualização`)
       } catch (err) {
         console.error(`Erro ao atualizar id=${r.id}:`, err.message || err)
       }
@@ -73,6 +73,6 @@ async function run () {
 }
 
 run().catch(err => {
-  console.error('Erro na migração:', err && err.message ? err.message : err)
+  console.error('Erro na migração:', err && err.message  err.message : err)
   process.exit(1)
 })

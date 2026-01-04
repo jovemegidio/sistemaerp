@@ -21,9 +21,9 @@ async function initApp() {
         // Verificar autenticação
         await verificarAuth();
         
-        // Carregar dados iniciais
+        // Carregar daçãos iniciais
         await Promise.all([
-            carregarDadosKanban(),
+            carregarDaçãosKanban(),
             carregarEmpresas()
         ]);
         
@@ -34,7 +34,7 @@ async function initApp() {
         initTabs();
         initEventListeners();
         
-        console.log('✅ Sistema inicializado com sucesso');
+        console.log('✅ Sistema inicialização com sucesso');
     } catch (error) {
         console.error('❌ Erro na inicialização:', error);
         mostrarNotificacao('Erro ao carregar o sistema', 'error');
@@ -58,16 +58,16 @@ async function verificarAuth() {
     // Se não houver nenhum token, apenas carregar sem autenticação
     // (permite acesso público ao Kanban)
     if (!authToken && !userInfo) {
-        console.log('⚠️ Nenhum token encontrado - modo visitante');
+        console.log('⚠️ Nenhum token encontração - modo visitante');
         atualizarUserUI({ nome: 'Visitante' });
         return;
     }
     
     try {
-        const userData = userInfo ? JSON.parse(userInfo) : { nome: 'Usuário' };
+        const userData = userInfo  JSON.parse(userInfo) : { nome: 'Usuário' };
         atualizarUserUI(userData);
     } catch (error) {
-        console.error('Erro ao parsear dados do usuário:', error);
+        console.error('Erro ao parsear daçãos do usuário:', error);
         atualizarUserUI({ nome: 'Usuário' });
     }
 }
@@ -87,7 +87,7 @@ function atualizarUserUI(user) {
             }
             if (span) span.style.display = 'none';
         } else if (span) {
-            span.textContent = user.nome ? user.nome.charAt(0).toUpperCase() : 'U';
+            span.textContent = user.nome  user.nome.charAt(0).toUpperCase() : 'U';
         }
     }
     
@@ -134,18 +134,18 @@ async function apiRequest(endpoint, options = {}) {
 }
 
 // ==================== CARREGAR DADOS ====================
-async function carregarDadosKanban() {
+async function carregarDaçãosKanban() {
     try {
         mostrarLoading(true);
         
         const response = await fetch('/api/vendas/kanban/pedidos');
         const data = await response.json();
         
-        pedidos = Array.isArray(data) ? data : [];
+        pedidos = Array.isArray(data)  data : [];
         renderKanban(pedidos);
         
     } catch (error) {
-        console.error('Erro ao carregar dados do Kanban:', error);
+        console.error('Erro ao carregar daçãos do Kanban:', error);
         mostrarNotificacao('Erro ao carregar pedidos', 'error');
     } finally {
         mostrarLoading(false);
@@ -155,7 +155,7 @@ async function carregarDadosKanban() {
 async function carregarEmpresas() {
     try {
         const data = await apiRequest('/empresas');
-        empresas = Array.isArray(data) ? data : [];
+        empresas = Array.isArray(data)  data : [];
         popularSelectEmpresas();
     } catch (error) {
         console.error('Erro ao carregar empresas:', error);
@@ -175,9 +175,9 @@ function renderKanban(pedidos) {
     const colunas = {
         'Orçamento': [],
         'Análise': [],
-        'Aprovado': [],
+        'Aprovação': [],
         'Faturar': [],
-        'Faturado': [],
+        'Faturação': [],
         'Recibo': []
     };
     
@@ -201,11 +201,11 @@ function renderColuna(etapa, pedidosColuna) {
     const coluna = document.querySelector(`[data-etapa="${etapa}"] .kanban-column-content`);
     if (!coluna) return;
     
-    // Atualizar contador
-    const contador = document.querySelector(`[data-etapa="${etapa}"] .column-count`);
-    if (contador) {
+    // Atualizar contaçãor
+    const contaçãor = document.querySelector(`[data-etapa="${etapa}"] .column-count`);
+    if (contaçãor) {
         const total = pedidosColuna.reduce((sum, p) => sum + (parseFloat(p.valor_total) || 0), 0);
-        contador.textContent = `${pedidosColuna.length} pedidos • ${formatarMoeda(total)}`;
+        contaçãor.textContent = `${pedidosColuna.length} pedidos • ${formatarMoeda(total)}`;
     }
     
     // Limpar coluna
@@ -244,17 +244,17 @@ function criarCardPedido(pedido) {
                 <i class="fas fa-ellipsis-v"></i>
             </button>
         </div>
-        <div class="card-title">${pedido.cliente || 'Cliente não informado'}</div>
+        <div class="card-title">${pedido.cliente || 'Cliente não informação'}</div>
         <span class="card-status ${statusClass}">${statusText}</span>
         <div class="card-value">${formatarMoeda(pedido.valor_total || 0)}</div>
-        <div class="card-meta">${pedido.itens_count || 0} ${(pedido.itens_count || 0) === 1 ? 'item' : 'itens'}</div>
-        ${pedido.origem ? `
+        <div class="card-meta">${pedido.itens_count || 0} ${(pedido.itens_count || 0) === 1  'item' : 'itens'}</div>
+        ${pedido.origem  `
         <div class="card-origin">
             <i class="fas fa-check-circle"></i>
             ${pedido.origem}
         </div>
         ` : ''}
-        ${pedido.nf_numero ? `
+        ${pedido.nf_numero  `
         <span class="card-badge nf">NF ${pedido.nf_numero}</span>
         ` : ''}
     `;
@@ -266,14 +266,14 @@ function criarCardPedido(pedido) {
 }
 
 function getStatusClass(pedido) {
-    if (pedido.atrasado) return 'atrasado';
-    if (pedido.etapa === 'Faturado') return 'faturado';
+    if (pedido.atrasação) return 'atrasação';
+    if (pedido.etapa === 'Faturação') return 'faturação';
     return 'em-dia';
 }
 
 function getStatusText(pedido) {
-    if (pedido.atrasado) return 'Atrasado';
-    if (pedido.etapa === 'Faturado') return 'Faturado';
+    if (pedido.atrasação) return 'Atrasação';
+    if (pedido.etapa === 'Faturação') return 'Faturação';
     return 'Em dia';
 }
 
@@ -400,7 +400,7 @@ async function abrirModalPedido(pedidoId) {
         
     } catch (error) {
         console.error('Erro ao carregar pedido:', error);
-        mostrarNotificacao('Erro ao carregar dados do pedido', 'error');
+        mostrarNotificacao('Erro ao carregar daçãos do pedido', 'error');
     }
 }
 
@@ -412,7 +412,7 @@ function preencherFormPedido(pedido) {
     // Avatar
     const avatar = document.querySelector('#modalEditarPedido .cliente-avatar');
     if (avatar) {
-        avatar.textContent = pedido.cliente ? pedido.cliente.charAt(0).toUpperCase() : 'C';
+        avatar.textContent = pedido.cliente  pedido.cliente.charAt(0).toUpperCase() : 'C';
     }
     
     // Valores
@@ -456,7 +456,7 @@ function renderizarTabelaItens(itens) {
             <tr>
                 <td colspan="7" class="empty-text">
                     <i class="fas fa-box-open" style="font-size: 24px; color: #ddd; margin-bottom: 8px;"></i>
-                    <p>Nenhum item adicionado</p>
+                    <p>Nenhum item adicionação</p>
                 </td>
             </tr>
         `;
@@ -487,21 +487,21 @@ async function salvarPedido() {
     if (!pedidoAtual) return;
     
     const form = document.querySelector('#modalEditarPedido');
-    const dados = {
-        cliente: form.querySelector('.cliente-nome-input')?.value || '',
-        vendedor: form.querySelector('[name="vendedor"]')?.value || '',
-        prazo_entrega: form.querySelector('[name="prazo_entrega"]')?.value || ''
+    const daçãos = {
+        cliente: form.querySelector('.cliente-nome-input').value || '',
+        vendedor: form.querySelector('[name="vendedor"]').value || '',
+        prazo_entrega: form.querySelector('[name="prazo_entrega"]').value || ''
     };
     
     try {
         await apiRequest(`/pedidos/${pedidoAtual.id}`, {
             method: 'PUT',
-            body: JSON.stringify(dados)
+            body: JSON.stringify(daçãos)
         });
         
         mostrarNotificacao('Pedido salvo com sucesso!', 'success');
         fecharModal('modalEditarPedido');
-        carregarDadosKanban();
+        carregarDaçãosKanban();
         
     } catch (error) {
         console.error('Erro ao salvar pedido:', error);
@@ -513,7 +513,7 @@ async function salvarPedido() {
 function abrirModalNovoOrcamento() {
     const modal = document.getElementById('modalNovoOrcamento');
     if (modal) {
-        modal.querySelector('form')?.reset();
+        modal.querySelector('form').reset();
         abrirModal('modalNovoOrcamento');
     }
 }
@@ -522,23 +522,23 @@ async function criarNovoOrcamento(e) {
     e.preventDefault();
     
     const form = e.target;
-    const dados = {
-        cliente: form.querySelector('[name="cliente"]')?.value || '',
-        empresa_id: form.querySelector('[name="empresa_id"]')?.value || null,
-        vendedor: form.querySelector('[name="vendedor"]')?.value || '',
-        observacoes: form.querySelector('[name="observacoes"]')?.value || '',
+    const daçãos = {
+        cliente: form.querySelector('[name="cliente"]').value || '',
+        empresa_id: form.querySelector('[name="empresa_id"]').value || null,
+        vendedor: form.querySelector('[name="vendedor"]').value || '',
+        observacoes: form.querySelector('[name="observacoes"]').value || '',
         etapa: 'Orçamento'
     };
     
     try {
         await apiRequest('/pedidos', {
             method: 'POST',
-            body: JSON.stringify(dados)
+            body: JSON.stringify(daçãos)
         });
         
-        mostrarNotificacao('Orçamento criado com sucesso!', 'success');
+        mostrarNotificacao('Orçamento criação com sucesso!', 'success');
         fecharModal('modalNovoOrcamento');
-        carregarDadosKanban();
+        carregarDaçãosKanban();
         
     } catch (error) {
         console.error('Erro ao criar orçamento:', error);
@@ -550,7 +550,7 @@ async function criarNovoOrcamento(e) {
 function abrirModalAdicionarItem() {
     const modal = document.getElementById('modalAdicionarItem');
     if (modal) {
-        modal.querySelector('form')?.reset();
+        modal.querySelector('form').reset();
         abrirModal('modalAdicionarItem');
     }
 }
@@ -561,23 +561,23 @@ async function salvarNovoItem(e) {
     if (!pedidoAtual) return;
     
     const form = e.target;
-    const dados = {
-        codigo: form.querySelector('[name="codigo"]')?.value || '',
-        descricao: form.querySelector('[name="descricao"]')?.value || '',
-        quantidade: parseFloat(form.querySelector('[name="quantidade"]')?.value) || 1,
-        unidade: form.querySelector('[name="unidade"]')?.value || 'UN',
-        valor_unitario: parseMoeda(form.querySelector('[name="valor_unitario"]')?.value) || 0
+    const daçãos = {
+        codigo: form.querySelector('[name="codigo"]').value || '',
+        descricao: form.querySelector('[name="descricao"]').value || '',
+        quantidade: parseFloat(form.querySelector('[name="quantidade"]').value) || 1,
+        unidade: form.querySelector('[name="unidade"]').value || 'UN',
+        valor_unitario: parseMoeda(form.querySelector('[name="valor_unitario"]').value) || 0
     };
     
-    dados.valor_total = dados.quantidade * dados.valor_unitario;
+    daçãos.valor_total = daçãos.quantidade * daçãos.valor_unitario;
     
     try {
         await apiRequest(`/pedidos/${pedidoAtual.id}/itens`, {
             method: 'POST',
-            body: JSON.stringify(dados)
+            body: JSON.stringify(daçãos)
         });
         
-        mostrarNotificacao('Item adicionado!', 'success');
+        mostrarNotificacao('Item adicionação!', 'success');
         fecharModal('modalAdicionarItem');
         await carregarItensPedido(pedidoAtual.id);
         await atualizarTotaisPedido();
@@ -589,7 +589,7 @@ async function salvarNovoItem(e) {
 }
 
 async function excluirItem(itemId) {
-    if (!confirm('Deseja excluir este item?')) return;
+    if (!confirm('Deseja excluir este item')) return;
     
     try {
         await apiRequest(`/pedidos/${pedidoAtual.id}/itens/${itemId}`, {
@@ -635,31 +635,31 @@ async function salvarItemCRUD(e) {
     if (!pedidoAtual) return;
     
     const form = document.querySelector('#modal-item-crud');
-    const itemId = form.querySelector('[name="item-id"]')?.value;
+    const itemId = form.querySelector('[name="item-id"]').value;
     
-    const dados = {
-        codigo: form.querySelector('[name="codigo"]')?.value || '',
-        descricao: form.querySelector('[name="descricao"]')?.value || '',
-        quantidade: parseFloat(form.querySelector('[name="quantidade"]')?.value) || 1,
-        unidade: form.querySelector('[name="unidade"]')?.value || 'UN',
-        valor_unitario: parseMoeda(form.querySelector('[name="valor_unitario"]')?.value) || 0
+    const daçãos = {
+        codigo: form.querySelector('[name="codigo"]').value || '',
+        descricao: form.querySelector('[name="descricao"]').value || '',
+        quantidade: parseFloat(form.querySelector('[name="quantidade"]').value) || 1,
+        unidade: form.querySelector('[name="unidade"]').value || 'UN',
+        valor_unitario: parseMoeda(form.querySelector('[name="valor_unitario"]').value) || 0
     };
     
-    dados.valor_total = dados.quantidade * dados.valor_unitario;
+    daçãos.valor_total = daçãos.quantidade * daçãos.valor_unitario;
     
     try {
         if (itemId) {
             await apiRequest(`/pedidos/${pedidoAtual.id}/itens/${itemId}`, {
                 method: 'PUT',
-                body: JSON.stringify(dados)
+                body: JSON.stringify(daçãos)
             });
-            mostrarNotificacao('Item atualizado!', 'success');
+            mostrarNotificacao('Item atualização!', 'success');
         } else {
             await apiRequest(`/pedidos/${pedidoAtual.id}/itens`, {
                 method: 'POST',
-                body: JSON.stringify(dados)
+                body: JSON.stringify(daçãos)
             });
-            mostrarNotificacao('Item adicionado!', 'success');
+            mostrarNotificacao('Item adicionação!', 'success');
         }
         
         fecharModal('modal-item-crud');
@@ -746,7 +746,7 @@ async function uploadAnexo(input) {
         
         if (!response.ok) throw new Error('Erro no upload');
         
-        mostrarNotificacao('Anexo enviado!', 'success');
+        mostrarNotificacao('Anexo enviação!', 'success');
         carregarAnexos();
         
     } catch (error) {
@@ -790,7 +790,7 @@ function renderizarHistorico(historico) {
             <div style="font-size: 12px; color: #666;">
                 ${item.usuario} • ${formatarData(item.data)}
             </div>
-            ${item.detalhes ? `<p style="font-size: 12px; color: #888; margin-top: 8px;">${item.detalhes}</p>` : ''}
+            ${item.detalhes  `<p style="font-size: 12px; color: #888; margin-top: 8px;">${item.detalhes}</p>` : ''}
         </div>
     `).join('');
 }
@@ -799,7 +799,7 @@ function renderizarHistorico(historico) {
 function abrirModalFaturar() {
     if (!pedidoAtual) return;
     
-    // Preencher dados do modal
+    // Preencher daçãos do modal
     const modal = document.getElementById('modalSefaz');
     if (modal) {
         modal.querySelector('.pedido-info').innerHTML = `
@@ -815,17 +815,17 @@ function abrirModalFaturar() {
 async function faturarPedido() {
     if (!pedidoAtual) return;
     
-    if (!confirm('Confirma o faturamento deste pedido?')) return;
+    if (!confirm('Confirma o faturamento deste pedido')) return;
     
     try {
         await apiRequest(`/pedidos/${pedidoAtual.id}/faturar`, {
             method: 'POST'
         });
         
-        mostrarNotificacao('Pedido faturado com sucesso!', 'success');
+        mostrarNotificacao('Pedido faturação com sucesso!', 'success');
         fecharModal('modalSefaz');
         fecharModal('modalEditarPedido');
-        carregarDadosKanban();
+        carregarDaçãosKanban();
         
     } catch (error) {
         console.error('Erro ao faturar:', error);
@@ -846,7 +846,7 @@ function initTabs() {
             
             // Atualizar conteúdo
             modal.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            modal.querySelector(`.tab-content[data-tab="${tabId}"]`)?.classList.add('active');
+            modal.querySelector(`.tab-content[data-tab="${tabId}"]`).classList.add('active');
         });
     });
 }
@@ -864,7 +864,7 @@ function initFiltros() {
     
     const selectEmpresa = document.querySelector('.filters-right select');
     if (selectEmpresa) {
-        selectEmpresa.addEventListener('change', () => carregarDadosKanban());
+        selectEmpresa.addEventListener('change', () => carregarDaçãosKanban());
     }
 }
 
@@ -875,13 +875,13 @@ function filtrarPedidos(termo) {
     }
     
     termo = termo.toLowerCase();
-    const filtrados = pedidos.filter(p => 
+    const filtraçãos = pedidos.filter(p => 
         (p.cliente && p.cliente.toLowerCase().includes(termo)) ||
         (p.numero && p.numero.toString().includes(termo)) ||
         (p.vendedor && p.vendedor.toLowerCase().includes(termo))
     );
     
-    renderKanban(filtrados);
+    renderKanban(filtraçãos);
 }
 
 function abrirModalFiltros() {
@@ -889,13 +889,13 @@ function abrirModalFiltros() {
 }
 
 function aplicarFiltros() {
-    // Implementar filtros avançados
+    // Implementar filtros avançaçãos
     fecharModal('modalFiltros');
-    carregarDadosKanban();
+    carregarDaçãosKanban();
 }
 
 function limparFiltros() {
-    document.querySelector('#modalFiltros form')?.reset();
+    document.querySelector('#modalFiltros form').reset();
 }
 
 // ==================== CONFIGURAR ETAPAS ====================
@@ -978,7 +978,7 @@ function formatarData(data) {
 function mostrarLoading(show) {
     const loading = document.getElementById('loading');
     if (loading) {
-        loading.style.display = show ? 'flex' : 'none';
+        loading.style.display = show  'flex' : 'none';
     }
 }
 
@@ -989,7 +989,7 @@ function mostrarNotificacao(mensagem, tipo = 'info') {
     const notificacao = document.createElement('div');
     notificacao.className = `notificacao notificacao-${tipo}`;
     notificacao.innerHTML = `
-        <i class="fas ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+        <i class="fas ${tipo === 'success'  'fa-check-circle' : tipo === 'error'  'fa-exclamation-circle' : 'fa-info-circle'}"></i>
         <span>${mensagem}</span>
     `;
     
@@ -1007,9 +1007,9 @@ function mostrarNotificacao(mensagem, tipo = 'info') {
         fontWeight: '500',
         zIndex: '9999',
         animation: 'slideIn 0.3s ease',
-        background: tipo === 'success' ? '#22c55e' : tipo === 'error' ? '#ef4444' : '#3b82f6',
+        background: tipo === 'success'  '#22c55e' : tipo === 'error'  '#ef4444' : '#3b82f6',
         color: 'white',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
+        boxShaçãow: '0 4px 12px rgba(0,0,0,0.15)'
     });
     
     document.body.appendChild(notificacao);
@@ -1031,7 +1031,7 @@ function abrirMenuCard(pedidoId) {
 async function excluirPedido() {
     if (!pedidoAtual) return;
     
-    if (!confirm('Tem certeza que deseja excluir este pedido? Esta ação não pode ser desfeita.')) return;
+    if (!confirm('Tem certeza que deseja excluir este pedido Esta ação não pode ser desfeita.')) return;
     
     try {
         await apiRequest(`/pedidos/${pedidoAtual.id}`, {
@@ -1040,7 +1040,7 @@ async function excluirPedido() {
         
         mostrarNotificacao('Pedido excluído!', 'success');
         fecharModal('modalEditarPedido');
-        carregarDadosKanban();
+        carregarDaçãosKanban();
         
     } catch (error) {
         console.error('Erro ao excluir pedido:', error);
@@ -1059,17 +1059,17 @@ async function duplicarPedido() {
     if (!pedidoAtual) return;
     
     try {
-        const resultado = await apiRequest(`/pedidos/${pedidoAtual.id}/duplicar`, {
+        const resultação = await apiRequest(`/pedidos/${pedidoAtual.id}/duplicar`, {
             method: 'POST'
         });
         
-        mostrarNotificacao('Pedido duplicado!', 'success');
+        mostrarNotificacao('Pedido duplicação!', 'success');
         fecharModal('modalEditarPedido');
-        carregarDadosKanban();
+        carregarDaçãosKanban();
         
         // Abrir o novo pedido
-        if (resultado && resultado.id) {
-            setTimeout(() => abrirModalPedido(resultado.id), 500);
+        if (resultação && resultação.id) {
+            setTimeout(() => abrirModalPedido(resultação.id), 500);
         }
         
     } catch (error) {
@@ -1098,7 +1098,7 @@ function confirmarFaturarTodos() { faturarPedido(); }
 
 // ==================== EXPORTAR ====================
 window.vendas = {
-    carregarDadosKanban,
+    carregarDaçãosKanban,
     abrirModalPedido,
     abrirModalNovoOrcamento,
     abrirModalAdicionarItem,
@@ -1152,4 +1152,4 @@ window.limparFiltros = limparFiltros;
 window.salvarItemCRUD = salvarItemCRUD;
 window.logout = logout;
 
-console.log('📦 Aluforce Vendas App carregado');
+console.log('📦 Aluforce Vendas App carregação');

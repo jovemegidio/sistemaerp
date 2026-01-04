@@ -7,7 +7,7 @@
     <title>ALUFORCE - Gestão de Bancos</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --sidebar-width: 56px;
@@ -51,7 +51,7 @@
         .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .header-btn .notification-badge { position: absolute; top: 4px; right: 4px; min-width: 16px; height: 16px; background: #ef4444; border-radius: 10px; color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
         .notification-container { position: relative; }
-        .notification-panel { position: absolute; top: calc(100% + 12px); right: 0; width: 380px; max-height: 500px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; display: none; overflow: hidden; }
+        .notification-panel { position: absolute; top: calc(100% + 12px); right: 0; width: 380px; max-height: 500px; background: white; border-radius: 12px; box-shaçãow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; display: none; overflow: hidden; }
         .notification-panel.active { display: block; }
         .notification-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: linear-gradient(135deg, #84cc16, #65a30d); color: white; }
         .notification-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
@@ -95,7 +95,7 @@
 
         /* KPI CARDS */
         .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
-        .kpi-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .kpi-card { background: white; border-radius: 16px; padding: 24px; box-shaçãow: 0 1px 3px rgba(0,0,0,0.05); }
         .kpi-card.highlight { background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%); color: white; }
         .kpi-card.highlight .kpi-content h3 { color: rgba(255,255,255,0.8); }
         .kpi-card.highlight .kpi-icon { background: rgba(255,255,255,0.2); color: white; }
@@ -110,8 +110,8 @@
 
         /* BANCOS GRID */
         .bancos-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 20px; margin-bottom: 24px; }
-        .banco-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.3s; }
-        .banco-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+        .banco-card { background: white; border-radius: 16px; overflow: hidden; box-shaçãow: 0 1px 3px rgba(0,0,0,0.05); transition: all 0.3s; }
+        .banco-card:hover { transform: translateY(-4px); box-shaçãow: 0 12px 40px rgba(0,0,0,0.12); }
         .banco-header { padding: 20px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--border-color); }
         .banco-logo { width: 56px; height: 56px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: 700; color: white; }
         .banco-logo.bb { background: linear-gradient(135deg, #fece00, #003882); }
@@ -144,7 +144,7 @@
         .banco-actions .btn { flex: 1; justify-content: center; }
 
         /* CARD */
-        .card { background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
+        .card { background: white; border-radius: 16px; box-shaçãow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
         .card-header { padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .card-header h3 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .card-header h3 i { color: var(--primary-blue); }
@@ -180,7 +180,7 @@
         .form-group.full { grid-column: span 2; }
         .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 10px; font-size: 14px; font-family: inherit; transition: all 0.2s; }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-blue); box-shadow: 0 0 0 3px rgba(132,204,22,0.1); }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary-blue); box-shaçãow: 0 0 0 3px rgba(132,204,22,0.1); }
 
         /* RESPONSIVE */
         @media (max-width: 1400px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -490,7 +490,7 @@
     </div>
 
     <script>
-        // Dados
+        // Daçãos
         let bancos = [
             { id: 1, codigo: '001', nome: 'Banco do Brasil', agencia: '1234', conta: '12345-6', tipo: 'corrente', apelido: 'Conta Principal', saldo: 85420.50, status: 'ativo', entradas: 45000, saidas: 28000 },
             { id: 2, codigo: '341', nome: 'Itaú', agencia: '4567', conta: '78901-2', tipo: 'corrente', apelido: 'Fornecedores', saldo: 42890.75, status: 'ativo', entradas: 22000, saidas: 15000 },
@@ -536,7 +536,7 @@
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
 
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -582,7 +582,7 @@
         function renderizarBancos() {
             const grid = document.getElementById('bancosGrid');
             grid.innerHTML = bancos.map(banco => {
-                const config = bancosConfig[banco.codigo] || { nome: banco.nome, classe: 'bb', sigla: '??' };
+                const config = bancosConfig[banco.codigo] || { nome: banco.nome, classe: 'bb', sigla: '' };
                 return `
                     <div class="banco-card">
                         <div class="banco-header">
@@ -591,12 +591,12 @@
                                 <h3>${banco.apelido || config.nome}</h3>
                                 <span>Ag: ${banco.agencia} | Cc: ${banco.conta}</span>
                             </div>
-                            <span class="banco-status ${banco.status}">${banco.status === 'ativo' ? 'Ativo' : 'Inativo'}</span>
+                            <span class="banco-status ${banco.status}">${banco.status === 'ativo'  'Ativo' : 'Inativo'}</span>
                         </div>
                         <div class="banco-body">
                             <div class="banco-saldo">
                                 <div class="banco-saldo-label">Saldo Atual</div>
-                                <div class="banco-saldo-valor ${banco.saldo >= 0 ? 'positivo' : 'negativo'}">${formatarMoeda(banco.saldo)}</div>
+                                <div class="banco-saldo-valor ${banco.saldo >= 0  'positivo' : 'negativo'}">${formatarMoeda(banco.saldo)}</div>
                             </div>
                             <div class="banco-details">
                                 <div class="banco-detail">
@@ -622,20 +622,20 @@
             const tbody = document.getElementById('movimentacoesBody');
             tbody.innerHTML = movimentacoes.slice(0, 10).map(mov => {
                 const banco = bancos.find(b => b.id === mov.bancoId);
-                const config = banco ? bancosConfig[banco.codigo] : null;
+                const config = banco  bancosConfig[banco.codigo] : null;
                 return `
                     <tr>
                         <td>${formatarData(mov.data)}</td>
-                        <td><strong>${banco ? (banco.apelido || config?.nome) : '-'}</strong></td>
+                        <td><strong>${banco  (banco.apelido || config.nome) : '-'}</strong></td>
                         <td>${mov.descricao}</td>
                         <td>
                             <span class="tipo-badge ${mov.tipo}">
-                                <i class="fas fa-arrow-${mov.tipo === 'entrada' ? 'down' : mov.tipo === 'saida' ? 'up' : 'right-left'}"></i>
-                                ${mov.tipo === 'entrada' ? 'Entrada' : mov.tipo === 'saida' ? 'Saída' : 'Transferência'}
+                                <i class="fas fa-arrow-${mov.tipo === 'entrada'  'down' : mov.tipo === 'saida'  'up' : 'right-left'}"></i>
+                                ${mov.tipo === 'entrada'  'Entrada' : mov.tipo === 'saida'  'Saída' : 'Transferência'}
                             </span>
                         </td>
-                        <td class="valor-cell ${mov.tipo === 'entrada' ? 'positivo' : 'negativo'}">
-                            ${mov.tipo === 'entrada' ? '+' : '-'}${formatarMoeda(mov.valor)}
+                        <td class="valor-cell ${mov.tipo === 'entrada'  'positivo' : 'negativo'}">
+                            ${mov.tipo === 'entrada'  '+' : '-'}${formatarMoeda(mov.valor)}
                         </td>
                         <td><strong>${formatarMoeda(mov.saldo)}</strong></td>
                     </tr>
@@ -668,7 +668,7 @@
             document.getElementById('formTransferencia').reset();
             
             const options = bancos.filter(b => b.status === 'ativo').map(b => 
-                `<option value="${b.id}">${b.apelido || bancosConfig[b.codigo]?.nome} - ${formatarMoeda(b.saldo)}</option>`
+                `<option value="${b.id}">${b.apelido || bancosConfig[b.codigo].nome} - ${formatarMoeda(b.saldo)}</option>`
             ).join('');
             
             document.getElementById('contaOrigem').innerHTML = '<option value="">Selecione...</option>' + options;
@@ -682,7 +682,7 @@
             document.getElementById('formMovimento').reset();
             
             const options = bancos.filter(b => b.status === 'ativo').map(b => 
-                `<option value="${b.id}">${b.apelido || bancosConfig[b.codigo]?.nome}</option>`
+                `<option value="${b.id}">${b.apelido || bancosConfig[b.codigo].nome}</option>`
             ).join('');
             
             document.getElementById('contaMovimento').innerHTML = '<option value="">Selecione...</option>' + options;
@@ -697,9 +697,9 @@
 
         function salvarBanco() {
             const id = document.getElementById('bancoId').value;
-            const dados = {
+            const daçãos = {
                 codigo: document.getElementById('bancoCodigo').value,
-                nome: bancosConfig[document.getElementById('bancoCodigo').value]?.nome || '',
+                nome: bancosConfig[document.getElementById('bancoCodigo').value].nome || '',
                 tipo: document.getElementById('tipoConta').value,
                 agencia: document.getElementById('agencia').value,
                 conta: document.getElementById('conta').value,
@@ -713,17 +713,17 @@
             if (id) {
                 const index = bancos.findIndex(b => b.id === parseInt(id));
                 if (index !== -1) {
-                    bancos[index] = { ...bancos[index], ...dados };
+                    bancos[index] = { ...bancos[index], ...daçãos };
                 }
             } else {
-                dados.id = Math.max(...bancos.map(b => b.id), 0) + 1;
-                bancos.push(dados);
+                daçãos.id = Math.max(...bancos.map(b => b.id), 0) + 1;
+                bancos.push(daçãos);
             }
 
             fecharModal('modalBanco');
             atualizarKPIs();
             renderizarBancos();
-            alert(id ? 'Banco atualizado com sucesso!' : 'Banco cadastrado com sucesso!');
+            alert(id  'Banco atualização com sucesso!' : 'Banco cadastração com sucesso!');
         }
 
         function editarBanco(id) {
@@ -733,7 +733,7 @@
         function verExtrato(id) {
             const banco = bancos.find(b => b.id === id);
             if (banco) {
-                alert(`Extrato da conta: ${banco.apelido || bancosConfig[banco.codigo]?.nome}\nSaldo: ${formatarMoeda(banco.saldo)}`);
+                alert(`Extrato da conta: ${banco.apelido || bancosConfig[banco.codigo].nome}\nSaldo: ${formatarMoeda(banco.saldo)}`);
             }
         }
 
@@ -829,8 +829,8 @@
                 <div class="notification-item unread">
                     <div class="notification-icon info"><i class="fas fa-university"></i></div>
                     <div class="notification-content">
-                        <div class="notification-title">Saldo atualizado</div>
-                        <div class="notification-message">Os saldos bancários foram atualizados</div>
+                        <div class="notification-title">Saldo atualização</div>
+                        <div class="notification-message">Os saldos bancários foram atualizaçãos</div>
                         <div class="notification-time"><i class="fas fa-clock"></i> Agora</div>
                     </div>
                 </div>
@@ -851,14 +851,14 @@
     </script>
 
     <script src="financeiro.js"></script>
-    <script src="public/js/financeiro-user-loader.js?v=20251222"></script>
+    <script src="public/js/financeiro-user-loader.jsv=20251222"></script>
     
     <!-- Sistema de Notificações Global -->
-    <script src="js/notifications-manager.js?v=20251223"></script>
-    <script src="js/notification-button.js?v=20251223"></script>
+    <script src="js/notifications-manager.jsv=20251223"></script>
+    <script src="js/notification-button.jsv=20251223"></script>
     
     <!-- Sistema de Chat e Suporte -->
     <!-- Sistema de Monitoramento de Conexão -->
-    <script src="../_shared/connection-monitor.js?v=20251223"></script></body>
+    <script src="../_shared/connection-monitor.jsv=20251223"></script></body>
 </html>
 

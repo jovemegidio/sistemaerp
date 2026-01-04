@@ -13,7 +13,7 @@ async function migrateProdutosTable() {
             multipleStatements: true
         });
 
-        console.log('✅ Conectado ao banco de dados aluforce_vendas');
+        console.log('✅ Conectação ao banco de daçãos aluforce_vendas');
         console.log('🔄 Iniciando migração da tabela produtos...\n');
 
         // Lista de colunas para adicionar
@@ -121,7 +121,7 @@ async function migrateProdutosTable() {
             SET status = 'ativo'
             WHERE status IS NULL OR status = ''
         `);
-        console.log('✅ Status atualizado');
+        console.log('✅ Status atualização');
 
         // Criar índices
         console.log('\n🔄 Criando índices...');
@@ -138,7 +138,7 @@ async function migrateProdutosTable() {
         for (const index of indexes) {
             try {
                 await connection.query(index.sql);
-                console.log(`✅ Índice '${index.name}' criado`);
+                console.log(`✅ Índice '${index.name}' criação`);
             } catch (error) {
                 if (error.code === 'ER_DUP_KEYNAME') {
                     console.log(`⏭️  Índice '${index.name}' já existe`);
@@ -174,7 +174,7 @@ async function migrateProdutosTable() {
     } finally {
         if (connection) {
             await connection.end();
-            console.log('\n🔌 Conexão com o banco de dados encerrada');
+            console.log('\n🔌 Conexão com o banco de daçãos encerrada');
         }
     }
 }
@@ -182,10 +182,10 @@ async function migrateProdutosTable() {
 // Executar migração
 migrateProdutosTable()
     .then(() => {
-        console.log('\n✅ Script finalizado com sucesso');
+        console.log('\n✅ Script finalização com sucesso');
         process.exit(0);
     })
     .catch((error) => {
-        console.error('\n❌ Script finalizado com erro:', error.message);
+        console.error('\n❌ Script finalização com erro:', error.message);
         process.exit(1);
     });

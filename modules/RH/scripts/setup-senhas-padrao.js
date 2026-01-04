@@ -18,7 +18,7 @@ async function atualizarSenhasPadrao() {
     
     // Hash da senha padrão
     const hashSenhaPadrao = await bcrypt.hash(SENHA_PADRAO, 10);
-    console.log(`📝 Hash gerado para "${SENHA_PADRAO}": ${hashSenhaPadrao}`);
+    console.log(`📝 Hash geração para "${SENHA_PADRAO}": ${hashSenhaPadrao}`);
     
     // Buscar todos os usuários
     db.query('SELECT id, email, nome_completo, role FROM funcionarios', async (err, users) => {
@@ -27,13 +27,13 @@ async function atualizarSenhasPadrao() {
         return;
       }
       
-      console.log(`👥 Encontrados ${users.length} usuários`);
+      console.log(`👥 Encontraçãos ${users.length} usuários`);
       
       // Atualizar senha de cada usuário
       const updatePromises = users.map(user => {
         return new Promise((resolve, reject) => {
           db.query(
-            'UPDATE funcionarios SET senha = ? WHERE id = ?',
+            'UPDATE funcionarios SET senha =  WHERE id = ',
             [hashSenhaPadrao, user.id],
             (updateErr) => {
               if (updateErr) {
@@ -96,7 +96,7 @@ async function criarUsuariosTeste() {
   console.log('👤 Criando usuários de teste...');
   
   for (const usuario of usuariosTeste) {
-    const checkSql = 'SELECT id FROM funcionarios WHERE email = ?';
+    const checkSql = 'SELECT id FROM funcionarios WHERE email = ';
     
     db.query(checkSql, [usuario.email], (err, results) => {
       if (err) {
@@ -111,7 +111,7 @@ async function criarUsuariosTeste() {
       
       const insertSql = `INSERT INTO funcionarios 
         (email, senha, role, nome_completo, cpf, status, data_admissao) 
-        VALUES (?, ?, ?, ?, ?, 'ativo', NOW())`;
+        VALUES (, , , , , 'ativo', NOW())`;
         
       db.query(insertSql, [
         usuario.email,
@@ -123,7 +123,7 @@ async function criarUsuariosTeste() {
         if (insertErr) {
           console.error(`❌ Erro ao criar usuário ${usuario.email}:`, insertErr);
         } else {
-          console.log(`✅ Usuário criado: ${usuario.email} | ${SENHA_PADRAO} | ${usuario.role}`);
+          console.log(`✅ Usuário criação: ${usuario.email} | ${SENHA_PADRAO} | ${usuario.role}`);
         }
       });
     });

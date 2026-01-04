@@ -50,10 +50,10 @@
         const infoStatus = document.getElementById('info-status');
         if (infoStatus) {
             const ativo = produto.ativo !== false;
-            infoStatus.className = `status-badge ${ativo ? 'status-ativo' : 'status-inativo'}`;
+            infoStatus.className = `status-badge ${ativo  'status-ativo' : 'status-inativo'}`;
             infoStatus.innerHTML = `
-                <i class="fas fa-${ativo ? 'check-circle' : 'times-circle'}"></i>
-                ${ativo ? 'Ativo' : 'Inativo'}
+                <i class="fas fa-${ativo  'check-circle' : 'times-circle'}"></i>
+                ${ativo  'Ativo' : 'Inativo'}
             `;
         }
     }
@@ -187,7 +187,7 @@
         if (!tbody) return;
         
         if (!fornecedores || fornecedores.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 24px; color: #64748b;">Nenhum fornecedor cadastrado</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 24px; color: #64748b;">Nenhum fornecedor cadastração</td></tr>';
             return;
         }
         
@@ -198,7 +198,7 @@
                 <td>${forn.contato || '—'}</td>
                 <td>${forn.prazo || '—'} dias</td>
                 <td>
-                    ${forn.preferencial ? '<span class="status-badge status-ativo"><i class="fas fa-star"></i> Preferencial</span>' : '<span class="status-badge status-alerta">Alternativo</span>'}
+                    ${forn.preferencial  '<span class="status-badge status-ativo"><i class="fas fa-star"></i> Preferencial</span>' : '<span class="status-badge status-alerta">Alternativo</span>'}
                 </td>
             </tr>
         `).join('');
@@ -218,9 +218,9 @@
             <tr>
                 <td>${formatarData(item.data)}</td>
                 <td>
-                    <span class="status-badge ${item.tipo === 'entrada' ? 'status-ativo' : 'status-alerta'}">
-                        <i class="fas fa-arrow-${item.tipo === 'entrada' ? 'up' : 'down'}"></i>
-                        ${item.tipo === 'entrada' ? 'Entrada' : 'Saída'}
+                    <span class="status-badge ${item.tipo === 'entrada'  'status-ativo' : 'status-alerta'}">
+                        <i class="fas fa-arrow-${item.tipo === 'entrada'  'up' : 'down'}"></i>
+                        ${item.tipo === 'entrada'  'Entrada' : 'Saída'}
                     </span>
                 </td>
                 <td><strong>${item.quantidade}</strong></td>
@@ -253,13 +253,13 @@
         }
         
         // Atualização dinâmica dos cards conforme digitação
-        const camposMonitorados = ['edit-quantidade', 'edit-custo', 'edit-preco', 'edit-estoque-minimo', 'edit-estoque-maximo'];
+        const camposMonitoraçãos = ['edit-quantidade', 'edit-custo', 'edit-preco', 'edit-estoque-minimo', 'edit-estoque-maximo'];
         
-        camposMonitorados.forEach(id => {
+        camposMonitoraçãos.forEach(id => {
             const input = document.getElementById(id);
             if (input) {
                 input.addEventListener('input', () => {
-                    const produto = obterDadosFormulario();
+                    const produto = obterDaçãosFormulario();
                     atualizarCardsEstoque(produto);
                     atualizarCardsCusto(produto);
                 });
@@ -273,28 +273,28 @@
         
         let soma = 0;
         for (let i = 0; i < 12; i++) {
-            soma += parseInt(gtin[i]) * (i % 2 === 0 ? 1 : 3);
+            soma += parseInt(gtin[i]) * (i % 2 === 0  1 : 3);
         }
         
-        const digitoVerificador = (10 - (soma % 10)) % 10;
-        return digitoVerificador === parseInt(gtin[12]);
+        const digitoVerificaçãor = (10 - (soma % 10)) % 10;
+        return digitoVerificaçãor === parseInt(gtin[12]);
     }
 
     // ========== OBTER DADOS DO FORMULÁRIO ==========
-    function obterDadosFormulario() {
+    function obterDaçãosFormulario() {
         return {
-            codigo: document.getElementById('edit-codigo')?.value || '',
-            sku: document.getElementById('edit-sku')?.value || '',
-            gtin: document.getElementById('edit-gtin')?.value || '',
-            nome: document.getElementById('edit-nome')?.value || '',
-            descricao: document.getElementById('edit-descricao')?.value || '',
-            categoria: document.getElementById('edit-categoria')?.value || '',
-            quantidade: document.getElementById('edit-quantidade')?.value || 0,
-            custo_unitario: document.getElementById('edit-custo')?.value || 0,
-            preco: document.getElementById('edit-preco')?.value || 0,
-            estoque_minimo: document.getElementById('edit-estoque-minimo')?.value || 0,
-            estoque_maximo: document.getElementById('edit-estoque-maximo')?.value || 0,
-            unidade: document.getElementById('edit-unidade')?.value || 'unidade'
+            codigo: document.getElementById('edit-codigo').value || '',
+            sku: document.getElementById('edit-sku').value || '',
+            gtin: document.getElementById('edit-gtin').value || '',
+            nome: document.getElementById('edit-nome').value || '',
+            descricao: document.getElementById('edit-descricao').value || '',
+            categoria: document.getElementById('edit-categoria').value || '',
+            quantidade: document.getElementById('edit-quantidade').value || 0,
+            custo_unitario: document.getElementById('edit-custo').value || 0,
+            preco: document.getElementById('edit-preco').value || 0,
+            estoque_minimo: document.getElementById('edit-estoque-minimo').value || 0,
+            estoque_maximo: document.getElementById('edit-estoque-maximo').value || 0,
+            unidade: document.getElementById('edit-unidade').value || 'unidade'
         };
     }
 
@@ -374,7 +374,7 @@
         atualizarCardsEstoque(produto);
         atualizarCardsCusto(produto);
         
-        // Popular tabelas (se houver dados)
+        // Popular tabelas (se houver daçãos)
         // popularTabelaFornecedores(produto.fornecedores || []);
         // popularTabelaHistorico(produto.historico || []);
         
@@ -383,7 +383,7 @@
         modal.setAttribute('aria-hidden', 'false');
         
         // Voltar para primeira aba
-        document.querySelector('.produto-tab')?.click();
+        document.querySelector('.produto-tab').click();
     }
 
     // ========== INICIALIZAÇÃO ==========

@@ -32,7 +32,7 @@ setTimeout(() => {
         if (!ok) console.error('❌ Modal não abriu');
         
         setTimeout(() => {
-            console.log('%c[2/5] Preenchendo dados...', 'color:#3b82f6;font-weight:bold');
+            console.log('%c[2/5] Preenchendo daçãos...', 'color:#3b82f6;font-weight:bold');
             
             const set = (id, val) => {
                 const e = document.getElementById(id);
@@ -43,7 +43,7 @@ setTimeout(() => {
                     console.log('   ✅ ' + id);
                     return true;
                 }
-                console.warn('   ⚠️ ' + id + ' não encontrado');
+                console.warn('   ⚠️ ' + id + ' não encontração');
                 return false;
             };
             
@@ -64,14 +64,14 @@ setTimeout(() => {
             // Observações
             set('order-observacoes', 'Ordem gerada automaticamente via script de teste. Verificar formatação do template Excel.');
             
-            // Dados da Transportadora
-            set('order-transportadora_nome', 'TRANSPORTADORA TESTE LTDA');
-            set('order-transportadora_fone', '(11) 98765-4321');
-            set('order-transportadora_cep', '01234-567');
-            set('order-transportadora_endereco', 'Rua Teste, 123 - Centro - São Paulo/SP');
-            set('order-transportadora_cpf_cnpj', '12.345.678/0001-90');
-            set('order-transportadora_email_nfe', 'nfe@transportadorateste.com.br');
-            console.log('   ✅ Transportadora preenchida');
+            // Daçãos da Transportaçãora
+            set('order-transportaçãora_nome', 'TRANSPORTADORA TESTE LTDA');
+            set('order-transportaçãora_fone', '(11) 98765-4321');
+            set('order-transportaçãora_cep', '01234-567');
+            set('order-transportaçãora_endereco', 'Rua Teste, 123 - Centro - São Paulo/SP');
+            set('order-transportaçãora_cpf_cnpj', '12.345.678/0001-90');
+            set('order-transportaçãora_email_nfe', 'nfe@transportaçãorateste.com.br');
+            console.log('   ✅ Transportaçãora preenchida');
             
             setTimeout(() => {
                 console.log('%c[3/5] Pagamento...', 'color:#3b82f6;font-weight:bold');
@@ -88,23 +88,23 @@ setTimeout(() => {
                     if (c1) {
                         c1.checked = true;
                         c1.dispatchEvent(new Event('change', {bubbles: true}));
-                        console.log('   ✅ TRANSFERÊNCIA marcado');
+                        console.log('   ✅ TRANSFERÊNCIA marcação');
                         
                         setTimeout(() => {
                             console.log('   🔍 Percentual TRANSFERÊNCIA...');
                             const input1 = document.getElementById('order-metodo_transferencia_percent');
-                            console.log('   Input:', input1, 'Disabled:', input1?.disabled);
+                            console.log('   Input:', input1, 'Disabled:', input1.disabled);
                             
                             if (input1) {
-                                input1.disabled = false; // Garantir que está habilitado
+                                input1.disabled = false; // Garantir que está habilitação
                                 input1.value = '50';
                                 input1.dispatchEvent(new Event('input', {bubbles: true}));
                                 input1.dispatchEvent(new Event('change', {bubbles: true}));
-                                console.log('   ✅ 50% configurado');
+                                console.log('   ✅ 50% configuração');
                             }
                         }, 500);
                     } else {
-                        console.error('   ❌ checkbox não encontrado!');
+                        console.error('   ❌ checkbox não encontração!');
                     }
                     
                     setTimeout(() => {
@@ -116,19 +116,19 @@ setTimeout(() => {
                         if (c2) {
                             c2.checked = true;
                             c2.dispatchEvent(new Event('change', {bubbles: true}));
-                            console.log('   ✅ DEPÓSITO marcado');
+                            console.log('   ✅ DEPÓSITO marcação');
                             
                             setTimeout(() => {
                                 console.log('   🔍 Percentual DEPÓSITO...');
                                 const input2 = document.getElementById('order-metodo_deposito_percent');
-                                console.log('   Input:', input2, 'Disabled:', input2?.disabled);
+                                console.log('   Input:', input2, 'Disabled:', input2.disabled);
                                 
                                 if (input2) {
-                                    input2.disabled = false; // Garantir que está habilitado
+                                    input2.disabled = false; // Garantir que está habilitação
                                     input2.value = '50';
                                     input2.dispatchEvent(new Event('input', {bubbles: true}));
                                     input2.dispatchEvent(new Event('change', {bubbles: true}));
-                                    console.log('   ✅ 50% configurado');
+                                    console.log('   ✅ 50% configuração');
                                 }
                                 
                                 setTimeout(() => {
@@ -168,7 +168,7 @@ setTimeout(() => {
                                             const ba = document.getElementById('order-add-item');
                                             if (ba) {
                                                 ba.click();
-                                                console.log('   ✅ Produto adicionado');
+                                                console.log('   ✅ Produto adicionação');
                                                 
                                                 setTimeout(() => {
                                                     console.log('%c[5/5] EMITINDO...', 'color:#10b981;font-weight:bold;font-size:14px');
@@ -189,15 +189,15 @@ setTimeout(() => {
                                                             console.log('   ✅ Contato: João Silva (11) 98765-4321');
                                                             console.log('   ✅ Data Entrega: +30 dias');
                                                             console.log('   ✅ Observações: Script de teste');
-                                                            console.log('   ✅ Transportadora: TRANSPORTADORA TESTE LTDA');
+                                                            console.log('   ✅ Transportaçãora: TRANSPORTADORA TESTE LTDA');
                                                             console.log('   ✅ Pagamento: PARCELADO (50% Transfer + 50% Depósito)');
                                                             console.log('   ✅ Produto: TR110_ALU - 2 unidades');
                                                             console.log('   ✅ Configurações: PT/CZ,NU | Bobina | 1x1000');
                                                             console.log('%c═════════════════════════════════════════════════════', 'color:#10b981;font-weight:bold');
-                                                            console.log('%c📥 Excel baixado! Verifique a formatação do template', 'color:#f59e0b;font-weight:bold');
+                                                            console.log('%c📥 Excel baixação! Verifique a formatação do template', 'color:#f59e0b;font-weight:bold');
                                                         }, 3000);
                                                     } else {
-                                                        console.error('❌ Botão emitir não encontrado');
+                                                        console.error('❌ Botão emitir não encontração');
                                                     }
                                                 }, 1000);
                                             }
@@ -206,7 +206,7 @@ setTimeout(() => {
                                 }, 500);
                             }, 500);
                         } else {
-                            console.error('   ❌ checkbox não encontrado!');
+                            console.error('   ❌ checkbox não encontração!');
                         }
                     }, 800);
                 }, 800);

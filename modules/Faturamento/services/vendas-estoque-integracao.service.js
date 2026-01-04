@@ -27,7 +27,7 @@ class VendasEstoqueIntegracaoService {
                 FROM pedido_itens pi
                 INNER JOIN produtos p ON pi.produto_id = p.id
                 LEFT JOIN estoque e ON p.id = e.produto_id
-                WHERE pi.pedido_id = ?
+                WHERE pi.pedido_id = 
             `, [pedido_id]);
             
             const problemas = [];
@@ -81,7 +81,7 @@ class VendasEstoqueIntegracaoService {
                 SELECT pi.*, p.controla_estoque
                 FROM pedido_itens pi
                 INNER JOIN produtos p ON pi.produto_id = p.id
-                WHERE pi.pedido_id = ?
+                WHERE pi.pedido_id = 
             `, [pedido_id]);
             
             for (const item of itens) {
@@ -96,30 +96,30 @@ class VendasEstoqueIntegracaoService {
                             status,
                             usuario_id,
                             created_at
-                        ) VALUES (?, ?, ?, 'faturamento', 'ativa', ?, NOW())
+                        ) VALUES (, , , 'faturamento', 'ativa', , NOW())
                     `, [item.produto_id, pedido_id, item.quantidade, usuario_id]);
                     
                     // Atualizar estoque disponível
                     await connection.query(`
                         UPDATE estoque
-                        SET quantidade_reservada = quantidade_reservada + ?
-                        WHERE produto_id = ?
+                        SET quantidade_reservada = quantidade_reservada + 
+                        WHERE produto_id = 
                     `, [item.quantidade, item.produto_id]);
                 }
             }
             
-            // Marcar pedido como com estoque reservado
+            // Marcar pedido como com estoque reservação
             await connection.query(`
                 UPDATE pedidos
-                SET estoque_reservado = 1
-                WHERE id = ?
+                SET estoque_reservação = 1
+                WHERE id = 
             `, [pedido_id]);
             
             await connection.commit();
             
             return {
                 success: true,
-                mensagem: 'Estoque reservado com sucesso'
+                mensagem: 'Estoque reservação com sucesso'
             };
             
         } catch (error) {
@@ -141,7 +141,7 @@ class VendasEstoqueIntegracaoService {
             
             // Buscar NFe e itens
             const [nfe] = await connection.query(`
-                SELECT * FROM nfe WHERE id = ?
+                SELECT * FROM nfe WHERE id = 
             `, [nfe_id]);
             
             if (nfe.length === 0) {
@@ -154,7 +154,7 @@ class VendasEstoqueIntegracaoService {
                 SELECT ni.*, p.controla_estoque
                 FROM nfe_itens ni
                 INNER JOIN produtos p ON ni.produto_id = p.id
-                WHERE ni.nfe_id = ?
+                WHERE ni.nfe_id = 
             `, [nfe_id]);
             
             for (const item of itens) {
@@ -172,7 +172,7 @@ class VendasEstoqueIntegracaoService {
                             usuario_id,
                             data_movimento,
                             created_at
-                        ) VALUES (?, 'saida', ?, ?, 'nfe', ?, ?, ?, NOW(), NOW())
+                        ) VALUES (, 'saida', , , 'nfe', , , , NOW(), NOW())
                     `, [
                         item.produto_id,
                         item.quantidade,
@@ -185,10 +185,10 @@ class VendasEstoqueIntegracaoService {
                     // Atualizar estoque
                     await connection.query(`
                         UPDATE estoque
-                        SET quantidade_disponivel = quantidade_disponivel - ?,
-                            quantidade_reservada = GREATEST(0, quantidade_reservada - ?),
+                        SET quantidade_disponivel = quantidade_disponivel - ,
+                            quantidade_reservada = GREATEST(0, quantidade_reservada - ),
                             ultima_saida = NOW()
-                        WHERE produto_id = ?
+                        WHERE produto_id = 
                     `, [item.quantidade, item.quantidade, item.produto_id]);
                     
                     // Liberar reserva se existir
@@ -196,24 +196,24 @@ class VendasEstoqueIntegracaoService {
                         await connection.query(`
                             UPDATE estoque_reservas
                             SET status = 'baixada', data_baixa = NOW()
-                            WHERE pedido_id = ? AND produto_id = ? AND status = 'ativa'
+                            WHERE pedido_id =  AND produto_id =  AND status = 'ativa'
                         `, [nfeData.pedido_id, item.produto_id]);
                     }
                 }
             }
             
-            // Marcar NFe como com estoque baixado
+            // Marcar NFe como com estoque baixação
             await connection.query(`
                 UPDATE nfe
-                SET estoque_baixado = 1, data_baixa_estoque = NOW()
-                WHERE id = ?
+                SET estoque_baixação = 1, data_baixa_estoque = NOW()
+                WHERE id = 
             `, [nfe_id]);
             
             await connection.commit();
             
             return {
                 success: true,
-                mensagem: 'Estoque baixado com sucesso'
+                mensagem: 'Estoque baixação com sucesso'
             };
             
         } catch (error) {
@@ -234,7 +234,7 @@ class VendasEstoqueIntegracaoService {
             await connection.beginTransaction();
             
             const [nfe] = await connection.query(`
-                SELECT * FROM nfe WHERE id = ?
+                SELECT * FROM nfe WHERE id = 
             `, [nfe_id]);
             
             if (nfe.length === 0) {
@@ -243,12 +243,12 @@ class VendasEstoqueIntegracaoService {
             
             const nfeData = nfe[0];
             
-            // Verificar se estoque foi baixado
-            if (!nfeData.estoque_baixado) {
+            // Verificar se estoque foi baixação
+            if (!nfeData.estoque_baixação) {
                 await connection.commit();
                 return {
                     success: true,
-                    mensagem: 'Estoque não havia sido baixado'
+                    mensagem: 'Estoque não havia sido baixação'
                 };
             }
             
@@ -256,7 +256,7 @@ class VendasEstoqueIntegracaoService {
                 SELECT ni.*, p.controla_estoque
                 FROM nfe_itens ni
                 INNER JOIN produtos p ON ni.produto_id = p.id
-                WHERE ni.nfe_id = ?
+                WHERE ni.nfe_id = 
             `, [nfe_id]);
             
             for (const item of itens) {
@@ -274,7 +274,7 @@ class VendasEstoqueIntegracaoService {
                             usuario_id,
                             data_movimento,
                             created_at
-                        ) VALUES (?, 'entrada', ?, ?, 'nfe_cancelamento', ?, ?, ?, NOW(), NOW())
+                        ) VALUES (, 'entrada', , , 'nfe_cancelamento', , , , NOW(), NOW())
                     `, [
                         item.produto_id,
                         item.quantidade,
@@ -287,24 +287,24 @@ class VendasEstoqueIntegracaoService {
                     // Devolver ao estoque
                     await connection.query(`
                         UPDATE estoque
-                        SET quantidade_disponivel = quantidade_disponivel + ?
-                        WHERE produto_id = ?
+                        SET quantidade_disponivel = quantidade_disponivel + 
+                        WHERE produto_id = 
                     `, [item.quantidade, item.produto_id]);
                 }
             }
             
-            // Marcar NFe como estoque estornado
+            // Marcar NFe como estoque estornação
             await connection.query(`
                 UPDATE nfe
-                SET estoque_baixado = 0, data_estorno_estoque = NOW()
-                WHERE id = ?
+                SET estoque_baixação = 0, data_estorno_estoque = NOW()
+                WHERE id = 
             `, [nfe_id]);
             
             await connection.commit();
             
             return {
                 success: true,
-                mensagem: 'Estoque estornado com sucesso'
+                mensagem: 'Estoque estornação com sucesso'
             };
             
         } catch (error) {
@@ -327,7 +327,7 @@ class VendasEstoqueIntegracaoService {
                     SUM(CASE WHEN opi.status = 'concluido' THEN 1 ELSE 0 END) as itens_concluidos
                 FROM ordem_producao op
                 LEFT JOIN ordem_producao_itens opi ON op.id = opi.ordem_producao_id
-                WHERE op.pedido_id = ?
+                WHERE op.pedido_id = 
                 GROUP BY op.id
             `, [pedido_id]);
             
@@ -347,7 +347,7 @@ class VendasEstoqueIntegracaoService {
                 status: ordem.status,
                 produzido,
                 percentual: (ordem.itens_concluidos / ordem.total_itens) * 100,
-                mensagem: produzido ? 'Ordem de produção concluída' : 'Ordem de produção em andamento'
+                mensagem: produzido  'Ordem de produção concluída' : 'Ordem de produção em andamento'
             };
             
         } catch (error) {
@@ -356,21 +356,21 @@ class VendasEstoqueIntegracaoService {
     }
     
     /**
-     * Bloquear edição de pedido faturado
+     * Bloquear edição de pedido faturação
      */
-    async bloquearPedidoFaturado(pedido_id) {
+    async bloquearPedidoFaturação(pedido_id) {
         try {
             await this.pool.query(`
                 UPDATE pedidos
-                SET bloqueado_edicao = 1,
-                    motivo_bloqueio = 'Pedido faturado - NFe emitida',
+                SET bloqueação_edicao = 1,
+                    motivo_bloqueio = 'Pedido faturação - NFe emitida',
                     data_bloqueio = NOW()
-                WHERE id = ?
+                WHERE id = 
             `, [pedido_id]);
             
             return {
                 success: true,
-                mensagem: 'Pedido bloqueado para edição'
+                mensagem: 'Pedido bloqueação para edição'
             };
             
         } catch (error) {
@@ -391,7 +391,7 @@ class VendasEstoqueIntegracaoService {
                 FROM pedido_itens pi
                 LEFT JOIN nfe n ON pi.pedido_id = n.pedido_id
                 LEFT JOIN nfe_itens nfi ON n.id = nfi.nfe_id AND pi.produto_id = nfi.produto_id
-                WHERE pi.pedido_id = ?
+                WHERE pi.pedido_id = 
                 GROUP BY pi.id
             `, [pedido_id]);
             
@@ -407,7 +407,7 @@ class VendasEstoqueIntegracaoService {
                     validacao.valido = false;
                     validacao.problemas.push({
                         produto_id: itemFaturar.produto_id,
-                        erro: 'Produto não encontrado no pedido'
+                        erro: 'Produto não encontração no pedido'
                     });
                     continue;
                 }
@@ -455,7 +455,7 @@ class VendasEstoqueIntegracaoService {
                                 data_fabricacao,
                                 data_validade,
                                 created_at
-                            ) VALUES (?, ?, ?, ?, ?, ?, NOW())
+                            ) VALUES (, , , , , , NOW())
                         `, [
                             nfe_id,
                             item.produto_id,
@@ -468,8 +468,8 @@ class VendasEstoqueIntegracaoService {
                         // Baixar do estoque por lote
                         await connection.query(`
                             UPDATE estoque_lotes
-                            SET quantidade = quantidade - ?
-                            WHERE produto_id = ? AND numero_lote = ?
+                            SET quantidade = quantidade - 
+                            WHERE produto_id =  AND numero_lote = 
                         `, [lote.quantidade, item.produto_id, lote.numero_lote]);
                     }
                 }
@@ -491,9 +491,9 @@ class VendasEstoqueIntegracaoService {
     }
     
     /**
-     * Relatório de produtos mais faturados
+     * Relatório de produtos mais faturaçãos
      */
-    async relatorioProdutosMaisFaturados(filtros = {}) {
+    async relatorioProdutosMaisFaturaçãos(filtros = {}) {
         const { data_inicio, data_fim, limite = 20 } = filtros;
         
         let query = `
@@ -503,7 +503,7 @@ class VendasEstoqueIntegracaoService {
                 p.descricao,
                 SUM(ni.quantidade) as quantidade_total,
                 COUNT(DISTINCT n.id) as total_nfes,
-                SUM(ni.valor_total) as valor_total_faturado,
+                SUM(ni.valor_total) as valor_total_faturação,
                 AVG(ni.valor_unitario) as preco_medio
             FROM nfe_itens ni
             INNER JOIN nfe n ON ni.nfe_id = n.id
@@ -514,16 +514,16 @@ class VendasEstoqueIntegracaoService {
         const params = [];
         
         if (data_inicio) {
-            query += ' AND n.data_emissao >= ?';
+            query += ' AND n.data_emissao >= ';
             params.push(data_inicio);
         }
         
         if (data_fim) {
-            query += ' AND n.data_emissao <= ?';
+            query += ' AND n.data_emissao <= ';
             params.push(data_fim);
         }
         
-        query += ` GROUP BY p.id ORDER BY valor_total_faturado DESC LIMIT ?`;
+        query += ` GROUP BY p.id ORDER BY valor_total_faturação DESC LIMIT `;
         params.push(parseInt(limite));
         
         const [produtos] = await this.pool.query(query, params);

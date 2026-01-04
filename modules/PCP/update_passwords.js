@@ -22,29 +22,29 @@ async function updatePasswords() {
         const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
         
         console.log(`Nova senha: ${newPassword}`);
-        console.log(`Hash gerado: ${hashedPassword}`);
+        console.log(`Hash geração: ${hashedPassword}`);
         
         // Atualizar senha do admin@local
         console.log('\n1. Atualizando senha do admin@local...');
         const [result1] = await db.query(
-            "UPDATE usuarios_pcp SET senha = ? WHERE email = ?", 
+            "UPDATE usuarios_pcp SET senha =  WHERE email = ", 
             [hashedPassword, 'admin@local']
         );
-        console.log(`✓ Admin atualizado. Linhas afetadas: ${result1.affectedRows}`);
+        console.log(`✓ Admin atualização. Linhas afetadas: ${result1.affectedRows}`);
         
         // Atualizar senha do clemerson
         console.log('\n2. Atualizando senha do clemerson.silva@aluforce.ind.br...');
         const [result2] = await db.query(
-            "UPDATE usuarios_pcp SET senha = ? WHERE email = ?", 
+            "UPDATE usuarios_pcp SET senha =  WHERE email = ", 
             [hashedPassword, 'clemerson.silva@aluforce.ind.br']
         );
-        console.log(`✓ Clemerson atualizado. Linhas afetadas: ${result2.affectedRows}`);
+        console.log(`✓ Clemerson atualização. Linhas afetadas: ${result2.affectedRows}`);
         
         // Verificar as atualizações
         console.log('\n3. Verificando as atualizações...');
         const [users] = await db.query("SELECT id, email, nome, LEFT(senha, 10) as senha_preview FROM usuarios_pcp");
         
-        console.log('Usuários atualizados:');
+        console.log('Usuários atualizaçãos:');
         users.forEach(user => {
             console.log(`- ${user.email} (${user.nome}): senha inicia com ${user.senha_preview}...`);
         });

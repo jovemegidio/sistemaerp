@@ -1,7 +1,7 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
- *  ALUFORCE ERP - Gerador de Assets do Instalador
- *  Cria imagens institucionais para o instalador NSIS
+ *  ALUFORCE ERP - Geraçãor de Assets do Instalaçãor
+ *  Cria imagens institucionais para o instalaçãor NSIS
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -27,7 +27,7 @@ const DIMENSIONS = {
 
 console.log(`
 ═══════════════════════════════════════════════════════════════
-  ALUFORCE ERP - Gerador de Assets do Instalador
+  ALUFORCE ERP - Geraçãor de Assets do Instalaçãor
 ═══════════════════════════════════════════════════════════════
 `);
 
@@ -44,7 +44,7 @@ const htmlContent = `<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>ALUFORCE ERP - Assets do Instalador</title>
+    <title>ALUFORCE ERP - Assets do Instalaçãor</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -65,7 +65,7 @@ const htmlContent = `<!DOCTYPE html>
             background: white;
             padding: 20px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shaçãow: 0 4px 20px rgba(0,0,0,0.1);
         }
         .asset h2 {
             color: #475569;
@@ -97,7 +97,7 @@ const htmlContent = `<!DOCTYPE html>
             color: white;
             font-size: 42px;
             font-weight: 800;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shaçãow: 0 10px 30px rgba(0,0,0,0.3);
             margin-bottom: 20px;
         }
         .sidebar .title {
@@ -221,7 +221,7 @@ const htmlContent = `<!DOCTYPE html>
     </style>
 </head>
 <body>
-    <h1>🎨 Assets do Instalador ALUFORCE ERP</h1>
+    <h1>🎨 Assets do Instalaçãor ALUFORCE ERP</h1>
     
     <div class="container">
         <div class="asset">
@@ -235,7 +235,7 @@ const htmlContent = `<!DOCTYPE html>
         </div>
         
         <div class="asset">
-            <h2>📏 Header Instalador (150 x 57 px)</h2>
+            <h2>📏 Header Instalaçãor (150 x 57 px)</h2>
             <div class="preview header">
                 <div class="logo-small">A</div>
                 <div class="text">
@@ -246,7 +246,7 @@ const htmlContent = `<!DOCTYPE html>
         </div>
         
         <div class="asset">
-            <h2>📏 Header Desinstalador (150 x 57 px)</h2>
+            <h2>📏 Header Desinstalaçãor (150 x 57 px)</h2>
             <div class="preview uninstall-header">
                 <div class="logo-small">A</div>
                 <div class="text">
@@ -259,7 +259,7 @@ const htmlContent = `<!DOCTYPE html>
     
     <div class="instructions">
         <h3>📋 Instruções para criar BMPs</h3>
-        <p>Para o instalador NSIS, as imagens precisam estar no formato BMP (24-bit):</p>
+        <p>Para o instalaçãor NSIS, as imagens precisam estar no formato BMP (24-bit):</p>
         <ol>
             <li>Tire um screenshot de cada preview acima</li>
             <li>Abra no Paint ou editor de imagens</li>
@@ -279,11 +279,11 @@ const htmlContent = `<!DOCTYPE html>
 const previewPath = path.join(assetsDir, 'installer-preview.html');
 fs.writeFileSync(previewPath, htmlContent);
 
-console.log('✓ Preview HTML criado: assets/installer-preview.html');
-console.log('  Abra este arquivo no navegador para visualizar os designs');
+console.log('✓ Preview HTML criação: assets/installer-preview.html');
+console.log('  Abra este arquivo no navegaçãor para visualizar os designs');
 console.log('');
 console.log('Para gerar os BMPs:');
-console.log('1. Abra assets/installer-preview.html no navegador');
+console.log('1. Abra assets/installer-preview.html no navegaçãor');
 console.log('2. Tire screenshots de cada preview');
 console.log('3. Salve como BMP 24-bit nas dimensões indicadas');
 console.log('');

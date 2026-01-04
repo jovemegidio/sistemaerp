@@ -3,9 +3,9 @@
  * SISTEMA DE CONTADORES DO MÓDULO PCP
  * ============================================
  * 
- * Gerencia todos os contadores das páginas do PCP:
- * - Contador de materiais
- * - Contador de produtos
+ * Gerencia todos os contaçãores das páginas do PCP:
+ * - Contaçãor de materiais
+ * - Contaçãor de produtos
  * - Alertas de estoque
  * - Paginação
  * 
@@ -16,13 +16,13 @@
 (function() {
     'use strict';
 
-    console.log('🔢 Inicializando sistema de contadores PCP...');
+    console.log('🔢 Inicializando sistema de contaçãores PCP...');
 
     // ============================================
     // CACHE DE DADOS
     // ============================================
-    let dadosMateriaisCache = null;
-    let dadosProdutosCache = null;
+    let daçãosMateriaisCache = null;
+    let daçãosProdutosCache = null;
     let ultimaAtualizacao = {
         materiais: 0,
         produtos: 0
@@ -31,15 +31,15 @@
     // ============================================
     // FUNÇÃO: ATUALIZAR CONTADOR DE MATERIAIS
     // ============================================
-    async function atualizarContadorMateriais() {
+    async function atualizarContaçãorMateriais() {
         try {
             const countDisplay = document.getElementById('materials-count-display');
             if (!countDisplay) {
-                console.log('⚠️ Elemento materials-count-display não encontrado');
+                console.log('⚠️ Elemento materials-count-display não encontração');
                 return;
             }
 
-            // Buscar dados da API
+            // Buscar daçãos da API
             const response = await fetch('/api/pcp/materiais');
             if (!response.ok) {
                 console.error('❌ Erro ao buscar materiais:', response.status);
@@ -47,20 +47,20 @@
             }
 
             const materiais = await response.json();
-            const total = Array.isArray(materiais) ? materiais.length : 0;
+            const total = Array.isArray(materiais)  materiais.length : 0;
 
             // Atualizar display
             countDisplay.textContent = total;
-            dadosMateriaisCache = materiais;
+            daçãosMateriaisCache = materiais;
             ultimaAtualizacao.materiais = Date.now();
 
-            console.log(`✅ Contador de materiais atualizado: ${total}`);
+            console.log(`✅ Contaçãor de materiais atualização: ${total}`);
 
             // Verificar alertas de estoque
             atualizarAlertasEstoqueMateriais(materiais);
 
         } catch (error) {
-            console.error('❌ Erro ao atualizar contador de materiais:', error);
+            console.error('❌ Erro ao atualizar contaçãor de materiais:', error);
         }
     }
 
@@ -69,8 +69,8 @@
     // ============================================
     function atualizarAlertasEstoqueMateriais(materiais) {
         try {
-            const alertasContador = document.getElementById('alertas-contador');
-            if (!alertasContador) return;
+            const alertasContaçãor = document.getElementById('alertas-contaçãor');
+            if (!alertasContaçãor) return;
 
             let alertasCount = 0;
 
@@ -85,13 +85,13 @@
             });
 
             // Atualizar display
-            alertasContador.textContent = alertasCount;
+            alertasContaçãor.textContent = alertasCount;
             
             if (alertasCount > 0) {
-                alertasContador.style.display = 'flex';
+                alertasContaçãor.style.display = 'flex';
                 console.log(`⚠️ ${alertasCount} alertas de estoque de materiais`);
             } else {
-                alertasContador.style.display = 'none';
+                alertasContaçãor.style.display = 'none';
             }
 
         } catch (error) {
@@ -102,7 +102,7 @@
     // ============================================
     // FUNÇÃO: ATUALIZAR CONTADORES DE PRODUTOS (GESTÃO)
     // ============================================
-    async function atualizarContadoresProdutos() {
+    async function atualizarContaçãoresProdutos() {
         try {
             const statTotal = document.getElementById('stat-total-produtos-gestao');
             const statBaixo = document.getElementById('stat-estoque-baixo-gestao');
@@ -110,12 +110,12 @@
             const statOk = document.getElementById('stat-produtos-ok-gestao');
 
             if (!statTotal) {
-                console.log('⚠️ Elementos de estatísticas de produtos não encontrados');
+                console.log('⚠️ Elementos de estatísticas de produtos não encontraçãos');
                 return;
             }
 
-            // Buscar dados da API
-            const response = await fetch('/api/pcp/produtos?limit=10000');
+            // Buscar daçãos da API
+            const response = await fetch('/api/pcp/produtoslimit=10000');
             if (!response.ok) {
                 console.error('❌ Erro ao buscar produtos:', response.status);
                 return;
@@ -123,9 +123,9 @@
 
             const data = await response.json();
             // API retorna data.produtos, data.rows, ou array direto
-            const produtos = data.produtos || data.rows || (Array.isArray(data) ? data : []);
+            const produtos = data.produtos || data.rows || (Array.isArray(data)  data : []);
 
-            // Contadores
+            // Contaçãores
             let totalProdutos = produtos.length;
             let estoqueBaixo = 0;
             let estoqueCritico = 0;
@@ -152,17 +152,17 @@
             if (statCritico) statCritico.textContent = estoqueCritico;
             if (statOk) statOk.textContent = estoqueOk;
 
-            dadosProdutosCache = produtos;
+            daçãosProdutosCache = produtos;
             ultimaAtualizacao.produtos = Date.now();
 
-            console.log(`✅ Contadores de produtos atualizados:`);
+            console.log(`✅ Contaçãores de produtos atualizaçãos:`);
             console.log(`   Total: ${totalProdutos}`);
             console.log(`   Estoque Baixo: ${estoqueBaixo}`);
             console.log(`   Estoque Crítico: ${estoqueCritico}`);
             console.log(`   Estoque Normal: ${estoqueOk}`);
 
         } catch (error) {
-            console.error('❌ Erro ao atualizar contadores de produtos:', error);
+            console.error('❌ Erro ao atualizar contaçãores de produtos:', error);
         }
     }
 
@@ -197,15 +197,15 @@
     // ============================================
     // FUNÇÃO: ATUALIZAR TODOS OS CONTADORES
     // ============================================
-    async function atualizarTodosContadores() {
-        console.log('🔄 Atualizando todos os contadores...');
+    async function atualizarTodosContaçãores() {
+        console.log('🔄 Atualizando todos os contaçãores...');
         
         await Promise.all([
-            atualizarContadorMateriais(),
-            atualizarContadoresProdutos()
+            atualizarContaçãorMateriais(),
+            atualizarContaçãoresProdutos()
         ]);
 
-        console.log('✅ Todos os contadores atualizados!');
+        console.log('✅ Todos os contaçãores atualizaçãos!');
     }
 
     // ============================================
@@ -222,7 +222,7 @@
 
             const viewId = viewAtiva.id;
             
-            // Se mudou de view, atualizar contadores relevantes
+            // Se mudou de view, atualizar contaçãores relevantes
             if (viewId !== ultimaView) {
                 ultimaView = viewId;
                 console.log(`👁️ View mudou para: ${viewId}`);
@@ -230,18 +230,18 @@
                 switch(viewId) {
                     case 'materiais-view':
                     case 'materiais':
-                        atualizarContadorMateriais();
+                        atualizarContaçãorMateriais();
                         break;
                     
                     case 'gestao-produtos':
                     case 'gestao-produtos-view':
-                        atualizarContadoresProdutos();
+                        atualizarContaçãoresProdutos();
                         break;
                     
                     case 'dashboard':
                     case 'dashboard-view':
                         // Atualizar tudo no dashboard
-                        atualizarTodosContadores();
+                        atualizarTodosContaçãores();
                         break;
                 }
             }
@@ -270,21 +270,21 @@
                 // Chamar função original
                 const result = originalShowView.apply(this, arguments);
                 
-                // Atualizar contadores após mudança de view
+                // Atualizar contaçãores após mudança de view
                 setTimeout(() => {
-                    console.log(`🔢 Atualizando contadores para view: ${viewName}`);
+                    console.log(`🔢 Atualizando contaçãores para view: ${viewName}`);
                     
                     switch(viewName) {
                         case 'materiais':
-                            atualizarContadorMateriais();
+                            atualizarContaçãorMateriais();
                             break;
                         
                         case 'gestao-produtos':
-                            atualizarContadoresProdutos();
+                            atualizarContaçãoresProdutos();
                             break;
                         
                         case 'dashboard':
-                            atualizarTodosContadores();
+                            atualizarTodosContaçãores();
                             break;
                     }
                 }, 300);
@@ -302,13 +302,13 @@
     function configurarEventosRecarga() {
         // Atualizar quando materiais/produtos forem salvos
         document.addEventListener('material-salvo', () => {
-            console.log('📦 Material salvo - atualizando contadores');
-            setTimeout(atualizarContadorMateriais, 500);
+            console.log('📦 Material salvo - atualizando contaçãores');
+            setTimeout(atualizarContaçãorMateriais, 500);
         });
 
         document.addEventListener('produto-salvo', () => {
-            console.log('📦 Produto salvo - atualizando contadores');
-            setTimeout(atualizarContadoresProdutos, 500);
+            console.log('📦 Produto salvo - atualizando contaçãores');
+            setTimeout(atualizarContaçãoresProdutos, 500);
         });
 
         // Interceptar fetch para detectar POST/PUT/DELETE
@@ -317,36 +317,36 @@
             const response = await originalFetch.apply(this, args);
             
             // Verificar se foi uma mutação
-            const method = args[1]?.method || 'GET';
+            const method = args[1].method || 'GET';
             if (['POST', 'PUT', 'DELETE', 'PATCH'].includes(method.toUpperCase())) {
                 const url = args[0];
                 
                 if (url.includes('/materiais')) {
-                    setTimeout(atualizarContadorMateriais, 500);
+                    setTimeout(atualizarContaçãorMateriais, 500);
                 } else if (url.includes('/produtos')) {
-                    setTimeout(atualizarContadoresProdutos, 500);
+                    setTimeout(atualizarContaçãoresProdutos, 500);
                 }
             }
             
             return response;
         };
 
-        console.log('✅ Eventos de recarga configurados');
+        console.log('✅ Eventos de recarga configuraçãos');
     }
 
     // ============================================
     // FUNÇÃO GLOBAL: FORÇAR ATUALIZAÇÃO
     // ============================================
-    window.atualizarContadoresPCP = function() {
-        console.log('🔄 Atualização manual de contadores solicitada');
-        return atualizarTodosContadores();
+    window.atualizarContaçãoresPCP = function() {
+        console.log('🔄 Atualização manual de contaçãores solicitada');
+        return atualizarTodosContaçãores();
     };
 
     // ============================================
     // INICIALIZAÇÃO
     // ============================================
     function inicializar() {
-        console.log('🚀 Inicializando sistema de contadores...');
+        console.log('🚀 Inicializando sistema de contaçãores...');
 
         // Aguardar DOM estar pronto
         if (document.readyState === 'loading') {
@@ -355,8 +355,8 @@
                     interceptarShowView();
                     observarMudancasDeView();
                     configurarEventosRecarga();
-                    atualizarTodosContadores();
-                    console.log('✅ Sistema de contadores inicializado!');
+                    atualizarTodosContaçãores();
+                    console.log('✅ Sistema de contaçãores inicialização!');
                 }, 1000);
             });
         } else {
@@ -364,23 +364,23 @@
                 interceptarShowView();
                 observarMudancasDeView();
                 configurarEventosRecarga();
-                atualizarTodosContadores();
-                console.log('✅ Sistema de contadores inicializado!');
+                atualizarTodosContaçãores();
+                console.log('✅ Sistema de contaçãores inicialização!');
             }, 1000);
         }
 
-        // Atualizar contadores periodicamente (a cada 2 minutos)
+        // Atualizar contaçãores periodicamente (a cada 2 minutos)
         setInterval(() => {
             const agora = Date.now();
             
             // Atualizar materiais se passou mais de 2 minutos
             if (agora - ultimaAtualizacao.materiais > 2 * 60 * 1000) {
-                atualizarContadorMateriais();
+                atualizarContaçãorMateriais();
             }
             
             // Atualizar produtos se passou mais de 2 minutos
             if (agora - ultimaAtualizacao.produtos > 2 * 60 * 1000) {
-                atualizarContadoresProdutos();
+                atualizarContaçãoresProdutos();
             }
         }, 2 * 60 * 1000);
     }
@@ -388,14 +388,14 @@
     // ============================================
     // EXPORTAR API
     // ============================================
-    window.PCPContadores = {
-        atualizarMateriais: atualizarContadorMateriais,
-        atualizarProdutos: atualizarContadoresProdutos,
-        atualizarTodos: atualizarTodosContadores,
+    window.PCPContaçãores = {
+        atualizarMateriais: atualizarContaçãorMateriais,
+        atualizarProdutos: atualizarContaçãoresProdutos,
+        atualizarTodos: atualizarTodosContaçãores,
         atualizarPaginacao: atualizarPaginacao,
-        getDadosCache: () => ({
-            materiais: dadosMateriaisCache,
-            produtos: dadosProdutosCache
+        getDaçãosCache: () => ({
+            materiais: daçãosMateriaisCache,
+            produtos: daçãosProdutosCache
         })
     };
 

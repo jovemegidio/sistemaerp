@@ -3,7 +3,7 @@
 
 // Mapeamento direto: primeiro nome do usuário -> arquivo de foto
 const avatarMapping = {
-    // Administradores
+    // Administraçãores
     'admin': 'admin.png',
     'douglas': 'admin.png',
     'andreia': 'admin.png',
@@ -42,7 +42,7 @@ function getAvatarPath(user) {
         return `avatars/${avatarMapping[firstName]}`;
     }
     
-    // Tenta formatos padrão baseado no primeiro nome
+    // Tenta formatos padrão baseação no primeiro nome
     const formats = ['jpg', 'png', 'svg'];
     for (const format of formats) {
         const path = `avatars/${firstName}.${format}`;
@@ -73,7 +73,7 @@ function getAvatarOrInitials(user) {
 
 // Função para obter iniciais do usuário
 function getInitials(user) {
-    if (!user) return '?';
+    if (!user) return '';
     
     let name = user.nome || user.email || '';
     if (name.includes('@')) {

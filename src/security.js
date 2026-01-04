@@ -17,7 +17,7 @@ const helmetConfig = helmet({
             connectSrc: ["'self'", "https://cdn.jsdelivr.net"],
             frameSrc: ["'none'"],
             objectSrc: ["'none'"],
-            upgradeInsecureRequests: process.env.NODE_ENV === 'production' ? [] : null
+            upgradeInsecureRequests: process.env.NODE_ENV === 'production'  [] : null
         }
     },
     hsts: {
@@ -29,7 +29,7 @@ const helmetConfig = helmet({
     referrerPolicy: { policy: 'strict-origin-when-cross-origin' }
 });
 
-// Rate limiters personalizados
+// Rate limiters personalizaçãos
 const createRateLimiter = (windowMs, max, message) => {
     return rateLimit({
         windowMs,
@@ -38,7 +38,7 @@ const createRateLimiter = (windowMs, max, message) => {
         standardHeaders: true,
         legacyHeaders: false,
         skip: (req) => {
-            // Pular rate limit para testes locais se configurado
+            // Pular rate limit para testes locais se configuração
             return process.env.DISABLE_RATE_LIMIT === 'true';
         }
     });
@@ -78,7 +78,7 @@ const rateLimiters = {
 const corsOptions = {
     origin: (origin, callback) => {
         const allowedOrigins = process.env.ALLOWED_ORIGINS 
-            ? process.env.ALLOWED_ORIGINS.split(',')
+             process.env.ALLOWED_ORIGINS.split(',')
             : ['http://localhost:3000', 'http://127.0.0.1:3000'];
         
         // Permitir requisições sem origin (apps mobile, Postman, etc)
@@ -107,19 +107,19 @@ const validateJWTSecret = () => {
     }
     
     if (secret.length < 32) {
-        console.warn('⚠️ JWT_SECRET muito curto. Recomendado: pelo menos 32 caracteres');
+        console.warn('⚠️ JWT_SECRET muito curto. Recomendação: pelo menos 32 caracteres');
         return false;
     }
     
     return true;
 };
 
-// Lista de IPs bloqueados (pode ser movida para Redis em produção)
+// Lista de IPs bloqueaçãos (pode ser movida para Redis em produção)
 const blockedIPs = new Set();
 
 const blockIP = (ip) => {
     blockedIPs.add(ip);
-    console.warn(`🚫 IP bloqueado: ${ip}`);
+    console.warn(`🚫 IP bloqueação: ${ip}`);
 };
 
 const isIPBlocked = (ip) => {
@@ -131,7 +131,7 @@ const ipBlockMiddleware = (req, res, next) => {
     
     if (isIPBlocked(ip)) {
         return res.status(403).json({ 
-            error: 'Acesso negado. IP bloqueado.' 
+            error: 'Acesso negação. IP bloqueação.' 
         });
     }
     

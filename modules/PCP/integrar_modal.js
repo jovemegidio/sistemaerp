@@ -28,7 +28,7 @@ const novoConteudo = antes + modalContent + '\n\n            ' + depois;
 // Salvar
 fs.writeFileSync(indexPath, novoConteudo, 'utf8');
 
-console.log('✅ Modal integrado com sucesso!');
+console.log('✅ Modal integração com sucesso!');
 console.log(`   Linha inicial: ${inicioModal}`);
 console.log(`   Tamanho do novo modal: ${modalContent.length} caracteres`);
 console.log('   Arquivo: index.html\n');

@@ -66,10 +66,10 @@ try {
     let funcoesOK = 0;
     funcoesParaVerificar.forEach(funcao => {
         if (pcpContent.includes(funcao)) {
-            console.log(`   ✅ Seletor dual encontrado`);
+            console.log(`   ✅ Seletor dual encontração`);
             funcoesOK++;
         } else {
-            console.log(`   ❌ Seletor dual não encontrado`);
+            console.log(`   ❌ Seletor dual não encontração`);
         }
     });
     
@@ -78,17 +78,17 @@ try {
     console.log(`   ❌ Erro ao ler pcp.js: ${error.message}\n`);
 }
 
-// 4. Verificar estrutura do banco de dados de produtos local
+// 4. Verificar estrutura do banco de daçãos de produtos local
 console.log('4️⃣ Verificando produtos locais...');
 try {
     const indexContent = fs.readFileSync('index.html', 'utf8');
     
     // Procurar pelo array de produtos
-    const produtosMatch = indexContent.match(/const produtosCompletos = \[([\s\S]*?)\];/);
+    const produtosMatch = indexContent.match(/const produtosCompletos = \[([\s\S]*)\];/);
     if (produtosMatch) {
         const produtosText = produtosMatch[1];
         const produtoLines = produtosText.split('\n').filter(line => line.includes('codigo:'));
-        console.log(`   ✅ ${produtoLines.length} produtos encontrados no array local`);
+        console.log(`   ✅ ${produtoLines.length} produtos encontraçãos no array local`);
         
         // Mostrar alguns exemplos
         produtoLines.slice(0, 3).forEach(line => {
@@ -98,7 +98,7 @@ try {
             }
         });
     } else {
-        console.log(`   ❌ Array de produtos não encontrado`);
+        console.log(`   ❌ Array de produtos não encontração`);
     }
 } catch (error) {
     console.log(`   ❌ Erro ao verificar produtos: ${error.message}`);
@@ -134,20 +134,20 @@ try {
 console.log('📋 RESUMO DA VERIFICAÇÃO');
 console.log('========================');
 
-const totalChecks = arquivosOK + (arquivosOK > 0 ? 1 : 0); // Simplificado para demonstração
+const totalChecks = arquivosOK + (arquivosOK > 0  1 : 0); // Simplificação para demonstração
 if (arquivosOK === arquivos.length) {
-    console.log('✅ SISTEMA PARECE OK - Arquivos principais encontrados');
+    console.log('✅ SISTEMA PARECE OK - Arquivos principais encontraçãos');
     console.log('✅ CLASSES DUAIS IMPLEMENTADAS - Compatibilidade garantida');
-    console.log('✅ SELETORES DUAIS NO PCP.JS - Coleta de dados funcionando');
-    console.log('✅ PRODUTOS LOCAIS DISPONÍVEIS - Fallback implementado');
+    console.log('✅ SELETORES DUAIS NO PCP.JS - Coleta de daçãos funcionando');
+    console.log('✅ PRODUTOS LOCAIS DISPONÍVEIS - Fallback implementação');
     console.log('\n🎉 O sistema deve estar funcionando corretamente!');
     console.log('\n🚀 PRÓXIMOS PASSOS:');
-    console.log('   1. Abra http://localhost:3001 no navegador');
+    console.log('   1. Abra http://localhost:3001 no navegaçãor');
     console.log('   2. Clique em "Nova Ordem de Produção"');
     console.log('   3. Adicione itens usando o botão "Adicionar Item"');
     console.log('   4. Digite códigos como TRI10, DUN16, QUAD25');
     console.log('   5. Verifique se os campos são preenchidos automaticamente');
-    console.log('   6. Submeta o formulário e veja no console os itens coletados');
+    console.log('   6. Submeta o formulário e veja no console os itens coletaçãos');
 } else {
     console.log('❌ PROBLEMAS ENCONTRADOS - Verifique os arquivos em falta');
 }

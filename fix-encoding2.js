@@ -10,7 +10,7 @@ const files = [
 // Mapeamento de palavras com acentos para versoes sem acento corretas
 const replacements = [
     // Palavras com letras faltantes apos remocao de acentos
-    [/\bno\b(?! (?:site|campo|Google|mercado|menu|Card|transporte|houver))/g, 'nao'],
+    [/\bno\b(! (:site|campo|Google|mercação|menu|Card|transporte|houver))/g, 'nao'],
     [/\bvoc\b/g, 'voce'],
     [/\bno ser\b/g, 'nao serao'],
     [/\bno foi\b/g, 'nao foi'],
@@ -33,7 +33,7 @@ const replacements = [
     [/\bavanadas\b/g, 'avancadas'],
     [/\baparecero\b/g, 'aparecerao'],
     [/\bvalidadas\b/g, 'validadas'],
-    [/\binformado\b/g, 'informado'],
+    [/\binformação\b/g, 'informação'],
     [/\bsero\b/g, 'serao'],
 ];
 
@@ -63,7 +63,7 @@ files.forEach(file => {
         
         console.log(`  Total: ${changes} substituicoes aplicadas.`);
     } else {
-        console.log(`  Arquivo nao encontrado: ${fullPath}`);
+        console.log(`  Arquivo nao encontração: ${fullPath}`);
     }
 });
 

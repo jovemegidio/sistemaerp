@@ -14,7 +14,7 @@ async function main () {
     process.exit(1)
   }
 
-  const rows = fs.readFileSync(mappingFile, 'utf8').split(/\r?\n/).map(l => l.trim()).filter(Boolean)
+  const rows = fs.readFileSync(mappingFile, 'utf8').split(/\r\n/).map(l => l.trim()).filter(Boolean)
   const mappings = rows.map(r => {
     const parts = r.split(',')
     return { email: parts[0].trim(), filename: parts[1].trim() }
@@ -25,14 +25,14 @@ async function main () {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
+    port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
   })
 
   for (const m of mappings) {
     const filePath = path.join(photosDir, m.filename)
     if (!fs.existsSync(filePath)) { console.warn('Photo not found:', filePath); continue }
     // find user by email
-    const [rows] = await db.execute('SELECT id FROM funcionarios WHERE email = ? LIMIT 1', [m.email])
+    const [rows] = await db.execute('SELECT id FROM funcionarios WHERE email =  LIMIT 1', [m.email])
     if (!rows || rows.length === 0) { console.warn('User not found for email:', m.email); continue }
     const id = rows[0].id
     // copy file to public/uploads/fotos with unique name
@@ -41,7 +41,7 @@ async function main () {
     const destPath = path.join(__dirname, '..', 'public', 'uploads', 'fotos', destName)
     fs.copyFileSync(filePath, destPath)
     const fotoUrl = `/uploads/fotos/${destName}`
-    await db.execute('UPDATE funcionarios SET foto_perfil_url = ? WHERE id = ?', [fotoUrl, id])
+    await db.execute('UPDATE funcionarios SET foto_perfil_url =  WHERE id = ', [fotoUrl, id])
     console.log(`Updated ${m.email} -> ${fotoUrl}`)
   }
 
@@ -50,6 +50,6 @@ async function main () {
 }
 
 main().catch(err => {
-  console.error('Error in map_photos:', err && err.message ? err.message : err)
+  console.error('Error in map_photos:', err && err.message  err.message : err)
   process.exit(1)
 })

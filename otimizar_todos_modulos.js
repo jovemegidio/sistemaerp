@@ -5,7 +5,7 @@ console.log('🚀 OTIMIZAÇÃO AUTOMÁTICA DE TODOS OS MÓDULOS\n');
 console.log('═══════════════════════════════════════════════\n');
 
 let totalOtimizacoes = 0;
-let totalArquivosModificados = 0;
+let totalArquivosModificaçãos = 0;
 
 // ============================================
 // FUNÇÕES AUXILIARES
@@ -21,18 +21,18 @@ function consolidarDOMContentLoaded(conteudo, nomeArquivo) {
     const matches = conteudo.match(/document\.addEventListener\('DOMContentLoaded'/g);
     
     if (!matches || matches.length <= 1) {
-        return { modificado: false, conteudo };
+        return { modificação: false, conteudo };
     }
     
     console.log(`   🔧 Consolidando ${matches.length} blocos DOMContentLoaded em ${nomeArquivo}`);
     
-    // Comentar blocos duplicados (exceto o primeiro)
-    let contador = 0;
+    // Comentar blocos duplicaçãos (exceto o primeiro)
+    let contaçãor = 0;
     const novoConteudo = conteudo.replace(
         /document\.addEventListener\('DOMContentLoaded'/g,
         (match) => {
-            contador++;
-            if (contador > 1) {
+            contaçãor++;
+            if (contaçãor > 1) {
                 return '/*OTIMIZADO*/ //document.addEventListener(\'DOMContentLoaded\'';
             }
             return match;
@@ -40,27 +40,27 @@ function consolidarDOMContentLoaded(conteudo, nomeArquivo) {
     );
     
     totalOtimizacoes += (matches.length - 1);
-    return { modificado: true, conteudo: novoConteudo };
+    return { modificação: true, conteudo: novoConteudo };
 }
 
 function adicionarDeferScript(htmlContent) {
-    let modificado = false;
+    let modificação = false;
     
     // Adicionar defer em scripts sem defer
     const novoConteudo = htmlContent.replace(
-        /<script\s+src="([^"]+\.js)"(?!\s+defer)(?![^>]*defer)>/g,
+        /<script\s+src="([^"]+\.js)"(!\s+defer)(![^>]*defer)>/g,
         (match, src) => {
             // Ignorar socket.io e inline scripts
             if (src.includes('socket.io') || src.includes('http')) {
                 return match;
             }
-            modificado = true;
+            modificação = true;
             totalOtimizacoes++;
             return `<script src="${src}" defer>`;
         }
     );
     
-    return { modificado, conteudo: novoConteudo };
+    return { modificação, conteudo: novoConteudo };
 }
 
 function copiarCacheAPI(destino) {
@@ -69,7 +69,7 @@ function copiarCacheAPI(destino) {
     
     if (fs.existsSync(origem) && !fs.existsSync(dest)) {
         fs.copyFileSync(origem, dest);
-        console.log(`   ✅ Sistema de cache copiado para ${path.basename(destino)}`);
+        console.log(`   ✅ Sistema de cache copiação para ${path.basename(destino)}`);
         totalOtimizacoes++;
         return true;
     }
@@ -79,7 +79,7 @@ function copiarCacheAPI(destino) {
 function adicionarCacheNoHTML(htmlContent, moduloPath) {
     // Verificar se já tem referência ao cache
     if (htmlContent.includes('api-cache.js')) {
-        return { modificado: false, conteudo: htmlContent };
+        return { modificação: false, conteudo: htmlContent };
     }
     
     // Adicionar logo após o primeiro <script>
@@ -91,10 +91,10 @@ function adicionarCacheNoHTML(htmlContent, moduloPath) {
     if (novoConteudo !== htmlContent) {
         console.log(`   ✅ Referência ao cache adicionada no HTML`);
         totalOtimizacoes++;
-        return { modificado: true, conteudo: novoConteudo };
+        return { modificação: true, conteudo: novoConteudo };
     }
     
-    return { modificado: false, conteudo: htmlContent };
+    return { modificação: false, conteudo: htmlContent };
 }
 
 // ============================================
@@ -106,11 +106,11 @@ function otimizarModulo(nome, caminho) {
     console.log('─'.repeat(50));
     
     if (!fs.existsSync(caminho)) {
-        console.log(`   ❌ Caminho não encontrado`);
+        console.log(`   ❌ Caminho não encontração`);
         return;
     }
     
-    let arquivosModificados = 0;
+    let arquivosModificaçãos = 0;
     
     // 1. Otimizar arquivos JavaScript
     const buscarJS = (dir) => {
@@ -124,12 +124,12 @@ function otimizarModulo(nome, caminho) {
                 buscarJS(fullPath);
             } else if (stat.isFile() && item.endsWith('.js') && !item.includes('backup')) {
                 const conteudo = fs.readFileSync(fullPath, 'utf-8');
-                const resultado = consolidarDOMContentLoaded(conteudo, item);
+                const resultação = consolidarDOMContentLoaded(conteudo, item);
                 
-                if (resultado.modificado) {
+                if (resultação.modificação) {
                     criarBackup(fullPath);
-                    fs.writeFileSync(fullPath, resultado.conteudo, 'utf-8');
-                    arquivosModificados++;
+                    fs.writeFileSync(fullPath, resultação.conteudo, 'utf-8');
+                    arquivosModificaçãos++;
                 }
             }
         }
@@ -156,28 +156,28 @@ function otimizarModulo(nome, caminho) {
             const htmlContent = fs.readFileSync(indexPath, 'utf-8');
             
             // Adicionar defer
-            let resultado = adicionarDeferScript(htmlContent);
-            let conteudoFinal = resultado.conteudo;
-            let modificado = resultado.modificado;
+            let resultação = adicionarDeferScript(htmlContent);
+            let conteudoFinal = resultação.conteudo;
+            let modificação = resultação.modificação;
             
             // Adicionar cache
-            resultado = adicionarCacheNoHTML(conteudoFinal, caminho);
-            conteudoFinal = resultado.conteudo;
-            modificado = modificado || resultado.modificado;
+            resultação = adicionarCacheNoHTML(conteudoFinal, caminho);
+            conteudoFinal = resultação.conteudo;
+            modificação = modificação || resultação.modificação;
             
-            if (modificado) {
+            if (modificação) {
                 criarBackup(indexPath);
                 fs.writeFileSync(indexPath, conteudoFinal, 'utf-8');
-                arquivosModificados++;
-                console.log(`   ✅ HTML otimizado: ${path.basename(indexPath)}`);
+                arquivosModificaçãos++;
+                console.log(`   ✅ HTML otimização: ${path.basename(indexPath)}`);
             }
             break;
         }
     }
     
-    if (arquivosModificados > 0) {
-        console.log(`   ✅ ${arquivosModificados} arquivo(s) modificado(s)`);
-        totalArquivosModificados += arquivosModificados;
+    if (arquivosModificaçãos > 0) {
+        console.log(`   ✅ ${arquivosModificaçãos} arquivo(s) modificação(s)`);
+        totalArquivosModificaçãos += arquivosModificaçãos;
     } else {
         console.log(`   ℹ️  Nenhuma modificação necessária`);
     }
@@ -193,7 +193,7 @@ const modulos = {
     'PCP': 'modules/PCP'
 };
 
-console.log('🎯 Módulos a serem otimizados: RH, Vendas, PCP\n');
+console.log('🎯 Módulos a serem otimizaçãos: RH, Vendas, PCP\n');
 
 for (const [nome, caminho] of Object.entries(modulos)) {
     otimizarModulo(nome, caminho);
@@ -206,8 +206,8 @@ for (const [nome, caminho] of Object.entries(modulos)) {
 console.log('\n═══════════════════════════════════════════════');
 console.log('📊 RESUMO DA OTIMIZAÇÃO\n');
 console.log(`✅ Total de otimizações aplicadas: ${totalOtimizacoes}`);
-console.log(`📄 Total de arquivos modificados: ${totalArquivosModificados}`);
-console.log(`💾 Backups criados automaticamente (.backup_*)`);
+console.log(`📄 Total de arquivos modificaçãos: ${totalArquivosModificaçãos}`);
+console.log(`💾 Backups criaçãos automaticamente (.backup_*)`);
 
 console.log('\n═══════════════════════════════════════════════');
 console.log('🎉 OTIMIZAÇÃO CONCLUÍDA!\n');
@@ -215,15 +215,15 @@ console.log('🎉 OTIMIZAÇÃO CONCLUÍDA!\n');
 console.log('📋 PRÓXIMOS PASSOS:');
 console.log('   1. Executar: node analisar_todos_modulos.js');
 console.log('   2. Verificar melhorias');
-console.log('   3. Reiniciar servidor: .\\iniciar-otimizado.ps1');
-console.log('   4. Testar cada módulo no navegador');
+console.log('   3. Reiniciar servidor: .\\iniciar-otimização.ps1');
+console.log('   4. Testar cada módulo no navegaçãor');
 console.log('\n⚠️  Se houver problemas, os backups estão disponíveis\n');
 
 // Salvar log
 const logData = {
     data: new Date().toISOString(),
     totalOtimizacoes,
-    totalArquivosModificados,
+    totalArquivosModificaçãos,
     modulos: Object.keys(modulos)
 };
 

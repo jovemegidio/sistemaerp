@@ -24,10 +24,10 @@ function applyModulePermissions(user) {
     let modulosPermitidos = [];
     
     if (isAdmin) {
-        console.log('✅ ADMIN DETECTADO - Acesso total liberado');
+        console.log('✅ ADMIN DETECTADO - Acesso total liberação');
         modulosPermitidos = ['vendas', 'pcp', 'financeiro', 'nfe', 'compras', 'rh'];
     } else {
-        // Extrair permissões do banco de dados
+        // Extrair permissões do banco de daçãos
         const permissoes = {
             vendas: user.permissoes_vendas || [],
             pcp: user.permissoes_pcp || [],

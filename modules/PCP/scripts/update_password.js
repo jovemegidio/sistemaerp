@@ -38,10 +38,10 @@ async function main() {
     let res;
     if (/^\d+$/.test(identifier)) {
       const id = parseInt(identifier, 10);
-      [res] = await conn.execute('UPDATE usuarios_pcp SET senha = ? WHERE id = ?', [hash, id]);
+      [res] = await conn.execute('UPDATE usuarios_pcp SET senha =  WHERE id = ', [hash, id]);
       console.log('Updated user id=', id, ' affectedRows=', res.affectedRows);
     } else {
-      [res] = await conn.execute('UPDATE usuarios_pcp SET senha = ? WHERE email = ?', [hash, identifier]);
+      [res] = await conn.execute('UPDATE usuarios_pcp SET senha =  WHERE email = ', [hash, identifier]);
       console.log('Updated user email=', identifier, ' affectedRows=', res.affectedRows);
     }
 

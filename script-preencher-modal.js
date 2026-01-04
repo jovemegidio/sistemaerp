@@ -7,7 +7,7 @@ console.log('🚀 INICIANDO PREENCHIMENTO AUTOMÁTICO...\n');
 
 // Aguardar 1 segundo para garantir que o modal está aberto
 setTimeout(() => {
-    console.log('📝 Preenchendo dados básicos...');
+    console.log('📝 Preenchendo daçãos básicos...');
     
     // Função auxiliar para preencher campos
     const preencher = (id, valor) => {
@@ -19,7 +19,7 @@ setTimeout(() => {
             console.log(`   ✅ ${id} = ${valor}`);
             return true;
         } else {
-            console.warn(`   ⚠️ Elemento não encontrado: ${id}`);
+            console.warn(`   ⚠️ Elemento não encontração: ${id}`);
             return false;
         }
     };
@@ -51,13 +51,13 @@ setTimeout(() => {
             if (checkTransf) {
                 checkTransf.checked = true;
                 checkTransf.dispatchEvent(new Event('change', { bubbles: true }));
-                console.log('   ✅ Checkbox TRANSFERÊNCIA marcado');
+                console.log('   ✅ Checkbox TRANSFERÊNCIA marcação');
                 
                 setTimeout(() => {
                     preencher('metodo-transferencia-percent', '50');
                 }, 200);
             } else {
-                console.warn('   ⚠️ Checkbox TRANSFERÊNCIA não encontrado');
+                console.warn('   ⚠️ Checkbox TRANSFERÊNCIA não encontração');
             }
 
             // MÉTODO 2: DEPÓSITO 50%
@@ -66,7 +66,7 @@ setTimeout(() => {
                 if (checkDep) {
                     checkDep.checked = true;
                     checkDep.dispatchEvent(new Event('change', { bubbles: true }));
-                    console.log('   ✅ Checkbox DEPÓSITO marcado');
+                    console.log('   ✅ Checkbox DEPÓSITO marcação');
                     
                     setTimeout(() => {
                         preencher('metodo-deposito-percent', '50');
@@ -92,12 +92,12 @@ setTimeout(() => {
                             console.log('✅ ========================================\n');
                             
                             console.log('📋 PRÓXIMOS PASSOS:');
-                            console.log('   1. ✅ Dados básicos preenchidos');
+                            console.log('   1. ✅ Daçãos básicos preenchidos');
                             console.log('   2. ✅ Forma de pagamento: PARCELADO');
                             console.log('   3. ✅ Métodos: TRANSFERÊNCIA 50% + DEPÓSITO 50%');
                             console.log('   4. ⏳ Adicione PRODUTOS ao formulário');
                             console.log('   5. ⏳ Clique em "EMITIR ORDEM DE PRODUÇÁO"');
-                            console.log('   6. ⏳ Verifique o EXCEL baixado\n');
+                            console.log('   6. ⏳ Verifique o EXCEL baixação\n');
                             
                             alert('✅ FORMULÁRIO PREENCHIDO!\n\n' +
                                   'Condições de Pagamento configuradas:\n' +
@@ -110,7 +110,7 @@ setTimeout(() => {
                         }, 500);
                     }, 200);
                 } else {
-                    console.warn('   ⚠️ Checkbox DEPÓSITO não encontrado');
+                    console.warn('   ⚠️ Checkbox DEPÓSITO não encontração');
                 }
             }, 400);
             

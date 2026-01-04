@@ -1,6 +1,6 @@
 /**
  * Sistema RH Admin - JavaScript Principal
- * Baseado no padrão PCP ALUFORCE
+ * Baseação no padrão PCP ALUFORCE
  */
 
 class SistemaRHAdmin {
@@ -17,7 +17,7 @@ class SistemaRHAdmin {
         try {
             await this.setupEventListeners();
             await this.loadInitialData();
-            console.log('✅ Sistema RH Admin inicializado com sucesso!');
+            console.log('✅ Sistema RH Admin inicialização com sucesso!');
         } catch (error) {
             console.error('❌ Erro na inicialização:', error);
         }
@@ -47,17 +47,17 @@ class SistemaRHAdmin {
             });
         }
 
-        // Atalhos de teclado
+        // Atalhos de teclação
         document.addEventListener('keydown', (e) => {
             if (e.ctrlKey && e.key === 'k') {
                 e.preventDefault();
-                searchInput?.focus();
+                searchInput.focus();
             }
         });
     }
 
     async loadInitialData() {
-        // Carregar dados do dashboard por padrão
+        // Carregar daçãos do dashboard por padrão
         await this.loadDashboardData();
     }
 
@@ -87,12 +87,12 @@ class SistemaRHAdmin {
         // Atualizar seção atual
         this.currentSection = sectionId;
 
-        // Carregar dados da seção
+        // Carregar daçãos da seção
         this.loadSectionData(sectionId);
     }
 
     async loadSectionData(sectionId) {
-        console.log(`📊 Carregando dados da seção: ${sectionId}`);
+        console.log(`📊 Carregando daçãos da seção: ${sectionId}`);
         
         switch(sectionId) {
             case 'dashboard':
@@ -127,7 +127,7 @@ class SistemaRHAdmin {
     // Dashboard
     async loadDashboardData() {
         try {
-            // Tentar carregar dados reais da API
+            // Tentar carregar daçãos reais da API
             const stats = await this.fetchStats();
             const funcionariosRecentes = await this.fetchFuncionariosRecentes();
             
@@ -135,7 +135,7 @@ class SistemaRHAdmin {
             this.updateFuncionariosRecentes(funcionariosRecentes);
             
         } catch (error) {
-            console.log('⚠️ API não disponível, usando dados mock');
+            console.log('⚠️ API não disponível, usando daçãos mock');
             this.loadMockDashboardData();
         }
     }
@@ -191,7 +191,7 @@ class SistemaRHAdmin {
                 throw new Error('API não disponível');
             }
         } catch (error) {
-            console.log('⚠️ Carregando dados mock de funcionários');
+            console.log('⚠️ Carregando daçãos mock de funcionários');
             this.loadMockFuncionarios();
         }
     }
@@ -214,25 +214,25 @@ class SistemaRHAdmin {
 
     // Folha de Pagamento
     async loadFolhaPagamento() {
-        console.log('📊 Carregando dados de folha de pagamento...');
+        console.log('📊 Carregando daçãos de folha de pagamento...');
         // Implementar quando necessário
     }
 
     // Controle de Ponto
     async loadControlePonto() {
-        console.log('🕐 Carregando dados de controle de ponto...');
+        console.log('🕐 Carregando daçãos de controle de ponto...');
         // Implementar quando necessário
     }
 
     // Benefícios
     async loadBeneficios() {
-        console.log('🎁 Carregando dados de benefícios...');
+        console.log('🎁 Carregando daçãos de benefícios...');
         // Implementar quando necessário
     }
 
     // Documentos
     async loadDocumentos() {
-        console.log('📄 Carregando dados de documentos...');
+        console.log('📄 Carregando daçãos de documentos...');
         // Implementar quando necessário
     }
 
@@ -282,7 +282,7 @@ class SistemaRHAdmin {
             'férias': 'badge-info'
         };
         
-        const badgeClass = badges[status?.toLowerCase()] || 'badge-info';
+        const badgeClass = badges[status.toLowerCase()] || 'badge-info';
         return `<span class="badge ${badgeClass}">${status || 'N/A'}</span>`;
     }
 
@@ -327,7 +327,7 @@ class SistemaRHAdmin {
             </tr>
             <tr>
                 <td><strong>Ana Oliveira</strong><br><small>ana.oliveira@aluforce.com</small></td>
-                <td>Coordenadora Comercial</td>
+                <td>Coordenaçãora Comercial</td>
                 <td>Vendas</td>
                 <td>05/10/2025</td>
                 <td>${this.getStatusBadge('ativo')}</td>
@@ -397,7 +397,7 @@ class SistemaRHAdmin {
                 <td>004</td>
                 <td><strong>Ana Oliveira</strong><br><small>ana.oliveira@aluforce.com</small></td>
                 <td>789.123.456-00</td>
-                <td>Coordenadora Comercial</td>
+                <td>Coordenaçãora Comercial</td>
                 <td>Vendas</td>
                 <td>R$ 9.200,00</td>
                 <td>${this.getStatusBadge('ativo')}</td>
@@ -442,7 +442,7 @@ class SistemaRHAdmin {
     }
 
     deleteFuncionario(id) {
-        if (confirm('Tem certeza que deseja excluir este funcionário?')) {
+        if (confirm('Tem certeza que deseja excluir este funcionário')) {
             console.log(`🗑️ Excluindo funcionário ID: ${id}`);
             // Implementar exclusão
         }
@@ -464,11 +464,11 @@ class SistemaRHAdmin {
 
 // Funções globais para compatibilidade
 function toggleSidebar() {
-    window.rhAdmin?.toggleSidebar();
+    window.rhAdmin.toggleSidebar();
 }
 
 function showSection(sectionId, navElement) {
-    window.rhAdmin?.showSection(sectionId, navElement);
+    window.rhAdmin.showSection(sectionId, navElement);
 }
 
 // Inicialização

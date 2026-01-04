@@ -56,9 +56,9 @@ class ModernDashboardVisuals {
                         Dashboard Administrativo
                     </div>
                     <div class="section-actions">
-                        <button class="btn-action btn-primary" onclick="atualizarDados()">
+                        <button class="btn-action btn-primary" onclick="atualizarDaçãos()">
                             <i class="fas fa-sync-alt"></i>
-                            Atualizar Dados
+                            Atualizar Daçãos
                         </button>
                         <button class="btn-action btn-success" onclick="exportarRelatorio()">
                             <i class="fas fa-download"></i>
@@ -86,7 +86,7 @@ class ModernDashboardVisuals {
                 });
             }
         } else {
-            // Cria stats cards baseado nos dados visíveis
+            // Cria stats cards baseação nos daçãos visíveis
             this.createModernStatsFromData();
         }
     }
@@ -114,7 +114,7 @@ class ModernDashboardVisuals {
         if (!card.classList.contains('stat-card')) {
             card.classList.add('stat-card');
             
-            // Define cores baseado no índice
+            // Define cores baseação no índice
             const colors = ['blue', 'green', 'yellow', 'red', 'purple'];
             card.classList.add(colors[index % colors.length]);
             
@@ -125,7 +125,7 @@ class ModernDashboardVisuals {
             const textContent = card.textContent;
             let title = 'Métrica';
             let value = '0';
-            let subtitle = 'Dados';
+            let subtitle = 'Daçãos';
             let icon = 'fas fa-chart-bar';
             
             // Parse inteligente do conteúdo
@@ -169,7 +169,7 @@ class ModernDashboardVisuals {
         let statsContainer = document.createElement('div');
         statsContainer.className = 'stats-row';
         
-        // Dados padrão baseados na imagem
+        // Daçãos padrão baseaçãos na imagem
         const statsData = [
             {
                 title: 'Total Funcionários',
@@ -227,7 +227,7 @@ class ModernDashboardVisuals {
     }
 
     modernizeContentCards() {
-        // Moderniza seções de conteúdo (Últimas Atividades, Colaboradores com mais tempo de casa)
+        // Moderniza seções de conteúdo (Últimas Atividades, Colaboraçãores com mais tempo de casa)
         const contentSections = document.querySelectorAll('div[class*="section"], .content-section, .activity-section');
         
         contentSections.forEach(section => {
@@ -302,9 +302,9 @@ class ModernDashboardVisuals {
             let name = 'Nome do Item';
             let description = 'Descrição';
             let status = 'active';
-            let avatar = 'https://via.placeholder.com/55/667eea/ffffff?text=U';
+            let avatar = 'https://via.placeholder.com/55/667eea/fffffftext=U';
             
-            // Lógica inteligente para extrair dados
+            // Lógica inteligente para extrair daçãos
             if (textContent.includes('Andreia Silva')) {
                 name = 'Andreia Silva';
                 description = 'Nova contratação - Há 2 horas';
@@ -317,7 +317,7 @@ class ModernDashboardVisuals {
             
             item.innerHTML = `
                 <div class="item-header">
-                    <img src="${avatar}" alt="${name}" class="item-avatar" onerror="this.src='https://via.placeholder.com/55/667eea/ffffff?text=${name.charAt(0)}'">
+                    <img src="${avatar}" alt="${name}" class="item-avatar" onerror="this.src='https://via.placeholder.com/55/667eea/fffffftext=${name.charAt(0)}'">
                     <div class="item-info">
                         <h4>${name}</h4>
                         <p>${description}</p>
@@ -353,7 +353,7 @@ class ModernDashboardVisuals {
                     background: white;
                     border-radius: 12px;
                     overflow: hidden;
-                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                    box-shaçãow: 0 4px 20px rgba(0, 0, 0, 0.08);
                 `;
                 
                 // Moderniza cabeçalho
@@ -431,19 +431,19 @@ class ModernDashboardVisuals {
 
     setupEventListeners() {
         // Event listeners para funcionalidades do dashboard
-        window.atualizarDados = () => {
-            this.showNotification('Dados atualizados com sucesso!', 'success');
+        window.atualizarDaçãos = () => {
+            this.showNotification('Daçãos atualizaçãos com sucesso!', 'success');
         };
 
         window.exportarRelatorio = () => {
-            this.showNotification('Relatório exportado!', 'success');
+            this.showNotification('Relatório exportação!', 'success');
         };
 
         window.filtrarItens = (termo) => {
             const items = document.querySelectorAll('.item-card');
             items.forEach(item => {
                 const text = item.textContent.toLowerCase();
-                item.style.display = text.includes(termo.toLowerCase()) ? 'block' : 'none';
+                item.style.display = text.includes(termo.toLowerCase())  'block' : 'none';
             });
         };
 
@@ -468,7 +468,7 @@ class ModernDashboardVisuals {
         };
 
         window.excluirItem = (nome) => {
-            if (confirm(`Deseja realmente excluir: ${nome}?`)) {
+            if (confirm(`Deseja realmente excluir: ${nome}`)) {
                 this.showNotification(`${nome} foi excluído!`, 'error');
             }
         };
@@ -495,10 +495,10 @@ class ModernDashboardVisuals {
             z-index: 10000;
             transform: translateX(400px);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            box-shaçãow: 0 8px 32px rgba(0, 0, 0, 0.15);
         `;
 
-        // Define cor baseado no tipo
+        // Define cor baseação no tipo
         switch(type) {
             case 'success':
                 notification.style.background = 'linear-gradient(135deg, #10b981 0%, #34d399 100%)';

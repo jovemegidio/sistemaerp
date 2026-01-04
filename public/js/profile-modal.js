@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const bioTextarea = document.getElementById('profile-bio');
     const avatarImg = document.getElementById('profile-avatar-img');
     
-    // Armazena dados do usuário
+    // Armazena daçãos do usuário
     let currentUserData = null;
     
     // Função para abrir modal
@@ -38,17 +38,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!profileModal) return;
         profileModal.setAttribute('aria-hidden', 'true');
         profileModal.style.display = 'none';
-        console.log('[ProfileModal] Modal fechado');
+        console.log('[ProfileModal] Modal fechação');
     }
     
-    // Função para carregar dados do usuário
+    // Função para carregar daçãos do usuário
     async function loadUserData() {
         try {
             const response = await fetch('/api/me', { credentials: 'include' });
-            if (!response.ok) throw new Error('Falha ao carregar dados');
+            if (!response.ok) throw new Error('Falha ao carregar daçãos');
             
             currentUserData = await response.json();
-            console.log('[ProfileModal] Dados carregados:', currentUserData);
+            console.log('[ProfileModal] Daçãos carregaçãos:', currentUserData);
             
             // Preencher formulário
             if (emailInput) emailInput.value = currentUserData.email || '';
@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
         } catch (error) {
-            console.error('[ProfileModal] Erro ao carregar dados:', error);
-            alert('Erro ao carregar dados do perfil. Tente novamente.');
+            console.error('[ProfileModal] Erro ao carregar daçãos:', error);
+            alert('Erro ao carregar daçãos do perfil. Tente novamente.');
         }
     }
     
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 bio: bioTextarea.value.trim()
             };
             
-            console.log('[ProfileModal] Enviando dados:', data);
+            console.log('[ProfileModal] Enviando daçãos:', data);
             
             const response = await fetch('/api/me', {
                 method: 'PUT',
@@ -112,13 +112,13 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
             console.log('[ProfileModal] ✅ Salvo com sucesso:', result);
             
-            // Atualizar dados armazenados
+            // Atualizar daçãos armazenaçãos
             currentUserData = result.user;
             
-            // Atualizar saudação no header se apelido foi alterado
+            // Atualizar saudação no header se apelido foi alteração
             const apelido = result.user.apelido;
             const nome = result.user.nome;
-            const nomeExibicao = apelido || (nome ? nome.split(' ')[0] : 'Usuário');
+            const nomeExibicao = apelido || (nome  nome.split(' ')[0] : 'Usuário');
             
             const greetingTitle = document.querySelector('.greeting-title');
             if (greetingTitle) {
@@ -187,5 +187,5 @@ document.addEventListener('DOMContentLoaded', function() {
     // Expor função global para abrir modal
     window.openProfileModal = openModal;
     
-    console.log('[ProfileModal] ✅ Inicializado');
+    console.log('[ProfileModal] ✅ Inicialização');
 });

@@ -11,7 +11,7 @@ const DB_PATH = path.join(__dirname, 'compras.db');
 let db;
 
 /**
- * Inicializar banco de dados
+ * Inicializar banco de daçãos
  */
 function initDatabase() {
     return new Promise((resolve, reject) => {
@@ -20,7 +20,7 @@ function initDatabase() {
                 console.error('❌ Erro ao conectar ao banco:', err);
                 reject(err);
             } else {
-                console.log('✅ Conectado ao banco de dados de Compras');
+                console.log('✅ Conectação ao banco de daçãos de Compras');
                 createTables()
                     .then(() => resolve(db))
                     .catch(reject);
@@ -45,7 +45,7 @@ function createTables() {
                     ie TEXT,
                     endereco TEXT,
                     cidade TEXT,
-                    estado TEXT,
+                    estação TEXT,
                     cep TEXT,
                     telefone TEXT,
                     email TEXT,
@@ -70,14 +70,14 @@ function createTables() {
                     data_pedido DATE NOT NULL,
                     data_entrega_prevista DATE,
                     data_entrega_real DATE,
-                    status TEXT DEFAULT 'pendente' CHECK(status IN ('pendente', 'aprovado', 'parcial', 'recebido', 'cancelado')),
+                    status TEXT DEFAULT 'pendente' CHECK(status IN ('pendente', 'aprovação', 'parcial', 'recebido', 'cancelação')),
                     valor_total REAL NOT NULL DEFAULT 0,
                     desconto REAL DEFAULT 0,
                     frete REAL DEFAULT 0,
                     valor_final REAL NOT NULL DEFAULT 0,
                     observacoes TEXT,
                     usuario_solicitante_id INTEGER,
-                    usuario_aprovador_id INTEGER,
+                    usuario_aprovaçãor_id INTEGER,
                     data_aprovacao DATETIME,
                     motivo_cancelamento TEXT,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -169,7 +169,7 @@ function createTables() {
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     pedido_id INTEGER NOT NULL,
                     usuario_id INTEGER NOT NULL,
-                    acao TEXT NOT NULL CHECK(acao IN ('aprovado', 'rejeitado', 'solicitado')),
+                    acao TEXT NOT NULL CHECK(acao IN ('aprovação', 'rejeitação', 'solicitação')),
                     observacoes TEXT,
                     data_acao DATETIME DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY (pedido_id) REFERENCES pedidos_compra(id) ON DELETE CASCADE
@@ -230,7 +230,7 @@ function close() {
             db.close((err) => {
                 if (err) reject(err);
                 else {
-                    console.log('📦 Conexão com banco de dados fechada');
+                    console.log('📦 Conexão com banco de daçãos fechada');
                     resolve();
                 }
             });

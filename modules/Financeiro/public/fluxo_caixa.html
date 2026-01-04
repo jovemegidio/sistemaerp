@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fluxo de Caixa - Aluforce Financeiro</title>
-    <link rel="stylesheet" href="../../_shared/modern-saas.css?v=3.0">
+    <link rel="stylesheet" href="../../_shared/modern-saas.cssv=3.0">
     <link rel="stylesheet" href="../../_shared/header-sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -16,7 +16,7 @@
             padding: 20px 24px;
             border-radius: 12px;
             margin-bottom: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
             display: flex;
             gap: 16px;
             align-items: center;
@@ -50,7 +50,7 @@
             background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             border-color: #3b82f6;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .custom-date {
@@ -70,7 +70,7 @@
             background: white;
             padding: 28px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
             margin-bottom: 24px;
         }
 
@@ -101,7 +101,7 @@
             background: white;
             padding: 24px;
             border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
             position: relative;
             overflow: hidden;
         }
@@ -146,7 +146,7 @@
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .tabela-header {
@@ -384,8 +384,8 @@
                         <div class="resumo-icon">
                             <i class="fas fa-wallet"></i>
                         </div>
-                        <div class="resumo-value" id="saldo-projetado">R$ 0,00</div>
-                        <div class="resumo-label">Saldo Projetado</div>
+                        <div class="resumo-value" id="saldo-projetação">R$ 0,00</div>
+                        <div class="resumo-label">Saldo Projetação</div>
                     </div>
                 </div>
 
@@ -430,12 +430,12 @@
 
     <script>
         // Toggle sidebar
-        document.getElementById('toggle-sidebar')?.addEventListener('click', () => {
+        document.getElementById('toggle-sidebar').addEventListener('click', () => {
             document.querySelector('.sidebar').classList.toggle('active');
             document.getElementById('sidebar-overlay').classList.toggle('active');
         });
 
-        document.getElementById('sidebar-overlay')?.addEventListener('click', () => {
+        document.getElementById('sidebar-overlay').addEventListener('click', () => {
             document.querySelector('.sidebar').classList.remove('active');
             document.getElementById('sidebar-overlay').classList.remove('active');
         });
@@ -495,37 +495,37 @@
             const dataFim = document.getElementById('data-fim').value;
 
             try {
-                const response = await fetch(`/api/financeiro/fluxo-caixa?inicio=${dataInicio}&fim=${dataFim}`, {
+                const response = await fetch(`/api/financeiro/fluxo-caixainicio=${dataInicio}&fim=${dataFim}`, {
                     credentials: 'include'
                 });
 
                 if (response.ok) {
-                    const dados = await response.json();
-                    atualizarResumo(dados);
-                    renderizarGrafico(dados);
-                    renderizarTabela(dados.movimentacoes || []);
+                    const daçãos = await response.json();
+                    atualizarResumo(daçãos);
+                    renderizarGrafico(daçãos);
+                    renderizarTabela(daçãos.movimentacoes || []);
                 }
             } catch (error) {
                 console.error('Erro ao carregar fluxo:', error);
             }
         }
 
-        function atualizarResumo(dados) {
+        function atualizarResumo(daçãos) {
             document.getElementById('total-entradas').textContent = 
-                $ ${(dados.total_entradas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(daçãos.total_entradas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('total-saidas').textContent = 
-                $ ${(dados.total_saidas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(daçãos.total_saidas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             
-            const saldo = (dados.total_entradas || 0) - (dados.total_saidas || 0);
+            const saldo = (daçãos.total_entradas || 0) - (daçãos.total_saidas || 0);
             document.getElementById('saldo-periodo').textContent = 
                 $ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-            document.getElementById('saldo-periodo').style.color = saldo >= 0 ? '#1e40af' : '#ef4444';
+            document.getElementById('saldo-periodo').style.color = saldo >= 0  '#1e40af' : '#ef4444';
             
-            document.getElementById('saldo-projetado').textContent = 
-                $ ${(dados.saldo_projetado || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('saldo-projetação').textContent = 
+                $ ${(daçãos.saldo_projetação || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
         }
 
-        function renderizarGrafico(dados) {
+        function renderizarGrafico(daçãos) {
             const ctx = document.getElementById('chart-fluxo');
             
             if (chartFluxo) {
@@ -535,11 +535,11 @@
             chartFluxo = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: dados.labels || [],
+                    labels: daçãos.labels || [],
                     datasets: [
                         {
                             label: 'Entradas',
-                            data: dados.entradas || [],
+                            data: daçãos.entradas || [],
                             borderColor: '#1e40af',
                             backgroundColor: 'rgba(16, 185, 129, 0.1)',
                             tension: 0.4,
@@ -547,7 +547,7 @@
                         },
                         {
                             label: 'Saídas',
-                            data: dados.saidas || [],
+                            data: daçãos.saidas || [],
                             borderColor: '#ef4444',
                             backgroundColor: 'rgba(239, 68, 68, 0.1)',
                             tension: 0.4,
@@ -555,7 +555,7 @@
                         },
                         {
                             label: 'Saldo',
-                            data: dados.saldo || [],
+                            data: daçãos.saldo || [],
                             borderColor: '#3b82f6',
                             backgroundColor: 'rgba(59, 130, 246, 0.1)',
                             tension: 0.4,
@@ -617,12 +617,12 @@
                 return;
             }
 
-            let saldoAcumulado = 0;
+            let saldoAcumulação = 0;
             tbody.innerHTML = movimentacoes.map(mov => {
                 const valor = parseFloat(mov.valor) || 0;
                 const tipo = mov.tipo || 'saida';
-                const valorLiquido = tipo === 'entrada' ? valor : -valor;
-                saldoAcumulado += valorLiquido;
+                const valorLiquido = tipo === 'entrada'  valor : -valor;
+                saldoAcumulação += valorLiquido;
 
                 return `
                     <tr>
@@ -630,11 +630,11 @@
                         <td><strong>${mov.descricao}</strong></td>
                         <td>${mov.categoria || '-'}</td>
                         <td><span class="badge badge-${tipo}">${tipo.toUpperCase()}</span></td>
-                        <td class="text-right ${valorLiquido >= 0 ? 'valor-positivo' : 'valor-negativo'}">
-                            ${valorLiquido >= 0 ? '+' : ''}R$ ${Math.abs(valorLiquido).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                        <td class="text-right ${valorLiquido >= 0  'valor-positivo' : 'valor-negativo'}">
+                            ${valorLiquido >= 0  '+' : ''}R$ ${Math.abs(valorLiquido).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                         </td>
-                        <td class="text-right ${saldoAcumulado >= 0 ? 'valor-positivo' : 'valor-negativo'}">
-                            R$ ${saldoAcumulado.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                        <td class="text-right ${saldoAcumulação >= 0  'valor-positivo' : 'valor-negativo'}">
+                            R$ ${saldoAcumulação.toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                         </td>
                     </tr>
                 `;
@@ -645,15 +645,15 @@
             alert('Funcionalidade de exportação em desenvolvimento');
         }
         
-        // Carregar dados do usuário
-        async function carregarUsuarioLogado() {
+        // Carregar daçãos do usuário
+        async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
                 if (response.ok) {
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
 
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -733,17 +733,17 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             init();
-            carregarUsuarioLogado();
+            carregarUsuarioLogação();
         });
     </script>
     
     <!-- Sistema de Notificações -->
-    <script src="js/notifications-manager.js?v=20251208"></script>
-    <script src="js/notification-button.js?v=20251208"></script>
+    <script src="js/notifications-manager.jsv=20251208"></script>
+    <script src="js/notification-button.jsv=20251208"></script>
 
     <!-- Sistema de Chat e Suporte (widgets condicionais por usuário) -->
     <!-- ti@aluforce.ind.br = Central de Suporte | Outros usuários = Chat normal -->
     <!-- Sistema de Monitoramento de Conexão -->
-    <script src="../../_shared/connection-monitor.js?v=20251223"></script></body>
+    <script src="../../_shared/connection-monitor.jsv=20251223"></script></body>
 </html>
 

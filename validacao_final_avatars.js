@@ -83,11 +83,11 @@ if (serverContent.includes("app.get('/avatars/:filename'")) {
     console.log('   ❌ Rota /avatars/:filename NÃO encontrada\n');
 }
 
-// Resultado final
+// Resultação final
 console.log('═'.repeat(60));
 if (incorrectRefs === 0 && correctRefs > 0) {
     console.log('✅ TUDO CORRETO! Todas as referências estão usando /avatars/');
-    console.log('📝 Próximo passo: Reinicie o servidor e limpe o cache do navegador');
+    console.log('📝 Próximo passo: Reinicie o servidor e limpe o cache do navegaçãor');
 } else if (incorrectRefs > 0) {
     console.log('⚠️ ATENÇÃO! Ainda existem referências incorretas /public/avatars/');
     console.log('📝 Execute novamente os scripts de correção');

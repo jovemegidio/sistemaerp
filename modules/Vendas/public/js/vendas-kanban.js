@@ -4,17 +4,17 @@
  */
 
 // Variável global do usuário
-let usuarioLogado = null;
+let usuarioLogação = null;
 
 // Fallback para VendasAuth caso não exista
 const VendasAuth = window.VendasAuth || {
     isAdmin: (user) => user && (user.role === 'admin' || user.cargo === 'admin'),
-    obterPrimeiroNome: (nome) => nome ? nome.split(' ')[0] : '',
+    obterPrimeiroNome: (nome) => nome  nome.split(' ')[0] : '',
     podeMoverPedido: () => true, // Por padrão permite mover
     inicializarAuth: async () => null
 };
 
-// Dados seed (usado na primeira carga ou para reset local)
+// Daçãos seed (usação na primeira carga ou para reset local)
 const pedidosSeed = [
     // ORÇAMENTOS
     {
@@ -23,7 +23,7 @@ const pedidosSeed = [
         cliente: 'TIAO MATERIAIS PARA CONSTRUCAO LTDA',
         valor: 3700.0,
         status: 'orcamento',
-        faturamento: 'Faturamento atrasado',
+        faturamento: 'Faturamento atrasação',
         origem: 'Omie',
         tipo: 'a vista',
         vendedor: 'Antonio',
@@ -35,7 +35,7 @@ const pedidosSeed = [
         cliente: 'COMERCIAL ELETRICA FABRO LTDA',
         valor: 13084.67,
         status: 'orcamento',
-        faturamento: 'Faturamento atrasado',
+        faturamento: 'Faturamento atrasação',
         origem: 'Omie',
         tipo: 'em 3x',
         vendedor: 'Maria',
@@ -47,7 +47,7 @@ const pedidosSeed = [
         cliente: 'AFS ELETRICA',
         valor: 21615.0,
         status: 'orcamento',
-        faturamento: 'Faturamento atrasado',
+        faturamento: 'Faturamento atrasação',
         origem: 'Omie',
         tipo: 'em 4x',
         vendedor: 'João',
@@ -75,7 +75,7 @@ const pedidosSeed = [
         status: 'analise-credito',
         faturamento: 'Previsto para hoje',
         origem: 'Omie',
-        transportadora: 'ACEVILLE TRANSPORTES LTDA',
+        transportaçãora: 'ACEVILLE TRANSPORTES LTDA',
         tipo: 'em 3x',
         vendedor: 'Maria',
         data: '2025-12-03'
@@ -111,10 +111,10 @@ const pedidosSeed = [
         numero: 'Orçamento Nº 1177',
         cliente: 'COMERCIAL MARTINS LTDA',
         valor: 26092.00,
-        status: 'pedido-aprovado',
-        faturamento: 'Faturamento atrasado',
+        status: 'pedido-aprovação',
+        faturamento: 'Faturamento atrasação',
         origem: 'Omie',
-        transportadora: 'TRANSVALENI TRANSPORTES LTDA',
+        transportaçãora: 'TRANSVALENI TRANSPORTES LTDA',
         tipo: 'em 3x',
         vendedor: 'Antonio',
         data: '2025-12-02'
@@ -124,8 +124,8 @@ const pedidosSeed = [
         numero: 'Orçamento Nº 1185',
         cliente: 'ELECTRASUL DISTRIBUIDORA DE MATERIAIS ELETRICOS',
         valor: 37910.00,
-        status: 'pedido-aprovado',
-        faturamento: 'Faturamento atrasado',
+        status: 'pedido-aprovação',
+        faturamento: 'Faturamento atrasação',
         origem: 'Omie',
         tipo: 'em 5x',
         vendedor: 'Maria',
@@ -136,8 +136,8 @@ const pedidosSeed = [
         numero: 'Orçamento Nº 1273',
         cliente: 'COMERCIAL MARTINS LTDA',
         valor: 12450.00,
-        status: 'pedido-aprovado',
-        faturamento: 'Faturamento atrasado',
+        status: 'pedido-aprovação',
+        faturamento: 'Faturamento atrasação',
         origem: 'Omie',
         tipo: 'em 2x',
         vendedor: 'João',
@@ -151,7 +151,7 @@ const pedidosSeed = [
         cliente: 'ILUMINACAO PAULISTANA SPE S/A',
         valor: 529.00,
         status: 'faturar',
-        faturamento: 'Faturamento atrasado',
+        faturamento: 'Faturamento atrasação',
         origem: 'Omie',
         vencimento: 'p/ 11/06 Qua',
         tipo: 'a vista',
@@ -164,7 +164,7 @@ const pedidosSeed = [
         cliente: 'BELLA ELETRICA E HIDRAULICA LTDA',
         valor: 7224.00,
         status: 'faturar',
-        faturamento: 'Faturamento atrasado',
+        faturamento: 'Faturamento atrasação',
         origem: 'Omie',
         tipo: 'a vista',
         vendedor: 'Maria',
@@ -176,7 +176,7 @@ const pedidosSeed = [
         cliente: 'JAF PAINEIS',
         valor: 7991.71,
         status: 'faturar',
-        faturamento: 'Faturamento atrasado',
+        faturamento: 'Faturamento atrasação',
         origem: 'Omie',
         tipo: 'em 3x',
         vendedor: 'João',
@@ -189,13 +189,13 @@ const pedidosSeed = [
         numero: 'Orçamento Nº 751/3',
         cliente: 'ILUMINACAO PAULISTANA SPE S/A',
         valor: 12781.80,
-        status: 'faturado',
-        faturamento: 'Faturado',
+        status: 'faturação',
+        faturamento: 'Faturação',
         origem: 'Omie',
         notaFiscal: '00000237',
         manifestacao: 'Esta ciente da operação',
         vencimento: 'p/ 08/01/26 Qui',
-        tipo: 'parcelado',
+        tipo: 'parcelação',
         vendedor: 'Antonio',
         data: '2025-12-05'
     },
@@ -204,13 +204,13 @@ const pedidosSeed = [
         numero: 'Orçamento Nº 473/9',
         cliente: 'ILUMINACAO PAULISTANA SPE S/A',
         valor: 49863.60,
-        status: 'faturado',
-        faturamento: 'Faturado',
+        status: 'faturação',
+        faturamento: 'Faturação',
         origem: 'Omie',
         notaFiscal: '00000236',
         manifestacao: 'Esta ciente da operação',
         vencimento: 'p/ 08/01/26 Qui',
-        tipo: 'parcelado',
+        tipo: 'parcelação',
         vendedor: 'Maria',
         data: '2025-12-02'
     },
@@ -219,8 +219,8 @@ const pedidosSeed = [
         numero: 'Orçamento Nº 1137',
         cliente: 'COMERCIAL ELETRICA LTDA',
         valor: 8540.00,
-        status: 'faturado',
-        faturamento: 'Faturado',
+        status: 'faturação',
+        faturamento: 'Faturação',
         origem: 'Omie',
         notaFiscal: '00000235',
         tipo: 'em 4x',
@@ -243,9 +243,9 @@ function formatarMoeda(valor) {
 const statusConfig = {
     orcamento: { label: 'Orç', classe: 'status-orcamento' },
     'analise-credito': { label: 'Crédito', classe: 'status-analise' },
-    'pedido-aprovado': { label: 'Aprovado', classe: 'status-aprovado' },
+    'pedido-aprovação': { label: 'Aprovação', classe: 'status-aprovação' },
     faturar: { label: 'Faturar', classe: 'status-faturar' },
-    faturado: { label: 'Faturado', classe: 'status-faturado' },
+    faturação: { label: 'Faturação', classe: 'status-faturação' },
     recibo: { label: 'Recibo', classe: 'status-recibo' }
 };
 
@@ -258,7 +258,7 @@ function formatarDataCurta(dataISO) {
     return `${dia}/${mes}/${ano}`;
 }
 
-// Bootstrap de dados via API
+// Bootstrap de daçãos via API
 async function carregarPedidosDaAPI() {
     try {
         const resp = await fetch('/api/vendas/kanban/pedidos', {
@@ -269,17 +269,17 @@ async function carregarPedidosDaAPI() {
         });
         if (!resp.ok) throw new Error(`Erro ${resp.status}`);
         const data = await resp.json();
-        let todosPedidos = (Array.isArray(data) && data.length ? data : [...pedidosSeed]).map(p => ({
+        let todosPedidos = (Array.isArray(data) && data.length  data : [...pedidosSeed]).map(p => ({
             ...p,
             vendedor: p.vendedor_nome || p.vendedor || '',
-            data: p.data_criacao ? p.data_criacao.slice(0, 10) : p.data || '',
+            data: p.data_criacao  p.data_criacao.slice(0, 10) : p.data || '',
             faturamento: p.faturamento || p.observacoes || '',
             valor: p.valor || p.valor_total || 0
         }));
         
         // Filtrar pedidos por vendedor se não for admin
-        if (usuarioLogado && !VendasAuth.isAdmin(usuarioLogado)) {
-            const nomeVendedor = (usuarioLogado.nome ? usuarioLogado.nome.split(' ')[0] : '').toLowerCase();
+        if (usuarioLogação && !VendasAuth.isAdmin(usuarioLogação)) {
+            const nomeVendedor = (usuarioLogação.nome  usuarioLogação.nome.split(' ')[0] : '').toLowerCase();
             pedidos = todosPedidos.filter(p => {
                 const vendedorPedido = (p.vendedor || '').toLowerCase();
                 return vendedorPedido.includes(nomeVendedor) || 
@@ -291,7 +291,7 @@ async function carregarPedidosDaAPI() {
     } catch (err) {
         console.error('Falha ao carregar pedidos do kanban', err);
         pedidos = [...pedidosSeed];
-        mostrarNotificacao('Não foi possível carregar pedidos do servidor. Exibindo dados locais.', 'error');
+        mostrarNotificacao('Não foi possível carregar pedidos do servidor. Exibindo daçãos locais.', 'error');
     }
     renderizarKanban();
 }
@@ -308,48 +308,48 @@ function formatarValorOmie(valor) {
 function getFaturamentoClasse(faturamento) {
     if (!faturamento) return '';
     const lower = faturamento.toLowerCase();
-    if (lower.includes('atrasado')) return 'atrasado';
+    if (lower.includes('atrasação')) return 'atrasação';
     if (lower.includes('previsto')) return 'previsto';
     if (lower.includes('aguardando')) return 'aguardando';
-    if (lower.includes('faturado')) return 'faturado-ok';
+    if (lower.includes('faturação')) return 'faturação-ok';
     return '';
 }
 
 // Criar HTML do card - Estilo Omie
 function criarCardHTML(pedido) {
-    // Linha do status de faturamento (vermelho se atrasado)
+    // Linha do status de faturamento (vermelho se atrasação)
     const faturamentoClasse = getFaturamentoClasse(pedido.faturamento);
     const faturamentoHTML = pedido.faturamento 
-        ? `<div class="card-faturamento ${faturamentoClasse}">${pedido.faturamento}</div>`
+         `<div class="card-faturamento ${faturamentoClasse}">${pedido.faturamento}</div>`
         : '';
 
     // Valor com cifrão e tipo de pagamento
-    const valorFormatado = formatarValorOmie(pedido.valor);
-    const tipoHTML = pedido.tipo ? ` ${pedido.tipo}` : '';
+    const valorFormatação = formatarValorOmie(pedido.valor);
+    const tipoHTML = pedido.tipo  ` ${pedido.tipo}` : '';
 
     // Vencimento (ex: "p/ 11/06 Qua")
     const vencimentoHTML = pedido.vencimento 
-        ? `<div class="card-vencimento">$ ${valorFormatado} ${pedido.vencimento}</div>`
+         `<div class="card-vencimento">$ ${valorFormatação} ${pedido.vencimento}</div>`
         : '';
 
-    // Transportadora
-    const transportadoraHTML = pedido.transportadora
-        ? `<div class="card-transportadora">Transportadora: ${pedido.transportadora}</div>`
+    // Transportaçãora
+    const transportaçãoraHTML = pedido.transportaçãora
+         `<div class="card-transportaçãora">Transportaçãora: ${pedido.transportaçãora}</div>`
         : '';
 
-    // Nota Fiscal (para faturados)
+    // Nota Fiscal (para faturaçãos)
     const notaFiscalHTML = pedido.notaFiscal
-        ? `<div class="card-nf">Nota Fiscal: ${pedido.notaFiscal}</div>`
+         `<div class="card-nf">Nota Fiscal: ${pedido.notaFiscal}</div>`
         : '';
 
     // Manifestação do cliente
     const manifestacaoHTML = pedido.manifestacao
-        ? `<div class="card-manifestacao"><i class="fas fa-clipboard-check"></i> Manifestação do cliente: "${pedido.manifestacao}"</div>`
+         `<div class="card-manifestacao"><i class="fas fa-clipboard-check"></i> Manifestação do cliente: "${pedido.manifestacao}"</div>`
         : '';
 
     // Origem (Omie)
     const origemHTML = pedido.origem 
-        ? `<div class="card-origem">Origem: ${pedido.origem}</div>`
+         `<div class="card-origem">Origem: ${pedido.origem}</div>`
         : '';
 
     return `
@@ -364,8 +364,8 @@ function criarCardHTML(pedido) {
             </div>
             <div class="card-cliente">${pedido.cliente}</div>
             ${faturamentoHTML}
-            ${pedido.vencimento ? vencimentoHTML : `<div class="card-valor-row"><span class="card-valor-cifrao">$</span><span class="card-valor">${valorFormatado}</span><span class="card-tipo">${tipoHTML}</span></div>`}
-            ${transportadoraHTML}
+            ${pedido.vencimento  vencimentoHTML : `<div class="card-valor-row"><span class="card-valor-cifrao">$</span><span class="card-valor">${valorFormatação}</span><span class="card-tipo">${tipoHTML}</span></div>`}
+            ${transportaçãoraHTML}
             ${notaFiscalHTML}
             ${manifestacaoHTML}
             ${origemHTML}
@@ -375,69 +375,69 @@ function criarCardHTML(pedido) {
 
 // Renderizar pedidos nas colunas
 function renderizarKanban() {
-    const filtrados = filtrarPedidos(pedidos);
+    const filtraçãos = filtrarPedidos(pedidos);
 
     // Limpar colunas
     document.getElementById('col-orcamento').innerHTML = '';
     document.getElementById('col-analise-credito').innerHTML = '';
-    document.getElementById('col-pedido-aprovado').innerHTML = '';
+    document.getElementById('col-pedido-aprovação').innerHTML = '';
     document.getElementById('col-faturar').innerHTML = '';
-    document.getElementById('col-faturado').innerHTML = '';
+    document.getElementById('col-faturação').innerHTML = '';
     document.getElementById('col-recibo').innerHTML = '';
 
-    // Contadores e totais
-    const contadores = {
+    // Contaçãores e totais
+    const contaçãores = {
         orcamento: { qnt: 0, total: 0 },
         'analise-credito': { qnt: 0, total: 0 },
-        'pedido-aprovado': { qnt: 0, total: 0 },
+        'pedido-aprovação': { qnt: 0, total: 0 },
         faturar: { qnt: 0, total: 0 },
-        faturado: { qnt: 0, total: 0 },
+        faturação: { qnt: 0, total: 0 },
         recibo: { qnt: 0, total: 0 }
     };
 
     // Inserir cards
-    filtrados.forEach(pedido => {
+    filtraçãos.forEach(pedido => {
         const cardHTML = criarCardHTML(pedido);
         const colunaId = `col-${pedido.status}`;
         const coluna = document.getElementById(colunaId);
         
         if (coluna) {
             coluna.innerHTML += cardHTML;
-            contadores[pedido.status].qnt++;
-            contadores[pedido.status].total += Number(pedido.valor || 0);
+            contaçãores[pedido.status].qnt++;
+            contaçãores[pedido.status].total += Number(pedido.valor || 0);
         }
     });
 
-    // Atualizar contadores nas colunas
-    atualizarContadores(contadores);
+    // Atualizar contaçãores nas colunas
+    atualizarContaçãores(contaçãores);
 
     // Adicionar eventos de drag and drop
     configurarDragAndDrop();
 }
 
-// Atualizar contadores - Estilo Omie
-function atualizarContadores(contadores) {
+// Atualizar contaçãores - Estilo Omie
+function atualizarContaçãores(contaçãores) {
     // Mapeamento de status para IDs no HTML
     const statusParaId = {
         'orcamento': 'count-orcamento',
         'analise-credito': 'count-analise',
-        'pedido-aprovado': 'count-aprovado',
+        'pedido-aprovação': 'count-aprovação',
         'faturar': 'count-faturar',
-        'faturado': 'count-faturado',
+        'faturação': 'count-faturação',
         'recibo': 'count-recibo'
     };
 
     const colunas = [
         { status: 'orcamento', texto: 'Orçamento' },
         { status: 'analise-credito', texto: 'Análise de Crédito' },
-        { status: 'pedido-aprovado', texto: 'Pedido Aprovado' },
+        { status: 'pedido-aprovação', texto: 'Pedido Aprovação' },
         { status: 'faturar', texto: 'Faturar' },
-        { status: 'faturado', texto: 'Faturado' },
+        { status: 'faturação', texto: 'Faturação' },
         { status: 'recibo', texto: 'Recibo' }
     ];
 
     colunas.forEach(col => {
-        const info = contadores[col.status] || { qnt: 0, total: 0 };
+        const info = contaçãores[col.status] || { qnt: 0, total: 0 };
         const countId = statusParaId[col.status];
         const colunaCount = document.getElementById(countId);
 
@@ -445,7 +445,7 @@ function atualizarContadores(contadores) {
             if (info.qnt === 0) {
                 colunaCount.textContent = 'Nenhum registro';
             } else {
-                colunaCount.textContent = `${info.qnt} registro${info.qnt !== 1 ? 's' : ''}`;
+                colunaCount.textContent = `${info.qnt} registro${info.qnt !== 1  's' : ''}`;
             }
         }
     });
@@ -534,7 +534,7 @@ function handleDrop(e) {
         const statusAnterior = draggedCard.dataset.status;
         
         // Verificar permissão de movimentação
-        if (typeof VendasAuth.podeMoverPedido === 'function' && !VendasAuth.podeMoverPedido(usuarioLogado, statusAnterior, novaColuna)) {
+        if (typeof VendasAuth.podeMoverPedido === 'function' && !VendasAuth.podeMoverPedido(usuarioLogação, statusAnterior, novaColuna)) {
             mostrarNotificacao('Você não tem permissão para mover este pedido para esta etapa.', 'error');
             this.style.background = '';
             return false;
@@ -600,15 +600,15 @@ async function salvarStatusPedido(id, status) {
 // Excluir pedido atual do modal
 async function excluirPedidoAtual() {
     const form = document.getElementById('form-novo-pedido');
-    const id = form?.dataset.pedidoId;
+    const id = form.dataset.pedidoId;
     
     if (!id) {
-        mostrarNotificacao('Nenhum pedido selecionado para excluir.', 'error');
+        mostrarNotificacao('Nenhum pedido selecionação para excluir.', 'error');
         return;
     }
     
     // Confirmação
-    const confirmar = confirm('Tem certeza que deseja excluir este pedido?\n\nEsta ação não pode ser desfeita.');
+    const confirmar = confirm('Tem certeza que deseja excluir este pedido\n\nEsta ação não pode ser desfeita.');
     if (!confirmar) return;
     
     try {
@@ -648,8 +648,8 @@ function abrirModalNovoPedido(tipo = 'orcamento') {
     const modal = document.getElementById('modal-novo-pedido');
     const form = document.getElementById('form-novo-pedido');
     
-    console.log('[Kanban] Modal encontrado:', !!modal);
-    console.log('[Kanban] Form encontrado:', !!form);
+    console.log('[Kanban] Modal encontração:', !!modal);
+    console.log('[Kanban] Form encontração:', !!form);
     
     if (form) {
         form.reset();
@@ -657,7 +657,7 @@ function abrirModalNovoPedido(tipo = 'orcamento') {
         form.dataset.pedidoId = '';
         form.dataset.tipo = tipo;
         
-        // Define título baseado no tipo
+        // Define título baseação no tipo
         const tituloH3 = modal.querySelector('.modal-head h3');
         const eyebrow = modal.querySelector('.modal-eyebrow');
         
@@ -679,7 +679,7 @@ function abrirModalNovoPedido(tipo = 'orcamento') {
         
         // Limpa status para orçamento por padrão
         const statusSelect = form.querySelector('[name="status"]');
-        if (statusSelect) statusSelect.value = tipo === 'venda' ? 'analise' : 'orcamento';
+        if (statusSelect) statusSelect.value = tipo === 'venda'  'analise' : 'orcamento';
     }
     
     preencherResumoModal({});
@@ -688,20 +688,20 @@ function abrirModalNovoPedido(tipo = 'orcamento') {
         modal.classList.add('aberto');
         console.log('[Kanban] Modal aberto com sucesso!');
     } else {
-        console.error('[Kanban] Modal #modal-novo-pedido não encontrado no DOM!');
-        alert('Erro: Modal não encontrado. Verifique o HTML.');
+        console.error('[Kanban] Modal #modal-novo-pedido não encontração no DOM!');
+        alert('Erro: Modal não encontração. Verifique o HTML.');
     }
 }
 
 // Atalho para novo orçamento
 function abrirModalNovoOrcamento() {
-    console.log('[Kanban] abrirModalNovoOrcamento chamado');
+    console.log('[Kanban] abrirModalNovoOrcamento chamação');
     abrirModalNovoPedido('orcamento');
 }
 
 // Atalho para novo pedido de venda
 function abrirModalNovoPedidoVenda() {
-    console.log('[Kanban] abrirModalNovoPedidoVenda chamado');
+    console.log('[Kanban] abrirModalNovoPedidoVenda chamação');
     abrirModalNovoPedido('venda');
 }
 
@@ -712,17 +712,17 @@ function fecharModalNovoPedido() {
 
 function popularFormPedido(pedido) {
     const form = document.getElementById('form-novo-pedido');
-    console.log('[Kanban] popularFormPedido - Form encontrado:', !!form);
-    console.log('[Kanban] popularFormPedido - Dados recebidos:', pedido);
+    console.log('[Kanban] popularFormPedido - Form encontração:', !!form);
+    console.log('[Kanban] popularFormPedido - Daçãos recebidos:', pedido);
     
     if (!form) {
-        console.error('[Kanban] Form não encontrado!');
+        console.error('[Kanban] Form não encontração!');
         return;
     }
     
     // Definir IDs e modo
     form.dataset.pedidoId = pedido.id || '';
-    form.dataset.modo = pedido.id ? 'editar' : 'novo';
+    form.dataset.modo = pedido.id  'editar' : 'novo';
     
     // Campos hidden
     const clienteIdInput = form.querySelector('[name="cliente_id"]');
@@ -733,19 +733,19 @@ function popularFormPedido(pedido) {
     // Campos do formulário - com verificação de existência
     const setInputValue = (name, value) => {
         const input = form.querySelector(`[name="${name}"]`);
-        console.log(`[Kanban] setInputValue - ${name}:`, value, '- Input encontrado:', !!input);
+        console.log(`[Kanban] setInputValue - ${name}:`, value, '- Input encontração:', !!input);
         if (input) {
-            input.value = value ?? '';
+            input.value = value  '';
         }
     };
-        if (input) input.value = value ?? '';
+        if (input) input.value = value  '';
     };
     
     // Número do pedido
     const numeroStr = pedido.numero || '';
     setInputValue('numero', numeroStr.replace(/^(Pedido|Orçamento) Nº /i, ''));
     
-    // Dados básicos
+    // Daçãos básicos
     setInputValue('cliente', pedido.cliente || pedido.cliente_nome || '');
     setInputValue('valor', pedido.valor || pedido.valor_total || 0);
     setInputValue('status', pedido.status || 'orcamento');
@@ -763,7 +763,7 @@ function popularFormPedido(pedido) {
     
     // Campos adicionais
     setInputValue('vencimento', pedido.vencimento || pedido.prazo_entrega || '');
-    setInputValue('transportadora', pedido.transportadora || pedido.metodo_envio || '');
+    setInputValue('transportaçãora', pedido.transportaçãora || pedido.metodo_envio || '');
     setInputValue('manifestacao', pedido.manifestacao || '');
     setInputValue('notaFiscal', pedido.notaFiscal || '');
     setInputValue('observacoes', pedido.observacoes || pedido.observacao || pedido.descricao || '');
@@ -776,7 +776,7 @@ function popularFormPedido(pedido) {
     if (produtosInput) {
         const produtos = pedido.produtos || [];
         produtosInput.value = Array.isArray(produtos) && produtos.length > 0 
-            ? JSON.stringify(produtos, null, 2) 
+             JSON.stringify(produtos, null, 2) 
             : '';
     }
     
@@ -795,7 +795,7 @@ function atualizarTabelaProdutos(produtos) {
     if (!Array.isArray(produtos) || produtos.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="4" style="text-align: center; color: #888;">Nenhum produto adicionado</td>
+                <td colspan="4" style="text-align: center; color: #888;">Nenhum produto adicionação</td>
             </tr>
         `;
         return;
@@ -835,7 +835,7 @@ function preencherResumoModal(pedido = {}) {
 
     if (resumoCliente) resumoCliente.textContent = pedido.cliente || 'Cliente';
     if (resumoData) resumoData.textContent = formatarDataCurta(pedido.data) || 'Data';
-    if (resumoStatus) resumoStatus.textContent = (statusConfig[pedido.status]?.label) || 'Orçamento';
+    if (resumoStatus) resumoStatus.textContent = (statusConfig[pedido.status].label) || 'Orçamento';
     if (resumoValor) resumoValor.textContent = formatarMoeda(pedido.valor || 0);
     if (resumoOrigem) resumoOrigem.textContent = pedido.origem || 'Origem';
     if (resumoVendedor) resumoVendedor.textContent = pedido.vendedor || 'Vendedor';
@@ -845,11 +845,11 @@ async function abrirModalEditarPedido(id) {
     try {
         console.log('[Kanban] Abrindo modal para pedido ID:', id);
         
-        // Primeiro busca os dados locais do kanban (sempre disponíveis)
+        // Primeiro busca os daçãos locais do kanban (sempre disponíveis)
         const pedidoLocal = pedidos.find(p => p.id == id);
-        console.log('[Kanban] Pedido local encontrado:', pedidoLocal);
+        console.log('[Kanban] Pedido local encontração:', pedidoLocal);
         
-        // Tenta buscar dados atualizados da API
+        // Tenta buscar daçãos atualizaçãos da API
         let pedidoDetalhe = pedidoLocal || {};
         
         try {
@@ -858,33 +858,33 @@ async function abrirModalEditarPedido(id) {
             });
             
             if (resp.ok) {
-                const dados = await resp.json();
-                console.log('[Kanban] Dados da API:', dados);
+                const daçãos = await resp.json();
+                console.log('[Kanban] Daçãos da API:', daçãos);
                 
-                // Se a API retornou dados válidos, usar eles
-                if (dados && (dados.id || dados.valor || dados.cliente_nome)) {
+                // Se a API retornou daçãos válidos, usar eles
+                if (daçãos && (daçãos.id || daçãos.valor || daçãos.cliente_nome)) {
                     pedidoDetalhe = {
-                        ...pedidoLocal, // dados do kanban como base
-                        ...dados,       // sobrescreve com dados da API
-                        numero: dados.numero || `Pedido Nº ${id}`,
-                        cliente: dados.cliente_nome || dados.cliente || pedidoLocal?.cliente || '',
-                        valor: parseFloat(dados.valor) || parseFloat(dados.valor_total) || pedidoLocal?.valor || 0,
-                        vendedor: dados.vendedor_nome || dados.vendedor || pedidoLocal?.vendedor || '',
-                        produtos: safeParseJSON(dados.produtos_preview || dados.produtos, [])
+                        ...pedidoLocal, // daçãos do kanban como base
+                        ...daçãos,       // sobrescreve com daçãos da API
+                        numero: daçãos.numero || `Pedido Nº ${id}`,
+                        cliente: daçãos.cliente_nome || daçãos.cliente || pedidoLocal.cliente || '',
+                        valor: parseFloat(daçãos.valor) || parseFloat(daçãos.valor_total) || pedidoLocal.valor || 0,
+                        vendedor: daçãos.vendedor_nome || daçãos.vendedor || pedidoLocal.vendedor || '',
+                        produtos: safeParseJSON(daçãos.produtos_preview || daçãos.produtos, [])
                     };
                 }
             }
         } catch (apiError) {
-            console.warn('[Kanban] Erro ao buscar API, usando dados locais:', apiError);
+            console.warn('[Kanban] Erro ao buscar API, usando daçãos locais:', apiError);
         }
         
-        console.log('[Kanban] Dados finais para o modal:', pedidoDetalhe);
+        console.log('[Kanban] Daçãos finais para o modal:', pedidoDetalhe);
         
-        // IMPORTANTE: Primeiro abre o modal (que reseta o form), depois popula os dados
+        // IMPORTANTE: Primeiro abre o modal (que reseta o form), depois popula os daçãos
         const modal = document.getElementById('modal-novo-pedido');
         if (modal) modal.classList.add('aberto');
         
-        // Agora popula o form com os dados do pedido
+        // Agora popula o form com os daçãos do pedido
         popularFormPedido(pedidoDetalhe);
         
     } catch (err) {
@@ -898,8 +898,8 @@ function safeParseJSON(txt, fallback) {
 }
 
 async function salvarPedidoAPI(payload, id) {
-    const url = id ? `/api/vendas/pedidos/${id}` : '/api/vendas/pedidos';
-    const method = id ? 'PUT' : 'POST';
+    const url = id  `/api/vendas/pedidos/${id}` : '/api/vendas/pedidos';
+    const method = id  'PUT' : 'POST';
     const resp = await fetch(url, {
         method,
         credentials: 'include',
@@ -917,23 +917,23 @@ async function salvarPedidoAPI(payload, id) {
 function salvarNovoPedido(event) {
     event.preventDefault();
     const form = event.target;
-    const dados = Object.fromEntries(new FormData(form));
+    const daçãos = Object.fromEntries(new FormData(form));
     const id = form.dataset.pedidoId || null;
     
     // Construir payload com campos corretos da tabela
     const payload = {
-        cliente_id: dados.cliente_id ? Number(dados.cliente_id) : null,
-        empresa_id: dados.empresa_id ? Number(dados.empresa_id) : null,
-        valor: Number(dados.valor || 0),
-        descricao: dados.observacoes || dados.faturamento || '',
-        status: dados.status || 'orcamento',
-        prioridade: dados.tipo || 'normal',
-        frete: Number(dados.frete || 0),
-        prazo_entrega: dados.vencimento || null,
-        endereco_entrega: dados.endereco_entrega || null,
-        municipio_entrega: dados.municipio_entrega || null,
-        metodo_envio: dados.transportadora || null,
-        produtos: dados.produtos ? safeParseJSON(dados.produtos, []) : []
+        cliente_id: daçãos.cliente_id  Number(daçãos.cliente_id) : null,
+        empresa_id: daçãos.empresa_id  Number(daçãos.empresa_id) : null,
+        valor: Number(daçãos.valor || 0),
+        descricao: daçãos.observacoes || daçãos.faturamento || '',
+        status: daçãos.status || 'orcamento',
+        prioridade: daçãos.tipo || 'normal',
+        frete: Number(daçãos.frete || 0),
+        prazo_entrega: daçãos.vencimento || null,
+        endereco_entrega: daçãos.endereco_entrega || null,
+        municipio_entrega: daçãos.municipio_entrega || null,
+        metodo_envio: daçãos.transportaçãora || null,
+        produtos: daçãos.produtos  safeParseJSON(daçãos.produtos, []) : []
     };
 
     if (!payload.valor) {
@@ -951,8 +951,8 @@ function salvarNovoPedido(event) {
                         ...pedidos[idx],
                         valor: payload.valor,
                         status: payload.status,
-                        cliente: dados.cliente || pedidos[idx].cliente,
-                        vendedor: dados.vendedor || pedidos[idx].vendedor,
+                        cliente: daçãos.cliente || pedidos[idx].cliente,
+                        vendedor: daçãos.vendedor || pedidos[idx].vendedor,
                         faturamento: payload.descricao
                     };
                 }
@@ -963,9 +963,9 @@ function salvarNovoPedido(event) {
             form.dataset.modo = 'novo';
             fecharModalNovoPedido();
             
-            // Recarregar dados do servidor para garantir sincronização
+            // Recarregar daçãos do servidor para garantir sincronização
             carregarPedidosDaAPI();
-            mostrarNotificacao(id ? 'Pedido atualizado com sucesso!' : 'Pedido criado com sucesso!', 'success');
+            mostrarNotificacao(id  'Pedido atualização com sucesso!' : 'Pedido criação com sucesso!', 'success');
         })
         .catch((err) => {
             console.error('Erro ao salvar:', err);
@@ -973,12 +973,12 @@ function salvarNovoPedido(event) {
         });
 }
 
-// Carregar dados do usuário
+// Carregar daçãos do usuário
 async function carregarUsuario() {
     // Usar o sistema de autenticação externo se disponível
     if (window.VendasAuth && typeof window.VendasAuth.inicializarAuth === 'function') {
-        usuarioLogado = await window.VendasAuth.inicializarAuth();
-        if (usuarioLogado) return;
+        usuarioLogação = await window.VendasAuth.inicializarAuth();
+        if (usuarioLogação) return;
     }
     
     // Buscar diretamente da API usando cookies
@@ -986,14 +986,14 @@ async function carregarUsuario() {
         const response = await fetch('/api/usuario/atual', { credentials: 'include' });
         if (response.ok) {
             const user = await response.json();
-            usuarioLogado = user;
+            usuarioLogação = user;
             const firstName = user.nome.split(' ')[0];
             const userNameElement = document.querySelector('.user-text');
             if (userNameElement) {
                 userNameElement.textContent = firstName;
             }
         } else {
-            console.warn('Usuário não autenticado, redirecionando para login');
+            console.warn('Usuário não autenticação, redirecionando para login');
             // Opcional: redirecionar para login se necessário
             // window.location.href = '/login';
         }
@@ -1009,9 +1009,9 @@ function filtrarPedidos(base) {
     const selectPeriodo = document.getElementById('filtro-periodo');
     const selectVendedor = document.getElementById('filtro-vendedor');
 
-    const termo = (buscaInput?.value || '').toLowerCase().trim();
-    const periodo = selectPeriodo?.value || '';
-    const vendedor = selectVendedor?.value || '';
+    const termo = (buscaInput.value || '').toLowerCase().trim();
+    const periodo = selectPeriodo.value || '';
+    const vendedor = selectVendedor.value || '';
 
     return base.filter(p => {
         const matchTexto = !termo || 
@@ -1138,14 +1138,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalForm) modalForm.addEventListener('submit', salvarNovoPedido);
     if (modalForm) {
         modalForm.addEventListener('input', () => {
-            const dados = Object.fromEntries(new FormData(modalForm));
+            const daçãos = Object.fromEntries(new FormData(modalForm));
             preencherResumoModal({
-                cliente: dados.cliente,
-                data: dados.data,
-                status: dados.status,
-                valor: Number(dados.valor || 0),
-                origem: dados.origem,
-                vendedor: dados.vendedor
+                cliente: daçãos.cliente,
+                data: daçãos.data,
+                status: daçãos.status,
+                valor: Number(daçãos.valor || 0),
+                origem: daçãos.origem,
+                vendedor: daçãos.vendedor
             });
         });
     }
@@ -1165,4 +1165,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Log de inicialização
-console.log('✅ Módulo de Vendas Kanban Omie Style carregado com sucesso!');
+console.log('✅ Módulo de Vendas Kanban Omie Style carregação com sucesso!');

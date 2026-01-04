@@ -2,7 +2,7 @@
 // CONCILIAÇÉO BANCÁRIA - Sistema Financeiro Aluforce
 // ============================================================================
 
-// Estado Global
+// Estação Global
 let contaSelecionada = null;
 let movimentacoesSistema = [];
 let movimentacoesExtrato = [];
@@ -120,8 +120,8 @@ async function carregarMovimentacoes() {
         // Carregar movimentações do sistema
         movimentacoesSistema = await buscarMovimentacoesSistema(contaSelecionada, dataInicio, dataFim);
         
-        // Carregar extrato (se já importado)
-        movimentacoesExtrato = await buscarExtratoImportado(contaSelecionada, dataInicio, dataFim);
+        // Carregar extrato (se já importação)
+        movimentacoesExtrato = await buscarExtratoImportação(contaSelecionada, dataInicio, dataFim);
 
         // Carregar conciliações já realizadas
         movimentacoesConciliadas = await buscarConciliacoes(contaSelecionada, dataInicio, dataFim);
@@ -138,7 +138,7 @@ async function carregarMovimentacoes() {
 
 async function buscarMovimentacoesSistema(contaId, dataInicio, dataFim) {
     // TODO: Substituir por chamada real à API
-    // return await fetch(`/api/financeiro/movimentacoes?conta=${contaId}&inicio=${dataInicio}&fim=${dataFim}`).then(r => r.json());
+    // return await fetch(`/api/financeiro/movimentacoesconta=${contaId}&inicio=${dataInicio}&fim=${dataFim}`).then(r => r.json());
     
     // Mock data
     return [
@@ -151,9 +151,9 @@ async function buscarMovimentacoesSistema(contaId, dataInicio, dataFim) {
     ];
 }
 
-async function buscarExtratoImportado(contaId, dataInicio, dataFim) {
+async function buscarExtratoImportação(contaId, dataInicio, dataFim) {
     // TODO: Substituir por chamada real à API
-    // return await fetch(`/api/financeiro/extrato?conta=${contaId}&inicio=${dataInicio}&fim=${dataFim}`).then(r => r.json());
+    // return await fetch(`/api/financeiro/extratoconta=${contaId}&inicio=${dataInicio}&fim=${dataFim}`).then(r => r.json());
     
     // Mock data - Extrato bancário (algumas movimentações coincidem, outras não)
     return [
@@ -170,7 +170,7 @@ async function buscarExtratoImportado(contaId, dataInicio, dataFim) {
 
 async function buscarConciliacoes(contaId, dataInicio, dataFim) {
     // TODO: Substituir por chamada real à API
-    // return await fetch(`/api/financeiro/conciliacoes?conta=${contaId}&inicio=${dataInicio}&fim=${dataFim}`).then(r => r.json());
+    // return await fetch(`/api/financeiro/conciliacoesconta=${contaId}&inicio=${dataInicio}&fim=${dataFim}`).then(r => r.json());
     
     // Mock data - Algumas já conciliadas
     return [
@@ -228,7 +228,7 @@ function renderizarListaExtrato() {
     lista.innerHTML = '';
 
     if (movimentacoesExtrato.length === 0) {
-        lista.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Nenhum extrato importado</p>';
+        lista.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Nenhum extrato importação</p>';
         return;
     }
 
@@ -245,11 +245,11 @@ function renderizarListaExtrato() {
 
 function criarItemMovimentacao(mov, origem, conciliada) {
     const div = document.createElement('div');
-    div.className = `movimentacao-item ${origem} ${conciliada ? 'conciliada' : ''}`;
+    div.className = `movimentacao-item ${origem} ${conciliada  'conciliada' : ''}`;
     div.dataset.id = mov.id;
     div.dataset.origem = origem;
 
-    const checkbox = !conciliada ? `
+    const checkbox = !conciliada  `
         <input type="checkbox" class="mov-checkbox" 
                onchange="toggleSelecao('${mov.id}', '${origem}', this.checked)">
     ` : '<i class="fas fa-check-circle" style="color: #10b981; margin-right: 10px;"></i>';
@@ -262,8 +262,8 @@ function criarItemMovimentacao(mov, origem, conciliada) {
                 <span class="mov-valor ${mov.tipo}">${formatarMoeda(mov.valor)}</span>
             </div>
             <div class="mov-descrição">${mov.descrição}</div>
-            ${mov.categoria ? `<span class="mov-categoria">${mov.categoria}</span>` : ''}
-            ${conciliada ? '<span class="mov-categoria" style="background: #10b981; color: white;">✓ Conciliada</span>' : ''}
+            ${mov.categoria  `<span class="mov-categoria">${mov.categoria}</span>` : ''}
+            ${conciliada  '<span class="mov-categoria" style="background: #10b981; color: white;">✓ Conciliada</span>' : ''}
         </div>
     `;
 
@@ -317,7 +317,7 @@ function filtrarExtrato(tipo, evt) {
 }
 
 function filtrarMovimentacoes(origem, tipo, evt) {
-    const container = origem === 'sistema' ? 'lista-sistema' : 'lista-extrato';
+    const container = origem === 'sistema'  'lista-sistema' : 'lista-extrato';
     const items = document.querySelectorAll(`#${container} .movimentacao-item`);
 
     // Atualizar botões ativos
@@ -335,19 +335,19 @@ function filtrarMovimentacoes(origem, tipo, evt) {
         else if (tipo === 'pendentes') mostrar = !conciliada;
         else if (tipo === 'conciliadas') mostrar = conciliada;
 
-        item.style.display = mostrar ? 'flex' : 'none';
+        item.style.display = mostrar  'flex' : 'none';
     });
 }
 
 function buscarMovimentacoes(termo, origem) {
-    const container = origem === 'sistema' ? 'lista-sistema' : 'lista-extrato';
+    const container = origem === 'sistema'  'lista-sistema' : 'lista-extrato';
     const items = document.querySelectorAll(`#${container} .movimentacao-item`);
 
     termo = termo.toLowerCase();
 
     items.forEach(item => {
         const texto = item.textContent.toLowerCase();
-        item.style.display = texto.includes(termo) ? 'flex' : 'none';
+        item.style.display = texto.includes(termo)  'flex' : 'none';
     });
 }
 
@@ -380,7 +380,7 @@ function conciliarSelecionadas() {
     document.getElementById('conciliar-valor-sistema').textContent = formatarMoeda(totalSistema);
     document.getElementById('conciliar-valor-extrato').textContent = formatarMoeda(totalExtrato);
     document.getElementById('conciliar-diferenca').textContent = formatarMoeda(diferenca);
-    document.getElementById('conciliar-diferenca').style.color = Math.abs(diferenca) < 0.01 ? '#10b981' : '#ef4444';
+    document.getElementById('conciliar-diferenca').style.color = Math.abs(diferenca) < 0.01  '#10b981' : '#ef4444';
 
     // Mostrar modal
     mostrarModal('modal-conciliar');
@@ -391,7 +391,7 @@ async function confirmarConciliacao() {
 
     try {
         // TODO: Substituir por chamada real à API
-        const resultado = await salvarConciliacao({
+        const resultação = await salvarConciliacao({
             conta_id: contaSelecionada,
             movimentacoes_sistema: selecionadasSistema,
             movimentacoes_extrato: selecionadasExtrato,
@@ -425,15 +425,15 @@ async function confirmarConciliacao() {
     }
 }
 
-async function salvarConciliacao(dados) {
+async function salvarConciliacao(daçãos) {
     // TODO: Substituir por chamada real à API
     // return await fetch('/api/financeiro/conciliacoes', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(dados)
+    //     body: JSON.stringify(daçãos)
     // }).then(r => r.json());
     
-    console.log('Salvando conciliação:', dados);
+    console.log('Salvando conciliação:', daçãos);
     return { success: true, id: Math.random() };
 }
 
@@ -523,29 +523,29 @@ async function processarArquivo(input) {
     mostrarMensagem('Processando arquivo...', 'info');
 
     try {
-        let dados;
+        let daçãos;
 
         if (extensao === 'ofx') {
-            dados = await processarOFX(arquivo);
+            daçãos = await processarOFX(arquivo);
         } else if (extensao === 'csv') {
-            dados = await processarCSV(arquivo);
+            daçãos = await processarCSV(arquivo);
         } else if (extensao === 'xlsx') {
-            dados = await processarXLSX(arquivo);
+            daçãos = await processarXLSX(arquivo);
         } else {
-            throw new Error('Formato não suportado');
+            throw new Error('Formato não suportação');
         }
 
         // TODO: Enviar para API
-        await salvarExtratoImportado({
+        await salvarExtratoImportação({
             conta_id: contaSelecionada,
             arquivo: arquivo.name,
-            movimentacoes: dados,
+            movimentacoes: daçãos,
             data_importacao: new Date().toISOString()
         });
 
         fecharModal('modal-importar');
         carregarMovimentacoes();
-        mostrarMensagem(`${dados.length} movimentações importadas com sucesso!`, 'success');
+        mostrarMensagem(`${daçãos.length} movimentações importadas com sucesso!`, 'success');
 
     } catch (error) {
         console.error('Erro ao processar arquivo:', error);
@@ -567,7 +567,7 @@ async function processarCSV(arquivo) {
             try {
                 const texto = e.target.result;
                 const linhas = texto.split('\n');
-                const dados = [];
+                const daçãos = [];
 
                 // Pular cabeçalho
                 for (let i = 1; i < linhas.length; i++) {
@@ -577,15 +577,15 @@ async function processarCSV(arquivo) {
                     const colunas = linha.split(',');
                     if (colunas.length < 3) continue;
 
-                    dados.push({
+                    daçãos.push({
                         data: colunas[0].trim(),
                         descrição: colunas[1].trim(),
                         valor: parseFloat(colunas[2].trim()),
-                        tipo: parseFloat(colunas[2].trim()) >= 0 ? 'entrada' : 'saida'
+                        tipo: parseFloat(colunas[2].trim()) >= 0  'entrada' : 'saida'
                     });
                 }
 
-                resolve(dados);
+                resolve(daçãos);
             } catch (error) {
                 reject(error);
             }
@@ -602,18 +602,18 @@ async function processarXLSX(arquivo) {
     return [];
 }
 
-async function salvarExtratoImportado(dados) {
+async function salvarExtratoImportação(daçãos) {
     // TODO: Substituir por chamada real à API
     // return await fetch('/api/financeiro/extrato/importar', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(dados)
+    //     body: JSON.stringify(daçãos)
     // }).then(r => r.json());
     
-    console.log('Salvando extrato importado:', dados);
+    console.log('Salvando extrato importação:', daçãos);
     
     // Mock: adicionar ao extrato atual
-    dados.movimentacoes.forEach(mov => {
+    daçãos.movimentacoes.forEach(mov => {
         movimentacoesExtrato.push({
             id: 'IMP_' + Math.random().toString(36).substr(2, 9),
             ...mov
@@ -649,7 +649,7 @@ function atualizarEstatisticas() {
     document.getElementById('count-pendentes').textContent = pendentes;
     document.getElementById('count-divergentes').textContent = divergentes;
     document.getElementById('diferenca-total').textContent = formatarMoeda(diferenca);
-    document.getElementById('diferenca-total').style.color = Math.abs(diferenca) < 0.01 ? '#10b981' : '#ef4444';
+    document.getElementById('diferenca-total').style.color = Math.abs(diferenca) < 0.01  '#10b981' : '#ef4444';
 }
 
 // ============================================================================

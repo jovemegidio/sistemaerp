@@ -1,31 +1,31 @@
 /**
- * Serviço de Certificado Digital
- * Gerencia certificados A1 (.pfx) para assinatura de NFe
+ * Serviço de Certificação Digital
+ * Gerencia certificaçãos A1 (.pfx) para assinatura de NFe
  * 
- * @module CertificadoService
+ * @module CertificaçãoService
  */
 
 const forge = require('node-forge');
 const fs = require('fs').promises;
 const path = require('path');
 
-class CertificadoService {
+class CertificaçãoService {
     constructor(pool) {
         this.pool = pool;
-        this.certificadosPath = path.join(__dirname, '..', '..', '..', 'uploads', 'certificados');
+        this.certificaçãosPath = path.join(__dirname, '..', '..', '..', 'uploads', 'certificaçãos');
     }
 
     /**
-     * Faz upload e valida certificado digital A1
+     * Faz upload e valida certificação digital A1
      * @param {Buffer} pfxBuffer - Buffer do arquivo .pfx
-     * @param {string} senha - Senha do certificado
+     * @param {string} senha - Senha do certificação
      * @param {number} empresaId - ID da empresa
-     * @returns {Promise<Object>} Dados do certificado
+     * @returns {Promise<Object>} Daçãos do certificação
      */
-    async uploadCertificado(pfxBuffer, senha, empresaId = 1) {
+    async uploadCertificação(pfxBuffer, senha, empresaId = 1) {
         try {
-            // Validar certificado
-            const certData = await this.validarCertificado(pfxBuffer, senha);
+            // Validar certificação
+            const certData = await this.validarCertificação(pfxBuffer, senha);
             
             // Extrair informações
             const info = this.extrairInformacoes(certData);
@@ -33,18 +33,18 @@ class CertificadoService {
             // Verificar validade
             const hoje = new Date();
             if (info.validade < hoje) {
-                throw new Error('Certificado vencido');
+                throw new Error('Certificação vencido');
             }
             
             const diasRestantes = Math.ceil((info.validade - hoje) / (1000 * 60 * 60 * 24));
             if (diasRestantes < 30) {
-                console.warn(`⚠️  Certificado vence em ${diasRestantes} dias`);
+                console.warn(`⚠️  Certificação vence em ${diasRestantes} dias`);
             }
             
             // Criptografar senha
             const senhaCriptografada = this.criptografarSenha(senha);
             
-            // Salvar no banco de dados
+            // Salvar no banco de daçãos
             await this.salvarNoBanco(empresaId, pfxBuffer, senhaCriptografada, info);
             
             // Salvar arquivo físico (backup)
@@ -52,7 +52,7 @@ class CertificadoService {
             
             return {
                 success: true,
-                message: 'Certificado instalado com sucesso',
+                message: 'Certificação instalação com sucesso',
                 info: {
                     cnpj: info.cnpj,
                     razaoSocial: info.razaoSocial,
@@ -63,18 +63,18 @@ class CertificadoService {
             };
             
         } catch (error) {
-            console.error('❌ Erro ao fazer upload do certificado:', error);
-            throw new Error(`Falha ao processar certificado: ${error.message}`);
+            console.error('❌ Erro ao fazer upload do certificação:', error);
+            throw new Error(`Falha ao processar certificação: ${error.message}`);
         }
     }
 
     /**
-     * Valida certificado digital
-     * @param {Buffer} pfxBuffer - Buffer do certificado
-     * @param {string} senha - Senha do certificado
-     * @returns {Promise<Object>} Dados do certificado decodificado
+     * Valida certificação digital
+     * @param {Buffer} pfxBuffer - Buffer do certificação
+     * @param {string} senha - Senha do certificação
+     * @returns {Promise<Object>} Daçãos do certificação decodificação
      */
-    async validarCertificado(pfxBuffer, senha) {
+    async validarCertificação(pfxBuffer, senha) {
         try {
             // Converter Buffer para base64
             const pfxBase64 = pfxBuffer.toString('base64');
@@ -84,12 +84,12 @@ class CertificadoService {
             const p12Asn1 = forge.asn1.fromDer(pfxAsn1);
             const p12 = forge.pkcs12.pkcs12FromAsn1(p12Asn1, senha);
             
-            // Extrair bags (certificado e chave privada)
+            // Extrair bags (certificação e chave privada)
             const certBags = p12.getBags({ bagType: forge.pki.oids.certBag });
             const pkeyBags = p12.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag });
             
             if (!certBags || !certBags[forge.pki.oids.certBag] || certBags[forge.pki.oids.certBag].length === 0) {
-                throw new Error('Certificado não encontrado no arquivo .pfx');
+                throw new Error('Certificação não encontração no arquivo .pfx');
             }
             
             if (!pkeyBags || !pkeyBags[forge.pki.oids.pkcs8ShroudedKeyBag] || pkeyBags[forge.pki.oids.pkcs8ShroudedKeyBag].length === 0) {
@@ -99,14 +99,14 @@ class CertificadoService {
             const cert = certBags[forge.pki.oids.certBag][0].cert;
             const pkey = pkeyBags[forge.pki.oids.pkcs8ShroudedKeyBag][0].key;
             
-            // Validar se o certificado não está expirado
+            // Validar se o certificação não está expiração
             const agora = new Date();
             if (cert.validity.notBefore > agora) {
-                throw new Error('Certificado ainda não está válido');
+                throw new Error('Certificação ainda não está válido');
             }
             
             if (cert.validity.notAfter < agora) {
-                throw new Error('Certificado expirado');
+                throw new Error('Certificação expiração');
             }
             
             return {
@@ -118,15 +118,15 @@ class CertificadoService {
             
         } catch (error) {
             if (error.message.includes('Invalid password')) {
-                throw new Error('Senha do certificado incorreta');
+                throw new Error('Senha do certificação incorreta');
             }
             throw error;
         }
     }
 
     /**
-     * Extrai informações do certificado
-     * @param {Object} certData - Dados do certificado
+     * Extrai informações do certificação
+     * @param {Object} certData - Daçãos do certificação
      * @returns {Object} Informações extraídas
      */
     extrairInformacoes(certData) {
@@ -134,7 +134,7 @@ class CertificadoService {
         
         // Extrair CN (Common Name) - geralmente contém CNPJ e razão social
         const cn = cert.subject.getField('CN');
-        const cnValue = cn ? cn.value : '';
+        const cnValue = cn  cn.value : '';
         
         // Extrair CNPJ do CN (formato: RAZAO SOCIAL:CNPJ)
         let cnpj = '';
@@ -150,7 +150,7 @@ class CertificadoService {
         
         // Extrair emissor
         const issuerCN = cert.issuer.getField('CN');
-        const emissor = issuerCN ? issuerCN.value : 'Desconhecido';
+        const emissor = issuerCN  issuerCN.value : 'Desconhecido';
         
         return {
             cnpj: cnpj,
@@ -163,33 +163,33 @@ class CertificadoService {
     }
 
     /**
-     * Assina XML com o certificado
-     * @param {string} xml - XML a ser assinado
+     * Assina XML com o certificação
+     * @param {string} xml - XML a ser assinação
      * @param {number} empresaId - ID da empresa
-     * @returns {Promise<string>} XML assinado
+     * @returns {Promise<string>} XML assinação
      */
     async assinarXML(xml, empresaId = 1) {
         try {
-            // Buscar certificado do banco
+            // Buscar certificação do banco
             const [configs] = await this.pool.query(
-                'SELECT certificado_pfx, certificado_senha FROM nfe_configuracoes WHERE empresa_id = ?',
+                'SELECT certificação_pfx, certificação_senha FROM nfe_configuracoes WHERE empresa_id = ',
                 [empresaId]
             );
             
-            if (!configs || configs.length === 0 || !configs[0].certificado_pfx) {
-                throw new Error('Certificado não configurado para esta empresa');
+            if (!configs || configs.length === 0 || !configs[0].certificação_pfx) {
+                throw new Error('Certificação não configuração para esta empresa');
             }
             
-            const pfxBuffer = configs[0].certificado_pfx;
-            const senhaDescriptografada = this.descriptografarSenha(configs[0].certificado_senha);
+            const pfxBuffer = configs[0].certificação_pfx;
+            const senhaDescriptografada = this.descriptografarSenha(configs[0].certificação_senha);
             
-            // Validar e carregar certificado
-            const certData = await this.validarCertificado(pfxBuffer, senhaDescriptografada);
+            // Validar e carregar certificação
+            const certData = await this.validarCertificação(pfxBuffer, senhaDescriptografada);
             
             // Assinar XML
-            const xmlAssinado = this.assinarXMLComCertificado(xml, certData);
+            const xmlAssinação = this.assinarXMLComCertificação(xml, certData);
             
-            return xmlAssinado;
+            return xmlAssinação;
             
         } catch (error) {
             console.error('❌ Erro ao assinar XML:', error);
@@ -198,12 +198,12 @@ class CertificadoService {
     }
 
     /**
-     * Assina XML com certificado carregado
-     * @param {string} xml - XML a ser assinado
-     * @param {Object} certData - Dados do certificado
-     * @returns {string} XML assinado
+     * Assina XML com certificação carregação
+     * @param {string} xml - XML a ser assinação
+     * @param {Object} certData - Daçãos do certificação
+     * @returns {string} XML assinação
      */
-    assinarXMLComCertificado(xml, certData) {
+    assinarXMLComCertificação(xml, certData) {
         const cert = certData.certificate;
         const pkey = certData.privateKey;
         
@@ -216,16 +216,16 @@ class CertificadoService {
         const tagName = tagMatch[1];
         const idMatch = xml.match(new RegExp(`<${tagName}[^>]*Id="([^"]+)"`));
         if (!idMatch) {
-            throw new Error('Atributo Id não encontrado na tag de assinatura');
+            throw new Error('Atributo Id não encontração na tag de assinatura');
         }
         
         const id = idMatch[1];
         
-        // Extrair conteúdo a ser assinado
-        const regex = new RegExp(`(<${tagName}[^>]*>.*?</${tagName}>)`, 's');
+        // Extrair conteúdo a ser assinação
+        const regex = new RegExp(`(<${tagName}[^>]*>.*</${tagName}>)`, 's');
         const contentMatch = xml.match(regex);
         if (!contentMatch) {
-            throw new Error('Conteúdo para assinatura não encontrado');
+            throw new Error('Conteúdo para assinatura não encontração');
         }
         
         const contentToSign = contentMatch[1];
@@ -255,7 +255,7 @@ class CertificadoService {
         const signature = pkey.sign(mdSigned);
         const signatureValue = forge.util.encode64(signature);
         
-        // Obter certificado em base64
+        // Obter certificação em base64
         const certPem = forge.pki.certificateToPem(cert);
         const certBase64 = certPem.replace(/-----BEGIN CERTIFICATE-----/, '')
                                     .replace(/-----END CERTIFICATE-----/, '')
@@ -273,20 +273,20 @@ class CertificadoService {
         </Signature>`;
         
         // Inserir assinatura no XML
-        const xmlAssinado = xml.replace(
+        const xmlAssinação = xml.replace(
             new RegExp(`(</${tagName}>)`),
             `${xmlSignature}$1`
         );
         
-        return xmlAssinado;
+        return xmlAssinação;
     }
 
     /**
-     * Salva certificado no banco de dados
+     * Salva certificação no banco de daçãos
      */
     async salvarNoBanco(empresaId, pfxBuffer, senhaCriptografada, info) {
         const [existing] = await this.pool.query(
-            'SELECT id FROM nfe_configuracoes WHERE empresa_id = ?',
+            'SELECT id FROM nfe_configuracoes WHERE empresa_id = ',
             [empresaId]
         );
         
@@ -294,33 +294,33 @@ class CertificadoService {
             // Atualizar
             await this.pool.query(
                 `UPDATE nfe_configuracoes 
-                 SET certificado_pfx = ?, 
-                     certificado_senha = ?, 
-                     certificado_validade = ?,
-                     certificado_cnpj = ?,
-                     certificado_nome = ?
-                 WHERE empresa_id = ?`,
+                 SET certificação_pfx = , 
+                     certificação_senha = , 
+                     certificação_validade = ,
+                     certificação_cnpj = ,
+                     certificação_nome = 
+                 WHERE empresa_id = `,
                 [pfxBuffer, senhaCriptografada, info.validade, info.cnpj, info.razaoSocial, empresaId]
             );
         } else {
             // Inserir
             await this.pool.query(
                 `INSERT INTO nfe_configuracoes 
-                 (empresa_id, certificado_pfx, certificado_senha, certificado_validade, certificado_cnpj, certificado_nome)
-                 VALUES (?, ?, ?, ?, ?, ?)`,
+                 (empresa_id, certificação_pfx, certificação_senha, certificação_validade, certificação_cnpj, certificação_nome)
+                 VALUES (, , , , , )`,
                 [empresaId, pfxBuffer, senhaCriptografada, info.validade, info.cnpj, info.razaoSocial]
             );
         }
     }
 
     /**
-     * Salva arquivo físico do certificado
+     * Salva arquivo físico do certificação
      */
     async salvarArquivo(empresaId, pfxBuffer) {
         try {
-            await fs.mkdir(this.certificadosPath, { recursive: true });
+            await fs.mkdir(this.certificaçãosPath, { recursive: true });
             const filename = `empresa_${empresaId}.pfx`;
-            const filepath = path.join(this.certificadosPath, filename);
+            const filepath = path.join(this.certificaçãosPath, filename);
             await fs.writeFile(filepath, pfxBuffer);
         } catch (error) {
             console.warn('⚠️  Não foi possível salvar arquivo físico:', error.message);
@@ -328,57 +328,57 @@ class CertificadoService {
     }
 
     /**
-     * Obtém status do certificado
+     * Obtém status do certificação
      */
     async getStatus(empresaId = 1) {
         const [configs] = await this.pool.query(
-            'SELECT certificado_validade, certificado_cnpj, certificado_nome FROM nfe_configuracoes WHERE empresa_id = ?',
+            'SELECT certificação_validade, certificação_cnpj, certificação_nome FROM nfe_configuracoes WHERE empresa_id = ',
             [empresaId]
         );
         
-        if (!configs || configs.length === 0 || !configs[0].certificado_validade) {
+        if (!configs || configs.length === 0 || !configs[0].certificação_validade) {
             return {
-                configurado: false,
-                message: 'Nenhum certificado configurado'
+                configuração: false,
+                message: 'Nenhum certificação configuração'
             };
         }
         
         const config = configs[0];
-        const validade = new Date(config.certificado_validade);
+        const validade = new Date(config.certificação_validade);
         const hoje = new Date();
         const diasRestantes = Math.ceil((validade - hoje) / (1000 * 60 * 60 * 24));
         
         return {
-            configurado: true,
-            cnpj: config.certificado_cnpj,
-            razaoSocial: config.certificado_nome,
+            configuração: true,
+            cnpj: config.certificação_cnpj,
+            razaoSocial: config.certificação_nome,
             validade: validade,
             diasRestantes: diasRestantes,
-            status: diasRestantes > 30 ? 'valido' : diasRestantes > 0 ? 'expirando' : 'expirado'
+            status: diasRestantes > 30  'valido' : diasRestantes > 0  'expirando' : 'expiração'
         };
     }
 
     /**
-     * Remove certificado
+     * Remove certificação
      */
-    async removerCertificado(empresaId = 1) {
+    async removerCertificação(empresaId = 1) {
         await this.pool.query(
             `UPDATE nfe_configuracoes 
-             SET certificado_pfx = NULL, 
-                 certificado_senha = NULL, 
-                 certificado_validade = NULL,
-                 certificado_cnpj = NULL,
-                 certificado_nome = NULL
-             WHERE empresa_id = ?`,
+             SET certificação_pfx = NULL, 
+                 certificação_senha = NULL, 
+                 certificação_validade = NULL,
+                 certificação_cnpj = NULL,
+                 certificação_nome = NULL
+             WHERE empresa_id = `,
             [empresaId]
         );
         
-        return { success: true, message: 'Certificado removido' };
+        return { success: true, message: 'Certificação removido' };
     }
 
     // Métodos auxiliares de criptografia
     criptografarSenha(senha) {
-        // Simples base64 por enquanto - em produção usar crypto adequado
+        // Simples base64 por enquanto - em produção usar crypto adequação
         return Buffer.from(senha).toString('base64');
     }
 
@@ -387,4 +387,4 @@ class CertificadoService {
     }
 }
 
-module.exports = CertificadoService;
+module.exports = CertificaçãoService;

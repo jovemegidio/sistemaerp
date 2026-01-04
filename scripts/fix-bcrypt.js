@@ -25,7 +25,7 @@ const filesToFix = [
     'Vendas/test/e2e-smoke.test.js',
     'Vendas/test/api.test.js',
     'RH/server.js',
-    'PCP/configurar_acesso_colaboradores_pcp.js'
+    'PCP/configurar_acesso_colaboraçãores_pcp.js'
 ];
 
 let fixed = 0;
@@ -37,7 +37,7 @@ filesToFix.forEach(file => {
     const filePath = path.join(__dirname, '..', file);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`⚠️  Arquivo não encontrado: ${file}`);
+        console.log(`⚠️  Arquivo não encontração: ${file}`);
         return;
     }
     
@@ -61,7 +61,7 @@ filesToFix.forEach(file => {
     }
 });
 
-console.log(`\n✅ Concluído! ${fixed} arquivos atualizados, ${errors} erros.`);
+console.log(`\n✅ Concluído! ${fixed} arquivos atualizaçãos, ${errors} erros.`);
 
 if (fixed > 0) {
     console.log('\n💡 Recomendação: Execute os testes para verificar se tudo funciona:');

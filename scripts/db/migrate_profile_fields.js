@@ -1,18 +1,18 @@
 /**
- * Migração de Banco de Dados - Adicionar Colunas de Perfil
+ * Migração de Banco de Daçãos - Adicionar Colunas de Perfil
  * Adiciona campos necessários para o sistema de perfil enriquecido
  */
 
 const mysql = require('mysql2/promise');
 const path = require('path');
 
-// Configuração do banco de dados
+// Configuração do banco de daçãos
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 3306,
+    port: process.env.DB_PORT  parseInt(process.env.DB_PORT) : 3306,
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
@@ -22,16 +22,16 @@ async function runMigration() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de dados...');
+        console.log('🔌 Conectando ao banco de daçãos...');
         connection = await mysql.createConnection(dbConfig);
-        console.log('✅ Conectado com sucesso!\n');
+        console.log('✅ Conectação com sucesso!\n');
 
         // Lista de colunas a adicionar
         const columns = [
             {
                 name: 'apelido',
                 definition: 'VARCHAR(100) NULL',
-                description: 'Apelido ou como gosta de ser chamado'
+                description: 'Apelido ou como gosta de ser chamação'
             },
             {
                 name: 'telefone',
@@ -56,7 +56,7 @@ async function runMigration() {
             {
                 name: 'is_admin',
                 definition: 'TINYINT(1) DEFAULT 0',
-                description: 'Flag de administrador (já deve existir)'
+                description: 'Flag de administraçãor (já deve existir)'
             },
             {
                 name: 'setor',
@@ -70,7 +70,7 @@ async function runMigration() {
         // Verificar quais colunas já existem
         const [existingColumns] = await connection.query(
             `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS 
-             WHERE TABLE_SCHEMA = ? AND TABLE_NAME = 'usuarios'`,
+             WHERE TABLE_SCHEMA =  AND TABLE_NAME = 'usuarios'`,
             [dbConfig.database]
         );
 
@@ -126,5 +126,5 @@ async function runMigration() {
 }
 
 // Executar migração
-console.log('🚀 Iniciando migração do banco de dados...\n');
+console.log('🚀 Iniciando migração do banco de daçãos...\n');
 runMigration();

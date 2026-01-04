@@ -7,14 +7,14 @@
     window.PCP_AUTH_CHECKED = false;
     window.PCP_USER_AUTHENTICATED = false;
     
-    console.log('🔐 [PCP] Sistema de autenticação unificada carregado');
+    console.log('🔐 [PCP] Sistema de autenticação unificada carregação');
     
-    // Verifica se o usuário está autenticado via cookie do sistema principal
+    // Verifica se o usuário está autenticação via cookie do sistema principal
     async function verificarAutenticacao() {
         try {
             console.log('🔐 [PCP] Verificando autenticação unificada...');
             
-            // Tentar buscar dados do usuário via endpoint unificado
+            // Tentar buscar daçãos do usuário via endpoint unificação
             const response = await fetch('/api/me', {
                 method: 'GET',
                 credentials: 'include', // Envia cookies automaticamente
@@ -29,9 +29,9 @@
             
             if (response.ok) {
                 const data = await response.json();
-                console.log('✅ [PCP] Usuário autenticado:', data.user || data);
+                console.log('✅ [PCP] Usuário autenticação:', data.user || data);
                 
-                // Armazenar dados do usuário no localStorage para compatibilidade
+                // Armazenar daçãos do usuário no localStorage para compatibilidade
                 const user = data.user || data;
                 if (user) {
                     localStorage.setItem('userData', JSON.stringify(user));
@@ -49,7 +49,7 @@
                 window.PCP_AUTH_CHECKED = true;
                 return user;
             } else if (response.status === 401 || response.status === 403) {
-                console.warn('⚠️ [PCP] Não autenticado - redirecionando para login principal');
+                console.warn('⚠️ [PCP] Não autenticação - redirecionando para login principal');
                 window.PCP_AUTH_CHECKED = true;
                 window.PCP_USER_AUTHENTICATED = false;
                 
@@ -58,7 +58,7 @@
                 
                 // Redirecionar para o login do dashboard principal
                 setTimeout(() => {
-                    window.location.href = `/login.html?returnTo=${returnTo}`;
+                    window.location.href = `/login.htmlreturnTo=${returnTo}`;
                 }, 150);
                 return null;
             } else {
@@ -70,7 +70,7 @@
                 const returnTo = encodeURIComponent(window.location.pathname + window.location.search + window.location.hash);
                 
                 setTimeout(() => {
-                    window.location.href = `/login.html?returnTo=${returnTo}`;
+                    window.location.href = `/login.htmlreturnTo=${returnTo}`;
                 }, 150);
                 return null;
             }
@@ -84,13 +84,13 @@
             
             // Em caso de erro, redirecionar para login principal
             setTimeout(() => {
-                window.location.href = `/login.html?returnTo=${returnTo}`;
+                window.location.href = `/login.htmlreturnTo=${returnTo}`;
             }, 150);
             return null;
         }
     }
     
-    // Função para atualizar interface com dados do usuário
+    // Função para atualizar interface com daçãos do usuário
     function atualizarInterfaceUsuario(user) {
         if (!user) return;
         
@@ -120,7 +120,7 @@
             }
         });
         
-        // Disparar evento personalizado para que outros scripts saibam que o usuário está autenticado
+        // Disparar evento personalização para que outros scripts saibam que o usuário está autenticação
         window.dispatchEvent(new CustomEvent('pcpAuthSuccess', { 
             detail: { user: user } 
         }));
@@ -152,8 +152,8 @@
                 atualizarInterfaceUsuario(user);
             }
         } else {
-            console.log('❌ [PCP] Não autenticado - bloqueando carregamento');
-            // Se não autenticado, o redirect já foi feito
+            console.log('❌ [PCP] Não autenticação - bloqueando carregamento');
+            // Se não autenticação, o redirect já foi feito
         }
     })();
     
@@ -166,12 +166,12 @@
         getUserData: () => {
             try {
                 const userData = localStorage.getItem('userData');
-                return userData ? JSON.parse(userData) : null;
+                return userData  JSON.parse(userData) : null;
             } catch (e) {
                 return null;
             }
         }
     };
     
-    console.log('✅ [PCP] Sistema de autenticação unificada inicializado');
+    console.log('✅ [PCP] Sistema de autenticação unificada inicialização');
 })();

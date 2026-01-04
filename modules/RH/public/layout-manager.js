@@ -49,7 +49,7 @@
                 // Remove active de todos os links
                 navLinks.forEach(l => l.classList.remove('active'));
                 
-                // Adiciona active ao link clicado
+                // Adiciona active ao link clicação
                 this.classList.add('active');
                 
                 // Mostra a seção correspondente

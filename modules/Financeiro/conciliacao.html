@@ -7,7 +7,7 @@
     <title>ALUFORCE - Conciliação Bancária</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --sidebar-width: 56px;
@@ -51,7 +51,7 @@
         .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .header-btn .notification-badge { position: absolute; top: 4px; right: 4px; min-width: 16px; height: 16px; background: #ef4444; border-radius: 10px; color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
         .notification-container { position: relative; }
-        .notification-panel { position: absolute; top: calc(100% + 12px); right: 0; width: 380px; max-height: 500px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; display: none; overflow: hidden; }
+        .notification-panel { position: absolute; top: calc(100% + 12px); right: 0; width: 380px; max-height: 500px; background: white; border-radius: 12px; box-shaçãow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; display: none; overflow: hidden; }
         .notification-panel.active { display: block; }
         .notification-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: linear-gradient(135deg, #84cc16, #65a30d); color: white; }
         .notification-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
@@ -95,7 +95,7 @@
 
         /* KPI CARDS */
         .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
-        .kpi-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .kpi-card { background: white; border-radius: 16px; padding: 24px; box-shaçãow: 0 1px 3px rgba(0,0,0,0.05); }
         .kpi-card.highlight { background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%); color: white; }
         .kpi-card.highlight .kpi-content h3 { color: rgba(255,255,255,0.8); }
         .kpi-card.highlight .kpi-icon { background: rgba(255,255,255,0.2); color: white; }
@@ -117,7 +117,7 @@
 
         /* CONCILIACAO GRID */
         .conciliacao-grid { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 24px; margin-bottom: 24px; }
-        .conciliacao-panel { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .conciliacao-panel { background: white; border-radius: 16px; overflow: hidden; box-shaçãow: 0 1px 3px rgba(0,0,0,0.05); }
         .panel-header { padding: 20px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .panel-header h3 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .panel-header h3 i { color: var(--primary-blue); }
@@ -130,7 +130,7 @@
         .match-column { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; padding: 20px 0; }
         .match-btn { width: 60px; height: 60px; border-radius: 50%; border: none; cursor: pointer; font-size: 20px; transition: all 0.3s; }
         .match-btn.link { background: var(--success); color: white; }
-        .match-btn.link:hover { transform: scale(1.1); box-shadow: 0 4px 15px rgba(34,197,94,0.4); }
+        .match-btn.link:hover { transform: scale(1.1); box-shaçãow: 0 4px 15px rgba(34,197,94,0.4); }
         .match-btn.unlink { background: var(--danger); color: white; }
         .match-btn.auto { background: var(--primary-blue); color: white; }
         .match-info { text-align: center; font-size: 12px; color: var(--text-secondary); }
@@ -140,8 +140,8 @@
         .item-row { display: flex; align-items: center; padding: 16px 20px; border-bottom: 1px solid #f1f5f9; cursor: pointer; transition: all 0.2s; }
         .item-row:hover { background: var(--bg-gray); }
         .item-row.selected { background: rgba(132,204,22,0.05); border-left: 3px solid var(--primary-blue); }
-        .item-row.conciliado { background: rgba(34,197,94,0.05); }
-        .item-row.conciliado::after { content: '✓'; position: absolute; right: 20px; color: var(--success); font-weight: bold; }
+        .item-row.conciliação { background: rgba(34,197,94,0.05); }
+        .item-row.conciliação::after { content: '✓'; position: absolute; right: 20px; color: var(--success); font-weight: bold; }
         .item-check { width: 20px; height: 20px; border: 2px solid var(--border-color); border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center; }
         .item-check.checked { background: var(--primary-blue); border-color: var(--primary-blue); color: white; }
         .item-info { flex: 1; }
@@ -154,11 +154,11 @@
         /* STATUS BADGES */
         .status-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; }
         .status-badge.pendente { background: rgba(245,158,11,0.1); color: var(--warning); }
-        .status-badge.conciliado { background: rgba(34,197,94,0.1); color: var(--success); }
+        .status-badge.conciliação { background: rgba(34,197,94,0.1); color: var(--success); }
         .status-badge.divergente { background: rgba(239,68,68,0.1); color: var(--danger); }
 
         /* CARD */
-        .card { background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
+        .card { background: white; border-radius: 16px; box-shaçãow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
         .card-header { padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .card-header h3 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .card-header h3 i { color: var(--primary-blue); }
@@ -259,8 +259,8 @@
                             <div class="kpi-icon"><i class="fas fa-check-double"></i></div>
                         </div>
                         <div class="kpi-content">
-                            <h3>Lançamentos Conciliados</h3>
-                            <div class="kpi-value" id="totalConciliados">0</div>
+                            <h3>Lançamentos Conciliaçãos</h3>
+                            <div class="kpi-value" id="totalConciliaçãos">0</div>
                         </div>
                     </div>
                     <div class="kpi-card">
@@ -327,10 +327,10 @@
 
                     <!-- Match Column -->
                     <div class="match-column">
-                        <button class="match-btn link" onclick="conciliarSelecionados()" title="Conciliar Selecionados">
+                        <button class="match-btn link" onclick="conciliarSelecionaçãos()" title="Conciliar Selecionaçãos">
                             <i class="fas fa-link"></i>
                         </button>
-                        <button class="match-btn unlink" onclick="desconciliarSelecionados()" title="Desfazer Conciliação">
+                        <button class="match-btn unlink" onclick="desconciliarSelecionaçãos()" title="Desfazer Conciliação">
                             <i class="fas fa-unlink"></i>
                         </button>
                         <button class="match-btn auto" onclick="conciliarAutomatico()" title="Conciliar Automático">
@@ -402,35 +402,35 @@
     </div>
 
     <script>
-        // Dados
+        // Daçãos
         let lancamentosSistema = [
-            { id: 1, data: '2024-12-20', descricao: 'Recebimento Cliente ABC', tipo: 'entrada', valor: 15000, conciliado: false },
-            { id: 2, data: '2024-12-19', descricao: 'Pagamento Fornecedor XYZ', tipo: 'saida', valor: 8500, conciliado: true, extratoId: 2 },
-            { id: 3, data: '2024-12-18', descricao: 'Venda Projeto Residencial', tipo: 'entrada', valor: 22000, conciliado: true, extratoId: 3 },
-            { id: 4, data: '2024-12-17', descricao: 'Conta de Energia', tipo: 'saida', valor: 1850, conciliado: false },
-            { id: 5, data: '2024-12-16', descricao: 'Folha de Pagamento', tipo: 'saida', valor: 28750, conciliado: true, extratoId: 5 },
-            { id: 6, data: '2024-12-15', descricao: 'Recebimento Parcela', tipo: 'entrada', valor: 8500, conciliado: false },
-            { id: 7, data: '2024-12-14', descricao: 'Material de Escritório', tipo: 'saida', valor: 450, conciliado: false },
+            { id: 1, data: '2024-12-20', descricao: 'Recebimento Cliente ABC', tipo: 'entrada', valor: 15000, conciliação: false },
+            { id: 2, data: '2024-12-19', descricao: 'Pagamento Fornecedor XYZ', tipo: 'saida', valor: 8500, conciliação: true, extratoId: 2 },
+            { id: 3, data: '2024-12-18', descricao: 'Venda Projeto Residencial', tipo: 'entrada', valor: 22000, conciliação: true, extratoId: 3 },
+            { id: 4, data: '2024-12-17', descricao: 'Conta de Energia', tipo: 'saida', valor: 1850, conciliação: false },
+            { id: 5, data: '2024-12-16', descricao: 'Folha de Pagamento', tipo: 'saida', valor: 28750, conciliação: true, extratoId: 5 },
+            { id: 6, data: '2024-12-15', descricao: 'Recebimento Parcela', tipo: 'entrada', valor: 8500, conciliação: false },
+            { id: 7, data: '2024-12-14', descricao: 'Material de Escritório', tipo: 'saida', valor: 450, conciliação: false },
         ];
 
         let lancamentosExtrato = [
-            { id: 1, data: '2024-12-20', descricao: 'TED RECEBIDA - CLIENTE ABC LTDA', tipo: 'entrada', valor: 15000, conciliado: false },
-            { id: 2, data: '2024-12-19', descricao: 'PAG FORNEC XYZ', tipo: 'saida', valor: 8500, conciliado: true, sistemaId: 2 },
-            { id: 3, data: '2024-12-18', descricao: 'DEP CHEQUE', tipo: 'entrada', valor: 22000, conciliado: true, sistemaId: 3 },
-            { id: 4, data: '2024-12-17', descricao: 'DEB AUT ELETROPAULO', tipo: 'saida', valor: 1850, conciliado: false },
-            { id: 5, data: '2024-12-16', descricao: 'TRANSF SALARIOS', tipo: 'saida', valor: 28750, conciliado: true, sistemaId: 5 },
-            { id: 6, data: '2024-12-15', descricao: 'TAXA DOC/TED', tipo: 'saida', valor: 12.50, conciliado: false },
-            { id: 7, data: '2024-12-14', descricao: 'IOF', tipo: 'saida', valor: 35.80, conciliado: false },
+            { id: 1, data: '2024-12-20', descricao: 'TED RECEBIDA - CLIENTE ABC LTDA', tipo: 'entrada', valor: 15000, conciliação: false },
+            { id: 2, data: '2024-12-19', descricao: 'PAG FORNEC XYZ', tipo: 'saida', valor: 8500, conciliação: true, sistemaId: 2 },
+            { id: 3, data: '2024-12-18', descricao: 'DEP CHEQUE', tipo: 'entrada', valor: 22000, conciliação: true, sistemaId: 3 },
+            { id: 4, data: '2024-12-17', descricao: 'DEB AUT ELETROPAULO', tipo: 'saida', valor: 1850, conciliação: false },
+            { id: 5, data: '2024-12-16', descricao: 'TRANSF SALARIOS', tipo: 'saida', valor: 28750, conciliação: true, sistemaId: 5 },
+            { id: 6, data: '2024-12-15', descricao: 'TAXA DOC/TED', tipo: 'saida', valor: 12.50, conciliação: false },
+            { id: 7, data: '2024-12-14', descricao: 'IOF', tipo: 'saida', valor: 35.80, conciliação: false },
         ];
 
         let historico = [
-            { id: 1, data: '2024-12-19', sistemaDesc: 'Pagamento Fornecedor XYZ', extratoDesc: 'PAG FORNEC XYZ', valor: 8500, status: 'conciliado' },
-            { id: 2, data: '2024-12-18', sistemaDesc: 'Venda Projeto Residencial', extratoDesc: 'DEP CHEQUE', valor: 22000, status: 'conciliado' },
-            { id: 3, data: '2024-12-16', sistemaDesc: 'Folha de Pagamento', extratoDesc: 'TRANSF SALARIOS', valor: 28750, status: 'conciliado' },
+            { id: 1, data: '2024-12-19', sistemaDesc: 'Pagamento Fornecedor XYZ', extratoDesc: 'PAG FORNEC XYZ', valor: 8500, status: 'conciliação' },
+            { id: 2, data: '2024-12-18', sistemaDesc: 'Venda Projeto Residencial', extratoDesc: 'DEP CHEQUE', valor: 22000, status: 'conciliação' },
+            { id: 3, data: '2024-12-16', sistemaDesc: 'Folha de Pagamento', extratoDesc: 'TRANSF SALARIOS', valor: 28750, status: 'conciliação' },
         ];
 
-        let sistemasSelecionados = [];
-        let extratosSelecionados = [];
+        let sistemasSelecionaçãos = [];
+        let extratosSelecionaçãos = [];
 
         // Init
         document.addEventListener('DOMContentLoaded', function() {
@@ -447,7 +447,7 @@
                     const user = await response.json();
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
 
                     // Atualizar saudação dinâmica baseada na hora
                     const greetingTextEl = document.getElementById('greeting-text');
@@ -479,14 +479,14 @@
         }
 
         function atualizarKPIs() {
-            const conciliados = lancamentosSistema.filter(l => l.conciliado).length;
-            const pendentesSistema = lancamentosSistema.filter(l => !l.conciliado).length;
-            const pendentesExtrato = lancamentosExtrato.filter(l => !l.conciliado).length;
+            const conciliaçãos = lancamentosSistema.filter(l => l.conciliação).length;
+            const pendentesSistema = lancamentosSistema.filter(l => !l.conciliação).length;
+            const pendentesExtrato = lancamentosExtrato.filter(l => !l.conciliação).length;
             
             // Calcular divergências (itens no extrato sem correspondente no sistema)
-            const divergencias = lancamentosExtrato.filter(e => !e.conciliado && !lancamentosSistema.some(s => s.valor === e.valor && !s.conciliado)).length;
+            const divergencias = lancamentosExtrato.filter(e => !e.conciliação && !lancamentosSistema.some(s => s.valor === e.valor && !s.conciliação)).length;
 
-            document.getElementById('totalConciliados').textContent = conciliados;
+            document.getElementById('totalConciliaçãos').textContent = conciliaçãos;
             document.getElementById('pendentesSistema').textContent = pendentesSistema;
             document.getElementById('pendentesExtrato').textContent = pendentesExtrato;
             document.getElementById('divergencias').textContent = divergencias;
@@ -496,17 +496,17 @@
             // Sistema
             const listaSistema = document.getElementById('listaSistema');
             listaSistema.innerHTML = lancamentosSistema.map(item => `
-                <li class="item-row ${item.conciliado ? 'conciliado' : ''} ${sistemasSelecionados.includes(item.id) ? 'selected' : ''}" 
+                <li class="item-row ${item.conciliação  'conciliação' : ''} ${sistemasSelecionaçãos.includes(item.id)  'selected' : ''}" 
                     onclick="toggleSelecaoSistema(${item.id})" style="position: relative;">
-                    <div class="item-check ${sistemasSelecionados.includes(item.id) ? 'checked' : ''}">
-                        ${sistemasSelecionados.includes(item.id) ? '<i class="fas fa-check" style="font-size:12px;"></i>' : ''}
+                    <div class="item-check ${sistemasSelecionaçãos.includes(item.id)  'checked' : ''}">
+                        ${sistemasSelecionaçãos.includes(item.id)  '<i class="fas fa-check" style="font-size:12px;"></i>' : ''}
                     </div>
                     <div class="item-info">
                         <div class="data">${formatarData(item.data)}</div>
                         <div class="descricao">${item.descricao}</div>
                     </div>
                     <div class="item-valor ${item.tipo}">
-                        ${item.tipo === 'entrada' ? '+' : '-'}${formatarMoeda(item.valor)}
+                        ${item.tipo === 'entrada'  '+' : '-'}${formatarMoeda(item.valor)}
                     </div>
                 </li>
             `).join('');
@@ -514,17 +514,17 @@
             // Extrato
             const listaExtrato = document.getElementById('listaExtrato');
             listaExtrato.innerHTML = lancamentosExtrato.map(item => `
-                <li class="item-row ${item.conciliado ? 'conciliado' : ''} ${extratosSelecionados.includes(item.id) ? 'selected' : ''}"
+                <li class="item-row ${item.conciliação  'conciliação' : ''} ${extratosSelecionaçãos.includes(item.id)  'selected' : ''}"
                     onclick="toggleSelecaoExtrato(${item.id})" style="position: relative;">
-                    <div class="item-check ${extratosSelecionados.includes(item.id) ? 'checked' : ''}">
-                        ${extratosSelecionados.includes(item.id) ? '<i class="fas fa-check" style="font-size:12px;"></i>' : ''}
+                    <div class="item-check ${extratosSelecionaçãos.includes(item.id)  'checked' : ''}">
+                        ${extratosSelecionaçãos.includes(item.id)  '<i class="fas fa-check" style="font-size:12px;"></i>' : ''}
                     </div>
                     <div class="item-info">
                         <div class="data">${formatarData(item.data)}</div>
                         <div class="descricao">${item.descricao}</div>
                     </div>
                     <div class="item-valor ${item.tipo}">
-                        ${item.tipo === 'entrada' ? '+' : '-'}${formatarMoeda(item.valor)}
+                        ${item.tipo === 'entrada'  '+' : '-'}${formatarMoeda(item.valor)}
                     </div>
                 </li>
             `).join('');
@@ -538,7 +538,7 @@
                     <td>${item.sistemaDesc}</td>
                     <td>${item.extratoDesc}</td>
                     <td><strong>${formatarMoeda(item.valor)}</strong></td>
-                    <td><span class="status-badge ${item.status}">${item.status === 'conciliado' ? 'Conciliado' : 'Divergente'}</span></td>
+                    <td><span class="status-badge ${item.status}">${item.status === 'conciliação'  'Conciliação' : 'Divergente'}</span></td>
                     <td>
                         <button class="btn btn-secondary btn-sm" onclick="desconciliar(${item.id})">
                             <i class="fas fa-unlink"></i>
@@ -550,56 +550,56 @@
 
         function toggleSelecaoSistema(id) {
             const item = lancamentosSistema.find(l => l.id === id);
-            if (item.conciliado) return;
+            if (item.conciliação) return;
             
-            const index = sistemasSelecionados.indexOf(id);
+            const index = sistemasSelecionaçãos.indexOf(id);
             if (index > -1) {
-                sistemasSelecionados.splice(index, 1);
+                sistemasSelecionaçãos.splice(index, 1);
             } else {
-                sistemasSelecionados.push(id);
+                sistemasSelecionaçãos.push(id);
             }
             renderizarListas();
         }
 
         function toggleSelecaoExtrato(id) {
             const item = lancamentosExtrato.find(l => l.id === id);
-            if (item.conciliado) return;
+            if (item.conciliação) return;
             
-            const index = extratosSelecionados.indexOf(id);
+            const index = extratosSelecionaçãos.indexOf(id);
             if (index > -1) {
-                extratosSelecionados.splice(index, 1);
+                extratosSelecionaçãos.splice(index, 1);
             } else {
-                extratosSelecionados.push(id);
+                extratosSelecionaçãos.push(id);
             }
             renderizarListas();
         }
 
-        function conciliarSelecionados() {
-            if (sistemasSelecionados.length === 0 || extratosSelecionados.length === 0) {
-                alert('Selecione pelo menos um item de cada lado para conciliar');
+        function conciliarSelecionaçãos() {
+            if (sistemasSelecionaçãos.length === 0 || extratosSelecionaçãos.length === 0) {
+                alert('Selecione pelo menos um item de cada lação para conciliar');
                 return;
             }
 
-            // Conciliar os itens selecionados
-            sistemasSelecionados.forEach(sId => {
+            // Conciliar os itens selecionaçãos
+            sistemasSelecionaçãos.forEach(sId => {
                 const sis = lancamentosSistema.find(l => l.id === sId);
                 if (sis) {
-                    sis.conciliado = true;
-                    sis.extratoId = extratosSelecionados[0];
+                    sis.conciliação = true;
+                    sis.extratoId = extratosSelecionaçãos[0];
                 }
             });
 
-            extratosSelecionados.forEach(eId => {
+            extratosSelecionaçãos.forEach(eId => {
                 const ext = lancamentosExtrato.find(l => l.id === eId);
                 if (ext) {
-                    ext.conciliado = true;
-                    ext.sistemaId = sistemasSelecionados[0];
+                    ext.conciliação = true;
+                    ext.sistemaId = sistemasSelecionaçãos[0];
                 }
             });
 
             // Adicionar ao histórico
-            const sis = lancamentosSistema.find(l => l.id === sistemasSelecionados[0]);
-            const ext = lancamentosExtrato.find(l => l.id === extratosSelecionados[0]);
+            const sis = lancamentosSistema.find(l => l.id === sistemasSelecionaçãos[0]);
+            const ext = lancamentosExtrato.find(l => l.id === extratosSelecionaçãos[0]);
             if (sis && ext) {
                 historico.unshift({
                     id: historico.length + 1,
@@ -607,39 +607,39 @@
                     sistemaDesc: sis.descricao,
                     extratoDesc: ext.descricao,
                     valor: sis.valor,
-                    status: 'conciliado'
+                    status: 'conciliação'
                 });
             }
 
             // Limpar seleções
-            sistemasSelecionados = [];
-            extratosSelecionados = [];
+            sistemasSelecionaçãos = [];
+            extratosSelecionaçãos = [];
 
             atualizarKPIs();
             renderizarListas();
             renderizarHistorico();
-            alert('Lançamentos conciliados com sucesso!');
+            alert('Lançamentos conciliaçãos com sucesso!');
         }
 
-        function desconciliarSelecionados() {
-            alert('Selecione um item conciliado no histórico para desfazer');
+        function desconciliarSelecionaçãos() {
+            alert('Selecione um item conciliação no histórico para desfazer');
         }
 
         function conciliarAutomatico() {
-            let conciliados = 0;
+            let conciliaçãos = 0;
 
             // Encontrar correspondências por valor e data próxima
-            lancamentosSistema.filter(s => !s.conciliado).forEach(sis => {
+            lancamentosSistema.filter(s => !s.conciliação).forEach(sis => {
                 const match = lancamentosExtrato.find(ext => 
-                    !ext.conciliado && 
+                    !ext.conciliação && 
                     ext.valor === sis.valor && 
                     ext.tipo === sis.tipo
                 );
 
                 if (match) {
-                    sis.conciliado = true;
+                    sis.conciliação = true;
                     sis.extratoId = match.id;
-                    match.conciliado = true;
+                    match.conciliação = true;
                     match.sistemaId = sis.id;
 
                     historico.unshift({
@@ -648,21 +648,21 @@
                         sistemaDesc: sis.descricao,
                         extratoDesc: match.descricao,
                         valor: sis.valor,
-                        status: 'conciliado'
+                        status: 'conciliação'
                     });
 
-                    conciliados++;
+                    conciliaçãos++;
                 }
             });
 
             atualizarKPIs();
             renderizarListas();
             renderizarHistorico();
-            alert(`Conciliação automática concluída!\n${conciliados} lançamento(s) conciliado(s).`);
+            alert(`Conciliação automática concluída!\n${conciliaçãos} lançamento(s) conciliação(s).`);
         }
 
         function desconciliar(id) {
-            if (confirm('Deseja realmente desfazer esta conciliação?')) {
+            if (confirm('Deseja realmente desfazer esta conciliação')) {
                 const item = historico.find(h => h.id === id);
                 if (item) {
                     // Encontrar e desconciliar
@@ -670,11 +670,11 @@
                     const ext = lancamentosExtrato.find(e => e.descricao === item.extratoDesc);
                     
                     if (sis) {
-                        sis.conciliado = false;
+                        sis.conciliação = false;
                         delete sis.extratoId;
                     }
                     if (ext) {
-                        ext.conciliado = false;
+                        ext.conciliação = false;
                         delete ext.sistemaId;
                     }
 
@@ -690,7 +690,7 @@
 
         function aplicarFiltros() {
             // Implementar filtros
-            console.log('Filtros aplicados');
+            console.log('Filtros aplicaçãos');
             renderizarListas();
         }
 
@@ -718,32 +718,32 @@
 
             // Simular importação
             fecharModal('modalImportar');
-            alert('Extrato importado com sucesso!\n\nForam importados 15 novos lançamentos.');
+            alert('Extrato importação com sucesso!\n\nForam importaçãos 15 novos lançamentos.');
             
             // Adicionar alguns lançamentos de exemplo
             lancamentosExtrato.push(
-                { id: 8, data: '2024-12-21', descricao: 'PIX RECEBIDO', tipo: 'entrada', valor: 3500, conciliado: false },
-                { id: 9, data: '2024-12-21', descricao: 'TARIFA MANUT CONTA', tipo: 'saida', valor: 28.50, conciliado: false }
+                { id: 8, data: '2024-12-21', descricao: 'PIX RECEBIDO', tipo: 'entrada', valor: 3500, conciliação: false },
+                { id: 9, data: '2024-12-21', descricao: 'TARIFA MANUT CONTA', tipo: 'saida', valor: 28.50, conciliação: false }
             );
 
             atualizarKPIs();
             renderizarListas();
         }
 
-        // Sistema de Notificações gerenciado pelo NotificationsManager global
+        // Sistema de Notificações gerenciação pelo NotificationsManager global
     </script>
 
     <script src="financeiro.js"></script>
-    <script src="public/js/financeiro-user-loader.js?v=20251227"></script>
+    <script src="public/js/financeiro-user-loader.jsv=20251227"></script>
     
     <!-- Sistema de Notificações Global -->
-    <script src="public/js/notifications-manager.js?v=20251227"></script>
-    <script src="public/js/notification-button.js?v=20251227"></script>
+    <script src="public/js/notifications-manager.jsv=20251227"></script>
+    <script src="public/js/notification-button.jsv=20251227"></script>
     
     <!-- Sistema de Chat e Suporte -->
-    <script src="public/js/chat-suporte-widgets.js?v=20260103"></script>
+    <script src="public/js/chat-suporte-widgets.jsv=20260103"></script>
     
     <!-- Sistema de Monitoramento de Conexão -->
-    <script src="../_shared/connection-monitor.js?v=20251227"></script></body>
+    <script src="../_shared/connection-monitor.jsv=20251227"></script></body>
 </html>
 

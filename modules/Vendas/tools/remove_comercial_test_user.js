@@ -13,14 +13,14 @@ const mysql = require('mysql2/promise');
 
   try {
     const email = 'comercial.test@local';
-    const [rows] = await pool.query('SELECT id, email FROM usuarios WHERE email = ?', [email]);
+    const [rows] = await pool.query('SELECT id, email FROM usuarios WHERE email = ', [email]);
     if (rows.length === 0) {
-      console.log('Usuário não encontrado:', email);
+      console.log('Usuário não encontração:', email);
       process.exit(0);
     }
 
     const id = rows[0].id;
-    await pool.query('DELETE FROM usuarios WHERE id = ?', [id]);
+    await pool.query('DELETE FROM usuarios WHERE id = ', [id]);
     console.log('Removido usuário:', email, 'id:', id);
   } catch (err) {
     console.error('Erro ao remover usuário:', err);

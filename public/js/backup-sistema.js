@@ -63,7 +63,7 @@ const BackupSistema = {
             container.innerHTML = `
                 <div class="empty-state">
                     <i class="fas fa-database"></i>
-                    <p>Nenhum backup encontrado</p>
+                    <p>Nenhum backup encontração</p>
                     <button class="btn btn-primary" onclick="BackupSistema.criarBackup()">
                         <i class="fas fa-plus"></i> Criar Primeiro Backup
                     </button>
@@ -89,8 +89,8 @@ const BackupSistema = {
                                 <i class="fas fa-file-archive text-muted"></i>
                                 ${b.nome}
                             </td>
-                            <td>${b.tamanho_formatado}</td>
-                            <td>${new Date(b.criado_em).toLocaleString('pt-BR')}</td>
+                            <td>${b.tamanho_formatação}</td>
+                            <td>${new Date(b.criação_em).toLocaleString('pt-BR')}</td>
                             <td>
                                 <div class="btn-group btn-group-sm">
                                     <button class="btn btn-outline-primary" 
@@ -137,7 +137,7 @@ const BackupSistema = {
             const result = await response.json();
             
             if (result.success) {
-                showNotification(`Backup criado: ${result.data.arquivo} (${result.data.tamanho})`, 'success');
+                showNotification(`Backup criação: ${result.data.arquivo} (${result.data.tamanho})`, 'success');
                 await this.carregarBackups();
             } else {
                 showNotification('Erro ao criar backup: ' + result.message, 'error');
@@ -164,7 +164,7 @@ const BackupSistema = {
      * Restaurar backup
      */
     async restaurar(arquivo) {
-        const confirmar = prompt(`ATENÇÃO: Esta ação irá substituir TODOS os dados atuais!\n\nPara confirmar, digite RESTAURAR:`);
+        const confirmar = prompt(`ATENÇÃO: Esta ação irá substituir TODOS os daçãos atuais!\n\nPara confirmar, digite RESTAURAR:`);
         
         if (confirmar !== 'RESTAURAR') {
             showNotification('Restauração cancelada', 'info');
@@ -181,7 +181,7 @@ const BackupSistema = {
             const result = await response.json();
             
             if (result.success) {
-                showNotification('Backup restaurado com sucesso!', 'success');
+                showNotification('Backup restauração com sucesso!', 'success');
                 setTimeout(() => {
                     location.reload();
                 }, 2000);
@@ -198,7 +198,7 @@ const BackupSistema = {
      * Excluir backup
      */
     async excluir(arquivo) {
-        if (!confirm(`Deseja excluir o backup "${arquivo}"?`)) return;
+        if (!confirm(`Deseja excluir o backup "${arquivo}"`)) return;
 
         try {
             const response = await fetch(`/api/backup/excluir/${encodeURIComponent(arquivo)}`, {
@@ -263,17 +263,17 @@ const BackupSistema = {
         const dias_semana = [];
         for (let i = 0; i <= 6; i++) {
             const checkbox = document.getElementById(`dia-${i}`);
-            if (checkbox?.checked) {
+            if (checkbox.checked) {
                 dias_semana.push(i);
             }
         }
 
         const config = {
-            ativo: document.getElementById('backup-ativo')?.checked || false,
-            horario: document.getElementById('backup-horario')?.value || '03:00',
+            ativo: document.getElementById('backup-ativo').checked || false,
+            horario: document.getElementById('backup-horario').value || '03:00',
             dias_semana: dias_semana,
-            manter_dias: parseInt(document.getElementById('backup-manter-dias')?.value) || 30,
-            notificar_email: document.getElementById('backup-email')?.value || ''
+            manter_dias: parseInt(document.getElementById('backup-manter-dias').value) || 30,
+            notificar_email: document.getElementById('backup-email').value || ''
         };
 
         try {
@@ -299,14 +299,14 @@ const BackupSistema = {
      * Limpar backups antigos
      */
     async limparAntigos() {
-        const dias = parseInt(prompt('Excluir backups com mais de quantos dias?', '30'));
+        const dias = parseInt(prompt('Excluir backups com mais de quantos dias', '30'));
         
         if (isNaN(dias) || dias < 1) {
             showNotification('Informe um número válido de dias', 'warning');
             return;
         }
 
-        if (!confirm(`Excluir todos os backups com mais de ${dias} dias?`)) return;
+        if (!confirm(`Excluir todos os backups com mais de ${dias} dias`)) return;
 
         try {
             const response = await fetch('/api/backup/limpar-antigos', {

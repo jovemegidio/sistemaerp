@@ -2,12 +2,12 @@ const mysql = require('mysql2/promise');
 const fs = require('fs');
 require('dotenv').config();
 
-// Dados fornecidos pelo usuário
-const dadosClientes = `Cliente;51.604.560/0001-96;"CONSORCIO SMART CITY SP";"CONSORCIO SMART CITY SP";" (11) 9313-1307";;financeiro@smartcitybr.com.br;"São Bernardo do Campo (SP)";SP;"AVENIDA IMPERATRIZ LEOPOLDINA, 240 - SALA 1 EDIF CLOVIS C. BODINI";"NOVA PETROPOLIS";09770-271;;;;;Sim;;"Prestação de Serviços";;"Renata Alves";;Não;Não;,00;7305,90;;" ";;;"2025-02-13 17:29:09";"2025-11-27 17:26:42";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitorado"
-Cliente;04.528.571/0001-54;"M.S. COMERCIO DE MATERIAIS E MANUTENCOES ELETRICAS LTDA";"ELETTRO PONTO MATERIAIS ELETRICOS";" (15) 3251-1444";;elettroponto@hotmail.com;"Tatuí (SP)";SP;"RUA QUINZE DE NOVEMBRO, 601";CENTRO;18270-310;;;;687.156.661.116;Sim;;;;"Augusto Santos";;Não;Não;,00;11015,00;;" ";;;"2025-02-13 17:29:09";"2025-05-30 09:56:53";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitorado"
-Cliente;44.711.104/0001-80;"CASA DA ELETRICIDADE LTDA";"CASA DA ELETRICIDADE";" (34) 3427-2612";;casadaeletricidadeplanura@hotmail.com;"Planura (MG)";MG;"RUA FRONTEIRA, 334";"VILA PAIVA";38220-000;;;;004.231.492/0066;Sim;;Industrial;;;;Não;Não;,00;2745,00;;" ";;;"2025-02-13 17:29:10";"2025-11-28 11:26:08";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitorado"`;
+// Daçãos fornecidos pelo usuário
+const daçãosClientes = `Cliente;51.604.560/0001-96;"CONSORCIO SMART CITY SP";"CONSORCIO SMART CITY SP";" (11) 9313-1307";;financeiro@smartcitybr.com.br;"São Bernardo do Campo (SP)";SP;"AVENIDA IMPERATRIZ LEOPOLDINA, 240 - SALA 1 EDIF CLOVIS C. BODINI";"NOVA PETROPOLIS";09770-271;;;;;Sim;;"Prestação de Serviços";;"Renata Alves";;Não;Não;,00;7305,90;;" ";;;"2025-02-13 17:29:09";"2025-11-27 17:26:42";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitoração"
+Cliente;04.528.571/0001-54;"M.S. COMERCIO DE MATERIAIS E MANUTENCOES ELETRICAS LTDA";"ELETTRO PONTO MATERIAIS ELETRICOS";" (15) 3251-1444";;elettroponto@hotmail.com;"Tatuí (SP)";SP;"RUA QUINZE DE NOVEMBRO, 601";CENTRO;18270-310;;;;687.156.661.116;Sim;;;;"Augusto Santos";;Não;Não;,00;11015,00;;" ";;;"2025-02-13 17:29:09";"2025-05-30 09:56:53";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitoração"
+Cliente;44.711.104/0001-80;"CASA DA ELETRICIDADE LTDA";"CASA DA ELETRICIDADE";" (34) 3427-2612";;casadaeletricidadeplanura@hotmail.com;"Planura (MG)";MG;"RUA FRONTEIRA, 334";"VILA PAIVA";38220-000;;;;004.231.492/0066;Sim;;Industrial;;;;Não;Não;,00;2745,00;;" ";;;"2025-02-13 17:29:10";"2025-11-28 11:26:08";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitoração"`;
 
-// Configuração do banco de dados
+// Configuração do banco de daçãos
 const dbConfig = {
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -54,12 +54,12 @@ async function importarClientes() {
     let connection;
     
     try {
-        console.log('🔌 Conectando ao banco de dados...');
+        console.log('🔌 Conectando ao banco de daçãos...');
         connection = await mysql.createConnection(dbConfig);
-        console.log('✅ Conectado ao banco de dados!\n');
+        console.log('✅ Conectação ao banco de daçãos!\n');
 
         // Processar linhas
-        const linhas = dadosClientes.trim().split('\n');
+        const linhas = daçãosClientes.trim().split('\n');
         let sucessos = 0;
         let erros = 0;
 
@@ -90,7 +90,7 @@ async function importarClientes() {
                 }
                 campos.push(campoAtual.trim());
 
-                // Extrair dados
+                // Extrair daçãos
                 const tags = campos[0] || null;
                 const cnpj_cpf = limparCNPJ_CPF(campos[1]);
                 const razao_social = campos[2] || null;
@@ -98,8 +98,8 @@ async function importarClientes() {
                 const telefone = limparTelefone(campos[4]);
                 const contato = campos[5] || null;
                 const email = campos[6] || null;
-                const cidadeEstado = campos[7] || '';
-                const estado = campos[8] || null;
+                const cidadeEstação = campos[7] || '';
+                const estação = campos[8] || null;
                 const endereco = campos[9] || null;
                 const bairro = campos[10] || null;
                 const cep = limparCEP(campos[11]);
@@ -107,21 +107,21 @@ async function importarClientes() {
                 const agencia = campos[13] || null;
                 const conta_corrente = campos[14] || null;
                 const inscricao_estadual = campos[15] || null;
-                const contribuinte_icms = (campos[16]?.toLowerCase() === 'sim') ? 1 : 0;
+                const contribuinte_icms = (campos[16].toLowerCase() === 'sim')  1 : 0;
                 const inscricao_municipal = campos[17] || null;
                 const tipo_atividade = campos[18] || null;
                 const vendedor_responsavel = campos[20] || null;
                 const credito_total = processarValor(campos[24]);
                 const total_a_receber = processarValor(campos[25]);
                 const credito_disponivel = processarValor(campos[26]);
-                const transportadora = campos[29] || null;
+                const transportaçãora = campos[29] || null;
                 const data_inclusao = processarData(campos[30]);
                 const data_ultima_alteracao = processarData(campos[31]);
                 const incluido_por = campos[32] || null;
-                const alterado_por = campos[33] || null;
+                const alteração_por = campos[33] || null;
 
                 // Extrair cidade
-                const cidade = cidadeEstado.replace(/\s*\([A-Z]{2}\)\s*$/, '');
+                const cidade = cidadeEstação.replace(/\s*\([A-Z]{2}\)\s*$/, '');
                 const nome = razao_social || nome_fantasia;
 
                 // Determinar CNPJ ou CPF
@@ -139,48 +139,48 @@ async function importarClientes() {
                 let empresa_id = null;
                 if (cnpj) {
                     const [empresasExistentes] = await connection.query(
-                        'SELECT id FROM empresas WHERE cnpj = ?',
+                        'SELECT id FROM empresas WHERE cnpj = ',
                         [cnpj]
                     );
                     
                     if (empresasExistentes.length > 0) {
                         empresa_id = empresasExistentes[0].id;
                     } else {
-                        const [resultado] = await connection.query(
+                        const [resultação] = await connection.query(
                             `INSERT INTO empresas (
                                 razao_social, nome_fantasia, cnpj, email, telefone,
-                                endereco, bairro, cidade, estado, cep
-                            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                                endereco, bairro, cidade, estação, cep
+                            ) VALUES (, , , , , , , , , )`,
                             [razao_social, nome_fantasia, cnpj, email, telefone, 
-                             endereco, bairro, cidade, estado, cep]
+                             endereco, bairro, cidade, estação, cep]
                         );
-                        empresa_id = resultado.insertId;
+                        empresa_id = resultação.insertId;
                     }
                 }
 
                 if (!empresa_id) {
-                    const [resultado] = await connection.query(
+                    const [resultação] = await connection.query(
                         `INSERT INTO empresas (
                             razao_social, nome_fantasia, email, telefone,
-                            endereco, bairro, cidade, estado, cep
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                            endereco, bairro, cidade, estação, cep
+                        ) VALUES (, , , , , , , , )`,
                         [razao_social || nome, nome_fantasia || nome, email, telefone, 
-                         endereco, bairro, cidade, estado, cep]
+                         endereco, bairro, cidade, estação, cep]
                     );
-                    empresa_id = resultado.insertId;
+                    empresa_id = resultação.insertId;
                 }
 
                 // Inserir ou atualizar cliente
                 const query = `
                     INSERT INTO clientes (
                         tags, nome, razao_social, nome_fantasia, cnpj_cpf, cnpj, cpf,
-                        contato, email, telefone, endereco, bairro, cidade, estado, cep,
+                        contato, email, telefone, endereco, bairro, cidade, estação, cep,
                         banco, agencia, conta_corrente, inscricao_estadual, contribuinte_icms,
                         inscricao_municipal, tipo_atividade, vendedor_responsavel, 
-                        credito_total, total_a_receber, credito_disponivel, transportadora,
-                        data_cadastro, data_ultima_alteracao, incluido_por, alterado_por,
+                        credito_total, total_a_receber, credito_disponivel, transportaçãora,
+                        data_cadastro, data_ultima_alteracao, incluido_por, alteração_por,
                         empresa_id, ativo
-                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+                    ) VALUES (, , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , 1)
                     ON DUPLICATE KEY UPDATE
                         tags = VALUES(tags),
                         nome = VALUES(nome),
@@ -192,7 +192,7 @@ async function importarClientes() {
                         endereco = VALUES(endereco),
                         bairro = VALUES(bairro),
                         cidade = VALUES(cidade),
-                        estado = VALUES(estado),
+                        estação = VALUES(estação),
                         cep = VALUES(cep),
                         banco = VALUES(banco),
                         agencia = VALUES(agencia),
@@ -205,26 +205,26 @@ async function importarClientes() {
                         credito_total = VALUES(credito_total),
                         total_a_receber = VALUES(total_a_receber),
                         credito_disponivel = VALUES(credito_disponivel),
-                        transportadora = VALUES(transportadora),
+                        transportaçãora = VALUES(transportaçãora),
                         data_ultima_alteracao = VALUES(data_ultima_alteracao),
-                        alterado_por = VALUES(alterado_por),
+                        alteração_por = VALUES(alteração_por),
                         empresa_id = VALUES(empresa_id)
                 `;
 
                 const values = [
                     tags, nome, razao_social, nome_fantasia, cnpj_cpf, cnpj, cpf,
-                    contato, email, telefone, endereco, bairro, cidade, estado, cep,
+                    contato, email, telefone, endereco, bairro, cidade, estação, cep,
                     banco, agencia, conta_corrente, inscricao_estadual, contribuinte_icms,
                     inscricao_municipal, tipo_atividade, vendedor_responsavel,
-                    credito_total, total_a_receber, credito_disponivel, transportadora,
-                    data_inclusao, data_ultima_alteracao, incluido_por, alterado_por,
+                    credito_total, total_a_receber, credito_disponivel, transportaçãora,
+                    data_inclusao, data_ultima_alteracao, incluido_por, alteração_por,
                     empresa_id
                 ];
 
                 const [result] = await connection.query(query, values);
                 sucessos++;
                 
-                const acao = result.affectedRows === 1 ? 'Inserido' : 'Atualizado';
+                const acao = result.affectedRows === 1  'Inserido' : 'Atualização';
                 console.log(`✅ [${i + 1}/${linhas.length}] ${nome_fantasia || razao_social || nome} - ${acao}`);
                 
             } catch (error) {
@@ -238,7 +238,7 @@ async function importarClientes() {
         console.log('='.repeat(60));
         console.log(`✅ Sucessos: ${sucessos}`);
         console.log(`❌ Erros: ${erros}`);
-        console.log(`📈 Total processado: ${sucessos + erros}`);
+        console.log(`📈 Total processação: ${sucessos + erros}`);
         console.log('='.repeat(60));
 
     } catch (error) {
@@ -246,7 +246,7 @@ async function importarClientes() {
     } finally {
         if (connection) {
             await connection.end();
-            console.log('\n🔌 Conexão com banco de dados encerrada.');
+            console.log('\n🔌 Conexão com banco de daçãos encerrada.');
         }
     }
 }

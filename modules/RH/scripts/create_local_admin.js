@@ -21,13 +21,13 @@ async function main () {
   try {
     const hash = await bcrypt.hash(ADMIN_PASS, 10)
     // Check if user exists by id or email
-    const [rows] = await conn.promise().query('SELECT id FROM funcionarios WHERE id = ? OR email = ? LIMIT 1', [ADMIN_ID, ADMIN_EMAIL])
+    const [rows] = await conn.promise().query('SELECT id FROM funcionarios WHERE id =  OR email =  LIMIT 1', [ADMIN_ID, ADMIN_EMAIL])
     if (rows && rows.length > 0) {
       const id = rows[0].id
-      await conn.promise().query('UPDATE funcionarios SET email = ?, senha = ?, role = ? WHERE id = ?', [ADMIN_EMAIL, hash, 'admin', id])
+      await conn.promise().query('UPDATE funcionarios SET email = , senha = , role =  WHERE id = ', [ADMIN_EMAIL, hash, 'admin', id])
       console.log('Updated existing user id=', id)
     } else {
-      await conn.promise().query('INSERT INTO funcionarios (id, email, senha, nome_completo, role, status) VALUES (?, ?, ?, ?, ?, ?)', [ADMIN_ID, ADMIN_EMAIL, hash, 'Admin Local', 'admin', 'Ativo'])
+      await conn.promise().query('INSERT INTO funcionarios (id, email, senha, nome_completo, role, status) VALUES (, , , , , )', [ADMIN_ID, ADMIN_EMAIL, hash, 'Admin Local', 'admin', 'Ativo'])
       console.log('Inserted new admin id=', ADMIN_ID)
     }
 
@@ -35,7 +35,7 @@ async function main () {
     console.log('Now run: node scripts/generate_jwt.js')
     process.exit(0)
   } catch (e) {
-    console.error('Error:', e && e.message ? e.message : e)
+    console.error('Error:', e && e.message  e.message : e)
     process.exit(1)
   } finally {
     conn.end()

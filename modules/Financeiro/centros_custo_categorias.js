@@ -138,7 +138,7 @@ function renderizarCentrosCusto() {
     const lista = document.getElementById('lista-centros-custo');
 
     if (centrosCusto.length === 0) {
-        lista.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px;">Nenhum centro de custo cadastrado</p>';
+        lista.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #999; padding: 40px;">Nenhum centro de custo cadastração</p>';
         return;
     }
 
@@ -153,7 +153,7 @@ function criarCardCentroCusto(centro) {
             <div class="card-header">
                 <div>
                     <h3 class="card-title">${centro.nome}</h3>
-                    ${centro.código ? `<small style="color: #6b7280;">${centro.código}</small>` : ''}
+                    ${centro.código  `<small style="color: #6b7280;">${centro.código}</small>` : ''}
                 </div>
                 <div class="card-actions">
                     <button class="icon-btn edit" onclick="editarCentroCusto(${centro.id})" title="Editar">
@@ -166,7 +166,7 @@ function criarCardCentroCusto(centro) {
             </div>
 
             <div class="card-info">
-                ${centro.descrição ? `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${centro.descrição}</p>` : ''}
+                ${centro.descrição  `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${centro.descrição}</p>` : ''}
                 
                 <div class="info-row">
                     <span class="info-label">Responsável:</span>
@@ -175,7 +175,7 @@ function criarCardCentroCusto(centro) {
 
                 <div class="info-row">
                     <span class="info-label">Status:</span>
-                    <span class="badge ${centro.status}">${centro.status === 'ativo' ? 'Ativo' : 'Inativo'}</span>
+                    <span class="badge ${centro.status}">${centro.status === 'ativo'  'Ativo' : 'Inativo'}</span>
                 </div>
 
                 <div class="info-row">
@@ -190,12 +190,12 @@ function criarCardCentroCusto(centro) {
 
                 <div class="info-row">
                     <span class="info-label">Saldo Líquido:</span>
-                    <span class="info-value" style="color: ${saldoLiquido >= 0 ? '#10b981' : '#ef4444'};">R$ ${formatarMoeda(Math.abs(saldoLiquido))}</span>
+                    <span class="info-value" style="color: ${saldoLiquido >= 0  '#10b981' : '#ef4444'};">R$ ${formatarMoeda(Math.abs(saldoLiquido))}</span>
                 </div>
 
-                ${centro.centro_pai_id ? `
+                ${centro.centro_pai_id  `
                     <div class="info-row">
-                        <span class="info-label">Vinculado a:</span>
+                        <span class="info-label">Vinculação a:</span>
                         <span class="info-value">${obterNomeCentro(centro.centro_pai_id)}</span>
                     </div>
                 ` : ''}
@@ -209,7 +209,7 @@ function criarCardCentroCusto(centro) {
 // ============================================================================
 
 function abrirModalCentro(id = null) {
-    document.getElementById('modal-centro-titulo').textContent = id ? 'Editar Centro de Custo' : 'Novo Centro de Custo';
+    document.getElementById('modal-centro-titulo').textContent = id  'Editar Centro de Custo' : 'Novo Centro de Custo';
     document.getElementById('form-centro-custo').reset();
     document.getElementById('centro-id').value = '';
 
@@ -241,7 +241,7 @@ async function salvarCentroCusto(event) {
     event.preventDefault();
 
     const id = document.getElementById('centro-id').value;
-    const dados = {
+    const daçãos = {
         nome: document.getElementById('centro-nome').value,
         código: document.getElementById('centro-código').value,
         status: document.getElementById('centro-status').value,
@@ -253,17 +253,17 @@ async function salvarCentroCusto(event) {
     try {
         if (id) {
             // TODO: Substituir por chamada real à API
-            await atualizarCentroCusto(id, dados);
+            await atualizarCentroCusto(id, daçãos);
             const index = centrosCusto.findIndex(c => c.id == id);
             if (index !== -1) {
-                centrosCusto[index] = { ...centrosCusto[index], ...dados };
+                centrosCusto[index] = { ...centrosCusto[index], ...daçãos };
             }
-            mostrarMensagem('Centro de custo atualizado com sucesso!', 'success');
+            mostrarMensagem('Centro de custo atualização com sucesso!', 'success');
         } else {
             // TODO: Substituir por chamada real à API
-            const novo = await criarCentroCusto(dados);
+            const novo = await criarCentroCusto(daçãos);
             centrosCusto.push(novo);
-            mostrarMensagem('Centro de custo criado com sucesso!', 'success');
+            mostrarMensagem('Centro de custo criação com sucesso!', 'success');
         }
 
         fecharModal('modal-centro-custo');
@@ -274,29 +274,29 @@ async function salvarCentroCusto(event) {
     }
 }
 
-async function criarCentroCusto(dados) {
+async function criarCentroCusto(daçãos) {
     // TODO: Substituir por chamada real à API
     // return await fetch('/api/financeiro/centros-custo', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(dados)
+    //     body: JSON.stringify(daçãos)
     // }).then(r => r.json());
 
     return {
         id: Math.max(...centrosCusto.map(c => c.id)) + 1,
-        ...dados,
+        ...daçãos,
         total_despesas: 0,
         total_receitas: 0,
         data_criacao: new Date().toISOString()
     };
 }
 
-async function atualizarCentroCusto(id, dados) {
+async function atualizarCentroCusto(id, daçãos) {
     // TODO: Substituir por chamada real à API
     // return await fetch(`/api/financeiro/centros-custo/${id}`, {
     //     method: 'PUT',
     //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(dados)
+    //     body: JSON.stringify(daçãos)
     // }).then(r => r.json());
 
     return { success: true };
@@ -307,7 +307,7 @@ function editarCentroCusto(id) {
 }
 
 async function excluirCentroCusto(id) {
-    if (!confirm('Deseja realmente excluir este centro de custo?')) return;
+    if (!confirm('Deseja realmente excluir este centro de custo')) return;
 
     try {
         // TODO: Substituir por chamada real à API
@@ -334,7 +334,7 @@ function buscarCentros(termo) {
 
     cards.forEach(card => {
         const texto = card.textContent.toLowerCase();
-        card.style.display = texto.includes(termo) ? 'block' : 'none';
+        card.style.display = texto.includes(termo)  'block' : 'none';
     });
 }
 
@@ -388,7 +388,7 @@ async function buscarCategorias() {
             tipo: 'despesa',
             cor: '#ef4444',
             icone: 'fa-cart-shopping',
-            descrição: 'Compras de mercadorias e matérias-primas',
+            descrição: 'Compras de mercaçãorias e matérias-primas',
             status: 'ativo',
             categoria_pai_id: null,
             total_movimentacoes: 12,
@@ -454,10 +454,10 @@ function criarCardCategoria(cat) {
             <div class="card-header">
                 <div>
                     <h3 class="card-title">
-                        ${cat.icone ? `<i class="fas ${cat.icone}" style="color: ${cat.cor};"></i>` : ''}
+                        ${cat.icone  `<i class="fas ${cat.icone}" style="color: ${cat.cor};"></i>` : ''}
                         ${cat.nome}
                     </h3>
-                    <small style="color: #6b7280;">${cat.tipo === 'receita' ? 'Receita' : cat.tipo === 'despesa' ? 'Despesa' : 'Ambos'}</small>
+                    <small style="color: #6b7280;">${cat.tipo === 'receita'  'Receita' : cat.tipo === 'despesa'  'Despesa' : 'Ambos'}</small>
                 </div>
                 <div class="card-actions">
                     <button class="icon-btn edit" onclick="editarCategoria(${cat.id})" title="Editar">
@@ -470,11 +470,11 @@ function criarCardCategoria(cat) {
             </div>
 
             <div class="card-info">
-                ${cat.descrição ? `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${cat.descrição}</p>` : ''}
+                ${cat.descrição  `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${cat.descrição}</p>` : ''}
                 
                 <div class="info-row">
                     <span class="info-label">Status:</span>
-                    <span class="badge ${cat.status}">${cat.status === 'ativo' ? 'Ativo' : 'Inativo'}</span>
+                    <span class="badge ${cat.status}">${cat.status === 'ativo'  'Ativo' : 'Inativo'}</span>
                 </div>
 
                 <div class="info-row">
@@ -484,12 +484,12 @@ function criarCardCategoria(cat) {
 
                 <div class="info-row">
                     <span class="info-label">Valor Total:</span>
-                    <span class="info-value" style="color: ${cat.tipo === 'receita' ? '#10b981' : '#ef4444'};">R$ ${formatarMoeda(cat.valor_total)}</span>
+                    <span class="info-value" style="color: ${cat.tipo === 'receita'  '#10b981' : '#ef4444'};">R$ ${formatarMoeda(cat.valor_total)}</span>
                 </div>
 
-                ${cat.categoria_pai_id ? `
+                ${cat.categoria_pai_id  `
                     <div class="info-row">
-                        <span class="info-label">Vinculado a:</span>
+                        <span class="info-label">Vinculação a:</span>
                         <span class="info-value">${obterNomeCategoria(cat.categoria_pai_id)}</span>
                     </div>
                 ` : ''}
@@ -503,7 +503,7 @@ function criarCardCategoria(cat) {
 // ============================================================================
 
 function abrirModalCategoria(id = null) {
-    document.getElementById('modal-categoria-titulo').textContent = id ? 'Editar Categoria' : 'Nova Categoria';
+    document.getElementById('modal-categoria-titulo').textContent = id  'Editar Categoria' : 'Nova Categoria';
     document.getElementById('form-categoria').reset();
     document.getElementById('categoria-id').value = '';
 
@@ -536,7 +536,7 @@ async function salvarCategoria(event) {
     event.preventDefault();
 
     const id = document.getElementById('categoria-id').value;
-    const dados = {
+    const daçãos = {
         nome: document.getElementById('categoria-nome').value,
         tipo: document.getElementById('categoria-tipo').value,
         status: document.getElementById('categoria-status').value,
@@ -549,15 +549,15 @@ async function salvarCategoria(event) {
     try {
         if (id) {
             // TODO: Substituir por chamada real à API
-            await atualizarCategoria(id, dados);
+            await atualizarCategoria(id, daçãos);
             const index = categorias.findIndex(c => c.id == id);
             if (index !== -1) {
-                categorias[index] = { ...categorias[index], ...dados };
+                categorias[index] = { ...categorias[index], ...daçãos };
             }
             mostrarMensagem('Categoria atualizada com sucesso!', 'success');
         } else {
             // TODO: Substituir por chamada real à API
-            const novo = await criarCategoria(dados);
+            const novo = await criarCategoria(daçãos);
             categorias.push(novo);
             mostrarMensagem('Categoria criada com sucesso!', 'success');
         }
@@ -570,17 +570,17 @@ async function salvarCategoria(event) {
     }
 }
 
-async function criarCategoria(dados) {
+async function criarCategoria(daçãos) {
     // TODO: Substituir por chamada real à API
     return {
         id: Math.max(...categorias.map(c => c.id)) + 1,
-        ...dados,
+        ...daçãos,
         total_movimentacoes: 0,
         valor_total: 0
     };
 }
 
-async function atualizarCategoria(id, dados) {
+async function atualizarCategoria(id, daçãos) {
     // TODO: Substituir por chamada real à API
     return { success: true };
 }
@@ -590,7 +590,7 @@ function editarCategoria(id) {
 }
 
 async function excluirCategoria(id) {
-    if (!confirm('Deseja realmente excluir está categoria?')) return;
+    if (!confirm('Deseja realmente excluir está categoria')) return;
 
     try {
         // TODO: Substituir por chamada real à API
@@ -616,7 +616,7 @@ function buscarCategorias(termo) {
 
     cards.forEach(card => {
         const texto = card.textContent.toLowerCase();
-        card.style.display = texto.includes(termo) ? 'block' : 'none';
+        card.style.display = texto.includes(termo)  'block' : 'none';
     });
 }
 
@@ -633,12 +633,12 @@ function formatarMoeda(valor) {
 
 function obterNomeCentro(id) {
     const centro = centrosCusto.find(c => c.id == id);
-    return centro ? centro.nome : '-';
+    return centro  centro.nome : '-';
 }
 
 function obterNomeCategoria(id) {
     const cat = categorias.find(c => c.id == id);
-    return cat ? cat.nome : '-';
+    return cat  cat.nome : '-';
 }
 
 function mostrarModal(modalId) {

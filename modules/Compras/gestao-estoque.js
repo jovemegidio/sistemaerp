@@ -17,27 +17,27 @@ class EstoqueManager {
     }
 
     async carregarEstoque() {
-        // Dados de exemplo
+        // Daçãos de exemplo
         this.estoque = [
-            { id: 'MAT-001', descricao: 'Alumínio 6063 T5', categoria: 'Matéria Prima', unidade: 'KG', qtdAtual: 1500, qtdMinima: 500, qtdMaxima: 3000, localizacao: 'A-01-05', ultimaMov: '2025-12-09', status: 'adequado' },
-            { id: 'MAT-002', descricao: 'Perfil U 50mm', categoria: 'Componentes', unidade: 'UN', qtdAtual: 230, qtdMinima: 200, qtdMaxima: 800, localizacao: 'B-02-12', ultimaMov: '2025-12-08', status: 'adequado' },
+            { id: 'MAT-001', descricao: 'Alumínio 6063 T5', categoria: 'Matéria Prima', unidade: 'KG', qtdAtual: 1500, qtdMinima: 500, qtdMaxima: 3000, localizacao: 'A-01-05', ultimaMov: '2025-12-09', status: 'adequação' },
+            { id: 'MAT-002', descricao: 'Perfil U 50mm', categoria: 'Componentes', unidade: 'UN', qtdAtual: 230, qtdMinima: 200, qtdMaxima: 800, localizacao: 'B-02-12', ultimaMov: '2025-12-08', status: 'adequação' },
             { id: 'MAT-003', descricao: 'Caixa Papelão 40x30', categoria: 'Embalagens', unidade: 'UN', qtdAtual: 45, qtdMinima: 100, qtdMaxima: 500, localizacao: 'C-01-08', ultimaMov: '2025-12-07', status: 'baixo' },
-            { id: 'MAT-004', descricao: 'Parafuso M6x20', categoria: 'Fixação', unidade: 'UN', qtdAtual: 5000, qtdMinima: 1000, qtdMaxima: 10000, localizacao: 'D-03-15', ultimaMov: '2025-12-09', status: 'adequado' },
+            { id: 'MAT-004', descricao: 'Parafuso M6x20', categoria: 'Fixação', unidade: 'UN', qtdAtual: 5000, qtdMinima: 1000, qtdMaxima: 10000, localizacao: 'D-03-15', ultimaMov: '2025-12-09', status: 'adequação' },
             { id: 'MAT-005', descricao: 'Tinta Epóxi Branca', categoria: 'Acabamento', unidade: 'L', qtdAtual: 0, qtdMinima: 20, qtdMaxima: 100, localizacao: 'E-01-03', ultimaMov: '2025-11-30', status: 'falta' },
-            { id: 'MAT-006', descricao: 'Lixa Grão 120', categoria: 'Acabamento', unidade: 'UN', qtdAtual: 78, qtdMinima: 50, qtdMaxima: 200, localizacao: 'E-02-06', ultimaMov: '2025-12-06', status: 'adequado' },
+            { id: 'MAT-006', descricao: 'Lixa Grão 120', categoria: 'Acabamento', unidade: 'UN', qtdAtual: 78, qtdMinima: 50, qtdMaxima: 200, localizacao: 'E-02-06', ultimaMov: '2025-12-06', status: 'adequação' },
             { id: 'MAT-007', descricao: 'Rebite 4mm', categoria: 'Fixação', unidade: 'UN', qtdAtual: 150, qtdMinima: 500, qtdMaxima: 2000, localizacao: 'D-04-10', ultimaMov: '2025-12-05', status: 'baixo' },
-            { id: 'MAT-008', descricao: 'Cola Industrial', categoria: 'Químicos', unidade: 'L', qtdAtual: 12, qtdMinima: 10, qtdMaxima: 50, localizacao: 'E-03-02', ultimaMov: '2025-12-08', status: 'adequado' },
+            { id: 'MAT-008', descricao: 'Cola Industrial', categoria: 'Químicos', unidade: 'L', qtdAtual: 12, qtdMinima: 10, qtdMaxima: 50, localizacao: 'E-03-02', ultimaMov: '2025-12-08', status: 'adequação' },
             { id: 'MAT-009', descricao: 'Plástico Bolha', categoria: 'Embalagens', unidade: 'M', qtdAtual: 0, qtdMinima: 100, qtdMaxima: 500, localizacao: 'C-02-04', ultimaMov: '2025-11-28', status: 'falta' },
-            { id: 'MAT-010', descricao: 'Serra Circular 250mm', categoria: 'Ferramentas', unidade: 'UN', qtdAtual: 3, qtdMinima: 2, qtdMaxima: 10, localizacao: 'F-01-01', ultimaMov: '2025-12-01', status: 'adequado' },
-            { id: 'MAT-011', descricao: 'Óleo de Corte', categoria: 'Lubrificantes', unidade: 'L', qtdAtual: 85, qtdMinima: 50, qtdMaxima: 200, localizacao: 'E-04-05', ultimaMov: '2025-12-09', status: 'adequado' },
+            { id: 'MAT-010', descricao: 'Serra Circular 250mm', categoria: 'Ferramentas', unidade: 'UN', qtdAtual: 3, qtdMinima: 2, qtdMaxima: 10, localizacao: 'F-01-01', ultimaMov: '2025-12-01', status: 'adequação' },
+            { id: 'MAT-011', descricao: 'Óleo de Corte', categoria: 'Lubrificantes', unidade: 'L', qtdAtual: 85, qtdMinima: 50, qtdMaxima: 200, localizacao: 'E-04-05', ultimaMov: '2025-12-09', status: 'adequação' },
             { id: 'MAT-012', descricao: 'Borracha Vedação', categoria: 'Componentes', unidade: 'M', qtdAtual: 25, qtdMinima: 30, qtdMaxima: 150, localizacao: 'B-03-07', ultimaMov: '2025-12-04', status: 'baixo' },
-            { id: 'MAT-013', descricao: 'Fita Adesiva 48mm', categoria: 'Embalagens', unidade: 'UN', qtdAtual: 120, qtdMinima: 50, qtdMaxima: 300, localizacao: 'C-03-09', ultimaMov: '2025-12-07', status: 'adequado' },
-            { id: 'MAT-014', descricao: 'Solda MIG/MAG', categoria: 'Consumíveis', unidade: 'KG', qtdAtual: 45, qtdMinima: 30, qtdMaxima: 150, localizacao: 'G-01-02', ultimaMov: '2025-12-08', status: 'adequado' },
+            { id: 'MAT-013', descricao: 'Fita Adesiva 48mm', categoria: 'Embalagens', unidade: 'UN', qtdAtual: 120, qtdMinima: 50, qtdMaxima: 300, localizacao: 'C-03-09', ultimaMov: '2025-12-07', status: 'adequação' },
+            { id: 'MAT-014', descricao: 'Solda MIG/MAG', categoria: 'Consumíveis', unidade: 'KG', qtdAtual: 45, qtdMinima: 30, qtdMaxima: 150, localizacao: 'G-01-02', ultimaMov: '2025-12-08', status: 'adequação' },
             { id: 'MAT-015', descricao: 'Disco de Corte 7"', categoria: 'Ferramentas', unidade: 'UN', qtdAtual: 8, qtdMinima: 20, qtdMaxima: 100, localizacao: 'F-02-03', ultimaMov: '2025-12-02', status: 'baixo' },
             { id: 'MAT-016', descricao: 'Graxa Industrial', categoria: 'Lubrificantes', unidade: 'KG', qtdAtual: 0, qtdMinima: 15, qtdMaxima: 60, localizacao: 'E-05-01', ultimaMov: '2025-11-25', status: 'falta' },
-            { id: 'MAT-017', descricao: 'Eletrodo 3,25mm', categoria: 'Consumíveis', unidade: 'KG', qtdAtual: 67, qtdMinima: 40, qtdMaxima: 180, localizacao: 'G-02-04', ultimaMov: '2025-12-09', status: 'adequado' },
-            { id: 'MAT-018', descricao: 'Broca HSS 6mm', categoria: 'Ferramentas', unidade: 'UN', qtdAtual: 15, qtdMinima: 10, qtdMaxima: 50, localizacao: 'F-03-05', ultimaMov: '2025-12-06', status: 'adequado' },
-            { id: 'MAT-019', descricao: 'Estopa Industrial', categoria: 'Limpeza', unidade: 'KG', qtdAtual: 32, qtdMinima: 25, qtdMaxima: 100, localizacao: 'H-01-06', ultimaMov: '2025-12-08', status: 'adequado' },
+            { id: 'MAT-017', descricao: 'Eletrodo 3,25mm', categoria: 'Consumíveis', unidade: 'KG', qtdAtual: 67, qtdMinima: 40, qtdMaxima: 180, localizacao: 'G-02-04', ultimaMov: '2025-12-09', status: 'adequação' },
+            { id: 'MAT-018', descricao: 'Broca HSS 6mm', categoria: 'Ferramentas', unidade: 'UN', qtdAtual: 15, qtdMinima: 10, qtdMaxima: 50, localizacao: 'F-03-05', ultimaMov: '2025-12-06', status: 'adequação' },
+            { id: 'MAT-019', descricao: 'Estopa Industrial', categoria: 'Limpeza', unidade: 'KG', qtdAtual: 32, qtdMinima: 25, qtdMaxima: 100, localizacao: 'H-01-06', ultimaMov: '2025-12-08', status: 'adequação' },
             { id: 'MAT-020', descricao: 'Desengraxante', categoria: 'Químicos', unidade: 'L', qtdAtual: 18, qtdMinima: 20, qtdMaxima: 80, localizacao: 'E-06-03', ultimaMov: '2025-12-05', status: 'baixo' }
         ];
     }
@@ -46,9 +46,9 @@ class EstoqueManager {
         const tbody = document.getElementById('estoqueTableBody');
         if (!tbody) return;
 
-        const estoqueFiltrado = this.filtrarEstoquePorStatus();
+        const estoqueFiltração = this.filtrarEstoquePorStatus();
 
-        tbody.innerHTML = estoqueFiltrado.map(item => `
+        tbody.innerHTML = estoqueFiltração.map(item => `
             <tr>
                 <td><span class="codigo-item">${item.id}</span></td>
                 <td><strong>${item.descricao}</strong></td>
@@ -95,7 +95,7 @@ class EstoqueManager {
 
     getStatusLabel(status) {
         const labels = {
-            'adequado': 'Adequado',
+            'adequação': 'Adequação',
             'baixo': 'Estoque Baixo',
             'falta': 'Em Falta'
         };
@@ -129,9 +129,9 @@ class EstoqueManager {
     }
 
     inicializarUsuario() {
-        const usuario = JSON.parse(localStorage.getItem('usuarioLogado')) || {
-            nome: 'Administrador',
-            cargo: 'Administrador',
+        const usuario = JSON.parse(localStorage.getItem('usuarioLogação')) || {
+            nome: 'Administraçãor',
+            cargo: 'Administraçãor',
             avatar: null
         };
 
@@ -162,7 +162,7 @@ function toggleDarkMode() {
     const isDark = document.body.classList.contains('dark-mode');
     localStorage.setItem('darkMode', isDark);
     const btn = document.getElementById('btnModoEscuro');
-    btn.querySelector('i').className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    btn.querySelector('i').className = isDark  'fas fa-sun' : 'fas fa-moon';
 }
 
 function toggleView(mode) {
@@ -197,7 +197,7 @@ function filtrarEstoque() {
     
     rows.forEach(row => {
         const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(searchTerm) ? '' : 'none';
+        row.style.display = text.includes(searchTerm)  '' : 'none';
     });
 }
 

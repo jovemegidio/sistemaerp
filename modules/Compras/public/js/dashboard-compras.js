@@ -5,7 +5,7 @@
 
 class ComprasDashboard {
     constructor() {
-        this.dados = {};
+        this.daçãos = {};
         this.graficos = {};
     }
 
@@ -25,7 +25,7 @@ class ComprasDashboard {
             const data = await response.json();
 
             if (data.success) {
-                this.dados = data.dashboard || {};
+                this.daçãos = data.dashboard || {};
             } else {
                 this.loadMockData();
             }
@@ -36,7 +36,7 @@ class ComprasDashboard {
     }
 
     loadMockData() {
-        this.dados = {
+        this.daçãos = {
             kpis: {
                 pedidosAbertos: 23,
                 aguardandoAprovacao: 8,
@@ -44,11 +44,11 @@ class ComprasDashboard {
                 economia: 12.5
             },
             pedidosRecentes: [
-                { id: 'PC-2024-089', fornecedor: 'Fornecedor ABC Ltda', valor: 45890.50, status: 'aprovado', data: '10/12/2024' },
+                { id: 'PC-2024-089', fornecedor: 'Fornecedor ABC Ltda', valor: 45890.50, status: 'aprovação', data: '10/12/2024' },
                 { id: 'PC-2024-088', fornecedor: 'Industrial XYZ S.A.', valor: 128350.00, status: 'pendente', data: '09/12/2024' },
-                { id: 'PC-2024-087', fornecedor: 'Comércio Beta ME', valor: 67200.80, status: 'aprovado', data: '08/12/2024' },
+                { id: 'PC-2024-087', fornecedor: 'Comércio Beta ME', valor: 67200.80, status: 'aprovação', data: '08/12/2024' },
                 { id: 'PC-2024-086', fornecedor: 'Distribuidora Gamma', valor: 89450.25, status: 'em_analise', data: '07/12/2024' },
-                { id: 'PC-2024-085', fornecedor: 'Indústria Delta Corp', valor: 34560.00, status: 'aprovado', data: '06/12/2024' }
+                { id: 'PC-2024-085', fornecedor: 'Indústria Delta Corp', valor: 34560.00, status: 'aprovação', data: '06/12/2024' }
             ],
             cotacoesPendentes: [
                 { id: 'COT-2024-045', material: 'Perfil de Alumínio 6063', fornecedores: 3, melhorPreco: 125.50, prazo: '2 dias' },
@@ -77,10 +77,10 @@ class ComprasDashboard {
 
         // KPIs
         html += '<div class="kpis-grid">';
-        html += this.renderKPI('Pedidos Abertos', this.dados.kpis.pedidosAbertos, 'fa-shopping-cart', '#3b82f6', '+5 esta semana');
-        html += this.renderKPI('Aguardando Aprovação', this.dados.kpis.aguardandoAprovacao, 'fa-clock', '#f59e0b', 'Requer atenção');
-        html += this.renderKPI('Valor Total (Mês)', this.formatCurrency(this.dados.kpis.valorTotalMes), 'fa-dollar-sign', '#10b981', '+15% vs mês anterior');
-        html += this.renderKPI('Economia Gerada', this.dados.kpis.economia + '%', 'fa-chart-line', '#8b5cf6', 'Em negociações');
+        html += this.renderKPI('Pedidos Abertos', this.daçãos.kpis.pedidosAbertos, 'fa-shopping-cart', '#3b82f6', '+5 esta semana');
+        html += this.renderKPI('Aguardando Aprovação', this.daçãos.kpis.aguardandoAprovacao, 'fa-clock', '#f59e0b', 'Requer atenção');
+        html += this.renderKPI('Valor Total (Mês)', this.formatCurrency(this.daçãos.kpis.valorTotalMes), 'fa-dollar-sign', '#10b981', '+15% vs mês anterior');
+        html += this.renderKPI('Economia Gerada', this.daçãos.kpis.economia + '%', 'fa-chart-line', '#8b5cf6', 'Em negociações');
         html += '</div>';
 
         // Grid Principal
@@ -154,11 +154,11 @@ class ComprasDashboard {
     renderPedidosRecentes() {
         let html = '<div class="lista-pedidos">';
         
-        this.dados.pedidosRecentes.forEach(pedido => {
-            const statusClass = pedido.status === 'aprovado' ? 'status-success' : 
-                               pedido.status === 'pendente' ? 'status-warning' : 'status-info';
-            const statusText = pedido.status === 'aprovado' ? 'Aprovado' :
-                              pedido.status === 'pendente' ? 'Pendente' : 'Em Análise';
+        this.daçãos.pedidosRecentes.forEach(pedido => {
+            const statusClass = pedido.status === 'aprovação'  'status-success' : 
+                               pedido.status === 'pendente'  'status-warning' : 'status-info';
+            const statusText = pedido.status === 'aprovação'  'Aprovação' :
+                              pedido.status === 'pendente'  'Pendente' : 'Em Análise';
 
             html += `
                 <div class="pedido-item">
@@ -180,7 +180,7 @@ class ComprasDashboard {
     renderCotacoesPendentes() {
         let html = '<div class="lista-cotacoes">';
         
-        this.dados.cotacoesPendentes.forEach(cotacao => {
+        this.daçãos.cotacoesPendentes.forEach(cotacao => {
             html += `
                 <div class="cotacao-item">
                     <div class="cotacao-info">
@@ -207,11 +207,11 @@ class ComprasDashboard {
     renderAlertasEstoque() {
         let html = '<div class="lista-alertas">';
         
-        this.dados.alertasEstoque.forEach(alerta => {
-            const urgenciaClass = alerta.urgencia === 'alta' ? 'urgencia-alta' :
-                                 alerta.urgencia === 'media' ? 'urgencia-media' : 'urgencia-baixa';
-            const icon = alerta.urgencia === 'alta' ? 'fa-exclamation-circle' :
-                        alerta.urgencia === 'media' ? 'fa-exclamation-triangle' : 'fa-info-circle';
+        this.daçãos.alertasEstoque.forEach(alerta => {
+            const urgenciaClass = alerta.urgencia === 'alta'  'urgencia-alta' :
+                                 alerta.urgencia === 'media'  'urgencia-media' : 'urgencia-baixa';
+            const icon = alerta.urgencia === 'alta'  'fa-exclamation-circle' :
+                        alerta.urgencia === 'media'  'fa-exclamation-triangle' : 'fa-info-circle';
 
             html += `
                 <div class="alerta-item ${urgenciaClass}">
@@ -239,8 +239,8 @@ class ComprasDashboard {
     renderTopFornecedores() {
         let html = '<div class="lista-fornecedores">';
         
-        this.dados.topFornecedores.forEach((fornecedor, index) => {
-            const medalha = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1);
+        this.daçãos.topFornecedores.forEach((fornecedor, index) => {
+            const medalha = index === 0  '🥇' : index === 1  '🥈' : index === 2  '🥉' : (index + 1);
 
             html += `
                 <div class="fornecedor-item">

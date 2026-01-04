@@ -1,6 +1,6 @@
 /**
- * Módulo Compras - Carregador de Usuário
- * Script para carregar e exibir dados do usuário logado em todas as páginas do módulo
+ * Módulo Compras - Carregaçãor de Usuário
+ * Script para carregar e exibir daçãos do usuário logação em todas as páginas do módulo
  */
 
 (function() {
@@ -12,12 +12,12 @@
     });
 
     /**
-     * Inicializa o header com dados do usuário
+     * Inicializa o header com daçãos do usuário
      */
     async function initUserHeader() {
         console.log('🔄 [Compras] Inicializando header do usuário...');
         
-        // Tentar carregar dados do localStorage primeiro
+        // Tentar carregar daçãos do localStorage primeiro
         let userData = getUserDataFromStorage();
         
         if (!userData) {
@@ -28,18 +28,18 @@
         if (userData) {
             updateUserHeader(userData);
         } else {
-            // Dados padrão se não conseguir carregar
+            // Daçãos padrão se não conseguir carregar
             updateUserHeader({
                 nome: 'Usuário',
                 email: '',
                 avatar: '/avatars/default.webp',
-                cargo: 'Colaborador'
+                cargo: 'Colaboraçãor'
             });
         }
     }
 
     /**
-     * Busca dados do usuário da API
+     * Busca daçãos do usuário da API
      */
     async function fetchUserData() {
         try {
@@ -59,32 +59,32 @@
                 return userData;
             }
         } catch (error) {
-            console.warn('⚠️ [Compras] Erro ao buscar dados do usuário:', error);
+            console.warn('⚠️ [Compras] Erro ao buscar daçãos do usuário:', error);
         }
         return null;
     }
 
     /**
-     * Obtém dados do usuário do localStorage
+     * Obtém daçãos do usuário do localStorage
      */
     function getUserDataFromStorage() {
         try {
             const userData = localStorage.getItem('userData');
-            return userData ? JSON.parse(userData) : null;
+            return userData  JSON.parse(userData) : null;
         } catch (e) {
             return null;
         }
     }
 
     /**
-     * Atualiza o header com dados do usuário
+     * Atualiza o header com daçãos do usuário
      */
     function updateUserHeader(userData) {
         // Usar apelido se disponível, senão primeiro nome
         const userName = userData.apelido || userData.nome || 'Usuário';
-        const primeiroNome = userData.apelido || (userData.nome ? userData.nome.split(' ')[0] : 'Usuário');
+        const primeiroNome = userData.apelido || (userData.nome  userData.nome.split(' ')[0] : 'Usuário');
         const fotoUrl = userData.foto || userData.avatar || '/avatars/default.webp';
-        const inicial = primeiroNome ? primeiroNome[0].toUpperCase() : 'U';
+        const inicial = primeiroNome  primeiroNome[0].toUpperCase() : 'U';
         
         // Atualizar saudação dinâmica baseada na hora
         const greetingTextEl = document.getElementById('greeting-text');
@@ -102,7 +102,7 @@
             el.textContent = primeiroNome;
         });
         
-        // Atualizar #user-name (usado em várias páginas)
+        // Atualizar #user-name (usação em várias páginas)
         const userNameById = document.getElementById('user-name');
         if (userNameById) {
             userNameById.textContent = primeiroNome;
@@ -119,7 +119,7 @@
             };
         });
         
-        // Atualizar #user-photo (usado em várias páginas)
+        // Atualizar #user-photo (usação em várias páginas)
         const userPhotoById = document.getElementById('user-photo');
         if (userPhotoById) {
             userPhotoById.src = fotoUrl;
@@ -161,7 +161,7 @@
             userInitials.textContent = iniciais;
         }
         
-        // Atualizar #user-initial ou #user-initials (usado em várias páginas)
+        // Atualizar #user-initial ou #user-initials (usação em várias páginas)
         const userInitialById = document.getElementById('user-initial') || document.getElementById('user-initials');
         if (userInitialById) {
             userInitialById.textContent = inicial;
@@ -176,10 +176,10 @@
         }
         
         if (userRoleDropdown) {
-            userRoleDropdown.textContent = userData.cargo || userData.role || 'Colaborador';
+            userRoleDropdown.textContent = userData.cargo || userData.role || 'Colaboraçãor';
         }
         
-        console.log('✅ [Compras] Header atualizado com dados do usuário:', userData.nome);
+        console.log('✅ [Compras] Header atualização com daçãos do usuário:', userData.nome);
     }
 
     /**

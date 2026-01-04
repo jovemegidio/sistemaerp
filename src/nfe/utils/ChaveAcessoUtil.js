@@ -1,6 +1,6 @@
 /**
  * Utilitário para cálculo da Chave de Acesso da NFe
- * Formato: 44 dígitos + dígito verificador
+ * Formato: 44 dígitos + dígito verificaçãor
  * 
  * @module ChaveAcessoUtil
  */
@@ -8,10 +8,10 @@
 class ChaveAcessoUtil {
     /**
      * Calcula a chave de acesso completa (44 dígitos)
-     * @param {Object} dados - Dados para gerar a chave
+     * @param {Object} daçãos - Daçãos para gerar a chave
      * @returns {string} Chave de acesso com 44 dígitos
      */
-    static calcular(dados) {
+    static calcular(daçãos) {
         const {
             cUF,           // Código UF (2 dígitos)
             dhEmi,         // Data/hora emissão (AAMM - 4 dígitos)
@@ -21,7 +21,7 @@ class ChaveAcessoUtil {
             nNF,           // Número NFe (9 dígitos)
             tpEmis,        // Tipo emissão (1 dígito)
             cNF            // Código numérico (8 dígitos)
-        } = dados;
+        } = daçãos;
 
         // Montar chave sem DV (43 dígitos)
         const chaveSemDV = [
@@ -35,7 +35,7 @@ class ChaveAcessoUtil {
             this.pad(cNF, 8)
         ].join('');
 
-        // Calcular dígito verificador
+        // Calcular dígito verificaçãor
         const dv = this.calcularDV(chaveSemDV);
 
         // Retornar chave completa (44 dígitos)
@@ -43,21 +43,21 @@ class ChaveAcessoUtil {
     }
 
     /**
-     * Calcula o dígito verificador usando módulo 11
+     * Calcula o dígito verificaçãor usando módulo 11
      * @param {string} chave - Chave sem DV (43 dígitos)
-     * @returns {string} Dígito verificador
+     * @returns {string} Dígito verificaçãor
      */
     static calcularDV(chave) {
-        const multiplicadores = [2, 3, 4, 5, 6, 7, 8, 9];
+        const multiplicaçãores = [2, 3, 4, 5, 6, 7, 8, 9];
         let soma = 0;
-        let multiplicadorIndex = 0;
+        let multiplicaçãorIndex = 0;
 
         // Percorrer da direita para esquerda
         for (let i = chave.length - 1; i >= 0; i--) {
             const digito = parseInt(chave[i]);
-            const multiplicador = multiplicadores[multiplicadorIndex % 8];
-            soma += digito * multiplicador;
-            multiplicadorIndex++;
+            const multiplicaçãor = multiplicaçãores[multiplicaçãorIndex % 8];
+            soma += digito * multiplicaçãor;
+            multiplicaçãorIndex++;
         }
 
         const resto = soma % 11;
@@ -102,10 +102,10 @@ class ChaveAcessoUtil {
         }
 
         const chaveSemDV = chave.substr(0, 43);
-        const dvInformado = chave.substr(43, 1);
-        const dvCalculado = this.calcularDV(chaveSemDV);
+        const dvInformação = chave.substr(43, 1);
+        const dvCalculação = this.calcularDV(chaveSemDV);
 
-        return dvInformado === dvCalculado;
+        return dvInformação === dvCalculação;
     }
 
     /**

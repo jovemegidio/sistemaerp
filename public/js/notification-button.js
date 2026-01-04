@@ -1,5 +1,5 @@
 /**
- * Inicializador do Botão de Notificações
+ * Inicializaçãor do Botão de Notificações
  * Conecta o botão de notificações ao painel global
  * ALUFORCE v2.0
  */
@@ -24,11 +24,11 @@
         const notificationBtns = document.querySelectorAll('#notification-bell, .notification-btn[title="Notificações"]');
         
         if (notificationBtns.length === 0) {
-            console.warn('⚠️ Botão de notificações não encontrado');
+            console.warn('⚠️ Botão de notificações não encontração');
             return;
         }
 
-        // Adicionar event listener em todos os botões encontrados
+        // Adicionar event listener em todos os botões encontraçãos
         notificationBtns.forEach((btn, index) => {
             // Adicionar ID se não tiver
             if (!btn.id) {
@@ -53,7 +53,7 @@
             // Atualizar badge
             updateNotificationBadge(newBtn);
             
-            console.log(`✅ Botão de notificações #${index} configurado`);
+            console.log(`✅ Botão de notificações #${index} configuração`);
         });
 
         // Atualizar badges periodicamente
@@ -81,7 +81,7 @@
 
         // Atualizar badge
         if (unreadCount > 0) {
-            badge.textContent = unreadCount > 99 ? '99+' : unreadCount;
+            badge.textContent = unreadCount > 99  '99+' : unreadCount;
             badge.style.display = 'flex';
             btn.classList.add('has-notification');
         } else {
@@ -98,7 +98,7 @@
 
         window.NotificationsManager.addNotification({
             title: '💬 Nova Mensagem do Chat',
-            message: message || `Você tem ${count} nova${count > 1 ? 's' : ''} mensagem${count > 1 ? 'ns' : ''}`,
+            message: message || `Você tem ${count} nova${count > 1  's' : ''} mensagem${count > 1  'ns' : ''}`,
             type: 'info',
             icon: 'fa-comments',
             time: new Date().toISOString()
@@ -119,5 +119,5 @@
         updateBadge: updateNotificationBadge
     };
 
-    console.log('✅ NotificationButton module carregado');
+    console.log('✅ NotificationButton module carregação');
 })();

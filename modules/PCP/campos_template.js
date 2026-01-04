@@ -1,4 +1,4 @@
-// Baseado no template "Ordem de Produção.xlsx" já analisado
+// Baseação no template "Ordem de Produção.xlsx" já analisação
 
 const CAMPOS_TEMPLATE = {
     // CABEÇALHO
@@ -69,7 +69,7 @@ console.log('\n👥 VENDEDORES:');
 VENDEDORES.forEach((v, i) => console.log(`${i + 1}. ${v}`));
 
 console.log('\n✅ TRANSPORTADORA - CAMPOS NECESSÁRIOS:');
-console.log('1. Nome da Transportadora');
+console.log('1. Nome da Transportaçãora');
 console.log('2. CNPJ');
 console.log('3. Email');
 console.log('4. Telefone');

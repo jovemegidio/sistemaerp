@@ -13,8 +13,8 @@ async function verificacaoCompleta() {
         
         console.log('\n📊 PROCURANDO DADOS DE TESTE EM TODA A PLANILHA:');
         
-        // Procurar por dados específicos do teste
-        const dadosParaProcurar = [
+        // Procurar por daçãos específicos do teste
+        const daçãosParaProcurar = [
             'ORC-MODAL-FINAL-001',
             'PED-MODAL-FINAL',
             'METALÚRGICA EXEMPLO',
@@ -28,7 +28,7 @@ async function verificacaoCompleta() {
             'ALU-TB-RD'
         ];
         
-        let dadosEncontrados = 0;
+        let daçãosEncontraçãos = 0;
         
         for (let row = 1; row <= 60; row++) {
             for (let col = 1; col <= 15; col++) {
@@ -39,15 +39,15 @@ async function verificacaoCompleta() {
                 if (valor && valor !== null && valor !== '') {
                     const valorStr = valor.toString();
                     
-                    // Verificar se contém algum dos dados de teste
-                    dadosParaProcurar.forEach(dadoTeste => {
-                        if (valorStr.includes(dadoTeste)) {
+                    // Verificar se contém algum dos daçãos de teste
+                    daçãosParaProcurar.forEach(daçãoTeste => {
+                        if (valorStr.includes(daçãoTeste)) {
                             console.log(`   ✅ ENCONTRADO: ${cellAddress} = "${valorStr}"`);
-                            dadosEncontrados++;
+                            daçãosEncontraçãos++;
                         }
                     });
                     
-                    // Mostrar dados numéricos significativos
+                    // Mostrar daçãos numéricos significativos
                     if (typeof valor === 'number' && valor > 100 && valor < 10000) {
                         console.log(`   📊 Valor numérico: ${cellAddress} = ${valor}`);
                     }
@@ -56,14 +56,14 @@ async function verificacaoCompleta() {
         }
         
         console.log(`\n🎯 RESULTADO DA VERIFICAÇÁO:`);
-        console.log(`   📊 Dados encontrados: ${dadosEncontrados}`);
+        console.log(`   📊 Daçãos encontraçãos: ${daçãosEncontraçãos}`);
         
-        if (dadosEncontrados > 0) {
+        if (daçãosEncontraçãos > 0) {
             console.log('   ✅ DADOS ESTÁO SENDO APLICADOS AO EXCEL!');
             console.log('   ✅ Mapeamento funcionando corretamente!');
         } else {
-            console.log('   ❌ Nenhum dado de teste encontrado');
-            console.log('   ⚠️ Verificar se dados estão sendo aplicados');
+            console.log('   ❌ Nenhum dação de teste encontração');
+            console.log('   ⚠️ Verificar se daçãos estão sendo aplicaçãos');
         }
         
     } catch (error) {

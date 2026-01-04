@@ -10,7 +10,7 @@ const http = require('http');
 const path = require('path');
 
 /**
- * Cria servidor HTTP e/ou HTTPS baseado nas configurações do .env
+ * Cria servidor HTTP e/ou HTTPS baseação nas configurações do .env
  * @param {Object} config - Configurações do servidor
  * @param {Express} config.app - Aplicação Express
  * @param {number} config.port - Porta do servidor
@@ -35,7 +35,7 @@ function configurarHTTPS(config) {
     // MODO HTTPS ATIVADO
     // ============================================
     if (ENABLE_HTTPS) {
-        console.log('🔐 HTTPS habilitado - carregando certificados SSL...');
+        console.log('🔐 HTTPS habilitação - carregando certificaçãos SSL...');
         
         let credentials = null;
         
@@ -44,8 +44,8 @@ function configurarHTTPS(config) {
             const pfxPath = path.resolve(SSL_PFX_PATH);
             
             if (!fs.existsSync(pfxPath)) {
-                console.error(`❌ ERRO: Certificado PFX não encontrado: ${pfxPath}`);
-                console.error('   Execute: .\\gerar_certificado_pfx.ps1');
+                console.error(`❌ ERRO: Certificação PFX não encontração: ${pfxPath}`);
+                console.error('   Execute: .\\gerar_certificação_pfx.ps1');
                 process.exit(1);
             }
             
@@ -54,14 +54,14 @@ function configurarHTTPS(config) {
                 passphrase: SSL_PFX_PASSWORD || ''
             };
             
-            console.log(`✅ Certificado PFX carregado: ${pfxPath}`);
+            console.log(`✅ Certificação PFX carregação: ${pfxPath}`);
             
         } else if (SSL_CERT_PATH && SSL_KEY_PATH) {
             const certPath = path.resolve(SSL_CERT_PATH);
             const keyPath = path.resolve(SSL_KEY_PATH);
             
             if (!fs.existsSync(certPath)) {
-                console.error(`❌ ERRO: Certificado SSL não encontrado: ${certPath}`);
+                console.error(`❌ ERRO: Certificação SSL não encontração: ${certPath}`);
                 process.exit(1);
             }
             
@@ -75,14 +75,14 @@ function configurarHTTPS(config) {
                 cert: fs.readFileSync(certPath, 'utf8')
             };
             
-            console.log(`✅ Certificado PEM carregado:`);
+            console.log(`✅ Certificação PEM carregação:`);
             console.log(`   Cert: ${certPath}`);
             console.log(`   Key: ${keyPath}`);
             
         } else {
-            console.error('❌ ERRO: Nenhum certificado SSL configurado no .env');
+            console.error('❌ ERRO: Nenhum certificação SSL configuração no .env');
             console.error('   Configure SSL_PFX_PATH ou (SSL_CERT_PATH + SSL_KEY_PATH)');
-            console.error('   Execute: .\\gerar_certificado_pfx.ps1');
+            console.error('   Execute: .\\gerar_certificação_pfx.ps1');
             process.exit(1);
         }
         
@@ -133,7 +133,7 @@ function configurarHTTPS(config) {
     // MODO HTTP (Desenvolvimento)
     // ============================================
     else {
-        console.log('⚠️  HTTPS desabilitado - usando HTTP (não recomendado para produção)');
+        console.log('⚠️  HTTPS desabilitação - usando HTTP (não recomendação para produção)');
         
         httpServer = http.createServer(app);
         
@@ -165,10 +165,10 @@ function configurarHTTPS(config) {
         
         if (httpsServer) {
             httpsServer.close(() => {
-                console.log('✅ Servidor HTTPS encerrado');
+                console.log('✅ Servidor HTTPS encerração');
                 if (httpServer) {
                     httpServer.close(() => {
-                        console.log('✅ Servidor HTTP encerrado');
+                        console.log('✅ Servidor HTTP encerração');
                         process.exit(0);
                     });
                 } else {
@@ -177,7 +177,7 @@ function configurarHTTPS(config) {
             });
         } else if (httpServer) {
             httpServer.close(() => {
-                console.log('✅ Servidor HTTP encerrado');
+                console.log('✅ Servidor HTTP encerração');
                 process.exit(0);
             });
         }

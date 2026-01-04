@@ -1,6 +1,6 @@
 // Teste final da API atualizada
-const dadosCompletos = {
-    // Dados básicos
+const daçãosCompletos = {
+    // Daçãos básicos
     numero_orcamento: 'ORC-2025-COMPLETO',
     numero_pedido: 'PED-2025-COMPLETO',
     data_liberacao: '07/10/2025',
@@ -18,19 +18,19 @@ const dadosCompletos = {
     
     // Produto
     codigo_produto: 'ALU-001-COMPLETO',
-    descricao_produto: 'Perfil de Alumínio Estrutural 30x30mm - Anodizado',
+    descricao_produto: 'Perfil de Alumínio Estrutural 30x30mm - Anodização',
     quantidade: 150,
     valor_unitario: 28.75,
     embalagem: 'Bobina Plástica Industrial',
     lances: '100, 120, 150, 200',
     
-    // Transportadora
-    transportadora_nome: 'Transportes Rápidos Expressos Ltda',
-    transportadora_fone: '(11) 88888-8888',
-    transportadora_cep: '12345-678',
-    transportadora_endereco: 'Avenida Logística, 789 - Centro de Distribuição - São Paulo/SP',
-    transportadora_cpf_cnpj: '12.345.678/0001-90',
-    transportadora_email_nfe: 'nfe@transportesrapidos.com.br',
+    // Transportaçãora
+    transportaçãora_nome: 'Transportes Rápidos Expressos Ltda',
+    transportaçãora_fone: '(11) 88888-8888',
+    transportaçãora_cep: '12345-678',
+    transportaçãora_endereco: 'Avenida Logística, 789 - Centro de Distribuição - São Paulo/SP',
+    transportaçãora_cpf_cnpj: '12.345.678/0001-90',
+    transportaçãora_email_nfe: 'nfe@transportesrapidos.com.br',
     
     // Observações
     observacoes: `OBSERVAÇÕES IMPORTANTES DO PEDIDO:
@@ -56,28 +56,28 @@ const dadosCompletos = {
 • Usar entrada de carga pelos fundos
 • Comunicar chegada na portaria (11) 99999-9999
 • Aguardar liberação para descarga
-• Descarregar com equipamento adequado
+• Descarregar com equipamento adequação
 • Verificar integridade da carga antes de descarregar`
 };
 
 // Simular requisição POST
 console.log('🎯 DADOS PARA TESTE COMPLETO DA API:\n');
-console.log(JSON.stringify(dadosCompletos, null, 2));
+console.log(JSON.stringify(daçãosCompletos, null, 2));
 
 console.log('\n📋 RESUMO DOS DADOS:');
-console.log(`   🔹 Orçamento: ${dadosCompletos.numero_orcamento}`);
-console.log(`   🔹 Pedido: ${dadosCompletos.numero_pedido}`);
-console.log(`   🔹 Cliente: ${dadosCompletos.cliente}`);
-console.log(`   🔹 Produto: ${dadosCompletos.codigo_produto} - ${dadosCompletos.descricao_produto}`);
-console.log(`   🔹 Quantidade: ${dadosCompletos.quantidade} unidades`);
-console.log(`   🔹 Valor Unit: R$ ${dadosCompletos.valor_unitario}`);
-console.log(`   🔹 Valor Total: R$ ${(dadosCompletos.quantidade * dadosCompletos.valor_unitario).toFixed(2)}`);
-console.log(`   🔹 Transportadora: ${dadosCompletos.transportadora_nome}`);
-console.log(`   🔹 Observações: ${dadosCompletos.observacoes.split('\n')[0]}...`);
+console.log(`   🔹 Orçamento: ${daçãosCompletos.numero_orcamento}`);
+console.log(`   🔹 Pedido: ${daçãosCompletos.numero_pedido}`);
+console.log(`   🔹 Cliente: ${daçãosCompletos.cliente}`);
+console.log(`   🔹 Produto: ${daçãosCompletos.codigo_produto} - ${daçãosCompletos.descricao_produto}`);
+console.log(`   🔹 Quantidade: ${daçãosCompletos.quantidade} unidades`);
+console.log(`   🔹 Valor Unit: R$ ${daçãosCompletos.valor_unitario}`);
+console.log(`   🔹 Valor Total: R$ ${(daçãosCompletos.quantidade * daçãosCompletos.valor_unitario).toFixed(2)}`);
+console.log(`   🔹 Transportaçãora: ${daçãosCompletos.transportaçãora_nome}`);
+console.log(`   🔹 Observações: ${daçãosCompletos.observacoes.split('\n')[0]}...`);
 
 console.log('\n🚀 PARA TESTAR:');
 console.log('1. Execute: node server_pcp.js');
-console.log('2. Use estes dados no endpoint: POST /api/pcp/ordem-producao/excel');
+console.log('2. Use estes daçãos no endpoint: POST /api/pcp/ordem-producao/excel');
 console.log('3. Todos os campos das imagens serão preenchidos!');
 
 console.log('\n✅ SERVIDOR ATUALIZADO COM PREENCHIMENTO COMPLETO!');

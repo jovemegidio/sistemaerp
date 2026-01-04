@@ -8,7 +8,7 @@ const headerPadraoPCP = `<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{TITLE}} - Aluforce RH</title>
-    <link rel="stylesheet" href="../../../_shared/modern-saas.css?v=3.0">
+    <link rel="stylesheet" href="../../../_shared/modern-saas.cssv=3.0">
     <link rel="stylesheet" href="../../../_shared/header-sidebar.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -94,12 +94,12 @@ const headerPadraoPCP = `<!DOCTYPE html>
 
     <script>
         // Toggle sidebar mobile
-        document.getElementById('toggle-sidebar')?.addEventListener('click', () => {
+        document.getElementById('toggle-sidebar').addEventListener('click', () => {
             document.querySelector('.sidebar').classList.toggle('active');
             document.getElementById('sidebar-overlay').classList.toggle('active');
         });
 
-        document.getElementById('sidebar-overlay')?.addEventListener('click', () => {
+        document.getElementById('sidebar-overlay').addEventListener('click', () => {
             document.querySelector('.sidebar').classList.remove('active');
             document.getElementById('sidebar-overlay').classList.remove('active');
         });
@@ -117,9 +117,9 @@ function extrairConteudo(html, tagInicio, tagFim) {
     return html.substring(inicio + tagInicio.length, fim);
 }
 
-// Função para extrair estilos customizados
+// Função para extrair estilos customizaçãos
 function extrairEstilos(html) {
-    const styleMatch = html.match(/<style>([\s\S]*?)<\/style>/);
+    const styleMatch = html.match(/<style>([\s\S]*)<\/style>/);
     if (!styleMatch) return '';
     
     let styles = styleMatch[1];
@@ -131,13 +131,13 @@ function extrairEstilos(html) {
     return styles.trim();
 }
 
-// Função para extrair scripts customizados
+// Função para extrair scripts customizaçãos
 function extrairScripts(html) {
-    const scriptMatches = html.match(/<script>([\s\S]*?)<\/script>/g);
+    const scriptMatches = html.match(/<script>([\s\S]*)<\/script>/g);
     if (!scriptMatches) return '';
     
     return scriptMatches.map(script => {
-        return script.replace(/<\/?script>/g, '');
+        return script.replace(/<\/script>/g, '');
     }).join('\n\n');
 }
 
@@ -146,14 +146,14 @@ function extrairConteudoPrincipal(html, pagina) {
     let content = extrairConteudo(html, '<body>', '</body>');
     
     // Remover scripts
-    content = content.replace(/<script>[\s\S]*?<\/script>/g, '');
+    content = content.replace(/<script>[\s\S]*<\/script>/g, '');
     
     // Ajustar estrutura específica de cada página
     switch(pagina) {
         case 'ponto':
             content = content.replace(/<div class="ponto-container">/, '');
             content = content.replace(/<\/div>\s*$/, '');
-            content = content.replace(/<div class="ponto-header">[\s\S]*?<\/div>/, '');
+            content = content.replace(/<div class="ponto-header">[\s\S]*<\/div>/, '');
             break;
         case 'ferias':
         case 'folha':
@@ -161,7 +161,7 @@ function extrairConteudoPrincipal(html, pagina) {
         case 'avaliacoes':
             content = content.replace(/<div class="container">/, '');
             content = content.replace(/<\/div>\s*$/, '');
-            content = content.replace(/<div class="header">[\s\S]*?<\/div>/, '');
+            content = content.replace(/<div class="header">[\s\S]*<\/div>/, '');
             break;
     }
     
@@ -216,7 +216,7 @@ paginas.forEach(pagina => {
         const arquivoOriginal = path.join(baseDir, pagina.arquivo);
         
         if (!fs.existsSync(arquivoOriginal)) {
-            console.log(`⚠️  Arquivo não encontrado: ${pagina.arquivo}`);
+            console.log(`⚠️  Arquivo não encontração: ${pagina.arquivo}`);
             return;
         }
         
@@ -238,10 +238,10 @@ paginas.forEach(pagina => {
         
         // Marcar menu ativo
         paginas.forEach(p => {
-            novoHtml = novoHtml.replace(`{{${p.active}}}`, p.nome === pagina.nome ? 'active' : '');
+            novoHtml = novoHtml.replace(`{{${p.active}}}`, p.nome === pagina.nome  'active' : '');
         });
         
-        // Salvar arquivo atualizado
+        // Salvar arquivo atualização
         fs.writeFileSync(arquivoOriginal, novoHtml, 'utf8');
         
         console.log(`✅ ${pagina.arquivo} convertido com sucesso!`);

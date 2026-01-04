@@ -19,8 +19,8 @@ module.exports = function({ pool, authenticateToken, io }) {
             campo_valor: 'valor_total',
             campo_status: 'status',
             status_pendente: 'pendente_aprovacao',
-            status_aprovado: 'aprovado',
-            status_rejeitado: 'rejeitado'
+            status_aprovação: 'aprovação',
+            status_rejeitação: 'rejeitação'
         },
         'pedido_compra': {
             nome: 'Pedido de Compra',
@@ -28,8 +28,8 @@ module.exports = function({ pool, authenticateToken, io }) {
             campo_valor: 'valor_total',
             campo_status: 'status',
             status_pendente: 'pendente_aprovacao',
-            status_aprovado: 'aprovado',
-            status_rejeitado: 'rejeitado'
+            status_aprovação: 'aprovação',
+            status_rejeitação: 'rejeitação'
         },
         'pagamento': {
             nome: 'Pagamento',
@@ -37,17 +37,17 @@ module.exports = function({ pool, authenticateToken, io }) {
             campo_valor: 'valor',
             campo_status: 'aprovacao_status',
             status_pendente: 'pendente',
-            status_aprovado: 'aprovado',
-            status_rejeitado: 'rejeitado'
+            status_aprovação: 'aprovação',
+            status_rejeitação: 'rejeitação'
         },
         'ordem_producao': {
             nome: 'Ordem de Produção',
             tabela: 'ordens_producao',
-            campo_valor: 'valor_estimado',
+            campo_valor: 'valor_estimação',
             campo_status: 'aprovacao_status',
             status_pendente: 'pendente',
-            status_aprovado: 'aprovado',
-            status_rejeitado: 'rejeitado'
+            status_aprovação: 'aprovação',
+            status_rejeitação: 'rejeitação'
         }
     };
 
@@ -61,10 +61,10 @@ module.exports = function({ pool, authenticateToken, io }) {
             const [alcadas] = await pool.query(`
                 SELECT 
                     a.*,
-                    u.nome as aprovador_nome,
+                    u.nome as aprovaçãor_nome,
                     p.nome as perfil_nome
                 FROM alcadas_aprovacao a
-                LEFT JOIN usuarios u ON a.aprovador_id = u.id
+                LEFT JOIN usuarios u ON a.aprovaçãor_id = u.id
                 LEFT JOIN perfis_permissao p ON a.perfil_id = p.id
                 WHERE a.ativo = TRUE
                 ORDER BY a.tipo, a.valor_minimo
@@ -82,7 +82,7 @@ module.exports = function({ pool, authenticateToken, io }) {
      */
     router.post('/alcadas', async (req, res) => {
         try {
-            const { tipo, valor_minimo, valor_maximo, aprovador_id, perfil_id, descricao } = req.body;
+            const { tipo, valor_minimo, valor_maximo, aprovaçãor_id, perfil_id, descricao } = req.body;
             
             if (!tipo || !TIPOS_APROVACAO[tipo]) {
                 return res.status(400).json({ 
@@ -91,17 +91,17 @@ module.exports = function({ pool, authenticateToken, io }) {
                 });
             }
             
-            if (!aprovador_id && !perfil_id) {
+            if (!aprovaçãor_id && !perfil_id) {
                 return res.status(400).json({ 
                     success: false, 
-                    message: 'Informe um aprovador ou perfil' 
+                    message: 'Informe um aprovaçãor ou perfil' 
                 });
             }
             
             const [result] = await pool.query(`
-                INSERT INTO alcadas_aprovacao (tipo, valor_minimo, valor_maximo, aprovador_id, perfil_id, descricao)
-                VALUES (?, ?, ?, ?, ?, ?)
-            `, [tipo, valor_minimo || 0, valor_maximo || 999999999, aprovador_id, perfil_id, descricao || '']);
+                INSERT INTO alcadas_aprovacao (tipo, valor_minimo, valor_maximo, aprovaçãor_id, perfil_id, descricao)
+                VALUES (, , , , , )
+            `, [tipo, valor_minimo || 0, valor_maximo || 999999999, aprovaçãor_id, perfil_id, descricao || '']);
             
             res.status(201).json({ 
                 success: true, 
@@ -134,72 +134,72 @@ module.exports = function({ pool, authenticateToken, io }) {
             
             // Buscar o registro
             const [[registro]] = await pool.query(`
-                SELECT * FROM ${config.tabela} WHERE id = ?
+                SELECT * FROM ${config.tabela} WHERE id = 
             `, [registro_id]);
             
             if (!registro) {
                 return res.status(404).json({ 
                     success: false, 
-                    message: 'Registro não encontrado' 
+                    message: 'Registro não encontração' 
                 });
             }
             
             const valor = registro[config.campo_valor] || 0;
             
-            // Buscar aprovador adequado pela alçada
+            // Buscar aprovaçãor adequação pela alçada
             const [[alcada]] = await pool.query(`
                 SELECT * FROM alcadas_aprovacao
-                WHERE tipo = ?
-                AND ? >= valor_minimo
-                AND ? <= valor_maximo
+                WHERE tipo = 
+                AND  >= valor_minimo
+                AND  <= valor_maximo
                 AND ativo = TRUE
                 ORDER BY valor_minimo DESC
                 LIMIT 1
             `, [tipo, valor, valor]);
             
-            let aprovadorId = null;
+            let aprovaçãorId = null;
             
             if (alcada) {
-                if (alcada.aprovador_id) {
-                    aprovadorId = alcada.aprovador_id;
+                if (alcada.aprovaçãor_id) {
+                    aprovaçãorId = alcada.aprovaçãor_id;
                 } else if (alcada.perfil_id) {
                     // Buscar um usuário com esse perfil
                     const [[usuario]] = await pool.query(`
                         SELECT id FROM usuarios 
-                        WHERE perfil_id = ? AND ativo = TRUE
+                        WHERE perfil_id =  AND ativo = TRUE
                         LIMIT 1
                     `, [alcada.perfil_id]);
-                    aprovadorId = usuario?.id;
+                    aprovaçãorId = usuario.id;
                 }
             }
             
-            // Se não encontrou aprovador específico, buscar admin
-            if (!aprovadorId) {
+            // Se não encontrou aprovaçãor específico, buscar admin
+            if (!aprovaçãorId) {
                 const [[admin]] = await pool.query(`
                     SELECT id FROM usuarios WHERE is_admin = 1 AND ativo = TRUE LIMIT 1
                 `);
-                aprovadorId = admin?.id;
+                aprovaçãorId = admin.id;
             }
             
             // Criar solicitação
             const [result] = await pool.query(`
                 INSERT INTO solicitacoes_aprovacao (
-                    tipo, registro_id, valor, solicitante_id, aprovador_id, observacao, status
-                ) VALUES (?, ?, ?, ?, ?, ?, 'pendente')
-            `, [tipo, registro_id, valor, req.user.id, aprovadorId, observacao || '']);
+                    tipo, registro_id, valor, solicitante_id, aprovaçãor_id, observacao, status
+                ) VALUES (, , , , , , 'pendente')
+            `, [tipo, registro_id, valor, req.user.id, aprovaçãorId, observacao || '']);
             
             // Atualizar status do registro
             await pool.query(`
-                UPDATE ${config.tabela} SET ${config.campo_status} = ? WHERE id = ?
+                UPDATE ${config.tabela} SET ${config.campo_status} =  WHERE id = 
             `, [config.status_pendente, registro_id]);
             
-            // Criar notificação para o aprovador
-            if (aprovadorId) {
+            // Criar notificação para o aprovaçãor
+            if (aprovaçãorId) {
                 await pool.query(`
                     INSERT INTO notificacoes (usuario_id, titulo, mensagem, tipo, modulo, prioridade, entidade_tipo, entidade_id)
-                    VALUES (?, ?, ?, 'aviso', ?, 'alta', ?, ?)
+                    VALUES (, , , 'aviso', , 'alta', , )
                 `, [
-                    aprovadorId,
+                    aprovaçãorId,
                     `Aprovação pendente: ${config.nome}`,
                     `${req.user.nome} solicitou aprovação para ${config.nome} no valor de R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`,
                     tipo.split('_')[0],
@@ -209,7 +209,7 @@ module.exports = function({ pool, authenticateToken, io }) {
                 
                 // Emitir evento Socket.IO
                 if (io) {
-                    io.to(`user_${aprovadorId}`).emit('nova_aprovacao', {
+                    io.to(`user_${aprovaçãorId}`).emit('nova_aprovacao', {
                         id: result.insertId,
                         tipo,
                         valor,
@@ -223,7 +223,7 @@ module.exports = function({ pool, authenticateToken, io }) {
                 message: 'Aprovação solicitada',
                 data: { 
                     id: result.insertId,
-                    aprovador_id: aprovadorId
+                    aprovaçãor_id: aprovaçãorId
                 }
             });
         } catch (error) {
@@ -233,7 +233,7 @@ module.exports = function({ pool, authenticateToken, io }) {
     });
 
     /**
-     * GET /pendentes - Listar aprovações pendentes (do usuário logado)
+     * GET /pendentes - Listar aprovações pendentes (do usuário logação)
      */
     router.get('/pendentes', async (req, res) => {
         try {
@@ -244,7 +244,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             const params = [];
             
             if (!isAdmin) {
-                where += ' AND sa.aprovador_id = ?';
+                where += ' AND sa.aprovaçãor_id = ';
                 params.push(userId);
             }
             
@@ -252,20 +252,20 @@ module.exports = function({ pool, authenticateToken, io }) {
                 SELECT 
                     sa.*,
                     us.nome as solicitante_nome,
-                    ua.nome as aprovador_nome
+                    ua.nome as aprovaçãor_nome
                 FROM solicitacoes_aprovacao sa
                 LEFT JOIN usuarios us ON sa.solicitante_id = us.id
-                LEFT JOIN usuarios ua ON sa.aprovador_id = ua.id
+                LEFT JOIN usuarios ua ON sa.aprovaçãor_id = ua.id
                 WHERE ${where}
-                ORDER BY sa.criado_em DESC
+                ORDER BY sa.criação_em DESC
             `, params);
             
-            // Enriquecer com dados do registro original
+            // Enriquecer com daçãos do registro original
             for (const item of pendentes) {
                 const config = TIPOS_APROVACAO[item.tipo];
                 if (config) {
                     const [[registro]] = await pool.query(`
-                        SELECT * FROM ${config.tabela} WHERE id = ?
+                        SELECT * FROM ${config.tabela} WHERE id = 
                     `, [item.registro_id]);
                     item.registro = registro;
                     item.tipo_nome = config.nome;
@@ -294,7 +294,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             
             // Buscar solicitação
             const [[solicitacao]] = await conn.query(`
-                SELECT * FROM solicitacoes_aprovacao WHERE id = ? AND status = 'pendente'
+                SELECT * FROM solicitacoes_aprovacao WHERE id =  AND status = 'pendente'
             `, [id]);
             
             if (!solicitacao) {
@@ -307,7 +307,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             
             // Verificar se usuário pode aprovar
             const isAdmin = req.user.is_admin === 1 || req.user.role === 'admin';
-            if (!isAdmin && solicitacao.aprovador_id !== userId) {
+            if (!isAdmin && solicitacao.aprovaçãor_id !== userId) {
                 await conn.rollback();
                 return res.status(403).json({ 
                     success: false, 
@@ -320,25 +320,25 @@ module.exports = function({ pool, authenticateToken, io }) {
             // Atualizar solicitação
             await conn.query(`
                 UPDATE solicitacoes_aprovacao 
-                SET status = 'aprovado', 
-                    aprovador_id = ?,
-                    observacao_aprovador = ?,
-                    aprovado_em = NOW()
-                WHERE id = ?
+                SET status = 'aprovação', 
+                    aprovaçãor_id = ,
+                    observacao_aprovaçãor = ,
+                    aprovação_em = NOW()
+                WHERE id = 
             `, [userId, observacao || '', id]);
             
             // Atualizar registro original
             await conn.query(`
-                UPDATE ${config.tabela} SET ${config.campo_status} = ? WHERE id = ?
-            `, [config.status_aprovado, solicitacao.registro_id]);
+                UPDATE ${config.tabela} SET ${config.campo_status} =  WHERE id = 
+            `, [config.status_aprovação, solicitacao.registro_id]);
             
             // Notificar solicitante
             await conn.query(`
                 INSERT INTO notificacoes (usuario_id, titulo, mensagem, tipo, modulo, entidade_tipo, entidade_id)
-                VALUES (?, ?, ?, 'sucesso', ?, ?, ?)
+                VALUES (, , , 'sucesso', , , )
             `, [
                 solicitacao.solicitante_id,
-                `${config.nome} aprovado`,
+                `${config.nome} aprovação`,
                 `Sua solicitação de ${config.nome} foi aprovada por ${req.user.nome}`,
                 solicitacao.tipo.split('_')[0],
                 solicitacao.tipo,
@@ -348,7 +348,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             // Log de auditoria
             await conn.query(`
                 INSERT INTO logs_auditoria (usuario_id, usuario_nome, acao, modulo, entidade_tipo, entidade_id, descricao)
-                VALUES (?, ?, 'APROVAR', 'workflow', ?, ?, ?)
+                VALUES (, , 'APROVAR', 'workflow', , , )
             `, [userId, req.user.nome, solicitacao.tipo, solicitacao.registro_id, 
                 `Aprovação de ${config.nome} no valor de R$ ${solicitacao.valor}`]).catch(() => {});
             
@@ -356,7 +356,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             
             res.json({ 
                 success: true, 
-                message: `${config.nome} aprovado com sucesso` 
+                message: `${config.nome} aprovação com sucesso` 
             });
         } catch (error) {
             await conn.rollback();
@@ -389,7 +389,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             
             // Buscar solicitação
             const [[solicitacao]] = await conn.query(`
-                SELECT * FROM solicitacoes_aprovacao WHERE id = ? AND status = 'pendente'
+                SELECT * FROM solicitacoes_aprovacao WHERE id =  AND status = 'pendente'
             `, [id]);
             
             if (!solicitacao) {
@@ -405,25 +405,25 @@ module.exports = function({ pool, authenticateToken, io }) {
             // Atualizar solicitação
             await conn.query(`
                 UPDATE solicitacoes_aprovacao 
-                SET status = 'rejeitado', 
-                    aprovador_id = ?,
-                    observacao_aprovador = ?,
-                    aprovado_em = NOW()
-                WHERE id = ?
+                SET status = 'rejeitação', 
+                    aprovaçãor_id = ,
+                    observacao_aprovaçãor = ,
+                    aprovação_em = NOW()
+                WHERE id = 
             `, [userId, motivo, id]);
             
             // Atualizar registro original
             await conn.query(`
-                UPDATE ${config.tabela} SET ${config.campo_status} = ? WHERE id = ?
-            `, [config.status_rejeitado, solicitacao.registro_id]);
+                UPDATE ${config.tabela} SET ${config.campo_status} =  WHERE id = 
+            `, [config.status_rejeitação, solicitacao.registro_id]);
             
             // Notificar solicitante
             await conn.query(`
                 INSERT INTO notificacoes (usuario_id, titulo, mensagem, tipo, modulo, prioridade, entidade_tipo, entidade_id)
-                VALUES (?, ?, ?, 'erro', ?, 'alta', ?, ?)
+                VALUES (, , , 'erro', , 'alta', , )
             `, [
                 solicitacao.solicitante_id,
-                `${config.nome} rejeitado`,
+                `${config.nome} rejeitação`,
                 `Sua solicitação foi rejeitada por ${req.user.nome}. Motivo: ${motivo}`,
                 solicitacao.tipo.split('_')[0],
                 solicitacao.tipo,
@@ -434,7 +434,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             
             res.json({ 
                 success: true, 
-                message: `${config.nome} rejeitado` 
+                message: `${config.nome} rejeitação` 
             });
         } catch (error) {
             await conn.rollback();
@@ -456,22 +456,22 @@ module.exports = function({ pool, authenticateToken, io }) {
             const params = [];
             
             if (tipo) {
-                where += ' AND sa.tipo = ?';
+                where += ' AND sa.tipo = ';
                 params.push(tipo);
             }
             
             if (status) {
-                where += ' AND sa.status = ?';
+                where += ' AND sa.status = ';
                 params.push(status);
             }
             
             if (data_inicio) {
-                where += ' AND sa.criado_em >= ?';
+                where += ' AND sa.criação_em >= ';
                 params.push(data_inicio);
             }
             
             if (data_fim) {
-                where += ' AND sa.criado_em <= ?';
+                where += ' AND sa.criação_em <= ';
                 params.push(data_fim);
             }
             
@@ -481,13 +481,13 @@ module.exports = function({ pool, authenticateToken, io }) {
                 SELECT 
                     sa.*,
                     us.nome as solicitante_nome,
-                    ua.nome as aprovador_nome
+                    ua.nome as aprovaçãor_nome
                 FROM solicitacoes_aprovacao sa
                 LEFT JOIN usuarios us ON sa.solicitante_id = us.id
-                LEFT JOIN usuarios ua ON sa.aprovador_id = ua.id
+                LEFT JOIN usuarios ua ON sa.aprovaçãor_id = ua.id
                 WHERE ${where}
-                ORDER BY sa.criado_em DESC
-                LIMIT ? OFFSET ?
+                ORDER BY sa.criação_em DESC
+                LIMIT  OFFSET 
             `, [...params, parseInt(limit), offset]);
             
             const [[{ total }]] = await pool.query(`

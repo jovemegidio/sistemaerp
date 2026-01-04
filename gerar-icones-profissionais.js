@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Script para gerar ícones PWA profissionais com logo ALUFORCE
-console.log('🎨 Gerando ícones PWA personalizados...\n');
+console.log('🎨 Gerando ícones PWA personalizaçãos...\n');
 
 const SIZES = [72, 96, 128, 144, 152, 192, 384, 512];
 const OUTPUT_DIR = path.join(__dirname, 'public', 'icons');
@@ -29,7 +29,7 @@ async function generateProfessionalIcons() {
             </linearGradient>
             
             <!-- Sombra suave -->
-            <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+            <filter id="shaçãow" x="-50%" y="-50%" width="200%" height="200%">
               <feGaussianBlur in="SourceAlpha" stdDeviation="${size * 0.02}"/>
               <feOffset dx="0" dy="${size * 0.015}" result="offsetblur"/>
               <feComponentTransfer>
@@ -52,7 +52,7 @@ async function generateProfessionalIcons() {
                 rx="${size * 0.18}"/>
           
           <!-- Letra A estilizada (logo) -->
-          <g filter="url(#shadow)">
+          <g filter="url(#shaçãow)">
             <path d="M ${size * 0.5} ${size * 0.25} 
                      L ${size * 0.7} ${size * 0.65} 
                      L ${size * 0.62} ${size * 0.65} 
@@ -91,12 +91,12 @@ async function generateProfessionalIcons() {
         .png({ quality: 100, compressionLevel: 9 })
         .toFile(outputFile);
       
-      console.log(`✅ Criado: icon-${size}x${size}.png`);
+      console.log(`✅ Criação: icon-${size}x${size}.png`);
     }
     
-    console.log('\n✨ Ícones PWA profissionais gerados com sucesso!');
+    console.log('\n✨ Ícones PWA profissionais geraçãos com sucesso!');
     console.log('📁 Localização: public/icons/');
-    console.log('🎨 Design: Logo ALUFORCE personalizado');
+    console.log('🎨 Design: Logo ALUFORCE personalização');
     console.log('📱 Pronto para instalação PWA!\n');
     
   } catch (error) {

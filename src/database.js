@@ -1,5 +1,5 @@
 // config/database.js
-// Configuração centralizada do banco de dados com retry logic e health checks
+// Configuração centralizada do banco de daçãos com retry logic e health checks
 
 const mysql = require('mysql2/promise');
 

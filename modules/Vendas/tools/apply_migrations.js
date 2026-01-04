@@ -41,16 +41,16 @@ const path = require('path');
       const sql = fs.readFileSync(fullPath, 'utf8');
 
       // If the file is empty or contains only comments/whitespace, mark as applied and skip
-  if (!sql || sql.replace(/\/\*[\s\S]*?\*\//g, '').replace(/--.*$/gm, '').trim().length === 0) {
+  if (!sql || sql.replace(/\/\*[\s\S]*\*\//g, '').replace(/--.*$/gm, '').trim().length === 0) {
         console.log(`Skipping empty migration file: ${file} (marking as applied)`);
-        await connection.query('INSERT INTO migrations (name) VALUES (?)', [file]);
+        await connection.query('INSERT INTO migrations (name) VALUES ()', [file]);
         continue;
       }
 
       console.log(`Applying migration: ${file}`);
       try {
         await connection.query(sql);
-        await connection.query('INSERT INTO migrations (name) VALUES (?)', [file]);
+        await connection.query('INSERT INTO migrations (name) VALUES ()', [file]);
         console.log(`Applied: ${file}`);
       } catch (err) {
         console.error(`Failed to apply ${file}:`, err.message || err);

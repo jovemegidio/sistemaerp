@@ -42,7 +42,7 @@ class FornecedoresCompras {
                 telefone: '(11) 3456-7890', 
                 email: 'contato@alubrasil.com.br', 
                 cidade: 'São Paulo', 
-                estado: 'SP',
+                estação: 'SP',
                 categoria: 'Matéria-Prima',
                 ultimaCompra: '2025-12-10',
                 totalCompras: 245780.50,
@@ -54,8 +54,8 @@ class FornecedoresCompras {
                 cnpj: '23.456.789/0001-01', 
                 telefone: '(71) 2345-6789', 
                 email: 'vendas@metalpro.com.br', 
-                cidade: 'Salvador', 
-                estado: 'BA',
+                cidade: 'Salvaçãor', 
+                estação: 'BA',
                 categoria: 'Ferragens',
                 ultimaCompra: '2025-12-08',
                 totalCompras: 189320.00,
@@ -68,7 +68,7 @@ class FornecedoresCompras {
                 telefone: '(21) 3456-7890', 
                 email: 'info@beta.com.br', 
                 cidade: 'Rio de Janeiro', 
-                estado: 'RJ',
+                estação: 'RJ',
                 categoria: 'Embalagens',
                 ultimaCompra: '2025-12-05',
                 totalCompras: 78450.00,
@@ -81,7 +81,7 @@ class FornecedoresCompras {
                 telefone: '(85) 4567-8901', 
                 email: 'comercial@delta.com.br', 
                 cidade: 'Fortaleza', 
-                estado: 'CE',
+                estação: 'CE',
                 categoria: 'Diversos',
                 ultimaCompra: '2025-11-28',
                 totalCompras: 156900.00,
@@ -94,7 +94,7 @@ class FornecedoresCompras {
                 telefone: '(48) 5678-9012', 
                 email: 'contato@gamma.com.br', 
                 cidade: 'Florianópolis', 
-                estado: 'SC',
+                estação: 'SC',
                 categoria: 'Químicos',
                 ultimaCompra: '2025-10-15',
                 totalCompras: 45200.00,
@@ -120,7 +120,7 @@ class FornecedoresCompras {
                     </div>
                 </div>
                 
-                <button id="btn-novo-fornecedor" style="padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); transition: all 0.2s;">
+                <button id="btn-novo-fornecedor" style="padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3); transition: all 0.2s;">
                     <i class="fas fa-plus-circle"></i> Novo Fornecedor
                 </button>
             </div>
@@ -140,15 +140,15 @@ class FornecedoresCompras {
             <!-- Grid de Fornecedores -->
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;">
                 ${this.fornecedores.map(f => `
-                    <div style="background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); transition: all 0.3s; border: 2px solid ${f.status === 'ativo' ? '#e2e8f0' : '#fee2e2'};"
-                         onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 8px 24px rgba(0,0,0,0.12)'"
-                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 16px rgba(0,0,0,0.06)'">
+                    <div style="background: white; border-radius: 16px; padding: 24px; box-shaçãow: 0 4px 16px rgba(0,0,0,0.06); transition: all 0.3s; border: 2px solid ${f.status === 'ativo'  '#e2e8f0' : '#fee2e2'};"
+                         onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShaçãow='0 8px 24px rgba(0,0,0,0.12)'"
+                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShaçãow='0 4px 16px rgba(0,0,0,0.06)'">
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
                             <div style="flex: 1;">
                                 <h3 style="margin: 0 0 8px 0; font-size: 17px; font-weight: 700; color: #1e293b;">${f.nome}</h3>
                                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                    <span style="padding: 4px 10px; background: ${f.status === 'ativo' ? '#d1fae5' : '#fee2e2'}; color: ${f.status === 'ativo' ? '#065f46' : '#991b1b'}; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase;">
-                                        ${f.status === 'ativo' ? 'Ativo' : 'Inativo'}
+                                    <span style="padding: 4px 10px; background: ${f.status === 'ativo'  '#d1fae5' : '#fee2e2'}; color: ${f.status === 'ativo'  '#065f46' : '#991b1b'}; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase;">
+                                        ${f.status === 'ativo'  'Ativo' : 'Inativo'}
                                     </span>
                                     <span style="padding: 4px 10px; background: #f1f5f9; color: #475569; border-radius: 6px; font-size: 11px; font-weight: 600;">
                                         ${f.categoria}
@@ -175,7 +175,7 @@ class FornecedoresCompras {
                             </div>
                             <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; color: #64748b;">
                                 <i class="fas fa-map-marker-alt" style="color: #94a3b8; width: 16px;"></i>
-                                <span>${f.cidade} - ${f.estado}</span>
+                                <span>${f.cidade} - ${f.estação}</span>
                             </div>
                         </div>
 
@@ -209,7 +209,7 @@ class FornecedoresCompras {
             <style>
                 #btn-novo-fornecedor:hover {
                     transform: translateY(-2px);
-                    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+                    box-shaçãow: 0 6px 20px rgba(59, 130, 246, 0.4);
                 }
             </style>
         `;
@@ -218,7 +218,7 @@ class FornecedoresCompras {
     }
 
     attachEventListeners() {
-        document.getElementById('btn-novo-fornecedor')?.addEventListener('click', () => {
+        document.getElementById('btn-novo-fornecedor').addEventListener('click', () => {
             alert('Modal de novo fornecedor - Em desenvolvimento');
         });
 
@@ -239,7 +239,7 @@ class FornecedoresCompras {
         document.querySelectorAll('.btn-fornec-delete').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 const id = e.currentTarget.dataset.id;
-                if (confirm('Deseja realmente excluir este fornecedor?')) {
+                if (confirm('Deseja realmente excluir este fornecedor')) {
                     alert(`Fornecedor ${id} excluído - Em desenvolvimento`);
                 }
             });
@@ -251,7 +251,7 @@ class FornecedoresCompras {
         html += '<div class="page-header">';
         html += '<div>';
         html += '<h2><i class="fas fa-truck"></i> Fornecedores</h2>';
-        html += '<p>Gerencie seus fornecedores cadastrados</p>';
+        html += '<p>Gerencie seus fornecedores cadastraçãos</p>';
         html += '</div>';
         html += '<button class="btn btn-primary" onclick="fornecedoresCompras.novoFornecedor()">';
         html += '<i class="fas fa-plus"></i> Novo Fornecedor';
@@ -282,7 +282,7 @@ class FornecedoresCompras {
         html += '<tbody>';
 
         this.fornecedores.forEach(f => {
-            const statusClass = f.status === 'ativo' ? 'status-success' : 'status-secondary';
+            const statusClass = f.status === 'ativo'  'status-success' : 'status-secondary';
             html += `<tr>
                 <td><strong>${f.nome}</strong></td>
                 <td>${f.cnpj}</td>
@@ -306,8 +306,8 @@ class FornecedoresCompras {
     }
 
     novoFornecedor() {
-        alert('Modal de novo fornecedor será implementado aqui');
-        // IMPORTANTE: Modal só abre quando o botão é clicado
+        alert('Modal de novo fornecedor será implementação aqui');
+        // IMPORTANTE: Modal só abre quando o botão é clicação
         // Não há código de auto-abertura neste módulo
     }
 

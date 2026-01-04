@@ -66,7 +66,7 @@ module.exports = (pool) => {
                 }
             }
             
-            console.log(`\n✅ Schema executado!\n`);
+            console.log(`\n✅ Schema executação!\n`);
             
             // Verificar tabelas criadas
             const [tables] = await connection.query(`
@@ -75,17 +75,17 @@ module.exports = (pool) => {
                 FROM information_schema.TABLES 
                 WHERE TABLE_SCHEMA = 'aluforce_vendas' 
                 AND (TABLE_NAME LIKE 'nfe%' 
-                     OR TABLE_NAME IN ('transportadoras', 'volumes', 'rastreamentos', 
+                     OR TABLE_NAME IN ('transportaçãoras', 'volumes', 'rastreamentos', 
                                        'frete_tabelas', 'frete_faixas', 'ctes', 'mdfes', 
                                        'mdfe_documentos', 'mdfe_percursos'))
                 ORDER BY TABLE_NAME
             `);
             
-            console.log(`\n✅ Schema criado com sucesso! ${tables.length} tabelas criadas/verificadas\n`);
+            console.log(`\n✅ Schema criação com sucesso! ${tables.length} tabelas criadas/verificadas\n`);
             
             res.json({
                 success: true,
-                message: 'Schema NFe & Logística criado com sucesso',
+                message: 'Schema NFe & Logística criação com sucesso',
                 tables: tables.map(t => ({
                     name: t.TABLE_NAME,
                     rows: t.TABLE_ROWS,
@@ -147,7 +147,7 @@ module.exports = (pool) => {
                 FROM information_schema.TABLES 
                 WHERE TABLE_SCHEMA = 'aluforce_vendas' 
                 AND (TABLE_NAME LIKE 'nfe%' 
-                     OR TABLE_NAME IN ('transportadoras', 'volumes', 'rastreamentos', 
+                     OR TABLE_NAME IN ('transportaçãoras', 'volumes', 'rastreamentos', 
                                        'frete_tabelas', 'frete_faixas', 'ctes', 'mdfes', 
                                        'mdfe_documentos', 'mdfe_percursos'))
                 ORDER BY TABLE_NAME
@@ -155,7 +155,7 @@ module.exports = (pool) => {
             
             const expected = [
                 'nfe_configuracoes', 'nfes', 'nfe_itens', 'nfe_eventos', 
-                'nfe_inutilizacoes', 'nfe_logs_sefaz', 'transportadoras', 
+                'nfe_inutilizacoes', 'nfe_logs_sefaz', 'transportaçãoras', 
                 'volumes', 'rastreamentos', 'frete_tabelas', 'frete_faixas', 
                 'ctes', 'mdfes', 'mdfe_documentos', 'mdfe_percursos'
             ];
@@ -167,7 +167,7 @@ module.exports = (pool) => {
                 success: true,
                 tables_existing: tables,
                 tables_missing: missing,
-                status: missing.length === 0 ? 'complete' : 'incomplete',
+                status: missing.length === 0  'complete' : 'incomplete',
                 completion_percentage: Math.round((existing.length / expected.length) * 100)
             });
             

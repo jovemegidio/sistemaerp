@@ -1,6 +1,6 @@
 /**
  * ALUFORCE CHAT - ÁREA DE SUPORTE (TI)
- * Sistema de tickets e atendimento para administrador TI
+ * Sistema de tickets e atendimento para administraçãor TI
  * @version 1.0
  */
 
@@ -11,7 +11,7 @@
     function isSupportUser() {
         const userData = JSON.parse(localStorage.getItem('userData') || '{}');
         const supportEmails = ['ti@aluforce.ind.br', 'tialuforce@gmail.com', 'admin@aluforce.ind.br'];
-        return supportEmails.includes(userData.email?.toLowerCase());
+        return supportEmails.includes(userData.email.toLowerCase());
     }
 
     // Se não for usuário de suporte, não carregar este módulo
@@ -20,7 +20,7 @@
         return;
     }
 
-    console.log('🛠️ Usuário TI detectado - carregando área de suporte');
+    console.log('🛠️ Usuário TI detectação - carregando área de suporte');
 
     // ===== ESTADO DO SUPORTE =====
     const supportState = {
@@ -108,10 +108,10 @@
                 </div>
                 
                 <div class="support-tickets-list" id="supportTicketsList">
-                    <!-- Tickets serão carregados aqui -->
+                    <!-- Tickets serão carregaçãos aqui -->
                     <div class="empty-tickets">
                         <i class="fas fa-inbox" style="font-size: 48px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                        <h3>Nenhum ticket encontrado</h3>
+                        <h3>Nenhum ticket encontração</h3>
                         <p>Aguardando solicitações de usuários...</p>
                     </div>
                 </div>
@@ -202,7 +202,7 @@
             max-height: calc(100vh - 48px);
             background: white;
             border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.15);
             display: none;
             flex-direction: column;
             z-index: 9998;
@@ -297,7 +297,7 @@
             padding: 12px 8px;
             background: white;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shaçãow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .stat-value {
@@ -408,7 +408,7 @@
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.05);
             cursor: pointer;
             transition: all 0.2s;
             border-left: 4px solid transparent;
@@ -416,7 +416,7 @@
 
         .ticket-item:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .ticket-item.status-open {
@@ -645,7 +645,7 @@
 
         .ticket-action-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .ticket-detail-user {
@@ -792,7 +792,7 @@
         .ticket-reply-input:focus {
             outline: none;
             border-color: #ef4444;
-            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+            box-shaçãow: 0 0 0 3px rgba(239, 68, 68, 0.1);
         }
 
         .reply-actions {
@@ -837,7 +837,7 @@
 
         .btn-send-reply:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            box-shaçãow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
         /* Botão Flutuante de Suporte */
@@ -851,7 +851,7 @@
             background: linear-gradient(135deg, #ef4444, #dc2626);
             border: none;
             cursor: pointer;
-            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
+            box-shaçãow: 0 8px 24px rgba(239, 68, 68, 0.4);
             z-index: 9997;
             display: flex;
             align-items: center;
@@ -866,7 +866,7 @@
 
         .support-floating-btn:hover {
             transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 12px 32px rgba(239, 68, 68, 0.5);
+            box-shaçãow: 0 12px 32px rgba(239, 68, 68, 0.5);
         }
 
         .support-floating-btn .floating-icon {
@@ -889,7 +889,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 2px 8px rgba(251, 191, 36, 0.5);
+            box-shaçãow: 0 2px 8px rgba(251, 191, 36, 0.5);
             border: 2px solid white;
         }
 
@@ -919,7 +919,7 @@
             }
         }
 
-        /* Scrollbar Customizado */
+        /* Scrollbar Customização */
         .support-tickets-container::-webkit-scrollbar,
         .ticket-messages-container::-webkit-scrollbar {
             width: 6px;
@@ -981,14 +981,14 @@
                 avatar: 'I'
             },
             subject: 'Não consigo acessar folha de pagamento',
-            message: 'Ao tentar acessar a folha de pagamento, aparece erro 403 - Acesso Negado.',
+            message: 'Ao tentar acessar a folha de pagamento, aparece erro 403 - Acesso Negação.',
             status: 'pending',
             priority: 'medium',
             created: new Date(Date.now() - 3600000), // 1h atrás
             messages: [
                 {
                     type: 'user',
-                    text: 'Ao tentar acessar a folha de pagamento, aparece erro 403 - Acesso Negado.',
+                    text: 'Ao tentar acessar a folha de pagamento, aparece erro 403 - Acesso Negação.',
                     time: new Date(Date.now() - 3600000)
                 },
                 {
@@ -1009,24 +1009,24 @@
                 avatar: 'T'
             },
             subject: 'Preciso cadastrar novo material',
-            message: 'Como faço para cadastrar um novo material no sistema PCP?',
+            message: 'Como faço para cadastrar um novo material no sistema PCP',
             status: 'resolved',
             priority: 'low',
             created: new Date(Date.now() - 86400000), // 1 dia atrás
             messages: [
                 {
                     type: 'user',
-                    text: 'Como faço para cadastrar um novo material no sistema PCP?',
+                    text: 'Como faço para cadastrar um novo material no sistema PCP',
                     time: new Date(Date.now() - 86400000)
                 },
                 {
                     type: 'support',
-                    text: 'Olá Thiago! Para cadastrar um novo material: 1) Acesse PCP > Materiais, 2) Clique em "Novo Material", 3) Preencha os dados obrigatórios.',
+                    text: 'Olá Thiago! Para cadastrar um novo material: 1) Acesse PCP > Materiais, 2) Clique em "Novo Material", 3) Preencha os daçãos obrigatórios.',
                     time: new Date(Date.now() - 86000000)
                 },
                 {
                     type: 'user',
-                    text: 'Perfeito! Consegui cadastrar. Muito obrigado!',
+                    text: 'Perfeito! Consegui cadastrar. Muito obrigação!',
                     time: new Date(Date.now() - 85000000)
                 }
             ],
@@ -1056,11 +1056,11 @@
                         message: t.mensagem || t.descricao || '',
                         status: mapStatus(t.status),
                         priority: t.prioridade || 'medium',
-                        created: new Date(t.criadoEm || Date.now()),
+                        created: new Date(t.criaçãoEm || Date.now()),
                         messages: (t.respostas || []).map(r => ({
-                            type: r.atendente ? 'support' : 'user',
+                            type: r.atendente  'support' : 'user',
                             text: r.texto || r.mensagem,
-                            time: new Date(r.criadoEm || Date.now())
+                            time: new Date(r.criaçãoEm || Date.now())
                         })),
                         unread: t.status === 'pendente' || t.status === 'aberto'
                     }));
@@ -1093,7 +1093,7 @@
             'em_andamento': 'pending',
             'aguardando': 'pending',
             'resolvido': 'resolved',
-            'fechado': 'resolved'
+            'fechação': 'resolved'
         };
         return statusMap[apiStatus] || 'open';
     }
@@ -1150,7 +1150,7 @@
             container.innerHTML = `
                 <div class="empty-tickets">
                     <i class="fas fa-inbox" style="font-size: 48px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                    <h3>Nenhum ticket encontrado</h3>
+                    <h3>Nenhum ticket encontração</h3>
                     <p>Aguardando solicitações de usuários...</p>
                 </div>
             `;
@@ -1188,7 +1188,7 @@
                         <div class="ticket-time">
                             <i class="fas fa-clock"></i> ${timeAgo}
                         </div>
-                        ${ticket.unread ? '<span class="ticket-unread">Nova</span>' : ''}
+                        ${ticket.unread  '<span class="ticket-unread">Nova</span>' : ''}
                     </div>
                 </div>
             `;
@@ -1210,10 +1210,10 @@
         supportState.activeTicket = ticket;
         ticket.unread = false;
 
-        // Preencher dados
+        // Preencher daçãos
         document.getElementById('detailTicketNumber').textContent = ticket.number;
         document.getElementById('detailTicketStatus').textContent = 
-            ticket.status === 'open' ? 'Aberto' : ticket.status === 'pending' ? 'Pendente' : 'Resolvido';
+            ticket.status === 'open'  'Aberto' : ticket.status === 'pending'  'Pendente' : 'Resolvido';
         document.getElementById('detailTicketStatus').className = 
             `ticket-status-badge ${ticket.status}`;
 
@@ -1229,8 +1229,8 @@
         const messagesContainer = document.getElementById('ticketMessagesContainer');
         messagesContainer.innerHTML = ticket.messages.map(msg => `
             <div class="ticket-message ${msg.type}">
-                <div class="message-avatar" style="background: ${msg.type === 'user' ? getAvatarColor(ticket.user.avatar) : 'linear-gradient(135deg, #ef4444, #dc2626)'};">
-                    ${msg.type === 'user' ? ticket.user.avatar : 'TI'}
+                <div class="message-avatar" style="background: ${msg.type === 'user'  getAvatarColor(ticket.user.avatar) : 'linear-gradient(135deg, #ef4444, #dc2626)'};">
+                    ${msg.type === 'user'  ticket.user.avatar : 'TI'}
                 </div>
                 <div class="message-content">
                     <div class="message-bubble">${msg.text}</div>
@@ -1330,7 +1330,7 @@
         openTicketDetail(supportState.activeTicket.id);
         renderTickets();
 
-        alert('Ticket marcado como resolvido!');
+        alert('Ticket marcação como resolvido!');
     }
 
     function getAvatarColor(initial) {
@@ -1389,7 +1389,7 @@
             
             items.forEach(item => {
                 const text = item.textContent.toLowerCase();
-                item.style.display = text.includes(query) ? 'block' : 'none';
+                item.style.display = text.includes(query)  'block' : 'none';
             });
         });
 
@@ -1409,7 +1409,7 @@
 
         // Fechar ticket
         document.getElementById('closeTicketBtn').addEventListener('click', () => {
-            if (confirm('Tem certeza que deseja fechar este ticket?')) {
+            if (confirm('Tem certeza que deseja fechar este ticket')) {
                 resolveTicket();
                 closeTicketDetail();
             }

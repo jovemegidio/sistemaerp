@@ -9,37 +9,37 @@ class TemplateXlsxRealGeneratorCorreto {
         this.worksheets = {};
         this.sharedStrings = [];
         this.sharedStringsMap = new Map();
-        console.log('🔧 Template XLSX Real Generator CORRETO iniciado - Posições baseadas na análise');
+        console.log('🔧 Template XLSX Real Generator CORRETO iniciação - Posições baseadas na análise');
     }
 
     // Método principal compatível com código existente
-    async generateFromTemplate(templatePath, outputPath, dadosOrdem) {
+    async generateFromTemplate(templatePath, outputPath, daçãosOrdem) {
         console.log(`\n🏭 GERANDO ORDEM COM MAPEAMENTO CORRETO: ${outputPath}`);
         console.log(`📁 Template original: ${templatePath}`);
         
         try {
             // Verificar se template existe
             if (!fs.existsSync(templatePath)) {
-                throw new Error(`Template não encontrado: ${templatePath}`);
+                throw new Error(`Template não encontração: ${templatePath}`);
             }
 
             // Carregar template original
             await this.carregarTemplate(templatePath);
             
-            // Aplicar dados ao template
-            await this.aplicarDadosComMapeamentoCorreto(dadosOrdem);
+            // Aplicar daçãos ao template
+            await this.aplicarDaçãosComMapeamentoCorreto(daçãosOrdem);
             
-            // Salvar arquivo modificado
-            const resultado = await this.salvarArquivo(outputPath);
+            // Salvar arquivo modificação
+            const resultação = await this.salvarArquivo(outputPath);
             
             return {
                 sucesso: true,
                 arquivo: outputPath,
                 filename: outputPath,
-                size: resultado.tamanho,
-                totalGeral: this.calcularTotal(dadosOrdem),
-                produtosProcessados: this.contarProdutos(dadosOrdem),
-                templateUsado: templatePath
+                size: resultação.tamanho,
+                totalGeral: this.calcularTotal(daçãosOrdem),
+                produtosProcessaçãos: this.contarProdutos(daçãosOrdem),
+                templateUsação: templatePath
             };
             
         } catch (error) {
@@ -77,7 +77,7 @@ class TemplateXlsxRealGeneratorCorreto {
         // Salvar ZIP original para preservar outros arquivos
         this.originalZip = zip;
         
-        console.log('✅ Template carregado com sucesso!');
+        console.log('✅ Template carregação com sucesso!');
     }
 
     // Parse shared strings
@@ -85,7 +85,7 @@ class TemplateXlsxRealGeneratorCorreto {
         this.sharedStrings = [];
         this.sharedStringsMap.clear();
         
-        const regex = /<t[^>]*>(.*?)<\/t>/g;
+        const regex = /<t[^>]*>(.*)<\/t>/g;
         let match;
         let index = 0;
         
@@ -100,7 +100,7 @@ class TemplateXlsxRealGeneratorCorreto {
     // Parse worksheet
     parseWorksheet(xml) {
         const cells = {};
-        const regex = /<c r="([^"]+)"[^>]*>(.*?)<\/c>/gs;
+        const regex = /<c r="([^"]+)"[^>]*>(.*)<\/c>/gs;
         let match;
         
         while ((match = regex.exec(xml)) !== null) {
@@ -123,13 +123,13 @@ class TemplateXlsxRealGeneratorCorreto {
     // Extrair valor da célula
     extractCellValue(cellContent) {
         // Valor direto
-        const vMatch = cellContent.match(/<v>(.*?)<\/v>/);
+        const vMatch = cellContent.match(/<v>(.*)<\/v>/);
         if (vMatch) {
             return vMatch[1];
         }
         
         // String inline
-        const isMatch = cellContent.match(/<is><t[^>]*>(.*?)<\/t><\/is>/);
+        const isMatch = cellContent.match(/<is><t[^>]*>(.*)<\/t><\/is>/);
         if (isMatch) {
             return this.decodeXML(isMatch[1]);
         }
@@ -137,8 +137,8 @@ class TemplateXlsxRealGeneratorCorreto {
         return '';
     }
 
-    // Aplicar dados com mapeamento correto
-    async aplicarDadosComMapeamentoCorreto(dadosOrdem) {
+    // Aplicar daçãos com mapeamento correto
+    async aplicarDaçãosComMapeamentoCorreto(daçãosOrdem) {
         console.log('\n🎯 APLICANDO DADOS COM MAPEAMENTO CORRETO...');
         
         // Usar primeira worksheet (sheet1)
@@ -151,65 +151,65 @@ class TemplateXlsxRealGeneratorCorreto {
         // === MAPEAMENTO CORRETO BASEADO NA ANÁLISE DO TEMPLATE ===
         console.log('\n📋 DADOS PRINCIPAIS (posições corretas):');
         
-        // Baseado na análise: F1: "Orçamento:", E4: "Pedido:", G4: "Dt. liberação:", I4: "VENDEDOR:"
+        // Baseação na análise: F1: "Orçamento:", E4: "Pedido:", G4: "Dt. liberação:", I4: "VENDEDOR:"
         
-        // Orçamento - campo ao lado de F1
-        this.setCellValue(worksheet, 'G1', dadosOrdem.numero_orcamento || dadosOrdem.numeroOrcamento || '352');
+        // Orçamento - campo ao lação de F1
+        this.setCellValue(worksheet, 'G1', daçãosOrdem.numero_orcamento || daçãosOrdem.numeroOrcamento || '352');
         
-        // Pedido - campo ao lado de E4
-        this.setCellValue(worksheet, 'F4', dadosOrdem.numero_pedido || dadosOrdem.numeroPedido || '202500083');
+        // Pedido - campo ao lação de E4
+        this.setCellValue(worksheet, 'F4', daçãosOrdem.numero_pedido || daçãosOrdem.numeroPedido || '202500083');
         
-        // Data liberação - campo ao lado de G4
-        this.setCellValue(worksheet, 'H4', dadosOrdem.data_liberacao || dadosOrdem.dataLiberacao || '19/08/2025');
+        // Data liberação - campo ao lação de G4
+        this.setCellValue(worksheet, 'H4', daçãosOrdem.data_liberacao || daçãosOrdem.dataLiberacao || '19/08/2025');
         
-        // Vendedor - campo ao lado de I4
-        this.setCellValue(worksheet, 'J4', dadosOrdem.vendedor || 'Marcia Scarcella');
+        // Vendedor - campo ao lação de I4
+        this.setCellValue(worksheet, 'J4', daçãosOrdem.vendedor || 'Marcia Scarcella');
         
         // Prazo de entrega - B6 é o label
-        this.setCellValue(worksheet, 'C6', dadosOrdem.prazo_entrega || dadosOrdem.prazoEntrega || '18/09/2025');
+        this.setCellValue(worksheet, 'C6', daçãosOrdem.prazo_entrega || daçãosOrdem.prazoEntrega || '18/09/2025');
         
         // Cliente - I6 é o label
-        this.setCellValue(worksheet, 'J6', dadosOrdem.cliente || dadosOrdem.cliente_razao || 'CONSTRULAR');
+        this.setCellValue(worksheet, 'J6', daçãosOrdem.cliente || daçãosOrdem.cliente_razao || 'CONSTRULAR');
         
         // === CONTATO E DADOS ADJACENTES ===
         console.log('\n📞 CONTATO:');
         // Contato - B7 é o label
-        this.setCellValue(worksheet, 'C7', dadosOrdem.contato_cliente || dadosOrdem.clienteContato || 'Rodrigo');
+        this.setCellValue(worksheet, 'C7', daçãosOrdem.contato_cliente || daçãosOrdem.clienteContato || 'Rodrigo');
         
         // Fone - B8 é o label
-        this.setCellValue(worksheet, 'C8', dadosOrdem.fone_cliente || dadosOrdem.clienteTelefone || '(94) 98430-6216');
+        this.setCellValue(worksheet, 'C8', daçãosOrdem.fone_cliente || daçãosOrdem.clienteTelefone || '(94) 98430-6216');
         
         // Email - H8 é o label
-        this.setCellValue(worksheet, 'I8', dadosOrdem.email_cliente || dadosOrdem.clienteEmail || 'constrularcimento@gmail.com');
+        this.setCellValue(worksheet, 'I8', daçãosOrdem.email_cliente || daçãosOrdem.clienteEmail || 'constrularcimento@gmail.com');
         
         // Frete - B9 é o label
-        this.setCellValue(worksheet, 'C9', dadosOrdem.tipo_frete || dadosOrdem.frete || 'FOB');
+        this.setCellValue(worksheet, 'C9', daçãosOrdem.tipo_frete || daçãosOrdem.frete || 'FOB');
         
         // === TRANSPORTADORA ===
         console.log('\n🚛 TRANSPORTADORA:');
         // Nome - B11 é o label
-        this.setCellValue(worksheet, 'C11', dadosOrdem.transportadora_nome || dadosOrdem.transportadora || '');
+        this.setCellValue(worksheet, 'C11', daçãosOrdem.transportaçãora_nome || daçãosOrdem.transportaçãora || '');
         
-        // Fone transportadora - B12 é o label  
-        this.setCellValue(worksheet, 'C12', dadosOrdem.transportadora_fone || '(94) 98430-6216');
+        // Fone transportaçãora - B12 é o label  
+        this.setCellValue(worksheet, 'C12', daçãosOrdem.transportaçãora_fone || '(94) 98430-6216');
         
         // Cep - I12 é o label
-        this.setCellValue(worksheet, 'J12', dadosOrdem.transportadora_cep || '68560-000');
+        this.setCellValue(worksheet, 'J12', daçãosOrdem.transportaçãora_cep || '68560-000');
         
         // Endereço - B13 é o label
-        this.setCellValue(worksheet, 'C13', dadosOrdem.transportadora_endereco || 'Av. Henrique Vita nº 12 - Expansão - Santana do Araguaia - PA');
+        this.setCellValue(worksheet, 'C13', daçãosOrdem.transportaçãora_endereco || 'Av. Henrique Vita nº 12 - Expansão - Santana do Araguaia - PA');
         
         // === COBRANÇA ===
         console.log('\n💼 COBRANÇA:');
         // CPF/CNPJ - E14 é o label
-        this.setCellValue(worksheet, 'F14', dadosOrdem.transportadora_cpf_cnpj || '36.408.556/0001-69');
+        this.setCellValue(worksheet, 'F14', daçãosOrdem.transportaçãora_cpf_cnpj || '36.408.556/0001-69');
         
         // E-mail NFe - B15 é o label
-        this.setCellValue(worksheet, 'C15', dadosOrdem.transportadora_email_nfe || 'constrularcimento@gmail.com');
+        this.setCellValue(worksheet, 'C15', daçãosOrdem.transportaçãora_email_nfe || 'constrularcimento@gmail.com');
         
         // === PRODUTOS ===
         console.log('\n📦 PRODUTOS:');
-        let produtos = dadosOrdem.produtos || dadosOrdem.itens || [];
+        let produtos = daçãosOrdem.produtos || daçãosOrdem.itens || [];
         
         if (typeof produtos === 'string') {
             try {
@@ -233,7 +233,7 @@ class TemplateXlsxRealGeneratorCorreto {
             ];
         }
         
-        // Baseado na análise: H15: "Cod.", C17: "Produto", G17: "Lance(s)", H17: "Qtd.", I17: "V. Un. R$", J17: "V. Total. R$"
+        // Baseação na análise: H15: "Cod.", C17: "Produto", G17: "Lance(s)", H17: "Qtd.", I17: "V. Un. R$", J17: "V. Total. R$"
         let linhaProduto = 18; // Começar logo após os cabeçalhos
         let totalGeral = 0;
         
@@ -249,12 +249,12 @@ class TemplateXlsxRealGeneratorCorreto {
             console.log(`   📦 Item ${index + 1}: ${codigo} - ${descricao}`);
             console.log(`      Qtd: ${quantidade} x R$ ${valorUnitario.toFixed(2)} = R$ ${total.toFixed(2)}`);
             
-            // Mapeamento baseado nas colunas identificadas
+            // Mapeamento baseação nas colunas identificadas
             this.setCellValue(worksheet, `H${linhaProduto}`, codigo); // Coluna H (Cod.)
             this.setCellValue(worksheet, `C${linhaProduto}`, descricao); // Coluna C (Produto)
             this.setCellValue(worksheet, `E${linhaProduto}`, embalagem); // Embalagem
             this.setCellValue(worksheet, `G${linhaProduto}`, lances); // Coluna G (Lance(s))
-            this.setCellValue(worksheet, `H${linhaProduto + 1}`, quantidade); // Qtd (linha seguinte?)
+            this.setCellValue(worksheet, `H${linhaProduto + 1}`, quantidade); // Qtd (linha seguinte)
             this.setCellValue(worksheet, `I${linhaProduto}`, valorUnitario.toFixed(2)); // Coluna I (V. Un.)
             this.setCellValue(worksheet, `J${linhaProduto}`, total.toFixed(2)); // Coluna J (V. Total)
             
@@ -264,13 +264,13 @@ class TemplateXlsxRealGeneratorCorreto {
         
         // === TOTAL ===
         console.log('\n💰 TOTAL:');
-        const totalPedido = dadosOrdem.total_pedido || totalGeral;
-        // J34 foi identificado como área de total
+        const totalPedido = daçãosOrdem.total_pedido || totalGeral;
+        // J34 foi identificação como área de total
         this.setCellValue(worksheet, 'J34', totalPedido.toFixed(2));
         
         // === OBSERVAÇÕES ===
         console.log('\n📝 OBSERVAÇÕES:');
-        const observacoes = dadosOrdem.observacoes || dadosOrdem.obs || '';
+        const observacoes = daçãosOrdem.observacoes || daçãosOrdem.obs || '';
         if (observacoes) {
             this.setCellValue(worksheet, 'A35', observacoes);
         }
@@ -333,10 +333,10 @@ class TemplateXlsxRealGeneratorCorreto {
                 if (cell.original) {
                     xml = xml.replace(cell.original, newCellXml);
                 } else {
-                    const sheetDataMatch = xml.match(/<sheetData>(.*?)<\/sheetData>/s);
+                    const sheetDataMatch = xml.match(/<sheetData>(.*)<\/sheetData>/s);
                     if (sheetDataMatch) {
                         const coords = this.cellRefToCoords(cellRef);
-                        const rowPattern = new RegExp(`<row r="${coords.row}"[^>]*>(.*?)</row>`, 's');
+                        const rowPattern = new RegExp(`<row r="${coords.row}"[^>]*>(.*)</row>`, 's');
                         const rowMatch = xml.match(rowPattern);
                         
                         if (rowMatch) {
@@ -395,12 +395,12 @@ class TemplateXlsxRealGeneratorCorreto {
             .replace(/&apos;/g, "'");
     }
 
-    calcularTotal(dadosOrdem) {
-        if (dadosOrdem.total_pedido) {
-            return parseFloat(dadosOrdem.total_pedido);
+    calcularTotal(daçãosOrdem) {
+        if (daçãosOrdem.total_pedido) {
+            return parseFloat(daçãosOrdem.total_pedido);
         }
         
-        let produtos = dadosOrdem.produtos || dadosOrdem.itens || [];
+        let produtos = daçãosOrdem.produtos || daçãosOrdem.itens || [];
         if (typeof produtos === 'string') {
             try {
                 produtos = JSON.parse(produtos);
@@ -416,8 +416,8 @@ class TemplateXlsxRealGeneratorCorreto {
         }, 0);
     }
 
-    contarProdutos(dadosOrdem) {
-        let produtos = dadosOrdem.produtos || dadosOrdem.itens || [];
+    contarProdutos(daçãosOrdem) {
+        let produtos = daçãosOrdem.produtos || daçãosOrdem.itens || [];
         if (typeof produtos === 'string') {
             try {
                 produtos = JSON.parse(produtos);

@@ -39,7 +39,7 @@
     
     <div class="topbar-center">
         <div class="nav-icons">
-            <button class="nav-icon-btn" title="Atualizar Dados" id="btn-refresh-header">
+            <button class="nav-icon-btn" title="Atualizar Daçãos" id="btn-refresh-header">
                 <i class="fas fa-sync-alt"></i>
             </button>
             <button class="nav-icon-btn" title="Alternar Modo Escuro" id="theme-toggle">
@@ -98,7 +98,7 @@
 </header>
 
 <script>
-// Script para carregar dados do usuário no header
+// Script para carregar daçãos do usuário no header
 (function() {
     document.addEventListener('DOMContentLoaded', function() {
         try {
@@ -132,7 +132,7 @@
                 img.src = avatarPath;
             }
         } catch (error) {
-            console.error('Erro ao carregar dados do usuário:', error);
+            console.error('Erro ao carregar daçãos do usuário:', error);
         }
         
         // Menu dropdown do usuário
@@ -142,7 +142,7 @@
         if (userMenuTrigger && userMenuDropdown) {
             userMenuTrigger.addEventListener('click', function(e) {
                 e.stopPropagation();
-                userMenuDropdown.style.display = userMenuDropdown.style.display === 'none' ? 'block' : 'none';
+                userMenuDropdown.style.display = userMenuDropdown.style.display === 'none'  'block' : 'none';
             });
             
             document.addEventListener('click', function() {

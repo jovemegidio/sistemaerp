@@ -1,4 +1,4 @@
-// Script para popular as tabelas vendedores e compradores com dados reais
+// Script para popular as tabelas vendedores e compraçãores com daçãos reais
 const mysql = require('mysql2/promise');
 
 const DB_CONFIG = {
@@ -29,9 +29,9 @@ async function popularTabelas() {
             )
         `);
         
-        // Criar tabela compradores se não existir
+        // Criar tabela compraçãores se não existir
         await pool.query(`
-            CREATE TABLE IF NOT EXISTS compradores (
+            CREATE TABLE IF NOT EXISTS compraçãores (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 nome VARCHAR(255) NOT NULL,
                 situacao ENUM('ativo', 'inativo') DEFAULT 'ativo',
@@ -65,44 +65,44 @@ async function popularTabelas() {
         
         for (const v of vendedores) {
             await pool.query(
-                'INSERT INTO vendedores (nome, email, comissao, situacao, permissoes) VALUES (?, ?, ?, ?, ?)',
+                'INSERT INTO vendedores (nome, email, comissao, situacao, permissoes) VALUES (, , , , )',
                 [v.nome, v.email, v.comissao, 'ativo', 'vendas,crm']
             );
-            console.log(`   ✅ Vendedor adicionado: ${v.nome}`);
+            console.log(`   ✅ Vendedor adicionação: ${v.nome}`);
         }
         
         // ============ COMPRADORES ============
         console.log('\n🛒 Populando tabela COMPRADORES...');
         
-        // Limpar tabela compradores
-        await pool.query('DELETE FROM compradores');
+        // Limpar tabela compraçãores
+        await pool.query('DELETE FROM compraçãores');
         
-        // Compradores com "Antônio Egidio Neto" como incluido_por
-        const compradores = [
+        // Compraçãores com "Antônio Egidio Neto" como incluido_por
+        const compraçãores = [
             { nome: 'Andréia Trovão', incluido_por: 'Antônio Egidio Neto' },
             { nome: 'Guilherme Dantas', incluido_por: 'Antônio Egidio Neto' }
         ];
         
-        for (const c of compradores) {
+        for (const c of compraçãores) {
             await pool.query(
-                'INSERT INTO compradores (nome, situacao, incluido_por) VALUES (?, ?, ?)',
+                'INSERT INTO compraçãores (nome, situacao, incluido_por) VALUES (, , )',
                 [c.nome, 'ativo', c.incluido_por]
             );
-            console.log(`   ✅ Comprador adicionado: ${c.nome} (incluído por: ${c.incluido_por})`);
+            console.log(`   ✅ Compraçãor adicionação: ${c.nome} (incluído por: ${c.incluido_por})`);
         }
         
-        // Verificar resultados
-        console.log('\n📋 Verificando dados inseridos...');
+        // Verificar resultaçãos
+        console.log('\n📋 Verificando daçãos inseridos...');
         
         const [vendedoresResult] = await pool.query('SELECT id, nome, comissao, situacao FROM vendedores ORDER BY nome');
-        console.log('\n👥 VENDEDORES cadastrados:', vendedoresResult.length);
+        console.log('\n👥 VENDEDORES cadastraçãos:', vendedoresResult.length);
         vendedoresResult.forEach(v => {
             console.log(`   - ${v.nome} (${v.comissao}% comissão, ${v.situacao})`);
         });
         
-        const [compradoresResult] = await pool.query('SELECT id, nome, incluido_por, situacao, created_at FROM compradores ORDER BY nome');
-        console.log('\n🛒 COMPRADORES cadastrados:', compradoresResult.length);
-        compradoresResult.forEach(c => {
+        const [compraçãoresResult] = await pool.query('SELECT id, nome, incluido_por, situacao, created_at FROM compraçãores ORDER BY nome');
+        console.log('\n🛒 COMPRADORES cadastraçãos:', compraçãoresResult.length);
+        compraçãoresResult.forEach(c => {
             console.log(`   - ${c.nome} (incluído por: ${c.incluido_por}, ${c.situacao})`);
         });
         

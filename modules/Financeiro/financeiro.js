@@ -16,7 +16,7 @@ async function verificarAutenticacao() {
         const resp = await fetch('/api/me', { credentials: 'include' });
         
         if (!resp.ok) {
-            console.warn('⚠️ [Financeiro] Usuário não autenticado, redirecionando...');
+            console.warn('⚠️ [Financeiro] Usuário não autenticação, redirecionando...');
             window.location.href = '/';
             return false;
         }
@@ -26,7 +26,7 @@ async function verificarAutenticacao() {
         window.usuarioAtual = user;
         
         localStorage.setItem('userData', JSON.stringify(user));
-        console.log('✅ [Financeiro] Usuário autenticado:', user.nome);
+        console.log('✅ [Financeiro] Usuário autenticação:', user.nome);
         
         // Atualizar nome do usuário no header
         const userText = document.querySelector('.user-text');
@@ -44,16 +44,16 @@ async function verificarAutenticacao() {
 document.addEventListener('DOMContentLoaded', async function() {
     try {
         // Verificar autenticação primeiro
-        const autenticado = await verificarAutenticacao();
-        if (!autenticado) return;
+        const autenticação = await verificarAutenticacao();
+        if (!autenticação) return;
         
-        // Carregar permissões e dados
+        // Carregar permissões e daçãos
         await carregarPermissoes();
-        await carregarDadosFinanceiros();
+        await carregarDaçãosFinanceiros();
         configurarEventListeners();
         inicializarModais();
         
-        console.log('✅ [Financeiro] Módulo inicializado com sucesso');
+        console.log('✅ [Financeiro] Módulo inicialização com sucesso');
     } catch (error) {
         console.error('❌ Erro na inicialização:', error);
     }
@@ -88,30 +88,30 @@ async function carregarPermissoes() {
 
 function atualizarUIPermissoes() {
     // Esconder seções sem permissão
-    if (!permissoesFinanceiro.contas_pagar?.visualizar) {
+    if (!permissoesFinanceiro.contas_pagar.visualizar) {
         const linkPagar = document.querySelector('[data-section="contas-pagar"]');
         if (linkPagar) linkPagar.closest('li').style.display = 'none';
     }
     
-    if (!permissoesFinanceiro.contas_receber?.visualizar) {
+    if (!permissoesFinanceiro.contas_receber.visualizar) {
         const linkReceber = document.querySelector('[data-section="contas-receber"]');
         if (linkReceber) linkReceber.closest('li').style.display = 'none';
     }
 }
 
 // ===== CARREGAR DADOS =====
-async function carregarDadosFinanceiros() {
+async function carregarDaçãosFinanceiros() {
     try {
-        console.log('📊 Carregando dados financeiros...');
+        console.log('📊 Carregando daçãos financeiros...');
         
         // Carregar contas a pagar e receber em paralelo
         const promises = [];
         
-        if (permissoesFinanceiro?.contas_pagar?.visualizar) {
+        if (permissoesFinanceiro.contas_pagar.visualizar) {
             promises.push(carregarContasPagar());
         }
         
-        if (permissoesFinanceiro?.contas_receber?.visualizar) {
+        if (permissoesFinanceiro.contas_receber.visualizar) {
             promises.push(carregarContasReceber());
         }
         
@@ -120,10 +120,10 @@ async function carregarDadosFinanceiros() {
         // Atualizar dashboard
         atualizarDashboard();
         
-        console.log('✅ Dados financeiros carregados com sucesso');
+        console.log('✅ Daçãos financeiros carregaçãos com sucesso');
     } catch (error) {
-        console.error('❌ Erro ao carregar dados financeiros:', error);
-        mostrarAlerta('Erro ao carregar dados financeiros', 'error');
+        console.error('❌ Erro ao carregar daçãos financeiros:', error);
+        mostrarAlerta('Erro ao carregar daçãos financeiros', 'error');
     }
 }
 
@@ -200,7 +200,7 @@ function renderizarContasPagar() {
                         <option value="">Todos</option>
                         <option value="pendente">Pendente</option>
                         <option value="pago">Pago</option>
-                        <option value="atrasado">Atrasado</option>
+                        <option value="atrasação">Atrasação</option>
                     </select>
                 </div>
                 <div class="filter-field">
@@ -263,7 +263,7 @@ function renderizarContasReceber() {
                         <option value="">Todos</option>
                         <option value="pendente">Pendente</option>
                         <option value="pago">Recebido</option>
-                        <option value="atrasado">Atrasado</option>
+                        <option value="atrasação">Atrasação</option>
                     </select>
                 </div>
                 <div class="filter-field">
@@ -307,41 +307,41 @@ function renderizarLinhaConta(conta, tipo) {
     const hoje = new Date();
     const vencido = vencimento < hoje && conta.status !== 'pago';
     
-    const statusBadge = conta.status === 'pago' ? 'badge-pago' :
-                        vencido ? 'badge-atrasado' : 'badge-pendente';
+    const statusBadge = conta.status === 'pago'  'badge-pago' :
+                        vencido  'badge-atrasação' : 'badge-pendente';
     
-    const statusTexto = conta.status === 'pago' ? 'Pago' :
-                        vencido ? 'Atrasado' : 'Pendente';
+    const statusTexto = conta.status === 'pago'  'Pago' :
+                        vencido  'Atrasação' : 'Pendente';
     
-    const podeEditar = tipo === 'pagar' ? 
-        permissoesFinanceiro?.contas_pagar?.editar : 
-        permissoesFinanceiro?.contas_receber?.editar;
+    const podeEditar = tipo === 'pagar'  
+        permissoesFinanceiro.contas_pagar.editar : 
+        permissoesFinanceiro.contas_receber.editar;
     
-    const podeExcluir = tipo === 'pagar' ? 
-        permissoesFinanceiro?.contas_pagar?.excluir : 
-        permissoesFinanceiro?.contas_receber?.excluir;
+    const podeExcluir = tipo === 'pagar'  
+        permissoesFinanceiro.contas_pagar.excluir : 
+        permissoesFinanceiro.contas_receber.excluir;
     
     return `
         <tr>
             <td><strong>${conta.descrição || '-'}</strong></td>
             <td>${conta.fornecedor || conta.cliente || '-'}</td>
             <td>${formatarData(conta.vencimento)}</td>
-            <td class="${tipo === 'pagar' ? 'valor-negativo' : 'valor-positivo'}">
-                ${tipo === 'pagar' ? '-' : '+'} ${formatarMoeda(conta.valor)}
+            <td class="${tipo === 'pagar'  'valor-negativo' : 'valor-positivo'}">
+                ${tipo === 'pagar'  '-' : '+'} ${formatarMoeda(conta.valor)}
             </td>
             <td><span class="badge ${statusBadge}">${statusTexto}</span></td>
             <td>
-                ${podeEditar ? `
+                ${podeEditar  `
                     <button class="action-btn" onclick="editarConta(${conta.id}, '${tipo}')" title="Editar">
                         <i class="fas fa-edit"></i>
                     </button>
                 ` : ''}
-                ${conta.status !== 'pago' ? `
+                ${conta.status !== 'pago'  `
                     <button class="action-btn" onclick="marcarComoPago(${conta.id}, '${tipo}')" title="Marcar como pago">
                         <i class="fas fa-check-circle"></i>
                     </button>
                 ` : ''}
-                ${podeExcluir ? `
+                ${podeExcluir  `
                     <button class="action-btn delete" onclick="excluirConta(${conta.id}, '${tipo}')" title="Excluir">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -422,17 +422,17 @@ function renderizarMovimentacoesRecentes() {
                 ${todasContas.map(conta => `
                     <tr>
                         <td>
-                            <span class="badge ${conta.tipo === 'pagar' ? 'badge-vencido' : 'badge-pago'}">
-                                ${conta.tipo === 'pagar' ? 'A Pagar' : 'A Receber'}
+                            <span class="badge ${conta.tipo === 'pagar'  'badge-vencido' : 'badge-pago'}">
+                                ${conta.tipo === 'pagar'  'A Pagar' : 'A Receber'}
                             </span>
                         </td>
                         <td><strong>${conta.descrição || '-'}</strong></td>
                         <td>${formatarData(conta.vencimento)}</td>
-                        <td class="${conta.tipo === 'pagar' ? 'valor-negativo' : 'valor-positivo'}">
-                            ${conta.tipo === 'pagar' ? '-' : '+'} ${formatarMoeda(conta.valor)}
+                        <td class="${conta.tipo === 'pagar'  'valor-negativo' : 'valor-positivo'}">
+                            ${conta.tipo === 'pagar'  '-' : '+'} ${formatarMoeda(conta.valor)}
                         </td>
-                        <td><span class="badge ${conta.status === 'pago' ? 'badge-pago' : 'badge-pendente'}">
-                            ${conta.status === 'pago' ? 'Pago' : 'Pendente'}
+                        <td><span class="badge ${conta.status === 'pago'  'badge-pago' : 'badge-pendente'}">
+                            ${conta.status === 'pago'  'Pago' : 'Pendente'}
                         </span></td>
                     </tr>
                 `).join('')}
@@ -512,9 +512,9 @@ function inicializarModais() {
 }
 
 function abrirModalNovaConta(tipo) {
-    const podeCriar = tipo === 'pagar' ? 
-        permissoesFinanceiro?.contas_pagar?.criar : 
-        permissoesFinanceiro?.contas_receber?.criar;
+    const podeCriar = tipo === 'pagar'  
+        permissoesFinanceiro.contas_pagar.criar : 
+        permissoesFinanceiro.contas_receber.criar;
     
     if (!podeCriar) {
         mostrarAlerta('Você não tem permissão para criar contas', 'error');
@@ -530,8 +530,8 @@ function abrirModalNovaConta(tipo) {
     const formEl = document.getElementById('form-conta');
     const idEl = document.getElementById('conta-id');
     
-    if (tituloEl) tituloEl.textContent = tipo === 'pagar' ? 'Nova Conta a Pagar' : 'Nova Conta a Receber';
-    if (labelEl) labelEl.textContent = tipo === 'pagar' ? 'Fornecedor' : 'Cliente';
+    if (tituloEl) tituloEl.textContent = tipo === 'pagar'  'Nova Conta a Pagar' : 'Nova Conta a Receber';
+    if (labelEl) labelEl.textContent = tipo === 'pagar'  'Fornecedor' : 'Cliente';
     if (tipoEl) tipoEl.value = tipo;
     if (formEl) formEl.reset();
     if (idEl) idEl.value = '';
@@ -540,16 +540,16 @@ function abrirModalNovaConta(tipo) {
 }
 
 function editarConta(id, tipo) {
-    const podeEditar = tipo === 'pagar' ? 
-        permissoesFinanceiro?.contas_pagar?.editar : 
-        permissoesFinanceiro?.contas_receber?.editar;
+    const podeEditar = tipo === 'pagar'  
+        permissoesFinanceiro.contas_pagar.editar : 
+        permissoesFinanceiro.contas_receber.editar;
     
     if (!podeEditar) {
         mostrarAlerta('Você não tem permissão para editar contas', 'error');
         return;
     }
     
-    const conta = tipo === 'pagar' ? 
+    const conta = tipo === 'pagar'  
         contasPagar.find(c => c.id === id) : 
         contasReceber.find(c => c.id === id);
     
@@ -561,8 +561,8 @@ function editarConta(id, tipo) {
     const tituloEl = document.getElementById('modal-conta-titulo');
     const labelEl = document.getElementById('label-entidade');
     
-    if (tituloEl) tituloEl.textContent = tipo === 'pagar' ? 'Editar Conta a Pagar' : 'Editar Conta a Receber';
-    if (labelEl) labelEl.textContent = tipo === 'pagar' ? 'Fornecedor' : 'Cliente';
+    if (tituloEl) tituloEl.textContent = tipo === 'pagar'  'Editar Conta a Pagar' : 'Editar Conta a Receber';
+    if (labelEl) labelEl.textContent = tipo === 'pagar'  'Fornecedor' : 'Cliente';
     
     const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
     
@@ -585,7 +585,7 @@ async function salvarConta(event) {
     const tipo = document.getElementById('conta-tipo').value;
     const isEdicao = !!id;
     
-    const dados = {
+    const daçãos = {
         descrição: document.getElementById('conta-descrição').value,
         valor: parseFloat(document.getElementById('conta-valor').value),
         vencimento: document.getElementById('conta-vencimento').value,
@@ -594,22 +594,22 @@ async function salvarConta(event) {
     };
     
     if (tipo === 'pagar') {
-        dados.fornecedor_id = document.getElementById('conta-entidade').value;
+        daçãos.fornecedor_id = document.getElementById('conta-entidade').value;
     } else {
-        dados.cliente_id = document.getElementById('conta-entidade').value;
+        daçãos.cliente_id = document.getElementById('conta-entidade').value;
     }
     
     try {
-        const url = isEdicao ? 
+        const url = isEdicao  
             `/api/financeiro/contas-${tipo}/${id}` : 
             `/api/financeiro/contas-${tipo}`;
         
-        const method = isEdicao ? 'PUT' : 'POST';
+        const method = isEdicao  'PUT' : 'POST';
         
         const response = await fetch(url, {
             method: method,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(dados)
+            body: JSON.stringify(daçãos)
         });
         
         if (!response.ok) {
@@ -620,12 +620,12 @@ async function salvarConta(event) {
         const result = await response.json();
         
         mostrarAlerta(
-            isEdicao ? 'Conta atualizada com sucesso!' : 'Conta criada com sucesso!',
+            isEdicao  'Conta atualizada com sucesso!' : 'Conta criada com sucesso!',
             'success'
         );
         
         fecharModal('modal-conta');
-        await carregarDadosFinanceiros();
+        await carregarDaçãosFinanceiros();
         
     } catch (error) {
         console.error('❌ Erro ao salvar conta:', error);
@@ -634,10 +634,10 @@ async function salvarConta(event) {
 }
 
 async function marcarComoPago(id, tipo) {
-    if (!confirm('Deseja marcar está conta como paga?')) return;
+    if (!confirm('Deseja marcar está conta como paga')) return;
     
     try {
-        const conta = tipo === 'pagar' ? 
+        const conta = tipo === 'pagar'  
             contasPagar.find(c => c.id === id) : 
             contasReceber.find(c => c.id === id);
         
@@ -650,7 +650,7 @@ async function marcarComoPago(id, tipo) {
         if (!response.ok) throw new Error('Erro ao atualizar status');
         
         mostrarAlerta('Conta marcada como paga!', 'success');
-        await carregarDadosFinanceiros();
+        await carregarDaçãosFinanceiros();
         
     } catch (error) {
         console.error('❌ Erro ao marcar como pago:', error);
@@ -659,11 +659,11 @@ async function marcarComoPago(id, tipo) {
 }
 
 async function excluirConta(id, tipo) {
-    if (!confirm('Deseja realmente excluir está conta? Está ação não pode ser desfeita.')) return;
+    if (!confirm('Deseja realmente excluir está conta Está ação não pode ser desfeita.')) return;
     
-    const podeExcluir = tipo === 'pagar' ? 
-        permissoesFinanceiro?.contas_pagar?.excluir : 
-        permissoesFinanceiro?.contas_receber?.excluir;
+    const podeExcluir = tipo === 'pagar'  
+        permissoesFinanceiro.contas_pagar.excluir : 
+        permissoesFinanceiro.contas_receber.excluir;
     
     if (!podeExcluir) {
         mostrarAlerta('Você não tem permissão para excluir contas', 'error');
@@ -678,7 +678,7 @@ async function excluirConta(id, tipo) {
         if (!response.ok) throw new Error('Erro ao excluir conta');
         
         mostrarAlerta('Conta excluída com sucesso!', 'success');
-        await carregarDadosFinanceiros();
+        await carregarDaçãosFinanceiros();
         
     } catch (error) {
         console.error('❌ Erro ao excluir conta:', error);
@@ -698,7 +698,7 @@ async function aplicarFiltrosPagar() {
     if (dataFim) params.append('data_fim', dataFim);
     
     try {
-        const response = await fetch(`/api/financeiro/contas-pagar?${params}`);
+        const response = await fetch(`/api/financeiro/contas-pagar${params}`);
         if (!response.ok) throw new Error('Erro ao filtrar');
         
         contasPagar = await response.json();
@@ -722,7 +722,7 @@ async function aplicarFiltrosReceber() {
     if (dataFim) params.append('data_fim', dataFim);
     
     try {
-        const response = await fetch(`/api/financeiro/contas-receber?${params}`);
+        const response = await fetch(`/api/financeiro/contas-receber${params}`);
         if (!response.ok) throw new Error('Erro ao filtrar');
         
         contasReceber = await response.json();
@@ -760,7 +760,7 @@ function mostrarAlerta(mensagem, tipo = 'info') {
     const alerta = document.createElement('div');
     alerta.className = `alert alert-${tipo}`;
     alerta.innerHTML = `
-        <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+        <i class="fas fa-${tipo === 'success'  'check-circle' : tipo === 'error'  'exclamation-circle' : 'info-circle'}"></i>
         ${mensagem}
     `;
     
@@ -785,9 +785,9 @@ function formatarData(data) {
 
 function configurarEventListeners() {
     // Botão de atualizar
-    document.getElementById('btn-refresh-header')?.addEventListener('click', async function() {
+    document.getElementById('btn-refresh-header').addEventListener('click', async function() {
         this.querySelector('i').classList.add('fa-spin');
-        await carregarDadosFinanceiros();
+        await carregarDaçãosFinanceiros();
         this.querySelector('i').classList.remove('fa-spin');
     });
     

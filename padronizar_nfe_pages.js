@@ -86,7 +86,7 @@ const headerPadrao = `
                             <button class="nav-icon-btn" title="Lista">
                                 <i class="fas fa-list"></i>
                             </button>
-                            <button class="nav-icon-btn" title="Atualizar Dados" id="btn-refresh-header">
+                            <button class="nav-icon-btn" title="Atualizar Daçãos" id="btn-refresh-header">
                                 <i class="fas fa-sync-alt"></i>
                             </button>
                             <button class="nav-icon-btn" title="Alternar Modo Escuro" id="btn-dark-mode-toggle">
@@ -97,7 +97,7 @@ const headerPadrao = `
                         <div class="search-wrapper" role="search" aria-label="Pesquisar">
                             <i class="fas fa-search search-icon" aria-hidden="true"></i>
                             <input id="main-search" type="search" placeholder="Buscar NFe, Cliente..." class="search-input" autocomplete="off" aria-label="Pesquisar notas fiscais e clientes" />
-                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultados da busca" aria-live="polite" aria-hidden="true"></div>
+                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultaçãos da busca" aria-live="polite" aria-hidden="true"></div>
                         </div>
                         
                         <button class="menu-toggle-btn" title="Menu">
@@ -148,8 +148,8 @@ const headerPadrao = `
 
                 <div class="content-wrapper">`;
 
-const cssLinks = `    <link rel="stylesheet" href="../_shared/modern-saas.css?v=3.0">
-    <link rel="stylesheet" href="../PCP/pcp_modern_clean.css?v=2.0">`;
+const cssLinks = `    <link rel="stylesheet" href="../_shared/modern-saas.cssv=3.0">
+    <link rel="stylesheet" href="../PCP/pcp_modern_clean.cssv=2.0">`;
 
 console.log('🔧 Padronizando páginas do módulo NFe...\n');
 
@@ -164,7 +164,7 @@ arquivos.forEach(arquivo => {
     const filePath = path.join(__dirname, 'modules', 'NFe', arquivo.nome);
     
     if (!fs.existsSync(filePath)) {
-        console.log(`⚠️  ${arquivo.nome} não encontrado`);
+        console.log(`⚠️  ${arquivo.nome} não encontração`);
         return;
     }
     
@@ -179,7 +179,7 @@ arquivos.forEach(arquivo => {
     }
     
     // Substituir body e adicionar estrutura padrão
-    const bodyRegex = /<body[^>]*>[\s\S]*?(<div[^>]*class="[^"]*container)/;
+    const bodyRegex = /<body[^>]*>[\s\S]*(<div[^>]*class="[^"]*container)/;
     if (bodyRegex.test(content)) {
         content = content.replace(bodyRegex, headerPadrao + '\n                    $1');
         

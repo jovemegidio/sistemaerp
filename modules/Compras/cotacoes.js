@@ -18,7 +18,7 @@ class CotacoesManager {
 
     init() {
         this.carregarDependencias();
-        this.carregarDados();
+        this.carregarDaçãos();
         this.atualizarCards();
         this.renderizarTabela();
         inicializarUsuario();
@@ -53,13 +53,13 @@ class CotacoesManager {
         // Carregar materiais
         this.materiais = [
             { id: 1, codigo: "ALU-001", descricao: "Chapa de Alumínio 1200 H14 - 1,0mm", unidade: "KG" },
-            { id: 2, codigo: "ALU-002", descricao: "Perfil de Alumínio 50x30mm Anodizado Preto", unidade: "M" },
+            { id: 2, codigo: "ALU-002", descricao: "Perfil de Alumínio 50x30mm Anodização Preto", unidade: "M" },
             { id: 3, codigo: "ALU-003", descricao: "Chapa de Alumínio 3003 H14 - 2,0mm", unidade: "KG" },
             { id: 4, codigo: "ALU-004", descricao: "Tubo de Alumínio Redondo 1\" x 1,5mm", unidade: "M" },
             { id: 6, codigo: "COMP-001", descricao: "Dobradiça para Porta de Alumínio 3\" Cromada", unidade: "UN" },
             { id: 7, codigo: "COMP-002", descricao: "Fechadura Tetra CH40 Cromada", unidade: "UN" },
             { id: 8, codigo: "COMP-003", descricao: "Roldana para Porta de Correr 25mm Nylon", unidade: "UN" },
-            { id: 9, codigo: "COMP-004", descricao: "Puxador Reto 30cm Alumínio Escovado", unidade: "UN" },
+            { id: 9, codigo: "COMP-004", descricao: "Puxaçãor Reto 30cm Alumínio Escovação", unidade: "UN" },
             { id: 11, codigo: "EMB-001", descricao: "Filme Stretch 50cm x 300m", unidade: "UN" },
             { id: 12, codigo: "EMB-002", descricao: "Caixa de Papelão 50x40x30cm", unidade: "UN" },
             { id: 16, codigo: "FERR-001", descricao: "Disco de Corte para Alumínio 4.1/2\"", unidade: "UN" },
@@ -69,7 +69,7 @@ class CotacoesManager {
         ];
     }
 
-    carregarDados() {
+    carregarDaçãos() {
         // Gerar 156 cotações de exemplo
         const status = ['Rascunho', 'Enviada', 'Em Análise', 'Aprovada', 'Cancelada'];
         const solicitantes = ['João Silva', 'Maria Santos', 'Carlos Oliveira', 'Ana Costa', 'Pedro Almeida'];
@@ -79,7 +79,7 @@ class CotacoesManager {
             const numMateriais = Math.floor(Math.random() * 5) + 2; // 2 a 6 materiais
             const numFornecedores = Math.floor(Math.random() * 4) + 2; // 2 a 5 fornecedores
             const materiaisCotacao = [];
-            const fornecedoresSelecionados = [];
+            const fornecedoresSelecionaçãos = [];
             const propostas = [];
 
             // Selecionar materiais aleatórios
@@ -102,7 +102,7 @@ class CotacoesManager {
             for (let k = 0; k < numFornecedores; k++) {
                 const index = Math.floor(Math.random() * fornecedoresDisponiveis.length);
                 const fornecedor = fornecedoresDisponiveis.splice(index, 1)[0];
-                fornecedoresSelecionados.push(fornecedor.id);
+                fornecedoresSelecionaçãos.push(fornecedor.id);
 
                 // Se status não é Rascunho ou Enviada, gerar propostas
                 if (statusCotacao !== 'Rascunho' && statusCotacao !== 'Enviada') {
@@ -129,7 +129,7 @@ class CotacoesManager {
                         validade: this.gerarDataFutura(30),
                         itens: itensPropostos,
                         total: totalProposta,
-                        observacoes: Math.random() > 0.5 ? 'Proposta conforme solicitado' : ''
+                        observacoes: Math.random() > 0.5  'Proposta conforme solicitação' : ''
                     });
                 }
             }
@@ -137,7 +137,7 @@ class CotacoesManager {
             // Ordenar propostas por valor (menor primeiro)
             propostas.sort((a, b) => a.total - b.total);
 
-            const melhorProposta = propostas.length > 0 ? propostas[0] : null;
+            const melhorProposta = propostas.length > 0  propostas[0] : null;
             const dataCotacao = this.gerarDataAleatoria();
             const prazoResposta = this.gerarDataFutura(15, dataCotacao);
 
@@ -150,14 +150,14 @@ class CotacoesManager {
                 prazoResposta: prazoResposta,
                 status: statusCotacao,
                 materiais: materiaisCotacao,
-                fornecedores: fornecedoresSelecionados,
+                fornecedores: fornecedoresSelecionaçãos,
                 propostas: propostas,
                 melhorProposta: melhorProposta,
                 prazoEntrega: `${Math.floor(Math.random() * 30) + 10} dias`,
-                formaPagamento: ['Boleto', 'Transferência', 'Não especificado'][Math.floor(Math.random() * 3)],
+                formaPagamento: ['Boleto', 'Transferência', 'Não especificação'][Math.floor(Math.random() * 3)],
                 localEntrega: 'Matriz - São Paulo/SP',
-                observacoes: Math.random() > 0.7 ? 'Cotação urgente' : '',
-                pedidoGerado: statusCotacao === 'Aprovada' ? `PC-2024-${String(Math.floor(Math.random() * 234) + 1).padStart(4, '0')}` : null
+                observacoes: Math.random() > 0.7  'Cotação urgente' : '',
+                pedidoGeração: statusCotacao === 'Aprovada'  `PC-2024-${String(Math.floor(Math.random() * 234) + 1).padStart(4, '0')}` : null
             });
         }
 
@@ -174,7 +174,7 @@ class CotacoesManager {
     }
 
     gerarDataFutura(dias, dataBase = null) {
-        const base = dataBase ? new Date(dataBase) : new Date();
+        const base = dataBase  new Date(dataBase) : new Date();
         base.setDate(base.getDate() + dias);
         return base.toISOString().split('T')[0];
     }
@@ -198,7 +198,7 @@ class CotacoesManager {
         });
 
         const economiaMedia = cotacoesComPropostas.length > 0 
-            ? (economiaTotal / cotacoesComPropostas.length).toFixed(1)
+             (economiaTotal / cotacoesComPropostas.length).toFixed(1)
             : 0;
 
         document.getElementById('totalCotacoes').textContent = total;
@@ -280,7 +280,7 @@ class CotacoesManager {
 
             // Melhor oferta
             const melhorOferta = cotacao.melhorProposta 
-                ? this.formatarMoeda(cotacao.melhorProposta.total)
+                 this.formatarMoeda(cotacao.melhorProposta.total)
                 : '-';
 
             tr.innerHTML = `
@@ -289,11 +289,11 @@ class CotacoesManager {
                 <td>${this.formatarData(cotacao.data)}</td>
                 <td>${cotacao.solicitante}</td>
                 <td>
-                    <span class="badge badge-info">${numMateriais} ${numMateriais === 1 ? 'material' : 'materiais'}</span>
+                    <span class="badge badge-info">${numMateriais} ${numMateriais === 1  'material' : 'materiais'}</span>
                 </td>
                 <td>
-                    <span class="badge badge-purple">${numFornecedores} selecionados</span>
-                    ${numPropostas > 0 ? `<br><span class="badge badge-success" style="margin-top: 3px;">${numPropostas} ${numPropostas === 1 ? 'proposta' : 'propostas'}</span>` : ''}
+                    <span class="badge badge-purple">${numFornecedores} selecionaçãos</span>
+                    ${numPropostas > 0  `<br><span class="badge badge-success" style="margin-top: 3px;">${numPropostas} ${numPropostas === 1  'proposta' : 'propostas'}</span>` : ''}
                 </td>
                 <td><strong>${melhorOferta}</strong></td>
                 <td>${statusBadge}</td>
@@ -301,23 +301,23 @@ class CotacoesManager {
                     <button class="btn-icon" onclick="cotacoesManager.visualizar(${cotacao.id})" title="Visualizar">
                         <i class="fas fa-eye"></i>
                     </button>
-                    ${cotacao.status === 'Rascunho' ? `
+                    ${cotacao.status === 'Rascunho'  `
                     <button class="btn-icon" onclick="cotacoesManager.editar(${cotacao.id})" title="Editar">
                         <i class="fas fa-edit"></i>
                     </button>
                     ` : ''}
-                    ${cotacao.status === 'Em Análise' || cotacao.status === 'Enviada' ? `
+                    ${cotacao.status === 'Em Análise' || cotacao.status === 'Enviada'  `
                     <button class="btn-icon btn-success" onclick="cotacoesManager.registrarProposta(${cotacao.id})" title="Registrar Proposta">
                         <i class="fas fa-plus"></i>
                     </button>
                     ` : ''}
-                    ${cotacao.propostas.length >= 2 ? `
+                    ${cotacao.propostas.length >= 2  `
                     <button class="btn-icon btn-info" onclick="cotacoesManager.compararPropostas(${cotacao.id})" title="Comparar Propostas">
                         <i class="fas fa-balance-scale"></i>
                     </button>
                     ` : ''}
-                    ${cotacao.status === 'Aprovada' && cotacao.pedidoGerado ? `
-                    <button class="btn-icon btn-primary" onclick="alert('Pedido: ${cotacao.pedidoGerado}')" title="Ver Pedido Gerado">
+                    ${cotacao.status === 'Aprovada' && cotacao.pedidoGeração  `
+                    <button class="btn-icon btn-primary" onclick="alert('Pedido: ${cotacao.pedidoGeração}')" title="Ver Pedido Geração">
                         <i class="fas fa-shopping-cart"></i>
                     </button>
                     ` : ''}
@@ -364,7 +364,7 @@ class CotacoesManager {
                 (i >= this.paginaAtual - 2 && i <= this.paginaAtual + 2)
             ) {
                 const btnPage = document.createElement('button');
-                btnPage.className = 'btn-pagination' + (i === this.paginaAtual ? ' active' : '');
+                btnPage.className = 'btn-pagination' + (i === this.paginaAtual  ' active' : '');
                 btnPage.textContent = i;
                 btnPage.onclick = () => {
                     this.paginaAtual = i;
@@ -454,7 +454,7 @@ class CotacoesManager {
                     </select>
                 </td>
                 <td><input type="number" class="form-control material-quantidade" min="1" value="1"></td>
-                <td><input type="text" class="form-control material-unidade" readonly></td>
+                <td><input type="text" class="form-control material-unidade" reaçãonly></td>
                 <td><input type="text" class="form-control material-especificacao" placeholder="Especificações adicionais"></td>
                 <td><button type="button" class="btn-icon btn-danger" onclick="cotacoesManager.removerMaterial(this)"><i class="fas fa-trash"></i></button></td>
             </tr>
@@ -504,11 +504,11 @@ class CotacoesManager {
                 <tr>
                     <td>
                         <select class="form-control material-select">
-                            ${this.materiais.map(m => `<option value="${m.id}" data-unidade="${m.unidade}" ${m.id === mat.materialId ? 'selected' : ''}>${m.codigo} - ${m.descricao}</option>`).join('')}
+                            ${this.materiais.map(m => `<option value="${m.id}" data-unidade="${m.unidade}" ${m.id === mat.materialId  'selected' : ''}>${m.codigo} - ${m.descricao}</option>`).join('')}
                         </select>
                     </td>
                     <td><input type="number" class="form-control material-quantidade" min="1" value="${mat.quantidade}"></td>
-                    <td><input type="text" class="form-control material-unidade" value="${mat.unidade}" readonly></td>
+                    <td><input type="text" class="form-control material-unidade" value="${mat.unidade}" reaçãonly></td>
                     <td><input type="text" class="form-control material-especificacao" value="${mat.especificacoes || ''}" placeholder="Especificações adicionais"></td>
                     <td><button type="button" class="btn-icon btn-danger" onclick="cotacoesManager.removerMaterial(this)"><i class="fas fa-trash"></i></button></td>
                 </tr>
@@ -516,7 +516,7 @@ class CotacoesManager {
             tbody.insertAdjacentHTML('beforeend', html);
         });
 
-        // Carregar fornecedores selecionados
+        // Carregar fornecedores selecionaçãos
         this.renderizarFornecedoresCheckbox();
         cotacao.fornecedores.forEach(fornId => {
             const checkbox = document.querySelector(`.fornecedor-checkbox[value="${fornId}"]`);
@@ -547,7 +547,7 @@ class CotacoesManager {
             return;
         }
 
-        const fornecedorId = fornecedoresSemProposta[0]; // Simplificado: pegar primeiro
+        const fornecedorId = fornecedoresSemProposta[0]; // Simplificação: pegar primeiro
         const fornecedor = this.fornecedores.find(f => f.id === fornecedorId);
 
         document.getElementById('propostaFornecedorId').value = fornecedor.id;
@@ -682,7 +682,7 @@ class CotacoesManager {
                                     const precos = cotacao.propostas.map(prop => parseFloat(prop.itens[idx].precoUnitario));
                                     const menorPreco = Math.min(...precos);
                                     const isMelhor = preco === menorPreco;
-                                    return `<td class="${isMelhor ? 'melhor-preco' : ''}">${this.formatarMoeda(preco)}<br><small>Total: ${this.formatarMoeda(item.total)}</small></td>`;
+                                    return `<td class="${isMelhor  'melhor-preco' : ''}">${this.formatarMoeda(preco)}<br><small>Total: ${this.formatarMoeda(item.total)}</small></td>`;
                                 }).join('')}
                             </tr>
                         `).join('')}
@@ -692,7 +692,7 @@ class CotacoesManager {
                             <td colspan="2"><strong>TOTAL GERAL</strong></td>
                             ${cotacao.propostas.map(p => {
                                 const isMelhor = p === cotacao.melhorProposta;
-                                return `<td class="${isMelhor ? 'melhor-total' : ''}"><strong>${this.formatarMoeda(p.total)}</strong></td>`;
+                                return `<td class="${isMelhor  'melhor-total' : ''}"><strong>${this.formatarMoeda(p.total)}</strong></td>`;
                             }).join('')}
                         </tr>
                         <tr>
@@ -719,9 +719,9 @@ class CotacoesManager {
     }
 
     aprovarMelhorProposta() {
-        if (confirm('Deseja aprovar a melhor proposta e gerar o pedido de compra?')) {
+        if (confirm('Deseja aprovar a melhor proposta e gerar o pedido de compra')) {
             // Aqui integraria com o módulo de pedidos
-            alert('Proposta aprovada! Pedido de compra será gerado automaticamente.');
+            alert('Proposta aprovada! Pedido de compra será geração automaticamente.');
             this.fecharModalComparacao();
         }
     }
@@ -782,9 +782,9 @@ class CotacoesManager {
         }
 
         // Validar fornecedores
-        const fornecedoresSelecionados = Array.from(document.querySelectorAll('.fornecedor-checkbox:checked')).map(cb => parseInt(cb.value));
+        const fornecedoresSelecionaçãos = Array.from(document.querySelectorAll('.fornecedor-checkbox:checked')).map(cb => parseInt(cb.value));
 
-        if (fornecedoresSelecionados.length === 0) {
+        if (fornecedoresSelecionaçãos.length === 0) {
             alert('Selecione ao menos um fornecedor!');
             return;
         }
@@ -799,14 +799,14 @@ class CotacoesManager {
             prazoResposta: document.getElementById('cotacaoPrazoResposta').value,
             status: status,
             materiais: materiais,
-            fornecedores: fornecedoresSelecionados,
+            fornecedores: fornecedoresSelecionaçãos,
             propostas: [],
             melhorProposta: null,
             prazoEntrega: document.getElementById('cotacaoPrazoEntrega').value,
             formaPagamento: document.getElementById('cotacaoFormaPagamento').value,
             localEntrega: document.getElementById('cotacaoLocalEntrega').value,
             observacoes: document.getElementById('cotacaoObservacoes').value,
-            pedidoGerado: null
+            pedidoGeração: null
         };
 
         if (id) {
@@ -814,7 +814,7 @@ class CotacoesManager {
             const index = this.cotacoes.findIndex(c => c.id === parseInt(id));
             if (index > -1) {
                 this.cotacoes[index] = { ...this.cotacoes[index], ...cotacao };
-                alert(`Cotação ${status === 'Rascunho' ? 'salva' : 'enviada'} com sucesso!`);
+                alert(`Cotação ${status === 'Rascunho'  'salva' : 'enviada'} com sucesso!`);
             }
         } else {
             // Nova
@@ -823,7 +823,7 @@ class CotacoesManager {
                 id: novoId,
                 ...cotacao
             });
-            alert(`Cotação ${status === 'Rascunho' ? 'salva' : 'enviada'} com sucesso!${status === 'Enviada' ? '\n\nE-mails enviados aos fornecedores selecionados.' : ''}`);
+            alert(`Cotação ${status === 'Rascunho'  'salva' : 'enviada'} com sucesso!${status === 'Enviada'  '\n\nE-mails enviaçãos aos fornecedores selecionaçãos.' : ''}`);
         }
 
         this.fecharModal();
@@ -855,7 +855,7 @@ class CotacoesManager {
                 c.materiais.length,
                 c.fornecedores.length,
                 c.propostas.length,
-                c.melhorProposta ? c.melhorProposta.total.toFixed(2) : '0'
+                c.melhorProposta  c.melhorProposta.total.toFixed(2) : '0'
             ].join(';'))
         ].join('\n');
 
@@ -887,7 +887,7 @@ function toggleDarkMode() {
     localStorage.setItem('darkMode', isDark);
     
     const icon = document.querySelector('#btnModoEscuro i');
-    icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    icon.className = isDark  'fas fa-sun' : 'fas fa-moon';
 }
 
 function toggleView(mode) {
@@ -905,7 +905,7 @@ function toggleView(mode) {
 
 function toggleUserMenu() {
     const menu = document.getElementById('userMenu');
-    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    menu.style.display = menu.style.display === 'block'  'none' : 'block';
 }
 
 function inicializarUsuario() {

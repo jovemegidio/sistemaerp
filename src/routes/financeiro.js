@@ -32,8 +32,8 @@ const pool = mysql.createPool({
 function authenticateToken(req, res, next) {
     const authHeader = req.headers['authorization'];
     const token = (authHeader && authHeader.split(' ')[1]) || 
-                 req.cookies?.authToken || 
-                 req.cookies?.token;
+                 req.cookies.authToken || 
+                 req.cookies.token;
     
     if (!token) {
         return res.status(401).json({ error: 'Token não fornecido' });
@@ -57,10 +57,10 @@ function authenticateToken(req, res, next) {
 function authorizeFinanceiro(section) {
     return async (req, res, next) => {
         try {
-            const userEmail = req.user?.email?.toLowerCase();
+            const userEmail = req.user.email.toLowerCase();
             
             if (!userEmail) {
-                return res.status(401).json({ error: 'Usuário não identificado' });
+                return res.status(401).json({ error: 'Usuário não identificação' });
             }
 
             // Admins têm acesso total
@@ -86,7 +86,7 @@ function authorizeFinanceiro(section) {
                     return next();
                 }
                 return res.status(403).json({ 
-                    error: 'Acesso negado. Você não tem permissão para acessar Contas a Receber.' 
+                    error: 'Acesso negação. Você não tem permissão para acessar Contas a Receber.' 
                 });
             }
 
@@ -96,7 +96,7 @@ function authorizeFinanceiro(section) {
                     return next();
                 }
                 return res.status(403).json({ 
-                    error: 'Acesso negado. Você não tem permissão para acessar Contas a Pagar.' 
+                    error: 'Acesso negação. Você não tem permissão para acessar Contas a Pagar.' 
                 });
             }
 
@@ -108,13 +108,13 @@ function authorizeFinanceiro(section) {
                     req.userAccess = 'pagar';
                 } else {
                     return res.status(403).json({ 
-                        error: 'Acesso negado ao módulo financeiro.' 
+                        error: 'Acesso negação ao módulo financeiro.' 
                     });
                 }
                 return next();
             }
 
-            return res.status(403).json({ error: 'Acesso negado' });
+            return res.status(403).json({ error: 'Acesso negação' });
         } catch (error) {
             console.error('[Financeiro] Erro no middleware de autorização:', error);
             return res.status(500).json({ error: 'Erro ao verificar permissões' });
@@ -128,7 +128,7 @@ function authorizeFinanceiro(section) {
 
 /**
  * GET /api/financeiro/dashboard
- * Retorna estatísticas do dashboard baseado nas permissões do usuário
+ * Retorna estatísticas do dashboard baseação nas permissões do usuário
  */
 router.get('/dashboard', authenticateToken, authorizeFinanceiro('dashboard'), async (req, res) => {
     try {
@@ -152,18 +152,18 @@ router.get('/dashboard', authenticateToken, authorizeFinanceiro('dashboard'), as
                 'SELECT SUM(valor) as total FROM contas_pagar WHERE status = "PENDENTE"'
             );
             const [vencendoHojeReceber] = await pool.execute(
-                'SELECT COUNT(*) as count FROM contas_receber WHERE DATE(vencimento) = ? AND status = "PENDENTE"',
+                'SELECT COUNT(*) as count FROM contas_receber WHERE DATE(vencimento) =  AND status = "PENDENTE"',
                 [today]
             );
             const [vencendoHojePagar] = await pool.execute(
-                'SELECT COUNT(*) as count FROM contas_pagar WHERE DATE(vencimento) = ? AND status = "PENDENTE"',
+                'SELECT COUNT(*) as count FROM contas_pagar WHERE DATE(vencimento) =  AND status = "PENDENTE"',
                 [today]
             );
 
-            result.aReceber = receber[0]?.total || 0;
-            result.aPagar = pagar[0]?.total || 0;
+            result.aReceber = receber[0].total || 0;
+            result.aPagar = pagar[0].total || 0;
             result.saldoAtual = result.aReceber - result.aPagar;
-            result.vencendoHoje = (vencendoHojeReceber[0]?.count || 0) + (vencendoHojePagar[0]?.count || 0);
+            result.vencendoHoje = (vencendoHojeReceber[0].count || 0) + (vencendoHojePagar[0].count || 0);
 
             // Últimas transações (ambas tabelas)
             const [transacoesReceber] = await pool.execute(
@@ -182,16 +182,16 @@ router.get('/dashboard', authenticateToken, authorizeFinanceiro('dashboard'), as
                 'SELECT SUM(valor) as total FROM contas_receber WHERE status = "PENDENTE"'
             );
             const [vencendoHoje] = await pool.execute(
-                'SELECT COUNT(*) as count FROM contas_receber WHERE DATE(vencimento) = ? AND status = "PENDENTE"',
+                'SELECT COUNT(*) as count FROM contas_receber WHERE DATE(vencimento) =  AND status = "PENDENTE"',
                 [today]
             );
             const [transacoes] = await pool.execute(
                 'SELECT "Receber" as tipo, cliente as referencia, descricao, valor, vencimento, status FROM contas_receber ORDER BY data_criacao DESC LIMIT 10'
             );
 
-            result.aReceber = receber[0]?.total || 0;
+            result.aReceber = receber[0].total || 0;
             result.saldoAtual = result.aReceber;
-            result.vencendoHoje = vencendoHoje[0]?.count || 0;
+            result.vencendoHoje = vencendoHoje[0].count || 0;
             result.ultimasTransacoes = transacoes;
         }
         // Hellen vê apenas contas a pagar
@@ -200,23 +200,23 @@ router.get('/dashboard', authenticateToken, authorizeFinanceiro('dashboard'), as
                 'SELECT SUM(valor) as total FROM contas_pagar WHERE status = "PENDENTE"'
             );
             const [vencendoHoje] = await pool.execute(
-                'SELECT COUNT(*) as count FROM contas_pagar WHERE DATE(vencimento) = ? AND status = "PENDENTE"',
+                'SELECT COUNT(*) as count FROM contas_pagar WHERE DATE(vencimento) =  AND status = "PENDENTE"',
                 [today]
             );
             const [transacoes] = await pool.execute(
                 'SELECT "Pagar" as tipo, fornecedor as referencia, descricao, valor, vencimento, status FROM contas_pagar ORDER BY data_criacao DESC LIMIT 10'
             );
 
-            result.aPagar = pagar[0]?.total || 0;
+            result.aPagar = pagar[0].total || 0;
             result.saldoAtual = -result.aPagar;
-            result.vencendoHoje = vencendoHoje[0]?.count || 0;
+            result.vencendoHoje = vencendoHoje[0].count || 0;
             result.ultimasTransacoes = transacoes;
         }
 
         res.json(result);
     } catch (error) {
         console.error('[Financeiro] Erro ao buscar dashboard:', error);
-        res.status(500).json({ error: 'Erro ao buscar dados do dashboard' });
+        res.status(500).json({ error: 'Erro ao buscar daçãos do dashboard' });
     }
 });
 
@@ -235,17 +235,17 @@ router.get('/contas-receber', authenticateToken, authorizeFinanceiro('receber'),
         const params = [];
 
         if (status) {
-            query += ' AND status = ?';
+            query += ' AND status = ';
             params.push(status);
         }
 
         if (dataInicio) {
-            query += ' AND vencimento >= ?';
+            query += ' AND vencimento >= ';
             params.push(dataInicio);
         }
 
         if (dataFim) {
-            query += ' AND vencimento <= ?';
+            query += ' AND vencimento <= ';
             params.push(dataFim);
         }
 
@@ -266,7 +266,7 @@ router.get('/contas-receber', authenticateToken, authorizeFinanceiro('receber'),
 router.get('/contas-receber/:id', authenticateToken, authorizeFinanceiro('receber'), async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.execute('SELECT * FROM contas_receber WHERE id = ?', [id]);
+        const [rows] = await pool.execute('SELECT * FROM contas_receber WHERE id = ', [id]);
         
         if (rows.length === 0) {
             return res.status(404).json({ error: 'Conta não encontrada' });
@@ -292,7 +292,7 @@ router.post('/contas-receber', authenticateToken, authorizeFinanceiro('receber')
         }
 
         const [result] = await pool.execute(
-            'INSERT INTO contas_receber (cliente, descricao, valor, vencimento, status, tipo, data_criacao) VALUES (?, ?, ?, ?, "PENDENTE", ?, NOW())',
+            'INSERT INTO contas_receber (cliente, descricao, valor, vencimento, status, tipo, data_criacao) VALUES (, , , , "PENDENTE", , NOW())',
             [cliente, descricao, valor, vencimento, tipo || 'VENDA']
         );
 
@@ -316,7 +316,7 @@ router.put('/contas-receber/:id', authenticateToken, authorizeFinanceiro('recebe
         const { cliente, descricao, valor, vencimento, status, tipo } = req.body;
 
         const [result] = await pool.execute(
-            'UPDATE contas_receber SET cliente = ?, descricao = ?, valor = ?, vencimento = ?, status = ?, tipo = ? WHERE id = ?',
+            'UPDATE contas_receber SET cliente = , descricao = , valor = , vencimento = , status = , tipo =  WHERE id = ',
             [cliente, descricao, valor, vencimento, status, tipo, id]
         );
 
@@ -327,7 +327,7 @@ router.put('/contas-receber/:id', authenticateToken, authorizeFinanceiro('recebe
         // Se a conta foi paga, registrar data de pagamento
         if (status === 'PAGO') {
             await pool.execute(
-                'UPDATE contas_receber SET data_pagamento = NOW() WHERE id = ?',
+                'UPDATE contas_receber SET data_pagamento = NOW() WHERE id = ',
                 [id]
             );
         }
@@ -346,7 +346,7 @@ router.put('/contas-receber/:id', authenticateToken, authorizeFinanceiro('recebe
 router.delete('/contas-receber/:id', authenticateToken, authorizeFinanceiro('receber'), async (req, res) => {
     try {
         const { id } = req.params;
-        const [result] = await pool.execute('DELETE FROM contas_receber WHERE id = ?', [id]);
+        const [result] = await pool.execute('DELETE FROM contas_receber WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Conta não encontrada' });
@@ -374,17 +374,17 @@ router.get('/contas-pagar', authenticateToken, authorizeFinanceiro('pagar'), asy
         const params = [];
 
         if (status) {
-            query += ' AND status = ?';
+            query += ' AND status = ';
             params.push(status);
         }
 
         if (dataInicio) {
-            query += ' AND vencimento >= ?';
+            query += ' AND vencimento >= ';
             params.push(dataInicio);
         }
 
         if (dataFim) {
-            query += ' AND vencimento <= ?';
+            query += ' AND vencimento <= ';
             params.push(dataFim);
         }
 
@@ -405,7 +405,7 @@ router.get('/contas-pagar', authenticateToken, authorizeFinanceiro('pagar'), asy
 router.get('/contas-pagar/:id', authenticateToken, authorizeFinanceiro('pagar'), async (req, res) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.execute('SELECT * FROM contas_pagar WHERE id = ?', [id]);
+        const [rows] = await pool.execute('SELECT * FROM contas_pagar WHERE id = ', [id]);
         
         if (rows.length === 0) {
             return res.status(404).json({ error: 'Conta não encontrada' });
@@ -439,7 +439,7 @@ router.post('/contas-pagar', authenticateToken, authorizeFinanceiro('pagar'), as
 
         const [result] = await pool.execute(
             `INSERT INTO contas_pagar (fornecedor_id, descricao, valor, data_vencimento, categoria_id, banco_id, forma_pagamento, observacoes, status) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, "pendente")`,
+             VALUES (, , , , , , , , "pendente")`,
             [fornecedor_id || null, descricao, valor, dataVenc, categoria_id || null, banco_id || null, forma_pagamento || null, observacoes || null]
         );
 
@@ -463,7 +463,7 @@ router.put('/contas-pagar/:id', authenticateToken, authorizeFinanceiro('pagar'),
         const { fornecedor, descricao, valor, vencimento, status, tipo } = req.body;
 
         const [result] = await pool.execute(
-            'UPDATE contas_pagar SET fornecedor = ?, descricao = ?, valor = ?, vencimento = ?, status = ?, tipo = ? WHERE id = ?',
+            'UPDATE contas_pagar SET fornecedor = , descricao = , valor = , vencimento = , status = , tipo =  WHERE id = ',
             [fornecedor, descricao, valor, vencimento, status, tipo, id]
         );
 
@@ -474,7 +474,7 @@ router.put('/contas-pagar/:id', authenticateToken, authorizeFinanceiro('pagar'),
         // Se a conta foi paga, registrar data de pagamento
         if (status === 'PAGO') {
             await pool.execute(
-                'UPDATE contas_pagar SET data_pagamento = NOW() WHERE id = ?',
+                'UPDATE contas_pagar SET data_pagamento = NOW() WHERE id = ',
                 [id]
             );
         }
@@ -493,7 +493,7 @@ router.put('/contas-pagar/:id', authenticateToken, authorizeFinanceiro('pagar'),
 router.delete('/contas-pagar/:id', authenticateToken, authorizeFinanceiro('pagar'), async (req, res) => {
     try {
         const { id } = req.params;
-        const [result] = await pool.execute('DELETE FROM contas_pagar WHERE id = ?', [id]);
+        const [result] = await pool.execute('DELETE FROM contas_pagar WHERE id = ', [id]);
 
         if (result.affectedRows === 0) {
             return res.status(404).json({ error: 'Conta não encontrada' });

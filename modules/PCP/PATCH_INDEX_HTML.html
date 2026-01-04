@@ -1,25 +1,25 @@
 ﻿<!-- 
 ==============================================================================
-INSTRU��ES PARA INTEGRAR OTIMIZA��ES NO index.html
+INSTRUES PARA INTEGRAR OTIMIZAES NO index.html
 ==============================================================================
 
-PASSO 1: Adicionar scripts de otimiza��o ANTES do fechamento do</body>
+PASSO 1: Adicionar scripts de otimizao ANTES do fechamento do</body>
 
 Procure por esta linha no final do arquivo (antes de</body>):
     </script></body>
 </html>
 
-E adicione ANTES de</body>, DEPOIS do �ltimo </script>:
+E adicione ANTES de</body>, DEPOIS do ltimo </script>:
 
 -->
 
 <!-- ============================================ -->
-<!-- OTIMIZA��ES PCP - IN�CIO -->
+<!-- OTIMIZAES PCP - INCIO -->
 <!-- ============================================ -->
 <script src="modules/PCP/pcp-optimizations.js"></script>
 <script src="modules/PCP/pcp-integration.js"></script>
 <!-- ============================================ -->
-<!-- OTIMIZA��ES PCP - FIM -->
+<!-- OTIMIZAES PCP - FIM -->
 <!-- ============================================ -->
 
 <!--
@@ -27,7 +27,7 @@ E adicione ANTES de</body>, DEPOIS do �ltimo </script>:
 PASSO 2: Adicionar modal de preview de Excel
 ==============================================================================
 
-Procure pela se��o de modais (geralmente ap�s <!-- MODALS --> ou similar)
+Procure pela seo de modais (geralmente aps <!-- MODALS --> ou similar)
 e adicione este modal:
 
 -->
@@ -37,7 +37,7 @@ e adicione este modal:
     <div class="modal-backdrop"></div>
     <div class="modal-content" style="max-width: 900px; max-height: 90vh; display: flex; flex-direction: column;">
         <div class="modal-header" style="flex-shrink: 0;">
-            <h2><i class="fas fa-file-excel"></i> Preview - Ordem de Produ��o</h2>
+            <h2><i class="fas fa-file-excel"></i> Preview - Ordem de Produo</h2>
             <button class="modal-close" onclick="closeModal('modal-excel-preview')">&times;</button>
         </div>
         
@@ -94,15 +94,15 @@ e adicione este modal:
 
 <!--
 ==============================================================================
-PASSO 3: Adicionar Centro de Notifica��es no Header
+PASSO 3: Adicionar Centro de Notificaes no Header
 ==============================================================================
 
-Procure pelo elemento .pcp-topbar ou header principal e adicione este c�digo
-ANTES do elemento de usu�rio (geralmente .user-menu ou similar):
+Procure pelo elemento .pcp-topbar ou header principal e adicione este cdigo
+ANTES do elemento de usurio (geralmente .user-menu ou similar):
 
 -->
 
-<!-- Centro de Notifica��es -->
+<!-- Centro de Notificaes -->
 <div class="notification-center" style="margin-right: 16px;">
     <button id="notification-bell" class="notification-bell">
         <i class="fas fa-bell"></i>
@@ -111,16 +111,16 @@ ANTES do elemento de usu�rio (geralmente .user-menu ou similar):
     
     <div id="notification-dropdown" class="notification-dropdown">
         <div class="notification-header">
-            <h3>Notifica��es</h3>
-            <button onclick="window.notificationCenter?.marcarTodasLidas?.()">Marcar todas como lidas</button>
+            <h3>Notificaes</h3>
+            <button onclick="window.notificationCenter.marcarTodasLidas.()">Marcar todas como lidas</button>
         </div>
         
         <div id="notification-list" class="notification-list">
-            <div class="no-notifications">Nenhuma notifica��o</div>
+            <div class="no-notifications">Nenhuma notificao</div>
         </div>
         
         <div class="notification-footer">
-            <a href="#" onclick="event.preventDefault(); window.notificationCenter?.abrirHistoricoCompleto?.()">Ver todas</a>
+            <a href="#" onclick="event.preventDefault(); window.notificationCenter.abrirHistoricoCompleto.()">Ver todas</a>
         </div>
     </div>
 </div>
@@ -130,13 +130,13 @@ ANTES do elemento de usu�rio (geralmente .user-menu ou similar):
 PASSO 4: Adicionar CSS das novas funcionalidades
 ==============================================================================
 
-Procure pela se��o <style> ou arquivo CSS principal e adicione:
+Procure pela seo <style> ou arquivo CSS principal e adicione:
 
 -->
 
 <style>
 /* ============================================ */
-/* CENTRO DE NOTIFICA��ES */
+/* CENTRO DE NOTIFICAES */
 /* ============================================ */
 .notification-center {
     position: relative;
@@ -182,7 +182,7 @@ Procure pela se��o <style> ou arquivo CSS principal e adicione:
     width: 380px;
     background: white;
     border-radius: 12px;
-    box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+    box-shaçãow: 0 12px 48px rgba(0, 0, 0, 0.15);
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
@@ -355,14 +355,14 @@ Procure pela se��o <style> ou arquivo CSS principal e adicione:
 }
 
 /* ============================================ */
-/* LOADING OVERLAY (adicionado automaticamente) */
+/* LOADING OVERLAY (adicionação automaticamente) */
 /* ============================================ */
 #pcp-loading-overlay {
-    /* Estilos j� aplicados via JavaScript */
+    /* Estilos j aplicaçãos via JavaScript */
 }
 
 /* ============================================ */
-/* ANIMA��ES MELHORADAS */
+/* ANIMAES MELHORADAS */
 /* ============================================ */
 .pcp-view {
     animation: fadeIn 0.3s ease-out;
@@ -400,21 +400,21 @@ Procure pela se��o <style> ou arquivo CSS principal e adicione:
 
 <!--
 ==============================================================================
-PASSO 5: Verifica��o Final
+PASSO 5: Verificao Final
 ==============================================================================
 
-Ap�s fazer as modifica��es, verifique:
+Aps fazer as modificaes, verifique:
 
-1. ? Scripts pcp-optimizations.js e pcp-integration.js carregam
-2. ? Console mostra mensagem "? Otimiza��es PCP carregadas com sucesso!"
-3. ? Console mostra "? Integra��o PCP conclu�da!"
-4. ? Notifica��o toast aparece: "Otimiza��es PCP ativadas!"
-5. ? Todas as 7 p�ginas continuam funcionando
-6. ? Centro de notifica��es aparece no header
-7. ? Atalhos de teclado funcionam (Ctrl+K, Ctrl+N, Esc)
+1.  Scripts pcp-optimizations.js e pcp-integration.js carregam
+2.  Console mostra mensagem " Otimizaes PCP carregadas com sucesso!"
+3.  Console mostra " Integrao PCP concluda!"
+4.  Notificao toast aparece: "Otimizaes PCP ativadas!"
+5.  Todas as 7 pginas continuam funcionando
+6.  Centro de notificaes aparece no header
+7.  Atalhos de teclação funcionam (Ctrl+K, Ctrl+N, Esc)
 
 ==============================================================================
-EXEMPLO DE LOCALIZA��O NO index.html
+EXEMPLO DE LOCALIZAO NO index.html
 ==============================================================================
 
 ANTES:
@@ -424,7 +424,7 @@ ANTES:
 DEPOIS:
     </script>
     
-    <!-- Otimiza��es PCP -->
+    <!-- Otimizaes PCP -->
     <script src="modules/PCP/pcp-optimizations.js"></script>
     <script src="modules/PCP/pcp-integration.js"></script></body>
 </html>
