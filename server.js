@@ -12859,6 +12859,17 @@ function requireAuthPage(req, res, next) {
 
 // Servir /dashboard e /index.html apenas para usuários autenticados
 app.get('/dashboard', requireAuthPage, (req, res) => {
+    // Se token veio via query string, setar cookie para próximas requisições
+    if (req.query.token) {
+        res.cookie('authToken', req.query.token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax',
+            maxAge: 8 * 60 * 60 * 1000 // 8 horas
+        });
+        // Redirecionar para limpar o token da URL
+        return res.redirect('/dashboard');
+    }
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });

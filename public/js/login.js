@@ -697,7 +697,22 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         }
 
-        // Aguarda um momento para o cookie ser salvo pelo navegador
+        // Em ambiente cross-origin (GitHub Pages → Railway), cookies não funcionam
+        // Usar token JWT salvo no localStorage para autenticação
+        const isGitHubPages = window.location.hostname.includes('github.io');
+        
+        if (isGitHubPages && data.token) {
+          // Cross-origin: redirecionar diretamente usando token JWT
+          console.log('[LOGIN] ✅ Ambiente cross-origin detectado. Usando token JWT.');
+          console.log('[LOGIN] Token salvo, redirecionando para:', redirectTo);
+          
+          // Redirecionar para o dashboard no Railway (onde o token será usado)
+          const railwayBase = window.ALUFORCE_CONFIG?.API_BASE_URL || 'https://sistemaerp-production-a924.up.railway.app';
+          window.location.href = railwayBase + '/dashboard?token=' + encodeURIComponent(data.token);
+          return;
+        }
+
+        // Ambiente same-origin: verificar sessão via cookie
         console.log('[LOGIN] Aguardando 500ms para cookie ser salvo...');
         await new Promise(r => setTimeout(r, 500));
 
