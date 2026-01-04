@@ -358,19 +358,19 @@ app.post('/api/test-login', express.json(), async (req, res) => {
         }
         
         debug.push('2. Buscando usuário no banco...');
-        const [rows] = await pool.query('SELECT id, email, nome, senha_hash, password_hash FROM usuarios WHERE email =  LIMIT 1', [email]);
+        const [rows] = await pool.query('SELECT id, email, nome, senha_hash, password_hash FROM usuarios WHERE email = ? LIMIT 1', [email]);
         
         if (!rows || rows.length === 0) {
-            debug.push('3. Usuário NÃO encontração');
-            return res.json({ status: 'error', debug, message: 'Usuário não encontração' });
+            debug.push('3. Usuário NÃO encontrado');
+            return res.json({ status: 'error', debug, message: 'Usuário não encontrado' });
         }
         
         const user = rows[0];
-        debug.push(`3. Usuário encontração: ${user.nome} (id: ${user.id})`);
+        debug.push(`3. Usuário encontrado: ${user.nome} (id: ${user.id})`);
         debug.push(`4. Tem senha_hash: ${!!user.senha_hash}, Tem password_hash: ${!!user.password_hash}`);
         
         const hashToCheck = user.senha_hash || user.password_hash;
-        debug.push(`5. Hash a verificar (primeiros 20 chars): ${hashToCheck  hashToCheck.substring(0, 20) : 'NENHUM'}`);
+        debug.push(`5. Hash a verificar (primeiros 20 chars): ${hashToCheck ? hashToCheck.substring(0, 20) : 'NENHUM'}`);
         
         if (!hashToCheck) {
             return res.json({ status: 'error', debug, message: 'Usuário sem senha cadastrada' });
@@ -379,7 +379,7 @@ app.post('/api/test-login', express.json(), async (req, res) => {
         debug.push('6. Verificando senha com bcrypt...');
         const bcrypt = require('bcryptjs');
         const isValid = await bcrypt.compare(password, hashToCheck);
-        debug.push(`7. Resultação bcrypt: ${isValid  'VÁLIDA' : 'INVÁLIDA'}`);
+        debug.push(`7. Resultado bcrypt: ${isValid ? 'VÁLIDA' : 'INVÁLIDA'}`);
         
         if (isValid) {
             debug.push('8. LOGIN SUCESSO!');
