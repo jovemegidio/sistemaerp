@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <link rel="icon" type="image/x-icon" href="favicon-aluforce.webp">
@@ -93,11 +93,11 @@
                 <button class="sidebar-btn" title="Estoque" onclick="location.href='gestao-estoque.html'"><i class="fas fa-boxes"></i></button>
                 <button class="sidebar-btn" title="Materiais" onclick="location.href='materiais.html'"><i class="fas fa-cubes"></i></button>
                 <button class="sidebar-btn" title="Pedidos" onclick="location.href='pedidos.html'"><i class="fas fa-shopping-cart"></i></button>
-                <button class="sidebar-btn" title="Cotações" onclick="location.href='cotacoes.html'"><i class="fas fa-file-invoice-dollar"></i></button>
-                <button class="sidebar-btn" title="Requisições" onclick="location.href='requisicoes.html'"><i class="fas fa-clipboard-list"></i></button>
+                <button class="sidebar-btn" title="Cotaï¿½ï¿½es" onclick="location.href='cotacoes.html'"><i class="fas fa-file-invoice-dollar"></i></button>
+                <button class="sidebar-btn" title="Requisiï¿½ï¿½es" onclick="location.href='requisicoes.html'"><i class="fas fa-clipboard-list"></i></button>
             </nav>
             <div class="sidebar-bottom">
-                <button class="sidebar-btn" title="Relatórios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
+                <button class="sidebar-btn" title="Relatï¿½rios" onclick="location.href='relatorios.html'"><i class="fas fa-chart-bar"></i></button>
             </div>
         </aside>
         <main class="main-area">
@@ -111,16 +111,16 @@
                     </div>
                 </div>
                 <div class="header-right">
-                    <button class="header-btn" title="Notificações"><i class="fas fa-bell"></i></button>
+                    <button class="header-btn" title="Notificaï¿½ï¿½es"><i class="fas fa-bell"></i></button>
                     <div class="user-greeting">
-                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuário</strong></span>
+                        <span><span id="greeting-text">Bom dia</span>, <strong id="user-name">Usuï¿½rio</strong></span>
                         <div class="user-avatar"><span id="user-initial">U</span></div>
                     </div>
                 </div>
             </header>
             <div class="page-content">
                 <div class="page-header">
-                    <h1 class="page-title"><i class="fas fa-users"></i> Gestão de Fornecedores</h1>
+                    <h1 class="page-title"><i class="fas fa-users"></i> Gestï¿½o de Fornecedores</h1>
                     <div class="page-actions">
                         <button class="btn btn-secondary"><i class="fas fa-download"></i> Exportar</button>
                         <button class="btn btn-primary"><i class="fas fa-plus"></i> Novo Fornecedor</button>
@@ -129,11 +129,11 @@
                 <div class="summary-cards">
                     <div class="summary-card"><div class="summary-icon purple"><i class="fas fa-users"></i></div><div class="summary-content"><h3>Total Fornecedores</h3><div class="summary-value" id="totalFornecedores">0</div></div></div>
                     <div class="summary-card"><div class="summary-icon green"><i class="fas fa-check-circle"></i></div><div class="summary-content"><h3>Ativos</h3><div class="summary-value" id="fornecedoresAtivos">0</div></div></div>
-                    <div class="summary-card"><div class="summary-icon blue"><i class="fas fa-user-plus"></i></div><div class="summary-content"><h3>Novos (Mês)</h3><div class="summary-value" id="fornecedoresNovos">0</div></div></div>
-                    <div class="summary-card"><div class="summary-icon orange"><i class="fas fa-star"></i></div><div class="summary-content"><h3>Avaliação Média</h3><div class="summary-value" id="avaliacaoMedia">0.0</div></div></div>
+                    <div class="summary-card"><div class="summary-icon blue"><i class="fas fa-user-plus"></i></div><div class="summary-content"><h3>Novos (Mï¿½s)</h3><div class="summary-value" id="fornecedoresNovos">0</div></div></div>
+                    <div class="summary-card"><div class="summary-icon orange"><i class="fas fa-star"></i></div><div class="summary-content"><h3>Avaliaï¿½ï¿½o Mï¿½dia</h3><div class="summary-value" id="avaliacaoMedia">0.0</div></div></div>
                 </div>
                 <div class="filters-bar">
-                    <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Buscar por razão social, CNPJ..."></div>
+                    <div class="search-box"><i class="fas fa-search"></i><input type="text" placeholder="Buscar por razï¿½o social, CNPJ..."></div>
                     <div class="filter-buttons">
                         <button class="filter-btn active"><i class="fas fa-list"></i> Todos</button>
                         <button class="filter-btn"><i class="fas fa-check"></i> Ativos</button>
@@ -144,9 +144,9 @@
                 <div class="table-container">
                     <div class="table-header"><h3><i class="fas fa-table"></i> Lista de Fornecedores</h3></div>
                     <table class="data-table">
-                        <thead><tr><th><input type="checkbox"></th><th>Razão Social</th><th>CNPJ</th><th>Contato</th><th>Cidade/UF</th><th>Categoria</th><th>Status</th><th>Ações</th></tr></thead>
+                        <thead><tr><th><input type="checkbox"></th><th>Razï¿½o Social</th><th>CNPJ</th><th>Contato</th><th>Cidade/UF</th><th>Categoria</th><th>Status</th><th>Aï¿½ï¿½es</th></tr></thead>
                         <tbody id="fornecedoresTableBody">
-                            <tr><td><input type="checkbox"></td><td><strong>Alumínio Brasil LTDA</strong></td><td>12.345.678/0001-90</td><td>(11) 99999-1234</td><td>São Paulo/SP</td><td>Matéria Prima</td><td><span class="status-badge ativo">Ativo</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
+                            <tr><td><input type="checkbox"></td><td><strong>Alumï¿½nio Brasil LTDA</strong></td><td>12.345.678/0001-90</td><td>(11) 99999-1234</td><td>Sï¿½o Paulo/SP</td><td>Matï¿½ria Prima</td><td><span class="status-badge ativo">Ativo</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
                             <tr><td><input type="checkbox"></td><td><strong>Metais SA</strong></td><td>98.765.432/0001-10</td><td>(21) 88888-5678</td><td>Rio de Janeiro/RJ</td><td>Componentes</td><td><span class="status-badge ativo">Ativo</span></td><td><button class="btn-action view"><i class="fas fa-eye"></i></button><button class="btn-action edit"><i class="fas fa-edit"></i></button><button class="btn-action delete"><i class="fas fa-trash"></i></button></td></tr>
                         </tbody>
                     </table>
@@ -185,8 +185,8 @@
                     <div class="tab-content active" id="tab-dados">
                         <div class="form-row" style="display: grid; grid-template-columns: 2fr 1fr; gap: 16px;">
                             <div class="form-group">
-                                <label><i class="fas fa-building"></i> Razão Social *</label>
-                                <input type="text" id="razaoSocial" placeholder="Razão Social completa" required>
+                                <label><i class="fas fa-building"></i> Razï¿½o Social *</label>
+                                <input type="text" id="razaoSocial" placeholder="Razï¿½o Social completa" required>
                             </div>
                             <div class="form-group">
                                 <label><i class="fas fa-tag"></i> Nome Fantasia</label>
@@ -199,20 +199,20 @@
                                 <input type="text" id="cnpj" placeholder="00.000.000/0000-00" required oninput="formatarCNPJInput(this)">
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-file-invoice"></i> Inscrição Estadual</label>
-                                <input type="text" id="inscricaoEstadual" placeholder="Inscrição Estadual">
+                                <label><i class="fas fa-file-invoice"></i> Inscriï¿½ï¿½o Estadual</label>
+                                <input type="text" id="inscricaoEstadual" placeholder="Inscriï¿½ï¿½o Estadual">
                             </div>
                             <div class="form-group">
                                 <label><i class="fas fa-list"></i> Categoria *</label>
                                 <select id="categoria" required>
                                     <option value="">Selecione...</option>
-                                    <option value="Matéria Prima">Matéria Prima</option>
+                                    <option value="Matï¿½ria Prima">Matï¿½ria Prima</option>
                                     <option value="Componentes">Componentes</option>
                                     <option value="Embalagens">Embalagens</option>
                                     <option value="Ferramentas">Ferramentas</option>
-                                    <option value="Químicos">Químicos</option>
-                                    <option value="Logística">Logística</option>
-                                    <option value="Serviços">Serviços</option>
+                                    <option value="Quï¿½micos">Quï¿½micos</option>
+                                    <option value="Logï¿½stica">Logï¿½stica</option>
+                                    <option value="Serviï¿½os">Serviï¿½os</option>
                                     <option value="Outros">Outros</option>
                                 </select>
                             </div>
@@ -223,8 +223,8 @@
                                 <input type="text" id="cep" placeholder="00000-000" oninput="buscarCEP(this.value)">
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-map-marker-alt"></i> Endereço</label>
-                                <input type="text" id="endereco" placeholder="Rua, número, complemento">
+                                <label><i class="fas fa-map-marker-alt"></i> Endereï¿½o</label>
+                                <input type="text" id="endereco" placeholder="Rua, nï¿½mero, complemento">
                             </div>
                         </div>
                         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr 1fr 80px; gap: 16px;">
@@ -279,7 +279,7 @@
                                 <input type="text" id="telefone" placeholder="(00) 00000-0000">
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-phone-alt"></i> Telefone Secundário</label>
+                                <label><i class="fas fa-phone-alt"></i> Telefone Secundï¿½rio</label>
                                 <input type="text" id="telefone2" placeholder="(00) 00000-0000">
                             </div>
                         </div>
@@ -309,10 +309,10 @@
                     <div class="tab-content" id="tab-financeiro" style="display: none;">
                         <div class="form-row" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
                             <div class="form-group">
-                                <label><i class="fas fa-credit-card"></i> Condições de Pagamento</label>
+                                <label><i class="fas fa-credit-card"></i> Condiï¿½ï¿½es de Pagamento</label>
                                 <select id="condicoesPagamento">
                                     <option value="">Selecione...</option>
-                                    <option value="À Vista">À Vista</option>
+                                    <option value="ï¿½ Vista">ï¿½ Vista</option>
                                     <option value="7 dias">7 dias</option>
                                     <option value="14 dias">14 dias</option>
                                     <option value="21 dias">21 dias</option>
@@ -334,7 +334,7 @@
                                 <input type="text" id="banco" placeholder="Nome do banco">
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-code-branch"></i> Agência</label>
+                                <label><i class="fas fa-code-branch"></i> Agï¿½ncia</label>
                                 <input type="text" id="agencia" placeholder="0000-0">
                             </div>
                             <div class="form-group">
@@ -348,13 +348,13 @@
                                 <input type="text" id="chavePix" placeholder="CNPJ, e-mail, telefone...">
                             </div>
                             <div class="form-group">
-                                <label><i class="fas fa-star"></i> Avaliação</label>
+                                <label><i class="fas fa-star"></i> Avaliaï¿½ï¿½o</label>
                                 <select id="avaliacao">
                                     <option value="5">????? Excelente</option>
                                     <option value="4" selected>???? Bom</option>
                                     <option value="3">??? Regular</option>
                                     <option value="2">?? Ruim</option>
-                                    <option value="1">? Péssimo</option>
+                                    <option value="1">? Pï¿½ssimo</option>
                                 </select>
                             </div>
                         </div>
@@ -363,15 +363,15 @@
                     <!-- Tab: Documentos -->
                     <div class="tab-content" id="tab-docs" style="display: none;">
                         <div class="form-group">
-                            <label><i class="fas fa-sticky-note"></i> Observações Gerais</label>
-                            <textarea id="observacoes" rows="4" placeholder="Informações adicionais sobre o fornecedor..."></textarea>
+                            <label><i class="fas fa-sticky-note"></i> Observaï¿½ï¿½es Gerais</label>
+                            <textarea id="observacoes" rows="4" placeholder="Informaï¿½ï¿½es adicionais sobre o fornecedor..."></textarea>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-cube"></i> Produtos/Serviços Fornecidos</label>
-                            <textarea id="produtosFornecidos" rows="3" placeholder="Liste os principais produtos ou serviços..."></textarea>
+                            <label><i class="fas fa-cube"></i> Produtos/Serviï¿½os Fornecidos</label>
+                            <textarea id="produtosFornecidos" rows="3" placeholder="Liste os principais produtos ou serviï¿½os..."></textarea>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-certificate"></i> Certificações</label>
+                            <label><i class="fas fa-certificate"></i> Certificaï¿½ï¿½es</label>
                             <input type="text" id="certificacoes" placeholder="ISO 9001, ISO 14001, etc...">
                         </div>
                     </div>
@@ -392,7 +392,7 @@
                 <button class="modal-close" onclick="fecharModalVisualizarFornecedor()" style="background: rgba(255,255,255,0.2); color: white;"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body" id="viewFornBody" style="padding: 0;">
-                <!-- Conteúdo preenchido via JS -->
+                <!-- Conteï¿½do preenchido via JS -->
             </div>
         </div>
     </div>
@@ -427,7 +427,7 @@
     <script src="notifications.js"></script>
     <script src="fornecedores.js"></script>
     <script>
-        // Funções do modal de fornecedor
+        // Funï¿½ï¿½es do modal de fornecedor
         function abrirModalNovoFornecedor() {
             document.getElementById('modalFornecedorTitulo').textContent = 'Novo Fornecedor';
             document.getElementById('formFornecedor').reset();
@@ -448,7 +448,7 @@
             document.querySelectorAll('.workflow-tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
             document.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-            document.getElementById(`tab-${tab}`).style.display = 'block';
+            document.getElementById(ab-${tab}`).style.display = 'block';
         }
 
         function formatarCNPJInput(input) {
@@ -512,7 +512,7 @@
             };
 
             if (!dados.razao_social || !dados.cnpj || !dados.categoria) {
-                alert('Preencha os campos obrigatórios: Razão Social, CNPJ e Categoria');
+                alert('Preencha os campos obrigatï¿½rios: Razï¿½o Social, CNPJ e Categoria');
                 return;
             }
 
@@ -541,7 +541,7 @@
         async function editarFornecedorModal(id) {
             try {
                 const resp = await fetch(`/api/compras/fornecedores/${id}`);
-                if (!resp.ok) throw new Error('Fornecedor não encontrado');
+                if (!resp.ok) throw new Error('Fornecedor nï¿½o encontrado');
                 const f = await resp.json();
                 
                 document.getElementById('modalFornecedorTitulo').textContent = 'Editar Fornecedor';
@@ -602,18 +602,18 @@
                     <div class="view-section">
                         <h4><i class="fas fa-building"></i> Dados Gerais</h4>
                         <div class="view-grid">
-                            <div class="view-item"><label>Razão Social</label><span>${f.razao_social || '-'}</span></div>
+                            <div class="view-item"><label>Razï¿½o Social</label><span>${f.razao_social || '-'}</span></div>
                             <div class="view-item"><label>Nome Fantasia</label><span>${f.nome_fantasia || '-'}</span></div>
                             <div class="view-item"><label>CNPJ</label><span>${formatarCNPJ(f.cnpj) || '-'}</span></div>
-                            <div class="view-item"><label>Inscrição Estadual</label><span>${f.inscricao_estadual || '-'}</span></div>
+                            <div class="view-item"><label>Inscriï¿½ï¿½o Estadual</label><span>${f.inscricao_estadual || '-'}</span></div>
                             <div class="view-item"><label>Categoria</label><span>${f.categoria || '-'}</span></div>
                             <div class="view-item"><label>Status</label><span style="color: ${f.ativo ? '#22c55e' : '#ef4444'}">${f.ativo ? '? Ativo' : '? Inativo'}</span></div>
                         </div>
                     </div>
                     <div class="view-section">
-                        <h4><i class="fas fa-map-marker-alt"></i> Endereço</h4>
+                        <h4><i class="fas fa-map-marker-alt"></i> Endereï¿½o</h4>
                         <div class="view-grid">
-                            <div class="view-item"><label>Endereço</label><span>${f.endereco || '-'}</span></div>
+                            <div class="view-item"><label>Endereï¿½o</label><span>${f.endereco || '-'}</span></div>
                             <div class="view-item"><label>Bairro</label><span>${f.bairro || '-'}</span></div>
                             <div class="view-item"><label>Cidade/UF</label><span>${f.cidade ? f.cidade + '/' + (f.estado || '') : '-'}</span></div>
                             <div class="view-item"><label>CEP</label><span>${f.cep || '-'}</span></div>
@@ -631,13 +631,13 @@
                     <div class="view-section">
                         <h4><i class="fas fa-dollar-sign"></i> Financeiro</h4>
                         <div class="view-grid">
-                            <div class="view-item"><label>Condições Pagamento</label><span>${f.condicoes_pagamento || '-'}</span></div>
+                            <div class="view-item"><label>Condiï¿½ï¿½es Pagamento</label><span>${f.condicoes_pagamento || '-'}</span></div>
                             <div class="view-item"><label>Prazo Entrega</label><span>${f.prazo_entrega_padrao ? f.prazo_entrega_padrao + ' dias' : '-'}</span></div>
                             <div class="view-item"><label>Chave PIX</label><span>${f.chave_pix || '-'}</span></div>
-                            <div class="view-item"><label>Avaliação</label><span>${'?'.repeat(f.avaliacao || 0)}</span></div>
+                            <div class="view-item"><label>Avaliaï¿½ï¿½o</label><span>${'?'.repeat(f.avaliacao || 0)}</span></div>
                         </div>
                     </div>
-                    ${f.observacoes ? `<div class="view-section"><h4><i class="fas fa-sticky-note"></i> Observações</h4><p style="color:#666;font-size:14px;">${f.observacoes}</p></div>` : ''}
+                    ${f.observacoes ? `<div class="view-section"><h4><i class="fas fa-sticky-note"></i> Observaï¿½ï¿½es</h4><p style="color:#666;font-size:14px;">${f.observacoes}</p></div>` : ''}
                 `;
                 document.getElementById('modalVisualizarFornecedor').classList.add('active');
             } catch (e) {
@@ -651,7 +651,7 @@
             try {
                 const resp = await fetch(`/api/compras/fornecedores/${id}`, { method: 'DELETE' });
                 if (resp.ok) {
-                    alert('Fornecedor excluído!');
+                    alert('Fornecedor excluï¿½do!');
                     fornecedoresManager.carregarFornecedores().then(() => fornecedoresManager.renderizarTabela());
                 } else {
                     const r = await resp.json();
@@ -662,7 +662,7 @@
             }
         }
 
-        // Conectar botões da página
+        // Conectar botï¿½es da pï¿½gina
         document.addEventListener('DOMContentLoaded', () => {
             const btnNovo = document.querySelector('.btn-primary');
             if (btnNovo && btnNovo.textContent.includes('Novo Fornecedor')) {

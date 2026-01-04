@@ -5357,7 +5357,7 @@ Atenciosamente,
             
             // Criar toast
             const toast = document.createElement('div');
-            toast.className = `toast-notification toast-${type}`;
+            toast.className = oast-notification toast-${type}`;
             toast.innerHTML = `
                 <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
                 <span>${message}</span>
@@ -5919,7 +5919,7 @@ Atenciosamente,
             });
             // Ativar tab e conteúdo selecionados
             document.querySelector(`.modal-tab[data-tab="${tabId}"]`).classList.add('active');
-            document.getElementById(`tab-${tabId}`).classList.add('active');
+            document.getElementById(ab-${tabId}`).classList.add('active');
         }
         
         function formatarMoeda(valor) {
@@ -5981,7 +5981,7 @@ Atenciosamente,
             if (document.getElementById('edit-transportadora')) {
                 const novaTransp = document.getElementById('edit-transportadora').value;
                 if (novaTransp !== pedidoAtual.transportadora) {
-                    alteracoes.push(`Transportadora alterada para "${novaTransp}"`);
+                    alteracoes.push(ransportadora alterada para "${novaTransp}"`);
                 }
                 pedidoAtual.transportadora = novaTransp;
             }
@@ -7607,7 +7607,7 @@ Atenciosamente,
         async function cancelarPedido() {
             if (!pedidoAtual) return;
             
-            const confirmar = confirm(`Tem certeza que deseja cancelar o Orçamento Nº ${pedidoAtual.id}?\n\nO pedido será marcado como cancelado.`);
+            const confirmar = confirm(em certeza que deseja cancelar o Orçamento Nº ${pedidoAtual.id}?\n\nO pedido será marcado como cancelado.`);
             if (!confirmar) return;
             
             try {
@@ -7961,7 +7961,7 @@ Atenciosamente,
                 return;
             }
             
-            const confirmar = confirm(`Tem certeza que deseja excluir o Orçamento Nº ${pedidoAtual.id}?\n\nEsta ação não pode ser desfeita.`);
+            const confirmar = confirm(em certeza que deseja excluir o Orçamento Nº ${pedidoAtual.id}?\n\nEsta ação não pode ser desfeita.`);
             if (!confirmar) return;
             
             // Remover da lista
@@ -8066,7 +8066,7 @@ Atenciosamente,
             
             // Ativar aba selecionada
             document.querySelector(`.orcamento-tab[data-tab="${tabId}"]`).classList.add('active');
-            document.getElementById(`tab-${tabId}`).classList.add('active');
+            document.getElementById(ab-${tabId}`).classList.add('active');
         }
         
         // Inicializar eventos das abas
@@ -8389,7 +8389,7 @@ Atenciosamente,
             // Calcular total
             let total = 0;
             dadosVendas.faturar.forEach(p => total += p.valor);
-            document.getElementById('faturar-total').textContent = `Total: R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            document.getElementById('faturar-total').textContent = otal: R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
             
             // Listar pedidos com design premium
             let listaHTML = '';
@@ -8530,7 +8530,7 @@ Atenciosamente,
                 // Re-renderizar para atualizar visual
                 renderKanban();
                 
-                showNotification(`Transmissão SEFAZ concluída! ${count} NF-e${count > 1 ? 's' : ''} autorizadas.`, 'success');
+                showNotification(ransmissão SEFAZ concluída! ${count} NF-e${count > 1 ? 's' : ''} autorizadas.`, 'success');
                 
                 // TODO: Enviar para SEFAZ real via API
                 // transmitirSefazAPI(notasFaturadas);

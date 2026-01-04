@@ -5403,7 +5403,7 @@
             const quantidade = parseFloat(document.getElementById('prod-quantidade').value) || 0;
             const valor = parseFloat(document.getElementById('prod-valor').value) || 0;
             const total = quantidade * valor;
-            document.getElementById('prod-total-preview').textContent = `R$ ${total.toFixed(2)}`;
+            document.getElementById('prod-total-preview').textContent = $ ${total.toFixed(2)}`;
         }
 
         // Calcular valores de pagamento baseado nos percentuais
@@ -5510,7 +5510,7 @@
             });
             
             tbody.innerHTML = html;
-            document.getElementById('op-produtos-total').textContent = `R$ ${totalGeral.toFixed(2)}`;
+            document.getElementById('op-produtos-total').textContent = $ ${totalGeral.toFixed(2)}`;
         }
 
         // Atualizar embalagem de um produto inline
@@ -5566,7 +5566,7 @@
             
             const confirmado = await mostrarConfirmacaoPCP(
                 'Remover Produtos',
-                `Remover ${checkboxes.length} produto(s) selecionado(s)?`,
+                emover ${checkboxes.length} produto(s) selecionado(s)?`,
                 'danger'
             );
             if (!confirmado) return;
@@ -7397,7 +7397,7 @@
                 tbody.innerHTML = pedidos.map(pedido => {
                     const statusInfo = statusLabels[pedido.status] || { label: pedido.status, class: 'status-badge gray' };
                     const data = pedido.created_at ? new Date(pedido.created_at).toLocaleDateString('pt-BR') : '-';
-                    const valor = pedido.valor ? `R$ ${parseFloat(pedido.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : '-';
+                    const valor = pedido.valor ? $ ${parseFloat(pedido.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : '-';
                     
                     // Pedidos faturado ou faturar podem gerar OP
                     const podeGerarOP = pedido.status === 'faturado' || pedido.status === 'faturar';

@@ -1159,7 +1159,7 @@
             if (tabBtn) tabBtn.classList.add('active');
             
             // Ativar pane correspondente
-            const pane = document.getElementById(`tab-${abaId}`);
+            const pane = document.getElementById(ab-${abaId}`);
             if (pane) pane.classList.add('active');
             
             // Se for aba de mapa, atualizar o mapa
@@ -1491,7 +1491,7 @@
 
         function mostrarToast(msg, tipo = 'info') {
             const toast = document.createElement('div');
-            toast.className = `toast ${tipo}`;
+            toast.className = oast ${tipo}`;
             toast.innerHTML = `<i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle'}"></i> ${msg}`;
             document.body.appendChild(toast);
             setTimeout(() => { toast.style.animation = 'toastSlideIn 0.3s ease reverse'; setTimeout(() => toast.remove(), 300); }, 3000);

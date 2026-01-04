@@ -7540,7 +7540,7 @@
             
             // Criar toast
             const toast = document.createElement('div');
-            toast.className = `toast-notification toast-${type}`;
+            toast.className = oast-notification toast-${type}`;
             toast.innerHTML = `
                 <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
                 <span>${message}</span>
@@ -8147,7 +8147,7 @@
             });
             // Ativar tab e conteúdo selecionados
             document.querySelector(`.modal-tab[data-tab="${tabId}"]`).classList.add('active');
-            document.getElementById(`tab-${tabId}`).classList.add('active');
+            document.getElementById(ab-${tabId}`).classList.add('active');
         }
         
         function formatarMoeda(valor) {
@@ -8194,7 +8194,7 @@
             if (document.getElementById('edit-transportadora')) {
                 novaTransp = document.getElementById('edit-transportadora').value;
                 if (novaTransp !== pedidoAtual.transportadora) {
-                    alteracoes.push(`Transportadora alterada para "${novaTransp}"`);
+                    alteracoes.push(ransportadora alterada para "${novaTransp}"`);
                 }
             }
             
@@ -9964,7 +9964,7 @@
         function cancelarPedido() {
             if (!pedidoAtual) return;
             
-            const confirmar = confirm(`Tem certeza que deseja cancelar o Orçamento Nº ${pedidoAtual.id}?\n\nO pedido será marcado como cancelado.`);
+            const confirmar = confirm(em certeza que deseja cancelar o Orçamento Nº ${pedidoAtual.id}?\n\nO pedido será marcado como cancelado.`);
             if (!confirmar) return;
             
             // Atualizar status do pedido
@@ -10633,7 +10633,7 @@
                 return;
             }
             
-            const confirmar = confirm(`Tem certeza que deseja excluir o Orçamento Nº ${pedidoAtual.id}?\n\nEsta ação não pode ser desfeita.`);
+            const confirmar = confirm(em certeza que deseja excluir o Orçamento Nº ${pedidoAtual.id}?\n\nEsta ação não pode ser desfeita.`);
             if (!confirmar) return;
             
             // Remover da lista
@@ -11319,10 +11319,10 @@
             const totalFrete = document.getElementById('impostos-total-frete');
             const totalNf = document.getElementById('impostos-total-nf');
             
-            if (totalProdutos) totalProdutos.textContent = `R$ ${formatarNumero(impostosCalculados.totais.produtos)}`;
-            if (totalImpostos) totalImpostos.textContent = `R$ ${formatarNumero(impostosCalculados.totais.impostos)}`;
-            if (totalFrete) totalFrete.textContent = `R$ ${formatarNumero(impostosCalculados.totais.frete + impostosCalculados.totais.outras_despesas)}`;
-            if (totalNf) totalNf.textContent = `R$ ${formatarNumero(impostosCalculados.totais.nota_fiscal)}`;
+            if (totalProdutos) totalProdutos.textContent = $ ${formatarNumero(impostosCalculados.totais.produtos)}`;
+            if (totalImpostos) totalImpostos.textContent = $ ${formatarNumero(impostosCalculados.totais.impostos)}`;
+            if (totalFrete) totalFrete.textContent = $ ${formatarNumero(impostosCalculados.totais.frete + impostosCalculados.totais.outras_despesas)}`;
+            if (totalNf) totalNf.textContent = $ ${formatarNumero(impostosCalculados.totais.nota_fiscal)}`;
             
             // Atualizar campos de totais no cabeçalho do modal
             const totalIpiHeader = document.getElementById('novo-total-ipi');
@@ -11376,7 +11376,7 @@
             
             // Ativar aba selecionada
             document.querySelector(`.orcamento-tab[data-tab="${tabId}"]`).classList.add('active');
-            document.getElementById(`tab-${tabId}`).classList.add('active');
+            document.getElementById(ab-${tabId}`).classList.add('active');
         }
         
         // Inicializar eventos das abas
@@ -12082,7 +12082,7 @@
             // Calcular total
             let total = 0;
             dadosVendas.faturar.forEach(p => total += p.valor);
-            document.getElementById('faturar-total').textContent = `Total: R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
+            document.getElementById('faturar-total').textContent = otal: R$ ${total.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`;
             
             // Listar pedidos com design premium
             let listaHTML = '';
@@ -12223,7 +12223,7 @@
                 // Re-renderizar para atualizar visual
                 renderKanban();
                 
-                showNotification(`Transmissão SEFAZ concluída! ${count} NF-e${count > 1 ? 's' : ''} autorizadas.`, 'success');
+                showNotification(ransmissão SEFAZ concluída! ${count} NF-e${count > 1 ? 's' : ''} autorizadas.`, 'success');
                 
                 // TODO: Enviar para SEFAZ real via API
                 // transmitirSefazAPI(notasFaturadas);

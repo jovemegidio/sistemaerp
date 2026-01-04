@@ -1017,7 +1017,7 @@
 
             document.getElementById('total-contas').textContent = totalContas;
             document.getElementById('saldo-total').textContent = 
-                `R$ ${saldoTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${saldoTotal.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('contas-ativas').textContent = contasAtivas;
         }
 
@@ -1149,7 +1149,7 @@
             
             document.getElementById('extrato-conta-nome').textContent = extratoContaAtual.nome;
             document.getElementById('extrato-conta-banco').textContent = `${bancoNomes[extratoContaAtual.banco] || extratoContaAtual.banco} • ${extratoContaAtual.tipo || 'Corrente'}`;
-            document.getElementById('extrato-saldo-atual').textContent = `R$ ${parseFloat(extratoContaAtual.saldo || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('extrato-saldo-atual').textContent = $ ${parseFloat(extratoContaAtual.saldo || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             
             // Definir datas padrão (último mês)
             const hoje = new Date();
@@ -1268,9 +1268,9 @@
             `;
             
             const saldoPeriodo = totalEntradas - totalSaidas;
-            document.getElementById('extrato-total-entradas').textContent = `R$ ${totalEntradas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-            document.getElementById('extrato-total-saidas').textContent = `R$ ${totalSaidas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
-            document.getElementById('extrato-saldo-periodo').textContent = `R$ ${saldoPeriodo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('extrato-total-entradas').textContent = $ ${totalEntradas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('extrato-total-saidas').textContent = $ ${totalSaidas.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('extrato-saldo-periodo').textContent = $ ${saldoPeriodo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('extrato-saldo-periodo').style.color = saldoPeriodo >= 0 ? '#1e40af' : '#ef4444';
         }
 
@@ -1430,7 +1430,7 @@
             
             const saldo = parseFloat(visualizarContaAtual.saldo || 0);
             const saldoEl = document.getElementById('visualizar-saldo');
-            saldoEl.textContent = `R$ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            saldoEl.textContent = $ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             saldoEl.style.color = saldo >= 0 ? '#1e40af' : '#ef4444';
             
             document.getElementById('visualizar-agencia').textContent = visualizarContaAtual.agencia || '-';

@@ -281,7 +281,7 @@
             });
             
             // Mostrar aba selecionada
-            document.getElementById(`tab-${tabName}`).style.display = 'block';
+            document.getElementById(ab-${tabName}`).style.display = 'block';
             event.target.classList.add('active');
         }
 
@@ -292,7 +292,7 @@
             const icon = status === 'success' ? '✅' : status === 'error' ? '❌' : status === 'warning' ? '⚠️' : 'ℹ️';
             
             const result = document.createElement('div');
-            result.className = `result ${status}`;
+            result.className = esult ${status}`;
             result.innerHTML = `<strong>[${timestamp}]</strong> ${icon} ${message}`;
             
             container.insertBefore(result, container.firstChild);
@@ -345,7 +345,7 @@
         // Testar endpoint
         async function testEndpoint(url, description) {
             try {
-                addResult('api', `Testando ${description}...`, 'info');
+                addResult('api', estando ${description}...`, 'info');
                 const response = await fetch(url);
                 
                 if (response.ok) {

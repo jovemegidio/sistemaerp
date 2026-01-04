@@ -512,17 +512,17 @@
 
         function atualizarResumo(dados) {
             document.getElementById('total-entradas').textContent = 
-                `R$ ${(dados.total_entradas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(dados.total_entradas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('total-saidas').textContent = 
-                `R$ ${(dados.total_saidas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(dados.total_saidas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             
             const saldo = (dados.total_entradas || 0) - (dados.total_saidas || 0);
             document.getElementById('saldo-periodo').textContent = 
-                `R$ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('saldo-periodo').style.color = saldo >= 0 ? '#1e40af' : '#ef4444';
             
             document.getElementById('saldo-projetado').textContent = 
-                `R$ ${(dados.saldo_projetado || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(dados.saldo_projetado || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
         }
 
         function renderizarGrafico(dados) {

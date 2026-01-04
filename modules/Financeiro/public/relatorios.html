@@ -606,13 +606,13 @@
 
         function atualizarEstatisticas(dados) {
             document.getElementById('stat-receitas').textContent = 
-                `R$ ${(dados.receitas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(dados.receitas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('stat-despesas').textContent = 
-                `R$ ${(dados.despesas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(dados.despesas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             
             const resultado = (dados.receitas || 0) - (dados.despesas || 0);
             document.getElementById('stat-resultado').textContent = 
-                `R$ ${resultado.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${resultado.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('stat-resultado').style.color = resultado >= 0 ? '#1e40af' : '#ef4444';
             
             const margem = dados.receitas > 0 ? ((resultado / dados.receitas) * 100).toFixed(1) : 0;
@@ -674,7 +674,7 @@
         }
 
         function gerarRelatorio(tipo) {
-            alert(`Relatório "${tipo}" em desenvolvimento`);
+            alert(elatório "${tipo}" em desenvolvimento`);
         }
 
         function gerarDRE() {

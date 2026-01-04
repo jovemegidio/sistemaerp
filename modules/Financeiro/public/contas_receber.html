@@ -1871,7 +1871,7 @@
             };
             
             const toast = document.createElement('div');
-            toast.className = `toast ${type}`;
+            toast.className = oast ${type}`;
             toast.innerHTML = `
                 <i class="${icons[type]}"></i>
                 <div class="toast-content">
@@ -1931,13 +1931,13 @@
                 if (response.ok) {
                     const data = await response.json();
                     document.getElementById('total-receber').textContent = 
-                        `R$ ${(data.total_receber || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                        $ ${(data.total_receber || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                     document.getElementById('total-vencendo').textContent = 
-                        `R$ ${(data.vencendo || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                        $ ${(data.vencendo || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                     document.getElementById('total-vencidas').textContent = 
-                        `R$ ${(data.inadimplentes || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                        $ ${(data.inadimplentes || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                     document.getElementById('total-recebidas').textContent = 
-                        `R$ ${(data.recebidas_mes || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                        $ ${(data.recebidas_mes || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 }
             } catch (error) {
                 console.error('Erro ao carregar resumo:', error);
@@ -2090,7 +2090,7 @@
             document.getElementById('modal-receber').classList.add('active');
             document.getElementById('receber-conta-id').value = id;
             document.getElementById('receber-valor-original').value = 
-                `R$ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${valor.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('receber-valor').value = valor;
             document.getElementById('receber-data').value = new Date().toISOString().split('T')[0];
             document.getElementById('receber-forma').value = conta.forma_pagamento || 'dinheiro';
@@ -2318,7 +2318,7 @@
             document.getElementById('view-descricao').textContent = conta.descricao || '-';
             document.getElementById('view-cliente').textContent = conta.cliente_nome || '-';
             document.getElementById('view-categoria').textContent = conta.categoria_nome || '-';
-            document.getElementById('view-valor').textContent = `R$ ${(conta.valor || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('view-valor').textContent = $ ${(conta.valor || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('view-vencimento').textContent = new Date(conta.data_vencimento).toLocaleDateString('pt-BR');
             document.getElementById('view-forma').textContent = formatarFormaPagamento(conta.forma_pagamento);
             document.getElementById('view-documento').textContent = conta.numero_documento || '-';
@@ -2345,7 +2345,7 @@
                     ? new Date(conta.data_recebimento).toLocaleDateString('pt-BR') 
                     : '-';
                 document.getElementById('view-valor-recebido').textContent = conta.valor_recebido 
-                    ? `R$ ${conta.valor_recebido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`
+                    ? $ ${conta.valor_recebido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`
                     : document.getElementById('view-valor').textContent;
                 btnReceber.style.display = 'none';
             } else {

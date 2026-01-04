@@ -1962,13 +1962,13 @@
                 if (response.ok) {
                     const data = await response.json();
                     document.getElementById('total-pagar').textContent = 
-                        `R$ ${(data.total_pagar || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                        $ ${(data.total_pagar || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                     document.getElementById('total-vencendo').textContent = 
-                        `R$ ${(data.vencendo || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                        $ ${(data.vencendo || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                     document.getElementById('total-vencidas').textContent = 
-                        `R$ ${(data.vencidas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                        $ ${(data.vencidas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                     document.getElementById('total-pagas').textContent = 
-                        `R$ ${(data.pagas_mes || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                        $ ${(data.pagas_mes || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
                 }
             } catch (error) {
                 console.error('Erro ao carregar resumo:', error);
@@ -2351,7 +2351,7 @@
             document.getElementById('view-descricao').textContent = conta.descricao || '-';
             document.getElementById('view-fornecedor').textContent = conta.fornecedor_nome || '-';
             document.getElementById('view-categoria').textContent = conta.categoria_nome || '-';
-            document.getElementById('view-valor').textContent = `R$ ${(conta.valor || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+            document.getElementById('view-valor').textContent = $ ${(conta.valor || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('view-vencimento').textContent = new Date(conta.data_vencimento).toLocaleDateString('pt-BR');
             document.getElementById('view-forma').textContent = formatarFormaPagamento(conta.forma_pagamento);
             document.getElementById('view-documento').textContent = conta.numero_documento || '-';
@@ -2378,7 +2378,7 @@
                     ? new Date(conta.data_pagamento).toLocaleDateString('pt-BR') 
                     : '-';
                 document.getElementById('view-valor-pago').textContent = conta.valor_pago 
-                    ? `R$ ${conta.valor_pago.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`
+                    ? $ ${conta.valor_pago.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`
                     : document.getElementById('view-valor').textContent;
                 btnPagar.style.display = 'none';
             } else {

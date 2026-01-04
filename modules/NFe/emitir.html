@@ -883,8 +883,8 @@
         // Calcular totais
         function calcularTotais() {
             const totalProdutos = itens.reduce((sum, item) => sum + (item.quantidade * item.valorUnitario), 0);
-            document.getElementById('totalProdutos').textContent = `R$ ${totalProdutos.toFixed(2)}`;
-            document.getElementById('valorTotalNFe').textContent = `R$ ${totalProdutos.toFixed(2)}`;
+            document.getElementById('totalProdutos').textContent = $ ${totalProdutos.toFixed(2)}`;
+            document.getElementById('valorTotalNFe').textContent = $ ${totalProdutos.toFixed(2)}`;
         }
 
         // Construir objeto NFe
@@ -1065,7 +1065,7 @@
                         <p><strong>Status SEFAZ:</strong> ${result.sefaz.cStat} - ${result.sefaz.xMotivo}</p>
                     `;
                 } else {
-                    showAlert(`Rejeição SEFAZ: ${result.motivo}`, 'danger');
+                    showAlert(ejeição SEFAZ: ${result.motivo}`, 'danger');
                 }
             } catch (error) {
                 showAlert(`Erro ao transmitir: ${error.message}`, 'danger');
