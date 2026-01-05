@@ -162,7 +162,7 @@
         .page-header-section {
             background: white; border-radius: 12px;
             padding: 20px 24px; margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex; justify-content: space-between; align-items: center;
         }
 
@@ -182,7 +182,7 @@
             display: flex; align-items: center; gap: 8px;
             transition: all 0.2s;
         }
-        .btn-primary:hover { transform: translateY(-1px); box-shaçãow: 0 4px 12px rgba(249, 115, 22, 0.3); }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3); }
 
         .btn-secondary {
             background: white; color: #374151;
@@ -203,7 +203,7 @@
 
         .stat-card {
             background: white; border-radius: 12px;
-            padding: 20px; box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
         .stat-card.highlight { background: linear-gradient(135deg, #f97316, #ea580c); color: white; }
         .stat-card.highlight .stat-label, .stat-card.highlight .stat-value { color: white; }
@@ -227,7 +227,7 @@
         .filters-bar {
             background: white; border-radius: 12px;
             padding: 16px 20px; margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
         }
 
@@ -252,7 +252,7 @@
 
         .table-container {
             background: white; border-radius: 12px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
         }
 
         .table-header {
@@ -359,7 +359,7 @@
             width: 100%;
             max-height: 90vh;
             overflow: hidden;
-            box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: modalSlideIn 0.3s ease;
         }
         
@@ -479,7 +479,7 @@
         .form-control:focus {
             outline: none;
             border-color: var(--primary-orange);
-            box-shaçãow: 0 0 0 3px rgba(34, 92, 250, 0.1);
+            box-shadow: 0 0 0 3px rgba(34, 92, 250, 0.1);
         }
         
         textarea.form-control { resize: vertical; min-height: 80px; }
@@ -493,7 +493,7 @@
             height: auto;
             max-height: 90vh;
             overflow: hidden;
-            box-shaçãow: 0 25px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
             animation: modalSlideIn 0.2s ease;
             display: flex;
             flex-direction: column;
@@ -942,7 +942,7 @@
             color: white;
             border: none;
             font-weight: 600;
-            box-shaçãow: 0 4px 15px rgba(249, 115, 22, 0.4);
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.4);
         }
 
         .sidebar-action-btn.btn-faturar:hover {
@@ -1201,7 +1201,7 @@
             const fim = Math.min(inicio + itensPorPagina, pedidosFiltraçãos.length);
             const pedidosPagina = pedidosFiltraçãos.slice(inicio, fim);
             if (!pedidosPagina.length) {
-                tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-file-alt"></i><h3>Nenhum pedido encontração</h3><p>Tente alterar os filtros</p></div></td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-file-alt"></i><h3>Nenhum pedido encontrado</h3><p>Tente alterar os filtros</p></div></td></tr>`;
                 document.getElementById('paginationContainer').style.display = 'none';
                 return;
             }
@@ -1248,7 +1248,7 @@
         async function verPedido(id) {
             const pedido = todosPedidos.find(p => p.id === id);
             if (!pedido) {
-                alert('Pedido não encontração');
+                alert('Pedido não encontrado');
                 return;
             }
             
@@ -1308,7 +1308,7 @@
                         `;
                     }
                 }
-            } catch (e) { console.log('Itens não encontraçãos'); }
+            } catch (e) { console.log('Itens não encontrados'); }
             
             // Renderizar detalhes
             document.getElementById('modal-visualizar-body').innerHTML = `
@@ -1327,7 +1327,7 @@
                         <div class="detail-row"><span class="label">Vendedor:</span><span class="value">${pedido.vendedor_nome || '-'}</span></div>
                     </div>
                 </div>
-                ${pedido.observacao  `<div class="detail-section" style="margin-top: 16px;"><h4><i class="fas fa-comment"></i> Observações</h4><p style="color: #666; font-size: 13px;">${pedido.observacao}</p></div>` : ''}
+                ${pedido.observacao ? `<div class="detail-section" style="margin-top: 16px;"><h4><i class="fas fa-comment"></i> Observações</h4><p style="color: #666; font-size: 13px;">${pedido.observacao}</p></div>` : ''}
                 ${itensHtml}
             `;
         }
@@ -1341,7 +1341,7 @@
         async function editarPedido(id) {
             const pedido = todosPedidos.find(p => p.id === id);
             if (!pedido) {
-                alert('Pedido não encontração');
+                alert('Pedido não encontrado');
                 return;
             }
             
@@ -1351,7 +1351,7 @@
             // Criar modal de edição se não existir
             let modal = document.getElementById('modal-editar');
             if (!modal) {
-                // Vendedores ativos (nomes do banco de daçãos)
+                // Vendedores ativos (nomes do banco de dados)
                 let vendedoresOptions = '<option value="">Selecione o vendedor...</option>';
                 vendedoresOptions += `
                     <option value="Augusto Ladeira dos Santos ">Augusto Ladeira</option>
@@ -1577,7 +1577,7 @@
                 modal = document.getElementById('modal-editar');
             }
             
-            // Preencher daçãos
+            // Preencher dados
             const clienteNome = pedido.cliente_nome || 'Cliente';
             const iniciais = clienteNome.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
             
@@ -1609,7 +1609,7 @@
             try {
                 const token = localStorage.getItem('token') || sessionStorage.getItem('token');
                 const response = await fetch(`/api/vendas/pedidos/${pedidoId}/itens`, {
-                    headers: { 'Authorization': token  `Bearer ${token}` : '' }
+                    headers: { 'Authorization': token ? `Bearer ${token}` : '' }
                 });
                 
                 if (!response.ok) {
@@ -1659,7 +1659,7 @@
         async function salvarEdicaoPedido() {
             if (!pedidoAtualModal) return;
             
-            const daçãos = {
+            const dados = {
                 vendedor_nome: document.getElementById('edit-vendedor').value,
                 status: document.getElementById('edit-status').value,
                 observacao: document.getElementById('edit-observacoes').value
@@ -1671,9 +1671,9 @@
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': token  `Bearer ${token}` : ''
+                        'Authorization': token ? `Bearer ${token}` : ''
                     },
-                    body: JSON.stringify(daçãos)
+                    body: JSON.stringify(dados)
                 });
                 
                 if (!response.ok) {
@@ -1725,11 +1725,11 @@
         function imprimirPedido(id) {
             const pedido = todosPedidos.find(p => p.id === id);
             if (!pedido) {
-                alert('Pedido não encontração');
+                alert('Pedido não encontrado');
                 return;
             }
             
-            // Abrir janela de impressão com os daçãos do pedido
+            // Abrir janela de impressão com os dados do pedido
             const printWindow = window.open('', '_blank', 'width=800,height=600');
             printWindow.document.write(`
                 <!DOCTYPE html>
@@ -1784,7 +1784,7 @@
                         <div class="info-row"><span class="label">Frete:</span><span class="value">${pedido.frete  formatarValor(pedido.frete) : 'R$ 0,00'}</span></div>
                     </div>
                     
-                    ${pedido.observacao  `<div class="info-section" style="margin-top: 20px;"><h3>OBSERVAÇÕES</h3><p style="font-size: 13px; color: #666;">${pedido.observacao}</p></div>` : ''}
+                    ${pedido.observacao ? `<div class="info-section" style="margin-top: 20px;"><h3>OBSERVAÇÕES</h3><p style="font-size: 13px; color: #666;">${pedido.observacao}</p></div>` : ''}
                     
                     <div class="footer">
                         <p>ALUFORCE - Sistema de Gestão de Pedidos</p>
@@ -1837,7 +1837,7 @@
             return null;
         }
 
-        // Carregar daçãos do usuário logação via API
+        // Carregar dados do usuário logação via API
         async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
@@ -1888,7 +1888,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Carregar daçãos do usuário logação via API
+            // Carregar dados do usuário logação via API
             carregarUsuarioLogação();
             
             carregarPedidos();

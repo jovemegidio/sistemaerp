@@ -238,7 +238,7 @@
         .form-control:focus {
             outline: none;
             border-color: var(--nfe-primary);
-            box-shaçãow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
         }
 
         /* Options Grid */
@@ -284,7 +284,7 @@
             transition: all 0.2s;
         }
 
-        .btn-primary:hover { transform: translateY(-2px); box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
 
         .btn-secondary {
             display: inline-flex;
@@ -368,7 +368,7 @@
             justify-content: center;
             color: white;
             font-size: 28px;
-            box-shaçãow: 0 4px 12px rgba(37, 211, 102, 0.4);
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
             text-decoration: none;
             z-index: 1000;
         }
@@ -599,7 +599,7 @@
         function gerarPDF() { gerarPreview(); setTimeout(() => window.print(), 500); }
         function imprimir() { gerarPreview(); setTimeout(() => window.print(), 500); }
 
-        // Carregar daçãos do usuário com avatar e saudação
+        // Carregar dados do usuário com avatar e saudação
         async function carregarDaçãosUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });

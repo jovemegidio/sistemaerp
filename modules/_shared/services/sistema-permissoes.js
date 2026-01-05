@@ -126,7 +126,7 @@ class SistemaPermissoes {
                 nome: 'Funcionário',
                 descricao: 'Acesso ao portal do funcionário',
                 permissoes: {
-                    'rh': ['visualizar'] // Apenas daçãos próprios
+                    'rh': ['visualizar'] // Apenas dados próprios
                 }
             }
         };
@@ -260,20 +260,20 @@ class SistemaPermissoes {
      * Serializa permissões do usuário para o frontend
      */
     serializarPermissoes(usuario) {
-        const resultação = {
+        const resultado = {
             perfil: usuario.perfil,
             is_admin: usuario.perfil === 'admin' || usuario.is_admin,
             modulos: {}
         };
 
         for (const modulo of Object.keys(this.modulos)) {
-            resultação.modulos[modulo] = {
+            resultado.modulos[modulo] = {
                 acessivel: this.podeAcessarModulo(usuario, modulo),
                 permissoes: this.getPermissoesModulo(usuario, modulo)
             };
         }
 
-        return resultação;
+        return resultado;
     }
 
     /**
@@ -281,17 +281,17 @@ class SistemaPermissoes {
      */
     mesclarPermissoes(perfilBase, permissoesCustom) {
         const base = this.getPermissoesPerfil(perfilBase);
-        const resultação = { ...base };
+        const resultado = { ...base };
 
         for (const [modulo, acoes] of Object.entries(permissoesCustom)) {
-            if (!resultação[modulo]) {
-                resultação[modulo] = [];
+            if (!resultado[modulo]) {
+                resultado[modulo] = [];
             }
             // Adicionar permissões extras sem duplicar
-            resultação[modulo] = [...new Set([...resultação[modulo], ...acoes])];
+            resultado[modulo] = [...new Set([...resultado[modulo], ...acoes])];
         }
 
-        return resultação;
+        return resultado;
     }
 
     /**

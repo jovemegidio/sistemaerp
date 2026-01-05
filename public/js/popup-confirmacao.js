@@ -74,12 +74,12 @@ const Popup = (function() {
                         </div>
                         <div class="popup-header-text">
                             <h3 class="popup-title">${config.title}</h3>
-                            ${config.subtitle  `<p class="popup-subtitle">${config.subtitle}</p>` : ''}
+                            ${config.subtitle ? `<p class="popup-subtitle">${config.subtitle}</p>` : ''}
                         </div>
                     </div>
                     <div class="popup-body">
                         <p class="popup-message">${config.message}</p>
-                        ${config.inputType  `
+                        ${config.inputType ? `
                             <input type="${config.inputType}" 
                                    class="popup-input" 
                                    id="popup-input"
@@ -88,7 +88,7 @@ const Popup = (function() {
                         ` : ''}
                     </div>
                     <div class="popup-footer">
-                        ${config.showCancel  `
+                        ${config.showCancel ? `
                             <button class="popup-btn popup-btn-cancel" id="popup-cancel">
                                 <i class="${config.cancelIcon}"></i>
                                 ${config.cancelText}
@@ -294,10 +294,10 @@ const Popup = (function() {
                 <i class="${icons[config.type]}"></i>
             </div>
             <div class="toast-content">
-                ${config.title  `<p class="toast-title">${config.title}</p>` : ''}
+                ${config.title ? `<p class="toast-title">${config.title}</p>` : ''}
                 <p class="toast-message">${config.message}</p>
             </div>
-            ${config.closable  `
+            ${config.closable ? `
                 <button class="toast-close">
                     <i class="fas fa-times"></i>
                 </button>

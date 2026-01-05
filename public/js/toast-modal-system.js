@@ -69,7 +69,7 @@
             background: ${color.bg};
             border-left: 4px solid ${color.border};
             border-radius: 8px;
-            box-shaçãow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             color: ${color.text};
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             font-size: 14px;
@@ -175,7 +175,7 @@
                 <div class="aluforce-modal-box" style="
                     background: #ffffff;
                     border-radius: 16px;
-                    box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                     max-width: 400px;
                     width: 90%;
                     transform: scale(0.9);
@@ -312,7 +312,7 @@
                 <div class="aluforce-modal-box" style="
                     background: #ffffff;
                     border-radius: 16px;
-                    box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                     max-width: 420px;
                     width: 90%;
                     transform: scale(0.9);
@@ -441,7 +441,7 @@
                 <div class="aluforce-modal-box" style="
                     background: #ffffff;
                     border-radius: 16px;
-                    box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                     max-width: 420px;
                     width: 90%;
                     transform: scale(0.9);
@@ -581,7 +581,7 @@
                 <div class="aluforce-modal-box" style="
                     background: #ffffff;
                     border-radius: 16px;
-                    box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                     max-width: 380px;
                     width: 90%;
                     transform: scale(0.9);

@@ -96,7 +96,7 @@
             if (!resp.ok) throw new Error('No autenticação');
             const user = await resp.json();
             if (dashboard) dashboard.style.display = 'block';
-            // Salva daçãos do usurio localmente para personalizao
+            // Salva dados do usurio localmente para personalizao
             localStorage.setItem('userData', JSON.stringify(user));
             // Update UI immediately with authenticated user
             if (typeof updateUserUI === 'function') updateUserUI(user);
@@ -536,7 +536,7 @@
                         <div class="settings-item">
                             <div class="settings-item-info">
                                 <div class="settings-item-label">Cache Local</div>
-                                <div class="settings-item-description">Armazenar daçãos localmente para melhor desempenho</div>
+                                <div class="settings-item-description">Armazenar dados localmente para melhor desempenho</div>
                             </div>
                             <label class="toggle-switch">
                                 <input type="checkbox" id="setting-cache" checked>
@@ -704,7 +704,7 @@
                     <div class="kpi-card kpi-lucro">
                         <div class="kpi-icon"><i class="fas fa-balance-scale"></i></div>
                         <div class="kpi-content">
-                            <span class="kpi-label">Resultação</span>
+                            <span class="kpi-label">Resultado</span>
                             <span class="kpi-value" id="kpi-lucro">R$ 0,00</span>
                             <span class="kpi-trend" id="kpi-margem">Margem: 0%</span>
                         </div>
@@ -837,7 +837,7 @@
                     </div>
                     <div class="module-text">
                         <span class="module-title">Recursos Humanos</span>
-                        <span class="module-desc">Gestão de colaboraçãores</span>
+                        <span class="module-desc">Gestão de colaboradores</span>
                     </div>
                 </a>
                 </div>
@@ -940,7 +940,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Daçãos da Minha Empresa</h3>
-                                <p class="modal-config-card-subtitle">Informaes cadastrais e daçãos fiscais</p>
+                                <p class="modal-config-card-subtitle">Informaes cadastrais e dados fiscais</p>
                             </div>
                         </div>
 
@@ -1005,7 +1005,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>Gesto de Funcionrios</h3>
-                                <p class="modal-config-card-subtitle">Cadastro e gerenciamento de colaboraçãores</p>
+                                <p class="modal-config-card-subtitle">Cadastro e gerenciamento de colaboradores</p>
                             </div>
                         </div>
 
@@ -1285,7 +1285,7 @@
                             </div>
                             <div class="modal-config-card-content">
                                 <h3>SLA de Atendimento</h3>
-                                <p class="modal-config-card-subtitle">Nveis de servio acordaçãos</p>
+                                <p class="modal-config-card-subtitle">Nveis de servio acordados</p>
                             </div>
                         </div>
 
@@ -1321,7 +1321,7 @@
         function abrirModalConfig() {
             console.log(' Abrindo modal de configuraes...');
             const modal = document.getElementById('modal-configuracoes');
-            console.log('Modal encontração:', modal);
+            console.log('Modal encontrado:', modal);
             
             if (modal) {
                 // Adiciona modal  tela
@@ -1354,8 +1354,8 @@
                     });
                 }, 200);
             } else {
-                console.error(' Modal no encontração! ID: modal-configuracoes');
-                alert('Erro: Modal de configuraes no encontração');
+                console.error(' Modal no encontrado! ID: modal-configuracoes');
+                alert('Erro: Modal de configuraes no encontrado');
             }
         }
 
@@ -1388,7 +1388,7 @@
             console.log(' fecharModalConfig executação');
             const modal = document.getElementById('modal-configuracoes');
             if (modal) {
-                console.log(' Modal encontração, fechando...');
+                console.log(' Modal encontrado, fechando...');
                 // Adiciona animao de sada
                 const content = modal.querySelector('.modal-config-content');
                 if (content) {
@@ -1404,7 +1404,7 @@
                     }
                 }, 280);
             } else {
-                console.log(' Modal no encontração');
+                console.log(' Modal no encontrado');
             }
         }
 
@@ -1609,7 +1609,7 @@
                     }
                 }
             } catch (error) {
-                console.log('Usando daçãos de exemplo do histrico');
+                console.log('Usando dados de exemplo do histrico');
             }
         }
         
@@ -1743,7 +1743,7 @@
                         card.style.display = 'flex';
                         hasResults = true;
                         
-                        // Destaca o termo encontração
+                        // Destaca o termo encontrado
                         if (searchTerm && matches) {
                             card.style.animation = 'highlightCard 0.5s ease';
                         }
@@ -1752,7 +1752,7 @@
                     }
                 });
 
-                // Mostra mensagem se no houver resultaçãos
+                // Mostra mensagem se no houver resultados
                 const tabContents = document.querySelectorAll('.modal-config-tab-content.active');
                 tabContents.forEach(content => {
                     let emptyState = content.querySelector('.modal-config-empty-search');
@@ -1764,7 +1764,7 @@
                             emptyState.innerHTML = `
                                 <div class="modal-config-empty">
                                     <i class="fas fa-search modal-config-empty-icon"></i>
-                                    <h4 class="modal-config-empty-title">Nenhum resultação encontração</h4>
+                                    <h4 class="modal-config-empty-title">Nenhum resultado encontrado</h4>
                                     <p class="modal-config-empty-text">Tente buscar com outros termos ou navegue pelas abas</p>
                                 </div>
                             `;
@@ -1901,7 +1901,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     };
                     img.onerror = function() {
                         // Mantm as iniciais se no encontrar o avatar
-                        console.log('Avatar no encontração, usando iniciais');
+                        console.log('Avatar no encontrado, usando iniciais');
                     };
                     img.src = avatarPath;
                 }
@@ -1916,7 +1916,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var dropdownEmail = document.querySelector('.dropdown-user-email');
         
         console.log(' Setup Dropdown - Nome:', firstName, 'Email:', email);
-        console.log(' Elementos encontraçãos:', {
+        console.log(' Elementos encontrados:', {
             dropdownName: !!dropdownName,
             dropdownEmail: !!dropdownEmail
         });
@@ -1999,7 +1999,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             // Configurar URL especfica para RH baseado no tipo de usurio
                             if (area === 'rh') {
                                 var rhType = window.UserPermissions.getRHType(userName);
-                                var rhURL = rhType === 'areaadm'  '/modules/RH/public/areaadm.html' : '/modules/RH/public/funcionario.html';
+                                var rhURL = rhType === 'areaadm' ? '/modules/RH/public/areaadm.html' : '/modules/RH/public/funcionario.html';
                                 card.href = rhURL;
                                 console.log(' Acesso concedido:', area, '(' + rhURL + ')');
                             } else {
@@ -2011,15 +2011,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(' Total de mdulos visveis:', visibleCount + '/' + cards.length);
             }
         } catch (e) {
-            console.log('Erro ao processar daçãos do usurio:', e);
-            // Fallback para daçãos padro
+            console.log('Erro ao processar dados do usurio:', e);
+            // Fallback para dados padro
             setDefaultUserData();
         }
     } else {
-        // Se no h daçãos do usurio, usar padro
+        // Se no h dados do usurio, usar padro
         setDefaultUserData();
     }
-    // Funo para definir daçãos padro do usurio
+    // Funo para definir dados padro do usurio
     function setDefaultUserData() {
         var greetingTitle = document.querySelector('.greeting-title');
         var userName = document.querySelector('.user-name');
@@ -2057,7 +2057,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.log(' Dropdown do usurio inicialização');
         } else {
-            console.warn('⚠️ Elementos do dropdown no encontraçãos');
+            console.warn('⚠️ Elementos do dropdown no encontrados');
         }
     }
     

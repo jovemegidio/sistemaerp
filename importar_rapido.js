@@ -24,7 +24,7 @@ async function importarRapido() {
     
     try {
         // FASE 1: Usar mysql nativo para importar estrutura (DROPs e CREATEs)
-        console.log('\n📦 Importando estrutura e daçãos...');
+        console.log('\n📦 Importando estrutura e dados...');
         console.log('   (Isso pode levar alguns minutos)\n');
         
         // Criar arquivo de comandos temporário para execução batch
@@ -64,7 +64,7 @@ async function importarRapido() {
         console.log(`   ✅ ${createOk} tabelas criadas`);
         
         // Executar INSERTs em batches
-        console.log('3️⃣ Inserindo daçãos...');
+        console.log('3️⃣ Inserindo dados...');
         let insertOk = 0;
         let insertFail = 0;
         const batchSize = 100;
@@ -90,7 +90,7 @@ async function importarRapido() {
         // Reativar FKs
         await connection.query('SET FOREIGN_KEY_CHECKS=1');
         
-        // Verificar resultação
+        // Verificar resultado
         console.log('\n' + '='.repeat(60));
         console.log('📊 RESULTADO FINAL');
         console.log('='.repeat(60));
@@ -113,7 +113,7 @@ async function importarRapido() {
             } catch (e) {}
         }
         
-        console.log(`✅ Tabelas com daçãos: ${comDaçãos}`);
+        console.log(`✅ Tabelas com dados: ${comDaçãos}`);
         console.log(`✅ Total de registros: ${total}`);
         
         // Verificar tabelas críticas

@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         
                         if (headerSearchResults) {
                             headerSearchResults.innerHTML = '';
-                            (json.resultaçãos || []).slice(0, 10).forEach(item => {
+                            (json.resultados || []).slice(0, 10).forEach(item => {
                                 const div = document.createElement('div');
                                 div.className = 'search-result-item';
                                 div.textContent = (item.tipo ? item.tipo + ': ' : '') + 
@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                 headerSearchResults.appendChild(div);
                             });
                             
-                            if ((json.resultaçãos || []).length === 0) {
-                                headerSearchResults.innerHTML = '<div class="search-no-results">Nenhum resultação encontrado</div>';
+                            if ((json.resultados || []).length === 0) {
+                                headerSearchResults.innerHTML = '<div class="search-no-results">Nenhum resultado encontrado</div>';
                             }
                         }
                     } catch (error) {
@@ -220,7 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.error('[Header] Erro ao fazer logout no servidor:', error);
             }
             
-            // Limpar daçãos locais
+            // Limpar dados locais
             localStorage.removeItem('authToken');
             localStorage.removeItem('userData');
             sessionStorage.removeItem('authToken');

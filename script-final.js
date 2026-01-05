@@ -32,7 +32,7 @@ setTimeout(() => {
         if (!ok) console.error('❌ Modal não abriu');
         
         setTimeout(() => {
-            console.log('%c[2/5] Preenchendo daçãos...', 'color:#3b82f6;font-weight:bold');
+            console.log('%c[2/5] Preenchendo dados...', 'color:#3b82f6;font-weight:bold');
             
             const set = (id, val) => {
                 const e = document.getElementById(id);

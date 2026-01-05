@@ -107,7 +107,7 @@ class XMLService {
             tpImp: '1', // 1=DANFE Retrato
             tpEmis: config.contingencia_ativa ? config.tipo_contingencia : '1',
             cDV: chaveAcesso.substr(43, 1),
-            tpAmb: config.ambiente === 'producao'  '1' : '2',
+            tpAmb: config.ambiente === 'producao' ? '1' : '2',
             finNFe: nfeData.finalidade || '1', // 1=Normal, 2=Complementar, 3=Ajuste, 4=Devolução
             indFinal: nfeData.consumidorFinal || '1', // 0=Não, 1=Sim
             indPres: nfeData.presencaCompraçãor || '1', // 1=Presencial

@@ -14,7 +14,7 @@
             margin: 20px auto;
             background: white;
             border-radius: 12px;
-            box-shaçãow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             overflow: hidden;
         }
         .demo-header {
@@ -79,13 +79,13 @@
         }
         .btn-demo:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
         .sample-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             border-radius: 8px;
             overflow: hidden;
         }
@@ -622,18 +622,18 @@ DELETE /api/pcp/produtos/:id    # Remove produto
                 '/api/pcp/produtos/sku/FECHPAACE334'
             ];
             
-            let resultaçãos = 'Resultaçãos dos Testes de API:\n\n';
+            let resultados = 'Resultados dos Testes de API:\n\n';
             
             for (const endpoint of endpoints) {
                 try {
                     const response = await fetch(endpoint);
-                    resultaçãos += `✅ ${endpoint}: ${response.status} ${response.statusText}\n`;
+                    resultados += `✅ ${endpoint}: ${response.status} ${response.statusText}\n`;
                 } catch (error) {
-                    resultaçãos += `❌ ${endpoint}: ${error.message}\n`;
+                    resultados += `❌ ${endpoint}: ${error.message}\n`;
                 }
             }
             
-            alert(resultaçãos);
+            alert(resultados);
         }
     </script></body>
 </html>

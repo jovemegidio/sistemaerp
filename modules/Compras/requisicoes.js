@@ -119,11 +119,11 @@ function adicionarItemRequisicao(itemData = null) {
         </td>
         <td>
             <select class="itemReq-unidade">
-                <option value="UN" ${itemData.unidade === 'UN'  'selected' : ''}>UN</option>
-                <option value="KG" ${itemData.unidade === 'KG'  'selected' : ''}>KG</option>
-                <option value="M" ${itemData.unidade === 'M'  'selected' : ''}>M</option>
-                <option value="L" ${itemData.unidade === 'L'  'selected' : ''}>L</option>
-                <option value="CX" ${itemData.unidade === 'CX'  'selected' : ''}>CX</option>
+                <option value="UN" ${itemData.unidade === 'UN' ? 'selected' : ''}>UN</option>
+                <option value="KG" ${itemData.unidade === 'KG' ? 'selected' : ''}>KG</option>
+                <option value="M" ${itemData.unidade === 'M' ? 'selected' : ''}>M</option>
+                <option value="L" ${itemData.unidade === 'L' ? 'selected' : ''}>L</option>
+                <option value="CX" ${itemData.unidade === 'CX' ? 'selected' : ''}>CX</option>
             </select>
         </td>
         <td>
@@ -241,8 +241,7 @@ function salvarRequisicao(status) {
     atualizarCards();
     fecharModalRequisicao();
     
-    const mensagem = status === 'rascunho'  
-        'Requisição salva como rascunho!' : 
+    const mensagem = status === 'rascunho' ? 'Requisição salva como rascunho!' : 
         'Requisição enviada para aprovação!';
     mostrarNotificacao(mensagem, 'success');
 }
@@ -288,15 +287,15 @@ function visualizarRequisicao(requisicaoId) {
                     <div class="step-circle"><i class="fas fa-file-alt"></i></div>
                     <div class="step-label">Criada</div>
                 </div>
-                <div class="workflow-step ${req.status === 'aguardando_aprovacao' || req.status === 'aprovada'  'active' : ''}">
+                <div class="workflow-step ${req.status === 'aguardando_aprovacao' || req.status === 'aprovada' ? 'active' : ''}">
                     <div class="step-circle"><i class="fas fa-clock"></i></div>
                     <div class="step-label">Em Aprovação</div>
                 </div>
-                <div class="workflow-step ${req.status === 'aprovada'  'completed' : ''}">
+                <div class="workflow-step ${req.status === 'aprovada' ? 'completed' : ''}">
                     <div class="step-circle"><i class="fas fa-check"></i></div>
                     <div class="step-label">Aprovada</div>
                 </div>
-                <div class="workflow-step ${req.status === 'convertida'  'completed' : ''}">
+                <div class="workflow-step ${req.status === 'convertida' ? 'completed' : ''}">
                     <div class="step-circle"><i class="fas fa-shopping-cart"></i></div>
                     <div class="step-label">Convertida</div>
                 </div>
@@ -379,11 +378,11 @@ function visualizarRequisicao(requisicaoId) {
                             <p style="font-weight: 600; margin-bottom: 4px;">${h.aprovaçãor}</p>
                             <p style="font-size: 13px; color: #64748b; margin-bottom: 8px;">${formatarDataHora(h.data)}</p>
                             <p style="font-size: 14px;">
-                                <span class="badge-status badge-${h.acao === 'approved'  'aprovação' : 'cancelação'}">
-                                    ${h.acao === 'approved'  'Aprovação' : 'Rejeitação'}
+                                <span class="badge-status badge-${h.acao === 'approved' ? 'aprovação' : 'cancelação'}">
+                                    ${h.acao === 'approved' ? 'Aprovação' : 'Rejeitação'}
                                 </span>
                             </p>
-                            ${h.observacao  `<p style="margin-top: 8px; font-size: 13px;">${h.observacao}</p>` : ''}
+                            ${h.observacao ? `<p style="margin-top: 8px; font-size: 13px;">${h.observacao}</p>` : ''}
                         </div>
                     </div>
                 `).join('')}
@@ -474,7 +473,7 @@ function converterEmPedido(requisicaoId) {
         req.status = 'convertida';
         salvarRequisicoesLocal();
         
-        // Salvar daçãos para criar pedido
+        // Salvar dados para criar pedido
         localStorage.setItem('nova_pedido_da_requisicao', JSON.stringify(req));
         
         // Redirecionar para página de pedidos

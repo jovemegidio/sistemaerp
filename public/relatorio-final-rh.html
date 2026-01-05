@@ -10,7 +10,7 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; background: #f8f9fa; }
         .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
         .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; margin-bottom: 30px; text-align: center; }
-        .report-section { background: white; padding: 25px; margin: 20px 0; border-radius: 10px; box-shaçãow: 0 2px 10px rgba(0,0,0,0.1); }
+        .report-section { background: white; padding: 25px; margin: 20px 0; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
         .status-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0; }
         .status-card { padding: 20px; border-radius: 8px; text-align: center; }
         .status-success { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); }
@@ -195,7 +195,7 @@
                 
                 addTestResult('Modais do Sistema', 
                     foundModals === modals.length, 
-                    `${foundModals}/${modals.length} modais encontraçãos`);
+                    `${foundModals}/${modals.length} modais encontrados`);
                     
             } catch (error) {
                 addTestResult('Modais do Sistema', false, `Erro: ${error.message}`);

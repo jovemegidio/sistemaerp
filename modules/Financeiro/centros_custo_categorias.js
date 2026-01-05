@@ -153,7 +153,7 @@ function criarCardCentroCusto(centro) {
             <div class="card-header">
                 <div>
                     <h3 class="card-title">${centro.nome}</h3>
-                    ${centro.código  `<small style="color: #6b7280;">${centro.código}</small>` : ''}
+                    ${centro.código ? `<small style="color: #6b7280;">${centro.código}</small>` : ''}
                 </div>
                 <div class="card-actions">
                     <button class="icon-btn edit" onclick="editarCentroCusto(${centro.id})" title="Editar">
@@ -166,7 +166,7 @@ function criarCardCentroCusto(centro) {
             </div>
 
             <div class="card-info">
-                ${centro.descricao  `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${centro.descricao}</p>` : ''}
+                ${centro.descricao ? `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${centro.descricao}</p>` : ''}
                 
                 <div class="info-row">
                     <span class="info-label">Responsável:</span>
@@ -175,7 +175,7 @@ function criarCardCentroCusto(centro) {
 
                 <div class="info-row">
                     <span class="info-label">Status:</span>
-                    <span class="badge ${centro.status}">${centro.status === 'ativo'  'Ativo' : 'Inativo'}</span>
+                    <span class="badge ${centro.status}">${centro.status === 'ativo' ? 'Ativo' : 'Inativo'}</span>
                 </div>
 
                 <div class="info-row">
@@ -193,7 +193,7 @@ function criarCardCentroCusto(centro) {
                     <span class="info-value" style="color: ${saldoLiquido >= 0 ? '#10b981' : '#ef4444'};">R$ ${formatarMoeda(Math.abs(saldoLiquido))}</span>
                 </div>
 
-                ${centro.centro_pai_id  `
+                ${centro.centro_pai_id ? `
                     <div class="info-row">
                         <span class="info-label">Vinculação a:</span>
                         <span class="info-value">${obterNomeCentro(centro.centro_pai_id)}</span>
@@ -241,7 +241,7 @@ async function salvarCentroCusto(event) {
     event.preventDefault();
 
     const id = document.getElementById('centro-id').value;
-    const daçãos = {
+    const dados = {
         nome: document.getElementById('centro-nome').value,
         código: document.getElementById('centro-código').value,
         status: document.getElementById('centro-status').value,
@@ -253,15 +253,15 @@ async function salvarCentroCusto(event) {
     try {
         if (id) {
             // TODO: Substituir por chamada real à API
-            await atualizarCentroCusto(id, daçãos);
+            await atualizarCentroCusto(id, dados);
             const index = centrosCusto.findIndex(c => c.id == id);
             if (index !== -1) {
-                centrosCusto[index] = { ...centrosCusto[index], ...daçãos };
+                centrosCusto[index] = { ...centrosCusto[index], ...dados };
             }
             mostrarMensagem('Centro de custo atualização com sucesso!', 'success');
         } else {
             // TODO: Substituir por chamada real à API
-            const novo = await criarCentroCusto(daçãos);
+            const novo = await criarCentroCusto(dados);
             centrosCusto.push(novo);
             mostrarMensagem('Centro de custo criado com sucesso!', 'success');
         }
@@ -274,29 +274,29 @@ async function salvarCentroCusto(event) {
     }
 }
 
-async function criarCentroCusto(daçãos) {
+async function criarCentroCusto(dados) {
     // TODO: Substituir por chamada real à API
     // return await fetch('/api/financeiro/centros-custo', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(daçãos)
+    //     body: JSON.stringify(dados)
     // }).then(r => r.json());
 
     return {
         id: Math.max(...centrosCusto.map(c => c.id)) + 1,
-        ...daçãos,
+        ...dados,
         total_despesas: 0,
         total_receitas: 0,
         data_criacao: new Date().toISOString()
     };
 }
 
-async function atualizarCentroCusto(id, daçãos) {
+async function atualizarCentroCusto(id, dados) {
     // TODO: Substituir por chamada real à API
     // return await fetch(`/api/financeiro/centros-custo/${id}`, {
     //     method: 'PUT',
     //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(daçãos)
+    //     body: JSON.stringify(dados)
     // }).then(r => r.json());
 
     return { success: true };
@@ -454,10 +454,10 @@ function criarCardCategoria(cat) {
             <div class="card-header">
                 <div>
                     <h3 class="card-title">
-                        ${cat.icone  `<i class="fas ${cat.icone}" style="color: ${cat.cor};"></i>` : ''}
+                        ${cat.icone ? `<i class="fas ${cat.icone}" style="color: ${cat.cor};"></i>` : ''}
                         ${cat.nome}
                     </h3>
-                    <small style="color: #6b7280;">${cat.tipo === 'receita'  'Receita' : cat.tipo === 'despesa'  'Despesa' : 'Ambos'}</small>
+                    <small style="color: #6b7280;">${cat.tipo === 'receita' ? 'Receita' : cat.tipo === 'despesa' ? 'Despesa' : 'Ambos'}</small>
                 </div>
                 <div class="card-actions">
                     <button class="icon-btn edit" onclick="editarCategoria(${cat.id})" title="Editar">
@@ -470,11 +470,11 @@ function criarCardCategoria(cat) {
             </div>
 
             <div class="card-info">
-                ${cat.descricao  `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${cat.descricao}</p>` : ''}
+                ${cat.descricao ? `<p style="color: #6b7280; font-size: 14px; margin: 0 0 12px 0;">${cat.descricao}</p>` : ''}
                 
                 <div class="info-row">
                     <span class="info-label">Status:</span>
-                    <span class="badge ${cat.status}">${cat.status === 'ativo'  'Ativo' : 'Inativo'}</span>
+                    <span class="badge ${cat.status}">${cat.status === 'ativo' ? 'Ativo' : 'Inativo'}</span>
                 </div>
 
                 <div class="info-row">
@@ -484,10 +484,10 @@ function criarCardCategoria(cat) {
 
                 <div class="info-row">
                     <span class="info-label">Valor Total:</span>
-                    <span class="info-value" style="color: ${cat.tipo === 'receita'  '#10b981' : '#ef4444'};">R$ ${formatarMoeda(cat.valor_total)}</span>
+                    <span class="info-value" style="color: ${cat.tipo === 'receita' ? '#10b981' : '#ef4444'};">R$ ${formatarMoeda(cat.valor_total)}</span>
                 </div>
 
-                ${cat.categoria_pai_id  `
+                ${cat.categoria_pai_id ? `
                     <div class="info-row">
                         <span class="info-label">Vinculação a:</span>
                         <span class="info-value">${obterNomeCategoria(cat.categoria_pai_id)}</span>
@@ -536,7 +536,7 @@ async function salvarCategoria(event) {
     event.preventDefault();
 
     const id = document.getElementById('categoria-id').value;
-    const daçãos = {
+    const dados = {
         nome: document.getElementById('categoria-nome').value,
         tipo: document.getElementById('categoria-tipo').value,
         status: document.getElementById('categoria-status').value,
@@ -549,15 +549,15 @@ async function salvarCategoria(event) {
     try {
         if (id) {
             // TODO: Substituir por chamada real à API
-            await atualizarCategoria(id, daçãos);
+            await atualizarCategoria(id, dados);
             const index = categorias.findIndex(c => c.id == id);
             if (index !== -1) {
-                categorias[index] = { ...categorias[index], ...daçãos };
+                categorias[index] = { ...categorias[index], ...dados };
             }
             mostrarMensagem('Categoria atualizada com sucesso!', 'success');
         } else {
             // TODO: Substituir por chamada real à API
-            const novo = await criarCategoria(daçãos);
+            const novo = await criarCategoria(dados);
             categorias.push(novo);
             mostrarMensagem('Categoria criada com sucesso!', 'success');
         }
@@ -570,17 +570,17 @@ async function salvarCategoria(event) {
     }
 }
 
-async function criarCategoria(daçãos) {
+async function criarCategoria(dados) {
     // TODO: Substituir por chamada real à API
     return {
         id: Math.max(...categorias.map(c => c.id)) + 1,
-        ...daçãos,
+        ...dados,
         total_movimentacoes: 0,
         valor_total: 0
     };
 }
 
-async function atualizarCategoria(id, daçãos) {
+async function atualizarCategoria(id, dados) {
     // TODO: Substituir por chamada real à API
     return { success: true };
 }

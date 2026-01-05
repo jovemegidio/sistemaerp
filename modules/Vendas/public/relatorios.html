@@ -301,7 +301,7 @@
             border-radius: 12px;
             padding: 20px 24px;
             margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -373,7 +373,7 @@
             border-radius: 12px;
             padding: 16px 20px;
             margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex;
             gap: 16px;
             align-items: center;
@@ -427,7 +427,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .stat-card.highlight {
@@ -501,7 +501,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .chart-card-header {
@@ -544,7 +544,7 @@
         .table-card {
             background: white;
             border-radius: 12px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
@@ -646,7 +646,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             cursor: pointer;
             transition: all 0.2s;
             border: 2px solid transparent;
@@ -954,7 +954,7 @@
                     <div class="report-card" onclick="gerarRelatorio('metas')">
                         <div class="report-card-icon purple"><i class="fas fa-bullseye"></i></div>
                         <h4>Metas vs Realização</h4>
-                        <p>Comparativo de metas e resultaçãos</p>
+                        <p>Comparativo de metas e resultados</p>
                     </div>
                 </div>
             </div>
@@ -993,7 +993,7 @@
             return null;
         }
 
-        // Carregar daçãos do usuário logação via API
+        // Carregar dados do usuário logação via API
         async function carregarUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
@@ -1206,7 +1206,7 @@
                         <tr>
                             <td colspan="4" style="text-align: center; padding: 20px; color: #94a3b8;">
                                 <i class="fas fa-user-slash" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
-                                Nenhum vendedor encontração no período
+                                Nenhum vendedor encontrado no período
                             </td>
                         </tr>
                     `;
@@ -1259,7 +1259,7 @@
                     console.warn('API top-produtos não disponível, buscando via itens:', apiErr);
                 }
                 
-                // Se a API não retornou daçãos, buscar manualmente dos pedidos
+                // Se a API não retornou dados, buscar manualmente dos pedidos
                 if (!produtos || produtos.length === 0) {
                     const pedidosResponse = await fetch(`/api/vendas/pedidos${new URLSearchParams({ data_inicio: dataInicio, data_fim: dataFim }).toString()}`, { credentials: 'include' });
                     
@@ -1304,7 +1304,7 @@
                         <tr>
                             <td colspan="4" style="text-align: center; padding: 20px; color: #94a3b8;">
                                 <i class="fas fa-box-open" style="font-size: 24px; margin-bottom: 10px; display: block;"></i>
-                                Nenhum produto encontração no período
+                                Nenhum produto encontrado no período
                             </td>
                         </tr>
                     `;
@@ -1388,33 +1388,33 @@
                 `${new Date(dataInicio).toLocaleDateString('pt-BR')} a ${new Date(dataFim).toLocaleDateString('pt-BR')}` : 
                 'Últimos 30 dias';
 
-            // Carregar daçãos reais da API
-            let daçãosRelatorio = await carregarDaçãosRelatorio(tipo, dataInicio, dataFim);
+            // Carregar dados reais da API
+            let dadosRelatorio = await carregarDaçãosRelatorio(tipo, dataInicio, dataFim);
             
             const relatorios = {
                 'vendas-periodo': {
                     titulo: 'RELATÓRIO DE VENDAS POR PERÍODO',
                     icone: 'fa-calendar-alt',
                     cor: '#f97316',
-                    geraçãor: () => gerarRelatorioVendasPeriodo(daçãosRelatorio, periodoStr, dataAtual)
+                    geraçãor: () => gerarRelatorioVendasPeriodo(dadosRelatorio, periodoStr, dataAtual)
                 },
                 'clientes-ativos': {
                     titulo: 'RELATÓRIO DE CLIENTES ATIVOS',
                     icone: 'fa-user-check',
                     cor: '#22c55e',
-                    geraçãor: () => gerarRelatorioClientesAtivos(daçãosRelatorio, periodoStr, dataAtual)
+                    geraçãor: () => gerarRelatorioClientesAtivos(dadosRelatorio, periodoStr, dataAtual)
                 },
                 'comissoes': {
                     titulo: 'RELATÓRIO DE COMISSÕES',
                     icone: 'fa-hand-holding-usd',
                     cor: '#3b82f6',
-                    geraçãor: () => gerarRelatorioComissoes(daçãosRelatorio, periodoStr, dataAtual)
+                    geraçãor: () => gerarRelatorioComissoes(dadosRelatorio, periodoStr, dataAtual)
                 },
                 'metas': {
                     titulo: 'RELATÓRIO DE METAS VS REALIZADO',
                     icone: 'fa-bullseye',
                     cor: '#a855f7',
-                    geraçãor: () => gerarRelatorioMetas(daçãosRelatorio, periodoStr, dataAtual)
+                    geraçãor: () => gerarRelatorioMetas(dadosRelatorio, periodoStr, dataAtual)
                 }
             };
 
@@ -1430,7 +1430,7 @@
                 if (dataInicio) params.append('data_inicio', dataInicio);
                 if (dataFim) params.append('data_fim', dataFim);
                 
-                // Buscar daçãos gerais
+                // Buscar dados gerais
                 const [pedidosRes, clientesRes, vendedoresRes] = await Promise.all([
                     fetch(`/api/vendas/pedidos${params.toString()}`, { credentials: 'include' }),
                     fetch('/api/vendas/empresasativas=true', { credentials: 'include' }),
@@ -1443,7 +1443,7 @@
 
                 return { pedidos, clientes, vendedores };
             } catch (error) {
-                console.error('Erro ao carregar daçãos:', error);
+                console.error('Erro ao carregar dados:', error);
                 return { pedidos: [], clientes: [], vendedores: [] };
             }
         }
@@ -1471,13 +1471,13 @@
                             <span class="slogan">Qualidade e Inovação em Condutores Elétricos</span>
                         </div>
                     </div>
-                    <div class="daçãos-empresa">
+                    <div class="dados-empresa">
                         <strong>I. M. DOS REIS - ALUFORCE</strong><br>
                         <strong>INDÚSTRIA E COMÉRCIO DE CONDUTORES</strong><br>
-                        <span class="separaçãor"></span>
+                        <span class="separador"></span>
                         CNPJ: 08.192.479/0001-60<br>
                         IE: 103.385.861-110<br>
-                        <span class="separaçãor"></span>
+                        <span class="separador"></span>
                         RUA ERNESTINA, 270 - VILA SÃO JOÃO<br>
                         Ferraz de Vasconcelos - SP | CEP: 08527-400<br>
                         Tel: (11) 94723-8729
@@ -1553,17 +1553,17 @@
                     display: block;
                     margin-top: 4px;
                 }
-                .daçãos-empresa {
+                .dados-empresa {
                     text-align: right;
                     font-size: 9px;
                     color: #475569;
                     line-height: 1.6;
                 }
-                .daçãos-empresa strong { 
+                .dados-empresa strong { 
                     color: #1e293b; 
                     font-size: 10px;
                 }
-                .daçãos-empresa .separaçãor {
+                .dados-empresa .separador {
                     display: block;
                     height: 4px;
                 }
@@ -1577,7 +1577,7 @@
                     display: flex;
                     justify-content: space-between;
                     align-items: center;
-                    box-shaçãow: 0 4px 15px rgba(0,0,0,0.1);
+                    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
                 }
                 .titulo-relatorio h2 {
                     font-size: 15px;
@@ -1831,11 +1831,11 @@
         }
 
         // RELATÓRIO 1: VENDAS POR PERÍODO
-        function gerarRelatorioVendasPeriodo(daçãos, periodoStr, dataAtual) {
-            const pedidos = daçãos.pedidos || [];
-            const totalFaturação = pedidos.filter(p => p.status === 'faturado').reduce((sum, p) => sum + (parseFloat(p.valor) || 0), 0);
+        function gerarRelatorioVendasPeriodo(dados, periodoStr, dataAtual) {
+            const pedidos = dados.pedidos || [];
+            const totalFaturado = pedidos.filter(p => p.status === 'faturado').reduce((sum, p) => sum + (parseFloat(p.valor) || 0), 0);
             const totalPedidos = pedidos.length;
-            const ticketMedio = totalPedidos > 0  totalFaturação / totalPedidos : 0;
+            const ticketMedio = totalPedidos > 0  totalFaturado / totalPedidos : 0;
             const pedidosFaturaçãos = pedidos.filter(p => p.status === 'faturado').length;
             const taxaConversao = totalPedidos > 0  ((pedidosFaturaçãos / totalPedidos) * 100).toFixed(1) : 0;
 
@@ -1871,7 +1871,7 @@
     <div class="stats-grid">
         <div class="stat-box laranja">
             <div class="stat-label">Faturamento Total</div>
-            <div class="stat-value">${formatarMoeda(totalFaturação)}</div>
+            <div class="stat-value">${formatarMoeda(totalFaturado)}</div>
         </div>
         <div class="stat-box azul">
             <div class="stat-label">Total de Pedidos</div>
@@ -1940,7 +1940,7 @@
     <div class="totalizaçãor">
         <div class="totalizaçãor-item">
             <div class="totalizaçãor-label">Total Faturação</div>
-            <div class="totalizaçãor-valor destaque">${formatarMoeda(totalFaturação)}</div>
+            <div class="totalizaçãor-valor destaque">${formatarMoeda(totalFaturado)}</div>
         </div>
         <div class="totalizaçãor-item">
             <div class="totalizaçãor-label">Pedidos Faturaçãos</div>
@@ -1959,11 +1959,11 @@
         }
 
         // RELATÓRIO 2: CLIENTES ATIVOS
-        function gerarRelatorioClientesAtivos(daçãos, periodoStr, dataAtual) {
-            const pedidos = daçãos.pedidos || [];
-            const clientes = daçãos.clientes || [];
+        function gerarRelatorioClientesAtivos(dados, periodoStr, dataAtual) {
+            const pedidos = dados.pedidos || [];
+            const clientes = dados.clientes || [];
             
-            // Calcular daçãos por cliente
+            // Calcular dados por cliente
             const clientesMap = {};
             pedidos.forEach(p => {
                 const clienteId = p.empresa_id || p.cliente_id;
@@ -2075,9 +2075,9 @@
         }
 
         // RELATÓRIO 3: COMISSÕES
-        function gerarRelatorioComissoes(daçãos, periodoStr, dataAtual) {
-            const vendedores = daçãos.vendedores || [];
-            const pedidos = daçãos.pedidos || [];
+        function gerarRelatorioComissoes(dados, periodoStr, dataAtual) {
+            const vendedores = dados.vendedores || [];
+            const pedidos = dados.pedidos || [];
             
             // Calcular comissões (5% padrão)
             const taxaComissao = 0.05;
@@ -2199,9 +2199,9 @@
         }
 
         // RELATÓRIO 4: METAS VS REALIZADO
-        function gerarRelatorioMetas(daçãos, periodoStr, dataAtual) {
-            const vendedores = daçãos.vendedores || [];
-            const pedidos = daçãos.pedidos || [];
+        function gerarRelatorioMetas(dados, periodoStr, dataAtual) {
+            const vendedores = dados.vendedores || [];
+            const pedidos = dados.pedidos || [];
             
             // Simular metas (em produção, viria do banco)
             const metaGlobal = 500000;
@@ -2450,13 +2450,13 @@
             color: #64748b;
             margin-top: 2px;
         }
-        .daçãos-empresa {
+        .dados-empresa {
             text-align: right;
             font-size: 9px;
             color: #475569;
             line-height: 1.5;
         }
-        .daçãos-empresa strong { color: #1e293b; }
+        .dados-empresa strong { color: #1e293b; }
         
         .titulo-relatorio {
             background: linear-gradient(135deg, #f97316, #ea580c);
@@ -2527,7 +2527,7 @@
                 <p>CABOS DE ALUMÍNIO</p>
             </div>
         </div>
-        <div class="daçãos-empresa">
+        <div class="dados-empresa">
             <strong>I. M. DOS REIS - ALUFORCE INDÚSTRIA E COMÉRCIO DE CONDUTORES</strong><br>
             CNPJ: 08.192.479/0001-60 | IE: 103.385.861-110<br>
             RUA ERNESTINA, 270 - VILA SÃO JOÃO<br>

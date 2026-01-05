@@ -139,24 +139,24 @@ class PedidosCompras {
             <!-- Toolbar -->
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px;">
                 <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                    <button class="filtro-btn ${this.filtroStatus === 'todos'  'active' : ''}" data-filtro="todos">
+                    <button class="filtro-btn ${this.filtroStatus === 'todos' ? 'active' : ''}" data-filtro="todos">
                         <i class="fas fa-list"></i> Todos (${this.pedidos.length})
                     </button>
-                    <button class="filtro-btn ${this.filtroStatus === 'pendente'  'active' : ''}" data-filtro="pendente">
+                    <button class="filtro-btn ${this.filtroStatus === 'pendente' ? 'active' : ''}" data-filtro="pendente">
                         <i class="fas fa-clock"></i> Pendente
                     </button>
-                    <button class="filtro-btn ${this.filtroStatus === 'aprovação'  'active' : ''}" data-filtro="aprovação">
+                    <button class="filtro-btn ${this.filtroStatus === 'aprovação' ? 'active' : ''}" data-filtro="aprovação">
                         <i class="fas fa-check-circle"></i> Aprovação
                     </button>
-                    <button class="filtro-btn ${this.filtroStatus === 'em_transito'  'active' : ''}" data-filtro="em_transito">
+                    <button class="filtro-btn ${this.filtroStatus === 'em_transito' ? 'active' : ''}" data-filtro="em_transito">
                         <i class="fas fa-truck"></i> Em Trânsito
                     </button>
-                    <button class="filtro-btn ${this.filtroStatus === 'recebido'  'active' : ''}" data-filtro="recebido">
+                    <button class="filtro-btn ${this.filtroStatus === 'recebido' ? 'active' : ''}" data-filtro="recebido">
                         <i class="fas fa-check-double"></i> Recebido
                     </button>
                 </div>
                 
-                <button id="btn-novo-pedido" style="padding: 12px 24px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3); transition: all 0.2s;">
+                <button id="btn-novo-pedido" style="padding: 12px 24px; background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); transition: all 0.2s;">
                     <i class="fas fa-plus-circle"></i> Novo Pedido
                 </button>
             </div>
@@ -174,7 +174,7 @@ class PedidosCompras {
             </div>
 
             <!-- Lista de Pedidos -->
-            <div style="background: white; border-radius: 16px; overflow: hidden; box-shaçãow: 0 4px 16px rgba(0,0,0,0.06);">
+            <div style="background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.06);">
                 <div style="overflow-x: auto;">
                     <table style="width: 100%; border-collapse: collapse;">
                         <thead>
@@ -198,7 +198,7 @@ class PedidosCompras {
                                         onmouseout="this.style.background='white'">
                                         <td style="padding: 16px;">
                                             <div style="font-weight: 700; color: #1e293b; font-size: 14px;">${pedido.id}</div>
-                                            ${pedido.observacao  `<div style="font-size: 11px; color: #64748b; margin-top: 2px;">${pedido.observacao}</div>` : ''}
+                                            ${pedido.observacao ? `<div style="font-size: 11px; color: #64748b; margin-top: 2px;">${pedido.observacao}</div>` : ''}
                                         </td>
                                         <td style="padding: 16px;">
                                             <div style="font-weight: 600; color: #334155;">${pedido.fornecedor}</div>
@@ -311,7 +311,7 @@ class PedidosCompras {
 
                 #btn-novo-pedido:hover {
                     transform: translateY(-2px);
-                    box-shaçãow: 0 6px 20px rgba(16, 185, 129, 0.4);
+                    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
                 }
             </style>
         `;

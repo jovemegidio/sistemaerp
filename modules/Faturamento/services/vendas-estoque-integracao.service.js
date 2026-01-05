@@ -96,7 +96,7 @@ class VendasEstoqueIntegracaoService {
                             status,
                             usuario_id,
                             created_at
-                        ) VALUES (, , , 'faturamento', 'ativa', , NOW())
+                        ) VALUES (?, ?, , 'faturamento', 'ativa', , NOW())
                     `, [item.produto_id, pedido_id, item.quantidade, usuario_id]);
                     
                     // Atualizar estoque disponível
@@ -172,7 +172,7 @@ class VendasEstoqueIntegracaoService {
                             usuario_id,
                             data_movimento,
                             created_at
-                        ) VALUES (, 'saida', , , 'nfe', , , , NOW(), NOW())
+                        ) VALUES (?, 'saida', ?, ?, 'nfe', ?, ?, , NOW(), NOW())
                     `, [
                         item.produto_id,
                         item.quantidade,
@@ -274,7 +274,7 @@ class VendasEstoqueIntegracaoService {
                             usuario_id,
                             data_movimento,
                             created_at
-                        ) VALUES (, 'entrada', , , 'nfe_cancelamento', , , , NOW(), NOW())
+                        ) VALUES (?, 'entrada', ?, ?, 'nfe_cancelamento', ?, ?, , NOW(), NOW())
                     `, [
                         item.produto_id,
                         item.quantidade,
@@ -455,7 +455,7 @@ class VendasEstoqueIntegracaoService {
                                 data_fabricacao,
                                 data_validade,
                                 created_at
-                            ) VALUES (, , , , , , NOW())
+                            ) VALUES (?, ?, ?, ?, , , NOW())
                         `, [
                             nfe_id,
                             item.produto_id,

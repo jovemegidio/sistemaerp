@@ -157,7 +157,7 @@
         .page-header-section {
             background: white; border-radius: 12px;
             padding: 20px 24px; margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex; justify-content: space-between; align-items: center;
         }
 
@@ -181,10 +181,10 @@
 
         .stat-card {
             background: white; border-radius: 12px;
-            padding: 20px; box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
-            transition: transform 0.2s, box-shaçãow 0.2s;
+            padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .stat-card:hover { transform: translateY(-2px); box-shaçãow: 0 4px 12px rgba(0,0,0,0.1); }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
 
         .stat-card.highlight { 
             background: linear-gradient(135deg, #225cfa, #1a4fd6); 
@@ -212,7 +212,7 @@
         .filters-bar {
             background: white; border-radius: 12px;
             padding: 16px 20px; margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
         }
 
@@ -251,7 +251,7 @@
         /* TABLE */
         .table-container {
             background: white; border-radius: 12px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
         }
 
         .table-header {
@@ -407,7 +407,7 @@
             background: white; border-radius: 20px;
             width: 90%; max-width: 520px;
             max-height: 90vh; overflow: hidden;
-            box-shaçãow: 0 25px 50px rgba(0,0,0,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             animation: modalSlide 0.3s ease;
         }
 
@@ -502,17 +502,17 @@
         .estoque-card-icon.disponivel { 
             background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); 
             color: #16a34a; 
-            box-shaçãow: 0 4px 12px rgba(22, 163, 74, 0.2);
+            box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
         }
         .estoque-card-icon.baixo { 
             background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); 
             color: #ca8a04; 
-            box-shaçãow: 0 4px 12px rgba(202, 138, 4, 0.2);
+            box-shadow: 0 4px 12px rgba(202, 138, 4, 0.2);
         }
         .estoque-card-icon.critico { 
             background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); 
             color: #dc2626; 
-            box-shaçãow: 0 4px 12px rgba(220, 38, 38, 0.2);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
         }
         .estoque-card-info { flex: 1; }
         .estoque-card-quantidade {
@@ -843,7 +843,7 @@
                     <!-- Empty State -->
                     <div class="empty-state" id="empty-state" style="display: none;">
                         <i class="fas fa-box-open"></i>
-                        <h3>Nenhum produto encontração</h3>
+                        <h3>Nenhum produto encontrado</h3>
                         <p>Tente ajustar os filtros ou realizar uma nova busca</p>
                     </div>
 
@@ -941,7 +941,7 @@
             return null;
         }
 
-        // Carregar daçãos do usuário logação
+        // Carregar dados do usuário logação
         async function carregarUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
@@ -1004,7 +1004,7 @@
                 
                 const body = await response.json();
                 
-                // Adaptar daçãos no mesmo formato do PCP
+                // Adaptar dados no mesmo formato do PCP
                 const produtos = body.produtos || body.rows || (Array.isArray(body)  body : []);
                 const stats = body.stats || {};
                 
@@ -1143,7 +1143,7 @@
         // Ordenar produtos
         function ordenar(campo) {
             if (ordenacaoAtual.campo === campo) {
-                ordenacaoAtual.direcao = ordenacaoAtual.direcao === 'asc'  'desc' : 'asc';
+                ordenacaoAtual.direcao = ordenacaoAtual.direcao === 'asc' ? 'desc' : 'asc';
             } else {
                 ordenacaoAtual.campo = campo;
                 ordenacaoAtual.direcao = 'asc';
@@ -1204,7 +1204,7 @@
                         </td>
                         <td><span class="badge">${escapeHtml(p.sku)}</span></td>
                         <td><span class="categoria-badge ${p.categoria.toLowerCase()}">${p.categoria}</span></td>
-                        <td class="quantidade-cell ${statusInfo.status === 'normal'  'alto' : statusInfo.status === 'baixo'  'medio' : 'baixo'}">${p.estoque.toFixed(2)}</td>
+                        <td class="quantidade-cell ${statusInfo.status === 'normal' ? 'alto' : statusInfo.status === 'baixo' ? 'medio' : 'baixo'}">${p.estoque.toFixed(2)}</td>
                         <td>${p.estoque_minimo}</td>
                         <td class="preco-cell">R$ ${p.preco.toFixed(2)}</td>
                         <td><span class="badge badge-${statusInfo.class}">${statusInfo.label}</span></td>
@@ -1323,7 +1323,7 @@
             if (!produto) return;
 
             const statusInfo = getStatusEstoque(produto.estoque, produto.estoque_minimo);
-            const statusClass = statusInfo.status === 'normal'  'disponivel' : statusInfo.status;
+            const statusClass = statusInfo.status === 'normal' ? 'disponivel' : statusInfo.status;
             const statusLabel = {
                 'normal': 'Disponível para Venda',
                 'baixo': 'Estoque Baixo - Atenção',
@@ -1500,7 +1500,7 @@
                 e.preventDefault();
                 document.getElementById('search-input').focus();
             }
-            // F5 atualiza daçãos
+            // F5 atualiza dados
             if (e.key === 'F5') {
                 e.preventDefault();
                 carregarProdutos();

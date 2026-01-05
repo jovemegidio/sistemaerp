@@ -12,7 +12,7 @@ class CalculoTributosService {
      * Calcula todos os tributos de um item da NFe
      */
     static calcularTributosItem(item, emitente, destinatario, naturezaOperacao) {
-        const resultação = {
+        const resultado = {
             item: { ...item },
             icms: {},
             ipi: {},
@@ -35,7 +35,7 @@ class CalculoTributosService {
         const destinatarioContribuinte = !!destinatario.ie && destinatario.ie !== 'ISENTO';
         
         // ICMS
-        resultação.icms = this.calcularICMS({
+        resultado.icms = this.calcularICMS({
             item,
             valorProduto,
             emitente,
@@ -46,7 +46,7 @@ class CalculoTributosService {
         });
         
         // IPI
-        resultação.ipi = this.calcularIPI({
+        resultado.ipi = this.calcularIPI({
             item,
             valorProduto,
             emitente,
@@ -54,21 +54,21 @@ class CalculoTributosService {
         });
         
         // PIS
-        resultação.pis = this.calcularPIS({
+        resultado.pis = this.calcularPIS({
             item,
             valorProduto,
             emitente
         });
         
         // COFINS
-        resultação.cofins = this.calcularCOFINS({
+        resultado.cofins = this.calcularCOFINS({
             item,
             valorProduto,
             emitente
         });
         
         // Totais do item
-        resultação.totais = {
+        resultado.totais = {
             valorBruto,
             valorDesconto,
             valorFrete,
@@ -76,24 +76,24 @@ class CalculoTributosService {
             valorOutros,
             valorProduto,
             valorTotalTributos: (
-                (resultação.icms.valorICMS || 0) +
-                (resultação.icms.valorICMSST || 0) +
-                (resultação.ipi.valorIPI || 0) +
-                (resultação.pis.valorPIS || 0) +
-                (resultação.cofins.valorCOFINS || 0)
+                (resultado.icms.valorICMS || 0) +
+                (resultado.icms.valorICMSST || 0) +
+                (resultado.ipi.valorIPI || 0) +
+                (resultado.pis.valorPIS || 0) +
+                (resultado.cofins.valorCOFINS || 0)
             )
         };
         
-        return resultação;
+        return resultado;
     }
     
     /**
      * Calcula ICMS
      */
-    static calcularICMS(daçãos) {
-        const { item, valorProduto, emitente, destinatario, operacaoInterna, destinatarioContribuinte } = daçãos;
+    static calcularICMS(dados) {
+        const { item, valorProduto, emitente, destinatario, operacaoInterna, destinatarioContribuinte } = dados;
         
-        const resultação = {
+        const resultado = {
             origem: item.origem || '0',
             cst: item.cst || (emitente.regimeTributario === 1 ? '102' : '00'),
             modalidadeBC: 3, // Valor da operação
@@ -106,15 +106,15 @@ class CalculoTributosService {
         
         // Simples Nacional
         if (emitente.regimeTributario === 1) {
-            resultação.csosn = item.csosn || '102';
+            resultado.csosn = item.csosn || '102';
             
-            if (resultação.csosn === '101') {
+            if (resultado.csosn === '101') {
                 // Tributada com permissão de crédito
-                resultação.aliquotaCredito = item.aliquotaCreditoSN || 1.25;
-                resultação.valorCredito = valorProduto * (resultação.aliquotaCredito / 100);
+                resultado.aliquotaCredito = item.aliquotaCreditoSN || 1.25;
+                resultado.valorCredito = valorProduto * (resultado.aliquotaCredito / 100);
             }
             
-            return resultação;
+            return resultado;
         }
         
         // Regime Normal
@@ -138,18 +138,18 @@ class CalculoTributosService {
         const percentualReducao = parseFloat(item.reducaoBC) || 0;
         const baseCalculo = valorProduto * (1 - percentualReducao / 100);
         
-        resultação.baseCalculo = baseCalculo;
-        resultação.aliquota = aliquota;
-        resultação.valorICMS = baseCalculo * (aliquota / 100);
+        resultado.baseCalculo = baseCalculo;
+        resultado.aliquota = aliquota;
+        resultado.valorICMS = baseCalculo * (aliquota / 100);
         
         // ICMS ST (se aplicável)
         if (item.calcularICMSST) {
             const bcST = this.calcularBCICMSST(valorProduto, item);
             const aliquotaInterna = this.getAliquotaICMSInterna(destinatario.uf, item);
             
-            resultação.baseCalculoST = bcST;
-            resultação.aliquotaST = aliquotaInterna;
-            resultação.valorICMSST = (bcST * (aliquotaInterna / 100)) - resultação.valorICMS;
+            resultado.baseCalculoST = bcST;
+            resultado.aliquotaST = aliquotaInterna;
+            resultado.valorICMSST = (bcST * (aliquotaInterna / 100)) - resultado.valorICMS;
         }
         
         // DIFAL (Diferencial de Alíquota) - operação interestadual para não contribuinte
@@ -158,32 +158,32 @@ class CalculoTributosService {
             const aliquotaInterestadual = this.getAliquotaICMSInterestadual(emitente.uf, destinatario.uf);
             const diferencaAliquota = aliquotaInterna - aliquotaInterestadual;
             
-            resultação.baseCalculoDIFAL = valorProduto;
-            resultação.aliquotaDIFAL = diferencaAliquota;
-            resultação.valorDIFAL = valorProduto * (diferencaAliquota / 100);
+            resultado.baseCalculoDIFAL = valorProduto;
+            resultado.aliquotaDIFAL = diferencaAliquota;
+            resultado.valorDIFAL = valorProduto * (diferencaAliquota / 100);
             
             // Partilha DIFAL (2024 em diante: 100% destino)
-            resultação.valorICMSDestinatario = resultação.valorDIFAL;
-            resultação.valorICMSRemetente = 0;
+            resultado.valorICMSDestinatario = resultado.valorDIFAL;
+            resultado.valorICMSRemetente = 0;
             
             // FCP (Fundo de Combate à Pobreza)
             const aliquotaFCP = this.getAliquotaFCP(destinatario.uf);
             if (aliquotaFCP > 0) {
-                resultação.aliquotaFCP = aliquotaFCP;
-                resultação.valorFCP = valorProduto * (aliquotaFCP / 100);
+                resultado.aliquotaFCP = aliquotaFCP;
+                resultado.valorFCP = valorProduto * (aliquotaFCP / 100);
             }
         }
         
-        return resultação;
+        return resultado;
     }
     
     /**
      * Calcula IPI
      */
-    static calcularIPI(daçãos) {
-        const { item, valorProduto } = daçãos;
+    static calcularIPI(dados) {
+        const { item, valorProduto } = dados;
         
-        const resultação = {
+        const resultado = {
             cst: item.cstIPI || '99',
             baseCalculo: 0,
             aliquota: 0,
@@ -194,21 +194,21 @@ class CalculoTributosService {
         if (item.calcularIPI) {
             const aliquota = parseFloat(item.aliquotaIPI) || 0;
             
-            resultação.baseCalculo = valorProduto;
-            resultação.aliquota = aliquota;
-            resultação.valorIPI = valorProduto * (aliquota / 100);
+            resultado.baseCalculo = valorProduto;
+            resultado.aliquota = aliquota;
+            resultado.valorIPI = valorProduto * (aliquota / 100);
         }
         
-        return resultação;
+        return resultado;
     }
     
     /**
      * Calcula PIS
      */
-    static calcularPIS(daçãos) {
-        const { item, valorProduto, emitente } = daçãos;
+    static calcularPIS(dados) {
+        const { item, valorProduto, emitente } = dados;
         
-        const resultação = {
+        const resultado = {
             cst: item.cstPIS || '01',
             baseCalculo: 0,
             aliquota: 0,
@@ -219,26 +219,26 @@ class CalculoTributosService {
         const regimeNaoCumulativo = emitente.regimeTributario === 3; // Lucro Real
         
         let aliquota = 0;
-        if (resultação.cst === '01' || resultação.cst === '02') {
+        if (resultado.cst === '01' || resultado.cst === '02') {
             aliquota = regimeNaoCumulativo ? 1.65 : 0.65;
         }
         
         if (aliquota > 0) {
-            resultação.baseCalculo = valorProduto;
-            resultação.aliquota = aliquota;
-            resultação.valorPIS = valorProduto * (aliquota / 100);
+            resultado.baseCalculo = valorProduto;
+            resultado.aliquota = aliquota;
+            resultado.valorPIS = valorProduto * (aliquota / 100);
         }
         
-        return resultação;
+        return resultado;
     }
     
     /**
      * Calcula COFINS
      */
-    static calcularCOFINS(daçãos) {
-        const { item, valorProduto, emitente } = daçãos;
+    static calcularCOFINS(dados) {
+        const { item, valorProduto, emitente } = dados;
         
-        const resultação = {
+        const resultado = {
             cst: item.cstCOFINS || '01',
             baseCalculo: 0,
             aliquota: 0,
@@ -249,17 +249,17 @@ class CalculoTributosService {
         const regimeNaoCumulativo = emitente.regimeTributario === 3; // Lucro Real
         
         let aliquota = 0;
-        if (resultação.cst === '01' || resultação.cst === '02') {
+        if (resultado.cst === '01' || resultado.cst === '02') {
             aliquota = regimeNaoCumulativo ? 7.6 : 3.0;
         }
         
         if (aliquota > 0) {
-            resultação.baseCalculo = valorProduto;
-            resultação.aliquota = aliquota;
-            resultação.valorCOFINS = valorProduto * (aliquota / 100);
+            resultado.baseCalculo = valorProduto;
+            resultado.aliquota = aliquota;
+            resultado.valorCOFINS = valorProduto * (aliquota / 100);
         }
         
-        return resultação;
+        return resultado;
     }
     
     /**

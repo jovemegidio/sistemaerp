@@ -80,7 +80,7 @@ const ConciliacaoBancaria = {
                     <span class="banco-codigo">${conta.banco_codigo}</span>
                     <span class="banco-nome">${conta.banco_nome}</span>
                 </div>
-                <div class="conta-daçãos">
+                <div class="conta-dados">
                     <span>Ag: ${conta.agencia}</span>
                     <span>CC: ${conta.conta}</span>
                 </div>
@@ -90,7 +90,7 @@ const ConciliacaoBancaria = {
                         R$ ${parseFloat(conta.saldo_atual).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                     </span>
                 </div>
-                ${conta.data_saldo_atual  `
+                ${conta.data_saldo_atual ? `
                     <div class="conta-ultima-atualizacao">
                         Atualização em: ${new Date(conta.data_saldo_atual).toLocaleDateString('pt-BR')}
                     </div>
@@ -228,18 +228,18 @@ const ConciliacaoBancaria = {
                             <td>${new Date(t.data_transacao).toLocaleDateString('pt-BR')}</td>
                             <td>
                                 <div class="transacao-descricao">${t.descricao || '-'}</div>
-                                ${t.memo  `<small class="text-muted">${t.memo}</small>` : ''}
+                                ${t.memo ? `<small class="text-muted">${t.memo}</small>` : ''}
                             </td>
                             <td>
-                                <span class="badge badge-${t.tipo === 'credito'  'success' : 'danger'}">
-                                    ${t.tipo === 'credito'  'Crédito' : 'Débito'}
+                                <span class="badge badge-${t.tipo === 'credito' ? 'success' : 'danger'}">
+                                    ${t.tipo === 'credito' ? 'Crédito' : 'Débito'}
                                 </span>
                             </td>
                             <td class="valor-${t.tipo}">
-                                ${t.tipo === 'credito'  '+' : '-'} R$ ${parseFloat(t.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
+                                ${t.tipo === 'credito' ? '+' : '-'} R$ ${parseFloat(t.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}
                             </td>
                             <td>
-                                <span class="badge badge-${t.status_conciliacao === 'pendente'  'warning' : 'secondary'}">
+                                <span class="badge badge-${t.status_conciliacao === 'pendente' ? 'warning' : 'secondary'}">
                                     ${t.status_conciliacao}
                                 </span>
                             </td>

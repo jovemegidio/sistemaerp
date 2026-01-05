@@ -8,10 +8,10 @@
 class ChaveAcessoUtil {
     /**
      * Calcula a chave de acesso completa (44 dígitos)
-     * @param {Object} daçãos - Daçãos para gerar a chave
+     * @param {Object} dados - Daçãos para gerar a chave
      * @returns {string} Chave de acesso com 44 dígitos
      */
-    static calcular(daçãos) {
+    static calcular(dados) {
         const {
             cUF,           // Código UF (2 dígitos)
             dhEmi,         // Data/hora emissão (AAMM - 4 dígitos)
@@ -21,7 +21,7 @@ class ChaveAcessoUtil {
             nNF,           // Número NFe (9 dígitos)
             tpEmis,        // Tipo emissão (1 dígito)
             cNF            // Código numérico (8 dígitos)
-        } = daçãos;
+        } = dados;
 
         // Montar chave sem DV (43 dígitos)
         const chaveSemDV = [

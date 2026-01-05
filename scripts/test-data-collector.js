@@ -149,7 +149,7 @@ class TestDataCollector {
     }
 
     /**
-     * Exporta daçãos para análise
+     * Exporta dados para análise
      */
     exportData() {
         return {
@@ -162,7 +162,7 @@ class TestDataCollector {
     }
 
     /**
-     * Limpa daçãos antigos (mais de X dias)
+     * Limpa dados antigos (mais de X dias)
      */
     cleanOldData(daysToKeep = 30) {
         const cutoffDate = new Date();

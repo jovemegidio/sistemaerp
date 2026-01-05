@@ -187,8 +187,8 @@ router.post('/transfer', async (req, res) => {
             for (const msg of messages) {
                 await db.addMessage({
                     ticketId: ticket.id,
-                    sender: msg.sender === 'agent' || msg.sender === 'ai'  'ai' : 'client',
-                    senderName: msg.sender === 'agent' || msg.sender === 'ai'  'Bob (IA)' : userName,
+                    sender: msg.sender === 'agent' || msg.sender === 'ai' ? 'ai' : 'client',
+                    senderName: msg.sender === 'agent' || msg.sender === 'ai' ? 'Bob (IA)' : userName,
                     message: msg.content || msg.message
                 });
             }

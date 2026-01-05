@@ -7,7 +7,7 @@ console.log('🚀 INICIANDO PREENCHIMENTO AUTOMÁTICO...\n');
 
 // Aguardar 1 segundo para garantir que o modal está aberto
 setTimeout(() => {
-    console.log('📝 Preenchendo daçãos básicos...');
+    console.log('📝 Preenchendo dados básicos...');
     
     // Função auxiliar para preencher campos
     const preencher = (id, valor) => {

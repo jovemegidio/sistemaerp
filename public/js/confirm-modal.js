@@ -44,7 +44,7 @@
                 border-radius: 16px;
                 width: 90%;
                 max-width: 420px;
-                box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+                box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
                 transform: scale(0.9) translateY(20px);
                 transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
                 overflow: hidden;
@@ -146,45 +146,45 @@
             .confirm-modal-btn-confirm {
                 background: linear-gradient(135deg, #3b82f6, #2563eb);
                 color: white;
-                box-shaçãow: 0 4px 14px rgba(59, 130, 246, 0.4);
+                box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
             }
 
             .confirm-modal-btn-confirm:hover {
                 transform: translateY(-1px);
-                box-shaçãow: 0 6px 20px rgba(59, 130, 246, 0.5);
+                box-shadow: 0 6px 20px rgba(59, 130, 246, 0.5);
             }
 
             .confirm-modal-btn-danger {
                 background: linear-gradient(135deg, #ef4444, #dc2626);
                 color: white;
-                box-shaçãow: 0 4px 14px rgba(239, 68, 68, 0.4);
+                box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
             }
 
             .confirm-modal-btn-danger:hover {
                 transform: translateY(-1px);
-                box-shaçãow: 0 6px 20px rgba(239, 68, 68, 0.5);
+                box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
             }
 
             .confirm-modal-btn-warning {
                 background: linear-gradient(135deg, #f59e0b, #d97706);
                 color: white;
-                box-shaçãow: 0 4px 14px rgba(245, 158, 11, 0.4);
+                box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
             }
 
             .confirm-modal-btn-warning:hover {
                 transform: translateY(-1px);
-                box-shaçãow: 0 6px 20px rgba(245, 158, 11, 0.5);
+                box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
             }
 
             .confirm-modal-btn-success {
                 background: linear-gradient(135deg, #10b981, #059669);
                 color: white;
-                box-shaçãow: 0 4px 14px rgba(16, 185, 129, 0.4);
+                box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
             }
 
             .confirm-modal-btn-success:hover {
                 transform: translateY(-1px);
-                box-shaçãow: 0 6px 20px rgba(16, 185, 129, 0.5);
+                box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
             }
         `;
         document.head.appendChild(style);

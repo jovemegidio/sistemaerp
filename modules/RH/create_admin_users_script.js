@@ -102,7 +102,7 @@ async function createAdminUsers() {
     // Inserir cada usuário
     const insertSql = `INSERT INTO funcionarios (
       nome_completo, email, senha, role, cargo, departamento, cpf, status, data_admissao
-    ) VALUES (, , , , , , , 'Ativo', CURDATE())`;
+    ) VALUES (?, ?, ?, ?, , ?, ?, 'Ativo', CURDATE())`;
 
     for (const user of adminUsers) {
       try {

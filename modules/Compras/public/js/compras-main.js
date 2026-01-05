@@ -19,7 +19,7 @@
     function init() {
         console.log('🛒 Módulo de Compras inicialização');
         
-        // Carregar daçãos do usuário
+        // Carregar dados do usuário
         loadUserData();
         
         // Inicializar dashboard
@@ -31,7 +31,7 @@
     }
 
     /**
-     * Carregar daçãos do usuário
+     * Carregar dados do usuário
      */
     function loadUserData() {
         try {
@@ -40,7 +40,7 @@
                 window.ComprasModule.userData = JSON.parse(userData);
             }
         } catch (error) {
-            console.error('Erro ao carregar daçãos do usuário:', error);
+            console.error('Erro ao carregar dados do usuário:', error);
         }
     }
 

@@ -36,12 +36,12 @@ async function checkConnection() {
     }
 }
 
-// Função para verificar estrutura dos daçãos
+// Função para verificar estrutura dos dados
 async function checkDataStructure() {
     let connection;
     
     try {
-        console.log('\n📊 Verificando estrutura dos daçãos...');
+        console.log('\n📊 Verificando estrutura dos dados...');
         connection = await mysql.createConnection(dbConfig);
         
         // Contar tabelas
@@ -67,7 +67,7 @@ async function checkDataStructure() {
         
         console.log(`📝 Colunas da tabela produtos (${colunas.length}):`);
         colunas.forEach(col => {
-            console.log(`   - ${col.COLUMN_NAME}: ${col.DATA_TYPE} (${col.IS_NULLABLE === 'YES'  'nullable' : 'not null'})`);
+            console.log(`   - ${col.COLUMN_NAME}: ${col.DATA_TYPE} (${col.IS_NULLABLE === 'YES' ? 'nullable' : 'not null'})`);
         });
         
         // Verificar algumas outras tabelas importantes
@@ -91,12 +91,12 @@ async function checkDataStructure() {
     }
 }
 
-// Função para verificar integridade dos daçãos
+// Função para verificar integridade dos dados
 async function checkDataIntegrity() {
     let connection;
     
     try {
-        console.log('\n🔍 Verificando integridade dos daçãos...');
+        console.log('\n🔍 Verificando integridade dos dados...');
         connection = await mysql.createConnection(dbConfig);
         
         // Verificar produtos duplicaçãos
@@ -200,7 +200,7 @@ async function backupDatabase() {
         sqlDump += `SET foreign_key_checks = 0;\n`;
         sqlDump += `SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';\n\n`;
         
-        // Para cada tabela, exportar estrutura e daçãos
+        // Para cada tabela, exportar estrutura e dados
         for (let i = 0; i < tables.length; i++) {
             const tableName = tables[i].TABLE_NAME;
             console.log(`   ${i + 1}/${tables.length} - Exportando ${tableName}...`);
@@ -297,7 +297,7 @@ async function main() {
         // Verificar conexão
         await checkConnection();
         
-        // Verificar estrutura dos daçãos
+        // Verificar estrutura dos dados
         await checkDataStructure();
         
         // Verificar integridade
@@ -310,7 +310,7 @@ async function main() {
         console.log('==================================================');
         console.log(`📁 Arquivo geração: ${backupFile}`);
         console.log(`⏰ Horário: ${new Date().toLocaleString('pt-BR')}`);
-        console.log(`📊 Banco: aluforce_vendas com todos os daçãos exportaçãos`);
+        console.log(`📊 Banco: aluforce_vendas com todos os dados exportaçãos`);
         
     } catch (error) {
         console.error('\n❌ ERRO NO PROCESSO DE EXPORT:');

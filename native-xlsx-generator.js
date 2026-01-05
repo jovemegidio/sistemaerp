@@ -145,7 +145,7 @@ class NativeXLSXGenerator {
         xlsxData += '<workbook>\n';
         xlsxData += '<worksheet>\n';
         
-        // Adicionar daçãos das células
+        // Adicionar dados das células
         for (const [key, cell] of this.cells) {
             const [row, col] = key.split(',').map(Number);
             const cellRef = this.columnIndexToLetter(col) + (row + 1);

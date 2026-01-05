@@ -258,7 +258,7 @@ function formatarDataCurta(dataISO) {
     return `${dia}/${mes}/${ano}`;
 }
 
-// Bootstrap de daçãos via API
+// Bootstrap de dados via API
 async function carregarPedidosDaAPI() {
     try {
         const resp = await fetch('/api/vendas/kanban/pedidos', {
@@ -291,7 +291,7 @@ async function carregarPedidosDaAPI() {
     } catch (err) {
         console.error('Falha ao carregar pedidos do kanban', err);
         pedidos = [...pedidosSeed];
-        mostrarNotificacao('Não foi possível carregar pedidos do servidor. Exibindo daçãos locais.', 'error');
+        mostrarNotificacao('Não foi possível carregar pedidos do servidor. Exibindo dados locais.', 'error');
     }
     renderizarKanban();
 }
@@ -325,7 +325,7 @@ function criarCardHTML(pedido) {
 
     // Valor com cifrão e tipo de pagamento
     const valorFormatado = formatarValorOmie(pedido.valor);
-    const tipoHTML = pedido.tipo  ` ${pedido.tipo}` : '';
+    const tipoHTML = pedido.tipo ? ` ${pedido.tipo}` : '';
 
     // Vencimento (ex: "p/ 11/06 Qua")
     const vencimentoHTML = pedido.vencimento 
@@ -679,7 +679,7 @@ function abrirModalNovoPedido(tipo = 'orcamento') {
         
         // Limpa status para orçamento por padrão
         const statusSelect = form.querySelector('[name="status"]');
-        if (statusSelect) statusSelect.value = tipo === 'venda'  'analise' : 'orcamento';
+        if (statusSelect) statusSelect.value = tipo === 'venda' ? 'analise' : 'orcamento';
     }
     
     preencherResumoModal({});
@@ -845,11 +845,11 @@ async function abrirModalEditarPedido(id) {
     try {
         console.log('[Kanban] Abrindo modal para pedido ID:', id);
         
-        // Primeiro busca os daçãos locais do kanban (sempre disponíveis)
+        // Primeiro busca os dados locais do kanban (sempre disponíveis)
         const pedidoLocal = pedidos.find(p => p.id == id);
         console.log('[Kanban] Pedido local encontrado:', pedidoLocal);
         
-        // Tenta buscar daçãos atualizaçãos da API
+        // Tenta buscar dados atualizaçãos da API
         let pedidoDetalhe = pedidoLocal || {};
         
         try {
@@ -858,33 +858,33 @@ async function abrirModalEditarPedido(id) {
             });
             
             if (resp.ok) {
-                const daçãos = await resp.json();
-                console.log('[Kanban] Daçãos da API:', daçãos);
+                const dados = await resp.json();
+                console.log('[Kanban] Daçãos da API:', dados);
                 
-                // Se a API retornou daçãos válidos, usar eles
-                if (daçãos && (daçãos.id || daçãos.valor || daçãos.cliente_nome)) {
+                // Se a API retornou dados válidos, usar eles
+                if (dados && (dados.id || dados.valor || dados.cliente_nome)) {
                     pedidoDetalhe = {
-                        ...pedidoLocal, // daçãos do kanban como base
-                        ...daçãos,       // sobrescreve com daçãos da API
-                        numero: daçãos.numero || `Pedido Nº ${id}`,
-                        cliente: daçãos.cliente_nome || daçãos.cliente || pedidoLocal.cliente || '',
-                        valor: parseFloat(daçãos.valor) || parseFloat(daçãos.valor_total) || pedidoLocal.valor || 0,
-                        vendedor: daçãos.vendedor_nome || daçãos.vendedor || pedidoLocal.vendedor || '',
-                        produtos: safeParseJSON(daçãos.produtos_preview || daçãos.produtos, [])
+                        ...pedidoLocal, // dados do kanban como base
+                        ...dados,       // sobrescreve com dados da API
+                        numero: dados.numero || `Pedido Nº ${id}`,
+                        cliente: dados.cliente_nome || dados.cliente || pedidoLocal.cliente || '',
+                        valor: parseFloat(dados.valor) || parseFloat(dados.valor_total) || pedidoLocal.valor || 0,
+                        vendedor: dados.vendedor_nome || dados.vendedor || pedidoLocal.vendedor || '',
+                        produtos: safeParseJSON(dados.produtos_preview || dados.produtos, [])
                     };
                 }
             }
         } catch (apiError) {
-            console.warn('[Kanban] Erro ao buscar API, usando daçãos locais:', apiError);
+            console.warn('[Kanban] Erro ao buscar API, usando dados locais:', apiError);
         }
         
         console.log('[Kanban] Daçãos finais para o modal:', pedidoDetalhe);
         
-        // IMPORTANTE: Primeiro abre o modal (que reseta o form), depois popula os daçãos
+        // IMPORTANTE: Primeiro abre o modal (que reseta o form), depois popula os dados
         const modal = document.getElementById('modal-novo-pedido');
         if (modal) modal.classList.add('aberto');
         
-        // Agora popula o form com os daçãos do pedido
+        // Agora popula o form com os dados do pedido
         popularFormPedido(pedidoDetalhe);
         
     } catch (err) {
@@ -898,7 +898,7 @@ function safeParseJSON(txt, fallback) {
 }
 
 async function salvarPedidoAPI(payload, id) {
-    const url = id  `/api/vendas/pedidos/${id}` : '/api/vendas/pedidos';
+    const url = id ? `/api/vendas/pedidos/${id}` : '/api/vendas/pedidos';
     const method = id ? 'PUT' : 'POST';
     const resp = await fetch(url, {
         method,
@@ -917,23 +917,23 @@ async function salvarPedidoAPI(payload, id) {
 function salvarNovoPedido(event) {
     event.preventDefault();
     const form = event.target;
-    const daçãos = Object.fromEntries(new FormData(form));
+    const dados = Object.fromEntries(new FormData(form));
     const id = form.dataset.pedidoId || null;
     
     // Construir payload com campos corretos da tabela
     const payload = {
-        cliente_id: daçãos.cliente_id  Number(daçãos.cliente_id) : null,
-        empresa_id: daçãos.empresa_id  Number(daçãos.empresa_id) : null,
-        valor: Number(daçãos.valor || 0),
-        descricao: daçãos.observacoes || daçãos.faturamento || '',
-        status: daçãos.status || 'orcamento',
-        prioridade: daçãos.tipo || 'normal',
-        frete: Number(daçãos.frete || 0),
-        prazo_entrega: daçãos.vencimento || null,
-        endereco_entrega: daçãos.endereco_entrega || null,
-        municipio_entrega: daçãos.municipio_entrega || null,
-        metodo_envio: daçãos.transportaçãora || null,
-        produtos: daçãos.produtos  safeParseJSON(daçãos.produtos, []) : []
+        cliente_id: dados.cliente_id  Number(dados.cliente_id) : null,
+        empresa_id: dados.empresa_id  Number(dados.empresa_id) : null,
+        valor: Number(dados.valor || 0),
+        descricao: dados.observacoes || dados.faturamento || '',
+        status: dados.status || 'orcamento',
+        prioridade: dados.tipo || 'normal',
+        frete: Number(dados.frete || 0),
+        prazo_entrega: dados.vencimento || null,
+        endereco_entrega: dados.endereco_entrega || null,
+        municipio_entrega: dados.municipio_entrega || null,
+        metodo_envio: dados.transportaçãora || null,
+        produtos: dados.produtos  safeParseJSON(dados.produtos, []) : []
     };
 
     if (!payload.valor) {
@@ -951,8 +951,8 @@ function salvarNovoPedido(event) {
                         ...pedidos[idx],
                         valor: payload.valor,
                         status: payload.status,
-                        cliente: daçãos.cliente || pedidos[idx].cliente,
-                        vendedor: daçãos.vendedor || pedidos[idx].vendedor,
+                        cliente: dados.cliente || pedidos[idx].cliente,
+                        vendedor: dados.vendedor || pedidos[idx].vendedor,
                         faturamento: payload.descricao
                     };
                 }
@@ -963,7 +963,7 @@ function salvarNovoPedido(event) {
             form.dataset.modo = 'novo';
             fecharModalNovoPedido();
             
-            // Recarregar daçãos do servidor para garantir sincronização
+            // Recarregar dados do servidor para garantir sincronização
             carregarPedidosDaAPI();
             mostrarNotificacao(id ? 'Pedido atualização com sucesso!' : 'Pedido criado com sucesso!', 'success');
         })
@@ -973,7 +973,7 @@ function salvarNovoPedido(event) {
         });
 }
 
-// Carregar daçãos do usuário
+// Carregar dados do usuário
 async function carregarUsuario() {
     // Usar o sistema de autenticação externo se disponível
     if (window.VendasAuth && typeof window.VendasAuth.inicializarAuth === 'function') {
@@ -1138,14 +1138,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (modalForm) modalForm.addEventListener('submit', salvarNovoPedido);
     if (modalForm) {
         modalForm.addEventListener('input', () => {
-            const daçãos = Object.fromEntries(new FormData(modalForm));
+            const dados = Object.fromEntries(new FormData(modalForm));
             preencherResumoModal({
-                cliente: daçãos.cliente,
-                data: daçãos.data,
-                status: daçãos.status,
-                valor: Number(daçãos.valor || 0),
-                origem: daçãos.origem,
-                vendedor: daçãos.vendedor
+                cliente: dados.cliente,
+                data: dados.data,
+                status: dados.status,
+                valor: Number(dados.valor || 0),
+                origem: dados.origem,
+                vendedor: dados.vendedor
             });
         });
     }

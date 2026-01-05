@@ -11,11 +11,11 @@ class XmlNFeService {
     /**
      * Gerar XML completo da NFe
      */
-    static gerarXML(daçãosNFe) {
-        const { emitente, destinatario, itens, totais, transporte, pagamento, informacoesAdicionais } = daçãosNFe;
+    static gerarXML(dadosNFe) {
+        const { emitente, destinatario, itens, totais, transporte, pagamento, informacoesAdicionais } = dadosNFe;
         
         // Gerar chave de acesso
-        const chaveAcesso = this.gerarChaveAcesso(daçãosNFe);
+        const chaveAcesso = this.gerarChaveAcesso(dadosNFe);
         const idNFe = `NFe${chaveAcesso}`;
         
         // Criar estrutura XML
@@ -31,7 +31,7 @@ class XmlNFeService {
             });
         
         // IDE - Identificação
-        this.adicionarIDE(xml, daçãosNFe, chaveAcesso);
+        this.adicionarIDE(xml, dadosNFe, chaveAcesso);
         
         // Emitente
         this.adicionarEmitente(xml, emitente);
@@ -70,29 +70,29 @@ class XmlNFeService {
     /**
      * Adicionar IDE (Identificação)
      */
-    static adicionarIDE(xml, daçãos, chaveAcesso) {
+    static adicionarIDE(xml, dados, chaveAcesso) {
         const ide = xml.ele('ide');
         
-        ide.ele('cUF').txt(daçãos.codigoUF);
-        ide.ele('cNF').txt(daçãos.codigoNumerico || this.gerarCodigoNumerico());
-        ide.ele('natOp').txt(daçãos.naturezaOperacao);
-        ide.ele('mod').txt(daçãos.modelo || '55');
-        ide.ele('serie').txt(daçãos.serie);
-        ide.ele('nNF').txt(daçãos.numeroNFe);
-        ide.ele('dhEmi').txt(this.formatarDataHora(daçãos.dataEmissao || new Date()));
-        ide.ele('dhSaiEnt').txt(this.formatarDataHora(daçãos.dataSaida || new Date()));
-        ide.ele('tpNF').txt(daçãos.tipoOperacao); // 0=Entrada, 1=Saída
-        ide.ele('idDest').txt(this.identificarDestinatario(daçãos.emitente.uf, daçãos.destinatario.uf));
-        ide.ele('cMunFG').txt(daçãos.emitente.codigoMunicipio);
+        ide.ele('cUF').txt(dados.codigoUF);
+        ide.ele('cNF').txt(dados.codigoNumerico || this.gerarCodigoNumerico());
+        ide.ele('natOp').txt(dados.naturezaOperacao);
+        ide.ele('mod').txt(dados.modelo || '55');
+        ide.ele('serie').txt(dados.serie);
+        ide.ele('nNF').txt(dados.numeroNFe);
+        ide.ele('dhEmi').txt(this.formatarDataHora(dados.dataEmissao || new Date()));
+        ide.ele('dhSaiEnt').txt(this.formatarDataHora(dados.dataSaida || new Date()));
+        ide.ele('tpNF').txt(dados.tipoOperacao); // 0=Entrada, 1=Saída
+        ide.ele('idDest').txt(this.identificarDestinatario(dados.emitente.uf, dados.destinatario.uf));
+        ide.ele('cMunFG').txt(dados.emitente.codigoMunicipio);
         ide.ele('tpImp').txt('1'); // 1=DANFE Retrato
-        ide.ele('tpEmis').txt(daçãos.tipoEmissao || '1'); // 1=Normal
+        ide.ele('tpEmis').txt(dados.tipoEmissao || '1'); // 1=Normal
         ide.ele('cDV').txt(chaveAcesso.substring(43));
-        ide.ele('tpAmb').txt(daçãos.ambiente || '2'); // 1=Produção, 2=Homologação
-        ide.ele('finNFe').txt(daçãos.finalidade || '1'); // 1=Normal
-        ide.ele('indFinal').txt(daçãos.consumidorFinal || '1'); // 1=Consumidor Final
-        ide.ele('indPres').txt(daçãos.indicaçãorPresenca || '1'); // 1=Presencial
+        ide.ele('tpAmb').txt(dados.ambiente || '2'); // 1=Produção, 2=Homologação
+        ide.ele('finNFe').txt(dados.finalidade || '1'); // 1=Normal
+        ide.ele('indFinal').txt(dados.consumidorFinal || '1'); // 1=Consumidor Final
+        ide.ele('indPres').txt(dados.indicaçãorPresenca || '1'); // 1=Presencial
         ide.ele('procEmi').txt('0'); // 0=Aplicativo do contribuinte
-        ide.ele('verProc').txt(daçãos.versaoAplicativo || '1.0.0');
+        ide.ele('verProc').txt(dados.versaoAplicativo || '1.0.0');
         
         return ide.up();
     }
@@ -431,15 +431,15 @@ class XmlNFeService {
     /**
      * Gerar chave de acesso da NFe (44 dígitos)
      */
-    static gerarChaveAcesso(daçãos) {
-        const uf = daçãos.codigoUF.toString().padStart(2, '0');
-        const aamm = this.formatarAAMM(daçãos.dataEmissao);
-        const cnpj = daçãos.emitente.cnpj.replace(/\D/g, '').padStart(14, '0');
-        const mod = (daçãos.modelo || '55').padStart(2, '0');
-        const serie = daçãos.serie.toString().padStart(3, '0');
-        const numero = daçãos.numeroNFe.toString().padStart(9, '0');
-        const tipoEmissao = (daçãos.tipoEmissao || '1').toString();
-        const codigoNumerico = (daçãos.codigoNumerico || this.gerarCodigoNumerico()).toString().padStart(8, '0');
+    static gerarChaveAcesso(dados) {
+        const uf = dados.codigoUF.toString().padStart(2, '0');
+        const aamm = this.formatarAAMM(dados.dataEmissao);
+        const cnpj = dados.emitente.cnpj.replace(/\D/g, '').padStart(14, '0');
+        const mod = (dados.modelo || '55').padStart(2, '0');
+        const serie = dados.serie.toString().padStart(3, '0');
+        const numero = dados.numeroNFe.toString().padStart(9, '0');
+        const tipoEmissao = (dados.tipoEmissao || '1').toString();
+        const codigoNumerico = (dados.codigoNumerico || this.gerarCodigoNumerico()).toString().padStart(8, '0');
         
         const chave43 = uf + aamm + cnpj + mod + serie + numero + tipoEmissao + codigoNumerico;
         const dv = this.calcularDigitoVerificaçãor(chave43);

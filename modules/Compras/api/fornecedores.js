@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         const params = [];
         
         if (search) {
-            sql += ' AND (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj LIKE )';
+            sql += ' AND (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj LIKE ?)';
             const searchParam = `%${search}%`;
             params.push(searchParam, searchParam, searchParam);
         }
@@ -21,13 +21,13 @@ router.get('/', async (req, res) => {
             params.push(ativo === 'true'  1 : 0);
         }
         
-        sql += ' ORDER BY razao_social LIMIT  OFFSET ';
+        sql += ' ORDER BY razao_social LIMIT ? OFFSET ';
         params.push(parseInt(limit), parseInt(offset));
         
         const fornecedores = await query(sql, params);
         
         const countSql = 'SELECT COUNT(*) as total FROM fornecedores WHERE 1=1' + 
-            (search ? ' AND (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj LIKE )' : '') +
+            (search ? ' AND (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj LIKE ?)' : '') +
             (ativo !== undefined ? ' AND ativo = ' : '');
         const countParams = search  [searchParam, searchParam, searchParam] : [];
         if (ativo !== undefined) countParams.push(ativo === 'true'  1 : 0);
@@ -90,7 +90,7 @@ router.post('/', async (req, res) => {
                 telefone, email, contato_principal,
                 condicoes_pagamento, prazo_entrega_padrao,
                 observacoes, ativo
-            ) VALUES (, , , , , , , , , , , , , , )
+            ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, ?, ?)
         `, [
             razao_social, nome_fantasia, cnpj, ie,
             endereco, cidade, estação, cep,

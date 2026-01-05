@@ -359,7 +359,7 @@ async function startServer() {
 
 function stopServer() {
     // Servidor embutido - não precisa parar manualmente
-    console.log('Servidor embutido será encerração com a aplicação');
+    console.log('Servidor embutido será encerrado com a aplicação');
 }
 
 function updateSplashStatus(message) {

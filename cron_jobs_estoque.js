@@ -74,7 +74,7 @@ async function expirarReservas() {
                 INSERT INTO estoque_movimentacoes
                 (codigo_material, tipo_movimento, origem, quantidade, 
                  documento_tipo, documento_id, documento_numero, observacao)
-                VALUES (, 'ajuste', 'ajuste', 0, 'reserva_expirada', , , )
+                VALUES (?, 'ajuste', 'ajuste', 0, 'reserva_expirada', ?, ?, )
             `, [
                 reserva.codigo_material,
                 reserva.id,
@@ -177,8 +177,8 @@ async function alertasEstoqueBaixo() {
         const alertasBaixo = [];
 
         for (const produto of produtosCriticos) {
-            const emoji = produto.nivel_alerta === 'CRÍTICO'  '🔴' : 
-                         produto.nivel_alerta === 'MUITO BAIXO'  '🟠' : '🟡';
+            const emoji = produto.nivel_alerta === 'CRÍTICO' ? '🔴' : 
+                         produto.nivel_alerta === 'MUITO BAIXO' ? '🟠' : '🟡';
             
             console.log(`   ${emoji} ${produto.nivel_alerta}: ${produto.codigo_material}`);
             console.log(`      ${produto.descricao}`);
@@ -213,7 +213,7 @@ async function alertasEstoqueBaixo() {
                     await connection.query(`
                         INSERT INTO notificacoes_estoque
                         (produto_id, tipo, quantidade_atual, quantidade_minima, status, criado_em)
-                        VALUES (, 'estoque_baixo', , , 'pendente', NOW())
+                        VALUES (?, 'estoque_baixo', ?, ?, 'pendente', NOW())
                     `, [
                         produto_id,
                         produto.quantidade_disponivel,

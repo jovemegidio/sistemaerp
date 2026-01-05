@@ -290,14 +290,14 @@
             background: white;
             border-radius: 16px;
             padding: 24px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
             border: 1px solid #f1f5f9;
         }
 
         .stat-card:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 8px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
         }
 
         .stat-header {
@@ -361,7 +361,7 @@
         .card {
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             border: 1px solid #f1f5f9;
             overflow: hidden;
         }
@@ -927,13 +927,13 @@
                 .slice(0, 5);
             
             if (recentes.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #6b7280;">Nenhum funcionário encontração</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: #6b7280;">Nenhum funcionário encontrado</td></tr>';
                 return;
             }
             
             tbody.innerHTML = recentes.map(f => {
                 const dataAdm = f.data_admissao  new Date(f.data_admissao).toLocaleDateString('pt-BR') : '-';
-                const statusClass = f.status === 'Ativo'  'active' : (f.status === 'Férias'  'vacation' : 'inactive');
+                const statusClass = f.status === 'Ativo' ? 'active' : (f.status === 'Férias' ? 'vacation' : 'inactive');
                 return `
                     <tr>
                         <td><strong>${f.nome_completo || f.nome || '-'}</strong></td>
@@ -1034,11 +1034,11 @@
                     const avisos = await response.json();
                     if (avisos.length > 0) {
                         activityList.innerHTML = avisos.slice(0, 5).map(a => {
-                            const icon = a.tipo === 'admissao'  'fa-user-plus' : 
-                                        a.tipo === 'ferias'  'fa-umbrella-beach' : 
-                                        a.tipo === 'holerite'  'fa-file-alt' : 'fa-bell';
-                            const cor = a.tipo === 'admissao'  '#10b981' : 
-                                       a.tipo === 'ferias'  '#8b5cf6' : '#f97316';
+                            const icon = a.tipo === 'admissao' ? 'fa-user-plus' : 
+                                        a.tipo === 'ferias' ? 'fa-umbrella-beach' : 
+                                        a.tipo === 'holerite' ? 'fa-file-alt' : 'fa-bell';
+                            const cor = a.tipo === 'admissao' ? '#10b981' : 
+                                       a.tipo === 'ferias' ? '#8b5cf6' : '#f97316';
                             // Usar created_at ou data_publicacao como fallback
                             const dataAtividade = a.created_at || a.data_publicacao;
                             const tempo = calcularTempoRelativo(dataAtividade);
@@ -1058,7 +1058,7 @@
                     }
                 }
             } catch (error) {
-                console.log('Atividades recentes: usando daçãos padrão');
+                console.log('Atividades recentes: usando dados padrão');
             }
         }
 

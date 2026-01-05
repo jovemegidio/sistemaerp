@@ -28,7 +28,7 @@ class IntegracaoPCPVendas {
         } = opcoes;
 
         try {
-            // 1. Buscar daçãos do pedido
+            // 1. Buscar dados do pedido
             const pedido = await this.buscarPedidoVendas(pedidoId, token);
             
             if (!pedido) {
@@ -40,10 +40,10 @@ class IntegracaoPCPVendas {
                 throw new Error(`Pedido com status '${pedido.status}' não pode gerar OP`);
             }
 
-            // 3. Preparar daçãos da OP
+            // 3. Preparar dados da OP
             const dataEntrega = dataPrevisao || pedido.data_previsao || this.calcularDataPrevisao(7);
             
-            const daçãosOP = {
+            const dadosOP = {
                 pedido_vendas_id: pedidoId,
                 numero_pedido_cliente: pedido.id,
                 cliente_id: pedido.empresa_id,
@@ -66,25 +66,25 @@ class IntegracaoPCPVendas {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token  `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
-                body: JSON.stringify(daçãosOP)
+                body: JSON.stringify(dadosOP)
             });
 
-            const resultação = await response.json();
+            const resultado = await response.json();
 
             if (!response.ok) {
-                throw new Error(resultação.message || 'Erro ao criar Ordem de Produção');
+                throw new Error(resultado.message || 'Erro ao criar Ordem de Produção');
             }
 
             // 5. Atualizar pedido de venda com referência da OP
-            await this.vincularOPAoPedido(pedidoId, resultação.id, token);
+            await this.vincularOPAoPedido(pedidoId, resultado.id, token);
 
             return {
                 success: true,
                 message: 'Ordem de Produção criada com sucesso',
-                op_id: resultação.id,
-                op_numero: resultação.numero,
+                op_id: resultado.id,
+                op_numero: resultado.numero,
                 data_previsao: dataEntrega
             };
 
@@ -99,13 +99,13 @@ class IntegracaoPCPVendas {
     }
 
     /**
-     * Busca daçãos do pedido no módulo Vendas
+     * Busca dados do pedido no módulo Vendas
      */
     async buscarPedidoVendas(pedidoId, token) {
         try {
             const response = await fetch(`${this.vendasUrl}/api/vendas/pedidos/${pedidoId}`, {
                 headers: {
-                    'Authorization': token  `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 }
             });
 
@@ -125,7 +125,7 @@ class IntegracaoPCPVendas {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token  `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({
                     op_id: opId,
@@ -144,7 +144,7 @@ class IntegracaoPCPVendas {
         try {
             // Buscar OP para pegar pedido vinculação
             const opResponse = await fetch(`${this.pcpUrl}/api/pcp/ordens-producao/${opId}`, {
-                headers: { 'Authorization': token  `Bearer ${token}` : '' }
+                headers: { 'Authorization': token ? `Bearer ${token}` : '' }
             });
 
             if (!opResponse.ok) return { success: false };
@@ -172,7 +172,7 @@ class IntegracaoPCPVendas {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': token  `Bearer ${token}` : ''
+                        'Authorization': token ? `Bearer ${token}` : ''
                     },
                     body: JSON.stringify({ status: novoStatusPedido })
                 });
@@ -193,7 +193,7 @@ class IntegracaoPCPVendas {
             const response = await fetch(
                 `${this.pcpUrl}/api/pcp/ordens-producaopedido_vendas_id=${pedidoId}`,
                 {
-                    headers: { 'Authorization': token  `Bearer ${token}` : '' }
+                    headers: { 'Authorization': token ? `Bearer ${token}` : '' }
                 }
             );
 
@@ -224,7 +224,7 @@ class IntegracaoPCPVendas {
                 const estoqueResponse = await fetch(
                     `${this.pcpUrl}/api/pcp/estoque/produto/${item.codigo}`,
                     {
-                        headers: { 'Authorization': token  `Bearer ${token}` : '' }
+                        headers: { 'Authorization': token ? `Bearer ${token}` : '' }
                     }
                 );
 

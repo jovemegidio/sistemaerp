@@ -133,7 +133,7 @@ function configurarHTTPS(config) {
     // MODO HTTP (Desenvolvimento)
     // ============================================
     else {
-        console.log('⚠️  HTTPS desabilitação - usando HTTP (não recomendação para produção)');
+        console.log('⚠️  HTTPS desabilitado - usando HTTP (não recomendação para produção)');
         
         httpServer = http.createServer(app);
         
@@ -165,10 +165,10 @@ function configurarHTTPS(config) {
         
         if (httpsServer) {
             httpsServer.close(() => {
-                console.log('✅ Servidor HTTPS encerração');
+                console.log('✅ Servidor HTTPS encerrado');
                 if (httpServer) {
                     httpServer.close(() => {
-                        console.log('✅ Servidor HTTP encerração');
+                        console.log('✅ Servidor HTTP encerrado');
                         process.exit(0);
                     });
                 } else {
@@ -177,7 +177,7 @@ function configurarHTTPS(config) {
             });
         } else if (httpServer) {
             httpServer.close(() => {
-                console.log('✅ Servidor HTTP encerração');
+                console.log('✅ Servidor HTTP encerrado');
                 process.exit(0);
             });
         }

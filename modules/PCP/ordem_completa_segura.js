@@ -12,11 +12,11 @@ const numero_pedido = 'PED-' + numero_sequencial;
 
 const frete = 'FOB'; // ou 'CIF', ou valor recebido do modal
 // Calcular prazo de entrega: 15 dias após data_liberacao
-const dataCompra = new Date('2025-10-07'); // ou use daçãosCompletos.data_liberacao
+const dataCompra = new Date('2025-10-07'); // ou use dadosCompletos.data_liberacao
 const prazoEntregaDate = new Date(dataCompra.getTime() + 15 * 24 * 60 * 60 * 1000);
 const prazo_entrega = prazoEntregaDate.toLocaleDateString('pt-BR');
 
-const daçãosCompletos = {
+const dadosCompletos = {
     // Daçãos básicos
     numero_sequencial,
     numero_orcamento,
@@ -178,48 +178,48 @@ async function criarOrdemCompletaSegura() {
         });
         // === DADOS BÁSICOS ===
         console.log('🟡 DADOS BÁSICOS:');
-    preencherCelulasSeguro(worksheet, ['C4'], daçãosCompletos.numero_orcamento, 'Orçamento');
-    preencherCelulasSeguro(worksheet, ['G4'], daçãosCompletos.numero_pedido, 'Pedido');
+    preencherCelulasSeguro(worksheet, ['C4'], dadosCompletos.numero_orcamento, 'Orçamento');
+    preencherCelulasSeguro(worksheet, ['G4'], dadosCompletos.numero_pedido, 'Pedido');
     // Corrigir H4 para mostrar texto
     worksheet.getCell('H4').value = 'Data de liberação';
-    preencherCelulasSeguro(worksheet, ['I4', 'J4'], daçãosCompletos.data_liberacao, 'Data Liberação');
+    preencherCelulasSeguro(worksheet, ['I4', 'J4'], dadosCompletos.data_liberacao, 'Data Liberação');
         
         // === VENDEDOR ===
         console.log('\n🟡 VENDEDOR:');
-        preencherCelulasSeguro(worksheet, ['C6', 'D6', 'E6'], daçãosCompletos.vendedor, 'Vendedor');
-        preencherCelulasSeguro(worksheet, ['G6', 'H6', 'I6'], daçãosCompletos.prazo_entrega, 'Prazo Entrega');
+        preencherCelulasSeguro(worksheet, ['C6', 'D6', 'E6'], dadosCompletos.vendedor, 'Vendedor');
+        preencherCelulasSeguro(worksheet, ['G6', 'H6', 'I6'], dadosCompletos.prazo_entrega, 'Prazo Entrega');
         
         // === CLIENTE ===
         console.log('\n🟡 CLIENTE:');
-        preencherCelulasSeguro(worksheet, ['C7', 'D7', 'E7', 'F7', 'G7'], daçãosCompletos.cliente, 'Cliente');
-        preencherCelulasSeguro(worksheet, ['C8', 'D8', 'E8', 'F8'], daçãosCompletos.contato_cliente, 'Contato');
-        preencherCelulasSeguro(worksheet, ['H8', 'I8'], daçãosCompletos.fone_cliente, 'Telefone');
-        preencherCelulasSeguro(worksheet, ['C9', 'D9', 'E9', 'F9'], daçãosCompletos.email_cliente, 'Email');
+        preencherCelulasSeguro(worksheet, ['C7', 'D7', 'E7', 'F7', 'G7'], dadosCompletos.cliente, 'Cliente');
+        preencherCelulasSeguro(worksheet, ['C8', 'D8', 'E8', 'F8'], dadosCompletos.contato_cliente, 'Contato');
+        preencherCelulasSeguro(worksheet, ['H8', 'I8'], dadosCompletos.fone_cliente, 'Telefone');
+        preencherCelulasSeguro(worksheet, ['C9', 'D9', 'E9', 'F9'], dadosCompletos.email_cliente, 'Email');
     // Preencher H9 e campo Frete com o valor do frete do modal
-    worksheet.getCell('H9').value = daçãosCompletos.tipo_frete;
-    worksheet.getCell('I9').value = daçãosCompletos.tipo_frete;
-    worksheet.getCell('J9').value = daçãosCompletos.tipo_frete;
+    worksheet.getCell('H9').value = dadosCompletos.tipo_frete;
+    worksheet.getCell('I9').value = dadosCompletos.tipo_frete;
+    worksheet.getCell('J9').value = dadosCompletos.tipo_frete;
         
         // === TRANSPORTADORA ===
         console.log('\n🟡 TRANSPORTADORA:');
-        preencherCelulasSeguro(worksheet, ['C12', 'D12', 'E12'], daçãosCompletos.transportaçãora_nome, 'Nome Transportaçãora');
+        preencherCelulasSeguro(worksheet, ['C12', 'D12', 'E12'], dadosCompletos.transportaçãora_nome, 'Nome Transportaçãora');
     // Preencher G12 e campo amarelo com o telefone do modal
-    worksheet.getCell('G12').value = daçãosCompletos.transportaçãora_fone;
-    worksheet.getCell('H12').value = daçãosCompletos.transportaçãora_fone;
-        preencherCelulasSeguro(worksheet, ['C13', 'D13'], daçãosCompletos.transportaçãora_cep, 'CEP');
-        preencherCelulasSeguro(worksheet, ['F13', 'G13', 'H13', 'I13'], daçãosCompletos.transportaçãora_endereco, 'Endereço');
+    worksheet.getCell('G12').value = dadosCompletos.transportaçãora_fone;
+    worksheet.getCell('H12').value = dadosCompletos.transportaçãora_fone;
+        preencherCelulasSeguro(worksheet, ['C13', 'D13'], dadosCompletos.transportaçãora_cep, 'CEP');
+        preencherCelulasSeguro(worksheet, ['F13', 'G13', 'H13', 'I13'], dadosCompletos.transportaçãora_endereco, 'Endereço');
         
         // CPF/CNPJ com formato especial
         ['C15', 'D15'].forEach(cellAddr => {
             try {
                 const cell = worksheet.getCell(cellAddr);
-                cell.value = daçãosCompletos.transportaçãora_cpf_cnpj;
+                cell.value = dadosCompletos.transportaçãora_cpf_cnpj;
                 cell.numFmt = '@';
-                console.log(`   ✅ CPF/CNPJ: ${cellAddr} = ${daçãosCompletos.transportaçãora_cpf_cnpj}`);
+                console.log(`   ✅ CPF/CNPJ: ${cellAddr} = ${dadosCompletos.transportaçãora_cpf_cnpj}`);
             } catch (e) {}
         });
         
-        preencherCelulasSeguro(worksheet, ['G15', 'H15'], daçãosCompletos.transportaçãora_email_nfe, 'Email NFe');
+        preencherCelulasSeguro(worksheet, ['G15', 'H15'], dadosCompletos.transportaçãora_email_nfe, 'Email NFe');
         
         // === PRODUTOS ===
         console.log('\n🟡 PRODUTOS:');
@@ -227,7 +227,7 @@ async function criarOrdemCompletaSegura() {
         // Preencher até 15 linhas de produtos, como no modelo
         for (let i = 0; i < 15; i++) {
             const linha = 18 + i * 2; // cada produto ocupa 2 linhas (principal + sublinha)
-            const produto = daçãosCompletos.produtos[i];
+            const produto = dadosCompletos.produtos[i];
             if (produto && produto.codigo && (produto.descricao || produto.nome)) {
                 const valorTotal = produto.quantidade * produto.valor_unitario;
                 totalGeral += valorTotal;
@@ -294,12 +294,12 @@ async function criarOrdemCompletaSegura() {
         // === OBSERVAÇÕES ===
         console.log('\n🟡 OBSERVAÇÕES:');
         preencherCelulasSeguro(worksheet, ['A37', 'B37', 'C37', 'D37', 'E37', 'F37', 'G37', 'H37'], 
-                              daçãosCompletos.observacoes_pedido, 'Observações do Pedido');
+                              dadosCompletos.observacoes_pedido, 'Observações do Pedido');
         
         // === PAGAMENTO ===
         console.log('\n🟡 PAGAMENTO:');
-        preencherCelulasSeguro(worksheet, ['A44', 'B44', 'C44', 'D44'], daçãosCompletos.condicoes_pagamento, 'Condições Pagamento');
-        preencherCelulasSeguro(worksheet, ['F44', 'G44', 'H44'], daçãosCompletos.metodo_pagamento, 'Método Pagamento');
+        preencherCelulasSeguro(worksheet, ['A44', 'B44', 'C44', 'D44'], dadosCompletos.condicoes_pagamento, 'Condições Pagamento');
+        preencherCelulasSeguro(worksheet, ['F44', 'G44', 'H44'], dadosCompletos.metodo_pagamento, 'Método Pagamento');
     preencherCelulasSeguro(worksheet, ['I44', 'J44'], totalGeral, 'Valor Total Pagamento');
     // Garantir que o valor total seja preenchido na coluna I45
     worksheet.getCell('I45').value = totalGeral;
@@ -307,11 +307,11 @@ async function criarOrdemCompletaSegura() {
         
         // === ENTREGA ===
         console.log('\n🟡 ENTREGA:');
-        preencherCelulasSeguro(worksheet, ['A47', 'B47', 'C47', 'D47'], daçãosCompletos.data_previsao_entrega, 'Data Entrega');
-        preencherCelulasSeguro(worksheet, ['A49', 'B49', 'C49'], daçãosCompletos.qtd_volumes, 'Volumes');
-        preencherCelulasSeguro(worksheet, ['F49', 'G49', 'H49'], daçãosCompletos.tipo_embalagem_entrega, 'Embalagem');
+        preencherCelulasSeguro(worksheet, ['A47', 'B47', 'C47', 'D47'], dadosCompletos.data_previsao_entrega, 'Data Entrega');
+        preencherCelulasSeguro(worksheet, ['A49', 'B49', 'C49'], dadosCompletos.qtd_volumes, 'Volumes');
+        preencherCelulasSeguro(worksheet, ['F49', 'G49', 'H49'], dadosCompletos.tipo_embalagem_entrega, 'Embalagem');
         preencherCelulasSeguro(worksheet, ['E51', 'F51', 'G51', 'H51', 'I51', 'J51'], 
-                              daçãosCompletos.observacoes_entrega, 'Obs. Entrega');
+                              dadosCompletos.observacoes_entrega, 'Obs. Entrega');
         
         // === SALVAR ===
         const filename = `ORDEM_PRODUCAO_COMPLETA_SEGURA_${new Date().toISOString().slice(0,10)}.xlsx`;
@@ -327,8 +327,8 @@ async function criarOrdemCompletaSegura() {
         console.log(`   📋 Daçãos básicos: ✅ Preenchidos`);
         console.log(`   👤 Vendedor e prazos: ✅ Preenchidos`);
         console.log(`   🏢 Cliente completo: ✅ Preenchidos`);
-        console.log(`   🚛 Transportaçãora: ✅ Todos os daçãos`);
-        console.log(`   📦 Produtos: ✅ ${daçãosCompletos.produtos.length} itens completos`);
+        console.log(`   🚛 Transportaçãora: ✅ Todos os dados`);
+        console.log(`   📦 Produtos: ✅ ${dadosCompletos.produtos.length} itens completos`);
         console.log(`   💰 Total geral: ✅ R$ ${totalGeral.toFixed(2)}`);
         console.log(`   📝 Observações: ✅ Textos completos`);
         console.log(`   💳 Pagamento: ✅ Condições e métodos`);

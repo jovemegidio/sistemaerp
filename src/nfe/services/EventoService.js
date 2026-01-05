@@ -102,14 +102,14 @@ class EventoService {
 
             // Transmitir para SEFAZ
             console.log('📤 Transmitindo evento para SEFAZ...');
-            const resultação = await this.transmitirEvento(
+            const resultado = await this.transmitirEvento(
                 xmlEventoAssinação,
                 nfe.emitente_uf || 'SP',
                 nfe.ambiente || 'homologacao'
             );
 
-            // Processar resultação
-            if (resultação.cStat === '135') {
+            // Processar resultado
+            if (resultado.cStat === '135') {
                 // Evento registração e vinculação à NFe
                 await this.pool.query(`
                     UPDATE nfes SET 
@@ -118,7 +118,7 @@ class EventoService {
                         justificativa_cancelamento = ,
                         protocolo_cancelamento = 
                     WHERE id = 
-                `, [justificativa, resultação.nProt, nfeId]);
+                `, [justificativa, resultado.nProt, nfeId]);
 
                 // Salvar evento
                 await this.salvarEvento({
@@ -126,10 +126,10 @@ class EventoService {
                     tipo_evento: 'cancelamento',
                     sequencia: sequenciaEvento,
                     justificativa,
-                    protocolo: resultação.nProt,
-                    data_evento: resultação.dhRegEvento,
+                    protocolo: resultado.nProt,
+                    data_evento: resultado.dhRegEvento,
                     xml_enviação: xmlEventoAssinação,
-                    xml_retorno: JSON.stringify(resultação)
+                    xml_retorno: JSON.stringify(resultado)
                 });
 
                 console.log('✅ NFe cancelada com sucesso!');
@@ -137,14 +137,14 @@ class EventoService {
                 return {
                     sucesso: true,
                     mensagem: 'NFe cancelada com sucesso',
-                    protocolo: resultação.nProt,
-                    dataEvento: resultação.dhRegEvento,
-                    sefaz: resultação
+                    protocolo: resultado.nProt,
+                    dataEvento: resultado.dhRegEvento,
+                    sefaz: resultado
                 };
 
             } else {
                 // Rejeição
-                throw new Error(`Evento rejeitação: ${resultação.cStat} - ${resultação.xMotivo}`);
+                throw new Error(`Evento rejeitação: ${resultado.cStat} - ${resultado.xMotivo}`);
             }
 
         } catch (error) {
@@ -218,24 +218,24 @@ class EventoService {
 
             // Transmitir para SEFAZ
             console.log('📤 Transmitindo evento para SEFAZ...');
-            const resultação = await this.transmitirEvento(
+            const resultado = await this.transmitirEvento(
                 xmlEventoAssinação,
                 nfe.emitente_uf || 'SP',
                 nfe.ambiente || 'homologacao'
             );
 
-            // Processar resultação
-            if (resultação.cStat === '135') {
+            // Processar resultado
+            if (resultado.cStat === '135') {
                 // Evento registração e vinculação à NFe
                 await this.salvarEvento({
                     nfe_id: nfeId,
                     tipo_evento: 'cce',
                     sequencia: sequenciaEvento,
                     justificativa: correcao,
-                    protocolo: resultação.nProt,
-                    data_evento: resultação.dhRegEvento,
+                    protocolo: resultado.nProt,
+                    data_evento: resultado.dhRegEvento,
                     xml_enviação: xmlEventoAssinação,
-                    xml_retorno: JSON.stringify(resultação)
+                    xml_retorno: JSON.stringify(resultado)
                 });
 
                 console.log('✅ CCe registrada com sucesso!');
@@ -244,14 +244,14 @@ class EventoService {
                     sucesso: true,
                     mensagem: 'CCe registrada com sucesso',
                     sequencia: sequenciaEvento,
-                    protocolo: resultação.nProt,
-                    dataEvento: resultação.dhRegEvento,
-                    sefaz: resultação
+                    protocolo: resultado.nProt,
+                    dataEvento: resultado.dhRegEvento,
+                    sefaz: resultado
                 };
 
             } else {
                 // Rejeição
-                throw new Error(`Evento rejeitação: ${resultação.cStat} - ${resultação.xMotivo}`);
+                throw new Error(`Evento rejeitação: ${resultado.cStat} - ${resultado.xMotivo}`);
             }
 
         } catch (error) {
@@ -263,26 +263,26 @@ class EventoService {
     /**
      * Monta XML de evento de cancelamento
      */
-    montarEventoCancelamento(daçãos) {
-        const idEvento = `ID110111${daçãos.chaveAcesso}${daçãos.sequencia.toString().padStart(2, '0')}`;
+    montarEventoCancelamento(dados) {
+        const idEvento = `ID110111${dados.chaveAcesso}${dados.sequencia.toString().padStart(2, '0')}`;
         const dhEvento = moment().tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ssZ');
-        const tpAmb = daçãos.ambiente === 'producao'  '1' : '2';
+        const tpAmb = dados.ambiente === 'producao' ? '1' : '2';
 
         return `<xml version="1.0" encoding="UTF-8">
 <evento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
     <infEvento Id="${idEvento}">
-        <cOrgao>${daçãos.chaveAcesso.substring(0, 2)}</cOrgao>
+        <cOrgao>${dados.chaveAcesso.substring(0, 2)}</cOrgao>
         <tpAmb>${tpAmb}</tpAmb>
-        <CNPJ>${daçãos.cnpjEmitente.replace(/\D/g, '')}</CNPJ>
-        <chNFe>${daçãos.chaveAcesso}</chNFe>
+        <CNPJ>${dados.cnpjEmitente.replace(/\D/g, '')}</CNPJ>
+        <chNFe>${dados.chaveAcesso}</chNFe>
         <dhEvento>${dhEvento}</dhEvento>
         <tpEvento>110111</tpEvento>
-        <nSeqEvento>${daçãos.sequencia}</nSeqEvento>
+        <nSeqEvento>${dados.sequencia}</nSeqEvento>
         <verEvento>1.00</verEvento>
         <detEvento versao="1.00">
             <descEvento>Cancelamento</descEvento>
-            <nProt>${daçãos.protocolo}</nProt>
-            <xJust>${this.normalizarTexto(daçãos.justificativa)}</xJust>
+            <nProt>${dados.protocolo}</nProt>
+            <xJust>${this.normalizarTexto(dados.justificativa)}</xJust>
         </detEvento>
     </infEvento>
 </evento>`;
@@ -291,26 +291,26 @@ class EventoService {
     /**
      * Monta XML de evento de CCe
      */
-    montarEventoCCe(daçãos) {
-        const idEvento = `ID110110${daçãos.chaveAcesso}${daçãos.sequencia.toString().padStart(2, '0')}`;
+    montarEventoCCe(dados) {
+        const idEvento = `ID110110${dados.chaveAcesso}${dados.sequencia.toString().padStart(2, '0')}`;
         const dhEvento = moment().tz('America/Sao_Paulo').format('YYYY-MM-DDTHH:mm:ssZ');
-        const tpAmb = daçãos.ambiente === 'producao'  '1' : '2';
+        const tpAmb = dados.ambiente === 'producao' ? '1' : '2';
 
         return `<xml version="1.0" encoding="UTF-8">
 <evento xmlns="http://www.portalfiscal.inf.br/nfe" versao="1.00">
     <infEvento Id="${idEvento}">
-        <cOrgao>${daçãos.chaveAcesso.substring(0, 2)}</cOrgao>
+        <cOrgao>${dados.chaveAcesso.substring(0, 2)}</cOrgao>
         <tpAmb>${tpAmb}</tpAmb>
-        <CNPJ>${daçãos.cnpjEmitente.replace(/\D/g, '')}</CNPJ>
-        <chNFe>${daçãos.chaveAcesso}</chNFe>
+        <CNPJ>${dados.cnpjEmitente.replace(/\D/g, '')}</CNPJ>
+        <chNFe>${dados.chaveAcesso}</chNFe>
         <dhEvento>${dhEvento}</dhEvento>
         <tpEvento>110110</tpEvento>
-        <nSeqEvento>${daçãos.sequencia}</nSeqEvento>
+        <nSeqEvento>${dados.sequencia}</nSeqEvento>
         <verEvento>1.00</verEvento>
         <detEvento versao="1.00">
             <descEvento>Carta de Correcao</descEvento>
-            <xCorrecao>${this.normalizarTexto(daçãos.correcao)}</xCorrecao>
-            <xCondUso>A Carta de Correcao e disciplinada pelo paragrafo 1o-A do art. 7o do Convenio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularizacao de erro ocorrido na emissao de documento fiscal, desde que o erro nao esteja relacionação com: I - as variaveis que determinam o valor do imposto tais como: base de calculo, aliquota, diferenca de preco, quantidade, valor da operacao ou da prestacao; II - a correcao de daçãos cadastrais que implique mudanca do remetente ou do destinatario; III - a data de emissao ou de saida.</xCondUso>
+            <xCorrecao>${this.normalizarTexto(dados.correcao)}</xCorrecao>
+            <xCondUso>A Carta de Correcao e disciplinada pelo paragrafo 1o-A do art. 7o do Convenio S/N, de 15 de dezembro de 1970 e pode ser utilizada para regularizacao de erro ocorrido na emissao de documento fiscal, desde que o erro nao esteja relacionação com: I - as variaveis que determinam o valor do imposto tais como: base de calculo, aliquota, diferenca de preco, quantidade, valor da operacao ou da prestacao; II - a correcao de dados cadastrais que implique mudanca do remetente ou do destinatario; III - a data de emissao ou de saida.</xCondUso>
         </detEvento>
     </infEvento>
 </evento>`;
@@ -398,24 +398,24 @@ class EventoService {
     /**
      * Salva evento no banco
      */
-    async salvarEvento(daçãos) {
+    async salvarEvento(dados) {
         await this.pool.query(`
             INSERT INTO nfe_eventos (
                 nfe_id, tipo_evento, sequencia_evento,
                 chave_acesso, justificativa, protocolo_evento,
                 data_evento, xml_enviação, xml_retorno,
                 created_at
-            ) VALUES (, , , , , , , , , NOW())
+            ) VALUES (?, ?, ?, ?, , ?, ?, , , NOW())
         `, [
-            daçãos.nfe_id,
-            daçãos.tipo_evento,
-            daçãos.sequencia,
-            daçãos.chaveAcesso || null,
-            daçãos.justificativa,
-            daçãos.protocolo,
-            daçãos.data_evento,
-            daçãos.xml_enviação,
-            daçãos.xml_retorno
+            dados.nfe_id,
+            dados.tipo_evento,
+            dados.sequencia,
+            dados.chaveAcesso || null,
+            dados.justificativa,
+            dados.protocolo,
+            dados.data_evento,
+            dados.xml_enviação,
+            dados.xml_retorno
         ]);
     }
 

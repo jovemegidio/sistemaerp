@@ -187,7 +187,7 @@ function searchInEmployees(query) {
         }
     });
     
-    console.log(`📊 Pesquisa em funcionários: ${found} resultaçãos encontrados`);
+    console.log(`📊 Pesquisa em funcionários: ${found} resultados encontrados`);
 }
 
 // Pesquisa no dashboard
@@ -263,7 +263,7 @@ function showSearchToast(query, context) {
         border: 1px solid #e2e8f0;
         border-radius: 8px;
         padding: 12px 16px;
-        box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         margin-bottom: 8px;
         min-width: 280px;
         animation: slideIn 0.3s ease;
@@ -305,7 +305,7 @@ function setupHeaderIcons() {
             this.style.transform = 'rotate(360deg)';
             this.style.transition = 'transform 0.5s ease';
             
-            // Recarregar daçãos do dashboard
+            // Recarregar dados do dashboard
             if (typeof window.reloadDashboard === 'function') {
                 window.reloadDashboard();
             }
@@ -370,7 +370,7 @@ function createUserDropdown() {
         background: white;
         border: 1px solid #e2e8f0;
         border-radius: 8px;
-        box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         min-width: 200px;
         z-index: 1000;
         display: none;

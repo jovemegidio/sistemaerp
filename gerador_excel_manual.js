@@ -181,7 +181,7 @@ async function testeGeraçãorManual() {
         if (fs.existsSync(arquivo)) {
             const stats = fs.statSync(arquivo);
             console.log(`\n✅ SUCESSO! Arquivo: ${stats.size} bytes`);
-            console.log('📋 Abra o arquivo no Excel para verificar se os daçãos estão corretos');
+            console.log('📋 Abra o arquivo no Excel para verificar se os dados estão corretos');
             return true;
         } else {
             console.log('\n❌ Arquivo não foi criado');

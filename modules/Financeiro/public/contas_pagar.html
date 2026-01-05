@@ -15,7 +15,7 @@
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 24px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 16px;
@@ -53,7 +53,7 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .btn-success {
@@ -70,7 +70,7 @@
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .table-header {
@@ -196,7 +196,7 @@
             width: 380px;
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 12px 48px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
@@ -424,7 +424,7 @@
             background: white;
             padding: 20px;
             border-radius: 12px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .summary-value {
@@ -445,7 +445,7 @@
             padding: 16px 20px;
             border-radius: 12px;
             margin-bottom: 16px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: flex;
             gap: 12px;
             align-items: center;
@@ -477,7 +477,7 @@
         .search-input-global:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shaçãow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
         }
 
         .btn-clear-search {
@@ -775,7 +775,7 @@
 
         .btn-view-primary:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         /* ===== MODAL PAGAR CONTA ===== */
@@ -1188,12 +1188,12 @@
             align-items: center;
             gap: 8px;
             transition: all 0.2s;
-            box-shaçãow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
 
         .btn-save:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 6px 20px rgba(220, 38, 38, 0.4);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -1291,12 +1291,12 @@
             align-items: center;
             gap: 8px;
             transition: all 0.2s;
-            box-shaçãow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
 
         .btn-nova-conta:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 6px 20px rgba(220, 38, 38, 0.4);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.4);
         }
 
         /* ===== TOPBAR RIGHT ===== */
@@ -1545,7 +1545,7 @@
                 </div>
                 <div class="modal-header-info">
                     <h3 class="modal-title" id="modal-titulo">Nova Despesa</h3>
-                    <p class="modal-subtitle">Preencha os daçãos da conta a pagar</p>
+                    <p class="modal-subtitle">Preencha os dados da conta a pagar</p>
                 </div>
                 <button class="close-modal-inst" onclick="fecharModal()">×</button>
             </div>
@@ -1779,7 +1779,7 @@
                 </div>
                 <div class="info">
                     <h3>Confirmar Pagamento</h3>
-                    <p>Registre os daçãos do pagamento</p>
+                    <p>Registre os dados do pagamento</p>
                 </div>
                 <button class="close-btn" onclick="fecharModalPagar()">×</button>
             </div>
@@ -1933,7 +1933,7 @@
             }
         }
 
-        // Carregar daçãos iniciais
+        // Carregar dados iniciais
         async function init() {
             await Promise.all([
                 carregarUsuarioLogação(),
@@ -1995,10 +1995,10 @@
             }
         }
 
-        function renderizarTabela(daçãos, pesquisa = '') {
+        function renderizarTabela(dados, pesquisa = '') {
             const tbody = document.getElementById('tabela-contas');
             
-            if (daçãos.length === 0) {
+            if (dados.length === 0) {
                 tbody.innerHTML = `
                     <tr><td colspan="7" style="text-align: center; padding: 60px; color: #9ca3af;">
                         <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
@@ -2008,7 +2008,7 @@
                 return;
             }
 
-            tbody.innerHTML = daçãos.map(conta => {
+            tbody.innerHTML = dados.map(conta => {
                 const status = conta.status || 'pendente';
                 const badges = {
                     'pendente': '<span class="badge badge-pending">Pendente</span>',
@@ -2105,7 +2105,7 @@
             document.getElementById('form-conta').reset();
             document.getElementById('conta-id').value = '';
             document.getElementById('modal-titulo').textContent = 'Nova Despesa';
-            document.querySelector('.modal-header-info .modal-subtitle').textContent = 'Preencha os daçãos da conta a pagar';
+            document.querySelector('.modal-header-info .modal-subtitle').textContent = 'Preencha os dados da conta a pagar';
             
             // Setar data de vencimento padrão para hoje
             document.getElementById('conta-vencimento').value = new Date().toISOString().split('T')[0];
@@ -2118,7 +2118,7 @@
                 const conta = contas.find(c => c.id === id);
                 if (conta) {
                     document.getElementById('modal-titulo').textContent = 'Editar Despesa';
-                    document.querySelector('.modal-header-info .modal-subtitle').textContent = 'Altere os daçãos da conta a pagar';
+                    document.querySelector('.modal-header-info .modal-subtitle').textContent = 'Altere os dados da conta a pagar';
                     document.getElementById('conta-id').value = conta.id;
                     document.getElementById('descricao').value = conta.descricao;
                     document.getElementById('fornecedor-id').value = conta.fornecedor_id;
@@ -2154,7 +2154,7 @@
             event.preventDefault();
 
             const id = document.getElementById('pagar-conta-id').value;
-            const daçãos = {
+            const dados = {
                 valor_pago: parseFloat(document.getElementById('pagar-valor').value),
                 data_pagamento: document.getElementById('pagar-data').value,
                 forma_pagamento: document.getElementById('pagar-forma').value,
@@ -2166,7 +2166,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
-                    body: JSON.stringify(daçãos)
+                    body: JSON.stringify(dados)
                 });
 
                 if (response.ok) {
@@ -2186,7 +2186,7 @@
             event.preventDefault();
             
             const id = document.getElementById('conta-id').value;
-            const daçãos = {
+            const dados = {
                 descricao: document.getElementById('descricao').value,
                 fornecedor_id: document.getElementById('fornecedor-id').value,
                 categoria_id: document.getElementById('categoria-id').value,
@@ -2200,14 +2200,14 @@
             };
 
             try {
-                const url = id  `/api/financeiro/contas-pagar/${id}` : '/api/financeiro/contas-pagar';
+                const url = id ? `/api/financeiro/contas-pagar/${id}` : '/api/financeiro/contas-pagar';
                 const method = id ? 'PUT' : 'POST';
 
                 const response = await fetch(url, {
                     method,
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
-                    body: JSON.stringify(daçãos)
+                    body: JSON.stringify(dados)
                 });
 
                 if (response.ok) {
@@ -2346,7 +2346,7 @@
 
             contaVisualizando = conta;
 
-            // Preencher daçãos
+            // Preencher dados
             document.getElementById('view-id').textContent = '#' + conta.id;
             document.getElementById('view-descricao').textContent = conta.descricao || '-';
             document.getElementById('view-fornecedor').textContent = conta.fornecedor_nome || '-';
@@ -2423,7 +2423,7 @@
         // ===== EXPORTAR EXCEL =====
         function exportarExcel() {
             if (contas.length === 0) {
-                alert('Não há daçãos para exportar');
+                alert('Não há dados para exportar');
                 return;
             }
 
@@ -2433,26 +2433,26 @@
             const fornecedorId = document.getElementById('filtro-fornecedor-select').value;
             const pesquisa = document.getElementById('pesquisa-global').value.toLowerCase();
 
-            let daçãosExportar = [...contas];
+            let dadosExportar = [...contas];
             
             // Aplicar os mesmos filtros da tabela
-            if (status) daçãosExportar = daçãosExportar.filter(c => c.status === status);
-            if (fornecedorId) daçãosExportar = daçãosExportar.filter(c => c.fornecedor_id == fornecedorId);
+            if (status) dadosExportar = dadosExportar.filter(c => c.status === status);
+            if (fornecedorId) dadosExportar = dadosExportar.filter(c => c.fornecedor_id == fornecedorId);
             if (pesquisa) {
-                daçãosExportar = daçãosExportar.filter(c => 
+                dadosExportar = dadosExportar.filter(c => 
                     (c.descricao || '').toLowerCase().includes(pesquisa) ||
                     (c.fornecedor_nome || '').toLowerCase().includes(pesquisa)
                 );
             }
 
-            if (daçãosExportar.length === 0) {
-                alert('Não há daçãos para exportar com os filtros atuais');
+            if (dadosExportar.length === 0) {
+                alert('Não há dados para exportar com os filtros atuais');
                 return;
             }
 
             // Criar CSV
             const headers = ['ID', 'Descrição', 'Fornecedor', 'Vencimento', 'Valor', 'Status', 'Forma Pagamento', 'Nº Documento'];
-            const linhas = daçãosExportar.map(c => [
+            const linhas = dadosExportar.map(c => [
                 c.id,
                 `"${(c.descricao || '').replace(/"/g, '""')}"`,
                 `"${(c.fornecedor_nome || '').replace(/"/g, '""')}"`,

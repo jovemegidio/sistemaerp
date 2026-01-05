@@ -33,9 +33,9 @@
             
             setupEventListeners();
             
-            // Carregar daçãos imediatamente se visível, ou aguardar
+            // Carregar dados imediatamente se visível, ou aguardar
             if (isVisible) {
-                console.log('📊 Carregando daçãos imediatamente...');
+                console.log('📊 Carregando dados imediatamente...');
                 loadMateriais();
                 loadProdutos();
                 updateStats();
@@ -49,7 +49,7 @@
     
     // Função pública para recarregar quando a view for mostrada
     function onViewShown() {
-        console.log('👁️ View de materiais mostrada, carregando daçãos...');
+        console.log('👁️ View de materiais mostrada, carregando dados...');
         loadMateriais();
         loadProdutos();
         updateStats();
@@ -599,7 +599,7 @@
                 color: white;
                 padding: 16px 24px;
                 border-radius: 8px;
-                box-shaçãow: 0 10px 40px rgba(0,0,0,0.3);
+                box-shadow: 0 10px 40px rgba(0,0,0,0.3);
                 z-index: 99999;
                 display: flex;
                 align-items: center;
@@ -753,7 +753,7 @@
         // Criar modal de edição com design moderno e melhoração
         const modalHTML = `
             <div id="modal-edit-produto" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 10000; animation: fadeIn 0.2s ease;">
-                <div style="background: white; padding: 0; border-radius: 16px; max-width: 550px; width: 90%; box-shaçãow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s ease; overflow: hidden;">
+                <div style="background: white; padding: 0; border-radius: 16px; max-width: 550px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s ease; overflow: hidden;">
                     
                     <!-- Header do Modal -->
                     <div style="background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); padding: 24px 30px; border-bottom: 3px solid #1e40af;">
@@ -862,7 +862,7 @@
                         <!-- Botões de Ação -->
                         <div style="display: flex; gap: 12px; margin-top: 28px;">
                             <button type="submit" 
-                                style="flex: 1; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border: none; padding: 14px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 15px; box-shaçãow: 0 4px 12px rgba(59,130,246,0.3);"
+                                style="flex: 1; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%); color: white; border: none; padding: 14px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 15px; box-shadow: 0 4px 12px rgba(59,130,246,0.3);"
                                 onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShaçãow='0 6px 16px rgba(59,130,246,0.4)'"
                                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShaçãow='0 4px 12px rgba(59,130,246,0.3)'">
                                 <i class="fas fa-save"></i> Salvar Alterações
@@ -925,7 +925,7 @@
         document.getElementById('form-edit-produto').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const daçãosAtualizaçãos = {
+            const dadosAtualizaçãos = {
                 nome: document.getElementById('edit-nome').value.trim(),
                 descricao: document.getElementById('edit-descricao').value.trim(),
                 sku: document.getElementById('edit-sku').value.trim(),
@@ -936,7 +936,7 @@
                 const response = await fetch(`/api/pcp/produtos/${id}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(daçãosAtualizaçãos)
+                    body: JSON.stringify(dadosAtualizaçãos)
                 });
                 
                 if (!response.ok) {
@@ -962,7 +962,7 @@
         // Criar modal de confirmação profissional
         const modalHTML = `
             <div id="modal-delete-produto" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); display: flex; align-items: center; justify-content: center; z-index: 10000; animation: fadeIn 0.2s ease;">
-                <div style="background: white; border-radius: 16px; max-width: 500px; width: 90%; box-shaçãow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s ease; overflow: hidden;">
+                <div style="background: white; border-radius: 16px; max-width: 500px; width: 90%; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); animation: slideUp 0.3s ease; overflow: hidden;">
                     
                     <!-- Header de Alerta -->
                     <div style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); padding: 24px 30px; border-bottom: 3px solid #b91c1c;">
@@ -1006,7 +1006,7 @@
                                     </div>
                                 </div>
                                 
-                                ${produto.descricao  `
+                                ${produto.descricao ? `
                                 <div style="display: flex; align-items: start; gap: 10px;">
                                     <i class="fas fa-align-left" style="color: #8b5cf6; margin-top: 2px; width: 16px;"></i>
                                     <div style="flex: 1;">
@@ -1047,7 +1047,7 @@
                                 <i class="fas fa-times"></i> Cancelar
                             </button>
                             <button type="button" id="btn-confirm-delete"
-                                style="flex: 1; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; padding: 14px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 15px; box-shaçãow: 0 4px 12px rgba(239,68,68,0.3);"
+                                style="flex: 1; background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: white; border: none; padding: 14px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 15px; box-shadow: 0 4px 12px rgba(239,68,68,0.3);"
                                 onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShaçãow='0 6px 16px rgba(239,68,68,0.4)'"
                                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShaçãow='0 4px 12px rgba(239,68,68,0.3)'">
                                 <i class="fas fa-trash-alt"></i> Sim, Excluir
@@ -1141,7 +1141,7 @@
                     const isVisible = !materiaisView.classList.contains('hidden');
                     
                     if (isVisible && materiaisData.length === 0) {
-                        console.log('🔄 View de materiais ficou visível, carregando daçãos...');
+                        console.log('🔄 View de materiais ficou visível, carregando dados...');
                         isObserving = true; // Bloquear reentrada
                         
                         onViewShown();

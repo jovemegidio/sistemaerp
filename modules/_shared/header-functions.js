@@ -53,7 +53,7 @@ function toggleDarkMode() {
     }
 }
 
-// Função para atualizar daçãos
+// Função para atualizar dados
 function refreshData() {
     // Recarregar a página ou fazer refresh específico do módulo
     window.location.reload();
@@ -144,7 +144,7 @@ function performSearch(query) {
     // Implementação específica de cada módulo pode sobrescrever esta função
 }
 
-// Função para esconder resultaçãos da busca
+// Função para esconder resultados da busca
 function hideSearchResults() {
     const resultsDiv = document.getElementById('search-inline-results');
     if (resultsDiv) {
@@ -160,13 +160,13 @@ function showNotification(message, type = 'info') {
         position: fixed;
         top: 80px;
         right: 20px;
-        background: ${type === 'error'  '#ef4444' : type === 'success'  '#10b981' : '#3b82f6'};
+        background: ${type === 'error' ? '#ef4444' : type === 'success' ? '#10b981' : '#3b82f6'};
         color: white;
         padding: 12px 20px;
         border-radius: 6px;
         z-index: 10000;
         font-size: 14px;
-        box-shaçãow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         animation: slideIn 0.3s ease;
     `;
     

@@ -61,12 +61,12 @@
         // Verificar cache primeiro
         const cachedUser = getCachedUser();
         if (cachedUser) {
-            console.log('✅ Usando daçãos do cache');
+            console.log('✅ Usando dados do cache');
             return cachedUser;
         }
 
         // Buscar do servidor
-        console.log('⏳ Buscando daçãos do servidor...');
+        console.log('⏳ Buscando dados do servidor...');
         try {
             const response = await fetch('/api/me', { 
                 credentials: 'include',
@@ -82,7 +82,7 @@
             return user;
         } catch (error) {
             console.error('❌ Erro de autenticação:', error);
-            // Limpar daçãos
+            // Limpar dados
             localStorage.removeItem('userData');
             localStorage.removeItem('userData_timestamp');
             localStorage.removeItem('authToken');
@@ -166,7 +166,7 @@
         const nome = (user.nome || '').trim();
         const parts = nome.split(/\s+/).filter(Boolean);
         const firstName = parts[0] || 'Admin';
-        const displayName = parts.length > 1  `${parts[0]} ${parts[parts.length - 1]}` : firstName;
+        const displayName = parts.length > 1 ? `${parts[0]} ${parts[parts.length - 1]}` : firstName;
         
         // Atualizar saudação
         const greetingTitle = document.querySelector('.greeting-title');
@@ -255,8 +255,7 @@
                 // Configurar URL especial para RH
                 if (area === 'rh') {
                     const rhType = window.UserPermissions.getRHType(userName);
-                    const rhURL = rhType === 'areaadm' 
-                         '/modules/RH/public/areaadm.html' 
+                    const rhURL = rhType === 'areaadm' ? '/modules/RH/public/areaadm.html' 
                         : '/modules/RH/public/funcionario.html';
                     card.href = rhURL;
                 }

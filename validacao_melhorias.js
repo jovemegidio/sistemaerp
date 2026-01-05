@@ -13,7 +13,7 @@ const path = require('path');
 
 class ValidaçãorMelhorias {
     constructor() {
-        this.resultaçãos = {
+        this.resultados = {
             rh: {
                 navegacao: false,
                 estilos: false,
@@ -61,33 +61,33 @@ class ValidaçãorMelhorias {
             
             if (funcionarioContent.includes('/RH/dashboard.html') && 
                 funcionarioContent.includes('setTimeout')) {
-                this.resultaçãos.rh.navegacao = true;
+                this.resultados.rh.navegacao = true;
                 console.log('✅ Navegação com redirect implementada');
             }
 
             // Verificar estilos CSS avançaçãos
-            const daçãosPath = path.join(__dirname, 'modules/RH/public/daçãos-pessoais.html');
-            const daçãosContent = fs.readFileSync(daçãosPath, 'utf8');
+            const dadosPath = path.join(__dirname, 'modules/RH/public/dados-pessoais.html');
+            const dadosContent = fs.readFileSync(dadosPath, 'utf8');
             
-            if (daçãosContent.includes('--rh-primary:') && 
-                daçãosContent.includes('slideInUp') &&
-                daçãosContent.includes('notification')) {
-                this.resultaçãos.rh.estilos = true;
+            if (dadosContent.includes('--rh-primary:') && 
+                dadosContent.includes('slideInUp') &&
+                dadosContent.includes('notification')) {
+                this.resultados.rh.estilos = true;
                 console.log('✅ CSS variables e animações implementadas');
             }
 
             // Verificar responsividade
-            if (daçãosContent.includes('@media (max-width:') && 
-                daçãosContent.includes('grid-template-columns: 1fr')) {
-                this.resultaçãos.rh.responsividade = true;
+            if (dadosContent.includes('@media (max-width:') && 
+                dadosContent.includes('grid-template-columns: 1fr')) {
+                this.resultados.rh.responsividade = true;
                 console.log('✅ Media queries responsivas configuradas');
             }
 
             // Verificar acessibilidade
-            if (daçãosContent.includes('skip-link') && 
-                daçãosContent.includes('aria-') &&
-                daçãosContent.includes(':focus')) {
-                this.resultaçãos.rh.acessibilidade = true;
+            if (dadosContent.includes('skip-link') && 
+                dadosContent.includes('aria-') &&
+                dadosContent.includes(':focus')) {
+                this.resultados.rh.acessibilidade = true;
                 console.log('✅ Melhorias de acessibilidade implementadas');
             }
 
@@ -106,21 +106,21 @@ class ValidaçãorMelhorias {
             
             if (pcpContent.includes('id="relatorios-view"') && 
                 pcpContent.includes('Dashboard de Métricas')) {
-                this.resultaçãos.pcp.relatorios = true;
+                this.resultados.pcp.relatorios = true;
                 console.log('✅ Página de relatórios criada');
             }
 
             // Verificar navegação na sidebar
             if (pcpContent.includes('id="btn-relatorios"') && 
                 pcpContent.includes('fa-chart-bar')) {
-                this.resultaçãos.pcp.navegacao = true;
+                this.resultados.pcp.navegacao = true;
                 console.log('✅ Botão de relatórios adicionação na sidebar');
             }
 
             // Verificar cards de métricas
             if (pcpContent.includes('metric-card') && 
                 pcpContent.includes('metric-value')) {
-                this.resultaçãos.pcp.metricas = true;
+                this.resultados.pcp.metricas = true;
                 console.log('✅ Cards de métricas implementaçãos');
             }
 
@@ -130,7 +130,7 @@ class ValidaçãorMelhorias {
             
             if (cssContent.includes('.metric-card') && 
                 cssContent.includes('grid-column: span 2')) {
-                this.resultaçãos.pcp.filtros = true;
+                this.resultados.pcp.filtros = true;
                 console.log('✅ CSS avançação para relatórios implementação');
             }
 
@@ -150,14 +150,14 @@ class ValidaçãorMelhorias {
             if (holeriContent.includes('transform: translateY(-') && 
                 holeriContent.includes('transition:') &&
                 holeriContent.includes('cubic-bezier')) {
-                this.resultaçãos.geral.performance = true;
+                this.resultados.geral.performance = true;
                 console.log('✅ Animações otimizadas implementadas');
             }
 
             // Verificar compatibilidade
             if (holeriContent.includes('prefers-reduced-motion') && 
                 holeriContent.includes('font-family: inherit')) {
-                this.resultaçãos.geral.compatibilidade = true;
+                this.resultados.geral.compatibilidade = true;
                 console.log('✅ Compatibilidade e acessibilidade aprimoradas');
             }
 
@@ -171,33 +171,33 @@ class ValidaçãorMelhorias {
         console.log('📊 RELATÓRIO DE VALIDAÇÁO DAS MELHORIAS');
         console.log('='.repeat(60));
 
-        const totalChecks = Object.values(this.resultaçãos.rh).length + 
-                           Object.values(this.resultaçãos.pcp).length + 
-                           Object.values(this.resultaçãos.geral).length;
+        const totalChecks = Object.values(this.resultados.rh).length + 
+                           Object.values(this.resultados.pcp).length + 
+                           Object.values(this.resultados.geral).length;
         
         const passedChecks = [
-            ...Object.values(this.resultaçãos.rh),
-            ...Object.values(this.resultaçãos.pcp),
-            ...Object.values(this.resultaçãos.geral)
+            ...Object.values(this.resultados.rh),
+            ...Object.values(this.resultados.pcp),
+            ...Object.values(this.resultados.geral)
         ].filter(Boolean).length;
 
         const percentual = Math.round((passedChecks / totalChecks) * 100);
 
         console.log('\n📈 Módulo RH:');
-        console.log(`   Navegação: ${this.resultaçãos.rh.navegacao ? '✅' : '❌'}`);
-        console.log(`   Estilos: ${this.resultaçãos.rh.estilos ? '✅' : '❌'}`);
-        console.log(`   Responsividade: ${this.resultaçãos.rh.responsividade ? '✅' : '❌'}`);
-        console.log(`   Acessibilidade: ${this.resultaçãos.rh.acessibilidade ? '✅' : '❌'}`);
+        console.log(`   Navegação: ${this.resultados.rh.navegacao ? '✅' : '❌'}`);
+        console.log(`   Estilos: ${this.resultados.rh.estilos ? '✅' : '❌'}`);
+        console.log(`   Responsividade: ${this.resultados.rh.responsividade ? '✅' : '❌'}`);
+        console.log(`   Acessibilidade: ${this.resultados.rh.acessibilidade ? '✅' : '❌'}`);
 
         console.log('\n📊 Módulo PCP:');
-        console.log(`   Relatórios: ${this.resultaçãos.pcp.relatorios ? '✅' : '❌'}`);
-        console.log(`   Navegação: ${this.resultaçãos.pcp.navegacao ? '✅' : '❌'}`);
-        console.log(`   Métricas: ${this.resultaçãos.pcp.metricas ? '✅' : '❌'}`);
-        console.log(`   Filtros: ${this.resultaçãos.pcp.filtros ? '✅' : '❌'}`);
+        console.log(`   Relatórios: ${this.resultados.pcp.relatorios ? '✅' : '❌'}`);
+        console.log(`   Navegação: ${this.resultados.pcp.navegacao ? '✅' : '❌'}`);
+        console.log(`   Métricas: ${this.resultados.pcp.metricas ? '✅' : '❌'}`);
+        console.log(`   Filtros: ${this.resultados.pcp.filtros ? '✅' : '❌'}`);
 
         console.log('\n⚡ Performance Geral:');
-        console.log(`   Performance: ${this.resultaçãos.geral.performance ? '✅' : '❌'}`);
-        console.log(`   Compatibilidade: ${this.resultaçãos.geral.compatibilidade ? '✅' : '❌'}`);
+        console.log(`   Performance: ${this.resultados.geral.performance ? '✅' : '❌'}`);
+        console.log(`   Compatibilidade: ${this.resultados.geral.compatibilidade ? '✅' : '❌'}`);
 
         console.log('\n' + '='.repeat(60));
         console.log(`🎯 RESULTADO FINAL: ${passedChecks}/${totalChecks} (${percentual}%)`);

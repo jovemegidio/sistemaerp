@@ -356,7 +356,7 @@
 
         .btn-primary:hover {
             transform: translateY(-1px);
-            box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         .btn-secondary {
@@ -554,7 +554,7 @@
         <!-- Formulário -->
         <form id="nfeForm">
             <!-- Etapa 1: Daçãos Gerais -->
-            <div class="form-section" id="section-daçãos">
+            <div class="form-section" id="section-dados">
                 <h3><i class="fas fa-clipboard-list"></i> Daçãos Gerais</h3>
                 <div class="form-row">
                     <div class="form-group">
@@ -715,10 +715,10 @@
                 </div>
             </div>
 
-            <!-- Etapa 4: Resultação -->
-            <div class="form-section" id="section-resultação" style="display: none;">
+            <!-- Etapa 4: Resultado -->
+            <div class="form-section" id="section-resultado" style="display: none;">
                 <h3><i class="fas fa-check-circle"></i> NFe Emitida com Sucesso</h3>
-                <div id="resultaçãoContent"></div>
+                <div id="resultadoContent"></div>
             </div>
 
             <!-- Ações -->
@@ -799,14 +799,14 @@
             // Adicionar primeiro item
             adicionarItem();
 
-            // Carregar daçãos do emitente
+            // Carregar dados do emitente
             carregarEmitente();
         });
 
         let itens = [];
         let emitenteData = {};
 
-        // Carregar daçãos do emitente
+        // Carregar dados do emitente
         async function carregarEmitente() {
             try {
                 const response = await fetch('/api/api.phpaction=config');
@@ -816,7 +816,7 @@
                 }
             } catch (error) {
                 console.error('Erro ao carregar emitente:', error);
-                // Fallback com daçãos padrão
+                // Fallback com dados padrão
                 emitenteData = {
                     razao_social: 'ALUFORCE INDÚSTRIA E COMÉRCIO LTDA',
                     cnpj: '12345678000190',
@@ -986,7 +986,7 @@
                 if (result.sucesso) {
                     showAlert('NFe emitida com sucesso!', 'success');
                     window.nfeEmitidaChave = result.chave;
-                    document.getElementById('resultaçãoContent').innerHTML = '<div class="alert alert-success">' +
+                    document.getElementById('resultadoContent').innerHTML = '<div class="alert alert-success">' +
                         '<p><strong>Número:</strong> ' + result.número + '</p>' +
                         '<p><strong>Série:</strong> ' + result.serie + '</p>' +
                         '<p><strong>Chave de Acesso:</strong> ' + result.chave + '</p>' +
@@ -996,7 +996,7 @@
                         '<p><a href="danfe.htmlchave=' + result.chave + '" class="btn btn-primary" target="_blank"><i class="fas fa-file-pdf"></i> Visualizar DANFE</a></p>' +
                         '<p><a href="data:text/xml;base64,' + result.xml + '" download="NFe-' + result.chave + '.xml" class="btn btn-secondary"><i class="fas fa-download"></i> Download XML</a></p>' +
                         '</div>';
-                    document.getElementById('section-resultação').style.display = 'block';
+                    document.getElementById('section-resultado').style.display = 'block';
                 } else {
                     showAlert('Erro: ' + result.erro, 'danger');
                 }
@@ -1057,7 +1057,7 @@
                 
                 if (result.sucesso) {
                     showAlert('NFe autorizada pela SEFAZ!', 'success');
-                    document.getElementById('resultaçãoContent').innerHTML += `
+                    document.getElementById('resultadoContent').innerHTML += `
                         <hr>
                         <h4><i class="fas fa-check-circle"></i> Autorizada pela SEFAZ</h4>
                         <p><strong>Protocolo:</strong> ${result.nfe.protocolo}</p>
@@ -1091,7 +1091,7 @@
 
     <script src="dashboard-nfe-pro.jsv=20251215"></script>
     
-    <!-- Carregar daçãos do usuário logação -->
+    <!-- Carregar dados do usuário logação -->
     <script>
         async function carregarUsuarioLogação() {
             try {

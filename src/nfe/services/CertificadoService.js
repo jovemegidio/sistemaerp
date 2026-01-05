@@ -307,7 +307,7 @@ class CertificaçãoService {
             await this.pool.query(
                 `INSERT INTO nfe_configuracoes 
                  (empresa_id, certificação_pfx, certificação_senha, certificação_validade, certificação_cnpj, certificação_nome)
-                 VALUES (, , , , , )`,
+                 VALUES (?, ?, ?, ?, ?, ?)`,
                 [empresaId, pfxBuffer, senhaCriptografada, info.validade, info.cnpj, info.razaoSocial]
             );
         }

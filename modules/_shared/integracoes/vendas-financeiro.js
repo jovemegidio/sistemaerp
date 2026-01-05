@@ -68,22 +68,22 @@ class IntegracaoVendasFinanceiro {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': token  `Bearer ${token}` : ''
+                        'Authorization': token ? `Bearer ${token}` : ''
                     },
                     body: JSON.stringify(contaData)
                 });
 
-                const resultação = await response.json();
+                const resultado = await response.json();
 
                 if (response.ok) {
                     contasCriadas.push({
-                        id: resultação.id,
+                        id: resultado.id,
                         parcela,
                         valor: contaData.valor,
                         vencimento: contaData.data_vencimento
                     });
                 } else {
-                    console.error(`[IntegracaoVendasFinanceiro] Erro na parcela ${parcela}:`, resultação);
+                    console.error(`[IntegracaoVendasFinanceiro] Erro na parcela ${parcela}:`, resultado);
                 }
             }
 
@@ -126,7 +126,7 @@ class IntegracaoVendasFinanceiro {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token  `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({ valor: novoValor })
             });
@@ -144,7 +144,7 @@ class IntegracaoVendasFinanceiro {
                 `${this.financeiroUrl}/api/financeiro/contas-receberpedido_id=${pedidoId}`,
                 {
                     headers: {
-                        'Authorization': token  `Bearer ${token}` : ''
+                        'Authorization': token ? `Bearer ${token}` : ''
                     }
                 }
             );
@@ -176,7 +176,7 @@ class IntegracaoVendasFinanceiro {
                             method: 'PUT',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': token  `Bearer ${token}` : ''
+                                'Authorization': token ? `Bearer ${token}` : ''
                             },
                             body: JSON.stringify({
                                 status: 'CANCELADA',
@@ -205,14 +205,14 @@ class IntegracaoVendasFinanceiro {
     /**
      * Registra recebimento de uma conta
      */
-    async registrarRecebimento(contaId, daçãosPagamento, token) {
+    async registrarRecebimento(contaId, dadosPagamento, token) {
         const {
             valor_pago,
             data_pagamento = new Date().toISOString().split('T')[0],
             forma_pagamento,
             banco_id,
             observacoes
-        } = daçãosPagamento;
+        } = dadosPagamento;
 
         try {
             const response = await fetch(
@@ -221,7 +221,7 @@ class IntegracaoVendasFinanceiro {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'Authorization': token  `Bearer ${token}` : ''
+                        'Authorization': token ? `Bearer ${token}` : ''
                     },
                     body: JSON.stringify({
                         valor_pago,
@@ -233,13 +233,13 @@ class IntegracaoVendasFinanceiro {
                 }
             );
 
-            const resultação = await response.json();
+            const resultado = await response.json();
 
             if (!response.ok) {
-                throw new Error(resultação.message || 'Erro ao registrar recebimento');
+                throw new Error(resultado.message || 'Erro ao registrar recebimento');
             }
 
-            return { success: true, ...resultação };
+            return { success: true, ...resultado };
 
         } catch (error) {
             return { success: false, message: error.message };
@@ -255,7 +255,7 @@ class IntegracaoVendasFinanceiro {
                 `${this.financeiroUrl}/api/financeiro/clientes/${clienteId}/resumo`,
                 {
                     headers: {
-                        'Authorization': token  `Bearer ${token}` : ''
+                        'Authorization': token ? `Bearer ${token}` : ''
                     }
                 }
             );
@@ -279,7 +279,7 @@ class IntegracaoVendasFinanceiro {
                 `${this.financeiroUrl}/api/financeiro/contas-recebercliente_id=${clienteId}&status=VENCIDA`,
                 {
                     headers: {
-                        'Authorization': token  `Bearer ${token}` : ''
+                        'Authorization': token ? `Bearer ${token}` : ''
                     }
                 }
             );

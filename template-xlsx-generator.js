@@ -49,11 +49,11 @@ class TemplateXlsxGenerator {
     }
 
     // Método principal compatível com código existente
-    async generateFromTemplate(templatePath, outputPath, daçãosOrdem) {
+    async generateFromTemplate(templatePath, outputPath, dadosOrdem) {
         console.log(`\n🏭 GERANDO ORDEM: ${outputPath}`);
         
         try {
-            return await this.aplicarMapeamentoCompleto(daçãosOrdem, outputPath);
+            return await this.aplicarMapeamentoCompleto(dadosOrdem, outputPath);
         } catch (error) {
             console.error(`❌ Erro na geração: ${error.message}`);
             throw error;
@@ -61,10 +61,10 @@ class TemplateXlsxGenerator {
     }
 
     // Aplicar mapeamento completo
-    async aplicarMapeamentoCompleto(daçãosOrdem, nomeArquivo) {
+    async aplicarMapeamentoCompleto(dadosOrdem, nomeArquivo) {
         console.log('\n🎯 APLICANDO MAPEAMENTO COMPLETO...');
         
-        // Limpar daçãos anteriores
+        // Limpar dados anteriores
         this.data = {};
         this.sharedStrings = [];
         this.sharedStringsMap = new Map();
@@ -75,33 +75,33 @@ class TemplateXlsxGenerator {
         
         // === DADOS BÁSICOS ===
         this.setCell('A4', 'Número do Orçamento:');
-        this.setCell('B4', daçãosOrdem.numero_orcamento || daçãosOrdem.numeroOrcamento || '');
+        this.setCell('B4', dadosOrdem.numero_orcamento || dadosOrdem.numeroOrcamento || '');
         this.setCell('D4', 'Data:');
-        this.setCell('E4', daçãosOrdem.data_orcamento || daçãosOrdem.dataOrcamento || new Date().toLocaleDateString('pt-BR'));
+        this.setCell('E4', dadosOrdem.data_orcamento || dadosOrdem.dataOrcamento || new Date().toLocaleDateString('pt-BR'));
         
         // === VENDEDOR ===
         this.setCell('A6', 'Vendedor:');
-        this.setCell('B6', daçãosOrdem.vendedor || daçãosOrdem.vendedor_nome || '');
+        this.setCell('B6', dadosOrdem.vendedor || dadosOrdem.vendedor_nome || '');
         
         // === CLIENTE ===
         this.setCell('A8', 'DADOS DO CLIENTE');
         this.setCell('A9', 'Razão Social:');
-        this.setCell('B9', daçãosOrdem.cliente_razao || daçãosOrdem.cliente || daçãosOrdem.clienteRazao || '');
+        this.setCell('B9', dadosOrdem.cliente_razao || dadosOrdem.cliente || dadosOrdem.clienteRazao || '');
         this.setCell('A10', 'Contato:');
-        this.setCell('B10', daçãosOrdem.cliente_contato || daçãosOrdem.clienteContato || '');
+        this.setCell('B10', dadosOrdem.cliente_contato || dadosOrdem.clienteContato || '');
         this.setCell('D10', 'Telefone:');
-        this.setCell('E10', daçãosOrdem.cliente_telefone || daçãosOrdem.clienteTelefone || '');
+        this.setCell('E10', dadosOrdem.cliente_telefone || dadosOrdem.clienteTelefone || '');
         this.setCell('A11', 'Email:');
-        this.setCell('B11', daçãosOrdem.cliente_email || daçãosOrdem.clienteEmail || '');
+        this.setCell('B11', dadosOrdem.cliente_email || dadosOrdem.clienteEmail || '');
         
         // === TRANSPORTADORA ===
         this.setCell('A13', 'DADOS DA TRANSPORTADORA');
         this.setCell('A14', 'Nome:');
-        this.setCell('B14', daçãosOrdem.transportaçãora || daçãosOrdem.transportaçãora_nome || '');
+        this.setCell('B14', dadosOrdem.transportaçãora || dadosOrdem.transportaçãora_nome || '');
         this.setCell('D14', 'Frete:');
-        this.setCell('E14', daçãosOrdem.frete || '');
+        this.setCell('E14', dadosOrdem.frete || '');
         this.setCell('A15', 'Prazo de Entrega:');
-        this.setCell('B15', daçãosOrdem.prazo_entrega || daçãosOrdem.prazoEntrega || '');
+        this.setCell('B15', dadosOrdem.prazo_entrega || dadosOrdem.prazoEntrega || '');
         
         // === PRODUTOS ===
         this.setCell('A17', 'PRODUTOS');
@@ -112,7 +112,7 @@ class TemplateXlsxGenerator {
         this.setCell('E18', 'Preço Unit.');
         this.setCell('F18', 'Total');
         
-        let produtos = daçãosOrdem.produtos || daçãosOrdem.itens || [];
+        let produtos = dadosOrdem.produtos || dadosOrdem.itens || [];
         
         // Se produtos está em string JSON, converter
         if (typeof produtos === 'string') {
@@ -164,11 +164,11 @@ class TemplateXlsxGenerator {
         // === OBSERVAÇÕES ===
         linhaProduto += 2;
         this.setCell(`A${linhaProduto}`, 'OBSERVAÇÕES:');
-        this.setCell(`A${linhaProduto + 1}`, daçãosOrdem.observacoes || daçãosOrdem.obs || 'Nenhuma observação.');
+        this.setCell(`A${linhaProduto + 1}`, dadosOrdem.observacoes || dadosOrdem.obs || 'Nenhuma observação.');
         
         // === GERAR ARQUIVO ===
         console.log('\n📦 GERANDO ARQUIVO XLSX COMPATÍVEL...');
-        const resultação = await this.criarArquivoXLSX(nomeArquivo);
+        const resultado = await this.criarArquivoXLSX(nomeArquivo);
         
         console.log(`✅ ORDEM GERADA! Total: R$ ${totalGeral.toFixed(2)}`);
         
@@ -176,7 +176,7 @@ class TemplateXlsxGenerator {
             sucesso: true,
             arquivo: nomeArquivo,
             filename: nomeArquivo,
-            size: resultação.tamanho,
+            size: resultado.tamanho,
             totalGeral: totalGeral,
             produtosProcessaçãos: produtos.length
         };
@@ -304,7 +304,7 @@ class TemplateXlsxGenerator {
     <Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
 </Relationships>`);
 
-        // Worksheet com daçãos
+        // Worksheet com dados
         zip.file('xl/worksheets/sheet1.xml', this.generateWorksheetXML());
         
         // Shared Strings - NOVO

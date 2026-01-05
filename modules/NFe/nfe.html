@@ -56,7 +56,7 @@
             padding: 32px;
             border-radius: var(--radius-lg);
             margin-bottom: 24px;
-            box-shaçãow: var(--shaçãow-md);
+            box-shadow: var(--shadow-md);
             border: 1px solid var(--cor-borda);
         }
         
@@ -255,7 +255,7 @@
             color: white;
             padding: 24px;
             border-radius: 16px;
-            box-shaçãow: 0 8px 32px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -291,7 +291,7 @@
 
         .nfe-card:hover {
             transform: translateY(-5px);
-            box-shaçãow: 0 12px 40px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
         }
 
         /* Quick Actions */
@@ -317,14 +317,14 @@
 
         .btn-novo-nfe:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 8px 25px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
         }
 
         /* Table */
         .nfe-table-container {
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
             overflow: hidden;
             margin-top: 24px;
         }
@@ -447,7 +447,7 @@
             max-width: 800px;
             max-height: 85vh;
             overflow-y: auto;
-            box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
         }
 
         .modal-header {
@@ -529,7 +529,7 @@
         .form-control:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shaçãow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .modal-footer {
@@ -569,7 +569,7 @@
 
         .btn-save:hover {
             transform: translateY(-1px);
-            box-shaçãow: 0 4px 12px rgba(5, 150, 105, 0.3);
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
         }
 
         /* Skip link */
@@ -679,7 +679,7 @@
                         <div class="search-wrapper" role="search" aria-label="Pesquisar">
                             <i class="fas fa-search search-icon" aria-hidden="true"></i>
                             <input id="main-search" type="search" placeholder="Buscar NFe, Cliente..." class="search-input" autocomplete="off" aria-label="Pesquisar notas fiscais e clientes" />
-                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultaçãos da busca" aria-live="polite" aria-hidden="true"></div>
+                            <div id="search-inline-results" class="search-inline-dropdown" role="listbox" aria-label="Resultados da busca" aria-live="polite" aria-hidden="true"></div>
                         </div>
                         
                         <button class="menu-toggle-btn" title="Menu">
@@ -940,7 +940,7 @@
         // User menu toggle
         function toggleUserMenu() {
             const dropdown = document.getElementById('user-menu-dropdown');
-            dropdown.style.display = dropdown.style.display === 'block'  'none' : 'block';
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
         }
 
         // Close dropdown when clicking outside
@@ -1086,7 +1086,7 @@
                     console.log('Response status:', response.status);
                 }
             } catch (error) {
-                console.error('Erro ao carregar daçãos do usuário:', error);
+                console.error('Erro ao carregar dados do usuário:', error);
             }
         }
 
@@ -1173,7 +1173,7 @@
             }
         }
 
-        // Atualizar daçãos
+        // Atualizar dados
         function refreshData() {
             location.reload();
         }

@@ -107,13 +107,13 @@ module.exports = function({ pool, authenticateToken }) {
             // Registrar no banco
             await pool.query(`
                 INSERT INTO backups_log (arquivo, tamanho, descricao, usuario_id, status)
-                VALUES (, , , , 'sucesso')
+                VALUES (?, ?, ?, ?, 'sucesso')
             `, [filename, stats.size, descricao, req.user.id]).catch(() => {});
             
             // Log de auditoria
             await pool.query(`
                 INSERT INTO logs_auditoria (usuario_id, usuario_nome, acao, modulo, entidade_tipo, descricao)
-                VALUES (, , 'BACKUP_CRIAR', 'sistema', 'backup', )
+                VALUES (?, ?, 'BACKUP_CRIAR', 'sistema', 'backup', )
             `, [req.user.id, req.user.nome, `Backup criado: ${filename}`]).catch(() => {});
             
             res.json({
@@ -196,7 +196,7 @@ module.exports = function({ pool, authenticateToken }) {
             // Log de auditoria
             await pool.query(`
                 INSERT INTO logs_auditoria (usuario_id, usuario_nome, acao, modulo, entidade_tipo, descricao)
-                VALUES (, , 'BACKUP_EXCLUIR', 'sistema', 'backup', )
+                VALUES (?, ?, 'BACKUP_EXCLUIR', 'sistema', 'backup', )
             `, [req.user.id, req.user.nome, `Backup excluído: ${arquivo}`]).catch(() => {});
             
             res.json({ 
@@ -256,7 +256,7 @@ module.exports = function({ pool, authenticateToken }) {
             // Log de auditoria (no novo banco restauração)
             await pool.query(`
                 INSERT INTO logs_auditoria (usuario_id, usuario_nome, acao, modulo, entidade_tipo, descricao)
-                VALUES (, , 'BACKUP_RESTAURAR', 'sistema', 'backup', )
+                VALUES (?, ?, 'BACKUP_RESTAURAR', 'sistema', 'backup', )
             `, [req.user.id, req.user.nome, `Banco restauração de: ${arquivo}. Backup anterior: ${backupAntes}`]).catch(() => {});
             
             res.json({

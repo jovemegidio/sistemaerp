@@ -4,7 +4,7 @@
      ============================================================ -->
 
 <!-- Modal: Daçãos da Minha Empresa -->
-<div id="modal-daçãos-empresa" class="config-detail-modal">
+<div id="modal-dados-empresa" class="config-detail-modal">
     <div class="config-detail-card">
         <div class="config-detail-header">
             <div class="config-detail-title">
@@ -16,11 +16,11 @@
                     <p>Informações gerais e fiscais da empresa</p>
                 </div>
             </div>
-            <button class="config-detail-close" onclick="closeConfigModal('modal-daçãos-empresa')">×</button>
+            <button class="config-detail-close" onclick="closeConfigModal('modal-dados-empresa')">×</button>
         </div>
 
         <div class="config-detail-body">
-            <form id="form-daçãos-empresa" class="config-form">
+            <form id="form-dados-empresa" class="config-form">
                 <!-- Informações Básicas -->
                 <div class="config-form-section">
                     <h4 class="config-form-section-title">
@@ -174,7 +174,7 @@
         <div class="config-detail-footer">
             <div class="config-detail-footer-left"></div>
             <div class="config-detail-footer-right">
-                <button class="config-btn config-btn-secondary" onclick="closeConfigModal('modal-daçãos-empresa')">
+                <button class="config-btn config-btn-secondary" onclick="closeConfigModal('modal-dados-empresa')">
                     <i class="fas fa-times"></i> Cancelar
                 </button>
                 <button class="config-btn config-btn-primary" onclick="saveEmpresaConfig()">
@@ -187,7 +187,7 @@
 
 <!-- Modal: Categorias -->
 <div id="modal-categorias" class="config-detail-modal">
-    <div class="config-detail-card" style="max-width: 560px; border-radius: 20px; overflow: hidden; box-shaçãow: 0 25px 60px rgba(0, 0, 0, 0.15);">
+    <div class="config-detail-card" style="max-width: 560px; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);">
         <div class="config-detail-header" style="background: linear-gradient(135deg, #f97316, #ea580c); padding: 24px 28px; border: none;">
             <div class="config-detail-title" style="display: flex; align-items: center; gap: 16px;">
                 <div style="width: 52px; height: 52px; background: rgba(255,255,255,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
@@ -216,7 +216,7 @@
         </div>
 
         <div class="config-detail-footer" style="padding: 20px 28px; background: white; border-top: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
-            <button class="config-btn config-btn-primary" onclick="showNovaCategoriaForm()" style="padding: 12px 24px; background: linear-gradient(135deg, #f97316, #ea580c); border: none; color: white; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shaçãow: 0 4px 15px rgba(249, 115, 22, 0.35); transition: all 0.2s;">
+            <button class="config-btn config-btn-primary" onclick="showNovaCategoriaForm()" style="padding: 12px 24px; background: linear-gradient(135deg, #f97316, #ea580c); border: none; color: white; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(249, 115, 22, 0.35); transition: all 0.2s;">
                 <i class="fas fa-plus"></i> Nova Categoria
             </button>
             <button class="config-btn config-btn-secondary" onclick="closeConfigModal('modal-categorias')" style="padding: 12px 24px; background: white; border: 1px solid #d1d5db; color: #4b5563; border-radius: 12px; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
@@ -228,7 +228,7 @@
 
 <!-- Modal: Departamentos -->
 <div id="modal-departamentos" class="config-detail-modal">
-    <div class="config-detail-card" style="max-width: 560px; border-radius: 20px; overflow: hidden; box-shaçãow: 0 25px 60px rgba(0, 0, 0, 0.15);">
+    <div class="config-detail-card" style="max-width: 560px; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);">
         <div class="config-detail-header" style="background: linear-gradient(135deg, #10b981, #059669); padding: 24px 28px; border: none;">
             <div class="config-detail-title" style="display: flex; align-items: center; gap: 16px;">
                 <div style="width: 52px; height: 52px; background: rgba(255,255,255,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
@@ -257,7 +257,7 @@
         </div>
 
         <div class="config-detail-footer" style="padding: 20px 28px; background: white; border-top: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
-            <button class="config-btn config-btn-primary" onclick="showNovoDepartamentoForm()" style="padding: 12px 24px; background: linear-gradient(135deg, #10b981, #059669); border: none; color: white; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shaçãow: 0 4px 15px rgba(16, 185, 129, 0.35); transition: all 0.2s;">
+            <button class="config-btn config-btn-primary" onclick="showNovoDepartamentoForm()" style="padding: 12px 24px; background: linear-gradient(135deg, #10b981, #059669); border: none; color: white; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35); transition: all 0.2s;">
                 <i class="fas fa-plus"></i> Novo Departamento
             </button>
             <button class="config-btn config-btn-secondary" onclick="closeConfigModal('modal-departamentos')" style="padding: 12px 24px; background: white; border: 1px solid #d1d5db; color: #4b5563; border-radius: 12px; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
@@ -269,7 +269,7 @@
 
 <!-- Modal: Projetos -->
 <div id="modal-projetos" class="config-detail-modal">
-    <div class="config-detail-card" style="max-width: 560px; border-radius: 20px; overflow: hidden; box-shaçãow: 0 25px 60px rgba(0, 0, 0, 0.15);">
+    <div class="config-detail-card" style="max-width: 560px; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);">
         <div class="config-detail-header" style="background: linear-gradient(135deg, #8b5cf6, #7c3aed); padding: 24px 28px; border: none;">
             <div class="config-detail-title" style="display: flex; align-items: center; gap: 16px;">
                 <div style="width: 52px; height: 52px; background: rgba(255,255,255,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(10px);">
@@ -298,7 +298,7 @@
         </div>
 
         <div class="config-detail-footer" style="padding: 20px 28px; background: white; border-top: 1px solid #e5e7eb; display: flex; justify-content: space-between; align-items: center;">
-            <button class="config-btn config-btn-primary" onclick="showNovoProjetoForm()" style="padding: 12px 24px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border: none; color: white; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shaçãow: 0 4px 15px rgba(139, 92, 246, 0.35); transition: all 0.2s;">
+            <button class="config-btn config-btn-primary" onclick="showNovoProjetoForm()" style="padding: 12px 24px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border: none; color: white; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.35); transition: all 0.2s;">
                 <i class="fas fa-plus"></i> Novo Projeto
             </button>
             <button class="config-btn config-btn-secondary" onclick="closeConfigModal('modal-projetos')" style="padding: 12px 24px; background: white; border: 1px solid #d1d5db; color: #4b5563; border-radius: 12px; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s;">
@@ -396,7 +396,7 @@
                 </div>
                 <div class="config-detail-title-text">
                     <h3 id="categoria-form-title">Nova Categoria</h3>
-                    <p>Preencha os daçãos da categoria</p>
+                    <p>Preencha os dados da categoria</p>
                 </div>
             </div>
             <button class="config-detail-close" onclick="closeConfigModal('modal-categoria-form')">×</button>
@@ -452,7 +452,7 @@
                 </div>
                 <div class="config-detail-title-text">
                     <h3 id="departamento-form-title">Novo Departamento</h3>
-                    <p>Preencha os daçãos do departamento</p>
+                    <p>Preencha os dados do departamento</p>
                 </div>
             </div>
             <button class="config-detail-close" onclick="closeConfigModal('modal-departamento-form')">×</button>
@@ -508,7 +508,7 @@
                 </div>
                 <div class="config-detail-title-text">
                     <h3 id="projeto-form-title">Novo Projeto</h3>
-                    <p>Preencha os daçãos do projeto</p>
+                    <p>Preencha os dados do projeto</p>
                 </div>
             </div>
             <button class="config-detail-close" onclick="closeConfigModal('modal-projeto-form')">×</button>

@@ -36,8 +36,8 @@ function loadPageDirect(pageName, event) {
     }
     
     // Loading visual profissional
-    contentArea.innerHTML = '<div class="loading-container" style="display: flex; justify-content: center; align-items: center; min-height: 500px; flex-direction: column; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 16px; margin: 24px; box-shaçãow: 0 4px 20px rgba(0,0,0,0.08);">' +
-        '<div class="loading-spinner" style="width: 80px; height: 80px; border: 6px solid #e2e8f0; border-top: 6px solid #3b82f6; border-radius: 50%; animation: professionalSpin 1.2s linear infinite; margin-bottom: 24px; box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);"></div>' +
+    contentArea.innerHTML = '<div class="loading-container" style="display: flex; justify-content: center; align-items: center; min-height: 500px; flex-direction: column; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); border-radius: 16px; margin: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">' +
+        '<div class="loading-spinner" style="width: 80px; height: 80px; border: 6px solid #e2e8f0; border-top: 6px solid #3b82f6; border-radius: 50%; animation: professionalSpin 1.2s linear infinite; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);"></div>' +
         '<h3 style="color: #1e293b; margin: 0; font-size: 24px; font-weight: 700; font-family: Inter, sans-serif;">Carregando ' + pageName + '</h3>' +
         '<p style="color: #64748b; margin: 12px 0 0 0; font-size: 16px; font-weight: 500;">Por favor, aguarde...</p>' +
         '<div class="loading-bar" style="width: 200px; height: 4px; background: #e2e8f0; border-radius: 2px; margin-top: 20px; overflow: hidden;">' +

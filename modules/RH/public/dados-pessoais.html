@@ -28,8 +28,8 @@
             --rh-danger: #ef4444;
             --rh-light: #f8fafc;
             --rh-border: #e2e8f0;
-            --rh-shaçãow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            --rh-shaçãow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            --rh-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            --rh-shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
             --rh-radius: 12px;
             --rh-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -51,7 +51,7 @@
             to { opacity: 1; }
         }
 
-        .daçãos-pessoais-container {
+        .dados-pessoais-container {
             padding: 32px;
             max-width: 1400px;
             margin: 0 auto;
@@ -61,7 +61,7 @@
         .panel {
             background: white;
             border-radius: var(--rh-radius);
-            box-shaçãow: var(--rh-shaçãow-lg);
+            box-shadow: var(--rh-shadow-lg);
             border: 1px solid var(--rh-border);
             overflow: hidden;
             animation: slideInUp 0.7s ease-out;
@@ -116,7 +116,7 @@
 
         .funcionario-info-item:hover {
             transform: translateY(-2px);
-            box-shaçãow: var(--rh-shaçãow-lg);
+            box-shadow: var(--rh-shadow-lg);
             border-color: var(--rh-primary);
         }
         
@@ -148,7 +148,7 @@
             min-height: 1.5rem;
         }
 
-        .editar-daçãos-btn {
+        .editar-dados-btn {
             background: linear-gradient(135deg, var(--rh-success) 0%, #059669 100%);
             color: white;
             border: none;
@@ -164,20 +164,20 @@
             gap: 10px;
             min-width: 200px;
             justify-content: center;
-            box-shaçãow: var(--rh-shaçãow);
+            box-shadow: var(--rh-shadow);
         }
         
-        .editar-daçãos-btn:hover {
+        .editar-dados-btn:hover {
             transform: translateY(-3px);
-            box-shaçãow: 0 12px 24px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.4);
             background: linear-gradient(135deg, #059669 0%, #047857 100%);
         }
 
-        .editar-daçãos-btn:active {
+        .editar-dados-btn:active {
             transform: translateY(-1px);
         }
 
-        .editar-daçãos-btn i {
+        .editar-dados-btn i {
             font-size: 1.1rem;
         }
 
@@ -190,7 +190,7 @@
         }
 
         @media (max-width: 768px) {
-            .daçãos-pessoais-container {
+            .dados-pessoais-container {
                 padding: 16px;
             }
 
@@ -207,7 +207,7 @@
                 padding: 20px;
             }
 
-            .editar-daçãos-btn {
+            .editar-dados-btn {
                 width: 100%;
                 margin-top: 24px;
             }
@@ -240,7 +240,7 @@
             border-radius: var(--rh-radius);
             color: white;
             font-weight: 600;
-            box-shaçãow: var(--rh-shaçãow-lg);
+            box-shadow: var(--rh-shadow-lg);
             z-index: 1000;
             display: flex;
             align-items: center;
@@ -347,7 +347,7 @@
         }
 
         /* Focus styles melhoraçãos */
-        .editar-daçãos-btn:focus,
+        .editar-dados-btn:focus,
         .sidebar .nav-link:focus {
             outline: 3px solid var(--rh-primary);
             outline-offset: 2px;
@@ -386,7 +386,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="RH/daçãos-pessoais.html" class="nav-link active" title="Meus Daçãos">
+                        <a href="RH/dados-pessoais.html" class="nav-link active" title="Meus Daçãos">
                             <span class="nav-icon"><i class="fas fa-user" aria-hidden="true"></i></span>
                             <span class="nav-tooltip">Meus Daçãos</span>
                         </a>
@@ -454,69 +454,69 @@
                 </header>
 
                 <!-- Daçãos Pessoais Content -->
-                <section class="daçãos-pessoais-container">
+                <section class="dados-pessoais-container">
                     <div class="panel">
                         <h2><i class="fas fa-user"></i> Meus Daçãos Pessoais</h2>
                         <div class="panel-body">
                             <div class="funcionario-info-grid">
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Nome Completo</div>
-                                    <div class="funcionario-info-value" id="daçãos-nome">João Silva Santos</div>
+                                    <div class="funcionario-info-value" id="dados-nome">João Silva Santos</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">CPF</div>
-                                    <div class="funcionario-info-value" id="daçãos-cpf">123.456.789-10</div>
+                                    <div class="funcionario-info-value" id="dados-cpf">123.456.789-10</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">RG</div>
-                                    <div class="funcionario-info-value" id="daçãos-rg">12.345.678-9</div>
+                                    <div class="funcionario-info-value" id="dados-rg">12.345.678-9</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Data de Nascimento</div>
-                                    <div class="funcionario-info-value" id="daçãos-nascimento">15/03/1990</div>
+                                    <div class="funcionario-info-value" id="dados-nascimento">15/03/1990</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Email</div>
-                                    <div class="funcionario-info-value" id="daçãos-email">joao.silva@aluforce.com</div>
+                                    <div class="funcionario-info-value" id="dados-email">joao.silva@aluforce.com</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Telefone</div>
-                                    <div class="funcionario-info-value" id="daçãos-telefone">(11) 99999-9999</div>
+                                    <div class="funcionario-info-value" id="dados-telefone">(11) 99999-9999</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Endereço</div>
-                                    <div class="funcionario-info-value" id="daçãos-endereco">Rua das Flores, 123 - Centro</div>
+                                    <div class="funcionario-info-value" id="dados-endereco">Rua das Flores, 123 - Centro</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">CEP</div>
-                                    <div class="funcionario-info-value" id="daçãos-cep">01234-567</div>
+                                    <div class="funcionario-info-value" id="dados-cep">01234-567</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Cidade</div>
-                                    <div class="funcionario-info-value" id="daçãos-cidade">São Paulo - SP</div>
+                                    <div class="funcionario-info-value" id="dados-cidade">São Paulo - SP</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Estação Civil</div>
-                                    <div class="funcionario-info-value" id="daçãos-estação-civil">Solteiro(a)</div>
+                                    <div class="funcionario-info-value" id="dados-estação-civil">Solteiro(a)</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Cargo</div>
-                                    <div class="funcionario-info-value" id="daçãos-cargo">Carregando...</div>
+                                    <div class="funcionario-info-value" id="dados-cargo">Carregando...</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Departamento</div>
-                                    <div class="funcionario-info-value" id="daçãos-departamento">Carregando...</div>
+                                    <div class="funcionario-info-value" id="dados-departamento">Carregando...</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Data de Admissão</div>
-                                    <div class="funcionario-info-value" id="daçãos-admissao">Carregando...</div>
+                                    <div class="funcionario-info-value" id="dados-admissao">Carregando...</div>
                                 </div>
                                 <div class="funcionario-info-item">
                                     <div class="funcionario-info-label">Registro</div>
-                                    <div class="funcionario-info-value" id="daçãos-registro">Carregando...</div>
+                                    <div class="funcionario-info-value" id="dados-registro">Carregando...</div>
                                 </div>
                             </div>
-                            <button class="editar-daçãos-btn" onclick="editarDaçãos()">
+                            <button class="editar-dados-btn" onclick="editarDaçãos()">
                                 <i class="fas fa-edit"></i> Solicitar Alteração de Daçãos
                             </button>
                         </div>
@@ -528,7 +528,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Carregar daçãos do usuário
+            // Carregar dados do usuário
             carregarDaçãosUsuario();
         });
 
@@ -542,23 +542,23 @@
                 console.log('Daçãos do usuário:', data);
                 document.getElementById('user-greeting').textContent = `Olá, ${data.nome}`;
                 
-                // Preencher daçãos pessoais
-                if (data.nome) document.getElementById('daçãos-nome').textContent = data.nome;
-                if (data.email) document.getElementById('daçãos-email').textContent = data.email;
-                if (data.cargo) document.getElementById('daçãos-cargo').textContent = data.cargo;
-                if (data.departamento) document.getElementById('daçãos-departamento').textContent = data.departamento;
-                if (data.data_admissao) document.getElementById('daçãos-admissao').textContent = data.data_admissao;
-                if (data.registro) document.getElementById('daçãos-registro').textContent = data.registro;
-                if (data.telefone) document.getElementById('daçãos-telefone').textContent = data.telefone;
+                // Preencher dados pessoais
+                if (data.nome) document.getElementById('dados-nome').textContent = data.nome;
+                if (data.email) document.getElementById('dados-email').textContent = data.email;
+                if (data.cargo) document.getElementById('dados-cargo').textContent = data.cargo;
+                if (data.departamento) document.getElementById('dados-departamento').textContent = data.departamento;
+                if (data.data_admissao) document.getElementById('dados-admissao').textContent = data.data_admissao;
+                if (data.registro) document.getElementById('dados-registro').textContent = data.registro;
+                if (data.telefone) document.getElementById('dados-telefone').textContent = data.telefone;
             })
             .catch(error => {
-                console.error('Erro ao carregar daçãos:', error);
+                console.error('Erro ao carregar dados:', error);
                 document.getElementById('user-greeting').textContent = 'Erro ao carregar';
             });
         }
 
         function editarDaçãos() {
-            alert('Solicitação de alteração de daçãos enviada ao RH. Você será contatação em breve.');
+            alert('Solicitação de alteração de dados enviada ao RH. Você será contatação em breve.');
             // Aqui você adicionaria a lógica para enviar a solicitação ao RH
         }
 

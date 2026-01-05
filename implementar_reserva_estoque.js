@@ -157,7 +157,7 @@ async function implementarReservaEstoque() {
         await connection.query(`
             INSERT INTO estoque_reservas 
             (codigo_material, quantidade, tipo_origem, documento_id, documento_numero, usuario_id, data_expiracao)
-            VALUES (, 5.000, 'pedido_venda', 999, 'PED-TESTE-RESERVA', 79, DATE_ADD(NOW(), INTERVAL 7 DAY))
+            VALUES (?, 5.000, 'pedido_venda', 999, 'PED-TESTE-RESERVA', 79, DATE_ADD(NOW(), INTERVAL 7 DAY))
         `, [produto.codigo_material]);
         console.log('✅ Reserva criada');
 

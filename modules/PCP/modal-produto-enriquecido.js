@@ -218,9 +218,9 @@
             <tr>
                 <td>${formatarData(item.data)}</td>
                 <td>
-                    <span class="status-badge ${item.tipo === 'entrada'  'status-ativo' : 'status-alerta'}">
-                        <i class="fas fa-arrow-${item.tipo === 'entrada'  'up' : 'down'}"></i>
-                        ${item.tipo === 'entrada'  'Entrada' : 'Saída'}
+                    <span class="status-badge ${item.tipo === 'entrada' ? 'status-ativo' : 'status-alerta'}">
+                        <i class="fas fa-arrow-${item.tipo === 'entrada' ? 'up' : 'down'}"></i>
+                        ${item.tipo === 'entrada' ? 'Entrada' : 'Saída'}
                     </span>
                 </td>
                 <td><strong>${item.quantidade}</strong></td>
@@ -374,7 +374,7 @@
         atualizarCardsEstoque(produto);
         atualizarCardsCusto(produto);
         
-        // Popular tabelas (se houver daçãos)
+        // Popular tabelas (se houver dados)
         // popularTabelaFornecedores(produto.fornecedores || []);
         // popularTabelaHistorico(produto.historico || []);
         

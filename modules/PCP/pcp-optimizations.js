@@ -6,7 +6,7 @@
  * Otimizações implementadas:
  * 1. Lazy Loading de views
  * 2. Debouncing otimização para busca
- * 3. Cache inteligente de daçãos
+ * 3. Cache inteligente de dados
  * 4. Event delegation para melhor performance
  * 5. Virtual scrolling para tabelas grandes
  * 6. Service Worker para cache offline
@@ -145,7 +145,7 @@ class ViewLoader {
     }
 
     async _loadViewData(viewName) {
-        // Simula carregamento assíncrono de daçãos específicos da view
+        // Simula carregamento assíncrono de dados específicos da view
         switch (viewName) {
             case 'materiais':
                 return this._loadMateriaisData();
@@ -196,7 +196,7 @@ class ViewLoader {
 
         const response = await fetch('/api/pcp/ordens');
         const data = await response.json();
-        window.pcpCache.set('ordens-producao', data, 2 * 60 * 1000); // 2 minutos (daçãos mais dinâmicos)
+        window.pcpCache.set('ordens-producao', data, 2 * 60 * 1000); // 2 minutos (dados mais dinâmicos)
         return data;
     }
 
@@ -266,7 +266,7 @@ class SearchOptimizer {
     async search(query, endpoint = '/api/pcp/search') {
         query = query.trim().toLowerCase();
 
-        // Se query está vazia, limpa resultaçãos
+        // Se query está vazia, limpa resultados
         if (!query) {
             return [];
         }
@@ -427,7 +427,7 @@ class NotificationManager {
             color: white;
             padding: 16px 20px;
             border-radius: 12px;
-            box-shaçãow: 0 8px 24px rgba(0,0,0,0.15);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
             display: flex;
             align-items: center;
             gap: 12px;
@@ -605,7 +605,7 @@ style.textContent = `
 
     .pcp-notification:hover {
         transform: translateY(-2px);
-        box-shaçãow: 0 12px 32px rgba(0,0,0,0.2);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.2);
     }
 `;
 document.head.appendChild(style);

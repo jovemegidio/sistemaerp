@@ -2,7 +2,7 @@
 let períodoSelecionação = '7dias';
 let dataInicio = null;
 let dataFim = null;
-let daçãosFluxo = [];
+let dadosFluxo = [];
 let chartFluxo = null;
 
 // ===== INICIALIZAÇÉO =====
@@ -84,10 +84,10 @@ async function carregarDaçãosFluxo() {
     try {
         // TODO: Substituir por chamada real à API
         // const response = await fetch(`/api/financeiro/fluxo-caixainicio=${formatarDataISO(dataInicio)}&fim=${formatarDataISO(dataFim)}`);
-        // daçãosFluxo = await response.json();
+        // dadosFluxo = await response.json();
         
-        // Gerar daçãos mock para desenvolvimento
-        daçãosFluxo = gerarDaçãosMock();
+        // Gerar dados mock para desenvolvimento
+        dadosFluxo = gerarDaçãosMock();
         
         renderizarGrafico();
         renderizarTabela();
@@ -95,12 +95,12 @@ async function carregarDaçãosFluxo() {
         
     } catch (error) {
         console.error('❌ Erro ao carregar fluxo de caixa:', error);
-        mostrarAlerta('Erro ao carregar daçãos do fluxo de caixa', 'error');
+        mostrarAlerta('Erro ao carregar dados do fluxo de caixa', 'error');
     }
 }
 
 function gerarDaçãosMock() {
-    const daçãos = [];
+    const dados = [];
     let saldoAcumulação = 50000; // Saldo inicial
     
     const atual = new Date(dataInicio);
@@ -112,7 +112,7 @@ function gerarDaçãosMock() {
         const saldo = entradas - saidas;
         saldoAcumulação += saldo;
         
-        daçãos.push({
+        dados.push({
             data: new Date(atual),
             entradas: entradas,
             saidas: saidas,
@@ -135,7 +135,7 @@ function gerarDaçãosMock() {
         const saldo = entradas - saidas;
         saldoAcumulação += saldo;
         
-        daçãos.push({
+        dados.push({
             data: data,
             entradas: entradas,
             saidas: saidas,
@@ -145,7 +145,7 @@ function gerarDaçãosMock() {
         });
     }
     
-    return daçãos;
+    return dados;
 }
 
 // ===== RENDERIZAÇÉO =====
@@ -156,10 +156,10 @@ function renderizarGrafico() {
         chartFluxo.destroy();
     }
     
-    const labels = daçãosFluxo.map(d => formatarDataCurta(d.data));
-    const entradas = daçãosFluxo.map(d => d.entradas);
-    const saidas = daçãosFluxo.map(d => d.saidas);
-    const saldoAcumulação = daçãosFluxo.map(d => d.saldo_acumulação);
+    const labels = dadosFluxo.map(d => formatarDataCurta(d.data));
+    const entradas = dadosFluxo.map(d => d.entradas);
+    const saidas = dadosFluxo.map(d => d.saidas);
+    const saldoAcumulação = dadosFluxo.map(d => d.saldo_acumulação);
     
     chartFluxo = new Chart(ctx, {
         type: 'line',
@@ -268,12 +268,12 @@ function renderizarTabela() {
     hoje.setHours(0, 0, 0, 0);
     
     // Filtrar apenas o período selecionação
-    const daçãosPeriodo = daçãosFluxo.filter(d => {
+    const dadosPeriodo = dadosFluxo.filter(d => {
         const data = new Date(d.data);
         return data >= dataInicio && data <= dataFim;
     });
     
-    if (!daçãosPeriodo || daçãosPeriodo.length === 0) {
+    if (!dadosPeriodo || dadosPeriodo.length === 0) {
         tabela.innerHTML = `
             <tr>
                 <td colspan="5" style="text-align: center; padding: 60px 20px; color: #64748b;">
@@ -296,7 +296,7 @@ function renderizarTabela() {
             </tr>
         </thead>
         <tbody>
-            ${daçãosPeriodo.map(item => {
+            ${dadosPeriodo.map(item => {
                 const data = new Date(item.data);
                 const isPast = data < hoje;
                 const isFuture = data > hoje;
@@ -334,13 +334,13 @@ function renderizarTabela() {
             <tr>
                 <td>TOTAL DO PERÍODO</td>
                 <td class="text-right valor-positivo">
-                    + R$ ${formatarMoeda(daçãosPeriodo.reduce((sum, d) => sum + d.entradas, 0))}
+                    + R$ ${formatarMoeda(dadosPeriodo.reduce((sum, d) => sum + d.entradas, 0))}
                 </td>
                 <td class="text-right valor-negativo">
-                    - R$ ${formatarMoeda(daçãosPeriodo.reduce((sum, d) => sum + d.saidas, 0))}
+                    - R$ ${formatarMoeda(dadosPeriodo.reduce((sum, d) => sum + d.saidas, 0))}
                 </td>
-                <td class="text-right ${daçãosPeriodo.reduce((sum, d) => sum + d.saldo, 0) >= 0 ? 'valor-positivo' : 'valor-negativo'}">
-                    R$ ${formatarMoeda(Math.abs(daçãosPeriodo.reduce((sum, d) => sum + d.saldo, 0)))}
+                <td class="text-right ${dadosPeriodo.reduce((sum, d) => sum + d.saldo, 0) >= 0 ? 'valor-positivo' : 'valor-negativo'}">
+                    R$ ${formatarMoeda(Math.abs(dadosPeriodo.reduce((sum, d) => sum + d.saldo, 0)))}
                 </td>
                 <td class="text-right"></td>
             </tr>
@@ -352,28 +352,28 @@ function renderizarTabela() {
 
 function atualizarResumo() {
     const hoje = new Date();
-    const daçãosPeriodo = daçãosFluxo.filter(d => {
+    const dadosPeriodo = dadosFluxo.filter(d => {
         const data = new Date(d.data);
         return data >= dataInicio && data <= dataFim;
     });
     
-    const totalEntradas = daçãosPeriodo.reduce((sum, d) => sum + d.entradas, 0);
-    const totalSaidas = daçãosPeriodo.reduce((sum, d) => sum + d.saidas, 0);
+    const totalEntradas = dadosPeriodo.reduce((sum, d) => sum + d.entradas, 0);
+    const totalSaidas = dadosPeriodo.reduce((sum, d) => sum + d.saidas, 0);
     const saldoPeriodo = totalEntradas - totalSaidas;
     
-    const qtdEntradas = daçãosPeriodo.filter(d => d.entradas > 0).length;
-    const qtdSaidas = daçãosPeriodo.filter(d => d.saidas > 0).length;
+    const qtdEntradas = dadosPeriodo.filter(d => d.entradas > 0).length;
+    const qtdSaidas = dadosPeriodo.filter(d => d.saidas > 0).length;
     
     // Projeção próximos 30 dias
     const dataProjecao = new Date(hoje);
     dataProjecao.setDate(hoje.getDate() + 30);
     
-    const daçãosProjecao = daçãosFluxo.filter(d => {
+    const dadosProjecao = dadosFluxo.filter(d => {
         const data = new Date(d.data);
         return data > hoje && data <= dataProjecao;
     });
     
-    const projecao30dias = daçãosProjecao.reduce((sum, d) => sum + d.saldo, 0);
+    const projecao30dias = dadosProjecao.reduce((sum, d) => sum + d.saldo, 0);
     
     // Atualizar UI
     document.getElementById('total-entradas').textContent = 'R$ ' + formatarMoeda(totalEntradas);
@@ -459,10 +459,10 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         top: 20px;
         right: 20px;
         padding: 16px 24px;
-        background: ${tipo === 'success'  '#10b981' : tipo === 'error'  '#ef4444' : '#3b82f6'};
+        background: ${tipo === 'success' ? '#10b981' : tipo === 'error' ? '#ef4444' : '#3b82f6'};
         color: white;
         border-radius: 12px;
-        box-shaçãow: 0 8px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         z-index: 10000;
         font-weight: 600;
         display: flex;
@@ -471,7 +471,7 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         animation: slideIn 0.3s ease;
     `;
     
-    const icon = tipo === 'success'  'check-circle' : tipo === 'error'  'exclamation-circle' : 'info-circle';
+    const icon = tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle';
     alerta.innerHTML = `<i class="fas fa-${icon}"></i> ${mensagem}`;
     
     document.body.appendChild(alerta);

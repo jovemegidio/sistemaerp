@@ -22,7 +22,7 @@ class DanfeService {
     /**
      * Gerar DANFE em PDF
      */
-    async gerarDANFE(daçãosNFe, caminhoSaida) {
+    async gerarDANFE(dadosNFe, caminhoSaida) {
         const doc = new PDFDocument({ 
             size: 'A4', 
             margins: { top: 10, bottom: 10, left: 10, right: 10 }
@@ -32,22 +32,22 @@ class DanfeService {
         doc.pipe(stream);
         
         // Cabeçalho
-        await this.desenharCabecalho(doc, daçãosNFe);
+        await this.desenharCabecalho(doc, dadosNFe);
         
         // Destinatário/Remetente
-        this.desenharDestinatario(doc, daçãosNFe);
+        this.desenharDestinatario(doc, dadosNFe);
         
         // Daçãos do produto/serviço
-        this.desenharItens(doc, daçãosNFe.itens);
+        this.desenharItens(doc, dadosNFe.itens);
         
         // Cálculo do imposto
-        this.desenharImpostos(doc, daçãosNFe.totais);
+        this.desenharImpostos(doc, dadosNFe.totais);
         
         // Transportaçãor
-        this.desenharTransportaçãor(doc, daçãosNFe.transporte);
+        this.desenharTransportaçãor(doc, dadosNFe.transporte);
         
         // Daçãos adicionais
-        this.desenharDaçãosAdicionais(doc, daçãosNFe.informacoesAdicionais);
+        this.desenharDaçãosAdicionais(doc, dadosNFe.informacoesAdicionais);
         
         // Rodapé
         this.desenharRodape(doc);
@@ -63,8 +63,8 @@ class DanfeService {
     /**
      * Desenhar cabeçalho do DANFE
      */
-    async desenharCabecalho(doc, daçãos) {
-        const { emitente, chaveAcesso, numeroNFe, serie, dataEmissao } = daçãos;
+    async desenharCabecalho(doc, dados) {
+        const { emitente, chaveAcesso, numeroNFe, serie, dataEmissao } = dados;
         
         // Retângulo principal
         doc.rect(10, 10, 575, 140).stroke();
@@ -103,7 +103,7 @@ class DanfeService {
         doc.text('1 - SAÍDA', 470, 100);
         
         // Checkbox tipo operação
-        const tipoOp = daçãos.tipoOperacao === 1 ? 470 : 360;
+        const tipoOp = dados.tipoOperacao === 1 ? 470 : 360;
         doc.fontSize(12).text('X', tipoOp + 60, 98);
         
         // Chave de acesso
@@ -129,14 +129,14 @@ class DanfeService {
         doc.fontSize(7).font('Helvetica');
         doc.text('NATUREZA DA OPERAÇÃO', 15, 160);
         doc.fontSize(9).font('Helvetica-Bold');
-        doc.text(daçãos.naturezaOperacao, 15, 168);
+        doc.text(dados.naturezaOperacao, 15, 168);
         
         // Protocolo de autorização
         doc.rect(295, 155, 290, 20).stroke();
         doc.fontSize(7).font('Helvetica');
         doc.text('PROTOCOLO DE AUTORIZAÇÃO DE USO', 300, 160);
         doc.fontSize(9).font('Helvetica-Bold');
-        doc.text(daçãos.numeroProtocolo || 'PENDENTE', 300, 168);
+        doc.text(dados.numeroProtocolo || 'PENDENTE', 300, 168);
         
         // Inscrições
         doc.rect(10, 180, 190, 20).stroke();
@@ -157,10 +157,10 @@ class DanfeService {
     }
     
     /**
-     * Desenhar daçãos do destinatário
+     * Desenhar dados do destinatário
      */
-    desenharDestinatario(doc, daçãos) {
-        const { destinatario } = daçãos;
+    desenharDestinatario(doc, dados) {
+        const { destinatario } = dados;
         let y = 205;
         
         // Título
@@ -191,7 +191,7 @@ class DanfeService {
         doc.fontSize(7).font('Helvetica');
         doc.text('DATA DE EMISSÃO', 510, y + 2);
         doc.fontSize(9);
-        doc.text(this.formatarData(daçãos.dataEmissao), 510, y + 10);
+        doc.text(this.formatarData(dados.dataEmissao), 510, y + 10);
         
         y += 18;
         
@@ -400,7 +400,7 @@ class DanfeService {
     }
     
     /**
-     * Desenhar daçãos do transportaçãor
+     * Desenhar dados do transportaçãor
      */
     desenharTransportaçãor(doc, transporte) {
         let y = doc.y + 10;
@@ -423,8 +423,8 @@ class DanfeService {
             doc.rect(315, y, 130, 18).stroke();
             doc.text('FRETE POR CONTA', 317, y + 2);
             doc.fontSize(9);
-            const frete = transporte.modalidade === '0'  '0-Emitente' : 
-                         transporte.modalidade === '1'  '1-Destinatário' : '9-Sem Frete';
+            const frete = transporte.modalidade === '0' ? '0-Emitente' : 
+                         transporte.modalidade === '1' ? '1-Destinatário' : '9-Sem Frete';
             doc.text(frete, 317, y + 10);
             
             doc.fontSize(8);
@@ -436,7 +436,7 @@ class DanfeService {
     }
     
     /**
-     * Desenhar daçãos adicionais
+     * Desenhar dados adicionais
      */
     desenharDaçãosAdicionais(doc, informacoes) {
         let y = doc.y + 10;

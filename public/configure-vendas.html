@@ -18,7 +18,7 @@
             background: white;
             padding: 30px;
             border-radius: 8px;
-            box-shaçãow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         h1 {
             color: #333;
@@ -135,7 +135,7 @@
                                 statusText = ` Atualização (${result.affected} registros)`;
                                 break;
                             case 'not_found':
-                                statusText = ' Usurio no encontração no banco';
+                                statusText = ' Usurio no encontrado no banco';
                                 break;
                             case 'error':
                                 statusText = ` Erro: ${result.message}`;
@@ -181,7 +181,7 @@
                 
                 const user = await resp.json();
                 if (!user.is_admin && user.role !== 'admin') {
-                    alert('Acesso negação - apenas administraçãores podem acessar est pgina');
+                    alert('Acesso negação - apenas administradores podem acessar est pgina');
                     window.location.href = '/';
                 }
             } catch (e) {

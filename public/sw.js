@@ -73,7 +73,7 @@ self.addEventListener('activate', (event) => {
 });
 
 // Estratégia de cache: Network First com fallback para Cache
-// Ideal para app que precisa de daçãos sempre atualizaçãos
+// Ideal para app que precisa de dados sempre atualizaçãos
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
@@ -83,7 +83,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Ignora requisições de API (sempre buscar daçãos frescos)
+  // Ignora requisições de API (sempre buscar dados frescos)
   if (url.pathname.startsWith('/api/')) {
     event.respondWith(
       fetch(request)

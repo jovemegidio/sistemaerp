@@ -25,7 +25,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
         GROUP BY status
       `);
       
-      // Impostos arrecadaçãos
+      // Impostos arrecadados
       const [impostos] = await pool.query(`
         SELECT 
           COALESCE(SUM(iss), 0) as total_iss,
@@ -75,7 +75,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
       }
       
       if (data_inicio && data_fim) {
-        whereClause += ' AND n.data_emissao BETWEEN  AND ';
+        whereClause += ' AND n.data_emissao BETWEEN ? AND ';
         params.push(data_inicio, data_fim);
       }
       
@@ -88,7 +88,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
         LEFT JOIN clientes c ON n.cliente_id = c.id
         ${whereClause}
         ORDER BY n.data_emissao DESC
-        LIMIT  OFFSET 
+        LIMIT ? OFFSET 
       `, [...params, parseInt(limit), offset]);
 
       res.json({
@@ -233,7 +233,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
         data: {
           valido: todas_validas,
           validacoes,
-          mensagem: todas_validas ? 'Todos os daçãos são válidos' : 'Alguns daçãos precisam ser corrigidos'
+          mensagem: todas_validas ? 'Todos os dados são válidos' : 'Alguns dados precisam ser corrigidos'
         }
       });
     } catch (error) {
@@ -272,7 +272,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
         const [nfeResult] = await connection.query(`
           INSERT INTO nfe 
           (numero, cliente_id, descricao_servico, valor, iss, pis, cofins, irrf, csll, status, data_emissao, observacoes, usuario_id)
-          VALUES (, , , , , , , , , 'autorizada', NOW(), , )
+          VALUES (?, ?, ?, ?, , ?, ?, , , 'autorizada', NOW(), ?, ?)
         `, [
           numero_nfe,
           cliente_id, 
@@ -292,7 +292,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
           await connection.query(`
             INSERT INTO contas_receber 
             (cliente_id, valor, data_vencimento, descricao, categoria, status, nfe_id)
-            VALUES (, , , , 'servicos', 'pendente', )
+            VALUES (?, ?, ?, ?, 'servicos', 'pendente', )
           `, [cliente_id, valor, data_vencimento, `NFe ${numero_nfe} - ${descricao_servico}`, nfeResult.insertId]);
         }
         
@@ -349,7 +349,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
           SUM(irrf) as total_irrf,
           SUM(csll) as total_csll
         FROM nfe 
-        WHERE data_emissao BETWEEN  AND  
+        WHERE data_emissao BETWEEN ? AND  
         AND status = 'autorizada'
         GROUP BY DATE_FORMAT(data_emissao, )
         ORDER BY periodo ASC
@@ -380,7 +380,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
         });
       }
       
-      // Buscar daçãos da NFe
+      // Buscar dados da NFe
       const [nfe] = await pool.query(`
         SELECT n.*, c.nome as cliente_nome 
         FROM nfe n 

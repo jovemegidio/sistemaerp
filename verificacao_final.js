@@ -86,7 +86,7 @@ console.log('  ✅ Histórico de movimentações');
 console.log('\n🛡️ Validações e segurança:');
 console.log('  ✅ Campos obrigatórios marcados');
 console.log('  ✅ Confirmação antes de excluir');
-console.log('  ✅ Validação de tipos de daçãos');
+console.log('  ✅ Validação de tipos de dados');
 console.log('  ✅ Tratamento de erros');
 
 console.log('\n✨ RESULTADO FINAL: GESTÁO DE MATERIAIS ESTÁ COMPLETA E FUNCIONANDO!');

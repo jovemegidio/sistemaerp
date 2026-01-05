@@ -1,5 +1,5 @@
 // Teste final da API atualizada
-const daçãosCompletos = {
+const dadosCompletos = {
     // Daçãos básicos
     numero_orcamento: 'ORC-2025-COMPLETO',
     numero_pedido: 'PED-2025-COMPLETO',
@@ -62,22 +62,22 @@ const daçãosCompletos = {
 
 // Simular requisição POST
 console.log('🎯 DADOS PARA TESTE COMPLETO DA API:\n');
-console.log(JSON.stringify(daçãosCompletos, null, 2));
+console.log(JSON.stringify(dadosCompletos, null, 2));
 
 console.log('\n📋 RESUMO DOS DADOS:');
-console.log(`   🔹 Orçamento: ${daçãosCompletos.numero_orcamento}`);
-console.log(`   🔹 Pedido: ${daçãosCompletos.numero_pedido}`);
-console.log(`   🔹 Cliente: ${daçãosCompletos.cliente}`);
-console.log(`   🔹 Produto: ${daçãosCompletos.codigo_produto} - ${daçãosCompletos.descricao_produto}`);
-console.log(`   🔹 Quantidade: ${daçãosCompletos.quantidade} unidades`);
-console.log(`   🔹 Valor Unit: R$ ${daçãosCompletos.valor_unitario}`);
-console.log(`   🔹 Valor Total: R$ ${(daçãosCompletos.quantidade * daçãosCompletos.valor_unitario).toFixed(2)}`);
-console.log(`   🔹 Transportaçãora: ${daçãosCompletos.transportaçãora_nome}`);
-console.log(`   🔹 Observações: ${daçãosCompletos.observacoes.split('\n')[0]}...`);
+console.log(`   🔹 Orçamento: ${dadosCompletos.numero_orcamento}`);
+console.log(`   🔹 Pedido: ${dadosCompletos.numero_pedido}`);
+console.log(`   🔹 Cliente: ${dadosCompletos.cliente}`);
+console.log(`   🔹 Produto: ${dadosCompletos.codigo_produto} - ${dadosCompletos.descricao_produto}`);
+console.log(`   🔹 Quantidade: ${dadosCompletos.quantidade} unidades`);
+console.log(`   🔹 Valor Unit: R$ ${dadosCompletos.valor_unitario}`);
+console.log(`   🔹 Valor Total: R$ ${(dadosCompletos.quantidade * dadosCompletos.valor_unitario).toFixed(2)}`);
+console.log(`   🔹 Transportaçãora: ${dadosCompletos.transportaçãora_nome}`);
+console.log(`   🔹 Observações: ${dadosCompletos.observacoes.split('\n')[0]}...`);
 
 console.log('\n🚀 PARA TESTAR:');
 console.log('1. Execute: node server_pcp.js');
-console.log('2. Use estes daçãos no endpoint: POST /api/pcp/ordem-producao/excel');
+console.log('2. Use estes dados no endpoint: POST /api/pcp/ordem-producao/excel');
 console.log('3. Todos os campos das imagens serão preenchidos!');
 
 console.log('\n✅ SERVIDOR ATUALIZADO COM PREENCHIMENTO COMPLETO!');

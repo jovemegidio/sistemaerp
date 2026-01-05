@@ -100,7 +100,7 @@ async function importarDump() {
         await connection.query("SET NAMES 'utf8mb4'");
         
         // Processar linha por linha
-        console.log('\n📦 Importando daçãos...');
+        console.log('\n📦 Importando dados...');
         
         // Separar em statements
         const statements = [];
@@ -179,7 +179,7 @@ async function importarDump() {
         }
         
         // 4. Inserts
-        console.log('4️⃣ Inserindo daçãos...');
+        console.log('4️⃣ Inserindo dados...');
         let insertSuccess = 0;
         let insertError = 0;
         
@@ -207,7 +207,7 @@ async function importarDump() {
         // 5. Reabilitar chaves estrangeiras
         await connection.query('SET FOREIGN_KEY_CHECKS=1');
         
-        // Verificar resultação
+        // Verificar resultado
         console.log('\n' + '='.repeat(60));
         console.log('📊 RESULTADO DA IMPORTAÇÃO');
         console.log('='.repeat(60));
@@ -216,8 +216,8 @@ async function importarDump() {
         const [tables] = await connection.query('SHOW TABLES');
         console.log(`\n✅ Tabelas no banco: ${tables.length}`);
         
-        // Verificar tabelas com daçãos
-        console.log('\n📋 Verificando tabelas com daçãos...');
+        // Verificar tabelas com dados
+        console.log('\n📋 Verificando tabelas com dados...');
         let tabelasComDaçãos = 0;
         let totalRegistros = 0;
         
@@ -243,7 +243,7 @@ async function importarDump() {
         }
         
         console.log(`\n📈 Resumo:`);
-        console.log(`   - Tabelas com daçãos: ${tabelasComDaçãos}`);
+        console.log(`   - Tabelas com dados: ${tabelasComDaçãos}`);
         console.log(`   - Total de registros: ${totalRegistros}`);
         
         if (errors.length > 0) {

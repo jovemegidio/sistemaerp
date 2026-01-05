@@ -111,7 +111,7 @@ async function criarUsuariosTeste() {
       
       const insertSql = `INSERT INTO funcionarios 
         (email, senha, role, nome_completo, cpf, status, data_admissao) 
-        VALUES (, , , , , 'ativo', NOW())`;
+        VALUES (?, ?, ?, ?, , 'ativo', NOW())`;
         
       db.query(insertSql, [
         usuario.email,

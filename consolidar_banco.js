@@ -137,7 +137,7 @@ async function consolidarBanco() {
             }
         }
 
-        // 3. Mostrar resultação
+        // 3. Mostrar resultado
         console.log(`${colors.green}═══ TABELAS ESSENCIAIS (${tabelasEssenciais.length}) ═══${colors.reset}`);
         tabelasEssenciais.forEach(t => console.log(`   ✅ ${t.tabela} [${t.modulo}]`));
 
@@ -202,7 +202,7 @@ async function consolidarBanco() {
         await fs.writeFile(sqlFile, sqlConsolidação, 'utf8');
         console.log(`\n${colors.green}✅ Schema consolidação salvo em: SCHEMA_CONSOLIDADO.sql${colors.reset}`);
 
-        // 6. Gerar SQL de daçãos iniciais (seed)
+        // 6. Gerar SQL de dados iniciais (seed)
         let sqlSeed = '';
         sqlSeed += `-- ========================================\n`;
         sqlSeed += `-- DADOS INICIAIS - ALUFORCE VENDAS\n`;

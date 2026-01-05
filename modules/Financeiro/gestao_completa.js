@@ -1,7 +1,7 @@
 // Gestão Financeira Completa - JavaScript
 const API_BASE = 'http://localhost:3000/api/financeiro';
 let abaAtual = 'pagar';
-let daçãosTabela = [];
+let dadosTabela = [];
 let itensSelecionaçãos = new Set();
 let paginaAtual = 1;
 let totalPaginas = 1;
@@ -101,7 +101,7 @@ function ocultarBotoesNaoPermitidos() {
     // Botão Novo (criar)
     const btnNovo = document.querySelector('[onclick="abrirModalNovo()"]');
     if (btnNovo) {
-        const permissaoNovo = abaAtual === 'pagar'  'contas_pagar.criar' : 'contas_receber.criar';
+        const permissaoNovo = abaAtual === 'pagar' ? 'contas_pagar.criar' : 'contas_receber.criar';
         if (!auth.temPermissao(permissaoNovo)) {
             btnNovo.style.display = 'none';
         }
@@ -110,7 +110,7 @@ function ocultarBotoesNaoPermitidos() {
     // Botões de ação em massa
     const btnExcluirSelecionaçãos = document.querySelector('[onclick="excluirSelecionaçãos()"]');
     if (btnExcluirSelecionaçãos) {
-        const permissaoExcluir = abaAtual === 'pagar'  'contas_pagar.excluir' : 'contas_receber.excluir';
+        const permissaoExcluir = abaAtual === 'pagar' ? 'contas_pagar.excluir' : 'contas_receber.excluir';
         if (!auth.temPermissao(permissaoExcluir)) {
             btnExcluirSelecionaçãos.style.display = 'none';
         }
@@ -169,11 +169,11 @@ function trocarAba(aba, evt) {
     itensSelecionaçãos.clear();
     atualizarBulkActions();
     
-    // Carregar daçãos
+    // Carregar dados
     carregarDaçãos();
 }
 
-// Carregar daçãos
+// Carregar dados
 async function carregarDaçãos() {
     try {
         const token = getToken();
@@ -198,14 +198,14 @@ async function carregarDaçãos() {
             }
         });
 
-        if (!response.ok) throw new Error('Erro ao carregar daçãos');
+        if (!response.ok) throw new Error('Erro ao carregar dados');
 
-        daçãosTabela = await response.json();
+        dadosTabela = await response.json();
         aplicarFiltros();
 
     } catch (error) {
-        console.error('❌ Erro ao carregar daçãos:', error);
-        mostrarErro('Erro ao carregar daçãos');
+        console.error('❌ Erro ao carregar dados:', error);
+        mostrarErro('Erro ao carregar dados');
     }
 }
 
@@ -218,8 +218,8 @@ function aplicarFiltros() {
     const categoria = document.getElementById('filterCategoria').value;
     const porPagina = parseInt(document.getElementById('filterPorPagina').value);
 
-    // Filtrar daçãos
-    let daçãosFiltraçãos = daçãosTabela.filter(item => {
+    // Filtrar dados
+    let dadosFiltraçãos = dadosTabela.filter(item => {
         // Busca
         if (busca && !item.descricao.toLowerCase().includes(busca) && 
             !item.fornecedor.toLowerCase().includes(busca) &&
@@ -249,7 +249,7 @@ function aplicarFiltros() {
     });
 
     // Ordenar
-    daçãosFiltraçãos.sort((a, b) => {
+    dadosFiltraçãos.sort((a, b) => {
         const valorA = a[ordenarPor];
         const valorB = b[ordenarPor];
         
@@ -261,21 +261,21 @@ function aplicarFiltros() {
     });
 
     // Paginar
-    totalPaginas = Math.ceil(daçãosFiltraçãos.length / porPagina);
+    totalPaginas = Math.ceil(dadosFiltraçãos.length / porPagina);
     const inicio = (paginaAtual - 1) * porPagina;
     const fim = inicio + porPagina;
-    const daçãosPagina = daçãosFiltraçãos.slice(inicio, fim);
+    const dadosPagina = dadosFiltraçãos.slice(inicio, fim);
 
     // Renderizar
-    renderizarTabela(daçãosPagina);
-    renderizarPaginacao(daçãosFiltraçãos.length, porPagina);
+    renderizarTabela(dadosPagina);
+    renderizarPaginacao(dadosFiltraçãos.length, porPagina);
 }
 
 // Renderizar tabela
-function renderizarTabela(daçãos) {
+function renderizarTabela(dados) {
     const container = document.getElementById('tableContainer');
 
-    if (!daçãos || daçãos.length === 0) {
+    if (!dados || dados.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-inbox"></i>
@@ -299,8 +299,8 @@ function renderizarTabela(daçãos) {
     if (abaAtual === 'pagar' || abaAtual === 'receber') {
         html += `
             <th onclick="ordenar('descricao')">Descrição <i class="fas fa-sort"></i></th>
-            <th onclick="ordenar('${abaAtual === 'pagar'  'fornecedor' : 'cliente'}')">
-                ${abaAtual === 'pagar'  'Fornecedor' : 'Cliente'} <i class="fas fa-sort"></i>
+            <th onclick="ordenar('${abaAtual === 'pagar' ? 'fornecedor' : 'cliente'}')">
+                ${abaAtual === 'pagar' ? 'Fornecedor' : 'Cliente'} <i class="fas fa-sort"></i>
             </th>
             <th onclick="ordenar('valor')">Valor <i class="fas fa-sort"></i></th>
             <th onclick="ordenar('data_vencimento')">Vencimento <i class="fas fa-sort"></i></th>
@@ -319,8 +319,8 @@ function renderizarTabela(daçãos) {
 
     html += '</tr></thead><tbody>';
 
-    // Linhas de daçãos
-    daçãos.forEach(item => {
+    // Linhas de dados
+    dados.forEach(item => {
         const isChecked = itensSelecionaçãos.has(item.id);
         html += `<tr>`;
         
@@ -342,7 +342,7 @@ function renderizarTabela(daçãos) {
             html += `<td>${item.fornecedor || item.cliente || '-'}</td>`;
             
             // Valor
-            const valorClass = abaAtual === 'receber'  'valor-positivo' : 'valor-negativo';
+            const valorClass = abaAtual === 'receber' ? 'valor-positivo' : 'valor-negativo';
             html += `<td class="${valorClass}">R$ ${formatarMoeda(item.valor)}</td>`;
             
             // Vencimento
@@ -358,14 +358,14 @@ function renderizarTabela(daçãos) {
             if (item.status === 'pendente') {
                 html += `
                     <button class="btn-table success" onclick="marcarPago(${item.id})">
-                        <i class="fas fa-check"></i> ${abaAtual === 'pagar'  'Pagar' : 'Receber'}
+                        <i class="fas fa-check"></i> ${abaAtual === 'pagar' ? 'Pagar' : 'Receber'}
                     </button>
                     <button class="btn-table info" onclick="abrirModalParcelamento(${item.id})">
                         <i class="fas fa-credit-card"></i> Parcelar
                     </button>
                 `;
             } else {
-                html += `<span style="color: #10b981; font-weight: 600;">✅ ${item.status === 'pago'  'Pago' : 'Recebido'}</span>`;
+                html += `<span style="color: #10b981; font-weight: 600;">✅ ${item.status === 'pago' ? 'Pago' : 'Recebido'}</span>`;
             }
             
             html += `</td>`;
@@ -457,7 +457,7 @@ function irParaPagina(pagina) {
 // Ordenar
 function ordenar(campo) {
     if (ordenarPor === campo) {
-        ordenarDirecao = ordenarDirecao === 'ASC'  'DESC' : 'ASC';
+        ordenarDirecao = ordenarDirecao === 'ASC' ? 'DESC' : 'ASC';
     } else {
         ordenarPor = campo;
         ordenarDirecao = 'ASC';
@@ -470,7 +470,7 @@ function selecionarTodos(checked) {
     itensSelecionaçãos.clear();
     
     if (checked) {
-        daçãosTabela.forEach(item => itensSelecionaçãos.add(item.id));
+        dadosTabela.forEach(item => itensSelecionaçãos.add(item.id));
     }
     
     document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = checked);
@@ -510,7 +510,7 @@ function desmarcarTodos() {
 // Pagar em lote
 async function pagarEmLote() {
     // Verificar permissão
-    const permissao = abaAtual === 'pagar'  'contas_pagar.pagar' : 'contas_receber.receber';
+    const permissao = abaAtual === 'pagar' ? 'contas_pagar.pagar' : 'contas_receber.receber';
     if (!auth.temPermissao(permissao)) {
         alert('❌ Você não tem permissão para realizar está ação');
         return;
@@ -551,7 +551,7 @@ async function pagarEmLote() {
 // Marcar como pago
 async function marcarPago(id) {
     // Verificar permissão
-    const permissao = abaAtual === 'pagar'  'contas_pagar.pagar' : 'contas_receber.receber';
+    const permissao = abaAtual === 'pagar' ? 'contas_pagar.pagar' : 'contas_receber.receber';
     if (!auth.temPermissao(permissao)) {
         alert('❌ Você não tem permissão para realizar está ação');
         auth.registrarLog('acesso_negação', `Tentativa de marcar como pago sem permissão: ${permissao}`);
@@ -562,14 +562,14 @@ async function marcarPago(id) {
     
     try {
         const token = getToken();
-        const response = await fetch(`${API_BASE}/contas-${abaAtual}/${id}/${abaAtual === 'pagar'  'pagar' : 'receber'}`, {
+        const response = await fetch(`${API_BASE}/contas-${abaAtual}/${id}/${abaAtual === 'pagar' ? 'pagar' : 'receber'}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                [`data_${abaAtual === 'pagar'  'pagamento' : 'recebimento'}`]: new Date().toISOString().split('T')[0]
+                [`data_${abaAtual === 'pagar' ? 'pagamento' : 'recebimento'}`]: new Date().toISOString().split('T')[0]
             })
         });
         
@@ -587,7 +587,7 @@ async function marcarPago(id) {
 // Excluir selecionaçãos
 async function excluirSelecionaçãos() {
     // Verificar permissão
-    const permissao = abaAtual === 'pagar'  'contas_pagar.excluir' : 'contas_receber.excluir';
+    const permissao = abaAtual === 'pagar' ? 'contas_pagar.excluir' : 'contas_receber.excluir';
     if (!auth.temPermissao(permissao)) {
         alert('❌ Você não tem permissão para excluir');
         auth.registrarLog('acesso_negação', `Tentativa de exclusão sem permissão: ${permissao}`);
@@ -630,7 +630,7 @@ async function excluirSelecionaçãos() {
 // Abrir nova conta
 function abrirNovaConta() {
     // Verificar permissão
-    const permissao = abaAtual === 'pagar'  'contas_pagar.criar' : abaAtual === 'receber'  'contas_receber.criar' : 'contas_bancarias.criar';
+    const permissao = abaAtual === 'pagar' ? 'contas_pagar.criar' : abaAtual === 'receber' ? 'contas_receber.criar' : 'contas_bancarias.criar';
     if (!auth.temPermissao(permissao)) {
         alert('❌ Você não tem permissão para criar novos registros');
         auth.registrarLog('acesso_negação', `Tentativa de criado sem permissão: ${permissao}`);
@@ -642,8 +642,8 @@ function abrirNovaConta() {
 
 // Abrir modal de parcelamento
 function abrirModalParcelamento(id) {
-    // Buscar o item nos daçãos da tabela
-    const item = daçãosTabela.find(i => i.id === id);
+    // Buscar o item nos dados da tabela
+    const item = dadosTabela.find(i => i.id === id);
     if (!item) {
         alert('Item não encontrado');
         return;
@@ -658,7 +658,7 @@ function abrirModalParcelamento(id) {
     // Criar instância do sistema de parcelamento
     const sistemaParcelamento = new SistemaParcelamento();
     
-    // Abrir modal com os daçãos da conta
+    // Abrir modal com os dados da conta
     sistemaParcelamento.abrirModal({
         descricao: item.descricao,
         valor: item.valor,

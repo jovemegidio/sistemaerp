@@ -23,7 +23,7 @@ async function runMigration() {
         const migrationPath = path.join(__dirname, '2025-10-03-add-gtin-sku-to-produtos.sql');
         const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
         
-        // Dividir o SQL em comandos individuais (separaçãos por ;)
+        // Dividir o SQL em comandos individuais (separados por ;)
         const commands = migrationSQL.split(';').filter(cmd => cmd.trim().length > 0);
         
         for (let i = 0; i < commands.length; i++) {

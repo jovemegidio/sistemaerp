@@ -16,7 +16,7 @@
             padding: 20px 24px;
             border-radius: 12px;
             margin-bottom: 24px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: flex;
             gap: 16px;
             align-items: center;
@@ -50,7 +50,7 @@
             background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             border-color: #3b82f6;
-            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .custom-date {
@@ -70,7 +70,7 @@
             background: white;
             padding: 28px;
             border-radius: 12px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             margin-bottom: 24px;
         }
 
@@ -101,7 +101,7 @@
             background: white;
             padding: 24px;
             border-radius: 12px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             position: relative;
             overflow: hidden;
         }
@@ -146,7 +146,7 @@
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .tabela-header {
@@ -500,32 +500,32 @@
                 });
 
                 if (response.ok) {
-                    const daçãos = await response.json();
-                    atualizarResumo(daçãos);
-                    renderizarGrafico(daçãos);
-                    renderizarTabela(daçãos.movimentacoes || []);
+                    const dados = await response.json();
+                    atualizarResumo(dados);
+                    renderizarGrafico(dados);
+                    renderizarTabela(dados.movimentacoes || []);
                 }
             } catch (error) {
                 console.error('Erro ao carregar fluxo:', error);
             }
         }
 
-        function atualizarResumo(daçãos) {
+        function atualizarResumo(dados) {
             document.getElementById('total-entradas').textContent = 
-                $ ${(daçãos.total_entradas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(dados.total_entradas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('total-saidas').textContent = 
-                $ ${(daçãos.total_saidas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(dados.total_saidas || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             
-            const saldo = (daçãos.total_entradas || 0) - (daçãos.total_saidas || 0);
+            const saldo = (dados.total_entradas || 0) - (dados.total_saidas || 0);
             document.getElementById('saldo-periodo').textContent = 
                 $ ${saldo.toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
             document.getElementById('saldo-periodo').style.color = saldo >= 0 ? '#1e40af' : '#ef4444';
             
             document.getElementById('saldo-projetação').textContent = 
-                $ ${(daçãos.saldo_projetação || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
+                $ ${(dados.saldo_projetação || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`;
         }
 
-        function renderizarGrafico(daçãos) {
+        function renderizarGrafico(dados) {
             const ctx = document.getElementById('chart-fluxo');
             
             if (chartFluxo) {
@@ -535,11 +535,11 @@
             chartFluxo = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: daçãos.labels || [],
+                    labels: dados.labels || [],
                     datasets: [
                         {
                             label: 'Entradas',
-                            data: daçãos.entradas || [],
+                            data: dados.entradas || [],
                             borderColor: '#1e40af',
                             backgroundColor: 'rgba(16, 185, 129, 0.1)',
                             tension: 0.4,
@@ -547,7 +547,7 @@
                         },
                         {
                             label: 'Saídas',
-                            data: daçãos.saidas || [],
+                            data: dados.saidas || [],
                             borderColor: '#ef4444',
                             backgroundColor: 'rgba(239, 68, 68, 0.1)',
                             tension: 0.4,
@@ -555,7 +555,7 @@
                         },
                         {
                             label: 'Saldo',
-                            data: daçãos.saldo || [],
+                            data: dados.saldo || [],
                             borderColor: '#3b82f6',
                             backgroundColor: 'rgba(59, 130, 246, 0.1)',
                             tension: 0.4,
@@ -645,7 +645,7 @@
             alert('Funcionalidade de exportação em desenvolvimento');
         }
         
-        // Carregar daçãos do usuário
+        // Carregar dados do usuário
         async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });

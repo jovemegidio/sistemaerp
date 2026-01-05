@@ -13,7 +13,7 @@ class TemplateXlsxRealGeneratorCorreto {
     }
 
     // Método principal compatível com código existente
-    async generateFromTemplate(templatePath, outputPath, daçãosOrdem) {
+    async generateFromTemplate(templatePath, outputPath, dadosOrdem) {
         console.log(`\n🏭 GERANDO ORDEM COM MAPEAMENTO CORRETO: ${outputPath}`);
         console.log(`📁 Template original: ${templatePath}`);
         
@@ -26,19 +26,19 @@ class TemplateXlsxRealGeneratorCorreto {
             // Carregar template original
             await this.carregarTemplate(templatePath);
             
-            // Aplicar daçãos ao template
-            await this.aplicarDaçãosComMapeamentoCorreto(daçãosOrdem);
+            // Aplicar dados ao template
+            await this.aplicarDaçãosComMapeamentoCorreto(dadosOrdem);
             
             // Salvar arquivo modificação
-            const resultação = await this.salvarArquivo(outputPath);
+            const resultado = await this.salvarArquivo(outputPath);
             
             return {
                 sucesso: true,
                 arquivo: outputPath,
                 filename: outputPath,
-                size: resultação.tamanho,
-                totalGeral: this.calcularTotal(daçãosOrdem),
-                produtosProcessaçãos: this.contarProdutos(daçãosOrdem),
+                size: resultado.tamanho,
+                totalGeral: this.calcularTotal(dadosOrdem),
+                produtosProcessaçãos: this.contarProdutos(dadosOrdem),
                 templateUsação: templatePath
             };
             
@@ -137,8 +137,8 @@ class TemplateXlsxRealGeneratorCorreto {
         return '';
     }
 
-    // Aplicar daçãos com mapeamento correto
-    async aplicarDaçãosComMapeamentoCorreto(daçãosOrdem) {
+    // Aplicar dados com mapeamento correto
+    async aplicarDaçãosComMapeamentoCorreto(dadosOrdem) {
         console.log('\n🎯 APLICANDO DADOS COM MAPEAMENTO CORRETO...');
         
         // Usar primeira worksheet (sheet1)
@@ -154,62 +154,62 @@ class TemplateXlsxRealGeneratorCorreto {
         // Baseação na análise: F1: "Orçamento:", E4: "Pedido:", G4: "Dt. liberação:", I4: "VENDEDOR:"
         
         // Orçamento - campo ao lação de F1
-        this.setCellValue(worksheet, 'G1', daçãosOrdem.numero_orcamento || daçãosOrdem.numeroOrcamento || '352');
+        this.setCellValue(worksheet, 'G1', dadosOrdem.numero_orcamento || dadosOrdem.numeroOrcamento || '352');
         
         // Pedido - campo ao lação de E4
-        this.setCellValue(worksheet, 'F4', daçãosOrdem.numero_pedido || daçãosOrdem.numeroPedido || '202500083');
+        this.setCellValue(worksheet, 'F4', dadosOrdem.numero_pedido || dadosOrdem.numeroPedido || '202500083');
         
         // Data liberação - campo ao lação de G4
-        this.setCellValue(worksheet, 'H4', daçãosOrdem.data_liberacao || daçãosOrdem.dataLiberacao || '19/08/2025');
+        this.setCellValue(worksheet, 'H4', dadosOrdem.data_liberacao || dadosOrdem.dataLiberacao || '19/08/2025');
         
         // Vendedor - campo ao lação de I4
-        this.setCellValue(worksheet, 'J4', daçãosOrdem.vendedor || 'Marcia Scarcella');
+        this.setCellValue(worksheet, 'J4', dadosOrdem.vendedor || 'Marcia Scarcella');
         
         // Prazo de entrega - B6 é o label
-        this.setCellValue(worksheet, 'C6', daçãosOrdem.prazo_entrega || daçãosOrdem.prazoEntrega || '18/09/2025');
+        this.setCellValue(worksheet, 'C6', dadosOrdem.prazo_entrega || dadosOrdem.prazoEntrega || '18/09/2025');
         
         // Cliente - I6 é o label
-        this.setCellValue(worksheet, 'J6', daçãosOrdem.cliente || daçãosOrdem.cliente_razao || 'CONSTRULAR');
+        this.setCellValue(worksheet, 'J6', dadosOrdem.cliente || dadosOrdem.cliente_razao || 'CONSTRULAR');
         
         // === CONTATO E DADOS ADJACENTES ===
         console.log('\n📞 CONTATO:');
         // Contato - B7 é o label
-        this.setCellValue(worksheet, 'C7', daçãosOrdem.contato_cliente || daçãosOrdem.clienteContato || 'Rodrigo');
+        this.setCellValue(worksheet, 'C7', dadosOrdem.contato_cliente || dadosOrdem.clienteContato || 'Rodrigo');
         
         // Fone - B8 é o label
-        this.setCellValue(worksheet, 'C8', daçãosOrdem.fone_cliente || daçãosOrdem.clienteTelefone || '(94) 98430-6216');
+        this.setCellValue(worksheet, 'C8', dadosOrdem.fone_cliente || dadosOrdem.clienteTelefone || '(94) 98430-6216');
         
         // Email - H8 é o label
-        this.setCellValue(worksheet, 'I8', daçãosOrdem.email_cliente || daçãosOrdem.clienteEmail || 'constrularcimento@gmail.com');
+        this.setCellValue(worksheet, 'I8', dadosOrdem.email_cliente || dadosOrdem.clienteEmail || 'constrularcimento@gmail.com');
         
         // Frete - B9 é o label
-        this.setCellValue(worksheet, 'C9', daçãosOrdem.tipo_frete || daçãosOrdem.frete || 'FOB');
+        this.setCellValue(worksheet, 'C9', dadosOrdem.tipo_frete || dadosOrdem.frete || 'FOB');
         
         // === TRANSPORTADORA ===
         console.log('\n🚛 TRANSPORTADORA:');
         // Nome - B11 é o label
-        this.setCellValue(worksheet, 'C11', daçãosOrdem.transportaçãora_nome || daçãosOrdem.transportaçãora || '');
+        this.setCellValue(worksheet, 'C11', dadosOrdem.transportaçãora_nome || dadosOrdem.transportaçãora || '');
         
         // Fone transportaçãora - B12 é o label  
-        this.setCellValue(worksheet, 'C12', daçãosOrdem.transportaçãora_fone || '(94) 98430-6216');
+        this.setCellValue(worksheet, 'C12', dadosOrdem.transportaçãora_fone || '(94) 98430-6216');
         
         // Cep - I12 é o label
-        this.setCellValue(worksheet, 'J12', daçãosOrdem.transportaçãora_cep || '68560-000');
+        this.setCellValue(worksheet, 'J12', dadosOrdem.transportaçãora_cep || '68560-000');
         
         // Endereço - B13 é o label
-        this.setCellValue(worksheet, 'C13', daçãosOrdem.transportaçãora_endereco || 'Av. Henrique Vita nº 12 - Expansão - Santana do Araguaia - PA');
+        this.setCellValue(worksheet, 'C13', dadosOrdem.transportaçãora_endereco || 'Av. Henrique Vita nº 12 - Expansão - Santana do Araguaia - PA');
         
         // === COBRANÇA ===
         console.log('\n💼 COBRANÇA:');
         // CPF/CNPJ - E14 é o label
-        this.setCellValue(worksheet, 'F14', daçãosOrdem.transportaçãora_cpf_cnpj || '36.408.556/0001-69');
+        this.setCellValue(worksheet, 'F14', dadosOrdem.transportaçãora_cpf_cnpj || '36.408.556/0001-69');
         
         // E-mail NFe - B15 é o label
-        this.setCellValue(worksheet, 'C15', daçãosOrdem.transportaçãora_email_nfe || 'constrularcimento@gmail.com');
+        this.setCellValue(worksheet, 'C15', dadosOrdem.transportaçãora_email_nfe || 'constrularcimento@gmail.com');
         
         // === PRODUTOS ===
         console.log('\n📦 PRODUTOS:');
-        let produtos = daçãosOrdem.produtos || daçãosOrdem.itens || [];
+        let produtos = dadosOrdem.produtos || dadosOrdem.itens || [];
         
         if (typeof produtos === 'string') {
             try {
@@ -264,13 +264,13 @@ class TemplateXlsxRealGeneratorCorreto {
         
         // === TOTAL ===
         console.log('\n💰 TOTAL:');
-        const totalPedido = daçãosOrdem.total_pedido || totalGeral;
+        const totalPedido = dadosOrdem.total_pedido || totalGeral;
         // J34 foi identificação como área de total
         this.setCellValue(worksheet, 'J34', totalPedido.toFixed(2));
         
         // === OBSERVAÇÕES ===
         console.log('\n📝 OBSERVAÇÕES:');
-        const observacoes = daçãosOrdem.observacoes || daçãosOrdem.obs || '';
+        const observacoes = dadosOrdem.observacoes || dadosOrdem.obs || '';
         if (observacoes) {
             this.setCellValue(worksheet, 'A35', observacoes);
         }
@@ -395,12 +395,12 @@ class TemplateXlsxRealGeneratorCorreto {
             .replace(/&apos;/g, "'");
     }
 
-    calcularTotal(daçãosOrdem) {
-        if (daçãosOrdem.total_pedido) {
-            return parseFloat(daçãosOrdem.total_pedido);
+    calcularTotal(dadosOrdem) {
+        if (dadosOrdem.total_pedido) {
+            return parseFloat(dadosOrdem.total_pedido);
         }
         
-        let produtos = daçãosOrdem.produtos || daçãosOrdem.itens || [];
+        let produtos = dadosOrdem.produtos || dadosOrdem.itens || [];
         if (typeof produtos === 'string') {
             try {
                 produtos = JSON.parse(produtos);
@@ -416,8 +416,8 @@ class TemplateXlsxRealGeneratorCorreto {
         }, 0);
     }
 
-    contarProdutos(daçãosOrdem) {
-        let produtos = daçãosOrdem.produtos || daçãosOrdem.itens || [];
+    contarProdutos(dadosOrdem) {
+        let produtos = dadosOrdem.produtos || dadosOrdem.itens || [];
         if (typeof produtos === 'string') {
             try {
                 produtos = JSON.parse(produtos);

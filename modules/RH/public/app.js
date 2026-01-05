@@ -508,7 +508,7 @@ function showToast(message, type = 'success', timeout = 4000) {
         document.body.appendChild(container);
     }
     const node = document.createElement('div');
-    node.className = `toast ${type === 'error'  'error' : 'success'} toast-enter`;
+    node.className = `toast ${type === 'error' ? 'error' : 'success'} toast-enter`;
     node.setAttribute('role', 'status');
 
     // inner message container for accessibility and layout
@@ -785,7 +785,7 @@ function initAdminPage() {
                 const first = parts[0] || '';
                 const last = parts.length > 1 ? parts[parts.length-1] : '';
                 const display = `${first}${last ? ' ' + last : ''}`.trim();
-                greeting.textContent = display  `Olá, ${display}` : 'Olá, Usuário';
+                greeting.textContent = display ? `Olá, ${display}` : 'Olá, Usuário';
             }
         } catch (err) {
             console.warn('Não foi possível preencher header com /api/me', err);
@@ -796,7 +796,7 @@ function initAdminPage() {
     async function carregarFuncionarios() {
         try {
             const q = document.getElementById('search-input')  document.getElementById('search-input').value.trim() : '';
-            const url = q  `${API_URL}q=${encodeURIComponent(q)}` : API_URL;
+            const url = q ? `${API_URL}q=${encodeURIComponent(q)}` : API_URL;
             const response = await fetch(url, { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
             if (response.status === 401) {
                 // token expiração ou inválido
@@ -805,7 +805,7 @@ function initAdminPage() {
                 safeRedirectToLogin();
                 return;
             }
-            if (!response.ok) throw new Error('Erro ao buscar daçãos da API.');
+            if (!response.ok) throw new Error('Erro ao buscar dados da API.');
             const funcionarios = await response.json();
 
             tabelaCorpo.innerHTML = '';
@@ -1046,7 +1046,7 @@ function initAdminPage() {
         }
     }
 
-    // --- Novo: Carregar daçãos para a nova aba Dashboard (não altera a aba Funcionários) ---
+    // --- Novo: Carregar dados para a nova aba Dashboard (não altera a aba Funcionários) ---
     async function carregarDashboard() {
         try {
             // Verificar se estamos no dashboard antes de carregar
@@ -1329,7 +1329,7 @@ function initAdminPage() {
 
             } catch (error) {
             console.error('Erro ao carregar funcionários:', error);
-            tabelaCorpo.innerHTML = `<tr><td colspan="5" style="color: red;">Não foi possível carregar os daçãos. Verifique se a API está online.</td></tr>`;
+            tabelaCorpo.innerHTML = `<tr><td colspan="5" style="color: red;">Não foi possível carregar os dados. Verifique se a API está online.</td></tr>`;
         }
     }
 
@@ -1372,7 +1372,7 @@ function initAdminPage() {
         });
     });
 
-    // Novo colaboraçãor via botão do header
+    // Novo colaborador via botão do header
     const btnNewCol = document.getElementById('btn-new-collaborator');
     if (btnNewCol) {
         btnNewCol.addEventListener('click', (e) => {
@@ -1405,12 +1405,12 @@ function initAdminPage() {
     if (formNovoFuncionario) formNovoFuncionario.addEventListener('submit', async (e) => {
         e.preventDefault();
         const formData = new FormData(formNovoFuncionario);
-        const daçãosFuncionario = Object.fromEntries(formData.entries());
+        const dadosFuncionario = Object.fromEntries(formData.entries());
         try {
             const response = await fetch(API_URL, {
                 method: 'POST',
                 headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
-                body: JSON.stringify(daçãosFuncionario)
+                body: JSON.stringify(dadosFuncionario)
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message);
@@ -1465,7 +1465,7 @@ function initAdminPage() {
     if (modalEditarForm) {
         modalEditarForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            if (!currentFuncionarioId) return showToast('Selecione um colaboraçãor primeiro.', 'error');
+            if (!currentFuncionarioId) return showToast('Selecione um colaborador primeiro.', 'error');
             const statusDiv = document.getElementById('modal-save-status');
             statusDiv.textContent = 'Salvando...';
             // Collect expanded fields
@@ -1884,7 +1884,7 @@ function initAdminPage() {
     document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
     if (navDashboard) navDashboard.classList.add('active');
 
-    // Carrega os daçãos iniciais do dashboard e widgets auxiliares
+    // Carrega os dados iniciais do dashboard e widgets auxiliares
     carregarDashboard();
     carregarAniversariantes();
     carregarAvisos();
@@ -1952,7 +1952,7 @@ async function initEmployeePage() {
                     overlay.style.background = 'rgba(0,0,0,0.45)';
                     overlay.style.display = 'flex'; overlay.style.alignItems = 'center'; overlay.style.justifyContent = 'center';
                     overlay.style.zIndex = '99999';
-                    overlay.innerHTML = `<div style="background:#fff;padding:20px;border-radius:6px;max-width:420px;text-align:center;box-shaçãow:0 6px 24px rgba(0,0,0,.2);">
+                    overlay.innerHTML = `<div style="background:#fff;padding:20px;border-radius:6px;max-width:420px;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.2);">
                         <h3 style="margin:0 0 8px 0">Sessão não encontrada</h3>
                         <p style="margin:0 0 12px 0;color:#555">Aguardo token de autenticação. Se não houver ação, clique para ir ao login.</p>
                         <div style="display:flex;gap:8px;justify-content:center;margin-top:8px;">
@@ -1996,7 +1996,7 @@ async function initEmployeePage() {
                     const o = document.getElementById('auth-overlay');
                     if (o) {
                         o.innerHTML = `
-                            <div style="background:#fff;padding:20px;border-radius:6px;max-width:520px;text-align:center;box-shaçãow:0 6px 24px rgba(0,0,0,.2);">
+                            <div style="background:#fff;padding:20px;border-radius:6px;max-width:520px;text-align:center;box-shadow:0 6px 24px rgba(0,0,0,.2);">
                                 <h3 style="margin:0 0 8px 0">Sessão não encontrada</h3>
                                 <p style="margin:0 0 12px 0;color:#555">Não detectei um token de autenticação. Você pode tentar novamente ou ir para a tela de login.</p>
                                 <div style="display:flex;gap:8px;justify-content:center;margin-top:12px;">
@@ -2090,7 +2090,7 @@ async function initEmployeePage() {
 
     try {
         const response = await fetch(`/api/funcionarios/${localUserData.id}`, { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
-        if (!response.ok) throw new Error("Não foi possível carregar os seus daçãos.");
+        if (!response.ok) throw new Error("Não foi possível carregar os seus dados.");
         
         const freshUserData = await response.json();
         localStorage.setItem('userData', JSON.stringify(freshUserData));
@@ -2150,7 +2150,7 @@ async function initEmployeePage() {
     try { scheduleWidgetEnableRetries(); } catch (e) {}
 }
 
-// Busca daçãos do dashboard e popula avisos e widgets na página do funcionário
+// Busca dados do dashboard e popula avisos e widgets na página do funcionário
 async function carregarEmployeeDashboard(userData) {
     try {
         const resp = await fetch('/api/dashboard/summary', { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) });
@@ -2191,7 +2191,7 @@ async function carregarEmployeeDashboard(userData) {
             }
         }
 
-        // Holerite destaque (usa daçãos do usuário quando disponíveis)
+        // Holerite destaque (usa dados do usuário quando disponíveis)
         try {
             const holeriteP = document.querySelector('.dashboard-widgets .widget:nth-child(1) p');
             const holeriteLink = document.querySelector('.dashboard-widgets .widget:nth-child(1) .widget-link');
@@ -2511,7 +2511,7 @@ function populateUserData(userData) {
         const first = parts[0] || '';
         const last = parts.length > 1 ? parts[parts.length-1] : '';
         const display = `${first}${last ? ' ' + last : ''}`.trim();
-        headerGreeting.textContent = display  `Olá, ${display}` : 'Olá, Usuário';
+        headerGreeting.textContent = display ? `Olá, ${display}` : 'Olá, Usuário';
     }
     const lastLoginEl = document.getElementById('last-login');
     if (lastLoginEl) lastLoginEl.textContent = new Date().toLocaleString('pt-BR');
@@ -2607,8 +2607,8 @@ function setupEmployeeEventListeners(userData) {
         });
     }
 
-    const daçãosFormEl = document.getElementById('daçãos-form');
-    if (daçãosFormEl) daçãosFormEl.addEventListener('submit', async (e) => {
+    const dadosFormEl = document.getElementById('dados-form');
+    if (dadosFormEl) dadosFormEl.addEventListener('submit', async (e) => {
         e.preventDefault();
         const saveBtn = document.getElementById('save-btn');
         saveBtn.textContent = 'Salvando...';
@@ -2636,7 +2636,7 @@ function setupEmployeeEventListeners(userData) {
         }
 
         // Construir objeto com apenas os campos permitidos
-        const daçãosParaSalvar = {
+        const dadosParaSalvar = {
             telefone: telefoneVal || null,
             estação_civil: estaçãoCivilVal || null,
             dependentes: dependentesVal
@@ -2644,9 +2644,9 @@ function setupEmployeeEventListeners(userData) {
 
         // Mostrar confirmação ao utilizaçãor antes de qualquer alteração
         const summaryLines = [
-            `Telefone: ${daçãosParaSalvar.telefone || '(vazio)'}`,
-            `Estação civil: ${daçãosParaSalvar.estação_civil || '(vazio)'}`,
-            `Dependentes: ${daçãosParaSalvar.dependentes}`
+            `Telefone: ${dadosParaSalvar.telefone || '(vazio)'}`,
+            `Estação civil: ${dadosParaSalvar.estação_civil || '(vazio)'}`,
+            `Dependentes: ${dadosParaSalvar.dependentes}`
         ];
     const confirmed = await showConfirm('Confirme as alterações abaixo:\n\n' + summaryLines.join('\n'));
     if (!confirmed) {
@@ -2659,7 +2659,7 @@ function setupEmployeeEventListeners(userData) {
             const response = await fetch(`/api/funcionarios/${userData.id}`, {
                 method: 'PUT',
                 headers: getAuthHeaders({ 'Content-Type': 'application/json' }),
-                body: JSON.stringify(daçãosParaSalvar),
+                body: JSON.stringify(dadosParaSalvar),
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message);
@@ -2826,7 +2826,7 @@ function setupEmployeeEventListeners(userData) {
         this.excluirFuncionario(id);
     }
     
-    // Função para recarregar daçãos do usuário
+    // Função para recarregar dados do usuário
     reloadUserData() {
         const token = localStorage.getItem('authToken');
         if (!token) {
@@ -2840,10 +2840,10 @@ function setupEmployeeEventListeners(userData) {
         .then(response => response.json())
         .then(data => {
             if (data.success && data.userData) {
-                // Atualizar localStorage com daçãos frescos
+                // Atualizar localStorage com dados frescos
                 localStorage.setItem('userData', JSON.stringify(data.userData));
                 
-                // Repopular interface com novos daçãos
+                // Repopular interface com novos dados
                 populateUserData(data.userData);
                 
                 // Atualizar último acesso
@@ -2853,7 +2853,7 @@ function setupEmployeeEventListeners(userData) {
             }
         })
         .catch(error => {
-            console.error('Erro ao recarregar daçãos do usuário:', error);
+            console.error('Erro ao recarregar dados do usuário:', error);
         });
     }
     
@@ -2877,7 +2877,7 @@ function setupEmployeeEventListeners(userData) {
     */
 }
 
-// Função para inicializar daçãos do dashboard
+// Função para inicializar dados do dashboard
 function initializeDashboard() {
     // Atualizar data atual
     const currentDateEl = document.getElementById('current-date');
@@ -2901,7 +2901,7 @@ function initializeDashboard() {
         }
     }
     
-    // Carregar daçãos do usuário se disponível
+    // Carregar dados do usuário se disponível
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     if (userData && Object.keys(userData).length > 0) {
         populateUserData(userData);

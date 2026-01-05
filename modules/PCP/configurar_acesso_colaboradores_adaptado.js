@@ -17,8 +17,8 @@ async function configurarAcessoPCPAdaptação() {
         
         console.log('✅ Conectação ao banco de dados\n');
         
-        // Lista de colaboraçãores que precisam de acesso
-        const colaboraçãores = [
+        // Lista de colaboradores que precisam de acesso
+        const colaboradores = [
             {
                 email: 'ti@aluforce.ind.br',
                 nome: 'TI Aluforce',
@@ -48,7 +48,7 @@ async function configurarAcessoPCPAdaptação() {
         
         console.log('👥 COLABORADORES PARA ACESSO PCP:');
         console.log('='.repeat(50));
-        colaboraçãores.forEach((col, index) => {
+        colaboradores.forEach((col, index) => {
             console.log(`${index + 1}. ${col.nome} (${col.email}) - ${col.role}`);
         });
         console.log('');
@@ -91,36 +91,36 @@ async function configurarAcessoPCPAdaptação() {
         
         console.log('');
         
-        // Processar cada colaboraçãor
+        // Processar cada colaborador
         let sucessos = 0;
         let atualizacoes = 0;
         let erros = 0;
         
-        for (const colaboraçãor of colaboraçãores) {
+        for (const colaborador of colaboradores) {
             try {
-                console.log(`🔄 Processando: ${colaboraçãor.nome} (${colaboraçãor.email})`);
+                console.log(`🔄 Processando: ${colaborador.nome} (${colaborador.email})`);
                 
                 // Verificar se já existe
                 const [existe] = await connection.execute(
                     'SELECT id FROM usuarios_pcp WHERE email = ',
-                    [colaboraçãor.email]
+                    [colaborador.email]
                 );
                 
                 // Gerar senha padrão
-                const senhaTemporaria = `Aluforce2025!${colaboraçãor.nome.substring(0, 3)}`;
+                const senhaTemporaria = `Aluforce2025!${colaborador.nome.substring(0, 3)}`;
                 
                 // Definir permissões baseadas no role
                 const permissoes = {
                     pcp: {
                         visualizar: true,
                         criar_ordem: true,
-                        editar_ordem: colaboraçãor.role === 'admin',
-                        excluir_ordem: colaboraçãor.role === 'admin',
-                        gerenciar_usuarios: colaboraçãor.role === 'admin',
+                        editar_ordem: colaborador.role === 'admin',
+                        excluir_ordem: colaborador.role === 'admin',
+                        gerenciar_usuarios: colaborador.role === 'admin',
                         relatorios: true,
                         dashboard: true
                     },
-                    admin: colaboraçãor.role === 'admin'
+                    admin: colaborador.role === 'admin'
                 };
                 
                 if (existe.length > 0) {
@@ -130,7 +130,7 @@ async function configurarAcessoPCPAdaptação() {
                         SET nome = , 
                             role = 
                         WHERE email = 
-                    `, [colaboraçãor.nome, colaboraçãor.role, colaboraçãor.email]);
+                    `, [colaborador.nome, colaborador.role, colaborador.email]);
                     
                     // Tentar atualizar campos extras se existirem
                     try {
@@ -141,7 +141,7 @@ async function configurarAcessoPCPAdaptação() {
                                 observacoes = CONCAT(IFNULL(observacoes, ''), 
                                                    '\n[', NOW(), '] Acesso atualização automaticamente')
                             WHERE email = 
-                        `, [JSON.stringify(permissoes), colaboraçãor.email]);
+                        `, [JSON.stringify(permissoes), colaborador.email]);
                     } catch (e) {
                         console.log(`   ⚠️ Campos extras não atualizaçãos: ${e.message}`);
                     }
@@ -153,8 +153,8 @@ async function configurarAcessoPCPAdaptação() {
                     const [result] = await connection.execute(`
                         INSERT INTO usuarios_pcp 
                         (email, senha, nome, role)
-                        VALUES (, , , )
-                    `, [colaboraçãor.email, senhaTemporaria, colaboraçãor.nome, colaboraçãor.role]);
+                        VALUES (?, ?, ?, ?)
+                    `, [colaborador.email, senhaTemporaria, colaborador.nome, colaborador.role]);
                     
                     // Tentar adicionar campos extras se existirem
                     try {
@@ -179,7 +179,7 @@ async function configurarAcessoPCPAdaptação() {
                 }
                 
             } catch (error) {
-                console.log(`   ❌ Erro ao processar ${colaboraçãor.email}: ${error.message}`);
+                console.log(`   ❌ Erro ao processar ${colaborador.email}: ${error.message}`);
                 erros++;
             }
         }
@@ -205,16 +205,16 @@ async function configurarAcessoPCPAdaptação() {
             console.log(`${index + 1}. ✅ ${user.nome} (${user.email}) - ${user.role} [${dataFormatada}]`);
         });
         
-        // Verificar se todos os colaboraçãores estão na lista
+        // Verificar se todos os colaboradores estão na lista
         console.log('\n🔍 VERIFICAÇÃO DE COBERTURA:');
         console.log('='.repeat(50));
         
-        for (const colaboraçãor of colaboraçãores) {
-            const usuario = todosUsuarios.find(u => u.email === colaboraçãor.email);
+        for (const colaborador of colaboradores) {
+            const usuario = todosUsuarios.find(u => u.email === colaborador.email);
             if (usuario) {
-                console.log(`✅ ${colaboraçãor.nome}: Configuração (ID: ${usuario.id})`);
+                console.log(`✅ ${colaborador.nome}: Configuração (ID: ${usuario.id})`);
             } else {
-                console.log(`❌ ${colaboraçãor.nome}: NÃO configuração`);
+                console.log(`❌ ${colaborador.nome}: NÃO configuração`);
             }
         }
         

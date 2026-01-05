@@ -132,7 +132,7 @@ async function configurarAvatares() {
         console.log('\n👥 USUÁRIOS COM AVATARES:');
         console.log('='.repeat(50));
         todosUsuarios.forEach((user, index) => {
-            const foto = user.foto_url  `📸 ${user.foto_url}` : '👤 Avatar padrão';
+            const foto = user.foto_url ? `📸 ${user.foto_url}` : '👤 Avatar padrão';
             console.log(`${index + 1}. ${user.nome} (${user.email})`);
             console.log(`   ${foto}`);
         });

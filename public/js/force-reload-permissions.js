@@ -14,7 +14,7 @@ script.src = '/js/email-permissions.jsv=' + Date.now();
 script.onload = () => {
     console.log('✅ email-permissions.js recarregação');
     
-    // Buscar daçãos do usuário e aplicar permissões
+    // Buscar dados do usuário e aplicar permissões
     fetch('/api/me', { credentials: 'include' })
         .then(r => r.json())
         .then(user => {

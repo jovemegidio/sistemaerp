@@ -82,7 +82,7 @@
                     #connection-lost-modal .reconnect-btn:hover {
                         background: #5a6875 !important;
                         transform: translateY(-1px);
-                        box-shaçãow: 0 4px 12px rgba(108, 117, 125, 0.3);
+                        box-shadow: 0 4px 12px rgba(108, 117, 125, 0.3);
                     }
                     #connection-lost-modal .reconnect-btn:active {
                         transform: translateY(0);
@@ -95,7 +95,7 @@
                 <div style="
                     background: white;
                     border-radius: 12px;
-                    box-shaçãow: 0 10px 40px rgba(0, 0, 0, 0.15);
+                    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
                     max-width: 420px;
                     width: 90%;
                     animation: connectionSlideIn 0.3s ease-out;

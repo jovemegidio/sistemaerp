@@ -205,7 +205,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .stat-card .stat-icon {
@@ -250,7 +250,7 @@
         .tickets-panel {
             background: white;
             border-radius: 12px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             max-height: calc(100vh - 260px);
@@ -397,7 +397,7 @@
         .chat-panel {
             background: white;
             border-radius: 12px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             display: flex;
             flex-direction: column;
             max-height: calc(100vh - 260px);
@@ -487,7 +487,7 @@
             background: white;
             color: #1f2937;
             border-bottom-left-radius: 4px;
-            box-shaçãow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .message.sent .bubble {
@@ -600,7 +600,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .kb-card .category {
@@ -1013,9 +1013,9 @@
         }
 
         function showView(view) {
-            document.getElementById('dashboardView').style.display = view === 'dashboard'  'block' : 'none';
-            document.getElementById('ticketsView').style.display = view === 'tickets'  'block' : 'none';
-            document.getElementById('knowledgeView').style.display = view === 'knowledge'  'block' : 'none';
+            document.getElementById('dashboardView').style.display = view === 'dashboard' ? 'block' : 'none';
+            document.getElementById('ticketsView').style.display = view === 'tickets' ? 'block' : 'none';
+            document.getElementById('knowledgeView').style.display = view === 'knowledge' ? 'block' : 'none';
             
             if (view === 'dashboard') loadStats();
             if (view === 'knowledge') loadKnowledge();
@@ -1074,7 +1074,7 @@
                         <div class="ticket-subject">${ticket.subject || 'Sem assunto'}</div>
                         <div class="ticket-meta">
                             <span class="status-badge ${status.class}">${status.text}</span>
-                            ${ticket.assignedTo  `<span style="font-size:12px;color:#6b7280"><i class="bi bi-person"></i> ${ticket.assignedTo}</span>` : ''}
+                            ${ticket.assignedTo ? `<span style="font-size:12px;color:#6b7280"><i class="bi bi-person"></i> ${ticket.assignedTo}</span>` : ''}
                         </div>
                     </div>
                 </div>
@@ -1152,11 +1152,11 @@
             }
 
             const isReceived = message.sender === 'client';
-            const senderClass = message.sender === 'ai'  ' ai' : '';
+            const senderClass = message.sender === 'ai' ? ' ai' : '';
 
             return `
                 <div class="message ${isReceived ? 'received' : 'sent'}${senderClass}">
-                    ${message.senderName  `<div class="sender-name">${message.senderName}</div>` : ''}
+                    ${message.senderName ? `<div class="sender-name">${message.senderName}</div>` : ''}
                     <div class="bubble">${message.message}</div>
                     <div class="time">${time}</div>
                 </div>

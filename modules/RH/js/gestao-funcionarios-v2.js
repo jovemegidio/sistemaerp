@@ -243,7 +243,7 @@ class GestãoFuncionarios {
                                 `<div class="avatar-placeholder">${funcionario.nome.split(' ').map(n => n[0]).join('')}</div>`
                             }
                         </div>
-                        <div class="funcionario-daçãos">
+                        <div class="funcionario-dados">
                             <div class="funcionario-nome">${funcionario.nome}</div>
                             <div class="funcionario-email">${funcionario.email}</div>
                         </div>
@@ -265,7 +265,7 @@ class GestãoFuncionarios {
                 </td>
                 <td>
                     <div class="status-badge ${funcionario.status}">
-                        ${funcionario.status === 'ativo'  'Ativo' : 'Inativo'}
+                        ${funcionario.status === 'ativo' ? 'Ativo' : 'Inativo'}
                     </div>
                 </td>
                 <td>
@@ -343,7 +343,7 @@ class GestãoFuncionarios {
     }
 
     gerarFormularioFuncionario(funcionario = null) {
-        const daçãos = funcionario || {
+        const dados = funcionario || {
             nome: '',
             email: '',
             telefone: '',
@@ -366,56 +366,56 @@ class GestãoFuncionarios {
         return `
             <form id="form-funcionario" class="form-funcionario">
                 <div class="form-tabs">
-                    <button type="button" class="tab-button active" data-tab="daçãos-pessoais">Daçãos Pessoais</button>
-                    <button type="button" class="tab-button" data-tab="daçãos-profissionais">Daçãos Profissionais</button>
+                    <button type="button" class="tab-button active" data-tab="dados-pessoais">Daçãos Pessoais</button>
+                    <button type="button" class="tab-button" data-tab="dados-profissionais">Daçãos Profissionais</button>
                     <button type="button" class="tab-button" data-tab="endereco">Endereço</button>
                     <button type="button" class="tab-button" data-tab="observacoes">Observações</button>
                 </div>
                 
                 <div class="tab-content">
-                    <div id="daçãos-pessoais" class="tab-panel active">
+                    <div id="dados-pessoais" class="tab-panel active">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="nome">Nome Completo *</label>
-                                <input type="text" id="nome" name="nome" value="${daçãos.nome}" required>
+                                <input type="text" id="nome" name="nome" value="${dados.nome}" required>
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="email">E-mail *</label>
-                                <input type="email" id="email" name="email" value="${daçãos.email}" required>
+                                <input type="email" id="email" name="email" value="${dados.email}" required>
                             </div>
                             <div class="form-group">
                                 <label for="telefone">Telefone</label>
-                                <input type="tel" id="telefone" name="telefone" value="${daçãos.telefone}">
+                                <input type="tel" id="telefone" name="telefone" value="${dados.telefone}">
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="cpf">CPF *</label>
-                                <input type="text" id="cpf" name="cpf" value="${daçãos.cpf}" required>
+                                <input type="text" id="cpf" name="cpf" value="${dados.cpf}" required>
                             </div>
                             <div class="form-group">
                                 <label for="data_admissao">Data de Admissão *</label>
-                                <input type="date" id="data_admissao" name="data_admissao" value="${daçãos.data_admissao}" required>
+                                <input type="date" id="data_admissao" name="data_admissao" value="${dados.data_admissao}" required>
                             </div>
                         </div>
                     </div>
                     
-                    <div id="daçãos-profissionais" class="tab-panel">
+                    <div id="dados-profissionais" class="tab-panel">
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="cargo">Cargo *</label>
-                                <input type="text" id="cargo" name="cargo" value="${daçãos.cargo}" required>
+                                <input type="text" id="cargo" name="cargo" value="${dados.cargo}" required>
                             </div>
                             <div class="form-group">
                                 <label for="departamento_id">Departamento *</label>
                                 <select id="departamento_id" name="departamento_id" required>
                                     <option value="">Selecione...</option>
                                     ${this.departamentos.map(dep => 
-                                        `<option value="${dep.id}" ${daçãos.departamento_id == dep.id ? 'selected' : ''}>${dep.nome}</option>`
+                                        `<option value="${dep.id}" ${dados.departamento_id == dep.id ? 'selected' : ''}>${dep.nome}</option>`
                                     ).join('')}
                                 </select>
                             </div>
@@ -424,13 +424,13 @@ class GestãoFuncionarios {
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="salario">Salário *</label>
-                                <input type="number" id="salario" name="salario" value="${daçãos.salario}" step="0.01" min="0" required>
+                                <input type="number" id="salario" name="salario" value="${dados.salario}" step="0.01" min="0" required>
                             </div>
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <select id="status" name="status">
-                                    <option value="ativo" ${daçãos.status === 'ativo'  'selected' : ''}>Ativo</option>
-                                    <option value="inativo" ${daçãos.status === 'inativo'  'selected' : ''}>Inativo</option>
+                                    <option value="ativo" ${dados.status === 'ativo' ? 'selected' : ''}>Ativo</option>
+                                    <option value="inativo" ${dados.status === 'inativo' ? 'selected' : ''}>Inativo</option>
                                 </select>
                             </div>
                         </div>
@@ -440,15 +440,15 @@ class GestãoFuncionarios {
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="cep">CEP</label>
-                                <input type="text" id="cep" name="cep" value="${daçãos.endereco.cep || ''}">
+                                <input type="text" id="cep" name="cep" value="${dados.endereco.cep || ''}">
                             </div>
                             <div class="form-group">
                                 <label for="uf">UF</label>
                                 <select id="uf" name="uf">
                                     <option value="">Selecione...</option>
-                                    <option value="SP" ${daçãos.endereco.uf === 'SP'  'selected' : ''}>São Paulo</option>
-                                    <option value="RJ" ${daçãos.endereco.uf === 'RJ'  'selected' : ''}>Rio de Janeiro</option>
-                                    <option value="MG" ${daçãos.endereco.uf === 'MG'  'selected' : ''}>Minas Gerais</option>
+                                    <option value="SP" ${dados.endereco.uf === 'SP' ? 'selected' : ''}>São Paulo</option>
+                                    <option value="RJ" ${dados.endereco.uf === 'RJ' ? 'selected' : ''}>Rio de Janeiro</option>
+                                    <option value="MG" ${dados.endereco.uf === 'MG' ? 'selected' : ''}>Minas Gerais</option>
                                     <!-- Adicionar mais estaçãos conforme necessário -->
                                 </select>
                             </div>
@@ -457,18 +457,18 @@ class GestãoFuncionarios {
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="cidade">Cidade</label>
-                                <input type="text" id="cidade" name="cidade" value="${daçãos.endereco.cidade || ''}">
+                                <input type="text" id="cidade" name="cidade" value="${dados.endereco.cidade || ''}">
                             </div>
                             <div class="form-group">
                                 <label for="bairro">Bairro</label>
-                                <input type="text" id="bairro" name="bairro" value="${daçãos.endereco.bairro || ''}">
+                                <input type="text" id="bairro" name="bairro" value="${dados.endereco.bairro || ''}">
                             </div>
                         </div>
                         
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="rua">Endereço</label>
-                                <input type="text" id="rua" name="rua" value="${daçãos.endereco.rua || ''}" placeholder="Rua, número, complemento">
+                                <input type="text" id="rua" name="rua" value="${dados.endereco.rua || ''}" placeholder="Rua, número, complemento">
                             </div>
                         </div>
                     </div>
@@ -476,7 +476,7 @@ class GestãoFuncionarios {
                     <div id="observacoes" class="tab-panel">
                         <div class="form-group">
                             <label for="observacoes_text">Observações</label>
-                            <textarea id="observacoes_text" name="observacoes" rows="6" placeholder="Informações adicionais sobre o funcionário...">${daçãos.observacoes || ''}</textarea>
+                            <textarea id="observacoes_text" name="observacoes" rows="6" placeholder="Informações adicionais sobre o funcionário...">${dados.observacoes || ''}</textarea>
                         </div>
                     </div>
                 </div>
@@ -493,30 +493,30 @@ class GestãoFuncionarios {
 
     obterDaçãosFormulario(form) {
         const formData = new FormData(form);
-        const daçãos = {};
+        const dados = {};
         
         for (let [key, value] of formData.entries()) {
             if (key.startsWith('endereco_')) {
-                if (!daçãos.endereco) daçãos.endereco = {};
-                daçãos.endereco[key.replace('endereco_', '')] = value;
+                if (!dados.endereco) dados.endereco = {};
+                dados.endereco[key.replace('endereco_', '')] = value;
             } else {
-                daçãos[key] = value;
+                dados[key] = value;
             }
         }
         
         // Processar campos específicos
-        if (daçãos.salario) daçãos.salario = parseFloat(daçãos.salario);
-        if (daçãos.departamento_id) daçãos.departamento_id = parseInt(daçãos.departamento_id);
+        if (dados.salario) dados.salario = parseFloat(dados.salario);
+        if (dados.departamento_id) dados.departamento_id = parseInt(dados.departamento_id);
         
-        return daçãos;
+        return dados;
     }
 
-    adicionarFuncionario(daçãos) {
+    adicionarFuncionario(dados) {
         const novoId = Math.max(...this.funcionarios.map(f => f.id), 0) + 1;
         const novoFuncionario = {
             id: novoId,
-            ...daçãos,
-            endereco: daçãos.endereco || {},
+            ...dados,
+            endereco: dados.endereco || {},
             beneficios: [],
             foto: null
         };
@@ -528,10 +528,10 @@ class GestãoFuncionarios {
         this.mostrarNotificacao('Funcionário cadastração com sucesso!', 'success');
     }
 
-    atualizarFuncionario(id, daçãos) {
+    atualizarFuncionario(id, dados) {
         const index = this.funcionarios.findIndex(f => f.id === id);
         if (index !== -1) {
-            this.funcionarios[index] = { ...this.funcionarios[index], ...daçãos };
+            this.funcionarios[index] = { ...this.funcionarios[index], ...dados };
             this.renderizarLista();
             
             console.log('✅ Funcionário atualização:', this.funcionarios[index]);
@@ -575,14 +575,14 @@ class GestãoFuncionarios {
                     <div class="funcionario-info-principal">
                         <h2>${funcionario.nome}</h2>
                         <p class="cargo-departamento">${funcionario.cargo} - ${departamento.nome || 'N/A'}</p>
-                        <div class="status-badge ${funcionario.status}">${funcionario.status === 'ativo'  'Ativo' : 'Inativo'}</div>
+                        <div class="status-badge ${funcionario.status}">${funcionario.status === 'ativo' ? 'Ativo' : 'Inativo'}</div>
                     </div>
                 </div>
                 
-                <div class="funcionario-daçãos-grid">
-                    <div class="daçãos-grupo">
+                <div class="funcionario-dados-grid">
+                    <div class="dados-grupo">
                         <h4><i class="fas fa-user"></i> Daçãos Pessoais</h4>
-                        <div class="daçãos-lista">
+                        <div class="dados-lista">
                             <div class="dação-item">
                                 <span class="dação-label">E-mail:</span>
                                 <span class="dação-valor">${funcionario.email}</span>
@@ -598,9 +598,9 @@ class GestãoFuncionarios {
                         </div>
                     </div>
                     
-                    <div class="daçãos-grupo">
+                    <div class="dados-grupo">
                         <h4><i class="fas fa-briefcase"></i> Daçãos Profissionais</h4>
-                        <div class="daçãos-lista">
+                        <div class="dados-lista">
                             <div class="dação-item">
                                 <span class="dação-label">Data de Admissão:</span>
                                 <span class="dação-valor">${new Date(funcionario.data_admissao).toLocaleDateString('pt-BR')}</span>
@@ -616,9 +616,9 @@ class GestãoFuncionarios {
                         </div>
                     </div>
                     
-                    <div class="daçãos-grupo">
+                    <div class="dados-grupo">
                         <h4><i class="fas fa-map-marker-alt"></i> Endereço</h4>
-                        <div class="daçãos-lista">
+                        <div class="dados-lista">
                             <div class="dação-item">
                                 <span class="dação-label">CEP:</span>
                                 <span class="dação-valor">${funcionario.endereco.cep || 'Não informação'}</span>
@@ -634,7 +634,7 @@ class GestãoFuncionarios {
                         </div>
                     </div>
                     
-                    <div class="daçãos-grupo">
+                    <div class="dados-grupo">
                         <h4><i class="fas fa-gift"></i> Benefícios</h4>
                         <div class="beneficios-lista">
                             ${funcionario.beneficios.length  
@@ -645,7 +645,7 @@ class GestãoFuncionarios {
                     </div>
                 </div>
                 
-                ${funcionario.observacoes  `
+                ${funcionario.observacoes ? `
                     <div class="observacoes-funcionario">
                         <h4><i class="fas fa-sticky-note"></i> Observações</h4>
                         <p>${funcionario.observacoes}</p>
@@ -839,7 +839,7 @@ class GestãoFuncionarios {
         notificação.className = `notificação notificação-${tipo}`;
         notificação.innerHTML = `
             <div class="notificação-content">
-                <i class="fas ${tipo === 'success'  'fa-check-circle' : tipo === 'error'  'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                <i class="fas ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
                 <span>${mensagem}</span>
             </div>
             <button class="notificação-close" onclick="this.parentElement.remove()">

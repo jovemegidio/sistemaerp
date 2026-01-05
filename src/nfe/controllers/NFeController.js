@@ -121,7 +121,7 @@ class NFeController {
                     xml_original, xml_assinação,
                     status, ambiente,
                     created_at
-                ) VALUES (, , , , , , , , , , , , , , , , , , NOW())
+                ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , , NOW())
             `, [
                 numeroNFe,
                 serie,
@@ -155,7 +155,7 @@ class NFeController {
                         base_calculo_icms, aliquota_icms, valor_icms,
                         base_calculo_pis, aliquota_pis, valor_pis,
                         base_calculo_cofins, aliquota_cofins, valor_cofins
-                    ) VALUES (, , , , , , , , , , , , , , , , , , )
+                    ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?)
                 `, [
                     nfeId,
                     item.numeroItem,
@@ -317,7 +317,7 @@ class NFeController {
 
     /**
      * POST /api/nfe/:id/reemitir
-     * Reemite NFe com mesmos daçãos
+     * Reemite NFe com mesmos dados
      */
     async reemitirNFe(req, res) {
         try {
@@ -340,7 +340,7 @@ class NFeController {
 
             // Buscar itens
             const [itens] = await this.pool.query(
-                'SELECT * FROM nfe_itens WHERE nfe_id =  ORDER BY numero_item',
+                'SELECT * FROM nfe_itens WHERE nfe_id = ? ORDER BY numero_item',
                 [nfeId]
             );
 
@@ -349,19 +349,19 @@ class NFeController {
                 emitente: {
                     cnpj: nfeOriginal.emitente_cnpj,
                     razaoSocial: nfeOriginal.emitente_nome
-                    // ... outros daçãos do emitente
+                    // ... outros dados do emitente
                 },
                 destinatario: {
                     cnpj: nfeOriginal.destinatario_cnpj_cpf,
                     nome: nfeOriginal.destinatario_nome
-                    // ... outros daçãos do destinatário
+                    // ... outros dados do destinatário
                 },
                 itens: itens.map(item => ({
                     codigo: item.codigo_produto,
                     descricao: item.descricao,
                     quantidade: item.quantidade,
                     valorUnitario: item.valor_unitario
-                    // ... outros daçãos do item
+                    // ... outros dados do item
                 })),
                 totais: {
                     valorProdutos: nfeOriginal.valor_produtos,
@@ -418,11 +418,11 @@ class NFeController {
             }
 
             if (destinatario) {
-                sql += ' AND (destinatario_nome LIKE  OR destinatario_cnpj_cpf LIKE )';
+                sql += ' AND (destinatario_nome LIKE ? OR destinatario_cnpj_cpf LIKE ?)';
                 params.push(`%${destinatario}%`, `%${destinatario}%`);
             }
 
-            sql += ' ORDER BY data_emissao DESC LIMIT  OFFSET ';
+            sql += ' ORDER BY data_emissao DESC LIMIT ? OFFSET ';
             params.push(parseInt(limite), (parseInt(pagina) - 1) * parseInt(limite));
 
             const [nfes] = await this.pool.query(sql, params);
@@ -466,7 +466,7 @@ class NFeController {
             }
 
             const [itens] = await this.pool.query(
-                'SELECT * FROM nfe_itens WHERE nfe_id =  ORDER BY numero_item',
+                'SELECT * FROM nfe_itens WHERE nfe_id = ? ORDER BY numero_item',
                 [nfeId]
             );
 
@@ -584,7 +584,7 @@ class NFeController {
             
             // Obter ambiente (homologação/produção)
             const [config] = await this.pool.query(
-                'SELECT ambiente FROM nfe_configuracoes WHERE empresa_id =  LIMIT 1',
+                'SELECT ambiente FROM nfe_configuracoes WHERE empresa_id = ? LIMIT 1',
                 [nfe.empresa_id || 1]
             );
             
@@ -593,14 +593,14 @@ class NFeController {
             console.log(`📤 Transmitindo NFe ${nfe.numero}/${nfe.serie} para SEFAZ ${uf}...`);
 
             // Transmitir para SEFAZ
-            const resultação = await this.sefazService.autorizarNFe(
+            const resultado = await this.sefazService.autorizarNFe(
                 nfe.xml_assinação,
                 uf,
                 ambiente
             );
 
             // Atualizar status no banco
-            if (resultação.cStat === '100') {
+            if (resultado.cStat === '100') {
                 // Autorizada
                 await this.pool.query(`
                     UPDATE nfes SET 
@@ -609,7 +609,7 @@ class NFeController {
                         data_autorizacao = NOW(),
                         xml_protocolo = 
                     WHERE id = 
-                `, [resultação.nProt, JSON.stringify(resultação.xmlProtocolo), nfeId]);
+                `, [resultado.nProt, JSON.stringify(resultado.xmlProtocolo), nfeId]);
 
                 res.json({
                     sucesso: true,
@@ -618,18 +618,18 @@ class NFeController {
                         numero: nfe.numero,
                         serie: nfe.serie,
                         chaveAcesso: nfe.chave_acesso,
-                        protocolo: resultação.nProt,
-                        dataAutorizacao: resultação.dhRecbto
+                        protocolo: resultado.nProt,
+                        dataAutorizacao: resultado.dhRecbto
                     },
-                    sefaz: resultação
+                    sefaz: resultado
                 });
 
-            } else if (resultação.cStat === '103') {
+            } else if (resultado.cStat === '103') {
                 // Lote em processamento
                 res.json({
                     sucesso: true,
                     mensagem: 'Lote recebido pela SEFAZ, aguardando processamento',
-                    numeroRecibo: resultação.nRec
+                    numeroRecibo: resultado.nRec
                 });
 
             } else {
@@ -639,13 +639,13 @@ class NFeController {
                         status = 'rejeitada',
                         motivo_rejeicao = 
                     WHERE id = 
-                `, [resultação.xMotivo, nfeId]);
+                `, [resultado.xMotivo, nfeId]);
 
                 res.status(400).json({
                     sucesso: false,
                     mensagem: 'NFe rejeitada pela SEFAZ',
-                    codigo: resultação.cStat,
-                    motivo: resultação.xMotivo
+                    codigo: resultado.cStat,
+                    motivo: resultado.xMotivo
                 });
             }
 
@@ -755,13 +755,13 @@ class NFeController {
 
             console.log(`🚫 Recebido cancelamento da NFe ${id}`);
 
-            const resultação = await this.eventoService.cancelarNFe(
+            const resultado = await this.eventoService.cancelarNFe(
                 parseInt(id),
                 justificativa,
                 parseInt(empresaId)
             );
 
-            res.json(resultação);
+            res.json(resultado);
 
         } catch (error) {
             console.error('❌ Erro ao cancelar NFe:', error);
@@ -783,13 +783,13 @@ class NFeController {
 
             console.log(`📝 Recebida CCe para NFe ${id}`);
 
-            const resultação = await this.eventoService.registrarCCe(
+            const resultado = await this.eventoService.registrarCCe(
                 parseInt(id),
                 correcao,
                 parseInt(empresaId)
             );
 
-            res.json(resultação);
+            res.json(resultado);
 
         } catch (error) {
             console.error('❌ Erro ao registrar CCe:', error);
@@ -862,13 +862,13 @@ class NFeController {
      */
     async inutilizarFaixa(req, res) {
         try {
-            const daçãos = req.body;
+            const dados = req.body;
 
-            console.log(`🚫 Solicitação de inutilização: série ${daçãos.serie}, números ${daçãos.numeroInicial}-${daçãos.numeroFinal}`);
+            console.log(`🚫 Solicitação de inutilização: série ${dados.serie}, números ${dados.numeroInicial}-${dados.numeroFinal}`);
 
-            const resultação = await this.inutilizacaoService.inutilizarFaixa(daçãos);
+            const resultado = await this.inutilizacaoService.inutilizarFaixa(dados);
 
-            res.json(resultação);
+            res.json(resultado);
 
         } catch (error) {
             console.error('❌ Erro ao inutilizar faixa:', error);

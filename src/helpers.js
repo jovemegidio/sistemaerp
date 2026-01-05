@@ -54,8 +54,8 @@ const validateCNPJ = (cnpj) => {
         if (pos < 2) pos = 9;
     }
     
-    let resultação = soma % 11 < 2  0 : 11 - soma % 11;
-    if (resultação != digitos.charAt(0)) return false;
+    let resultado = soma % 11 < 2  0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(0)) return false;
     
     // Validação do segundo dígito verificaçãor
     tamanho = tamanho + 1;
@@ -68,8 +68,8 @@ const validateCNPJ = (cnpj) => {
         if (pos < 2) pos = 9;
     }
     
-    resultação = soma % 11 < 2  0 : 11 - soma % 11;
-    if (resultação != digitos.charAt(1)) return false;
+    resultado = soma % 11 < 2  0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(1)) return false;
     
     return true;
 };

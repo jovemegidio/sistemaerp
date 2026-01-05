@@ -171,7 +171,7 @@ async function logAudit(userId, action, resourceType = null, resourceId = null, 
     try {
         if (!dbAvailable) return;
         await ensureAuditTable();
-        await pool.query('INSERT INTO audit_logs (user_id, action, resource_type, resource_id, meta) VALUES (, , , , )', [userId || null, action, resourceType || null, resourceId === undefined || resourceId === null ? null : String(resourceId), meta ? JSON.stringify(meta) : null]);
+        await pool.query('INSERT INTO audit_logs (user_id, action, resource_type, resource_id, meta) VALUES (?, ?, ?, ?, )', [userId || null, action, resourceType || null, resourceId === undefined || resourceId === null ? null : String(resourceId), meta ? JSON.stringify(meta) : null]);
     } catch (e) { console.warn('logAudit error', e && e.message ? e.message : e); }
 }
 
@@ -214,7 +214,7 @@ async function computeAndCacheAggregates() {
             labels.push(d.toLocaleString('pt-BR', { month: 'short', year: 'numeric' }));
             const v = map.has(ym) ? map.get(ym) : 0;
             values.push(v);
-            try { await pool.query('INSERT INTO dashboard_aggregates (ym, total) VALUES (, ) ON DUPLICATE KEY UPDATE total = VALUES(total), created_at = CURRENT_TIMESTAMP', [ym, v]); } catch (e) { /* ignore per-row upsert errors */ }
+            try { await pool.query('INSERT INTO dashboard_aggregates (ym, total) VALUES (?, ) ON DUPLICATE KEY UPDATE total = VALUES(total), created_at = CURRENT_TIMESTAMP', [ym, v]); } catch (e) { /* ignore per-row upsert errors */ }
         }
 
         setCache('dashboard:monthly', { labels, values }, 60 * 60 * 1000);
@@ -318,7 +318,7 @@ app.get('/api/admin/audit-logs', authorizeAdmin, async (req, res) => {
         const per = Math.min(200, Math.max(10, Number(req.query.per || 50)));
         const offset = (page - 1) * per;
         await ensureAuditTable();
-        const [rows] = await pool.query('SELECT id, user_id, action, resource_type, resource_id, meta, created_at FROM audit_logs ORDER BY created_at DESC LIMIT  OFFSET ', [per, offset]);
+        const [rows] = await pool.query('SELECT id, user_id, action, resource_type, resource_id, meta, created_at FROM audit_logs ORDER BY created_at DESC LIMIT ? OFFSET ', [per, offset]);
         res.json(rows.map(r => ({ id: r.id, user_id: r.user_id, action: r.action, resource_type: r.resource_type, resource_id: r.resource_id, meta: r.meta ? JSON.parse(r.meta) : null, created_at: r.created_at })));
     } catch (e) { res.status(500).json({ error: 'server_error' }); }
 });
@@ -360,7 +360,7 @@ app.post('/api/login', authLimiter, async (req, res, next) => {
             return res.status(400).json({ message: 'Email/username e senha são obrigatórios.' });
         }
 
-        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email =  LIMIT 1', [emailOrUsername]);
+        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email = ? LIMIT 1', [emailOrUsername]);
         if (rows.length === 0) {
             return res.status(401).json({ message: 'Credenciais inválidas.' });
         }
@@ -496,11 +496,11 @@ apiVendasRouter.get('/kanban/pedidos', async (req, res) => {
             console.log(`👤 Filtrando pedidos do vendedor: ${currentUser.nome} (ID: ${currentUser.id})`);
         }
         
-        // Filtro de status base (cancelaçãos, denegaçãos, encerraçãos)
+        // Filtro de status base (cancelados, denegaçãos, encerrados)
         const statusExcluidos = [];
         if (exibirCancelados !== 'true') statusExcluidos.push('cancelação');
         if (exibirDenegados !== 'true') statusExcluidos.push('denegação');
-        if (exibirEncerraçãos !== 'true') statusExcluidos.push('encerração', 'arquivação');
+        if (exibirEncerraçãos !== 'true') statusExcluidos.push('encerrado', 'arquivação');
         
         if (statusExcluidos.length > 0) {
             whereConditions.push(`p.status NOT IN (${statusExcluidos.map(() => '').join(',')})`);
@@ -795,7 +795,7 @@ apiVendasRouter.get('/pedidos/:id/itens', async (req, res, next) => {
         } catch (e) { /* tabela já existe */ }
         
         const [itens] = await pool.query(
-            'SELECT * FROM pedido_itens WHERE pedido_id =  ORDER BY id ASC',
+            'SELECT * FROM pedido_itens WHERE pedido_id = ? ORDER BY id ASC',
             [id]
         );
         res.json(itens);
@@ -828,7 +828,7 @@ apiVendasRouter.get('/pedidos/:id/historico', async (req, res, next) => {
         } catch (e) { /* tabela já existe */ }
         
         const [rows] = await pool.query(
-            'SELECT * FROM pedido_historico WHERE pedido_id =  ORDER BY created_at DESC',
+            'SELECT * FROM pedido_historico WHERE pedido_id = ? ORDER BY created_at DESC',
             [id]
         );
         res.json(rows);
@@ -863,7 +863,7 @@ apiVendasRouter.post('/pedidos/:id/historico', async (req, res, next) => {
         } catch (e) { /* tabela já existe */ }
         
         await pool.query(
-            'INSERT INTO pedido_historico (pedido_id, user_id, user_name, action, descricao, meta) VALUES (, , , , , )',
+            'INSERT INTO pedido_historico (pedido_id, user_id, user_name, action, descricao, meta) VALUES (?, ?, ?, ?, ?, ?)',
             [id, null, usuario || 'Sistema', tipo || action || 'status', descricao || '', meta ? JSON.stringify(meta) : null]
         );
         
@@ -1155,7 +1155,7 @@ apiVendasRouter.get('/pedidos/filtro-avancação', async (req, res, next) => {
 
         if (q) {
             const searchTerm = `%${q}%`;
-            queryConditions.push("(e.nome_fantasia LIKE  OR p.id LIKE  OR u.nome LIKE )");
+            queryConditions.push("(e.nome_fantasia LIKE ? OR p.id LIKE ? OR u.nome LIKE ?)");
             params.push(searchTerm, searchTerm, searchTerm);
         }
         if (period && period !== 'all') {
@@ -1195,7 +1195,7 @@ apiVendasRouter.get('/pedidos/filtro-avancação', async (req, res, next) => {
             params.push(user.id);
         }
 
-        const whereClause = queryConditions.length > 0  `WHERE ${queryConditions.join(' AND ')}` : '';
+        const whereClause = queryConditions.length > 0 ? `WHERE ${queryConditions.join(' AND ')}` : '';
 
         const [rows] = await pool.query(`
             SELECT 
@@ -1292,7 +1292,7 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
             params.push(status);
         }
 
-        const whereClause = where.length  `WHERE ${where.join(' AND ')}` : '';
+        const whereClause = where.length ? `WHERE ${where.join(' AND ')}` : '';
 
         const [rows] = await pool.query(`
             SELECT p.id, p.valor, p.valor as valor_total, p.status, p.created_at, p.created_at as data_pedido, 
@@ -1307,7 +1307,7 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
             LEFT JOIN usuarios u ON p.vendedor_id = u.id
             ${whereClause}
             ORDER BY p.id DESC
-            LIMIT  OFFSET 
+            LIMIT ? OFFSET 
         `, [...params, limit, offset]);
 
         res.json(rows);
@@ -1367,7 +1367,7 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
         if (!empresaFinalId && cliente_nome) {
             // Tentar buscar empresa pelo nome
             const [existingEmp] = await pool.query(
-                'SELECT id FROM empresas WHERE nome_fantasia =  OR razao_social =  LIMIT 1',
+                'SELECT id FROM empresas WHERE nome_fantasia =  OR razao_social = ? LIMIT 1',
                 [cliente_nome, cliente_nome]
             );
             if (existingEmp.length > 0) {
@@ -1375,7 +1375,7 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
             } else {
                 // Criar empresa automaticamente
                 const [newEmp] = await pool.query(
-                    'INSERT INTO empresas (nome_fantasia, razao_social) VALUES (, )',
+                    'INSERT INTO empresas (nome_fantasia, razao_social) VALUES (?, )',
                     [cliente_nome, cliente_nome]
                 );
                 empresaFinalId = newEmp.insertId;
@@ -1385,7 +1385,7 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
         // Inserir pedido
         const [result] = await pool.query(
             `INSERT INTO pedidos (empresa_id, vendedor_id, valor, descricao, frete, redespacho, observacao, status, condicao_pagamento, cenario_fiscal, data_previsao, departamento) 
-             VALUES (, , , , , , , , , , , )`,
+             VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, ?, ?)`,
             [empresaFinalId, vendedor_id, valor, descricao, frete || 0.00, redespacho || false, observacao, status, condicao_pagamento, cenario_fiscal, previsao_faturamento, departamento]
         );
 
@@ -1398,7 +1398,7 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
                 const total = (parseFloat(item.quantidade) || 1) * (parseFloat(item.preco_unitario) || 0);
                 await pool.query(
                     `INSERT INTO pedido_itens (pedido_id, codigo, descricao, quantidade, unidade, local_estoque, preco_unitario, total) 
-                     VALUES (, , , , , , , )`,
+                     VALUES (?, ?, ?, ?, , ?, ?, )`,
                     [
                         insertedId,
                         item.codigo || '',
@@ -1414,7 +1414,7 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
             console.log(`📦 ${itens.length} itens salvos para o pedido ${insertedId}`);
         }
         
-        // Se foram enviaçãos arquivos via multipart (req.files), salvá-los
+        // Se foram enviados arquivos via multipart (req.files), salvá-los
         if (req.files && Array.isArray(req.files) && req.files.length > 0) {
             const anexosFromFiles = req.files.map(f => ({ name: f.originalname, type: f.mimetype, size: f.size, buffer: f.buffer }));
             await saveAnexos(insertedId, anexosFromFiles);
@@ -1484,7 +1484,7 @@ apiVendasRouter.put('/pedidos/:id', upload.array('anexos', 8), async (req, res, 
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Pedido não encontrado.' });
         }
-        // Se foram enviaçãos arquivos via multipart (req.files), salvá-los
+        // Se foram enviados arquivos via multipart (req.files), salvá-los
         if (req.files && Array.isArray(req.files) && req.files.length > 0) {
             const anexosFromFiles = req.files.map(f => ({ name: f.originalname, type: f.mimetype, size: f.size, buffer: f.buffer }));
             await saveAnexos(id, anexosFromFiles);
@@ -1527,7 +1527,7 @@ async function saveAnexos(pedidoId, anexosArray) {
             }
             if (!buffer) continue;
             const tamanho = a.size || buffer.length;
-            await pool.query('INSERT INTO pedido_anexos (pedido_id, nome, tipo, tamanho, conteudo) VALUES (, , , , )', [pedidoId, a.name || null, a.type || null, tamanho, buffer]);
+            await pool.query('INSERT INTO pedido_anexos (pedido_id, nome, tipo, tamanho, conteudo) VALUES (?, ?, ?, ?, )', [pedidoId, a.name || null, a.type || null, tamanho, buffer]);
         } catch (err) {
             console.error('Falha ao salvar anexo:', err && err.message ? err.message : err);
         }
@@ -1535,7 +1535,7 @@ async function saveAnexos(pedidoId, anexosArray) {
 }
 
 // --- ROTAS DE ANEXOS DE PEDIDOS ---
-// Lista metadaçãos dos anexos de um pedido
+// Lista metadados dos anexos de um pedido
 apiVendasRouter.get('/pedidos/:id/anexos', async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -1551,7 +1551,7 @@ apiVendasRouter.get('/pedidos/:id/anexos', async (req, res, next) => {
 
         // Se a tabela não existir, retorna lista vazia
         try {
-            const [rows] = await pool.query('SELECT id, nome, tipo, tamanho, criado_em FROM pedido_anexos WHERE pedido_id =  ORDER BY criado_em DESC', [id]);
+            const [rows] = await pool.query('SELECT id, nome, tipo, tamanho, criado_em FROM pedido_anexos WHERE pedido_id = ? ORDER BY criado_em DESC', [id]);
             return res.json(rows || []);
         } catch (err) {
             if (err && err.code === 'ER_NO_SUCH_TABLE') return res.json([]);
@@ -1573,7 +1573,7 @@ apiVendasRouter.get('/pedidos/:id/anexos/:anexoId', async (req, res, next) => {
             `SELECT pa.id, pa.nome, pa.tipo, pa.tamanho, pa.conteudo, p.vendedor_id
              FROM pedido_anexos pa
              JOIN pedidos p ON p.id = pa.pedido_id
-             WHERE pa.id =  AND pa.pedido_id =  LIMIT 1`,
+             WHERE pa.id =  AND pa.pedido_id = ? LIMIT 1`,
             [anexoId, id]
         );
 
@@ -1608,7 +1608,7 @@ apiVendasRouter.delete('/pedidos/:id/anexos/:anexoId', async (req, res, next) =>
 
         // Verifica se o anexo existe e obtém vendedor do pedido
         const [rows] = await pool.query(
-            `SELECT pa.id, p.vendedor_id FROM pedido_anexos pa JOIN pedidos p ON p.id = pa.pedido_id WHERE pa.id =  AND pa.pedido_id =  LIMIT 1`,
+            `SELECT pa.id, p.vendedor_id FROM pedido_anexos pa JOIN pedidos p ON p.id = pa.pedido_id WHERE pa.id =  AND pa.pedido_id = ? LIMIT 1`,
             [anexoId, id]
         );
         if (!rows || rows.length === 0) return res.status(404).json({ message: 'Anexo não encontrado.' });
@@ -1744,7 +1744,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         if (updates.vendedor_nome !== undefined && updates.vendedor_nome !== '') {
             // Buscar vendedor_id pelo nome
             const [vendedorRows] = await pool.query(
-                'SELECT id, nome FROM usuarios WHERE nome LIKE  OR apelido LIKE  LIMIT 1', 
+                'SELECT id, nome FROM usuarios WHERE nome LIKE ? OR apelido LIKE  LIMIT 1', 
                 [`%${updates.vendedor_nome}%`, `%${updates.vendedor_nome}%`]
             );
             if (vendedorRows.length > 0) {
@@ -1816,7 +1816,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
             if (updates.nf) extraInfo.push(`NF: ${updates.nf}`);
             
             if (extraInfo.length > 0 && !updates.observacao) {
-                // Adicionar aos daçãos existentes da observação
+                // Adicionar aos dados existentes da observação
                 const obsAtual = existing.observacao || '';
                 const novaObs = obsAtual + (obsAtual ? '\n---\n' : '') + extraInfo.join(' | ');
                 fieldsToUpdate.push('observacao = ');
@@ -1895,7 +1895,7 @@ apiVendasRouter.get('/pedidos/:id/itens', async (req, res, next) => {
         await ensurePedidoItensTable();
         const { id } = req.params;
         const [itens] = await pool.query(
-            'SELECT * FROM pedido_itens WHERE pedido_id =  ORDER BY id ASC',
+            'SELECT * FROM pedido_itens WHERE pedido_id = ? ORDER BY id ASC',
             [id]
         );
         res.json(itens);
@@ -1924,7 +1924,7 @@ apiVendasRouter.post('/pedidos/:id/itens', async (req, res, next) => {
         
         const [result] = await pool.query(
             `INSERT INTO pedido_itens (pedido_id, codigo, descricao, quantidade, quantidade_parcial, unidade, local_estoque, preco_unitario, desconto, total)
-             VALUES (, , , , , , , , , )`,
+             VALUES (?, ?, ?, ?, , ?, ?, , ?, ?)`,
             [id, codigo, descricao, qty, qtyParcial, unidade || 'UN', local_estoque || 'PADRAO - Local de Estoque Padrão', preco, desc, total]
         );
         
@@ -2059,7 +2059,7 @@ async function registrarHistorico(pedidoId, userId, userName, action, descricao,
     try {
         await ensurePedidoHistoricoTable();
         await pool.query(
-            'INSERT INTO pedido_historico (pedido_id, user_id, user_name, action, descricao, meta) VALUES (, , , , , )',
+            'INSERT INTO pedido_historico (pedido_id, user_id, user_name, action, descricao, meta) VALUES (?, ?, ?, ?, ?, ?)',
             [pedidoId, userId || null, userName || 'Sistema', action, descricao, meta ? JSON.stringify(meta) : null]
         );
     } catch (e) {
@@ -2073,7 +2073,7 @@ apiVendasRouter.get('/pedidos/:id/historico', async (req, res, next) => {
         await ensurePedidoHistoricoTable();
         const { id } = req.params;
         const [rows] = await pool.query(
-            'SELECT * FROM pedido_historico WHERE pedido_id =  ORDER BY created_at DESC',
+            'SELECT * FROM pedido_historico WHERE pedido_id = ? ORDER BY created_at DESC',
             [id]
         );
         res.json(rows);
@@ -2092,7 +2092,7 @@ apiVendasRouter.post('/pedidos/:id/historico', async (req, res, next) => {
         const user = req.user || {};
         
         await pool.query(
-            'INSERT INTO pedido_historico (pedido_id, user_id, user_name, action, descricao, meta) VALUES (, , , , , )',
+            'INSERT INTO pedido_historico (pedido_id, user_id, user_name, action, descricao, meta) VALUES (?, ?, ?, ?, ?, ?)',
             [id, user.id || null, user.nome || user.name || 'Usuário', action || 'manual', descricao || '', meta ? JSON.stringify(meta) : null]
         );
         
@@ -2120,7 +2120,7 @@ apiVendasRouter.post('/pedidos/:id/faturar', async (req, res, next) => {
         // Buscar itens do pedido
         const [itensRows] = await pool.query('SELECT * FROM pedido_itens WHERE pedido_id = ', [id]);
         
-        // Buscar daçãos do cliente
+        // Buscar dados do cliente
         const [clienteRows] = await pool.query('SELECT * FROM clientes WHERE id = ', [pedido.cliente_id]);
         const cliente = clienteRows[0] || {};
         
@@ -2130,7 +2130,7 @@ apiVendasRouter.post('/pedidos/:id/faturar', async (req, res, next) => {
         // Tentar gerar NFe automaticamente se solicitação
         if (gerarNFe && itensRows.length > 0) {
             try {
-                // Preparar daçãos para o módulo NFe
+                // Preparar dados para o módulo NFe
                 const nfePayload = {
                     pedido_id: id,
                     cliente: {
@@ -2204,7 +2204,7 @@ apiVendasRouter.post('/pedidos/:id/faturar', async (req, res, next) => {
             user.id,
             user.nome || user.name || 'Usuário',
             'faturamento',
-            nfeData  `Pedido faturado - NFe ${novaNf} emitida automaticamente` : `Pedido faturado - NF ${novaNf}`,
+            nfeData ? `Pedido faturado - NFe ${novaNf} emitida automaticamente` : `Pedido faturado - NF ${novaNf}`,
             { nf_numero: novaNf, valor: pedido.valor, nfe_gerada: !!nfeData }
         );
         
@@ -2235,7 +2235,7 @@ apiVendasRouter.get('/empresas', async (req, res, next) => {
     try {
         const { page = 1, limit = 20 } = req.query;
         const offset = (parseInt(page) - 1) * parseInt(limit);
-        const [rows] = await pool.query('SELECT * FROM empresas ORDER BY nome_fantasia ASC LIMIT  OFFSET ', [parseInt(limit), offset]);
+        const [rows] = await pool.query('SELECT * FROM empresas ORDER BY nome_fantasia ASC LIMIT ? OFFSET ', [parseInt(limit), offset]);
         res.json(rows);
     } catch (error) {
         next(error);
@@ -2248,7 +2248,7 @@ apiVendasRouter.get('/empresas/search', async (req, res, next) => {
         const query = `%${q}%`;
         const [rows] = await pool.query(
             `SELECT id, nome_fantasia, cnpj FROM empresas 
-             WHERE nome_fantasia LIKE  OR razao_social LIKE  OR cnpj LIKE 
+             WHERE nome_fantasia LIKE ? OR razao_social LIKE ? OR cnpj LIKE 
              ORDER BY nome_fantasia LIMIT 10`,
             [query, query, query]
         );
@@ -2279,8 +2279,8 @@ apiVendasRouter.get('/empresas/:id/details', async (req, res, next) => {
                 COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturado, 
                 COALESCE(AVG(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS ticketMedio 
                 FROM pedidos WHERE empresa_id = `, [id]),
-            pool.query('SELECT id, valor, status, created_at FROM pedidos WHERE empresa_id =  ORDER BY created_at DESC', [id]),
-            pool.query('SELECT id, nome, email, telefone FROM clientes WHERE empresa_id =  ORDER BY nome ASC', [id])
+            pool.query('SELECT id, valor, status, created_at FROM pedidos WHERE empresa_id = ? ORDER BY created_at DESC', [id]),
+            pool.query('SELECT id, nome, email, telefone FROM clientes WHERE empresa_id = ? ORDER BY nome ASC', [id])
         ]);
 
         const details = empresaResult[0][0];
@@ -2304,7 +2304,7 @@ apiVendasRouter.post('/empresas', async (req, res, next) => {
             return res.status(400).json({ message: 'Nome fantasia e CNPJ são obrigatórios.' });
         }
         const [result] = await pool.query(
-            `INSERT INTO empresas (cnpj, nome_fantasia, razao_social, email, email_2, telefone, telefone_2, cep, lograçãouro, número, bairro, municipio, uf) VALUES (, , , , , , , , , , , , )`,
+            `INSERT INTO empresas (cnpj, nome_fantasia, razao_social, email, email_2, telefone, telefone_2, cep, lograçãouro, número, bairro, municipio, uf) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?)`,
             [cnpj, nome_fantasia, razao_social || null, email || null, email_2 || null, telefone || null, telefone_2 || null, cep || null, lograçãouro || null, número || null, bairro || null, municipio || null, uf || null]
         );
         res.status(201).json({ message: 'Empresa cadastrada com sucesso!', insertedId: result.insertId });
@@ -2361,7 +2361,7 @@ apiVendasRouter.get('/clientes-empresas/search', async (req, res, next) => {
         const [empresas] = await pool.query(
             `SELECT id, nome_fantasia as nome, razao_social, cnpj, 'empresa' as tipo
              FROM empresas 
-             WHERE nome_fantasia LIKE  OR razao_social LIKE  OR cnpj LIKE 
+             WHERE nome_fantasia LIKE ? OR razao_social LIKE ? OR cnpj LIKE 
              ORDER BY nome_fantasia
              LIMIT 10`,
             [query, query, query]
@@ -2373,7 +2373,7 @@ apiVendasRouter.get('/clientes-empresas/search', async (req, res, next) => {
                     e.nome_fantasia as empresa_nome, 'cliente' as tipo
              FROM clientes c
              LEFT JOIN empresas e ON c.empresa_id = e.id
-             WHERE c.nome LIKE  OR c.email LIKE  OR c.cpf LIKE 
+             WHERE c.nome LIKE ? OR c.email LIKE ? OR c.cpf LIKE 
              ORDER BY c.nome
              LIMIT 10`,
             [query, query, query]
@@ -2384,14 +2384,14 @@ apiVendasRouter.get('/clientes-empresas/search', async (req, res, next) => {
             ...empresas.map(e => ({
                 id: e.id,
                 nome: e.nome_fantasia || e.razao_social || e.nome,
-                subtitulo: e.cnpj  `CNPJ: ${e.cnpj}` : '',
+                subtitulo: e.cnpj ? `CNPJ: ${e.cnpj}` : '',
                 tipo: 'empresa',
                 empresa_id: e.id
             })),
             ...clientes.map(c => ({
                 id: c.id,
                 nome: c.nome,
-                subtitulo: c.empresa_nome  `${c.empresa_nome}` : (c.email || ''),
+                subtitulo: c.empresa_nome ? `${c.empresa_nome}` : (c.email || ''),
                 tipo: 'cliente',
                 cliente_id: c.id,
                 empresa_id: c.empresa_id
@@ -2413,7 +2413,7 @@ apiVendasRouter.get('/clientes', async (req, res, next) => {
             FROM clientes c
             LEFT JOIN empresas e ON c.empresa_id = e.id
             ORDER BY c.nome ASC
-            LIMIT  OFFSET 
+            LIMIT ? OFFSET 
         `, [parseInt(limit), offset]);
         res.json(rows);
     } catch (error) {
@@ -2437,8 +2437,8 @@ apiVendasRouter.get('/clientes/:id/details', async (req, res, next) => {
         const { id } = req.params;
         const [clienteResult, interacoesResult, pedidosResult, tagsResult] = await Promise.all([
             pool.query(`SELECT c.*, e.nome_fantasia as empresa_nome FROM clientes c LEFT JOIN empresas e ON c.empresa_id = e.id WHERE c.id = `, [id]),
-            pool.query(`SELECT i.tipo, i.anotacao, i.created_at, u.nome as usuario_nome FROM cliente_interacoes i JOIN usuarios u ON i.usuario_id = u.id WHERE i.cliente_id =  ORDER BY i.created_at DESC`, [id]),
-            pool.query(`SELECT p.id, p.valor, p.status, p.created_at FROM pedidos p JOIN clientes c ON p.empresa_id = c.empresa_id WHERE c.id =  ORDER BY p.created_at DESC`, [id]),
+            pool.query(`SELECT i.tipo, i.anotacao, i.created_at, u.nome as usuario_nome FROM cliente_interacoes i JOIN usuarios u ON i.usuario_id = u.id WHERE i.cliente_id = ? ORDER BY i.created_at DESC`, [id]),
+            pool.query(`SELECT p.id, p.valor, p.status, p.created_at FROM pedidos p JOIN clientes c ON p.empresa_id = c.empresa_id WHERE c.id = ? ORDER BY p.created_at DESC`, [id]),
             pool.query(`SELECT t.id, t.nome, t.cor FROM cliente_tags t JOIN cliente_has_tags cht ON t.id = cht.tag_id WHERE cht.cliente_id = `, [id])
         ]);
 
@@ -2462,7 +2462,7 @@ apiVendasRouter.post('/clientes', async (req, res, next) => {
         const { nome, email, email_2, telefone, telefone_2, empresa_id } = req.body;
         if (!nome || !empresa_id) return res.status(400).json({ message: 'Nome e empresa são obrigatórios.' });
         const [result] = await pool.query(
-            'INSERT INTO clientes (nome, email, email_2, telefone, telefone_2, empresa_id) VALUES (, , , , , )',
+            'INSERT INTO clientes (nome, email, email_2, telefone, telefone_2, empresa_id) VALUES (?, ?, ?, ?, ?, ?)',
             [nome, email || null, email_2 || null, telefone || null, telefone_2 || null, empresa_id]
         );
         res.status(201).json({ message: 'Cliente cadastração com sucesso!', insertedId: result.insertId });
@@ -2505,7 +2505,7 @@ apiVendasRouter.post('/clientes/:id/interacoes', async (req, res, next) => {
         const { id: usuario_id } = req.user;
         if (!tipo || !anotacao) return res.status(400).json({ message: 'Tipo e anotação são obrigatórios.' });
         await pool.query(
-            'INSERT INTO cliente_interacoes (cliente_id, usuario_id, tipo, anotacao) VALUES (, , , )',
+            'INSERT INTO cliente_interacoes (cliente_id, usuario_id, tipo, anotacao) VALUES (?, ?, ?, ?)',
             [cliente_id, usuario_id, tipo, anotacao]
         );
         res.status(201).json({ message: 'Interação registrada com sucesso!' });
@@ -2519,7 +2519,7 @@ apiVendasRouter.post('/clientes/:id/tags', async (req, res, next) => {
         const { id: cliente_id } = req.params;
         const { tag_id } = req.body;
         await pool.query(
-            'INSERT INTO cliente_has_tags (cliente_id, tag_id) VALUES (, )',
+            'INSERT INTO cliente_has_tags (cliente_id, tag_id) VALUES (?, )',
             [cliente_id, tag_id]
         );
         res.status(201).json({ message: 'Tag associada com sucesso!' });
@@ -2592,14 +2592,14 @@ apiVendasRouter.get('/produtos', async (req, res, next) => {
             params.push(situacao);
         }
         if (search) {
-            whereConditions.push('(codigo LIKE  OR descricao LIKE )');
+            whereConditions.push('(codigo LIKE ? OR descricao LIKE ?)');
             params.push(`%${search}%`, `%${search}%`);
         }
         
         const whereClause = whereConditions.length > 0 ? 'WHERE ' + whereConditions.join(' AND ') : '';
         
         const [rows] = await pool.query(
-            `SELECT * FROM produtos ${whereClause} ORDER BY descricao ASC LIMIT  OFFSET `,
+            `SELECT * FROM produtos ${whereClause} ORDER BY descricao ASC LIMIT ? OFFSET `,
             [...params, parseInt(limit), offset]
         );
         
@@ -2625,7 +2625,7 @@ apiVendasRouter.get('/produtos/autocomplete/:termo', async (req, res, next) => {
         const [rows] = await pool.query(
             `SELECT id, codigo, descricao, unidade, preco_venda, estoque_atual, local_estoque 
              FROM produtos 
-             WHERE situacao = 'ativo' AND (codigo LIKE  OR descricao LIKE  OR ean LIKE )
+             WHERE situacao = 'ativo' AND (codigo LIKE ? OR descricao LIKE ? OR ean LIKE ?)
              ORDER BY 
                 CASE 
                     WHEN codigo =  THEN 1 
@@ -2673,7 +2673,7 @@ apiVendasRouter.post('/produtos', async (req, res, next) => {
         
         const [result] = await pool.query(
             `INSERT INTO produtos (codigo, descricao, ncm, ean, categoria, situacao, unidade, peso_bruto, peso_liquido, preco_custo, preco_venda, estoque_atual, estoque_minimo, local_estoque, observacoes) 
-             VALUES (, , , , , , , , , , , , , , )`,
+             VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, ?, ?)`,
             [
                 sanitizeString(codigo), sanitizeString(descricao), 
                 sanitizeString(ncm) || null, sanitizeString(ean) || null,
@@ -2761,7 +2761,7 @@ apiVendasRouter.get('/produtos/busca/:codigo', async (req, res, next) => {
         await ensureProdutosTable();
         const { codigo } = req.params;
         const [rows] = await pool.query(
-            'SELECT id, codigo, descricao, preco_venda, unidade, estoque_atual FROM produtos WHERE codigo LIKE  OR descricao LIKE  LIMIT 10',
+            'SELECT id, codigo, descricao, preco_venda, unidade, estoque_atual FROM produtos WHERE codigo LIKE ? OR descricao LIKE  LIMIT 10',
             [`${codigo}%`, `%${codigo}%`]
         );
         res.json(rows);
@@ -2773,13 +2773,13 @@ apiVendasRouter.get('/produtos/busca/:codigo', async (req, res, next) => {
 // **NOVA ROTA** para buscar a lista de vendedores (equipe comercial)
 // Rota duplicada removida - usar a rota anterior em /vendedores que já filtra os vendedores corretos
 
-// Rota para retornar daçãos do usuário autenticação (incluindo foto/avatar e permissões)
+// Rota para retornar dados do usuário autenticação (incluindo foto/avatar e permissões)
 apiVendasRouter.get('/me', async (req, res, next) => {
     try {
         const userId = req.user && req.user.id;
         if (!userId) return res.status(401).json({ message: 'Usuário não autenticação.' });
         // Evita referenciar coluna 'foto' caso não exista no schema atual
-        const [rows] = await pool.query('SELECT id, nome, email, role, is_admin FROM usuarios WHERE id =  LIMIT 1', [userId]);
+        const [rows] = await pool.query('SELECT id, nome, email, role, is_admin FROM usuarios WHERE id = ? LIMIT 1', [userId]);
         if (!rows || rows.length === 0) return res.status(404).json({ message: 'Usuário não encontrado.' });
         
         const user = rows[0];
@@ -3244,7 +3244,7 @@ if (process.env.NODE_ENV === 'development') {
             const userId = req.params.userId;
             if (!userId) return res.status(400).json({ message: 'userId é obrigatório.' });
             if (dbAvailable) {
-                const [rows] = await pool.query('SELECT id, nome, email, role, is_admin FROM usuarios WHERE id =  LIMIT 1', [userId]);
+                const [rows] = await pool.query('SELECT id, nome, email, role, is_admin FROM usuarios WHERE id = ? LIMIT 1', [userId]);
                 if (!rows || rows.length === 0) return res.status(404).json({ message: 'Usuário não encontrado.' });
                 const user = rows[0];
                 const tokenPayload = { id: user.id, nome: user.nome, email: user.email, role: user.role, is_admin: user.is_admin };
@@ -3252,7 +3252,7 @@ if (process.env.NODE_ENV === 'development') {
                 return res.json({ token, user: tokenPayload });
             }
 
-            // Fallback: gerar um token com daçãos simulaçãos para desenvolvimento quando o DB estiver indisponível
+            // Fallback: gerar um token com dados simulaçãos para desenvolvimento quando o DB estiver indisponível
             const fallbackUser = {
                 id: parseInt(userId) || 1,
                 nome: `dev-user-${userId}`,

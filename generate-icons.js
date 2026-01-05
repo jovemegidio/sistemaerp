@@ -14,14 +14,14 @@ const svgIcon = `<xml version="1.0" encoding="UTF-8">
       <stop offset="0%" style="stop-color:#10b981"/>
       <stop offset="100%" style="stop-color:#059669"/>
     </linearGradient>
-    <filter id="shaçãow" x="-20%" y="-20%" width="140%" height="140%">
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
       <feDropShaçãow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.25"/>
     </filter>
   </defs>
   
   <!-- Background rounded square -->
   <rect x="16" y="16" width="224" height="224" rx="48" ry="48" 
-        fill="url(#bgGradient)" filter="url(#shaçãow)"/>
+        fill="url(#bgGradient)" filter="url(#shadow)"/>
   
   <!-- Letter A -->
   <text x="128" y="175" 
@@ -30,7 +30,7 @@ const svgIcon = `<xml version="1.0" encoding="UTF-8">
         font-weight="800" 
         fill="white" 
         text-anchor="middle"
-        style="text-shaçãow: 0 2px 10px rgba(0,0,0,0.3);">A</text>
+        style="text-shadow: 0 2px 10px rgba(0,0,0,0.3);">A</text>
 </svg>`;
 
 // Criar diretório assets se não existir

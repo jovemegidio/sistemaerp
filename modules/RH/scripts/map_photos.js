@@ -32,7 +32,7 @@ async function main () {
     const filePath = path.join(photosDir, m.filename)
     if (!fs.existsSync(filePath)) { console.warn('Photo not found:', filePath); continue }
     // find user by email
-    const [rows] = await db.execute('SELECT id FROM funcionarios WHERE email =  LIMIT 1', [m.email])
+    const [rows] = await db.execute('SELECT id FROM funcionarios WHERE email = ? LIMIT 1', [m.email])
     if (!rows || rows.length === 0) { console.warn('User not found for email:', m.email); continue }
     const id = rows[0].id
     // copy file to public/uploads/fotos with unique name

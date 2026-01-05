@@ -25,7 +25,7 @@ const filesToFix = [
     'Vendas/test/e2e-smoke.test.js',
     'Vendas/test/api.test.js',
     'RH/server.js',
-    'PCP/configurar_acesso_colaboraçãores_pcp.js'
+    'PCP/configurar_acesso_colaboradores_pcp.js'
 ];
 
 let fixed = 0;

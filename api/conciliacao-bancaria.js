@@ -183,7 +183,7 @@ module.exports = function({ pool, authenticateToken }) {
             
             const [result] = await pool.query(`
                 INSERT INTO contas_bancarias (banco, agencia, conta, tipo, descricao, saldo_inicial, saldo_atual)
-                VALUES (, , , , , , )
+                VALUES (?, ?, ?, ?, , ?, ?)
             `, [banco, agencia || '', conta, tipo || 'corrente', descricao || '', saldo_inicial || 0, saldo_inicial || 0]);
             
             res.status(201).json({ 
@@ -220,9 +220,9 @@ module.exports = function({ pool, authenticateToken }) {
             
             // Ler e parsear o arquivo
             const content = fs.readFileSync(req.file.path, 'latin1');
-            const daçãos = parseOFX(content);
+            const dados = parseOFX(content);
             
-            if (daçãos.transacoes.length === 0) {
+            if (dados.transacoes.length === 0) {
                 return res.status(400).json({ 
                     success: false, 
                     message: 'Nenhuma transação encontrada no arquivo' 
@@ -234,15 +234,15 @@ module.exports = function({ pool, authenticateToken }) {
                 INSERT INTO importacoes_extrato (
                     conta_id, arquivo, banco_codigo, periodo_inicio, periodo_fim,
                     total_transacoes, saldo_final, usuario_id
-                ) VALUES (, , , , , , , )
+                ) VALUES (?, ?, ?, ?, , ?, ?, )
             `, [
                 conta_id,
                 req.file.filename,
-                daçãos.banco.codigo,
-                daçãos.periodo.inicio,
-                daçãos.periodo.fim,
-                daçãos.transacoes.length,
-                daçãos.saldo.valor,
+                dados.banco.codigo,
+                dados.periodo.inicio,
+                dados.periodo.fim,
+                dados.transacoes.length,
+                dados.saldo.valor,
                 req.user.id
             ]);
             
@@ -252,7 +252,7 @@ module.exports = function({ pool, authenticateToken }) {
             let inseridas = 0;
             let duplicadas = 0;
             
-            for (const trn of daçãos.transacoes) {
+            for (const trn of dados.transacoes) {
                 // Verificar se já existe (pelo ID do banco)
                 if (trn.id_banco) {
                     const [[existe]] = await pool.query(`
@@ -270,7 +270,7 @@ module.exports = function({ pool, authenticateToken }) {
                     INSERT INTO transacoes_extrato (
                         importacao_id, conta_id, tipo, data, valor, 
                         id_banco, descricao, documento, status
-                    ) VALUES (, , , , , , , , 'pendente')
+                    ) VALUES (?, ?, ?, ?, , ?, ?, , 'pendente')
                 `, [
                     importacaoId,
                     conta_id,
@@ -290,11 +290,11 @@ module.exports = function({ pool, authenticateToken }) {
                 message: `Extrato importação: ${inseridas} transações novas, ${duplicadas} duplicadas`,
                 data: {
                     importacao_id: importacaoId,
-                    total_arquivo: daçãos.transacoes.length,
+                    total_arquivo: dados.transacoes.length,
                     inseridas,
                     duplicadas,
-                    periodo: daçãos.periodo,
-                    saldo: daçãos.saldo
+                    periodo: dados.periodo,
+                    saldo: dados.saldo
                 }
             });
             
@@ -383,7 +383,7 @@ module.exports = function({ pool, authenticateToken }) {
                     FROM contas_receber cr
                     LEFT JOIN clientes c ON cr.cliente_id = c.id
                     WHERE cr.status = 'aberto'
-                    AND cr.valor BETWEEN  AND 
+                    AND cr.valor BETWEEN ? AND 
                     ORDER BY ABS(cr.valor - ) ASC
                     LIMIT 5
                 `, [valorAbs - margem, valorAbs + margem, valorAbs]);
@@ -407,7 +407,7 @@ module.exports = function({ pool, authenticateToken }) {
                     FROM contas_pagar cp
                     LEFT JOIN fornecedores f ON cp.fornecedor_id = f.id
                     WHERE cp.status = 'aberto'
-                    AND cp.valor BETWEEN  AND 
+                    AND cp.valor BETWEEN ? AND 
                     ORDER BY ABS(cp.valor - ) ASC
                     LIMIT 5
                 `, [valorAbs - margem, valorAbs + margem, valorAbs]);

@@ -70,7 +70,7 @@ app.post('/api/pcp/login', async (req, res) => {
         console.log(`[LOGIN] Tentativa para: ${email}`);
         
         // Buscar usuário
-        const sql = `SELECT * FROM usuarios_pcp WHERE email =  LIMIT 1`;
+        const sql = `SELECT * FROM usuarios_pcp WHERE email = ? LIMIT 1`;
         const [rows] = await db.query(sql, [email]);
         
         if (!rows || rows.length === 0) {

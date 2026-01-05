@@ -19,10 +19,10 @@ fs.writeFileSync(path.join(__dirname, '..', 'public', 'uploads', 'ponto', 'sampl
 
 db.connect((err) => {
   if (err) return console.error('DB connect error', err)
-  db.query('INSERT INTO holerites (funcionario_id, mes_referencia, arquivo_url) VALUES (, , ) ', [6, '2025-07', holeritePath], (e1) => {
+  db.query('INSERT INTO holerites (funcionario_id, mes_referencia, arquivo_url) VALUES (?, ?, ) ', [6, '2025-07', holeritePath], (e1) => {
     if (e1) console.error('holerite insert error', e1)
     else console.log('Inserted sample holerite')
-    db.query('INSERT INTO espelhos_ponto (funcionario_id, competencia, arquivo_url) VALUES (, , )', [6, '2025-07', pontoPath], (e2) => {
+    db.query('INSERT INTO espelhos_ponto (funcionario_id, competencia, arquivo_url) VALUES (?, ?, )', [6, '2025-07', pontoPath], (e2) => {
       if (e2) console.error('ponto insert error', e2)
       else console.log('Inserted sample ponto')
       process.exit(0)

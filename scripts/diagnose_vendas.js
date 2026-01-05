@@ -67,8 +67,8 @@ async function testVendasAccess() {
     const token = authCookie.split(';')[0];
     console.log('✅ Login OK - Token obtido');
 
-    // 2. Verificar daçãos do usuário
-    console.log('\n2️⃣  Verificando daçãos do usuário (/api/me)...');
+    // 2. Verificar dados do usuário
+    console.log('\n2️⃣  Verificando dados do usuário (/api/me)...');
     const meRes = await makeRequest({
         hostname: 'localhost',
         port: 3000,
@@ -80,7 +80,7 @@ async function testVendasAccess() {
     });
 
     if (meRes.statusCode !== 200) {
-        console.log('❌ ERRO ao buscar daçãos:', meRes.statusCode);
+        console.log('❌ ERRO ao buscar dados:', meRes.statusCode);
         return;
     }
 

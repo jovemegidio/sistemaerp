@@ -146,7 +146,7 @@ class NFeDashboard {
             ];
 
         } catch (error) {
-            console.error('Erro ao carregar daçãos NFe:', error);
+            console.error('Erro ao carregar dados NFe:', error);
         }
     }
 
@@ -288,12 +288,12 @@ class NFeDashboard {
         }
     }
 
-    desenharMiniLinha(ctx, daçãos, cor) {
+    desenharMiniLinha(ctx, dados, cor) {
         const canvas = ctx.canvas;
         const width = canvas.width;
         const height = canvas.height;
-        const max = Math.max(...daçãos);
-        const min = Math.min(...daçãos);
+        const max = Math.max(...dados);
+        const min = Math.min(...dados);
         const range = max - min || 1;
         const padding = 5;
         
@@ -306,8 +306,8 @@ class NFeDashboard {
         
         // Desenhar área preenchida
         ctx.beginPath();
-        daçãos.forEach((valor, i) => {
-            const x = (i / (daçãos.length - 1)) * width;
+        dados.forEach((valor, i) => {
+            const x = (i / (dados.length - 1)) * width;
             const y = padding + ((max - valor) / range) * (height - padding * 2);
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
@@ -323,12 +323,12 @@ class NFeDashboard {
         ctx.lineWidth = 2.5;
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
-        ctx.shaçãowColor = cor;
-        ctx.shaçãowBlur = 4;
+        ctx.shadowColor = cor;
+        ctx.shadowBlur = 4;
         
         ctx.beginPath();
-        daçãos.forEach((valor, i) => {
-            const x = (i / (daçãos.length - 1)) * width;
+        dados.forEach((valor, i) => {
+            const x = (i / (dados.length - 1)) * width;
             const y = padding + ((max - valor) / range) * (height - padding * 2);
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
@@ -336,9 +336,9 @@ class NFeDashboard {
         ctx.stroke();
         
         // Desenhar ponto final destacação
-        ctx.shaçãowBlur = 0;
+        ctx.shadowBlur = 0;
         const lastX = width;
-        const lastY = padding + ((max - daçãos[daçãos.length - 1]) / range) * (height - padding * 2);
+        const lastY = padding + ((max - dados[dados.length - 1]) / range) * (height - padding * 2);
         
         ctx.beginPath();
         ctx.arc(lastX, lastY, 3, 0, Math.PI * 2);
@@ -381,7 +381,7 @@ class NFeDashboard {
         }
     }
 
-    desenharGraficoBarras(ctx, daçãos) {
+    desenharGraficoBarras(ctx, dados) {
         const canvas = ctx.canvas;
         const width = canvas.width;
         const height = canvas.height;
@@ -389,7 +389,7 @@ class NFeDashboard {
         const chartWidth = width - padding * 2;
         const chartHeight = height - padding * 2;
         
-        const valores = daçãos.map(d => d.quantidade);
+        const valores = dados.map(d => d.quantidade);
         const max = Math.max(...valores);
         
         ctx.clearRect(0, 0, width, height);
@@ -412,12 +412,12 @@ class NFeDashboard {
         }
         
         // Barras
-        const barWidth = chartWidth / daçãos.length * 0.7;
-        const barGap = chartWidth / daçãos.length * 0.3;
+        const barWidth = chartWidth / dados.length * 0.7;
+        const barGap = chartWidth / dados.length * 0.3;
         
-        daçãos.forEach((item, i) => {
+        dados.forEach((item, i) => {
             const barHeight = (item.quantidade / max) * chartHeight;
-            const x = padding + (chartWidth / daçãos.length) * i + barGap / 2;
+            const x = padding + (chartWidth / dados.length) * i + barGap / 2;
             const y = height - padding - barHeight;
             
             // Gradiente
@@ -681,7 +681,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.nfeDashboard = new NFeDashboard();
     }
     
-    // Inicializar daçãos do usuário no header
+    // Inicializar dados do usuário no header
     initUserHeader();
 });
 
@@ -690,12 +690,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============================================
 
 /**
- * Inicializa o header com daçãos do usuário logação
+ * Inicializa o header com dados do usuário logação
  */
 async function initUserHeader() {
     console.log('🔄 Inicializando header do usuário...');
     
-    // Tentar carregar daçãos do localStorage primeiro
+    // Tentar carregar dados do localStorage primeiro
     let userData = getUserDataFromStorage();
     
     if (!userData) {
@@ -717,7 +717,7 @@ async function initUserHeader() {
 }
 
 /**
- * Busca daçãos do usuário da API
+ * Busca dados do usuário da API
  */
 async function fetchUserData() {
     try {
@@ -737,13 +737,13 @@ async function fetchUserData() {
             return userData;
         }
     } catch (error) {
-        console.warn('⚠️ Erro ao buscar daçãos do usuário:', error);
+        console.warn('⚠️ Erro ao buscar dados do usuário:', error);
     }
     return null;
 }
 
 /**
- * Obtém daçãos do usuário do localStorage
+ * Obtém dados do usuário do localStorage
  */
 function getUserDataFromStorage() {
     try {
@@ -755,7 +755,7 @@ function getUserDataFromStorage() {
 }
 
 /**
- * Atualiza o header com daçãos do usuário
+ * Atualiza o header com dados do usuário
  */
 function updateUserHeader(userData) {
     // Atualizar nome do usuário
@@ -790,7 +790,7 @@ function updateUserHeader(userData) {
         userRoleDropdown.textContent = userData.cargo || userData.role || 'Colaboraçãor';
     }
     
-    console.log('✅ Header atualização com daçãos do usuário:', userData.nome);
+    console.log('✅ Header atualização com dados do usuário:', userData.nome);
 }
 
 /**

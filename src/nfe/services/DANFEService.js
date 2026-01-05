@@ -53,12 +53,12 @@ class DANFEService {
 
             // Buscar itens
             const [itens] = await this.pool.query(
-                'SELECT * FROM nfe_itens WHERE nfe_id =  ORDER BY item',
+                'SELECT * FROM nfe_itens WHERE nfe_id = ? ORDER BY item',
                 [nfeId]
             );
 
-            // Parse do XML para extrair daçãos adicionais
-            const daçãosNFe = await this.parseXML(nfe.xml_assinação || nfe.xml_geração);
+            // Parse do XML para extrair dados adicionais
+            const dadosNFe = await this.parseXML(nfe.xml_assinação || nfe.xml_geração);
 
             // Criar documento PDF
             const doc = new PDFDocument({
@@ -81,12 +81,12 @@ class DANFEService {
             });
 
             // Desenhar DANFE
-            await this.desenharCabecalho(doc, nfe, daçãosNFe);
-            await this.desenharDestinatario(doc, nfe, daçãosNFe);
+            await this.desenharCabecalho(doc, nfe, dadosNFe);
+            await this.desenharDestinatario(doc, nfe, dadosNFe);
             await this.desenharItens(doc, itens, nfe);
-            await this.desenharCalculoImposto(doc, nfe, daçãosNFe);
-            await this.desenharTransportaçãor(doc, nfe, daçãosNFe);
-            await this.desenharDaçãosAdicionais(doc, nfe, daçãosNFe);
+            await this.desenharCalculoImposto(doc, nfe, dadosNFe);
+            await this.desenharTransportaçãor(doc, nfe, dadosNFe);
+            await this.desenharDaçãosAdicionais(doc, nfe, dadosNFe);
             await this.desenharRodape(doc, nfe);
 
             // Se tiver QR Code (NFCe), adicionar
@@ -111,7 +111,7 @@ class DANFEService {
     /**
      * Desenha cabeçalho da DANFE
      */
-    async desenharCabecalho(doc, nfe, daçãosNFe) {
+    async desenharCabecalho(doc, nfe, dadosNFe) {
         const y = this.margin;
         const boxHeight = 100;
 
@@ -180,9 +180,9 @@ class DANFEService {
     }
 
     /**
-     * Desenha daçãos do destinatário
+     * Desenha dados do destinatário
      */
-    async desenharDestinatario(doc, nfe, daçãosNFe) {
+    async desenharDestinatario(doc, nfe, dadosNFe) {
         const y = this.currentY;
         const boxHeight = 60;
 
@@ -272,7 +272,7 @@ class DANFEService {
     /**
      * Desenha cálculo de impostos
      */
-    async desenharCalculoImposto(doc, nfe, daçãosNFe) {
+    async desenharCalculoImposto(doc, nfe, dadosNFe) {
         const y = this.currentY;
         const boxHeight = 70;
 
@@ -305,9 +305,9 @@ class DANFEService {
     }
 
     /**
-     * Desenha daçãos do transportaçãor
+     * Desenha dados do transportaçãor
      */
-    async desenharTransportaçãor(doc, nfe, daçãosNFe) {
+    async desenharTransportaçãor(doc, nfe, dadosNFe) {
         const y = this.currentY;
         const boxHeight = 50;
 
@@ -336,9 +336,9 @@ class DANFEService {
     }
 
     /**
-     * Desenha daçãos adicionais
+     * Desenha dados adicionais
      */
-    async desenharDaçãosAdicionais(doc, nfe, daçãosNFe) {
+    async desenharDaçãosAdicionais(doc, nfe, dadosNFe) {
         const y = this.currentY;
         const boxHeight = 60;
 
@@ -348,13 +348,13 @@ class DANFEService {
         doc.rect(this.margin, y + 10, this.pageWidth - 2 * this.margin, boxHeight).stroke();
 
         doc.fontSize(7).font('Helvetica');
-        const daçãosY = y + 15;
+        const dadosY = y + 15;
         
         const infComplementar = nfe.informacoes_complementares || 
             'Documento emitido por ME ou EPP optante pelo Simples Nacional. Não gera direito a crédito fiscal de IPI.';
         
-        doc.text('Informações Complementares:', this.margin + 5, daçãosY);
-        doc.text(infComplementar, this.margin + 5, daçãosY + 10, { width: this.pageWidth - 30 });
+        doc.text('Informações Complementares:', this.margin + 5, dadosY);
+        doc.text(infComplementar, this.margin + 5, dadosY + 10, { width: this.pageWidth - 30 });
 
         this.currentY = y + boxHeight + 20;
     }

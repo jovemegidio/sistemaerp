@@ -100,7 +100,7 @@
         }
         .stat-card {
             background: white; border-radius: 12px; padding: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
         .stat-card.highlight {
             background: linear-gradient(135deg, var(--primary-purple) 0%, #0ea5e9 100%);
@@ -126,7 +126,7 @@
         .filters-bar {
             background: white; border-radius: 12px;
             padding: 16px 20px; margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
         }
         .filter-group { display: flex; align-items: center; gap: 8px; }
@@ -159,7 +159,7 @@
         /* TABLE */
         .table-container {
             background: white; border-radius: 12px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
         }
         .table-header {
             display: flex; justify-content: space-between; align-items: center;
@@ -254,7 +254,7 @@
         .modal-overlay.active { display: flex; }
         .modal-content {
             background: white; border-radius: 20px; width: 90%; max-width: 520px;
-            max-height: 90vh; overflow: hidden; box-shaçãow: 0 25px 50px rgba(0,0,0,0.3);
+            max-height: 90vh; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             animation: modalSlide 0.3s ease;
         }
         @keyframes modalSlide {
@@ -294,9 +294,9 @@
         .estoque-card { background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-radius: 16px; padding: 20px; border: 1px solid #e2e8f0; }
         .estoque-card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
         .estoque-card-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
-        .estoque-card-icon.disponivel { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); color: #16a34a; box-shaçãow: 0 4px 12px rgba(22, 163, 74, 0.2); }
-        .estoque-card-icon.baixo { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #ca8a04; box-shaçãow: 0 4px 12px rgba(202, 138, 4, 0.2); }
-        .estoque-card-icon.critico { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); color: #dc2626; box-shaçãow: 0 4px 12px rgba(220, 38, 38, 0.2); }
+        .estoque-card-icon.disponivel { background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%); color: #16a34a; box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2); }
+        .estoque-card-icon.baixo { background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); color: #ca8a04; box-shadow: 0 4px 12px rgba(202, 138, 4, 0.2); }
+        .estoque-card-icon.critico { background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%); color: #dc2626; box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2); }
         .estoque-card-info { flex: 1; }
         .estoque-card-quantidade { font-size: 32px; font-weight: 800; color: #1a1a1a; line-height: 1; }
         .estoque-card-status { font-size: 14px; font-weight: 500; margin-top: 4px; }
@@ -515,7 +515,7 @@
                     <!-- Empty State -->
                     <div class="empty-state" id="empty-state" style="display: none;">
                         <i class="fas fa-box-open"></i>
-                        <h3>Nenhum produto encontração</h3>
+                        <h3>Nenhum produto encontrado</h3>
                         <p>Tente ajustar os filtros ou realizar uma nova busca</p>
                     </div>
 
@@ -580,7 +580,7 @@
             }, AUTO_REFRESH_TIME);
         }
 
-        // Carregar daçãos do usurio
+        // Carregar dados do usurio
         async function carregarUsuario() {
             try {
                 const response = await fetch('/api/me');
@@ -721,7 +721,7 @@
 
         function ordenar(campo) {
             if (ordenacaoAtual.campo === campo) {
-                ordenacaoAtual.direcao = ordenacaoAtual.direcao === 'asc'  'desc' : 'asc';
+                ordenacaoAtual.direcao = ordenacaoAtual.direcao === 'asc' ? 'desc' : 'asc';
             } else {
                 ordenacaoAtual.campo = campo;
                 ordenacaoAtual.direcao = 'asc';
@@ -770,7 +770,7 @@
                         <td><div class="produto-nome">${escapeHtml(p.nome)}</div></td>
                         <td><span class="badge">${escapeHtml(p.sku)}</span></td>
                         <td><span class="categoria-badge ${p.categoria.toLowerCase()}">${p.categoria}</span></td>
-                        <td class="quantidade-cell ${statusInfo.status === 'normal'  'alto' : statusInfo.status === 'baixo'  'medio' : 'baixo'}">${p.estoque.toFixed(2)}</td>
+                        <td class="quantidade-cell ${statusInfo.status === 'normal' ? 'alto' : statusInfo.status === 'baixo' ? 'medio' : 'baixo'}">${p.estoque.toFixed(2)}</td>
                         <td>${p.estoque_minimo}</td>
                         <td class="preco-cell">R$ ${p.preco.toFixed(2)}</td>
                         <td><span class="badge badge-${statusInfo.class}">${statusInfo.label}</span></td>
@@ -838,7 +838,7 @@
             if (!produto) return;
 
             const statusInfo = getStatusEstoque(produto.estoque, produto.estoque_minimo);
-            const statusClass = statusInfo.status === 'normal'  'disponivel' : statusInfo.status;
+            const statusClass = statusInfo.status === 'normal' ? 'disponivel' : statusInfo.status;
             const statusLabel = { 'normal': 'Disponvel', 'baixo': 'Estoque Baixo - Ateno', 'critico': 'Nvel Crtico - Urgente' }[statusInfo.status];
             const statusIcon = { 'normal': 'fa-check-circle', 'baixo': 'fa-exclamation-triangle', 'critico': 'fa-times-circle' }[statusInfo.status];
             const estoqueMax = Math.max(produto.estoque_minimo * 5, produto.estoque, 100);

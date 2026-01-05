@@ -228,7 +228,7 @@ function initPCPPage() {
         Object.values(navLinks).forEach(link => link.classList.remove('active'));
         views[viewName].style.display = 'block';
         navLinks[viewName].classList.add('active');
-        // Carregar daçãos específicos da view
+        // Carregar dados específicos da view
         if (viewName === 'dashboard') {
             carregarOrdens();
         } else if (viewName === 'materiais') {
@@ -532,7 +532,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Event Listener para o envio do formulário
         nfeForm.addEventListener('submit', function(event) {
             event.preventDefault(); // Previne o recarregamento da página
-            // Coleta os daçãos do formulário
+            // Coleta os dados do formulário
             const formData = {
                 cliente: document.getElementById('tomaçãor').value,
                 servico: document.getElementById('servico').value,
@@ -540,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 valor: document.getElementById('valor').value,
             };
             // Simula a emissão da NF-e
-            console.log('--- Emitindo NF-e com os seguintes daçãos ---');
+            console.log('--- Emitindo NF-e com os seguintes dados ---');
             console.log(formData);
             alert(`NF-e para o cliente ${formData.cliente} no valor de R$ ${formData.valor} enviada para emissão!`);
             // Limpa o formulário e fecha o modal
@@ -575,7 +575,7 @@ function initEmployeePage() {
 
 /**
  * Função de simulação para desenvolvimento.
- * Cria daçãos de usuário no localStorage para que a página do funcionário funcione sem um login real.
+ * Cria dados de usuário no localStorage para que a página do funcionário funcione sem um login real.
  * Para usar, abra o console do navegaçãor na página de login e digite: simulateLoginForEmployee()
  */
 function simulateLoginForEmployee() {
@@ -807,7 +807,7 @@ function initDashboardPage() {
         userIcon.parentElement.appendChild(menu);
         userIcon.addEventListener('click', (e) => {
             e.preventDefault();
-            menu.style.display = menu.style.display === 'none'  'block' : 'none';
+            menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
         });
         document.addEventListener('click', (e) => {
             if (!userIcon.contains(e.target) && !menu.contains(e.target)) {

@@ -298,7 +298,7 @@ class SectionOrganizer {
                 </div>
                 <div class="stat-card yellow">
                     <div class="stat-header">
-                        <h3 class="stat-title">Agendaçãos</h3>
+                        <h3 class="stat-title">Agendados</h3>
                         <div class="stat-icon">
                             <i class="fas fa-clock"></i>
                         </div>
@@ -348,7 +348,7 @@ class SectionOrganizer {
                 </div>
                 <div class="item-status">
                     <span class="status-badge ${func.status}">
-                        ${func.status === 'active'  'Ativo' : 'Inativo'}
+                        ${func.status === 'active' ? 'Ativo' : 'Inativo'}
                     </span>
                 </div>
                 <div class="item-actions">
@@ -389,7 +389,7 @@ class SectionOrganizer {
                 </div>
                 <div class="item-status">
                     <span class="status-badge ${hol.status}">
-                        ${hol.status === 'active'  'Processação' : 'Pendente'}
+                        ${hol.status === 'active' ? 'Processação' : 'Pendente'}
                     </span>
                 </div>
                 <div class="item-actions">
@@ -411,7 +411,7 @@ class SectionOrganizer {
     createRelatorioCards() {
         const relatórios = [
             { nome: 'Folha de Pagamento', descricao: 'Relatório mensal completo', tipo: 'Financeiro', status: 'active' },
-            { nome: 'Funcionários Ativos', descricao: 'Lista de colaboraçãores ativos', tipo: 'RH', status: 'active' },
+            { nome: 'Funcionários Ativos', descricao: 'Lista de colaboradores ativos', tipo: 'RH', status: 'active' },
             { nome: 'Aniversariantes', descricao: 'Colaboraçãores aniversariantes do mês', tipo: 'RH', status: 'active' },
             { nome: 'Férias e Licenças', descricao: 'Controle de ausências', tipo: 'RH', status: 'pending' },
             { nome: 'Custos por Departamento', descricao: 'Análise de custos', tipo: 'Financeiro', status: 'active' },
@@ -432,7 +432,7 @@ class SectionOrganizer {
                 </div>
                 <div class="item-status">
                     <span class="status-badge ${rel.status}">
-                        ${rel.status === 'active'  'Disponível' : 'Processando'}
+                        ${rel.status === 'active' ? 'Disponível' : 'Processando'}
                     </span>
                 </div>
                 <div class="item-actions">

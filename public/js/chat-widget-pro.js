@@ -447,11 +447,11 @@
             position: fixed;
             top: 20px;
             right: 20px;
-            background: ${type === 'error'  '#ef4444' : type === 'warning'  '#f59e0b' : '#3b82f6'};
+            background: ${type === 'error' ? '#ef4444' : type === 'warning' ? '#f59e0b' : '#3b82f6'};
             color: white;
             padding: 12px 20px;
             border-radius: 8px;
-            box-shaçãow: 0 4px 12px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
             z-index: 9999999;
             animation: slideInRight 0.3s ease-out;
         `;
@@ -650,7 +650,7 @@
             background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
             border: none;
             cursor: pointer;
-            box-shaçãow: 0 8px 24px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
             z-index: 999997;
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             overflow: hidden;
@@ -665,7 +665,7 @@
 
         .chat-floating-btn-modern:hover {
             transform: translateY(-4px) scale(1.05);
-            box-shaçãow: 0 12px 32px rgba(59, 130, 246, 0.5);
+            box-shadow: 0 12px 32px rgba(59, 130, 246, 0.5);
         }
 
         .floating-icon {
@@ -715,7 +715,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.5);
+            box-shadow: 0 2px 8px rgba(239, 68, 68, 0.5);
             border: 2px solid white;
         }
 
@@ -729,7 +729,7 @@
             max-height: calc(100vh - 40px);
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             display: none;
             flex-direction: column;
             z-index: 999998;
@@ -892,7 +892,7 @@
             border-radius: 50%;
             overflow: hidden;
             background: linear-gradient(135deg, #3b82f6, #2563eb);
-            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .welcome-title {
@@ -924,7 +924,7 @@
             background: white;
             border-radius: 12px;
             flex: 1;
-            box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
         .feature-item i {
@@ -972,7 +972,7 @@
         .input-modern:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shaçãow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .btn-start-chat {
@@ -994,7 +994,7 @@
 
         .btn-start-chat:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 8px 24px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
         }
 
         /* Message Bubbles */
@@ -1030,7 +1030,7 @@
             align-self: flex-start;
             background: white;
             color: #0f172a;
-            box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .message-bubble.user {
@@ -1070,7 +1070,7 @@
             padding: 12px 16px;
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
         }
 
         .typing-dots span {
@@ -1169,10 +1169,10 @@
 
         @keyframes pulse {
             0%, 100% {
-                box-shaçãow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+                box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
             }
             50% {
-                box-shaçãow: 0 0 0 8px rgba(239, 68, 68, 0);
+                box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
             }
         }
 
@@ -1191,7 +1191,7 @@
             outline: none;
             border-color: #3b82f6;
             background: white;
-            box-shaçãow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         .chat-send-btn-modern {
@@ -1211,7 +1211,7 @@
 
         .chat-send-btn-modern:hover {
             transform: scale(1.1);
-            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .chat-send-btn-modern:disabled {

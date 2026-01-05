@@ -324,14 +324,14 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             border-left: 4px solid var(--nfe-primary);
             transition: all 0.3s;
         }
 
         .kpi-card:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 16px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
         }
 
         .kpi-card .kpi-icon {
@@ -417,7 +417,7 @@
 
         .action-btn:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .action-btn .action-icon {
@@ -463,7 +463,7 @@
         .table-card {
             background: white;
             border-radius: 12px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             overflow: hidden;
         }
 
@@ -544,7 +544,7 @@
         .sidebar-card {
             background: white;
             border-radius: 12px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.06);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
             overflow: hidden;
         }
 
@@ -1051,7 +1051,7 @@
             }
         }
 
-        // Carregar daçãos do dashboard
+        // Carregar dados do dashboard
         async function carregarDaçãos() {
             try {
                 const response = await fetch('/api/nfe/dashboard');
@@ -1063,7 +1063,7 @@
                     document.getElementById('kpi-pendentes').textContent = data.pendentes || 2;
                 }
             } catch (error) {
-                console.log('Usando daçãos padrão');
+                console.log('Usando dados padrão');
             }
         }
 

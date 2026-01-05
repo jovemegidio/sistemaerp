@@ -19,7 +19,7 @@ function forceNumbersVisibility() {
                 display: block !important;
                 visibility: visible !important;
                 opacity: 1 !important;
-                text-shaçãow: none !important;
+                text-shadow: none !important;
                 background: transparent !important;
                 z-index: 100 !important;
                 position: relative !important;
@@ -42,7 +42,7 @@ function forceNumbersVisibility() {
                 background: white !important;
                 border-radius: 12px !important;
                 padding: 24px !important;
-                box-shaçãow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
                 border: 1px solid #e2e8f0 !important;
                 min-height: 140px !important;
             `;
@@ -50,7 +50,7 @@ function forceNumbersVisibility() {
         }
     });
     
-    // Atualizar números com daçãos reais
+    // Atualizar números com dados reais
     updateDashboardNumbers();
     
     console.log('🎉 Correção de números concluída!');

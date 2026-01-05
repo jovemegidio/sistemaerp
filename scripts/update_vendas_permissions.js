@@ -56,7 +56,7 @@ async function updateVendasPermissions() {
                 const [result] = await connection.execute(
                     `UPDATE usuarios 
                      SET permissoes_vendas =  
-                     WHERE email LIKE  OR nome LIKE  OR login LIKE `,
+                     WHERE email LIKE ? OR nome LIKE ? OR login LIKE `,
                     [permissoesVendas, `%${emailVar}%`, `%${emailVar}%`, `%${emailVar}%`]
                 );
 

@@ -24,8 +24,8 @@ function validarCNPJ(cnpj) {
         if (pos < 2) pos = 9;
     }
     
-    let resultação = soma % 11 < 2  0 : 11 - soma % 11;
-    if (resultação != digitos.charAt(0)) return false;
+    let resultado = soma % 11 < 2  0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(0)) return false;
     
     tamanho = tamanho + 1;
     numeros = cnpj.substring(0, tamanho);
@@ -37,26 +37,26 @@ function validarCNPJ(cnpj) {
         if (pos < 2) pos = 9;
     }
     
-    resultação = soma % 11 < 2  0 : 11 - soma % 11;
-    if (resultação != digitos.charAt(1)) return false;
+    resultado = soma % 11 < 2  0 : 11 - soma % 11;
+    if (resultado != digitos.charAt(1)) return false;
     
     return true;
 }
 
 // Middleware de log para auditoria
-async function logAcao(pool, usuarioId, acao, entidadeTipo, entidadeId, daçãosAnteriores = null, daçãosNovos = null, req) {
+async function logAcao(pool, usuarioId, acao, entidadeTipo, entidadeId, dadosAnteriores = null, dadosNovos = null, req) {
     try {
         await pool.execute(
             `INSERT INTO compras_logs 
             (usuario_id, acao, entidade_tipo, entidade_id, dados_anteriores, dados_novos, ip_address, user_agent)
-            VALUES (, , , , , , , )`,
+            VALUES (?, ?, ?, ?, , ?, ?, )`,
             [
                 usuarioId,
                 acao,
                 entidadeTipo,
                 entidadeId,
-                daçãosAnteriores ? JSON.stringify(daçãosAnteriores) : null,
-                daçãosNovos ? JSON.stringify(daçãosNovos) : null,
+                dadosAnteriores ? JSON.stringify(dadosAnteriores) : null,
+                dadosNovos ? JSON.stringify(dadosNovos) : null,
                 req.ip,
                 req.get('user-agent')
             ]
@@ -72,7 +72,7 @@ async function criarNotificacao(pool, usuarioId, tipo, titulo, mensagem, entidad
         await pool.execute(
             `INSERT INTO compras_notificacoes 
             (usuario_id, tipo, titulo, mensagem, entidade_tipo, entidade_id, enviar_email)
-            VALUES (, , , , , , )`,
+            VALUES (?, ?, ?, ?, , ?, ?)`,
             [usuarioId, tipo, titulo, mensagem, entidadeTipo, entidadeId, enviarEmail]
         );
     } catch (error) {
@@ -148,7 +148,7 @@ module.exports = (pool, authenticateToken, logger) => {
             const params = [];
             
             if (search) {
-                query += ' AND (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj LIKE  OR cidade LIKE )';
+                query += ' AND (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj LIKE ? OR cidade LIKE ?)';
                 const searchTerm = `%${search}%`;
                 params.push(searchTerm, searchTerm, searchTerm, searchTerm);
             }
@@ -168,7 +168,7 @@ module.exports = (pool, authenticateToken, logger) => {
             const [countResult] = await pool.execute(countQuery, params);
             const total = countResult[0].total;
             
-            query += ' ORDER BY razao_social LIMIT  OFFSET ';
+            query += ' ORDER BY razao_social LIMIT ? OFFSET ';
             params.push(parseInt(limit), parseInt(offset));
             
             const [fornecedores] = await pool.execute(query, params);
@@ -300,7 +300,7 @@ module.exports = (pool, authenticateToken, logger) => {
                         prazo_entrega_padrao, prazo_pagamento_padrao, condicoes_pagamento,
                         valor_minimo_pedido, categoria, tipo_fornecedor, observacoes,
                         criado_por
-                    ) VALUES (, , , , , , , , , , , , , , , , , , , , , , , , , , )`,
+                    ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, ?, ?)`,
                     [
                         codigo, razao_social, nome_fantasia, cnpj.replace(/[^\d]+/g, ''), inscricao_estadual,
                         telefone, telefone_secundario, email, email_financeiro, site,
@@ -320,7 +320,7 @@ module.exports = (pool, authenticateToken, logger) => {
                         await connection.execute(
                             `INSERT INTO fornecedor_contatos 
                             (fornecedor_id, nome, cargo, departamento, telefone, celular, email, principal)
-                            VALUES (, , , , , , , )`,
+                            VALUES (?, ?, ?, ?, , ?, ?, )`,
                             [
                                 fornecedorId, contato.nome, contato.cargo, contato.departamento,
                                 contato.telefone, contato.celular, contato.email, contato.principal || false
@@ -354,7 +354,7 @@ module.exports = (pool, authenticateToken, logger) => {
             
             const fornecedorId = req.params.id;
             
-            // Buscar daçãos anteriores
+            // Buscar dados anteriores
             const [anterior] = await connection.execute('SELECT * FROM fornecedores WHERE id = ', [fornecedorId]);
             if (anterior.length === 0) {
                 await connection.rollback();
@@ -415,7 +415,7 @@ module.exports = (pool, authenticateToken, logger) => {
             await pool.execute(
                 `INSERT INTO fornecedor_avaliacoes 
                 (fornecedor_id, pedido_id, data_avaliacao, avaliaçãor_id, nota_qualidade, nota_prazo, nota_preco, nota_atendimento, nota_entrega, comentarios, pontos_positivos, pontos_negativos, recomenda_fornecedor)
-                VALUES (, , CURDATE(), , , , , , , , , , )`,
+                VALUES (?, ?, CURDATE(), ?, ?, , ?, ?, , ?, ?, ?, ?)`,
                 [req.params.id, pedido_id, req.user.userId, nota_qualidade, nota_prazo, nota_preco, nota_atendimento, nota_entrega, comentarios, pontos_positivos, pontos_negativos, recomenda_fornecedor]
             );
             
@@ -457,7 +457,7 @@ module.exports = (pool, authenticateToken, logger) => {
             }
             
             if (data_inicio && data_fim) {
-                query += ' AND data_pedido BETWEEN  AND ';
+                query += ' AND data_pedido BETWEEN ? AND ';
                 params.push(data_inicio, data_fim);
             }
             
@@ -481,7 +481,7 @@ module.exports = (pool, authenticateToken, logger) => {
             const [countResult] = await pool.execute(countQuery, params);
             const total = countResult[0].total;
             
-            query += ' ORDER BY created_at DESC LIMIT  OFFSET ';
+            query += ' ORDER BY created_at DESC LIMIT ? OFFSET ';
             params.push(parseInt(limit), parseInt(offset));
             
             const [pedidos] = await pool.execute(query, params);
@@ -594,7 +594,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     condicoes_pagamento, prazo_entrega_dias, local_entrega, forma_frete,
                     origem, pcp_ordem_id, observacoes, observacoes_internas,
                     usuario_solicitante, criado_por, status
-                ) VALUES (, , CURDATE(), , , , , , , , , , , , , , , , , , 'pendente')`,
+                ) VALUES (?, ?, CURDATE(), ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, 'pendente')`,
                 [
                     numero_pedido, fornecedor_id, data_entrega_prevista,
                     prioridade || 'normal', valor_produtos, desconto || 0, frete || 0, seguro || 0, outras_despesas || 0,
@@ -612,7 +612,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     `INSERT INTO pedidos_itens (
                         pedido_id, produto_id, codigo_produto, descricao, especificacao,
                         quantidade, unidade, preco_unitario, desconto, prazo_entrega_item, observacoes
-                    ) VALUES (, , , , , , , , , , )`,
+                    ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, )`,
                     [
                         pedidoId, item.produto_id, item.codigo_produto, item.descricao, item.especificacao,
                         item.quantidade, item.unidade || 'UN', item.preco_unitario, item.desconto || 0,
@@ -646,7 +646,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     await connection.execute(
                         `INSERT INTO workflow_aprovacoes 
                         (entidade_tipo, entidade_id, nivel, aprovaçãor_id, status)
-                        VALUES ('pedido_compra', , , , 'pendente')`,
+                        VALUES ('pedido_compra', ?, ?, , 'pendente')`,
                         [pedidoId, regra.nivel, regra.aprovaçãor_id]
                     );
                     
@@ -852,7 +852,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 params.push(status);
             }
             
-            query += ' GROUP BY c.id ORDER BY c.created_at DESC LIMIT  OFFSET ';
+            query += ' GROUP BY c.id ORDER BY c.created_at DESC LIMIT ? OFFSET ';
             params.push(parseInt(limit), parseInt(offset));
             
             const [cotacoes] = await pool.execute(query, params);
@@ -885,7 +885,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 `INSERT INTO cotacoes (
                     numero_cotacao, titulo, descricao, data_abertura, data_encerramento,
                     tipo, usuario_responsavel, criado_por, status
-                ) VALUES (, , , CURDATE(), , , , , 'aberta')`,
+                ) VALUES (?, ?, , CURDATE(), ?, ?, , , 'aberta')`,
                 [numero_cotacao, titulo, descricao, data_encerramento, tipo || 'preco', req.user.userId, req.user.userId]
             );
             
@@ -897,7 +897,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     `INSERT INTO cotacoes_itens (
                         cotacao_id, codigo_produto, descricao, especificacao,
                         quantidade, unidade, preco_referencia, observacoes
-                    ) VALUES (, , , , , , , )`,
+                    ) VALUES (?, ?, ?, ?, , ?, ?, )`,
                     [
                         cotacaoId, item.codigo_produto, item.descricao, item.especificacao,
                         item.quantidade, item.unidade || 'UN', item.preco_referencia, item.observacoes
@@ -957,7 +957,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     pedido_id, numero_recebimento, usuario_recebedor, conferente,
                     numero_nfe, serie_nfe, chave_nfe, data_emissao_nfe, valor_nfe,
                     observacoes, status
-                ) VALUES (, , , , , , , , , , 'completo')`,
+                ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, 'completo')`,
                 [
                     pedido_id, numero_recebimento, req.user.userId, conferente,
                     numero_nfe, serie_nfe, chave_nfe, data_emissao_nfe, valor_nfe,
@@ -975,7 +975,7 @@ module.exports = (pool, authenticateToken, logger) => {
                         recebimento_id, pedido_item_id, quantidade_pedida, quantidade_recebida,
                         quantidade_aprovada, quantidade_rejeitada, motivo_rejeicao,
                         localizacao_estoque, lote, data_fabricacao, data_validade, observacoes
-                    ) VALUES (, , , , , , , , , , , )`,
+                    ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, ?, ?)`,
                     [
                         recebimentoId, item.pedido_item_id, item.quantidade_pedida, item.quantidade_recebida,
                         item.quantidade_aprovada, item.quantidade_rejeitada || 0, item.motivo_rejeicao,
@@ -1096,21 +1096,21 @@ module.exports = (pool, authenticateToken, logger) => {
         try {
             const { data_inicio, data_fim } = req.query;
             
-            const [resultação] = await pool.execute(`
+            const [resultado] = await pool.execute(`
                 SELECT 
                     DATE_FORMAT(pc.data_pedido, '%Y-%m') as mes,
                     COUNT(DISTINCT pc.id) as total_pedidos,
                     SUM(pc.valor_total) as valor_total,
                     COUNT(DISTINCT pc.fornecedor_id) as fornecedores_distintos,
                     AVG(pc.valor_total) as ticket_medio,
-                    SUM(CASE WHEN pc.status = 'cancelação' THEN 1 ELSE 0 END) as pedidos_cancelaçãos
+                    SUM(CASE WHEN pc.status = 'cancelação' THEN 1 ELSE 0 END) as pedidos_cancelados
                 FROM pedidos_compra pc
-                WHERE pc.data_pedido BETWEEN  AND 
+                WHERE pc.data_pedido BETWEEN ? AND 
                 GROUP BY mes
                 ORDER BY mes
             `, [data_inicio, data_fim]);
             
-            res.json({ success: true, data: resultação });
+            res.json({ success: true, data: resultado });
         } catch (error) {
             logger.error('Erro ao gerar relatório:', error);
             res.status(500).json({ error: 'Erro ao gerar relatório' });
@@ -1122,23 +1122,23 @@ module.exports = (pool, authenticateToken, logger) => {
         try {
             const { data_inicio, data_fim, limit = 10 } = req.query;
             
-            const [resultação] = await pool.execute(`
+            const [resultado] = await pool.execute(`
                 SELECT 
                     f.id, f.razao_social, f.cidade, f.estação,
                     f.avaliacao_geral,
                     COUNT(DISTINCT pc.id) as total_pedidos,
                     SUM(pc.valor_total) as valor_total,
                     AVG(DATEDIFF(pc.data_entrega_real, pc.data_entrega_prevista)) as media_atraso,
-                    SUM(CASE WHEN pc.status = 'cancelação' THEN 1 ELSE 0 END) as pedidos_cancelaçãos
+                    SUM(CASE WHEN pc.status = 'cancelação' THEN 1 ELSE 0 END) as pedidos_cancelados
                 FROM fornecedores f
                 JOIN pedidos_compra pc ON f.id = pc.fornecedor_id
-                WHERE pc.data_pedido BETWEEN  AND 
+                WHERE pc.data_pedido BETWEEN ? AND 
                 GROUP BY f.id
                 ORDER BY valor_total DESC
                 LIMIT 
             `, [data_inicio, data_fim, parseInt(limit)]);
             
-            res.json({ success: true, data: resultação });
+            res.json({ success: true, data: resultado });
         } catch (error) {
             logger.error('Erro ao gerar relatório:', error);
             res.status(500).json({ error: 'Erro ao gerar relatório' });

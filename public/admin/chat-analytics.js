@@ -1,5 +1,5 @@
 // chat-analytics.js
-// Busca daçãos do backend e renderiza gráficos/estatísticas
+// Busca dados do backend e renderiza gráficos/estatísticas
 
 async function fetchAnalytics() {
     const res = await fetch('/api/chat-analytics');

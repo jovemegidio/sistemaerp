@@ -300,7 +300,7 @@
             border-radius: 12px;
             padding: 20px 24px;
             margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -390,7 +390,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .stat-card-header {
@@ -453,7 +453,7 @@
         .section-card {
             background: white;
             border-radius: 12px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
@@ -1143,7 +1143,7 @@
             return null;
         }
 
-        // Carregar daçãos do usuário logação via API
+        // Carregar dados do usuário logação via API
         async function carregarUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
@@ -1227,7 +1227,7 @@
         // Toggle vendedor select
         document.getElementById('tipoMeta').addEventListener('change', function() {
             const vendedorGroup = document.getElementById('selectVendedorGroup');
-            vendedorGroup.style.display = this.value === 'vendedor'  'block' : 'none';
+            vendedorGroup.style.display = this.value === 'vendedor' ? 'block' : 'none';
         });
 
         function exportarRelatorio() {
@@ -1267,7 +1267,7 @@
         // Carregar Metas do Mês
         async function carregarMetas() {
             try {
-                // Buscar daçãos de vendas do mês atual
+                // Buscar dados de vendas do mês atual
                 const agora = new Date();
                 const inicioMes = new Date(agora.getFullYear(), agora.getMonth(), 1).toISOString().split('T')[0];
                 const fimMes = new Date(agora.getFullYear(), agora.getMonth() + 1, 0).toISOString().split('T')[0];
@@ -1392,7 +1392,7 @@
 
         // Atualização automática a cada 30 segundos
         function iniciarAtualizacaoAutomatica() {
-            // Carregar daçãos iniciais
+            // Carregar dados iniciais
             carregarMetas();
             carregarUltimasVendas();
             carregarRankingVendedores();
@@ -1567,7 +1567,7 @@
                     'Vendedor': { apelido: 'Sem Vendedor', email: 'comercial@aluforce.com.br' }
                 };
 
-                // Agregar daçãos por vendedor
+                // Agregar dados por vendedor
                 const vendedoresMap = {};
                 
                 // Inicializar com vendedores da lista (apenas ativos)

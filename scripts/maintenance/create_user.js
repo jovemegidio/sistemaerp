@@ -12,14 +12,14 @@ const bcrypt = require('bcrypt');
     const password = process.argv[3] || 'admin123';
     const nome = process.argv[4] || 'Clemerson Silva';
     console.log('Creating user', email);
-    const [existing] = await pool.query('SELECT id FROM usuarios WHERE email =  LIMIT 1', [email]);
+    const [existing] = await pool.query('SELECT id FROM usuarios WHERE email = ? LIMIT 1', [email]);
     if (existing.length) {
       console.log('User already exists with id=', existing[0].id);
       await pool.end();
       process.exit(0);
     }
     const hash = await bcrypt.hash(password, 10);
-    const [result] = await pool.query('INSERT INTO usuarios (nome, email, senha_hash, password_hash, role, created_at) VALUES (, , , , , NOW())', [nome, email, hash, hash, 'admin']);
+    const [result] = await pool.query('INSERT INTO usuarios (nome, email, senha_hash, password_hash, role, created_at) VALUES (?, ?, ?, ?, , NOW())', [nome, email, hash, hash, 'admin']);
     console.log('Inserted id=', result.insertId);
     await pool.end();
   } catch (err) {

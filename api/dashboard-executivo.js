@@ -1,7 +1,7 @@
 /**
  * API CONSOLIDADA DO DASHBOARD EXECUTIVO
  * Agrega KPIs de todos os módulos em uma única resposta
- * Integração com daçãos reais do banco de dados
+ * Integração com dados reais do banco de dados
  * 
  * @author Aluforce ERP
  * @version 2.0.0
@@ -19,12 +19,12 @@ try {
         connectionString: process.env.DATABASE_URL || 'postgresql://aluforce_db_owner:npg_TzLW7FRxaGy9@ep-weathered-dream-a4xbxrda-pooler.us-east-1.aws.neon.tech/aluforce_dbsslmode=require'
     });
 } catch (e) {
-    console.warn('[Dashboard] Pool de banco não disponível, usando daçãos simulaçãos');
+    console.warn('[Dashboard] Pool de banco não disponível, usando dados simulaçãos');
 }
 
 /**
  * GET /api/dashboard/executivo
- * Retorna todos os KPIs consolidaçãos para o Dashboard Executivo
+ * Retorna todos os KPIs consolidados para o Dashboard Executivo
  */
 router.get('/executivo', async (req, res) => {
     try {
@@ -132,19 +132,19 @@ router.get('/kpis/:modulo', async (req, res) => {
 
 /**
  * GET /api/dashboard/grafico/faturamento
- * Retorna daçãos para gráfico de faturamento mensal
+ * Retorna dados para gráfico de faturamento mensal
  */
 router.get('/grafico/faturamento', async (req, res) => {
     const { meses = 12 } = req.query;
     
     try {
-        // Simular daçãos - em produção, buscar do banco
-        const daçãos = [];
+        // Simular dados - em produção, buscar do banco
+        const dados = [];
         const hoje = new Date();
         
         for (let i = parseInt(meses) - 1; i >= 0; i--) {
             const data = new Date(hoje.getFullYear(), hoje.getMonth() - i, 1);
-            daçãos.push({
+            dados.push({
                 mes: data.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' }),
                 faturado: Math.random() * 500000 + 100000,
                 meta: 400000,
@@ -152,7 +152,7 @@ router.get('/grafico/faturamento', async (req, res) => {
             });
         }
 
-        res.json({ success: true, daçãos });
+        res.json({ success: true, dados });
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -161,13 +161,13 @@ router.get('/grafico/faturamento', async (req, res) => {
 
 /**
  * GET /api/dashboard/grafico/fluxo-caixa
- * Retorna daçãos para gráfico de fluxo de caixa
+ * Retorna dados para gráfico de fluxo de caixa
  */
 router.get('/grafico/fluxo-caixa', async (req, res) => {
     const { dias = 30 } = req.query;
     
     try {
-        const daçãos = [];
+        const dados = [];
         const hoje = new Date();
         let saldoAcumulação = 50000; // Saldo inicial
         
@@ -179,7 +179,7 @@ router.get('/grafico/fluxo-caixa', async (req, res) => {
             const saidas = Math.random() * 18000 + 3000;
             saldoAcumulação += (entradas - saidas);
             
-            daçãos.push({
+            dados.push({
                 data: data.toISOString().split('T')[0],
                 entradas,
                 saidas,
@@ -187,7 +187,7 @@ router.get('/grafico/fluxo-caixa', async (req, res) => {
             });
         }
 
-        res.json({ success: true, daçãos });
+        res.json({ success: true, dados });
 
     } catch (error) {
         res.status(500).json({ success: false, message: error.message });
@@ -210,17 +210,17 @@ async function buscarKPIsVendas(dataInicio) {
                 WHERE created_at >= $1
             `, [dataInicio]);
             
-            const daçãos = result.rows[0];
-            const taxaConversao = daçãos.total_pedidos > 0 
-                 ((daçãos.pedidos_aprovaçãos / daçãos.total_pedidos) * 100).toFixed(1)
+            const dados = result.rows[0];
+            const taxaConversao = dados.total_pedidos > 0 
+                 ((dados.pedidos_aprovaçãos / dados.total_pedidos) * 100).toFixed(1)
                 : 0;
             
             return {
-                total_pedidos: parseInt(daçãos.total_pedidos) || 87,
-                pedidos_aprovaçãos: parseInt(daçãos.pedidos_aprovaçãos) || 60,
-                pedidos_em_analise: parseInt(daçãos.pedidos_em_analise) || 15,
-                faturamento: parseFloat(daçãos.faturamento) || 385000,
-                ticket_medio: parseFloat(daçãos.ticket_medio) || 4510,
+                total_pedidos: parseInt(dados.total_pedidos) || 87,
+                pedidos_aprovaçãos: parseInt(dados.pedidos_aprovaçãos) || 60,
+                pedidos_em_analise: parseInt(dados.pedidos_em_analise) || 15,
+                faturamento: parseFloat(dados.faturamento) || 385000,
+                ticket_medio: parseFloat(dados.ticket_medio) || 4510,
                 taxa_conversao: taxaConversao || 68.5,
                 tendencia: 'alta'
             };
@@ -254,13 +254,13 @@ async function buscarKPIsCompras(dataInicio) {
                 WHERE created_at >= $1
             `, [dataInicio]);
             
-            const daçãos = result.rows[0];
+            const dados = result.rows[0];
             
             return {
-                total_pedidos: parseInt(daçãos.total_pedidos) || 34,
-                pedidos_pendentes: parseInt(daçãos.pedidos_pendentes) || 8,
-                pedidos_recebidos: parseInt(daçãos.pedidos_recebidos) || 20,
-                valor_total: parseFloat(daçãos.valor_total) || 125000,
+                total_pedidos: parseInt(dados.total_pedidos) || 34,
+                pedidos_pendentes: parseInt(dados.pedidos_pendentes) || 8,
+                pedidos_recebidos: parseInt(dados.pedidos_recebidos) || 20,
+                valor_total: parseFloat(dados.valor_total) || 125000,
                 economia_gerada: 12580,
                 tendencia: 'estavel'
             };
@@ -302,19 +302,19 @@ async function buscarKPIsFinanceiro(dataInicio) {
                 WHERE created_at >= $1
             `, [dataInicio]);
             
-            const daçãosReceber = receber.rows[0];
-            const daçãosPagar = pagar.rows[0];
+            const dadosReceber = receber.rows[0];
+            const dadosPagar = pagar.rows[0];
             
-            const receitas = parseFloat(daçãosReceber.receitas) || 385000;
-            const despesas = parseFloat(daçãosPagar.despesas_pagas) || 245000;
+            const receitas = parseFloat(dadosReceber.receitas) || 385000;
+            const despesas = parseFloat(dadosPagar.despesas_pagas) || 245000;
             
             return {
                 receitas,
                 despesas,
                 saldo_atual: receitas - despesas,
-                contas_receber: parseFloat(daçãosReceber.a_receber) || 150000,
-                contas_pagar: parseFloat(daçãosPagar.a_pagar) || 100000,
-                vencimentos_hoje: parseInt(daçãosPagar.vencendo_hoje) || 3,
+                contas_receber: parseFloat(dadosReceber.a_receber) || 150000,
+                contas_pagar: parseFloat(dadosPagar.a_pagar) || 100000,
+                vencimentos_hoje: parseInt(dadosPagar.vencendo_hoje) || 3,
                 tendencia: receitas > despesas ? 'alta' : 'baixa'
             };
         }
@@ -345,9 +345,9 @@ async function buscarKPIsPCP(dataInicio) {
                 WHERE created_at >= $1
             `, [dataInicio]);
             
-            const daçãos = result.rows[0];
-            const eficiencia = daçãos.ordens_producao > 0 
-                 ((daçãos.concluidas / daçãos.ordens_producao) * 100).toFixed(1)
+            const dados = result.rows[0];
+            const eficiencia = dados.ordens_producao > 0 
+                 ((dados.concluidas / dados.ordens_producao) * 100).toFixed(1)
                 : 82.3;
             
             // Buscar alertas de estoque
@@ -358,10 +358,10 @@ async function buscarKPIsPCP(dataInicio) {
             `);
             
             return {
-                ordens_producao: parseInt(daçãos.ordens_producao) || 23,
-                ordens_em_andamento: parseInt(daçãos.em_andamento) || 10,
-                ordens_concluidas: parseInt(daçãos.concluidas) || 18,
-                ordens_atrasadas: parseInt(daçãos.atrasadas) || 2,
+                ordens_producao: parseInt(dados.ordens_producao) || 23,
+                ordens_em_andamento: parseInt(dados.em_andamento) || 10,
+                ordens_concluidas: parseInt(dados.concluidas) || 18,
+                ordens_atrasadas: parseInt(dados.atrasadas) || 2,
                 eficiencia_percentual: parseFloat(eficiencia) || 82.3,
                 alertas_estoque: parseInt(estoque.rows[0].alertas) || 5,
                 tendencia: 'estavel'
@@ -401,12 +401,12 @@ async function buscarKPIsRH() {
                 AND status = 'ativo'
             `);
             
-            const daçãos = result.rows[0];
+            const dados = result.rows[0];
             
             return {
-                total_funcionarios: parseInt(daçãos.total_funcionarios) || 42,
-                funcionarios_ativos: parseInt(daçãos.ativos) || 40,
-                ferias_programadas: parseInt(daçãos.ferias) || 3,
+                total_funcionarios: parseInt(dados.total_funcionarios) || 42,
+                funcionarios_ativos: parseInt(dados.ativos) || 40,
+                ferias_programadas: parseInt(dados.ferias) || 3,
                 aniversariantes_mes: parseInt(aniversarios.rows[0].total) || 4
             };
         }
@@ -435,13 +435,13 @@ async function buscarKPIsNFe(dataInicio) {
                 WHERE created_at >= $1
             `, [dataInicio]);
             
-            const daçãos = result.rows[0];
+            const dados = result.rows[0];
             
             return {
-                nfes_emitidas: parseInt(daçãos.nfes_emitidas) || 45,
-                valor_emitido: parseFloat(daçãos.valor_emitido) || 320000,
-                nfes_canceladas: parseInt(daçãos.canceladas) || 2,
-                nfes_pendentes: parseInt(daçãos.pendentes) || 5
+                nfes_emitidas: parseInt(dados.nfes_emitidas) || 45,
+                valor_emitido: parseFloat(dados.valor_emitido) || 320000,
+                nfes_canceladas: parseInt(dados.canceladas) || 2,
+                nfes_pendentes: parseInt(dados.pendentes) || 5
             };
         }
     } catch (error) {

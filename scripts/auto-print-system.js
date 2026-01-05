@@ -166,7 +166,7 @@ class AutoPrintSystem {
                     const value = cell.value || '';
                     const isHeader = rowNumber <= 3;
                     const cellClass = isHeader ? 'header' : 
-                                    (typeof value === 'number'  'number' : '');
+                                    (typeof value === 'number' ? 'number' : '');
                     
                     html += `<td class="${cellClass}">${value}</td>`;
                 });
@@ -318,8 +318,8 @@ class AutoPrintSystem {
                         'page-ranges': '1-999',
                         'fit-to-page': true,
                         'media': job.paperSize,
-                        'orientation-requested': job.orientation === 'landscape'  '4' : '3',
-                        'print-color-mode': job.colorMode === 'mono'  'monochrome' : 'color'
+                        'orientation-requested': job.orientation === 'landscape' ? '4' : '3',
+                        'print-color-mode': job.colorMode === 'mono' ? 'monochrome' : 'color'
                     }
                 };
 
@@ -452,7 +452,7 @@ class AutoPrintSystem {
         
         await this.savePrintQueue();
         
-        console.log(`🗑️ Fila limpa: ${cancelledJobs.length} jobs cancelaçãos`);
+        console.log(`🗑️ Fila limpa: ${cancelledJobs.length} jobs cancelados`);
         return cancelledJobs.length;
     }
 

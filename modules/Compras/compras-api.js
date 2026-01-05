@@ -55,12 +55,12 @@ async function obterFornecedor(id) {
     }
 }
 
-async function criarFornecedor(daçãos) {
+async function criarFornecedor(dados) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/compras/fornecedores`, {
             method: 'POST',
             headers: getAuthHeaders(),
-            body: JSON.stringify(daçãos)
+            body: JSON.stringify(dados)
         });
         if (!response.ok) throw new Error('Erro ao criar fornecedor');
         return await response.json();
@@ -70,12 +70,12 @@ async function criarFornecedor(daçãos) {
     }
 }
 
-async function atualizarFornecedor(id, daçãos) {
+async function atualizarFornecedor(id, dados) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/compras/fornecedores/${id}`, {
             method: 'PUT',
             headers: getAuthHeaders(),
-            body: JSON.stringify(daçãos)
+            body: JSON.stringify(dados)
         });
         if (!response.ok) throw new Error('Erro ao atualizar fornecedor');
         return await response.json();
@@ -136,12 +136,12 @@ async function obterPedido(id) {
     }
 }
 
-async function criarPedido(daçãos) {
+async function criarPedido(dados) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/compras/pedidos`, {
             method: 'POST',
             headers: getAuthHeaders(),
-            body: JSON.stringify(daçãos)
+            body: JSON.stringify(dados)
         });
         if (!response.ok) throw new Error('Erro ao criar pedido');
         return await response.json();
@@ -151,12 +151,12 @@ async function criarPedido(daçãos) {
     }
 }
 
-async function aprovarPedido(id, daçãos) {
+async function aprovarPedido(id, dados) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/compras/pedidos/${id}/aprovar`, {
             method: 'POST',
             headers: getAuthHeaders(),
-            body: JSON.stringify(daçãos)
+            body: JSON.stringify(dados)
         });
         if (!response.ok) throw new Error('Erro ao aprovar pedido');
         return await response.json();
@@ -181,12 +181,12 @@ async function cancelarPedido(id, motivo) {
     }
 }
 
-async function receberPedido(id, daçãos) {
+async function receberPedido(id, dados) {
     try {
         const response = await fetch(`${API_BASE_URL}/api/compras/pedidos/${id}/receber`, {
             method: 'POST',
             headers: getAuthHeaders(),
-            body: JSON.stringify(daçãos)
+            body: JSON.stringify(dados)
         });
         if (!response.ok) throw new Error('Erro ao receber pedido');
         return await response.json();
@@ -270,16 +270,16 @@ function getStatusLabel(status) {
 // ========== RENDERIZAÇÃO ==========
 async function renderizarDashboard() {
     try {
-        const daçãos = await carregarDashboard();
+        const dados = await carregarDashboard();
         
         // Atualizar cards
-        document.querySelector('.card-pedidos .card-value').textContent = daçãos.total_pedidos || 0;
+        document.querySelector('.card-pedidos .card-value').textContent = dados.total_pedidos || 0;
         document.querySelector('.card-pendentes .card-value').textContent = 
-            daçãos.pedidos_por_status.find(s => s.status === 'pendente').quantidade || 0;
+            dados.pedidos_por_status.find(s => s.status === 'pendente').quantidade || 0;
         document.querySelector('.card-entregues .card-value').textContent = 
-            daçãos.pedidos_por_status.find(s => s.status === 'recebido').quantidade || 0;
+            dados.pedidos_por_status.find(s => s.status === 'recebido').quantidade || 0;
         document.querySelector('.card-valor .card-value').textContent = 
-            formatarMoeda(daçãos.valor_total_pedidos || 0);
+            formatarMoeda(dados.valor_total_pedidos || 0);
 
     } catch (error) {
         console.error('Erro ao renderizar dashboard:', error);
@@ -348,11 +348,11 @@ async function renderizarTabelaFornecedores() {
                 <td>#${f.id}</td>
                 <td>
                     <strong>${f.razao_social || f.nome || 'N/A'}</strong>
-                    ${f.nome_fantasia && f.nome_fantasia !== f.razao_social  `<br><small style="color: #64748b;">${f.nome_fantasia}</small>` : ''}
+                    ${f.nome_fantasia && f.nome_fantasia !== f.razao_social ? `<br><small style="color: #64748b;">${f.nome_fantasia}</small>` : ''}
                 </td>
                 <td>${f.cnpj || '-'}</td>
                 <td>${f.telefone || '-'}</td>
-                <td>${f.cidade || '-'}${f.estação  `/${f.estação}` : ''}</td>
+                <td>${f.cidade || '-'}${f.estação ? `/${f.estação}` : ''}</td>
                 <td><span class="status-badge ${f.ativo ? 'status-aprovação' : 'status-cancelação'}">${f.ativo ? 'Ativo' : 'Inativo'}</span></td>
                 <td>
                     <div class="table-actions">
@@ -474,13 +474,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         // return;
     }
 
-    // Carregar daçãos iniciais
+    // Carregar dados iniciais
     try {
         await renderizarDashboard();
         await renderizarTabelaPedidos();
         console.log('✅ Dashboard carregação com sucesso');
     } catch (error) {
-        console.error('❌ Erro ao carregar daçãos iniciais:', error);
+        console.error('❌ Erro ao carregar dados iniciais:', error);
     }
 
     // Observer para detectar quando a página de fornecedores é aberta

@@ -23,7 +23,7 @@
             height: 64px;
             border-radius: 50%;
             background: #fff;
-            box-shaçãow: 0 4px 20px rgba(0,0,0,0.25);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.25);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -67,7 +67,7 @@
             height: 600px;
             background: #fff;
             border-radius: 20px;
-            box-shaçãow: 0 10px 50px rgba(0,0,0,0.25);
+            box-shadow: 0 10px 50px rgba(0,0,0,0.25);
             display: none;
             flex-direction: column;
             overflow: hidden;
@@ -163,9 +163,9 @@
             font-weight: 600;
             cursor: pointer;
             margin-top: 12px;
-            transition: transform 0.2s, box-shaçãow 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .login-screen button:hover { transform: translateY(-2px); box-shaçãow: 0 4px 12px rgba(0,184,169,0.4); }
+        .login-screen button:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,184,169,0.4); }
 
         /* Main Content */
         .main-content {
@@ -402,7 +402,7 @@
             color: #6b7280;
             border: 1px solid #e5e7eb;
         }
-        .action-btn:hover { transform: translateY(-1px); box-shaçãow: 0 2px 8px rgba(0,0,0,0.1); }
+        .action-btn:hover { transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .messages-container {
@@ -436,7 +436,7 @@
             background: white;
             color: #1f2937;
             border-bottom-left-radius: 4px;
-            box-shaçãow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
         .message.sent .bubble {
             background: linear-gradient(135deg, #00b8a9 0%, #00d4aa 100%);
@@ -491,9 +491,9 @@
             color: white;
             cursor: pointer;
             font-size: 18px;
-            transition: transform 0.2s, box-shaçãow 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .chat-input button:hover { transform: scale(1.05); box-shaçãow: 0 4px 12px rgba(0,184,169,0.4); }
+        .chat-input button:hover { transform: scale(1.05); box-shadow: 0 4px 12px rgba(0,184,169,0.4); }
         .chat-input button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
     </style>
     <script src="/js/anti-copy-protection.js"></script></head>
@@ -692,7 +692,7 @@
                 container.innerHTML = `
                     <div class="empty-state">
                         <i class="bi bi-inbox"></i>
-                        <p>${currentFilter === 'waiting'  'Nenhum cliente aguardando' : 'Nenhum ticket'}</p>
+                        <p>${currentFilter === 'waiting' ? 'Nenhum cliente aguardando' : 'Nenhum ticket'}</p>
                     </div>
                 `;
                 return;
@@ -775,13 +775,13 @@
                     if (m.sender === 'system') {
                         return `<div class="message system"><div class="bubble">${m.message}</div></div>`;
                     }
-                    const type = m.sender === 'client'  'received' : 'sent';
+                    const type = m.sender === 'client' ? 'received' : 'sent';
                     const isAI = m.sender === 'ai';
                     const time = new Date(m.createdAt).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
                     const senderName = m.sender === 'client'  (currentTicket.clientName || 'Cliente') : 
-                                       m.sender === 'ai'  'IA' : (m.senderName || attendantName);
-                    const icon = m.sender === 'ai'  '<i class="bi bi-robot"></i>' : 
-                                 m.sender === 'client'  '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
+                                       m.sender === 'ai' ? 'IA' : (m.senderName || attendantName);
+                    const icon = m.sender === 'ai' ? '<i class="bi bi-robot"></i>' : 
+                                 m.sender === 'client' ? '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
                     return `
                         <div class="message ${type} ${isAI ? 'ai' : ''}">
                             <div class="sender">${icon} ${senderName}</div>
@@ -857,7 +857,7 @@
             const container = document.getElementById('messages');
             const time = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
             const icon = isAI ? '<i class="bi bi-robot"></i>' : 
-                         type === 'received'  '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
+                         type === 'received' ? '<i class="bi bi-person"></i>' : '<i class="bi bi-headset"></i>';
             
             const div = document.createElement('div');
             div.className = `message ${type} ${isAI ? 'ai' : ''}`;

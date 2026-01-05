@@ -1,6 +1,6 @@
 /**
  * COMPONENTE: DASHBOARD EXECUTIVO
- * Widget de KPIs consolidaçãos para o Painel de Controle
+ * Widget de KPIs consolidados para o Painel de Controle
  * 
  * @author Aluforce ERP
  * @version 1.0.0
@@ -16,7 +16,7 @@ class DashboardExecutivo {
             refreshInterval: opcoes.refreshInterval || 60000, // 1 minuto
             apiUrl: opcoes.apiUrl || '/api/dashboard/executivo'
         };
-        this.daçãos = null;
+        this.dados = null;
         this.charts = {};
         this.intervalId = null;
     }
@@ -310,16 +310,16 @@ class DashboardExecutivo {
             });
 
             if (!response.ok) {
-                throw new Error('Erro ao carregar daçãos');
+                throw new Error('Erro ao carregar dados');
             }
 
-            this.daçãos = await response.json();
+            this.dados = await response.json();
             this.atualizarUI();
             this.atualizarGraficos();
 
         } catch (error) {
             console.error('[DashboardExecutivo] Erro:', error);
-            this.mostrarErro('Erro ao carregar daçãos do dashboard');
+            this.mostrarErro('Erro ao carregar dados do dashboard');
         } finally {
             if (refreshBtn) {
                 refreshBtn.classList.remove('loading');
@@ -329,9 +329,9 @@ class DashboardExecutivo {
     }
 
     atualizarUI() {
-        if (!this.daçãos) return;
+        if (!this.dados) return;
 
-        const { resumo_executivo, vendas, compras, financeiro, producao, rh, fiscal, alertas, atualização_em } = this.daçãos;
+        const { resumo_executivo, vendas, compras, financeiro, producao, rh, fiscal, alertas, atualização_em } = this.dados;
 
         // KPIs Principais
         this.atualizarElemento('kpi-faturamento', this.formatarMoeda(resumo_executivo.faturamento_periodo));
@@ -418,7 +418,7 @@ class DashboardExecutivo {
                     <span class="alerta-modulo">${alerta.modulo}</span>
                     <span class="alerta-mensagem">${alerta.mensagem}</span>
                 </div>
-                ${alerta.link  `<a href="${alerta.link}" class="alerta-link"><i class="fas fa-arrow-right"></i></a>` : ''}
+                ${alerta.link ? `<a href="${alerta.link}" class="alerta-link"><i class="fas fa-arrow-right"></i></a>` : ''}
             </div>
         `).join('');
     }
@@ -450,7 +450,7 @@ class DashboardExecutivo {
 
         try {
             const response = await fetch('/api/dashboard/grafico/faturamentomeses=6');
-            const { daçãos } = await response.json();
+            const { dados } = await response.json();
 
             if (this.charts.faturamento) {
                 this.charts.faturamento.destroy();
@@ -459,17 +459,17 @@ class DashboardExecutivo {
             this.charts.faturamento = new Chart(ctx, {
                 type: 'bar',
                 data: {
-                    labels: daçãos.map(d => d.mes),
+                    labels: dados.map(d => d.mes),
                     datasets: [
                         {
                             label: 'Faturação',
-                            data: daçãos.map(d => d.faturado),
+                            data: dados.map(d => d.faturado),
                             backgroundColor: 'rgba(59, 130, 246, 0.8)',
                             borderRadius: 4
                         },
                         {
                             label: 'Meta',
-                            data: daçãos.map(d => d.meta),
+                            data: dados.map(d => d.meta),
                             type: 'line',
                             borderColor: '#ef4444',
                             borderDash: [5, 5],
@@ -505,7 +505,7 @@ class DashboardExecutivo {
 
         try {
             const response = await fetch('/api/dashboard/grafico/fluxo-caixadias=15');
-            const { daçãos } = await response.json();
+            const { dados } = await response.json();
 
             if (this.charts.fluxoCaixa) {
                 this.charts.fluxoCaixa.destroy();
@@ -514,11 +514,11 @@ class DashboardExecutivo {
             this.charts.fluxoCaixa = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: daçãos.map(d => new Date(d.data).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })),
+                    labels: dados.map(d => new Date(d.data).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })),
                     datasets: [
                         {
                             label: 'Entradas',
-                            data: daçãos.map(d => d.entradas),
+                            data: dados.map(d => d.entradas),
                             borderColor: '#22c55e',
                             backgroundColor: 'rgba(34, 197, 94, 0.1)',
                             fill: true,
@@ -526,7 +526,7 @@ class DashboardExecutivo {
                         },
                         {
                             label: 'Saídas',
-                            data: daçãos.map(d => d.saidas),
+                            data: dados.map(d => d.saidas),
                             borderColor: '#ef4444',
                             backgroundColor: 'rgba(239, 68, 68, 0.1)',
                             fill: true,
@@ -534,7 +534,7 @@ class DashboardExecutivo {
                         },
                         {
                             label: 'Saldo',
-                            data: daçãos.map(d => d.saldo),
+                            data: dados.map(d => d.saldo),
                             borderColor: '#3b82f6',
                             borderWidth: 3,
                             fill: false,

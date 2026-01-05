@@ -191,7 +191,7 @@ class SistemaAutenticacao {
             nome: permissoesUsuario.nome || usuarioSistema.nome || usuarioNome,
             perfil: permissoesUsuario.perfil,
             permissoes: permissoesUsuario.permissoes,
-            sistemaOriginal: usuarioSistema // Mantém daçãos originais do sistema
+            sistemaOriginal: usuarioSistema // Mantém dados originais do sistema
         };
 
         // Log de acesso
@@ -356,7 +356,7 @@ class SistemaAutenticacao {
     mostrarAcessoNegação() {
         document.body.innerHTML = `
             <div style="display: flex; align-items: center; justify-content: center; min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); font-family: 'Segoe UI', sans-serif;">
-                <div style="background: white; padding: 40px; border-radius: 15px; box-shaçãow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; max-width: 500px;">
+                <div style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); text-align: center; max-width: 500px;">
                     <i class="fas fa-ban" style="font-size: 80px; color: #e74c3c; margin-bottom: 20px;"></i>
                     <h1 style="color: #2c3e50; margin-bottom: 10px;">Acesso Negado</h1>
                     <p style="color: #7f8c8d; margin-bottom: 30px;">
@@ -441,12 +441,12 @@ class SistemaAutenticacao {
     }
 
     /**
-     * Filtra daçãos baseado em permissões
+     * Filtra dados baseado em permissões
      */
-    filtrarDaçãosPorPermissao(daçãos, tipoDação) {
+    filtrarDaçãosPorPermissao(dados, tipoDação) {
         // Admins veem tudo
         if (this.isAdmin()) {
-            return daçãos;
+            return dados;
         }
 
         // Filtros por perfil
@@ -454,19 +454,19 @@ class SistemaAutenticacao {
             case 'contas_pagar':
                 // Hellen vê apenas contas a pagar
                 if (tipoDação === 'contas') {
-                    return daçãos.filter(item => item.tipo === 'pagar');
+                    return dados.filter(item => item.tipo === 'pagar');
                 }
                 break;
 
             case 'contas_receber':
                 // Junior vê apenas contas a receber
                 if (tipoDação === 'contas') {
-                    return daçãos.filter(item => item.tipo === 'receber');
+                    return dados.filter(item => item.tipo === 'receber');
                 }
                 break;
         }
 
-        return daçãos;
+        return dados;
     }
 }
 

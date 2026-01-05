@@ -17,7 +17,7 @@ const mysql = require('mysql2/promise');
       const [nome, filename] = line.split(',').map(s => s.trim().replace(/^"|"$/g, ''))
       const fotoUrl = `/uploads/fotos/${filename}`
       // find user by name (exact match)
-      const [rows] = await db.execute('SELECT id, foto_perfil_url FROM funcionarios WHERE nome_completo =  LIMIT 1', [nome])
+      const [rows] = await db.execute('SELECT id, foto_perfil_url FROM funcionarios WHERE nome_completo = ? LIMIT 1', [nome])
       if (!rows || rows.length === 0) {
         report.push(['', nome, '', fotoUrl, 'not_found'].join(','))
         continue

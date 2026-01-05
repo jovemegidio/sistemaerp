@@ -1,4 +1,4 @@
-// Script para popular as tabelas vendedores e compraçãores com daçãos reais
+// Script para popular as tabelas vendedores e compraçãores com dados reais
 const mysql = require('mysql2/promise');
 
 const DB_CONFIG = {
@@ -65,7 +65,7 @@ async function popularTabelas() {
         
         for (const v of vendedores) {
             await pool.query(
-                'INSERT INTO vendedores (nome, email, comissao, situacao, permissoes) VALUES (, , , , )',
+                'INSERT INTO vendedores (nome, email, comissao, situacao, permissoes) VALUES (?, ?, ?, ?, )',
                 [v.nome, v.email, v.comissao, 'ativo', 'vendas,crm']
             );
             console.log(`   ✅ Vendedor adicionação: ${v.nome}`);
@@ -85,14 +85,14 @@ async function popularTabelas() {
         
         for (const c of compraçãores) {
             await pool.query(
-                'INSERT INTO compraçãores (nome, situacao, incluido_por) VALUES (, , )',
+                'INSERT INTO compraçãores (nome, situacao, incluido_por) VALUES (?, ?, )',
                 [c.nome, 'ativo', c.incluido_por]
             );
             console.log(`   ✅ Compraçãor adicionação: ${c.nome} (incluído por: ${c.incluido_por})`);
         }
         
-        // Verificar resultaçãos
-        console.log('\n📋 Verificando daçãos inseridos...');
+        // Verificar resultados
+        console.log('\n📋 Verificando dados inseridos...');
         
         const [vendedoresResult] = await pool.query('SELECT id, nome, comissao, situacao FROM vendedores ORDER BY nome');
         console.log('\n👥 VENDEDORES cadastraçãos:', vendedoresResult.length);

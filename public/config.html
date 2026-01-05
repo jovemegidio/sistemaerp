@@ -32,7 +32,7 @@
       max-width: 420px;
       max-height: 90vh;
       overflow-y: auto;
-      box-shaçãow: 0 25px 80px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.3);
     }
 
     /* Scrollbar Styling */
@@ -75,7 +75,7 @@
     .search-box:focus-within {
       border-color: #667eea;
       background: #fff;
-      box-shaçãow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
     }
 
     .search-box i {
@@ -152,7 +152,7 @@
 
     .config-item:hover {
       border-color: #e0e0f0;
-      box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
     .config-item-info {
@@ -207,7 +207,7 @@
       background: white;
       border-radius: 50%;
       transition: all 0.3s ease;
-      box-shaçãow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     }
 
     .toggle-switch input:checked + .toggle-slider {
@@ -239,7 +239,7 @@
     .config-select:focus {
       outline: none;
       border-color: #667eea;
-      box-shaçãow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
     }
 
     /* Action Button */
@@ -260,7 +260,7 @@
 
     .config-action-btn:hover {
       transform: translateY(-2px);
-      box-shaçãow: 0 6px 20px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
 
     .config-action-btn i {
@@ -307,7 +307,7 @@
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shaçãow: 0 8px 25px rgba(102, 126, 234, 0.4);
+      box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
     }
 
     /* Toast Notification */
@@ -325,7 +325,7 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      box-shaçãow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
       opacity: 0;
       transition: all 0.4s ease;
       z-index: 1000;
@@ -549,10 +549,10 @@
           </label>
         </div>
 
-        <div class="config-item" data-search="cache local storage daçãos">
+        <div class="config-item" data-search="cache local storage dados">
           <div class="config-item-info">
             <div class="config-item-title">Cache Local</div>
-            <div class="config-item-desc">Armazenar daçãos localmente para melhor desempenho</div>
+            <div class="config-item-desc">Armazenar dados localmente para melhor desempenho</div>
           </div>
           <label class="toggle-switch">
             <input type="checkbox" id="localCache" checked onchange="toggleLocalCache(this.checked)">
@@ -563,7 +563,7 @@
         <div class="config-item" data-search="limpar cache clear storage">
           <div class="config-item-info">
             <div class="config-item-title">Limpar Cache</div>
-            <div class="config-item-desc">Limpar daçãos armazenaçãos localmente</div>
+            <div class="config-item-desc">Limpar dados armazenaçãos localmente</div>
           </div>
           <button class="config-action-btn" onclick="clearCache()">
             <i class="fas fa-trash-alt"></i>
@@ -573,13 +573,13 @@
       </div>
 
       <!-- DADOS -->
-      <div class="config-section" data-section="daçãos">
+      <div class="config-section" data-section="dados">
         <div class="section-title">
           <i class="fas fa-database"></i>
           Daçãos
         </div>
 
-        <div class="config-item" data-search="exportar daçãos export backup">
+        <div class="config-item" data-search="exportar dados export backup">
           <div class="config-item-info">
             <div class="config-item-title">Exportar Daçãos</div>
             <div class="config-item-desc">Baixar backup das configuraes</div>
@@ -590,7 +590,7 @@
           </button>
         </div>
 
-        <div class="config-item" data-search="importar daçãos import restore">
+        <div class="config-item" data-search="importar dados import restore">
           <div class="config-item-info">
             <div class="config-item-title">Importar Daçãos</div>
             <div class="config-item-desc">Restaurar configuraes de um backup</div>

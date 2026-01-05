@@ -119,7 +119,7 @@ async function startServer() {
     try {
         // Inicializar banco de dados
         await initDatabase();
-        console.log('✅ Banco de daçãos inicialização');
+        console.log('✅ Banco de dados inicialização');
         
         // Iniciar servidor
         app.listen(PORT, () => {

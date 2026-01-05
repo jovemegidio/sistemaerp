@@ -221,7 +221,7 @@ app.post('/api/vendas/clientes', authenticateToken, async (req, res) => {
 
         const result = await db.query(
             `INSERT INTO clientes (nome, cnpj, email, telefone, endereco, cidade, estação, status, created_at)
-             VALUES (, , , , , , , 'ativo', NOW())`,
+             VALUES (?, ?, ?, ?, , ?, ?, 'ativo', NOW())`,
             [nome, cnpj, email, telefone, endereco, cidade, estação]
         );
 

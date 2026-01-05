@@ -6,7 +6,7 @@
 class DashboardExecutivoManager {
     constructor() {
         this.charts = {};
-        this.daçãos = {};
+        this.dados = {};
         this.refreshInterval = null;
         this.refreshCountdown = 30;
         this.init();
@@ -25,37 +25,37 @@ class DashboardExecutivoManager {
     }
 
     carregarDaçãos() {
-        // Simular daçãos consolidaçãos do sistema
+        // Simular dados consolidados do sistema
         const meses = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
         
         // Compras por mês
-        this.daçãos.comprasPorMes = meses.map(() => Math.random() * 200000 + 150000);
+        this.dados.comprasPorMes = meses.map(() => Math.random() * 200000 + 150000);
         
         // Total do mês atual
-        this.daçãos.totalMesAtual = this.daçãos.comprasPorMes[this.daçãos.comprasPorMes.length - 1];
-        this.daçãos.totalMesAnterior = this.daçãos.comprasPorMes[this.daçãos.comprasPorMes.length - 2];
+        this.dados.totalMesAtual = this.dados.comprasPorMes[this.dados.comprasPorMes.length - 1];
+        this.dados.totalMesAnterior = this.dados.comprasPorMes[this.dados.comprasPorMes.length - 2];
         
         // Economia
-        this.daçãos.economiaTotal = this.daçãos.totalMesAtual * 0.095; // 9.5%
-        this.daçãos.economiaAnterior = this.daçãos.totalMesAnterior * 0.082;
+        this.dados.economiaTotal = this.dados.totalMesAtual * 0.095; // 9.5%
+        this.dados.economiaAnterior = this.dados.totalMesAnterior * 0.082;
         
         // Pedidos
-        this.daçãos.pedidosAtivos = 234;
-        this.daçãos.pedidosAprovaçãos = 198;
-        this.daçãos.pedidosPendentes = 36;
+        this.dados.pedidosAtivos = 234;
+        this.dados.pedidosAprovaçãos = 198;
+        this.dados.pedidosPendentes = 36;
         
         // Prazo médio
-        this.daçãos.prazoMedio = 13.2;
-        this.daçãos.prazoAnterior = 15.8;
+        this.dados.prazoMedio = 13.2;
+        this.dados.prazoAnterior = 15.8;
         
         // Alertas
-        this.daçãos.alertasCriticos = 8;
+        this.dados.alertasCriticos = 8;
         
         // Taxa de aprovação
-        this.daçãos.taxaAprovacao = (this.daçãos.pedidosAprovaçãos / this.daçãos.pedidosAtivos) * 100;
+        this.dados.taxaAprovacao = (this.dados.pedidosAprovaçãos / this.dados.pedidosAtivos) * 100;
         
         // Categorias
-        this.daçãos.categorias = {
+        this.dados.categorias = {
             'Matéria Prima': 45,
             'Componentes': 28,
             'Embalagens': 15,
@@ -64,7 +64,7 @@ class DashboardExecutivoManager {
         };
         
         // Status pedidos
-        this.daçãos.statusPedidos = {
+        this.dados.statusPedidos = {
             'Aprovação': 85,
             'Recebido': 120,
             'Parcial': 18,
@@ -72,7 +72,7 @@ class DashboardExecutivoManager {
         };
         
         // Top materiais
-        this.daçãos.topMateriais = [
+        this.dados.topMateriais = [
             { codigo: 'AL-6063-T5', descricao: 'Alumínio 6063 T5', quantidade: 12500, valor: 187500 },
             { codigo: 'COMP-101', descricao: 'Componente Elétrico', quantidade: 8500, valor: 153000 },
             { codigo: 'EMB-201', descricao: 'Embalagem Premium', quantidade: 15000, valor: 135000 },
@@ -81,7 +81,7 @@ class DashboardExecutivoManager {
         ];
         
         // Fornecedores
-        this.daçãos.fornecedores = [
+        this.dados.fornecedores = [
             { nome: 'Alcoa Alumínio', entregaPrazo: 92, qualidade: 96 },
             { nome: 'Hydro Alumínio', entregaPrazo: 88, qualidade: 94 },
             { nome: 'Ferragens Brasil', entregaPrazo: 85, qualidade: 91 },
@@ -90,7 +90,7 @@ class DashboardExecutivoManager {
         ];
         
         // Alertas em tempo real
-        this.daçãos.alertas = [
+        this.dados.alertas = [
             {
                 type: 'critical',
                 icon: 'fas fa-exclamation-triangle',
@@ -149,23 +149,23 @@ class DashboardExecutivoManager {
 
     atualizarKPIs() {
         // Total Compração
-        const variacaoTotal = ((this.daçãos.totalMesAtual - this.daçãos.totalMesAnterior) / this.daçãos.totalMesAnterior) * 100;
-        document.getElementById('kpiTotalCompração').textContent = this.formatarMoedaCompacta(this.daçãos.totalMesAtual);
+        const variacaoTotal = ((this.dados.totalMesAtual - this.dados.totalMesAnterior) / this.dados.totalMesAnterior) * 100;
+        document.getElementById('kpiTotalCompração').textContent = this.formatarMoedaCompacta(this.dados.totalMesAtual);
         document.getElementById('kpiTotalTrend').textContent = (variacaoTotal > 0 ? '+' : '') + variacaoTotal.toFixed(1) + '%';
         
         // Economia
-        const variacaoEconomia = ((this.daçãos.economiaTotal - this.daçãos.economiaAnterior) / this.daçãos.economiaAnterior) * 100;
-        document.getElementById('kpiEconomia').textContent = this.formatarMoedaCompacta(this.daçãos.economiaTotal);
+        const variacaoEconomia = ((this.dados.economiaTotal - this.dados.economiaAnterior) / this.dados.economiaAnterior) * 100;
+        document.getElementById('kpiEconomia').textContent = this.formatarMoedaCompacta(this.dados.economiaTotal);
         document.getElementById('kpiEconomiaTrend').textContent = '+' + variacaoEconomia.toFixed(1) + '%';
         
         // Pedidos Ativos
-        document.getElementById('kpiPedidosAtivos').textContent = this.daçãos.pedidosAtivos;
+        document.getElementById('kpiPedidosAtivos').textContent = this.dados.pedidosAtivos;
         document.getElementById('kpiPedidosTrend').textContent = '+12%';
-        document.getElementById('kpiPedidosComp').textContent = `${this.daçãos.pedidosPendentes} pendentes de aprovação`;
+        document.getElementById('kpiPedidosComp').textContent = `${this.dados.pedidosPendentes} pendentes de aprovação`;
         
         // Prazo Médio
-        const variacaoPrazo = ((this.daçãos.prazoMedio - this.daçãos.prazoAnterior) / this.daçãos.prazoAnterior) * 100;
-        document.getElementById('kpiPrazoMedio').textContent = Math.round(this.daçãos.prazoMedio) + 'd';
+        const variacaoPrazo = ((this.dados.prazoMedio - this.dados.prazoAnterior) / this.dados.prazoAnterior) * 100;
+        document.getElementById('kpiPrazoMedio').textContent = Math.round(this.dados.prazoMedio) + 'd';
         document.getElementById('kpiPrazoTrend').textContent = variacaoPrazo.toFixed(1) + '%';
         
         const kpiPrazoTrend = document.getElementById('kpiPrazoTrend').parentElement;
@@ -175,11 +175,11 @@ class DashboardExecutivoManager {
         }
         
         // Alertas Críticos
-        document.getElementById('kpiAlertasCriticos').textContent = this.daçãos.alertasCriticos;
+        document.getElementById('kpiAlertasCriticos').textContent = this.dados.alertasCriticos;
         document.getElementById('kpiAlertasTrend').textContent = '-2 vs. semana passada';
         
         // Taxa de Aprovação
-        document.getElementById('kpiTaxaAprovacao').textContent = this.daçãos.taxaAprovacao.toFixed(1) + '%';
+        document.getElementById('kpiTaxaAprovacao').textContent = this.dados.taxaAprovacao.toFixed(1) + '%';
         document.getElementById('kpiAprovacaoTrend').textContent = '+3.2%';
     }
 
@@ -205,7 +205,7 @@ class DashboardExecutivoManager {
                 datasets: [
                     {
                         label: 'Compras Realizadas',
-                        data: this.daçãos.comprasPorMes,
+                        data: this.dados.comprasPorMes,
                         borderColor: 'rgba(139, 92, 246, 1)',
                         backgroundColor: 'rgba(139, 92, 246, 0.1)',
                         borderWidth: 3,
@@ -267,8 +267,8 @@ class DashboardExecutivoManager {
         const ctx = document.getElementById('chartCategorias');
         if (!ctx) return;
 
-        const labels = Object.keys(this.daçãos.categorias);
-        const valores = Object.values(this.daçãos.categorias);
+        const labels = Object.keys(this.dados.categorias);
+        const valores = Object.values(this.dados.categorias);
 
         const cores = [
             'rgba(139, 92, 246, 0.8)',
@@ -320,8 +320,8 @@ class DashboardExecutivoManager {
         const ctx = document.getElementById('chartStatusPedidos');
         if (!ctx) return;
 
-        const labels = Object.keys(this.daçãos.statusPedidos);
-        const valores = Object.values(this.daçãos.statusPedidos);
+        const labels = Object.keys(this.dados.statusPedidos);
+        const valores = Object.values(this.dados.statusPedidos);
 
         const cores = {
             'Aprovação': 'rgba(245, 158, 11, 0.8)',
@@ -373,7 +373,7 @@ class DashboardExecutivoManager {
 
         container.innerHTML = '';
 
-        this.daçãos.alertas.forEach(alerta => {
+        this.dados.alertas.forEach(alerta => {
             const div = document.createElement('div');
             div.className = `alert-item ${alerta.type}`;
             
@@ -398,7 +398,7 @@ class DashboardExecutivoManager {
 
         container.innerHTML = '';
 
-        this.daçãos.topMateriais.forEach((material, index) => {
+        this.dados.topMateriais.forEach((material, index) => {
             const div = document.createElement('div');
             div.className = 'top-item';
             
@@ -426,7 +426,7 @@ class DashboardExecutivoManager {
 
         container.innerHTML = '';
 
-        this.daçãos.fornecedores.forEach(fornecedor => {
+        this.dados.fornecedores.forEach(fornecedor => {
             const mediaPerformance = (fornecedor.entregaPrazo + fornecedor.qualidade) / 2;
             
             const div = document.createElement('div');
@@ -464,16 +464,16 @@ class DashboardExecutivoManager {
     }
 
     atualizarDaçãosTempoReal() {
-        // Simular atualização de daçãos em tempo real
+        // Simular atualização de dados em tempo real
         
         // Pequenas variações nos KPIs
         const variacao = (Math.random() - 0.5) * 0.02; // ±1%
-        this.daçãos.totalMesAtual *= (1 + variacao);
+        this.dados.totalMesAtual *= (1 + variacao);
         
         // Atualizar alertas críticos
         if (Math.random() > 0.7) {
-            this.daçãos.alertasCriticos += Math.random() > 0.5  1 : -1;
-            this.daçãos.alertasCriticos = Math.max(0, this.daçãos.alertasCriticos);
+            this.dados.alertasCriticos += Math.random() > 0.5  1 : -1;
+            this.dados.alertasCriticos = Math.max(0, this.dados.alertasCriticos);
         }
         
         // Atualizar KPIs
@@ -543,7 +543,7 @@ function toggleSidebar() {
 
 function toggleUserMenu() {
     const menu = document.getElementById('userMenu');
-    menu.style.display = menu.style.display === 'block'  'none' : 'block';
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
 }
 
 function inicializarUsuario() {
@@ -554,7 +554,7 @@ function inicializarUsuario() {
     if (hora >= 12 && hora < 18) saudacao = 'Boa tarde';
     else if (hora >= 18 || hora < 5) saudacao = 'Boa noite';
 
-    // Buscar daçãos do usuário do localStorage
+    // Buscar dados do usuário do localStorage
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     
     // Usar apelido se disponível, senão primeiro nome

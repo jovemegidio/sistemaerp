@@ -65,7 +65,7 @@ const htmlContent = `<!DOCTYPE html>
             background: white;
             padding: 20px;
             border-radius: 12px;
-            box-shaçãow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
         .asset h2 {
             color: #475569;
@@ -97,7 +97,7 @@ const htmlContent = `<!DOCTYPE html>
             color: white;
             font-size: 42px;
             font-weight: 800;
-            box-shaçãow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             margin-bottom: 20px;
         }
         .sidebar .title {

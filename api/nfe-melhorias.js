@@ -164,7 +164,7 @@ module.exports = function({ pool, authenticateToken }) {
             }
 
             // Simular consulta SEFAZ (em produção usar SEFAZService)
-            const resultação = {
+            const resultado = {
                 chave_acesso: nfe.chave_acesso,
                 status_sefaz: nfe.status,
                 data_consulta: new Date().toISOString(),
@@ -174,13 +174,13 @@ module.exports = function({ pool, authenticateToken }) {
 
             // Log da consulta
             await pool.query(`
-                INSERT INTO logs_nfe (nfe_id, acao, resultação, usuario_id)
-                VALUES (, 'CONSULTA_STATUS', , )
-            `, [id, JSON.stringify(resultação), req.user.id]).catch(() => {});
+                INSERT INTO logs_nfe (nfe_id, acao, resultado, usuario_id)
+                VALUES (?, 'CONSULTA_STATUS', ?, ?)
+            `, [id, JSON.stringify(resultado), req.user.id]).catch(() => {});
 
             res.json({
                 success: true,
-                data: resultação
+                data: resultado
             });
         } catch (error) {
             console.error('[NFE] Erro na consulta:', error);
@@ -222,12 +222,12 @@ module.exports = function({ pool, authenticateToken }) {
 
             // Em produção: chamar SEFAZService para reenviar
             // const sefazService = new SEFAZService(pool);
-            // const resultação = await sefazService.autorizarNFe(nfe.xml_assinação, nfe.uf);
+            // const resultado = await sefazService.autorizarNFe(nfe.xml_assinação, nfe.uf);
 
             // Log
             await pool.query(`
-                INSERT INTO logs_nfe (nfe_id, acao, resultação, usuario_id)
-                VALUES (, 'REENVIO', 'Solicitação reenvio', )
+                INSERT INTO logs_nfe (nfe_id, acao, resultado, usuario_id)
+                VALUES (?, 'REENVIO', 'Solicitação reenvio', )
             `, [id, req.user.id]).catch(() => {});
 
             res.json({
@@ -261,7 +261,7 @@ module.exports = function({ pool, authenticateToken }) {
                 LEFT JOIN fornecedores f ON m.cnpj_emitente = f.cnpj
                 WHERE m.status_manifestacao = 
                 ORDER BY m.data_emissao DESC
-                LIMIT  OFFSET 
+                LIMIT ? OFFSET 
             `, [status, parseInt(limit), offset]);
 
             const [[{ total }]] = await pool.query(
@@ -383,7 +383,7 @@ module.exports = function({ pool, authenticateToken }) {
             // Registrar evento
             await pool.query(`
                 INSERT INTO nfe_eventos (nfe_id, tipo_evento, sequencia, descricao, status, usuario_id)
-                VALUES (, 'CCe', , , 'pendente', )
+                VALUES (?, 'CCe', ?, ?, 'pendente', )
             `, [id, seq, correcao, req.user.id]);
 
             // Em produção: enviar CCe para SEFAZ via EventoService
@@ -434,7 +434,7 @@ module.exports = function({ pool, authenticateToken }) {
             // Verificar se números já foram utilizaçãos
             const [usaçãos] = await pool.query(`
                 SELECT numero FROM nfes 
-                WHERE serie =  AND numero BETWEEN  AND 
+                WHERE serie =  AND numero BETWEEN ? AND 
             `, [serie, numero_inicial, numero_final]);
 
             if (usaçãos.length > 0) {
@@ -447,7 +447,7 @@ module.exports = function({ pool, authenticateToken }) {
             // Registrar solicitação de inutilização
             const [result] = await pool.query(`
                 INSERT INTO nfe_inutilizacoes (serie, numero_inicial, numero_final, justificativa, status, usuario_id)
-                VALUES (, , , , 'pendente', )
+                VALUES (?, ?, ?, ?, 'pendente', )
             `, [serie, numero_inicial, numero_final, justificativa, req.user.id]);
 
             // Em produção: enviar para SEFAZ via InutilizacaoService
@@ -660,7 +660,7 @@ module.exports = function({ pool, authenticateToken }) {
             } else {
                 await pool.query(`
                     INSERT INTO configuracoes_nfe (ambiente, serie_nfe, serie_nfce, csc_id, csc_token, email_contaçãor)
-                    VALUES (, , , , , )
+                    VALUES (?, ?, ?, ?, ?, ?)
                 `, [ambiente, serie_nfe, serie_nfce, csc_id, csc_token, email_contaçãor]);
             }
 

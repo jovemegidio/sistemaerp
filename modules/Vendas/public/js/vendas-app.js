@@ -21,7 +21,7 @@ async function initApp() {
         // Verificar autenticação
         await verificarAuth();
         
-        // Carregar daçãos iniciais
+        // Carregar dados iniciais
         await Promise.all([
             carregarDaçãosKanban(),
             carregarEmpresas()
@@ -67,7 +67,7 @@ async function verificarAuth() {
         const userData = userInfo ? JSON.parse(userInfo) : { nome: 'Usuário' };
         atualizarUserUI(userData);
     } catch (error) {
-        console.error('Erro ao parsear daçãos do usuário:', error);
+        console.error('Erro ao parsear dados do usuário:', error);
         atualizarUserUI({ nome: 'Usuário' });
     }
 }
@@ -145,7 +145,7 @@ async function carregarDaçãosKanban() {
         renderKanban(pedidos);
         
     } catch (error) {
-        console.error('Erro ao carregar daçãos do Kanban:', error);
+        console.error('Erro ao carregar dados do Kanban:', error);
         mostrarNotificacao('Erro ao carregar pedidos', 'error');
     } finally {
         mostrarLoading(false);
@@ -248,13 +248,13 @@ function criarCardPedido(pedido) {
         <span class="card-status ${statusClass}">${statusText}</span>
         <div class="card-value">${formatarMoeda(pedido.valor_total || 0)}</div>
         <div class="card-meta">${pedido.itens_count || 0} ${(pedido.itens_count || 0) === 1 ? 'item' : 'itens'}</div>
-        ${pedido.origem  `
+        ${pedido.origem ? `
         <div class="card-origin">
             <i class="fas fa-check-circle"></i>
             ${pedido.origem}
         </div>
         ` : ''}
-        ${pedido.nf_numero  `
+        ${pedido.nf_numero ? `
         <span class="card-badge nf">NF ${pedido.nf_numero}</span>
         ` : ''}
     `;
@@ -400,7 +400,7 @@ async function abrirModalPedido(pedidoId) {
         
     } catch (error) {
         console.error('Erro ao carregar pedido:', error);
-        mostrarNotificacao('Erro ao carregar daçãos do pedido', 'error');
+        mostrarNotificacao('Erro ao carregar dados do pedido', 'error');
     }
 }
 
@@ -487,7 +487,7 @@ async function salvarPedido() {
     if (!pedidoAtual) return;
     
     const form = document.querySelector('#modalEditarPedido');
-    const daçãos = {
+    const dados = {
         cliente: form.querySelector('.cliente-nome-input').value || '',
         vendedor: form.querySelector('[name="vendedor"]').value || '',
         prazo_entrega: form.querySelector('[name="prazo_entrega"]').value || ''
@@ -496,7 +496,7 @@ async function salvarPedido() {
     try {
         await apiRequest(`/pedidos/${pedidoAtual.id}`, {
             method: 'PUT',
-            body: JSON.stringify(daçãos)
+            body: JSON.stringify(dados)
         });
         
         mostrarNotificacao('Pedido salvo com sucesso!', 'success');
@@ -522,7 +522,7 @@ async function criarNovoOrcamento(e) {
     e.preventDefault();
     
     const form = e.target;
-    const daçãos = {
+    const dados = {
         cliente: form.querySelector('[name="cliente"]').value || '',
         empresa_id: form.querySelector('[name="empresa_id"]').value || null,
         vendedor: form.querySelector('[name="vendedor"]').value || '',
@@ -533,7 +533,7 @@ async function criarNovoOrcamento(e) {
     try {
         await apiRequest('/pedidos', {
             method: 'POST',
-            body: JSON.stringify(daçãos)
+            body: JSON.stringify(dados)
         });
         
         mostrarNotificacao('Orçamento criado com sucesso!', 'success');
@@ -561,7 +561,7 @@ async function salvarNovoItem(e) {
     if (!pedidoAtual) return;
     
     const form = e.target;
-    const daçãos = {
+    const dados = {
         codigo: form.querySelector('[name="codigo"]').value || '',
         descricao: form.querySelector('[name="descricao"]').value || '',
         quantidade: parseFloat(form.querySelector('[name="quantidade"]').value) || 1,
@@ -569,12 +569,12 @@ async function salvarNovoItem(e) {
         valor_unitario: parseMoeda(form.querySelector('[name="valor_unitario"]').value) || 0
     };
     
-    daçãos.valor_total = daçãos.quantidade * daçãos.valor_unitario;
+    dados.valor_total = dados.quantidade * dados.valor_unitario;
     
     try {
         await apiRequest(`/pedidos/${pedidoAtual.id}/itens`, {
             method: 'POST',
-            body: JSON.stringify(daçãos)
+            body: JSON.stringify(dados)
         });
         
         mostrarNotificacao('Item adicionação!', 'success');
@@ -637,7 +637,7 @@ async function salvarItemCRUD(e) {
     const form = document.querySelector('#modal-item-crud');
     const itemId = form.querySelector('[name="item-id"]').value;
     
-    const daçãos = {
+    const dados = {
         codigo: form.querySelector('[name="codigo"]').value || '',
         descricao: form.querySelector('[name="descricao"]').value || '',
         quantidade: parseFloat(form.querySelector('[name="quantidade"]').value) || 1,
@@ -645,19 +645,19 @@ async function salvarItemCRUD(e) {
         valor_unitario: parseMoeda(form.querySelector('[name="valor_unitario"]').value) || 0
     };
     
-    daçãos.valor_total = daçãos.quantidade * daçãos.valor_unitario;
+    dados.valor_total = dados.quantidade * dados.valor_unitario;
     
     try {
         if (itemId) {
             await apiRequest(`/pedidos/${pedidoAtual.id}/itens/${itemId}`, {
                 method: 'PUT',
-                body: JSON.stringify(daçãos)
+                body: JSON.stringify(dados)
             });
             mostrarNotificacao('Item atualização!', 'success');
         } else {
             await apiRequest(`/pedidos/${pedidoAtual.id}/itens`, {
                 method: 'POST',
-                body: JSON.stringify(daçãos)
+                body: JSON.stringify(dados)
             });
             mostrarNotificacao('Item adicionação!', 'success');
         }
@@ -790,7 +790,7 @@ function renderizarHistorico(historico) {
             <div style="font-size: 12px; color: #666;">
                 ${item.usuario} • ${formatarData(item.data)}
             </div>
-            ${item.detalhes  `<p style="font-size: 12px; color: #888; margin-top: 8px;">${item.detalhes}</p>` : ''}
+            ${item.detalhes ? `<p style="font-size: 12px; color: #888; margin-top: 8px;">${item.detalhes}</p>` : ''}
         </div>
     `).join('');
 }
@@ -799,7 +799,7 @@ function renderizarHistorico(historico) {
 function abrirModalFaturar() {
     if (!pedidoAtual) return;
     
-    // Preencher daçãos do modal
+    // Preencher dados do modal
     const modal = document.getElementById('modalSefaz');
     if (modal) {
         modal.querySelector('.pedido-info').innerHTML = `
@@ -989,7 +989,7 @@ function mostrarNotificacao(mensagem, tipo = 'info') {
     const notificacao = document.createElement('div');
     notificacao.className = `notificacao notificacao-${tipo}`;
     notificacao.innerHTML = `
-        <i class="fas ${tipo === 'success'  'fa-check-circle' : tipo === 'error'  'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+        <i class="fas ${tipo === 'success' ? 'fa-check-circle' : tipo === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
         <span>${mensagem}</span>
     `;
     
@@ -1007,7 +1007,7 @@ function mostrarNotificacao(mensagem, tipo = 'info') {
         fontWeight: '500',
         zIndex: '9999',
         animation: 'slideIn 0.3s ease',
-        background: tipo === 'success'  '#22c55e' : tipo === 'error'  '#ef4444' : '#3b82f6',
+        background: tipo === 'success' ? '#22c55e' : tipo === 'error' ? '#ef4444' : '#3b82f6',
         color: 'white',
         boxShaçãow: '0 4px 12px rgba(0,0,0,0.15)'
     });
@@ -1059,7 +1059,7 @@ async function duplicarPedido() {
     if (!pedidoAtual) return;
     
     try {
-        const resultação = await apiRequest(`/pedidos/${pedidoAtual.id}/duplicar`, {
+        const resultado = await apiRequest(`/pedidos/${pedidoAtual.id}/duplicar`, {
             method: 'POST'
         });
         
@@ -1068,8 +1068,8 @@ async function duplicarPedido() {
         carregarDaçãosKanban();
         
         // Abrir o novo pedido
-        if (resultação && resultação.id) {
-            setTimeout(() => abrirModalPedido(resultação.id), 500);
+        if (resultado && resultado.id) {
+            setTimeout(() => abrirModalPedido(resultado.id), 500);
         }
         
     } catch (error) {

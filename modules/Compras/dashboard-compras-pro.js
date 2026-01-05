@@ -124,7 +124,7 @@ class ComprasDashboard {
             ];
 
         } catch (error) {
-            console.error('Erro ao carregar daçãos:', error);
+            console.error('Erro ao carregar dados:', error);
         }
     }
 
@@ -236,12 +236,12 @@ class ComprasDashboard {
         const ctxOrdens = document.getElementById('chart-ordens-status');
         if (ctxOrdens) {
             const ctx = ctxOrdens.getContext('2d');
-            const daçãos = [
+            const dados = [
                 this.data.metricas.ordemCompra.pendentes,
                 this.data.metricas.ordemCompra.aprovadas,
                 this.data.metricas.ordemCompra.entregues
             ];
-            this.desenharMiniBarras(ctx, daçãos, ['#f59e0b', '#3b82f6', '#10b981']);
+            this.desenharMiniBarras(ctx, dados, ['#f59e0b', '#3b82f6', '#10b981']);
         }
 
         // Mini gráfico de economia
@@ -253,12 +253,12 @@ class ComprasDashboard {
         }
     }
 
-    desenharMiniLinha(ctx, daçãos, cor) {
+    desenharMiniLinha(ctx, dados, cor) {
         const canvas = ctx.canvas;
         const width = canvas.width;
         const height = canvas.height;
-        const max = Math.max(...daçãos);
-        const min = Math.min(...daçãos);
+        const max = Math.max(...dados);
+        const min = Math.min(...dados);
         const range = max - min || 1;
         
         ctx.clearRect(0, 0, width, height);
@@ -268,8 +268,8 @@ class ComprasDashboard {
         ctx.lineJoin = 'round';
         
         ctx.beginPath();
-        daçãos.forEach((valor, i) => {
-            const x = (i / (daçãos.length - 1)) * width;
+        dados.forEach((valor, i) => {
+            const x = (i / (dados.length - 1)) * width;
             const y = height - ((valor - min) / range) * height;
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
@@ -285,16 +285,16 @@ class ComprasDashboard {
         ctx.globalAlpha = 1;
     }
 
-    desenharMiniBarras(ctx, daçãos, cores) {
+    desenharMiniBarras(ctx, dados, cores) {
         const canvas = ctx.canvas;
         const width = canvas.width;
         const height = canvas.height;
-        const barWidth = width / daçãos.length;
-        const max = Math.max(...daçãos);
+        const barWidth = width / dados.length;
+        const max = Math.max(...dados);
         
         ctx.clearRect(0, 0, width, height);
         
-        daçãos.forEach((valor, i) => {
+        dados.forEach((valor, i) => {
             const barHeight = (valor / max) * height;
             const x = i * barWidth;
             const y = height - barHeight;
@@ -336,7 +336,7 @@ class ComprasDashboard {
         }
     }
 
-    desenharGraficoArea(ctx, daçãos) {
+    desenharGraficoArea(ctx, dados) {
         const canvas = ctx.canvas;
         const width = canvas.width;
         const height = canvas.height;
@@ -344,7 +344,7 @@ class ComprasDashboard {
         const chartWidth = width - padding * 2;
         const chartHeight = height - padding * 2;
         
-        const valores = daçãos.map(d => d.valor);
+        const valores = dados.map(d => d.valor);
         const max = Math.max(...valores);
         const min = Math.min(...valores) * 0.9;
         const range = max - min;
@@ -375,8 +375,8 @@ class ComprasDashboard {
         
         // Área
         ctx.beginPath();
-        daçãos.forEach((item, i) => {
-            const x = padding + (chartWidth / (daçãos.length - 1)) * i;
+        dados.forEach((item, i) => {
+            const x = padding + (chartWidth / (dados.length - 1)) * i;
             const y = height - padding - ((item.valor - min) / range) * chartHeight;
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
@@ -389,8 +389,8 @@ class ComprasDashboard {
         
         // Linha
         ctx.beginPath();
-        daçãos.forEach((item, i) => {
-            const x = padding + (chartWidth / (daçãos.length - 1)) * i;
+        dados.forEach((item, i) => {
+            const x = padding + (chartWidth / (dados.length - 1)) * i;
             const y = height - padding - ((item.valor - min) / range) * chartHeight;
             if (i === 0) ctx.moveTo(x, y);
             else ctx.lineTo(x, y);
@@ -400,8 +400,8 @@ class ComprasDashboard {
         ctx.stroke();
         
         // Pontos
-        daçãos.forEach((item, i) => {
-            const x = padding + (chartWidth / (daçãos.length - 1)) * i;
+        dados.forEach((item, i) => {
+            const x = padding + (chartWidth / (dados.length - 1)) * i;
             const y = height - padding - ((item.valor - min) / range) * chartHeight;
             
             ctx.beginPath();

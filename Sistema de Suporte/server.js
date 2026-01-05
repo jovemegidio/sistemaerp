@@ -240,7 +240,7 @@ io.on('connection', (socket) => {
             if (ticket && ticket.socketId) {
                 io.to(ticket.socketId).emit('message', {
                     sender: 'system',
-                    message: 'Seu atendimento foi encerração. Obrigação pelo contato! 🙏',
+                    message: 'Seu atendimento foi encerrado. Obrigação pelo contato! 🙏',
                     timestamp: new Date().toISOString()
                 });
                 io.to(ticket.socketId).emit('ticket_closed');

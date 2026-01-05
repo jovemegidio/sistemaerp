@@ -11,7 +11,7 @@
   try {
     const email = 'test.login.local@local';
     const plain = 'Test@1234';
-    const [existing] = await pool.query('SELECT id FROM usuarios WHERE email =  LIMIT 1', [email]);
+    const [existing] = await pool.query('SELECT id FROM usuarios WHERE email = ? LIMIT 1', [email]);
     if (existing.length > 0) {
       console.log(JSON.stringify({ created: false, reason: 'already_exists', email }));
       return;

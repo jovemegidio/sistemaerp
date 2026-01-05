@@ -153,9 +153,9 @@
                                             <td><strong>${formatCurrency(p.valor)}</strong></td>
                                             <td>${formatDate(p.data)}</td>
                                             <td>
-                                                ${p.status === 'aprovação'  '<span class="badge badge-success">Aprovação</span>' : ''}
-                                                ${p.status === 'pendente'  '<span class="badge badge-warning">Pendente</span>' : ''}
-                                                ${p.status === 'processando'  '<span class="badge badge-info">Processando</span>' : ''}
+                                                ${p.status === 'aprovação' ? '<span class="badge badge-success">Aprovação</span>' : ''}
+                                                ${p.status === 'pendente' ? '<span class="badge badge-warning">Pendente</span>' : ''}
+                                                ${p.status === 'processando' ? '<span class="badge badge-info">Processando</span>' : ''}
                                             </td>
                                         </tr>
                                     `).join('')}
@@ -175,9 +175,9 @@
                             ${alertas.map(a => `
                                 <div class="alerta-item ${a.tipo}">
                                     <div class="alerta-icon">
-                                        ${a.tipo === 'critico'  '<i class="fas fa-exclamation-triangle"></i>' : ''}
-                                        ${a.tipo === 'aviso'  '<i class="fas fa-exclamation"></i>' : ''}
-                                        ${a.tipo === 'info'  '<i class="fas fa-info-circle"></i>' : ''}
+                                        ${a.tipo === 'critico' ? '<i class="fas fa-exclamation-triangle"></i>' : ''}
+                                        ${a.tipo === 'aviso' ? '<i class="fas fa-exclamation"></i>' : ''}
+                                        ${a.tipo === 'info' ? '<i class="fas fa-info-circle"></i>' : ''}
                                     </div>
                                     <div class="alerta-texto">${a.mensagem}</div>
                                 </div>
@@ -197,7 +197,7 @@
                     background: white;
                     border-radius: 16px;
                     padding: 24px;
-                    box-shaçãow: 0 4px 12px rgba(0,0,0,0.08);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
                     display: flex;
                     align-items: center;
                     gap: 20px;
@@ -206,7 +206,7 @@
 
                 .kpi-card:hover {
                     transform: translateY(-4px);
-                    box-shaçãow: 0 8px 24px rgba(0,0,0,0.12);
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
                 }
 
                 .kpi-icon {
@@ -258,7 +258,7 @@
                 .dashboard-card {
                     background: white;
                     border-radius: 16px;
-                    box-shaçãow: 0 4px 12px rgba(0,0,0,0.08);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
                     overflow: hidden;
                 }
 

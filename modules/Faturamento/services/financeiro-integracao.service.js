@@ -12,13 +12,13 @@ class FinanceiroIntegracaoService {
     /**
      * Gerar contas a receber a partir da NFe
      */
-    async gerarContasReceber(nfe_id, daçãosPagamento) {
+    async gerarContasReceber(nfe_id, dadosPagamento) {
         const connection = await this.pool.getConnection();
         
         try {
             await connection.beginTransaction();
             
-            // Buscar daçãos da NFe
+            // Buscar dados da NFe
             const [nfe] = await connection.query(`
                 SELECT n.*, c.id as cliente_id, c.nome as cliente_nome
                 FROM nfe n
@@ -34,7 +34,7 @@ class FinanceiroIntegracaoService {
             const valorTotal = parseFloat(nfeData.valor_total);
             
             // Determinar parcelas
-            const parcelas = this.calcularParcelas(valorTotal, daçãosPagamento);
+            const parcelas = this.calcularParcelas(valorTotal, dadosPagamento);
             
             // Criar conta a receber principal
             const [contaReceber] = await connection.query(`
@@ -48,7 +48,7 @@ class FinanceiroIntegracaoService {
                     data_vencimento,
                     status,
                     created_at
-                ) VALUES (, , , , , , , 'aberto', NOW())
+                ) VALUES (?, ?, ?, ?, , ?, ?, 'aberto', NOW())
             `, [
                 nfeData.cliente_id,
                 nfe_id,
@@ -72,7 +72,7 @@ class FinanceiroIntegracaoService {
                         data_vencimento,
                         status,
                         created_at
-                    ) VALUES (, , , , 'aberto', NOW())
+                    ) VALUES (?, ?, ?, ?, 'aberto', NOW())
                 `, [
                     conta_receber_id,
                     parcela.numero,
@@ -108,9 +108,9 @@ class FinanceiroIntegracaoService {
     /**
      * Calcular parcelas de pagamento
      */
-    calcularParcelas(valorTotal, daçãosPagamento) {
+    calcularParcelas(valorTotal, dadosPagamento) {
         const parcelas = [];
-        const { numeroParcelas = 1, diaVencimento = 30, intervalo = 30 } = daçãosPagamento;
+        const { numeroParcelas = 1, diaVencimento = 30, intervalo = 30 } = dadosPagamento;
         
         const valorParcela = valorTotal / numeroParcelas;
         const dataBase = new Date();
@@ -134,13 +134,13 @@ class FinanceiroIntegracaoService {
     /**
      * Registrar pagamento/baixa
      */
-    async registrarPagamento(parcela_id, daçãosPagamento) {
+    async registrarPagamento(parcela_id, dadosPagamento) {
         const connection = await this.pool.getConnection();
         
         try {
             await connection.beginTransaction();
             
-            const { valor_pago, data_pagamento, forma_pagamento, observacoes } = daçãosPagamento;
+            const { valor_pago, data_pagamento, forma_pagamento, observacoes } = dadosPagamento;
             
             // Buscar parcela
             const [parcela] = await connection.query(`
@@ -178,7 +178,7 @@ class FinanceiroIntegracaoService {
                     forma_pagamento,
                     observacoes,
                     created_at
-                ) VALUES (, , , , , , , , NOW())
+                ) VALUES (?, ?, ?, ?, , ?, ?, , NOW())
             `, [
                 parcela_id,
                 valorPago,
@@ -235,7 +235,7 @@ class FinanceiroIntegracaoService {
     /**
      * Gerar boleto bancário
      */
-    async gerarBoleto(parcela_id, daçãosBanco) {
+    async gerarBoleto(parcela_id, dadosBanco) {
         const connection = await this.pool.getConnection();
         
         try {
@@ -264,16 +264,16 @@ class FinanceiroIntegracaoService {
             const parcelaData = parcela[0];
             
             // Gerar nosso número (específico de cada banco)
-            const nossoNumero = this.gerarNossoNumero(daçãosBanco.banco, parcela_id);
+            const nossoNumero = this.gerarNossoNumero(dadosBanco.banco, parcela_id);
             
             // Gerar código de barras
             const codigoBarras = this.gerarCodigoBarras({
-                banco: daçãosBanco.banco,
+                banco: dadosBanco.banco,
                 moeda: '9',
                 valor: parcelaData.valor,
                 vencimento: parcelaData.data_vencimento,
-                agencia: daçãosBanco.agencia,
-                conta: daçãosBanco.conta,
+                agencia: dadosBanco.agencia,
+                conta: dadosBanco.conta,
                 nossoNumero
             });
             
@@ -291,7 +291,7 @@ class FinanceiroIntegracaoService {
                     conta,
                     status,
                     created_at
-                ) VALUES (, , , , , , , , , 'emitido', NOW())
+                ) VALUES (?, ?, ?, ?, , ?, ?, , , 'emitido', NOW())
             `, [
                 parcela_id,
                 nossoNumero,
@@ -299,9 +299,9 @@ class FinanceiroIntegracaoService {
                 this.formatarLinhaDigitavel(codigoBarras),
                 parcelaData.valor,
                 parcelaData.data_vencimento,
-                daçãosBanco.banco,
-                daçãosBanco.agencia,
-                daçãosBanco.conta
+                dadosBanco.banco,
+                dadosBanco.agencia,
+                dadosBanco.conta
             ]);
             
             await connection.commit();
@@ -441,9 +441,9 @@ class FinanceiroIntegracaoService {
         return id.toString().padStart(11, '0');
     }
     
-    gerarCodigoBarras(daçãos) {
+    gerarCodigoBarras(dados) {
         // Implementação simplificada - usar biblioteca específica em produção
-        const { banco, moeda, valor, vencimento } = daçãos;
+        const { banco, moeda, valor, vencimento } = dados;
         
         // Código do banco (3 dígitos)
         let codigo = banco.toString().padStart(3, '0');

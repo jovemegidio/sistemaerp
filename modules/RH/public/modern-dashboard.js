@@ -86,7 +86,7 @@ class ModernDashboardVisuals {
                 });
             }
         } else {
-            // Cria stats cards baseado nos daçãos visíveis
+            // Cria stats cards baseado nos dados visíveis
             this.createModernStatsFromData();
         }
     }
@@ -304,7 +304,7 @@ class ModernDashboardVisuals {
             let status = 'active';
             let avatar = 'https://via.placeholder.com/55/667eea/fffffftext=U';
             
-            // Lógica inteligente para extrair daçãos
+            // Lógica inteligente para extrair dados
             if (textContent.includes('Andreia Silva')) {
                 name = 'Andreia Silva';
                 description = 'Nova contratação - Há 2 horas';
@@ -353,7 +353,7 @@ class ModernDashboardVisuals {
                     background: white;
                     border-radius: 12px;
                     overflow: hidden;
-                    box-shaçãow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
                 `;
                 
                 // Moderniza cabeçalho
@@ -495,7 +495,7 @@ class ModernDashboardVisuals {
             z-index: 10000;
             transform: translateX(400px);
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shaçãow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
         `;
 
         // Define cor baseado no tipo

@@ -74,7 +74,7 @@ async function inserirProdutosTeste() {
             try {
                 await db.query(`
                     INSERT IGNORE INTO produtos (codigo, nome, descricao, variacao, marca) 
-                    VALUES (, , , , )
+                    VALUES (?, ?, ?, ?, )
                 `, [produto.codigo, produto.nome, produto.descricao, produto.variacao, produto.marca]);
                 
                 console.log(`➕ Produto ${produto.codigo} - ${produto.nome}`);

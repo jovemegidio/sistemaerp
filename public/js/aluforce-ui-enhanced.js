@@ -128,18 +128,18 @@
             notification.style.cssText = `
                 background: var(--white);
                 border: 1px solid var(--gray-200);
-                border-left: 4px solid var(--${type === 'success'  'success' : type === 'error'  'error' : type === 'warning'  'warning' : 'info'});
+                border-left: 4px solid var(--${type === 'success' ? 'success' : type === 'error' ? 'error' : type === 'warning' ? 'warning' : 'info'});
                 border-radius: var(--border-radius);
                 padding: var(--spacing-md);
                 margin-bottom: var(--spacing-sm);
-                box-shaçãow: var(--shaçãow-lg);
+                box-shadow: var(--shadow-lg);
                 transform: translateX(100%);
                 transition: transform var(--transition-normal);
                 pointer-events: auto;
                 cursor: pointer;
             `;
 
-            const icon = type === 'success'  '✅' : type === 'error'  '❌' : type === 'warning'  '⚠️' : 'ℹ️';
+            const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️';
             notification.innerHTML = `
                 <div style="display: flex; align-items: center; gap: var(--spacing-sm);">
                     <span style="font-size: 1.2em;">${icon}</span>
@@ -497,7 +497,7 @@
 
         toggle() {
             const current = document.documentElement.getAttribute('data-theme');
-            const newTheme = current === 'dark'  'light' : 'dark';
+            const newTheme = current === 'dark' ? 'light' : 'dark';
             
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
@@ -505,10 +505,10 @@
             // Atualizar ícone
             const icon = document.querySelector('#dark-mode-icon');
             if (icon) {
-                icon.className = newTheme === 'dark'  'fas fa-sun' : 'fas fa-moon';
+                icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
             }
             
-            NotificationSystem.info(`Tema ${newTheme === 'dark'  'escuro' : 'claro'} ativação`);
+            NotificationSystem.info(`Tema ${newTheme === 'dark' ? 'escuro' : 'claro'} ativação`);
         },
 
         applyStoredTheme() {
@@ -521,7 +521,7 @@
             // Atualizar ícone
             const icon = document.querySelector('#dark-mode-icon');
             if (icon) {
-                icon.className = theme === 'dark'  'fas fa-sun' : 'fas fa-moon';
+                icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
             }
         }
     };

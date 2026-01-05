@@ -157,7 +157,7 @@
             background: white;
             border-radius: 12px;
             margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
@@ -224,7 +224,7 @@
             border-radius: 50%;
             overflow: hidden;
             border: 4px solid white;
-            box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             margin-bottom: 12px;
         }
 
@@ -305,7 +305,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            box-shaçãow: 0 25px 50px rgba(0,0,0,0.25);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.25);
         }
 
         .modal-header {
@@ -375,7 +375,7 @@
         .form-input:focus, .form-textarea:focus {
             outline: none;
             border-color: var(--primary-purple);
-            box-shaçãow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .form-textarea { min-height: 120px; resize: vertical; }
@@ -392,7 +392,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shaçãow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.3s ease;
@@ -438,7 +438,7 @@
                 <a href="rh/solicitacoes" class="sidebar-btn" title="Solicitações">
                     <i class="fas fa-paper-plane"></i>
                 </a>
-                <a href="rh/pages/daçãos-cadastrais" class="sidebar-btn active" title="Meus Daçãos">
+                <a href="rh/pages/dados-cadastrais" class="sidebar-btn active" title="Meus Daçãos">
                     <i class="fas fa-user-edit"></i>
                 </a>
             </nav>
@@ -693,7 +693,7 @@
             </div>
             <div class="modal-body">
                 <p style="margin-bottom: 20px; color: #64748b; font-size: 0.9rem;">
-                    Preencha os campos abaixo para solicitar alterações nos seus daçãos cadastrais. 
+                    Preencha os campos abaixo para solicitar alterações nos seus dados cadastrais. 
                     A equipe de RH irá analisar e processar sua solicitação.
                 </p>
                 <form id="formSolicitacao">
@@ -874,7 +874,7 @@
                     if (funcionarioData) {
                         preencherDaçãos(funcionarioData);
                         
-                        // Atualizar também a foto do header com daçãos do funcionário
+                        // Atualizar também a foto do header com dados do funcionário
                         const fotoFuncionario = funcionarioData.foto_perfil_url || funcionarioData.foto_thumb_url || funcionarioData.foto;
                         if (fotoFuncionario && userPhotoEl) {
                             userPhotoEl.src = fotoFuncionario;
@@ -897,8 +897,8 @@
                 }
                 
             } catch (error) {
-                console.error('Erro ao carregar daçãos:', error);
-                showToast('Erro ao carregar daçãos cadastrais', 'error');
+                console.error('Erro ao carregar dados:', error);
+                showToast('Erro ao carregar dados cadastrais', 'error');
             }
         }
 
@@ -909,7 +909,7 @@
             setValor('dação-nome', user.nome || user.apelido);
             setValor('dação-email', user.email);
             
-            document.getElementById('funcionario-cargo-dept').textContent = 'Daçãos completos não encontraçãos';
+            document.getElementById('funcionario-cargo-dept').textContent = 'Daçãos completos não encontrados';
             document.getElementById('funcionario-status').textContent = 'N/A';
         }
 

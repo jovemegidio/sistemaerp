@@ -124,11 +124,11 @@ function otimizarModulo(nome, caminho) {
                 buscarJS(fullPath);
             } else if (stat.isFile() && item.endsWith('.js') && !item.includes('backup')) {
                 const conteudo = fs.readFileSync(fullPath, 'utf-8');
-                const resultação = consolidarDOMContentLoaded(conteudo, item);
+                const resultado = consolidarDOMContentLoaded(conteudo, item);
                 
-                if (resultação.modificação) {
+                if (resultado.modificação) {
                     criarBackup(fullPath);
-                    fs.writeFileSync(fullPath, resultação.conteudo, 'utf-8');
+                    fs.writeFileSync(fullPath, resultado.conteudo, 'utf-8');
                     arquivosModificaçãos++;
                 }
             }
@@ -156,14 +156,14 @@ function otimizarModulo(nome, caminho) {
             const htmlContent = fs.readFileSync(indexPath, 'utf-8');
             
             // Adicionar defer
-            let resultação = adicionarDeferScript(htmlContent);
-            let conteudoFinal = resultação.conteudo;
-            let modificação = resultação.modificação;
+            let resultado = adicionarDeferScript(htmlContent);
+            let conteudoFinal = resultado.conteudo;
+            let modificação = resultado.modificação;
             
             // Adicionar cache
-            resultação = adicionarCacheNoHTML(conteudoFinal, caminho);
-            conteudoFinal = resultação.conteudo;
-            modificação = modificação || resultação.modificação;
+            resultado = adicionarCacheNoHTML(conteudoFinal, caminho);
+            conteudoFinal = resultado.conteudo;
+            modificação = modificação || resultado.modificação;
             
             if (modificação) {
                 criarBackup(indexPath);

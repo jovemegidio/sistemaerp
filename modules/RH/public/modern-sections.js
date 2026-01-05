@@ -402,7 +402,7 @@ function showSuccess(message) {
         color: white;
         padding: 1rem 1.5rem;
         border-radius: 8px;
-        box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         z-index: 9999;
         animation: slideInRight 0.3s ease;
     `;

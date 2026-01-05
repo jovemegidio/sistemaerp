@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Script para resetar senhas de todos os colaboraçãores para "aluvendas01"
+ * Script para resetar senhas de todos os colaboradores para "aluvendas01"
  * Usa bcryptjs para gerar hashes seguros
  */
 
@@ -24,7 +24,7 @@ async function resetarSenhas() {
     let connection;
     
     try {
-        console.log('\n🔐 Iniciando reset de senhas de colaboraçãores...\n');
+        console.log('\n🔐 Iniciando reset de senhas de colaboradores...\n');
         console.log(`📍 Conectando ao banco: ${dbConfig.database}@${dbConfig.host}:${dbConfig.port}`);
         
         // Conectar ao banco
@@ -60,7 +60,7 @@ async function resetarSenhas() {
         console.log(`✅ Hash geração: ${senhaHash.substring(0, 20)}...\n`);
         
         // Buscar todos os usuários
-        console.log('👥 Buscando todos os colaboraçãores...');
+        console.log('👥 Buscando todos os colaboradores...');
         const [usuarios] = await connection.query(
             'SELECT id, nome, email, role FROM usuarios ORDER BY id'
         );

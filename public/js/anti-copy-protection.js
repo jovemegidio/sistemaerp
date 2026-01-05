@@ -214,7 +214,7 @@
         
         function onDevToolsOpen() {
             console.clear();
-            console.log('%c⛔ ATENÇÃO!', 'color: red; font-size: 50px; font-weight: bold; text-shaçãow: 2px 2px 0 black;');
+            console.log('%c⛔ ATENÇÃO!', 'color: red; font-size: 50px; font-weight: bold; text-shadow: 2px 2px 0 black;');
             console.log('%cEste é um sistema protegido por direitos autorais.', 'color: white; font-size: 18px; background: #dc2626; padding: 10px;');
             console.log('%cA cópia, redistribuição ou engenharia reversa é PROIBIDA.', 'color: white; font-size: 16px; background: #dc2626; padding: 8px;');
             console.log('%c© 2026 ALUFORCE - Cabos de Alumínio', 'color: #60a5fa; font-size: 14px;');

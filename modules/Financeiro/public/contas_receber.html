@@ -15,7 +15,7 @@
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 24px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
             display: grid;
             grid-template-columns: 2fr repeat(4, 1fr);
             gap: 16px;
@@ -59,7 +59,7 @@
         .filter-input:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shaçãow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
 
         /* Barra de Pesquisa Global */
@@ -109,7 +109,7 @@
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .btn-secondary {
@@ -128,7 +128,7 @@
 
         .btn-secondary:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(107, 114, 128, 0.3);
+            box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
         }
 
         .btn-success {
@@ -147,7 +147,7 @@
 
         .btn-success:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(30, 64, 175, 0.3);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
         }
 
         .btn-danger {
@@ -163,7 +163,7 @@
 
         .btn-danger:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
         .btn-warning {
@@ -182,10 +182,10 @@
 
         .btn-warning:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(245, 158, 11, 0.3);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
         }
 
-        /* Resultaçãos da pesquisa */
+        /* Resultados da pesquisa */
         .search-results-info {
             display: flex;
             justify-content: space-between;
@@ -205,7 +205,7 @@
             background: white;
             border-radius: 12px;
             overflow: hidden;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .table-header {
@@ -384,7 +384,7 @@
             width: 380px;
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 12px 48px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
             opacity: 0;
             visibility: hidden;
             transform: translateY(-10px);
@@ -987,12 +987,12 @@
             align-items: center;
             gap: 8px;
             transition: all 0.2s;
-            box-shaçãow: 0 4px 12px rgba(30, 64, 175, 0.3);
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
         }
 
         .btn-save:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 6px 20px rgba(30, 64, 175, 0.4);
+            box-shadow: 0 6px 20px rgba(30, 64, 175, 0.4);
         }
 
         @media (max-width: 768px) {
@@ -1071,7 +1071,7 @@
         .form-input:focus {
             outline: none;
             border-color: #1e40af;
-            box-shaçãow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
         }
 
         .form-row {
@@ -1091,7 +1091,7 @@
             background: white;
             padding: 20px;
             border-radius: 12px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .summary-value {
@@ -1143,7 +1143,7 @@
             gap: 12px;
             padding: 14px 20px;
             border-radius: 12px;
-            box-shaçãow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
             animation: slideIn 0.3s ease-out;
             min-width: 300px;
             max-width: 450px;
@@ -1284,7 +1284,7 @@
         
         .btn-nova-conta:hover {
             transform: translateY(-2px) !important;
-            box-shaçãow: 0 4px 12px rgba(30, 64, 175, 0.3) !important;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3) !important;
         }
         
         .topbar-right {
@@ -1904,7 +1904,7 @@
 
         let contas = [];
 
-        // Carregar daçãos iniciais
+        // Carregar dados iniciais
         async function init() {
             await Promise.all([
                 carregarResumo(),
@@ -1964,20 +1964,20 @@
             }
         }
 
-        function renderizarTabela(daçãos, termoPesquisa = '') {
+        function renderizarTabela(dados, termoPesquisa = '') {
             const tbody = document.getElementById('tabela-contas');
             
-            if (daçãos.length === 0) {
+            if (dados.length === 0) {
                 tbody.innerHTML = `
                     <tr><td colspan="7" style="text-align: center; padding: 60px; color: #9ca3af;">
                         <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px; display: block;"></i>
-                        ${termoPesquisa ? 'Nenhum resultação encontração para "' + termoPesquisa + '"' : 'Nenhuma conta encontrada'}
+                        ${termoPesquisa ? 'Nenhum resultado encontrado para "' + termoPesquisa + '"' : 'Nenhuma conta encontrada'}
                     </td></tr>
                 `;
                 return;
             }
 
-            tbody.innerHTML = daçãos.map(conta => {
+            tbody.innerHTML = dados.map(conta => {
                 const status = conta.status || 'pendente';
                 const badges = {
                     'pendente': '<span class="badge badge-pending">Pendente</span>',
@@ -2104,7 +2104,7 @@
             event.preventDefault();
             
             const id = document.getElementById('conta-id').value;
-            const daçãos = {
+            const dados = {
                 descricao: document.getElementById('descricao').value,
                 cliente_id: document.getElementById('cliente-id').value,
                 categoria_id: document.getElementById('categoria-id').value,
@@ -2117,14 +2117,14 @@
             };
 
             try {
-                const url = id  `/api/financeiro/contas-receber/${id}` : '/api/financeiro/contas-receber';
+                const url = id ? `/api/financeiro/contas-receber/${id}` : '/api/financeiro/contas-receber';
                 const method = id ? 'PUT' : 'POST';
 
                 const response = await fetch(url, {
                     method,
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
-                    body: JSON.stringify(daçãos)
+                    body: JSON.stringify(dados)
                 });
 
                 if (response.ok) {
@@ -2144,7 +2144,7 @@
             event.preventDefault();
 
             const id = document.getElementById('receber-conta-id').value;
-            const daçãos = {
+            const dados = {
                 valor_recebido: parseFloat(document.getElementById('receber-valor').value),
                 data_recebimento: document.getElementById('receber-data').value,
                 forma_pagamento: document.getElementById('receber-forma').value,
@@ -2156,7 +2156,7 @@
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
-                    body: JSON.stringify(daçãos)
+                    body: JSON.stringify(dados)
                 });
 
                 if (response.ok) {
@@ -2313,7 +2313,7 @@
 
             contaVisualizando = conta;
 
-            // Preencher daçãos
+            // Preencher dados
             document.getElementById('view-id').textContent = '#' + conta.id;
             document.getElementById('view-descricao').textContent = conta.descricao || '-';
             document.getElementById('view-cliente').textContent = conta.cliente_nome || '-';
@@ -2390,7 +2390,7 @@
         // ===== EXPORTAR EXCEL =====
         function exportarExcel() {
             if (contas.length === 0) {
-                showToast('Não há daçãos para exportar', 'warning');
+                showToast('Não há dados para exportar', 'warning');
                 return;
             }
 
@@ -2400,26 +2400,26 @@
             const clienteId = document.getElementById('filtro-cliente-select').value;
             const pesquisa = document.getElementById('pesquisa-global').value.toLowerCase();
 
-            let daçãosExportar = [...contas];
+            let dadosExportar = [...contas];
             
             // Aplicar os mesmos filtros da tabela
-            if (status) daçãosExportar = daçãosExportar.filter(c => c.status === status);
-            if (clienteId) daçãosExportar = daçãosExportar.filter(c => c.cliente_id == clienteId);
+            if (status) dadosExportar = dadosExportar.filter(c => c.status === status);
+            if (clienteId) dadosExportar = dadosExportar.filter(c => c.cliente_id == clienteId);
             if (pesquisa) {
-                daçãosExportar = daçãosExportar.filter(c => 
+                dadosExportar = dadosExportar.filter(c => 
                     (c.descricao || '').toLowerCase().includes(pesquisa) ||
                     (c.cliente_nome || '').toLowerCase().includes(pesquisa)
                 );
             }
 
-            if (daçãosExportar.length === 0) {
-                showToast('Não há daçãos para exportar com os filtros atuais', 'warning');
+            if (dadosExportar.length === 0) {
+                showToast('Não há dados para exportar com os filtros atuais', 'warning');
                 return;
             }
 
             // Criar CSV
             const headers = ['ID', 'Descrição', 'Cliente', 'Vencimento', 'Valor', 'Status', 'Forma Pagamento', 'Nº Documento'];
-            const linhas = daçãosExportar.map(c => [
+            const linhas = dadosExportar.map(c => [
                 c.id,
                 `"${(c.descricao || '').replace(/"/g, '""')}"`,
                 `"${(c.cliente_nome || '').replace(/"/g, '""')}"`,

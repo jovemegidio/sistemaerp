@@ -23,7 +23,7 @@ async function installDatabase() {
     // Criar banco de dados se não existir
     console.log(`📦 Criando banco de dados ${process.env.DB_NAME}...`);
     await connection.query(`CREATE DATABASE IF NOT EXISTS ${process.env.DB_NAME} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
-    console.log('✅ Banco de daçãos criado/verificação!');
+    console.log('✅ Banco de dados criado/verificação!');
     
     // Selecionar o banco
     await connection.query(`USE ${process.env.DB_NAME}`);

@@ -252,7 +252,7 @@ class SEFAZService {
      * Monta XML de consulta de recibo
      */
     montarConsultaRecibo(numeroRecibo, ambiente) {
-        const tpAmb = ambiente === 'producao'  '1' : '2';
+        const tpAmb = ambiente === 'producao' ? '1' : '2';
         
         return `<xml version="1.0" encoding="UTF-8">
 <consReciNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
@@ -265,7 +265,7 @@ class SEFAZService {
      * Monta XML de consulta de protocolo
      */
     montarConsultaProtocolo(chaveAcesso, ambiente) {
-        const tpAmb = ambiente === 'producao'  '1' : '2';
+        const tpAmb = ambiente === 'producao' ? '1' : '2';
         
         return `<xml version="1.0" encoding="UTF-8">
 <consSitNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="4.00">
@@ -279,7 +279,7 @@ class SEFAZService {
      * Monta XML de consulta de status
      */
     montarConsultaStatus(uf, ambiente) {
-        const tpAmb = ambiente === 'producao'  '1' : '2';
+        const tpAmb = ambiente === 'producao' ? '1' : '2';
         const cUF = this.obterCodigoUF(uf);
         
         return `<xml version="1.0" encoding="UTF-8">
@@ -385,7 +385,7 @@ class SEFAZService {
                 INSERT INTO nfe_logs_sefaz (
                     tipo_operacao, xml_enviação, xml_retorno,
                     codigo_status, erro, created_at
-                ) VALUES (, , , , , NOW())
+                ) VALUES (?, ?, ?, ?, , NOW())
             `, [
                 tipo,
                 xmlEnviação,

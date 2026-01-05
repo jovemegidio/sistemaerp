@@ -35,7 +35,7 @@
             "Mantenha o foco, você está indo bem!",
             "Metade do dia, dobro de energia!",
             "Produtividade em alta. Continue assim!",
-            "Hora de acelerar e entregar resultaçãos!"
+            "Hora de acelerar e entregar resultados!"
         ],
         noite: [
             "Finalizando o expediente com chave de ouro",
@@ -51,7 +51,7 @@
     const meses = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
     
     /**
-     * Obtém daçãos da saudação baseado na hora atual
+     * Obtém dados da saudação baseado na hora atual
      */
     function getGreetingData() {
         const hora = new Date().getHours();

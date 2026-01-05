@@ -206,13 +206,13 @@ const NotificationsManager = (function() {
 
         // Renderizar notificações
         listContainer.innerHTML = filtered.map(notif => {
-            const iconClass = notif.icone  `fas ${notif.icone}` : getIconForType(notif.type);
+            const iconClass = notif.icone ? `fas ${notif.icone}` : getIconForType(notif.type);
             const moduloBadge = notif.modulo && notif.modulo !== 'sistema' 
                  `<span class="notification-module-badge">${notif.modulo}</span>` 
                 : '';
             
             return `
-            <div class="notification-item ${notif.read  '' : 'unread'}" data-id="${notif.id}" ${notif.link  `data-link="${notif.link}"` : ''}>
+            <div class="notification-item ${notif.read  '' : 'unread'}" data-id="${notif.id}" ${notif.link ? `data-link="${notif.link}"` : ''}>
                 <div class="notification-icon ${notif.type}">
                     <i class="${iconClass}"></i>
                 </div>
@@ -591,7 +591,7 @@ const NotificationsManager = (function() {
                                 alertaKey: alertaKey,
                                 title: alerta.titulo,
                                 message: alerta.mensagem,
-                                type: alerta.tipo === 'danger'  'error' : alerta.tipo,
+                                type: alerta.tipo === 'danger' ? 'error' : alerta.tipo,
                                 time: new Date().toISOString(),
                                 read: false,
                                 modulo: alerta.modulo,

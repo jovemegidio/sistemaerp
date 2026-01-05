@@ -62,7 +62,7 @@ class CorrecaoCompleta {
             border-radius: 20px;
             padding: 32px;
             margin-bottom: 32px;
-            box-shaçãow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
             border: 1px solid #e2e8f0;
             /* Forçar visibilidade completa */
             display: block !important;
@@ -384,7 +384,7 @@ class CorrecaoCompleta {
         console.log('\n💡 PRÓXIMAS RECOMENDAÇÕES:');
         console.log('   - Testar as páginas em navegaçãores diferentes');
         console.log('   - Verificar responsividade em dispositivos móveis');
-        console.log('   - Implementar cache de daçãos para melhor performance');
+        console.log('   - Implementar cache de dados para melhor performance');
         console.log('   - Adicionar testes automatizaçãos');
         console.log('   - Criar documentação técnica atualizada');
         

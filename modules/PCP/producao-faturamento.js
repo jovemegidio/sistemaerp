@@ -36,7 +36,7 @@
         // Busca
         document.getElementById('search-producao').addEventListener('input', debounce(buscarProducao, 300));
 
-        // Carregar daçãos
+        // Carregar dados
         loadOrdensProducao();
     }
 
@@ -196,7 +196,7 @@
             });
         });
 
-        // Carregar daçãos
+        // Carregar dados
         loadFaturamentos();
         renderCalendar();
     }
@@ -456,7 +456,7 @@
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     const isVisible = !producaoView.classList.contains('hidden');
                     if (isVisible && ordensProducao.length === 0) {
-                        console.log('🔄 View de produção visível, carregando daçãos...');
+                        console.log('🔄 View de produção visível, carregando dados...');
                         initControleProducao();
                     }
                 }
@@ -471,7 +471,7 @@
                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                     const isVisible = !faturamentoView.classList.contains('hidden');
                     if (isVisible && faturamentos.length === 0) {
-                        console.log('🔄 View de faturamento visível, carregando daçãos...');
+                        console.log('🔄 View de faturamento visível, carregando dados...');
                         initFaturamento();
                     }
                 }
@@ -510,15 +510,15 @@
         event.preventDefault();
         
         const formData = new FormData(event.target);
-        const daçãos = Object.fromEntries(formData);
-        daçãos.status = 'ativa';
-        daçãos.progresso = 0;
+        const dados = Object.fromEntries(formData);
+        dados.status = 'ativa';
+        dados.progresso = 0;
         
         try {
             const response = await fetch('/api/pcp/ordens-producao', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(daçãos)
+                body: JSON.stringify(dados)
             });
             
             if (!response.ok) throw new Error('Erro ao criar ordem');
@@ -698,13 +698,13 @@
         
         const id = document.getElementById('editar-ordem-id').value;
         const formData = new FormData(event.target);
-        const daçãos = Object.fromEntries(formData);
+        const dados = Object.fromEntries(formData);
         
         try {
             const response = await fetch(`/api/pcp/ordens-producao/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(daçãos)
+                body: JSON.stringify(dados)
             });
             
             if (!response.ok) throw new Error('Erro ao editar ordem');

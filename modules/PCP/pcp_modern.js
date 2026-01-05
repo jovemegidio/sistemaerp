@@ -125,9 +125,9 @@ async function buscarProdutosGestao(page = 1, limit = 20) {
         if (totalPages > 1) {
             tableHTML += `
                 <div class=\"pagination\">
-                    ${page > 1  `<button class=\"btn-sm\" onclick=\"buscarProdutosGestao(${page - 1}, ${limit})\">« Anterior</button>` : ''}
+                    ${page > 1 ? `<button class=\"btn-sm\" onclick=\"buscarProdutosGestao(${page - 1}, ${limit})\">« Anterior</button>` : ''}
                     <span>Página ${page} de ${totalPages}</span>
-                    ${page < totalPages  `<button class=\"btn-sm\" onclick=\"buscarProdutosGestao(${page + 1}, ${limit})\">Próxima »</button>` : ''}
+                    ${page < totalPages ? `<button class=\"btn-sm\" onclick=\"buscarProdutosGestao(${page + 1}, ${limit})\">Próxima »</button>` : ''}
                 </div>
             `;
         }
@@ -1213,7 +1213,7 @@ function showNotificationsPanel() {
                     <div class="notification-content">
                         <div class="notification-message">${notif.message}</div>
                         <div class="notification-time">${timeAgo}</div>
-                        ${notif.source  `<div class="notification-source">Sistema</div>` : ''}
+                        ${notif.source ? `<div class="notification-source">Sistema</div>` : ''}
                     </div>
                     <button class="notification-remove" onclick="removeNotification(${notif.id})">
                         <i class="fas fa-times"></i>
@@ -1909,9 +1909,9 @@ async function carregarProdutos(page = 1, limit = 20) {
         if (totalPages > 1) {
             tableHTML += `
                 <div class="pagination">
-                    ${page > 1  `<button class="btn-sm" onclick="carregarProdutos(${page - 1})">« Anterior</button>` : ''}
+                    ${page > 1 ? `<button class="btn-sm" onclick="carregarProdutos(${page - 1})">« Anterior</button>` : ''}
                     <span>Página ${page} de ${totalPages}</span>
-                    ${page < totalPages  `<button class="btn-sm" onclick="carregarProdutos(${page + 1})">Próxima »</button>` : ''}
+                    ${page < totalPages ? `<button class="btn-sm" onclick="carregarProdutos(${page + 1})">Próxima »</button>` : ''}
                 </div>
             `;
         }
@@ -2008,7 +2008,7 @@ async function updateCounters() {
 // Initialize materials view when navigated to
 function initializeMaterialsView() {
     console.log('Initializing Materials View...');
-    showToast('Carregando daçãos da seção Materiais...', 'info');
+    showToast('Carregando dados da seção Materiais...', 'info');
     
     // Check if containers exist
     const materiaisContainer = document.getElementById('tabela-materiais-container');
@@ -2060,7 +2060,7 @@ window.editarProduto = function(id) {
         alert('Erro: Modal de edição não disponível');
     }
     
-    /* CÓDIGO ANTIGO REMOVIDO - Buscar daçãos e preencher campos
+    /* CÓDIGO ANTIGO REMOVIDO - Buscar dados e preencher campos
     fetch(`/api/pcp/produtos/${id}`)
         .then(response => {
             if (!response.ok) throw new Error('Produto não encontrado');
@@ -2162,7 +2162,7 @@ window.editarProduto_OLD_BACKUP = function(id) {
         })
         .catch(error => {
             console.error('Erro ao buscar produto:', error);
-            showToast('❌ Erro ao carregar daçãos do produto', 'error');
+            showToast('❌ Erro ao carregar dados do produto', 'error');
         });
         */
 };
@@ -2255,11 +2255,11 @@ window.gerarCatalogoProdutos = async function() {
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Gerando...';
         btn.disabled = true;
         
-        // Busca daçãos do catálogo
+        // Busca dados do catálogo
         const response = await fetch('/api/pcp/produtos/catalogo');
         if (!response.ok) throw new Error('Erro ao gerar catálogo');
         
-        const daçãos = await response.json();
+        const dados = await response.json();
         
         // Gera HTML do catálogo
         const agora = new Date();
@@ -2323,7 +2323,7 @@ window.gerarCatalogoProdutos = async function() {
     
     <div class="stats">
         <div class="stats-item">
-            <div class="stats-value">${daçãos.totalProdutos}</div>
+            <div class="stats-value">${dados.totalProdutos}</div>
             <div class="stats-label">Total Produtos</div>
         </div>
         <div class="stats-item">
@@ -2354,7 +2354,7 @@ window.gerarCatalogoProdutos = async function() {
         <tbody>`;
         
         // Adiciona produtos
-        const produtosHtml = daçãos.produtos.map(produto => {
+        const produtosHtml = dados.produtos.map(produto => {
             const nome = (produto.nome || '').replace(/\/g, '²');
             return `
             <tr>
@@ -2379,7 +2379,7 @@ window.gerarCatalogoProdutos = async function() {
         <strong>🏭 ALUFORCE - Cabos Elétricos de Alumínio</strong><br>
         Prefixo GTIN: 78968192 | Padrão: EAN-13 (13 dígitos)<br>
         Relatório geração automaticamente pelo Sistema PCP em ${timestamp}<br>
-        Total de ${daçãos.totalProdutos} produtos cadastraçãos com GTINs válidos
+        Total de ${dados.totalProdutos} produtos cadastraçãos com GTINs válidos
     </div>
 </body>
 </html>`;
@@ -2393,7 +2393,7 @@ window.gerarCatalogoProdutos = async function() {
         const novaJanela = window.open(url, '_blank');
         if (novaJanela) {
             novaJanela.document.title = 'Catálogo Produtos Aluforce';
-            showToast(`📄 Catálogo geração! ${daçãos.totalProdutos} produtos`, 'success');
+            showToast(`📄 Catálogo geração! ${dados.totalProdutos} produtos`, 'success');
         } else {
             showToast('❌ Popup bloqueação! Habilite popups para este site', 'error');
         }
@@ -2890,7 +2890,7 @@ function abrirModalNovoProduto() {
         if (codigoInput && skuInput) {
             codigoInput.addEventListener('input', function() {
                 const codigo = this.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
-                skuInput.value = codigo  `SKU-${codigo}` : '';
+                skuInput.value = codigo ? `SKU-${codigo}` : '';
             });
         }
         
@@ -3184,13 +3184,13 @@ function showStatusNotification(message, type = 'info') {
         position: fixed;
         top: 20px;
         right: 20px;
-        background: ${type === 'success'  'linear-gradient(135deg, #10b981, #059669)' : 
-                    type === 'error'  'linear-gradient(135deg, #ef4444, #dc2626)' : 
+        background: ${type === 'success' ? 'linear-gradient(135deg, #10b981, #059669)' : 
+                    type === 'error' ? 'linear-gradient(135deg, #ef4444, #dc2626)' : 
                     'linear-gradient(135deg, #3b82f6, #1d4ed8)'};
         color: white;
         padding: 16px 20px;
         border-radius: 12px;
-        box-shaçãow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
         z-index: 10000;
         animation: slideInRight 0.3s ease;
         font-weight: 500;
@@ -3221,7 +3221,7 @@ function initializePageFeatures() {
     const materiaisView = document.getElementById('materiais-view');
     if (materiaisView && !materiaisView.classList.contains('hidden')) {
         updateMateriaisStatus();
-        updateCounters(); // Atualizar contaçãores com daçãos reais
+        updateCounters(); // Atualizar contaçãores com dados reais
         
         // Initialize dashboard refresh button
         const refreshBtn = document.getElementById('refresh-dashboard');
@@ -3403,8 +3403,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Prepara daçãos para envio
-        const daçãosProduto = {
+        // Prepara dados para envio
+        const dadosProduto = {
             codigo: codigo,
             nome: nome,
             descricao: formData.get('descricao').trim() || null,
@@ -3426,7 +3426,7 @@ document.addEventListener('DOMContentLoaded', function() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(daçãosProduto)
+            body: JSON.stringify(dadosProduto)
         })
         .then(response => {
             if (!response.ok) {
@@ -3664,9 +3664,9 @@ function atualizarPreviewVariacao(variacoes) {
             <span class="variation-index">${index + 1}</span>
             <div class="variation-details">
                 <strong>${variacao.nome || 'Sem nome'}</strong>
-                ${variacao.cor  `<span class="badge badge-color">${variacao.cor}</span>` : ''}
-                ${variacao.tamanho  `<span class="badge badge-size">${variacao.tamanho}</span>` : ''}
-                ${variacao.preco  `<span class="badge badge-price">R$ ${variacao.preco}</span>` : ''}
+                ${variacao.cor ? `<span class="badge badge-color">${variacao.cor}</span>` : ''}
+                ${variacao.tamanho ? `<span class="badge badge-size">${variacao.tamanho}</span>` : ''}
+                ${variacao.preco ? `<span class="badge badge-price">R$ ${variacao.preco}</span>` : ''}
             </div>
         </div>
     `).join('');
@@ -3806,23 +3806,23 @@ async function salvarNovoMaterial() {
         return;
     }
     
-    // Coletar daçãos do formulário
-    const daçãosMaterial = coletarDaçãosMaterial();
+    // Coletar dados do formulário
+    const dadosMaterial = coletarDaçãosMaterial();
     
     try {
-        console.log('Enviando daçãos do material:', daçãosMaterial);
+        console.log('Enviando dados do material:', dadosMaterial);
         
         const response = await fetch('/api/pcp/materiais', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(daçãosMaterial)
+            body: JSON.stringify(dadosMaterial)
         });
         
         if (response.ok) {
-            const resultação = await response.json();
-            console.log('Material salvo com sucesso:', resultação);
+            const resultado = await response.json();
+            console.log('Material salvo com sucesso:', resultado);
             
             // Mostrar mensagem de sucesso
             mostrarMensagemSucesso('Material cadastração com sucesso!');
@@ -3961,20 +3961,20 @@ function coletarDaçãosMaterial() {
     const form = document.getElementById('form-novo-material');
     const formData = new FormData(form);
     
-    const daçãosMaterial = {};
+    const dadosMaterial = {};
     
     // Coletar todos os campos
     formData.forEach((value, key) => {
         if (value.trim() !== '') {
-            daçãosMaterial[key] = value.trim();
+            dadosMaterial[key] = value.trim();
         }
     });
     
     // Adicionar timestamp
-    daçãosMaterial.data_cadastro = new Date().toISOString();
-    daçãosMaterial.usuario_cadastro = window.currentUser.nome || 'Sistema';
+    dadosMaterial.data_cadastro = new Date().toISOString();
+    dadosMaterial.usuario_cadastro = window.currentUser.nome || 'Sistema';
     
-    return daçãosMaterial;
+    return dadosMaterial;
 }
 
 // Limpar Formulário de Material

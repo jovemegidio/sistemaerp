@@ -78,9 +78,9 @@ function ordenarPorTempoCasa(funcionarios) {
     });
 }
 
-// Função para atualizar o card de colaboraçãores com mais tempo de casa
+// Função para atualizar o card de colaboradores com mais tempo de casa
 function atualizarColaboraçãoresTempoCasa() {
-    console.log('📊 Atualizando colaboraçãores com mais tempo de casa...');
+    console.log('📊 Atualizando colaboradores com mais tempo de casa...');
     
     const funcionariosOrdenaçãos = ordenarPorTempoCasa([...funcionariosData]);
     const top3 = funcionariosOrdenaçãos.slice(0, 3);
@@ -151,10 +151,10 @@ function atualizarColaboraçãoresTempoCasa() {
     console.log('🎉 Colaboraçãores com mais tempo de casa atualizaçãos!');
 }
 
-// Função para buscar daçãos reais do servidor (se disponível)
+// Função para buscar dados reais do servidor (se disponível)
 async function buscarDaçãosFuncionarios() {
     try {
-        console.log('🔄 Tentando buscar daçãos reais dos funcionários...');
+        console.log('🔄 Tentando buscar dados reais dos funcionários...');
         
         const response = await fetch('/api/funcionarios');
         if (response.ok) {
@@ -174,7 +174,7 @@ async function buscarDaçãosFuncionarios() {
                     avatar: f.foto_url || f.avatar || 'Interativo-Aluforce.jpg'
                 }));
                 
-                // Substituir daçãos simulaçãos pelos reais
+                // Substituir dados simulaçãos pelos reais
                 funcionariosData.length = 0;
                 funcionariosData.push(...funcionariosFormataçãos);
                 
@@ -184,7 +184,7 @@ async function buscarDaçãosFuncionarios() {
             }
         }
     } catch (error) {
-        console.log('ℹ️ Daçãos do servidor não disponíveis, usando daçãos simulaçãos');
+        console.log('ℹ️ Daçãos do servidor não disponíveis, usando dados simulaçãos');
     }
     
     return false;
@@ -194,11 +194,11 @@ async function buscarDaçãosFuncionarios() {
 function inicializarTempoCasa() {
     console.log('🚀 Inicializando sistema de tempo de casa...');
     
-    // Tentar buscar daçãos reais primeiro
+    // Tentar buscar dados reais primeiro
     buscarDaçãosFuncionarios().then(sucessoReal => {
         if (!sucessoReal) {
-            // Se não conseguir daçãos reais, usar simulaçãos
-            console.log('📋 Usando daçãos simulaçãos para demonstração');
+            // Se não conseguir dados reais, usar simulaçãos
+            console.log('📋 Usando dados simulaçãos para demonstração');
             atualizarColaboraçãoresTempoCasa();
         }
     });

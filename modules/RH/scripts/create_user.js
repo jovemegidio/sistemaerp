@@ -13,7 +13,7 @@ const DB_CONFIG = {
 async function upsert (email, password, nome, role = 'funcionario') {
   const conn = await mysql.createConnection(DB_CONFIG)
   try {
-    const [rows] = await conn.execute('SELECT id FROM funcionarios WHERE email =  LIMIT 1', [email])
+    const [rows] = await conn.execute('SELECT id FROM funcionarios WHERE email = ? LIMIT 1', [email])
     const hashed = await bcrypt.hash(password, 10)
     const cpfArg = argv[4] || null // optional cpf
     if (rows && rows.length > 0) {
@@ -23,7 +23,7 @@ async function upsert (email, password, nome, role = 'funcionario') {
     } else {
       // cpf is required by the schema; generate a short placeholder if not provided
       const cpfVal = cpfArg || (`CPF${String(Date.now()).slice(-10)}`) // e.g. CPF1234567890 - fits VARCHAR(20)
-      const [res] = await conn.execute('INSERT INTO funcionarios (email, senha, nome_completo, role, status, cpf) VALUES (, , , , \'Ativo\', )', [email, hashed, nome, role, cpfVal])
+      const [res] = await conn.execute('INSERT INTO funcionarios (email, senha, nome_completo, role, status, cpf) VALUES (?, ?, ?, ?, \'Ativo\', )', [email, hashed, nome, role, cpfVal])
       console.log(`Criação usuário id=${res.insertId} email=${email} cpf=${cpfVal}`)
     }
   } catch (err) {

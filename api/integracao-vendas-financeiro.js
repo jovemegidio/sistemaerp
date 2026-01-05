@@ -27,7 +27,7 @@ router.post('/gerar-receber', async (req, res) => {
     try {
         const pool = req.app.locals.pool;
         
-        // 1. Buscar daçãos do pedido de venda
+        // 1. Buscar dados do pedido de venda
         const [pedidos] = await pool.execute(`
             SELECT 
                 p.*,
@@ -109,7 +109,7 @@ router.post('/gerar-receber', async (req, res) => {
                     categoria,
                     observacoes,
                     created_at
-                ) VALUES (, , , , , , , , , , , , , , NOW())
+                ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, , NOW())
             `, [
                 `Venda #${pedido.numero_pedido || pedido_id} - Parcela ${i + 1}/${numParcelas}`,
                 valorParcela.toFixed(2),
@@ -163,7 +163,7 @@ router.post('/gerar-receber', async (req, res) => {
         res.json({
             success: true,
             message: `${contasGeradas.length} conta(s) a receber gerada(s) com sucesso`,
-            daçãos: {
+            dados: {
                 pedido_id,
                 valor_total: valorTotal,
                 parcelas: numParcelas,
@@ -325,22 +325,22 @@ router.get('/status/:pedido_id', async (req, res) => {
 /**
  * Função auxiliar para registrar logs de integração
  */
-async function registrarLogIntegracao(pool, daçãos) {
+async function registrarLogIntegracao(pool, dados) {
     try {
         await pool.execute(`
             INSERT INTO logs_integracao (
                 tipo, origem_modulo, destino_modulo, 
                 referencia_id, acao, detalhes, 
                 usuario_id, created_at
-            ) VALUES (, , , , , , , NOW())
+            ) VALUES (?, ?, ?, ?, , ?, ?, NOW())
         `, [
-            daçãos.tipo,
-            daçãos.origem_modulo,
-            daçãos.destino_modulo,
-            daçãos.referencia_id,
-            daçãos.acao,
-            daçãos.detalhes,
-            daçãos.usuario_id
+            dados.tipo,
+            dados.origem_modulo,
+            dados.destino_modulo,
+            dados.referencia_id,
+            dados.acao,
+            dados.detalhes,
+            dados.usuario_id
         ]);
     } catch (error) {
         console.error('[Log Integração] Erro ao registrar:', error.message);

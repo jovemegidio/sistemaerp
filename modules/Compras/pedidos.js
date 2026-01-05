@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 async function inicializarSistema() {
     console.log('🚀 Inicializando sistema de pedidos...');
     
-    // Carregar daçãos
+    // Carregar dados
     await carregarFornecedores();
     await carregarProdutos();
     await carregarPedidos();
@@ -166,14 +166,14 @@ function adicionarItem(itemData = null) {
         </td>
         <td>
             <select class="item-unidade">
-                <option value="UN" ${itemData.unidade === 'UN'  'selected' : ''}>UN</option>
-                <option value="KG" ${itemData.unidade === 'KG'  'selected' : ''}>KG</option>
-                <option value="M" ${itemData.unidade === 'M'  'selected' : ''}>M</option>
-                <option value="M2" ${itemData.unidade === 'M2'  'selected' : ''}>M²</option>
-                <option value="M3" ${itemData.unidade === 'M3'  'selected' : ''}>M³</option>
-                <option value="L" ${itemData.unidade === 'L'  'selected' : ''}>L</option>
-                <option value="CX" ${itemData.unidade === 'CX'  'selected' : ''}>CX</option>
-                <option value="PC" ${itemData.unidade === 'PC'  'selected' : ''}>PC</option>
+                <option value="UN" ${itemData.unidade === 'UN' ? 'selected' : ''}>UN</option>
+                <option value="KG" ${itemData.unidade === 'KG' ? 'selected' : ''}>KG</option>
+                <option value="M" ${itemData.unidade === 'M' ? 'selected' : ''}>M</option>
+                <option value="M2" ${itemData.unidade === 'M2' ? 'selected' : ''}>M²</option>
+                <option value="M3" ${itemData.unidade === 'M3' ? 'selected' : ''}>M³</option>
+                <option value="L" ${itemData.unidade === 'L' ? 'selected' : ''}>L</option>
+                <option value="CX" ${itemData.unidade === 'CX' ? 'selected' : ''}>CX</option>
+                <option value="PC" ${itemData.unidade === 'PC' ? 'selected' : ''}>PC</option>
             </select>
         </td>
         <td>
@@ -504,7 +504,7 @@ function visualizarPedido(pedidoId) {
             </div>
         </div>
         
-        ${pedido.observacoes  `
+        ${pedido.observacoes ? `
             <div style="margin-top: 20px;">
                 <p style="color: #64748b; font-size: 13px; margin-bottom: 8px;">Observações</p>
                 <p style="background: #f9fafb; padding: 12px; border-radius: 8px;">${pedido.observacoes}</p>

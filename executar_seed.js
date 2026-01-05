@@ -1,6 +1,6 @@
 /**
- * Script para executar SEED de daçãos iniciais no banco ALUFORCE
- * Popula tabelas essenciais com daçãos básicos para o sistema funcionar
+ * Script para executar SEED de dados iniciais no banco ALUFORCE
+ * Popula tabelas essenciais com dados básicos para o sistema funcionar
  */
 
 const mysql = require('mysql2/promise');
@@ -232,7 +232,7 @@ async function executarSeed() {
                     
                     await connection.execute(`
                         INSERT INTO estoque_saldos (produto_id, quantidade, estoque_minimo, estoque_maximo, localizacao, data_atualizacao)
-                        VALUES (, , , , 'Almoxarifação Principal', NOW())
+                        VALUES (?, ?, ?, ?, 'Almoxarifação Principal', NOW())
                         ON DUPLICATE KEY UPDATE quantidade = VALUES(quantidade)
                     `, [prod.id, quantidade, estoqueMin, estoqueMax]);
                 }

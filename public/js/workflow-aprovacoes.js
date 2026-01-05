@@ -108,7 +108,7 @@ const WorkflowAprovacoes = {
                         <span><i class="fas fa-user"></i> ${s.solicitante_nome}</span>
                     </div>
                     
-                    ${s.justificativa  `
+                    ${s.justificativa ? `
                         <div class="justificativa">
                             <small><strong>Justificativa:</strong> ${s.justificativa}</small>
                         </div>
@@ -332,7 +332,7 @@ const WorkflowAprovacoes = {
                             <td>R$ ${parseFloat(h.valor).toLocaleString('pt-BR', {minimumFractionDigits: 2})}</td>
                             <td>${h.solicitante_nome}</td>
                             <td>
-                                <span class="badge badge-${h.status === 'aprovação'  'success' : h.status === 'rejeitação'  'danger' : 'warning'}">
+                                <span class="badge badge-${h.status === 'aprovação' ? 'success' : h.status === 'rejeitação' ? 'danger' : 'warning'}">
                                     ${h.status}
                                 </span>
                             </td>

@@ -74,19 +74,19 @@
             </div>
 
             <div class="filter-bar" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="btn-filter ${filtroStatus === 'todos'  'active' : ''}" onclick="filtrarPorStatus('todos')">
+                <button class="btn-filter ${filtroStatus === 'todos' ? 'active' : ''}" onclick="filtrarPorStatus('todos')">
                     Todos (${cotacoes.length})
                 </button>
-                <button class="btn-filter ${filtroStatus === 'pendente'  'active' : ''}" onclick="filtrarPorStatus('pendente')">
+                <button class="btn-filter ${filtroStatus === 'pendente' ? 'active' : ''}" onclick="filtrarPorStatus('pendente')">
                     Pendentes (${cotacoes.filter(c => c.status === 'pendente').length})
                 </button>
-                <button class="btn-filter ${filtroStatus === 'em_analise'  'active' : ''}" onclick="filtrarPorStatus('em_analise')">
+                <button class="btn-filter ${filtroStatus === 'em_analise' ? 'active' : ''}" onclick="filtrarPorStatus('em_analise')">
                     Em Análise (${cotacoes.filter(c => c.status === 'em_analise').length})
                 </button>
-                <button class="btn-filter ${filtroStatus === 'aprovada'  'active' : ''}" onclick="filtrarPorStatus('aprovada')">
+                <button class="btn-filter ${filtroStatus === 'aprovada' ? 'active' : ''}" onclick="filtrarPorStatus('aprovada')">
                     Aprovadas (${cotacoes.filter(c => c.status === 'aprovada').length})
                 </button>
-                <button class="btn-filter ${filtroStatus === 'rejeitada'  'active' : ''}" onclick="filtrarPorStatus('rejeitada')">
+                <button class="btn-filter ${filtroStatus === 'rejeitada' ? 'active' : ''}" onclick="filtrarPorStatus('rejeitada')">
                     Rejeitadas (${cotacoes.filter(c => c.status === 'rejeitada').length})
                 </button>
             </div>

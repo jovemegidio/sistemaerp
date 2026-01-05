@@ -258,7 +258,7 @@
         .card {
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             border: 1px solid #f1f5f9;
             overflow: hidden;
         }
@@ -324,7 +324,7 @@
         .form-select:focus {
             outline: none;
             border-color: var(--primary-purple);
-            box-shaçãow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+            box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
         }
 
         .btn {
@@ -377,7 +377,7 @@
         }
 
         .holerite-card:hover {
-            box-shaçãow: 0 8px 24px rgba(0,0,0,0.1);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
             transform: translateY(-2px);
         }
 
@@ -636,7 +636,7 @@
                 <a href="espelho-ponto.html" class="sidebar-btn" title="Espelho de Ponto">
                     <i class="fas fa-clock"></i>
                 </a>
-                <a href="daçãos-cadastrais.html" class="sidebar-btn" title="Meus Daçãos">
+                <a href="dados-cadastrais.html" class="sidebar-btn" title="Meus Daçãos">
                     <i class="fas fa-user-edit"></i>
                 </a>
                 <a href="beneficios.html" class="sidebar-btn" title="Benefícios">
@@ -851,14 +851,14 @@
         function renderHolerites(data) {
             const grid = document.getElementById('holerites-grid');
             if (data.length === 0) {
-                grid.innerHTML = `<div class="empty-state"><i class="fas fa-file-invoice"></i><h3>Nenhum holerite encontração</h3><p>Não há holerites disponíveis para o período selecionação</p></div>`;
+                grid.innerHTML = `<div class="empty-state"><i class="fas fa-file-invoice"></i><h3>Nenhum holerite encontrado</h3><p>Não há holerites disponíveis para o período selecionação</p></div>`;
                 return;
             }
             grid.innerHTML = data.map((h, i) => `
                 <div class="holerite-card">
                     <div class="holerite-header">
                         <span class="holerite-month">${h.mes}/${h.ano}</span>
-                        <span class="holerite-status ${h.status}">${h.status === 'disponivel'  'Disponível' : 'Pendente'}</span>
+                        <span class="holerite-status ${h.status}">${h.status === 'disponivel' ? 'Disponível' : 'Pendente'}</span>
                     </div>
                     <div class="holerite-details">
                         <div class="holerite-value">R$ ${h.liquido.toLocaleString('pt-BR', {minimumFractionDigits: 2})}</div>

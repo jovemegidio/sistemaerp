@@ -76,10 +76,10 @@
             --radius-2xl: 1.5rem;
             
             /* Shaçãows */
-            --shaçãow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shaçãow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shaçãow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shaçãow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
             
             /* Transitions */
             --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -148,7 +148,7 @@
 
         .sidebar-logo:hover {
             transform: scale(1.05);
-            box-shaçãow: 0 0 20px rgba(220, 38, 38, 0.4);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
         }
 
         .sidebar-logo i {
@@ -191,7 +191,7 @@
         .sidebar-btn.active {
             background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
             color: white;
-            box-shaçãow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
 
         .sidebar-btn::after {
@@ -364,7 +364,7 @@
 
         .header-avatar:hover {
             transform: scale(1.05);
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
         }
 
         .header-avatar img {
@@ -466,23 +466,23 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
             color: white;
-            box-shaçãow: 0 4px 14px rgba(220, 38, 38, 0.25);
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.25);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 6px 20px rgba(220, 38, 38, 0.35);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.35);
         }
 
         .btn-success {
             background: linear-gradient(135deg, var(--success-500), var(--success-600));
             color: white;
-            box-shaçãow: 0 4px 14px rgba(16, 185, 129, 0.25);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
         }
 
         .btn-success:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 6px 20px rgba(16, 185, 129, 0.35);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
         }
 
         .btn-secondary {
@@ -522,14 +522,14 @@
         .card {
             background: white;
             border-radius: var(--radius-xl);
-            box-shaçãow: var(--shaçãow-sm);
+            box-shadow: var(--shadow-sm);
             border: 1px solid var(--gray-200);
             transition: all var(--transition-base);
             overflow: hidden;
         }
 
         .card:hover {
-            box-shaçãow: var(--shaçãow-md);
+            box-shadow: var(--shadow-md);
         }
 
         .card-header {
@@ -589,7 +589,7 @@
             background: white;
             border-radius: var(--radius-xl);
             padding: var(--space-6);
-            box-shaçãow: var(--shaçãow-sm);
+            box-shadow: var(--shadow-sm);
             border: 1px solid var(--gray-200);
             display: flex;
             align-items: center;
@@ -617,7 +617,7 @@
 
         .stat-card:hover {
             transform: translateY(-4px);
-            box-shaçãow: var(--shaçãow-lg);
+            box-shadow: var(--shadow-lg);
         }
 
         .stat-icon {
@@ -729,7 +729,7 @@
         .quick-action-btn:hover {
             background: white;
             border-color: var(--primary-300);
-            box-shaçãow: var(--shaçãow-md);
+            box-shadow: var(--shadow-md);
             transform: translateX(4px);
         }
 
@@ -848,7 +848,7 @@
         }
 
         .alert-item:hover {
-            box-shaçãow: var(--shaçãow-md);
+            box-shadow: var(--shadow-md);
         }
 
         .alert-item.warning {
@@ -990,7 +990,7 @@
         .search-input:focus {
             outline: none;
             border-color: var(--primary-500);
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         .filter-select {
@@ -1040,7 +1040,7 @@
         .tab-btn.active {
             background: white;
             color: var(--primary-600);
-            box-shaçãow: var(--shaçãow-sm);
+            box-shadow: var(--shadow-sm);
         }
 
         /* ============================================
@@ -1080,7 +1080,7 @@
             width: 100%;
             max-height: 90vh;
             overflow: hidden;
-            box-shaçãow: var(--shaçãow-xl);
+            box-shadow: var(--shadow-xl);
             animation: modalSlideIn 0.3s ease;
         }
 
@@ -1155,7 +1155,7 @@
             max-height: 92vh;
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             animation: modalSlideIn 0.3s ease;
             overflow: hidden;
         }
@@ -1229,7 +1229,7 @@
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 16px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .modal-op-product-row {
@@ -1285,7 +1285,7 @@
         .modal-op-input-lg:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         .modal-op-btn-outline {
@@ -1337,7 +1337,7 @@
             background: white;
             border-radius: 10px;
             padding: 14px 16px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .modal-op-value-field label {
@@ -1702,7 +1702,7 @@
         .modal-op-obs-field textarea:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         /* Footer Action */
@@ -1734,7 +1734,7 @@
         .modal-op-btn-new:hover {
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             transform: translateY(-1px);
-            box-shaçãow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
 
         /* Sidebar */
@@ -1788,7 +1788,7 @@
         .modal-op-sidebar-btn.primary:hover {
             background: linear-gradient(135deg, #059669 0%, #047857 100%);
             transform: translateY(-1px);
-            box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
         }
 
         .modal-op-sidebar-btn.highlight {
@@ -1897,7 +1897,7 @@
         .form-input:focus {
             outline: none;
             border-color: var(--primary-500);
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         .form-input::placeholder {
@@ -2791,7 +2791,7 @@
                         </div>
                         <div class="stat-content">
                             <div class="stat-label">Cancelados</div>
-                            <div class="stat-value" id="fat-cancelaçãos">0</div>
+                            <div class="stat-value" id="fat-cancelados">0</div>
                         </div>
                     </div>
                 </div>
@@ -2807,7 +2807,7 @@
                     <button class="tab-btn" data-tab-fat="emitidos">
                         <i class="fas fa-check-circle"></i> Emitidos
                     </button>
-                    <button class="tab-btn" data-tab-fat="cancelaçãos">
+                    <button class="tab-btn" data-tab-fat="cancelados">
                         <i class="fas fa-times-circle"></i> Cancelados
                     </button>
                 </div>
@@ -3451,7 +3451,7 @@
 
         // Salvar ordem de produção
         function salvarOrdemProducao() {
-            const daçãos = {
+            const dados = {
                 produto: document.getElementById('op-produto').value,
                 previsao: document.getElementById('op-previsao').value,
                 quantidade: document.getElementById('op-quantidade').value,
@@ -3468,14 +3468,14 @@
                 observacoes: document.getElementById('op-observacoes').value || ''
             };
             
-            console.log('Salvando ordem de produção:', daçãos);
+            console.log('Salvando ordem de produção:', dados);
             
             // Validação básica
-            if (!daçãos.produto) {
+            if (!dados.produto) {
                 alert('Por favor, selecione um produto.');
                 return;
             }
-            if (!daçãos.quantidade || daçãos.quantidade < 1) {
+            if (!dados.quantidade || dados.quantidade < 1) {
                 alert('Por favor, informe uma quantidade válida.');
                 return;
             }
@@ -3592,13 +3592,13 @@
         // ============================================
         document.addEventListener('DOMContentLoaded', () => {
             console.log('PCP Module Initialized');
-            // Carregar daçãos do usuário
+            // Carregar dados do usuário
             carregarDaçãosUsuario();
-            // Carregar daçãos iniciais aqui
+            // Carregar dados iniciais aqui
             loadDashboardData();
         });
 
-        // Função para carregar daçãos do usuário logação
+        // Função para carregar dados do usuário logação
         async function carregarDaçãosUsuario() {
             try {
                 const token = localStorage.getItem('token');
@@ -3642,7 +3642,7 @@
                     carregarUsuarioLocalStorage();
                 }
             } catch (error) {
-                console.error('âŒ Erro ao carregar daçãos do usuário:', error);
+                console.error('âŒ Erro ao carregar dados do usuário:', error);
                 carregarUsuarioLocalStorage();
             }
         }
@@ -3673,7 +3673,7 @@
             }
         }
 
-        // Função placeholder para carregar daçãos
+        // Função placeholder para carregar dados
         async function loadDashboardData() {
             // TODO: Implementar chamadas API
             console.log('Loading dashboard data...');

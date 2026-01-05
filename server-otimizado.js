@@ -77,7 +77,7 @@ app.use(cookieParser());
 
 // Cache headers para arquivos estáticos
 const staticOptions = {
-    maxAge: process.env.NODE_ENV === 'production'  '1d' : '0',
+    maxAge: process.env.NODE_ENV === 'production' ? '1d' : '0',
     etag: true,
     lastModified: true,
     setHeaders: (res, filePath) => {
@@ -153,7 +153,7 @@ const getPool = async () => {
     try {
         await pool.query('SELECT 1');
         DB_AVAILABLE = true;
-        console.log('✅ Banco de daçãos conectação');
+        console.log('✅ Banco de dados conectação');
     } catch (err) {
         console.warn('⚠️  Banco indisponível:', err.message);
         DB_AVAILABLE = false;
@@ -271,7 +271,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/vendas', async (req, res, next) => {
     const dbPool = await getPool();
     if (!DB_AVAILABLE) {
-        return res.status(503).json({ error: 'Banco de daçãos indisponível' });
+        return res.status(503).json({ error: 'Banco de dados indisponível' });
     }
     req.pool = dbPool;
     next();
@@ -336,7 +336,7 @@ app.get('/api/vendas/clientes', authenticateToken, async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome LIKE  OR email LIKE ';
+            query += ' WHERE nome LIKE ? OR email LIKE ';
             params.push(`%${search}%`, `%${search}%`);
         }
         
@@ -360,7 +360,7 @@ app.get('/api/vendas/empresas', authenticateToken, async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome_fantasia LIKE  OR cnpj LIKE ';
+            query += ' WHERE nome_fantasia LIKE ? OR cnpj LIKE ';
             params.push(`%${search}%`, `%${search}%`);
         }
         
@@ -384,7 +384,7 @@ app.get('/api/produtos', authenticateToken, async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE descricao LIKE  OR codigo LIKE ';
+            query += ' WHERE descricao LIKE ? OR codigo LIKE ';
             params.push(`%${search}%`, `%${search}%`);
         }
         
@@ -452,7 +452,7 @@ const stopServer = async () => {
         await pool.end();
     }
     
-    console.log('✅ Servidor encerração');
+    console.log('✅ Servidor encerrado');
 };
 
 process.on('SIGINT', async () => {

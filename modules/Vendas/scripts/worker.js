@@ -51,7 +51,7 @@ async function computeAndPersist() {
       labels.push(d.toLocaleString('pt-BR', { month: 'short', year: 'numeric' }));
       const v = map.has(ym)  map.get(ym) : 0;
       values.push(v);
-      try { await pool.query('INSERT INTO dashboard_aggregates (ym, total) VALUES (, ) ON DUPLICATE KEY UPDATE total = VALUES(total), created_at = CURRENT_TIMESTAMP', [ym, v]); } catch (e) { }
+      try { await pool.query('INSERT INTO dashboard_aggregates (ym, total) VALUES (?, ) ON DUPLICATE KEY UPDATE total = VALUES(total), created_at = CURRENT_TIMESTAMP', [ym, v]); } catch (e) { }
     }
 
     // top vendedores last 30 days

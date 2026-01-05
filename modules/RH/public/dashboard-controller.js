@@ -37,7 +37,7 @@ function atualizarDaçãos() {
 }
 
 function exportarDaçãos() {
-    showNotification('Exportando daçãos...', 'info');
+    showNotification('Exportando dados...', 'info');
 }
 
 function logout() {
@@ -68,7 +68,7 @@ function showNotification(message, type = 'info') {
         background: ${colors[type]};
         z-index: 10000;
         font-family: 'Segoe UI', sans-serif;
-        box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         animation: slideIn 0.3s ease;
     `;
     

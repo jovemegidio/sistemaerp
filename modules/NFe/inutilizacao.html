@@ -40,10 +40,10 @@
         
         .btn { padding: 12px 20px; border: none; border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.2s; margin-right: 10px; }
         .btn-danger { background: #ef4444; color: white; }
-        .btn-danger:hover { background: #dc2626; transform: translateY(-2px); box-shaçãow: 0 4px 12px rgba(239, 68, 68, 0.3); }
+        .btn-danger:hover { background: #dc2626; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3); }
         .btn-info { background: #3b82f6; color: white; }
         .btn-info:hover { background: #2563eb; }
-        .btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none !important; box-shaçãow: none !important; }
+        .btn:disabled { background: #94a3b8; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
         
         .alert { padding: 14px 16px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; display: none; }
         .alert-success { background: rgba(16, 185, 129, 0.15); color: #047857; border: 1px solid rgba(16, 185, 129, 0.3); }
@@ -319,7 +319,7 @@
                 return;
             }
 
-            const daçãos = {
+            const dados = {
                 serie: document.getElementById('serie').value,
                 ano: document.getElementById('ano').value,
                 numeroInicial: document.getElementById('numeroInicial').value,
@@ -334,7 +334,7 @@
                 const response = await fetch('/api/inutilizacao', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(daçãos)
+                    body: JSON.stringify(dados)
                 });
                 const data = await response.json();
 
@@ -382,7 +382,7 @@
         carregarHistorico();
     </script>
     <script src="dashboard-nfe-pro.jsv=20251217"></script>
-    <!-- Carregar daçãos do usuário logação -->
+    <!-- Carregar dados do usuário logação -->
     <script>
         async function carregarDaçãosUsuario() {
             try {

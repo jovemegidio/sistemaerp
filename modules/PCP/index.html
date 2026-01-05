@@ -76,10 +76,10 @@
             --radius-2xl: 1.5rem;
             
             /* Shaçãows */
-            --shaçãow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shaçãow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-            --shaçãow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-            --shaçãow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
             
             /* Transitions */
             --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -156,7 +156,7 @@
 
         .sidebar-logo:hover {
             transform: scale(1.05);
-            box-shaçãow: 0 0 20px rgba(220, 38, 38, 0.4);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
         }
 
         .sidebar-logo i {
@@ -199,7 +199,7 @@
         .sidebar-btn.active {
             background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
             color: white;
-            box-shaçãow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
 
         .sidebar-btn::after {
@@ -374,7 +374,7 @@
 
         .header-avatar:hover {
             transform: scale(1.05);
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.3);
         }
 
         .header-avatar img {
@@ -438,7 +438,7 @@
             max-height: 480px;
             background: white;
             border-radius: 12px;
-            box-shaçãow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             z-index: 99999;
             display: none;
             overflow: hidden;
@@ -629,23 +629,23 @@
         .btn-primary {
             background: linear-gradient(135deg, var(--primary-500), var(--primary-600));
             color: white;
-            box-shaçãow: 0 4px 14px rgba(220, 38, 38, 0.25);
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.25);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 6px 20px rgba(220, 38, 38, 0.35);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.35);
         }
 
         .btn-success {
             background: linear-gradient(135deg, var(--success-500), var(--success-600));
             color: white;
-            box-shaçãow: 0 4px 14px rgba(16, 185, 129, 0.25);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
         }
 
         .btn-success:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 6px 20px rgba(16, 185, 129, 0.35);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
         }
 
         .btn-secondary {
@@ -685,14 +685,14 @@
         .card {
             background: white;
             border-radius: var(--radius-xl);
-            box-shaçãow: var(--shaçãow-sm);
+            box-shadow: var(--shadow-sm);
             border: 1px solid var(--gray-200);
             transition: all var(--transition-base);
             overflow: hidden;
         }
 
         .card:hover {
-            box-shaçãow: var(--shaçãow-md);
+            box-shadow: var(--shadow-md);
         }
 
         .card-header {
@@ -752,7 +752,7 @@
             background: white;
             border-radius: var(--radius-xl);
             padding: var(--space-6);
-            box-shaçãow: var(--shaçãow-sm);
+            box-shadow: var(--shadow-sm);
             border: 1px solid var(--gray-200);
             display: flex;
             align-items: center;
@@ -780,7 +780,7 @@
 
         .stat-card:hover {
             transform: translateY(-4px);
-            box-shaçãow: var(--shaçãow-lg);
+            box-shadow: var(--shadow-lg);
         }
 
         .stat-icon {
@@ -892,7 +892,7 @@
         .quick-action-btn:hover {
             background: white;
             border-color: var(--primary-300);
-            box-shaçãow: var(--shaçãow-md);
+            box-shadow: var(--shadow-md);
             transform: translateX(4px);
         }
 
@@ -1030,7 +1030,7 @@
         }
 
         .alert-item:hover {
-            box-shaçãow: var(--shaçãow-md);
+            box-shadow: var(--shadow-md);
         }
 
         .alert-item.warning {
@@ -1172,7 +1172,7 @@
         .search-input:focus {
             outline: none;
             border-color: var(--primary-500);
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         .filter-select {
@@ -1222,7 +1222,7 @@
         .tab-btn.active {
             background: white;
             color: var(--primary-600);
-            box-shaçãow: var(--shaçãow-sm);
+            box-shadow: var(--shadow-sm);
         }
 
         /* ============================================
@@ -1262,7 +1262,7 @@
             width: 100%;
             max-height: 90vh;
             overflow: hidden;
-            box-shaçãow: var(--shaçãow-xl);
+            box-shadow: var(--shadow-xl);
             animation: modalSlideIn 0.3s ease;
         }
 
@@ -1374,7 +1374,7 @@
             max-height: 92vh;
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             animation: modalSlideIn 0.3s ease;
             overflow: hidden;
         }
@@ -1436,7 +1436,7 @@
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 16px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .modal-op-product-row {
@@ -1492,7 +1492,7 @@
         .modal-op-input-lg:focus {
             outline: none;
             border-color: #dc2626;
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         .modal-op-date-field {
@@ -1522,7 +1522,7 @@
             background: white;
             border-radius: 10px;
             padding: 14px 16px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .modal-op-value-field label {
@@ -1709,7 +1709,7 @@
         .embalagem-inline-select:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
         
         .lances-inline-input {
@@ -1726,7 +1726,7 @@
         .lances-inline-input:focus {
             outline: none;
             border-color: #3b82f6;
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
         .lances-inline-input::placeholder {
             color: #94a3b8;
@@ -1779,7 +1779,7 @@
         .modal-op-info-field textarea:focus {
             outline: none;
             border-color: #dc2626;
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         /* ===== Autocomplete Styles ===== */
@@ -1805,7 +1805,7 @@
             border: 1px solid #e2e8f0;
             border-top: none;
             border-radius: 0 0 8px 8px;
-            box-shaçãow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             z-index: 1000;
         }
         
@@ -1892,7 +1892,7 @@
         .op-select-frete:focus {
             outline: none;
             border-color: #dc2626;
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
         
         .op-select-vendedor:hover,
@@ -1924,7 +1924,7 @@
             border-radius: 16px;
             width: 90%;
             max-width: 600px;
-            box-shaçãow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
             overflow: hidden;
             animation: modalSlideIn 0.3s ease;
         }
@@ -2031,7 +2031,7 @@
         .modal-produto-field select:focus {
             outline: none;
             border-color: #dc2626;
-            box-shaçãow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
         }
         
         .modal-produto-field input::placeholder {
@@ -2096,13 +2096,13 @@
             align-items: center;
             gap: 8px;
             transition: all 0.2s;
-            box-shaçãow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
         
         .modal-produto-footer .btn-salvar:hover {
             background: linear-gradient(135deg, #b91c1c, #991b1b);
             transform: translateY(-1px);
-            box-shaçãow: 0 6px 16px rgba(220, 38, 38, 0.4);
+            box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
         }
         
         /* Estilos adicionais para tabela de produtos */
@@ -2145,7 +2145,7 @@
         .modal-op-obs-field textarea:focus {
             outline: none;
             border-color: #dc2626;
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         /* Sidebar */
@@ -2199,7 +2199,7 @@
         .modal-op-sidebar-btn.primary:hover {
             background: linear-gradient(135deg, #b91c1c 0%, #991b1b 100%);
             transform: translateY(-1px);
-            box-shaçãow: 0 4px 12px rgba(220, 38, 38, 0.3);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
         }
 
         .modal-op-sidebar-btn.highlight {
@@ -2304,7 +2304,7 @@
         .form-input:focus {
             outline: none;
             border-color: var(--primary-500);
-            box-shaçãow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
         .form-input::placeholder {
@@ -2472,7 +2472,7 @@
             border-radius: 16px;
             width: 90%;
             max-width: 420px;
-            box-shaçãow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
             transform: scale(0.9) translateY(20px);
             transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
             overflow: hidden;
@@ -2577,34 +2577,34 @@
         .confirm-modal-btn-confirm {
             background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
-            box-shaçãow: 0 4px 14px rgba(220, 38, 38, 0.4);
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
         }
 
         .confirm-modal-btn-confirm:hover {
             transform: translateY(-1px);
-            box-shaçãow: 0 6px 20px rgba(220, 38, 38, 0.5);
+            box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
         }
 
         .confirm-modal-btn-danger {
             background: linear-gradient(135deg, #ef4444, #dc2626);
             color: white;
-            box-shaçãow: 0 4px 14px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.4);
         }
 
         .confirm-modal-btn-danger:hover {
             transform: translateY(-1px);
-            box-shaçãow: 0 6px 20px rgba(239, 68, 68, 0.5);
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.5);
         }
 
         .confirm-modal-btn-warning {
             background: linear-gradient(135deg, #f59e0b, #d97706);
             color: white;
-            box-shaçãow: 0 4px 14px rgba(245, 158, 11, 0.4);
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
         }
 
         .confirm-modal-btn-warning:hover {
             transform: translateY(-1px);
-            box-shaçãow: 0 6px 20px rgba(245, 158, 11, 0.5);
+            box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
         }
     </style></head>
 <body>
@@ -3358,7 +3358,7 @@
                         </div>
                         <div class="stat-content">
                             <div class="stat-label">Cancelados</div>
-                            <div class="stat-value" id="fat-cancelaçãos">0</div>
+                            <div class="stat-value" id="fat-cancelados">0</div>
                         </div>
                     </div>
                 </div>
@@ -3374,7 +3374,7 @@
                     <button class="tab-btn" data-tab-fat="emitidos">
                         <i class="fas fa-check-circle"></i> Emitidos
                     </button>
-                    <button class="tab-btn" data-tab-fat="cancelaçãos">
+                    <button class="tab-btn" data-tab-fat="cancelados">
                         <i class="fas fa-times-circle"></i> Cancelados
                     </button>
                 </div>
@@ -3627,7 +3627,7 @@
                                 <div class="modal-op-info-field" style="grid-column: span 2; position: relative;">
                                     <label>Nome da Transportaçãora</label>
                                     <div class="autocomplete-container">
-                                        <input type="text" id="op-transportaçãora-nome" placeholder="Digite para buscar..." autocomplete="off" oninput="buscarTransportaçãorasAutocomplete(this.value)" onfocus="buscarTransportaçãorasAutocomplete(this.value)">
+                                        <input type="text" id="op-transportaçãora-nome" placeholder="Digite para buscar..." autocomplete="off" oninput="buscarTransportadorasAutocomplete(this.value)" onfocus="buscarTransportadorasAutocomplete(this.value)">
                                         <div class="autocomplete-dropdown" id="op-transportaçãora-dropdown"></div>
                                     </div>
                                     <input type="hidden" id="op-transportaçãora-id">
@@ -4312,7 +4312,7 @@
 
     <!-- Modal de Confirmação Customização -->
     <div class="modal-overlay" id="modal-confirmacao-pcp" style="z-index: 10002;">
-        <div style="background: white; border-radius: 12px; max-width: 400px; width: 90%; box-shaçãow: 0 20px 50px rgba(0,0,0,0.3); overflow: hidden;">
+        <div style="background: white; border-radius: 12px; max-width: 400px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.3); overflow: hidden;">
             <div style="padding: 24px 24px 16px; text-align: center;">
                 <div id="confirmacao-icon" style="width: 60px; height: 60px; margin: 0 auto 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: #fef3c7;">
                     <i class="fas fa-exclamation-triangle" style="font-size: 28px; color: #f59e0b;"></i>
@@ -4362,7 +4362,7 @@
             top: 2px;
             left: 2px;
             transition: all 0.3s;
-            box-shaçãow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
         .toggle-switch-pcp[data-active="true"] .toggle-slider {
             left: 22px;
@@ -4379,7 +4379,7 @@
         }
         #confirmacao-btn-confirmar:hover {
             transform: translateY(-1px);
-            box-shaçãow: 0 4px 12px rgba(249, 115, 22, 0.4);
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.4);
         }
     </style>
 
@@ -4406,7 +4406,7 @@
                 }
             });
 
-            // Carregar daçãos específicos da view
+            // Carregar dados específicos da view
             if (viewName === 'produtos') {
                 buscarProdutos();
             } else if (viewName === 'materiais') {
@@ -4453,7 +4453,7 @@
                 titleEl.textContent = viewTitles[cleanViewName];
             }
 
-            // Carregar daçãos específicos da view
+            // Carregar dados específicos da view
             if (cleanViewName === 'produtos') {
                 buscarProdutos();
             } else if (cleanViewName === 'materiais') {
@@ -4553,7 +4553,7 @@
                     // Pedidos faturar ou faturado podem gerar OP (mesma lógica do Ordens Recentes)
                     const podeGerarOP = ordem.status === 'faturado' || ordem.status === 'faturar';
                     const botaoAcao = podeGerarOP 
-                         `<button onclick="abrirOrdemProducaoDePedido(${ordem.id})" style="width: 32px; height: 32px; border: none; border-radius: 6px; background: #22c55e; color: white; cursor: pointer;" title="Gerar Ordem de Produção">
+                        ? `<button onclick="abrirOrdemProducaoDePedido(${ordem.id})" style="width: 32px; height: 32px; border: none; border-radius: 6px; background: #22c55e; color: white; cursor: pointer;" title="Gerar Ordem de Produção">
                             <i class="fas fa-industry"></i>
                            </button>`
                         : `<button onclick="visualizarPedido(${ordem.id})" style="width: 32px; height: 32px; border: none; border-radius: 6px; background: #f1f5f9; color: #64748b; cursor: pointer;" title="Visualizar Pedido">
@@ -4756,8 +4756,8 @@
                 list.innerHTML = `
                     <div class="notification-empty">
                         <i class="fas fa-check-circle"></i>
-                        <p>${filtroAtualPCP === 'nao-lidas'  'Todas notificações foram lidas' : 
-                            filtroAtualPCP === 'sistema'  'Nenhuma notificação do sistema' : 
+                        <p>${filtroAtualPCP === 'nao-lidas' ? 'Todas notificações foram lidas' : 
+                            filtroAtualPCP === 'sistema' ? 'Nenhuma notificação do sistema' : 
                             'Nenhuma notificação'}</p>
                     </div>
                 `;
@@ -4956,7 +4956,7 @@
                 font-size: 14px;
                 font-weight: 500;
                 z-index: 10001;
-                box-shaçãow: 0 10px 25px rgba(0,0,0,0.15);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.15);
                 animation: slideIn 0.3s ease;
                 max-width: 400px;
             `;
@@ -5008,25 +5008,25 @@
 
         // Salvar ordem de Produção
         function salvarOrdemProducao() {
-            const daçãos = coletarDaçãosOP();
+            const dados = coletarDaçãosOP();
             
             // Validação básica
-            if (!daçãos.cliente && (!daçãos.produtos || daçãos.produtos.length === 0)) {
+            if (!dados.cliente && (!dados.produtos || dados.produtos.length === 0)) {
                 showNotification('Por favor, informe o cliente ou adicione produtos.', 'warning');
                 switchOPTab('cliente');
                 document.getElementById('op-cliente').focus();
                 return;
             }
             
-            console.log(' Salvando ordem de Produção:', daçãos);
-            console.log(' Quantidade de produtos:', daçãos.produtos.length || 0);
+            console.log(' Salvando ordem de Produção:', dados);
+            console.log(' Quantidade de produtos:', dados.produtos.length || 0);
             
             // Salvar via API
             fetch('/api/pcp/ordens-kanban', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify(daçãos)
+                body: JSON.stringify(dados)
             })
             .then(response => {
                 if (response.ok) {
@@ -5041,7 +5041,7 @@
                 // Adicionar notificação ao painel
                 adicionarNotificacaoPCP(
                     'Ordem de Produção Criada',
-                    `OP ${novaOrdem.numero || 'Nova'} criada para ${daçãos.cliente || 'cliente'}`,
+                    `OP ${novaOrdem.numero || 'Nova'} criada para ${dados.cliente || 'cliente'}`,
                     'success',
                     'usuario'
                 );
@@ -5056,7 +5056,7 @@
             })
             .catch(error => {
                 console.log('API Não disponível, salvando localmente:', error);
-                salvarOPLocal(daçãos);
+                salvarOPLocal(dados);
             });
         }
         
@@ -5088,7 +5088,7 @@
             }
         }
 
-        // Coletar todos os daçãos do formulário
+        // Coletar todos os dados do formulário
         function coletarDaçãosOP() {
             const clienteNome = document.getElementById('op-cliente').value || '';
             const clienteCnpj = document.getElementById('op-cliente-cnpj').value || '';
@@ -5189,7 +5189,7 @@
         }
 
         // Salvar OP localmente (fallback)
-        function salvarOPLocal(daçãos) {
+        function salvarOPLocal(dados) {
             const ordensLocais = JSON.parse(localStorage.getItem('ordensProducao') || '[]');
             
             // Criar ordem no formato do Kanban
@@ -5198,16 +5198,16 @@
                 numero: `OP Nº ${new Date().getFullYear()}/${String(ordensLocais.length + 1).padStart(5, '0')}`,
                 status: 'a_produzir',
                 statusTexto: 'Nova',
-                produto: daçãos.produtos.[0].descricao || daçãos.cliente || 'Produto',
-                descricao: daçãos.produtos.[0].descricao || '',
-                codigo: daçãos.produtos.[0].codigo || '',
-                dataConclusao: daçãos.data_previsao_entrega || daçãos.prazo_entrega,
-                quantidade: parseFloat(daçãos.produtos.[0].quantidade) || 0,
+                produto: dados.produtos[0].descricao || dados.cliente || 'Produto',
+                descricao: dados.produtos[0].descricao || '',
+                codigo: dados.produtos[0].codigo || '',
+                dataConclusao: dados.data_previsao_entrega || dados.prazo_entrega,
+                quantidade: parseFloat(dados.produtos[0].quantidade) || 0,
                 produzido: 0,
-                unidade: daçãos.produtos.[0].unidade || 'M',
-                cliente: daçãos.cliente,
-                vendedor: daçãos.vendedor,
-                observacoes: daçãos.observacoes_pedido
+                unidade: dados.produtos[0].unidade || 'M',
+                cliente: dados.cliente,
+                vendedor: dados.vendedor,
+                observacoes: dados.observacoes_pedido
             };
             
             ordensLocais.unshift(novaOrdem);
@@ -5218,7 +5218,7 @@
             // Adicionar notificação ao painel
             adicionarNotificacaoPCP(
                 'Ordem de Produção Salva',
-                `${novaOrdem.numero} salva localmente para ${daçãos.cliente || 'cliente'}`,
+                `${novaOrdem.numero} salva localmente para ${dados.cliente || 'cliente'}`,
                 'success',
                 'usuario'
             );
@@ -5297,17 +5297,17 @@
             }
             
             const termoUpper = termo.toUpperCase();
-            const resultaçãos = catalogoProdutos.filter(p => 
+            const resultados = catalogoProdutos.filter(p => 
                 p.codigo.toUpperCase().includes(termoUpper) || 
                 p.descricao.toUpperCase().includes(termoUpper)
             ).slice(0, 10);
             
-            if (resultaçãos.length === 0) {
+            if (resultados.length === 0) {
                 dropdown.style.display = 'none';
                 return;
             }
             
-            dropdown.innerHTML = resultaçãos.map(p => `
+            dropdown.innerHTML = resultados.map(p => `
                 <div class="autocomplete-item" onclick="selecionarProdutoCatalogo('${p.codigo}', '${p.descricao.replace(/'/g, "\\'")}')">
                     <strong>${p.codigo}</strong>
                     <span>${p.descricao}</span>
@@ -5365,7 +5365,7 @@
             
             // Verificar se código existe no catálogo
             const produtoCatalogo = catalogoProdutos.find(p => p.codigo === codigo);
-            const descricaoFinal = produtoCatalogo  produtoCatalogo.descricao : descricao;
+            const descricaoFinal = produtoCatalogo ? produtoCatalogo.descricao : descricao;
             
             const produto = {
                 codigo,
@@ -5403,7 +5403,7 @@
             const quantidade = parseFloat(document.getElementById('prod-quantidade').value) || 0;
             const valor = parseFloat(document.getElementById('prod-valor').value) || 0;
             const total = quantidade * valor;
-            document.getElementById('prod-total-preview').textContent = $ ${total.toFixed(2)}`;
+            document.getElementById('prod-total-preview').textContent = `$ ${total.toFixed(2)}`;
         }
 
         // Calcular valores de pagamento baseado nos percentuais
@@ -5490,11 +5490,11 @@
                         <td>
                             <select class="embalagem-inline-select" data-index="${index}" onchange="atualizarEmbalagemProduto(${index}, this.value)">
                                 <option value="">-</option>
-                                <option value="Bobina" ${prod.embalagem === 'Bobina'  'selected' : ''}>Bobina</option>
-                                <option value="Rolo" ${prod.embalagem === 'Rolo'  'selected' : ''}>Rolo</option>
-                                <option value="Lance" ${prod.embalagem === 'Lance'  'selected' : ''}>Lance</option>
-                                <option value="Caixa" ${prod.embalagem === 'Caixa'  'selected' : ''}>Caixa</option>
-                                <option value="Fardo" ${prod.embalagem === 'Fardo'  'selected' : ''}>Fardo</option>
+                                <option value="Bobina" ${prod.embalagem === 'Bobina' ? 'selected' : ''}>Bobina</option>
+                                <option value="Rolo" ${prod.embalagem === 'Rolo' ? 'selected' : ''}>Rolo</option>
+                                <option value="Lance" ${prod.embalagem === 'Lance' ? 'selected' : ''}>Lance</option>
+                                <option value="Caixa" ${prod.embalagem === 'Caixa' ? 'selected' : ''}>Caixa</option>
+                                <option value="Fardo" ${prod.embalagem === 'Fardo' ? 'selected' : ''}>Fardo</option>
                             </select>
                         </td>
                         <td>
@@ -5510,7 +5510,7 @@
             });
             
             tbody.innerHTML = html;
-            document.getElementById('op-produtos-total').textContent = $ ${totalGeral.toFixed(2)}`;
+            document.getElementById('op-produtos-total').textContent = `$ ${totalGeral.toFixed(2)}`;
         }
 
         // Atualizar embalagem de um produto inline
@@ -5564,9 +5564,9 @@
                 return;
             }
             
-            const confirmação = await mostrarConfirmacaoPCP(
+            const confirmacao = await mostrarConfirmacaoPCP(
                 'Remover Produtos',
-                emover ${checkboxes.length} produto(s) selecionação(s)`,
+                `Remover ${checkboxes.length} produto(s) selecionado(s)?`,
                 'danger'
             );
             if (!confirmação) return;
@@ -5580,21 +5580,21 @@
 
         // Gerar Excel da OP
         function gerarExcelOP() {
-            const daçãos = coletarDaçãosOP();
+            const dados = coletarDaçãosOP();
             
-            if (!daçãos.cliente) {
-                showNotification('Preencha pelo menos os daçãos do cliente', 'warning');
+            if (!dados.cliente) {
+                showNotification('Preencha pelo menos os dados do cliente', 'warning');
                 switchOPTab('cliente');
                 return;
             }
             
-            console.log('Gerando Excel com daçãos:', daçãos);
+            console.log('Gerando Excel com dados:', dados);
             
             // Chamar API para gerar Excel
             fetch('/api/gerar-ordem-excel', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(daçãos)
+                body: JSON.stringify(dados)
             })
             .then(response => {
                 if (response.ok) {
@@ -5607,7 +5607,7 @@
                 const a = document.createElement('a');
                 a.href = url;
                 // Formatar nome do cliente para nome de arquivo válido
-                const nomeCliente = (daçãos.cliente || 'Cliente').replace(/[/\\:*"<>|]/g, '_').trim();
+                const nomeCliente = (dados.cliente || 'Cliente').replace(/[/\\:*"<>|]/g, '_').trim();
                 a.download = `Ordem de Produção - ${nomeCliente} - ERP.xlsx`;
                 a.click();
                 window.URL.revokeObjectURL(url);
@@ -5648,13 +5648,13 @@
                 try {
                     // Primeiro tenta buscar do cache
                     if (clientesCache.length > 0) {
-                        const filtraçãos = clientesCache.filter(c => 
+                        const filtrados = clientesCache.filter(c => 
                             (c.nome && c.nome.toLowerCase().includes(termo.toLowerCase())) ||
                             (c.razao_social && c.razao_social.toLowerCase().includes(termo.toLowerCase())) ||
                             (c.nome_fantasia && c.nome_fantasia.toLowerCase().includes(termo.toLowerCase())) ||
                             (c.cnpj_cpf && c.cnpj_cpf.includes(termo))
                         );
-                        renderizarDropdownClientes(filtraçãos.slice(0, 10));
+                        renderizarDropdownClientes(filtrados.slice(0, 10));
                         return;
                     }
                     
@@ -5702,7 +5702,7 @@
             if (!dropdown) return;
             
             if (clientes.length === 0) {
-                dropdown.innerHTML = '<div class="autocomplete-item no-results"><i class="fas fa-search"></i> Nenhum cliente encontração</div>';
+                dropdown.innerHTML = '<div class="autocomplete-item no-results"><i class="fas fa-search"></i> Nenhum cliente encontrado</div>';
                 dropdown.style.display = 'block';
                 return;
             }
@@ -5711,7 +5711,7 @@
             clientes.forEach(cliente => {
                 const nome = cliente.razao_social || cliente.nome || cliente.nome_fantasia || 'Sem nome';
                 const cnpj = cliente.cnpj_cpf || cliente.cnpj || '';
-                const cidade = cliente.cidade  `${cliente.cidade}/${cliente.estação || ''}` : '';
+                const cidade = cliente.cidade ? `${cliente.cidade}/${cliente.estado || ''}` : '';
                 
                 html += `
                     <div class="autocomplete-item" onclick="selecionarClienteOP(${cliente.id})">
@@ -5720,8 +5720,8 @@
                             <span class="autocomplete-nome">${nome}</span>
                         </div>
                         <div class="autocomplete-item-info">
-                            ${cnpj  `<span class="autocomplete-cnpj">${cnpj}</span>` : ''}
-                            ${cidade  `<span class="autocomplete-cidade">${cidade}</span>` : ''}
+                            ${cnpj ? `<span class="autocomplete-cnpj">${cnpj}</span>` : ''}
+                            ${cidade ? `<span class="autocomplete-cidade">${cidade}</span>` : ''}
                         </div>
                     </div>
                 `;
@@ -5820,13 +5820,13 @@
             }
         }
 
-        // Cache de transportaçãoras para autocomplete
-        let transportaçãorasCache = [];
+        // Cache de Transportadoras para autocomplete
+        let transportadorasCache = [];
         let autocompleteTranspTimeout = null;
         let autocompleteTranspIndex = -1;
         
-        // Buscar transportaçãoras para autocomplete
-        async function buscarTransportaçãorasAutocomplete(termo) {
+        // Buscar Transportadoras para autocomplete
+        async function buscarTransportadorasAutocomplete(termo) {
             const dropdown = document.getElementById('op-transportaçãora-dropdown');
             if (!dropdown) return;
             
@@ -5835,10 +5835,10 @@
                 clearTimeout(autocompleteTranspTimeout);
             }
             
-            // Se campo vazio, mostrar íºltimas transportaçãoras ou esconder
+            // Se campo vazio, mostrar íºltimas Transportadoras ou esconder
             if (!termo || termo.length < 1) {
-                if (transportaçãorasCache.length > 0) {
-                    renderizarDropdownTransportaçãoras(transportaçãorasCache.slice(0, 10));
+                if (transportadorasCache.length > 0) {
+                    renderizarDropdownTransportadoras(transportadorasCache.slice(0, 10));
                 } else {
                     dropdown.style.display = 'none';
                 }
@@ -5849,70 +5849,70 @@
             autocompleteTranspTimeout = setTimeout(async () => {
                 try {
                     // Primeiro tenta buscar do cache
-                    if (transportaçãorasCache.length > 0) {
-                        const filtraçãos = transportaçãorasCache.filter(t => 
+                    if (transportadorasCache.length > 0) {
+                        const filtrados = transportadorasCache.filter(t => 
                             (t.nome && t.nome.toLowerCase().includes(termo.toLowerCase())) ||
                             (t.razao_social && t.razao_social.toLowerCase().includes(termo.toLowerCase())) ||
                             (t.nome_fantasia && t.nome_fantasia.toLowerCase().includes(termo.toLowerCase())) ||
                             (t.cnpj && t.cnpj.includes(termo))
                         );
-                        renderizarDropdownTransportaçãoras(filtraçãos.slice(0, 10));
+                        renderizarDropdownTransportadoras(filtrados.slice(0, 10));
                         return;
                     }
                     
                     // Se Não tem cache, busca da API
-                    await carregarTransportaçãorasParaCache();
-                    buscarTransportaçãorasAutocomplete(termo);
+                    await carregarTransportadorasParaCache();
+                    buscarTransportadorasAutocomplete(termo);
                 } catch (error) {
-                    console.error('Erro no autocomplete de transportaçãoras:', error);
+                    console.error('Erro no autocomplete de Transportadoras:', error);
                 }
             }, 200);
         }
         
-        // Carregar transportaçãoras para cache
-        async function carregarTransportaçãorasParaCache() {
+        // Carregar Transportadoras para cache
+        async function carregarTransportadorasParaCache() {
             try {
-                const response = await fetch('/api/transportaçãoras');
+                const response = await fetch('/api/Transportadoras');
                 const data = await response.json();
                 if (Array.isArray(data)) {
-                    transportaçãorasCache = data;
-                } else if (data.transportaçãoras) {
-                    transportaçãorasCache = data.transportaçãoras;
+                    transportadorasCache = data;
+                } else if (data.Transportadoras) {
+                    transportadorasCache = data.Transportadoras;
                 } else if (data.success && data.data) {
-                    transportaçãorasCache = data.data;
+                    transportadorasCache = data.data;
                 }
-                console.log('Transportaçãoras carregadas:', transportaçãorasCache.length);
+                console.log('Transportadoras carregadas:', transportadorasCache.length);
             } catch (error) {
-                console.error('Erro ao carregar transportaçãoras:', error);
+                console.error('Erro ao carregar Transportadoras:', error);
             }
         }
         
-        // Renderizar dropdown de transportaçãoras
-        function renderizarDropdownTransportaçãoras(transportaçãoras) {
+        // Renderizar dropdown de Transportadoras
+        function renderizarDropdownTransportadoras(Transportadoras) {
             const dropdown = document.getElementById('op-transportaçãora-dropdown');
             if (!dropdown) return;
             
-            if (transportaçãoras.length === 0) {
+            if (Transportadoras.length === 0) {
                 dropdown.innerHTML = '<div class="autocomplete-item no-results"><i class="fas fa-search"></i> Nenhuma transportaçãora encontrada</div>';
                 dropdown.style.display = 'block';
                 return;
             }
             
             let html = '';
-            transportaçãoras.forEach(transp => {
+            transportadoras.forEach(transp => {
                 const nome = transp.razao_social || transp.nome || transp.nome_fantasia || 'Sem nome';
                 const cnpj = transp.cnpj || transp.cnpj_cpf || '';
-                const cidade = transp.cidade  `${transp.cidade}/${transp.estação || ''}` : '';
+                const cidade = transp.cidade ? `${transp.cidade}/${transp.estado || ''}` : '';
                 
                 html += `
-                    <div class="autocomplete-item" onclick="selecionarTransportaçãoraOP(${transp.id})">
+                    <div class="autocomplete-item" onclick="selecionarTransportadoraOP(${transp.id})">
                         <div class="autocomplete-item-main">
                             <i class="fas fa-truck"></i>
                             <span class="autocomplete-nome">${nome}</span>
                         </div>
                         <div class="autocomplete-item-info">
-                            ${cnpj  `<span class="autocomplete-cnpj">${cnpj}</span>` : ''}
-                            ${cidade  `<span class="autocomplete-cidade">${cidade}</span>` : ''}
+                            ${cnpj ? `<span class="autocomplete-cnpj">${cnpj}</span>` : ''}
+                            ${cidade ? `<span class="autocomplete-cidade">${cidade}</span>` : ''}
                         </div>
                     </div>
                 `;
@@ -5922,9 +5922,9 @@
             dropdown.style.display = 'block';
         }
         
-        // Selecionar transportaçãora do autocomplete
-        function selecionarTransportaçãoraOP(transpId) {
-            const transp = transportaçãorasCache.find(t => t.id === transpId);
+        // Selecionar transportadora do autocomplete
+        function selecionarTransportadoraOP(transpId) {
+            const transp = transportadorasCache.find(t => t.id === transpId);
             if (!transp) return;
             
             // Preencher campos
@@ -5938,9 +5938,9 @@
             // Montar endereço completo
             let endereco = transp.endereco || '';
             if (!endereco && transp.bairro) {
-                endereco = `${transp.bairro}, ${transp.cidade || ''}/${transp.estação || ''}`;
+                endereco = `${transp.bairro}, ${transp.cidade || ''}/${transp.estado || ''}`;
             } else if (!endereco && transp.cidade) {
-                endereco = `${transp.cidade}/${transp.estação || ''}`;
+                endereco = `${transp.cidade}/${transp.estado || ''}`;
             }
             document.getElementById('op-transportaçãora-endereco').value = endereco;
             
@@ -6015,7 +6015,7 @@
                 switchOPTab('transportaçãora');
                 setTimeout(() => {
                     input.focus();
-                    buscarTransportaçãorasAutocomplete('');
+                    buscarTransportadorasAutocomplete('');
                 }, 100);
             }
         }
@@ -6053,15 +6053,15 @@
 
         // Funções da sidebar mantidas
         function imprimirOP() {
-            // Coletar daçãos da OP para gerar visualização
-            const daçãos = coletarDaçãosOP();
+            // Coletar dados da OP para gerar visualização
+            const dados = coletarDaçãosOP();
             
             // Criar conteíºdo HTML para impressão
             let produtosHTML = '';
             let totalGeral = 0;
             
-            if (daçãos.produtos && daçãos.produtos.length > 0) {
-                daçãos.produtos.forEach((prod, index) => {
+            if (dados.produtos && dados.produtos.length > 0) {
+                dados.produtos.forEach((prod, index) => {
                     const total = prod.total || (prod.quantidade * prod.valor_unitario);
                     totalGeral += total;
                     produtosHTML += `
@@ -6086,7 +6086,7 @@
                 <html>
                 <head>
     <link rel="icon" type="image/x-icon" href="/favicon-aluforce.webp">
-                    <title>Ordem de Produção - ${daçãos.numero_sequencial || 'Nova'}</title>
+                    <title>Ordem de Produção - ${dados.numero_sequencial || 'Nova'}</title>
                     <style>
                         @media print {
                             body { margin: 0; padding: 15mm; }
@@ -6253,9 +6253,9 @@
                         </div>
                         <div class="op-number">
                             <h1>ORDEM DE PRODUÇÃO</h1>
-                            <p><strong>OP Nº:</strong> ${daçãos.numero_sequencial || 'N/A'}</p>
-                            <p><strong>Orçamento:</strong> ${daçãos.numero_orcamento || 'N/A'}</p>
-                            <p><strong>Data Liberação:</strong> ${daçãos.data_liberacao || new Date().toLocaleDateString('pt-BR')}</p>
+                            <p><strong>OP Nº:</strong> ${dados.numero_sequencial || 'N/A'}</p>
+                            <p><strong>Orçamento:</strong> ${dados.numero_orcamento || 'N/A'}</p>
+                            <p><strong>Data Liberação:</strong> ${dados.data_liberacao || new Date().toLocaleDateString('pt-BR')}</p>
                         </div>
                     </div>
                     
@@ -6264,31 +6264,31 @@
                         <div class="info-grid">
                             <div class="info-item" style="grid-column: span 2;">
                                 <div class="info-label">Cliente</div>
-                                <div class="info-value">${daçãos.cliente || ''}</div>
+                                <div class="info-value">${dados.cliente || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">CNPJ/CPF</div>
-                                <div class="info-value">${daçãos.cpf_cnpj || ''}</div>
+                                <div class="info-value">${dados.cpf_cnpj || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Vendedor</div>
-                                <div class="info-value">${daçãos.vendedor || ''}</div>
+                                <div class="info-value">${dados.vendedor || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Contato</div>
-                                <div class="info-value">${daçãos.contato_cliente || ''}</div>
+                                <div class="info-value">${dados.contato_cliente || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Telefone</div>
-                                <div class="info-value">${daçãos.fone_cliente || ''}</div>
+                                <div class="info-value">${dados.fone_cliente || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">E-mail</div>
-                                <div class="info-value">${daçãos.email_cliente || ''}</div>
+                                <div class="info-value">${dados.email_cliente || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Tipo Frete</div>
-                                <div class="info-value">${daçãos.tipo_frete || ''}</div>
+                                <div class="info-value">${dados.tipo_frete || ''}</div>
                             </div>
                         </div>
                     </div>
@@ -6298,15 +6298,15 @@
                         <div class="info-grid">
                             <div class="info-item" style="grid-column: span 2;">
                                 <div class="info-label">Razão Social</div>
-                                <div class="info-value">${daçãos.transportaçãora_nome || ''}</div>
+                                <div class="info-value">${dados.transportaçãora_nome || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">CNPJ</div>
-                                <div class="info-value">${daçãos.transportaçãora_cpf_cnpj || ''}</div>
+                                <div class="info-value">${dados.transportaçãora_cpf_cnpj || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Telefone</div>
-                                <div class="info-value">${daçãos.transportaçãora_fone || ''}</div>
+                                <div class="info-value">${dados.transportaçãora_fone || ''}</div>
                             </div>
                         </div>
                     </div>
@@ -6343,35 +6343,35 @@
                         <div class="info-grid" style="background: transparent; border: none;">
                             <div class="info-item">
                                 <div class="info-label">Forma de Pagamento</div>
-                                <div class="info-value">${daçãos.forma_pagamento || ''}</div>
+                                <div class="info-value">${dados.forma_pagamento || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Método</div>
-                                <div class="info-value">${daçãos.metodo_pagamento || ''}</div>
+                                <div class="info-value">${dados.metodo_pagamento || ''}</div>
                             </div>
                             <div class="info-item" style="grid-column: span 2;">
                                 <div class="info-label">Condições</div>
-                                <div class="info-value">${daçãos.condicoes_pagamento || ''}</div>
+                                <div class="info-value">${dados.condicoes_pagamento || ''}</div>
                             </div>
                             <div class="info-item" style="grid-column: span 2;">
                                 <div class="info-label">E-mail NF-e</div>
-                                <div class="info-value">${daçãos.email_cliente || daçãos.transportaçãora.email_nfe || ''}</div>
+                                <div class="info-value">${dados.email_cliente || dados.transportaçãora.email_nfe || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">Prazo Entrega</div>
-                                <div class="info-value">${daçãos.prazo_entrega || ''}</div>
+                                <div class="info-value">${dados.prazo_entrega || ''}</div>
                             </div>
                             <div class="info-item">
                                 <div class="info-label">PreVisão Entrega</div>
-                                <div class="info-value">${daçãos.data_previsao_entrega || ''}</div>
+                                <div class="info-value">${dados.data_previsao_entrega || ''}</div>
                             </div>
                         </div>
                     </div>
                     
-                    ${daçãos.observacoes  `
+                    ${dados.observacoes ? `
                     <div class="obs-section">
                         <strong>Observações:</strong><br>
-                        ${daçãos.observacoes}
+                        ${dados.observacoes}
                     </div>
                     ` : ''}
                     
@@ -6417,9 +6417,9 @@
                 carregarClientesParaCache();
             }
             
-            // Pré-carregar transportaçãoras para autocomplete
-            if (transportaçãorasCache.length === 0) {
-                carregarTransportaçãorasParaCache();
+            // Pré-carregar Transportadoras para autocomplete
+            if (transportadorasCache.length === 0) {
+                carregarTransportadorasParaCache();
             }
         }
 
@@ -6444,9 +6444,9 @@
             const categoriaSelect = document.getElementById('filter-categoria');
             const estoqueSelect = document.getElementById('filter-estoque');
 
-            const query = searchInput  searchInput.value.trim() : '';
-            const categoria = categoriaSelect  categoriaSelect.value : '';
-            const estoque = estoqueSelect  estoqueSelect.value : '';
+            const query = searchInput ? searchInput.value.trim() : '';
+            const categoria = categoriaSelect ? categoriaSelect.value : '';
+            const estoque = estoqueSelect ? estoqueSelect.value : '';
 
             const params = new URLSearchParams();
             if (query) params.append('q', query);
@@ -6472,7 +6472,7 @@
             try {
                 const response = await fetch(`/api/pcp/produtos${params.toString()}`);
                 const body = await response.json();
-                const produtos = body.produtos || body.rows || (Array.isArray(body)  body : []);
+                const produtos = body.produtos || body.rows || (Array.isArray(body) ? body : []);
                 const total = Number(body.total || produtos.length);
                 const stats = body.stats || {};
 
@@ -6514,7 +6514,7 @@
                         <tr>
                             <td colspan="9" style="text-align: center; padding: 60px;">
                                 <i class="fas fa-inbox" style="font-size: 48px; color: var(--gray-400); margin-bottom: 16px;"></i>
-                                <p style="color: var(--gray-500);">Nenhum produto encontração</p>
+                                <p style="color: var(--gray-500);">Nenhum produto encontrado</p>
                             </td>
                         </tr>
                     `;
@@ -6612,7 +6612,7 @@
         window.gerarExcelOP = gerarExcelOP;
         window.buscarClientesAutocomplete = buscarClientesAutocomplete;
         window.selecionarClienteOP = selecionarClienteOP;
-        window.buscarTransportaçãorasAutocomplete = buscarTransportaçãorasAutocomplete;
+        window.buscarTransportadorasAutocomplete = buscarTransportadorasAutocomplete;
         window.selecionarTransportaçãoraOP = selecionarTransportaçãoraOP;
         window.buscarClienteOP = buscarClienteOP;
         window.buscarTransportaçãoraOP = buscarTransportaçãoraOP;
@@ -6662,11 +6662,11 @@
         }
         
         // Fechar modal de confirmação
-        function fecharConfirmacaoPCP(resultação) {
+        function fecharConfirmacaoPCP(resultado) {
             const modal = document.getElementById('modal-confirmacao-pcp');
             modal.classList.remove('active');
             if (confirmacaoCallback) {
-                confirmacaoCallback(resultação);
+                confirmacaoCallback(resultado);
                 confirmacaoCallback = null;
             }
         }
@@ -6682,13 +6682,13 @@
         // Editar produto existente
         async function editarProduto(produtoId) {
             try {
-                showNotification('Carregando daçãos do produto...', 'info');
+                showNotification('Carregando dados do produto...', 'info');
                 
                 const response = await fetch(`/api/pcp/produtos/${produtoId}`, { credentials: 'include' });
-                if (!response.ok) throw new Error('Produto Não encontração');
+                if (!response.ok) throw new Error('Produto Não encontrado');
                 
                 const produto = await response.json();
-                console.log('Daçãos do produto carregaçãos:', produto);
+                console.log('Daçãos do produto carregados:', produto);
                 
                 // Limpar formulário primeiro (sem confirmação)
                 limparFormProdutoPCP(true);
@@ -6732,7 +6732,7 @@
                 }
                 
                 // Estoque - verificar ambos os campos possíveis (estoque_atual ou estoque)
-                const estoqueAtual = produto.estoque_atual !== undefined  produto.estoque_atual : (produto.estoque || 0);
+                const estoqueAtual = produto.estoque_atual !== undefined ? produto.estoque_atual : (produto.estoque || 0);
                 document.getElementById('pcp-produto-estoque').value = estoqueAtual;
                 document.getElementById('pcp-produto-estoque-minimo').value = produto.estoque_minimo || 0;
                 
@@ -6749,7 +6749,7 @@
                 
             } catch (error) {
                 console.error('Erro ao carregar produto:', error);
-                showNotification('Erro ao carregar daçãos do produto', 'error');
+                showNotification('Erro ao carregar dados do produto', 'error');
             }
         }
         
@@ -6798,13 +6798,13 @@
             const estoqueMinimoInput = document.getElementById('pcp-produto-estoque-minimo');
             const precoInput = document.getElementById('pcp-produto-preco');
             
-            const estoqueValue = estoqueInput  parseFloat(estoqueInput.value) : 0;
-            const estoqueMinimoValue = estoqueMinimoInput  parseInt(estoqueMinimoInput.value) : 0;
-            const precoValue = precoInput  parseFloat(precoInput.value.replace(',', '.')) : 0;
+            const estoqueValue = estoqueInput ? parseFloat(estoqueInput.value) : 0;
+            const estoqueMinimoValue = estoqueMinimoInput ? parseInt(estoqueMinimoInput.value) : 0;
+            const precoValue = precoInput ? parseFloat(precoInput.value.replace(',', '.')) : 0;
             
             console.log('Salvando produto - Estoque:', estoqueValue, 'Estoque Mínimo:', estoqueMinimoValue, 'Preço:', precoValue);
             
-            const daçãos = {
+            const dados = {
                 codigo: codigo,
                 nome: descricao,
                 descricao: descricao,
@@ -6821,16 +6821,16 @@
                 observacoes: document.getElementById('pcp-produto-observacoes').value.trim()
             };
             
-            console.log('Daçãos a enviar:', daçãos);
+            console.log('Daçãos a enviar:', dados);
             
             try {
-                const url = produtoId  `/api/pcp/produtos/${produtoId}` : '/api/pcp/produtos';
+                const url = produtoId ? `/api/pcp/produtos/${produtoId}` : '/api/pcp/produtos';
                 const method = produtoId ? 'PUT' : 'POST';
                 
                 const response = await fetch(url, {
                     method: method,
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(daçãos),
+                    body: JSON.stringify(dados),
                     credentials: 'include'
                 });
                 
@@ -6965,7 +6965,7 @@
                 if (select) {
                     select.innerHTML = '<option value="">Selecione o material...</option>';
                     ocMateriaisCache.forEach(m => {
-                        const preco = m.custo_unitario  ` - R$ ${parseFloat(m.custo_unitario).toFixed(2)}` : '';
+                        const preco = m.custo_unitario ? ` - R$ ${parseFloat(m.custo_unitario).toFixed(2)}` : '';
                         select.innerHTML += `<option value="${m.id}" data-preco="${m.custo_unitario || 0}">${m.descricao || m.nome}${preco}</option>`;
                     });
                 }
@@ -7158,8 +7158,8 @@
                             <tr>
                                 <td><strong>#${p.numero_pedido || p.id}</strong></td>
                                 <td>${p.fornecedor_nome || p.fornecedor || '-'}</td>
-                                <td>${p.data_pedido  new Date(p.data_pedido).toLocaleDateString('pt-BR') : '-'}</td>
-                                <td>${p.data_entrega_prevista  new Date(p.data_entrega_prevista).toLocaleDateString('pt-BR') : '-'}</td>
+                                <td>${p.data_pedido ? new Date(p.data_pedido).toLocaleDateString('pt-BR') : '-'}</td>
+                                <td>${p.data_entrega_prevista ? new Date(p.data_entrega_prevista).toLocaleDateString('pt-BR') : '-'}</td>
                                 <td>R$ ${parseFloat(p.valor_total || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
                                 <td><span style="background: ${statusColors[p.status] || '#64748b'}; color: white; padding: 4px 12px; border-radius: 20px; font-size: 12px;">${statusLabel[p.status] || p.status}</span></td>
                                 <td>
@@ -7188,9 +7188,9 @@
         // ============================================
         document.addEventListener('DOMContentLoaded', () => {
             console.log('PCP Module Initialized');
-            // Carregar daçãos do usuário logação
+            // Carregar dados do usuário logação
             carregarDaçãosUsuario();
-            // Carregar daçãos iniciais aqui
+            // Carregar dados iniciais aqui
             loadDashboardData();
             // Carregar OCs
             carregarOCsPCP();
@@ -7245,13 +7245,13 @@
             return null;
         }
 
-        // Função para carregar daçãos do usuário logação
+        // Função para carregar dados do usuário logação
         async function carregarDaçãosUsuario() {
             try {
                 const token = localStorage.getItem('token');
                 const response = await fetch('/api/me', {
                     credentials: 'include',
-                    headers: token  { 'Authorization': `Bearer ${token}` } : {}
+                    headers: token ? { 'Authorization': `Bearer ${token}` } : {}
                 });
                 
                 if (response.ok) {
@@ -7270,7 +7270,7 @@
                     
                     // Usar apelido se disponível, senão primeiro nome
                     const userName = user.apelido || user.nome || 'Usuário';
-                    const primeiroNome = user.apelido || (user.nome  user.nome.split(' ')[0] : 'Usuário');
+                    const primeiroNome = user.apelido || (user.nome ? user.nome.split(' ')[0] : 'Usuário');
                     const nomeCompleto = user.nome || user.name || 'Usuário';
                     
                     // Atualizar nome no header
@@ -7300,14 +7300,14 @@
                             mostrarIniciaisAvatar(nomeCompleto, userAvatarDiv, userInitialsEl);
                         };
                         if (userInitialsEl) userInitialsEl.style.display = 'none';
-                        console.log('Avatar carregação:', fotoUrl);
+                        console.log('Avatar carregado:', fotoUrl);
                     } else {
                         // Sem foto - gerar avatar com iniciais
                         mostrarIniciaisAvatar(nomeCompleto, userAvatarDiv, userInitialsEl);
                         if (userPhotoEl) userPhotoEl.style.display = 'none';
                     }
                     
-                    // Salvar daçãos do usuário no localStorage para uso em outras partes
+                    // Salvar dados do usuário no localStorage para uso em outras partes
                     localStorage.setItem('userData', JSON.stringify({
                         nome: nomeCompleto,
                         email: user.email,
@@ -7315,13 +7315,13 @@
                         setor: user.setor
                     }));
                     
-                    console.log('Usuário carregação:', primeiroNome, 'Avatar:', fotoUrl  fotoUrl : 'Iniciais');
+                    console.log('Usuário carregado:', primeiroNome, 'Avatar:', fotoUrl ? fotoUrl : 'Iniciais');
                 } else {
                     console.warn('Falha ao carregar usuário, status:', response.status);
                     carregarUsuarioLocalStorage();
                 }
             } catch (error) {
-                console.error('Erro ao carregar daçãos do usuário:', error);
+                console.error('Erro ao carregar dados do usuário:', error);
                 carregarUsuarioLocalStorage();
             }
         }
@@ -7357,7 +7357,7 @@
                         }
                     }
                 }
-            } catch (e) { console.warn('Não foi possível carregar daçãos do localStorage'); }
+            } catch (e) { console.warn('Não foi possível carregar dados do localStorage'); }
         }
 
         // Função para carregar Ordens Recentes (do módulo Vendas)
@@ -7396,13 +7396,13 @@
                 
                 tbody.innerHTML = pedidos.map(pedido => {
                     const statusInfo = statusLabels[pedido.status] || { label: pedido.status, class: 'status-badge gray' };
-                    const data = pedido.created_at  new Date(pedido.created_at).toLocaleDateString('pt-BR') : '-';
-                    const valor = pedido.valor  $ ${parseFloat(pedido.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : '-';
+                    const data = pedido.created_at ? new Date(pedido.created_at).toLocaleDateString('pt-BR') : '-';
+                    const valor = pedido.valor ? `$ ${parseFloat(pedido.valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}` : '-';
                     
                     // Pedidos faturado ou faturar podem gerar OP
                     const podeGerarOP = pedido.status === 'faturado' || pedido.status === 'faturar';
                     const acaoBotao = podeGerarOP 
-                         `onclick="abrirOrdemProducaoDePedido(${pedido.id})" title="Gerar Ordem de Produção"`
+                        ? `onclick="abrirOrdemProducaoDePedido(${pedido.id})" title="Gerar Ordem de Produção"`
                         : `onclick="visualizarPedido(${pedido.id})" title="Visualizar Pedido"`;
                     const iconeBotao = podeGerarOP ? 'fa-industry' : 'fa-eye';
                     const classeBotao = podeGerarOP ? 'btn btn-sm btn-success' : 'btn btn-sm btn-secondary';
@@ -7410,7 +7410,7 @@
                     return `
                         <tr>
                             <td><strong>#${pedido.id}</strong></td>
-                            <td>${pedido.empresa_nome || 'Não informação'}</td>
+                            <td>${pedido.empresa_nome || 'Não informado'}</td>
                             <td>${valor}</td>
                             <td><span class="${statusInfo.class}">${statusInfo.label}</span></td>
                             <td>${data}</td>
@@ -7447,22 +7447,22 @@
             window.location.href = `/modules/Vendas/index.htmlpedido=${pedidoId}`;
         }
         
-        // Função para abrir modal de Nova OP com daçãos do pedido de Vendas
+        // Função para abrir modal de Nova OP com dados do pedido de Vendas
         async function abrirOrdemProducaoDePedido(pedidoId) {
             try {
                 // Mostrar loading
-                showNotification('Carregando daçãos do pedido...', 'info');
+                showNotification('Carregando dados do pedido...', 'info');
                 
-                // Buscar daçãos do pedido
+                // Buscar dados do pedido
                 const pedidoResponse = await fetch(`/api/vendas/pedidos/${pedidoId}`, { credentials: 'include' });
                 if (!pedidoResponse.ok) throw new Error('Erro ao buscar pedido');
                 const pedido = await pedidoResponse.json();
                 
                 // Buscar itens do pedido
                 const itensResponse = await fetch(`/api/vendas/pedidos/${pedidoId}/itens`, { credentials: 'include' });
-                const itens = itensResponse.ok  await itensResponse.json() : [];
+                const itens = itensResponse.ok ? await itensResponse.json() : [];
                 
-                // Buscar daçãos da empresa (cliente)
+                // Buscar dados da empresa (cliente)
                 let empresa = null;
                 if (pedido.empresa_id) {
                     const empresaResponse = await fetch(`/api/vendas/empresas/${pedido.empresa_id}`, { credentials: 'include' });
@@ -7503,7 +7503,7 @@
                     }
                 }
                 
-                // Preencher daçãos do cliente
+                // Preencher dados do cliente
                 if (empresa) {
                     const opCliente = document.getElementById('op-cliente');
                     const opClienteId = document.getElementById('op-cliente-id');
@@ -7555,15 +7555,15 @@
                 // Abrir modal
                 showModal('modal-nova-ordem');
                 
-                showNotification('Daçãos do pedido carregaçãos! Complete os daçãos da transportaçãora.', 'success');
+                showNotification('Daçãos do pedido carregados! Complete os dados da transportaçãora.', 'success');
                 
             } catch (error) {
                 console.error('Erro ao carregar pedido:', error);
-                showNotification('Erro ao carregar daçãos do pedido: ' + error.message, 'error');
+                showNotification('Erro ao carregar dados do pedido: ' + error.message, 'error');
             }
         }
 
-        // Função placeholder para carregar daçãos
+        // Função placeholder para carregar dados
         async function loadDashboardData() {
             console.log('Loading dashboard data...');
             
@@ -7614,7 +7614,7 @@
         async function criarOrdemProducao(event) {
             event.preventDefault();
             
-            const daçãos = {
+            const dados = {
                 numero: document.getElementById('op-numero').value,
                 dataConclusao: document.getElementById('op-data-conclusao').value,
                 codigoProduto: document.getElementById('op-codigo-produto').value,
@@ -7632,7 +7632,7 @@
                 const response = await fetch('/api/pcp/ordens', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(daçãos)
+                    body: JSON.stringify(dados)
                 });
 
                 if (response.ok) {
@@ -7641,7 +7641,7 @@
                     // Limpar formulário
                     document.getElementById('form-nova-ordem').reset();
                     gerarNumeroOP();
-                    // Recarregar daçãos
+                    // Recarregar dados
                     loadDashboardData();
                 } else {
                     const error = await response.json();
@@ -7651,8 +7651,8 @@
                 console.error('Erro:', error);
                 // Salvar localmente se API Não disponível
                 const ordensLocais = JSON.parse(localStorage.getItem('ordensProducao') || '[]');
-                daçãos.id = Date.now();
-                ordensLocais.push(daçãos);
+                dados.id = Date.now();
+                ordensLocais.push(dados);
                 localStorage.setItem('ordensProducao', JSON.stringify(ordensLocais));
                 showNotification('Ordem de Produção salva localmente!', 'success');
                 hideModal('modal-nova-ordem');

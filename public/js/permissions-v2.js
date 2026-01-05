@@ -186,7 +186,7 @@ const areaURLs = {
 function getModuloURL(modulo, user) {
     if (modulo === 'rh') {
         const rhType = getRHType(user);
-        return rhType === 'areaadm'  '/RH/areaadm.html' : '/RH/area.html';
+        return rhType === 'areaadm' ? '/RH/areaadm.html' : '/RH/area.html';
     }
     
     return areaURLs[modulo] || '#';

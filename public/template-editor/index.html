@@ -26,7 +26,7 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             border-radius: 15px;
-            box-shaçãow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
             min-height: 90vh;
         }
 
@@ -95,7 +95,7 @@
         .template-card:hover {
             border-color: var(--primary-color);
             transform: translateY(-3px);
-            box-shaçãow: 0 6px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
         }
 
         .template-card.selected {
@@ -122,7 +122,7 @@
         .btn-gradient:hover {
             background: linear-gradient(135deg, #3d7acc, var(--primary-color));
             transform: translateY(-2px);
-            box-shaçãow: 0 6px 20px rgba(44, 90, 160, 0.3);
+            box-shadow: 0 6px 20px rgba(44, 90, 160, 0.3);
         }
 
         .field-mapping {
@@ -290,7 +290,7 @@
                     <!-- Aba Mapeamento -->
                     <div id="tab-mapping" class="tab-content">
                         <h5>Mapeamento de Campos</h5>
-                        <small class="text-muted">Clique nas clulas para mapear os daçãos</small>
+                        <small class="text-muted">Clique nas clulas para mapear os dados</small>
                         
                         <div class="mt-3">
                             <label class="form-label">Campo a Mapear:</label>
@@ -413,9 +413,9 @@
                             <h6><i class="fas fa-info-circle"></i> Como usar o Editor:</h6>
                             <ol class="mb-0">
                                 <li>Selecione um template base ou crie um novo</li>
-                                <li>Use a aba "Mapeamento" para associar campos aos daçãos</li>
+                                <li>Use a aba "Mapeamento" para associar campos aos dados</li>
                                 <li>Personalize cores e fontes na aba "Estilo"</li>
-                                <li>Visualize o resultação na aba "Preview"</li>
+                                <li>Visualize o resultado na aba "Preview"</li>
                                 <li>Salve seu template personalização</li>
                             </ol>
                         </div>
@@ -692,7 +692,7 @@
             container.innerHTML = '';
 
             if (templates.length === 0) {
-                container.innerHTML = '<p class="text-muted">Nenhum template encontração.</p>';
+                container.innerHTML = '<p class="text-muted">Nenhum template encontrado.</p>';
                 return;
             }
 
@@ -789,7 +789,7 @@
                 });
             });
 
-            alert('Preview geração! As clulas mapeadas foram preenchidas com daçãos de exemplo.');
+            alert('Preview geração! As clulas mapeadas foram preenchidas com dados de exemplo.');
         }
 
         function updatePreview() {

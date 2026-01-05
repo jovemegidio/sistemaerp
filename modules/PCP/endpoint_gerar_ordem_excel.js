@@ -26,15 +26,15 @@ function formatarCpfCnpjExcel(valor) {
 
 app.post('/api/gerar-ordem-excel', async (req, res) => {
     try {
-        const daçãos = req.body;
-        logger.info('[GERAR ORDEM EXCEL] Recebendo daçãos:', { num_pedido: daçãos.num_pedido, produtos: daçãos.produtos.length });
+        const dados = req.body;
+        logger.info('[GERAR ORDEM EXCEL] Recebendo dados:', { num_pedido: dados.num_pedido, produtos: dados.produtos.length });
         
         // Validações básicas
-        if (!daçãos.num_pedido) {
+        if (!dados.num_pedido) {
             return res.status(400).json({ message: 'Número do pedido é obrigatório' });
         }
         
-        if (!daçãos.produtos || daçãos.produtos.length === 0) {
+        if (!dados.produtos || dados.produtos.length === 0) {
             return res.status(400).json({ message: 'Adicione pelo menos um produto' });
         }
         
@@ -59,25 +59,25 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         // ============================================
         
         // Daçãos Principais (Linha 4)
-        worksheet.getCell('C4').value = daçãos.num_orcamento || '';      // Orçamento
-        worksheet.getCell('D4').value = daçãos.revisao || '';            // Revisão
-        worksheet.getCell('G4').value = daçãos.num_pedido || '';         // Pedido
+        worksheet.getCell('C4').value = dados.num_orcamento || '';      // Orçamento
+        worksheet.getCell('D4').value = dados.revisao || '';            // Revisão
+        worksheet.getCell('G4').value = dados.num_pedido || '';         // Pedido
         
         // Data Liberação (Linha 4, coluna J)
-        if (daçãos.data_liberacao) {
-            const dataLib = new Date(daçãos.data_liberacao + 'T00:00:00');
+        if (dados.data_liberacao) {
+            const dataLib = new Date(dados.data_liberacao + 'T00:00:00');
             worksheet.getCell('J4').value = dataLib;
             worksheet.getCell('J4').numFmt = 'dd/mm/yyyy';
         }
         
         // Vendedor (Linha 6)
-        worksheet.getCell('C6').value = daçãos.vendedor || '';
-        worksheet.getCell('D6').value = daçãos.vendedor || '';
-        worksheet.getCell('E6').value = daçãos.vendedor || '';
+        worksheet.getCell('C6').value = dados.vendedor || '';
+        worksheet.getCell('D6').value = dados.vendedor || '';
+        worksheet.getCell('E6').value = dados.vendedor || '';
         
         // Prazo de Entrega (Linha 6)
-        if (daçãos.prazo_entrega) {
-            const dataPrazo = new Date(daçãos.prazo_entrega + 'T00:00:00');
+        if (dados.prazo_entrega) {
+            const dataPrazo = new Date(dados.prazo_entrega + 'T00:00:00');
             worksheet.getCell('H6').value = dataPrazo;
             worksheet.getCell('I6').value = dataPrazo;
             worksheet.getCell('J6').value = dataPrazo;
@@ -87,64 +87,64 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         }
         
         // Cliente (Linha 7)
-        worksheet.getCell('C7').value = daçãos.cliente || '';
-        worksheet.getCell('D7').value = daçãos.cliente || '';
-        worksheet.getCell('E7').value = daçãos.cliente || '';
-        worksheet.getCell('F7').value = daçãos.cliente || '';
-        worksheet.getCell('G7').value = daçãos.cliente || '';
-        worksheet.getCell('H7').value = daçãos.cliente || '';
-        worksheet.getCell('I7').value = daçãos.cliente || '';
-        worksheet.getCell('J7').value = daçãos.cliente || '';
+        worksheet.getCell('C7').value = dados.cliente || '';
+        worksheet.getCell('D7').value = dados.cliente || '';
+        worksheet.getCell('E7').value = dados.cliente || '';
+        worksheet.getCell('F7').value = dados.cliente || '';
+        worksheet.getCell('G7').value = dados.cliente || '';
+        worksheet.getCell('H7').value = dados.cliente || '';
+        worksheet.getCell('I7').value = dados.cliente || '';
+        worksheet.getCell('J7').value = dados.cliente || '';
         
         // Contato (Linha 8)
-        worksheet.getCell('C8').value = daçãos.contato_cliente || '';
-        worksheet.getCell('D8').value = daçãos.contato_cliente || '';
-        worksheet.getCell('E8').value = daçãos.contato_cliente || '';
-        worksheet.getCell('F8').value = daçãos.contato_cliente || '';
+        worksheet.getCell('C8').value = dados.contato_cliente || '';
+        worksheet.getCell('D8').value = dados.contato_cliente || '';
+        worksheet.getCell('E8').value = dados.contato_cliente || '';
+        worksheet.getCell('F8').value = dados.contato_cliente || '';
         
         // Fone Cliente (Linha 8)
-        worksheet.getCell('H8').value = daçãos.fone_cliente || '';
-        worksheet.getCell('I8').value = daçãos.fone_cliente || '';
-        worksheet.getCell('J8').value = daçãos.fone_cliente || '';
+        worksheet.getCell('H8').value = dados.fone_cliente || '';
+        worksheet.getCell('I8').value = dados.fone_cliente || '';
+        worksheet.getCell('J8').value = dados.fone_cliente || '';
         
         // Email Cliente (Linha 9)
-        worksheet.getCell('C9').value = daçãos.email_cliente || '';
-        worksheet.getCell('D9').value = daçãos.email_cliente || '';
-        worksheet.getCell('E9').value = daçãos.email_cliente || '';
-        worksheet.getCell('F9').value = daçãos.email_cliente || '';
-        worksheet.getCell('G9').value = daçãos.email_cliente || '';
+        worksheet.getCell('C9').value = dados.email_cliente || '';
+        worksheet.getCell('D9').value = dados.email_cliente || '';
+        worksheet.getCell('E9').value = dados.email_cliente || '';
+        worksheet.getCell('F9').value = dados.email_cliente || '';
+        worksheet.getCell('G9').value = dados.email_cliente || '';
         
         // Tipo de Frete (Linha 9)
-        worksheet.getCell('J9').value = daçãos.tipo_frete || '';
+        worksheet.getCell('J9').value = dados.tipo_frete || '';
         
         // Transportaçãora (Linha 12)
         // Fone Transportaçãora
-        worksheet.getCell('H12').value = daçãos.transportaçãora_fone || '';
-        worksheet.getCell('I12').value = daçãos.transportaçãora_fone || '';
-        worksheet.getCell('J12').value = daçãos.transportaçãora_fone || '';
+        worksheet.getCell('H12').value = dados.transportaçãora_fone || '';
+        worksheet.getCell('I12').value = dados.transportaçãora_fone || '';
+        worksheet.getCell('J12').value = dados.transportaçãora_fone || '';
         
         // CEP (Linha 13)
-        worksheet.getCell('C13').value = daçãos.cep || '';
-        worksheet.getCell('D13').value = daçãos.cep || '';
+        worksheet.getCell('C13').value = dados.cep || '';
+        worksheet.getCell('D13').value = dados.cep || '';
         
         // Endereço (Linha 13)
-        worksheet.getCell('F13').value = daçãos.endereco || '';
-        worksheet.getCell('G13').value = daçãos.endereco || '';
-        worksheet.getCell('H13').value = daçãos.endereco || '';
-        worksheet.getCell('I13').value = daçãos.endereco || '';
-        worksheet.getCell('J13').value = daçãos.endereco || '';
+        worksheet.getCell('F13').value = dados.endereco || '';
+        worksheet.getCell('G13').value = dados.endereco || '';
+        worksheet.getCell('H13').value = dados.endereco || '';
+        worksheet.getCell('I13').value = dados.endereco || '';
+        worksheet.getCell('J13').value = dados.endereco || '';
         
         // CPF/CNPJ (Linha 15) - Com formatação
-        const cpfCnpjFormatação = formatarCpfCnpjExcel(daçãos.cpf_cnpj || '');
+        const cpfCnpjFormatação = formatarCpfCnpjExcel(dados.cpf_cnpj || '');
         worksheet.getCell('C15').value = cpfCnpjFormatação;
         worksheet.getCell('D15').value = cpfCnpjFormatação;
         worksheet.getCell('E15').value = cpfCnpjFormatação;
         
         // Email NF-e (Linha 15)
-        worksheet.getCell('G15').value = daçãos.email_nfe || '';
-        worksheet.getCell('H15').value = daçãos.email_nfe || '';
-        worksheet.getCell('I15').value = daçãos.email_nfe || '';
-        worksheet.getCell('J15').value = daçãos.email_nfe || '';
+        worksheet.getCell('G15').value = dados.email_nfe || '';
+        worksheet.getCell('H15').value = dados.email_nfe || '';
+        worksheet.getCell('I15').value = dados.email_nfe || '';
+        worksheet.getCell('J15').value = dados.email_nfe || '';
         
         // ============================================
         // PRODUTOS (Linhas 18-32)
@@ -152,7 +152,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         let linhaAtual = 18;
         let totalGeral = 0;
         
-        for (const produto of daçãos.produtos) {
+        for (const produto of dados.produtos) {
             if (linhaAtual > 32) {
                 logger.warn('[GERAR ORDEM EXCEL] Limite de produtos (15) atingido');
                 break;
@@ -197,9 +197,9 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         // ============================================
         // OBSERVAÇÕES (Linha 36)
         // ============================================
-        if (daçãos.observacoes) {
-            worksheet.getCell('I36').value = daçãos.observacoes;
-            worksheet.getCell('J36').value = daçãos.observacoes;
+        if (dados.observacoes) {
+            worksheet.getCell('I36').value = dados.observacoes;
+            worksheet.getCell('J36').value = dados.observacoes;
         }
         
         // ============================================
@@ -207,21 +207,21 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         // ============================================
         
         // Linha 45: Forma de Pagamento
-        worksheet.getCell('A45').value = daçãos.forma_pagamento || '';
-        worksheet.getCell('B45').value = daçãos.forma_pagamento || '';
-        worksheet.getCell('C45').value = daçãos.forma_pagamento || '';
-        worksheet.getCell('D45').value = daçãos.forma_pagamento || '';
+        worksheet.getCell('A45').value = dados.forma_pagamento || '';
+        worksheet.getCell('B45').value = dados.forma_pagamento || '';
+        worksheet.getCell('C45').value = dados.forma_pagamento || '';
+        worksheet.getCell('D45').value = dados.forma_pagamento || '';
         
         // Percentual
-        worksheet.getCell('E45').value = daçãos.percentual_pagamento || 1;
+        worksheet.getCell('E45').value = dados.percentual_pagamento || 1;
         
         // Método de Pagamento
-        worksheet.getCell('F45').value = daçãos.metodo_pagamento || '';
-        worksheet.getCell('G45').value = daçãos.metodo_pagamento || '';
-        worksheet.getCell('H45').value = daçãos.metodo_pagamento || '';
+        worksheet.getCell('F45').value = dados.metodo_pagamento || '';
+        worksheet.getCell('G45').value = dados.metodo_pagamento || '';
+        worksheet.getCell('H45').value = dados.metodo_pagamento || '';
         
         // Valor Total do Pagamento
-        const valorPagamento = totalGeral * (daçãos.percentual_pagamento || 1);
+        const valorPagamento = totalGeral * (dados.percentual_pagamento || 1);
         worksheet.getCell('I45').value = valorPagamento;
         worksheet.getCell('J45').value = valorPagamento;
         worksheet.getCell('I45').numFmt = 'R$ #,##0.00';
@@ -232,7 +232,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         // ============================================
         
         const buffer = await workbook.xlsx.writeBuffer();
-        const nomeArquivo = `Ordem_Producao_${daçãos.num_pedido}_${Date.now()}.xlsx`;
+        const nomeArquivo = `Ordem_Producao_${dados.num_pedido}_${Date.now()}.xlsx`;
         
         res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         res.setHeader('Content-Disposition', `attachment; filename="${nomeArquivo}"`);

@@ -29,7 +29,7 @@
             transition: all 0.3s ease;
             border: 1px solid #e2e8f0;
         }
-        .relatorio-card:hover { transform: translateY(-3px); border-color: #10b981; box-shaçãow: 0 8px 24px rgba(16, 185, 129, 0.15); }
+        .relatorio-card:hover { transform: translateY(-3px); border-color: #10b981; box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15); }
         .relatorio-icon { font-size: 2em; color: #10b981; margin-bottom: 12px; }
         .relatorio-card h3 { font-size: 14px; font-weight: 500; color: #1e293b; margin-bottom: 12px; }
         .relatorio-card .btn-primary {
@@ -55,7 +55,7 @@
         .btn-secondary { background: #1e40af; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-size: 13px; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
         .btn-secondary:hover { background: #1e3a8a; }
         
-        .relatorio-tabela { width: 100%; border-collapse: collapse; margin-top: 16px; background: white; border-radius: 8px; overflow: hidden; box-shaçãow: 0 1px 3px rgba(0,0,0,0.1); }
+        .relatorio-tabela { width: 100%; border-collapse: collapse; margin-top: 16px; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .relatorio-tabela th, .relatorio-tabela td { padding: 12px 16px; text-align: left; border-bottom: 1px solid #e5e7eb; }
         .relatorio-tabela th { background: #1e40af; font-weight: 600; font-size: 13px; color: white; text-transform: uppercase; letter-spacing: 0.5px; }
         .relatorio-tabela td { font-size: 13px; color: #374151; }
@@ -195,7 +195,7 @@
                             <h3>Suspensos</h3>
                             <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
                         </div>
-                        <div class="relatorio-card" onclick="gerarRelatorio('cs-cancelaçãos')">
+                        <div class="relatorio-card" onclick="gerarRelatorio('cs-cancelados')">
                             <div class="relatorio-icon"><i class="fas fa-times-circle"></i></div>
                             <h3>Cancelados</h3>
                             <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
@@ -232,7 +232,7 @@
                             <h3>Por Cliente</h3>
                             <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
                         </div>
-                        <div class="relatorio-card" onclick="gerarRelatorio('fat-cancelaçãos')">
+                        <div class="relatorio-card" onclick="gerarRelatorio('fat-cancelados')">
                             <div class="relatorio-icon"><i class="fas fa-ban"></i></div>
                             <h3>Cancelados</h3>
                             <button class="btn-primary"><i class="fas fa-file-export"></i> Gerar</button>
@@ -310,7 +310,7 @@
                     titulo: 'Contratos de Serviço - Suspensos',
                     conteudo: '<table class="relatorio-tabela"><thead><tr><th>Contrato</th><th>Cliente</th><th>Data Suspensão</th><th>Motivo</th></tr></thead><tbody><tr><td>CT-005</td><td>TRANSPORTES GHI</td><td>01/11/2025</td><td>Inadimplência</td></tr></tbody></table>'
                 },
-                'cs-cancelaçãos': {
+                'cs-cancelados': {
                     titulo: 'Contratos de Serviço - Cancelados',
                     conteudo: '<table class="relatorio-tabela"><thead><tr><th>Contrato</th><th>Cliente</th><th>Data Cancelamento</th><th>Motivo</th></tr></thead><tbody><tr><td>CT-008</td><td>SERVIÇOS JKL</td><td>15/10/2025</td><td>Solicitação do cliente</td></tr></tbody></table>'
                 },
@@ -334,9 +334,9 @@
                     titulo: 'Faturamento - Por Cliente (Top 10)',
                     conteudo: '<table class="relatorio-tabela"><thead><tr><th>Posição</th><th>Cliente</th><th>Qtd Documentos</th><th>Valor Total</th></tr></thead><tbody><tr><td>1º</td><td>METALÚRGICA GHI LTDA</td><td>18</td><td>R$ 234.567,00</td></tr><tr><td>2º</td><td>CONSTRUTORA ABC S/A</td><td>12</td><td>R$ 187.234,90</td></tr><tr><td>3º</td><td>INDÚSTRIA XYZ</td><td>10</td><td>R$ 145.678,50</td></tr></tbody></table>'
                 },
-                'fat-cancelaçãos': {
+                'fat-cancelados': {
                     titulo: 'Faturamento - Cancelados',
-                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Data</th><th>Documento</th><th>Cliente</th><th>Valor</th><th>Motivo</th></tr></thead><tbody><tr><td>08/12/2025</td><td>NFe 000338</td><td>DISTRIBUIDORA JKL</td><td>R$ 23.456,80</td><td>Erro nos daçãos</td></tr><tr><td>05/12/2025</td><td>NFSe 001248</td><td>SERVIÇOS MNO</td><td>R$ 5.600,00</td><td>Duplicidade</td></tr></tbody></table>'
+                    conteudo: '<table class="relatorio-tabela"><thead><tr><th>Data</th><th>Documento</th><th>Cliente</th><th>Valor</th><th>Motivo</th></tr></thead><tbody><tr><td>08/12/2025</td><td>NFe 000338</td><td>DISTRIBUIDORA JKL</td><td>R$ 23.456,80</td><td>Erro nos dados</td></tr><tr><td>05/12/2025</td><td>NFSe 001248</td><td>SERVIÇOS MNO</td><td>R$ 5.600,00</td><td>Duplicidade</td></tr></tbody></table>'
                 }
             };
 
@@ -409,13 +409,13 @@
             color: #64748b;
             margin-top: 2px;
         }
-        .daçãos-empresa {
+        .dados-empresa {
             text-align: right;
             font-size: 9px;
             color: #475569;
             line-height: 1.5;
         }
-        .daçãos-empresa strong { color: #1e293b; }
+        .dados-empresa strong { color: #1e293b; }
         
         /* Título do Relatório */
         .titulo-relatorio {
@@ -484,7 +484,7 @@
                 <p>CABOS DE ALUMÍNIO</p>
             </div>
         </div>
-        <div class="daçãos-empresa">
+        <div class="dados-empresa">
             <strong>I. M. DOS REIS - ALUFORCE INDÚSTRIA E COMÉRCIO DE CONDUTORES</strong><br>
             CNPJ: 08.192.479/0001-60 | IE: 103.385.861-110<br>
             RUA ERNESTINA, 270 - VILA SÃO JOÃO<br>
@@ -541,7 +541,7 @@
         }
     </script>
     <script src="dashboard-nfe-pro.jsv=20251217"></script>
-    <!-- Carregar daçãos do usuário logação -->
+    <!-- Carregar dados do usuário logação -->
     <script>
         async function carregarDaçãosUsuario() {
             try {

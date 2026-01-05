@@ -116,10 +116,9 @@ router.get('/alertas', async (req, res) => {
                         tipo: 'danger',
                         modulo: 'Financeiro',
                         icone: 'fa-exclamation-triangle',
-                        titulo: conta.tipo === 'pagar'  'Contas a Pagar Vencidas' : 'Contas a Receber Vencidas',
+                        titulo: conta.tipo === 'pagar' ? 'Contas a Pagar Vencidas' : 'Contas a Receber Vencidas',
                         mensagem: `${conta.quantidade} título(s) vencido(s) - R$ ${parseFloat(conta.valor_total || 0).toLocaleString('pt-BR', {minimumFractionDigits: 2})}`,
-                        link: conta.tipo === 'pagar' 
-                             '/modules/Financeiro/contas-pagar.htmlstatus=vencido'
+                        link: conta.tipo === 'pagar' ? '/modules/Financeiro/contas-pagar.htmlstatus=vencido'
                             : '/modules/Financeiro/contas-receber.htmlstatus=vencido',
                         prioridade: 1
                     });
@@ -361,7 +360,7 @@ router.post('/', async (req, res) => {
             INSERT INTO notificacoes (
                 titulo, mensagem, tipo, modulo, 
                 link, usuario_id, lida, created_at
-            ) VALUES (, , , , , , 0, NOW())
+            ) VALUES (?, ?, ?, ?, , , 0, NOW())
         `, [
             titulo,
             mensagem,

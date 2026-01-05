@@ -1,5 +1,5 @@
 /**
- * Script CORRIGIDO para SEED de daçãos iniciais - ALUFORCE
+ * Script CORRIGIDO para SEED de dados iniciais - ALUFORCE
  * Adapta-se automaticamente à estrutura real das tabelas
  */
 
@@ -202,7 +202,7 @@ async function executarSeedCorrigido() {
                         
                         await connection.execute(`
                             INSERT INTO estoque_saldos (${prodCol}, quantidade, estoque_minimo, estoque_maximo, data_atualizacao)
-                            VALUES (, , 5, , NOW())
+                            VALUES (?, ?, 5, , NOW())
                             ON DUPLICATE KEY UPDATE quantidade = VALUES(quantidade)
                         `, [prod.id, quantidade, quantidade * 2]);
                     }
@@ -213,7 +213,7 @@ async function executarSeedCorrigido() {
                         
                         await connection.execute(`
                             INSERT INTO estoque_saldos (codigo_produto, quantidade, estoque_minimo, estoque_maximo, data_atualizacao)
-                            VALUES (, , 5, , NOW())
+                            VALUES (?, ?, 5, , NOW())
                             ON DUPLICATE KEY UPDATE quantidade = VALUES(quantidade)
                         `, [prod.codigo, quantidade, quantidade * 2]);
                     }

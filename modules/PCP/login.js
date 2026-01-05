@@ -317,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Funcionalidade de mostrar/ocultar senha
   if (passwordToggle && passwordInput) {
     passwordToggle.addEventListener('click', () => {
-      const type = passwordInput.getAttribute('type') === 'password'  'text' : 'password';
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
       passwordInput.setAttribute('type', type);
       
       // Atualiza o ícone
@@ -497,7 +497,7 @@ document.addEventListener('DOMContentLoaded', () => {
     nextStep2.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
     
     try {
-      // Verificar daçãos do usuário
+      // Verificar dados do usuário
       const response = await fetch('/api/auth/verify-user-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -518,7 +518,7 @@ document.addEventListener('DOMContentLoaded', () => {
         showModalMessage(data.message || 'Daçãos não conferem com nossos registros.', 'error');
       }
     } catch (error) {
-      console.error('Erro ao verificar daçãos:', error);
+      console.error('Erro ao verificar dados:', error);
       showModalMessage('Erro de conexão. Tente novamente.', 'error');
     } finally {
       nextStep2.disabled = false;
@@ -654,7 +654,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Cria nova mensagem
     const messageDiv = document.createElement('div');
-    messageDiv.className = `modal-message ${type === 'success'  'success-message' : 'error-message'} visible`;
+    messageDiv.className = `modal-message ${type === 'success' ? 'success-message' : 'error-message'} visible`;
     messageDiv.textContent = message;
     
     // Adiciona após o cabeçalho
@@ -674,7 +674,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageDiv = errorMessageDiv;
     if (!messageDiv) return;
     
-    messageDiv.className = type === 'success'  'success-message visible' : 'error-message visible';
+    messageDiv.className = type === 'success' ? 'success-message visible' : 'error-message visible';
     messageDiv.textContent = message;
     
     // Remove a mensagem após 5 segundos
@@ -769,7 +769,7 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(msg);
       }
 
-      // Login bem-sucedido: salvar daçãos do usuário no localStorage
+      // Login bem-sucedido: salvar dados do usuário no localStorage
       if (data.userData) {
         const user = data.userData;
         const nomeCompleto = user.nome || user.nome_completo || user.name || 'Usuário';

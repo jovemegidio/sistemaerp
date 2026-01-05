@@ -4,7 +4,7 @@ const fs = require('fs');
 
 console.log('🎯 GERADOR EXCEL - MAPEAMENTO CORRETO FINAL');
 
-async function generateFromTemplate(daçãosOrdem) {
+async function generateFromTemplate(dadosOrdem) {
     try {
         console.log('\n📂 CARREGANDO TEMPLATE...');
         const templatePath = 'C:\\Users\\Administrator\\Documents\\Sistema - Aluforce v.2 - BETA\\modules\\PCP\\Ordem de Produção.xlsx';
@@ -54,25 +54,25 @@ async function generateFromTemplate(daçãosOrdem) {
         let novasStrings = [];
         let indiceProximaString = sharedStrings.length;
         
-        // Aplicar daçãos com posições corretas
-        const daçãosParaAplicar = {
-            [mapeamentoCorretoFinal.orcamento]: daçãosOrdem.orcamento || 'TESTE-CORRETO-FINAL',
-            [mapeamentoCorretoFinal.pedido]: daçãosOrdem.pedido || 'PED-CORRETO-FINAL',
-            [mapeamentoCorretoFinal.vendedor]: daçãosOrdem.vendedor || 'Vendedor Correto Final',
-            [mapeamentoCorretoFinal.cliente]: daçãosOrdem.cliente || 'CLIENTE MAPEAMENTO CORRETO FINAL',
-            [mapeamentoCorretoFinal.contato]: daçãosOrdem.contato || 'Contato Correto Final',
-            [mapeamentoCorretoFinal.fone]: daçãosOrdem.fone || '(11) 99999-9999',
-            [mapeamentoCorretoFinal.email]: daçãosOrdem.email || 'teste@email.com',
-            [mapeamentoCorretoFinal.prazoEntrega]: daçãosOrdem.prazoEntrega || '30/01/1900',
+        // Aplicar dados com posições corretas
+        const dadosParaAplicar = {
+            [mapeamentoCorretoFinal.orcamento]: dadosOrdem.orcamento || 'TESTE-CORRETO-FINAL',
+            [mapeamentoCorretoFinal.pedido]: dadosOrdem.pedido || 'PED-CORRETO-FINAL',
+            [mapeamentoCorretoFinal.vendedor]: dadosOrdem.vendedor || 'Vendedor Correto Final',
+            [mapeamentoCorretoFinal.cliente]: dadosOrdem.cliente || 'CLIENTE MAPEAMENTO CORRETO FINAL',
+            [mapeamentoCorretoFinal.contato]: dadosOrdem.contato || 'Contato Correto Final',
+            [mapeamentoCorretoFinal.fone]: dadosOrdem.fone || '(11) 99999-9999',
+            [mapeamentoCorretoFinal.email]: dadosOrdem.email || 'teste@email.com',
+            [mapeamentoCorretoFinal.prazoEntrega]: dadosOrdem.prazoEntrega || '30/01/1900',
             
-            [mapeamentoCorretoFinal.transpNome]: daçãosOrdem.transportaçãora.nome || 'Transportaçãora Teste',
-            [mapeamentoCorretoFinal.transpFone]: daçãosOrdem.transportaçãora.fone || '(00) 00000-0000',
-            [mapeamentoCorretoFinal.transpEndereco]: daçãosOrdem.transportaçãora.endereco || 'Endereço Teste',
-            [mapeamentoCorretoFinal.transpCep]: daçãosOrdem.transportaçãora.cep || '00000-000',
-            [mapeamentoCorretoFinal.transpEmail]: daçãosOrdem.transportaçãora.email || 'transp@teste.com'
+            [mapeamentoCorretoFinal.transpNome]: dadosOrdem.transportaçãora.nome || 'Transportaçãora Teste',
+            [mapeamentoCorretoFinal.transpFone]: dadosOrdem.transportaçãora.fone || '(00) 00000-0000',
+            [mapeamentoCorretoFinal.transpEndereco]: dadosOrdem.transportaçãora.endereco || 'Endereço Teste',
+            [mapeamentoCorretoFinal.transpCep]: dadosOrdem.transportaçãora.cep || '00000-000',
+            [mapeamentoCorretoFinal.transpEmail]: dadosOrdem.transportaçãora.email || 'transp@teste.com'
         };
         
-        Object.entries(daçãosParaAplicar).forEach(([celula, valor]) => {
+        Object.entries(dadosParaAplicar).forEach(([celula, valor]) => {
             console.log(`   📍 ${celula}: "${valor}"`);
             
             // Adicionar valor ao shared strings
@@ -110,10 +110,10 @@ async function generateFromTemplate(daçãosOrdem) {
         });
         
         // Aplicar produtos se fornecidos
-        if (daçãosOrdem.produtos && daçãosOrdem.produtos.length > 0) {
+        if (dadosOrdem.produtos && dadosOrdem.produtos.length > 0) {
             console.log('\n📦 APLICANDO PRODUTOS...');
             
-            daçãosOrdem.produtos.forEach((produto, index) => {
+            dadosOrdem.produtos.forEach((produto, index) => {
                 const linhaProduto = 17 + index; // Linha base dos produtos
                 
                 const celulasGerateProduto = {
@@ -229,8 +229,8 @@ function decodeXML(text) {
         .replace(/&apos;/g, "'");
 }
 
-// Teste com daçãos completos
-const daçãosTeste = {
+// Teste com dados completos
+const dadosTeste = {
     orcamento: 'ORC-FINAL-123',
     pedido: 'PED-FINAL-456',
     vendedor: 'João da Silva Final',
@@ -271,7 +271,7 @@ const daçãosTeste = {
 };
 
 console.log('\n🚀 GERANDO ARQUIVO COM MAPEAMENTO FINAL CORRETO...');
-generateFromTemplate(daçãosTeste)
+generateFromTemplate(dadosTeste)
     .then(arquivo => {
         console.log('\n🎉 PROCESSO CONCLUÍDO COM SUCESSO!');
         console.log('📁 Abra o arquivo geração no Excel para verificar se todos os campos estão corretos.');

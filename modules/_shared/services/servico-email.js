@@ -136,7 +136,7 @@ class ServicoEmail {
             <p><strong>Validade:</strong> ${orcamento.validade || '30 dias'}</p>
             <p><strong>Condição de Pagamento:</strong> ${orcamento.condicao_pagamento || 'A combinar'}</p>
             
-            ${orcamento.observacoes  `<p><strong>Observações:</strong> ${orcamento.observacoes}</p>` : ''}
+            ${orcamento.observacoes ? `<p><strong>Observações:</strong> ${orcamento.observacoes}</p>` : ''}
             
             <p style="margin-top: 20px;">Aguardamos seu retorno!</p>
         `;
@@ -292,7 +292,7 @@ class ServicoEmail {
                 <p><strong>Descrição:</strong> ${conta.descricao}</p>
                 <p><strong>Valor:</strong> ${this.formatarMoeda(conta.valor)}</p>
                 <p><strong>Vencimento:</strong> ${this.formatarData(conta.data_vencimento)}</p>
-                ${conta.numero_nf  `<p><strong>NF:</strong> ${conta.numero_nf}</p>` : ''}
+                ${conta.numero_nf ? `<p><strong>NF:</strong> ${conta.numero_nf}</p>` : ''}
             </div>
             
             <p>Caso já tenha efetuação o pagamento, por favor desconsidere este aviso.</p>
@@ -320,7 +320,7 @@ class ServicoEmail {
                 <p><strong>Descrição:</strong> ${conta.descricao}</p>
                 <p><strong>Valor Original:</strong> ${this.formatarMoeda(conta.valor)}</p>
                 <p><strong>Vencimento:</strong> ${this.formatarData(conta.data_vencimento)}</p>
-                ${conta.juros  `<p><strong>Juros/Multa:</strong> ${this.formatarMoeda(conta.juros + (conta.multa || 0))}</p>` : ''}
+                ${conta.juros ? `<p><strong>Juros/Multa:</strong> ${this.formatarMoeda(conta.juros + (conta.multa || 0))}</p>` : ''}
             </div>
             
             <p>Solicitamos a regularização do pagamento o mais breve possível.</p>
@@ -406,7 +406,7 @@ class ServicoEmail {
             <div style="background: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; margin: 20px 0;">
                 <p><strong>Período:</strong> ${this.formatarData(ferias.data_inicio)} a ${this.formatarData(ferias.data_fim)}</p>
                 <p><strong>Dias:</strong> ${ferias.dias_totais} dias</p>
-                ${ferias.abono  `<p><strong>Abono Pecuniário:</strong> ${ferias.dias_abono} dias</p>` : ''}
+                ${ferias.abono ? `<p><strong>Abono Pecuniário:</strong> ${ferias.dias_abono} dias</p>` : ''}
             </div>
             
             <p><strong>Data de Retorno:</strong> ${this.formatarData(ferias.data_retorno)}</p>

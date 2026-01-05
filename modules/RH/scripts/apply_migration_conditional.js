@@ -19,7 +19,7 @@ const columns = {
   naturalidade: 'VARCHAR(80)',
   filiacao_mae: 'VARCHAR(150)',
   filiacao_pai: 'VARCHAR(150)',
-  daçãos_conjuge: 'TEXT',
+  dados_conjuge: 'TEXT',
   zona_eleitoral: 'VARCHAR(60)',
   seção_eleitoral: 'VARCHAR(60)',
   ctps_numero: 'VARCHAR(60)',

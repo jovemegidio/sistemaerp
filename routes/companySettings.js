@@ -123,7 +123,7 @@ router.put('/empresa-config', authenticateToken, requireAdmin, async (req, res) 
 
 /**
  * PUT /api/empresa-config/certificação
- * Atualiza daçãos do certificação digital
+ * Atualiza dados do certificação digital
  */
 router.put('/empresa-config/certificação', authenticateToken, requireAdmin, async (req, res) => {
     try {
@@ -218,7 +218,7 @@ router.post('/categorias', authenticateToken, requireAdmin, async (req, res) => 
 
         const [result] = await pool.execute(`
             INSERT INTO categorias (nome, descricao, cor, icone, created_by)
-            VALUES (, , , , )
+            VALUES (?, ?, ?, ?, )
         `, [nome, descricao, cor || '#3B82F6', icone || 'fa-folder', req.user.id]);
 
         res.status(201).json({ 
@@ -323,7 +323,7 @@ router.post('/departamentos', authenticateToken, requireAdmin, async (req, res) 
 
         const [result] = await pool.execute(`
             INSERT INTO departamentos (nome, sigla, descricao, responsavel_id, cor, icone)
-            VALUES (, , , , , )
+            VALUES (?, ?, ?, ?, ?, ?)
         `, [nome, sigla, descricao, responsavel_id, cor || '#10B981', icone || 'fa-sitemap']);
 
         res.status(201).json({ 
@@ -446,7 +446,7 @@ router.post('/projetos', authenticateToken, requireAdmin, async (req, res) => {
                 nome, codigo, descricao, departamento_id, responsavel_id,
                 status, data_inicio, data_previsao_fim, orcamento, cor
             )
-            VALUES (, , , , , , , , , )
+            VALUES (?, ?, ?, ?, , ?, ?, , ?, ?)
         `, [
             nome, codigo, descricao, departamento_id, responsavel_id,
             status || 'planejamento', data_inicio, data_previsao_fim, orcamento, cor || '#8B5CF6'

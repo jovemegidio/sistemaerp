@@ -19,7 +19,7 @@
             margin: 0 auto;
             background: white;
             border-radius: 12px;
-            box-shaçãow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             overflow: hidden;
         }
         .header {
@@ -285,11 +285,11 @@
             event.target.classList.add('active');
         }
 
-        // Função para adicionar resultação
+        // Função para adicionar resultado
         function addResult(type, message, status) {
             const container = document.getElementById(`${type}-results`);
             const timestamp = new Date().toLocaleTimeString();
-            const icon = status === 'success'  '✅' : status === 'error'  '❌' : status === 'warning'  '⚠️' : 'ℹ️';
+            const icon = status === 'success' ? '✅' : status === 'error' ? '❌' : status === 'warning' ? '⚠️' : 'ℹ️';
             
             const result = document.createElement('div');
             result.className = esult ${status}`;
@@ -409,7 +409,7 @@
         function testModalExists() {
             const modal = document.getElementById('product-edit-modal');
             if (modal) {
-                addResult('frontend', 'Modal de edição encontração no DOM', 'success');
+                addResult('frontend', 'Modal de edição encontrado no DOM', 'success');
                 
                 // Verificar elementos do modal
                 const elements = [
@@ -424,13 +424,13 @@
                 elements.forEach(id => {
                     const element = document.getElementById(id);
                     if (element) {
-                        addResult('frontend', `Elemento ${id} encontração`, 'success');
+                        addResult('frontend', `Elemento ${id} encontrado`, 'success');
                     } else {
-                        addResult('frontend', `Elemento ${id} não encontração`, 'error');
+                        addResult('frontend', `Elemento ${id} não encontrado`, 'error');
                     }
                 });
             } else {
-                addResult('frontend', 'Modal de edição não encontração', 'error');
+                addResult('frontend', 'Modal de edição não encontrado', 'error');
             }
         }
 
@@ -462,7 +462,7 @@
                     addResult('frontend', `${test.description}: ${hasBackground ? 'Estilização' : 'Sem estilo'}`, 
                         hasBackground ? 'success' : 'warning');
                 } else {
-                    addResult('frontend', `${test.description}: Elementos não encontraçãos`, 'warning');
+                    addResult('frontend', `${test.description}: Elementos não encontrados`, 'warning');
                 }
             });
         }
@@ -524,9 +524,9 @@
             // Implementar verificação de SKUs
         }
 
-        // Testar integridade dos daçãos
+        // Testar integridade dos dados
         function testDataIntegrity() {
-            addResult('database', 'Verificando integridade dos daçãos...', 'info');
+            addResult('database', 'Verificando integridade dos dados...', 'info');
             // Implementar verificações de integridade
         }
 
@@ -534,7 +534,7 @@
         async function testFileExists(filename) {
             try {
                 const response = await fetch(filename, { method: 'HEAD' });
-                addResult('files', `${filename}: ${response.ok ? 'Existe' : 'Não encontração'}`, 
+                addResult('files', `${filename}: ${response.ok ? 'Existe' : 'Não encontrado'}`, 
                     response.ok ? 'success' : 'error');
             } catch (error) {
                 addResult('files', `${filename}: Erro ao verificar`, 'error');

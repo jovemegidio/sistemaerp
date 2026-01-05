@@ -52,7 +52,7 @@
         .header-btn:hover { background: rgba(255,255,255,0.1); color: white; }
         .header-btn .notification-badge { position: absolute; top: 4px; right: 4px; min-width: 16px; height: 16px; background: #ef4444; border-radius: 10px; color: white; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; padding: 0 4px; }
         .notification-container { position: relative; }
-        .notification-panel { position: absolute; top: calc(100% + 12px); right: 0; width: 380px; max-height: 500px; background: white; border-radius: 12px; box-shaçãow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; display: none; overflow: hidden; }
+        .notification-panel { position: absolute; top: calc(100% + 12px); right: 0; width: 380px; max-height: 500px; background: white; border-radius: 12px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); z-index: 10000; display: none; overflow: hidden; }
         .notification-panel.active { display: block; }
         .notification-header { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px; background: linear-gradient(135deg, #84cc16, #65a30d); color: white; }
         .notification-header h3 { margin: 0; font-size: 16px; font-weight: 600; }
@@ -93,7 +93,7 @@
 
         /* KPI CARDS */
         .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 24px; }
-        .kpi-card { background: white; border-radius: 16px; padding: 24px; box-shaçãow: 0 1px 3px rgba(0,0,0,0.05); }
+        .kpi-card { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .kpi-card.highlight { background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%); color: white; }
         .kpi-card.highlight .kpi-content h3 { color: rgba(255,255,255,0.8); }
         .kpi-card.highlight .kpi-icon { background: rgba(255,255,255,0.2); color: white; }
@@ -118,7 +118,7 @@
         .main-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-bottom: 24px; }
 
         /* CARD */
-        .card { background: white; border-radius: 16px; box-shaçãow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
+        .card { background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); overflow: hidden; }
         .card-header { padding: 20px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
         .card-header h3 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
         .card-header h3 i { color: var(--primary-blue); }
@@ -130,7 +130,7 @@
         /* RESUMO DIARIO */
         .resumo-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; }
         .dia-card { background: var(--bg-gray); border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.2s; }
-        .dia-card:hover { transform: translateY(-2px); box-shaçãow: 0 4px 12px rgba(0,0,0,0.1); }
+        .dia-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
         .dia-card.hoje { border: 2px solid var(--primary-blue); background: rgba(30,64,175,0.05); }
         .dia-card .dia-semana { font-size: 11px; color: var(--text-secondary); margin-bottom: 4px; }
         .dia-card .dia-numero { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
@@ -192,7 +192,7 @@
         .modal-container {
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             width: 95%;
             max-width: 560px;
             max-height: 90vh;
@@ -490,7 +490,7 @@
         .form-group select:focus {
             outline: none;
             border-color: var(--primary-blue);
-            box-shaçãow: 0 0 0 3px rgba(132, 204, 22, 0.1);
+            box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.1);
         }
         .form-row {
             display: grid;
@@ -541,7 +541,7 @@
         }
         .projecao-item:hover {
             transform: translateX(4px);
-            box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
     </style></head>
 <body>
@@ -831,14 +831,14 @@
             const html = projecoes.slice(0, 6).map((p, index) => `
                 <div class="projecao-item" onclick="abrirModalEditarProjecao(${index})" title="Clique para editar">
                     <div class="projecao-icon ${p.tipo}">
-                        <i class="fas fa-arrow-${p.tipo === 'entrada'  'down' : 'up'}"></i>
+                        <i class="fas fa-arrow-${p.tipo === 'entrada' ? 'down' : 'up'}"></i>
                     </div>
                     <div class="projecao-info">
                         <h4>${p.descricao}</h4>
                         <span>${formatarData(p.data)}</span>
                     </div>
-                    <div class="projecao-valor ${p.tipo === 'entrada'  'positivo' : 'negativo'}">
-                        ${p.tipo === 'entrada'  '+' : '-'}${formatarMoeda(p.valor)}
+                    <div class="projecao-valor ${p.tipo === 'entrada' ? 'positivo' : 'negativo'}">
+                        ${p.tipo === 'entrada' ? '+' : '-'}${formatarMoeda(p.valor)}
                     </div>
                 </div>
             `).join('');
@@ -857,12 +857,12 @@
                         <td>${m.categoria}</td>
                         <td>
                             <span class="tipo-badge ${m.tipo}">
-                                <i class="fas fa-arrow-${m.tipo === 'entrada'  'down' : 'up'}"></i>
-                                ${m.tipo === 'entrada'  'Entrada' : 'Saída'}
+                                <i class="fas fa-arrow-${m.tipo === 'entrada' ? 'down' : 'up'}"></i>
+                                ${m.tipo === 'entrada' ? 'Entrada' : 'Saída'}
                             </span>
                         </td>
-                        <td class="valor-cell ${m.tipo === 'entrada'  'positivo' : 'negativo'}">
-                            ${m.tipo === 'entrada'  '+' : '-'}${formatarMoeda(m.valor)}
+                        <td class="valor-cell ${m.tipo === 'entrada' ? 'positivo' : 'negativo'}">
+                            ${m.tipo === 'entrada' ? '+' : '-'}${formatarMoeda(m.valor)}
                         </td>
                         <td><strong>${formatarMoeda(saldo)}</strong></td>
                     </tr>
@@ -876,7 +876,7 @@
         function inicializarGrafico() {
             const ctx = document.getElementById('fluxoChart').getContext('2d');
             
-            // Gerar daçãos para o gráfico
+            // Gerar dados para o gráfico
             const labels = [];
             const entradasData = [];
             const saidasData = [];
@@ -983,7 +983,7 @@
             periodoAtual = periodo;
             document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            // Aqui atualizaria os daçãos baseado no período
+            // Aqui atualizaria os dados baseado no período
             console.log('Período alteração para:', periodo);
         }
 
@@ -1013,14 +1013,14 @@
                 listaContainer.innerHTML = movsDia.map(m => `
                     <div class="movimentacao-item">
                         <div class="icon ${m.tipo}">
-                            <i class="fas fa-arrow-${m.tipo === 'entrada'  'down' : 'up'}"></i>
+                            <i class="fas fa-arrow-${m.tipo === 'entrada' ? 'down' : 'up'}"></i>
                         </div>
                         <div class="info">
                             <h5>${m.descricao}</h5>
                             <span>${m.categoria || 'Projeção'}</span>
                         </div>
-                        <div class="valor ${m.tipo === 'entrada'  'verde' : 'vermelho'}">
-                            ${m.tipo === 'entrada'  '+' : '-'}${formatarMoeda(m.valor)}
+                        <div class="valor ${m.tipo === 'entrada' ? 'verde' : 'vermelho'}">
+                            ${m.tipo === 'entrada' ? '+' : '-'}${formatarMoeda(m.valor)}
                         </div>
                     </div>
                 `).join('');
@@ -1104,7 +1104,7 @@
             
             // Mostrar feedback
             const toast = document.createElement('div');
-            toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #22c55e; color: white; padding: 16px 24px; border-radius: 10px; font-weight: 600; z-index: 10001; display: flex; align-items: center; gap: 10px; box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);';
+            toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #22c55e; color: white; padding: 16px 24px; border-radius: 10px; font-weight: 600; z-index: 10001; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
             toast.innerHTML = `<i class="fas fa-check-circle"></i> Exportando ${formatoNomes[exportConfig.formato]} - ${periodoNomes[exportConfig.periodo]}...`;
             document.body.appendChild(toast);
             
@@ -1205,7 +1205,7 @@
             
             // Toast de sucesso
             const toast = document.createElement('div');
-            toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #22c55e; color: white; padding: 16px 24px; border-radius: 10px; font-weight: 600; z-index: 10001; display: flex; align-items: center; gap: 10px; box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);';
+            toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #22c55e; color: white; padding: 16px 24px; border-radius: 10px; font-weight: 600; z-index: 10001; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
             toast.innerHTML = `<i class="fas fa-check-circle"></i> Projeção ${projecaoEditandoIndex !== null ? 'atualizada' : 'adicionada'} com sucesso!`;
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
@@ -1225,7 +1225,7 @@
                 
                 // Toast
                 const toast = document.createElement('div');
-                toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #ef4444; color: white; padding: 16px 24px; border-radius: 10px; font-weight: 600; z-index: 10001; display: flex; align-items: center; gap: 10px; box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);';
+                toast.style.cssText = 'position: fixed; bottom: 24px; right: 24px; background: #ef4444; color: white; padding: 16px 24px; border-radius: 10px; font-weight: 600; z-index: 10001; display: flex; align-items: center; gap: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);';
                 toast.innerHTML = '<i class="fas fa-trash"></i> Projeção excluída';
                 document.body.appendChild(toast);
                 setTimeout(() => toast.remove(), 3000);

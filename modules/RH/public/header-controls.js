@@ -311,7 +311,7 @@ class HeaderControls {
             }, 500);
         }
 
-        // Recarregar daçãos da seção específica
+        // Recarregar dados da seção específica
         switch(sectionId) {
             case 'funcionarios-section':
                 this.refreshFuncionarios();
@@ -333,7 +333,7 @@ class HeaderControls {
     // Refresh específico para funcionários
     refreshFuncionarios() {
         console.log('👥 Atualizando funcionários...');
-        // Simular carregamento de daçãos
+        // Simular carregamento de dados
         const grid = document.getElementById('funcionarios-grid');
         if (grid) {
             grid.style.opacity = '0.5';
@@ -384,7 +384,7 @@ class HeaderControls {
                 widget.style.opacity = '1';
             });
             
-            // Recarregar daçãos do dashboard se disponível
+            // Recarregar dados do dashboard se disponível
             if (typeof window.loadDashboardData === 'function') {
                 window.loadDashboardData();
             }
@@ -509,7 +509,7 @@ class HeaderControls {
             padding: 12px 16px;
             border-radius: 8px;
             margin-bottom: 8px;
-            box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             animation: slideInRight 0.3s ease;
             font-size: 14px;
             font-weight: 500;
@@ -588,7 +588,7 @@ function addToastStyles() {
             background: white !important;
             border-radius: 8px !important;
             overflow: hidden !important;
-            box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
         }
         
         .data-table th,
@@ -626,7 +626,7 @@ function addToastStyles() {
             max-height: 400px !important;
             background: white !important;
             border-radius: 12px !important;
-            box-shaçãow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
             border: 1px solid #e5e7eb !important;
             z-index: 10000 !important;
             overflow: hidden !important;

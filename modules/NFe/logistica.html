@@ -273,7 +273,7 @@
                             <tbody id="tabela-logistica">
                                 <tr>
                                     <td colspan="9" class="text-center">
-                                        <p class="text-muted">Nenhum pedido encontração. Clique em "Atualizar" para carregar os daçãos.</p>
+                                        <p class="text-muted">Nenhum pedido encontrado. Clique em "Atualizar" para carregar os dados.</p>
                                     </td>
                                 </tr>
                             </tbody>
@@ -393,7 +393,7 @@
         function openModal(id) { document.getElementById(id).classList.add('active'); }
         function closeModal(id) { document.getElementById(id).classList.remove('active'); }
 
-        // Carregar daçãos do dashboard
+        // Carregar dados do dashboard
         async function carregarDashboard() {
             try {
                 const response = await fetch('/api/logistica/dashboard', { credentials: 'include' });
@@ -452,7 +452,7 @@
                         <td colspan="9" class="text-center">
                             <div style="padding: 40px 20px;">
                                 <i class="fas fa-box-open" style="font-size: 48px; color: #cbd5e1; margin-bottom: 16px;"></i>
-                                <p class="text-muted">Nenhum pedido faturado encontração para logística.</p>
+                                <p class="text-muted">Nenhum pedido faturado encontrado para logística.</p>
                             </div>
                         </td>
                     </tr>
@@ -463,8 +463,8 @@
             tbody.innerHTML = pedidos.map(p => `
                 <tr data-id="${p.id}">
                     <td>
-                        <span class="priority-${p.prioridade === 'alta' || p.prioridade === 'urgente'  'high' : p.prioridade === 'normal'  'medium' : 'low'}">
-                            <i class="fas fa-${p.prioridade === 'alta' || p.prioridade === 'urgente'  'exclamation-circle' : p.prioridade === 'normal'  'minus-circle' : 'arrow-down'}"></i>
+                        <span class="priority-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'high' : p.prioridade === 'normal' ? 'medium' : 'low'}">
+                            <i class="fas fa-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'exclamation-circle' : p.prioridade === 'normal' ? 'minus-circle' : 'arrow-down'}"></i>
                             ${p.prioridade  p.prioridade.charAt(0).toUpperCase() + p.prioridade.slice(1) : 'Normal'}
                         </span>
                     </td>
@@ -647,7 +647,7 @@
 
         function atualizarLista() {
             if (typeof showToast === 'function') {
-                showToast('Atualizando daçãos...', 'info', 2000);
+                showToast('Atualizando dados...', 'info', 2000);
             }
             carregarDashboard();
             carregarPedidos();
@@ -695,7 +695,7 @@
                 tbody.innerHTML = `
                     <tr>
                         <td colspan="9" class="text-center">
-                            <p class="text-muted">Nenhum pedido encontração. Clique em "Atualizar" para carregar os daçãos.</p>
+                            <p class="text-muted">Nenhum pedido encontrado. Clique em "Atualizar" para carregar os dados.</p>
                         </td>
                     </tr>
                 `;
@@ -705,8 +705,8 @@
             tbody.innerHTML = pedidos.map(p => `
                 <tr>
                     <td>
-                        <span class="priority-${p.prioridade === 'alta' || p.prioridade === 'urgente'  'high' : p.prioridade === 'normal'  'medium' : 'low'}">
-                            <i class="fas fa-${p.prioridade === 'alta' || p.prioridade === 'urgente'  'exclamation-circle' : p.prioridade === 'normal'  'minus-circle' : 'arrow-down'}"></i>
+                        <span class="priority-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'high' : p.prioridade === 'normal' ? 'medium' : 'low'}">
+                            <i class="fas fa-${p.prioridade === 'alta' || p.prioridade === 'urgente' ? 'exclamation-circle' : p.prioridade === 'normal' ? 'minus-circle' : 'arrow-down'}"></i>
                             ${p.prioridade || 'Normal'}
                         </span>
                     </td>
@@ -944,7 +944,7 @@
     </script>
     <script src="dashboard-nfe-pro.jsv=20251217"></script>
     <script>
-        // Carregar daçãos do usuário com avatar
+        // Carregar dados do usuário com avatar
         async function carregarDaçãosUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });

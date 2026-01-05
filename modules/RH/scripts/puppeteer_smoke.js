@@ -213,7 +213,7 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
         // navigate according to role
         const roleRaw = data.userData && (data.userData.role || data.userData.cargo || '')
         const role = String(roleRaw || '').toLowerCase().trim()
-        window.location.href = role === 'admin'  'areaadm.html' : 'area.html'
+        window.location.href = role === 'admin' ? 'areaadm.html' : 'area.html'
         return { ok: true }
       }).catch(err => { throw err })
       /* eslint-enable no-undef */

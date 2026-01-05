@@ -207,7 +207,7 @@ app.get('/favicon.ico', (req, res) => {
     res.sendFile(path.join(__dirname, 'Favicon Aluforce.webp'));
 });
 
-// Static files will be served after API route registration to avoid static fallback shaçãowing API endpoints.
+// Static files will be served after API route registration to avoid static fallback shadowing API endpoints.
 // (See later insertion before API 404 handler.)
 
 // Simple in-memory session store (for dev). Keys are session ids stored in cookie 'pcp_session'
@@ -317,13 +317,13 @@ app.get('/api/pcp/clientes', async (req, res) => {
         const sql = `SELECT id, nome, razao_social, nome_fantasia, cnpj_cpf, contato, email, telefone, 
                             endereco, cidade, estação, cep
                      FROM clientes 
-                     WHERE (nome LIKE  OR razao_social LIKE  OR nome_fantasia LIKE  OR cnpj_cpf LIKE ) 
+                     WHERE (nome LIKE ? OR razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj_cpf LIKE ?) 
                      ORDER BY COALESCE(nome, razao_social, nome_fantasia) 
                      LIMIT 20`;
         const [rows] = await db.query(sql, [like, like, like, like]);
         
         if (Array.isArray(rows) && rows.length) {
-            const resultação = rows.map(r => ({
+            const resultado = rows.map(r => ({
                 id: r.id,
                 nome: r.nome || r.razao_social || r.nome_fantasia || '',
                 razao_social: r.razao_social || '',
@@ -337,7 +337,7 @@ app.get('/api/pcp/clientes', async (req, res) => {
                 estação: r.estação || '',
                 cep: r.cep || ''
             }));
-            return res.json(resultação);
+            return res.json(resultado);
         }
         
         // Fallback: buscar em outras tabelas se necessário
@@ -352,7 +352,7 @@ app.get('/api/pcp/clientes', async (req, res) => {
 app.get('/api/pcp/transportaçãoras', async (req, res) => {
     const q = (req.query.q || '').toString().trim();
     if (!q) {
-        // Se query vazia, retornar daçãos estáticos
+        // Se query vazia, retornar dados estáticos
         const fallback = [
             { nome: 'Transportaçãora Rápida Ltda', cnpj: '12.345.678/0001-90', email: 'contato@rapida.com', telefone: '(11) 98765-4321', endereco: 'Av. Principal, 1000, São Paulo - SP', cep: '01234-567' },
             { nome: 'Logística Express', cnpj: '98.765.432/0001-10', email: 'express@logistica.com', telefone: '(21) 91234-5678', endereco: 'Rua das Flores, 500, Rio de Janeiro - RJ', cep: '20123-456' },
@@ -365,13 +365,13 @@ app.get('/api/pcp/transportaçãoras', async (req, res) => {
         // Buscar na tabela transportaçãoras usando campos corretos
         const sql = `SELECT id, razao_social, nome_fantasia, cnpj_cpf, email, telefone, bairro, cidade, estação, contato
                      FROM transportaçãoras 
-                     WHERE (razao_social LIKE  OR nome_fantasia LIKE  OR cnpj_cpf LIKE ) 
+                     WHERE (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj_cpf LIKE ?) 
                      ORDER BY COALESCE(razao_social, nome_fantasia) 
                      LIMIT 20`;
         const [rows] = await db.query(sql, [like, like, like]);
         
         if (Array.isArray(rows) && rows.length) {
-            const resultação = rows.map(r => {
+            const resultado = rows.map(r => {
                 const endereco = [r.bairro, r.cidade, r.estação].filter(Boolean).join(', ');
                 return {
                     id: r.id,
@@ -385,13 +385,13 @@ app.get('/api/pcp/transportaçãoras', async (req, res) => {
                     estação: r.estação || ''
                 };
             });
-            return res.json(resultação);
+            return res.json(resultado);
         }
         
         return res.json([]);
     } catch (error) {
         logger.error('Erro na busca de transportaçãoras:', error);
-        // Retornar daçãos estáticos como fallback
+        // Retornar dados estáticos como fallback
         const fallback = [
             { nome: 'Transportaçãora Rápida Ltda', cnpj: '12.345.678/0001-90', email: 'contato@rapida.com', telefone: '(11) 98765-4321', endereco: 'Av. Principal, 1000, São Paulo - SP', cep: '01234-567' },
             { nome: 'Logística Express', cnpj: '98.765.432/0001-10', email: 'express@logistica.com', telefone: '(21) 91234-5678', endereco: 'Rua das Flores, 500, Rio de Janeiro - RJ', cep: '20123-456' }
@@ -407,7 +407,7 @@ app.post('/api/pcp/login', authLimiter, validateRequired(['email', 'password']),
         logger.debug(`[LOGIN] attempt for identifier=${email}`);
         
         // For this database, we only have 'email' as identifier column
-        const sql = `SELECT * FROM usuarios_pcp WHERE email =  LIMIT 1`;
+        const sql = `SELECT * FROM usuarios_pcp WHERE email = ? LIMIT 1`;
         const [rows] = await db.query(sql, [email]);
         
         if (!rows || rows.length === 0) {
@@ -418,7 +418,7 @@ app.post('/api/pcp/login', authLimiter, validateRequired(['email', 'password']),
         const user = rows[0];
         logger.debug('[LOGIN] found user id=', user.id, 'email=', user.email);
         const stored = (user.senha || user.password || '').toString();
-        const masked = stored  `${stored.slice(0,4)}...len=${stored.length}` : '(empty)';
+        const masked = stored ? `${stored.slice(0,4)}...len=${stored.length}` : '(empty)';
         logger.debug('[LOGIN] stored password meta=', masked);
 
         // If bcrypt is available and stored password looks like a bcrypt hash, prefer bcrypt compare
@@ -480,7 +480,7 @@ app.post('/api/auth/verify-email', async (req, res) => {
         
         for (const col of identifierCols) {
             try {
-                const sql = `SELECT id, email, nome, departamento FROM usuarios_pcp WHERE ${col} =  LIMIT 1`;
+                const sql = `SELECT id, email, nome, departamento FROM usuarios_pcp WHERE ${col} = ? LIMIT 1`;
                 const [rows] = await db.query(sql, [email]);
                 if (rows && rows.length > 0) { 
                     user = rows[0]; 
@@ -511,7 +511,7 @@ app.post('/api/auth/verify-email', async (req, res) => {
     }
 });
 
-// Rota 2: Verificar daçãos do usuário (nome e departamento)
+// Rota 2: Verificar dados do usuário (nome e departamento)
 app.post('/api/auth/verify-user-data', async (req, res) => {
     const { userId, name, department } = req.body;
     
@@ -522,9 +522,9 @@ app.post('/api/auth/verify-user-data', async (req, res) => {
             return res.status(400).json({ message: 'Daçãos incompletos.' });
         }
         
-        // Buscar usuário e verificar daçãos
+        // Buscar usuário e verificar dados
         const [rows] = await db.query(
-            'SELECT id, nome, departamento FROM usuarios_pcp WHERE id =  LIMIT 1',
+            'SELECT id, nome, departamento FROM usuarios_pcp WHERE id = ? LIMIT 1',
             [userId]
         );
         
@@ -550,7 +550,7 @@ app.post('/api/auth/verify-user-data', async (req, res) => {
         if (!nameMatch || !deptMatch) {
             console.log(`[PASSWORD_RESET] data mismatch for user ${userId}: name=${nameMatch}, dept=${deptMatch}`);
             return res.status(400).json({ 
-                message: 'Os daçãos não conferem com nossos registros. Verifique o nome completo e departamento.' 
+                message: 'Os dados não conferem com nossos registros. Verifique o nome completo e departamento.' 
             });
         }
         
@@ -559,7 +559,7 @@ app.post('/api/auth/verify-user-data', async (req, res) => {
         
     } catch (error) {
         console.error('[PASSWORD_RESET] verify data error:', error);
-        res.status(500).json({ message: 'Erro no servidor ao verificar daçãos.' });
+        res.status(500).json({ message: 'Erro no servidor ao verificar dados.' });
     }
 });
 
@@ -580,7 +580,7 @@ app.post('/api/auth/change-password', async (req, res) => {
         
         // Verificar se usuário existe
         const [userRows] = await db.query(
-            'SELECT id FROM usuarios_pcp WHERE id =  LIMIT 1',
+            'SELECT id FROM usuarios_pcp WHERE id = ? LIMIT 1',
             [userId]
         );
         
@@ -631,7 +631,7 @@ app.post('/api/auth/change-password', async (req, res) => {
         // Log da alteração para auditoria
         try {
             await db.query(
-                'INSERT INTO audit_log (user_id, action, details, created_at) VALUES (, , , NOW())',
+                'INSERT INTO audit_log (user_id, action, details, created_at) VALUES (?, ?, , NOW())',
                 [userId, 'PASSWORD_RESET', `Password reset via recovery process for email: ${email}`]
             );
         } catch (auditError) {
@@ -659,7 +659,7 @@ app.get('/api/pcp/dashboard', authRequired, async (req, res) => {
         res.json({ totals: totals[0], recentPedidos: pedidos });
     } catch (err) {
         logger.error('Dashboard error:', err.message);
-        res.status(500).json({ message: 'Erro ao buscar daçãos do dashboard.' });
+        res.status(500).json({ message: 'Erro ao buscar dados do dashboard.' });
     }
 });
 
@@ -721,7 +721,7 @@ app.get('/api/pcp/produtos/gtin/:gtin', async (req, res) => {
     try {
         const { gtin } = req.params;
         const [rows] = await db.query(
-            "SELECT * FROM produtos WHERE gtin =  LIMIT 1", 
+            "SELECT * FROM produtos WHERE gtin = ? LIMIT 1", 
             [gtin]
         );
         
@@ -741,7 +741,7 @@ app.get('/api/pcp/produtos/sku/:sku', async (req, res) => {
     try {
         const { sku } = req.params;
         const [rows] = await db.query(
-            "SELECT * FROM produtos WHERE sku =  LIMIT 1", 
+            "SELECT * FROM produtos WHERE sku = ? LIMIT 1", 
             [sku]
         );
         
@@ -842,7 +842,7 @@ app.post('/api/pcp/ordens', async (req, res) => {
         }
 
         // If there's a JSON / extras column available in the table, store extras there
-        const jsonCandidates = ['extra', 'extras', 'meta', 'metadata', 'daçãos', 'detalhes', 'details'];
+        const jsonCandidates = ['extra', 'extras', 'meta', 'metadata', 'dados', 'detalhes', 'details'];
         let usedJsonField = null;
         for (const jc of jsonCandidates) {
             if (cols.includes(jc)) { usedJsonField = jc; break; }
@@ -897,7 +897,7 @@ app.put('/api/pcp/ordens/:id/status', async (req, res) => {
 // Rota para criar um novo material
 app.post('/api/pcp/materiais', async (req, res) => {
     const { codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao } = req.body;
-    const sql = "INSERT INTO materiais (codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao) VALUES (, , , , )";
+    const sql = "INSERT INTO materiais (codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao) VALUES (?, ?, ?, ?, )";
     try {
         const [result] = await db.query(sql, [codigo_material, descricao, unidade_medida, quantidade_estoque, fornecedor_padrao]);
     res.status(201).json({ message: "Material criado com sucesso!", id: result.insertId });
@@ -968,7 +968,7 @@ app.get('/api/pcp/produtos', async (req, res) => {
                 rows = [];
                 total = 0;
             } else {
-                const sql = `SELECT * FROM produtos WHERE ${whereParts.join(' OR ')} ORDER BY ${orderColumn} ASC LIMIT  OFFSET `;
+                const sql = `SELECT * FROM produtos WHERE ${whereParts.join(' OR ')} ORDER BY ${orderColumn} ASC LIMIT ? OFFSET `;
                 params.push(limit, offset);
                 const [rs] = await db.query(sql, params);
                 rows = rs;
@@ -978,7 +978,7 @@ app.get('/api/pcp/produtos', async (req, res) => {
                 total = countRes && countRes[0]  countRes[0].total : 0;
             }
         } else {
-            const sql = `SELECT * FROM produtos ORDER BY ${orderColumn} ASC LIMIT  OFFSET `;
+            const sql = `SELECT * FROM produtos ORDER BY ${orderColumn} ASC LIMIT ? OFFSET `;
             console.log('[API_PRODUTOS] Executando query:', sql, [limit, offset]);
             const [rs] = await db.query(sql, [limit, offset]);
             rows = rs;
@@ -1066,7 +1066,7 @@ app.get('/api/pcp/ordens-kanban', async (req, res) => {
             console.log('[API_ORDENS_KANBAN] Tabela criada com sucesso');
         }
 
-        // Busca daçãos
+        // Busca dados
         const [rows] = await db.query(`
             SELECT 
                 id, numero, status, status_texto as statusTexto, produto, descricao, 
@@ -1108,7 +1108,7 @@ app.post('/api/pcp/ordens-kanban', async (req, res) => {
         const [result] = await db.query(`
             INSERT INTO ordens_producao_kanban 
             (numero, status, status_texto, produto, descricao, codigo, data_conclusao, quantidade, produzido, unidade, observacoes)
-            VALUES (, 'a_produzir', , , , , , , 0, , )
+            VALUES (?, 'a_produzir', ?, ?, , ?, ?, , 0, ?, ?)
         `, [numero, statusTexto, produto, descricao || '', codigo || '', dataConclusao, quantidade, unidade || 'M', observacoes || '']);
 
         const novaOrdem = {
@@ -1182,8 +1182,8 @@ app.get('/api/pcp/ordens-producao', async (req, res) => {
         const [tables] = await db.query("SHOW TABLES LIKE 'ordens_producao'");
         
         if (!tables || tables.length === 0) {
-            console.log('[API_ORDENS_PRODUCAO] Tabela não existe, retornando daçãos de exemplo');
-            // Retorna daçãos de exemplo para teste
+            console.log('[API_ORDENS_PRODUCAO] Tabela não existe, retornando dados de exemplo');
+            // Retorna dados de exemplo para teste
             const ordensExemplo = [
                 {
                     id: 1,
@@ -1259,7 +1259,7 @@ app.get('/api/pcp/ordens-producao', async (req, res) => {
             });
         }
 
-        // Se a tabela existe, busca os daçãos reais
+        // Se a tabela existe, busca os dados reais
         const [rows] = await db.query(`
             SELECT 
                 id, codigo, produto_nome, quantidade, unidade,
@@ -1308,7 +1308,7 @@ app.post('/api/pcp/ordens-producao', async (req, res) => {
             INSERT INTO ordens_producao 
             (codigo, produto_nome, quantidade, unidade, status, prioridade, 
              data_inicio, data_prevista, responsavel, progresso, observacoes)
-            VALUES (, , , , , , , , , 0, )
+            VALUES (?, ?, ?, ?, , ?, ?, , , 0, )
         `, [codigo, produto_nome, quantidade, unidade, status, prioridade, 
             data_inicio, data_prevista, responsavel, observacoes]);
 
@@ -1392,8 +1392,8 @@ app.get('/api/pcp/faturamentos', async (req, res) => {
         const [tables] = await db.query("SHOW TABLES LIKE 'programacao_faturamento'");
         
         if (!tables || tables.length === 0) {
-            console.log('[API_FATURAMENTOS] Tabela não existe, retornando daçãos de exemplo');
-            // Retorna daçãos de exemplo para teste
+            console.log('[API_FATURAMENTOS] Tabela não existe, retornando dados de exemplo');
+            // Retorna dados de exemplo para teste
             const faturamentosExemplo = [
                 {
                     id: 1,
@@ -1470,7 +1470,7 @@ app.get('/api/pcp/faturamentos', async (req, res) => {
             });
         }
 
-        // Se a tabela existe, busca os daçãos reais
+        // Se a tabela existe, busca os dados reais
         const [rows] = await db.query(`
             SELECT 
                 id, numero, cliente_nome, valor, status, tipo,
@@ -1517,7 +1517,7 @@ app.post('/api/pcp/faturamentos', async (req, res) => {
         const [result] = await db.query(`
             INSERT INTO programacao_faturamento 
             (numero, cliente_nome, valor, status, tipo, data_programada, observacoes)
-            VALUES (, , , , , , )
+            VALUES (?, ?, ?, ?, , ?, ?)
         `, [numero, cliente_nome, valor, status, tipo, data_programada, observacoes]);
 
         console.log('[API_FATURAMENTOS] Faturamento criado com ID:', result.insertId);
@@ -1633,7 +1633,7 @@ app.post('/api/pcp/produtos', async (req, res) => {
         const sql = `INSERT INTO produtos 
             (codigo, nome, descricao, sku, gtin, variacao, marca, categoria, unidade, 
              preco_custo, preco_venda, estoque_atual, estoque_minimo, estoque_maximo) 
-            VALUES (, , , , , , , , , , , , , )`;
+            VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, )`;
             
         const values = [
             codigo, 
@@ -2016,9 +2016,9 @@ async function gerarCatalogoMateriais() {
                     Estoque: ${estoqueAtual} ${material.unidade || 'UN'}
                     <span class="estoque-status ${estoqueClass}">${estoqueText}</span>
                 </div>
-                ${material.custo  `<div class="material-info">Custo: R$ ${parseFloat(material.custo).toFixed(2)}</div>` : ''}
-                ${material.fornecedor  `<div class="material-info">Fornecedor: ${material.fornecedor}</div>` : ''}
-                ${material.localizacao  `<div class="material-info">Localização: ${material.localizacao}</div>` : ''}
+                ${material.custo ? `<div class="material-info">Custo: R$ ${parseFloat(material.custo).toFixed(2)}</div>` : ''}
+                ${material.fornecedor ? `<div class="material-info">Fornecedor: ${material.fornecedor}</div>` : ''}
+                ${material.localizacao ? `<div class="material-info">Localização: ${material.localizacao}</div>` : ''}
             </div>`;
         }).join('')}
     </div>
@@ -2100,7 +2100,7 @@ app.put('/api/pcp/materiais/:id', async (req, res) => {
 app.post('/api/pcp/ordens-compra', async (req, res) => {
     const { material_id, quantidade, previsao_entrega } = req.body;
     try {
-        const sql = "INSERT INTO ordens_compra (material_id, quantidade, data_pedido, previsao_entrega, status) VALUES (, , CURDATE(), , 'Pendente')";
+        const sql = "INSERT INTO ordens_compra (material_id, quantidade, data_pedido, previsao_entrega, status) VALUES (?, ?, CURDATE(), , 'Pendente')";
         const [result] = await db.query(sql, [material_id, quantidade, previsao_entrega]);
         res.status(201).json({ message: "Ordem de compra criada com sucesso!", id: result.insertId });
         // opcional: reduzir estoque do material correspondente
@@ -2132,7 +2132,7 @@ app.get('/api/pcp/pedidos', async (req, res) => {
                      LEFT JOIN clientes c ON p.cliente_id = c.id
                      LEFT JOIN empresas e ON p.empresa_id = e.id
                      ORDER BY p.created_at DESC, p.id DESC
-                     LIMIT  OFFSET `;
+                     LIMIT ? OFFSET `;
 
         const [rows] = await db.query(sql, [limit, offset]);
 
@@ -2163,7 +2163,7 @@ app.get('/api/pcp/pedidos/faturados', async (req, res) => {
     if (page < 1) page = 1;
     if (limit < 1) limit = 50;
     const offset = (page - 1) * limit;
-    const sql = `SELECT id, valor, descricao, status, created_at, data_prevista, prazo_entrega, cliente_id, empresa_id, produtos_preview, endereco_entrega, municipio_entrega FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%') ORDER BY created_at DESC LIMIT  OFFSET `;
+    const sql = `SELECT id, valor, descricao, status, created_at, data_prevista, prazo_entrega, cliente_id, empresa_id, produtos_preview, endereco_entrega, municipio_entrega FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%') ORDER BY created_at DESC LIMIT ? OFFSET `;
     const [rows] = await db.query(sql, [limit, offset]);
         // produtos_preview may be stored as JSON string; attempt to parse for clients
         const normalized = (rows || []).map(r => {
@@ -2187,7 +2187,7 @@ app.get('/api/pcp/pedidos/prazos', async (req, res) => {
     let limit = parseInt(req.query.limit,10) || 50;
     if (page < 1) page = 1; if (limit < 1) limit = 50;
     const offset = (page - 1) * limit;
-    const sql = `SELECT id, cliente_id, descricao, status, created_at, data_prevista, prazo_entrega, produtos_preview, endereco_entrega FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%') ORDER BY data_prevista IS NULL, data_prevista ASC LIMIT  OFFSET `;
+    const sql = `SELECT id, cliente_id, descricao, status, created_at, data_prevista, prazo_entrega, produtos_preview, endereco_entrega FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%') ORDER BY data_prevista IS NULL, data_prevista ASC LIMIT ? OFFSET `;
     const [rows] = await db.query(sql, [limit, offset]);
     const normalized = (rows || []).map(r => { try { if (r.produtos_preview && typeof r.produtos_preview === 'string') r.produtos_preview = JSON.parse(r.produtos_preview); } catch(e){} return r; });
     const [countRows] = await db.query("SELECT COUNT(*) AS total FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%')");
@@ -2217,7 +2217,7 @@ app.get('/api/pcp/acompanhamento', async (req, res) => {
 app.post('/api/pcp/pedidos', async (req, res) => {
     const { cliente, produto_id, quantidade, status } = req.body;
     try {
-        const [result] = await db.query('INSERT INTO pedidos (cliente, produto_id, quantidade, data_pedido, status) VALUES (, , , CURDATE(), )', [cliente, produto_id, quantidade, status || 'Pendente']);
+        const [result] = await db.query('INSERT INTO pedidos (cliente, produto_id, quantidade, data_pedido, status) VALUES (?, ?, , CURDATE(), )', [cliente, produto_id, quantidade, status || 'Pendente']);
         res.status(201).json({ message: 'Pedido criado', id: result.insertId });
         // atualizar materiais se necessário
         broadcastMaterials();
@@ -2270,7 +2270,7 @@ app.get('/api/pcp/ordens-compra/:id/pdf', async (req, res) => {
             `SELECT oc.id, oc.quantidade, oc.data_pedido, oc.previsao_entrega, oc.status, m.codigo_material, m.descricao as material_descricao, m.unidade_medida
              FROM ordens_compra oc
              JOIN materiais m ON oc.material_id = m.id
-             WHERE oc.id =  LIMIT 1`, [id]
+             WHERE oc.id = ? LIMIT 1`, [id]
         );
         if (!rows || rows.length === 0) return res.status(404).json({ message: 'Ordem de compra não encontrada' });
         const ord = rows[0];
@@ -2319,7 +2319,7 @@ app.get('/api/pcp/ordens-compra/:id/excel', async (req, res) => {
              m.codigo_material, m.descricao as material_descricao, m.unidade_medida
              FROM ordens_compra oc
              JOIN materiais m ON oc.material_id = m.id
-             WHERE oc.id =  LIMIT 1`, [id]
+             WHERE oc.id = ? LIMIT 1`, [id]
         );
         if (!rows || rows.length === 0) return res.status(404).json({ message: 'Ordem de compra não encontrada' });
         const ord = rows[0];
@@ -2495,7 +2495,7 @@ app.get('/api/pcp/estoque/movimentacoes', authRequired, async (req, res) => {
             FROM movimentacoes_estoque me
             JOIN materiais m ON me.material_id = m.id
             ORDER BY me.data_movimento DESC
-            LIMIT  OFFSET 
+            LIMIT ? OFFSET 
         `, [limit, offset]);
 
         const [total] = await db.query('SELECT COUNT(*) as total FROM movimentacoes_estoque');
@@ -2559,7 +2559,7 @@ app.post('/api/pcp/estoque/movimentacao', authRequired, async (req, res) => {
         await db.query(`
             INSERT INTO movimentacoes_estoque 
             (material_id, tipo, quantidade, quantidade_anterior, quantidade_atual, observacoes, usuario_id) 
-            VALUES (, , , , , , )
+            VALUES (?, ?, ?, ?, , ?, ?)
         `, [material_id, tipo, quantidade, quantidadeAnterior, novaQuantidade, observacoes, req.user.id]);
 
         await db.query('COMMIT');
@@ -2589,11 +2589,11 @@ app.get('/api/pcp/relatorios/produtividade', authRequired, async (req, res) => {
         let params = [];
         
         if (data_inicio && data_fim) {
-            whereClause = 'WHERE data_previsao_entrega BETWEEN  AND ';
+            whereClause = 'WHERE data_previsao_entrega BETWEEN ? AND ';
             params = [data_inicio, data_fim];
         }
 
-        const [resultaçãos] = await db.query(`
+        const [resultados] = await db.query(`
             SELECT 
                 status,
                 COUNT(*) as quantidade,
@@ -2629,7 +2629,7 @@ app.get('/api/pcp/relatorios/produtividade', authRequired, async (req, res) => {
             (geral[0].concluidas / geral[0].total_ordens * 100).toFixed(2) : 0;
 
         res.json({
-            por_status: resultaçãos,
+            por_status: resultados,
             resumo_geral: {
                 ...geral[0],
                 taxa_produtividade: `${produtividade}%`,
@@ -2653,7 +2653,7 @@ app.get('/api/pcp/relatorios/custos', authRequired, async (req, res) => {
         let params = [];
         
         if (data_inicio && data_fim) {
-            whereClause = 'WHERE oc.data_pedido BETWEEN  AND ';
+            whereClause = 'WHERE oc.data_pedido BETWEEN ? AND ';
             params = [data_inicio, data_fim];
         }
 
@@ -2703,7 +2703,7 @@ app.get('/api/pcp/relatorios/custos', authRequired, async (req, res) => {
     }
 });
 
-// Export geral para Excel (todos os daçãos)
+// Export geral para Excel (todos os dados)
 app.get('/api/pcp/export/completo-excel', authRequired, async (req, res) => {
     try {
         let ExcelJS;
@@ -2782,8 +2782,8 @@ app.get('/api/pcp/export/completo-excel', authRequired, async (req, res) => {
         res.end();
 
     } catch (err) {
-        console.error('Erro ao exportar daçãos completos:', err);
-        res.status(500).json({ message: 'Erro ao exportar daçãos completos.' });
+        console.error('Erro ao exportar dados completos:', err);
+        res.status(500).json({ message: 'Erro ao exportar dados completos.' });
     }
 });
 
@@ -3047,7 +3047,7 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
         try {
             console.log('[EXCEL] Preenchendo tabela de produtos...');
             
-            // Linha 18 (primeira linha de daçãos da tabela) - baseado na análise das imagens
+            // Linha 18 (primeira linha de dados da tabela) - baseado na análise das imagens
             const linhaProduto = 18; // Ajustar conforme a linha real da tabela
             
             // Preencher primeira linha da tabela de produtos
@@ -3139,7 +3139,7 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
         // Salvar ordem no banco primeiro
         const [result] = await db.query(
             `INSERT INTO ordens_producao (codigo_produto, descricao_produto, quantidade, data_previsao_entrega, cliente, observacoes, status) 
-             VALUES (, , , , , , 'Rascunho')`,
+             VALUES (?, ?, ?, ?, , , 'Rascunho')`,
             [codigo_produto, descricao_produto, quantidade, data_previsao_entrega, cliente, observacoes]
         );
         
@@ -3180,7 +3180,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             return res.status(400).json({ message: 'Daçãos não recebidos corretamente' });
         }
 
-        // Extrair daçãos do formulário - CORRIGIDO para nova estrutura
+        // Extrair dados do formulário - CORRIGIDO para nova estrutura
         const {
             // Cliente
             cliente,
@@ -3258,9 +3258,9 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
                 itens = [];
             }
         }
-        // Fallback final para daçãos individuais
+        // Fallback final para dados individuais
         else {
-            console.log('[MODAL-EXCEL] Usando fallback para daçãos individuais');
+            console.log('[MODAL-EXCEL] Usando fallback para dados individuais');
             itens = [{
                 codigo: req.body.codigo_produto || '',
                 descricao: req.body.descricao_produto || '',
@@ -3546,7 +3546,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         
         console.log(`[MODAL-EXCEL] Processando ${itens.length} itens na tabela de produtos...`);
         
-        // 🔧 CORREÇÃO 4: Buscar nomes completos dos produtos da base de daçãos
+        // 🔧 CORREÇÃO 4: Buscar nomes completos dos produtos da base de dados
         for (let index = 0; index < itens.length; index++) {
             const item = itens[index];
             const linha = linhaProdutoInicial + index;
@@ -3562,11 +3562,11 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             // 🔧 CORREÇÃO FINAL: Buscar nome completo SEMPRE para TODOS os produtos
             if (codigo) {
                 try {
-                    // Buscar produto na base de daçãos usando diferentes métodos
+                    // Buscar produto na base de dados usando diferentes métodos
                     let produtoRows = [];
                     
                     // Primeira tentativa: busca exata por código
-                    [produtoRows] = await db.query("SELECT * FROM produtos WHERE codigo =  LIMIT 1", [codigo]);
+                    [produtoRows] = await db.query("SELECT * FROM produtos WHERE codigo = ? LIMIT 1", [codigo]);
                     
                     // Segunda tentativa: busca parcial se não encontrou
                     if (produtoRows.length === 0) {
@@ -3575,7 +3575,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
                     
                     // Terceira tentativa: busca por SKU ou GTIN
                     if (produtoRows.length === 0) {
-                        [produtoRows] = await db.query("SELECT * FROM produtos WHERE sku =  OR gtin =  LIMIT 1", [codigo, codigo]);
+                        [produtoRows] = await db.query("SELECT * FROM produtos WHERE sku =  OR gtin = ? LIMIT 1", [codigo, codigo]);
                     }
                     
                     if (produtoRows.length > 0) {
@@ -3918,7 +3918,7 @@ app.get('/api/pcp/produtos/buscar/:codigo', async (req, res) => {
                 gtin,
                 sku
             FROM produtos 
-            WHERE codigo LIKE  OR gtin LIKE  OR sku LIKE 
+            WHERE codigo LIKE ? OR gtin LIKE ? OR sku LIKE 
             LIMIT 1
         `, [`%${codigo}%`, `%${codigo}%`, `%${codigo}%`]);
         
@@ -3984,7 +3984,7 @@ app.get('/api/pcp/produtos/autocomplete', async (req, res) => {
                 nome as descricao,
                 descricao as descricao_completa
             FROM produtos 
-            WHERE codigo LIKE  OR nome LIKE  OR descricao LIKE 
+            WHERE codigo LIKE ? OR nome LIKE ? OR descricao LIKE 
             ORDER BY 
                 CASE 
                     WHEN codigo LIKE  THEN 1
@@ -3995,17 +3995,17 @@ app.get('/api/pcp/produtos/autocomplete', async (req, res) => {
             LIMIT 10
         `, [
             `%${q}%`, `%${q}%`, `%${q}%`,
-            `${q}%`, `${q}%` // Para priorizar resultaçãos que começam com o termo
+            `${q}%`, `${q}%` // Para priorizar resultados que começam com o termo
         ]);
         
-        const resultaçãos = produtos.map(produto => ({
+        const resultados = produtos.map(produto => ({
             codigo: produto.codigo,
             descricao: produto.descricao || produto.descricao_completa,
             label: `${produto.codigo} - ${produto.descricao || produto.descricao_completa}`
         }));
         
-        console.log(`[PRODUTOS] ✅ Encontraçãos ${resultaçãos.length} produtos para autocomplete`);
-        res.json(resultaçãos);
+        console.log(`[PRODUTOS] ✅ Encontraçãos ${resultados.length} produtos para autocomplete`);
+        res.json(resultados);
         
     } catch (error) {
         console.error('[PRODUTOS] ❌ Erro no autocomplete:', error);
@@ -4034,7 +4034,7 @@ try {
     });
 
 } catch (e) {
-    console.log('[BACKUP] node-cron não disponível, backups automáticos desabilitaçãos');
+    console.log('[BACKUP] node-cron não disponível, backups automáticos desabilitados');
 }
 
 async function executarBackupCompleto() {
@@ -4075,7 +4075,7 @@ async function executarBackupCompleto() {
             `);
 
             await db.query(
-                'INSERT INTO backup_historico (tipo, status, detalhes, arquivo_path) VALUES (, , , )',
+                'INSERT INTO backup_historico (tipo, status, detalhes, arquivo_path) VALUES (?, ?, ?, ?)',
                 ['AUTO', 'SUCESSO', `Backup automático de ${tabelas.length} tabelas`, backupDir]
             );
         } catch (err) {
@@ -4099,7 +4099,7 @@ async function gerarRelatorioSemanal() {
                 SUM(quantidade) as total_pecas,
                 COUNT(CASE WHEN status = 'Concluído' THEN 1 END) as ordens_concluidas
             FROM ordens_producao 
-            WHERE data_criacao BETWEEN  AND 
+            WHERE data_criacao BETWEEN ? AND 
         `, [dataInicio, dataFim]);
 
         const [materiaisBaixos] = await db.query(`
@@ -4165,7 +4165,7 @@ app.get('/api/pcp/backup/historico', authRequired, async (req, res) => {
 });
 
 
-// Inicia o servidor HTTP (com Socket.IO integração)
+// Inicia o servidor HTTP (com Socket.IO integrado)
 // Try to listen on requested port, but if it's already in use, try the next few ports.
 function tryListen(startPort, maxTries = 10) {
     let attempt = 0;
@@ -4253,9 +4253,9 @@ app.get('/api/pcp/search', async (req, res) => {
             const [rows] = await db.query(
                 `SELECT id, codigo_produto, descricao_produto, quantidade, data_previsao_entrega, status
                  FROM ordens_producao
-                 WHERE codigo_produto LIKE  OR descricao_produto LIKE 
+                 WHERE codigo_produto LIKE ? OR descricao_produto LIKE 
                  ORDER BY data_previsao_entrega ASC
-                 LIMIT  OFFSET `, [like, like, limit, offset]
+                 LIMIT ? OFFSET `, [like, like, limit, offset]
             );
             return rows;
         }
@@ -4264,9 +4264,9 @@ app.get('/api/pcp/search', async (req, res) => {
             const [rows] = await db.query(
                 `SELECT id, codigo_material, descricao, unidade_medida, quantidade_estoque
                  FROM materiais
-                 WHERE codigo_material LIKE  OR descricao LIKE 
+                 WHERE codigo_material LIKE ? OR descricao LIKE 
                  ORDER BY descricao ASC
-                 LIMIT  OFFSET `, [like, like, limit, offset]
+                 LIMIT ? OFFSET `, [like, like, limit, offset]
             );
             return rows;
         }
@@ -4275,9 +4275,9 @@ app.get('/api/pcp/search', async (req, res) => {
             const [rows] = await db.query(
                 `SELECT id, codigo, descricao, unidade_medida, quantidade_estoque, custo_unitario
                  FROM produtos
-                 WHERE codigo LIKE  OR descricao LIKE 
+                 WHERE codigo LIKE ? OR descricao LIKE 
                  ORDER BY descricao ASC
-                 LIMIT  OFFSET `, [like, like, limit, offset]
+                 LIMIT ? OFFSET `, [like, like, limit, offset]
             );
             return rows;
         }
@@ -4292,7 +4292,7 @@ app.get('/api/pcp/search', async (req, res) => {
                      LEFT JOIN produtos pr ON p.produto_id = pr.id
                      WHERE p.id = 
                      ORDER BY p.data_pedido DESC
-                     LIMIT  OFFSET `, [possibleId, limit, offset]
+                     LIMIT ? OFFSET `, [possibleId, limit, offset]
                 );
                 return rows;
             }
@@ -4300,9 +4300,9 @@ app.get('/api/pcp/search', async (req, res) => {
                 `SELECT p.id, p.cliente, p.produto_id, p.quantidade, p.status, p.data_pedido, pr.codigo as produto_codigo, pr.descricao as produto_descricao
                  FROM pedidos p
                  LEFT JOIN produtos pr ON p.produto_id = pr.id
-                 WHERE p.cliente LIKE  OR pr.codigo LIKE  OR pr.descricao LIKE 
+                 WHERE p.cliente LIKE ? OR pr.codigo LIKE ? OR pr.descricao LIKE 
                  ORDER BY p.data_pedido DESC
-                 LIMIT  OFFSET `, [like, like, like, limit, offset]
+                 LIMIT ? OFFSET `, [like, like, like, limit, offset]
             );
             return rows;
         }
@@ -4315,21 +4315,21 @@ app.get('/api/pcp/search', async (req, res) => {
         // counts for pagination/UX
         let ordensTotal = 0, materiaisTotal = 0, produtosTotal = 0;
         try {
-            const [ordensCountRows] = await db.query(`SELECT COUNT(*) AS total FROM ordens_producao WHERE codigo_produto LIKE  OR descricao_produto LIKE `, [like, like]);
+            const [ordensCountRows] = await db.query(`SELECT COUNT(*) AS total FROM ordens_producao WHERE codigo_produto LIKE ? OR descricao_produto LIKE `, [like, like]);
             ordensTotal = ordensCountRows[0].total || 0;
         } catch (e) { ordensTotal = 0; }
         try {
-            const [materiaisCountRows] = await db.query(`SELECT COUNT(*) AS total FROM materiais WHERE codigo_material LIKE  OR descricao LIKE `, [like, like]);
+            const [materiaisCountRows] = await db.query(`SELECT COUNT(*) AS total FROM materiais WHERE codigo_material LIKE ? OR descricao LIKE `, [like, like]);
             materiaisTotal = materiaisCountRows[0].total || 0;
         } catch (e) { materiaisTotal = 0; }
         try {
-            const [produtosCountRows] = await db.query(`SELECT COUNT(*) AS total FROM produtos WHERE codigo LIKE  OR descricao LIKE `, [like, like]);
+            const [produtosCountRows] = await db.query(`SELECT COUNT(*) AS total FROM produtos WHERE codigo LIKE ? OR descricao LIKE `, [like, like]);
             produtosTotal = produtosCountRows[0].total || 0;
         } catch (e) { produtosTotal = 0; }
         // pedidos count
         let pedidosTotal = 0;
         try {
-            const [pedidosCountRows] = await db.query(`SELECT COUNT(*) AS total FROM pedidos p LEFT JOIN produtos pr ON p.produto_id = pr.id WHERE p.id =  OR p.cliente LIKE  OR pr.codigo LIKE  OR pr.descricao LIKE `, [q, like, like, like]);
+            const [pedidosCountRows] = await db.query(`SELECT COUNT(*) AS total FROM pedidos p LEFT JOIN produtos pr ON p.produto_id = pr.id WHERE p.id =  OR p.cliente LIKE ? OR pr.codigo LIKE ? OR pr.descricao LIKE `, [q, like, like, like]);
             pedidosTotal = pedidosCountRows[0].total || 0;
         } catch (e) { pedidosTotal = 0; }
 
@@ -4391,7 +4391,7 @@ app.get('/api/pcp/me', authRequired, async (req, res) => {
         // First try usuarios_pcp table (our main PCP users)
         try {
             if (user.email) {
-                const [rows] = await db.query('SELECT foto_url FROM usuarios_pcp WHERE email =  LIMIT 1', [user.email]);
+                const [rows] = await db.query('SELECT foto_url FROM usuarios_pcp WHERE email = ? LIMIT 1', [user.email]);
                 if (rows && rows[0] && rows[0].foto_url) foto = rows[0].foto_url;
             }
         } catch (e) {
@@ -4402,7 +4402,7 @@ app.get('/api/pcp/me', authRequired, async (req, res) => {
         // Then try funcionarios table as fallback
         try {
             if (!foto && user.email) {
-                const [rows] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE email =  LIMIT 1', [user.email]);
+                const [rows] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE email = ? LIMIT 1', [user.email]);
                 if (rows && rows[0] && rows[0].foto_perfil_url) foto = rows[0].foto_perfil_url;
             }
         } catch (e) {
@@ -4411,13 +4411,13 @@ app.get('/api/pcp/me', authRequired, async (req, res) => {
         }
         try {
             if (!foto && user.id) {
-                const [rows2] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE usuario_id =  LIMIT 1', [user.id]);
+                const [rows2] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE usuario_id = ? LIMIT 1', [user.id]);
                 if (rows2 && rows2[0] && rows2[0].foto_perfil_url) foto = rows2[0].foto_perfil_url;
             }
         } catch (e) { /* ignore */ }
         try {
             if (!foto && user.id) {
-                const [rows3] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE id =  LIMIT 1', [user.id]);
+                const [rows3] = await db.query('SELECT foto_perfil_url FROM funcionarios WHERE id = ? LIMIT 1', [user.id]);
                 if (rows3 && rows3[0] && rows3[0].foto_perfil_url) foto = rows3[0].foto_perfil_url;
             }
         } catch (e) { /* ignore */ }
@@ -4433,7 +4433,7 @@ app.get('/api/pcp/me', authRequired, async (req, res) => {
         res.json({ user: safe });
     } catch (err) {
         console.error('/api/pcp/me error:', err && err.message ? err.message : err);
-        res.status(500).json({ message: 'Erro ao obter daçãos do usuário.' });
+        res.status(500).json({ message: 'Erro ao obter dados do usuário.' });
     }
 });
 
@@ -4486,7 +4486,7 @@ app.get('/api/pcp/pedidos/:id', async (req, res) => {
     try {
         // Query the pedidos table directly - no JOIN since produto_id column doesn't exist
         const [rows] = await db.query('SELECT * FROM pedidos WHERE id = ', [id]);
-        console.log(`[DEBUG] Query resultação: ${rows ? rows.length : 0} linhas`);
+        console.log(`[DEBUG] Query resultado: ${rows ? rows.length : 0} linhas`);
         
         if (!rows || rows.length === 0) {
             console.log(`[DEBUG] Pedido ${id} não encontrado`);
@@ -4535,7 +4535,7 @@ app.get('/api/pcp/debug/pedidos-faturados', async (req, res) => {
 app.post('/api/pcp/locations', authRequired, async (req, res) => {
     const { code, name, description } = req.body;
     try {
-        const [r] = await db.query('INSERT INTO locations (code, name, description) VALUES (, , )', [code, name, description]);
+        const [r] = await db.query('INSERT INTO locations (code, name, description) VALUES (?, ?, )', [code, name, description]);
         res.status(201).json({ id: r.insertId, code, name });
     } catch (e) {
         console.error('Erro ao criar location:', e && e.message ? e.message : e);
@@ -4569,7 +4569,7 @@ app.post('/api/pcp/stock_movements', authRequired, async (req, res) => {
             const saldo = rows && rows[0]  parseFloat(rows[0].saldo) : 0;
             if (saldo < quantidade) return res.status(400).json({ message: `Saldo insuficiente na localização ${location_from}. Saldo atual: ${saldo}` });
         }
-        const sql = 'INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (, , , , , , , )';
+        const sql = 'INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (?, ?, ?, ?, , ?, ?, )';
         const created_by = req.user ? req.user.id : null;
         const [r] = await db.query(sql, [produto_id, location_from || null, location_to || null, quantidade, tipo, referencia || null, lote || null, created_by]);
         res.status(201).json({ id: r.insertId });
@@ -4593,7 +4593,7 @@ app.post('/api/pcp/transfer', authRequired, async (req, res) => {
         if (saldo < quantidade) return res.status(400).json({ message: `Saldo insuficiente na localização ${from_location}. Saldo atual: ${saldo}` });
         // Insert transfer as two entries or as a single transfer record depending on your accounting; we'll use single transfer record
         const created_by = req.user ? req.user.id : null;
-        const [r] = await db.query('INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (, , , , , , , )', [produto_id, from_location, to_location, quantidade, 'TRANSFER', referencia || null, lote || null, created_by]);
+        const [r] = await db.query('INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (?, ?, ?, ?, , ?, ?, )', [produto_id, from_location, to_location, quantidade, 'TRANSFER', referencia || null, lote || null, created_by]);
         res.status(201).json({ id: r.insertId });
     } catch (e) {
         console.error('Erro ao executar transfer:', e && e.message ? e.message : e);
@@ -4626,20 +4626,20 @@ app.get('/api/pcp/stock_balance/:produto_id', authRequired, async (req, res) => 
 // =============================================
 app.post('/api/gerar-ordem-excel', async (req, res) => {
     try {
-        const daçãos = req.body;
+        const dados = req.body;
         
         // Normalizar nomes de campos (aceitar diferentes variantes)
-        const numPedido = daçãos.num_pedido || daçãos.numero_sequencial || daçãos.numero_pedido || '';
-        const numOrcamento = daçãos.num_orcamento || daçãos.numero_orcamento || '';
+        const numPedido = dados.num_pedido || dados.numero_sequencial || dados.numero_pedido || '';
+        const numOrcamento = dados.num_orcamento || dados.numero_orcamento || '';
         
-        logger.info('[GERAR ORDEM EXCEL] Recebendo daçãos:', { numPedido, numOrcamento, produtos: daçãos.produtos.length });
+        logger.info('[GERAR ORDEM EXCEL] Recebendo dados:', { numPedido, numOrcamento, produtos: dados.produtos.length });
         
         // Validações básicas - ser mais flexível
-        if (!numPedido && !numOrcamento && !daçãos.cliente) {
+        if (!numPedido && !numOrcamento && !dados.cliente) {
             return res.status(400).json({ message: 'Preencha pelo menos o número do pedido, orçamento ou cliente' });
         }
         
-        if (!daçãos.produtos || daçãos.produtos.length === 0) {
+        if (!dados.produtos || dados.produtos.length === 0) {
             return res.status(400).json({ message: 'Adicione pelo menos um produto' });
         }
         
@@ -4663,35 +4663,35 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         
         // PREENCHER VENDAS_PCP (Linhas 4-15) - As fórmulas da planilha PRODUÇÃO referenciam essas células
         wsVendas.getCell('C4').value = numOrcamento;
-        wsVendas.getCell('E4').value = daçãos.revisao || '00';
+        wsVendas.getCell('E4').value = dados.revisao || '00';
         wsVendas.getCell('G4').value = numPedido;
         
-        if (daçãos.data_liberacao) {
+        if (dados.data_liberacao) {
             // Tentar múltiplos formatos de data
             let dataLib;
-            if (daçãos.data_liberacao.includes('/')) {
+            if (dados.data_liberacao.includes('/')) {
                 // Formato brasileiro DD/MM/YYYY
-                const [dia, mes, ano] = daçãos.data_liberacao.split('/');
+                const [dia, mes, ano] = dados.data_liberacao.split('/');
                 dataLib = new Date(ano, mes - 1, dia);
             } else {
                 // Formato ISO YYYY-MM-DD
-                dataLib = new Date(daçãos.data_liberacao + 'T00:00:00');
+                dataLib = new Date(dados.data_liberacao + 'T00:00:00');
             }
             wsVendas.getCell('J4').value = dataLib;
             wsVendas.getCell('J4').numFmt = 'dd/mm/yyyy';
         }
         
         // Vendedor
-        wsVendas.getCell('C6').value = daçãos.vendedor || '';
+        wsVendas.getCell('C6').value = dados.vendedor || '';
         
         // Prazo de Entrega - H6 tem fórmula =J4+30, só preencher se prazo específico foi informação
-        if (daçãos.prazo_entrega && daçãos.prazo_entrega.trim()) {
+        if (dados.prazo_entrega && dados.prazo_entrega.trim()) {
             let dataPrazo;
-            if (daçãos.prazo_entrega.includes('/')) {
-                const [dia, mes, ano] = daçãos.prazo_entrega.split('/');
+            if (dados.prazo_entrega.includes('/')) {
+                const [dia, mes, ano] = dados.prazo_entrega.split('/');
                 dataPrazo = new Date(ano, mes - 1, dia);
             } else {
-                dataPrazo = new Date(daçãos.prazo_entrega + 'T00:00:00');
+                dataPrazo = new Date(dados.prazo_entrega + 'T00:00:00');
             }
             wsVendas.getCell('H6').value = dataPrazo;
             wsVendas.getCell('H6').numFmt = 'dd/mm/yyyy';
@@ -4699,25 +4699,25 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         // Se não informar prazo, deixa a fórmula =J4+30 calcular automaticamente
         
         // Cliente
-        wsVendas.getCell('C7').value = daçãos.cliente || '';
+        wsVendas.getCell('C7').value = dados.cliente || '';
         
         // Contato
-        wsVendas.getCell('C8').value = daçãos.contato_cliente || daçãos.contato || '';
+        wsVendas.getCell('C8').value = dados.contato_cliente || dados.contato || '';
         
         // Fone
-        wsVendas.getCell('H8').value = daçãos.fone_cliente || daçãos.telefone || '';
+        wsVendas.getCell('H8').value = dados.fone_cliente || dados.telefone || '';
         
         // Email
-        wsVendas.getCell('C9').value = daçãos.email_cliente || daçãos.email || '';
+        wsVendas.getCell('C9').value = dados.email_cliente || dados.email || '';
         
         // Frete
-        wsVendas.getCell('J9').value = daçãos.tipo_frete || 'FOB';
+        wsVendas.getCell('J9').value = dados.tipo_frete || 'FOB';
         
         // CEP
-        wsVendas.getCell('C13').value = daçãos.cep || '';
+        wsVendas.getCell('C13').value = dados.cep || '';
         
         // Endereço
-        wsVendas.getCell('F13').value = daçãos.endereco || '';
+        wsVendas.getCell('F13').value = dados.endereco || '';
         
         // Daçãos para cobrança (Linha 14) - Em branco por padrão
         // NÃO PREENCHER - deve ficar vazio conforme modelo padrão
@@ -4726,11 +4726,11 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         wsVendas.getCell('E14').value = '';
         
         // CPF/CNPJ - Formatação com pontuação
-        const cpfCnpjFormatação = formatarCpfCnpjExcel(daçãos.cpf_cnpj || '');
+        const cpfCnpjFormatação = formatarCpfCnpjExcel(dados.cpf_cnpj || '');
         wsVendas.getCell('C15').value = cpfCnpjFormatação;
         
         // Email NF-e (usa o email do cliente se não informação)
-        wsVendas.getCell('G15').value = daçãos.email_nfe || daçãos.email_cliente || daçãos.email || '';
+        wsVendas.getCell('G15').value = dados.email_nfe || dados.email_cliente || dados.email || '';
         
         // PRODUTOS na planilha VENDAS_PCP (Linhas 18-32)
         // IMPORTANTE: Apenas preenchemos B (código), F, G, H, I
@@ -4740,7 +4740,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         
         let linhaVendas = 18;
         let itemNum = 1;
-        for (const produto of daçãos.produtos.slice(0, 15)) { // Limite de 15 produtos
+        for (const produto of dados.produtos.slice(0, 15)) { // Limite de 15 produtos
             // Coluna A: Número do item (1, 2, 3...)
             wsVendas.getCell(`A${linhaVendas}`).value = itemNum;
             
@@ -4782,34 +4782,34 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         // ===== CAMPOS ADICIONAIS CONFORME MAPEAMENTO =====
         
         // TRANSPORTADORA (Linhas 11-15) - Células corretas conforme MAPEAMENTO_EXCEL_OP.md
-        wsVendas.getCell('C12').value = daçãos.transportaçãora_nome || '';
+        wsVendas.getCell('C12').value = dados.transportaçãora_nome || '';
         // H12 = Fórmula =H8 (não preencher)
-        wsVendas.getCell('C13').value = daçãos.transportaçãora_cep || daçãos.cep || '';
-        wsVendas.getCell('F13').value = daçãos.transportaçãora_endereco || daçãos.endereco || '';
+        wsVendas.getCell('C13').value = dados.transportaçãora_cep || dados.cep || '';
+        wsVendas.getCell('F13').value = dados.transportaçãora_endereco || dados.endereco || '';
         
         // CPF/CNPJ da transportaçãora com formatação (se diferente do cliente)
-        const cpfCnpjTransp = daçãos.transportaçãora_cpf_cnpj || daçãos.cpf_cnpj || '';
+        const cpfCnpjTransp = dados.transportaçãora_cpf_cnpj || dados.cpf_cnpj || '';
         wsVendas.getCell('C15').value = formatarCpfCnpjExcel(cpfCnpjTransp);
         // G15 = Fórmula =C9 (não preencher)
         
         // OBSERVAÇÕES (Linhas 36-42)
-        const observacoes = daçãos.observacoes_pedido || daçãos.observacoes || '';
+        const observacoes = dados.observacoes_pedido || dados.observacoes || '';
         if (observacoes) {
             wsVendas.getCell('A37').value = observacoes;
         }
         
         // PAGAMENTO (Linhas 43-46) - Suporta múltiplas formas de pagamento
-        if (daçãos.formas_pagamento && daçãos.formas_pagamento.length > 0) {
+        if (dados.formas_pagamento && dados.formas_pagamento.length > 0) {
             // Linha 45: Primeira forma de pagamento
-            const pgto1 = daçãos.formas_pagamento[0];
+            const pgto1 = dados.formas_pagamento[0];
             wsVendas.getCell('A45').value = pgto1.forma || 'A_VISTA';
             wsVendas.getCell('E45').value = (pgto1.percentual || 100) / 100; // Converter para decimal
             wsVendas.getCell('E45').numFmt = '0%';
             wsVendas.getCell('F45').value = pgto1.metodo || 'BOLETO';
             
             // Linha 46: Segunda forma de pagamento (se houver)
-            if (daçãos.formas_pagamento.length > 1) {
-                const pgto2 = daçãos.formas_pagamento[1];
+            if (dados.formas_pagamento.length > 1) {
+                const pgto2 = dados.formas_pagamento[1];
                 wsVendas.getCell('A46').value = pgto2.forma || '';
                 wsVendas.getCell('E46').value = (pgto2.percentual || 0) / 100;
                 wsVendas.getCell('E46').numFmt = '0%';
@@ -4817,29 +4817,29 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
             }
         } else {
             // Compatibilidade com formato antigo
-            if (daçãos.forma_pagamento) {
-                wsVendas.getCell('A45').value = daçãos.forma_pagamento.toUpperCase();
+            if (dados.forma_pagamento) {
+                wsVendas.getCell('A45').value = dados.forma_pagamento.toUpperCase();
             }
-            if (daçãos.metodo_pagamento) {
-                wsVendas.getCell('F45').value = daçãos.metodo_pagamento.toUpperCase();
+            if (dados.metodo_pagamento) {
+                wsVendas.getCell('F45').value = dados.metodo_pagamento.toUpperCase();
             }
             // E45 é percentual (1 = 100%)
-            const percentual = daçãos.percentual_pagamento  daçãos.percentual_pagamento / 100 : 1;
+            const percentual = dados.percentual_pagamento  dados.percentual_pagamento / 100 : 1;
             wsVendas.getCell('E45').value = percentual;
             wsVendas.getCell('E45').numFmt = '0%';
         }
         // I45 = Fórmula =I35 (não preencher)
         
         // ENTREGA (Linhas 48-54)
-        if (daçãos.qtd_volumes) {
-            wsVendas.getCell('D48').value = parseInt(daçãos.qtd_volumes) || 1;
+        if (dados.qtd_volumes) {
+            wsVendas.getCell('D48').value = parseInt(dados.qtd_volumes) || 1;
         }
-        if (daçãos.tipo_embalagem_entrega) {
-            wsVendas.getCell('H48').value = daçãos.tipo_embalagem_entrega;
+        if (dados.tipo_embalagem_entrega) {
+            wsVendas.getCell('H48').value = dados.tipo_embalagem_entrega;
         }
         // Observações de entrega
-        if (daçãos.observacoes_entrega) {
-            wsVendas.getCell('E51').value = daçãos.observacoes_entrega;
+        if (dados.observacoes_entrega) {
+            wsVendas.getCell('E51').value = dados.observacoes_entrega;
         }
         
         // ===== PLANILHA PRODUÇÃO =====
@@ -4855,7 +4855,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
             
             // Percorrer produtos e preencher P.LIQUIDO e LOTE
             let indexProd = 0;
-            for (const produto of daçãos.produtos.slice(0, 15)) {
+            for (const produto of dados.produtos.slice(0, 15)) {
                 // Linha do produto na PRODUÇÃO: 13, 16, 19, 22... (13 + index * 3)
                 const linhaProduto = 13 + (indexProd * 3);
                 // Linha de peso/lote: logo abaixo do produto
@@ -4903,7 +4903,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
 
 // Endpoint duplicação removido - usando versão completa acima com VENDAS_PCP
 
-// Serve static files (after API routes) so API endpoints are not shaçãowed by static fallback
+// Serve static files (after API routes) so API endpoints are not shadowed by static fallback
 app.use(express.static(__dirname));
 
 // API JSON 404 handler: make sure any unmatched /api routes return JSON (not HTML)

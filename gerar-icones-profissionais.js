@@ -29,7 +29,7 @@ async function generateProfessionalIcons() {
             </linearGradient>
             
             <!-- Sombra suave -->
-            <filter id="shaçãow" x="-50%" y="-50%" width="200%" height="200%">
+            <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
               <feGaussianBlur in="SourceAlpha" stdDeviation="${size * 0.02}"/>
               <feOffset dx="0" dy="${size * 0.015}" result="offsetblur"/>
               <feComponentTransfer>
@@ -52,7 +52,7 @@ async function generateProfessionalIcons() {
                 rx="${size * 0.18}"/>
           
           <!-- Letra A estilizada (logo) -->
-          <g filter="url(#shaçãow)">
+          <g filter="url(#shadow)">
             <path d="M ${size * 0.5} ${size * 0.25} 
                      L ${size * 0.7} ${size * 0.65} 
                      L ${size * 0.62} ${size * 0.65} 

@@ -1,6 +1,6 @@
 /**
  * Módulo Compras - Carregaçãor de Usuário
- * Script para carregar e exibir daçãos do usuário logação em todas as páginas do módulo
+ * Script para carregar e exibir dados do usuário logação em todas as páginas do módulo
  */
 
 (function() {
@@ -12,12 +12,12 @@
     });
 
     /**
-     * Inicializa o header com daçãos do usuário
+     * Inicializa o header com dados do usuário
      */
     async function initUserHeader() {
         console.log('🔄 [Compras] Inicializando header do usuário...');
         
-        // Tentar carregar daçãos do localStorage primeiro
+        // Tentar carregar dados do localStorage primeiro
         let userData = getUserDataFromStorage();
         
         if (!userData) {
@@ -39,7 +39,7 @@
     }
 
     /**
-     * Busca daçãos do usuário da API
+     * Busca dados do usuário da API
      */
     async function fetchUserData() {
         try {
@@ -59,13 +59,13 @@
                 return userData;
             }
         } catch (error) {
-            console.warn('⚠️ [Compras] Erro ao buscar daçãos do usuário:', error);
+            console.warn('⚠️ [Compras] Erro ao buscar dados do usuário:', error);
         }
         return null;
     }
 
     /**
-     * Obtém daçãos do usuário do localStorage
+     * Obtém dados do usuário do localStorage
      */
     function getUserDataFromStorage() {
         try {
@@ -77,7 +77,7 @@
     }
 
     /**
-     * Atualiza o header com daçãos do usuário
+     * Atualiza o header com dados do usuário
      */
     function updateUserHeader(userData) {
         // Usar apelido se disponível, senão primeiro nome
@@ -179,7 +179,7 @@
             userRoleDropdown.textContent = userData.cargo || userData.role || 'Colaboraçãor';
         }
         
-        console.log('✅ [Compras] Header atualização com daçãos do usuário:', userData.nome);
+        console.log('✅ [Compras] Header atualização com dados do usuário:', userData.nome);
     }
 
     /**

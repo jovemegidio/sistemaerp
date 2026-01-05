@@ -210,7 +210,7 @@ async function salvarConta(event) {
     const id = document.getElementById('conta-id').value;
     const isEdicao = !!id;
     
-    const daçãos = {
+    const dados = {
         banco: document.getElementById('conta-banco').value,
         tipo_conta: document.getElementById('conta-tipo').value,
         agencia: document.getElementById('conta-agencia').value,
@@ -224,26 +224,26 @@ async function salvarConta(event) {
     
     try {
         // TODO: Substituir por chamada real à API
-        // const url = isEdicao  `/api/financeiro/contas-bancarias/${id}` : '/api/financeiro/contas-bancarias';
+        // const url = isEdicao ? `/api/financeiro/contas-bancarias/${id}` : '/api/financeiro/contas-bancarias';
         // const method = isEdicao ? 'PUT' : 'POST';
         // const response = await fetch(url, {
         //     method: method,
         //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(daçãos)
+        //     body: JSON.stringify(dados)
         // });
         
         // Mock para desenvolvimento
         if (isEdicao) {
             const index = contasBancarias.findIndex(c => c.id == id);
             if (index !== -1) {
-                contasBancarias[index] = { ...contasBancarias[index], ...daçãos };
+                contasBancarias[index] = { ...contasBancarias[index], ...dados };
             }
         } else {
             const novaConta = {
                 id: contasBancarias.length + 1,
                 código: `CB${String(contasBancarias.length + 1).padStart(6, '0')}`,
-                saldo_atual: daçãos.saldo_inicial,
-                ...daçãos
+                saldo_atual: dados.saldo_inicial,
+                ...dados
             };
             contasBancarias.push(novaConta);
         }
@@ -385,10 +385,10 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         top: 20px;
         right: 20px;
         padding: 16px 24px;
-        background: ${tipo === 'success'  '#10b981' : tipo === 'error'  '#ef4444' : '#3b82f6'};
+        background: ${tipo === 'success' ? '#10b981' : tipo === 'error' ? '#ef4444' : '#3b82f6'};
         color: white;
         border-radius: 12px;
-        box-shaçãow: 0 8px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         z-index: 10000;
         font-weight: 600;
         display: flex;
@@ -397,7 +397,7 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         animation: slideIn 0.3s ease;
     `;
     
-    const icon = tipo === 'success'  'check-circle' : tipo === 'error'  'exclamation-circle' : 'info-circle';
+    const icon = tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle';
     alerta.innerHTML = `<i class="fas fa-${icon}"></i> ${mensagem}`;
     
     document.body.appendChild(alerta);
@@ -465,7 +465,7 @@ style.textContent = `
         max-width: 600px;
         max-height: 90vh;
         overflow-y: auto;
-        box-shaçãow: 0 20px 40px rgba(0,0,0,0.2);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     }
     
     .modal-header {
@@ -540,7 +540,7 @@ style.textContent = `
     .form-input:focus, .form-select:focus, .form-textarea:focus {
         outline: none;
         border-color: #3b82f6;
-        box-shaçãow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
     }
     
     .form-row {

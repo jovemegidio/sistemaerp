@@ -57,7 +57,7 @@ class SistemaRHAdmin {
     }
 
     async loadInitialData() {
-        // Carregar daçãos do dashboard por padrão
+        // Carregar dados do dashboard por padrão
         await this.loadDashboardData();
     }
 
@@ -87,12 +87,12 @@ class SistemaRHAdmin {
         // Atualizar seção atual
         this.currentSection = sectionId;
 
-        // Carregar daçãos da seção
+        // Carregar dados da seção
         this.loadSectionData(sectionId);
     }
 
     async loadSectionData(sectionId) {
-        console.log(`📊 Carregando daçãos da seção: ${sectionId}`);
+        console.log(`📊 Carregando dados da seção: ${sectionId}`);
         
         switch(sectionId) {
             case 'dashboard':
@@ -127,7 +127,7 @@ class SistemaRHAdmin {
     // Dashboard
     async loadDashboardData() {
         try {
-            // Tentar carregar daçãos reais da API
+            // Tentar carregar dados reais da API
             const stats = await this.fetchStats();
             const funcionariosRecentes = await this.fetchFuncionariosRecentes();
             
@@ -135,7 +135,7 @@ class SistemaRHAdmin {
             this.updateFuncionariosRecentes(funcionariosRecentes);
             
         } catch (error) {
-            console.log('⚠️ API não disponível, usando daçãos mock');
+            console.log('⚠️ API não disponível, usando dados mock');
             this.loadMockDashboardData();
         }
     }
@@ -191,7 +191,7 @@ class SistemaRHAdmin {
                 throw new Error('API não disponível');
             }
         } catch (error) {
-            console.log('⚠️ Carregando daçãos mock de funcionários');
+            console.log('⚠️ Carregando dados mock de funcionários');
             this.loadMockFuncionarios();
         }
     }
@@ -214,25 +214,25 @@ class SistemaRHAdmin {
 
     // Folha de Pagamento
     async loadFolhaPagamento() {
-        console.log('📊 Carregando daçãos de folha de pagamento...');
+        console.log('📊 Carregando dados de folha de pagamento...');
         // Implementar quando necessário
     }
 
     // Controle de Ponto
     async loadControlePonto() {
-        console.log('🕐 Carregando daçãos de controle de ponto...');
+        console.log('🕐 Carregando dados de controle de ponto...');
         // Implementar quando necessário
     }
 
     // Benefícios
     async loadBeneficios() {
-        console.log('🎁 Carregando daçãos de benefícios...');
+        console.log('🎁 Carregando dados de benefícios...');
         // Implementar quando necessário
     }
 
     // Documentos
     async loadDocumentos() {
-        console.log('📄 Carregando daçãos de documentos...');
+        console.log('📄 Carregando dados de documentos...');
         // Implementar quando necessário
     }
 

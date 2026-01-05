@@ -16,7 +16,7 @@ async function ajustarPermissoes() {
 
     try {
         // 1. Remover PCP de todos os usuários exceto clemerson, andreia, douglas e ti
-        console.log('1️⃣  REMOVENDO PCP de usuários não autorizaçãos...\n');
+        console.log('1️⃣  REMOVENDO PCP de usuários não autorizados...\n');
         
         await connection.query(`
             UPDATE usuarios 

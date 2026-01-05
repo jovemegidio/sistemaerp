@@ -23,7 +23,7 @@ async function analyzeUsersTable() {
         const [columns] = await pool.query('SHOW COLUMNS FROM usuarios');
         
         columns.forEach(col => {
-            console.log(`   📄 ${col.Field} (${col.Type}) - ${col.Null === 'YES'  'Nullable' : 'Not Null'}`);
+            console.log(`   📄 ${col.Field} (${col.Type}) - ${col.Null === 'YES' ? 'Nullable' : 'Not Null'}`);
         });
 
         // Identificar campo de senha
@@ -147,7 +147,7 @@ async function analyzeUsersTable() {
             console.log('\n🧪 CANDIDATOS PARA TESTE DE LOGIN:');
             console.log('===================================');
             loginCandidates.forEach((candidate, index) => {
-                const status = candidate.password === 'DESCONHECIDA'  '⚠️' : '✅';
+                const status = candidate.password === 'DESCONHECIDA' ? '⚠️' : '✅';
                 console.log(`${status} ${candidate.email} | Senha: ${candidate.password}`);
             });
 

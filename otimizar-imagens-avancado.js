@@ -302,7 +302,7 @@ function generateReport() {
 ╠═══════════════════════════════════════════════════════════════════════════╣
 ║                                                                           ║
 ║  🚀 Melhoria no carregamento (3G):  ~${totalReduction}%                              ║
-║  📱 Economia de daçãos móveis:       ${formatBytes(totalSaved).padStart(15)}                ║
+║  📱 Economia de dados móveis:       ${formatBytes(totalSaved).padStart(15)}                ║
 ║  ⏱️  Redução no tempo de carregamento: ~${(totalReduction * 0.6).toFixed(1)}%                       ║
 ║                                                                           ║
 ╚═══════════════════════════════════════════════════════════════════════════╝

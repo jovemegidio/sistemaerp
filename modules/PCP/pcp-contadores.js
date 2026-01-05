@@ -21,8 +21,8 @@
     // ============================================
     // CACHE DE DADOS
     // ============================================
-    let daçãosMateriaisCache = null;
-    let daçãosProdutosCache = null;
+    let dadosMateriaisCache = null;
+    let dadosProdutosCache = null;
     let ultimaAtualizacao = {
         materiais: 0,
         produtos: 0
@@ -39,7 +39,7 @@
                 return;
             }
 
-            // Buscar daçãos da API
+            // Buscar dados da API
             const response = await fetch('/api/pcp/materiais');
             if (!response.ok) {
                 console.error('❌ Erro ao buscar materiais:', response.status);
@@ -51,7 +51,7 @@
 
             // Atualizar display
             countDisplay.textContent = total;
-            daçãosMateriaisCache = materiais;
+            dadosMateriaisCache = materiais;
             ultimaAtualizacao.materiais = Date.now();
 
             console.log(`✅ Contaçãor de materiais atualização: ${total}`);
@@ -114,7 +114,7 @@
                 return;
             }
 
-            // Buscar daçãos da API
+            // Buscar dados da API
             const response = await fetch('/api/pcp/produtoslimit=10000');
             if (!response.ok) {
                 console.error('❌ Erro ao buscar produtos:', response.status);
@@ -152,7 +152,7 @@
             if (statCritico) statCritico.textContent = estoqueCritico;
             if (statOk) statOk.textContent = estoqueOk;
 
-            daçãosProdutosCache = produtos;
+            dadosProdutosCache = produtos;
             ultimaAtualizacao.produtos = Date.now();
 
             console.log(`✅ Contaçãores de produtos atualizaçãos:`);
@@ -394,8 +394,8 @@
         atualizarTodos: atualizarTodosContaçãores,
         atualizarPaginacao: atualizarPaginacao,
         getDaçãosCache: () => ({
-            materiais: daçãosMateriaisCache,
-            produtos: daçãosProdutosCache
+            materiais: dadosMateriaisCache,
+            produtos: dadosProdutosCache
         })
     };
 

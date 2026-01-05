@@ -33,7 +33,7 @@ class IntegracaoVendasFaturamento {
         } = opcoes;
 
         try {
-            // 1. Buscar daçãos do pedido em Vendas
+            // 1. Buscar dados do pedido em Vendas
             const pedido = await this.buscarPedidoVendas(pedidoId, token);
             
             if (!pedido) {
@@ -51,7 +51,7 @@ class IntegracaoVendasFaturamento {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token  `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({
                     pedido_id: pedidoId,
@@ -64,7 +64,7 @@ class IntegracaoVendasFaturamento {
                     autoReservarEstoque,
                     autoValidarEstoque,
                     // Daçãos do pedido para o faturamento
-                    daçãos_pedido: {
+                    dados_pedido: {
                         cliente_id: pedido.empresa_id,
                         vendedor_id: pedido.vendedor_id,
                         itens: pedido.itens,
@@ -76,27 +76,27 @@ class IntegracaoVendasFaturamento {
                 })
             });
 
-            const resultação = await response.json();
+            const resultado = await response.json();
 
             if (!response.ok) {
-                throw new Error(resultação.message || 'Erro ao gerar NF-e');
+                throw new Error(resultado.message || 'Erro ao gerar NF-e');
             }
 
             // 4. Atualizar status do pedido em Vendas
             await this.atualizarStatusPedido(pedidoId, 'faturado', {
-                nfe_id: resultação.nfe_id,
-                numero_nf: resultação.numero_nf,
-                chave_acesso: resultação.chave_acesso
+                nfe_id: resultado.nfe_id,
+                numero_nf: resultado.numero_nf,
+                chave_acesso: resultado.chave_acesso
             }, token);
 
             return {
                 success: true,
                 message: 'NF-e gerada com sucesso',
-                nfe_id: resultação.nfe_id,
-                numero_nf: resultação.numero_nf,
-                chave_acesso: resultação.chave_acesso,
-                danfe_url: resultação.danfe_url,
-                xml_url: resultação.xml_url
+                nfe_id: resultado.nfe_id,
+                numero_nf: resultado.numero_nf,
+                chave_acesso: resultado.chave_acesso,
+                danfe_url: resultado.danfe_url,
+                xml_url: resultado.xml_url
             };
 
         } catch (error) {
@@ -110,13 +110,13 @@ class IntegracaoVendasFaturamento {
     }
 
     /**
-     * Busca daçãos completos do pedido no módulo Vendas
+     * Busca dados completos do pedido no módulo Vendas
      */
     async buscarPedidoVendas(pedidoId, token) {
         try {
             const response = await fetch(`${this.vendasUrl}/api/vendas/pedidos/${pedidoId}`, {
                 headers: {
-                    'Authorization': token  `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 }
             });
 
@@ -171,19 +171,19 @@ class IntegracaoVendasFaturamento {
     /**
      * Atualiza o status do pedido após faturamento
      */
-    async atualizarStatusPedido(pedidoId, status, daçãosNfe, token) {
+    async atualizarStatusPedido(pedidoId, status, dadosNfe, token) {
         try {
             const response = await fetch(`${this.vendasUrl}/api/vendas/pedidos/${pedidoId}/status`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token  `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({
                     status,
-                    nfe_id: daçãosNfe.nfe_id,
-                    numero_nf: daçãosNfe.numero_nf,
-                    chave_acesso: daçãosNfe.chave_acesso,
+                    nfe_id: dadosNfe.nfe_id,
+                    numero_nf: dadosNfe.numero_nf,
+                    chave_acesso: dadosNfe.chave_acesso,
                     faturado_em: new Date().toISOString()
                 })
             });
@@ -205,7 +205,7 @@ class IntegracaoVendasFaturamento {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': token  `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 },
                 body: JSON.stringify({ justificativa })
             });
@@ -236,7 +236,7 @@ class IntegracaoVendasFaturamento {
         try {
             const response = await fetch(`${this.faturamentoUrl}/api/faturamento/nfes/${nfeId}`, {
                 headers: {
-                    'Authorization': token  `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 }
             });
 
@@ -257,7 +257,7 @@ class IntegracaoVendasFaturamento {
         try {
             const response = await fetch(`${this.faturamentoUrl}/api/faturamento/nfes/${nfeId}/danfe`, {
                 headers: {
-                    'Authorization': token  `Bearer ${token}` : ''
+                    'Authorization': token ? `Bearer ${token}` : ''
                 }
             });
 

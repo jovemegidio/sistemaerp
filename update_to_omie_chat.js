@@ -36,7 +36,7 @@ const chatOmieCSS = `/* ============================================
     border-radius: 50%;
     background: var(--omie-green);
     border: none;
-    box-shaçãow: 0 4px 12px rgba(0, 168, 89, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3);
     cursor: pointer;
     z-index: 9999 !important;
     display: flex;
@@ -47,14 +47,14 @@ const chatOmieCSS = `/* ============================================
 }
 
 @keyframes pulse {
-    0%, 100% { box-shaçãow: 0 4px 12px rgba(0, 168, 89, 0.3); }
-    50% { box-shaçãow: 0 4px 20px rgba(0, 168, 89, 0.5); }
+    0%, 100% { box-shadow: 0 4px 12px rgba(0, 168, 89, 0.3); }
+    50% { box-shadow: 0 4px 20px rgba(0, 168, 89, 0.5); }
 }
 
 .chat-floating-button:hover {
     background: var(--omie-green-dark);
     transform: scale(1.1);
-    box-shaçãow: 0 6px 20px rgba(0, 168, 89, 0.4);
+    box-shadow: 0 6px 20px rgba(0, 168, 89, 0.4);
 }
 
 .chat-floating-button svg {
@@ -96,7 +96,7 @@ const chatOmieCSS = `/* ============================================
     height: 600px;
     background: white;
     border-radius: 16px;
-    box-shaçãow: 0 8px 32px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
     z-index: 9998 !important;
     display: none;
     flex-direction: column;
@@ -230,7 +230,7 @@ const chatOmieCSS = `/* ============================================
     background: white;
     padding: 12px 16px;
     border-radius: 16px;
-    box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     word-wrap: break-word;
 }
 
@@ -544,7 +544,7 @@ class ChatWidgetOmie {
         const time = now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
         
         messageDiv.innerHTML = \`
-            <div class="chat-message-avatar">\${type === 'user'  'U' : 'A'}</div>
+            <div class="chat-message-avatar">\${type === 'user' ? 'U' : 'A'}</div>
             <div class="chat-message-content">
                 <div class="chat-message-bubble">\${text}</div>
                 <div class="chat-message-time">\${time}</div>

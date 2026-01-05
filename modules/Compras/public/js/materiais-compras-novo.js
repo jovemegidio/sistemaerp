@@ -78,7 +78,7 @@
             </div>
 
             <div class="filter-bar" style="margin-bottom: 20px; display: flex; gap: 10px; flex-wrap: wrap;">
-                <button class="btn-filter ${filtroCategoria === 'todos'  'active' : ''}" onclick="filtrarPorCategoria('todos')">
+                <button class="btn-filter ${filtroCategoria === 'todos' ? 'active' : ''}" onclick="filtrarPorCategoria('todos')">
                     Todos (${materiais.length})
                 </button>
                 ${categorias.map(cat => `
@@ -105,7 +105,7 @@
                     </thead>
                     <tbody>
                         ${materiaisFiltraçãos.map(m => `
-                            <tr class="${m.status === 'critico'  'row-warning' : ''}">
+                            <tr class="${m.status === 'critico' ? 'row-warning' : ''}">
                                 <td><strong>${m.codigo}</strong></td>
                                 <td>${m.nome}</td>
                                 <td><span class="badge badge-info">${m.categoria}</span></td>
@@ -118,8 +118,7 @@
                                 <td>${formatCurrency(m.custoMedio)}/${m.unidade}</td>
                                 <td>${m.fornecedorPrincipal}</td>
                                 <td>
-                                    ${m.status === 'critico' 
-                                         '<span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> Crítico</span>'
+                                    ${m.status === 'critico' ? '<span class="badge badge-danger"><i class="fas fa-exclamation-triangle"></i> Crítico</span>'
                                         : '<span class="badge badge-success">Normal</span>'}
                                 </td>
                                 <td>

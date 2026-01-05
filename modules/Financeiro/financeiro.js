@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         const autenticação = await verificarAutenticacao();
         if (!autenticação) return;
         
-        // Carregar permissões e daçãos
+        // Carregar permissões e dados
         await carregarPermissoes();
         await carregarDaçãosFinanceiros();
         configurarEventListeners();
@@ -102,7 +102,7 @@ function atualizarUIPermissoes() {
 // ===== CARREGAR DADOS =====
 async function carregarDaçãosFinanceiros() {
     try {
-        console.log('📊 Carregando daçãos financeiros...');
+        console.log('📊 Carregando dados financeiros...');
         
         // Carregar contas a pagar e receber em paralelo
         const promises = [];
@@ -122,8 +122,8 @@ async function carregarDaçãosFinanceiros() {
         
         console.log('✅ Daçãos financeiros carregaçãos com sucesso');
     } catch (error) {
-        console.error('❌ Erro ao carregar daçãos financeiros:', error);
-        mostrarAlerta('Erro ao carregar daçãos financeiros', 'error');
+        console.error('❌ Erro ao carregar dados financeiros:', error);
+        mostrarAlerta('Erro ao carregar dados financeiros', 'error');
     }
 }
 
@@ -307,10 +307,10 @@ function renderizarLinhaConta(conta, tipo) {
     const hoje = new Date();
     const vencido = vencimento < hoje && conta.status !== 'pago';
     
-    const statusBadge = conta.status === 'pago'  'badge-pago' :
+    const statusBadge = conta.status === 'pago' ? 'badge-pago' :
                         vencido ? 'badge-atrasação' : 'badge-pendente';
     
-    const statusTexto = conta.status === 'pago'  'Pago' :
+    const statusTexto = conta.status === 'pago' ? 'Pago' :
                         vencido ? 'Atrasação' : 'Pendente';
     
     const podeEditar = tipo === 'pagar'  
@@ -326,12 +326,12 @@ function renderizarLinhaConta(conta, tipo) {
             <td><strong>${conta.descricao || '-'}</strong></td>
             <td>${conta.fornecedor || conta.cliente || '-'}</td>
             <td>${formatarData(conta.vencimento)}</td>
-            <td class="${tipo === 'pagar'  'valor-negativo' : 'valor-positivo'}">
-                ${tipo === 'pagar'  '-' : '+'} ${formatarMoeda(conta.valor)}
+            <td class="${tipo === 'pagar' ? 'valor-negativo' : 'valor-positivo'}">
+                ${tipo === 'pagar' ? '-' : '+'} ${formatarMoeda(conta.valor)}
             </td>
             <td><span class="badge ${statusBadge}">${statusTexto}</span></td>
             <td>
-                ${podeEditar  `
+                ${podeEditar ? `
                     <button class="action-btn" onclick="editarConta(${conta.id}, '${tipo}')" title="Editar">
                         <i class="fas fa-edit"></i>
                     </button>
@@ -341,7 +341,7 @@ function renderizarLinhaConta(conta, tipo) {
                         <i class="fas fa-check-circle"></i>
                     </button>
                 ` : ''}
-                ${podeExcluir  `
+                ${podeExcluir ? `
                     <button class="action-btn delete" onclick="excluirConta(${conta.id}, '${tipo}')" title="Excluir">
                         <i class="fas fa-trash"></i>
                     </button>
@@ -422,17 +422,17 @@ function renderizarMovimentacoesRecentes() {
                 ${todasContas.map(conta => `
                     <tr>
                         <td>
-                            <span class="badge ${conta.tipo === 'pagar'  'badge-vencido' : 'badge-pago'}">
-                                ${conta.tipo === 'pagar'  'A Pagar' : 'A Receber'}
+                            <span class="badge ${conta.tipo === 'pagar' ? 'badge-vencido' : 'badge-pago'}">
+                                ${conta.tipo === 'pagar' ? 'A Pagar' : 'A Receber'}
                             </span>
                         </td>
                         <td><strong>${conta.descricao || '-'}</strong></td>
                         <td>${formatarData(conta.vencimento)}</td>
-                        <td class="${conta.tipo === 'pagar'  'valor-negativo' : 'valor-positivo'}">
-                            ${conta.tipo === 'pagar'  '-' : '+'} ${formatarMoeda(conta.valor)}
+                        <td class="${conta.tipo === 'pagar' ? 'valor-negativo' : 'valor-positivo'}">
+                            ${conta.tipo === 'pagar' ? '-' : '+'} ${formatarMoeda(conta.valor)}
                         </td>
-                        <td><span class="badge ${conta.status === 'pago'  'badge-pago' : 'badge-pendente'}">
-                            ${conta.status === 'pago'  'Pago' : 'Pendente'}
+                        <td><span class="badge ${conta.status === 'pago' ? 'badge-pago' : 'badge-pendente'}">
+                            ${conta.status === 'pago' ? 'Pago' : 'Pendente'}
                         </span></td>
                     </tr>
                 `).join('')}
@@ -530,8 +530,8 @@ function abrirModalNovaConta(tipo) {
     const formEl = document.getElementById('form-conta');
     const idEl = document.getElementById('conta-id');
     
-    if (tituloEl) tituloEl.textContent = tipo === 'pagar'  'Nova Conta a Pagar' : 'Nova Conta a Receber';
-    if (labelEl) labelEl.textContent = tipo === 'pagar'  'Fornecedor' : 'Cliente';
+    if (tituloEl) tituloEl.textContent = tipo === 'pagar' ? 'Nova Conta a Pagar' : 'Nova Conta a Receber';
+    if (labelEl) labelEl.textContent = tipo === 'pagar' ? 'Fornecedor' : 'Cliente';
     if (tipoEl) tipoEl.value = tipo;
     if (formEl) formEl.reset();
     if (idEl) idEl.value = '';
@@ -561,8 +561,8 @@ function editarConta(id, tipo) {
     const tituloEl = document.getElementById('modal-conta-titulo');
     const labelEl = document.getElementById('label-entidade');
     
-    if (tituloEl) tituloEl.textContent = tipo === 'pagar'  'Editar Conta a Pagar' : 'Editar Conta a Receber';
-    if (labelEl) labelEl.textContent = tipo === 'pagar'  'Fornecedor' : 'Cliente';
+    if (tituloEl) tituloEl.textContent = tipo === 'pagar' ? 'Editar Conta a Pagar' : 'Editar Conta a Receber';
+    if (labelEl) labelEl.textContent = tipo === 'pagar' ? 'Fornecedor' : 'Cliente';
     
     const setVal = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
     
@@ -585,7 +585,7 @@ async function salvarConta(event) {
     const tipo = document.getElementById('conta-tipo').value;
     const isEdicao = !!id;
     
-    const daçãos = {
+    const dados = {
         descricao: document.getElementById('conta-descricao').value,
         valor: parseFloat(document.getElementById('conta-valor').value),
         vencimento: document.getElementById('conta-vencimento').value,
@@ -594,9 +594,9 @@ async function salvarConta(event) {
     };
     
     if (tipo === 'pagar') {
-        daçãos.fornecedor_id = document.getElementById('conta-entidade').value;
+        dados.fornecedor_id = document.getElementById('conta-entidade').value;
     } else {
-        daçãos.cliente_id = document.getElementById('conta-entidade').value;
+        dados.cliente_id = document.getElementById('conta-entidade').value;
     }
     
     try {
@@ -609,7 +609,7 @@ async function salvarConta(event) {
         const response = await fetch(url, {
             method: method,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(daçãos)
+            body: JSON.stringify(dados)
         });
         
         if (!response.ok) {
@@ -760,7 +760,7 @@ function mostrarAlerta(mensagem, tipo = 'info') {
     const alerta = document.createElement('div');
     alerta.className = `alert alert-${tipo}`;
     alerta.innerHTML = `
-        <i class="fas fa-${tipo === 'success'  'check-circle' : tipo === 'error'  'exclamation-circle' : 'info-circle'}"></i>
+        <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
         ${mensagem}
     `;
     

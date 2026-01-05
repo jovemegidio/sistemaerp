@@ -9,7 +9,7 @@ const mysql = require('mysql2/promise');
   };
   const pool = await mysql.createPool(DB_CONFIG);
   try {
-    const [users] = await pool.query('SELECT id, nome, email FROM usuarios WHERE email =  LIMIT 1', ['augusto.ladeira@aluforce.ind.br']);
+    const [users] = await pool.query('SELECT id, nome, email FROM usuarios WHERE email = ? LIMIT 1', ['augusto.ladeira@aluforce.ind.br']);
     if (users.length === 0) {
       console.log('Usuário augusto não encontrado.');
       process.exit(0);

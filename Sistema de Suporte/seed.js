@@ -53,7 +53,7 @@ async function seed() {
         
         for (const k of knowledge) {
             await pool.execute(
-                'INSERT INTO suporte_base_conhecimento (pergunta, resposta, palavras_chave, categoria) VALUES (, , , )',
+                'INSERT INTO suporte_base_conhecimento (pergunta, resposta, palavras_chave, categoria) VALUES (?, ?, ?, ?)',
                 [k.pergunta, k.resposta, k.palavras_chave, k.categoria]
             );
         }

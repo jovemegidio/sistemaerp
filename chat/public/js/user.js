@@ -41,7 +41,7 @@ minimizeChat.addEventListener('click', () => {
     chatButton.classList.remove('active');
 });
 
-// Enviar daçãos do usuário e entrar no chat
+// Enviar dados do usuário e entrar no chat
 userForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -107,12 +107,12 @@ socket.on('user:receive-message', (message) => {
     playNotificationSound();
 });
 
-// Chat encerração
+// Chat encerrado
 socket.on('chat:closed', (data) => {
     addSystemMessage(data.message);
     messageInput.disabled = true;
     sendButton.disabled = true;
-    statusIndicator.textContent = 'Chat encerração';
+    statusIndicator.textContent = 'Chat encerrado';
     statusIndicator.className = 'status-indicator';
 });
 

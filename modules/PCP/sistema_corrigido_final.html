@@ -39,7 +39,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shaçãow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
         .header-left {
@@ -108,7 +108,7 @@
         .card {
             background: white;
             border-radius: 8px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
             overflow: hidden;
         }
         
@@ -136,7 +136,7 @@
             background: white !important;
             border-radius: 8px !important;
             overflow: hidden !important;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.1) !important;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1) !important;
         }
         
         .estoque-table th {
@@ -180,7 +180,7 @@
             font-weight: 700 !important;
             letter-spacing: 0.05em !important;
             text-transform: uppercase !important;
-            box-shaçãow: 0 1px 3px rgba(16, 185, 129, 0.3) !important;
+            box-shadow: 0 1px 3px rgba(16, 185, 129, 0.3) !important;
         }
         
         .gtin-text {
@@ -216,25 +216,25 @@
         .btn-editar-prod {
             background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
             color: white !important;
-            box-shaçãow: 0 1px 3px rgba(59, 130, 246, 0.3) !important;
+            box-shadow: 0 1px 3px rgba(59, 130, 246, 0.3) !important;
         }
         
         .btn-editar-prod:hover {
             background: linear-gradient(135deg, #1d4ed8, #1e40af) !important;
             transform: translateY(-1px) !important;
-            box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
         }
         
         .btn-excluir-prod {
             background: linear-gradient(135deg, #ef4444, #dc2626) !important;
             color: white !important;
-            box-shaçãow: 0 1px 3px rgba(239, 68, 68, 0.3) !important;
+            box-shadow: 0 1px 3px rgba(239, 68, 68, 0.3) !important;
         }
         
         .btn-excluir-prod:hover {
             background: linear-gradient(135deg, #dc2626, #b91c1c) !important;
             transform: translateY(-1px) !important;
-            box-shaçãow: 0 4px 12px rgba(239, 68, 68, 0.4) !important;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4) !important;
         }
         
         /* Variações */
@@ -689,7 +689,7 @@
                 console.log(`📊 Carregaçãos ${produtos.length} produtos de ${total} total`);
                 
                 if (produtos.length === 0) {
-                    containers.produtos.innerHTML = '<div class="loading-state">📭 Nenhum produto encontração</div>';
+                    containers.produtos.innerHTML = '<div class="loading-state">📭 Nenhum produto encontrado</div>';
                     return;
                 }
                 
@@ -803,7 +803,7 @@
                 greetingTextEl.textContent = greeting;
             }
             
-            // Carregar daçãos do usuário
+            // Carregar dados do usuário
             carregarUsuarioSistema();
             
             // Aguardar scripts carregarem
@@ -812,7 +812,7 @@
             }, 1000);
         });
         
-        // Função para carregar daçãos do usuário
+        // Função para carregar dados do usuário
         async function carregarUsuarioSistema() {
             try {
                 const token = localStorage.getItem('token');

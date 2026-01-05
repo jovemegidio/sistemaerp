@@ -13,7 +13,7 @@ if (args.length < 1) {
 
 const newStandardPassword = args[0];
 
-// Configure com os daçãos do seu banco
+// Configure com os dados do seu banco
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',

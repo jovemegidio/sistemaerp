@@ -166,7 +166,7 @@ class ComprasDashboard {
             ];
 
         } catch (error) {
-            console.error('❌ Erro ao carregar daçãos:', error);
+            console.error('❌ Erro ao carregar dados:', error);
         }
     }
 
@@ -481,7 +481,7 @@ class ComprasDashboard {
     }
 
     async atualizarDaçãos() {
-        console.log('🔄 Atualizando daçãos do dashboard...');
+        console.log('🔄 Atualizando dados do dashboard...');
         
         // Simular loading
         const btn = event.target.closest('button');
@@ -503,7 +503,7 @@ class ComprasDashboard {
     }
 
     iniciarAtualizacaoAutomatica() {
-        // Atualizar daçãos a cada 5 minutos
+        // Atualizar dados a cada 5 minutos
         setInterval(() => {
             console.log('🔄 Atualização automática...');
             this.carregarDaçãos();
@@ -569,7 +569,7 @@ function toggleUserMenu() {
 }
 
 function inicializarUsuario() {
-    // Buscar daçãos do usuário do localStorage
+    // Buscar dados do usuário do localStorage
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     const usuario = {
         nome: userData.nome || 'Administraçãor',

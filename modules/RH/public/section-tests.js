@@ -264,7 +264,7 @@
             border: 2px solid #2563eb;
             border-radius: 8px;
             padding: 15px;
-            box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
             z-index: 10000;
             font-family: 'Inter', Arial, sans-serif;
             font-size: 12px;

@@ -131,7 +131,7 @@
                     <div class="form-group">
                         <label>NFe ID:</label>
                         <input type="number" id="nfeId" placeholder="Digite o ID da NFe">
-                        <small>ID da NFe no sistema (encontração no módulo de emissão)</small>
+                        <small>ID da NFe no sistema (encontrado no módulo de emissão)</small>
                     </div>
 
                     <button class="btn btn-info" onclick="carregarNFe()"><i class="fas fa-search"></i> Carregar NFe</button>
@@ -187,7 +187,7 @@
                     <div class="card-title"><i class="fas fa-edit"></i> Carta de Correção Eletrônica (CCe)</div>
                     
                     <div class="alert alert-warning">
-                        <i class="fas fa-info-circle"></i> <strong>Importante:</strong> A CCe não pode corrigir valores, quantidades, base de cálculo ou daçãos cadastrais (remetente/destinatário).
+                        <i class="fas fa-info-circle"></i> <strong>Importante:</strong> A CCe não pode corrigir valores, quantidades, base de cálculo ou dados cadastrais (remetente/destinatário).
                     </div>
 
                     <div class="form-group">
@@ -335,7 +335,7 @@
     </script>
     <script src="dashboard-nfe-pro.jsv=20251217"></script>
     <script>
-        // Carregar daçãos do usuário com avatar
+        // Carregar dados do usuário com avatar
         async function carregarDaçãosUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });

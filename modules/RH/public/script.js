@@ -198,7 +198,7 @@ function initAdminPage () {
   async function carregarFuncionarios () {
     try {
       const response = await fetch(API_URL, { headers: getAuthHeaders({ 'Content-Type': 'application/json' }) })
-      if (!response.ok) throw new Error('Erro ao buscar daçãos da API.')
+      if (!response.ok) throw new Error('Erro ao buscar dados da API.')
       const funcionarios = await response.json()
 
       tabelaCorpo.innerHTML = ''
@@ -220,7 +220,7 @@ function initAdminPage () {
       })
     } catch (error) {
       console.error('Erro ao carregar funcionários:', error)
-      tabelaCorpo.innerHTML = '<tr><td colspan="5" style="color: red;">Não foi possível carregar os daçãos. Verifique se a API está online.</td></tr>'
+      tabelaCorpo.innerHTML = '<tr><td colspan="5" style="color: red;">Não foi possível carregar os dados. Verifique se a API está online.</td></tr>'
     }
   }
 
@@ -347,7 +347,7 @@ function initEmployeePage () {
 
   console.log('🔍 SCRIPT.JS initEmployeePage: Iniciando verificações...')
 
-  // Tenta obter os daçãos do localStorage. Em um sistema real, isso viria de uma API.
+  // Tenta obter os dados do localStorage. Em um sistema real, isso viria de uma API.
   const authToken = localStorage.getItem('authToken')
   let userData = null
   try {
@@ -361,12 +361,12 @@ function initEmployeePage () {
       role: userData.role
     })
   } catch {
-    // Se os daçãos estiverem corrompidos, trata como nulos
+    // Se os dados estiverem corrompidos, trata como nulos
     console.log('❌ SCRIPT.JS: Daçãos corrompidos no localStorage')
     userData = null
   }
 
-  // Se não houver token ou daçãos de usuário, redireciona para o login
+  // Se não houver token ou dados de usuário, redireciona para o login
   if (!authToken || !userData || (!userData.nome && !userData.nome_completo && !userData.email)) {
     // Usuário não autenticação - redireciona para a página de login
     console.warn('Usuário não autenticação. Redirecionando para login.', {
@@ -427,9 +427,9 @@ function initEmployeePage () {
     // Logout
     document.getElementById('logout-btn').addEventListener('click', handleLogout)
 
-    // Edição de daçãos
+    // Edição de dados
     document.getElementById('edit-btn').addEventListener('click', enableFormEditing)
-    document.getElementById('daçãos-form').addEventListener('submit', handleFormSubmit)
+    document.getElementById('dados-form').addEventListener('submit', handleFormSubmit)
 
     // Holerite e Ponto
     document.getElementById('view-holerite').addEventListener('click', loadHolerite)

@@ -120,7 +120,7 @@ class FornecedoresCompras {
                     </div>
                 </div>
                 
-                <button id="btn-novo-fornecedor" style="padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shaçãow: 0 4px 12px rgba(59, 130, 246, 0.3); transition: all 0.2s;">
+                <button id="btn-novo-fornecedor" style="padding: 12px 24px; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border: none; border-radius: 10px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3); transition: all 0.2s;">
                     <i class="fas fa-plus-circle"></i> Novo Fornecedor
                 </button>
             </div>
@@ -140,15 +140,15 @@ class FornecedoresCompras {
             <!-- Grid de Fornecedores -->
             <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px;">
                 ${this.fornecedores.map(f => `
-                    <div style="background: white; border-radius: 16px; padding: 24px; box-shaçãow: 0 4px 16px rgba(0,0,0,0.06); transition: all 0.3s; border: 2px solid ${f.status === 'ativo'  '#e2e8f0' : '#fee2e2'};"
+                    <div style="background: white; border-radius: 16px; padding: 24px; box-shadow: 0 4px 16px rgba(0,0,0,0.06); transition: all 0.3s; border: 2px solid ${f.status === 'ativo' ? '#e2e8f0' : '#fee2e2'};"
                          onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShaçãow='0 8px 24px rgba(0,0,0,0.12)'"
                          onmouseout="this.style.transform='translateY(0)'; this.style.boxShaçãow='0 4px 16px rgba(0,0,0,0.06)'">
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 16px;">
                             <div style="flex: 1;">
                                 <h3 style="margin: 0 0 8px 0; font-size: 17px; font-weight: 700; color: #1e293b;">${f.nome}</h3>
                                 <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                    <span style="padding: 4px 10px; background: ${f.status === 'ativo'  '#d1fae5' : '#fee2e2'}; color: ${f.status === 'ativo'  '#065f46' : '#991b1b'}; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase;">
-                                        ${f.status === 'ativo'  'Ativo' : 'Inativo'}
+                                    <span style="padding: 4px 10px; background: ${f.status === 'ativo' ? '#d1fae5' : '#fee2e2'}; color: ${f.status === 'ativo' ? '#065f46' : '#991b1b'}; border-radius: 6px; font-size: 11px; font-weight: 600; text-transform: uppercase;">
+                                        ${f.status === 'ativo' ? 'Ativo' : 'Inativo'}
                                     </span>
                                     <span style="padding: 4px 10px; background: #f1f5f9; color: #475569; border-radius: 6px; font-size: 11px; font-weight: 600;">
                                         ${f.categoria}
@@ -209,7 +209,7 @@ class FornecedoresCompras {
             <style>
                 #btn-novo-fornecedor:hover {
                     transform: translateY(-2px);
-                    box-shaçãow: 0 6px 20px rgba(59, 130, 246, 0.4);
+                    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
                 }
             </style>
         `;
@@ -282,7 +282,7 @@ class FornecedoresCompras {
         html += '<tbody>';
 
         this.fornecedores.forEach(f => {
-            const statusClass = f.status === 'ativo'  'status-success' : 'status-secondary';
+            const statusClass = f.status === 'ativo' ? 'status-success' : 'status-secondary';
             html += `<tr>
                 <td><strong>${f.nome}</strong></td>
                 <td>${f.cnpj}</td>

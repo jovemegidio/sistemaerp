@@ -30,9 +30,9 @@
         return null;
     }
     
-    // Função para remover daçãos de autenticação
+    // Função para remover dados de autenticação
     function clearAuthData() {
-        debugLog('🧹 Limpando daçãos de autenticação...');
+        debugLog('🧹 Limpando dados de autenticação...');
         
         // Limpar localStorage
         localStorage.removeItem('authToken');
@@ -113,7 +113,7 @@
                 const userData = await response.json();
                 debugLog('✅ Usuário autenticação:', userData.nome || userData.email);
                 
-                // Salvar daçãos do usuário para uso dos módulos
+                // Salvar dados do usuário para uso dos módulos
                 localStorage.setItem('userData', JSON.stringify(userData));
                 
                 // Disparar evento personalização para que os módulos saibam que o usuário está autenticação
@@ -164,7 +164,7 @@
                 redirectToLogin('Token não encontrado');
                 return;
             }
-            // Se o servidor retornar usuário, preservar os daçãos localmente e prosseguir
+            // Se o servidor retornar usuário, preservar os dados localmente e prosseguir
             localStorage.setItem('userData', JSON.stringify(serverUser));
             debugLog('🎫 Autenticação detectada via servidor sem token local:', serverUser.nome || serverUser.email);
             return;

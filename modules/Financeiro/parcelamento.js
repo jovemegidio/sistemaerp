@@ -12,15 +12,15 @@ class SistemaParcelamento {
     // INTERFACE DO MODAL
     // ============================================================================
 
-    abrirModal(daçãos = {}) {
-        const modal = this.criarModal(daçãos);
+    abrirModal(dados = {}) {
+        const modal = this.criarModal(dados);
         document.body.insertAdjacentHTML('beforeend', modal);
         this.modalAberto = true;
         this.configurarEventos();
         this.calcularParcelas();
     }
 
-    criarModal(daçãos) {
+    criarModal(dados) {
         return `
             <div class="modal-overlay" id="modal-parcelamento">
                 <div class="modal-parcelamento">
@@ -48,7 +48,7 @@ class SistemaParcelamento {
                                     <label>Valor Total *</label>
                                     <input type="text" id="parcelamento-valor" 
                                            placeholder="R$ 0,00" 
-                                           value="${daçãos.valor || ''}"
+                                           value="${dados.valor || ''}"
                                            oninput="sistemaParcelamento.formatarMoeda(this)">
                                 </div>
 
@@ -68,7 +68,7 @@ class SistemaParcelamento {
                                     <label>Descrição *</label>
                                     <input type="text" id="parcelamento-descricao" 
                                            placeholder="Ex: Compra de equipamento"
-                                           value="${daçãos.descricao || ''}">
+                                           value="${dados.descricao || ''}">
                                 </div>
                             </div>
                         </div>
@@ -363,7 +363,7 @@ class SistemaParcelamento {
                 .form-group textarea:focus {
                     outline: none;
                     border-color: #10b981;
-                    box-shaçãow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+                    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
                 }
 
                 .resumo-parcelamento {
@@ -455,7 +455,7 @@ class SistemaParcelamento {
 
                 .btn-primary:hover {
                     transform: translateY(-2px);
-                    box-shaçãow: 0 4px 12px rgba(16, 185, 129, 0.3);
+                    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
                 }
 
                 .btn-secondary {
@@ -668,7 +668,7 @@ class SistemaParcelamento {
             return;
         }
 
-        const daçãos = {
+        const dados = {
             tipo: tipo,
             descricao: descricao,
             categoria_id: document.getElementById('parcelamento-categoria').value,
@@ -688,7 +688,7 @@ class SistemaParcelamento {
 
         try {
             // TODO: Substituir por chamada real à API
-            await this.salvarParcelamento(daçãos);
+            await this.salvarParcelamento(dados);
 
             this.fecharModal();
             alert(`✅ ${this.parcelas.length} parcelas geradas com sucesso!`);
@@ -704,16 +704,16 @@ class SistemaParcelamento {
         }
     }
 
-    async salvarParcelamento(daçãos) {
+    async salvarParcelamento(dados) {
         // TODO: Substituir por chamada real à API
         // return await fetch('/api/financeiro/parcelamento', {
         //     method: 'POST',
         //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(daçãos)
+        //     body: JSON.stringify(dados)
         // }).then(r => r.json());
 
-        console.log('Salvando parcelamento:', daçãos);
-        return { success: true, parcelas_criadas: daçãos.parcelas.length };
+        console.log('Salvando parcelamento:', dados);
+        return { success: true, parcelas_criadas: dados.parcelas.length };
     }
 
     // ============================================================================

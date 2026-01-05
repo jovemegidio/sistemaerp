@@ -1,7 +1,7 @@
 /**
  * Criar usuários baseados nos funcionários
  * TI, Andreia e Douglas = admin
- * Demais = user (colaboraçãor)
+ * Demais = user (colaborador)
  */
 
 const mysql = require('mysql2/promise');
@@ -39,7 +39,7 @@ function determinarRole(nome, email, cargo) {
         return 'comercial';
     }
     
-    // Demais são colaboraçãores (user)
+    // Demais são colaboradores (user)
     return 'user';
 }
 
@@ -82,7 +82,7 @@ async function criarUsuarios() {
         const usuarios = [];
         const admins = [];
         const comerciais = [];
-        const colaboraçãores = [];
+        const colaboradores = [];
         
         for (const func of funcionarios) {
             const senha = gerarSenha(func.nome_completo);
@@ -105,7 +105,7 @@ async function criarUsuarios() {
             
             if (role === 'admin') admins.push(func.nome_completo);
             else if (role === 'comercial') comerciais.push(func.nome_completo);
-            else colaboraçãores.push(func.nome_completo);
+            else colaboradores.push(func.nome_completo);
         }
         
         // Inserir usuários
@@ -114,7 +114,7 @@ async function criarUsuarios() {
                 INSERT INTO usuarios (
                     nome, email, login, password_hash, senha_hash, role, 
                     is_admin, departamento, created_at
-                ) VALUES (, , , , , , , , NOW())
+                ) VALUES (?, ?, ?, ?, , ?, ?, , NOW())
             `, [
                 u.nome,
                 u.email,
@@ -140,8 +140,8 @@ async function criarUsuarios() {
         console.log(`\n💼 COMERCIAIS (${comerciais.length}):`);
         comerciais.forEach(n => console.log(`   - ${n}`));
         
-        console.log(`\n👤 COLABORADORES (${colaboraçãores.length}):`);
-        colaboraçãores.forEach(n => console.log(`   - ${n}`));
+        console.log(`\n👤 COLABORADORES (${colaboradores.length}):`);
+        colaboradores.forEach(n => console.log(`   - ${n}`));
         
         // 5. Tabela de credenciais
         console.log('\n' + '='.repeat(60));

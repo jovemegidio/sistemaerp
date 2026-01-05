@@ -145,7 +145,7 @@
         /* Cards */
         .card {
             background: white; border-radius: 16px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             border: 1px solid #f1f5f9; overflow: hidden;
         }
 
@@ -187,7 +187,7 @@
 
         .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none; border-color: var(--primary-purple);
-            box-shaçãow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         /* File Upload */
@@ -307,7 +307,7 @@
                 <a href="espelho-ponto.html" class="sidebar-btn" title="Espelho de Ponto">
                     <i class="fas fa-clock"></i>
                 </a>
-                <a href="daçãos-cadastrais.html" class="sidebar-btn" title="Meus Daçãos">
+                <a href="dados-cadastrais.html" class="sidebar-btn" title="Meus Daçãos">
                     <i class="fas fa-user-edit"></i>
                 </a>
                 <a href="beneficios.html" class="sidebar-btn" title="Benefícios">
@@ -674,7 +674,7 @@
                 toast = document.createElement('div');
                 toast.id = 'toast';
                 toast.innerHTML = '<i class="fas fa-check-circle"></i><span id="toast-message"></span>';
-                toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:white;padding:16px 24px;border-radius:12px;display:none;align-items:center;gap:12px;z-index:9999;box-shaçãow:0 4px 12px rgba(0,0,0,0.15);';
+                toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:white;padding:16px 24px;border-radius:12px;display:none;align-items:center;gap:12px;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
                 document.body.appendChild(toast);
             }
             
@@ -730,8 +730,8 @@
             }
             
             container.innerHTML = atestaçãos.slice(0, 5).map(a => {
-                const statusClass = a.status === 'Aprovação'  'approved' : a.status === 'Recusação'  'rejected' : 'pending';
-                const statusIcon = a.status === 'Aprovação'  'fa-check' : a.status === 'Recusação'  'fa-times' : 'fa-clock';
+                const statusClass = a.status === 'Aprovação' ? 'approved' : a.status === 'Recusação' ? 'rejected' : 'pending';
+                const statusIcon = a.status === 'Aprovação' ? 'fa-check' : a.status === 'Recusação' ? 'fa-times' : 'fa-clock';
                 const statusLabel = a.status || 'Pendente';
                 const dataInicio = a.data_inicio  new Date(a.data_inicio).toLocaleDateString('pt-BR') : '-';
                 const dias = a.data_inicio && a.data_fim  Math.ceil((new Date(a.data_fim) - new Date(a.data_inicio)) / (1000*60*60*24)) + 1 : 1;

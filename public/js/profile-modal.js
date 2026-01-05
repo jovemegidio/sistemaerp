@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const bioTextarea = document.getElementById('profile-bio');
     const avatarImg = document.getElementById('profile-avatar-img');
     
-    // Armazena daçãos do usuário
+    // Armazena dados do usuário
     let currentUserData = null;
     
     // Função para abrir modal
@@ -41,11 +41,11 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log('[ProfileModal] Modal fechação');
     }
     
-    // Função para carregar daçãos do usuário
+    // Função para carregar dados do usuário
     async function loadUserData() {
         try {
             const response = await fetch('/api/me', { credentials: 'include' });
-            if (!response.ok) throw new Error('Falha ao carregar daçãos');
+            if (!response.ok) throw new Error('Falha ao carregar dados');
             
             currentUserData = await response.json();
             console.log('[ProfileModal] Daçãos carregaçãos:', currentUserData);
@@ -72,8 +72,8 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
         } catch (error) {
-            console.error('[ProfileModal] Erro ao carregar daçãos:', error);
-            alert('Erro ao carregar daçãos do perfil. Tente novamente.');
+            console.error('[ProfileModal] Erro ao carregar dados:', error);
+            alert('Erro ao carregar dados do perfil. Tente novamente.');
         }
     }
     
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 bio: bioTextarea.value.trim()
             };
             
-            console.log('[ProfileModal] Enviando daçãos:', data);
+            console.log('[ProfileModal] Enviando dados:', data);
             
             const response = await fetch('/api/me', {
                 method: 'PUT',
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
             console.log('[ProfileModal] ✅ Salvo com sucesso:', result);
             
-            // Atualizar daçãos armazenaçãos
+            // Atualizar dados armazenaçãos
             currentUserData = result.user;
             
             // Atualizar saudação no header se apelido foi alteração

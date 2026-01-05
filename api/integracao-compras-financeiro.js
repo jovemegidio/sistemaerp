@@ -27,7 +27,7 @@ router.post('/gerar-pagar', async (req, res) => {
     try {
         const pool = req.app.locals.pool;
         
-        // 1. Buscar daçãos do pedido de compra
+        // 1. Buscar dados do pedido de compra
         const [pedidos] = await pool.execute(`
             SELECT 
                 pc.*,
@@ -115,7 +115,7 @@ router.post('/gerar-pagar', async (req, res) => {
                     categoria,
                     observacoes,
                     created_at
-                ) VALUES (, , , , , , , , , , , , , , , NOW())
+                ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, , , NOW())
             `, [
                 `Compra #${pedido.numero_pedido || pedido_id} - Parcela ${i + 1}/${numParcelas}`,
                 valorParcela.toFixed(2),
@@ -171,7 +171,7 @@ router.post('/gerar-pagar', async (req, res) => {
         res.json({
             success: true,
             message: `${contasGeradas.length} conta(s) a pagar gerada(s) com sucesso`,
-            daçãos: {
+            dados: {
                 pedido_id,
                 nota_fiscal,
                 valor_total: valorTotal,
@@ -207,7 +207,7 @@ router.post('/vincular-nfe', async (req, res) => {
     try {
         const pool = req.app.locals.pool;
         
-        // Atualizar contas a pagar com daçãos da NF-e
+        // Atualizar contas a pagar com dados da NF-e
         const [result] = await pool.execute(`
             UPDATE contas_pagar 
             SET chave_nfe = ,
@@ -433,22 +433,22 @@ router.get('/pendentes', async (req, res) => {
 /**
  * Função auxiliar para registrar logs de integração
  */
-async function registrarLogIntegracao(pool, daçãos) {
+async function registrarLogIntegracao(pool, dados) {
     try {
         await pool.execute(`
             INSERT INTO logs_integracao (
                 tipo, origem_modulo, destino_modulo, 
                 referencia_id, acao, detalhes, 
                 usuario_id, created_at
-            ) VALUES (, , , , , , , NOW())
+            ) VALUES (?, ?, ?, ?, , ?, ?, NOW())
         `, [
-            daçãos.tipo,
-            daçãos.origem_modulo,
-            daçãos.destino_modulo,
-            daçãos.referencia_id,
-            daçãos.acao,
-            daçãos.detalhes,
-            daçãos.usuario_id
+            dados.tipo,
+            dados.origem_modulo,
+            dados.destino_modulo,
+            dados.referencia_id,
+            dados.acao,
+            dados.detalhes,
+            dados.usuario_id
         ]);
     } catch (error) {
         console.error('[Log Integração] Erro ao registrar:', error.message);

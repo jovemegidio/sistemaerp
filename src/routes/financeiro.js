@@ -216,7 +216,7 @@ router.get('/dashboard', authenticateToken, authorizeFinanceiro('dashboard'), as
         res.json(result);
     } catch (error) {
         console.error('[Financeiro] Erro ao buscar dashboard:', error);
-        res.status(500).json({ error: 'Erro ao buscar daçãos do dashboard' });
+        res.status(500).json({ error: 'Erro ao buscar dados do dashboard' });
     }
 });
 
@@ -292,7 +292,7 @@ router.post('/contas-receber', authenticateToken, authorizeFinanceiro('receber')
         }
 
         const [result] = await pool.execute(
-            'INSERT INTO contas_receber (cliente, descricao, valor, vencimento, status, tipo, data_criacao) VALUES (, , , , "PENDENTE", , NOW())',
+            'INSERT INTO contas_receber (cliente, descricao, valor, vencimento, status, tipo, data_criacao) VALUES (?, ?, ?, ?, "PENDENTE", , NOW())',
             [cliente, descricao, valor, vencimento, tipo || 'VENDA']
         );
 
@@ -439,7 +439,7 @@ router.post('/contas-pagar', authenticateToken, authorizeFinanceiro('pagar'), as
 
         const [result] = await pool.execute(
             `INSERT INTO contas_pagar (fornecedor_id, descricao, valor, data_vencimento, categoria_id, banco_id, forma_pagamento, observacoes, status) 
-             VALUES (, , , , , , , , "pendente")`,
+             VALUES (?, ?, ?, ?, , ?, ?, , "pendente")`,
             [fornecedor_id || null, descricao, valor, dataVenc, categoria_id || null, banco_id || null, forma_pagamento || null, observacoes || null]
         );
 

@@ -20,7 +20,7 @@
   let userId = null;
 
   try {
-    const [rows] = await pool.query('SELECT id, email, senha_hash FROM usuarios WHERE email =  LIMIT 1', [email]);
+    const [rows] = await pool.query('SELECT id, email, senha_hash FROM usuarios WHERE email = ? LIMIT 1', [email]);
     if (rows.length === 0) {
       console.error('Usuário não encontrado:', email);
       process.exit(1);

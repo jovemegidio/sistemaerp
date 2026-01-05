@@ -45,16 +45,16 @@ async function configurarRoles() {
         
         console.log(`📊 Total de usuários: ${usuarios.length}\n`);
         
-        // Separar administradores e colaboraçãores
+        // Separar administradores e colaboradores
         let admins = [];
-        let colaboraçãores = [];
+        let colaboradores = [];
         
         for (const user of usuarios) {
             const email = (user.email || '').toLowerCase();
             if (ADMINISTRADORES.includes(email)) {
                 admins.push(user);
             } else {
-                colaboraçãores.push(user);
+                colaboradores.push(user);
             }
         }
         
@@ -64,13 +64,13 @@ async function configurarRoles() {
             console.log(`${index + 1}. [ID: ${user.id}] ${user.name || user.nome} (${user.email}) - Role atual: ${user.role || 'não definida'}`);
         });
         
-        console.log('\n👤 COLABORADORES IDENTIFICADOS (' + colaboraçãores.length + '):');
+        console.log('\n👤 COLABORADORES IDENTIFICADOS (' + colaboradores.length + '):');
         console.log('='.repeat(70));
-        colaboraçãores.slice(0, 5).forEach((user, index) => {
+        colaboradores.slice(0, 5).forEach((user, index) => {
             console.log(`${index + 1}. [ID: ${user.id}] ${user.nome} (${user.email}) - Role atual: ${user.role || 'não definida'}`);
         });
-        if (colaboraçãores.length > 5) {
-            console.log(`... e mais ${colaboraçãores.length - 5} colaboraçãores`);
+        if (colaboradores.length > 5) {
+            console.log(`... e mais ${colaboradores.length - 5} colaboradores`);
         }
         
         console.log('\n🔄 Atualizando roles...\n');
@@ -90,9 +90,9 @@ async function configurarRoles() {
             }
         }
         
-        // Atualizar colaboraçãores para role = 'user'
+        // Atualizar colaboradores para role = 'user'
         let userUpdates = 0;
-        for (const user of colaboraçãores) {
+        for (const user of colaboradores) {
             try {
                 await connection.query(
                     'UPDATE usuarios SET role = , is_admin = 0 WHERE id = ',
@@ -108,7 +108,7 @@ async function configurarRoles() {
         }
         
         if (userUpdates > 5) {
-            console.log(`👤 ... e mais ${userUpdates - 5} colaboraçãores atualizaçãos`);
+            console.log(`👤 ... e mais ${userUpdates - 5} colaboradores atualizaçãos`);
         }
         
         // Relatório final
@@ -120,7 +120,7 @@ async function configurarRoles() {
         console.log(`✅ Total de atualizações: ${adminUpdates + userUpdates}`);
         console.log('='.repeat(70));
         
-        // Verificar resultação
+        // Verificar resultado
         console.log('\n🔍 Verificando configuração final...\n');
         
         const [verificacao] = await connection.query(
@@ -129,7 +129,7 @@ async function configurarRoles() {
         
         console.log('📋 Distribuição de roles:');
         verificacao.forEach(row => {
-            const emoji = row.role === 'admin'  '👑' : '👤';
+            const emoji = row.role === 'admin' ? '👑' : '👤';
             console.log(`  ${emoji} ${row.role}: ${row.total} usuários`);
         });
         

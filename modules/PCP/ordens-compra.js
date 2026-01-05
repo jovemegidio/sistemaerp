@@ -296,17 +296,17 @@
         event.preventDefault();
         
         const formData = new FormData(event.target);
-        const daçãos = Object.fromEntries(formData);
+        const dados = Object.fromEntries(formData);
         
-        const quantidade = parseFloat(daçãos.quantidade) || 0;
-        const valorUnitario = parseFloat(daçãos.valor_unitario) || 0;
-        daçãos.valor_total = quantidade * valorUnitario;
+        const quantidade = parseFloat(dados.quantidade) || 0;
+        const valorUnitario = parseFloat(dados.valor_unitario) || 0;
+        dados.valor_total = quantidade * valorUnitario;
         
         try {
             const response = await fetch('/api/pcp/ordens-compra', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(daçãos)
+                body: JSON.stringify(dados)
             });
             
             if (!response.ok) throw new Error('Erro ao criar ordem');

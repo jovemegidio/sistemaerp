@@ -76,7 +76,7 @@ class ChatSupportApp {
         
         // Conta e assinatura
         'assinatura': 'Sobre sua assinatura, você pode verificar os detalhes na área "Minha Conta". Está tendo algum problema específico com ela',
-        'conta': 'Para questões sobre sua conta, posso ajudar com: alteração de daçãos, senha, configurações e muito mais. O que você precisa',
+        'conta': 'Para questões sobre sua conta, posso ajudar com: alteração de dados, senha, configurações e muito mais. O que você precisa',
         'senha': 'Para redefinir sua senha:\n1. Clique em "Esqueci minha senha" na tela de login\n2. Digite seu e-mail\n3. Verifique sua caixa de entrada\n4. Clique no link recebido\n\nEstá com dificuldade nesse processo',
         'cancelar': 'Sentimos muito que queira cancelar! 😢 Posso saber o motivo Talvez possamos ajudar a resolver antes do cancelamento.',
         'cancelamento': 'Para processar um cancelamento, preciso conectar você com nossa equipe. Antes, podemos tentar resolver algum problema',
@@ -158,7 +158,7 @@ class ChatSupportApp {
   }
 
   /**
-   * Escuta mensagens do parent (iframe embed) com daçãos do usuário
+   * Escuta mensagens do parent (iframe embed) com dados do usuário
    */
   listenForParentUserData() {
     window.addEventListener('message', (event) => {
@@ -176,7 +176,7 @@ class ChatSupportApp {
   }
 
   /**
-   * Auto-login usando daçãos do sistema principal (parent)
+   * Auto-login usando dados do sistema principal (parent)
    */
   autoLoginFromParent(parentUser) {
     const name = parentUser.nome || parentUser.firstName || parentUser.name || parentUser.email.split('@')[0];
@@ -412,7 +412,7 @@ class ChatSupportApp {
       return;
     }
     
-    // Se não, tenta usar daçãos do sistema principal (userData)
+    // Se não, tenta usar dados do sistema principal (userData)
     const mainUserData = localStorage.getItem('userData');
     if (mainUserData) {
       try {
@@ -484,7 +484,7 @@ class ChatSupportApp {
   }
   
   async loadUserData() {
-    // Primeiro, carregar daçãos locais
+    // Primeiro, carregar dados locais
     this.loadLocalData();
     
     try {
@@ -722,7 +722,7 @@ class ChatSupportApp {
       });
     }
     
-    // Salvar daçãos localmente
+    // Salvar dados localmente
     this.saveLocalData();
     this.renderConversations();
   }
@@ -833,7 +833,7 @@ class ChatSupportApp {
   transferToHuman() {
     this.addSystemMessage('Transferindo para um atendente humano...');
     
-    // Preparar daçãos para transferência
+    // Preparar dados para transferência
     const transferData = {
       userId: this.user ? this.user.id : 'anonymous',
       userName: this.user ? this.user.username : 'Visitante',
@@ -1115,7 +1115,7 @@ class ChatSupportApp {
     if (container) {
       container.innerHTML = '';
       conv.messages.forEach(msg => {
-        this.addMessageToUI(msg, msg.sender === 'user'  'outgoing' : 'incoming');
+        this.addMessageToUI(msg, msg.sender === 'user' ? 'outgoing' : 'incoming');
       });
     }
     
@@ -1332,7 +1332,7 @@ class ChatSupportApp {
       this.tickets.unshift(ticket);
     }
     
-    // Salvar daçãos localmente
+    // Salvar dados localmente
     this.saveLocalData();
     
     // Limpar formulário

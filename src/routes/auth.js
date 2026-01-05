@@ -84,7 +84,7 @@ router.post('/login', async (req, res) => {
         }
 
         // Seleciona o usuário
-        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email =  ORDER BY id ASC LIMIT 1', [email]);
+        const [rows] = await pool.query('SELECT * FROM usuarios WHERE email = ? ORDER BY id ASC LIMIT 1', [email]);
         if (!rows.length) {
             return res.status(401).json({ message: 'Usuário não encontrado.' });
         }
@@ -156,7 +156,7 @@ router.post('/login', async (req, res) => {
             // Redireciona para index.html (painel de controle)
             return res.redirect('/index.html');
         }
-        // Também retorna daçãos do usuário para uso imediato no cliente (AJAX)
+        // Também retorna dados do usuário para uso imediato no cliente (AJAX)
         // Inclui `redirectTo` (absoluto) para que clientes que usam fetch possam redirecionar a página facilmente.
         const baseUrl = (req.protocol || 'http') + '://' + (req.get('host') || req.headers.host || 'localhost');
         const redirectTo = baseUrl + '/index.html';
@@ -222,7 +222,7 @@ router.post('/auth/verify-email', async (req, res) => {
         }
         
         // Verifica se email existe no banco
-        const [rows] = await pool.query('SELECT id, nome, email, setor FROM usuarios WHERE email =  LIMIT 1', [email]);
+        const [rows] = await pool.query('SELECT id, nome, email, setor FROM usuarios WHERE email = ? LIMIT 1', [email]);
         
         if (!rows.length) {
             return res.status(404).json({ message: 'Email não encontrado no sistema.' });
@@ -245,18 +245,18 @@ router.post('/auth/verify-email', async (req, res) => {
     }
 });
 
-// Passo 2: Verificar daçãos do usuário (nome e departamento)
+// Passo 2: Verificar dados do usuário (nome e departamento)
 router.post('/auth/verify-user-data', async (req, res) => {
     try {
         const { userId, name, department } = req.body;
-        console.log('[AUTH/VERIFY-DATA] Verificando daçãos para userId:', userId);
+        console.log('[AUTH/VERIFY-DATA] Verificando dados para userId:', userId);
         
         if (!userId || !name || !department) {
             return res.status(400).json({ message: 'Daçãos incompletos.' });
         }
         
         // Busca usuário no banco
-        const [rows] = await pool.query('SELECT id, nome, setor FROM usuarios WHERE id =  LIMIT 1', [userId]);
+        const [rows] = await pool.query('SELECT id, nome, setor FROM usuarios WHERE id = ? LIMIT 1', [userId]);
         
         if (!rows.length) {
             return res.status(404).json({ message: 'Usuário não encontrado.' });
@@ -287,7 +287,7 @@ router.post('/auth/verify-user-data', async (req, res) => {
     } catch (error) {
         console.error('[AUTH/VERIFY-DATA] Erro:', error.stack || error);
         res.status(500).json({ 
-            message: 'Erro ao verificar daçãos.', 
+            message: 'Erro ao verificar dados.', 
             error: error.message 
         });
     }
@@ -308,7 +308,7 @@ router.post('/auth/change-password', async (req, res) => {
         }
         
         // Verifica se usuário existe
-        const [rows] = await pool.query('SELECT id FROM usuarios WHERE id =  LIMIT 1', [userId]);
+        const [rows] = await pool.query('SELECT id FROM usuarios WHERE id = ? LIMIT 1', [userId]);
         
         if (!rows.length) {
             return res.status(404).json({ message: 'Usuário não encontrado.' });
@@ -402,7 +402,7 @@ router.post('/auth/create-remember-token', async (req, res) => {
         }
         
         // Verifica se usuário existe
-        const [rows] = await pool.query('SELECT id, nome, email, role, setor FROM usuarios WHERE id =  AND email =  LIMIT 1', [userId, email]);
+        const [rows] = await pool.query('SELECT id, nome, email, role, setor FROM usuarios WHERE id =  AND email = ? LIMIT 1', [userId, email]);
         
         if (!rows.length) {
             return res.status(404).json({ message: 'Usuário não encontrado.' });
@@ -417,7 +417,7 @@ router.post('/auth/create-remember-token', async (req, res) => {
         
         // Salva token no banco
         await pool.query(
-            'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (, , )',
+            'INSERT INTO refresh_tokens (user_id, token, expires_at) VALUES (?, ?, )',
             [userId, rememberToken, expiresAt]
         );
         

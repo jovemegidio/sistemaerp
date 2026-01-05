@@ -29,34 +29,34 @@ class TemplateXLSXGenerator {
         return preenchidas;
     }
 
-    async generateFromTemplate(templatePath, outputPath, daçãosOrdem) {
+    async generateFromTemplate(templatePath, outputPath, dadosOrdem) {
         try {
             console.log('📂 Carregando template Excel...');
             
             // ESTRATÉGIA FORÇADA: Tentar preenchimento direto primeiro
             try {
-                console.log('🔧 Tentando preenchimento DIRETO com daçãos...');
-                return await this.generateWithDirectFill(templatePath, outputPath, daçãosOrdem);
+                console.log('🔧 Tentando preenchimento DIRETO com dados...');
+                return await this.generateWithDirectFill(templatePath, outputPath, dadosOrdem);
             } catch (error) {
                 console.log('⚠️ Erro no preenchimento direto:', error.message);
                 console.log('🔄 Tentando método seguro...');
                 
                 try {
-                    return await this.generateWithSafeExcelJS(templatePath, outputPath, daçãosOrdem);
+                    return await this.generateWithSafeExcelJS(templatePath, outputPath, dadosOrdem);
                 } catch (safeError) {
                     console.log('⚠️ Erro no método seguro:', safeError.message);
                     console.log('🔄 Fallback: template original...');
-                    return await this.generateWithTemplateCopyOnly(templatePath, outputPath, daçãosOrdem);
+                    return await this.generateWithTemplateCopyOnly(templatePath, outputPath, dadosOrdem);
                 }
             }
 
         } catch (error) {
             console.log('❌ Erro geral:', error.message);
-            return await this.generateBasicXLSX(outputPath, daçãosOrdem);
+            return await this.generateBasicXLSX(outputPath, dadosOrdem);
         }
     }
 
-    async generateWithDirectFill(templatePath, outputPath, daçãosOrdem) {
+    async generateWithDirectFill(templatePath, outputPath, dadosOrdem) {
         console.log('🎯 PREENCHIMENTO DIRETO - FORÇAR APLICAÇÁO DE DADOS');
         
         const fs = require('fs');
@@ -66,17 +66,17 @@ class TemplateXLSXGenerator {
             await fs.promises.copyFile(templatePath, outputPath);
             console.log('✅ Template copiação como base');
             
-            // 2. Aplicar daçãos DIRETAMENTE
+            // 2. Aplicar dados DIRETAMENTE
             const ExcelJS = require('exceljs');
             const workbook = new ExcelJS.Workbook();
             await workbook.xlsx.readFile(outputPath);
             
             const worksheet = workbook.worksheets[0];
             
-            // 3. Aplicar TODOS os daçãos de forma COMPLETA
-            await this.aplicarMapeamentoCompleto(worksheet, daçãosOrdem);
+            // 3. Aplicar TODOS os dados de forma COMPLETA
+            await this.aplicarMapeamentoCompleto(worksheet, dadosOrdem);
             
-            // 4. Salvar FORÇANDO os daçãos
+            // 4. Salvar FORÇANDO os dados
             await workbook.xlsx.writeFile(outputPath);
             
             const stats = await fs.promises.stat(outputPath);
@@ -94,8 +94,8 @@ class TemplateXLSXGenerator {
         }
     }
 
-    async generateWithSafeExcelJS(templatePath, outputPath, daçãosOrdem) {
-        console.log('🛡️ Método seguro: preservar formatação + preencher daçãos...');
+    async generateWithSafeExcelJS(templatePath, outputPath, dadosOrdem) {
+        console.log('🛡️ Método seguro: preservar formatação + preencher dados...');
         
         const fs = require('fs');
         
@@ -108,17 +108,17 @@ class TemplateXLSXGenerator {
             await fs.promises.copyFile(templatePath, outputPath);
             console.log('✅ Template copiação como base');
             
-            // 3. Tentar preencher daçãos SEM perder formatação
+            // 3. Tentar preencher dados SEM perder formatação
             const ExcelJS = require('exceljs');
             const workbook = new ExcelJS.Workbook();
             await workbook.xlsx.readFile(outputPath);
             
             const worksheet = workbook.worksheets[0];
             
-            // 4. Aplicar daçãos de forma conservaçãora
-            await this.aplicarMapeamentoConservaçãor(worksheet, daçãosOrdem);
+            // 4. Aplicar dados de forma conservaçãora
+            await this.aplicarMapeamentoConservaçãor(worksheet, dadosOrdem);
             
-            // 5. Salvar resultação
+            // 5. Salvar resultado
             await workbook.xlsx.writeFile(outputPath);
             
             // 6. Verificar se houve perda significativa de tamanho
@@ -142,7 +142,7 @@ class TemplateXLSXGenerator {
                 };
             } else {
                 console.log(`✅ Daçãos aplicaçãos com sucesso (redução: ${reductionPercent.toFixed(1)}%)`);
-                console.log('✅ Formatação preservada com daçãos preenchidos');
+                console.log('✅ Formatação preservada com dados preenchidos');
                 
                 // Limpar backup
                 await fs.promises.unlink(backupPath).catch(() => {});
@@ -160,49 +160,49 @@ class TemplateXLSXGenerator {
         }
     }
 
-    async aplicarMapeamentoConservaçãor(worksheet, daçãosOrdem) {
+    async aplicarMapeamentoConservaçãor(worksheet, dadosOrdem) {
         console.log('\n🛡️ APLICANDO DADOS DE FORMA CONSERVADORA');
         
         try {
-            // Aplicar daçãos básicos
+            // Aplicar dados básicos
             console.log('\n📋 DADOS BÁSICOS:');
-            this.preencherCelulaSegura(worksheet, 'C4', daçãosOrdem.numero_orcamento, 'Orçamento');
-            this.preencherCelulaSegura(worksheet, 'G4', daçãosOrdem.numero_pedido, 'Pedido'); 
-            this.preencherCelulaSegura(worksheet, 'I4', daçãosOrdem.data_liberacao, 'Data');
-            this.preencherCelulaSegura(worksheet, 'C5', daçãosOrdem.vendedor, 'Vendedor');
-            this.preencherCelulaSegura(worksheet, 'G5', daçãosOrdem.prazo_entrega, 'Prazo');
+            this.preencherCelulaSegura(worksheet, 'C4', dadosOrdem.numero_orcamento, 'Orçamento');
+            this.preencherCelulaSegura(worksheet, 'G4', dadosOrdem.numero_pedido, 'Pedido'); 
+            this.preencherCelulaSegura(worksheet, 'I4', dadosOrdem.data_liberacao, 'Data');
+            this.preencherCelulaSegura(worksheet, 'C5', dadosOrdem.vendedor, 'Vendedor');
+            this.preencherCelulaSegura(worksheet, 'G5', dadosOrdem.prazo_entrega, 'Prazo');
             
-            // Aplicar daçãos do cliente
+            // Aplicar dados do cliente
             console.log('\n👥 DADOS DO CLIENTE:');
-            this.preencherCelulaSegura(worksheet, 'C7', daçãosOrdem.cliente, 'Cliente');
-            this.preencherCelulaSegura(worksheet, 'G7', daçãosOrdem.contato_cliente, 'Contato');
-            this.preencherCelulaSegura(worksheet, 'C8', daçãosOrdem.fone_cliente, 'Telefone');
-            this.preencherCelulaSegura(worksheet, 'G8', daçãosOrdem.email_cliente, 'Email');
+            this.preencherCelulaSegura(worksheet, 'C7', dadosOrdem.cliente, 'Cliente');
+            this.preencherCelulaSegura(worksheet, 'G7', dadosOrdem.contato_cliente, 'Contato');
+            this.preencherCelulaSegura(worksheet, 'C8', dadosOrdem.fone_cliente, 'Telefone');
+            this.preencherCelulaSegura(worksheet, 'G8', dadosOrdem.email_cliente, 'Email');
             
-            // Aplicar daçãos do fornecedor
+            // Aplicar dados do fornecedor
             console.log('\n🏢 DADOS DO FORNECEDOR:');
-            this.preencherCelulaSegura(worksheet, 'C10', daçãosOrdem.fornecedor, 'Fornecedor');
-            this.preencherCelulaSegura(worksheet, 'G10', daçãosOrdem.contato_fornecedor, 'Contato Fornecedor');
-            this.preencherCelulaSegura(worksheet, 'C11', daçãosOrdem.fone_fornecedor, 'Telefone Fornecedor');
-            this.preencherCelulaSegura(worksheet, 'G11', daçãosOrdem.email_fornecedor, 'Email Fornecedor');
+            this.preencherCelulaSegura(worksheet, 'C10', dadosOrdem.fornecedor, 'Fornecedor');
+            this.preencherCelulaSegura(worksheet, 'G10', dadosOrdem.contato_fornecedor, 'Contato Fornecedor');
+            this.preencherCelulaSegura(worksheet, 'C11', dadosOrdem.fone_fornecedor, 'Telefone Fornecedor');
+            this.preencherCelulaSegura(worksheet, 'G11', dadosOrdem.email_fornecedor, 'Email Fornecedor');
             
             // CPF/CNPJ do fornecedor
-            const cpfCnpjFornecedor = daçãosOrdem.fornecedor_cpf_cnpj || '';
+            const cpfCnpjFornecedor = dadosOrdem.fornecedor_cpf_cnpj || '';
             if (cpfCnpjFornecedor) {
                 ['C12', 'D12', 'E12', 'F12', 'G12'].forEach(cellAddr => {
                     this.preencherCelulaSegura(worksheet, cellAddr, cpfCnpjFornecedor, '', '@');
                 });
             }
             
-            // Aplicar daçãos da transportaçãora
+            // Aplicar dados da transportaçãora
             console.log('\n🚚 DADOS DA TRANSPORTADORA:');
-            this.preencherCelulaSegura(worksheet, 'C13', daçãosOrdem.transportaçãora, 'Transportaçãora');
-            this.preencherCelulaSegura(worksheet, 'G13', daçãosOrdem.contato_transportaçãora, 'Contato Transportaçãora');
-            this.preencherCelulaSegura(worksheet, 'C14', daçãosOrdem.fone_transportaçãora, 'Telefone Transportaçãora');
-            this.preencherCelulaSegura(worksheet, 'G14', daçãosOrdem.email_transportaçãora, 'Email Transportaçãora');
+            this.preencherCelulaSegura(worksheet, 'C13', dadosOrdem.transportaçãora, 'Transportaçãora');
+            this.preencherCelulaSegura(worksheet, 'G13', dadosOrdem.contato_transportaçãora, 'Contato Transportaçãora');
+            this.preencherCelulaSegura(worksheet, 'C14', dadosOrdem.fone_transportaçãora, 'Telefone Transportaçãora');
+            this.preencherCelulaSegura(worksheet, 'G14', dadosOrdem.email_transportaçãora, 'Email Transportaçãora');
             
             // CPF/CNPJ da transportaçãora
-            const cpfCnpjTransportaçãora = daçãosOrdem.transportaçãora_cpf_cnpj || '';
+            const cpfCnpjTransportaçãora = dadosOrdem.transportaçãora_cpf_cnpj || '';
             if (cpfCnpjTransportaçãora) {
                 ['C15', 'D15', 'E15', 'F15'].forEach(cellAddr => {
                     this.preencherCelulaSegura(worksheet, cellAddr, cpfCnpjTransportaçãora, '', '@');
@@ -210,16 +210,16 @@ class TemplateXLSXGenerator {
             }
             
             // Email NFe
-            this.preencherCelulaSegura(worksheet, 'G15', daçãosOrdem.transportaçãora_email_nfe, 'Email NFe');
-            this.preencherCelulaSegura(worksheet, 'H15', daçãosOrdem.transportaçãora_email_nfe, '');
+            this.preencherCelulaSegura(worksheet, 'G15', dadosOrdem.transportaçãora_email_nfe, 'Email NFe');
+            this.preencherCelulaSegura(worksheet, 'H15', dadosOrdem.transportaçãora_email_nfe, '');
             
             // Aplicar produtos
             console.log('\n📦 PRODUTOS:');
-            if (daçãosOrdem.produtos && daçãosOrdem.produtos.length > 0) {
+            if (dadosOrdem.produtos && dadosOrdem.produtos.length > 0) {
                 let totalGeral = 0;
                 
-                for (let i = 0; i < Math.min(daçãosOrdem.produtos.length, 15); i++) {
-                    const produto = daçãosOrdem.produtos[i];
+                for (let i = 0; i < Math.min(dadosOrdem.produtos.length, 15); i++) {
+                    const produto = dadosOrdem.produtos[i];
                     const linhaPrincipal = 18 + (i * 2);
                     const linhaSub = linhaPrincipal + 1;
                     
@@ -258,7 +258,7 @@ class TemplateXLSXGenerator {
                 }
             }
             
-            console.log('✅ Todos os daçãos aplicaçãos com sucesso');
+            console.log('✅ Todos os dados aplicaçãos com sucesso');
             
         } catch (error) {
             console.log('⚠️ Erro na aplicação conservaçãora:', error.message);
@@ -266,7 +266,7 @@ class TemplateXLSXGenerator {
         }
     }
 
-    async generateWithTemplateCopyOnly(templatePath, outputPath, daçãosOrdem) {
+    async generateWithTemplateCopyOnly(templatePath, outputPath, dadosOrdem) {
         console.log(' Preservando template original 100% (apenas cópia)...');
         
         const fs = require('fs');
@@ -279,12 +279,12 @@ class TemplateXLSXGenerator {
 
             const stats = await fs.promises.stat(outputPath);
             
-            // Log dos daçãos que seriam aplicaçãos (para debug)
+            // Log dos dados que seriam aplicaçãos (para debug)
             console.log('\n📊 DADOS QUE SERIAM APLICADOS:');
-            console.log(`   Orçamento: ${daçãosOrdem.numero_orcamento}`);
-            console.log(`   Pedido: ${daçãosOrdem.numero_pedido}`);
-            console.log(`   Cliente: ${daçãosOrdem.cliente}`);
-            console.log(`   Produtos: ${daçãosOrdem.produtos.length || 0} itens`);
+            console.log(`   Orçamento: ${dadosOrdem.numero_orcamento}`);
+            console.log(`   Pedido: ${dadosOrdem.numero_pedido}`);
+            console.log(`   Cliente: ${dadosOrdem.cliente}`);
+            console.log(`   Produtos: ${dadosOrdem.produtos.length || 0} itens`);
             
             return {
                 filename: outputPath,
@@ -296,8 +296,8 @@ class TemplateXLSXGenerator {
         }
     }
 
-    async generateWithExcelJS(ExcelJS, templatePath, outputPath, daçãosOrdem) {
-        console.log('🔧 Preservando template original e aplicando apenas daçãos...');
+    async generateWithExcelJS(ExcelJS, templatePath, outputPath, dadosOrdem) {
+        console.log('🔧 Preservando template original e aplicando apenas dados...');
         
         try {
             // === MÉTODO 1: CÓPIA COMPLETA + PREENCHIMENTO ===
@@ -307,7 +307,7 @@ class TemplateXLSXGenerator {
             console.log('📋 Fazendo cópia idêntica do template...');
             await fs.promises.copyFile(templatePath, outputPath);
             
-            // Depois carregar a cópia e preencher daçãos
+            // Depois carregar a cópia e preencher dados
             console.log('📂 Carregando cópia para preenchimento...');
             const workbook = new ExcelJS.Workbook();
             await workbook.xlsx.readFile(outputPath);
@@ -316,10 +316,10 @@ class TemplateXLSXGenerator {
             console.log('✅ Template copiação e carregação para preenchimento');
 
             // === APLICAR APENAS OS DADOS, SEM ALTERAR FORMATAÇÁO ===
-            await this.aplicarMapeamentoCompleto(worksheet, daçãosOrdem);
+            await this.aplicarMapeamentoCompleto(worksheet, dadosOrdem);
 
             // === SALVAR PRESERVANDO ESTRUTURA ORIGINAL ===
-            console.log('💾 Salvando com daçãos preenchidos...');
+            console.log('💾 Salvando com dados preenchidos...');
             await workbook.xlsx.writeFile(outputPath);
             const stats = await fs.promises.stat(outputPath);
             
@@ -335,11 +335,11 @@ class TemplateXLSXGenerator {
             console.log('❌ Erro no método de preservação:', error.message);
             // Se falhar, usar cópia simples do template
             console.log('🔄 Fallback: mantendo template original...');
-            return await this.generateSimpleCopy(templatePath, outputPath, daçãosOrdem);
+            return await this.generateSimpleCopy(templatePath, outputPath, dadosOrdem);
         }
     }
 
-    async generateWithTemplateCopy(templatePath, outputPath, daçãosOrdem) {
+    async generateWithTemplateCopy(templatePath, outputPath, dadosOrdem) {
         console.log('📋 Usando cópia do template (método estável)...');
         
         const templateExists = await fs.promises.access(templatePath).then(() => true).catch(() => false);
@@ -361,26 +361,26 @@ class TemplateXLSXGenerator {
         }
     }
 
-    async aplicarMapeamentoCompleto(worksheet, daçãosOrdem) {
+    async aplicarMapeamentoCompleto(worksheet, dadosOrdem) {
         console.log('\n🟦 APLICANDO DADOS NO TEMPLATE (PRESERVANDO FORMATAÇÁO)');
         console.log('📋 Daçãos recebidos:', {
-            cliente: daçãosOrdem.cliente,
-            items_json: daçãosOrdem.items_json ? 'SIM' : 'NÁO',
-            produtos: daçãosOrdem.produtos ? 'SIM' : 'NÁO'
+            cliente: dadosOrdem.cliente,
+            items_json: dadosOrdem.items_json ? 'SIM' : 'NÁO',
+            produtos: dadosOrdem.produtos ? 'SIM' : 'NÁO'
         });
         
         // CORRIGIR PROBLEMA: Converter items_json para produtos se necessário
-        if (daçãosOrdem.items_json && !daçãosOrdem.produtos) {
+        if (dadosOrdem.items_json && !dadosOrdem.produtos) {
             try {
-                if (typeof daçãosOrdem.items_json === 'string') {
-                    daçãosOrdem.produtos = JSON.parse(daçãosOrdem.items_json);
+                if (typeof dadosOrdem.items_json === 'string') {
+                    dadosOrdem.produtos = JSON.parse(dadosOrdem.items_json);
                 } else {
-                    daçãosOrdem.produtos = daçãosOrdem.items_json;
+                    dadosOrdem.produtos = dadosOrdem.items_json;
                 }
-                console.log(`✅ Convertido items_json para produtos: ${daçãosOrdem.produtos.length} itens`);
+                console.log(`✅ Convertido items_json para produtos: ${dadosOrdem.produtos.length} itens`);
             } catch (error) {
                 console.log('❌ Erro ao converter items_json:', error.message);
-                daçãosOrdem.produtos = [];
+                dadosOrdem.produtos = [];
             }
         }
 
@@ -433,92 +433,92 @@ class TemplateXLSXGenerator {
         
         // === DADOS BÁSICOS (MAPEAMENTO CORRETO DO ORDEM_COMPLETA_SEGURA.JS) ===
         console.log('\n🟡 DADOS BÁSICOS:');
-        this.preencherCelulaSegura(worksheet, 'C4', daçãosOrdem.numero_orcamento, 'Orçamento');
-        this.preencherCelulaSegura(worksheet, 'G4', daçãosOrdem.numero_pedido || daçãosOrdem.pedido_referencia, 'Pedido');
+        this.preencherCelulaSegura(worksheet, 'C4', dadosOrdem.numero_orcamento, 'Orçamento');
+        this.preencherCelulaSegura(worksheet, 'G4', dadosOrdem.numero_pedido || dadosOrdem.pedido_referencia, 'Pedido');
         // Corrigir H4 para mostrar texto
         try {
             worksheet.getCell('H4').value = 'Data de liberação';
         } catch (e) { /* ignorar */ }
-        this.preencherCelulaSegura(worksheet, 'I4', daçãosOrdem.data_liberacao, 'Data Liberação');
-        this.preencherCelulaSegura(worksheet, 'J4', daçãosOrdem.data_liberacao, '');
+        this.preencherCelulaSegura(worksheet, 'I4', dadosOrdem.data_liberacao, 'Data Liberação');
+        this.preencherCelulaSegura(worksheet, 'J4', dadosOrdem.data_liberacao, '');
 
         // === VENDEDOR ===
         console.log('\n🟡 VENDEDOR:');
-        this.preencherCelulaSegura(worksheet, 'C6', daçãosOrdem.vendedor, 'Vendedor');
-        this.preencherCelulaSegura(worksheet, 'D6', daçãosOrdem.vendedor, '');
-        this.preencherCelulaSegura(worksheet, 'E6', daçãosOrdem.vendedor, '');
-        this.preencherCelulaSegura(worksheet, 'G6', daçãosOrdem.prazo_entrega || daçãosOrdem.data_previsao_entrega, 'Prazo Entrega');
-        this.preencherCelulaSegura(worksheet, 'H6', daçãosOrdem.prazo_entrega || daçãosOrdem.data_previsao_entrega, '');
-        this.preencherCelulaSegura(worksheet, 'I6', daçãosOrdem.prazo_entrega || daçãosOrdem.data_previsao_entrega, '');
+        this.preencherCelulaSegura(worksheet, 'C6', dadosOrdem.vendedor, 'Vendedor');
+        this.preencherCelulaSegura(worksheet, 'D6', dadosOrdem.vendedor, '');
+        this.preencherCelulaSegura(worksheet, 'E6', dadosOrdem.vendedor, '');
+        this.preencherCelulaSegura(worksheet, 'G6', dadosOrdem.prazo_entrega || dadosOrdem.data_previsao_entrega, 'Prazo Entrega');
+        this.preencherCelulaSegura(worksheet, 'H6', dadosOrdem.prazo_entrega || dadosOrdem.data_previsao_entrega, '');
+        this.preencherCelulaSegura(worksheet, 'I6', dadosOrdem.prazo_entrega || dadosOrdem.data_previsao_entrega, '');
 
         // === CLIENTE ===
         console.log('\n🟡 CLIENTE:');
-        this.preencherCelulaSegura(worksheet, 'C7', daçãosOrdem.cliente, 'Cliente');
-        this.preencherCelulaSegura(worksheet, 'D7', daçãosOrdem.cliente, '');
-        this.preencherCelulaSegura(worksheet, 'E7', daçãosOrdem.cliente, '');
-        this.preencherCelulaSegura(worksheet, 'F7', daçãosOrdem.cliente, '');
-        this.preencherCelulaSegura(worksheet, 'G7', daçãosOrdem.cliente, '');
+        this.preencherCelulaSegura(worksheet, 'C7', dadosOrdem.cliente, 'Cliente');
+        this.preencherCelulaSegura(worksheet, 'D7', dadosOrdem.cliente, '');
+        this.preencherCelulaSegura(worksheet, 'E7', dadosOrdem.cliente, '');
+        this.preencherCelulaSegura(worksheet, 'F7', dadosOrdem.cliente, '');
+        this.preencherCelulaSegura(worksheet, 'G7', dadosOrdem.cliente, '');
         
-        this.preencherCelulaSegura(worksheet, 'C8', daçãosOrdem.contato_cliente || daçãosOrdem.contato, 'Contato');
-        this.preencherCelulaSegura(worksheet, 'D8', daçãosOrdem.contato_cliente || daçãosOrdem.contato, '');
-        this.preencherCelulaSegura(worksheet, 'E8', daçãosOrdem.contato_cliente || daçãosOrdem.contato, '');
-        this.preencherCelulaSegura(worksheet, 'F8', daçãosOrdem.contato_cliente || daçãosOrdem.contato, '');
-        this.preencherCelulaSegura(worksheet, 'H8', daçãosOrdem.fone_cliente || daçãosOrdem.telefone, 'Telefone');
-        this.preencherCelulaSegura(worksheet, 'I8', daçãosOrdem.fone_cliente || daçãosOrdem.telefone, '');
+        this.preencherCelulaSegura(worksheet, 'C8', dadosOrdem.contato_cliente || dadosOrdem.contato, 'Contato');
+        this.preencherCelulaSegura(worksheet, 'D8', dadosOrdem.contato_cliente || dadosOrdem.contato, '');
+        this.preencherCelulaSegura(worksheet, 'E8', dadosOrdem.contato_cliente || dadosOrdem.contato, '');
+        this.preencherCelulaSegura(worksheet, 'F8', dadosOrdem.contato_cliente || dadosOrdem.contato, '');
+        this.preencherCelulaSegura(worksheet, 'H8', dadosOrdem.fone_cliente || dadosOrdem.telefone, 'Telefone');
+        this.preencherCelulaSegura(worksheet, 'I8', dadosOrdem.fone_cliente || dadosOrdem.telefone, '');
         
-        this.preencherCelulaSegura(worksheet, 'C9', daçãosOrdem.email_cliente || daçãosOrdem.email, 'Email');
-        this.preencherCelulaSegura(worksheet, 'D9', daçãosOrdem.email_cliente || daçãosOrdem.email, '');
-        this.preencherCelulaSegura(worksheet, 'E9', daçãosOrdem.email_cliente || daçãosOrdem.email, '');
-        this.preencherCelulaSegura(worksheet, 'F9', daçãosOrdem.email_cliente || daçãosOrdem.email, '');
+        this.preencherCelulaSegura(worksheet, 'C9', dadosOrdem.email_cliente || dadosOrdem.email, 'Email');
+        this.preencherCelulaSegura(worksheet, 'D9', dadosOrdem.email_cliente || dadosOrdem.email, '');
+        this.preencherCelulaSegura(worksheet, 'E9', dadosOrdem.email_cliente || dadosOrdem.email, '');
+        this.preencherCelulaSegura(worksheet, 'F9', dadosOrdem.email_cliente || dadosOrdem.email, '');
         // Preencher H9 e campo Frete com o valor do frete do modal
         try {
-            worksheet.getCell('H9').value = daçãosOrdem.tipo_frete || daçãosOrdem.frete || 'FOB';
-            worksheet.getCell('I9').value = daçãosOrdem.tipo_frete || daçãosOrdem.frete || 'FOB';
-            worksheet.getCell('J9').value = daçãosOrdem.tipo_frete || daçãosOrdem.frete || 'FOB';
+            worksheet.getCell('H9').value = dadosOrdem.tipo_frete || dadosOrdem.frete || 'FOB';
+            worksheet.getCell('I9').value = dadosOrdem.tipo_frete || dadosOrdem.frete || 'FOB';
+            worksheet.getCell('J9').value = dadosOrdem.tipo_frete || dadosOrdem.frete || 'FOB';
         } catch (e) { /* ignorar */ }
 
         // === TRANSPORTADORA ===
         console.log('\n🟡 TRANSPORTADORA:');
-        this.preencherCelulaSegura(worksheet, 'C12', daçãosOrdem.transportaçãora_nome || daçãosOrdem.transportaçãora, 'Nome Transportaçãora');
-        this.preencherCelulaSegura(worksheet, 'D12', daçãosOrdem.transportaçãora_nome || daçãosOrdem.transportaçãora, '');
-        this.preencherCelulaSegura(worksheet, 'E12', daçãosOrdem.transportaçãora_nome || daçãosOrdem.transportaçãora, '');
+        this.preencherCelulaSegura(worksheet, 'C12', dadosOrdem.transportaçãora_nome || dadosOrdem.transportaçãora, 'Nome Transportaçãora');
+        this.preencherCelulaSegura(worksheet, 'D12', dadosOrdem.transportaçãora_nome || dadosOrdem.transportaçãora, '');
+        this.preencherCelulaSegura(worksheet, 'E12', dadosOrdem.transportaçãora_nome || dadosOrdem.transportaçãora, '');
         // Preencher G12 e campo amarelo com o telefone do modal
         try {
-            worksheet.getCell('G12').value = daçãosOrdem.transportaçãora_fone || daçãosOrdem.fone_transportaçãora;
-            worksheet.getCell('H12').value = daçãosOrdem.transportaçãora_fone || daçãosOrdem.fone_transportaçãora;
+            worksheet.getCell('G12').value = dadosOrdem.transportaçãora_fone || dadosOrdem.fone_transportaçãora;
+            worksheet.getCell('H12').value = dadosOrdem.transportaçãora_fone || dadosOrdem.fone_transportaçãora;
         } catch (e) { /* ignorar */ }
         
-        this.preencherCelulaSegura(worksheet, 'C13', daçãosOrdem.transportaçãora_cep, 'CEP');
-        this.preencherCelulaSegura(worksheet, 'D13', daçãosOrdem.transportaçãora_cep, '');
-        this.preencherCelulaSegura(worksheet, 'F13', daçãosOrdem.transportaçãora_endereco, 'Endereço');
-        this.preencherCelulaSegura(worksheet, 'G13', daçãosOrdem.transportaçãora_endereco, '');
-        this.preencherCelulaSegura(worksheet, 'H13', daçãosOrdem.transportaçãora_endereco, '');
-        this.preencherCelulaSegura(worksheet, 'I13', daçãosOrdem.transportaçãora_endereco, '');
+        this.preencherCelulaSegura(worksheet, 'C13', dadosOrdem.transportaçãora_cep, 'CEP');
+        this.preencherCelulaSegura(worksheet, 'D13', dadosOrdem.transportaçãora_cep, '');
+        this.preencherCelulaSegura(worksheet, 'F13', dadosOrdem.transportaçãora_endereco, 'Endereço');
+        this.preencherCelulaSegura(worksheet, 'G13', dadosOrdem.transportaçãora_endereco, '');
+        this.preencherCelulaSegura(worksheet, 'H13', dadosOrdem.transportaçãora_endereco, '');
+        this.preencherCelulaSegura(worksheet, 'I13', dadosOrdem.transportaçãora_endereco, '');
         
         // CPF/CNPJ com formato especial
-        if (daçãosOrdem.transportaçãora_cpf_cnpj) {
+        if (dadosOrdem.transportaçãora_cpf_cnpj) {
             ['C15', 'D15'].forEach(cellAddr => {
                 try {
                     const cell = worksheet.getCell(cellAddr);
-                    cell.value = daçãosOrdem.transportaçãora_cpf_cnpj;
+                    cell.value = dadosOrdem.transportaçãora_cpf_cnpj;
                     cell.numFmt = '@';
-                    console.log(`   ✅ CPF/CNPJ: ${cellAddr} = ${daçãosOrdem.transportaçãora_cpf_cnpj}`);
+                    console.log(`   ✅ CPF/CNPJ: ${cellAddr} = ${dadosOrdem.transportaçãora_cpf_cnpj}`);
                 } catch (e) { /* ignorar */ }
             });
         }
         
-        this.preencherCelulaSegura(worksheet, 'G15', daçãosOrdem.transportaçãora_email_nfe, 'Email NFe');
-        this.preencherCelulaSegura(worksheet, 'H15', daçãosOrdem.transportaçãora_email_nfe, '');
+        this.preencherCelulaSegura(worksheet, 'G15', dadosOrdem.transportaçãora_email_nfe, 'Email NFe');
+        this.preencherCelulaSegura(worksheet, 'H15', dadosOrdem.transportaçãora_email_nfe, '');
 
         // === PRODUTOS (MAPEAMENTO CORRETO DO ORDEM_COMPLETA_SEGURA.JS) ===
         console.log('\n🟡 PRODUTOS:');
         let totalGeral = 0;
         
-        if (daçãosOrdem.produtos && daçãosOrdem.produtos.length > 0) {
+        if (dadosOrdem.produtos && dadosOrdem.produtos.length > 0) {
             // Preencher até 15 linhas de produtos, como no modelo
             for (let i = 0; i < 15; i++) {
                 const linha = 18 + i * 2; // cada produto ocupa 2 linhas (principal + sublinha)
-                const produto = daçãosOrdem.produtos[i];
+                const produto = dadosOrdem.produtos[i];
                 
                 if (produto && produto.codigo && (produto.descricao || produto.nome)) {
                     const valorTotal = produto.quantidade * produto.valor_unitario;
@@ -601,7 +601,7 @@ class TemplateXLSXGenerator {
         
         // === OBSERVAÇÕES ===
         console.log('\n🟡 OBSERVAÇÕES:');
-        const observacoes = daçãosOrdem.observacoes_pedido || daçãosOrdem.observacoes || 'OBSERVAÇÕES IMPORTANTES:\n• Prazo de entrega conforme especificação\n• Material deve ser entregue em perfeitas condições\n• Comunicar antecipadamente qualquer atraso\n• Horário de entrega: 8h às 17h';
+        const observacoes = dadosOrdem.observacoes_pedido || dadosOrdem.observacoes || 'OBSERVAÇÕES IMPORTANTES:\n• Prazo de entrega conforme especificação\n• Material deve ser entregue em perfeitas condições\n• Comunicar antecipadamente qualquer atraso\n• Horário de entrega: 8h às 17h';
         
         // Preencher observações nas células corretas
         this.preencherCelulaSegura(worksheet, 'A37', observacoes, 'Observações');
@@ -615,13 +615,13 @@ class TemplateXLSXGenerator {
         
         // === PAGAMENTO ===
         console.log('\n🟡 PAGAMENTO:');
-        this.preencherCelulaSegura(worksheet, 'A44', daçãosOrdem.condicoes_pagamento || '30 dias após o faturamento', 'Condições Pagamento');
-        this.preencherCelulaSegura(worksheet, 'B44', daçãosOrdem.condicoes_pagamento || '30 dias após o faturamento', '');
-        this.preencherCelulaSegura(worksheet, 'C44', daçãosOrdem.condicoes_pagamento || '30 dias após o faturamento', '');
-        this.preencherCelulaSegura(worksheet, 'D44', daçãosOrdem.condicoes_pagamento || '30 dias após o faturamento', '');
-        this.preencherCelulaSegura(worksheet, 'F44', daçãosOrdem.metodo_pagamento || 'Transferência Bancária', 'Método Pagamento');
-        this.preencherCelulaSegura(worksheet, 'G44', daçãosOrdem.metodo_pagamento || 'Transferência Bancária', '');
-        this.preencherCelulaSegura(worksheet, 'H44', daçãosOrdem.metodo_pagamento || 'Transferência Bancária', '');
+        this.preencherCelulaSegura(worksheet, 'A44', dadosOrdem.condicoes_pagamento || '30 dias após o faturamento', 'Condições Pagamento');
+        this.preencherCelulaSegura(worksheet, 'B44', dadosOrdem.condicoes_pagamento || '30 dias após o faturamento', '');
+        this.preencherCelulaSegura(worksheet, 'C44', dadosOrdem.condicoes_pagamento || '30 dias após o faturamento', '');
+        this.preencherCelulaSegura(worksheet, 'D44', dadosOrdem.condicoes_pagamento || '30 dias após o faturamento', '');
+        this.preencherCelulaSegura(worksheet, 'F44', dadosOrdem.metodo_pagamento || 'Transferência Bancária', 'Método Pagamento');
+        this.preencherCelulaSegura(worksheet, 'G44', dadosOrdem.metodo_pagamento || 'Transferência Bancária', '');
+        this.preencherCelulaSegura(worksheet, 'H44', dadosOrdem.metodo_pagamento || 'Transferência Bancária', '');
         this.preencherCelulaSegura(worksheet, 'I44', totalGeral, 'Valor Total Pagamento', 'R$ #,##0.00');
         this.preencherCelulaSegura(worksheet, 'J44', totalGeral, '', 'R$ #,##0.00');
         
@@ -633,19 +633,19 @@ class TemplateXLSXGenerator {
         
         // === ENTREGA ===
         console.log('\n🟡 ENTREGA:');
-        this.preencherCelulaSegura(worksheet, 'A47', daçãosOrdem.data_previsao_entrega || daçãosOrdem.data_liberacao, 'Data Entrega');
-        this.preencherCelulaSegura(worksheet, 'B47', daçãosOrdem.data_previsao_entrega || daçãosOrdem.data_liberacao, '');
-        this.preencherCelulaSegura(worksheet, 'C47', daçãosOrdem.data_previsao_entrega || daçãosOrdem.data_liberacao, '');
-        this.preencherCelulaSegura(worksheet, 'D47', daçãosOrdem.data_previsao_entrega || daçãosOrdem.data_liberacao, '');
+        this.preencherCelulaSegura(worksheet, 'A47', dadosOrdem.data_previsao_entrega || dadosOrdem.data_liberacao, 'Data Entrega');
+        this.preencherCelulaSegura(worksheet, 'B47', dadosOrdem.data_previsao_entrega || dadosOrdem.data_liberacao, '');
+        this.preencherCelulaSegura(worksheet, 'C47', dadosOrdem.data_previsao_entrega || dadosOrdem.data_liberacao, '');
+        this.preencherCelulaSegura(worksheet, 'D47', dadosOrdem.data_previsao_entrega || dadosOrdem.data_liberacao, '');
         
-        this.preencherCelulaSegura(worksheet, 'A49', daçãosOrdem.qtd_volumes || '15 volumes', 'Volumes');
-        this.preencherCelulaSegura(worksheet, 'B49', daçãosOrdem.qtd_volumes || '15 volumes', '');
-        this.preencherCelulaSegura(worksheet, 'C49', daçãosOrdem.qtd_volumes || '15 volumes', '');
-        this.preencherCelulaSegura(worksheet, 'F49', daçãosOrdem.tipo_embalagem_entrega || 'Embalagem industrial reforçada', 'Embalagem');
-        this.preencherCelulaSegura(worksheet, 'G49', daçãosOrdem.tipo_embalagem_entrega || 'Embalagem industrial reforçada', '');
-        this.preencherCelulaSegura(worksheet, 'H49', daçãosOrdem.tipo_embalagem_entrega || 'Embalagem industrial reforçada', '');
+        this.preencherCelulaSegura(worksheet, 'A49', dadosOrdem.qtd_volumes || '15 volumes', 'Volumes');
+        this.preencherCelulaSegura(worksheet, 'B49', dadosOrdem.qtd_volumes || '15 volumes', '');
+        this.preencherCelulaSegura(worksheet, 'C49', dadosOrdem.qtd_volumes || '15 volumes', '');
+        this.preencherCelulaSegura(worksheet, 'F49', dadosOrdem.tipo_embalagem_entrega || 'Embalagem industrial reforçada', 'Embalagem');
+        this.preencherCelulaSegura(worksheet, 'G49', dadosOrdem.tipo_embalagem_entrega || 'Embalagem industrial reforçada', '');
+        this.preencherCelulaSegura(worksheet, 'H49', dadosOrdem.tipo_embalagem_entrega || 'Embalagem industrial reforçada', '');
         
-        const obsEntrega = daçãosOrdem.observacoes_entrega || 'INSTRUÇÕES DE ENTREGA:\n• Entregar no endereço principal da empresa\n• Usar entrada de carga pelos fundos\n• Comunicar chegada na portaria\n• Aguardar liberação para descarga';
+        const obsEntrega = dadosOrdem.observacoes_entrega || 'INSTRUÇÕES DE ENTREGA:\n• Entregar no endereço principal da empresa\n• Usar entrada de carga pelos fundos\n• Comunicar chegada na portaria\n• Aguardar liberação para descarga';
         this.preencherCelulaSegura(worksheet, 'E51', obsEntrega, 'Obs. Entrega');
         this.preencherCelulaSegura(worksheet, 'F51', obsEntrega, '');
         this.preencherCelulaSegura(worksheet, 'G51', obsEntrega, '');
@@ -654,7 +654,7 @@ class TemplateXLSXGenerator {
         this.preencherCelulaSegura(worksheet, 'J51', obsEntrega, '');
         
         console.log('\n✅ MAPEAMENTO COMPLETO APLICADO!');
-        console.log(`📊 Resumo: ${daçãosOrdem.produtos.length || 0} produtos, Total: R$ ${totalGeral.toFixed(2)}`);
+        console.log(`📊 Resumo: ${dadosOrdem.produtos.length || 0} produtos, Total: R$ ${totalGeral.toFixed(2)}`);
         
         return totalGeral;
     }
@@ -682,7 +682,7 @@ class TemplateXLSXGenerator {
         }
     }
 
-    async generateSimpleCopy(templatePath, outputPath, daçãosOrdem) {
+    async generateSimpleCopy(templatePath, outputPath, dadosOrdem) {
         try {
             const templateExists = await fs.promises.access(templatePath).then(() => true).catch(() => false);
             
@@ -705,31 +705,31 @@ class TemplateXLSXGenerator {
         } catch (error) {
             console.log('❌ Erro ao copiar template:', error.message);
             // Gerar arquivo básico como último recurso
-            return await this.generateBasicXLSX(outputPath, daçãosOrdem);
+            return await this.generateBasicXLSX(outputPath, dadosOrdem);
         }
     }
 
-    async generateBasicXLSX(outputPath, daçãosOrdem) {
+    async generateBasicXLSX(outputPath, dadosOrdem) {
         // Gerar um XLSX básico usando CSV + extensão xlsx (temporário)
         let csvContent = 'ORDEM DE PRODUÇÁO ALUFORCE\n\n';
         csvContent += `Daçãos da Ordem:\n`;
-        csvContent += `Número do Orçamento:,${daçãosOrdem.numero_orcamento || ''}\n`;
-        csvContent += `Número do Pedido:,${daçãosOrdem.numero_pedido || ''}\n`;
-        csvContent += `Data de Liberação:,${daçãosOrdem.data_liberacao || ''}\n`;
-        csvContent += `Vendedor:,${daçãosOrdem.vendedor || ''}\n`;
-        csvContent += `Prazo de Entrega:,${daçãosOrdem.prazo_entrega || ''}\n\n`;
+        csvContent += `Número do Orçamento:,${dadosOrdem.numero_orcamento || ''}\n`;
+        csvContent += `Número do Pedido:,${dadosOrdem.numero_pedido || ''}\n`;
+        csvContent += `Data de Liberação:,${dadosOrdem.data_liberacao || ''}\n`;
+        csvContent += `Vendedor:,${dadosOrdem.vendedor || ''}\n`;
+        csvContent += `Prazo de Entrega:,${dadosOrdem.prazo_entrega || ''}\n\n`;
         
         csvContent += `Daçãos do Cliente:\n`;
-        csvContent += `Nome do Cliente:,${daçãosOrdem.cliente || ''}\n`;
-        csvContent += `Contato:,${daçãosOrdem.contato_cliente || ''}\n`;
-        csvContent += `Telefone:,${daçãosOrdem.fone_cliente || ''}\n`;
-        csvContent += `Email:,${daçãosOrdem.email_cliente || ''}\n\n`;
+        csvContent += `Nome do Cliente:,${dadosOrdem.cliente || ''}\n`;
+        csvContent += `Contato:,${dadosOrdem.contato_cliente || ''}\n`;
+        csvContent += `Telefone:,${dadosOrdem.fone_cliente || ''}\n`;
+        csvContent += `Email:,${dadosOrdem.email_cliente || ''}\n\n`;
         
-        if (daçãosOrdem.produtos && daçãosOrdem.produtos.length > 0) {
+        if (dadosOrdem.produtos && dadosOrdem.produtos.length > 0) {
             csvContent += `Produtos:\n`;
             csvContent += `Código,Descrição,Quantidade,Valor Unitário,Total\n`;
             
-            for (const produto of daçãosOrdem.produtos) {
+            for (const produto of dadosOrdem.produtos) {
                 const total = (produto.quantidade || 0) * (produto.valor_unitario || 0);
                 csvContent += `${produto.codigo || ''},${produto.descricao || produto.nome || ''},${produto.quantidade || 0},${produto.valor_unitario || 0},${total}\n`;
             }

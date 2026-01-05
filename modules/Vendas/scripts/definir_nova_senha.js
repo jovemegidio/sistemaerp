@@ -14,7 +14,7 @@ if (args.length < 2) {
 const userEmail = args[0];
 const newPlainPassword = args[1];
 
-// Configure com os daçãos do seu banco
+// Configure com os dados do seu banco
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',

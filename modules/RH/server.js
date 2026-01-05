@@ -5,7 +5,7 @@ const mysql = require('mysql2')
 const multer = require('multer') // upload de arquivos
 // Sharp é opcional - usação apenas para thumbnails
 let sharp = null;
-try { sharp = require('sharp'); } catch (e) { console.warn('[RH] ⚠️  Módulo sharp não instalação. Thumbnails desabilitaçãos.'); }
+try { sharp = require('sharp'); } catch (e) { console.warn('[RH] ⚠️  Módulo sharp não instalação. Thumbnails desabilitados.'); }
 const fs = require('fs')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -49,7 +49,7 @@ db.connect((err) => {
     logger.error('ERRO AO LIGAR-SE À BASE DE DADOS:', err)
     process.exit(1)
   }
-  logger.info('Ligação com sucesso à base de daçãos MySQL "aluforce_vendas".')
+  logger.info('Ligação com sucesso à base de dados MySQL "aluforce_vendas".')
   // Ensure avisos_lidos table exists for persisting per-user read state
   const ensureSql = `CREATE TABLE IF NOT EXISTS avisos_lidos (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -160,7 +160,7 @@ function isAdminUser (user) {
 }
 // Campos extras que o admin pode gerenciar (adicionaçãos via migration)
 const adminAllowedFields = [
-  'nacionalidade', 'naturalidade', 'filiacao_mae', 'filiacao_pai', 'daçãos_conjuge',
+  'nacionalidade', 'naturalidade', 'filiacao_mae', 'filiacao_pai', 'dados_conjuge',
   'zona_eleitoral', 'seção_eleitoral', 'ctps_numero', 'ctps_serie',
   'banco', 'agencia', 'conta_corrente'
 ]
@@ -273,7 +273,7 @@ app.post('/api/login', loginLimiter, (req, res) => {
     return res.status(400).json({ message: 'username/email e password/senha são obrigatórios.' })
   }
 
-  const sql = 'SELECT * FROM funcionarios WHERE email =  LIMIT 1'
+  const sql = 'SELECT * FROM funcionarios WHERE email = ? LIMIT 1'
   db.query(sql, [username], async (err, results) => {
     if (err) {
       logger.error('Login error:', err)
@@ -285,7 +285,7 @@ app.post('/api/login', loginLimiter, (req, res) => {
 
     const usuario = results[0]
     
-    // Verificar se o colaboraçãor está ativo
+    // Verificar se o colaborador está ativo
     const statusUsuario = (usuario.status || '').toLowerCase().trim()
     if (statusUsuario === 'inativo' || statusUsuario === 'desligação' || statusUsuario === 'demitido') {
       logger.warn(`Tentativa de login de usuário inativo: ${usuario.email} (status: ${usuario.status})`)
@@ -378,8 +378,8 @@ app.get('/api/funcionarios/:id/doc-status', authMiddleware, async (req, res) => 
   // allow self or admin
   if (Number(req.user.id) !== id && !isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negação.' })
   try {
-    const hol = await dbQuery('SELECT id, arquivo_url, competencia, data_upload FROM holerites WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 1', [id])
-    const esp = await dbQuery('SELECT id, arquivo_url, competencia, data_upload FROM espelhos_ponto WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 1', [id])
+    const hol = await dbQuery('SELECT id, arquivo_url, competencia, data_upload FROM holerites WHERE funcionario_id = ? ORDER BY data_upload DESC LIMIT 1', [id])
+    const esp = await dbQuery('SELECT id, arquivo_url, competencia, data_upload FROM espelhos_ponto WHERE funcionario_id = ? ORDER BY data_upload DESC LIMIT 1', [id])
     return res.json({ hasHolerite: Array.isArray(hol) && hol.length > 0, holerite: (hol && hol[0]) || null, hasPonto: Array.isArray(esp) && esp.length > 0, ponto: (esp && esp[0]) || null })
   } catch (err) {
     // if tables missing, return false flags
@@ -405,47 +405,47 @@ app.post('/api/funcionarios',
     const errors = validationResult(req)
     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() })
 
-    const daçãos = req.body || {}
+    const dados = req.body || {}
     try {
-      const hashed = await bcrypt.hash(daçãos.senha, 10)
+      const hashed = await bcrypt.hash(dados.senha, 10)
     const sql = `INSERT INTO funcionarios (
         email, senha, role, nome_completo, cargo, departamento, cpf, rg,
         telefone, estação_civil, data_nascimento, dependentes, foto_perfil_url, status,
-        nacionalidade, naturalidade, filiacao_mae, filiacao_pai, daçãos_conjuge,
+        nacionalidade, naturalidade, filiacao_mae, filiacao_pai, dados_conjuge,
         zona_eleitoral, seção_eleitoral, ctps_numero, ctps_serie,
         banco, agencia, conta_corrente
-      ) VALUES (, , , , , , , , , , , , , , , , , , , , , , , , , )`
+      ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, )`
 
       const params = [
-        daçãos.email || null,
+        dados.email || null,
         hashed,
-        daçãos.role || 'funcionario',
+        dados.role || 'funcionario',
         // nome_completo is NOT NULL in some schemas; fallback to email or empty string
-        daçãos.nome_completo || daçãos.email || '',
-        daçãos.cargo || null,
-        daçãos.departamento || null,
+        dados.nome_completo || dados.email || '',
+        dados.cargo || null,
+        dados.departamento || null,
         // cpf may be NOT NULL in legacy schema; provide empty string fallback
-        daçãos.cpf || '',
-        daçãos.rg || null,
-        daçãos.telefone || null,
-        daçãos.estação_civil || null,
-        daçãos.data_nascimento || null,
-        daçãos.dependentes || 0,
-        daçãos.foto_perfil_url || null,
-        daçãos.status || 'Ativo',
+        dados.cpf || '',
+        dados.rg || null,
+        dados.telefone || null,
+        dados.estação_civil || null,
+        dados.data_nascimento || null,
+        dados.dependentes || 0,
+        dados.foto_perfil_url || null,
+        dados.status || 'Ativo',
         // admin extra fields
-        daçãos.nacionalidade || null,
-        daçãos.naturalidade || null,
-        daçãos.filiacao_mae || null,
-        daçãos.filiacao_pai || null,
+        dados.nacionalidade || null,
+        dados.naturalidade || null,
+        dados.filiacao_mae || null,
+        dados.filiacao_pai || null,
         dados.dados_conjuge || null,
-        daçãos.zona_eleitoral || null,
-        daçãos.seção_eleitoral || null,
-        daçãos.ctps_numero || null,
-        daçãos.ctps_serie || null,
-        daçãos.banco || null,
-        daçãos.agencia || null,
-        daçãos.conta_corrente || null
+        dados.zona_eleitoral || null,
+        dados.seção_eleitoral || null,
+        dados.ctps_numero || null,
+        dados.ctps_serie || null,
+        dados.banco || null,
+        dados.agencia || null,
+        dados.conta_corrente || null
       ]
 
       db.query(sql, params, (err, results) => {
@@ -561,7 +561,7 @@ app.post('/api/funcionarios/:id/atéstação', authMiddleware, uploadAtestação
   const dias = req.body.dias  Number(req.body.dias) : 0
 
   try {
-    const sql = 'INSERT INTO atéstaçãos (funcionario_id, data_atestação, dias_afastação, motivo, arquivo_url, data_upload) VALUES (, , , , , NOW())'
+    const sql = 'INSERT INTO atéstaçãos (funcionario_id, data_atestação, dias_afastação, motivo, arquivo_url, data_upload) VALUES (?, ?, ?, ?, , NOW())'
     await dbQuery(sql, [id, dataAtestação, dias, descricao, arquivoUrl])
     return res.json({ message: 'Atéstação enviação com sucesso.', url: arquivoUrl })
   } catch (e) {
@@ -614,11 +614,11 @@ app.post('/api/funcionarios/:id/holerite', authMiddleware, uploadHolerite.single
     // Some schemas expect mes_referencia (YYYY-MM) NOT NULL; derive it from competencia or today
     const mesRef = competencia && String(competencia).trim() ? String(competencia).trim() : (new Date()).toISOString().slice(0, 7)
     try {
-      await dbQuery('INSERT INTO holerites (funcionario_id, mes_referencia, arquivo_url, data_upload, competencia) VALUES (, , , NOW(), )', [id, mesRef, arquivoUrl, competencia])
+      await dbQuery('INSERT INTO holerites (funcionario_id, mes_referencia, arquivo_url, data_upload, competencia) VALUES (?, ?, , NOW(), )', [id, mesRef, arquivoUrl, competencia])
     } catch (innerErr) {
       // If the target schema doesn't have mes_referencia (older schema), fallback to previous insert
       if (innerErr && innerErr.code === 'ER_BAD_FIELD_ERROR') {
-        await dbQuery('INSERT INTO holerites (funcionario_id, competencia, arquivo_url, data_upload) VALUES (, , , NOW())', [id, competencia, arquivoUrl])
+        await dbQuery('INSERT INTO holerites (funcionario_id, competencia, arquivo_url, data_upload) VALUES (?, ?, , NOW())', [id, competencia, arquivoUrl])
       } else {
         throw innerErr
       }
@@ -659,7 +659,7 @@ app.post('/api/funcionarios/:id/ponto', authMiddleware, uploadPonto.single('pont
   const arquivoUrl = `/uploads/ponto/${req.file.filename}`
   const competencia = req.body.competencia || null
   try {
-    await dbQuery('INSERT INTO espelhos_ponto (funcionario_id, competencia, arquivo_url, data_upload) VALUES (, , , NOW())', [id, competencia, arquivoUrl])
+    await dbQuery('INSERT INTO espelhos_ponto (funcionario_id, competencia, arquivo_url, data_upload) VALUES (?, ?, , NOW())', [id, competencia, arquivoUrl])
     return res.json({ message: 'Espelho de ponto enviação com sucesso.', url: arquivoUrl })
   } catch (e) {
     logger.error('Erro ao gravar espelho de ponto:', e)
@@ -682,16 +682,16 @@ app.get('/api/funcionarios', authMiddleware, (req, res) => {
   let sql; let params = []
 
   if (birthMonth && Number.isInteger(birthMonth) && birthMonth >= 1 && birthMonth <= 12) {
-  sql = 'SELECT id, foto_perfil_url AS foto_url, foto_thumb_url, COALESCE(nome_completo, email) AS nome, role AS cargo, email, data_nascimento FROM funcionarios WHERE data_nascimento IS NOT NULL AND MONTH(data_nascimento) =  ORDER BY DAY(data_nascimento)'
+  sql = 'SELECT id, foto_perfil_url AS foto_url, foto_thumb_url, COALESCE(nome_completo, email) AS nome, role AS cargo, email, data_nascimento FROM funcionarios WHERE data_nascimento IS NOT NULL AND MONTH(data_nascimento) = ? ORDER BY DAY(data_nascimento)'
     params.push(birthMonth)
   } else if (noFoto) {
   // return users without a custom photo (null or empty) or explicitly using placeholder
   const lim = limit || 10
-  sql = 'SELECT id, COALESCE(nome_completo, email) AS nome, foto_perfil_url, foto_thumb_url FROM funcionarios WHERE (foto_perfil_url IS NULL OR foto_perfil_url = "" OR foto_perfil_url LIKE ) LIMIT '
+  sql = 'SELECT id, COALESCE(nome_completo, email) AS nome, foto_perfil_url, foto_thumb_url FROM funcionarios WHERE (foto_perfil_url IS NULL OR foto_perfil_url = "" OR foto_perfil_url LIKE ?) LIMIT '
     params.push('%placeholder%')
     params.push(lim)
   } else if (q) {
-  sql = 'SELECT id, foto_perfil_url AS foto_url, foto_thumb_url, COALESCE(nome_completo, email) AS nome, role AS cargo, email FROM funcionarios WHERE nome_completo LIKE  OR email LIKE  LIMIT 200'
+  sql = 'SELECT id, foto_perfil_url AS foto_url, foto_thumb_url, COALESCE(nome_completo, email) AS nome, role AS cargo, email FROM funcionarios WHERE nome_completo LIKE ? OR email LIKE  LIMIT 200'
     const like = `%${q}%`
     params.push(like, like)
   } else {
@@ -710,40 +710,40 @@ app.get('/api/funcionarios', authMiddleware, (req, res) => {
 // Rota para buscar UM funcionário por ID
 app.get('/api/funcionarios/:id', authMiddleware, (req, res) => {
   const { id } = req.params
-  const sql = 'SELECT * FROM funcionarios WHERE id =  LIMIT 1'
+  const sql = 'SELECT * FROM funcionarios WHERE id = ? LIMIT 1'
   db.query(sql, [id], async (err, results) => {
     if (err) {
       logger.error('Erro ao buscar funcionario:', err)
       return res.status(500).json({ message: 'Erro interno no servidor.' })
     }
     if (!results || results.length === 0) return res.status(404).json({ message: 'Funcionário não encontrado.' })
-    // Permitir que o próprio usuário busque seus daçãos ou admin
+    // Permitir que o próprio usuário busque seus dados ou admin
     if (!isAdminUser(req.user) && Number(req.user.id) !== Number(id)) {
       return res.status(403).json({ message: 'Acesso negação.' })
     }
 
     try {
       // fetch recent holerites and latest ponto for this funcionario
-      const holerites = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM holerites WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 10', [id])
-      const pontoRows = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM espelhos_ponto WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 1', [id])
+      const holerites = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM holerites WHERE funcionario_id = ? ORDER BY data_upload DESC LIMIT 10', [id])
+      const pontoRows = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM espelhos_ponto WHERE funcionario_id = ? ORDER BY data_upload DESC LIMIT 1', [id])
       const latestPonto = (pontoRows && pontoRows.length > 0) ? pontoRows[0] : null
 
-      const { senha, ...daçãosSeguros } = results[0]
+      const { senha, ...dadosSeguros } = results[0]
       // attach holerites and ponto info
-      daçãosSeguros.holerites = holerites || []
-      daçãosSeguros.espelho_ponto = latestPonto
-      res.json(daçãosSeguros)
+      dadosSeguros.holerites = holerites || []
+      dadosSeguros.espelho_ponto = latestPonto
+      res.json(dadosSeguros)
     } catch (e) {
       logger.error('Erro ao buscar holerites/ponto para funcionario:', e)
-      const { senha, ...daçãosSeguros } = results[0]
-      daçãosSeguros.holerites = []
-      daçãosSeguros.espelho_ponto = null
-      res.json(daçãosSeguros)
+      const { senha, ...dadosSeguros } = results[0]
+      dadosSeguros.holerites = []
+      dadosSeguros.espelho_ponto = null
+      res.json(dadosSeguros)
     }
   })
 })
 
-// Rota para ATUALIZAR daçãos do funcionário
+// Rota para ATUALIZAR dados do funcionário
 app.put('/api/funcionarios/:id', authMiddleware, (req, res) => {
   const { id } = req.params
   // Apenas admin ou o próprio usuário pode atualizar
@@ -831,14 +831,14 @@ app.get('/api/notifications/count', authMiddleware, async (req, res) => {
   }
 })
 
-// GET /api/user-data -> daçãos atualizaçãos do usuário
+// GET /api/user-data -> dados atualizaçãos do usuário
 app.get('/api/user-data', authMiddleware, async (req, res) => {
   try {
     const sql = `SELECT * FROM funcionarios WHERE id = `
     
     db.query(sql, [req.user.id], (err, results) => {
       if (err) {
-        logger.error('Erro ao buscar daçãos do usuário:', err)
+        logger.error('Erro ao buscar dados do usuário:', err)
         return res.status(500).json({ success: false, message: 'Erro interno no servidor.' })
       }
       
@@ -854,7 +854,7 @@ app.get('/api/user-data', authMiddleware, async (req, res) => {
       }
     })
   } catch (error) {
-    logger.error('Erro ao recarregar daçãos do usuário:', error)
+    logger.error('Erro ao recarregar dados do usuário:', error)
     res.status(500).json({ success: false, message: 'Erro interno no servidor.' })
   }
 })
@@ -895,7 +895,7 @@ app.post('/api/avisos', authMiddleware, (req, res) => {
   const { titulo, mensagem } = req.body || {}
   if (!titulo || !mensagem) return res.status(400).json({ message: 'Título e mensagem são obrigatórios.' })
   // insert into avisos using 'conteudo' and 'data_publicacao' columns
-  const sql = 'INSERT INTO avisos (titulo, conteudo, data_publicacao) VALUES (, , NOW())'
+  const sql = 'INSERT INTO avisos (titulo, conteudo, data_publicacao) VALUES (?, ?, NOW())'
   db.query(sql, [titulo, mensagem], (err, results) => {
     if (err) {
       logger.error('Erro ao criar aviso:', err)
@@ -903,7 +903,7 @@ app.post('/api/avisos', authMiddleware, (req, res) => {
     }
     const insertedId = results.insertId
     // fetch the inserted aviso to broadcast
-    db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id =  LIMIT 1', [insertedId], (sErr, rows) => {
+    db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id = ? LIMIT 1', [insertedId], (sErr, rows) => {
       if (sErr) {
         logger.error('Erro ao buscar aviso inserido:', sErr)
         return res.status(201).json({ message: 'Aviso criado.', id: insertedId })
@@ -922,7 +922,7 @@ app.delete('/api/avisos/:id', authMiddleware, (req, res) => {
   if (!isAdminUser(req.user)) return res.status(403).json({ message: 'Acesso negação.' })
   const { id } = req.params
   // Buscar aviso antes de deletar para broadcast completo
-  db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id =  LIMIT 1', [id], (fetchErr, rows) => {
+  db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id = ? LIMIT 1', [id], (fetchErr, rows) => {
     const aviso = (rows && rows[0]) ? rows[0] : { id: Number(id) }
     const sql = 'DELETE FROM avisos WHERE id = '
     db.query(sql, [id], (err, results) => {
@@ -964,7 +964,7 @@ app.put('/api/avisos/:id', authMiddleware, (req, res) => {
     }
     if (results.affectedRows === 0) return res.status(404).json({ message: 'Aviso não encontrado.' })
     // return the updated aviso
-    db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id =  LIMIT 1', [id], (sErr, rows) => {
+    db.query('SELECT id, titulo, conteudo AS mensagem, data_publicacao AS created_at FROM avisos WHERE id = ? LIMIT 1', [id], (sErr, rows) => {
       if (sErr) {
         logger.error('Erro ao buscar aviso atualização:', sErr)
         return res.json({ message: 'Aviso atualização.' })
@@ -985,7 +985,7 @@ app.get('/api/avisos/:id', authMiddleware, (req, res) => {
                 CASE WHEN al.id IS NOT NULL THEN 1 ELSE 0 END AS lido
                 FROM avisos a
                 LEFT JOIN avisos_lidos al ON al.aviso_id = a.id AND al.funcionario_id = 
-                WHERE a.id =  LIMIT 1`
+                WHERE a.id = ? LIMIT 1`
   db.query(sql, [req.user.id, id], (err, results) => {
     if (err) {
       logger.error('Erro ao buscar aviso por id:', err)
@@ -1030,9 +1030,9 @@ app.post('/api/funcionarios/:id/senha',
   }
 )
 
-// Rota para obter daçãos do usuário autenticação
+// Rota para obter dados do usuário autenticação
 app.get('/api/me', authMiddleware, (req, res) => {
-  const sql = 'SELECT * FROM funcionarios WHERE id =  LIMIT 1'
+  const sql = 'SELECT * FROM funcionarios WHERE id = ? LIMIT 1'
   db.query(sql, [req.user.id], (err, results) => {
     if (err) {
       logger.error('Erro ao buscar usuário:', err)
@@ -1065,7 +1065,7 @@ app.post('/api/avisos/:id/read', authMiddleware, async (req, res) => {
   if (!Number.isInteger(avisoId) || avisoId <= 0) return res.status(400).json({ message: 'ID de aviso inválido.' })
   try {
     const now = new Date()
-    const sql = 'INSERT INTO avisos_lidos (aviso_id, funcionario_id, lido_at) VALUES (, , ) ON DUPLICATE KEY UPDATE lido_at = VALUES(lido_at)'
+    const sql = 'INSERT INTO avisos_lidos (aviso_id, funcionario_id, lido_at) VALUES (?, ?, ) ON DUPLICATE KEY UPDATE lido_at = VALUES(lido_at)'
     await dbQuery(sql, [avisoId, req.user.id, now])
     res.json({ message: 'Marcação como lido.', aviso_id: avisoId })
   } catch (e) {
@@ -1101,7 +1101,7 @@ app.get('/api/dashboard/summary', authMiddleware, async (req, res) => {
     const now = new Date()
     const month = now.getMonth() + 1
     // Return both foto_perfil_url and foto_url (legacy) so frontend can use either property
-  const aniversariantes = await dbQuery('SELECT id, COALESCE(nome_completo, email) AS nome, foto_perfil_url, foto_thumb_url, foto_perfil_url AS foto_url, data_nascimento FROM funcionarios WHERE data_nascimento IS NOT NULL AND MONTH(data_nascimento) =  ORDER BY DAY(data_nascimento)', [month])
+  const aniversariantes = await dbQuery('SELECT id, COALESCE(nome_completo, email) AS nome, foto_perfil_url, foto_thumb_url, foto_perfil_url AS foto_url, data_nascimento FROM funcionarios WHERE data_nascimento IS NOT NULL AND MONTH(data_nascimento) = ? ORDER BY DAY(data_nascimento)', [month])
 
     // Usuarios sem foto (para o banner)
     let semFoto = []
@@ -1133,7 +1133,7 @@ app.get('/api/dashboard/summary', authMiddleware, async (req, res) => {
     if (req.user.role !== 'admin') {
       try {
         // fetch latest espelho_ponto for this user
-        const pontoRows = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM espelhos_ponto WHERE funcionario_id =  ORDER BY data_upload DESC LIMIT 1', [req.user.id])
+        const pontoRows = await dbQuery('SELECT id, competencia, arquivo_url, data_upload FROM espelhos_ponto WHERE funcionario_id = ? ORDER BY data_upload DESC LIMIT 1', [req.user.id])
         const latestPonto = (pontoRows && pontoRows.length > 0) ? pontoRows[0] : null
         // do not include full tempoCasa aggregate for non-admins
         return res.json({ avisos, aniversariantes, atéstaçãos, espelho_ponto: latestPonto })
@@ -1378,8 +1378,8 @@ app.get('/api/rh/dashboard/charts', authMiddleware, async (req, res) => {
       evolucaoHeadcount: evolucaoHeadcount || []
     });
   } catch (error) {
-    logger.error('Erro ao buscar daçãos de gráficos:', error);
-    res.status(500).json({ message: 'Erro ao buscar daçãos de gráficos' });
+    logger.error('Erro ao buscar dados de gráficos:', error);
+    res.status(500).json({ message: 'Erro ao buscar dados de gráficos' });
   }
 });
 
@@ -1406,7 +1406,7 @@ app.post('/api/rh/centro-custo', authMiddleware, async (req, res) => {
     }
 
     const result = await dbQuery(
-      'INSERT INTO centro_custo (código, descricao, departamento, responsavel_id, orçamento_mensal, ativo) VALUES (, , , , , TRUE)',
+      'INSERT INTO centro_custo (código, descricao, departamento, responsavel_id, orçamento_mensal, ativo) VALUES (?, ?, ?, ?, , TRUE)',
       [código, descricao, departamento || null, responsavel_id || null, orçamento_mensal || null]
     );
 
@@ -1463,7 +1463,7 @@ app.post('/api/rh/histórico-salarial', authMiddleware, async (req, res) => {
     const result = await dbQuery(
       `INSERT INTO histórico_salarial 
        (funcionario_id, salario_anterior, salario_novo, percentual_aumento, motivo, tipo, data_vigencia, aprovação_por, observacoes)
-       VALUES (, , , , , , , , )`,
+       VALUES (?, ?, ?, ?, , ?, ?, ?, ?)`,
       [funcionario_id, salario_anterior || null, salario_novo, percentual_aumento || null, motivo || null, tipo || 'merito', data_vigencia, req.user.id, observacoes || null]
     );
 
@@ -1524,7 +1524,7 @@ app.post('/api/rh/histórico-cargos', authMiddleware, async (req, res) => {
     const result = await dbQuery(
       `INSERT INTO histórico_cargos 
        (funcionario_id, cargo_anterior, cargo_novo, departamento_anterior, departamento_novo, tipo_movimentacao, data_efetivacao, motivo, aprovação_por, observacoes)
-       VALUES (, , , , , , , , , )`,
+       VALUES (?, ?, ?, ?, , ?, ?, , ?, ?)`,
       [funcionario_id, cargo_anterior || null, cargo_novo, departamento_anterior || null, departamento_novo || null, tipo_movimentacao || 'promocao', data_efetivacao, motivo || null, req.user.id, observacoes || null]
     );
 
@@ -1564,7 +1564,7 @@ app.post('/api/rh/ponto/registrar', authMiddleware, async (req, res) => {
       result = await dbQuery(
         `INSERT INTO controle_ponto 
          (funcionario_id, data, entrada_manha, tipo_registro, ip_registro, observacao)
-         VALUES (, , , , , )`,
+         VALUES (?, ?, ?, ?, ?, ?)`,
         [funcionario_id, today, now, tipo_registro || 'normal', ip, observacao || null]
       );
       
@@ -1925,7 +1925,7 @@ app.post('/api/rh/jornadas', authMiddleware, async (req, res) => {
     const result = await dbQuery(
       `INSERT INTO jornada_trabalho 
        (nome, descricao, entrada_manha, saida_almoco, entrada_tarde, saida_final, carga_horaria_diaria, carga_horaria_semanal, tolerancia_atraso, tolerancia_saida, dias_trabalho)
-       VALUES (, , , , , , , , , , )`,
+       VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, )`,
       [nome, descricao || null, entrada_manha, saida_almoco || null, entrada_tarde || null, saida_final, carga_horaria_diaria || 8, carga_horaria_semanal || 40, tolerancia_atraso || 10, tolerancia_saida || 10, dias_trabalho ? JSON.stringify(dias_trabalho) : null]
     );
 
@@ -1952,12 +1952,12 @@ app.get('/api/rh/ferias/saldo/:funcionarioId', authMiddleware, async (req, res) 
     );
 
     const totalDisponivel = períodos.reduce((sum, p) => sum + (p.dias_disponivel || 0), 0);
-    const próximoVencimento = períodos.find(p => !p.vencido);
+    const proximoVencimento = períodos.find(p => !p.vencido);
 
     res.json({
       períodos,
       total_dias_disponivel: totalDisponivel,
-      próximo_vencimento: próximoVencimento ? próximoVencimento.data_limite_gozo : null
+      próximo_vencimento: proximoVencimento ? proximoVencimento.data_limite_gozo : null
     });
   } catch (error) {
     logger.error('Erro ao consultar saldo:', error);
@@ -2017,7 +2017,7 @@ app.post('/api/rh/ferias/solicitar', authMiddleware, async (req, res) => {
       `INSERT INTO ferias_solicitacoes 
        (funcionario_id, período_aquisitivo_inicio, período_aquisitivo_fim, data_inicio, data_fim, 
         dias_solicitaçãos, dias_corridos, tipo, fracao, dias_abono, adiantamento_13, observacoes, status)
-       VALUES (, , , , , , , , , , , , 'pendente')`,
+       VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , , 'pendente')`,
       [funcionario_id, período_aquisitivo_inicio, período_aquisitivo_fim, data_inicio, data_fim,
        diasCorridos, diasCorridos, tipo || 'integral', fracao || null, dias_abono || 0, 
        adiantamento_13 || false, observacoes || null]
@@ -2451,7 +2451,7 @@ app.post('/api/rh/folha/criar', authMiddleware, async (req, res) => {
     }
     
     const [result] = await pool.query(
-      'INSERT INTO rh_folhas_pagamento (mes, ano, tipo, created_by) VALUES (, , , )',
+      'INSERT INTO rh_folhas_pagamento (mes, ano, tipo, created_by) VALUES (?, ?, ?, ?)',
       [mes, ano, tipo, req.user.userId]
     );
     
@@ -2522,7 +2522,7 @@ app.post('/api/rh/folha/calcular', authMiddleware, async (req, res) => {
           inss_base, inss_aliquota, inss_valor,
           irrf_base, irrf_aliquota, irrf_valor,
           fgts_base
-        ) VALUES (, , , , , , , , , )
+        ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?)
       `, [
         folha_id, func.id, salarioBase,
         salarioBase, inss.aliquota, inss.valor,
@@ -2700,7 +2700,7 @@ app.post('/api/rh/holerite/:id/item', authMiddleware, async (req, res) => {
   
   try {
     await pool.query(
-      'INSERT INTO rh_holerite_itens (holerite_id, tipo, código, descricao, referencia, valor) VALUES (, , , , , )',
+      'INSERT INTO rh_holerite_itens (holerite_id, tipo, código, descricao, referencia, valor) VALUES (?, ?, ?, ?, ?, ?)',
       [req.params.id, tipo, código, descricao, referencia, valor]
     );
     
@@ -2739,7 +2739,7 @@ app.post('/api/rh/decimo-terceiro/calcular', authMiddleware, async (req, res) =>
       INSERT INTO rh_decimo_terceiro (
         funcionario_id, ano, meses_trabalhaçãos, valor_bruto,
         inss, irrf, valor_liquido, parcela
-      ) VALUES (, , , , , , , )
+      ) VALUES (?, ?, ?, ?, , ?, ?, )
     `, [funcionario_id, ano, mesesTrabalhaçãos, valorBruto, inss.valor, irrf.valor, valorLiquido, parcela]);
     
     res.json({
@@ -2760,7 +2760,7 @@ app.post('/api/rh/decimo-terceiro/calcular', authMiddleware, async (req, res) =>
 app.get('/api/rh/decimo-terceiro/:funcionario_id', authMiddleware, async (req, res) => {
   try {
     const [decimosTerceiros] = await pool.query(
-      'SELECT * FROM rh_decimo_terceiro WHERE funcionario_id =  ORDER BY ano DESC',
+      'SELECT * FROM rh_decimo_terceiro WHERE funcionario_id = ? ORDER BY ano DESC',
       [req.params.funcionario_id]
     );
     
@@ -2813,7 +2813,7 @@ app.post('/api/rh/rescisao/calcular', authMiddleware, async (req, res) => {
         terco_ferias_proporcionais, decimo_terceiro_proporcional,
         total_proventos, inss, irrf, total_descontos, valor_liquido,
         fgts_depositar, multa_fgts, created_by
-      ) VALUES (, , , , , , , , , , , , , , , , , )
+      ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, ?, ?)
     `, [
       funcionario_id, tipo_rescisao, data_demissao,
       aviso_previo_trabalhação, dias_aviso_previo,
@@ -2842,7 +2842,7 @@ app.post('/api/rh/rescisao/calcular', authMiddleware, async (req, res) => {
 app.get('/api/rh/rescisao/:funcionario_id', authMiddleware, async (req, res) => {
   try {
     const [rescisao] = await pool.query(
-      'SELECT * FROM rh_rescisoes WHERE funcionario_id =  ORDER BY data_demissao DESC',
+      'SELECT * FROM rh_rescisoes WHERE funcionario_id = ? ORDER BY data_demissao DESC',
       [req.params.funcionario_id]
     );
     
@@ -2905,7 +2905,7 @@ app.get('/api/rh/folha/relatório/centro-custo', authMiddleware, async (req, res
   
   try {
     const [relatório] = await pool.query(
-      'SELECT * FROM vw_folha_por_centro_custo WHERE mes =  AND ano =  ORDER BY total_liquido DESC',
+      'SELECT * FROM vw_folha_por_centro_custo WHERE mes =  AND ano = ? ORDER BY total_liquido DESC',
       [mes, ano]
     );
     
@@ -2965,7 +2965,7 @@ app.post('/api/rh/beneficios/vincular', authMiddleware, async (req, res) => {
     const [result] = await pool.query(`
       INSERT INTO rh_funcionarios_beneficios (
         funcionario_id, beneficio_tipo_id, valor_mensal, quantidade, data_inicio, observacoes
-      ) VALUES (, , , , , )
+      ) VALUES (?, ?, ?, ?, ?, ?)
     `, [funcionario_id, beneficio_tipo_id, valor_mensal, quantidade, data_inicio, observacoes]);
     
     res.json({ success: true, id: result.insertId });
@@ -3039,7 +3039,7 @@ app.post('/api/rh/dependentes/adicionar', authMiddleware, async (req, res) => {
       INSERT INTO rh_dependentes (
         funcionario_id, nome, cpf, data_nascimento, grau_parentesco,
         tem_plano_saude, irrf_dependente
-      ) VALUES (, , , , , , )
+      ) VALUES (?, ?, ?, ?, , ?, ?)
     `, [funcionario_id, nome, cpf, data_nascimento, grau_parentesco, tem_plano_saude || false, irrf_dependente || false]);
     
     res.json({ success: true, id: result.insertId });
@@ -3177,7 +3177,7 @@ app.post('/api/rh/beneficios/convenios', authMiddleware, async (req, res) => {
     const [result] = await pool.query(`
       INSERT INTO rh_beneficios_convenios (
         beneficio_tipo_id, nome_fornecedor, cnpj, contato, telefone, email, valor_contratação, data_inicio_contrato
-      ) VALUES (, , , , , , , )
+      ) VALUES (?, ?, ?, ?, , ?, ?, )
     `, [beneficio_tipo_id, nome_fornecedor, cnpj, contato, telefone, email, valor_contratação, data_inicio_contrato]);
     
     res.json({ success: true, id: result.insertId });
@@ -3217,7 +3217,7 @@ app.post('/api/rh/vale-transporte', authMiddleware, async (req, res) => {
       INSERT INTO rh_vale_transporte (
         funcionario_id, tipo_transporte, linha_ida, linha_volta, valor_unitario,
         quantidade_dia, dias_uteis, valor_mensal, data_inicio
-      ) VALUES (, , , , , , , , )
+      ) VALUES (?, ?, ?, ?, , ?, ?, ?, ?)
     `, [funcionario_id, tipo_transporte, linha_ida, linha_volta, valor_unitario, quantidade_dia || 2, dias_uteis || 22, valorMensal, data_inicio]);
     
     res.json({ success: true, id: result.insertId, valor_mensal: valorMensal });
@@ -3271,7 +3271,7 @@ app.post('/api/rh/avaliacoes/criar', authMiddleware, async (req, res) => {
       INSERT INTO rh_avaliacoes_desempenho 
       (funcionario_id, período_id, avaliaçãor_id, tipo_avaliacao, data_avaliacao, status,
        pontos_fortes, pontos_melhoria, comentarios_avaliaçãor) 
-      VALUES (, , , , CURDATE(), 'RASCUNHO', , , )
+      VALUES (?, ?, ?, ?, CURDATE(), 'RASCUNHO', ?, ?, )
     `, [funcionario_id, período_id, avaliaçãor_id, tipo_avaliacao, pontos_fortes, pontos_melhoria, comentarios_avaliaçãor]);
     
     const avaliacaoId = result.insertId;
@@ -3281,7 +3281,7 @@ app.post('/api/rh/avaliacoes/criar', authMiddleware, async (req, res) => {
       for (const comp of competencias) {
         await conn.query(`
           INSERT INTO rh_avaliacao_itens (avaliacao_id, competencia_id, nota, peso, comentario)
-          VALUES (, , , , )
+          VALUES (?, ?, ?, ?, )
         `, [avaliacaoId, comp.competencia_id, comp.nota, comp.peso || 1.0, comp.comentario || null]);
       }
     }
@@ -3378,7 +3378,7 @@ app.post('/api/rh/metas/criar', authMiddleware, async (req, res) => {
       INSERT INTO rh_metas 
       (funcionario_id, período_id, titulo, descricao, categoria, tipo, valor_meta, 
        unidade_medida, data_inicio, data_fim, status, responsavel_id)
-      VALUES (, , , , , , , , , , 'PLANEJADA', )
+      VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, 'PLANEJADA', )
     `, [funcionario_id, período_id, titulo, descricao, categoria, tipo, valor_meta, unidade_medida, data_inicio, data_fim, responsavel_id]);
     
     res.json({ success: true, id: result.insertId });
@@ -3439,7 +3439,7 @@ app.post('/api/rh/feedback360/adicionar', authMiddleware, async (req, res) => {
       (avaliacao_id, avaliação_id, avaliaçãor_id, tipo_relacao, comunicacao, trabalho_equipe,
        lideranca, resolucao_problemas, proatividade, qualidade_trabalho, pontualidade,
        comentarios, anonimo, data_feedback)
-      VALUES (, , , , , , , , , , , , , CURDATE())
+      VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, CURDATE())
     `, [avaliacao_id, avaliação_id, avaliaçãor_id, tipo_relacao, comunicacao, trabalho_equipe, lideranca, resolucao_problemas, proatividade, qualidade_trabalho, pontualidade, comentarios, anonimo]);
     
     res.json({ success: true, id: result.insertId });
@@ -3494,7 +3494,7 @@ app.post('/api/rh/pdi/criar', authMiddleware, async (req, res) => {
       INSERT INTO rh_pdi 
       (funcionario_id, período_id, competencia_desenvolver, acao_desenvolvimento, tipo_acao,
        prioridade, prazo_conclusao, custo_estimação, status, responsavel_acompanhamento)
-      VALUES (, , , , , , , , 'PLANEJADO', )
+      VALUES (?, ?, ?, ?, , ?, ?, , 'PLANEJADO', )
     `, [funcionario_id, período_id, competencia_desenvolver, acao_desenvolvimento, tipo_acao, prioridade, prazo_conclusao, custo_estimação, responsavel_acompanhamento]);
     
     res.json({ success: true, id: result.insertId });
@@ -3508,7 +3508,7 @@ app.post('/api/rh/pdi/criar', authMiddleware, async (req, res) => {
 app.put('/api/rh/pdi/:id/progresso', authMiddleware, async (req, res) => {
   const { percentual_conclusao, resultado_obtido, status } = req.body;
   try {
-    const dataField = status === 'CONCLUIDO'  ', data_conclusao = CURDATE()' : '';
+    const dataField = status === 'CONCLUIDO' ? ', data_conclusao = CURDATE()' : '';
     
     await pool.query(`
       UPDATE rh_pdi 
@@ -3582,7 +3582,7 @@ app.post('/api/rh/promocoes/registrar', authMiddleware, async (req, res) => {
       INSERT INTO rh_historico_promocoes 
       (funcionario_id, avaliacao_id, cargo_anterior, cargo_novo, salario_anterior,
        salario_novo, tipo_movimentacao, motivo, data_efetivacao, aprovação_por)
-      VALUES (, , , , , , , , , )
+      VALUES (?, ?, ?, ?, , ?, ?, , ?, ?)
     `, [funcionario_id, avaliacao_id, cargo_anterior, cargo_novo, salario_anterior, salario_novo, tipo_movimentacao, motivo, data_efetivacao, req.user.id || 1]);
     
     res.json({ success: true, id: result.insertId });
@@ -3646,7 +3646,7 @@ function tryStartServer(port, retryCount = 0) {
       console.log(`🔄 Porta 3000 ocupada. Servidor iniciação na porta alternativa ${boundPort}!`)
     }
     
-    logger.info(`Servidor a correr! Aceda à aplicação em http://${boundHost === '0.0.0.0'  '127.0.0.1' : boundHost}:${boundPort}`)
+    logger.info(`Servidor a correr! Aceda à aplicação em http://${boundHost === '0.0.0.0' ? '127.0.0.1' : boundHost}:${boundPort}`)
     try {
       logger.info('Server.address: ' + JSON.stringify(addr))
       console.log('Server listening:', JSON.stringify(addr))

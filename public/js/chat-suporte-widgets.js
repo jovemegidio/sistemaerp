@@ -34,7 +34,7 @@
      */
     async function checkUserAndLoadWidgets() {
         try {
-            // Tentar obter daçãos do usuário da API
+            // Tentar obter dados do usuário da API
             const response = await fetch('/api/me', { credentials: 'include' });
             
             if (response.ok) {
@@ -62,7 +62,7 @@
                         loadWidgetsBasedOnUser(currentUser.email);
                     }
                 } catch (e) {
-                    console.error('Erro ao parsear daçãos do usuário:', e);
+                    console.error('Erro ao parsear dados do usuário:', e);
                 }
             }
         }
@@ -131,14 +131,14 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                box-shaçãow: 0 4px 12px rgba(0, 184, 169, 0.4);
+                box-shadow: 0 4px 12px rgba(0, 184, 169, 0.4);
                 transition: all 0.3s ease;
                 z-index: 998;
             }
 
             .chat-launcher-btn:hover {
                 transform: scale(1.1);
-                box-shaçãow: 0 6px 20px rgba(0, 184, 169, 0.5);
+                box-shadow: 0 6px 20px rgba(0, 184, 169, 0.5);
             }
 
             .chat-launcher-icon {
@@ -194,7 +194,7 @@
                 height: 550px;
                 background: white;
                 border-radius: 16px;
-                box-shaçãow: 0 10px 50px rgba(0, 0, 0, 0.25);
+                box-shadow: 0 10px 50px rgba(0, 0, 0, 0.25);
                 overflow: hidden;
                 z-index: 9999;
                 animation: slide-up 0.3s ease;
@@ -269,9 +269,9 @@
 
         if (launcherBtn && widgetFrame && closeBtn) {
             launcherBtn.addEventListener('click', () => {
-                widgetFrame.style.display = widgetFrame.style.display === 'none'  'block' : 'none';
+                widgetFrame.style.display = widgetFrame.style.display === 'none' ? 'block' : 'none';
                 
-                // Passar daçãos do usuário para o iframe
+                // Passar dados do usuário para o iframe
                 const iframe = document.getElementById('chat-iframe');
                 if (iframe && currentUser) {
                     iframe.contentWindow.postMessage({
@@ -334,7 +334,7 @@
                 display: flex !important;
                 align-items: center !important;
                 justify-content: center !important;
-                box-shaçãow: 0 4px 12px rgba(139, 92, 246, 0.4) !important;
+                box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4) !important;
                 transition: all 0.3s ease !important;
                 z-index: 997 !important;
                 color: white !important;
@@ -343,7 +343,7 @@
 
             .support-launcher-btn:hover {
                 transform: scale(1.1);
-                box-shaçãow: 0 6px 20px rgba(139, 92, 246, 0.5) !important;
+                box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5) !important;
             }
 
             .support-launcher-badge {
@@ -378,7 +378,7 @@
                 height: 550px;
                 background: white;
                 border-radius: 16px;
-                box-shaçãow: 0 10px 50px rgba(0, 0, 0, 0.25);
+                box-shadow: 0 10px 50px rgba(0, 0, 0, 0.25);
                 overflow: hidden;
                 z-index: 9999;
                 animation: support-slide-up 0.3s ease;
@@ -457,7 +457,7 @@
 
         if (launcherBtn && widgetFrame && closeBtn) {
             launcherBtn.addEventListener('click', () => {
-                widgetFrame.style.display = widgetFrame.style.display === 'none'  'block' : 'none';
+                widgetFrame.style.display = widgetFrame.style.display === 'none' ? 'block' : 'none';
             });
 
             closeBtn.addEventListener('click', () => {
@@ -465,16 +465,16 @@
             });
         }
 
-        // Enviar daçãos do usuário para o iframe quando carregar
+        // Enviar dados do usuário para o iframe quando carregar
         const supportIframe = document.getElementById('support-iframe');
         if (supportIframe && currentUser) {
             supportIframe.addEventListener('load', () => {
-                // Enviar daçãos do usuário para o widget via postMessage
+                // Enviar dados do usuário para o widget via postMessage
                 supportIframe.contentWindow.postMessage({
                     type: 'USER_DATA',
                     user: currentUser
                 }, '*');
-                console.log('📤 Daçãos do usuário enviaçãos para widget de suporte:', currentUser.nome || currentUser.name);
+                console.log('📤 Daçãos do usuário enviados para widget de suporte:', currentUser.nome || currentUser.name);
             });
         }
 

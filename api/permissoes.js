@@ -188,7 +188,7 @@ module.exports = function({ pool, authenticateToken }) {
             
             const [result] = await pool.query(`
                 INSERT INTO perfis_permissao (nome, descricao, nivel, permissoes)
-                VALUES (, , , )
+                VALUES (?, ?, ?, ?)
             `, [nome, descricao || '', nivel || 0, JSON.stringify(permissoes)]);
             
             res.status(201).json({ 
@@ -381,7 +381,7 @@ module.exports = function({ pool, authenticateToken }) {
             // Log de auditoria
             await pool.query(`
                 INSERT INTO logs_auditoria (usuario_id, usuario_nome, acao, modulo, entidade_tipo, entidade_id, descricao)
-                VALUES (, , 'ALTERAR_PERFIL', 'sistema', 'usuario', , )
+                VALUES (?, ?, 'ALTERAR_PERFIL', 'sistema', 'usuario', ?, ?)
             `, [req.user.id, req.user.nome, id, `Perfil alteração para ID ${perfil_id}`]).catch(() => {});
             
             res.json({ 

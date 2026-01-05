@@ -74,7 +74,7 @@ async function adaptTables() {
             await connection.query(`
                 INSERT IGNORE INTO pedidos_compra 
                 (numero_pedido, fornecedor_id, data_pedido, data_entrega_prevista, valor_total, valor_final, status) 
-                VALUES (, , , DATE_ADD(, INTERVAL 15 DAY), 5000.00, 5000.00, 'pendente')
+                VALUES (?, ?, , DATE_ADD(, INTERVAL 15 DAY), 5000.00, 5000.00, 'pendente')
             `, [numero_pedido, fornecedor_id, hoje, hoje]);
 
             const [pedido] = await connection.query('SELECT id FROM pedidos_compra WHERE numero_pedido = ', [numero_pedido]);

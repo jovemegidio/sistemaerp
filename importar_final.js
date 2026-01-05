@@ -83,7 +83,7 @@ async function importarDumpFinal() {
         }
         
         // FASE 3: INSERTs
-        console.log('\n3️⃣ Inserindo daçãos...');
+        console.log('\n3️⃣ Inserindo dados...');
         let insertSuccess = 0;
         let insertFailed = {};
         
@@ -109,7 +109,7 @@ async function importarDumpFinal() {
         console.log('📊 VERIFICANDO RESULTADO');
         console.log('='.repeat(60));
         
-        // Contar tabelas e daçãos
+        // Contar tabelas e dados
         const [tables] = await connection.query('SHOW TABLES');
         console.log(`\n📋 Tabelas no banco: ${tables.length}`);
         
@@ -141,7 +141,7 @@ async function importarDumpFinal() {
             }
         }
         
-        // Contar todas tabelas com daçãos
+        // Contar todas tabelas com dados
         let todasComDaçãos = 0;
         let totalGeral = 0;
         
@@ -158,7 +158,7 @@ async function importarDumpFinal() {
         
         console.log('\n📈 RESUMO FINAL:');
         console.log(`   - Total de tabelas: ${tables.length}`);
-        console.log(`   - Tabelas com daçãos: ${todasComDaçãos}`);
+        console.log(`   - Tabelas com dados: ${todasComDaçãos}`);
         console.log(`   - Total de registros: ${totalGeral}`);
         
         // Tabelas com mais erros

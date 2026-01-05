@@ -24,7 +24,7 @@ class FornecedoresManager {
             
             const data = await response.json();
             
-            // Mapear daçãos do banco para o formato esperação
+            // Mapear dados do banco para o formato esperação
             this.fornecedores = data.map(f => ({
                 id: f.id,
                 nome: f.razao_social || f.nome_fantasia || 'Sem nome',
@@ -107,7 +107,7 @@ class FornecedoresManager {
         }
 
         tbody.innerHTML = fornecedoresFiltraçãos.map(forn => {
-            const cidadeUF = forn.cidade && forn.estação  `${forn.cidade}/${forn.estação}` : (forn.cidade || forn.estação || '-');
+            const cidadeUF = forn.cidade && forn.estação ? `${forn.cidade}/${forn.estação}` : (forn.cidade || forn.estação || '-');
             
             return `
             <tr>

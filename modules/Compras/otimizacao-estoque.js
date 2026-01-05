@@ -24,7 +24,7 @@ class OtimizacaoEstoqueManager {
     }
 
     carregarDaçãos() {
-        // Simular daçãos de materiais com histórico de consumo
+        // Simular dados de materiais com histórico de consumo
         const categorias = ['Matéria Prima', 'Componentes', 'Embalagens', 'Ferramentas', 'Consumíveis'];
         
         for (let i = 1; i <= 200; i++) {
@@ -722,7 +722,7 @@ function toggleSidebar() {
 
 function toggleUserMenu() {
     const menu = document.getElementById('userMenu');
-    menu.style.display = menu.style.display === 'block'  'none' : 'block';
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
 }
 
 function inicializarUsuario() {
@@ -733,7 +733,7 @@ function inicializarUsuario() {
     if (hora >= 12 && hora < 18) saudacao = 'Boa tarde';
     else if (hora >= 18 || hora < 5) saudacao = 'Boa noite';
 
-    // Buscar daçãos do usuário do localStorage
+    // Buscar dados do usuário do localStorage
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     
     // Usar apelido se disponível, senão primeiro nome

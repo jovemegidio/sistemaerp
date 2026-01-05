@@ -8,7 +8,7 @@
  * COMO USAR:
  * 1. Inclua este script na página: <script src="../../_shared/user-greeting.js"></script>
  * 2. O script detecta automaticamente elementos com classe .user-greeting ou #user-name
- * 3. Atualiza a saudação baseada na hora do dia e daçãos do localStorage
+ * 3. Atualiza a saudação baseada na hora do dia e dados do localStorage
  */
 
 (function() {
@@ -60,7 +60,7 @@
     }
 
     /**
-     * Obtém daçãos do usuário do localStorage
+     * Obtém dados do usuário do localStorage
      */
     function getUserData() {
         try {
@@ -216,7 +216,7 @@
                 // Verificar se tem estrutura com span/strong para nome
                 const nameEl = el.querySelector('strong, .user-name, #user-name');
                 if (nameEl) {
-                    // Tem elemento separação para nome - atualizar texto antes dele
+                    // Tem elemento separado para nome - atualizar texto antes dele
                     const textNode = el.childNodes[0];
                     if (textNode && textNode.nodeType === Node.TEXT_NODE) {
                         textNode.textContent = `${greeting}, `;
@@ -241,7 +241,7 @@
             });
         });
 
-        // Atualizar label de saudação (elementos separaçãos como no painel)
+        // Atualizar label de saudação (elementos separados como no painel)
         const greetingLabel = document.getElementById('greeting-time-label');
         if (greetingLabel) {
             greetingLabel.textContent = greeting;

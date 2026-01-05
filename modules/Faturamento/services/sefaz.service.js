@@ -38,15 +38,15 @@ class SefazService {
             const response = await this.enviarRequisicaoSOAP(url, soapEnvelope);
             
             // Processar resposta
-            const resultação = this.processarRespostaAutorizacao(response.data);
+            const resultado = this.processarRespostaAutorizacao(response.data);
             
             // Se processamento assíncrono, consultar recibo
-            if (resultação.codigoStatus === '103') {
-                const recibo = resultação.numeroRecibo;
+            if (resultado.codigoStatus === '103') {
+                const recibo = resultado.numeroRecibo;
                 return await this.consultarRecibo(recibo, uf);
             }
             
-            return resultação;
+            return resultado;
         } catch (error) {
             throw new Error(`Erro ao autorizar NFe: ${error.message}`);
         }
@@ -142,9 +142,9 @@ class SefazService {
     /**
      * Inutilizar numeração
      */
-    async inutilizarNumeracao(daçãos, uf) {
+    async inutilizarNumeracao(dados, uf) {
         try {
-            const { ano, cnpj, modelo, serie, numeroInicial, numeroFinal, justificativa } = daçãos;
+            const { ano, cnpj, modelo, serie, numeroInicial, numeroFinal, justificativa } = dados;
             
             if (!justificativa || justificativa.length < 15) {
                 throw new Error('Justificativa deve ter no mínimo 15 caracteres');
@@ -261,8 +261,8 @@ class SefazService {
             .end({ prettyPrint: true });
     }
     
-    criarEventoCancelamento(daçãos) {
-        const { chaveAcesso, numeroProtocolo, justificativa, cnpj, sequenciaEvento } = daçãos;
+    criarEventoCancelamento(dados) {
+        const { chaveAcesso, numeroProtocolo, justificativa, cnpj, sequenciaEvento } = dados;
         const id = `ID110111${chaveAcesso}${sequenciaEvento.toString().padStart(2, '0')}`;
         
         return builder.create({ version: '1.0', encoding: 'UTF-8' })
@@ -286,8 +286,8 @@ class SefazService {
             .end({ prettyPrint: true });
     }
     
-    criarEventoCartaCorrecao(daçãos) {
-        const { chaveAcesso, correcao, cnpj, sequenciaEvento } = daçãos;
+    criarEventoCartaCorrecao(dados) {
+        const { chaveAcesso, correcao, cnpj, sequenciaEvento } = dados;
         const id = `ID110110${chaveAcesso}${sequenciaEvento.toString().padStart(2, '0')}`;
         
         return builder.create({ version: '1.0', encoding: 'UTF-8' })
@@ -310,9 +310,9 @@ class SefazService {
             .end({ prettyPrint: true });
     }
     
-    criarInutilizacao(daçãos) {
-        const { ano, cnpj, modelo, serie, numeroInicial, numeroFinal, justificativa } = daçãos;
-        const uf = '35'; // SP - deve vir dos daçãos
+    criarInutilizacao(dados) {
+        const { ano, cnpj, modelo, serie, numeroInicial, numeroFinal, justificativa } = dados;
+        const uf = '35'; // SP - deve vir dos dados
         const id = `ID${uf}${ano}${cnpj.replace(/\D/g, '')}${modelo}${serie.toString().padStart(3, '0')}${numeroInicial.toString().padStart(9, '0')}${numeroFinal.toString().padStart(9, '0')}`;
         
         return builder.create({ version: '1.0', encoding: 'UTF-8' })

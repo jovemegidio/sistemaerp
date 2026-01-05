@@ -22,7 +22,7 @@ async function abrirConfiguracao(tipo) {
     
     // Mapeamento de tipos para IDs de modal
     const modalMap = {
-        'empresa': 'modal-daçãos-empresa',
+        'empresa': 'modal-dados-empresa',
         'categorias': 'modal-categorias',
         'departamentos': 'modal-departamentos',
         'projetos': 'modal-projetos',
@@ -93,7 +93,7 @@ async function abrirConfiguracao(tipo) {
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
 
-    // Carrega daçãos específicos para cada tipo
+    // Carrega dados específicos para cada tipo
     switch(tipo) {
         case 'empresa':
             loadEmpresaData();
@@ -206,7 +206,7 @@ function closeAllConfigModals() {
 // =========================
 
 /**
- * Carrega daçãos da empresa
+ * Carrega dados da empresa
  */
 async function loadEmpresaData() {
     try {
@@ -216,15 +216,15 @@ async function loadEmpresaData() {
             populateEmpresaForm(data);
         }
     } catch (error) {
-        console.error('Erro ao carregar daçãos da empresa:', error);
+        console.error('Erro ao carregar dados da empresa:', error);
     }
 }
 
 /**
- * Preenche o formulário de daçãos da empresa
+ * Preenche o formulário de dados da empresa
  */
 function populateEmpresaForm(data) {
-    const form = document.getElementById('form-daçãos-empresa');
+    const form = document.getElementById('form-dados-empresa');
     if (!form || !data) return;
 
     // Preenche os campos do formulário
@@ -244,7 +244,7 @@ function populateEmpresaForm(data) {
  * Salva configurações da empresa (incluindo logo e favicon)
  */
 async function saveEmpresaConfig() {
-    const form = document.getElementById('form-daçãos-empresa');
+    const form = document.getElementById('form-dados-empresa');
     if (!form) return;
 
     // Valida campos obrigatórios
@@ -254,12 +254,12 @@ async function saveEmpresaConfig() {
         return;
     }
 
-    // Coleta daçãos do formulário
+    // Coleta dados do formulário
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
 
     try {
-        // Primeiro salva os daçãos básicos
+        // Primeiro salva os dados básicos
         const response = await fetch('/api/configuracoes/empresa', {
             method: 'POST',
             headers: {
@@ -269,7 +269,7 @@ async function saveEmpresaConfig() {
         });
 
         if (!response.ok) {
-            throw new Error('Erro ao salvar daçãos');
+            throw new Error('Erro ao salvar dados');
         }
 
         // Upload do logo se foi selecionação
@@ -315,10 +315,10 @@ async function saveEmpresaConfig() {
             window.registrarAcao('salvar', 'configuracoes', 'Daçãos da Empresa');
         }
         
-        closeConfigModal('modal-daçãos-empresa');
+        closeConfigModal('modal-dados-empresa');
     } catch (error) {
-        console.error('Erro ao salvar daçãos da empresa:', error);
-        showNotification('Erro ao salvar daçãos da empresa', 'error');
+        console.error('Erro ao salvar dados da empresa:', error);
+        showNotification('Erro ao salvar dados da empresa', 'error');
     }
 }
 
@@ -585,10 +585,10 @@ function displayCategorias(categorias) {
                 <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cat.descricao || cat.descricao || 'Sem descricao'}</p>
             </div>
             <div style="display: flex; gap: 8px;">
-                <button onclick="editarCategoria(${cat.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="editarCategoria(${cat.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-pen" style="font-size: 14px;"></i>
                 </button>
-                <button onclick="excluirCategoria(${cat.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="excluirCategoria(${cat.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                 </button>
             </div>
@@ -623,7 +623,7 @@ function showNovaCategoriaForm() {
  */
 async function editarCategoria(id) {
     try {
-        // Buscar daçãos da categoria
+        // Buscar dados da categoria
         const response = await fetch(`/api/configuracoes/categorias/${id}`);
         if (!response.ok) throw new Error('Erro ao carregar categoria');
         
@@ -646,7 +646,7 @@ async function editarCategoria(id) {
         }
     } catch (error) {
         console.error('Erro ao carregar categoria:', error);
-        showNotification('Erro ao carregar daçãos da categoria', 'error');
+        showNotification('Erro ao carregar dados da categoria', 'error');
     }
 }
 
@@ -665,7 +665,7 @@ async function salvarCategoria() {
     }
     
     try {
-        const url = id  `/api/configuracoes/categorias/${id}` : '/api/configuracoes/categorias';
+        const url = id ? `/api/configuracoes/categorias/${id}` : '/api/configuracoes/categorias';
         const method = id ? 'PUT' : 'POST';
         
         const response = await fetch(url, {
@@ -763,10 +763,10 @@ function displayDepartamentos(departamentos) {
                 <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${dept.descricao || dept.descricao || 'Sem descricao'}</p>
             </div>
             <div style="display: flex; gap: 8px;">
-                <button onclick="editarDepartamento(${dept.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="editarDepartamento(${dept.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-pen" style="font-size: 14px;"></i>
                 </button>
-                <button onclick="excluirDepartamento(${dept.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="excluirDepartamento(${dept.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                 </button>
             </div>
@@ -801,7 +801,7 @@ function showNovoDepartamentoForm() {
  */
 async function editarDepartamento(id) {
     try {
-        // Buscar daçãos do departamento
+        // Buscar dados do departamento
         const response = await fetch(`/api/configuracoes/departamentos/${id}`);
         if (!response.ok) throw new Error('Erro ao carregar departamento');
         
@@ -824,7 +824,7 @@ async function editarDepartamento(id) {
         }
     } catch (error) {
         console.error('Erro ao carregar departamento:', error);
-        showNotification('Erro ao carregar daçãos do departamento', 'error');
+        showNotification('Erro ao carregar dados do departamento', 'error');
     }
 }
 
@@ -843,7 +843,7 @@ async function salvarDepartamento() {
     }
     
     try {
-        const url = id  `/api/configuracoes/departamentos/${id}` : '/api/configuracoes/departamentos';
+        const url = id ? `/api/configuracoes/departamentos/${id}` : '/api/configuracoes/departamentos';
         const method = id ? 'PUT' : 'POST';
         
         const response = await fetch(url, {
@@ -956,10 +956,10 @@ function displayProjetos(projetos) {
                 <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${proj.descricao || proj.descricao || 'Sem descricao'}</p>
             </div>
             <div style="display: flex; gap: 8px;">
-                <button onclick="editarProjeto(${proj.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="editarProjeto(${proj.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-pen" style="font-size: 14px;"></i>
                 </button>
-                <button onclick="excluirProjeto(${proj.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                <button onclick="excluirProjeto(${proj.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                     <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                 </button>
             </div>
@@ -996,7 +996,7 @@ function showNovoProjetoForm() {
  */
 async function editarProjeto(id) {
     try {
-        // Buscar daçãos do projeto
+        // Buscar dados do projeto
         const response = await fetch(`/api/configuracoes/projetos/${id}`);
         if (!response.ok) throw new Error('Erro ao carregar projeto');
         
@@ -1021,7 +1021,7 @@ async function editarProjeto(id) {
         }
     } catch (error) {
         console.error('Erro ao carregar projeto:', error);
-        showNotification('Erro ao carregar daçãos do projeto', 'error');
+        showNotification('Erro ao carregar dados do projeto', 'error');
     }
 }
 
@@ -1042,7 +1042,7 @@ async function salvarProjeto() {
     }
     
     try {
-        const url = id  `/api/configuracoes/projetos/${id}` : '/api/configuracoes/projetos';
+        const url = id ? `/api/configuracoes/projetos/${id}` : '/api/configuracoes/projetos';
         const method = id ? 'PUT' : 'POST';
         
         const response = await fetch(url, {
@@ -1092,7 +1092,7 @@ async function excluirProjeto(id) {
 // =========================
 
 /**
- * Carrega daçãos do certificação
+ * Carrega dados do certificação
  */
 async function loadCertificaçãoData() {
     try {
@@ -1250,7 +1250,7 @@ function showConfigNotification(message, type = 'info') {
         const notification = document.createElement('div');
         notification.className = `notification notification-${type}`;
         notification.innerHTML = `
-            <i class="fas fa-${type === 'success'  'check-circle' : type === 'error'  'exclamation-circle' : 'info-circle'}"></i>
+            <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
             <span>${message}</span>
         `;
         notificationArea.appendChild(notification);
@@ -1266,8 +1266,8 @@ function showConfigNotification(message, type = 'info') {
     toast.style.cssText = `
         position: fixed; top: 20px; right: 20px; z-index: 10000;
         padding: 12px 20px; border-radius: 8px; color: white;
-        background: ${type === 'success'  '#10b981' : type === 'error'  '#ef4444' : '#3b82f6'};
-        box-shaçãow: 0 4px 12px rgba(0,0,0,0.15); font-family: sans-serif;
+        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15); font-family: sans-serif;
     `;
     toast.textContent = message;
     document.body.appendChild(toast);
@@ -1522,7 +1522,7 @@ function displayVendedores(vendedores) {
 
     tbody.innerHTML = vendedores.map(v => `
         <tr>
-            <td><span class="status-badge status-${v.situacao}">${v.situacao === 'ativo'  '<i class="fas fa-check-circle"></i> Ativo' : '<i class="fas fa-times-circle"></i> Inativo'}</span></td>
+            <td><span class="status-badge status-${v.situacao}">${v.situacao === 'ativo' ? '<i class="fas fa-check-circle"></i> Ativo' : '<i class="fas fa-times-circle"></i> Inativo'}</span></td>
             <td>${v.nome}</td>
             <td>${v.comissao}%</td>
             <td>${v.email}</td>
@@ -1611,7 +1611,7 @@ function displayCompraçãores(compraçãores) {
 
     tbody.innerHTML = compraçãores.map(c => `
         <tr>
-            <td><span class="status-badge status-${c.situacao}">${c.situacao === 'ativo'  '<i class="fas fa-check-circle"></i> Ativo' : '<i class="fas fa-times-circle"></i> Inativo'}</span></td>
+            <td><span class="status-badge status-${c.situacao}">${c.situacao === 'ativo' ? '<i class="fas fa-check-circle"></i> Ativo' : '<i class="fas fa-times-circle"></i> Inativo'}</span></td>
             <td>${c.nome}</td>
             <td>${formatDate(c.inclusao)}</td>
             <td>${formatDate(c.última_alteracao)}</td>
@@ -1733,7 +1733,7 @@ window.fecharModal = fecharModal;
 // =========================
 
 /**
- * Carrega daçãos de funcionários - agora usa a versão completa
+ * Carrega dados de funcionários - agora usa a versão completa
  */
 async function loadFuncionariosData() {
     await carregarFuncionariosCompleto();
@@ -1746,7 +1746,7 @@ function displayFuncionarios(funcionarios) {
 }
 
 /**
- * Carrega daçãos de cargos
+ * Carrega dados de cargos
  */
 async function loadCargosData() {
     try {
@@ -1808,7 +1808,7 @@ async function excluirCargo(nomeCargo) {
 }
 
 /**
- * Carrega daçãos da folha de pagamento
+ * Carrega dados da folha de pagamento
  */
 async function loadFolhaPagamentoData() {
     try {
@@ -1829,7 +1829,7 @@ async function loadFolhaPagamentoData() {
 }
 
 /**
- * Carrega daçãos do ponto eletrônico
+ * Carrega dados do ponto eletrônico
  */
 async function loadPontoEletronicoData() {
     try {
@@ -1850,7 +1850,7 @@ async function loadPontoEletronicoData() {
 // =========================
 
 /**
- * Carrega daçãos do plano de contas
+ * Carrega dados do plano de contas
  */
 async function loadPlanoContasData() {
     try {
@@ -1871,7 +1871,7 @@ function displayPlanoContas(contas) {
 }
 
 /**
- * Carrega daçãos de contas bancárias
+ * Carrega dados de contas bancárias
  */
 async function loadContasBancariasData() {
     try {
@@ -1922,7 +1922,7 @@ function displayContasBancarias(contas) {
 }
 
 /**
- * Carrega daçãos de formas de pagamento
+ * Carrega dados de formas de pagamento
  */
 async function loadFormasPagamentoData() {
     try {
@@ -1968,7 +1968,7 @@ function getPaymentIcon(tipo) {
 }
 
 /**
- * Carrega daçãos de impostos
+ * Carrega dados de impostos
  */
 async function loadImpostosData() {
     try {
@@ -1989,7 +1989,7 @@ async function loadImpostosData() {
 // =========================
 
 /**
- * Carrega daçãos de grupos de clientes
+ * Carrega dados de grupos de clientes
  */
 async function loadGruposClientesData() {
     try {
@@ -2023,7 +2023,7 @@ function displayGruposClientes(grupos) {
 }
 
 /**
- * Carrega daçãos de regiões de venda
+ * Carrega dados de regiões de venda
  */
 async function loadRegioesVendaData() {
     try {
@@ -2057,7 +2057,7 @@ function displayRegioesVenda(regioes) {
 }
 
 /**
- * Carrega daçãos de tipos de fornecedor
+ * Carrega dados de tipos de fornecedor
  */
 async function loadTiposFornecedorData() {
     try {
@@ -2090,7 +2090,7 @@ function displayTiposFornecedor(tipos) {
 }
 
 /**
- * Carrega daçãos de condições de pagamento
+ * Carrega dados de condições de pagamento
  */
 async function loadCondicoesPagamentoData() {
     try {
@@ -2128,7 +2128,7 @@ function displayCondicoesPagamento(condicoes) {
 // =========================
 
 /**
- * Carrega daçãos de tabelas de preço
+ * Carrega dados de tabelas de preço
  */
 async function loadTabelasPrecoData() {
     try {
@@ -2149,7 +2149,7 @@ function displayTabelasPreco(tabelas) {
 
     tbody.innerHTML = tabelas.map(t => `
         <tr>
-            <td><span class="status-badge status-${t.status || 'ativo'}"><i class="fas fa-check-circle"></i> ${t.status === 'ativo'  'Ativa' : 'Inativa'}</span></td>
+            <td><span class="status-badge status-${t.status || 'ativo'}"><i class="fas fa-check-circle"></i> ${t.status === 'ativo' ? 'Ativa' : 'Inativa'}</span></td>
             <td>${t.nome || ''}</td>
             <td>${t.tipo || ''}</td>
             <td>${formatDate(t.validade) || '-'}</td>
@@ -2163,7 +2163,7 @@ function displayTabelasPreco(tabelas) {
 }
 
 /**
- * Carrega daçãos de unidades de medida
+ * Carrega dados de unidades de medida
  */
 async function loadUnidadesMedidaData() {
     try {
@@ -2476,27 +2476,27 @@ function renderizarFuncionarios(lista = null) {
     const info = document.getElementById('funcionarios-info');
     if (!tbody) return;
     
-    const daçãos = lista || funcionariosCache;
+    const dados = lista || funcionariosCache;
     
-    if (!daçãos.length) {
+    if (!dados.length) {
         tbody.innerHTML = '<tr><td colspan="6" class="text-center" style="padding: 40px; color: #6c757d;">Nenhum funcionário cadastração</td></tr>';
         if (info) info.textContent = '0 funcionários encontrados';
         return;
     }
     
     const inicio = (funcionariosPagina - 1) * funcionariosPorPagina;
-    const fim = Math.min(inicio + funcionariosPorPagina, daçãos.length);
-    const paginaçãos = daçãos.slice(inicio, fim);
+    const fim = Math.min(inicio + funcionariosPorPagina, dados.length);
+    const paginaçãos = dados.slice(inicio, fim);
     
     tbody.innerHTML = paginaçãos.map(f => {
         // Normalizar status para lowercase para comparação
         const statusLower = (f.status || 'ativo').toLowerCase();
-        const statusClass = statusLower === 'ativo'  'status-ativo' : 
-                           statusLower === 'inativo'  'status-inativo' : 
-                           statusLower === 'ferias' || statusLower === 'férias'  'status-ferias' : 'status-afastação';
-        const statusIcon = statusLower === 'ativo'  'check-circle' : 
-                          statusLower === 'inativo'  'times-circle' : 
-                          statusLower === 'ferias' || statusLower === 'férias'  'umbrella-beach' : 'user-clock';
+        const statusClass = statusLower === 'ativo' ? 'status-ativo' : 
+                           statusLower === 'inativo' ? 'status-inativo' : 
+                           statusLower === 'ferias' || statusLower === 'férias' ? 'status-ferias' : 'status-afastação';
+        const statusIcon = statusLower === 'ativo' ? 'check-circle' : 
+                          statusLower === 'inativo' ? 'times-circle' : 
+                          statusLower === 'ferias' || statusLower === 'férias' ? 'umbrella-beach' : 'user-clock';
         const statusLabel = f.status || 'Ativo';
         
         return `
@@ -2515,10 +2515,10 @@ function renderizarFuncionarios(lista = null) {
     }).join('');
     
     if (info) {
-        info.textContent = `Mostrando ${inicio + 1}-${fim} de ${daçãos.length} funcionários`;
+        info.textContent = `Mostrando ${inicio + 1}-${fim} de ${dados.length} funcionários`;
     }
     
-    renderizarPaginacaoFuncionarios(daçãos.length);
+    renderizarPaginacaoFuncionarios(dados.length);
 }
 
 function renderizarPaginacaoFuncionarios(total) {
@@ -2619,7 +2619,7 @@ async function editarFuncionario(id) {
         abrirModal('modal-form-funcionario');
     } catch (error) {
         console.error('Erro ao carregar funcionário:', error);
-        alert('Erro ao carregar daçãos do funcionário');
+        alert('Erro ao carregar dados do funcionário');
     }
 }
 
@@ -2628,29 +2628,29 @@ async function salvarFuncionario(event) {
     
     const form = document.getElementById('form-funcionario');
     const formData = new FormData(form);
-    const daçãos = Object.fromEntries(formData.entries());
+    const dados = Object.fromEntries(formData.entries());
     
     // Mapear campos do formulário para os nomes esperaçãos pela API
-    const daçãosAPI = {
-        nome_completo: daçãos.nome || '',
-        email: daçãos.email || '',
-        cpf: daçãos.cpf || '',
-        rg: daçãos.rg || '',
-        telefone: daçãos.telefone || '',
-        cargo: daçãos.cargo || '',
-        departamento: daçãos.departamento || '',
-        status: daçãos.status || 'ativo',
-        data_nascimento: daçãos.data_nascimento || null,
-        data_admissao: daçãos.data_admissao || null,
-        pis_pasep: daçãos.pis || '',
-        salario: daçãos.salario  daçãos.salario.replace(/[^\d.,]/g, '').replace(',', '.') : null,
+    const dadosAPI = {
+        nome_completo: dados.nome || '',
+        email: dados.email || '',
+        cpf: dados.cpf || '',
+        rg: dados.rg || '',
+        telefone: dados.telefone || '',
+        cargo: dados.cargo || '',
+        departamento: dados.departamento || '',
+        status: dados.status || 'ativo',
+        data_nascimento: dados.data_nascimento || null,
+        data_admissao: dados.data_admissao || null,
+        pis_pasep: dados.pis || '',
+        salario: dados.salario  dados.salario.replace(/[^\d.,]/g, '').replace(',', '.') : null,
         // Montar endereço completo
-        endereco: [daçãos.endereco, daçãos.numero, daçãos.bairro, daçãos.cidade, daçãos.cep].filter(Boolean).join(', ') || ''
+        endereco: [dados.endereco, dados.numero, dados.bairro, dados.cidade, dados.cep].filter(Boolean).join(', ') || ''
     };
     
     try {
-        const id = daçãos.id;
-        const url = id  `/api/rh/funcionarios/${id}` : '/api/rh/funcionarios';
+        const id = dados.id;
+        const url = id ? `/api/rh/funcionarios/${id}` : '/api/rh/funcionarios';
         const method = id ? 'PUT' : 'POST';
         
         const response = await fetch(url, {
@@ -2659,7 +2659,7 @@ async function salvarFuncionario(event) {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${localStorage.getItem('authToken') || ''}`
             },
-            body: JSON.stringify(daçãosAPI)
+            body: JSON.stringify(dadosAPI)
         });
         
         if (response.ok) {
@@ -2668,11 +2668,11 @@ async function salvarFuncionario(event) {
             showToast(id ? 'Funcionário atualização com sucesso!' : 'Funcionário cadastração com sucesso!', 'success');
             
             // Registrar no audit log
-            registrarAuditFrontend(id ? 'editar' : 'criar', 'rh', `${id ? 'Editou' : 'Criou'} funcionário: ${daçãos.nome}`);
+            registrarAuditFrontend(id ? 'editar' : 'criar', 'rh', `${id ? 'Editou' : 'Criou'} funcionário: ${dados.nome}`);
             
             // Registrar na central de notificações
             if (window.registrarAcao) {
-                window.registrarAcao(id ? 'editar' : 'criar', 'rh', `Funcionário: ${daçãos.nome}`);
+                window.registrarAcao(id ? 'editar' : 'criar', 'rh', `Funcionário: ${dados.nome}`);
             }
         } else {
             const error = await response.json();
@@ -2857,7 +2857,7 @@ async function carregarUsuariosParaFiltro() {
             if (select) {
                 select.innerHTML = '<option value="">Todos os Colaboraçãores</option>';
                 usuarios.forEach(u => {
-                    select.innerHTML += `<option value="${u.nome}">${u.nome}${u.status === 'inativo'  ' (Inativo)' : ''}</option>`;
+                    select.innerHTML += `<option value="${u.nome}">${u.nome}${u.status === 'inativo' ? ' (Inativo)' : ''}</option>`;
                 });
             }
         }
@@ -2870,17 +2870,17 @@ function renderizarHistorico(lista = null) {
     const container = document.getElementById('historico-container');
     if (!container) return;
     
-    const daçãos = lista || historicoCache;
+    const dados = lista || historicoCache;
     
-    if (!daçãos.length) {
+    if (!dados.length) {
         container.innerHTML = '<div style="text-align: center; padding: 40px; color: #6c757d;">Nenhum registro encontrado</div>';
         atualizarPaginacaoHistorico(0);
         return;
     }
     
     const inicio = (historicoPagina - 1) * historicoPorPagina;
-    const fim = Math.min(inicio + historicoPorPagina, daçãos.length);
-    const paginaçãos = daçãos.slice(inicio, fim);
+    const fim = Math.min(inicio + historicoPorPagina, dados.length);
+    const paginaçãos = dados.slice(inicio, fim);
     
     container.innerHTML = paginaçãos.map(log => {
         const iniciais = (log.usuario || 'SI').split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
@@ -2900,13 +2900,13 @@ function renderizarHistorico(lista = null) {
                 <p class="historico-descricao">${log.descricao || 'Ação registrada no sistema'}</p>
                 <div class="historico-detalhes">
                     <span class="historico-time"><i class="fas fa-clock"></i> ${dataFormatada}</span>
-                    ${log.ip  `<span class="historico-ip"><i class="fas fa-globe"></i> ${log.ip}</span>` : ''}
+                    ${log.ip ? `<span class="historico-ip"><i class="fas fa-globe"></i> ${log.ip}</span>` : ''}
                 </div>
             </div>
         </div>`;
     }).join('');
     
-    atualizarPaginacaoHistorico(daçãos.length);
+    atualizarPaginacaoHistorico(dados.length);
 }
 
 function atualizarPaginacaoHistorico(total) {
@@ -3075,12 +3075,12 @@ function registrarAuditFrontend(acao, modulo, descricao) {
 function showToast(message, type = 'info') {
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
-    toast.innerHTML = `<i class="fas fa-${type === 'success'  'check-circle' : type === 'error'  'times-circle' : 'info-circle'}"></i> ${message}`;
+    toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i> ${message}`;
     toast.style.cssText = `
         position: fixed; bottom: 20px; right: 20px; padding: 15px 25px; 
-        background: ${type === 'success'  '#27ae60' : type === 'error'  '#e74c3c' : '#3498db'}; 
+        background: ${type === 'success' ? '#27ae60' : type === 'error' ? '#e74c3c' : '#3498db'}; 
         color: white; border-radius: 8px; z-index: 99999; animation: slideIn 0.3s ease;
-        box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     `;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);

@@ -78,7 +78,7 @@ const fs = require('fs');
 
     for (const rawName of names) {
       // find user by exact name
-      const [rows] = await db.execute('SELECT * FROM funcionarios WHERE nome_completo =  LIMIT 1', [rawName])
+      const [rows] = await db.execute('SELECT * FROM funcionarios WHERE nome_completo = ? LIMIT 1', [rawName])
       if (!rows || rows.length === 0) {
         console.log(`User not found in DB (skipping): ${rawName}`)
         continue

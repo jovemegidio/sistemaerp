@@ -52,11 +52,11 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
             --gray-800: #1f2937;
             --gray-900: #111827;
             --white: #ffffff;
-            --shaçãow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shaçãow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            --shaçãow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-            --shaçãow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            --shaçãow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         body {
@@ -160,7 +160,7 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
         .nav-link.active {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: white;
-            box-shaçãow: var(--shaçãow-md);
+            box-shadow: var(--shadow-md);
         }
 
         .nav-link i {
@@ -255,7 +255,7 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
         .search-input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shaçãow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .search-icon {
@@ -371,7 +371,7 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
 
         .btn-primary:hover {
             transform: translateY(-1px);
-            box-shaçãow: var(--shaçãow-lg);
+            box-shadow: var(--shadow-lg);
         }
 
         .btn-secondary {
@@ -407,7 +407,7 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
         .card {
             background: white;
             border-radius: 12px;
-            box-shaçãow: var(--shaçãow);
+            box-shadow: var(--shadow);
             padding: 24px;
             margin-bottom: 24px;
         }
@@ -439,7 +439,7 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
             background: white;
             border-radius: 12px;
             padding: 24px;
-            box-shaçãow: var(--shaçãow);
+            box-shadow: var(--shadow);
             position: relative;
             overflow: hidden;
         }
@@ -527,7 +527,7 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
         .table-container {
             background: white;
             border-radius: 12px;
-            box-shaçãow: var(--shaçãow);
+            box-shadow: var(--shadow);
             overflow: hidden;
         }
 
@@ -642,7 +642,7 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
         .form-textarea:focus {
             outline: none;
             border-color: var(--primary);
-            box-shaçãow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
 
         .form-textarea {
@@ -675,7 +675,7 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
-            box-shaçãow: var(--shaçãow-xl);
+            box-shadow: var(--shadow-xl);
         }
 
         .modal-header {
@@ -754,7 +754,7 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
             <nav class="sidebar-nav">
                 <div class="nav-section">
                     <div class="nav-section-title">Principal</div>
-                    <a href="index.html" class="nav-link ${pageId === 'dashboard'  'active' : ''}">
+                    <a href="index.html" class="nav-link ${pageId === 'dashboard' ? 'active' : ''}">
                         <i class="fas fa-chart-line"></i>
                         <span>Dashboard</span>
                     </a>
@@ -762,19 +762,19 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
 
                 <div class="nav-section">
                     <div class="nav-section-title">Operações</div>
-                    <a href="fornecedores.html" class="nav-link ${pageId === 'fornecedores'  'active' : ''}">
+                    <a href="fornecedores.html" class="nav-link ${pageId === 'fornecedores' ? 'active' : ''}">
                         <i class="fas fa-truck"></i>
                         <span>Fornecedores</span>
                     </a>
-                    <a href="pedidos-new.html" class="nav-link ${pageId === 'pedidos'  'active' : ''}">
+                    <a href="pedidos-new.html" class="nav-link ${pageId === 'pedidos' ? 'active' : ''}">
                         <i class="fas fa-shopping-cart"></i>
                         <span>Pedidos de Compra</span>
                     </a>
-                    <a href="cotacoes-new.html" class="nav-link ${pageId === 'cotacoes'  'active' : ''}">
+                    <a href="cotacoes-new.html" class="nav-link ${pageId === 'cotacoes' ? 'active' : ''}">
                         <i class="fas fa-file-invoice-dollar"></i>
                         <span>Cotações</span>
                     </a>
-                    <a href="recebimento-new.html" class="nav-link ${pageId === 'recebimento'  'active' : ''}">
+                    <a href="recebimento-new.html" class="nav-link ${pageId === 'recebimento' ? 'active' : ''}">
                         <i class="fas fa-inbox"></i>
                         <span>Recebimento</span>
                     </a>
@@ -782,19 +782,19 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
 
                 <div class="nav-section">
                     <div class="nav-section-title">Gestão</div>
-                    <a href="gestao-estoque.html" class="nav-link ${pageId === 'estoque'  'active' : ''}">
+                    <a href="gestao-estoque.html" class="nav-link ${pageId === 'estoque' ? 'active' : ''}">
                         <i class="fas fa-boxes"></i>
                         <span>Gestão de Estoque</span>
                     </a>
-                    <a href="materiais-new.html" class="nav-link ${pageId === 'materiais'  'active' : ''}">
+                    <a href="materiais-new.html" class="nav-link ${pageId === 'materiais' ? 'active' : ''}">
                         <i class="fas fa-cubes"></i>
                         <span>Materiais</span>
                     </a>
-                    <a href="otimizacao-estoque.html" class="nav-link ${pageId === 'otimizacao'  'active' : ''}">
+                    <a href="otimizacao-estoque.html" class="nav-link ${pageId === 'otimizacao' ? 'active' : ''}">
                         <i class="fas fa-chart-bar"></i>
                         <span>Otimização</span>
                     </a>
-                    <a href="relatorios.html" class="nav-link ${pageId === 'relatorios'  'active' : ''}">
+                    <a href="relatorios.html" class="nav-link ${pageId === 'relatorios' ? 'active' : ''}">
                         <i class="fas fa-file-alt"></i>
                         <span>Relatórios</span>
                     </a>
@@ -865,7 +865,7 @@ const getBaseTemplate = (pageTitle, pageId, content) => `<!DOCTYPE html>
                     if (userAvatar) userAvatar.textContent = primeiroNome.charAt(0).toUpperCase();
                 }
             } catch (e) {
-                console.error('Erro ao carregar daçãos do usuário:', e);
+                console.error('Erro ao carregar dados do usuário:', e);
             }
         });
 

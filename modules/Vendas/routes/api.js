@@ -65,7 +65,7 @@ const authenticateToken = (req, res, next) => {
 // GET /api/vendas/dashboard
 router.get('/dashboard', authenticateToken, async (req, res) => {
     try {
-        // TODO: Buscar daçãos reais do banco
+        // TODO: Buscar dados reais do banco
         const stats = {
             vendasMes: 350000,
             pedidosAtivos: 42,
@@ -244,7 +244,7 @@ router.post('/pedidos', authenticateToken, async (req, res) => {
             (cliente_id, empresa_id, vendedor_id, valor, descricao, status, 
              frete, prioridade, produtos_preview, prazo_entrega, endereco_entrega, 
              municipio_entrega, metodo_envio, created_at)
-            VALUES (, , , , , , , , , , , , , NOW())
+            VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, NOW())
         `, [
             cliente_id, empresa_id, vendedor_id, valor || 0, descricao || '',
             status, frete, prioridade, JSON.stringify(produtos || []),
@@ -342,7 +342,7 @@ router.post('/pedidos/:id/historico', authenticateToken, async (req, res) => {
         try {
             await pool.query(`
                 INSERT INTO audit_log (tabela, registro_id, acao, dados_novos, usuario_id, created_at)
-                VALUES ('pedidos', , , , , NOW())
+                VALUES ('pedidos', ?, ?, , , NOW())
             `, [id, tipo || 'historico', JSON.stringify({ descricao, usuario }), req.user.id || null]);
         } catch (auditError) {
             // Se a tabela audit_log não existir, apenas logar
@@ -467,8 +467,8 @@ router.get('/produtos/autocomplete/:termo', authenticateToken, async (req, res) 
                 cfop
             FROM produtos 
             WHERE 
-                codigo LIKE  OR 
-                descricao LIKE  OR 
+                codigo LIKE ? OR 
+                descricao LIKE ? OR 
                 sku LIKE 
             ORDER BY descricao ASC
             LIMIT 20
@@ -491,11 +491,11 @@ router.get('/produtos', authenticateToken, async (req, res) => {
         let params = [];
         
         if (search) {
-            query += ' WHERE codigo LIKE  OR descricao LIKE ';
+            query += ' WHERE codigo LIKE ? OR descricao LIKE ';
             params.push(`%${search}%`, `%${search}%`);
         }
         
-        query += ' ORDER BY descricao ASC LIMIT  OFFSET ';
+        query += ' ORDER BY descricao ASC LIMIT ? OFFSET ';
         params.push(parseInt(limit), parseInt(offset));
         
         const [produtos] = await pool.query(query, params);
@@ -613,7 +613,7 @@ router.put('/pedidos/:id/status', authenticateToken, async (req, res) => {
         try {
             await pool.query(`
                 INSERT INTO audit_log (tabela, registro_id, acao, dados_anteriores, dados_novos, usuario_id, created_at)
-                VALUES ('pedidos', , 'status_change', , , , NOW())
+                VALUES ('pedidos', , 'status_change', ?, ?, , NOW())
             `, [id, JSON.stringify({ status: statusAnterior }), JSON.stringify({ status }), req.user.id || null]);
         } catch (auditError) {
             console.log('Audit log não disponível:', auditError.message);
@@ -975,7 +975,7 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
         // Nota: PIS, COFINS e ICMS já estão inclusos no preço normalmente
         const totalNF = valorProdutos + valorIPI + valorICMSST + valorFrete + valorSeguro + valorOutras - valorDesconto;
         
-        const resultação = {
+        const resultado = {
             cenario: cenario.nome,
             cenario_codigo: cenario.codigo,
             
@@ -1030,7 +1030,7 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
             destaca_impostos: cenario.destaca_impostos
         };
         
-        res.json({ success: true, impostos: resultação });
+        res.json({ success: true, impostos: resultado });
     } catch (error) {
         console.error('Error calculating impostos:', error);
         res.status(500).json({ success: false, message: 'Erro ao calcular impostos' });
@@ -1054,7 +1054,7 @@ router.post('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
         // Atualizar total_impostos no pedido
         await pool.query(`
             UPDATE pedidos 
-            SET total_impostos = , cenario_fiscal_id = (SELECT id FROM cenarios_fiscais WHERE codigo =  LIMIT 1)
+            SET total_impostos = , cenario_fiscal_id = (SELECT id FROM cenarios_fiscais WHERE codigo = ? LIMIT 1)
             WHERE id = 
         `, [impostos.totais.impostos || 0, cenario_codigo, id]);
         
@@ -1069,10 +1069,10 @@ router.post('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
                     total_impostos, total_produtos, total_desconto, total_frete,
                     total_seguro, total_outras_despesas, total_nf
                 ) VALUES (
-                    , (SELECT id FROM cenarios_fiscais WHERE codigo =  LIMIT 1),
-                    , , , , , ,
-                    , , , , , ,
-                    , , , , , , 
+                    , (SELECT id FROM cenarios_fiscais WHERE codigo = ? LIMIT 1),
+                    , ?, ?, , ?, ?,
+                    , ?, ?, , ?, ?,
+                    , ?, ?, , ?, ?, 
                 )
                 ON DUPLICATE KEY UPDATE
                     cenario_fiscal_id = VALUES(cenario_fiscal_id),
@@ -1160,11 +1160,11 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
         const { id } = req.params;
         const pool = await getPool();
         
-        // Buscar configurações da empresa (daçãos do modal de configurações)
+        // Buscar configurações da empresa (dados do modal de configurações)
         const [configEmpresa] = await pool.query('SELECT * FROM configuracoes_empresa LIMIT 1');
         const empresaConfig = configEmpresa[0] || {};
         
-        // Buscar daçãos completos do pedido
+        // Buscar dados completos do pedido
         const [pedidos] = await pool.query(`
             SELECT p.*, 
                    p.valor as valor_total,
@@ -1211,7 +1211,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
             SELECT * FROM itens_pedido WHERE pedido_id = 
         `, [id]);
         
-        // Buscar daçãos do usuário que está gerando o PDF
+        // Buscar dados do usuário que está gerando o PDF
         let usuarioGeraçãor = 'Sistema';
         if (req.user && req.user.id) {
             const [usuarios] = await pool.query('SELECT nome FROM usuarios WHERE id = ', [req.user.id]);
@@ -1258,10 +1258,10 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
             }
         }
         
-        // Daçãos da empresa (lação direito) - Priorizar daçãos das configurações
+        // Daçãos da empresa (lação direito) - Priorizar dados das configurações
         const empresaNome = empresaConfig.razao_social || pedido.empresa_razao_social || pedido.empresa_nome || 'ALUFORCE INDÚSTRIA';
         const empresaCnpj = empresaConfig.cnpj || pedido.empresa_cnpj || '00.000.000/0001-00';
-        const empresaEndereco = empresaConfig.endereco  `${empresaConfig.endereco}, ${empresaConfig.numero || ''}` : (pedido.empresa_endereco || '');
+        const empresaEndereco = empresaConfig.endereco ? `${empresaConfig.endereco}, ${empresaConfig.numero || ''}` : (pedido.empresa_endereco || '');
         const empresaCidade = empresaConfig.cidade || pedido.empresa_cidade || '';
         const empresaEstação = empresaConfig.estação || pedido.empresa_estação || '';
         const empresaTelefone = empresaConfig.telefone || pedido.empresa_telefone || '';

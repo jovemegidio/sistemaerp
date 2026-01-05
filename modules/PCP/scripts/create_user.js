@@ -25,7 +25,7 @@ async function main() {
     console.log('Hash generated (masked):', hash.slice(0,6) + '...' + hash.length);
 
     // Check if user exists by email
-    const [rows] = await conn.execute('SELECT id FROM usuarios_pcp WHERE email =  LIMIT 1', [email]);
+    const [rows] = await conn.execute('SELECT id FROM usuarios_pcp WHERE email = ? LIMIT 1', [email]);
     if (rows && rows.length > 0) {
       const id = rows[0].id;
       const [r] = await conn.execute('UPDATE usuarios_pcp SET senha = , nome =  WHERE id = ', [hash, nome, id]);
@@ -33,7 +33,7 @@ async function main() {
     } else {
       // Try inserting; some schemas may require additional columns but email/nome/senha should be acceptable
       try {
-        const [r] = await conn.execute('INSERT INTO usuarios_pcp (email, nome, senha) VALUES (, , )', [email, nome, hash]);
+        const [r] = await conn.execute('INSERT INTO usuarios_pcp (email, nome, senha) VALUES (?, ?, )', [email, nome, hash]);
         console.log('Inserted new user id=', r.insertId);
       } catch (insErr) {
         console.error('Insert failed:', insErr.message || insErr);

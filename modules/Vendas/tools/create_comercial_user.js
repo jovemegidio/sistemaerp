@@ -5,7 +5,7 @@
   try {
     const email = 'comercial.test@local';
     const plain = 'Comerc1234!';
-    const [existing] = await pool.query('SELECT id FROM usuarios WHERE email =  LIMIT 1', [email]);
+    const [existing] = await pool.query('SELECT id FROM usuarios WHERE email = ? LIMIT 1', [email]);
     if (existing.length > 0) { console.log(JSON.stringify({ created: false, reason: 'already_exists', email })); return; }
     const hash = await bcrypt.hash(plain, 10);
     const [cols] = await pool.query(`SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'usuarios'`);

@@ -30,7 +30,7 @@ class GeraçãorPDF {
             incluirImpostos = false
         } = opcoes;
 
-        const titulo = tipo === 'orcamento'  'ORÇAMENTO' : 'PEDIDO DE VENDA';
+        const titulo = tipo === 'orcamento' ? 'ORÇAMENTO' : 'PEDIDO DE VENDA';
         const numero = pedido.id || pedido.numero;
 
         const html = `
@@ -41,7 +41,7 @@ class GeraçãorPDF {
     <title>${titulo} #${numero}</title>
     <style>
         ${this.getEstilosBase()}
-        .titulo-doc { color: ${tipo === 'orcamento'  '#2563eb' : '#059669'}; }
+        .titulo-doc { color: ${tipo === 'orcamento' ? '#2563eb' : '#059669'}; }
     </style>
 </head>
 <body>
@@ -103,7 +103,7 @@ class GeraçãorPDF {
                     <th style="width: 37%">Descrição</th>
                     <th style="width: 8%">UN</th>
                     <th style="width: 8%">Qtd</th>
-                    ${incluirValores  `
+                    ${incluirValores ? `
                     <th style="width: 12%">Vl. Unit.</th>
                     <th style="width: 12%">Total</th>
                     ` : ''}
@@ -117,7 +117,7 @@ class GeraçãorPDF {
                     <td>${item.descricao || '-'}</td>
                     <td class="center">${item.unidade || 'UN'}</td>
                     <td class="right">${this.formatarNumero(item.quantidade, 2)}</td>
-                    ${incluirValores  `
+                    ${incluirValores ? `
                     <td class="right">${this.formatarMoeda(item.preco_unitario || item.valor_unitario)}</td>
                     <td class="right">${this.formatarMoeda(item.total || (item.quantidade * (item.preco_unitario || item.valor_unitario)))}</td>
                     ` : ''}
@@ -129,7 +129,7 @@ class GeraçãorPDF {
 
     ${incluirValores ? this.renderTotais(pedido) : ''}
 
-    ${pedido.observacoes  `
+    ${pedido.observacoes ? `
     <div class="secao">
         <div class="secao-titulo">OBSERVAÇÕES</div>
         <p class="observacoes">${pedido.observacoes}</p>
@@ -235,7 +235,7 @@ class GeraçãorPDF {
 
     ${this.renderTotaisCompra(pedido)}
 
-    ${pedido.observacoes  `
+    ${pedido.observacoes ? `
     <div class="secao">
         <div class="secao-titulo">OBSERVAÇÕES</div>
         <p class="observacoes">${pedido.observacoes}</p>
@@ -296,7 +296,7 @@ class GeraçãorPDF {
                 <td><strong>Cliente:</strong></td>
                 <td>${op.cliente_nome || '-'}</td>
                 <td><strong>Pedido Venda:</strong></td>
-                <td>${op.pedido_vendas_id  `#${op.pedido_vendas_id}` : '-'}</td>
+                <td>${op.pedido_vendas_id ? `#${op.pedido_vendas_id}` : '-'}</td>
             </tr>
             <tr>
                 <td><strong>Prioridade:</strong></td>
@@ -335,7 +335,7 @@ class GeraçãorPDF {
         </table>
     </div>
 
-    ${op.observacoes  `
+    ${op.observacoes ? `
     <div class="secao">
         <div class="secao-titulo">OBSERVAÇÕES</div>
         <p class="observacoes">${op.observacoes}</p>
@@ -364,7 +364,7 @@ class GeraçãorPDF {
     /**
      * Gera PDF de Relatório Genérico
      */
-    async gerarRelatorio(daçãos, opcoes = {}) {
+    async gerarRelatorio(dados, opcoes = {}) {
         const {
             titulo = 'RELATÓRIO',
             subtitulo = '',
@@ -395,8 +395,8 @@ class GeraçãorPDF {
         </div>
         <div class="doc-info">
             <h1 class="titulo-doc">${titulo}</h1>
-            ${subtitulo  `<p class="subtitulo">${subtitulo}</p>` : ''}
-            ${periodo  `<p class="periodo">Período: ${periodo}</p>` : ''}
+            ${subtitulo ? `<p class="subtitulo">${subtitulo}</p>` : ''}
+            ${periodo ? `<p class="periodo">Período: ${periodo}</p>` : ''}
             <p class="data-emissao">Emitido em: ${this.formatarDataHora(new Date())}</p>
         </div>
     </div>
@@ -527,8 +527,8 @@ class GeraçãorPDF {
         <div class="totais-box">
             <table class="totais-tabela">
                 <tr><td>Subtotal:</td><td>${this.formatarMoeda(subtotal)}</td></tr>
-                ${desconto > 0  `<tr><td>Desconto:</td><td>- ${this.formatarMoeda(desconto)}</td></tr>` : ''}
-                ${frete > 0  `<tr><td>Frete:</td><td>${this.formatarMoeda(frete)}</td></tr>` : ''}
+                ${desconto > 0 ? `<tr><td>Desconto:</td><td>- ${this.formatarMoeda(desconto)}</td></tr>` : ''}
+                ${frete > 0 ? `<tr><td>Frete:</td><td>${this.formatarMoeda(frete)}</td></tr>` : ''}
                 <tr class="total-geral"><td>TOTAL:</td><td>${this.formatarMoeda(total)}</td></tr>
             </table>
         </div>`;
@@ -544,8 +544,8 @@ class GeraçãorPDF {
         <div class="totais-box">
             <table class="totais-tabela">
                 <tr><td>Subtotal:</td><td>${this.formatarMoeda(subtotal)}</td></tr>
-                ${desconto > 0  `<tr><td>Desconto (${pedido.desconto_percentual || 0}%):</td><td>- ${this.formatarMoeda(desconto)}</td></tr>` : ''}
-                ${frete > 0  `<tr><td>Frete:</td><td>${this.formatarMoeda(frete)}</td></tr>` : ''}
+                ${desconto > 0 ? `<tr><td>Desconto (${pedido.desconto_percentual || 0}%):</td><td>- ${this.formatarMoeda(desconto)}</td></tr>` : ''}
+                ${frete > 0 ? `<tr><td>Frete:</td><td>${this.formatarMoeda(frete)}</td></tr>` : ''}
                 <tr class="total-geral"><td>VALOR TOTAL:</td><td>${this.formatarMoeda(total)}</td></tr>
             </table>
         </div>`;
@@ -581,13 +581,13 @@ class GeraçãorPDF {
         return parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: decimais, maximumFractionDigits: decimais });
     }
 
-    formatarEndereco(daçãos) {
+    formatarEndereco(dados) {
         const partes = [];
-        if (daçãos.endereco || daçãos.cliente_endereco) partes.push(daçãos.endereco || daçãos.cliente_endereco);
-        if (daçãos.bairro || daçãos.cliente_bairro) partes.push(daçãos.bairro || daçãos.cliente_bairro);
-        if (daçãos.cidade || daçãos.cliente_cidade) partes.push(daçãos.cidade || daçãos.cliente_cidade);
-        if (daçãos.estação || daçãos.cliente_uf) partes.push(daçãos.estação || daçãos.cliente_uf);
-        if (daçãos.cep || daçãos.cliente_cep) partes.push(`CEP: ${daçãos.cep || daçãos.cliente_cep}`);
+        if (dados.endereco || dados.cliente_endereco) partes.push(dados.endereco || dados.cliente_endereco);
+        if (dados.bairro || dados.cliente_bairro) partes.push(dados.bairro || dados.cliente_bairro);
+        if (dados.cidade || dados.cliente_cidade) partes.push(dados.cidade || dados.cliente_cidade);
+        if (dados.estação || dados.cliente_uf) partes.push(dados.estação || dados.cliente_uf);
+        if (dados.cep || dados.cliente_cep) partes.push(`CEP: ${dados.cep || dados.cliente_cep}`);
         return partes.join(' - ') || '-';
     }
 

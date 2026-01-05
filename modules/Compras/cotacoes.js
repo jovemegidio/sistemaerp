@@ -293,7 +293,7 @@ class CotacoesManager {
                 </td>
                 <td>
                     <span class="badge badge-purple">${numFornecedores} selecionaçãos</span>
-                    ${numPropostas > 0  `<br><span class="badge badge-success" style="margin-top: 3px;">${numPropostas} ${numPropostas === 1 ? 'proposta' : 'propostas'}</span>` : ''}
+                    ${numPropostas > 0 ? `<br><span class="badge badge-success" style="margin-top: 3px;">${numPropostas} ${numPropostas === 1 ? 'proposta' : 'propostas'}</span>` : ''}
                 </td>
                 <td><strong>${melhorOferta}</strong></td>
                 <td>${statusBadge}</td>
@@ -311,12 +311,12 @@ class CotacoesManager {
                         <i class="fas fa-plus"></i>
                     </button>
                     ` : ''}
-                    ${cotacao.propostas.length >= 2  `
+                    ${cotacao.propostas.length >= 2 ? `
                     <button class="btn-icon btn-info" onclick="cotacoesManager.compararPropostas(${cotacao.id})" title="Comparar Propostas">
                         <i class="fas fa-balance-scale"></i>
                     </button>
                     ` : ''}
-                    ${cotacao.status === 'Aprovada' && cotacao.pedidoGeração  `
+                    ${cotacao.status === 'Aprovada' && cotacao.pedidoGeração ? `
                     <button class="btn-icon btn-primary" onclick="alert('Pedido: ${cotacao.pedidoGeração}')" title="Ver Pedido Geração">
                         <i class="fas fa-shopping-cart"></i>
                     </button>
@@ -814,7 +814,7 @@ class CotacoesManager {
             const index = this.cotacoes.findIndex(c => c.id === parseInt(id));
             if (index > -1) {
                 this.cotacoes[index] = { ...this.cotacoes[index], ...cotacao };
-                alert(`Cotação ${status === 'Rascunho'  'salva' : 'enviada'} com sucesso!`);
+                alert(`Cotação ${status === 'Rascunho' ? 'salva' : 'enviada'} com sucesso!`);
             }
         } else {
             // Nova
@@ -823,7 +823,7 @@ class CotacoesManager {
                 id: novoId,
                 ...cotacao
             });
-            alert(`Cotação ${status === 'Rascunho'  'salva' : 'enviada'} com sucesso!${status === 'Enviada'  '\n\nE-mails enviaçãos aos fornecedores selecionaçãos.' : ''}`);
+            alert(`Cotação ${status === 'Rascunho' ? 'salva' : 'enviada'} com sucesso!${status === 'Enviada' ? '\n\nE-mails enviados aos fornecedores selecionaçãos.' : ''}`);
         }
 
         this.fecharModal();
@@ -905,7 +905,7 @@ function toggleView(mode) {
 
 function toggleUserMenu() {
     const menu = document.getElementById('userMenu');
-    menu.style.display = menu.style.display === 'block'  'none' : 'block';
+    menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
 }
 
 function inicializarUsuario() {

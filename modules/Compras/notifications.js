@@ -219,7 +219,7 @@ class NotificationSystem {
         // Atualizar contaçãor no header
         const countSpan = header.querySelector('.notification-count');
         if (countSpan) {
-            countSpan.textContent = this.unreadCount > 0  `${this.unreadCount} nova${this.unreadCount > 1 ? 's' : ''}` : 'Nenhuma nova';
+            countSpan.textContent = this.unreadCount > 0 ? `${this.unreadCount} nova${this.unreadCount > 1 ? 's' : ''}` : 'Nenhuma nova';
         }
 
         // Renderizar notificações
@@ -297,7 +297,7 @@ class NotificationSystem {
                 <div class="notification-time">${timeAgo}</div>
             </div>
             <div class="notification-controls">
-                ${!notification.read  `
+                ${!notification.read ? `
                     <button class="notification-control-btn" onclick="notificationSystem.markAsRead(${notification.id})" title="Marcar como lida">
                         <i class="fas fa-check"></i>
                     </button>
@@ -565,7 +565,7 @@ const notificationStyles = `
         max-height: calc(100vh - 100px);
         background: var(--card-bg);
         border-radius: 12px;
-        box-shaçãow: 0 8px 32px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         display: none;
         z-index: 9999;
         overflow: hidden;
@@ -752,7 +752,7 @@ const notificationStyles = `
         background: var(--card-bg);
         padding: 16px;
         border-radius: 12px;
-        box-shaçãow: 0 8px 32px rgba(0,0,0,0.2);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         z-index: 10000;
         transform: translateX(400px);
         transition: transform 0.3s ease-out;

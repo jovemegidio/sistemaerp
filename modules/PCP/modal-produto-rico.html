@@ -624,7 +624,7 @@ function abrirModalProdutoRico(produto) {
     // Guardar ID do produto para uso no salvamento
     window.currentProductId = produto.id || null;
 
-    // Preencher daçãos se fornecido
+    // Preencher dados se fornecido
     if (produto) {
         document.getElementById('modal-produto-rico-code').textContent = produto.codigo || '';
         document.getElementById('rico-codigo').value = produto.codigo || '';

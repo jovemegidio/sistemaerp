@@ -138,7 +138,7 @@ const totalChecks = arquivosOK + (arquivosOK > 0 ? 1 : 0); // Simplificação pa
 if (arquivosOK === arquivos.length) {
     console.log('✅ SISTEMA PARECE OK - Arquivos principais encontrados');
     console.log('✅ CLASSES DUAIS IMPLEMENTADAS - Compatibilidade garantida');
-    console.log('✅ SELETORES DUAIS NO PCP.JS - Coleta de daçãos funcionando');
+    console.log('✅ SELETORES DUAIS NO PCP.JS - Coleta de dados funcionando');
     console.log('✅ PRODUTOS LOCAIS DISPONÍVEIS - Fallback implementação');
     console.log('\n🎉 O sistema deve estar funcionando corretamente!');
     console.log('\n🚀 PRÓXIMOS PASSOS:');

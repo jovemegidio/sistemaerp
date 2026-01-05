@@ -186,7 +186,7 @@ const areaURLs = {
 function getAreaURL(area, userName) {
     if (area === 'rh') {
         const rhType = getRHType(userName);
-        return rhType === 'areaadm'  'RH/areaadm.html' : 'RH/area.html';
+        return rhType === 'areaadm' ? 'RH/areaadm.html' : 'RH/area.html';
     }
     
     return areaURLs[area] || '#';

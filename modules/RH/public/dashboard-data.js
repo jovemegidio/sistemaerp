@@ -5,7 +5,7 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Populando dashboard...');
     
-    // Função para popular widgets com daçãos
+    // Função para popular widgets com dados
     function populateDashboard() {
         // Daçãos do dashboard
         const dashboardData = {

@@ -34,7 +34,7 @@ module.exports = {
     
     // Logs
     logging: {
-        level: process.env.NODE_ENV === 'production'  'error' : 'info',
+        level: process.env.NODE_ENV === 'production' ? 'error' : 'info',
         maxFiles: 5,
         maxSize: '10m'
     },

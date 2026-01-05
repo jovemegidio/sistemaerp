@@ -45,7 +45,7 @@ const CompanySettings = {
      */
     handleCardClick(cardIndex) {
         const modals = [
-            'modal-daçãos-empresa',
+            'modal-dados-empresa',
             'modal-categorias',
             'modal-departamentos',
             'modal-projetos',
@@ -65,9 +65,9 @@ const CompanySettings = {
         const modal = document.getElementById(modalId);
         if (!modal) return;
 
-        // Carrega daçãos específicos do modal
+        // Carrega dados específicos do modal
         switch(modalId) {
-            case 'modal-daçãos-empresa':
+            case 'modal-dados-empresa':
                 this.loadEmpresaForm();
                 break;
             case 'modal-categorias':
@@ -103,14 +103,14 @@ const CompanySettings = {
     },
 
     /**
-     * Carrega daçãos da empresa da API
+     * Carrega dados da empresa da API
      */
     async loadEmpresaData() {
         try {
             // Verifica se o usuário está autenticação
             const userData = localStorage.getItem('userData');
             if (!userData) {
-                console.log('[CompanySettings] Usuário não autenticação, pulando carregamento de daçãos da empresa');
+                console.log('[CompanySettings] Usuário não autenticação, pulando carregamento de dados da empresa');
                 return;
             }
 
@@ -125,17 +125,17 @@ const CompanySettings = {
                 console.log('[CompanySettings] Não autorização para acessar configurações da empresa');
             }
         } catch (error) {
-            console.error('Erro ao carregar daçãos da empresa:', error);
+            console.error('Erro ao carregar dados da empresa:', error);
         }
     },
 
     /**
-     * Preenche formulário de daçãos da empresa
+     * Preenche formulário de dados da empresa
      */
     loadEmpresaForm() {
         if (!this.empresaData) return;
 
-        const form = document.getElementById('form-daçãos-empresa');
+        const form = document.getElementById('form-dados-empresa');
         if (!form) return;
 
         // Preenche cada campo
@@ -163,7 +163,7 @@ const CompanySettings = {
      * Salva configurações da empresa
      */
     async saveEmpresaConfig() {
-        const form = document.getElementById('form-daçãos-empresa');
+        const form = document.getElementById('form-dados-empresa');
         if (!form) return;
 
         const formData = new FormData(form);
@@ -183,7 +183,7 @@ const CompanySettings = {
                 this.showMessage('success', 'Configurações salvas com sucesso!');
                 await this.loadEmpresaData();
                 setTimeout(() => {
-                    this.closeConfigModal('modal-daçãos-empresa');
+                    this.closeConfigModal('modal-dados-empresa');
                 }, 1500);
             } else {
                 throw new Error('Erro ao salvar');
@@ -248,10 +248,10 @@ const CompanySettings = {
                     <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${cat.descricao || cat.descricao || 'Sem descricao'}</p>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <button onclick="CompanySettings.editCategoria(${cat.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.editCategoria(${cat.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-pen" style="font-size: 14px;"></i>
                     </button>
-                    <button onclick="CompanySettings.deleteCategoria(${cat.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.deleteCategoria(${cat.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                     </button>
                 </div>
@@ -310,14 +310,14 @@ const CompanySettings = {
                     <i class="fas fa-building" style="font-size: 20px; color: ${cor};"></i>
                 </div>
                 <div style="flex: 1; min-width: 0;">
-                    <h4 style="margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #1f2937;">${dept.nome} ${dept.sigla  `<span style="font-weight: 400; color: #6b7280;">(${dept.sigla})</span>` : ''}</h4>
-                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${dept.descricao || dept.descricao || (dept.responsavel_nome  `Responsável: ${dept.responsavel_nome}` : 'Sem descricao')}</p>
+                    <h4 style="margin: 0 0 4px 0; font-size: 15px; font-weight: 600; color: #1f2937;">${dept.nome} ${dept.sigla ? `<span style="font-weight: 400; color: #6b7280;">(${dept.sigla})</span>` : ''}</h4>
+                    <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${dept.descricao || dept.descricao || (dept.responsavel_nome ? `Responsável: ${dept.responsavel_nome}` : 'Sem descricao')}</p>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <button onclick="CompanySettings.editDepartamento(${dept.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.editDepartamento(${dept.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-pen" style="font-size: 14px;"></i>
                     </button>
-                    <button onclick="CompanySettings.deleteDepartamento(${dept.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.deleteDepartamento(${dept.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                     </button>
                 </div>
@@ -390,10 +390,10 @@ const CompanySettings = {
                     <p style="margin: 0; font-size: 13px; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${proj.descricao || proj.descricao || (proj.departamento_nome ? proj.departamento_nome : 'Sem descricao')}</p>
                 </div>
                 <div style="display: flex; gap: 8px;">
-                    <button onclick="CompanySettings.editProjeto(${proj.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.editProjeto(${proj.id})" title="Editar" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #3b82f6, #2563eb); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-pen" style="font-size: 14px;"></i>
                     </button>
-                    <button onclick="CompanySettings.deleteProjeto(${proj.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shaçãow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
+                    <button onclick="CompanySettings.deleteProjeto(${proj.id})" title="Excluir" style="width: 38px; height: 38px; border: none; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseenter="this.style.transform='scale(1.08)';" onmouseleave="this.style.transform='scale(1)';">
                         <i class="fas fa-trash-alt" style="font-size: 14px;"></i>
                     </button>
                 </div>
@@ -411,7 +411,7 @@ const CompanySettings = {
         const form = document.getElementById('form-certificação');
         if (!form) return;
 
-        // Preenche daçãos do certificação se existirem
+        // Preenche dados do certificação se existirem
         if (this.empresaData.certificação_validade) {
             document.querySelector('[name="certificação_validade"]').value = 
                 this.empresaData.certificação_validade;

@@ -79,7 +79,7 @@ function updateUserList() {
             userItem.classList.add('active');
         }
         
-        const statusText = user.status === 'waiting'  'Aguardando' : 'Em aténdimento';
+        const statusText = user.status === 'waiting' ? 'Aguardando' : 'Em aténdimento';
         
         userItem.innerHTML = `
             <div class="user-name">${escapeHtml(user.name)}</div>
@@ -200,7 +200,7 @@ closeChatBtn.addEventListener('click', () => {
     }
 });
 
-// Chat encerração
+// Chat encerrado
 socket.on('admin:chat-closed', (userId) => {
     if (currentUserId === userId) {
         showWelcomeScreen();

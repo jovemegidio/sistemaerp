@@ -20,7 +20,7 @@ function initPageFixes() {
     // 2. Corrigir IDs duplicaçãos  
     fixDuplicatedIds();
     
-    // 3. Garantir separação correta de conteúdo
+    // 3. Garantir separado correta de conteúdo
     ensureContentSeparation();
     
     // 4. Corrigir navegação
@@ -82,7 +82,7 @@ function fixDuplicatedIds() {
     console.log(`✅ ${elementsToFix.length} IDs duplicaçãos corrigidos`);
 }
 
-// Função 3: Garantir separação correta de conteúdo
+// Função 3: Garantir separado correta de conteúdo
 function ensureContentSeparation() {
     const sections = document.querySelectorAll('.content-section');
     let activeSection = null;
@@ -228,7 +228,7 @@ function navigateToSection(sectionId) {
             activeLink.classList.add('active');
         }
         
-        // Carregar daçãos da seção se necessário
+        // Carregar dados da seção se necessário
         loadSectionData(sectionId);
         
         // Scroll para o topo
@@ -242,7 +242,7 @@ function navigateToSection(sectionId) {
     }
 }
 
-// Carregar daçãos específicos da seção
+// Carregar dados específicos da seção
 function loadSectionData(sectionId) {
     switch(sectionId) {
         case 'dashboard-home':

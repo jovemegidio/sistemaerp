@@ -22,7 +22,7 @@
             border-radius: 16px;
             padding: 30px;
             margin: 20px 0;
-            box-shaçãow: 0 8px 32px rgba(0,0,0,0.3);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
         }
         .btn {
             background: #4CAF50;
@@ -71,12 +71,12 @@
             border-radius: 12px;
             overflow: hidden;
             margin: 20px 0;
-            box-shaçãow: 0 8px 32px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
         }
         h1, h2 { 
             text-align: center; 
             margin-bottom: 20px;
-            text-shaçãow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
     </style></head>
 <body>
@@ -133,7 +133,7 @@
             <input name="data_previsao_entrega" value="">
             
             <!-- Observações -->
-            <textarea name="observacoes">Ordem de produção para cabos especiais - Teste completo do sistema Excel. Seguir especificações técnicas ABNT NBR 247. Embalagem cuidaçãosa para transporte. Produtos de alta qualidade Aluforce.</textarea>
+            <textarea name="observacoes">Ordem de produção para cabos especiais - Teste completo do sistema Excel. Seguir especificações técnicas ABNT NBR 247. Embalagem cuidadosa para transporte. Produtos de alta qualidade Aluforce.</textarea>
             
             <!-- Configurações -->
             <input name="variacao" value="Cor: Preto, Azul, Verde; Bitola: 10mm², 6mm², 4mm², 2.5mm²">
@@ -165,7 +165,7 @@
         
         function log(msg, type = 'info') {
             const time = new Date().toLocaleTimeString();
-            const emoji = type === 'success'  '✅' : type === 'error'  '❌' : type === 'warning'  '⚠️' : 'ℹ️';
+            const emoji = type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️';
             logDiv.innerHTML += `[${time}] ${emoji} ${msg}\n`;
             logDiv.style.display = 'block';
             logDiv.scrollTop = logDiv.scrollHeight;
@@ -189,7 +189,7 @@
                     }
                 })
                 .then(data => {
-                    log(`📊 API respondeu com ${data.length} resultaçãos`, 'success');
+                    log(`📊 API respondeu com ${data.length} resultados`, 'success');
                 })
                 .catch(error => {
                     log(`❌ Erro: ${error.message}`, 'error');
@@ -200,7 +200,7 @@
         function gerarOrdemCompleta() {
             log('🚀 === GERANDO ORDEM DE PRODUÇÃO EXCEL ===', 'success');
             
-            // Preparar daçãos dinâmicos
+            // Preparar dados dinâmicos
             const timestamp = Date.now();
             const hoje = new Date();
             const entrega = new Date(hoje.getTime() + 15 * 24 * 60 * 60 * 1000); // 15 dias
@@ -283,7 +283,7 @@
                     log('✅ Modal aberto! Agora preencha manualmente e submeta', 'success');
                     log('💡 Dica: Digite "ENERGIZE" no campo cliente', 'info');
                 } else {
-                    log('❌ Botão Nova Ordem não encontração', 'error');
+                    log('❌ Botão Nova Ordem não encontrado', 'error');
                 }
                 
             } catch (error) {

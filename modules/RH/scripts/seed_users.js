@@ -96,7 +96,7 @@ const mysql = require('mysql2/promise');
   try {
     for (const rawName of names) {
       // Skip names that already exist by exact nome_completo OR matching Augusto as requested
-      const existsRows = await db.execute('SELECT id, nome_completo, email FROM funcionarios WHERE nome_completo =  LIMIT 1', [rawName])
+      const existsRows = await db.execute('SELECT id, nome_completo, email FROM funcionarios WHERE nome_completo = ? LIMIT 1', [rawName])
       const [rows] = existsRows
       if (rows && rows.length > 0) {
         console.log(`SKIP (already exists): ${rawName}`)
@@ -113,7 +113,7 @@ const mysql = require('mysql2/promise');
       // ensure unique email
       let counter = 0
       while (true) {
-        const [r] = await db.execute('SELECT id FROM funcionarios WHERE email =  LIMIT 1', [email])
+        const [r] = await db.execute('SELECT id FROM funcionarios WHERE email = ? LIMIT 1', [email])
         if (r && r.length > 0) {
           counter++
           const base = email.split('@')[0]
@@ -130,10 +130,10 @@ const mysql = require('mysql2/promise');
       const insertSql = `INSERT INTO funcionarios (
         email, senha, role, nome_completo, cargo, departamento, cpf, rg,
         telefone, estação_civil, data_nascimento, dependentes, foto_perfil_url, status,
-        nacionalidade, naturalidade, filiacao_mae, filiacao_pai, daçãos_conjuge,
+        nacionalidade, naturalidade, filiacao_mae, filiacao_pai, dados_conjuge,
         zona_eleitoral, seção_eleitoral, ctps_numero, ctps_serie,
         banco, agencia, conta_corrente, data_admissao
-      ) VALUES (, , , , , , , , , , , , , , , , , , , , , , , , , , )`
+      ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, ?, ?)`
 
       const params = [
         email,

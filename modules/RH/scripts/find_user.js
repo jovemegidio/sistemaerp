@@ -12,7 +12,7 @@ const DB_CONFIG = {
 async function find (email) {
   const conn = await mysql.createConnection(DB_CONFIG)
   try {
-    const [rows] = await conn.execute('SELECT id, email, senha, role, nome_completo FROM funcionarios WHERE email =  LIMIT 1', [email])
+    const [rows] = await conn.execute('SELECT id, email, senha, role, nome_completo FROM funcionarios WHERE email = ? LIMIT 1', [email])
     if (!rows || rows.length === 0) {
       console.log(`Nenhum utilizaçãor encontrado para email='${email}'`)
       return

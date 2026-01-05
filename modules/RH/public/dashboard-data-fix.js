@@ -1,5 +1,5 @@
 /* =============================================== */
-/* DASHBOARD FIX - Carregamento dinâmico de daçãos */
+/* DASHBOARD FIX - Carregamento dinâmico de dados */
 /* =============================================== */
 
 // Função para obter headers de autenticação
@@ -12,17 +12,17 @@ function getAuthHeaders(additionalHeaders = {}) {
     return headers;
 }
 
-// Função para carregar daçãos do dashboard
+// Função para carregar dados do dashboard
 async function loadDashboardData() {
     try {
-        console.log('🔄 Carregando daçãos do dashboard...');
+        console.log('🔄 Carregando dados do dashboard...');
         
         const response = await fetch('/api/dashboard/summary', {
             headers: getAuthHeaders({ 'Content-Type': 'application/json' })
         });
         
         if (!response.ok) {
-            throw new Error('Erro ao carregar daçãos do dashboard');
+            throw new Error('Erro ao carregar dados do dashboard');
         }
         
         const data = await response.json();
@@ -39,14 +39,14 @@ async function loadDashboardData() {
         
     } catch (error) {
         console.error('❌ Erro ao carregar dashboard:', error);
-        // Usar daçãos fallback em caso de erro
+        // Usar dados fallback em caso de erro
         loadFallbackData();
     }
 }
 
 // Função para atualizar contaçãores dos widgets
 function updateDashboardCounters(data) {
-    // Calcular totais baseados nos daçãos recebidos
+    // Calcular totais baseados nos dados recebidos
     const totals = {
         funcionarios: data.tempoCasa ? data.tempoCasa.length : 0,
         aniversariantes: data.aniversariantes ? data.aniversariantes.length : 0,
@@ -150,7 +150,7 @@ function updateAvisos(avisos) {
             </div>
             <div class="aviso-content">
                 <p class="aviso-message">${mensagem}</p>
-                ${dataFormatada  `<small class="aviso-date">${dataFormatada}</small>` : ''}
+                ${dataFormatada ? `<small class="aviso-date">${dataFormatada}</small>` : ''}
             </div>
         `;
         
@@ -163,9 +163,9 @@ function updateAvisos(avisos) {
     console.log(`✅ Lista de avisos atualizada: ${avisos.length} avisos`);
 }
 
-// Função fallback com daçãos estáticos
+// Função fallback com dados estáticos
 function loadFallbackData() {
-    console.log('⚠️ Usando daçãos fallback para o dashboard');
+    console.log('⚠️ Usando dados fallback para o dashboard');
     
     const fallbackData = {
         funcionarios: 6,  // Sabemos que temos 6 usuários criados
@@ -252,7 +252,7 @@ function initializeDashboard() {
         return;
     }
     
-    // Carregar daçãos
+    // Carregar dados
     loadDashboardData();
 }
 

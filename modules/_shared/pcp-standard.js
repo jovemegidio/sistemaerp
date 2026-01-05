@@ -116,7 +116,7 @@ function initRefreshButton() {
                 }, 1000);
             }
             
-            // Recarregar daçãos (implementar em cada módulo)
+            // Recarregar dados (implementar em cada módulo)
             if (typeof refreshModuleData === 'function') {
                 refreshModuleData();
             } else {
@@ -304,7 +304,7 @@ function initTabs() {
             if (targetContent) {
                 targetContent.classList.add('active');
                 
-                // Callback para carregar daçãos da aba
+                // Callback para carregar dados da aba
                 if (typeof loadTabData === 'function') {
                     loadTabData(targetTab);
                 }

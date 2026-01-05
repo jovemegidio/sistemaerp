@@ -187,7 +187,7 @@ app.get('/api/avatar/:username', (req, res) => {
     res.send(svg);
 });
 
-// Rota principal - página do colaboraçãor
+// Rota principal - página do colaborador
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -201,7 +201,7 @@ app.get('/admin', (req, res) => {
 io.on('connection', (socket) => {
     console.log('Nova conexão:', socket.id);
 
-    // Usuário (colaboraçãor) entra no chat
+    // Usuário (colaborador) entra no chat
     socket.on('user:join', async (userData) => {
         const userId = socket.id;
         const userInfo = {
@@ -223,7 +223,7 @@ io.on('connection', (socket) => {
         let sessionId = null;
         try {
             const [result] = await pool.query(
-                'INSERT INTO chat_sessions (user_id, user_name, user_email, started_at, status) VALUES (, , , NOW(), )',
+                'INSERT INTO chat_sessions (user_id, user_name, user_email, started_at, status) VALUES (?, ?, , NOW(), )',
                 [userId, userData.name, userData.email, 'active']
             );
             sessionId = result.insertId;
@@ -247,7 +247,7 @@ io.on('connection', (socket) => {
         if (sessionId) {
             try {
                 await pool.query(
-                    'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (, , , NOW())',
+                    'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (?, ?, , NOW())',
                     [sessionId, 'bob', welcomeMessage.text]
                 );
             } catch (err) {
@@ -336,7 +336,7 @@ io.on('connection', (socket) => {
             if (user.sessionId) {
                 try {
                     await pool.query(
-                        'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (, , , NOW())',
+                        'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (?, ?, , NOW())',
                         [user.sessionId, 'user', message.text]
                     );
                 } catch (err) {
@@ -380,7 +380,7 @@ io.on('connection', (socket) => {
             if (user.sessionId) {
                 try {
                     await pool.query(
-                        'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (, , , NOW())',
+                        'INSERT INTO chat_messages (session_id, sender, message, sent_at) VALUES (?, ?, , NOW())',
                         [user.sessionId, 'admin', message.text]
                     );
                 } catch (err) {
@@ -429,7 +429,7 @@ io.on('connection', (socket) => {
         if (user) {
             // Notificar usuário
             io.to(user.socketId).emit('chat:closed', { 
-                message: 'Chat encerração pelo atendente.' 
+                message: 'Chat encerrado pelo atendente.' 
             });
 
             // Notificar admin

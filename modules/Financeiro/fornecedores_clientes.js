@@ -95,25 +95,25 @@ async function carregarDaçãos() {
         renderizarTabela(abaAtual);
         
     } catch (error) {
-        console.error('❌ Erro ao carregar daçãos:', error);
-        mostrarAlerta('Erro ao carregar daçãos', 'error');
+        console.error('❌ Erro ao carregar dados:', error);
+        mostrarAlerta('Erro ao carregar dados', 'error');
     }
 }
 
 // ===== RENDERIZAÇÉO =====
 function renderizarTabela(tipo) {
-    const daçãos = tipo === 'fornecedores'  fornecedores : clientes;
-    const containerId = tipo === 'fornecedores'  'tabela-fornecedores' : 'tabela-clientes';
+    const dados = tipo === 'fornecedores'  fornecedores : clientes;
+    const containerId = tipo === 'fornecedores' ? 'tabela-fornecedores' : 'tabela-clientes';
     const container = document.getElementById(containerId);
     
-    if (!daçãos || daçãos.length === 0) {
+    if (!dados || dados.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
-                <i class="fas fa-${tipo === 'fornecedores'  'truck' : 'user-tie'}"></i>
-                <h3>Nenhum ${tipo === 'fornecedores'  'fornecedor' : 'cliente'} cadastração</h3>
-                <p>Clique em "Novo ${tipo === 'fornecedores'  'Fornecedor' : 'Cliente'}" para começar</p>
-                <button class="btn-primary" onclick="${tipo === 'fornecedores'  'abrirModalFornecedor' : 'abrirModalCliente'}()">
-                    <i class="fas fa-plus"></i> Adicionar ${tipo === 'fornecedores'  'Fornecedor' : 'Cliente'}
+                <i class="fas fa-${tipo === 'fornecedores' ? 'truck' : 'user-tie'}"></i>
+                <h3>Nenhum ${tipo === 'fornecedores' ? 'fornecedor' : 'cliente'} cadastração</h3>
+                <p>Clique em "Novo ${tipo === 'fornecedores' ? 'Fornecedor' : 'Cliente'}" para começar</p>
+                <button class="btn-primary" onclick="${tipo === 'fornecedores' ? 'abrirModalFornecedor' : 'abrirModalCliente'}()">
+                    <i class="fas fa-plus"></i> Adicionar ${tipo === 'fornecedores' ? 'Fornecedor' : 'Cliente'}
                 </button>
             </div>
         `;
@@ -134,12 +134,12 @@ function renderizarTabela(tipo) {
                 </tr>
             </thead>
             <tbody>
-                ${daçãos.map(item => `
+                ${dados.map(item => `
                     <tr>
                         <td><strong>${item.código}</strong></td>
                         <td>
                             <strong>${item.razao_social}</strong>
-                            ${item.nome_fantasia  `<br><small style="color: #64748b;">${item.nome_fantasia}</small>` : ''}
+                            ${item.nome_fantasia ? `<br><small style="color: #64748b;">${item.nome_fantasia}</small>` : ''}
                         </td>
                         <td>${formatarCNPJ_CPF(item.cnpj_cpf) || '-'}</td>
                         <td>
@@ -203,7 +203,7 @@ function abrirModalCliente() {
 
 function abrirModalEntidade(tipo) {
     entidadeSelecionada = null;
-    document.getElementById('modal-titulo-entidade').textContent = `Novo ${tipo === 'fornecedor'  'Fornecedor' : 'Cliente'}`;
+    document.getElementById('modal-titulo-entidade').textContent = `Novo ${tipo === 'fornecedor' ? 'Fornecedor' : 'Cliente'}`;
     document.getElementById('form-entidade').reset();
     document.getElementById('entidade-id').value = '';
     document.getElementById('entidade-tipo').value = tipo;
@@ -218,8 +218,8 @@ function editar(id, tipo) {
     
     if (!entidadeSelecionada) return;
     
-    const tipoSingular = tipo === 'fornecedores'  'fornecedor' : 'cliente';
-    document.getElementById('modal-titulo-entidade').textContent = `Editar ${tipoSingular === 'fornecedor'  'Fornecedor' : 'Cliente'}`;
+    const tipoSingular = tipo === 'fornecedores' ? 'fornecedor' : 'cliente';
+    document.getElementById('modal-titulo-entidade').textContent = `Editar ${tipoSingular === 'fornecedor' ? 'Fornecedor' : 'Cliente'}`;
     document.getElementById('entidade-id').value = entidadeSelecionada.id;
     document.getElementById('entidade-tipo').value = tipoSingular;
     document.getElementById('entidade-tipo-pessoa').value = entidadeSelecionada.tipo_pessoa || 'JURIDICA';
@@ -249,7 +249,7 @@ async function salvarEntidade(event) {
     const tipo = document.getElementById('entidade-tipo').value;
     const isEdicao = !!id;
     
-    const daçãos = {
+    const dados = {
         tipo_pessoa: document.getElementById('entidade-tipo-pessoa').value,
         cnpj_cpf: document.getElementById('entidade-cnpj').value,
         razao_social: document.getElementById('entidade-razao-social').value,
@@ -270,29 +270,29 @@ async function salvarEntidade(event) {
     
     try {
         // TODO: Substituir por chamada real à API
-        // const endpoint = tipo === 'fornecedor'  'fornecedores' : 'clientes';
-        // const url = isEdicao  `/api/financeiro/${endpoint}/${id}` : `/api/financeiro/${endpoint}`;
+        // const endpoint = tipo === 'fornecedor' ? 'fornecedores' : 'clientes';
+        // const url = isEdicao ? `/api/financeiro/${endpoint}/${id}` : `/api/financeiro/${endpoint}`;
         // const method = isEdicao ? 'PUT' : 'POST';
         // const response = await fetch(url, {
         //     method: method,
         //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify(daçãos)
+        //     body: JSON.stringify(dados)
         // });
         
         // Mock para desenvolvimento
         const lista = tipo === 'fornecedor'  fornecedores : clientes;
-        const prefixo = tipo === 'fornecedor'  'FOR' : 'CLI';
+        const prefixo = tipo === 'fornecedor' ? 'FOR' : 'CLI';
         
         if (isEdicao) {
             const index = lista.findIndex(item => item.id == id);
             if (index !== -1) {
-                lista[index] = { ...lista[index], ...daçãos };
+                lista[index] = { ...lista[index], ...dados };
             }
         } else {
             const novaEntidade = {
                 id: lista.length + 1,
                 código: `${prefixo}${String(lista.length + 1).padStart(6, '0')}`,
-                ...daçãos
+                ...dados
             };
             lista.push(novaEntidade);
         }
@@ -304,13 +304,12 @@ async function salvarEntidade(event) {
         }
         
         mostrarAlerta(
-            isEdicao  `${tipo === 'fornecedor'  'Fornecedor' : 'Cliente'} atualização com sucesso!` 
-                     : `${tipo === 'fornecedor'  'Fornecedor' : 'Cliente'} criado com sucesso!`,
+            isEdicao ? `${tipo === 'fornecedor' ? 'Fornecedor' : 'Cliente'} atualização com sucesso!` : `${tipo === 'fornecedor' ? 'Fornecedor' : 'Cliente'} criado com sucesso!`,
             'success'
         );
         
         fecharModal('modal-entidade');
-        renderizarTabela(tipo === 'fornecedor'  'fornecedores' : 'clientes');
+        renderizarTabela(tipo === 'fornecedor' ? 'fornecedores' : 'clientes');
         
     } catch (error) {
         console.error('❌ Erro ao salvar:', error);
@@ -319,13 +318,13 @@ async function salvarEntidade(event) {
 }
 
 async function excluir(id, tipo) {
-    const tipoTexto = tipo === 'fornecedores'  'fornecedor' : 'cliente';
+    const tipoTexto = tipo === 'fornecedores' ? 'fornecedor' : 'cliente';
     
     if (!confirm(`Deseja realmente excluir este ${tipoTexto}`)) return;
     
     try {
         // TODO: Substituir por chamada real à API
-        // const endpoint = tipo === 'fornecedores'  'fornecedores' : 'clientes';
+        // const endpoint = tipo === 'fornecedores' ? 'fornecedores' : 'clientes';
         // await fetch(`/api/financeiro/${endpoint}/${id}`, { method: 'DELETE' });
         
         // Mock para desenvolvimento
@@ -377,7 +376,7 @@ function aplicarFiltrosFornecedor() {
     const busca = document.getElementById('busca-fornecedor').value.toLowerCase();
     const status = document.getElementById('status-fornecedor').value;
     
-    let daçãosFiltraçãos = fornecedores.filter(item => {
+    let dadosFiltraçãos = fornecedores.filter(item => {
         const matchBusca = !busca || 
             item.razao_social.toLowerCase().includes(busca) ||
             item.nome_fantasia.toLowerCase().includes(busca) ||
@@ -391,14 +390,14 @@ function aplicarFiltrosFornecedor() {
     });
     
     const container = document.getElementById('tabela-fornecedores');
-    renderizarTabelaFiltrada(daçãosFiltraçãos, container, 'fornecedores');
+    renderizarTabelaFiltrada(dadosFiltraçãos, container, 'fornecedores');
 }
 
 function aplicarFiltrosCliente() {
     const busca = document.getElementById('busca-cliente').value.toLowerCase();
     const status = document.getElementById('status-cliente').value;
     
-    let daçãosFiltraçãos = clientes.filter(item => {
+    let dadosFiltraçãos = clientes.filter(item => {
         const matchBusca = !busca || 
             item.razao_social.toLowerCase().includes(busca) ||
             item.nome_fantasia.toLowerCase().includes(busca) ||
@@ -412,15 +411,15 @@ function aplicarFiltrosCliente() {
     });
     
     const container = document.getElementById('tabela-clientes');
-    renderizarTabelaFiltrada(daçãosFiltraçãos, container, 'clientes');
+    renderizarTabelaFiltrada(dadosFiltraçãos, container, 'clientes');
 }
 
-function renderizarTabelaFiltrada(daçãos, container, tipo) {
-    if (!daçãos || daçãos.length === 0) {
+function renderizarTabelaFiltrada(dados, container, tipo) {
+    if (!dados || dados.length === 0) {
         container.innerHTML = `
             <div class="empty-state">
                 <i class="fas fa-search"></i>
-                <h3>Nenhum resultação encontrado</h3>
+                <h3>Nenhum resultado encontrado</h3>
                 <p>Tente ajustar os filtros de busca</p>
             </div>
         `;
@@ -441,12 +440,12 @@ function renderizarTabelaFiltrada(daçãos, container, tipo) {
                 </tr>
             </thead>
             <tbody>
-                ${daçãos.map(item => `
+                ${dados.map(item => `
                     <tr>
                         <td><strong>${item.código}</strong></td>
                         <td>
                             <strong>${item.razao_social}</strong>
-                            ${item.nome_fantasia  `<br><small style="color: #64748b;">${item.nome_fantasia}</small>` : ''}
+                            ${item.nome_fantasia ? `<br><small style="color: #64748b;">${item.nome_fantasia}</small>` : ''}
                         </td>
                         <td>${formatarCNPJ_CPF(item.cnpj_cpf) || '-'}</td>
                         <td>
@@ -545,17 +544,17 @@ function mostrarAlerta(mensagem, tipo = 'info') {
         top: 20px;
         right: 20px;
         padding: 16px 24px;
-        background: ${tipo === 'success'  '#10b981' : tipo === 'error'  '#ef4444' : '#3b82f6'};
+        background: ${tipo === 'success' ? '#10b981' : tipo === 'error' ? '#ef4444' : '#3b82f6'};
         color: white;
         border-radius: 12px;
-        box-shaçãow: 0 8px 20px rgba(0,0,0,0.15);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         z-index: 10000;
         font-weight: 600;
         max-width: 400px;
         animation: slideIn 0.3s ease;
     `;
     
-    const icon = tipo === 'success'  'check-circle' : tipo === 'error'  'exclamation-circle' : 'info-circle';
+    const icon = tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle';
     alerta.innerHTML = `<i class="fas fa-${icon}"></i> ${mensagem}`;
     
     document.body.appendChild(alerta);

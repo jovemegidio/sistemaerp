@@ -117,7 +117,7 @@ app.post('/api/financeiro/categorias', authenticateToken, async (req, res) => {
 
         const [result] = await pool.query(
             `INSERT INTO categorias_financeiras (nome, tipo, cor, icone, orcamento_mensal, descricao) 
-             VALUES (, , , , , )`,
+             VALUES (?, ?, ?, ?, ?, ?)`,
             [nome, tipo, cor || '#3b82f6', icone || 'fa-folder', orcamento_mensal || 0, descricao]
         );
 
@@ -206,11 +206,11 @@ app.get('/api/financeiro/categorias/estatisticas', authenticateToken, async (req
             LEFT JOIN (
                 SELECT categoria, valor, 'pagar' as tipo 
                 FROM contas_pagar 
-                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
+                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelação'
                 UNION ALL
                 SELECT categoria, valor, 'receber' as tipo 
                 FROM contas_receber 
-                WHERE vencimento BETWEEN  AND  AND status != 'cancelação'
+                WHERE vencimento BETWEEN ? AND ? AND status != 'cancelação'
             ) p ON c.nome = p.categoria
             WHERE c.ativo = TRUE
             GROUP BY c.id, c.nome, c.tipo, c.cor, c.orcamento_mensal
@@ -269,7 +269,7 @@ app.post('/api/financeiro/bancos', authenticateToken, async (req, res) => {
 
         const [result] = await pool.query(
             `INSERT INTO contas_bancarias (banco, agencia, conta, digito, tipo, saldo_inicial, saldo_atual, limite, cor, principal, observacoes) 
-             VALUES (, , , , , , , , , , )`,
+             VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, )`,
             [banco, agencia, conta, digito, tipo || 'corrente', saldo_inicial || 0, saldo_inicial || 0, limite || 0, cor || '#3b82f6', principal || false, observacoes]
         );
 
@@ -372,7 +372,7 @@ app.post('/api/financeiro/formas-pagamento', authenticateToken, async (req, res)
         }
 
         const [result] = await pool.query(
-            'INSERT INTO formas_pagamento (nome, tipo, icone) VALUES (, , )',
+            'INSERT INTO formas_pagamento (nome, tipo, icone) VALUES (?, ?, )',
             [nome, tipo || 'outros', icone || 'fa-money-bill']
         );
 
@@ -454,7 +454,7 @@ app.get('/api/financeiro/parcelas/:conta_id/:tipo', authenticateToken, async (re
         const { conta_id, tipo } = req.params;
 
         const [parcelas] = await pool.query(
-            'SELECT * FROM parcelas WHERE conta_origem_id =  AND tipo =  ORDER BY numero_parcela ASC',
+            'SELECT * FROM parcelas WHERE conta_origem_id =  AND tipo = ? ORDER BY numero_parcela ASC',
             [conta_id, tipo]
         );
 
@@ -549,7 +549,7 @@ app.post('/api/financeiro/recorrencias', authenticateToken, async (req, res) => 
             `INSERT INTO recorrencias 
              (descricao, tipo, valor, categoria_id, fornecedor_id, cliente_id, dia_vencimento, 
               forma_pagamento_id, conta_bancaria_id, data_inicio, data_fim, observacoes, proxima_geracao) 
-             VALUES (, , , , , , , , , , , , )`,
+             VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?)`,
             [descricao, tipo, valor, categoria_id, fornecedor_id, cliente_id, dia_vencimento, 
              forma_pagamento_id, conta_bancaria_id, data_inicio, data_fim, observacoes, 
              proximaGeracao.toISOString().split('T')[0]]
@@ -634,7 +634,7 @@ app.post('/api/financeiro/recorrencias/processar', authenticateToken, async (req
                     `INSERT INTO contas_pagar 
                      (fornecedor_id, descricao, valor, vencimento, categoria, forma_pagamento_id, 
                       conta_bancaria_id, recorrente, recorrencia_id, status, observacoes) 
-                     VALUES (, , , , , , , TRUE, , 'pendente', )`,
+                     VALUES (?, ?, ?, ?, , ?, ?, TRUE, , 'pendente', )`,
                     [rec.fornecedor_id, rec.descricao, rec.valor, vencimento.toISOString().split('T')[0],
                      rec.categoria_id, rec.forma_pagamento_id, rec.conta_bancaria_id, rec.id, rec.observacoes]
                 );
@@ -643,7 +643,7 @@ app.post('/api/financeiro/recorrencias/processar', authenticateToken, async (req
                     `INSERT INTO contas_receber 
                      (cliente_id, descricao, valor, vencimento, categoria, forma_recebimento_id, 
                       conta_bancaria_id, status, observacoes) 
-                     VALUES (, , , , , , , 'pendente', )`,
+                     VALUES (?, ?, ?, ?, , ?, ?, 'pendente', )`,
                     [rec.cliente_id, rec.descricao, rec.valor, vencimento.toISOString().split('T')[0],
                      rec.categoria_id, rec.forma_pagamento_id, rec.conta_bancaria_id, rec.observacoes]
                 );

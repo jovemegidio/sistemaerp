@@ -140,7 +140,7 @@
         .page-header-section {
             background: white; border-radius: 12px;
             padding: 20px 24px; margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex; justify-content: space-between; align-items: center;
         }
 
@@ -159,7 +159,7 @@
             cursor: pointer; display: flex; align-items: center; gap: 8px;
             transition: all 0.2s;
         }
-        .btn-primary:hover { transform: translateY(-1px); box-shaçãow: 0 4px 12px rgba(249, 115, 22, 0.3); }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3); }
 
         .btn-secondary {
             background: white; color: #374151;
@@ -179,7 +179,7 @@
 
         .stat-card {
             background: white; border-radius: 12px;
-            padding: 20px; box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08);
         }
 
         .stat-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
@@ -199,7 +199,7 @@
         .filters-bar {
             background: white; border-radius: 12px;
             padding: 16px 20px; margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
         }
 
@@ -224,7 +224,7 @@
 
         .table-container {
             background: white; border-radius: 12px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden;
         }
 
         .clients-table { width: 100%; border-collapse: collapse; }
@@ -306,7 +306,7 @@
             width: 95%; max-width: 1200px; height: 90vh; max-height: 700px;
             display: flex; flex-direction: column; overflow: hidden;
             animation: modalSlideIn 0.3s ease;
-            box-shaçãow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
         @keyframes modalSlideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
@@ -425,7 +425,7 @@
         }
         .omie-form-group input:focus, .omie-form-group select:focus, .omie-form-group textarea:focus {
             outline: none; border-color: #f97316;
-            box-shaçãow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+            box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
         }
         .omie-form-group textarea { resize: vertical; min-height: 80px; }
 
@@ -807,7 +807,7 @@
 
                         <!-- Aba Daçãos Bancários -->
                         <div class="modal-omie-tab-pane" id="tab-bancarios">
-                            <p style="margin-bottom: 16px; color: #374151;"><strong>Preencha aqui os daçãos bancários</strong> deste cliente, fornecedor ou funcionário</p>
+                            <p style="margin-bottom: 16px; color: #374151;"><strong>Preencha aqui os dados bancários</strong> deste cliente, fornecedor ou funcionário</p>
                             <p style="margin-bottom: 24px; color: #6b7280; font-size: 13px;">Eles poderão ser utilizaçãos para realizar a integração dos pagamentos automaticamente com o seu banco</p>
                             
                             <div class="omie-form-grid cols-4">
@@ -969,7 +969,7 @@
                             
                             <div class="omie-info-box">
                                 <p><strong>Você nunca realizou uma consulta de crédito para este cliente =(</strong></p>
-                                <p style="margin-top: 8px;"><strong>Você sabia</strong> Nossas fontes de daçãos incluem a <a href="#">Boa Vista</a> e a <a href="#">Quod</a>.</p>
+                                <p style="margin-top: 8px;"><strong>Você sabia</strong> Nossas fontes de dados incluem a <a href="#">Boa Vista</a> e a <a href="#">Quod</a>.</p>
                                 <p>Clique aqui e <strong>consulte agora protestos, cheques sem fundo ou dívidas</strong>.</p>
                             </div>
                             
@@ -1111,7 +1111,7 @@
             const fim = Math.min(inicio + itensPorPagina, clientesFiltraçãos.length);
             const clientesPagina = clientesFiltraçãos.slice(inicio, fim);
             if (!clientesPagina.length) {
-                tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="fas fa-users-slash"></i><h3>Nenhum cliente encontração</h3><p>Tente alterar os filtros</p></div></td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6"><div class="empty-state"><i class="fas fa-users-slash"></i><h3>Nenhum cliente encontrado</h3><p>Tente alterar os filtros</p></div></td></tr>`;
                 document.getElementById('paginationContainer').style.display = 'none';
                 return;
             }
@@ -1227,7 +1227,7 @@
 
         function editarCliente(id) {
             const cliente = todosClientes.find(c => c.id === id);
-            if (!cliente) { mostrarToast('Cliente não encontração', 'error'); return; }
+            if (!cliente) { mostrarToast('Cliente não encontrado', 'error'); return; }
             
             // Preencher campos principais do header
             document.getElementById('clienteId').value = cliente.id;
@@ -1322,12 +1322,12 @@
             // Montar telefone completo
             const ddd = document.getElementById('clienteDDD').value;
             const tel = document.getElementById('clienteTelefone').value;
-            const telefoneCompleto = ddd && tel  `(${ddd}) ${tel}` : tel;
+            const telefoneCompleto = ddd && tel ? `(${ddd}) ${tel}` : tel;
             
             // Montar celular
             const ddd2 = document.getElementById('clienteDDD2').value;
             const tel2 = document.getElementById('clienteTelefone2').value;
-            const celularCompleto = ddd2 && tel2  `(${ddd2}) ${tel2}` : tel2;
+            const celularCompleto = ddd2 && tel2 ? `(${ddd2}) ${tel2}` : tel2;
             
             const cliente = {
                 nome: document.getElementById('clienteNome').value.trim(),
@@ -1354,7 +1354,7 @@
             if (!cliente.nome) { mostrarToast('Razão Social é obrigatória', 'error'); return; }
             
             try {
-                const url = id  `/api/clientes/${id}` : '/api/clientes';
+                const url = id ? `/api/clientes/${id}` : '/api/clientes';
                 const response = await fetch(url, { 
                     method: id ? 'PUT' : 'POST', 
                     headers: { 'Content-Type': 'application/json' }, 
@@ -1380,7 +1380,7 @@
                     document.getElementById('clienteBairro').value = data.bairro || '';
                     document.getElementById('clienteCidade').value = data.localidade || '';
                     document.getElementById('clienteUF').value = data.uf || '';
-                    mostrarToast('Endereço encontração!', 'success');
+                    mostrarToast('Endereço encontrado!', 'success');
                 }
             } catch (error) { mostrarToast('Erro ao buscar CEP', 'error'); }
         }
@@ -1409,7 +1409,7 @@
             if (nome) atualizarAvatarModal(nome);
         }
 
-        // Buscar daçãos do CNPJ na ReceitaWS
+        // Buscar dados do CNPJ na ReceitaWS
         async function buscarCnpj() {
             const cnpj = document.getElementById('clienteCnpj').value.replace(/\D/g, '');
             if (cnpj.length !== 14) {
@@ -1424,11 +1424,11 @@
                 const data = await response.json();
                 
                 if (data.status === 'ERROR') {
-                    mostrarToast(data.message || 'CNPJ não encontração', 'error');
+                    mostrarToast(data.message || 'CNPJ não encontrado', 'error');
                     return;
                 }
                 
-                // Preencher campos com daçãos da Receita
+                // Preencher campos com dados da Receita
                 document.getElementById('clienteNome').value = data.nome || '';
                 document.getElementById('clienteFantasia').value = data.fantasia || '';
                 
@@ -1492,7 +1492,7 @@
         function mostrarToast(msg, tipo = 'info') {
             const toast = document.createElement('div');
             toast.className = oast ${tipo}`;
-            toast.innerHTML = `<i class="fas fa-${tipo === 'success'  'check-circle' : tipo === 'error'  'exclamation-circle' : 'info-circle'}"></i> ${msg}`;
+            toast.innerHTML = `<i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'error' ? 'exclamation-circle' : 'info-circle'}"></i> ${msg}`;
             document.body.appendChild(toast);
             setTimeout(() => { toast.style.animation = 'toastSlideIn 0.3s ease reverse'; setTimeout(() => toast.remove(), 300); }, 3000);
         }
@@ -1525,7 +1525,7 @@
             return null;
         }
 
-        // Carregar daçãos do usuário logação via API
+        // Carregar dados do usuário logação via API
         async function carregarUsuarioLogação() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
@@ -1576,7 +1576,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Carregar daçãos do usuário logação via API
+            // Carregar dados do usuário logação via API
             carregarUsuarioLogação();
             
             carregarClientes();

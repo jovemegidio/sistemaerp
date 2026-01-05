@@ -3,7 +3,7 @@
 // Adicionar ao arquivo /server.js principal
 // ======================================
 
-// Pool de conexão para banco aluforce_vendas (se separação)
+// Pool de conexão para banco aluforce_vendas (se separado)
 const vendasPool = mysql.createPool({
     host: process.env.DB_HOST || 'localhost',
     user: process.env.DB_USER || 'root',
@@ -126,7 +126,7 @@ app.post('/api/vendas/pedidos', authorizeArea('vendas'), async (req, res) => {
         const [result] = await vendasPool.query(`
             INSERT INTO pedidos 
             (cliente_id, empresa_id, vendedor_id, produtos, valor_total, observacoes, status, data_criacao)
-            VALUES (, , , , , , , NOW())
+            VALUES (?, ?, ?, ?, , ?, ?, NOW())
         `, [cliente_id, empresa_id, vendedor_id, JSON.stringify(produtos), valor_total, observacoes, status]);
         
         res.json({
@@ -185,7 +185,7 @@ app.get('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome LIKE  OR email LIKE  OR telefone LIKE ';
+            query += ' WHERE nome LIKE ? OR email LIKE ? OR telefone LIKE ';
             const searchTerm = `%${search}%`;
             params.push(searchTerm, searchTerm, searchTerm);
         }
@@ -222,7 +222,7 @@ app.post('/api/vendas/clientes', authorizeArea('vendas'), async (req, res) => {
         
         const [result] = await vendasPool.query(`
             INSERT INTO clientes (nome, email, telefone, cpf, endereco, data_criacao)
-            VALUES (, , , , , NOW())
+            VALUES (?, ?, ?, ?, , NOW())
         `, [nome, email, telefone, cpf, endereco]);
         
         res.json({
@@ -244,7 +244,7 @@ app.get('/api/vendas/empresas', authorizeArea('vendas'), async (req, res) => {
         const params = [];
         
         if (search) {
-            query += ' WHERE nome_fantasia LIKE  OR razao_social LIKE  OR cnpj LIKE ';
+            query += ' WHERE nome_fantasia LIKE ? OR razao_social LIKE ? OR cnpj LIKE ';
             const searchTerm = `%${search}%`;
             params.push(searchTerm, searchTerm, searchTerm);
         }
@@ -281,7 +281,7 @@ app.post('/api/vendas/empresas', authorizeArea('vendas'), async (req, res) => {
         
         const [result] = await vendasPool.query(`
             INSERT INTO empresas (nome_fantasia, razao_social, cnpj, email, telefone, endereco, data_criacao)
-            VALUES (, , , , , , NOW())
+            VALUES (?, ?, ?, ?, , , NOW())
         `, [nome_fantasia, razao_social, cnpj, email, telefone, endereco]);
         
         res.json({

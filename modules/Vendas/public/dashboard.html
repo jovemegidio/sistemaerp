@@ -300,7 +300,7 @@
             border-radius: 12px;
             padding: 20px 24px;
             margin-bottom: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -360,7 +360,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             position: relative;
             overflow: hidden;
         }
@@ -448,7 +448,7 @@
         .section-card {
             background: white;
             border-radius: 12px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.08);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             overflow: hidden;
         }
 
@@ -497,7 +497,7 @@
 
         .venda-item:hover {
             background: #fff;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .venda-info {
@@ -666,7 +666,7 @@
             background: white;
             border-radius: 12px;
             padding: 20px;
-            box-shaçãow: 0 2px 8px rgba(0,0,0,0.05);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
 
         .chart-card h3 {
@@ -1006,7 +1006,7 @@
             return null;
         }
 
-        // Carregar daçãos do usuário logação via API
+        // Carregar dados do usuário logação via API
         async function carregarUsuario() {
             try {
                 const response = await fetch('/api/me', { credentials: 'include' });
@@ -1073,10 +1073,10 @@
             }
         }
 
-        // Carregar daçãos do dashboard
+        // Carregar dados do dashboard
         async function carregarDashboard() {
             try {
-                // Carregar daçãos completos do dashboard do vendedor
+                // Carregar dados completos do dashboard do vendedor
                 const response = await fetch('/api/vendas/dashboard/vendedorperíodo=30', { credentials: 'include' });
                 if (response.ok) {
                     const data = await response.json();
@@ -1179,7 +1179,7 @@
                         const posicaoEl = document.getElementById('posicaoRanking');
                         if (posicaoEl) {
                             const userIndex = vendedores.findIndex(v => v.nome && v.nome.toLowerCase().includes(currentUserName));
-                            posicaoEl.textContent = userIndex >= 0  `${userIndex + 1}º` : '-';
+                            posicaoEl.textContent = userIndex >= 0 ? `${userIndex + 1}º` : '-';
                         }
                     }
                 }
@@ -1197,7 +1197,7 @@
                     const container = document.getElementById('proximasAtividades');
                     if (container && data.notificacoes && data.notificacoes.length > 0) {
                         container.innerHTML = data.notificacoes.slice(0, 4).map(n => {
-                            const icon = n.tipo === 'follow_up'  'fa-phone' : 'fa-exclamation-circle';
+                            const icon = n.tipo === 'follow_up' ? 'fa-phone' : 'fa-exclamation-circle';
                             return `
                                 <div class="atividade-item">
                                     <div class="atividade-icon">
@@ -1207,7 +1207,7 @@
                                         <div class="atividade-titulo">${n.titulo || 'Atividade'}</div>
                                         <div class="atividade-desc">${n.mensagem || ''}</div>
                                     </div>
-                                    <div class="atividade-horario">${n.prioridade === 'alta'  '⚠️' : ''}</div>
+                                    <div class="atividade-horario">${n.prioridade === 'alta' ? '⚠️' : ''}</div>
                                 </div>
                             `;
                         }).join('');
@@ -1246,7 +1246,7 @@
                 
                 // Determinar número do pedido
                 const numeroPedido = cliente.pedido_id || cliente.numero_pedido || cliente.id || '';
-                const infoPedido = numeroPedido  `Pedido #${numeroPedido}` : `${cliente.total_pedidos || 0} pedido(s)`;
+                const infoPedido = numeroPedido ? `Pedido #${numeroPedido}` : `${cliente.total_pedidos || 0} pedido(s)`;
                 
                 return `
                     <div class="venda-item">
@@ -1346,7 +1346,7 @@
         let chartVendasStatus = null;
 
         function inicializarGraficos() {
-            // Daçãos de exemplo - serão substituídos por daçãos da API
+            // Daçãos de exemplo - serão substituídos por dados da API
             const meses = ['Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
             const vendasPorMes = [18500, 24200, 19800, 32100, 28400, 21125];
             
@@ -1449,7 +1449,7 @@
             });
         }
 
-        // Atualizar gráficos com daçãos da API
+        // Atualizar gráficos com dados da API
         async function atualizarGraficos() {
             try {
                 const response = await fetch('/api/vendas/dashboard/graficos', {
@@ -1457,24 +1457,24 @@
                 });
                 
                 if (response.ok) {
-                    const daçãos = await response.json();
+                    const dados = await response.json();
                     
                     // Atualizar gráfico de vendas mensais
-                    if (daçãos.vendasMensais && chartVendasMensal) {
-                        chartVendasMensal.data.labels = daçãos.vendasMensais.labels;
-                        chartVendasMensal.data.datasets[0].data = daçãos.vendasMensais.valores;
+                    if (dados.vendasMensais && chartVendasMensal) {
+                        chartVendasMensal.data.labels = dados.vendasMensais.labels;
+                        chartVendasMensal.data.datasets[0].data = dados.vendasMensais.valores;
                         chartVendasMensal.update();
                     }
                     
                     // Atualizar gráfico de status
-                    if (daçãos.vendasStatus && chartVendasStatus) {
-                        chartVendasStatus.data.labels = daçãos.vendasStatus.labels;
-                        chartVendasStatus.data.datasets[0].data = daçãos.vendasStatus.valores;
+                    if (dados.vendasStatus && chartVendasStatus) {
+                        chartVendasStatus.data.labels = dados.vendasStatus.labels;
+                        chartVendasStatus.data.datasets[0].data = dados.vendasStatus.valores;
                         chartVendasStatus.update();
                     }
                 }
             } catch (error) {
-                console.log('Usando daçãos de exemplo para gráficos');
+                console.log('Usando dados de exemplo para gráficos');
             }
         }
 

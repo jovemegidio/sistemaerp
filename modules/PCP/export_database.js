@@ -46,7 +46,7 @@ async function exportDatabase() {
         sqlDump += `SET foreign_key_checks = 0;\n`;
         sqlDump += `SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';\n\n`;
         
-        // Para cada tabela, exportar estrutura e daçãos
+        // Para cada tabela, exportar estrutura e dados
         for (const table of tables) {
             const tableName = table.TABLE_NAME;
             console.log(`📋 Exportando tabela: ${tableName}`);
@@ -68,7 +68,7 @@ async function exportDatabase() {
             if (totalRecords > 0) {
                 console.log(`   💾 ${totalRecords} registros encontrados`);
                 
-                // Obter daçãos
+                // Obter dados
                 const [rows] = await connection.execute(`SELECT * FROM \`${tableName}\``);
                 
                 if (rows.length > 0) {
@@ -85,7 +85,7 @@ async function exportDatabase() {
                     sqlDump += `-- Daçãos da tabela ${tableName}\n`;
                     sqlDump += `INSERT INTO \`${tableName}\` (${columnNames}) VALUES\n`;
                     
-                    // Processar daçãos em lotes para não sobrecarregar a memória
+                    // Processar dados em lotes para não sobrecarregar a memória
                     for (let i = 0; i < rows.length; i++) {
                         const row = rows[i];
                         const values = Object.values(row).map(value => {
@@ -186,12 +186,12 @@ async function exportDatabase() {
     }
 }
 
-// Função para verificar integridade dos daçãos
+// Função para verificar integridade dos dados
 async function checkDataIntegrity() {
     let connection;
     
     try {
-        console.log('\n Verificando integridade dos daçãos...');
+        console.log('\n Verificando integridade dos dados...');
         connection = await mysql.createConnection(dbConfig);
         
         // Verificar produtos duplicaçãos
@@ -267,7 +267,7 @@ async function main() {
         // Verificar conexão
         await checkConnection();
         
-        // Verificar estrutura dos daçãos
+        // Verificar estrutura dos dados
         await checkDataStructure();
         
         // Verificar integridade

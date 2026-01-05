@@ -11,9 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
         el.className = `pcp-toast ${type}`;
         el.setAttribute('role','status');
         el.innerHTML = `
-            <div class="toast-icon">${type === 'success'  '&#10003;' : type === 'error'  '!' : type === 'warning'  '!' : 'i'}</div>
+            <div class="toast-icon">${type === 'success' ? '&#10003;' : type === 'error' ? '!' : type === 'warning' ? '!' : 'i'}</div>
             <div class="toast-body">
-                ${title  `<div class="toast-title">${title}</div>` : ''}
+                ${title ? `<div class="toast-title">${title}</div>` : ''}
                 <div class="toast-text">${message}</div>
             </div>
             <button class="toast-close" aria-label="Fechar">×</button>
@@ -310,7 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (views[viewName] && views[viewName].classList) views[viewName].classList.remove('hidden');
         if (navLinks[viewName] && navLinks[viewName].classList) navLinks[viewName].classList.add('active');
 
-        // Carregar daçãos específicos da view
+        // Carregar dados específicos da view
         if (viewName === 'dashboard') {
             carregarOrdens();
         } else if (viewName === 'materiais') {
@@ -1041,7 +1041,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.appendChild(container);
             }
             const t = document.createElement('div');
-            t.className = 'toast ' + (type === 'error'  'error' : 'success');
+            t.className = 'toast ' + (type === 'error' ? 'error' : 'success');
             t.innerText = message || '';
             container.appendChild(t);
             // fade out after timeout using CSS helper class
@@ -1197,7 +1197,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 errors.push('Adicione pelo menos um produto à ordem de produção');
                 document.getElementById('order-add-item').classList.add('form-error');
             } else {
-                // Verificar se produtos têm daçãos válidos
+                // Verificar se produtos têm dados válidos
                 const itemsValidos = items.filter(item => item.codigo && item.descricao && item.quantidade > 0);
                 if (itemsValidos.length === 0) {
                     errors.push('Preencha código, descricao e quantidade para pelo menos um produto');
@@ -1314,7 +1314,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const valorTotal = document.getElementById('order-valor_total');
             
             const payload = {
-                // Usar daçãos dos itens em vez de campos únicos
+                // Usar dados dos itens em vez de campos únicos
                 items: items,
                 quantidade_total: items.reduce((sum, item) => sum + item.quantidade, 0),
                 valor_total: parseFloat(valorTotal.value) || items.reduce((sum, item) => sum + (item.quantidade * item.valor_unitario), 0),
@@ -1556,13 +1556,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         return; 
                     }
                     const rows = await resp.json();
-                    clientesCache = rows; // Armazenar daçãos completos
+                    clientesCache = rows; // Armazenar dados completos
                     
                     clientDatalist.innerHTML = rows.map(r => {
                         // Criar label mais informativo
                         const nome = r.nome || r.razao_social || '';
-                        const cnpj = r.cnpj  ` — ${r.cnpj}` : '';
-                        const contato = r.contato  ` (${r.contato})` : '';
+                        const cnpj = r.cnpj ? ` — ${r.cnpj}` : '';
+                        const contato = r.contato ? ` (${r.contato})` : '';
                         const label = `${nome}${cnpj}${contato}`;
                         return `<option data-id="${r.id || ''}" data-full='${JSON.stringify(r)}' value="${escapeHtml(label)}"></option>`;
                     }).join('');
@@ -1581,7 +1581,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return; 
             }
             
-            // Encontrar cliente pelos daçãos em cache ou pela option
+            // Encontrar cliente pelos dados em cache ou pela option
             let clienteSelecionação = null;
             
             // Tentar encontrar pela option
@@ -1592,7 +1592,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const id = match.getAttribute('data-id') || '';
                 clientIdHidden.value = id;
                 
-                // Tentar obter daçãos completos
+                // Tentar obter dados completos
                 try {
                     const fullData = match.getAttribute('data-full');
                     if (fullData) {
@@ -1856,7 +1856,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
                     // Include pedidos in inline results (search by empresa, pedido id, product code/name)
                     pedidos.forEach(pd => items.push({ type: 'Pedido', title: `Pedido #${pd.id}`, subtitle: pd.cliente || '', meta: `${pd.produto_codigo||pd.produto_descricao||''} • Qtd:${pd.quantidade||0}`, id: pd.id }));
                     if (items.length === 0) {
-                        if (searchInline) { searchInline.innerHTML = '<div class="pad-12 text-sm muted">Nenhum resultação encontrado</div>'; searchInline.classList.add('visible'); }
+                        if (searchInline) { searchInline.innerHTML = '<div class="pad-12 text-sm muted">Nenhum resultado encontrado</div>'; searchInline.classList.add('visible'); }
                         return;
                     }
                     if (searchInline) {
@@ -1915,7 +1915,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
         if (produtos.length) {
             html += '<h4>Produtos</h4>' + produtos.map(p=>`<div class="list-row pad-8"><div><strong>${p.codigo||p.descricao}</strong> — ${p.descricao||''}</div><div class="text-sm muted">Est: ${p.quantidade_estoque || 0}</div></div>`).join('');
         }
-    if (!ordens.length && !materias.length && !produtos.length) html += '<div class="pad-12 muted">Nenhum resultação encontrado</div>';
+    if (!ordens.length && !materias.length && !produtos.length) html += '<div class="pad-12 muted">Nenhum resultado encontrado</div>';
         searchResultsBody.innerHTML = html;
         // attach handlers for opening pedido
         setTimeout(() => {
@@ -1973,7 +1973,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
             const row = container.querySelector(`tr[data-id="${id}"]`);
             if (!row) return;
             row.scrollIntoView({ block: 'center', behavior: 'smooth' });
-            row.style.transition = 'box-shaçãow 0.4s ease, transform 0.3s ease';
+            row.style.transition = 'box-shadow 0.4s ease, transform 0.3s ease';
             row.style.boxShaçãow = '0 8px 30px rgba(11,37,69,0.12)';
             row.style.transform = 'scale(1.01)';
             setTimeout(() => { row.style.boxShaçãow = ''; row.style.transform = ''; }, 900);
@@ -2010,7 +2010,7 @@ async function setCurrentUserUI(user) {
         if (hour >= 12 && hour < 18) greeting = 'Boa tarde';
         else if (hour >= 18 || hour < 5) greeting = 'Boa noite';
         
-        if (avatarNameEl) avatarNameEl.innerText = capitalized  `${greeting}, ${capitalized}` : greeting;
+        if (avatarNameEl) avatarNameEl.innerText = capitalized ? `${greeting}, ${capitalized}` : greeting;
         // subtitle pode mostrar cargo ou departamento
         if (avatarSubEl) avatarSubEl.innerText = user.cargo || user.departamento || 'Sistema PCP';
         // render profile photo if available, otherwise initials
@@ -2218,7 +2218,7 @@ async function renderPainelPedidos() {
         // filter controls - use CSS utility classes instead of inline styles
     const controls = document.createElement('div'); controls.classList.add('controls-row');
         ['all','pendente','faturado'].forEach(k=>{
-            const btn = document.createElement('button'); btn.className = 'btn btn-filter'; btn.innerText = k === 'all'  'Todos' : (k === 'pendente'  'Pendentes' : 'Faturaçãos');
+            const btn = document.createElement('button'); btn.className = 'btn btn-filter'; btn.innerText = k === 'all' ? 'Todos' : (k === 'pendente' ? 'Pendentes' : 'Faturaçãos');
             if (k === pedidosFilter) { btn.classList.add('active'); }
             btn.addEventListener('click', ()=>{ pedidosFilter = k; renderPainelPedidos(); });
             controls.appendChild(btn);
@@ -2687,7 +2687,7 @@ async function renderPCPRecentOrders(limit = 6) {
                              p.cliente_razao
                             : (p.cliente && p.cliente.toString().trim())
                                  p.cliente
-                                : (p.cliente_id  `Cliente ${p.cliente_id}` : 'Cliente');
+                                : (p.cliente_id ? `Cliente ${p.cliente_id}` : 'Cliente');
 
             // try several shapes for product info; ensure produtos_preview is parsed if stored as JSON string
             let produtosText = '';

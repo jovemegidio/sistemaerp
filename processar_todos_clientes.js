@@ -3,7 +3,7 @@ const fs = require('fs');
 require('dotenv').config();
 
 // Daçãos fornecidos pelo usuário
-const daçãosClientes = `Cliente;51.604.560/0001-96;"CONSORCIO SMART CITY SP";"CONSORCIO SMART CITY SP";" (11) 9313-1307";;financeiro@smartcitybr.com.br;"São Bernardo do Campo (SP)";SP;"AVENIDA IMPERATRIZ LEOPOLDINA, 240 - SALA 1 EDIF CLOVIS C. BODINI";"NOVA PETROPOLIS";09770-271;;;;;Sim;;"Prestação de Serviços";;"Renata Alves";;Não;Não;,00;7305,90;;" ";;;"2025-02-13 17:29:09";"2025-11-27 17:26:42";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitoração"
+const dadosClientes = `Cliente;51.604.560/0001-96;"CONSORCIO SMART CITY SP";"CONSORCIO SMART CITY SP";" (11) 9313-1307";;financeiro@smartcitybr.com.br;"São Bernardo do Campo (SP)";SP;"AVENIDA IMPERATRIZ LEOPOLDINA, 240 - SALA 1 EDIF CLOVIS C. BODINI";"NOVA PETROPOLIS";09770-271;;;;;Sim;;"Prestação de Serviços";;"Renata Alves";;Não;Não;,00;7305,90;;" ";;;"2025-02-13 17:29:09";"2025-11-27 17:26:42";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitoração"
 Cliente;04.528.571/0001-54;"M.S. COMERCIO DE MATERIAIS E MANUTENCOES ELETRICAS LTDA";"ELETTRO PONTO MATERIAIS ELETRICOS";" (15) 3251-1444";;elettroponto@hotmail.com;"Tatuí (SP)";SP;"RUA QUINZE DE NOVEMBRO, 601";CENTRO;18270-310;;;;687.156.661.116;Sim;;;;"Augusto Santos";;Não;Não;,00;11015,00;;" ";;;"2025-02-13 17:29:09";"2025-05-30 09:56:53";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitoração"
 Cliente;44.711.104/0001-80;"CASA DA ELETRICIDADE LTDA";"CASA DA ELETRICIDADE";" (34) 3427-2612";;casadaeletricidadeplanura@hotmail.com;"Planura (MG)";MG;"RUA FRONTEIRA, 334";"VILA PAIVA";38220-000;;;;004.231.492/0066;Sim;;Industrial;;;;Não;Não;,00;2745,00;;" ";;;"2025-02-13 17:29:10";"2025-11-28 11:26:08";"Daniel Silveira Costa";"THIAGO SCARCELLA";"Não monitoração"`;
 
@@ -59,7 +59,7 @@ async function importarClientes() {
         console.log('✅ Conectação ao banco de dados!\n');
 
         // Processar linhas
-        const linhas = daçãosClientes.trim().split('\n');
+        const linhas = dadosClientes.trim().split('\n');
         let sucessos = 0;
         let erros = 0;
 
@@ -90,7 +90,7 @@ async function importarClientes() {
                 }
                 campos.push(campoAtual.trim());
 
-                // Extrair daçãos
+                // Extrair dados
                 const tags = campos[0] || null;
                 const cnpj_cpf = limparCNPJ_CPF(campos[1]);
                 const razao_social = campos[2] || null;
@@ -146,28 +146,28 @@ async function importarClientes() {
                     if (empresasExistentes.length > 0) {
                         empresa_id = empresasExistentes[0].id;
                     } else {
-                        const [resultação] = await connection.query(
+                        const [resultado] = await connection.query(
                             `INSERT INTO empresas (
                                 razao_social, nome_fantasia, cnpj, email, telefone,
                                 endereco, bairro, cidade, estação, cep
-                            ) VALUES (, , , , , , , , , )`,
+                            ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?)`,
                             [razao_social, nome_fantasia, cnpj, email, telefone, 
                              endereco, bairro, cidade, estação, cep]
                         );
-                        empresa_id = resultação.insertId;
+                        empresa_id = resultado.insertId;
                     }
                 }
 
                 if (!empresa_id) {
-                    const [resultação] = await connection.query(
+                    const [resultado] = await connection.query(
                         `INSERT INTO empresas (
                             razao_social, nome_fantasia, email, telefone,
                             endereco, bairro, cidade, estação, cep
-                        ) VALUES (, , , , , , , , )`,
+                        ) VALUES (?, ?, ?, ?, , ?, ?, ?, ?)`,
                         [razao_social || nome, nome_fantasia || nome, email, telefone, 
                          endereco, bairro, cidade, estação, cep]
                     );
-                    empresa_id = resultação.insertId;
+                    empresa_id = resultado.insertId;
                 }
 
                 // Inserir ou atualizar cliente
@@ -180,7 +180,7 @@ async function importarClientes() {
                         credito_total, total_a_receber, credito_disponivel, transportaçãora,
                         data_cadastro, data_ultima_alteracao, incluido_por, alteração_por,
                         empresa_id, ativo
-                    ) VALUES (, , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , , 1)
+                    ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , ?, ?, , 1)
                     ON DUPLICATE KEY UPDATE
                         tags = VALUES(tags),
                         nome = VALUES(nome),

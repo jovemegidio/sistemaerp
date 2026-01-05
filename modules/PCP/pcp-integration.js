@@ -112,7 +112,7 @@
                     try {
                         const results = await window.pcpSearchOptimizer.search(query, endpoint);
                         
-                        // Disparar evento customização com resultaçãos
+                        // Disparar evento customização com resultados
                         const event = new CustomEvent('pcp:search:results', {
                             detail: { query, results }
                         });

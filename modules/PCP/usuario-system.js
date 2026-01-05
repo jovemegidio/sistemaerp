@@ -19,7 +19,7 @@
                 atualizarInterfaceUsuario(currentUser);
                 return currentUser;
             } else {
-                console.warn('⚠️ Não foi possível carregar daçãos do usuário');
+                console.warn('⚠️ Não foi possível carregar dados do usuário');
                 return null;
             }
         } catch (error) {
@@ -28,7 +28,7 @@
         }
     }
     
-    // Função para atualizar todos os elementos da interface com os daçãos do usuário
+    // Função para atualizar todos os elementos da interface com os dados do usuário
     function atualizarInterfaceUsuario(user) {
         if (!user) return;
         
@@ -120,8 +120,8 @@
                     element.textContent = user.email || '';
                     break;
                 case 'role':
-                    const roleLabel = user.role === 'admin'  'Administraçãor' : 
-                                    user.role === 'pcp'  'PCP' : 'Usuário';
+                    const roleLabel = user.role === 'admin' ? 'Administraçãor' : 
+                                    user.role === 'pcp' ? 'PCP' : 'Usuário';
                     element.textContent = roleLabel;
                     break;
             }
@@ -291,12 +291,12 @@
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
                 border: 2px solid rgba(255, 255, 255, 0.2);
-                transition: transform 0.2s ease, box-shaçãow 0.2s ease;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
             }
             
             .user-avatar:hover {
                 transform: scale(1.05);
-                box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
             
             .user-text {
@@ -321,7 +321,7 @@
         // Adicionar estilos
         adicionarEstilosAvatar();
         
-        // Carregar daçãos do usuário
+        // Carregar dados do usuário
         await carregarUsuarioLogação();
         
         // Configurar eventos

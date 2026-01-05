@@ -53,7 +53,7 @@ module.exports = (pool, authenticateToken) => {
                 }
             }
 
-            // 1. Buscar daçãos do pedido
+            // 1. Buscar dados do pedido
             const [pedidos] = await connection.query(`
                 SELECT 
                     p.*,
@@ -159,8 +159,8 @@ module.exports = (pool, authenticateToken) => {
                     created_at
                 ) VALUES (
                     , , 1, '55', 1, 1, 'Venda de Produtos',
-                    , , , , , , ,
-                    , , , , , , , , ,
+                    , ?, ?, , ?, ?, ,
+                    , ?, ?, , ?, ?, , ?, ?,
                     'pendente', NOW(), , NOW()
                 )
             `, [
@@ -201,7 +201,7 @@ module.exports = (pool, authenticateToken) => {
                         valor_unitario,
                         valor_total,
                         valor_desconto
-                    ) VALUES (, , , , , , , , , )
+                    ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?)
                 `, [
                     nfe_id,
                     item.produto_id,
@@ -531,9 +531,9 @@ module.exports = (pool, authenticateToken) => {
             }
             
             // Enviar para SEFAZ
-            const resultação = await sefazService.autorizarNFe(nfe.xml_nfe, nfe.emitente_uf);
+            const resultado = await sefazService.autorizarNFe(nfe.xml_nfe, nfe.emitente_uf);
             
-            if (resultação.autorização) {
+            if (resultado.autorização) {
                 await connection.query(`
                     UPDATE nfe 
                     SET status = 'autorizada',
@@ -541,19 +541,19 @@ module.exports = (pool, authenticateToken) => {
                         data_autorizacao = NOW(),
                         xml_protocolo = 
                     WHERE id = 
-                `, [resultação.numeroProtocolo, resultação.xmlCompleto, id]);
+                `, [resultado.numeroProtocolo, resultado.xmlCompleto, id]);
                 
                 res.json({
                     success: true,
                     message: 'NFe autorizada pela SEFAZ',
-                    protocolo: resultação.numeroProtocolo
+                    protocolo: resultado.numeroProtocolo
                 });
             } else {
                 res.status(400).json({
                     success: false,
                     message: 'NFe rejeitada pela SEFAZ',
-                    codigo: resultação.codigoStatus,
-                    motivo: resultação.motivo
+                    codigo: resultado.codigoStatus,
+                    motivo: resultado.motivo
                 });
             }
             
@@ -635,7 +635,7 @@ module.exports = (pool, authenticateToken) => {
             const sequencia = cces[0].total + 1;
             
             // Enviar CC-e
-            const resultação = await sefazService.cartaCorrecao(
+            const resultado = await sefazService.cartaCorrecao(
                 nfe.chave_acesso,
                 correcao,
                 nfe.emitente_uf,
@@ -643,24 +643,24 @@ module.exports = (pool, authenticateToken) => {
                 sequencia
             );
             
-            if (resultação.sucesso) {
+            if (resultado.sucesso) {
                 await connection.query(`
                     INSERT INTO nfe_eventos (
                         nfe_id, tipo_evento, sequencia, descricao,
                         protocolo, xml_evento, created_at
-                    ) VALUES (, '110110', , , , , NOW())
-                `, [id, sequencia, correcao, resultação.numeroProtocolo, resultação.xmlCompleto]);
+                    ) VALUES (?, '110110', ?, ?, , , NOW())
+                `, [id, sequencia, correcao, resultado.numeroProtocolo, resultado.xmlCompleto]);
                 
                 res.json({
                     success: true,
                     message: 'Carta de correção registrada',
-                    protocolo: resultação.numeroProtocolo
+                    protocolo: resultado.numeroProtocolo
                 });
             } else {
                 res.status(400).json({
                     success: false,
                     message: 'CC-e rejeitada',
-                    codigo: resultação.codigoStatus
+                    codigo: resultado.codigoStatus
                 });
             }
             
@@ -680,7 +680,7 @@ module.exports = (pool, authenticateToken) => {
         try {
             const { serie, numeroInicial, numeroFinal, justificativa } = req.body;
             
-            const resultação = await sefazService.inutilizarNumeracao({
+            const resultado = await sefazService.inutilizarNumeracao({
                 ano: new Date().getFullYear().toString().substring(2),
                 cnpj: req.user.empresa_cnpj,
                 modelo: '55',
@@ -690,14 +690,14 @@ module.exports = (pool, authenticateToken) => {
                 justificativa
             }, req.user.empresa_uf);
             
-            if (resultação.sucesso) {
+            if (resultado.sucesso) {
                 // Registrar inutilização
                 await pool.query(`
                     INSERT INTO nfe_inutilizacoes (
                         serie, numero_inicial, numero_final, 
                         justificativa, xml_inutilizacao, created_at
-                    ) VALUES (, , , , , NOW())
-                `, [serie, numeroInicial, numeroFinal, justificativa, resultação.xmlCompleto]);
+                    ) VALUES (?, ?, ?, ?, , NOW())
+                `, [serie, numeroInicial, numeroFinal, justificativa, resultado.xmlCompleto]);
                 
                 res.json({
                     success: true,
@@ -722,12 +722,12 @@ module.exports = (pool, authenticateToken) => {
     
     router.get('/sefaz/status', authenticateToken, async (req, res) => {
         try {
-            const resultação = await sefazService.consultarStatusServico(req.user.empresa_uf);
+            const resultado = await sefazService.consultarStatusServico(req.user.empresa_uf);
             
             res.json({
                 success: true,
-                online: resultação.online,
-                mensagem: resultação.motivo
+                online: resultado.online,
+                mensagem: resultado.motivo
             });
             
         } catch (error) {
@@ -745,7 +745,7 @@ module.exports = (pool, authenticateToken) => {
             const { id } = req.params;
             const { numeroParcelas, diaVencimento, intervalo } = req.body;
             
-            const resultação = await financeiroService.gerarContasReceber(id, {
+            const resultado = await financeiroService.gerarContasReceber(id, {
                 numeroParcelas: numeroParcelas || 1,
                 diaVencimento: diaVencimento || 30,
                 intervalo: intervalo || 30
@@ -754,7 +754,7 @@ module.exports = (pool, authenticateToken) => {
             res.json({
                 success: true,
                 message: 'Contas a receber geradas',
-                ...resultação
+                ...resultado
             });
             
         } catch (error) {
@@ -808,11 +808,11 @@ module.exports = (pool, authenticateToken) => {
         try {
             const { id } = req.params;
             
-            const resultação = await vendasEstoqueService.validarEstoqueParaFaturamento(id);
+            const resultado = await vendasEstoqueService.validarEstoqueParaFaturamento(id);
             
             res.json({
                 success: true,
-                ...resultação
+                ...resultado
             });
             
         } catch (error) {
@@ -854,12 +854,12 @@ module.exports = (pool, authenticateToken) => {
         try {
             const { caminhoArquivo, senha } = req.body;
             
-            const resultação = await certificaçãoService.carregarCertificaçãoA1(caminhoArquivo, senha);
+            const resultado = await certificaçãoService.carregarCertificaçãoA1(caminhoArquivo, senha);
             
             res.json({
                 success: true,
                 message: 'Certificação carregação com sucesso',
-                ...resultação
+                ...resultado
             });
             
         } catch (error) {

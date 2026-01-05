@@ -100,7 +100,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             
             const [result] = await pool.query(`
                 INSERT INTO alcadas_aprovacao (tipo, valor_minimo, valor_maximo, aprovaçãor_id, perfil_id, descricao)
-                VALUES (, , , , , )
+                VALUES (?, ?, ?, ?, ?, ?)
             `, [tipo, valor_minimo || 0, valor_maximo || 999999999, aprovaçãor_id, perfil_id, descricao || '']);
             
             res.status(201).json({ 
@@ -185,7 +185,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             const [result] = await pool.query(`
                 INSERT INTO solicitacoes_aprovacao (
                     tipo, registro_id, valor, solicitante_id, aprovaçãor_id, observacao, status
-                ) VALUES (, , , , , , 'pendente')
+                ) VALUES (?, ?, ?, ?, , , 'pendente')
             `, [tipo, registro_id, valor, req.user.id, aprovaçãorId, observacao || '']);
             
             // Atualizar status do registro
@@ -197,7 +197,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             if (aprovaçãorId) {
                 await pool.query(`
                     INSERT INTO notificacoes (usuario_id, titulo, mensagem, tipo, modulo, prioridade, entidade_tipo, entidade_id)
-                    VALUES (, , , 'aviso', , 'alta', , )
+                    VALUES (?, ?, , 'aviso', , 'alta', ?, ?)
                 `, [
                     aprovaçãorId,
                     `Aprovação pendente: ${config.nome}`,
@@ -260,7 +260,7 @@ module.exports = function({ pool, authenticateToken, io }) {
                 ORDER BY sa.criado_em DESC
             `, params);
             
-            // Enriquecer com daçãos do registro original
+            // Enriquecer com dados do registro original
             for (const item of pendentes) {
                 const config = TIPOS_APROVACAO[item.tipo];
                 if (config) {
@@ -335,7 +335,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             // Notificar solicitante
             await conn.query(`
                 INSERT INTO notificacoes (usuario_id, titulo, mensagem, tipo, modulo, entidade_tipo, entidade_id)
-                VALUES (, , , 'sucesso', , , )
+                VALUES (?, ?, , 'sucesso', ?, ?, )
             `, [
                 solicitacao.solicitante_id,
                 `${config.nome} aprovação`,
@@ -348,7 +348,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             // Log de auditoria
             await conn.query(`
                 INSERT INTO logs_auditoria (usuario_id, usuario_nome, acao, modulo, entidade_tipo, entidade_id, descricao)
-                VALUES (, , 'APROVAR', 'workflow', , , )
+                VALUES (?, ?, 'APROVAR', 'workflow', ?, ?, )
             `, [userId, req.user.nome, solicitacao.tipo, solicitacao.registro_id, 
                 `Aprovação de ${config.nome} no valor de R$ ${solicitacao.valor}`]).catch(() => {});
             
@@ -420,7 +420,7 @@ module.exports = function({ pool, authenticateToken, io }) {
             // Notificar solicitante
             await conn.query(`
                 INSERT INTO notificacoes (usuario_id, titulo, mensagem, tipo, modulo, prioridade, entidade_tipo, entidade_id)
-                VALUES (, , , 'erro', , 'alta', , )
+                VALUES (?, ?, , 'erro', , 'alta', ?, ?)
             `, [
                 solicitacao.solicitante_id,
                 `${config.nome} rejeitação`,
@@ -487,7 +487,7 @@ module.exports = function({ pool, authenticateToken, io }) {
                 LEFT JOIN usuarios ua ON sa.aprovaçãor_id = ua.id
                 WHERE ${where}
                 ORDER BY sa.criado_em DESC
-                LIMIT  OFFSET 
+                LIMIT ? OFFSET 
             `, [...params, parseInt(limit), offset]);
             
             const [[{ total }]] = await pool.query(`

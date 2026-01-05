@@ -107,7 +107,7 @@ class GestorAnexos {
 
                 .btn-adicionar-anexo:hover {
                     transform: translateY(-2px);
-                    box-shaçãow: 0 4px 8px rgba(16, 185, 129, 0.3);
+                    box-shadow: 0 4px 8px rgba(16, 185, 129, 0.3);
                 }
 
                 .dropzone {
@@ -163,7 +163,7 @@ class GestorAnexos {
 
                 .anexo-item:hover {
                     border-color: #10b981;
-                    box-shaçãow: 0 2px 8px rgba(0,0,0,0.1);
+                    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
                 }
 
                 .anexo-icone {
@@ -328,18 +328,18 @@ class GestorAnexos {
 
             // Fazer upload
             try {
-                const resultação = await this.uploadArquivo(arquivo, anexoTemp.id);
+                const resultado = await this.uploadArquivo(arquivo, anexoTemp.id);
                 
-                // Atualizar com daçãos reais
+                // Atualizar com dados reais
                 const index = this.anexos.findIndex(a => a.id === anexoTemp.id);
                 if (index !== -1) {
-                    this.anexos[index] = resultação;
+                    this.anexos[index] = resultado;
                 }
 
                 this.renderizarLista();
 
                 if (this.opções.onUploadCompleto) {
-                    this.opções.onUploadCompleto(resultação);
+                    this.opções.onUploadCompleto(resultado);
                 }
 
             } catch (error) {
@@ -392,8 +392,8 @@ class GestorAnexos {
             // });
             // xhr.addEventListener('load', () => {
             //     if (xhr.status === 200) {
-            //         const resultação = JSON.parse(xhr.responseText);
-            //         resolve(resultação);
+            //         const resultado = JSON.parse(xhr.responseText);
+            //         resolve(resultado);
             //     } else {
             //         reject(new Error('Erro no upload'));
             //     }
@@ -516,11 +516,11 @@ class GestorAnexos {
                     <div class="anexo-nome">${anexo.nome}</div>
                     <div class="anexo-meta">
                         <span><i class="fas fa-hdd"></i> ${tamanhoFormatação}</span>
-                        ${dataFormatada  `<span><i class="fas fa-calendar"></i> ${dataFormatada}</span>` : ''}
-                        ${anexo.usuario  `<span><i class="fas fa-user"></i> ${anexo.usuario}</span>` : ''}
+                        ${dataFormatada ? `<span><i class="fas fa-calendar"></i> ${dataFormatada}</span>` : ''}
+                        ${anexo.usuario ? `<span><i class="fas fa-user"></i> ${anexo.usuario}</span>` : ''}
                     </div>
-                    ${anexo.descricao  `<div class="anexo-descricao">${anexo.descricao}</div>` : ''}
-                    ${anexo.uploading  `
+                    ${anexo.descricao ? `<div class="anexo-descricao">${anexo.descricao}</div>` : ''}
+                    ${anexo.uploading ? `
                         <div class="upload-progress">
                             <div class="upload-progress-bar" style="width: ${anexo.progresso || 0}%"></div>
                         </div>

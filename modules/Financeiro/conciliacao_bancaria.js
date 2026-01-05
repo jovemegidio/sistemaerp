@@ -249,7 +249,7 @@ function criarItemMovimentacao(mov, origem, conciliada) {
     div.dataset.id = mov.id;
     div.dataset.origem = origem;
 
-    const checkbox = !conciliada  `
+    const checkbox = !conciliada ? `
         <input type="checkbox" class="mov-checkbox" 
                onchange="toggleSelecao('${mov.id}', '${origem}', this.checked)">
     ` : '<i class="fas fa-check-circle" style="color: #10b981; margin-right: 10px;"></i>';
@@ -262,7 +262,7 @@ function criarItemMovimentacao(mov, origem, conciliada) {
                 <span class="mov-valor ${mov.tipo}">${formatarMoeda(mov.valor)}</span>
             </div>
             <div class="mov-descricao">${mov.descricao}</div>
-            ${mov.categoria  `<span class="mov-categoria">${mov.categoria}</span>` : ''}
+            ${mov.categoria ? `<span class="mov-categoria">${mov.categoria}</span>` : ''}
             ${conciliada ? '<span class="mov-categoria" style="background: #10b981; color: white;">✓ Conciliada</span>' : ''}
         </div>
     `;
@@ -317,7 +317,7 @@ function filtrarExtrato(tipo, evt) {
 }
 
 function filtrarMovimentacoes(origem, tipo, evt) {
-    const container = origem === 'sistema'  'lista-sistema' : 'lista-extrato';
+    const container = origem === 'sistema' ? 'lista-sistema' : 'lista-extrato';
     const items = document.querySelectorAll(`#${container} .movimentacao-item`);
 
     // Atualizar botões ativos
@@ -340,7 +340,7 @@ function filtrarMovimentacoes(origem, tipo, evt) {
 }
 
 function buscarMovimentacoes(termo, origem) {
-    const container = origem === 'sistema'  'lista-sistema' : 'lista-extrato';
+    const container = origem === 'sistema' ? 'lista-sistema' : 'lista-extrato';
     const items = document.querySelectorAll(`#${container} .movimentacao-item`);
 
     termo = termo.toLowerCase();
@@ -391,7 +391,7 @@ async function confirmarConciliacao() {
 
     try {
         // TODO: Substituir por chamada real à API
-        const resultação = await salvarConciliacao({
+        const resultado = await salvarConciliacao({
             conta_id: contaSelecionada,
             movimentacoes_sistema: selecionadasSistema,
             movimentacoes_extrato: selecionadasExtrato,
@@ -425,15 +425,15 @@ async function confirmarConciliacao() {
     }
 }
 
-async function salvarConciliacao(daçãos) {
+async function salvarConciliacao(dados) {
     // TODO: Substituir por chamada real à API
     // return await fetch('/api/financeiro/conciliacoes', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(daçãos)
+    //     body: JSON.stringify(dados)
     // }).then(r => r.json());
     
-    console.log('Salvando conciliação:', daçãos);
+    console.log('Salvando conciliação:', dados);
     return { success: true, id: Math.random() };
 }
 
@@ -523,14 +523,14 @@ async function processarArquivo(input) {
     mostrarMensagem('Processando arquivo...', 'info');
 
     try {
-        let daçãos;
+        let dados;
 
         if (extensao === 'ofx') {
-            daçãos = await processarOFX(arquivo);
+            dados = await processarOFX(arquivo);
         } else if (extensao === 'csv') {
-            daçãos = await processarCSV(arquivo);
+            dados = await processarCSV(arquivo);
         } else if (extensao === 'xlsx') {
-            daçãos = await processarXLSX(arquivo);
+            dados = await processarXLSX(arquivo);
         } else {
             throw new Error('Formato não suportação');
         }
@@ -539,13 +539,13 @@ async function processarArquivo(input) {
         await salvarExtratoImportação({
             conta_id: contaSelecionada,
             arquivo: arquivo.name,
-            movimentacoes: daçãos,
+            movimentacoes: dados,
             data_importacao: new Date().toISOString()
         });
 
         fecharModal('modal-importar');
         carregarMovimentacoes();
-        mostrarMensagem(`${daçãos.length} movimentações importadas com sucesso!`, 'success');
+        mostrarMensagem(`${dados.length} movimentações importadas com sucesso!`, 'success');
 
     } catch (error) {
         console.error('Erro ao processar arquivo:', error);
@@ -567,7 +567,7 @@ async function processarCSV(arquivo) {
             try {
                 const texto = e.target.result;
                 const linhas = texto.split('\n');
-                const daçãos = [];
+                const dados = [];
 
                 // Pular cabeçalho
                 for (let i = 1; i < linhas.length; i++) {
@@ -577,7 +577,7 @@ async function processarCSV(arquivo) {
                     const colunas = linha.split(',');
                     if (colunas.length < 3) continue;
 
-                    daçãos.push({
+                    dados.push({
                         data: colunas[0].trim(),
                         descricao: colunas[1].trim(),
                         valor: parseFloat(colunas[2].trim()),
@@ -585,7 +585,7 @@ async function processarCSV(arquivo) {
                     });
                 }
 
-                resolve(daçãos);
+                resolve(dados);
             } catch (error) {
                 reject(error);
             }
@@ -602,18 +602,18 @@ async function processarXLSX(arquivo) {
     return [];
 }
 
-async function salvarExtratoImportação(daçãos) {
+async function salvarExtratoImportação(dados) {
     // TODO: Substituir por chamada real à API
     // return await fetch('/api/financeiro/extrato/importar', {
     //     method: 'POST',
     //     headers: { 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(daçãos)
+    //     body: JSON.stringify(dados)
     // }).then(r => r.json());
     
-    console.log('Salvando extrato importação:', daçãos);
+    console.log('Salvando extrato importação:', dados);
     
     // Mock: adicionar ao extrato atual
-    daçãos.movimentacoes.forEach(mov => {
+    dados.movimentacoes.forEach(mov => {
         movimentacoesExtrato.push({
             id: 'IMP_' + Math.random().toString(36).substr(2, 9),
             ...mov

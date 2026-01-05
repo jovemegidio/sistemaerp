@@ -5,7 +5,7 @@
 
 class ComprasDashboard {
     constructor() {
-        this.daçãos = {};
+        this.dados = {};
         this.graficos = {};
     }
 
@@ -25,7 +25,7 @@ class ComprasDashboard {
             const data = await response.json();
 
             if (data.success) {
-                this.daçãos = data.dashboard || {};
+                this.dados = data.dashboard || {};
             } else {
                 this.loadMockData();
             }
@@ -36,7 +36,7 @@ class ComprasDashboard {
     }
 
     loadMockData() {
-        this.daçãos = {
+        this.dados = {
             kpis: {
                 pedidosAbertos: 23,
                 aguardandoAprovacao: 8,
@@ -77,10 +77,10 @@ class ComprasDashboard {
 
         // KPIs
         html += '<div class="kpis-grid">';
-        html += this.renderKPI('Pedidos Abertos', this.daçãos.kpis.pedidosAbertos, 'fa-shopping-cart', '#3b82f6', '+5 esta semana');
-        html += this.renderKPI('Aguardando Aprovação', this.daçãos.kpis.aguardandoAprovacao, 'fa-clock', '#f59e0b', 'Requer atenção');
-        html += this.renderKPI('Valor Total (Mês)', this.formatCurrency(this.daçãos.kpis.valorTotalMes), 'fa-dollar-sign', '#10b981', '+15% vs mês anterior');
-        html += this.renderKPI('Economia Gerada', this.daçãos.kpis.economia + '%', 'fa-chart-line', '#8b5cf6', 'Em negociações');
+        html += this.renderKPI('Pedidos Abertos', this.dados.kpis.pedidosAbertos, 'fa-shopping-cart', '#3b82f6', '+5 esta semana');
+        html += this.renderKPI('Aguardando Aprovação', this.dados.kpis.aguardandoAprovacao, 'fa-clock', '#f59e0b', 'Requer atenção');
+        html += this.renderKPI('Valor Total (Mês)', this.formatCurrency(this.dados.kpis.valorTotalMes), 'fa-dollar-sign', '#10b981', '+15% vs mês anterior');
+        html += this.renderKPI('Economia Gerada', this.dados.kpis.economia + '%', 'fa-chart-line', '#8b5cf6', 'Em negociações');
         html += '</div>';
 
         // Grid Principal
@@ -154,11 +154,11 @@ class ComprasDashboard {
     renderPedidosRecentes() {
         let html = '<div class="lista-pedidos">';
         
-        this.daçãos.pedidosRecentes.forEach(pedido => {
-            const statusClass = pedido.status === 'aprovação'  'status-success' : 
-                               pedido.status === 'pendente'  'status-warning' : 'status-info';
-            const statusText = pedido.status === 'aprovação'  'Aprovação' :
-                              pedido.status === 'pendente'  'Pendente' : 'Em Análise';
+        this.dados.pedidosRecentes.forEach(pedido => {
+            const statusClass = pedido.status === 'aprovação' ? 'status-success' : 
+                               pedido.status === 'pendente' ? 'status-warning' : 'status-info';
+            const statusText = pedido.status === 'aprovação' ? 'Aprovação' :
+                              pedido.status === 'pendente' ? 'Pendente' : 'Em Análise';
 
             html += `
                 <div class="pedido-item">
@@ -180,7 +180,7 @@ class ComprasDashboard {
     renderCotacoesPendentes() {
         let html = '<div class="lista-cotacoes">';
         
-        this.daçãos.cotacoesPendentes.forEach(cotacao => {
+        this.dados.cotacoesPendentes.forEach(cotacao => {
             html += `
                 <div class="cotacao-item">
                     <div class="cotacao-info">
@@ -207,11 +207,11 @@ class ComprasDashboard {
     renderAlertasEstoque() {
         let html = '<div class="lista-alertas">';
         
-        this.daçãos.alertasEstoque.forEach(alerta => {
-            const urgenciaClass = alerta.urgencia === 'alta'  'urgencia-alta' :
-                                 alerta.urgencia === 'media'  'urgencia-media' : 'urgencia-baixa';
-            const icon = alerta.urgencia === 'alta'  'fa-exclamation-circle' :
-                        alerta.urgencia === 'media'  'fa-exclamation-triangle' : 'fa-info-circle';
+        this.dados.alertasEstoque.forEach(alerta => {
+            const urgenciaClass = alerta.urgencia === 'alta' ? 'urgencia-alta' :
+                                 alerta.urgencia === 'media' ? 'urgencia-media' : 'urgencia-baixa';
+            const icon = alerta.urgencia === 'alta' ? 'fa-exclamation-circle' :
+                        alerta.urgencia === 'media' ? 'fa-exclamation-triangle' : 'fa-info-circle';
 
             html += `
                 <div class="alerta-item ${urgenciaClass}">
@@ -239,7 +239,7 @@ class ComprasDashboard {
     renderTopFornecedores() {
         let html = '<div class="lista-fornecedores">';
         
-        this.daçãos.topFornecedores.forEach((fornecedor, index) => {
+        this.dados.topFornecedores.forEach((fornecedor, index) => {
             const medalha = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : (index + 1);
 
             html += `

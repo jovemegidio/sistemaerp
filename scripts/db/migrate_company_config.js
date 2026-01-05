@@ -133,8 +133,8 @@ async function migrate() {
         `);
         console.log('✅ Tabela projetos criada\n');
 
-        // 5. Inserir daçãos iniciais da empresa
-        console.log('📝 Inserindo daçãos iniciais da empresa...');
+        // 5. Inserir dados iniciais da empresa
+        console.log('📝 Inserindo dados iniciais da empresa...');
         await connection.execute(`
             INSERT INTO empresa_config (
                 razao_social, 
@@ -172,7 +172,7 @@ async function migrate() {
         for (const cat of categoriasPadrao) {
             await connection.execute(`
                 INSERT INTO categorias (nome, cor, icone, ordem)
-                VALUES (, , , )
+                VALUES (?, ?, ?, ?)
                 ON DUPLICATE KEY UPDATE nome = nome
             `, [cat.nome, cat.cor, cat.icone, categoriasPadrao.indexOf(cat)]);
         }
@@ -192,7 +192,7 @@ async function migrate() {
         for (const dept of departamentosPadrao) {
             await connection.execute(`
                 INSERT INTO departamentos (nome, sigla, cor, icone, ordem)
-                VALUES (, , , , )
+                VALUES (?, ?, ?, ?, )
                 ON DUPLICATE KEY UPDATE nome = nome
             `, [dept.nome, dept.sigla, dept.cor, dept.icone, departamentosPadrao.indexOf(dept)]);
         }

@@ -83,8 +83,8 @@ module.exports = function({ pool, authenticateToken }) {
                 SELECT COUNT(*) as total FROM esocial_eventos WHERE status = 'pendente'
             `).catch(() => [[{ total: 0 }]]);
 
-            // Eventos enviaçãos no mês
-            const [[enviaçãos]] = await pool.query(`
+            // Eventos enviados no mês
+            const [[enviados]] = await pool.query(`
                 SELECT COUNT(*) as total FROM esocial_eventos 
                 WHERE status = 'enviação' 
                 AND MONTH(data_envio) = MONTH(CURDATE())
@@ -120,7 +120,7 @@ module.exports = function({ pool, authenticateToken }) {
                 data: {
                     resumo: {
                         pendentes: pendentes.total || 0,
-                        enviaçãos: enviaçãos.total || 0,
+                        enviados: enviados.total || 0,
                         erros: erros.total || 0,
                         funcionarios_ativos: funcionarios.total || 0
                     },
@@ -181,7 +181,7 @@ module.exports = function({ pool, authenticateToken }) {
                 LEFT JOIN rh_funcionarios f ON e.funcionario_id = f.id
                 ${where}
                 ORDER BY e.criado_em DESC
-                LIMIT  OFFSET 
+                LIMIT ? OFFSET 
             `, [...params, parseInt(limit), offset]);
 
             const [[{ total }]] = await pool.query(
@@ -213,7 +213,7 @@ module.exports = function({ pool, authenticateToken }) {
             const { 
                 tipo_evento, 
                 funcionario_id, 
-                daçãos_evento,
+                dados_evento,
                 periodo_apuracao
             } = req.body;
 
@@ -236,13 +236,13 @@ module.exports = function({ pool, authenticateToken }) {
             const [result] = await pool.query(`
                 INSERT INTO esocial_eventos (
                     tipo_evento, funcionario_id, periodo_apuracao, 
-                    daçãos_evento, status, usuario_id
-                ) VALUES (, , , , 'pendente', )
+                    dados_evento, status, usuario_id
+                ) VALUES (?, ?, ?, ?, 'pendente', )
             `, [
                 tipo_evento, 
                 funcionario_id || null, 
                 periodo_apuracao || null,
-                JSON.stringify(daçãos_evento || {}),
+                JSON.stringify(dados_evento || {}),
                 req.user.id
             ]);
 
@@ -347,8 +347,8 @@ module.exports = function({ pool, authenticateToken }) {
                 });
             }
 
-            // Montar daçãos do evento S-2200
-            const daçãosEvento = {
+            // Montar dados do evento S-2200
+            const dadosEvento = {
                 cpfTrab: funcionario.cpf.replace(/\D/g, ''),
                 nmTrab: funcionario.nome,
                 sexo: funcionario.sexo || 'M',
@@ -389,9 +389,9 @@ module.exports = function({ pool, authenticateToken }) {
             // Criar evento
             const [result] = await pool.query(`
                 INSERT INTO esocial_eventos (
-                    tipo_evento, funcionario_id, daçãos_evento, status, usuario_id
-                ) VALUES ('S-2200', , , 'pendente', )
-            `, [funcionario_id, JSON.stringify(daçãosEvento), req.user.id]);
+                    tipo_evento, funcionario_id, dados_evento, status, usuario_id
+                ) VALUES ('S-2200', ?, ?, 'pendente', )
+            `, [funcionario_id, JSON.stringify(dadosEvento), req.user.id]);
 
             res.json({
                 success: true,
@@ -455,7 +455,7 @@ module.exports = function({ pool, authenticateToken }) {
 
             const codigoMotivo = motivosDesligamento[motivo_desligamento] || '01';
 
-            const daçãosEvento = {
+            const dadosEvento = {
                 cpfTrab: funcionario.cpf.replace(/\D/g, ''),
                 matricula: funcionario.matricula || funcionario.id.toString().padStart(6, '0'),
                 dtDeslig: data_desligamento,
@@ -467,9 +467,9 @@ module.exports = function({ pool, authenticateToken }) {
             // Criar evento de desligamento
             const [result] = await pool.query(`
                 INSERT INTO esocial_eventos (
-                    tipo_evento, funcionario_id, daçãos_evento, status, usuario_id
-                ) VALUES ('S-2299', , , 'pendente', )
-            `, [funcionario_id, JSON.stringify(daçãosEvento), req.user.id]);
+                    tipo_evento, funcionario_id, dados_evento, status, usuario_id
+                ) VALUES ('S-2299', ?, ?, 'pendente', )
+            `, [funcionario_id, JSON.stringify(dadosEvento), req.user.id]);
 
             // Atualizar status do funcionário
             await pool.query(`
@@ -540,7 +540,7 @@ module.exports = function({ pool, authenticateToken }) {
 
                 if (existente) continue;
 
-                const daçãosEvento = {
+                const dadosEvento = {
                     cpfTrab: func.cpf.replace(/\D/g, ''),
                     perApur: periodo_apuracao,
                     dmDev: [{
@@ -565,9 +565,9 @@ module.exports = function({ pool, authenticateToken }) {
 
                 const [result] = await pool.query(`
                     INSERT INTO esocial_eventos (
-                        tipo_evento, funcionario_id, periodo_apuracao, daçãos_evento, status, usuario_id
-                    ) VALUES ('S-1200', , , , 'pendente', )
-                `, [func.id, periodo_apuracao, JSON.stringify(daçãosEvento), req.user.id]);
+                        tipo_evento, funcionario_id, periodo_apuracao, dados_evento, status, usuario_id
+                    ) VALUES ('S-1200', ?, ?, , 'pendente', )
+                `, [func.id, periodo_apuracao, JSON.stringify(dadosEvento), req.user.id]);
 
                 eventosGeraçãos.push({
                     evento_id: result.insertId,
@@ -650,7 +650,7 @@ module.exports = function({ pool, authenticateToken }) {
                 INSERT INTO esocial_rubricas (
                     codigo, descricao, natureza, tipo_rubrica,
                     incidencia_previdencia, incidencia_irrf, incidencia_fgts
-                ) VALUES (, , , , , , )
+                ) VALUES (?, ?, ?, ?, , ?, ?)
             `, [
                 codigo, descricao, natureza || '1000', tipo_rubrica || 1,
                 incidencia_previdencia || 11, incidencia_irrf || 11, incidencia_fgts || 11

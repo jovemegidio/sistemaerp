@@ -164,7 +164,7 @@ const BackupSistema = {
      * Restaurar backup
      */
     async restaurar(arquivo) {
-        const confirmar = prompt(`ATENÇÃO: Esta ação irá substituir TODOS os daçãos atuais!\n\nPara confirmar, digite RESTAURAR:`);
+        const confirmar = prompt(`ATENÇÃO: Esta ação irá substituir TODOS os dados atuais!\n\nPara confirmar, digite RESTAURAR:`);
         
         if (confirmar !== 'RESTAURAR') {
             showNotification('Restauração cancelada', 'info');

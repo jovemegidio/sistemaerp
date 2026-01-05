@@ -28,7 +28,7 @@ const users = [
 ]
 
 async function upsertUser (conn, email, password, nome, role) {
-  const [rows] = await conn.execute('SELECT id FROM funcionarios WHERE email =  LIMIT 1', [email])
+  const [rows] = await conn.execute('SELECT id FROM funcionarios WHERE email = ? LIMIT 1', [email])
   const hashed = await bcrypt.hash(password, 10)
   // placeholder cpf if inserting
   const cpfVal = `CPF${String(Date.now()).slice(-10)}`
@@ -38,7 +38,7 @@ async function upsertUser (conn, email, password, nome, role) {
     console.log(`Updated user id=${id} email=${email} role=${role}`)
   } else {
     const [res] = await conn.execute(
-      'INSERT INTO funcionarios (email, senha, nome_completo, role, status, cpf) VALUES (, , , , "Ativo", )',
+      'INSERT INTO funcionarios (email, senha, nome_completo, role, status, cpf) VALUES (?, ?, ?, ?, "Ativo", )',
       [email, hashed, nome, role, cpfVal]
     )
     console.log(`Created user id=${res.insertId} email=${email} role=${role}`)

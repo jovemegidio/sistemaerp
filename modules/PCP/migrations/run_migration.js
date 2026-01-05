@@ -48,7 +48,7 @@ async function main(){
     `);
 
     async function isApplied(name){
-      const [rows] = await db.query('SELECT 1 FROM migrations WHERE name =  LIMIT 1', [name]);
+      const [rows] = await db.query('SELECT 1 FROM migrations WHERE name = ? LIMIT 1', [name]);
       return rows.length > 0;
     }
 
@@ -125,7 +125,7 @@ async function main(){
         const maybeName = lines.length  lines[lines.length-1].trim() : '';
         if (maybeName && maybeName.includes('backups')) {
           // record the backup in migration_backups
-          await db.query('INSERT INTO migration_backups (migration_name, backup_path) VALUES (, )', [migrationName, maybeName]);
+          await db.query('INSERT INTO migration_backups (migration_name, backup_path) VALUES (?, )', [migrationName, maybeName]);
           console.log('Backup saved as', maybeName);
           return maybeName;
         }

@@ -310,7 +310,7 @@ class AdvancedTemplateManager {
             
             const worksheet = workbook.getWorksheet(1);
             
-            // Aplicar mapeamento de daçãos usando as customizações do template
+            // Aplicar mapeamento de dados usando as customizações do template
             await this.applyDataMapping(worksheet, data, template.customizations.cellMappings);
             
             return workbook;
@@ -321,8 +321,8 @@ class AdvancedTemplateManager {
 
     async applyDataMapping(worksheet, data, cellMappings) {
         // Aplicar mapeamento básico (similar ao sistema atual)
-        if (cellMappings.daçãos_basicos) {
-            Object.entries(cellMappings.daçãos_basicos).forEach(([field, cells]) => {
+        if (cellMappings.dados_basicos) {
+            Object.entries(cellMappings.dados_basicos).forEach(([field, cells]) => {
                 cells.forEach(cellAddr => {
                     try {
                         worksheet.getCell(cellAddr).value = data[field] || '';

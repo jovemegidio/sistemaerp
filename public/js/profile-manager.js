@@ -266,7 +266,7 @@
                 });
 
                 if (!response.ok) {
-                    throw new Error('Erro ao carregar daçãos do usuário');
+                    throw new Error('Erro ao carregar dados do usuário');
                 }
 
                 const user = await response.json();
@@ -275,7 +275,7 @@
 
             } catch (error) {
                 console.error('Load user error:', error);
-                this.showMessage('Erro ao carregar daçãos do usuário', 'error');
+                this.showMessage('Erro ao carregar dados do usuário', 'error');
             } finally {
                 this.setLoading(false);
             }
@@ -465,8 +465,7 @@
             const messageEl = document.createElement('div');
             messageEl.className = `profile-message profile-message-${type}`;
             
-            const icon = type === 'success'  
-                '<i class="fas fa-check-circle"></i>' : 
+            const icon = type === 'success' ? '<i class="fas fa-check-circle"></i>' : 
                 '<i class="fas fa-exclamation-circle"></i>';
             
             messageEl.innerHTML = `${icon} ${message}`;

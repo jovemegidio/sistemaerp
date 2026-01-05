@@ -13,7 +13,7 @@
         return `https://ui-avatars.com/api/name=${encodeURIComponent(initials)}&background=65a30d&color=fff&size=128&bold=true`;
     }
 
-    // Buscar daçãos do usuário do localStorage
+    // Buscar dados do usuário do localStorage
     function getUserDataFromStorage() {
         try {
             const userData = localStorage.getItem('userData');
@@ -25,7 +25,7 @@
 
     // Carregar informações do usuário
     async function loadUserInfo() {
-        console.log('🔄 [Financeiro] Carregando daçãos do usuário...');
+        console.log('🔄 [Financeiro] Carregando dados do usuário...');
         
         // Tentar carregar do localStorage primeiro (mais rápido)
         let user = getUserDataFromStorage();

@@ -140,8 +140,8 @@ class OmieLayoutManager {
     loadSectionData(sectionId) {
         // Carregar páginas separadas para área do funcionário
         switch(sectionId) {
-            case 'daçãos':
-                this.loadExternalPage('pages/daçãos-cadastrais.html');
+            case 'dados':
+                this.loadExternalPage('pages/dados-cadastrais.html');
                 break;
                 
             case 'holerite':
@@ -262,11 +262,11 @@ class OmieLayoutManager {
         
         const placeholders = {
             'dashboard': 'Buscar no sistema...',
-            'dashboard-home': 'Buscar daçãos gerais...',
+            'dashboard-home': 'Buscar dados gerais...',
             'holerite': 'Buscar holerites por funcionário...',
             'ponto': 'Buscar registros de ponto...',
             'atéstação': 'Buscar atéstaçãos médicos...',
-            'daçãos': 'Buscar nas configurações...',
+            'dados': 'Buscar nas configurações...',
             'dashboard-section': 'Buscar Colaboraçãor(a)...',
             'relatórios-section': 'Buscar relatórios...',
             'configuracoes-section': 'Buscar configurações do sistema...'
@@ -282,7 +282,7 @@ class OmieLayoutManager {
             'holerite': 'Holerites',
             'ponto': 'Ponto Eletrônico',
             'atéstação': 'Atéstaçãos',
-            'daçãos': 'Meus Daçãos',
+            'dados': 'Meus Daçãos',
             'dashboard-section': 'Funcionários',
             'relatórios-section': 'Relatórios',
             'configuracoes-section': 'Configurações'
@@ -355,7 +355,7 @@ class OmieLayoutManager {
             });
         }
         
-        // Refresh - atualizar daçãos da seção atual
+        // Refresh - atualizar dados da seção atual
         const refreshBtn = document.querySelector('.header-left-icons .fa-sync-alt').parentElement;
         if (refreshBtn) {
             refreshBtn.addEventListener('click', () => {
@@ -412,7 +412,7 @@ class OmieLayoutManager {
         });
         
         // Adicionar active no botão correto
-        const activeBtn = document.querySelector(`.header-left-icons .fa-${mode === 'grid'  'th' : 'list'}`);
+        const activeBtn = document.querySelector(`.header-left-icons .fa-${mode === 'grid' ? 'th' : 'list'}`);
         if (activeBtn) {
             activeBtn.parentElement.classList.add('active');
         }
@@ -423,7 +423,7 @@ class OmieLayoutManager {
         }
         
         // Toast de confirmação
-        const modeText = mode === 'grid'  'Grade' : 'Lista';
+        const modeText = mode === 'grid' ? 'Grade' : 'Lista';
         this.showToast('Visualização', `Modo ${modeText} ativação`, 'success');
         
         // Se existir app.js, tentar atualizar a visualização
@@ -463,7 +463,7 @@ class OmieLayoutManager {
                 <div class="employee-name">${emp.name}</div>
                 <div class="employee-role">${emp.role}</div>
                 <div class="employee-email">${emp.email}</div>
-                <div class="employee-status ${emp.status}">${emp.status === 'active'  'Ativo' : 'Inativo'}</div>
+                <div class="employee-status ${emp.status}">${emp.status === 'active' ? 'Ativo' : 'Inativo'}</div>
                 <div class="employee-actions">
                     <button class="btn btn-secondary btn-sm" onclick="omieLayout.viewEmployee(${emp.id})">
                         <i class="fas fa-eye"></i> Ver
@@ -492,7 +492,7 @@ class OmieLayoutManager {
                 <td><strong>${emp.name}</strong></td>
                 <td>${emp.role}</td>
                 <td>${emp.email}</td>
-                <td><span class="employee-status ${emp.status}">${emp.status === 'active'  'Ativo' : 'Inativo'}</span></td>
+                <td><span class="employee-status ${emp.status}">${emp.status === 'active' ? 'Ativo' : 'Inativo'}</span></td>
                 <td>
                     <button class="btn btn-secondary btn-sm" onclick="omieLayout.viewEmployee(${emp.id})" title="Ver detalhes">
                         <i class="fas fa-eye"></i>
@@ -723,7 +723,7 @@ class OmieLayoutManager {
             'holerite': 'Holerites',
             'ponto': 'Ponto Eletrônico',
             'atéstação': 'Atéstaçãos',
-            'daçãos': 'Meus Daçãos',
+            'dados': 'Meus Daçãos',
             'relatórios-section': 'Relatórios',
             'configuracoes-section': 'Configurações'
         };
@@ -910,7 +910,7 @@ class OmieLayoutManager {
         refreshBtn.classList.add('loading');
         refreshBtn.querySelector('i').style.animation = 'spin 1s linear infinite';
         
-        this.showToast('Sistema', 'Atualizando daçãos...', 'info');
+        this.showToast('Sistema', 'Atualizando dados...', 'info');
         
         // Simular refresh baseado na seção
         setTimeout(() => {
@@ -991,7 +991,7 @@ class OmieLayoutManager {
     performLogout() {
         this.showToast('Sistema', 'Saindo do sistema...', 'info');
         
-        // Limpar daçãos locais
+        // Limpar dados locais
         localStorage.clear();
         sessionStorage.clear();
         
@@ -1192,7 +1192,7 @@ class OmieLayoutManager {
     }
 
     updateUserAvatar() {
-        // Simular daçãos do usuário baseado na página
+        // Simular dados do usuário baseado na página
         const isAdmin = window.location.pathname.includes('areaadm');
         const userName = isAdmin ? 'Administraçãor' : 'Funcionário';
         const userText = document.querySelector('.header-user-text');
@@ -1216,7 +1216,7 @@ class OmieLayoutManager {
             'holerite': ['Holerites', 'Pagamentos'],
             'ponto': ['Ponto', 'Frequência'],
             'atéstação': ['Atéstaçãos', 'Documentos'],
-            'daçãos': ['Perfil', 'Configurações']
+            'dados': ['Perfil', 'Configurações']
         };
         
         const tabs = document.querySelectorAll('.header-tab');
@@ -1261,7 +1261,7 @@ class OmieLayoutManager {
             
             switch(sectionId) {
                 case 'dashboard-section':
-                    contextMessage = `${resultCount} colaboraçãor(es) encontrado(s)`;
+                    contextMessage = `${resultCount} colaborador(es) encontrado(s)`;
                     break;
                 case 'holerite':
                     contextMessage = `${resultCount} holerite(s) encontrado(s)`;
@@ -1273,7 +1273,7 @@ class OmieLayoutManager {
                     contextMessage = `${resultCount} atéstação(s) encontrado(s)`;
                     break;
                 default:
-                    contextMessage = `${resultCount} resultação(s) encontrado(s)`;
+                    contextMessage = `${resultCount} resultado(s) encontrado(s)`;
             }
             
             this.showToast('Busca', contextMessage, 'success');
@@ -1434,7 +1434,7 @@ class OmieLayoutManager {
         }
     }
 
-    // Método público para atualizar daçãos
+    // Método público para atualizar dados
     updateWidget(widgetId, data) {
         const widget = document.getElementById(widgetId);
         if (widget) {
@@ -1462,14 +1462,14 @@ class OmieLayoutManager {
                 currentSection.classList.add('list-view');
                 currentSection.classList.remove('grid-view');
             }
-            this.showToast('Visualização', `Modo ${mode === 'grid'  'Grade' : 'Lista'} ativação`, 'info');
+            this.showToast('Visualização', `Modo ${mode === 'grid' ? 'Grade' : 'Lista'} ativação`, 'info');
         }
     }
 
     refreshPage() {
-        this.showToast('Atualizando', 'Recarregando daçãos...', 'info');
+        this.showToast('Atualizando', 'Recarregando dados...', 'info');
         
-        // Recarregar daçãos do usuário
+        // Recarregar dados do usuário
         if (window.app && window.app.reloadUserData) {
             window.app.reloadUserData();
         }

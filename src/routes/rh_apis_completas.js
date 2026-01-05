@@ -92,7 +92,7 @@ router.post('/folha/processar', async (req, res) => {
         const [folhaResult] = await connection.query(
             `INSERT INTO rh_folhas_pagamento 
              (mes, ano, tipo_folha, data_processamento, processação_por, status)
-             VALUES (, , , NOW(), , 'processando')`,
+             VALUES (?, ?, , NOW(), , 'processando')`,
             [mes, ano, tipo_folha || 'mensal', req.user.id]
         );
         
@@ -151,7 +151,7 @@ router.post('/folha/processar', async (req, res) => {
                     `INSERT INTO rh_holerites 
                      (folha_id, funcionario_id, mes, ano, salario_base, total_proventos, 
                       total_descontos, inss_valor, irrf_valor, fgts_valor, salario_liquido, status)
-                     VALUES (, , , , , , , , , , , 'calculação')`,
+                     VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , 'calculação')`,
                     [folhaId, func.id, mes, ano, salarioBase, totalProventos, 
                      totalDescontos, inss.valor, irrf.valor, fgts, salarioLiquido]
                 );
@@ -313,7 +313,7 @@ router.post('/beneficios/tipos', async (req, res) => {
         const [result] = await pool.query(
             `INSERT INTO rh_beneficios_tipos 
              (nome, categoria, descricao, valor_padrao, desconto_funcionario, obrigatorio, fornecedor)
-             VALUES (, , , , , , )`,
+             VALUES (?, ?, ?, ?, , ?, ?)`,
             [nome, categoria, descricao, valor_padrao || 0, desconto_funcionario || 0, 
              obrigatorio || false, fornecedor]
         );
@@ -375,7 +375,7 @@ router.post('/beneficios/vincular', async (req, res) => {
             `INSERT INTO rh_funcionarios_beneficios 
              (funcionario_id, beneficio_tipo_id, valor_empresa, valor_funcionario, 
               inicio_vigencia, ativo)
-             VALUES (, , , , , TRUE)`,
+             VALUES (?, ?, ?, ?, , TRUE)`,
             [funcionario_id, beneficio_tipo_id, valor_empresa, valor_funcionario || 0, 
              inicio_vigencia || new Date()]
         );
@@ -473,7 +473,7 @@ router.post('/avaliacoes/criar', async (req, res) => {
             `INSERT INTO rh_avaliacoes_desempenho 
              (funcionario_id, periodo_id, avaliaçãor_id, pontos_fortes, 
               pontos_melhoria, plano_desenvolvimento, status, data_avaliacao)
-             VALUES (, , , , , , 'concluida', NOW())`,
+             VALUES (?, ?, ?, ?, , , 'concluida', NOW())`,
             [funcionario_id, periodo_id, avaliaçãor_id, pontos_fortes, 
              pontos_melhorar, plano_acao]
         );
@@ -486,7 +486,7 @@ router.post('/avaliacoes/criar', async (req, res) => {
             await connection.query(
                 `INSERT INTO rh_avaliacao_itens 
                  (avaliacao_id, competencia_id, nota_avaliacao, comentarios)
-                 VALUES (, , , )`,
+                 VALUES (?, ?, ?, ?)`,
                 [avaliacaoId, comp.competencia_id, comp.nota, comp.comentario || null]
             );
             somaNotas += parseFloat(comp.nota);

@@ -30,7 +30,7 @@ module.exports = {
         const protocolo = gerarProtocolo();
         const [result] = await pool.execute(
             `INSERT INTO suporte_tickets (protocolo, cliente_id, cliente_nome, cliente_email, assunto, socket_id, status)
-             VALUES (, , , , , , 'ai_handling')`,
+             VALUES (?, ?, ?, ?, , , 'ai_handling')`,
             [protocolo, clienteId, clientName, clientEmail || '', subject || '', socketId]
         );
         return {
@@ -127,7 +127,7 @@ module.exports = {
     addMessage: async ({ ticketId, sender, senderName, message, senderId = null }) => {
         const [result] = await pool.execute(
             `INSERT INTO suporte_mensagens (ticket_id, sender_type, sender_name, sender_id, mensagem)
-             VALUES (, , , , )`,
+             VALUES (?, ?, ?, ?, )`,
             [ticketId, sender, senderName || '', senderId, message]
         );
         return {
@@ -185,7 +185,7 @@ module.exports = {
     addKnowledge: async ({ question, answer, keywords, category }) => {
         const [result] = await pool.execute(
             `INSERT INTO suporte_base_conhecimento (pergunta, resposta, palavras_chave, categoria)
-             VALUES (, , , )`,
+             VALUES (?, ?, ?, ?)`,
             [question, answer, keywords || '', category || 'geral']
         );
         return { lastInsertRowid: result.insertId };
@@ -220,7 +220,7 @@ module.exports = {
         const [rows] = await pool.execute(
             `SELECT id, nome, email, telefone, cnpj_cpf as documento
              FROM clientes 
-             WHERE nome LIKE  OR email LIKE  OR cnpj_cpf LIKE 
+             WHERE nome LIKE ? OR email LIKE ? OR cnpj_cpf LIKE 
              LIMIT 10`,
             [`%${query}%`, `%${query}%`, `%${query}%`]
         );

@@ -106,7 +106,7 @@ class SistemaNotificacoes {
     }
 
     // ===== CRIAR NOTIFICAÇÉO =====
-    async criar(tipo, titulo, mensagem, daçãos = {}) {
+    async criar(tipo, titulo, mensagem, dados = {}) {
         const notificação = {
             id: Date.now(),
             tipo: tipo,
@@ -115,8 +115,8 @@ class SistemaNotificacoes {
             icone: this.obterIcone(tipo),
             cor: this.obterCor(tipo),
             lida: false,
-            link: daçãos.link || null,
-            daçãos_extra: daçãos,
+            link: dados.link || null,
+            dados_extra: dados,
             data_criacao: new Date()
         };
 
@@ -342,7 +342,7 @@ class SistemaNotificacoes {
                 border-radius: 50%;
                 background: white;
                 border: none;
-                box-shaçãow: 0 4px 12px rgba(0,0,0,0.15);
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
                 cursor: pointer;
                 position: relative;
                 display: flex;
@@ -353,7 +353,7 @@ class SistemaNotificacoes {
 
             .notificacoes-btn:hover {
                 transform: scale(1.1);
-                box-shaçãow: 0 6px 16px rgba(0,0,0,0.2);
+                box-shadow: 0 6px 16px rgba(0,0,0,0.2);
             }
 
             .notificacoes-btn i {
@@ -386,7 +386,7 @@ class SistemaNotificacoes {
                 max-height: 600px;
                 background: white;
                 border-radius: 16px;
-                box-shaçãow: 0 8px 24px rgba(0,0,0,0.2);
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
                 display: none;
                 flex-direction: column;
                 overflow: hidden;
@@ -533,7 +533,7 @@ class SistemaNotificacoes {
                 background: white;
                 border-radius: 12px;
                 padding: 16px 20px;
-                box-shaçãow: 0 8px 24px rgba(0,0,0,0.2);
+                box-shadow: 0 8px 24px rgba(0,0,0,0.2);
                 display: flex;
                 gap: 12px;
                 align-items: flex-start;

@@ -60,7 +60,7 @@
                 }
             } else {
                 const errorText = await response.text();
-                console.warn('⚠️ Não foi possível carregar daçãos do usuário');
+                console.warn('⚠️ Não foi possível carregar dados do usuário');
                 console.warn('⚠️ Status:', response.status, response.statusText);
                 console.warn('⚠️ Resposta:', errorText);
                 return null;
@@ -72,7 +72,7 @@
         }
     }
     
-    // Função para atualizar todos os elementos da interface com os daçãos do usuário
+    // Função para atualizar todos os elementos da interface com os dados do usuário
     function atualizarInterfaceUsuario(user) {
         if (!user) {
             console.warn('⚠️ atualizarInterfaceUsuario: user é null/undefined');

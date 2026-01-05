@@ -1,6 +1,6 @@
 /**
  * Script ROBUSTO para importar dump SQL
- * Importa em 3 fases: estrutura base, daçãos, foreign keys
+ * Importa em 3 fases: estrutura base, dados, foreign keys
  */
 
 const mysql = require('mysql2/promise');
@@ -136,8 +136,8 @@ async function importarDumpRobusto() {
             console.log(`   ⚠️ ${createErrors.length} erros de criado`);
         }
         
-        // FASE 3: INSERT daçãos
-        console.log('\n3️⃣ FASE 3: Inserindo daçãos...');
+        // FASE 3: INSERT dados
+        console.log('\n3️⃣ FASE 3: Inserindo dados...');
         let insertSuccess = 0;
         let insertErrors = [];
         
@@ -169,7 +169,7 @@ async function importarDumpRobusto() {
         const [tables] = await connection.query('SHOW TABLES');
         console.log(`\n📋 Total de tabelas: ${tables.length}`);
         
-        // Verificar daçãos em tabelas principais
+        // Verificar dados em tabelas principais
         const tabelasPrincipais = [
             'usuarios', 'funcionarios', 'produtos', 'clientes', 'empresas',
             'pedidos', 'pedido_itens', 'ordens_producao', 'fornecedores', 
@@ -195,7 +195,7 @@ async function importarDumpRobusto() {
             }
         }
         
-        // Contar todas as tabelas com daçãos
+        // Contar todas as tabelas com dados
         let todasTabelasComDaçãos = 0;
         let totalGeralRegistros = 0;
         
@@ -212,7 +212,7 @@ async function importarDumpRobusto() {
         
         console.log('\n📈 Resumo Geral:');
         console.log(`   - Tabelas criadas: ${tables.length}`);
-        console.log(`   - Tabelas com daçãos: ${todasTabelasComDaçãos}`);
+        console.log(`   - Tabelas com dados: ${todasTabelasComDaçãos}`);
         console.log(`   - Total de registros: ${totalGeralRegistros}`);
         
         // Mostrar erros resumidos

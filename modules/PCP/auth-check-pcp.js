@@ -14,7 +14,7 @@
         try {
             console.log('🔐 [PCP] Verificando autenticação unificada...');
             
-            // Tentar buscar daçãos do usuário via endpoint unificação
+            // Tentar buscar dados do usuário via endpoint unificação
             const response = await fetch('/api/me', {
                 method: 'GET',
                 credentials: 'include', // Envia cookies automaticamente
@@ -31,7 +31,7 @@
                 const data = await response.json();
                 console.log('✅ [PCP] Usuário autenticação:', data.user || data);
                 
-                // Armazenar daçãos do usuário no localStorage para compatibilidade
+                // Armazenar dados do usuário no localStorage para compatibilidade
                 const user = data.user || data;
                 if (user) {
                     localStorage.setItem('userData', JSON.stringify(user));
@@ -90,7 +90,7 @@
         }
     }
     
-    // Função para atualizar interface com daçãos do usuário
+    // Função para atualizar interface com dados do usuário
     function atualizarInterfaceUsuario(user) {
         if (!user) return;
         

@@ -82,7 +82,7 @@
                     </thead>
                     <tbody>
                         ${recebimentos.map(r => `
-                            <tr class="${r.status === 'divergencia'  'row-warning' : ''}">
+                            <tr class="${r.status === 'divergencia' ? 'row-warning' : ''}">
                                 <td><strong>${r.pedido}</strong></td>
                                 <td>${r.fornecedor}</td>
                                 <td>${r.material}</td>
@@ -95,15 +95,15 @@
                                         : '<span class="badge badge-warning"><i class="fas fa-clock"></i> Não</span>'}
                                 </td>
                                 <td>
-                                    ${r.status === 'aprovação'  '<span class="badge badge-success">Aprovação</span>' : ''}
-                                    ${r.status === 'pendente'  '<span class="badge badge-warning">Pendente</span>' : ''}
-                                    ${r.status === 'divergencia'  '<span class="badge badge-danger">Divergência</span>' : ''}
+                                    ${r.status === 'aprovação' ? '<span class="badge badge-success">Aprovação</span>' : ''}
+                                    ${r.status === 'pendente' ? '<span class="badge badge-warning">Pendente</span>' : ''}
+                                    ${r.status === 'divergencia' ? '<span class="badge badge-danger">Divergência</span>' : ''}
                                 </td>
                                 <td>
                                     <button class="btn-action btn-view" onclick="verRecebimento(${r.id})" title="Visualizar">
                                         <i class="fas fa-eye"></i>
                                     </button>
-                                    ${!r.conferido  `
+                                    ${!r.conferido ? `
                                         <button class="btn-action btn-success" onclick="conferirRecebimento(${r.id})" title="Conferir">
                                             <i class="fas fa-check"></i>
                                         </button>

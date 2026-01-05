@@ -35,7 +35,7 @@ const mysql = require('mysql2/promise');
     const filePath = path.join(photosDir, m.filename)
     if (!fs.existsSync(filePath)) { console.warn('Photo not found:', filePath); continue }
     // find user by nome_completo (exact match)
-    const [rows] = await db.execute('SELECT id FROM funcionarios WHERE nome_completo =  LIMIT 1', [m.nome_completo])
+    const [rows] = await db.execute('SELECT id FROM funcionarios WHERE nome_completo = ? LIMIT 1', [m.nome_completo])
     if (!rows || rows.length === 0) { console.warn('User not found for name:', m.nome_completo); continue }
     const id = rows[0].id
     // copy file to public/uploads/fotos with unique name

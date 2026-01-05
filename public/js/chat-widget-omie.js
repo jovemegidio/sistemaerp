@@ -639,15 +639,15 @@
 
         container.innerHTML = sampleNotices.map(notice => `
             <div class="notice-item" data-notice-id="${notice.id}">
-                ${notice.image  `
+                ${notice.image ? `
                     <div class="notice-image" style="background-image: url('${notice.image}'); background-size: cover; background-position: center;">
-                        ${notice.type === 'security'  '<i class="fas fa-shield-alt" style="font-size: 64px; color: white;"></i>' : ''}
-                        ${notice.type === 'certificate'  '<i class="fas fa-certificate" style="font-size: 64px; color: white;"></i>' : ''}
+                        ${notice.type === 'security' ? '<i class="fas fa-shield-alt" style="font-size: 64px; color: white;"></i>' : ''}
+                        ${notice.type === 'certificate' ? '<i class="fas fa-certificate" style="font-size: 64px; color: white;"></i>' : ''}
                     </div>
                 ` : ''}
                 <div class="notice-content">
                     <div class="notice-title">${notice.title}</div>
-                    ${notice.subtitle  `<div class="notice-subtitle">${notice.subtitle}</div>` : ''}
+                    ${notice.subtitle ? `<div class="notice-subtitle">${notice.subtitle}</div>` : ''}
                 </div>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M7 10l5 5 5-5H7z"/>

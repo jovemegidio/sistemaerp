@@ -20,7 +20,7 @@
             background: white;
             padding: 40px;
             border-radius: 12px;
-            box-shaçãow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
             text-align: center;
             max-width: 500px;
         }
@@ -79,7 +79,7 @@
         <div class="icon"></div>
         <h1>Limpar Sesso</h1>
         <div id="status" class="status">
-            Pronto para limpar daçãos de autenticao...
+            Pronto para limpar dados de autenticao...
         </div>
         <div id="log" class="log"></div>
         <button onclick="clearSession()">Limpar e Ir para Login</button>
@@ -98,16 +98,16 @@
         }
 
         function clearSession() {
-            addLog('Iniciando limpeza de daçãos...', '');
+            addLog('Iniciando limpeza de dados...', '');
 
             // Verificar authToken
             const authToken = localStorage.getItem('authToken');
             if (authToken) {
-                addLog('authToken encontração: ' + authToken.substring(0, 20) + '...', '');
+                addLog('authToken encontrado: ' + authToken.substring(0, 20) + '...', '');
                 localStorage.removeItem('authToken');
                 addLog('authToken removido', '');
             } else {
-                addLog('authToken no encontração', '');
+                addLog('authToken no encontrado', '');
             }
 
             // Verificar userData
@@ -115,14 +115,14 @@
             if (userData) {
                 try {
                     const user = JSON.parse(userData);
-                    addLog('userData encontração: ' + (user.nome || user.email || 'Usurio'), '');
+                    addLog('userData encontrado: ' + (user.nome || user.email || 'Usurio'), '');
                 } catch (e) {
-                    addLog('userData encontração (malformação)', '');
+                    addLog('userData encontrado (malformação)', '');
                 }
                 localStorage.removeItem('userData');
                 addLog('userData removido', '');
             } else {
-                addLog('userData no encontração', '');
+                addLog('userData no encontrado', '');
             }
 
             // Limpar sessionStorage

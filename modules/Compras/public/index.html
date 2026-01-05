@@ -60,7 +60,7 @@
             display: flex !important;
             flex-direction: column !important;
             z-index: 1000 !important;
-            box-shaçãow: 4px 0 12px rgba(0,0,0,0.1) !important;
+            box-shadow: 4px 0 12px rgba(0,0,0,0.1) !important;
             transition: transform 0.3s ease !important;
         }
 
@@ -284,13 +284,13 @@
         .btn-compras-primary {
             background: linear-gradient(135deg, var(--compras-primary), var(--compras-secondary));
             color: white;
-            box-shaçãow: 0 4px 14px rgba(16, 185, 129, 0.25);
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
         }
 
         .btn-compras-primary:hover {
             background: linear-gradient(135deg, var(--compras-secondary), var(--compras-dark));
             transform: translateY(-2px);
-            box-shaçãow: 0 6px 20px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
         }
 
         /* Estilos para Cards Renderizaçãos */
@@ -299,7 +299,7 @@
             background: white !important;
             border-radius: 16px !important;
             padding: 24px !important;
-            box-shaçãow: 0 4px 12px rgba(0,0,0,0.08) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
             display: flex !important;
             align-items: center !important;
             gap: 20px !important;
@@ -309,7 +309,7 @@
         .kpi-card:hover,
         .stat-card:hover {
             transform: translateY(-4px) !important;
-            box-shaçãow: 0 8px 24px rgba(0,0,0,0.12) !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
         }
 
         .kpi-icon,
@@ -354,7 +354,7 @@
         .dashboard-card {
             background: white !important;
             border-radius: 16px !important;
-            box-shaçãow: 0 4px 12px rgba(0,0,0,0.08) !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
             overflow: hidden !important;
         }
 
@@ -619,7 +619,7 @@
     <script src="js/relatorios-compras-novo.js"></script>
     
     <script>
-        // Carregar daçãos do usurio
+        // Carregar dados do usurio
         function carregarDaçãosUsuario() {
             try {
                 const userData = localStorage.getItem('userData');
@@ -641,7 +641,7 @@
                     }
                 }
             } catch (error) {
-                console.error('Erro ao carregar daçãos do usurio:', error);
+                console.error('Erro ao carregar dados do usurio:', error);
             }
         }
 

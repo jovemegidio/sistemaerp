@@ -71,7 +71,7 @@ class MateriaisManager {
             const response = await fetch('/api/compras/fornecedoresativo=1');
             if (response.ok) {
                 const data = await response.json();
-                // Verificar se é array ou objeto com propriedade de daçãos
+                // Verificar se é array ou objeto com propriedade de dados
                 this.fornecedores = Array.isArray(data)  data : (data.data || data.fornecedores || []);
                 this.preencherSelectFornecedores();
             }
@@ -277,8 +277,8 @@ class MateriaisManager {
         }
 
         tbody.innerHTML = materiaisPagina.map(m => {
-            const statusClass = m.status === 'disponivel'  'disponivel' : (m.status === 'baixo'  'baixo' : 'critico');
-            const statusLabel = m.status === 'disponivel'  'Disponível' : (m.status === 'baixo'  'Estoque Baixo' : 'Crítico');
+            const statusClass = m.status === 'disponivel' ? 'disponivel' : (m.status === 'baixo' ? 'baixo' : 'critico');
+            const statusLabel = m.status === 'disponivel' ? 'Disponível' : (m.status === 'baixo' ? 'Estoque Baixo' : 'Crítico');
             
             return `
             <tr>
@@ -408,7 +408,7 @@ class MateriaisManager {
             document.getElementById('modalMaterial').style.display = 'flex';
         } catch (error) {
             console.error('Erro ao carregar material:', error);
-            alert('Erro ao carregar daçãos do material');
+            alert('Erro ao carregar dados do material');
         }
     }
 
@@ -436,7 +436,7 @@ class MateriaisManager {
             document.getElementById('viewDescricao').textContent = m.descricao || '-';
             document.getElementById('viewCategoria').textContent = m.categoria || '-';
             document.getElementById('viewUnidade').textContent = m.unidade || '-';
-            document.getElementById('viewLeadTime').textContent = m.lead_time  `${m.lead_time} dias` : '-';
+            document.getElementById('viewLeadTime').textContent = m.lead_time ? `${m.lead_time} dias` : '-';
             document.getElementById('viewEspecificacoes').textContent = m.especificacoes || '-';
             document.getElementById('viewObservacoes').textContent = m.observacoes || '-';
             
@@ -475,7 +475,7 @@ class MateriaisManager {
             document.getElementById('viewFornecedorCNPJ').textContent = m.fornecedor_cnpj || '-';
             document.getElementById('viewFornecedorTelefone').textContent = m.fornecedor_telefone || '-';
             document.getElementById('viewFornecedorEmail').textContent = m.fornecedor_email || '-';
-            document.getElementById('viewFornecedorPrazo').textContent = m.lead_time  `${m.lead_time} dias úteis` : '-';
+            document.getElementById('viewFornecedorPrazo').textContent = m.lead_time ? `${m.lead_time} dias úteis` : '-';
             
             // Resetar para aba geral
             mudarAbaVisualizacao('geral');
@@ -506,7 +506,7 @@ class MateriaisManager {
 
     async salvar() {
         const id = document.getElementById('materialId').value;
-        const daçãos = {
+        const dados = {
             codigo: document.getElementById('materialCodigo').value,
             descricao: document.getElementById('materialDescricao').value,
             categoria: document.getElementById('materialCategoria').value,
@@ -526,19 +526,19 @@ class MateriaisManager {
             observacoes: document.getElementById('materialObservacoes').value
         };
 
-        if (!daçãos.codigo || !daçãos.descricao) {
+        if (!dados.codigo || !dados.descricao) {
             alert('Código e descricao são obrigatórios!');
             return;
         }
 
         try {
-            const url = id  `/api/compras/materiais/${id}` : '/api/compras/materiais';
+            const url = id ? `/api/compras/materiais/${id}` : '/api/compras/materiais';
             const method = id ? 'PUT' : 'POST';
             
             const response = await fetch(url, {
                 method,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(daçãos)
+                body: JSON.stringify(dados)
             });
 
             const result = await response.json();
@@ -579,7 +579,7 @@ class MateriaisManager {
                 m.estoqueAtual,
                 m.estoqueMin,
                 m.fornecedorNome,
-                m.status === 'disponivel'  'Disponível' : (m.status === 'baixo'  'Estoque Baixo' : 'Crítico')
+                m.status === 'disponivel' ? 'Disponível' : (m.status === 'baixo' ? 'Estoque Baixo' : 'Crítico')
             ].join(';'))
         ].join('\n');
 

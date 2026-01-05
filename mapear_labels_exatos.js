@@ -28,13 +28,13 @@ async function mapearLabelsExatos() {
             
             // Labels principais que precisamos mapear
             const labelsParaMapear = {
-                'Orçamento:': { esperação: 'G1', daçãos: 'TESTE-CORRETO' },
-                'Pedido:': { esperação: 'F4', daçãos: 'PED-CORRETO' },
-                'VENDEDOR:': { esperação: 'próximo', daçãos: 'Vendedor Correto' },
-                'Cliente:': { esperação: 'próximo', daçãos: 'CLIENTE MAPEAMENTO CORRETO' },
-                'Contato:': { esperação: 'próximo', daçãos: 'Contato Correto' },
-                'Fone:': { esperação: 'próximo', daçãos: '(11) 99999-9999' },
-                'E-mail:': { esperação: 'próximo', daçãos: 'teste@email.com' }
+                'Orçamento:': { esperação: 'G1', dados: 'TESTE-CORRETO' },
+                'Pedido:': { esperação: 'F4', dados: 'PED-CORRETO' },
+                'VENDEDOR:': { esperação: 'próximo', dados: 'Vendedor Correto' },
+                'Cliente:': { esperação: 'próximo', dados: 'CLIENTE MAPEAMENTO CORRETO' },
+                'Contato:': { esperação: 'próximo', dados: 'Contato Correto' },
+                'Fone:': { esperação: 'próximo', dados: '(11) 99999-9999' },
+                'E-mail:': { esperação: 'próximo', dados: 'teste@email.com' }
             };
             
             // Para cada label, encontrar sua posição exata
@@ -60,7 +60,7 @@ async function mapearLabelsExatos() {
                         posicoes.forEach(pos => {
                             const proximaCelula = calcularProximaCelula(pos);
                             console.log(`   ➡️  ${pos} → DADOS EM: ${proximaCelula}`);
-                            console.log(`   📝 Deveria conter: "${labelsParaMapear[label].daçãos}"`);
+                            console.log(`   📝 Deveria conter: "${labelsParaMapear[label].dados}"`);
                         });
                     }
                 } else {

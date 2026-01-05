@@ -152,7 +152,7 @@
             display: flex;
             align-items: center;
             gap: 10px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .stat-icon {
@@ -221,12 +221,12 @@
             margin-bottom: 8px;
             cursor: pointer;
             transition: all 0.2s;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             border-left: 3px solid transparent;
         }
 
         .ticket-item:hover {
-            box-shaçãow: 0 4px 12px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .ticket-item.active {
@@ -414,7 +414,7 @@
             background: white;
             color: var(--gray-900);
             border-bottom-left-radius: 4px;
-            box-shaçãow: 0 1px 2px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
         }
 
         .message.sent .bubble {
@@ -522,7 +522,7 @@
             border-radius: 10px;
             padding: 12px;
             margin-bottom: 8px;
-            box-shaçãow: 0 1px 3px rgba(0,0,0,0.05);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .kb-category {
@@ -676,7 +676,7 @@
             border-radius: 16px;
             width: 90%;
             max-width: 400px;
-            box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             animation: slideUp 0.3s ease;
             overflow: hidden;
         }
@@ -775,12 +775,12 @@
         .confirm-modal-btn.btn-confirm {
             background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
             color: white;
-            box-shaçãow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
         .confirm-modal-btn.btn-confirm:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 6px 16px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
         }
     </style>
     <script src="/js/anti-copy-protection.js"></script></head>
@@ -1201,7 +1201,7 @@
                     </div>
                     <div class="ticket-footer">
                         <span class="status-badge ${status.class}">${status.text}</span>
-                        ${ticket.assignedTo  `<span style="font-size:10px;color:var(--gray-500)"><i class="bi bi-person"></i> ${ticket.assignedTo}</span>` : ''}
+                        ${ticket.assignedTo ? `<span style="font-size:10px;color:var(--gray-500)"><i class="bi bi-person"></i> ${ticket.assignedTo}</span>` : ''}
                     </div>
                 </div>
             `;
@@ -1266,7 +1266,7 @@
             }
 
             const isReceived = msg.sender === 'client';
-            const aiClass = msg.sender === 'ai'  ' ai' : '';
+            const aiClass = msg.sender === 'ai' ? ' ai' : '';
 
             return `
                 <div class="message ${isReceived ? 'received' : 'sent'}${aiClass}">
@@ -1284,7 +1284,7 @@
 
         function closeChat() {
             currentTicketId = null;
-            showView(currentView === 'chat'  'dashboard' : currentView);
+            showView(currentView === 'chat' ? 'dashboard' : currentView);
             renderTickets();
         }
 

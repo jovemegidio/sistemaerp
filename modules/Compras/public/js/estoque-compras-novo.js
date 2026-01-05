@@ -99,7 +99,7 @@
                             const percentual = ((e.estoqueAtual / e.estoqueMaximo) * 100).toFixed(0);
                             
                             return `
-                                <tr class="${status.status === 'critico'  'row-danger' : ''}">
+                                <tr class="${status.status === 'critico' ? 'row-danger' : ''}">
                                     <td><strong>${e.codigo}</strong></td>
                                     <td>${e.material}</td>
                                     <td><span class="badge badge-secondary">${e.localizacao}</span></td>
@@ -107,9 +107,9 @@
                                         <strong class="text-${status.classe}">${e.estoqueAtual}</strong>
                                         <div class="progress" style="height: 8px; margin-top: 5px; background: #e5e7eb; border-radius: 4px; overflow: hidden;">
                                             <div class="progress-bar bg-${status.classe}" style="width: ${percentual}%; background: ${
-                                                status.classe === 'danger'  '#ef4444' : 
-                                                status.classe === 'warning'  '#f59e0b' :
-                                                status.classe === 'info'  '#3b82f6' : '#10b981'
+                                                status.classe === 'danger' ? '#ef4444' : 
+                                                status.classe === 'warning' ? '#f59e0b' :
+                                                status.classe === 'info' ? '#3b82f6' : '#10b981'
                                             }; height: 100%;"></div>
                                         </div>
                                     </td>
@@ -123,8 +123,8 @@
                                     <td>
                                         ${formatDate(e.ultimaMovimentacao)}
                                         <br>
-                                        <small class="text-${e.tipo === 'entrada'  'success' : 'danger'}">
-                                            ${e.tipo === 'entrada'  '↑' : '↓'} ${e.quantidade}
+                                        <small class="text-${e.tipo === 'entrada' ? 'success' : 'danger'}">
+                                            ${e.tipo === 'entrada' ? '↑' : '↓'} ${e.quantidade}
                                         </small>
                                     </td>
                                     <td>

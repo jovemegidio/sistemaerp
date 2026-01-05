@@ -48,7 +48,7 @@ class APICache {
     }
 
     /**
-     * Armazena daçãos no cache
+     * Armazena dados no cache
      */
     set(url, data, options = {}) {
         const key = this._generateKey(url, options);

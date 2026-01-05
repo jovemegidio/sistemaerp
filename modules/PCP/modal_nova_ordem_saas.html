@@ -2,7 +2,7 @@
 <!-- MODAL: NOVA ORDEM DE PRODUÇÃO - SaaS Modern -->
 <!-- ============================================ -->
 <div id="modal-nova-ordem" class="modal hidden" role="dialog" aria-modal="true" aria-hidden="true" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(15,23,42,0.85); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; z-index: 10000; padding: 20px;">
-    <div class="modal-dialog" role="document" style="background: white; border-radius: 20px; max-width: 1400px; width: 100%; max-height: 95vh; overflow: hidden; box-shaçãow: 0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.05); animation: modalSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
+    <div class="modal-dialog" role="document" style="background: white; border-radius: 20px; max-width: 1400px; width: 100%; max-height: 95vh; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5), 0 0 0 1px rgba(0,0,0,0.05); animation: modalSlideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);">
         
         <style>
             @keyframes modalSlideIn {
@@ -20,7 +20,7 @@
             #modal-nova-ordem textarea:focus {
                 outline: none;
                 border-color: #4F46E5 !important;
-                box-shaçãow: 0 0 0 4px rgba(79,70,229,0.1) !important;
+                box-shadow: 0 0 0 4px rgba(79,70,229,0.1) !important;
             }
             
             #modal-nova-ordem .form-card {
@@ -32,7 +32,7 @@
             }
             
             #modal-nova-ordem .form-card:hover {
-                box-shaçãow: 0 4px 6px -1px rgba(0,0,0,0.05);
+                box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
             }
             
             #modal-nova-ordem .label-required::after {
@@ -92,7 +92,7 @@
             .produtos-table input:focus,
             .produtos-table select:focus {
                 border-color: #4F46E5;
-                box-shaçãow: 0 0 0 3px rgba(79,70,229,0.08);
+                box-shadow: 0 0 0 3px rgba(79,70,229,0.08);
             }
             
             .produtos-table input[reaçãonly] {
@@ -114,12 +114,12 @@
                 align-items: center;
                 gap: 8px;
                 transition: all 0.2s;
-                box-shaçãow: 0 2px 4px rgba(79,70,229,0.2);
+                box-shadow: 0 2px 4px rgba(79,70,229,0.2);
             }
             
             .btn-add-row:hover {
                 transform: translateY(-2px);
-                box-shaçãow: 0 4px 12px rgba(79,70,229,0.3);
+                box-shadow: 0 4px 12px rgba(79,70,229,0.3);
             }
             
             .btn-add-row:active {
@@ -170,12 +170,12 @@
             
             <div style="display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1;">
                 <div style="display: flex; align-items: center; gap: 16px;">
-                    <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shaçãow: 0 8px 16px rgba(0,0,0,0.1);">
+                    <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 16px rgba(0,0,0,0.1);">
                         <i class="fas fa-file-invoice" style="color: white; font-size: 22px;"></i>
                     </div>
                     <div>
-                        <h2 style="margin: 0; color: white; font-size: 24px; font-weight: 700; line-height: 1.2; text-shaçãow: 0 2px 4px rgba(0,0,0,0.1);">Nova Ordem de Produção</h2>
-                        <p style="margin: 4px 0 0 0; color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 500;">Preencha os daçãos para emitir a ordem em Excel</p>
+                        <h2 style="margin: 0; color: white; font-size: 24px; font-weight: 700; line-height: 1.2; text-shadow: 0 2px 4px rgba(0,0,0,0.1);">Nova Ordem de Produção</h2>
+                        <p style="margin: 4px 0 0 0; color: rgba(255,255,255,0.9); font-size: 13px; font-weight: 500;">Preencha os dados para emitir a ordem em Excel</p>
                     </div>
                 </div>
                 <button type="button" onclick="fecharModalNovaOrdem()" 
@@ -452,7 +452,7 @@
                         <i class="fas fa-times"></i> Cancelar
                     </button>
                     <button type="submit"
-                        style="background: linear-gradient(135deg, #10B981, #059669); color: white; border: none; padding: 14px 40px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-size: 14px; box-shaçãow: 0 4px 12px rgba(16,185,129,0.3);"
+                        style="background: linear-gradient(135deg, #10B981, #059669); color: white; border: none; padding: 14px 40px; border-radius: 10px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-size: 14px; box-shadow: 0 4px 12px rgba(16,185,129,0.3);"
                         onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShaçãow='0 6px 20px rgba(16,185,129,0.4)'"
                         onmouseout="this.style.transform='translateY(0)'; this.style.boxShaçãow='0 4px 12px rgba(16,185,129,0.3)'">
                         <i class="fas fa-file-excel"></i> Gerar Ordem em Excel
@@ -523,7 +523,7 @@ function calcularTotalGeral() {
 async function submitNovaOrdem(event) {
     event.preventDefault();
     
-    // Coletar todos os daçãos do formulário
+    // Coletar todos os dados do formulário
     const produtos = [];
     const tbody = document.getElementById('produtos-lista');
     
@@ -559,7 +559,7 @@ async function submitNovaOrdem(event) {
         return;
     }
     
-    const daçãos = {
+    const dados = {
         // Daçãos Principais
         num_orcamento: document.getElementById('num_orcamento').value,
         revisao: document.getElementById('revisao').value,
@@ -612,7 +612,7 @@ async function submitNovaOrdem(event) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(daçãos)
+            body: JSON.stringify(dados)
         });
         
         if (!response.ok) {
@@ -624,7 +624,7 @@ async function submitNovaOrdem(event) {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `Ordem_Producao_${daçãos.num_pedido || Date.now()}.xlsx`;
+        a.download = `Ordem_Producao_${dados.num_pedido || Date.now()}.xlsx`;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);

@@ -97,7 +97,7 @@ async function configurarAcessoPCP() {
         const [users] = await conn.execute(`
             SELECT id, nome, email, setor, permissoes 
             FROM usuarios 
-            WHERE email IN (, , , )
+            WHERE email IN (, ?, ?, )
             ORDER BY nome
         `, usuariosParaConfigurar);
         

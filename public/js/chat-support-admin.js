@@ -202,7 +202,7 @@
             max-height: calc(100vh - 48px);
             background: white;
             border-radius: 16px;
-            box-shaçãow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
             display: none;
             flex-direction: column;
             z-index: 9998;
@@ -297,7 +297,7 @@
             padding: 12px 8px;
             background: white;
             border-radius: 8px;
-            box-shaçãow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .stat-value {
@@ -408,7 +408,7 @@
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 12px;
-            box-shaçãow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             cursor: pointer;
             transition: all 0.2s;
             border-left: 4px solid transparent;
@@ -416,7 +416,7 @@
 
         .ticket-item:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         .ticket-item.status-open {
@@ -645,7 +645,7 @@
 
         .ticket-action-btn:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .ticket-detail-user {
@@ -792,7 +792,7 @@
         .ticket-reply-input:focus {
             outline: none;
             border-color: #ef4444;
-            box-shaçãow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
         }
 
         .reply-actions {
@@ -837,7 +837,7 @@
 
         .btn-send-reply:hover {
             transform: translateY(-2px);
-            box-shaçãow: 0 4px 12px rgba(239, 68, 68, 0.3);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
         /* Botão Flutuante de Suporte */
@@ -851,7 +851,7 @@
             background: linear-gradient(135deg, #ef4444, #dc2626);
             border: none;
             cursor: pointer;
-            box-shaçãow: 0 8px 24px rgba(239, 68, 68, 0.4);
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4);
             z-index: 9997;
             display: flex;
             align-items: center;
@@ -866,7 +866,7 @@
 
         .support-floating-btn:hover {
             transform: translateY(-4px) scale(1.05);
-            box-shaçãow: 0 12px 32px rgba(239, 68, 68, 0.5);
+            box-shadow: 0 12px 32px rgba(239, 68, 68, 0.5);
         }
 
         .support-floating-btn .floating-icon {
@@ -889,7 +889,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shaçãow: 0 2px 8px rgba(251, 191, 36, 0.5);
+            box-shadow: 0 2px 8px rgba(251, 191, 36, 0.5);
             border: 2px solid white;
         }
 
@@ -1021,7 +1021,7 @@
                 },
                 {
                     type: 'support',
-                    text: 'Olá Thiago! Para cadastrar um novo material: 1) Acesse PCP > Materiais, 2) Clique em "Novo Material", 3) Preencha os daçãos obrigatórios.',
+                    text: 'Olá Thiago! Para cadastrar um novo material: 1) Acesse PCP > Materiais, 2) Clique em "Novo Material", 3) Preencha os dados obrigatórios.',
                     time: new Date(Date.now() - 86000000)
                 },
                 {
@@ -1210,10 +1210,10 @@
         supportState.activeTicket = ticket;
         ticket.unread = false;
 
-        // Preencher daçãos
+        // Preencher dados
         document.getElementById('detailTicketNumber').textContent = ticket.number;
         document.getElementById('detailTicketStatus').textContent = 
-            ticket.status === 'open'  'Aberto' : ticket.status === 'pending'  'Pendente' : 'Resolvido';
+            ticket.status === 'open' ? 'Aberto' : ticket.status === 'pending' ? 'Pendente' : 'Resolvido';
         document.getElementById('detailTicketStatus').className = 
             `ticket-status-badge ${ticket.status}`;
 

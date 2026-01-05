@@ -35,10 +35,10 @@ class InutilizacaoService {
 
     /**
      * Inutiliza faixa de números de NFe
-     * @param {Object} daçãos - Daçãos da inutilização
+     * @param {Object} dados - Daçãos da inutilização
      * @returns {Promise<Object>} Resultado da inutilização
      */
-    async inutilizarFaixa(daçãos) {
+    async inutilizarFaixa(dados) {
         try {
             const {
                 ano,
@@ -50,12 +50,12 @@ class InutilizacaoService {
                 justificativa,
                 empresaId = 1,
                 ambiente = 'homologacao'
-            } = daçãos;
+            } = dados;
 
             console.log(`🚫 Inutilizando faixa ${numeroInicial}-${numeroFinal} série ${serie}...`);
 
             // Validações
-            this.validarDaçãos(daçãos);
+            this.validarDaçãos(dados);
 
             // Verificar se faixa já foi utilizada
             await this.verificarFaixaUtilizada(serie, numeroInicial, numeroFinal);
@@ -76,10 +76,10 @@ class InutilizacaoService {
             const xmlAssinação = await this.certificaçãoService.assinarXML(xmlInutilizacao, empresaId);
 
             console.log('📤 Transmitindo para SEFAZ...');
-            const resultação = await this.transmitirInutilizacao(xmlAssinação, uf, ambiente);
+            const resultado = await this.transmitirInutilizacao(xmlAssinação, uf, ambiente);
 
-            // Processar resultação
-            if (resultação.cStat === '102') {
+            // Processar resultado
+            if (resultado.cStat === '102') {
                 // Inutilização homologada
                 await this.salvarInutilizacao({
                     ano,
@@ -89,10 +89,10 @@ class InutilizacaoService {
                     numero_inicial: numeroInicial,
                     numero_final: numeroFinal,
                     justificativa,
-                    protocolo: resultação.nProt,
-                    data_inutilizacao: resultação.dhRecbto,
+                    protocolo: resultado.nProt,
+                    data_inutilizacao: resultado.dhRecbto,
                     xml_enviação: xmlAssinação,
-                    xml_retorno: JSON.stringify(resultação),
+                    xml_retorno: JSON.stringify(resultado),
                     ambiente
                 });
 
@@ -101,16 +101,16 @@ class InutilizacaoService {
                 return {
                     sucesso: true,
                     mensagem: 'Faixa inutilizada com sucesso',
-                    protocolo: resultação.nProt,
-                    dataInutilizacao: resultação.dhRecbto,
+                    protocolo: resultado.nProt,
+                    dataInutilizacao: resultado.dhRecbto,
                     faixa: `${numeroInicial} a ${numeroFinal}`,
                     serie,
-                    sefaz: resultação
+                    sefaz: resultado
                 };
 
             } else {
                 // Rejeição
-                throw new Error(`Inutilização rejeitada: ${resultação.cStat} - ${resultação.xMotivo}`);
+                throw new Error(`Inutilização rejeitada: ${resultado.cStat} - ${resultado.xMotivo}`);
             }
 
         } catch (error) {
@@ -120,10 +120,10 @@ class InutilizacaoService {
     }
 
     /**
-     * Valida daçãos da inutilização
+     * Valida dados da inutilização
      */
-    validarDaçãos(daçãos) {
-        const { ano, cnpj, uf, serie, numeroInicial, numeroFinal, justificativa } = daçãos;
+    validarDaçãos(dados) {
+        const { ano, cnpj, uf, serie, numeroInicial, numeroFinal, justificativa } = dados;
 
         if (!ano || ano < 2000 || ano > 2099) {
             throw new Error('Ano inválido (deve estar entre 2000 e 2099)');
@@ -174,7 +174,7 @@ class InutilizacaoService {
         const [nfes] = await this.pool.query(`
             SELECT numero FROM nfes
             WHERE serie = 
-            AND numero BETWEEN  AND 
+            AND numero BETWEEN ? AND 
             LIMIT 1
         `, [serie, numeroInicial, numeroFinal]);
 
@@ -186,7 +186,7 @@ class InutilizacaoService {
         const [inutilizadas] = await this.pool.query(`
             SELECT * FROM nfe_inutilizacoes
             WHERE serie = 
-            AND ((numero_inicial BETWEEN  AND ) OR (numero_final BETWEEN  AND ))
+            AND ((numero_inicial BETWEEN ? AND ) OR (numero_final BETWEEN ? AND ))
             LIMIT 1
         `, [serie, numeroInicial, numeroFinal, numeroInicial, numeroFinal]);
 
@@ -198,11 +198,11 @@ class InutilizacaoService {
     /**
      * Monta XML de inutilização
      */
-    montarXMLInutilizacao(daçãos) {
-        const { ano, cnpj, uf, serie, numeroInicial, numeroFinal, justificativa, ambiente } = daçãos;
+    montarXMLInutilizacao(dados) {
+        const { ano, cnpj, uf, serie, numeroInicial, numeroFinal, justificativa, ambiente } = dados;
 
         const cUF = this.obterCodigoUF(uf);
-        const tpAmb = ambiente === 'producao'  '1' : '2';
+        const tpAmb = ambiente === 'producao' ? '1' : '2';
         const xServ = 'INUTILIZAR';
         const mod = '55'; // Modelo NFe
         
@@ -271,26 +271,26 @@ class InutilizacaoService {
     /**
      * Salva inutilização no banco
      */
-    async salvarInutilizacao(daçãos) {
+    async salvarInutilizacao(dados) {
         await this.pool.query(`
             INSERT INTO nfe_inutilizacoes (
                 ano, cnpj, uf, serie, numero_inicial, numero_final,
                 justificativa, protocolo, data_inutilizacao,
                 xml_enviação, xml_retorno, ambiente, created_at
-            ) VALUES (, , , , , , , , , , , , NOW())
+            ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , , NOW())
         `, [
-            daçãos.ano,
-            daçãos.cnpj,
-            daçãos.uf,
-            daçãos.serie,
-            daçãos.numero_inicial,
-            daçãos.numero_final,
-            daçãos.justificativa,
-            daçãos.protocolo,
-            daçãos.data_inutilizacao,
-            daçãos.xml_enviação,
-            daçãos.xml_retorno,
-            daçãos.ambiente
+            dados.ano,
+            dados.cnpj,
+            dados.uf,
+            dados.serie,
+            dados.numero_inicial,
+            dados.numero_final,
+            dados.justificativa,
+            dados.protocolo,
+            dados.data_inutilizacao,
+            dados.xml_enviação,
+            dados.xml_retorno,
+            dados.ambiente
         ]);
     }
 
