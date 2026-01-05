@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Serviço de Eventos de NFe
  * Implementa cancelamento e Carta de Correção Eletrônica (CCe)
  * 
@@ -321,7 +321,7 @@ class EventoService {
      */
     async transmitirEvento(xmlEvento, uf, ambiente) {
         try {
-            const urls = ambiente === 'producao'  this.urlsEventoProducao : this.urlsEventoHomologacao;
+            const urls = ambiente === 'producao' ? this.urlsEventoProducao : this.urlsEventoHomologacao;
             const url = urls[uf] || urls['SVRS'];
 
             const client = await soap.createClientAsync(url + 'wsdl', {
@@ -445,3 +445,4 @@ class EventoService {
 }
 
 module.exports = EventoService;
+

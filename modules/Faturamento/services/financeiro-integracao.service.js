@@ -121,7 +121,7 @@ class FinanceiroIntegracaoService {
             
             parcelas.push({
                 numero: i + 1,
-                valor: i === numeroParcelas - 1  
+                valor: i === numeroParcelas - 1 ?
                        (valorTotal - (valorParcela * (numeroParcelas - 1))) : // Ajusta última parcela
                        valorParcela,
                 vencimento: dataVencimento.toISOString().split('T')[0]

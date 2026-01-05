@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 
 module.exports = function createApiNfeRouter({ pool, authenticateToken, authorizeArea }) {
   const router = express.Router();
@@ -114,7 +114,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
       
       // Alíquotas baseadas no município e tipo de serviço
       const aliquotas = {
-        iss: municipio === 'SP'  0.05 : 0.03, // 5% SP, 3% outros
+        iss: municipio === 'SP' ? 0.05 : 0.03, // 5% SP, 3% outros
         pis: 0.0065,
         cofins: 0.03,
         csll: 0.01,

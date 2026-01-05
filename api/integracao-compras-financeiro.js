@@ -93,7 +93,7 @@ router.post('/gerar-pagar', async (req, res) => {
             const dataVencimento = new Date(dataBase);
             dataVencimento.setDate(dataVencimento.getDate() + (diasVencimento[i] || (i + 1) * 30));
             
-            const numeroDocumento = nota_fiscal 
+            const numeroDocumento = nota_fiscal ?
                  `NF-${nota_fiscal}-${String(i + 1).padStart(2, '0')}`
                 : `CMP-${pedido_id}-${String(i + 1).padStart(2, '0')}`;
             

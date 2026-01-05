@@ -1,4 +1,4 @@
-/**
+﻿/**
  * API de Conciliação Bancária
  * Importação de extratos OFX e conciliação automática
  * @author Aluforce ERP
@@ -73,8 +73,8 @@ module.exports = function({ pool, authenticateToken }) {
             const dtEndMatch = content.match(/<DTEND>([^<\r\n]+)/);
             
             result.periodo = {
-                inicio: dtStartMatch  parseOFXDate(dtStartMatch[1]) : null,
-                fim: dtEndMatch  parseOFXDate(dtEndMatch[1]) : null
+                inicio: dtStartMatch ? parseOFXDate(dtStartMatch[1]) : null,
+                fim: dtEndMatch ? parseOFXDate(dtEndMatch[1]) : null
             };
             
             // Extrair saldo
@@ -83,7 +83,7 @@ module.exports = function({ pool, authenticateToken }) {
             
             result.saldo = {
                 valor: balAmtMatch ? parseFloat(balAmtMatch[1]) : 0,
-                data: dtAsOfMatch  parseOFXDate(dtAsOfMatch[1]) : null
+                data: dtAsOfMatch ? parseOFXDate(dtAsOfMatch[1]) : null
             };
             
             // Extrair transações
@@ -103,7 +103,7 @@ module.exports = function({ pool, authenticateToken }) {
                 
                 const transacao = {
                     tipo: trnTypeMatch ? trnTypeMatch[1].trim() : '',
-                    data: dtPostedMatch  parseOFXDate(dtPostedMatch[1]) : null,
+                    data: dtPostedMatch ? parseOFXDate(dtPostedMatch[1]) : null,
                     valor: trnAmtMatch ? parseFloat(trnAmtMatch[1]) : 0,
                     id_banco: fitIdMatch ? fitIdMatch[1].trim() : '',
                     descricao: memoMatch ? memoMatch[1].trim() : (nameMatch ? nameMatch[1].trim() : ''),
@@ -570,3 +570,4 @@ module.exports = function({ pool, authenticateToken }) {
 
     return router;
 };
+

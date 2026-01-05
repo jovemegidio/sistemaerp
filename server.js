@@ -2189,7 +2189,7 @@ apiNfeRouter.get('/xml/:nfe_id', async (req, res, next) => {
 app.use('/api/nfe', require('./src/routes/apiNfe')({ pool, authenticateToken, authorizeArea }));
 
 // Monta o router de certificado digital NFe
-app.use('/api/nfe/certificado', require('./src/nfe/controllers/CertificaçãoController')(pool));
+app.use('/api/nfe/certificado', require('./src/nfe/controllers/CertificadoController')(pool));
 
 // Monta o router de emissão de NFe (Sprint 2)
 const NFeController = require('./src/nfe/controllers/NFeController');

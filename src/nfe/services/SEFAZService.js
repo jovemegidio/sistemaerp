@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Serviço de Integração com SEFAZ
  * Implementa comunicação SOAP para autorização de NFe
  * 
@@ -362,7 +362,7 @@ class SEFAZService {
      * Obtém URL do webservice
      */
     obterURL(uf, ambiente, tipo = 'autorizacao') {
-        const urls = ambiente === 'producao'  this.urlsProducao : this.urlsHomologacao;
+        const urls = ambiente === 'producao' ? this.urlsProducao : this.urlsHomologacao;
         return urls[uf] || urls['SVRS']; // Fallback para SVRS
     }
 
@@ -439,3 +439,4 @@ class SEFAZService {
 }
 
 module.exports = SEFAZService;
+

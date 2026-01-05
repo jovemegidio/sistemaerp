@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Controller de emissão de NFe
  * Endpoints para gerar, validar e gerenciar NFe
  * 
@@ -9,7 +9,7 @@ const express = require('express');
 const router = express.Router();
 const XMLService = require('../services/XMLService');
 const XSDValidationService = require('../services/XSDValidationService');
-const CertificaçãoService = require('../services/CertificaçãoService');
+const CertificadoService = require('../services/CertificadoService');
 const SEFAZService = require('../services/SEFAZService');
 const EventoService = require('../services/EventoService');
 const DANFEService = require('../services/DANFEService');
@@ -20,11 +20,11 @@ class NFeController {
         this.pool = pool;
         this.xmlService = new XMLService(pool);
         this.xsdService = new XSDValidationService();
-        this.certificaçãoService = new CertificaçãoService(pool);
+        this.certificadoService = new CertificadoService(pool);
         this.sefazService = new SEFAZService(pool);
-        this.eventoService = new EventoService(pool, this.certificaçãoService);
+        this.eventoService = new EventoService(pool, this.certificadoService);
         this.danfeService = new DANFEService(pool);
-        this.inutilizacaoService = new InutilizacaoService(pool, this.certificaçãoService);
+        this.inutilizacaoService = new InutilizacaoService(pool, this.certificadoService);
         
         this.setupRoutes();
     }
@@ -106,7 +106,7 @@ class NFeController {
 
             // 3. Assinar XML
             console.log('🔏 Assinando XML...');
-            const xmlAssinação = await this.certificaçãoService.assinarXML(xml, nfeData.empresa_id || 1);
+            const xmlAssinado = await this.certificadoService.assinarXML(xml, nfeData.empresa_id || 1);
 
             // 4. Salvar no banco
             console.log('💾 Salvando NFe...');
@@ -138,7 +138,7 @@ class NFeController {
                 nfeData.totais.valorProdutos,
                 nfeData.totais.valorTotal,
                 xml,
-                xmlAssinação,
+                xmlAssinado,
                 'emitida',
                 nfeData.ambiente || 'homologacao'
             ]);
@@ -945,3 +945,4 @@ class NFeController {
 }
 
 module.exports = NFeController;
+

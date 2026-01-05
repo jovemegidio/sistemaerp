@@ -146,7 +146,7 @@ class XMLService {
      * Monta tag <dest> - Destinatário
      */
     montarDest(destinatario) {
-        const doc = destinatario.cpf  
+        const doc = destinatario.cpf ?
             { CPF: destinatario.cpf.replace(/\D/g, '') } :
             { CNPJ: destinatario.cnpj.replace(/\D/g, '') };
 

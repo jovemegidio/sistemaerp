@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Serviço de Inutilização de Números de NFe
  * Implementa inutilização de faixa de números não utilizaçãos
  * 
@@ -230,7 +230,7 @@ class InutilizacaoService {
      */
     async transmitirInutilizacao(xmlInutilizacao, uf, ambiente) {
         try {
-            const urls = ambiente === 'producao'  this.urlsInutilizacaoProducao : this.urlsInutilizacaoHomologacao;
+            const urls = ambiente === 'producao' ? this.urlsInutilizacaoProducao : this.urlsInutilizacaoHomologacao;
             const url = urls[uf] || urls['SVRS'];
 
             const client = await soap.createClientAsync(url + 'wsdl', {
@@ -381,3 +381,4 @@ class InutilizacaoService {
 }
 
 module.exports = InutilizacaoService;
+

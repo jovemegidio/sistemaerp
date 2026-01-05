@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Controller de Certificação Digital
  * Gerencia requisições HTTP relacionadas a certificaçãos
  * 
@@ -7,7 +7,7 @@
 
 const express = require('express');
 const multer = require('multer');
-const CertificaçãoService = require('../services/CertificaçãoService');
+const CertificadoService = require('../services/CertificadoService');
 
 // Configurar upload de arquivos
 const storage = multer.memoryStorage();
@@ -27,7 +27,7 @@ const upload = multer({
 
 function createCertificaçãoController(pool) {
     const router = express.Router();
-    const certificaçãoService = new CertificaçãoService(pool);
+    const certificadoService = new CertificadoService(pool);
 
     /**
      * POST /api/nfe/certificação/upload
@@ -53,7 +53,7 @@ function createCertificaçãoController(pool) {
             const empresaId = req.user.empresa_id || 1;
             const pfxBuffer = req.file.buffer;
 
-            const result = await certificaçãoService.uploadCertificação(pfxBuffer, senha, empresaId);
+            const result = await certificadoService.uploadCertificado(pfxBuffer, senha, empresaId);
 
             res.json(result);
 
@@ -73,7 +73,7 @@ function createCertificaçãoController(pool) {
     router.get('/status', async (req, res) => {
         try {
             const empresaId = req.user.empresa_id || 1;
-            const status = await certificaçãoService.getStatus(empresaId);
+            const status = await certificadoService.getStatus(empresaId);
 
             res.json(status);
 
@@ -93,7 +93,7 @@ function createCertificaçãoController(pool) {
     router.delete('/', async (req, res) => {
         try {
             const empresaId = req.user.empresa_id || 1;
-            const result = await certificaçãoService.removerCertificação(empresaId);
+            const result = await certificadoService.removerCertificado(empresaId);
 
             res.json(result);
 
@@ -130,8 +130,8 @@ function createCertificaçãoController(pool) {
             const pfxBuffer = req.file.buffer;
 
             // Apenas validar, sem salvar
-            const certData = await certificaçãoService.validarCertificação(pfxBuffer, senha);
-            const info = certificaçãoService.extrairInformacoes(certData);
+            const certData = await certificadoService.validarCertificado(pfxBuffer, senha);
+            const info = certificadoService.extrairInformacoes(certData);
 
             const hoje = new Date();
             const diasRestantes = Math.ceil((info.validade - hoje) / (1000 * 60 * 60 * 24));
@@ -163,3 +163,4 @@ function createCertificaçãoController(pool) {
 }
 
 module.exports = createCertificaçãoController;
+

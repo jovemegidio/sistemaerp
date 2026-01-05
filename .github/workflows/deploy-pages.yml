@@ -24,19 +24,43 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v4
       
-      - name: Fix absolute paths to relative
+      - name: Prepare deploy folder
         run: |
-          cd public
-          # Corrigir caminhos absolutos para relativos em todos os HTML
-          find . -name "*.html" -exec sed -i 's|href="/|href="|g' {} \;
-          find . -name "*.html" -exec sed -i 's|src="/|src="|g' {} \;
-          # Criar index.html de redirecionamento se não existir redirect
-          echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0; url=login.html"><title>ALUFORCE</title></head><body><script>window.location.href="login.html";</script></body></html>' > index.html
+          # Criar pasta de deploy
+          mkdir -p deploy
+          
+          # Copiar public para deploy
+          cp -r public/* deploy/
+          
+          # Copiar modules para deploy/modules
+          cp -r modules deploy/
+          
+          # Copiar assets se existir
+          [ -d "assets" ] && cp -r assets deploy/ || true
+          
+          # Copiar images se existir
+          [ -d "images" ] && cp -r images deploy/ || true
+      
+      - name: Fix paths for GitHub Pages
+        run: |
+          # Corrigir caminhos absolutos para relativos em public
+          find deploy -name "*.html" -exec sed -i 's|href="/favicon|href="favicon|g' {} \;
+          find deploy -name "*.html" -exec sed -i 's|href="/images|href="images|g' {} \;
+          find deploy -name "*.html" -exec sed -i 's|src="/images|src="images|g' {} \;
+          find deploy -name "*.html" -exec sed -i 's|href="/css|href="css|g' {} \;
+          find deploy -name "*.html" -exec sed -i 's|src="/js|src="js|g' {} \;
+          
+          # Corrigir caminhos nos módulos (../../public/ -> ../../)
+          find deploy/modules -name "*.html" -exec sed -i 's|href="../../public/|href="../../|g' {} \;
+          find deploy/modules -name "*.html" -exec sed -i 's|src="../../public/|src="../../|g' {} \;
+          
+          # Criar index.html de redirecionamento
+          echo '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0; url=login.html"><title>ALUFORCE</title></head><body><script>window.location.href="login.html";</script></body></html>' > deploy/index.html
       
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './public'
+          path: './deploy'
 
   deploy:
     environment:

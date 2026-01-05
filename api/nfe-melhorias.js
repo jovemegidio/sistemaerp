@@ -1,4 +1,4 @@
-/**
+﻿/**
  * API de Monitoramento e Melhorias NF-e
  * Dashboard, consultas e reenvio automático
  * @author Aluforce ERP
@@ -43,8 +43,8 @@ module.exports = function({ pool, authenticateToken }) {
                     SUM(CASE WHEN status = 'cancelada' THEN 1 ELSE 0 END) as canceladas,
                     SUM(CASE WHEN status IN ('pendente', 'processando') THEN 1 ELSE 0 END) as pendentes,
                     SUM(CASE WHEN status = 'rejeitada' THEN 1 ELSE 0 END) as rejeitadas,
-                    SUM(CASE WHEN status = 'autorizada' THEN valor_total ELSE 0 END) as valor_autorização,
-                    SUM(CASE WHEN status = 'cancelada' THEN valor_total ELSE 0 END) as valor_cancelação
+                    SUM(CASE WHEN status = 'autorizada' THEN valor_total ELSE 0 END) as valor_autorizadas,
+                    SUM(CASE WHEN status = 'cancelada' THEN valor_total ELSE 0 END) as valor_canceladas
                 FROM nfes n
                 WHERE 1=1 ${filtroData}
             `);
@@ -92,7 +92,7 @@ module.exports = function({ pool, authenticateToken }) {
                 LIMIT 10
             `);
 
-            // CFOP mais utilizaçãos
+            // CFOP mais utilizados
             const [cfops] = await pool.query(`
                 SELECT 
                     ni.cfop,
@@ -115,16 +115,15 @@ module.exports = function({ pool, authenticateToken }) {
                         canceladas: stats.canceladas || 0,
                         pendentes: stats.pendentes || 0,
                         rejeitadas: stats.rejeitadas || 0,
-                        valor_autorização: parseFloat(stats.valor_autorização) || 0,
-                        valor_cancelação: parseFloat(stats.valor_cancelação) || 0,
-                        taxa_sucesso: stats.total_nfes > 0 
-                             ((stats.autorizadas / stats.total_nfes) * 100).toFixed(1) 
+                        valor_autorizadas: parseFloat(stats.valor_autorizadas) || 0,
+                        valor_canceladas: parseFloat(stats.valor_canceladas) || 0,
+                        taxa_sucesso: stats.total_nfes > 0 ? ((stats.autorizadas / stats.total_nfes) * 100).toFixed(1) 
                             : 100
                     },
                     por_tipo: porTipo,
                     evolucao_diaria: evolucao,
                     ultimas_rejeicoes: rejeicoes,
-                    cfops_utilizaçãos: cfops
+                    cfops_utilizados: cfops
                 }
             });
         } catch (error) {
@@ -222,7 +221,7 @@ module.exports = function({ pool, authenticateToken }) {
 
             // Em produção: chamar SEFAZService para reenviar
             // const sefazService = new SEFAZService(pool);
-            // const resultado = await sefazService.autorizarNFe(nfe.xml_assinação, nfe.uf);
+            // const resultado = await sefazService.autorizarNFe(nfe.xml_assinado, nfe.uf);
 
             // Log
             await pool.query(`
@@ -431,7 +430,7 @@ module.exports = function({ pool, authenticateToken }) {
                 });
             }
 
-            // Verificar se números já foram utilizaçãos
+            // Verificar se números já foram utilizados
             const [usaçãos] = await pool.query(`
                 SELECT numero FROM nfes 
                 WHERE serie =  AND numero BETWEEN ? AND 
@@ -440,7 +439,7 @@ module.exports = function({ pool, authenticateToken }) {
             if (usaçãos.length > 0) {
                 return res.status(400).json({ 
                     success: false, 
-                    message: `Números já utilizaçãos: ${usaçãos.map(u => u.numero).join(', ')}` 
+                    message: `Números já utilizados: ${usaçãos.map(u => u.numero).join(', ')}` 
                 });
             }
 
@@ -565,10 +564,10 @@ module.exports = function({ pool, authenticateToken }) {
     router.get('/xml/:id', async (req, res) => {
         try {
             const { id } = req.params;
-            const { tipo = 'autorização' } = req.query;
+            const { tipo = 'autorizadas' } = req.query;
 
             const [[nfe]] = await pool.query(
-                'SELECT numero, serie, xml_assinação, xml_autorização FROM nfes WHERE id = ?',
+                'SELECT numero, serie, xml_assinado, xml_autorizadas FROM nfes WHERE id = ?',
                 [id]
             );
 
@@ -579,7 +578,7 @@ module.exports = function({ pool, authenticateToken }) {
                 });
             }
 
-            const xml = tipo === 'autorização'  nfe.xml_autorização : nfe.xml_assinação;
+            const xml = tipo === 'autorizado' ? nfe.xml_autorizadas : nfe.xml_assinado;
 
             if (!xml) {
                 return res.status(404).json({ 
@@ -676,3 +675,5 @@ module.exports = function({ pool, authenticateToken }) {
 
     return router;
 };
+
+

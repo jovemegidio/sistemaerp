@@ -1,4 +1,4 @@
-/**
+﻿/**
  * API CONSOLIDADA DO DASHBOARD EXECUTIVO
  * Agrega KPIs de todos os módulos em uma única resposta
  * Integração com dados reais do banco de dados
@@ -61,7 +61,7 @@ router.get('/executivo', async (req, res) => {
                 receitas: kpisFinanceiro.receitas,
                 despesas: kpisFinanceiro.despesas,
                 lucro_estimado: kpisFinanceiro.receitas - kpisFinanceiro.despesas,
-                margem_percentual: kpisFinanceiro.receitas > 0 
+                margem_percentual: kpisFinanceiro.receitas > 0 ?
                      ((kpisFinanceiro.receitas - kpisFinanceiro.despesas) / kpisFinanceiro.receitas * 100).toFixed(1)
                     : 0,
                 nfes_emitidas: kpisNFe.nfes_emitidas || 0
@@ -202,22 +202,21 @@ async function buscarKPIsVendas(dataInicio) {
             const result = await pool.query(`
                 SELECT 
                     COUNT(*) as total_pedidos,
-                    COUNT(CASE WHEN status = 'aprovação' THEN 1 END) as pedidos_aprovaçãos,
+                    COUNT(CASE WHEN status = 'aprovado' THEN 1 END) as pedidos_aprovados,
                     COUNT(CASE WHEN status = 'em_analise' OR status = 'pendente' THEN 1 END) as pedidos_em_analise,
-                    COALESCE(SUM(CASE WHEN status = 'aprovação' THEN valor_total ELSE 0 END), 0) as faturamento,
-                    COALESCE(AVG(CASE WHEN status = 'aprovação' THEN valor_total ELSE NULL END), 0) as ticket_medio
+                    COALESCE(SUM(CASE WHEN status = 'aprovado' THEN valor_total ELSE 0 END), 0) as faturamento,
+                    COALESCE(AVG(CASE WHEN status = 'aprovado' THEN valor_total ELSE NULL END), 0) as ticket_medio
                 FROM pedidos_venda
                 WHERE created_at >= $1
             `, [dataInicio]);
             
             const dados = result.rows[0];
-            const taxaConversao = dados.total_pedidos > 0 
-                 ((dados.pedidos_aprovaçãos / dados.total_pedidos) * 100).toFixed(1)
+            const taxaConversao = dados.total_pedidos > 0 ? ((dados.pedidos_aprovados / dados.total_pedidos) * 100).toFixed(1)
                 : 0;
             
             return {
                 total_pedidos: parseInt(dados.total_pedidos) || 87,
-                pedidos_aprovaçãos: parseInt(dados.pedidos_aprovaçãos) || 60,
+                pedidos_aprovados: parseInt(dados.pedidos_aprovados) || 60,
                 pedidos_em_analise: parseInt(dados.pedidos_em_analise) || 15,
                 faturamento: parseFloat(dados.faturamento) || 385000,
                 ticket_medio: parseFloat(dados.ticket_medio) || 4510,
@@ -232,7 +231,7 @@ async function buscarKPIsVendas(dataInicio) {
     // Daçãos padrão se banco não disponível
     return {
         total_pedidos: 87,
-        pedidos_aprovaçãos: 60,
+        pedidos_aprovados: 60,
         pedidos_em_analise: 15,
         faturamento: 385000,
         ticket_medio: 4510,
@@ -346,8 +345,7 @@ async function buscarKPIsPCP(dataInicio) {
             `, [dataInicio]);
             
             const dados = result.rows[0];
-            const eficiencia = dados.ordens_producao > 0 
-                 ((dados.concluidas / dados.ordens_producao) * 100).toFixed(1)
+            const eficiencia = dados.ordens_producao > 0 ? ((dados.concluidas / dados.ordens_producao) * 100).toFixed(1)
                 : 82.3;
             
             // Buscar alertas de estoque
@@ -524,7 +522,7 @@ function gerarAlertas(vendas, compras, financeiro, pcp) {
         alertas.push({
             tipo: 'info',
             modulo: 'Compras',
-            mensagem: `${compras.pedidos_pendentes} pedidos aguardando aprovação`,
+            mensagem: `${compras.pedidos_pendentes} pedidos aguardando aprovado`,
             link: '/modules/Compras/pedidos.html'
         });
     }
@@ -533,3 +531,4 @@ function gerarAlertas(vendas, compras, financeiro, pcp) {
 }
 
 module.exports = router;
+

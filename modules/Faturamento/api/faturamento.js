@@ -1,11 +1,11 @@
-const express = require('express');
+﻿const express = require('express');
 const router = express.Router();
 const path = require('path');
 
 // Serviços
 const CalculoTributosService = require('../services/calculo-tributos.service');
 const XmlNFeService = require('../services/xml-nfe.service');
-const certificaçãoService = require('../services/certificação.service');
+const certificadoService = require('../services/certificado.service');
 const sefazService = require('../services/sefaz.service');
 const danfeService = require('../services/danfe.service');
 const FinanceiroIntegracaoService = require('../services/financeiro-integracao.service');
@@ -258,7 +258,7 @@ module.exports = (pool, authenticateToken) => {
                     valor_total: valorTotal,
                     status: 'pendente',
                     proximos_passos: [
-                        'Assinar XML com certificação digital',
+                        'Assinar XML com certificado digital',
                         'Enviar para SEFAZ',
                         'Gerar DANFE em PDF'
                     ],
@@ -850,20 +850,20 @@ module.exports = (pool, authenticateToken) => {
     // CONFIGURAR CERTIFICADO DIGITAL
     // ============================================================
     
-    router.post('/configuracao/certificação', authenticateToken, async (req, res) => {
+    router.post('/configuracao/certificado', authenticateToken, async (req, res) => {
         try {
             const { caminhoArquivo, senha } = req.body;
             
-            const resultado = await certificaçãoService.carregarCertificaçãoA1(caminhoArquivo, senha);
+            const resultado = await certificadoService.carregarCertificadoA1(caminhoArquivo, senha);
             
             res.json({
                 success: true,
-                message: 'Certificação carregação com sucesso',
+                message: 'Certificado carregado com sucesso',
                 ...resultado
             });
             
         } catch (error) {
-            console.error('[FATURAMENTO] Erro ao carregar certificação:', error);
+            console.error('[FATURAMENTO] Erro ao carregar certificado:', error);
             res.status(500).json({ success: false, message: error.message });
         }
     });
@@ -872,10 +872,10 @@ module.exports = (pool, authenticateToken) => {
     // VERIFICAR VALIDADE DO CERTIFICADO
     // ============================================================
     
-    router.get('/configuracao/certificação/validade', authenticateToken, async (req, res) => {
+    router.get('/configuracao/certificado/validade', authenticateToken, async (req, res) => {
         try {
-            const validade = certificaçãoService.verificarValidade();
-            const info = certificaçãoService.getInfoCertificação();
+            const validade = certificadoService.verificarValidade();
+            const info = certificadoService.getInfoCertificado();
             
             res.json({
                 success: true,
@@ -884,10 +884,11 @@ module.exports = (pool, authenticateToken) => {
             });
             
         } catch (error) {
-            console.error('[FATURAMENTO] Erro ao verificar certificação:', error);
+            console.error('[FATURAMENTO] Erro ao verificar certificado:', error);
             res.status(500).json({ success: false, message: error.message });
         }
     });
 
     return router;
 };
+

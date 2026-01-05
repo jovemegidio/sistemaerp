@@ -1,4 +1,4 @@
-// auth.js - Middleware e rota de autenticação corrigida
+﻿// auth.js - Middleware e rota de autenticação corrigida
 const express = require('express');
 const mysql = require('mysql2/promise');
 const bcrypt = require('bcryptjs');
@@ -29,7 +29,7 @@ if (DEV_MOCK) {
                 ]];
             }
             if (s.includes('SELECT * FROM USUARIOS WHERE EMAIL')) {
-                const email = params && params[0]  params[0] : '';
+                const email = params && params[0] ? params[0] : '';
                 const rows = mockUsers.filter(u => u.email.toLowerCase() === String(email).toLowerCase());
                 return [rows];
             }
@@ -80,7 +80,7 @@ router.post('/login', async (req, res) => {
             if (err && err.code === 'ER_NO_SUCH_TABLE') {
                 return res.status(500).json({ message: 'Tabela `usuarios` não encontrada no banco de dados. Verifique a configuração do DB.' });
             }
-            return res.status(500).json({ message: 'Erro ao verificar esquema de usuários.', error: (err && err.message)  err.message : String(err) });
+            return res.status(500).json({ message: 'Erro ao verificar esquema de usuários.', error: (err && err.message) ? err.message : String(err) });
         }
 
         // Seleciona o usuário
@@ -116,7 +116,7 @@ router.post('/login', async (req, res) => {
             }
         } catch (err) {
             console.error('Erro ao comparar senha:', err.stack || err);
-            return res.status(500).json({ message: 'Erro ao verificar credenciais.', error: (err && err.message)  err.message : String(err) });
+            return res.status(500).json({ message: 'Erro ao verificar credenciais.', error: (err && err.message) ? err.message : String(err) });
         }
         if (!valid) {
             return res.status(401).json({ message: 'Senha incorreta.' });
@@ -183,7 +183,7 @@ router.post('/login', async (req, res) => {
         // Log completo no servidor (stack quando disponível)
         console.error('Erro detalhação no login:', error.stack || error);
         // Envia apenas mensagem/texto para o cliente para evitar problemas de serialização
-        res.status(500).json({ message: 'Erro inesperação no login', error: (error && error.message)  error.message : String(error) });
+        res.status(500).json({ message: 'Erro inesperado no login', error: (error && error.message) ? error.message : String(error) });
     }
 });
 
@@ -206,12 +206,13 @@ router.post('/logout', (req, res) => {
     
     res.clearCookie('authToken', cookieOptions);
     console.log('[AUTH/LOGOUT] ✅ Cookie authToken limpo');
-    res.json({ ok: true, message: 'Logout realização com sucesso' });
+    res.json({ ok: true, message: 'Logout realizado com sucesso' });
 });
 
 // ===================== ROTAS DE RECUPERAÇÃO DE SENHA =====================
 
-// Passo 1: Verificar se o email existe no sistema ? router.post('/auth/verify-email', async (req, res) => {
+// Passo 1: Verificar se o email existe no sistema
+router.post('/auth/verify-email', async (req, res) => {
     try {
         const { email } = req.body;
         console.log('[AUTH/VERIFY-EMAIL] Verificando email:', email);
@@ -451,7 +452,8 @@ router.post('/auth/create-remember-token', async (req, res) => {
     }
 });
 
-// Validar refresh token e fazer login automático ? router.post('/auth/validate-remember-token', async (req, res) => {
+// Validar refresh token e fazer login automático
+router.post('/auth/validate-remember-token', async (req, res) => {
     try {
         const rememberToken = req.cookies.rememberToken;
         console.log('[AUTH/VALIDATE-REMEMBER] Validando token...');
@@ -465,12 +467,12 @@ router.post('/auth/create-remember-token', async (req, res) => {
             SELECT rt.*, u.id, u.nome, u.email, u.role, u.setor 
             FROM refresh_tokens rt
             JOIN usuarios u ON rt.user_id = u.id
-            WHERE rt.token =  AND rt.expires_at > NOW()
+            WHERE rt.token = ? AND rt.expires_at > NOW()
             LIMIT 1
         `, [rememberToken]);
         
         if (!rows.length) {
-            // Token inválido ou expiração - limpa cookie
+            // Token inválido ou expirado - limpa cookie
             res.clearCookie('rememberToken');
             return res.status(401).json({ message: 'Token inválido ou expiração.' });
         }
