@@ -174,7 +174,7 @@ class CotacoesManager {
     }
 
     gerarDataFutura(dias, dataBase = null) {
-        const base = dataBase  new Date(dataBase) : new Date();
+        const base = dataBase ? new Date(dataBase) : new Date();
         base.setDate(base.getDate() + dias);
         return base.toISOString().split('T')[0];
     }
@@ -292,7 +292,7 @@ class CotacoesManager {
                     <span class="badge badge-info">${numMateriais} ${numMateriais === 1 ? 'material' : 'materiais'}</span>
                 </td>
                 <td>
-                    <span class="badge badge-purple">${numFornecedores} selecionaçãos</span>
+                    <span class="badge badge-purple">${numFornecedores} selecionados</span>
                     ${numPropostas > 0 ? `<br><span class="badge badge-success" style="margin-top: 3px;">${numPropostas} ${numPropostas === 1 ? 'proposta' : 'propostas'}</span>` : ''}
                 </td>
                 <td><strong>${melhorOferta}</strong></td>
@@ -516,7 +516,7 @@ class CotacoesManager {
             tbody.insertAdjacentHTML('beforeend', html);
         });
 
-        // Carregar fornecedores selecionaçãos
+        // Carregar fornecedores selecionados
         this.renderizarFornecedoresCheckbox();
         cotacao.fornecedores.forEach(fornId => {
             const checkbox = document.querySelector(`.fornecedor-checkbox[value="${fornId}"]`);
@@ -823,7 +823,7 @@ class CotacoesManager {
                 id: novoId,
                 ...cotacao
             });
-            alert(`Cotação ${status === 'Rascunho' ? 'salva' : 'enviada'} com sucesso!${status === 'Enviada' ? '\n\nE-mails enviados aos fornecedores selecionaçãos.' : ''}`);
+            alert(`Cotação ${status === 'Rascunho' ? 'salva' : 'enviada'} com sucesso!${status === 'Enviada' ? '\n\nE-mails enviados aos fornecedores selecionados.' : ''}`);
         }
 
         this.fecharModal();
@@ -921,8 +921,7 @@ function inicializarUsuario() {
     document.getElementById('userGreeting').textContent = `${saudacao}, ${userName}`;
 }
 
-// Fechar menu ao clicar fora
-document.addEventListener('click', function(event) {
+// Fechar menu ao clicar fora ? document.addEventListener('click', function(event) {
     const userProfile = document.querySelector('.user-profile');
     const userMenu = document.getElementById('userMenu');
     

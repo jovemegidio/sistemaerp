@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (response.ok) {
           const data = await response.json();
           usersCache = data.users || [];
-          console.log('👥 Usuários carregaçãos:', usersCache.length);
+          console.log('👥 Usuários carregados:', usersCache.length);
         } else {
           console.warn('⚠️ Não foi possível carregar lista de usuários');
           usersCache = [];
@@ -691,7 +691,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (savedEmail) {
       emailInput.value = savedEmail;
       rememberCheckbox.checked = true;
-      // Mostra o avatar para o email carregação
+      // Mostra o avatar para o email carregado
       setTimeout(() => showUserAvatar(savedEmail.toLowerCase()), 100);
     }
     

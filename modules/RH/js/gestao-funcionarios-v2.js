@@ -534,8 +534,8 @@ class GestãoFuncionarios {
             this.funcionarios[index] = { ...this.funcionarios[index], ...dados };
             this.renderizarLista();
             
-            console.log('✅ Funcionário atualização:', this.funcionarios[index]);
-            this.mostrarNotificacao('Funcionário atualização com sucesso!', 'success');
+            console.log('✅ Funcionário atualizado:', this.funcionarios[index]);
+            this.mostrarNotificacao('Funcionário atualizado com sucesso!', 'success');
         }
     }
 
@@ -589,7 +589,7 @@ class GestãoFuncionarios {
                             </div>
                             <div class="dação-item">
                                 <span class="dação-label">Telefone:</span>
-                                <span class="dação-valor">${funcionario.telefone || 'Não informação'}</span>
+                                <span class="dação-valor">${funcionario.telefone || 'Não informado'}</span>
                             </div>
                             <div class="dação-item">
                                 <span class="dação-label">CPF:</span>
@@ -621,15 +621,15 @@ class GestãoFuncionarios {
                         <div class="dados-lista">
                             <div class="dação-item">
                                 <span class="dação-label">CEP:</span>
-                                <span class="dação-valor">${funcionario.endereco.cep || 'Não informação'}</span>
+                                <span class="dação-valor">${funcionario.endereco.cep || 'Não informado'}</span>
                             </div>
                             <div class="dação-item">
                                 <span class="dação-label">Cidade/UF:</span>
-                                <span class="dação-valor">${funcionario.endereco.cidade || 'Não informação'}${funcionario.endereco.uf ? '/' + funcionario.endereco.uf : ''}</span>
+                                <span class="dação-valor">${funcionario.endereco.cidade || 'Não informado'}${funcionario.endereco.uf ? '/' + funcionario.endereco.uf : ''}</span>
                             </div>
                             <div class="dação-item">
                                 <span class="dação-label">Endereço:</span>
-                                <span class="dação-valor">${funcionario.endereco.rua || 'Não informação'}</span>
+                                <span class="dação-valor">${funcionario.endereco.rua || 'Não informado'}</span>
                             </div>
                         </div>
                     </div>

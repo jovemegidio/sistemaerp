@@ -1,6 +1,6 @@
 /**
  * Módulo Compras - Carregaçãor de Usuário
- * Script para carregar e exibir dados do usuário logação em todas as páginas do módulo
+ * Script para carregar e exibir dados do usuário logado em todas as páginas do módulo
  */
 
 (function() {
@@ -84,7 +84,7 @@
         const userName = userData.apelido || userData.nome || 'Usuário';
         const primeiroNome = userData.apelido || (userData.nome ? userData.nome.split(' ')[0] : 'Usuário');
         const fotoUrl = userData.foto || userData.avatar || '/avatars/default.webp';
-        const inicial = primeiroNome  primeiroNome[0].toUpperCase() : 'U';
+        const inicial = primeiroNome ? primeiroNome[0].toUpperCase() : 'U';
         
         // Atualizar saudação dinâmica baseada na hora
         const greetingTextEl = document.getElementById('greeting-text');
@@ -179,7 +179,7 @@
             userRoleDropdown.textContent = userData.cargo || userData.role || 'Colaboraçãor';
         }
         
-        console.log('✅ [Compras] Header atualização com dados do usuário:', userData.nome);
+        console.log('✅ [Compras] Header atualizado com dados do usuário:', userData.nome);
     }
 
     /**

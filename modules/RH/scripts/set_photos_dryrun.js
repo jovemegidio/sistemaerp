@@ -25,7 +25,7 @@ function listFiles () {
 function findPhoto (name, files) {
   const lower = name.toLowerCase()
   const match = files.find(f => f.toLowerCase().includes(lower))
-  return match  ('/uploads/fotos/' + match) : null
+  return match ? ('/uploads/fotos/' + match) : null
 }
 
 async function run () {

@@ -569,4 +569,4 @@ window.downloadRelatorio = (nome) => alert(`🚧 Download relatório: ${nome}`);
     }, 200);
 });
 
-console.log('🎯 Section Organizer carregação');
+console.log('🎯 Section Organizer carregado');

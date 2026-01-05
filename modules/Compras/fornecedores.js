@@ -161,7 +161,7 @@ class FornecedoresManager {
         if (meia) {
             html += '<i class="fas fa-star-half-alt"></i>';
         }
-        for (let i = estrelas + (meia  1 : 0); i < 5; i++) {
+        for (let i = estrelas + (meia ? 1 : 0); i < 5; i++) {
             html += '<i class="far fa-star"></i>';
         }
         
@@ -330,8 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Fechar menu ao clicar fora
-document.addEventListener('click', (e) => {
+// Fechar menu ao clicar fora ? document.addEventListener('click', (e) => {
     const userProfile = document.querySelector('.user-profile');
     const userMenu = document.getElementById('userMenu');
     if (userMenu && !userProfile.contains(e.target)) {

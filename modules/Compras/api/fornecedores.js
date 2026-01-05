@@ -29,7 +29,7 @@ router.get('/', async (req, res) => {
         const countSql = 'SELECT COUNT(*) as total FROM fornecedores WHERE 1=1' + 
             (search ? ' AND (razao_social LIKE ? OR nome_fantasia LIKE ? OR cnpj LIKE ?)' : '') +
             (ativo !== undefined ? ' AND ativo = ' : '');
-        const countParams = search  [searchParam, searchParam, searchParam] : [];
+        const countParams = search ? [searchParam, searchParam, searchParam] : [];
         if (ativo !== undefined) countParams.push(ativo === 'true'  1 : 0);
         
         const { total } = await get(countSql, countParams);
@@ -49,7 +49,7 @@ router.get('/', async (req, res) => {
 // ============ OBTER FORNECEDOR ============
 router.get('/:id', async (req, res) => {
     try {
-        const fornecedor = await get('SELECT * FROM fornecedores WHERE id = ', [req.params.id]);
+        const fornecedor = await get('SELECT * FROM fornecedores WHERE id = ?', [req.params.id]);
         
         if (!fornecedor) {
             return res.status(404).json({ error: 'Fornecedor não encontrado' });
@@ -142,7 +142,7 @@ router.put('/:id', async (req, res) => {
             return res.status(404).json({ error: 'Fornecedor não encontrado' });
         }
         
-        res.json({ message: 'Fornecedor atualização com sucesso' });
+        res.json({ message: 'Fornecedor atualizado com sucesso' });
     } catch (error) {
         console.error('Erro ao atualizar fornecedor:', error);
         res.status(500).json({ error: 'Erro ao atualizar fornecedor' });
@@ -152,7 +152,7 @@ router.put('/:id', async (req, res) => {
 // ============ EXCLUIR FORNECEDOR ============
 router.delete('/:id', async (req, res) => {
     try {
-        const result = await run('DELETE FROM fornecedores WHERE id = ', [req.params.id]);
+        const result = await run('DELETE FROM fornecedores WHERE id = ?', [req.params.id]);
         
         if (result.changes === 0) {
             return res.status(404).json({ error: 'Fornecedor não encontrado' });

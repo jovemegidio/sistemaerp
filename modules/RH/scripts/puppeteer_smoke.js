@@ -241,7 +241,7 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
     // Diagnostic: enumerate all script tags and print src + a short content sample to help find parse errors
     try {
       const scripts = await page.evaluate(() => {
-        return Array.from(document.scripts || []).map(s => ({ src: s.src || null, inlineSample: s.src  null : (s.textContent || '').slice(0, 400) }))
+        return Array.from(document.scripts || []).map(s => ({ src: s.src || null, inlineSample: s.src ? null : (s.textContent || '').slice(0, 400) }))
       })
       console.log('PAGE-SCRIPTS-COUNT:', scripts.length)
       scripts.forEach((s, i) => {
@@ -490,7 +490,7 @@ function sleep (ms) { return new Promise(r => setTimeout(r, ms)) }
             // attempt an authenticated fetch to the server to see response status
             let fetchInfo = null
             try {
-              const resp = await fetch('/api/funcionarios/' + (JSON.parse(window.localStorage.getItem('userData') || '{}').id || 0), { headers: token  { Authorization: 'Bearer ' + token } : {} })
+              const resp = await fetch('/api/funcionarios/' + (JSON.parse(window.localStorage.getItem('userData') || '{}').id || 0), { headers: token ? { Authorization: 'Bearer ' + token } : {} })
               const txt = await resp.text().catch(() => '')
               fetchInfo = { status: resp.status, ok: resp.ok, textSnippet: txt ? txt.substring(0, 2000) : '' }
             } catch (fe) { fetchInfo = { error: String(fe && fe.message ? fe.message : fe) } }

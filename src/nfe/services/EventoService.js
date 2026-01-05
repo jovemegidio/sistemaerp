@@ -9,14 +9,14 @@ const xml2js = require('xml2js');
 const moment = require('moment-timezone');
 // Módulo soap é opcional - NFe não funciona sem ele
 let soap = null;
-try { soap = require('soap'); } catch (e) { console.warn('[EventoService] ⚠️  Módulo soap não instalação.'); }
+try { soap = require('soap'); } catch (e) { console.warn('[EventoService] ⚠️  Módulo soap não instalado.'); }
 
 class EventoService {
-    constructor(pool, certificaçãoService) {
+    constructor(pool, certificadoService) {
         this.pool = pool;
-        this.certificaçãoService = certificaçãoService;
+        this.certificadoService = certificadoService;
         
-        // URLs de evento por UF (Homologação)
+        // URLs de evento por UF (Homologado)
         this.urlsEventoHomologacao = {
             'SP': 'https://homologacao.nfe.fazenda.sp.gov.br/ws/nferecepcaoevento4.asmx',
             'RS': 'https://nfe-homologacao.sefazrs.rs.gov.br/ws/recepcaoevento/recepcaoevento4.asmx',
@@ -56,7 +56,7 @@ class EventoService {
 
             // Buscar NFe
             const [nfes] = await this.pool.query(
-                'SELECT * FROM nfes WHERE id = ',
+                'SELECT * FROM nfes WHERE id = ?',
                 [nfeId]
             );
 
@@ -98,7 +98,7 @@ class EventoService {
 
             // Assinar XML do evento
             console.log('🔏 Assinando XML do evento...');
-            const xmlEventoAssinação = await this.certificaçãoService.assinarXML(xmlEvento, empresaId);
+            const xmlEventoAssinação = await this.certificadoService.assinarXML(xmlEvento, empresaId);
 
             // Transmitir para SEFAZ
             console.log('📤 Transmitindo evento para SEFAZ...');
@@ -128,7 +128,7 @@ class EventoService {
                     justificativa,
                     protocolo: resultado.nProt,
                     data_evento: resultado.dhRegEvento,
-                    xml_enviação: xmlEventoAssinação,
+                    xml_enviado: xmlEventoAssinação,
                     xml_retorno: JSON.stringify(resultado)
                 });
 
@@ -175,7 +175,7 @@ class EventoService {
 
             // Buscar NFe
             const [nfes] = await this.pool.query(
-                'SELECT * FROM nfes WHERE id = ',
+                'SELECT * FROM nfes WHERE id = ?',
                 [nfeId]
             );
 
@@ -214,7 +214,7 @@ class EventoService {
 
             // Assinar XML do evento
             console.log('🔏 Assinando XML do evento...');
-            const xmlEventoAssinação = await this.certificaçãoService.assinarXML(xmlEvento, empresaId);
+            const xmlEventoAssinação = await this.certificadoService.assinarXML(xmlEvento, empresaId);
 
             // Transmitir para SEFAZ
             console.log('📤 Transmitindo evento para SEFAZ...');
@@ -234,7 +234,7 @@ class EventoService {
                     justificativa: correcao,
                     protocolo: resultado.nProt,
                     data_evento: resultado.dhRegEvento,
-                    xml_enviação: xmlEventoAssinação,
+                    xml_enviado: xmlEventoAssinação,
                     xml_retorno: JSON.stringify(resultado)
                 });
 
@@ -403,7 +403,7 @@ class EventoService {
             INSERT INTO nfe_eventos (
                 nfe_id, tipo_evento, sequencia_evento,
                 chave_acesso, justificativa, protocolo_evento,
-                data_evento, xml_enviação, xml_retorno,
+                data_evento, xml_enviado, xml_retorno,
                 created_at
             ) VALUES (?, ?, ?, ?, , ?, ?, , , NOW())
         `, [
@@ -414,7 +414,7 @@ class EventoService {
             dados.justificativa,
             dados.protocolo,
             dados.data_evento,
-            dados.xml_enviação,
+            dados.xml_enviado,
             dados.xml_retorno
         ]);
     }

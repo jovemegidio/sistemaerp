@@ -62,8 +62,7 @@ const authenticateToken = (req, res, next) => {
 // DASHBOARD ROUTES
 // =================================================================
 
-// GET /api/vendas/dashboard
-router.get('/dashboard', authenticateToken, async (req, res) => {
+// GET /api/vendas/dashboard ? router.get('/dashboard', authenticateToken, async (req, res) => {
     try {
         // TODO: Buscar dados reais do banco
         const stats = {
@@ -86,8 +85,7 @@ router.get('/dashboard', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/vendas/user-info
-router.get('/user-info', authenticateToken, async (req, res) => {
+// GET /api/vendas/user-info ? router.get('/user-info', authenticateToken, async (req, res) => {
     try {
         // TODO: Buscar informações reais do usuário
         res.json({
@@ -111,8 +109,7 @@ router.get('/user-info', authenticateToken, async (req, res) => {
 // PEDIDOS ROUTES
 // =================================================================
 
-// GET /api/vendas/pedidos/recentes
-router.get('/pedidos/recentes', authenticateToken, async (req, res) => {
+// GET /api/vendas/pedidos/recentes ? router.get('/pedidos/recentes', authenticateToken, async (req, res) => {
     try {
         // TODO: Buscar pedidos recentes do banco
         res.json({
@@ -128,8 +125,7 @@ router.get('/pedidos/recentes', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/vendas/pedidos
-router.get('/pedidos', authenticateToken, async (req, res) => {
+// GET /api/vendas/pedidos ? router.get('/pedidos', authenticateToken, async (req, res) => {
     try {
         const pool = await getPool();
         const limit = parseInt(req.query.limit) || 200;
@@ -155,7 +151,7 @@ router.get('/pedidos', authenticateToken, async (req, res) => {
                 p.endereco_entrega,
                 p.municipio_entrega,
                 p.metodo_envio,
-                COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informação') as cliente_nome,
+                COALESCE(c.nome_fantasia, c.razao_social, c.nome, 'Cliente não informado') as cliente_nome,
                 c.email as cliente_email,
                 c.telefone as cliente_telefone,
                 u.nome as vendedor_nome
@@ -177,8 +173,7 @@ router.get('/pedidos', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/vendas/pedidos/:id
-router.get('/pedidos/:id', authenticateToken, async (req, res) => {
+// GET /api/vendas/pedidos/:id ? router.get('/pedidos/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         const pool = await getPool();
@@ -211,7 +206,7 @@ router.get('/pedidos/:id', authenticateToken, async (req, res) => {
             cliente: pedido.cliente_nome || '',
             vendedor: pedido.vendedor_nome || '',
             valor: parseFloat(pedido.valor) || 0,
-            data: pedido.created_at  new Date(pedido.created_at).toISOString().slice(0, 10) : '',
+            data: pedido.created_at ? new Date(pedido.created_at).toISOString().slice(0, 10) : '',
             frete: parseFloat(pedido.frete) || 0,
             origem: 'Sistema',
             tipo: pedido.prioridade || 'normal',
@@ -228,8 +223,7 @@ router.get('/pedidos/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// POST /api/vendas/pedidos
-router.post('/pedidos', authenticateToken, async (req, res) => {
+// POST /api/vendas/pedidos ? router.post('/pedidos', authenticateToken, async (req, res) => {
     try {
         const { 
             cliente_id, empresa_id, produtos, valor, descricao, 
@@ -261,8 +255,7 @@ router.post('/pedidos', authenticateToken, async (req, res) => {
     }
 });
 
-// PUT /api/vendas/pedidos/:id
-router.put('/pedidos/:id', authenticateToken, async (req, res) => {
+// PUT /api/vendas/pedidos/:id ? router.put('/pedidos/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         const { 
@@ -297,7 +290,7 @@ router.put('/pedidos/:id', authenticateToken, async (req, res) => {
         params.push(id);
         await pool.query(`UPDATE pedidos SET ${updates.join(', ')} WHERE id = `, params);
         
-        res.json({ success: true, message: 'Pedido atualização com sucesso' });
+        res.json({ success: true, message: 'Pedido atualizado com sucesso' });
     } catch (error) {
         console.error('Error updating pedido:', error);
         res.status(500).json({
@@ -307,8 +300,7 @@ router.put('/pedidos/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// DELETE /api/vendas/pedidos/:id
-router.delete('/pedidos/:id', authenticateToken, async (req, res) => {
+// DELETE /api/vendas/pedidos/:id ? router.delete('/pedidos/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         // TODO: Cancelar/deletar pedido no banco
@@ -325,15 +317,14 @@ router.delete('/pedidos/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// POST /api/vendas/pedidos/:id/historico - Registrar histórico de alterações
-router.post('/pedidos/:id/historico', authenticateToken, async (req, res) => {
+// POST /api/vendas/pedidos/:id/historico - Registrar histórico de alterações ? router.post('/pedidos/:id/historico', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         const { tipo, descricao, usuario } = req.body;
         const pool = await getPool();
         
         // Verificar se o pedido existe
-        const [existing] = await pool.query('SELECT id FROM pedidos WHERE id = ', [id]);
+        const [existing] = await pool.query('SELECT id FROM pedidos WHERE id = ?', [id]);
         if (existing.length === 0) {
             return res.status(404).json({ error: 'Pedido não encontrado' });
         }
@@ -366,8 +357,7 @@ router.post('/pedidos/:id/historico', authenticateToken, async (req, res) => {
 // CLIENTES ROUTES
 // =================================================================
 
-// GET /api/vendas/clientes
-router.get('/clientes', authenticateToken, async (req, res) => {
+// GET /api/vendas/clientes ? router.get('/clientes', authenticateToken, async (req, res) => {
     try {
         // TODO: Buscar clientes do banco
         res.json({
@@ -383,8 +373,7 @@ router.get('/clientes', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/vendas/clientes/:id
-router.get('/clientes/:id', authenticateToken, async (req, res) => {
+// GET /api/vendas/clientes/:id ? router.get('/clientes/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         // TODO: Buscar cliente específico do banco
@@ -401,8 +390,7 @@ router.get('/clientes/:id', authenticateToken, async (req, res) => {
     }
 });
 
-// POST /api/vendas/clientes
-router.post('/clientes', authenticateToken, async (req, res) => {
+// POST /api/vendas/clientes ? router.post('/clientes', authenticateToken, async (req, res) => {
     try {
         const clienteData = req.body;
         // TODO: Criar novo cliente no banco
@@ -420,15 +408,14 @@ router.post('/clientes', authenticateToken, async (req, res) => {
     }
 });
 
-// PUT /api/vendas/clientes/:id
-router.put('/clientes/:id', authenticateToken, async (req, res) => {
+// PUT /api/vendas/clientes/:id ? router.put('/clientes/:id', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         const clienteData = req.body;
         // TODO: Atualizar cliente no banco
         res.json({
             success: true,
-            message: 'Cliente atualização com sucesso'
+            message: 'Cliente atualizado com sucesso'
         });
     } catch (error) {
         console.error('Error updating cliente:', error);
@@ -443,8 +430,7 @@ router.put('/clientes/:id', authenticateToken, async (req, res) => {
 // PRODUTOS ROUTES
 // =================================================================
 
-// GET /api/vendas/produtos/autocomplete/:termo - Buscar produtos para autocomplete
-router.get('/produtos/autocomplete/:termo', authenticateToken, async (req, res) => {
+// GET /api/vendas/produtos/autocomplete/:termo - Buscar produtos para autocomplete ? router.get('/produtos/autocomplete/:termo', authenticateToken, async (req, res) => {
     try {
         const pool = await getPool();
         const termo = req.params.termo || '';
@@ -481,8 +467,7 @@ router.get('/produtos/autocomplete/:termo', authenticateToken, async (req, res) 
     }
 });
 
-// GET /api/vendas/produtos
-router.get('/produtos', authenticateToken, async (req, res) => {
+// GET /api/vendas/produtos ? router.get('/produtos', authenticateToken, async (req, res) => {
     try {
         const pool = await getPool();
         const { search, limit = 50, offset = 0 } = req.query;
@@ -518,8 +503,7 @@ router.get('/produtos', authenticateToken, async (req, res) => {
 // KANBAN ROUTES
 // =================================================================
 
-// GET /api/vendas/kanban
-router.get('/kanban', authenticateToken, async (req, res) => {
+// GET /api/vendas/kanban ? router.get('/kanban', authenticateToken, async (req, res) => {
     try {
         // TODO: Buscar cards do kanban do banco
         res.json({
@@ -535,8 +519,7 @@ router.get('/kanban', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/vendas/kanban/pedidos - Listar todos os pedidos para o Kanban
-router.get('/kanban/pedidos', authenticateToken, async (req, res) => {
+// GET /api/vendas/kanban/pedidos - Listar todos os pedidos para o Kanban ? router.get('/kanban/pedidos', authenticateToken, async (req, res) => {
     try {
         const pool = await getPool();
         
@@ -564,7 +547,7 @@ router.get('/kanban/pedidos', authenticateToken, async (req, res) => {
         const pedidosFormataçãos = pedidos.map(p => ({
             id: p.id,
             numero: `Orçamento Nº ${p.id}`,
-            cliente: p.cliente_nome || 'Cliente não informação',
+            cliente: p.cliente_nome || 'Cliente não informado',
             status: p.status || 'orcamento',
             valor: parseFloat(p.valor) || 0,
             valor_total: parseFloat(p.valor) || 0,
@@ -586,8 +569,7 @@ router.get('/kanban/pedidos', authenticateToken, async (req, res) => {
     }
 });
 
-// PUT /api/vendas/pedidos/:id/status - Atualizar apenas o status do pedido
-router.put('/pedidos/:id/status', authenticateToken, async (req, res) => {
+// PUT /api/vendas/pedidos/:id/status - Atualizar apenas o status do pedido ? router.put('/pedidos/:id/status', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         const { status } = req.body;
@@ -599,7 +581,7 @@ router.put('/pedidos/:id/status', authenticateToken, async (req, res) => {
         const pool = await getPool();
         
         // Verificar se o pedido existe
-        const [existing] = await pool.query('SELECT id, status FROM pedidos WHERE id = ', [id]);
+        const [existing] = await pool.query('SELECT id, status FROM pedidos WHERE id = ?', [id]);
         if (existing.length === 0) {
             return res.status(404).json({ error: 'Pedido não encontrado' });
         }
@@ -607,7 +589,7 @@ router.put('/pedidos/:id/status', authenticateToken, async (req, res) => {
         const statusAnterior = existing[0].status;
         
         // Atualizar o status
-        await pool.query('UPDATE pedidos SET status = , updated_at = NOW() WHERE id = ', [status, id]);
+        await pool.query('UPDATE pedidos SET status = , updated_at = NOW() WHERE id = ?', [status, id]);
         
         // Registrar no log de auditoria se existir
         try {
@@ -623,7 +605,7 @@ router.put('/pedidos/:id/status', authenticateToken, async (req, res) => {
         
         res.json({ 
             success: true, 
-            message: 'Status atualização com sucesso',
+            message: 'Status atualizado com sucesso',
             statusAnterior,
             statusNovo: status
         });
@@ -636,8 +618,7 @@ router.put('/pedidos/:id/status', authenticateToken, async (req, res) => {
     }
 });
 
-// POST /api/vendas/kanban/mover
-router.post('/kanban/mover', authenticateToken, async (req, res) => {
+// POST /api/vendas/kanban/mover ? router.post('/kanban/mover', authenticateToken, async (req, res) => {
     try {
         const { cardId, novoStatus } = req.body;
         // TODO: Atualizar posição do card no banco
@@ -658,8 +639,7 @@ router.post('/kanban/mover', authenticateToken, async (req, res) => {
 // METAS ROUTES
 // =================================================================
 
-// GET /api/vendas/metas
-router.get('/metas', authenticateToken, async (req, res) => {
+// GET /api/vendas/metas ? router.get('/metas', authenticateToken, async (req, res) => {
     try {
         // TODO: Buscar metas e comissões do banco
         res.json({
@@ -824,8 +804,7 @@ const cenariosFiscaisPadrao = {
     }
 };
 
-// GET /api/vendas/impostos/cenarios - Listar todos os cenários fiscais
-router.get('/impostos/cenarios', authenticateToken, async (req, res) => {
+// GET /api/vendas/impostos/cenarios - Listar todos os cenários fiscais ? router.get('/impostos/cenarios', authenticateToken, async (req, res) => {
     try {
         const pool = await getPool();
         
@@ -853,8 +832,7 @@ router.get('/impostos/cenarios', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/vendas/impostos/cenarios/:codigo - Obter um cenário específico
-router.get('/impostos/cenarios/:codigo', authenticateToken, async (req, res) => {
+// GET /api/vendas/impostos/cenarios/:codigo - Obter um cenário específico ? router.get('/impostos/cenarios/:codigo', authenticateToken, async (req, res) => {
     try {
         const { codigo } = req.params;
         const pool = await getPool();
@@ -885,8 +863,7 @@ router.get('/impostos/cenarios/:codigo', authenticateToken, async (req, res) => 
     }
 });
 
-// POST /api/vendas/impostos/calcular - Calcular impostos para um pedido
-router.post('/impostos/calcular', authenticateToken, async (req, res) => {
+// POST /api/vendas/impostos/calcular - Calcular impostos para um pedido ? router.post('/impostos/calcular', authenticateToken, async (req, res) => {
     try {
         const { 
             cenario_codigo,
@@ -1037,8 +1014,7 @@ router.post('/impostos/calcular', authenticateToken, async (req, res) => {
     }
 });
 
-// POST /api/vendas/pedidos/:id/impostos - Salvar impostos de um pedido
-router.post('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
+// POST /api/vendas/pedidos/:id/impostos - Salvar impostos de um pedido ? router.post('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         const { impostos, cenario_codigo } = req.body;
@@ -1046,7 +1022,7 @@ router.post('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
         const pool = await getPool();
         
         // Verificar se pedido existe
-        const [existing] = await pool.query('SELECT id FROM pedidos WHERE id = ', [id]);
+        const [existing] = await pool.query('SELECT id FROM pedidos WHERE id = ?', [id]);
         if (existing.length === 0) {
             return res.status(404).json({ error: 'Pedido não encontrado' });
         }
@@ -1117,8 +1093,7 @@ router.post('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
     }
 });
 
-// GET /api/vendas/pedidos/:id/impostos - Obter impostos de um pedido
-router.get('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
+// GET /api/vendas/pedidos/:id/impostos - Obter impostos de um pedido ? router.get('/pedidos/:id/impostos', authenticateToken, async (req, res) => {
     try {
         const { id } = req.params;
         const pool = await getPool();
@@ -1153,8 +1128,7 @@ const PDFDocument = require('pdfkit');
 const path = require('path');
 const fs = require('fs');
 
-// GET /api/vendas/pedidos/:id/pdf - Gerar PDF do orçamento/pedido
-router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
+// GET /api/vendas/pedidos/:id/pdf - Gerar PDF do orçamento/pedido ? router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
     console.log('📄 Gerando PDF para pedido:', req.params.id, '| Usuário:', req.user.id || 'N/A');
     try {
         const { id } = req.params;
@@ -1214,7 +1188,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
         // Buscar dados do usuário que está gerando o PDF
         let usuarioGeraçãor = 'Sistema';
         if (req.user && req.user.id) {
-            const [usuarios] = await pool.query('SELECT nome FROM usuarios WHERE id = ', [req.user.id]);
+            const [usuarios] = await pool.query('SELECT nome FROM usuarios WHERE id = ?', [req.user.id]);
             if (usuarios.length > 0) {
                 usuarioGeraçãor = usuarios[0].nome;
             }
@@ -1310,8 +1284,8 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
            .fillColor(corTexto);
         
         // Coluna esquerda
-        doc.text(`Cliente: ${pedido.cliente_razao_social || pedido.cliente_nome || 'Não informação'}`, 50, yPos + 28);
-        doc.text(`CNPJ/CPF: ${pedido.cliente_cnpj || 'Não informação'}`, 50, yPos + 42);
+        doc.text(`Cliente: ${pedido.cliente_razao_social || pedido.cliente_nome || 'Não informado'}`, 50, yPos + 28);
+        doc.text(`CNPJ/CPF: ${pedido.cliente_cnpj || 'Não informado'}`, 50, yPos + 42);
         doc.text(`I.E.: ${pedido.cliente_ie || 'Isento'}`, 50, yPos + 56);
         
         // Coluna direita
@@ -1338,7 +1312,7 @@ router.get('/pedidos/:id/pdf', authenticateToken, async (req, res) => {
         
         doc.font('Helvetica')
            .fillColor(corTexto)
-           .text(pedido.vendedor_nome || 'Não informação', 50, yPos + 25)
+           .text(pedido.vendedor_nome || 'Não informado', 50, yPos + 25)
            .text(pedido.vendedor_email || '', 50, yPos + 38);
         
         // Número de parcelas

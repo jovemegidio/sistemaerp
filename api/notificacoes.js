@@ -12,7 +12,7 @@ const router = express.Router();
 
 /**
  * GET /api/notificacoes
- * Retorna todas as notificações do usuário logação
+ * Retorna todas as notificações do usuário logado
  */
 router.get('/', async (req, res) => {
     try {
@@ -367,7 +367,7 @@ router.post('/', async (req, res) => {
             tipo,
             modulo,
             link,
-            broadcast  null : (usuario_id || req.user.id)
+            broadcast ? null : (usuario_id || req.user.id)
         ]);
         
         // Emitir via Socket.IO se disponível

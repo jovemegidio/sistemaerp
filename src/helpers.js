@@ -54,7 +54,7 @@ const validateCNPJ = (cnpj) => {
         if (pos < 2) pos = 9;
     }
     
-    let resultado = soma % 11 < 2  0 : 11 - soma % 11;
+    let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
     if (resultado != digitos.charAt(0)) return false;
     
     // Validação do segundo dígito verificaçãor
@@ -68,7 +68,7 @@ const validateCNPJ = (cnpj) => {
         if (pos < 2) pos = 9;
     }
     
-    resultado = soma % 11 < 2  0 : 11 - soma % 11;
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
     if (resultado != digitos.charAt(1)) return false;
     
     return true;
@@ -92,7 +92,7 @@ const validateCPF = (cpf) => {
     }
     
     let resto = 11 - (soma % 11);
-    let digito1 = resto >= 10  0 : resto;
+    let digito1 = resto >= 10 ? 0 : resto;
     
     if (digito1 != cpf.charAt(9)) return false;
     
@@ -103,7 +103,7 @@ const validateCPF = (cpf) => {
     }
     
     resto = 11 - (soma % 11);
-    const digito2 = resto >= 10  0 : resto;
+    const digito2 = resto >= 10 ? 0 : resto;
     
     if (digito2 != cpf.charAt(10)) return false;
     

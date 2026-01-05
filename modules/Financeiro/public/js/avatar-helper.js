@@ -113,7 +113,7 @@ function carregarAvatarUsuario(user, elements = {}) {
 }
 
 /**
- * Função completa para carregar usuário logação e atualizar UI
+ * Função completa para carregar usuário logado e atualizar UI
  */
 async function carregarUsuarioComAvatar(options = {}) {
     const {
@@ -145,8 +145,7 @@ async function carregarUsuarioComAvatar(options = {}) {
     return null;
 }
 
-// Exportar para uso global
-window.AvatarHelper = {
+// Exportar para uso global ? window.AvatarHelper = {
     avatarNameMap,
     getAvatarFromEmail,
     carregarAvatarUsuario,

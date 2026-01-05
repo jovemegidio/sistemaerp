@@ -18,7 +18,7 @@ async function main () {
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
+    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
   })
 
   for (const [nameFrag, filename] of Object.entries(mapping)) {
@@ -36,7 +36,7 @@ async function main () {
         continue
       }
       for (const r of rows) {
-        await db.execute('UPDATE funcionarios SET foto_perfil_url = , foto_thumb_url =  WHERE id = ', [url, url, r.id])
+        await db.execute('UPDATE funcionarios SET foto_perfil_url = , foto_thumb_url =  WHERE id = ?', [url, url, r.id])
         console.log(`Atualizada foto de id=${r.id} (${r.nome_completo}) -> ${url}`)
       }
     } catch (e) {

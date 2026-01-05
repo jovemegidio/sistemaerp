@@ -79,7 +79,7 @@ function updateDashboardNumbers() {
                 visibility: visible !important;
                 opacity: 1 !important;
             `;
-            console.log(`✅ ${id} atualização para: ${value}`);
+            console.log(`✅ ${id} atualizado para: ${value}`);
         }
     });
 }
@@ -115,8 +115,7 @@ function fixGrowthCard() {
     }
 }
 
-// Executar correções quando a página carregar
-document.addEventListener('DOMContentLoaded', function() {
+// Executar correções quando a página carregar ? document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Iniciando correção dos números do dashboard...');
     
     // Executar imediatamente
@@ -175,8 +174,7 @@ if (document.body) {
     });
 }
 
-// Função global para forçar correção manual
-window.fixDashboardNumbers = function() {
+// Função global para forçar correção manual ? window.fixDashboardNumbers = function() {
     console.log('🔧 Correção manual acionada...');
     forceNumbersVisibility();
     fixGrowthCard();
@@ -205,4 +203,4 @@ setInterval(() => {
     }
 }, 5000);
 
-console.log('📋 Script de correção dos números do dashboard carregação com sucesso!');
+console.log('📋 Script de correção dos números do dashboard carregado com sucesso!');

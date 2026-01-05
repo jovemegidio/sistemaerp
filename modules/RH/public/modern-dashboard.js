@@ -432,7 +432,7 @@ class ModernDashboardVisuals {
     setupEventListeners() {
         // Event listeners para funcionalidades do dashboard
         window.atualizarDaçãos = () => {
-            this.showNotification('Daçãos atualizaçãos com sucesso!', 'success');
+            this.showNotification('Daçãos atualizados com sucesso!', 'success');
         };
 
         window.exportarRelatorio = () => {
@@ -549,8 +549,7 @@ class ModernDashboardVisuals {
     }
 }
 
-// Inicializa quando a página carregar
-document.addEventListener('DOMContentLoaded', () => {
+// Inicializa quando a página carregar ? document.addEventListener('DOMContentLoaded', () => {
     new ModernDashboardVisuals();
 });
 

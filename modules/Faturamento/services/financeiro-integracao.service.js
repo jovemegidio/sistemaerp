@@ -161,7 +161,7 @@ class FinanceiroIntegracaoService {
             // Calcular juros e multa se houver atraso
             const diasAtraso = this.calcularDiasAtraso(parcelaData.data_vencimento, data_pagamento);
             const juros = diasAtraso > 0 ? valorOriginal * 0.01 : 0; // 1% de multa
-            const mora = diasAtraso > 0  (valorOriginal * 0.001 * diasAtraso) : 0; // 0,1% ao dia
+            const mora = diasAtraso > 0 ? (valorOriginal * 0.001 * diasAtraso) : 0; // 0,1% ao dia
             
             const valorTotal = valorOriginal + juros + mora;
             const desconto = valorTotal - valorPago;

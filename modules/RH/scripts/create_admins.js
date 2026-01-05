@@ -16,7 +16,7 @@ const DB_CONFIG = {
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
+  port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
 }
 
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123'
@@ -34,7 +34,7 @@ async function upsertUser (conn, email, password, nome, role) {
   const cpfVal = `CPF${String(Date.now()).slice(-10)}`
   if (rows && rows.length > 0) {
     const id = rows[0].id
-    await conn.execute('UPDATE funcionarios SET senha = , nome_completo = , role =  WHERE id = ', [hashed, nome, role, id])
+    await conn.execute('UPDATE funcionarios SET senha = , nome_completo = , role =  WHERE id = ?', [hashed, nome, role, id])
     console.log(`Updated user id=${id} email=${email} role=${role}`)
   } else {
     const [res] = await conn.execute(

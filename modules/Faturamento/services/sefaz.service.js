@@ -2,7 +2,7 @@ const axios = require('axios');
 const https = require('https');
 const builder = require('xmlbuilder2');
 const nfeConfig = require('../../config/nfe.config');
-const certificaçãoService = require('./certificação.service');
+const certificadoService = require('./certificado.service');
 
 /**
  * SERVIÇO DE INTEGRAÇÃO COM SEFAZ
@@ -20,7 +20,7 @@ class SefazService {
             const xmlEnvio = this.criarEnvioLote(idLote, [xmlNFe]);
             
             // Assinar XML
-            const xmlAssinação = await certificaçãoService.assinarXML(xmlEnvio, 'infNFe');
+            const xmlAssinação = await certificadoService.assinarXML(xmlEnvio, 'infNFe');
             
             // Obter URL do webservice
             const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
@@ -58,7 +58,7 @@ class SefazService {
     async consultarRecibo(numeroRecibo, uf) {
         try {
             const xmlConsulta = this.criarConsultaRecibo(numeroRecibo);
-            const xmlAssinação = await certificaçãoService.assinarXML(xmlConsulta);
+            const xmlAssinação = await certificadoService.assinarXML(xmlConsulta);
             
             const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
             const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
@@ -79,7 +79,7 @@ class SefazService {
     async consultarNFe(chaveAcesso, uf) {
         try {
             const xmlConsulta = this.criarConsultaNFe(chaveAcesso);
-            const xmlAssinação = await certificaçãoService.assinarXML(xmlConsulta);
+            const xmlAssinação = await certificadoService.assinarXML(xmlConsulta);
             
             const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
             const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
@@ -160,7 +160,7 @@ class SefazService {
                 justificativa
             });
             
-            const xmlAssinação = await certificaçãoService.assinarXML(xmlInutilizacao, 'infInut');
+            const xmlAssinação = await certificadoService.assinarXML(xmlInutilizacao, 'infInut');
             
             const ambiente = nfeConfig.ambiente === 1 ? 'producao' : 'homologacao';
             const autorizaçãor = nfeConfig.autorizaçãores[uf] || 'SVRS';
@@ -200,7 +200,7 @@ class SefazService {
      */
     async enviarEvento(xmlEvento, uf) {
         try {
-            const xmlAssinação = await certificaçãoService.assinarXML(xmlEvento, 'infEvento');
+            const xmlAssinação = await certificadoService.assinarXML(xmlEvento, 'infEvento');
             
             const xmlEnvio = this.criarEnvioEvento(xmlAssinação);
             
@@ -374,9 +374,9 @@ ${xmlDaçãos}
     
     async enviarRequisicaoSOAP(url, soapEnvelope) {
         const httpsAgent = new https.Agent({
-            rejectUnauthorized: false, // Em produção, configurar certificaçãos SSL
-            cert: certificaçãoService.certificação,
-            key: certificaçãoService.chavePriva
+            rejectUnauthorized: false, // Em produção, configurar certificados SSL
+            cert: certificadoService.certificado,
+            key: certificadoService.chavePriva
         });
         
         return await axios.post(url, soapEnvelope, {
@@ -395,9 +395,9 @@ ${xmlDaçãos}
         const reciboMatch = xml.match(/<nRec>(.*)<\/nRec>/);
         
         return {
-            codigoStatus: statusMatch  statusMatch[1] : null,
-            motivo: motivoMatch  motivoMatch[1] : null,
-            numeroRecibo: reciboMatch  reciboMatch[1] : null,
+            codigoStatus: statusMatch ? statusMatch[1] : null,
+            motivo: motivoMatch ? motivoMatch[1] : null,
+            numeroRecibo: reciboMatch ? reciboMatch[1] : null,
             xmlCompleto: xml
         };
     }
@@ -408,9 +408,9 @@ ${xmlDaçãos}
         const chaveMatch = xml.match(/<chNFe>(.*)<\/chNFe>/);
         
         return {
-            codigoStatus: statusMatch  statusMatch[1] : null,
-            numeroProtocolo: protocoloMatch  protocoloMatch[1] : null,
-            chaveAcesso: chaveMatch  chaveMatch[1] : null,
+            codigoStatus: statusMatch ? statusMatch[1] : null,
+            numeroProtocolo: protocoloMatch ? protocoloMatch[1] : null,
+            chaveAcesso: chaveMatch ? chaveMatch[1] : null,
             autorização: statusMatch && statusMatch[1] === '100',
             xmlCompleto: xml
         };
@@ -425,8 +425,8 @@ ${xmlDaçãos}
         const protocoloMatch = xml.match(/<nProt>(.*)<\/nProt>/);
         
         return {
-            codigoStatus: statusMatch  statusMatch[1] : null,
-            numeroProtocolo: protocoloMatch  protocoloMatch[1] : null,
+            codigoStatus: statusMatch ? statusMatch[1] : null,
+            numeroProtocolo: protocoloMatch ? protocoloMatch[1] : null,
             sucesso: statusMatch && (statusMatch[1] === '135' || statusMatch[1] === '136'),
             xmlCompleto: xml
         };
@@ -436,7 +436,7 @@ ${xmlDaçãos}
         const statusMatch = xml.match(/<cStat>(\d+)<\/cStat>/);
         
         return {
-            codigoStatus: statusMatch  statusMatch[1] : null,
+            codigoStatus: statusMatch ? statusMatch[1] : null,
             sucesso: statusMatch && statusMatch[1] === '102',
             xmlCompleto: xml
         };
@@ -447,8 +447,8 @@ ${xmlDaçãos}
         const motivoMatch = xml.match(/<xMotivo>(.*)<\/xMotivo>/);
         
         return {
-            codigoStatus: statusMatch  statusMatch[1] : null,
-            motivo: motivoMatch  motivoMatch[1] : null,
+            codigoStatus: statusMatch ? statusMatch[1] : null,
+            motivo: motivoMatch ? motivoMatch[1] : null,
             online: statusMatch && statusMatch[1] === '107',
             xmlCompleto: xml
         };

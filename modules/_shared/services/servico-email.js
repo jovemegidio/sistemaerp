@@ -79,12 +79,12 @@ class ServicoEmail {
 
             const info = await this.transporter.sendMail(mailOptions);
             
-            console.log(`[ServicoEmail] Email enviação: ${info.messageId}`);
+            console.log(`[ServicoEmail] Email enviado: ${info.messageId}`);
             
             return { 
                 success: true, 
                 messageId: info.messageId,
-                message: 'Email enviação com sucesso'
+                message: 'Email enviado com sucesso'
             };
 
         } catch (error) {
@@ -390,7 +390,7 @@ class ServicoEmail {
             funcionario.email,
             `Holerite ${competencia} - ${this.empresa.nome}`,
             html,
-            { attachments: anexo  [anexo] : [] }
+            { attachments: anexo ? [anexo] : [] }
         );
     }
 
@@ -449,7 +449,7 @@ class ServicoEmail {
             ${this.empresa.telefone} | ${this.empresa.site}
         </p>
         <p style="margin: 10px 0 0; color: #999; font-size: 11px;">
-            Este é um email automático enviação pelo Sistema Aluforce ERP.<br>
+            Este é um email automático enviado pelo Sistema Aluforce ERP.<br>
             Por favor, não responda diretamente a este email.
         </p>
     </div>

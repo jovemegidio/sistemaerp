@@ -211,8 +211,7 @@ router.post('/logout', (req, res) => {
 
 // ===================== ROTAS DE RECUPERAÇÃO DE SENHA =====================
 
-// Passo 1: Verificar se o email existe no sistema
-router.post('/auth/verify-email', async (req, res) => {
+// Passo 1: Verificar se o email existe no sistema ? router.post('/auth/verify-email', async (req, res) => {
     try {
         const { email } = req.body;
         console.log('[AUTH/VERIFY-EMAIL] Verificando email:', email);
@@ -452,8 +451,7 @@ router.post('/auth/create-remember-token', async (req, res) => {
     }
 });
 
-// Validar refresh token e fazer login automático
-router.post('/auth/validate-remember-token', async (req, res) => {
+// Validar refresh token e fazer login automático ? router.post('/auth/validate-remember-token', async (req, res) => {
     try {
         const rememberToken = req.cookies.rememberToken;
         console.log('[AUTH/VALIDATE-REMEMBER] Validando token...');

@@ -313,9 +313,9 @@ module.exports = function({ pool, authenticateToken }) {
             };
             
             await pool.query(`
-                INSERT INTO configuracoes_sistema (chave, valor, atualização_em)
+                INSERT INTO configuracoes_sistema (chave, valor, atualizado_em)
                 VALUES ('backup_automatico', , NOW())
-                ON DUPLICATE KEY UPDATE valor = , atualização_em = NOW()
+                ON DUPLICATE KEY UPDATE valor = , atualizado_em = NOW()
             `, [JSON.stringify(configuracao), JSON.stringify(configuracao)]);
             
             res.json({ 
@@ -392,7 +392,7 @@ module.exports = function({ pool, authenticateToken }) {
     function formatBytes(bytes, decimals = 2) {
         if (bytes === 0) return '0 Bytes';
         const k = 1024;
-        const dm = decimals < 0  0 : decimals;
+        const dm = decimals < 0 ? 0 : decimals;
         const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
         const i = Math.floor(Math.log(bytes) / Math.log(k));
         return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];

@@ -7,7 +7,7 @@ const mysql = require('mysql2/promise');
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
+    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
   })
 
   try {
@@ -24,7 +24,7 @@ const mysql = require('mysql2/promise');
       }
       const u = rows[0]
       const old = u.foto_perfil_url || ''
-      const [res] = await db.execute('UPDATE funcionarios SET foto_perfil_url =  WHERE id = ', [fotoUrl, u.id])
+      const [res] = await db.execute('UPDATE funcionarios SET foto_perfil_url =  WHERE id = ?', [fotoUrl, u.id])
       report.push([u.id, nome, old, fotoUrl, res.affectedRows > 0 ? 'updated' : 'no_change'].join(','))
     }
     fs.writeFileSync('scripts/manual_photo_map_applied.csv', report.join('\n'))

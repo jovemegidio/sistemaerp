@@ -295,14 +295,14 @@ class XMLService {
             modFrete: transporte.modalidadeFrete || '9'
         };
 
-        if (transporte.transportaçãora) {
+        if (transporte.transportadora) {
             transp.transporta = {
-                CNPJ: transporte.transportaçãora.cnpj.replace(/\D/g, ''),
-                xNome: transporte.transportaçãora.razaoSocial,
-                IE: transporte.transportaçãora.ie || null,
-                xEnder: transporte.transportaçãora.endereco || null,
-                xMun: transporte.transportaçãora.municipio || null,
-                UF: transporte.transportaçãora.uf || null
+                CNPJ: transporte.transportadora.cnpj.replace(/\D/g, ''),
+                xNome: transporte.transportadora.razaoSocial,
+                IE: transporte.transportadora.ie || null,
+                xEnder: transporte.transportadora.endereco || null,
+                xMun: transporte.transportadora.municipio || null,
+                UF: transporte.transportadora.uf || null
             };
         }
 

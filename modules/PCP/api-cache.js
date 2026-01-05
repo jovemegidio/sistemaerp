@@ -94,7 +94,7 @@ class APICache {
      */
     getStats() {
         const total = this.stats.hits + this.stats.misses;
-        const hitRate = total > 0  ((this.stats.hits / total) * 100).toFixed(2) : 0;
+        const hitRate = total > 0 ? ((this.stats.hits / total) * 100).toFixed(2) : 0;
 
         return {
             ...this.stats,
@@ -218,5 +218,5 @@ setInterval(() => {
     console.log(`[CACHE] Depois: ${newStats.size} entradas`);
 }, 10 * 60 * 1000);
 
-console.log('✅ Sistema de cache carregação');
+console.log('✅ Sistema de cache carregado');
 console.log('📊 Use window.showCacheStats() para ver estatísticas');

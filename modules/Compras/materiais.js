@@ -521,8 +521,8 @@ class MateriaisManager {
             lead_time: parseInt(document.getElementById('materialLeadTime').value) || 0,
             fornecedor_id: document.getElementById('materialFornecedor').value || null,
             ultimo_preco: parseFloat(document.getElementById('materialUltimoPreco').value) || 0,
-            ativo: document.getElementById('materialAtivo').checked  1 : 0,
-            sinc_pcp: document.getElementById('materialPCP').checked  1 : 0,
+            ativo: document.getElementById('materialAtivo').checked ? 1 : 0,
+            sinc_pcp: document.getElementById('materialPCP').checked ? 1 : 0,
             observacoes: document.getElementById('materialObservacoes').value
         };
 
@@ -544,7 +544,7 @@ class MateriaisManager {
             const result = await response.json();
             
             if (response.ok) {
-                alert(id ? 'Material atualização com sucesso!' : 'Material cadastração com sucesso!');
+                alert(id ? 'Material atualizado com sucesso!' : 'Material cadastração com sucesso!');
                 this.fecharModal();
                 await this.carregarDaçãos();
                 this.atualizarCards();
@@ -696,8 +696,7 @@ function editarMaterialAtual() {
     }
 }
 
-// Fechar modal ao clicar fora
-document.getElementById('modalVisualizarMaterial').addEventListener('click', function(e) {
+// Fechar modal ao clicar fora ? document.getElementById('modalVisualizarMaterial').addEventListener('click', function(e) {
     if (e.target === this) {
         fecharModalVisualizarMaterial();
     }

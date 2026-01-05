@@ -300,8 +300,7 @@ function getAuthHeaders(additional = {}) {
 }
 
 // Debug helpers for redirect tracing
-// Enable by setting `window.DEBUG_REDIRECTS = true` in the browser console
-window.DEBUG_REDIRECTS = window.DEBUG_REDIRECTS || false;
+// Enable by setting `window.DEBUG_REDIRECTS = true` in the browser console ? window.DEBUG_REDIRECTS = window.DEBUG_REDIRECTS || false;
 window.redirectEventLog = window.redirectEventLog || [];
 function notifyRedirectAttempt(source, details) {
     try {
@@ -1099,7 +1098,7 @@ function initAdminPage() {
                                 <div class="aviso-body">
                                     <div class="aviso-title">${escapeHtml(a.titulo || '')}</div>
                                     <div class="aviso-desc">${escapeHtml(a.mensagem || '')}</div>
-                                    <div class="aviso-meta small">${a.created_by ? 'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
+                                    <div class="aviso-meta small">${a.created_by ? 'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at ? new Date(a.created_at).toLocaleString() : ''}</div>
                                 </div>
                             </div>
                         `;
@@ -1194,7 +1193,7 @@ function initAdminPage() {
             if (relMedDiv) {
                 const at = summary.atéstaçãos || [];
                 if (!at || at.length === 0) relMedDiv.innerHTML = '<p>Sem atéstaçãos recentes.</p>';
-                else { relMedDiv.innerHTML = ''; at.forEach(a => { const node = document.createElement('div'); node.className='atéstação-item'; node.innerHTML = `<strong>${a.nome}</strong><div><a href="${a.url_arquivo}" target="_blank">${a.nome_arquivo}</a> <small>${a.data_envio  new Date(a.data_envio).toLocaleString() : ''}</small></div>`; relMedDiv.appendChild(node); }); }
+                else { relMedDiv.innerHTML = ''; at.forEach(a => { const node = document.createElement('div'); node.className='atéstação-item'; node.innerHTML = `<strong>${a.nome}</strong><div><a href="${a.url_arquivo}" target="_blank">${a.nome_arquivo}</a> <small>${a.data_envio ? new Date(a.data_envio).toLocaleString() : ''}</small></div>`; relMedDiv.appendChild(node); }); }
             }
 
         } catch (error) {
@@ -1537,10 +1536,10 @@ function initAdminPage() {
             });
             const result = await response.json();
             if (!response.ok) throw new Error(result.message || 'Falha no upload');
-            if (statusDiv) statusDiv.textContent = result.message || 'Holerite enviação.';
+            if (statusDiv) statusDiv.textContent = result.message || 'Holerite enviado.';
             formUploadHolerite.reset();
             abrirModalDetalhes(currentFuncionarioId); // Recarrega os detalhes do modal
-            showToast('Holerite enviação.', 'success');
+            showToast('Holerite enviado.', 'success');
         } catch (error) {
             if (statusDiv) statusDiv.textContent = `Erro: ${error.message}`;
             showToast(`Erro ao enviar holerite: ${error.message}`, 'error');
@@ -1578,10 +1577,10 @@ function initAdminPage() {
                 });
                 const result = await response.json();
                 if (!response.ok) throw new Error(result.message || 'Falha no upload');
-                if (statusDiv) statusDiv.textContent = result.message || 'Atéstação enviação.';
+                if (statusDiv) statusDiv.textContent = result.message || 'Atéstação enviado.';
                 formUploadAtestação.reset();
                 abrirModalDetalhes(currentFuncionarioId);
-                showToast('Atéstação enviação.', 'success');
+                showToast('Atéstação enviado.', 'success');
             } catch (err) {
                 if (statusDiv) statusDiv.textContent = `Erro: ${err.message}`;
                 showToast(`Erro ao enviar atéstação: ${err.message}`, 'error');
@@ -1650,7 +1649,7 @@ function initAdminPage() {
                         <div class="aviso-body">
                             <div class="aviso-title">${escapeHtml(a.titulo || '')}</div>
                             <div class="aviso-desc">${escapeHtml(a.mensagem || '')}</div>
-                            <div class="aviso-meta small">${a.created_by ? 'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
+                            <div class="aviso-meta small">${a.created_by ? 'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at ? new Date(a.created_at).toLocaleString() : ''}</div>
                         </div>
                     </div>
                 `;
@@ -1796,7 +1795,7 @@ function initAdminPage() {
                         <div class="aviso-body">
                             <div class="aviso-title">${escapeHtml(a.titulo)}</div>
                             <div class="aviso-desc muted">${escapeHtml(a.mensagem)}</div>
-                            <div class="aviso-meta small">${a.created_by ? 'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at  new Date(a.created_at).toLocaleString() : ''}</div>
+                            <div class="aviso-meta small">${a.created_by ? 'Criação por: ' + escapeHtml(a.created_by) : ''} ${a.created_at ? new Date(a.created_at).toLocaleString() : ''}</div>
                         </div>
                     </div>
                 `;
@@ -1856,7 +1855,7 @@ function initAdminPage() {
                 if (editId) {
                     const resp = await fetch(`/api/avisos/${editId}`, { method: 'PUT', headers: getAuthHeaders({ 'Content-Type': 'application/json' }), body: JSON.stringify({ titulo, mensagem }) });
                     const j = await resp.json(); if (!resp.ok) throw new Error(j.message || 'Erro');
-                    showToast('Aviso atualização.', 'success');
+                    showToast('Aviso atualizado.', 'success');
                     modalAvisoForm.removeAttribute('data-edit-id');
                 } else {
                     const resp = await fetch('/api/avisos', { method: 'POST', headers: getAuthHeaders({ 'Content-Type': 'application/json' }), body: JSON.stringify({ titulo, mensagem }) });
@@ -2039,7 +2038,7 @@ async function initEmployeePage() {
                                     try { userRaw = localStorage.getItem('userData') || null; } catch(e) { userRaw = null; }
                                     const diagObj = {
                                         tokenPresent: !!rawToken,
-                                        tokenMasked: rawToken  (String(rawToken).substring(0,8) + '...') : null,
+                                        tokenMasked: rawToken ? (String(rawToken).substring(0,8) + '...') : null,
                                         userData: (function(){ try { return userRaw ? JSON.parse(userRaw) : null; } catch(e) { return userRaw; } })(),
                                         ua: (typeof navigator !== 'undefined' && navigator.userAgent)  navigator.userAgent : '(no navigator)'
                                     };
@@ -2336,9 +2335,9 @@ function subscribeAvisosSSE() {
                                 const meta = node.querySelector('.aviso-meta');
                                 if (title) title.textContent = aviso.titulo || '';
                                 if (desc) desc.textContent = aviso.mensagem || aviso.conteudo || '';
-                                if (meta) meta.textContent = (aviso.created_by ? 'Criação por: ' + aviso.created_by + ' ' : '') + (aviso.created_at  new Date(aviso.created_at).toLocaleString() : '');
+                                if (meta) meta.textContent = (aviso.created_by ? 'Criação por: ' + aviso.created_by + ' ' : '') + (aviso.created_at ? new Date(aviso.created_at).toLocaleString() : '');
                             });
-                            showToast('Aviso atualização.', 'success', 1800);
+                            showToast('Aviso atualizado.', 'success', 1800);
                         } catch (e) { console.warn('Erro ao atualizar aviso SSE', e); }
                         return;
                     }
@@ -2490,8 +2489,7 @@ if (!window.EventSource) startAvisosPolling();
 // also render read state after initial load
 setTimeout(renderReadStateForAvisos, 600);
 
-// Intercept clicks on disabled controls to provide helpful feedback
-document.addEventListener('click', (e) => {
+// Intercept clicks on disabled controls to provide helpful feedback ? document.addEventListener('click', (e) => {
     const target = e.target.closest && e.target.closest('.widget-link.disabled, button.disabled, .btn.disabled');
     if (!target) return;
     e.preventDefault();
@@ -2531,9 +2529,9 @@ function populateUserData(userData) {
         if (element) element.value = (value !== null && value !== undefined)  value : '';
     });
 
-    document.getElementById('banco').textContent = userData.banco || 'Não informação';
-    document.getElementById('agencia').textContent = userData.agencia || 'Não informação';
-    document.getElementById('conta_corrente').textContent = userData.conta_corrente || 'Não informação';
+    document.getElementById('banco').textContent = userData.banco || 'Não informado';
+    document.getElementById('agencia').textContent = userData.agencia || 'Não informado';
+    document.getElementById('conta_corrente').textContent = userData.conta_corrente || 'Não informado';
 
     // Preenche o seletor de holerites
     const holeriteSelect = document.getElementById('holerite-mes');
@@ -2849,7 +2847,7 @@ function setupEmployeeEventListeners(userData) {
                 // Atualizar último acesso
                 this.updateLastAccess();
                 
-                console.log('Daçãos do usuário recarregaçãos com sucesso');
+                console.log('Daçãos do usuário recarregados com sucesso');
             }
         })
         .catch(error => {

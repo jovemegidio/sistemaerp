@@ -24,7 +24,7 @@ function validarCNPJ(cnpj) {
         if (pos < 2) pos = 9;
     }
     
-    let resultado = soma % 11 < 2  0 : 11 - soma % 11;
+    let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
     if (resultado != digitos.charAt(0)) return false;
     
     tamanho = tamanho + 1;
@@ -37,7 +37,7 @@ function validarCNPJ(cnpj) {
         if (pos < 2) pos = 9;
     }
     
-    resultado = soma % 11 < 2  0 : 11 - soma % 11;
+    resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
     if (resultado != digitos.charAt(1)) return false;
     
     return true;
@@ -128,7 +128,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     stats: stats[0] || {},
                     pedidosPorStatus,
                     topFornecedores,
-                    pedidosAtrasaçãos: atrasaçãos
+                    pedidosAtrasados: atrasaçãos
                 }
             });
         } catch (error) {
@@ -193,7 +193,7 @@ module.exports = (pool, authenticateToken, logger) => {
     router.get('/fornecedores/:id', authenticateToken, async (req, res) => {
         try {
             const [fornecedor] = await pool.execute(
-                'SELECT * FROM vw_fornecedores_performance WHERE id = ',
+                'SELECT * FROM vw_fornecedores_performance WHERE id = ?',
                 [req.params.id]
             );
             
@@ -307,7 +307,7 @@ module.exports = (pool, authenticateToken, logger) => {
                         contato_principal, cargo_contato,
                         lograçãouro, numero, complemento, bairro, cidade, estação, cep,
                         prazo_entrega_padrao || 30, prazo_pagamento_padrao, condicoes_pagamento,
-                        valor_minimo_pedido || 0, categoria || 'homologação', tipo_fornecedor || 'outros', observacoes,
+                        valor_minimo_pedido || 0, categoria || 'homologado', tipo_fornecedor || 'outros', observacoes,
                         req.user.userId
                     ]
                 );
@@ -355,7 +355,7 @@ module.exports = (pool, authenticateToken, logger) => {
             const fornecedorId = req.params.id;
             
             // Buscar dados anteriores
-            const [anterior] = await connection.execute('SELECT * FROM fornecedores WHERE id = ', [fornecedorId]);
+            const [anterior] = await connection.execute('SELECT * FROM fornecedores WHERE id = ?', [fornecedorId]);
             if (anterior.length === 0) {
                 await connection.rollback();
                 return res.status(404).json({ error: 'Fornecedor não encontrado' });
@@ -383,7 +383,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 return res.status(400).json({ error: 'Nenhum campo para atualizar' });
             }
             
-            campos.push('atualização_por = ', 'data_atualizacao = NOW()');
+            campos.push('atualizado_por = ', 'data_atualizacao = NOW()');
             valores.push(req.user.userId, fornecedorId);
             
             await connection.execute(
@@ -395,7 +395,7 @@ module.exports = (pool, authenticateToken, logger) => {
             
             await connection.commit();
             
-            logger.info(`Fornecedor atualização: ${fornecedorId}`);
+            logger.info(`Fornecedor atualizado: ${fornecedorId}`);
             res.json({ success: true });
             
         } catch (error) {
@@ -506,7 +506,7 @@ module.exports = (pool, authenticateToken, logger) => {
     router.get('/pedidos/:id', authenticateToken, async (req, res) => {
         try {
             const [pedido] = await pool.execute(
-                'SELECT * FROM vw_pedidos_completos WHERE id = ',
+                'SELECT * FROM vw_pedidos_completos WHERE id = ?',
                 [req.params.id]
             );
             
@@ -665,7 +665,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 
                 // Atualizar status do pedido
                 await connection.execute(
-                    'UPDATE pedidos_compra SET status = "aguardando_aprovacao" WHERE id = ',
+                    'UPDATE pedidos_compra SET status = "aguardando_aprovacao" WHERE id = ?',
                     [pedidoId]
                 );
             }
@@ -743,7 +743,7 @@ module.exports = (pool, authenticateToken, logger) => {
                     
                     // Notificar solicitante
                     const [pedido] = await connection.execute(
-                        'SELECT usuario_solicitante, numero_pedido FROM pedidos_compra WHERE id = ',
+                        'SELECT usuario_solicitante, numero_pedido FROM pedidos_compra WHERE id = ?',
                         [pedidoId]
                     );
                     
@@ -752,7 +752,7 @@ module.exports = (pool, authenticateToken, logger) => {
                         pedido[0].usuario_solicitante,
                         'pedido_aprovação',
                         'Pedido aprovação',
-                        `Seu pedido ${pedido[0].numero_pedido} foi aprovação e pode ser enviação ao fornecedor.`,
+                        `Seu pedido ${pedido[0].numero_pedido} foi aprovação e pode ser enviado ao fornecedor.`,
                         'pedido_compra',
                         pedidoId,
                         true
@@ -769,7 +769,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 
                 // Notificar solicitante
                 const [pedido] = await connection.execute(
-                    'SELECT usuario_solicitante, numero_pedido FROM pedidos_compra WHERE id = ',
+                    'SELECT usuario_solicitante, numero_pedido FROM pedidos_compra WHERE id = ?',
                     [pedidoId]
                 );
                 
@@ -999,7 +999,7 @@ module.exports = (pool, authenticateToken, logger) => {
             // Atualizar status do recebimento se houver divergência
             if (temDivergencia) {
                 await connection.execute(
-                    'UPDATE recebimentos SET status = "com_divergencia" WHERE id = ',
+                    'UPDATE recebimentos SET status = "com_divergencia" WHERE id = ?',
                     [recebimentoId]
                 );
             }
@@ -1020,7 +1020,7 @@ module.exports = (pool, authenticateToken, logger) => {
                 );
             } else {
                 await connection.execute(
-                    'UPDATE pedidos_compra SET status = "parcial" WHERE id = ',
+                    'UPDATE pedidos_compra SET status = "parcial" WHERE id = ?',
                     [pedido_id]
                 );
             }

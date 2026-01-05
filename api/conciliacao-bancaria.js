@@ -63,10 +63,10 @@ module.exports = function({ pool, authenticateToken }) {
             const acctIdMatch = content.match(/<ACCTID>([^<\r\n]+)/);
             const acctTypeMatch = content.match(/<ACCTTYPE>([^<\r\n]+)/);
             
-            result.banco.codigo = bankIdMatch  bankIdMatch[1].trim() : '';
-            result.conta.agencia = branchIdMatch  branchIdMatch[1].trim() : '';
-            result.conta.numero = acctIdMatch  acctIdMatch[1].trim() : '';
-            result.conta.tipo = acctTypeMatch  acctTypeMatch[1].trim() : '';
+            result.banco.codigo = bankIdMatch ? bankIdMatch[1].trim() : '';
+            result.conta.agencia = branchIdMatch ? branchIdMatch[1].trim() : '';
+            result.conta.numero = acctIdMatch ? acctIdMatch[1].trim() : '';
+            result.conta.tipo = acctTypeMatch ? acctTypeMatch[1].trim() : '';
             
             // Extrair período do extrato
             const dtStartMatch = content.match(/<DTSTART>([^<\r\n]+)/);
@@ -82,7 +82,7 @@ module.exports = function({ pool, authenticateToken }) {
             const dtAsOfMatch = content.match(/<DTASOF>([^<\r\n]+)/);
             
             result.saldo = {
-                valor: balAmtMatch  parseFloat(balAmtMatch[1]) : 0,
+                valor: balAmtMatch ? parseFloat(balAmtMatch[1]) : 0,
                 data: dtAsOfMatch  parseOFXDate(dtAsOfMatch[1]) : null
             };
             
@@ -102,12 +102,12 @@ module.exports = function({ pool, authenticateToken }) {
                 const checkNumMatch = trn.match(/<CHECKNUM>([^<\r\n]+)/);
                 
                 const transacao = {
-                    tipo: trnTypeMatch  trnTypeMatch[1].trim() : '',
+                    tipo: trnTypeMatch ? trnTypeMatch[1].trim() : '',
                     data: dtPostedMatch  parseOFXDate(dtPostedMatch[1]) : null,
-                    valor: trnAmtMatch  parseFloat(trnAmtMatch[1]) : 0,
-                    id_banco: fitIdMatch  fitIdMatch[1].trim() : '',
-                    descricao: memoMatch  memoMatch[1].trim() : (nameMatch  nameMatch[1].trim() : ''),
-                    documento: checkNumMatch  checkNumMatch[1].trim() : ''
+                    valor: trnAmtMatch ? parseFloat(trnAmtMatch[1]) : 0,
+                    id_banco: fitIdMatch ? fitIdMatch[1].trim() : '',
+                    descricao: memoMatch ? memoMatch[1].trim() : (nameMatch ? nameMatch[1].trim() : ''),
+                    documento: checkNumMatch ? checkNumMatch[1].trim() : ''
                 };
                 
                 result.transacoes.push(transacao);
@@ -133,9 +133,9 @@ module.exports = function({ pool, authenticateToken }) {
             const year = parseInt(clean.substr(0, 4));
             const month = parseInt(clean.substr(4, 2)) - 1;
             const day = parseInt(clean.substr(6, 2));
-            const hour = clean.length >= 10  parseInt(clean.substr(8, 2)) : 0;
-            const min = clean.length >= 12  parseInt(clean.substr(10, 2)) : 0;
-            const sec = clean.length >= 14  parseInt(clean.substr(12, 2)) : 0;
+            const hour = clean.length >= 10 ? parseInt(clean.substr(8, 2)) : 0;
+            const min = clean.length >= 12 ? parseInt(clean.substr(10, 2)) : 0;
+            const sec = clean.length >= 14 ? parseInt(clean.substr(12, 2)) : 0;
             
             return new Date(year, month, day, hour, min, sec);
         }

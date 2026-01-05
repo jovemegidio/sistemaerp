@@ -9,14 +9,14 @@ const xml2js = require('xml2js');
 const moment = require('moment-timezone');
 // Módulo soap é opcional - NFe não funciona sem ele
 let soap = null;
-try { soap = require('soap'); } catch (e) { console.warn('[InutilizacaoService] ⚠️  Módulo soap não instalação.'); }
+try { soap = require('soap'); } catch (e) { console.warn('[InutilizacaoService] ⚠️  Módulo soap não instalado.'); }
 
 class InutilizacaoService {
-    constructor(pool, certificaçãoService) {
+    constructor(pool, certificadoService) {
         this.pool = pool;
-        this.certificaçãoService = certificaçãoService;
+        this.certificadoService = certificadoService;
         
-        // URLs de inutilização por UF (Homologação)
+        // URLs de inutilização por UF (Homologado)
         this.urlsInutilizacaoHomologacao = {
             'SP': 'https://homologacao.nfe.fazenda.sp.gov.br/ws/nfeinutilizacao4.asmx',
             'RS': 'https://nfe-homologacao.sefazrs.rs.gov.br/ws/nfeinutilizacao/nfeinutilizacao4.asmx',
@@ -73,7 +73,7 @@ class InutilizacaoService {
             });
 
             console.log('🔏 Assinando XML de inutilização...');
-            const xmlAssinação = await this.certificaçãoService.assinarXML(xmlInutilizacao, empresaId);
+            const xmlAssinação = await this.certificadoService.assinarXML(xmlInutilizacao, empresaId);
 
             console.log('📤 Transmitindo para SEFAZ...');
             const resultado = await this.transmitirInutilizacao(xmlAssinação, uf, ambiente);
@@ -91,7 +91,7 @@ class InutilizacaoService {
                     justificativa,
                     protocolo: resultado.nProt,
                     data_inutilizacao: resultado.dhRecbto,
-                    xml_enviação: xmlAssinação,
+                    xml_enviado: xmlAssinação,
                     xml_retorno: JSON.stringify(resultado),
                     ambiente
                 });
@@ -276,7 +276,7 @@ class InutilizacaoService {
             INSERT INTO nfe_inutilizacoes (
                 ano, cnpj, uf, serie, numero_inicial, numero_final,
                 justificativa, protocolo, data_inutilizacao,
-                xml_enviação, xml_retorno, ambiente, created_at
+                xml_enviado, xml_retorno, ambiente, created_at
             ) VALUES (?, ?, ?, ?, , ?, ?, , ?, ?, , , NOW())
         `, [
             dados.ano,
@@ -288,7 +288,7 @@ class InutilizacaoService {
             dados.justificativa,
             dados.protocolo,
             dados.data_inutilizacao,
-            dados.xml_enviação,
+            dados.xml_enviado,
             dados.xml_retorno,
             dados.ambiente
         ]);

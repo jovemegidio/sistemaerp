@@ -37,8 +37,8 @@ const cfg = {
       if (!local) continue
       // create a nicer display name: Capitalize words separated by . or _ or - or space
       const parts = local.split(/[-_.\s]+/)
-      const display = parts.map(p => p.length > 0  (p[0].toUpperCase() + p.slice(1).toLowerCase()) : '').join(' ')
-      const [res] = await conn.execute('UPDATE funcionarios SET nome_completo =  WHERE id = ', [display, r.id])
+      const display = parts.map(p => p.length > 0 ? (p[0].toUpperCase() + p.slice(1).toLowerCase()) : '').join(' ')
+      const [res] = await conn.execute('UPDATE funcionarios SET nome_completo =  WHERE id = ?', [display, r.id])
       if (res && res.affectedRows && res.affectedRows > 0) updated++
       console.log(`id=${r.id} email=${email} -> nome_completo="${display}"`)
     }

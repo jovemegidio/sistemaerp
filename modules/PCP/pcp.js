@@ -1118,7 +1118,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast(msg, 'error');
                 return;
             }
-            showToast(id ? 'Produto atualização com sucesso' : 'Produto criado com sucesso', 'success');
+            showToast(id ? 'Produto atualizado com sucesso' : 'Produto criado com sucesso', 'success');
             closeProductModal();
             carregarProdutos();
         } catch (err) {
@@ -1332,25 +1332,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 pedido_referencia: (pedidoReferencia ? pedidoReferencia.value || '' : '').toString().trim(),
                 data_liberacao: document.getElementById('order-data_liberacao').value || null
             };
-            // new fields: variacao (array), embalagem, lances (array), transportaçãora (object)
+            // new fields: variacao (array), embalagem, lances (array), transportadora (object)
             const rawVariacao = (document.getElementById('order-variacao').value || '').toString().trim();
             payload.variacao = rawVariacao ? rawVariacao.split(/[;,]+/).map(s=>s.trim()).filter(Boolean) : [];
             payload.embalagem = (document.getElementById('order-embalagem').value || '').toString().trim();
             const rawLances = (document.getElementById('order-lances').value || '').toString().trim();
             payload.lances = rawLances ? rawLances.split(/[;,]+/).map(s=> { const n=parseFloat(s); return Number.isFinite(n) n: s; }).filter(()=>true) : [];
-            payload.transportaçãora = {
-                nome: (document.getElementById('order-transportaçãora_nome').value || '').toString().trim(),
-                fone: (document.getElementById('order-transportaçãora_fone').value || '').toString().trim(),
-                cep: (document.getElementById('order-transportaçãora_cep').value || '').toString().trim(),
-                endereco: (document.getElementById('order-transportaçãora_endereco').value || '').toString().trim(),
-                cpf_cnpj: (document.getElementById('order-transportaçãora_cpf_cnpj').value || '').toString().trim(),
-                email_nfe: (document.getElementById('order-transportaçãora_email_nfe').value || '').toString().trim()
+            payload.transportadora = {
+                nome: (document.getElementById('order-transportadora_nome').value || '').toString().trim(),
+                fone: (document.getElementById('order-transportadora_fone').value || '').toString().trim(),
+                cep: (document.getElementById('order-transportadora_cep').value || '').toString().trim(),
+                endereco: (document.getElementById('order-transportadora_endereco').value || '').toString().trim(),
+                cpf_cnpj: (document.getElementById('order-transportadora_cpf_cnpj').value || '').toString().trim(),
+                email_nfe: (document.getElementById('order-transportadora_email_nfe').value || '').toString().trim()
             };
 
             // basic validation for cpf/cnpj (loose: 11 or 14 digits)
-            if (payload.transportaçãora.cpf_cnpj) {
-                const digits = payload.transportaçãora.cpf_cnpj.replace(/[^0-9]/g,'');
-                if (!(digits.length === 11 || digits.length === 14)) { showToast('CPF/CNPJ da transportaçãora inválido', 'warning'); return; }
+            if (payload.transportadora.cpf_cnpj) {
+                const digits = payload.transportadora.cpf_cnpj.replace(/[^0-9]/g,'');
+                if (!(digits.length === 11 || digits.length === 14)) { showToast('CPF/CNPJ da transportadora inválido', 'warning'); return; }
             }
             
             console.log('✅ [SUBMIT] Validação aprovada, enviando payload:', payload);
@@ -1829,7 +1829,7 @@ if (sidebarOverlay) sidebarOverlay.classList.remove('visible');
                     if (/^#\d+$/.test(q)) {
                         // try lookup pedido by id
                         const id = q.replace('#','');
-                        try { const r = await fetch(`${API_BASE_URL}/pedidos/${encodeURIComponent(id)}`); if (r && r.ok) { const pd = await r.json(); searchResp = { results: { pedidos: pd  [pd] : [] } }; } } catch(e){}
+                        try { const r = await fetch(`${API_BASE_URL}/pedidos/${encodeURIComponent(id)}`); if (r && r.ok) { const pd = await r.json(); searchResp = { results: { pedidos: pd ? [pd] : [] } }; } } catch(e){}
                     }
                     // Parallel fallback searches for general query
                     const [sResp, pResp] = await Promise.all([
@@ -2002,7 +2002,7 @@ async function setCurrentUserUI(user) {
         let nome = (user.apelido || user.nome || user.email || '').toString();
         if (nome && nome.includes('@')) nome = nome.split('@')[0];
         const first = (nome || '').split(/\s+/)[0] || nome || '';
-        const capitalized = first  (first.charAt(0).toUpperCase() + first.slice(1)) : '';
+        const capitalized = first ? (first.charAt(0).toUpperCase() + first.slice(1)) : '';
         
         // Saudação dinâmica baseada na hora
         const hour = new Date().getHours();
@@ -2320,7 +2320,7 @@ async function renderPainelFaturaçãos() {
         const rows = faturados.slice(0,8).map(p => {
             const cliente = p.cliente || '';
             const prod = p.produto_descricao || p.produto_codigo || '';
-            const data = p.data_pedido  new Date(p.data_pedido).toLocaleDateString() : (p.previsao_entrega  new Date(p.previsao_entrega).toLocaleDateString() : '');
+            const data = p.data_pedido ? new Date(p.data_pedido).toLocaleDateString() : (p.previsao_entrega ? new Date(p.previsao_entrega).toLocaleDateString() : '');
             const status = p.status || '';
             return `<div class="list-row"><div class="flex-1"><strong>${cliente}</strong><div class="text-sm muted">${prod} • ${data}</div></div><div class="text-right"><div class="text-success">${status}</div></div></div>`;
         }).join('');
@@ -2349,7 +2349,7 @@ async function openTodosFaturaçãosModal(page = 1, limit = 20) {
         const total = Number(data.total || 0);
     if (!rows.length) { body.innerHTML = '<div class="muted">Nenhum pedido encontrado.</div>'; return; }
         body.innerHTML = rows.map(p=>{
-            const dt = p.created_at  new Date(p.created_at).toLocaleString() : (p.data_prevista new Date(p.data_prevista).toLocaleString(): '');
+            const dt = p.created_at ? new Date(p.created_at).toLocaleString() : (p.data_prevista new Date(p.data_prevista).toLocaleString(): '');
             const produtos = (p.produtos_preview && Array.isArray(p.produtos_preview))  p.produtos_preview.map(x=>`${x.codigo} x${x.quantidade}`).join(', ') : '';
             return `<div class="faturado-item list-row" data-id="${p.id}"><div class="flex-1"><strong>#${p.id} ${p.descricao||''}</strong><div class="text-sm muted">${p.cliente_id 'Cliente ID: '+p.cliente_id : ''} ${produtos}</div></div><div class="list-row-right"><div class="text-success fw-700">${p.status||''}</div><div class="muted small-note">${dt}</div><div class="mt-6"><button class="btn-sm abrir-pedido" data-id="${p.id}">Abrir</button></div></div></div>`;
         }).join('');
@@ -2403,7 +2403,7 @@ async function openTodosPrazosModal(page = 1, limit = 20) {
         const total = Number(data.total || 0);
     if (!rows.length) { body.innerHTML = '<div class="muted">Nenhum prazo encontrado.</div>'; return; }
         body.innerHTML = rows.map(p=>{
-            const dt = p.data_prevista  new Date(p.data_prevista).toLocaleString() : (p.prazo_entrega `${p.prazo_entrega} dias`:'');
+            const dt = p.data_prevista ? new Date(p.data_prevista).toLocaleString() : (p.prazo_entrega `${p.prazo_entrega} dias`:'');
             const produtos = (p.produtos_preview && Array.isArray(p.produtos_preview))  p.produtos_preview.map(x=>`${x.codigo} x${x.quantidade}`).join(', ') : '';
             return `<div class="list-row"><div class="flex-1"><strong>#${p.id} ${p.descricao||''}</strong><div class="text-sm muted">${produtos}</div></div><div class="list-row-right"><div class="fw-700">${dt}</div></div></div>`;
         }).join('');
@@ -2435,7 +2435,7 @@ async function renderPainelPrazosLista() {
         if (!Array.isArray(prazos) || prazos.length === 0) { panel.innerHTML = '<div class="muted pad-12">Nenhum prazo registração.</div>'; return; }
         const rows = prazos.slice(0,10).map(p => {
             const prod = p.produto_descricao || p.produto_codigo || '';
-            const previsao = p.previsao_entrega  new Date(p.previsao_entrega).toLocaleDateString() : 'Sem data';
+            const previsao = p.previsao_entrega ? new Date(p.previsao_entrega).toLocaleDateString() : 'Sem data';
             const cliente = p.cliente || '';
             return `<div class="list-row"><div class="flex-1"><strong>${prod}</strong><div class="text-sm muted">${cliente}</div></div><div class="list-row-right"><div class="fw-700">${previsao}</div></div></div>`;
         }).join('');
@@ -2608,7 +2608,7 @@ async function renderPCPKPIs() {
             }
             ordersArray.forEach(o => {
                 const dateField = o.data_pedido || o.data_previsao_entrega || o.created_at || o.data || o.data_pedido_at;
-                const date = dateField  new Date(dateField) : null;
+                const date = dateField ? new Date(dateField) : null;
                 if (!date || isNaN(date)) return;
                 const key = date.toISOString().slice(0,10);
                 const idx = labels.findIndex(lbl => key.slice(5) === lbl);
@@ -2706,7 +2706,7 @@ async function renderPCPRecentOrders(limit = 6) {
                 produtosText = (p.descricao || (Array.isArray(p.produtos)  p.produtos.join(', ') : '')).toString();
             }
             const status = p.status || p.estação || '';
-            const dateStr = p.data_pedido  new Date(p.data_pedido).toLocaleDateString() : (p.created_at  new Date(p.created_at).toLocaleDateString() : '');
+            const dateStr = p.data_pedido ? new Date(p.data_pedido).toLocaleDateString() : (p.created_at ? new Date(p.created_at).toLocaleDateString() : '');
             return `<div class="list-row"><div class="flex-1"><strong>${escapeHtml(cliente)}</strong> — ${escapeHtml(produtosText)}<div class="text-sm muted">${dateStr}${dateStr ? ' • ' : ''}${escapeHtml(status)}</div></div></div>`;
         }).join('');
         el.innerHTML = rows;

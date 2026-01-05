@@ -38,7 +38,7 @@ const fs = require('fs');
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
+    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
   })
 
   // CPF generator with valid check digits
@@ -53,7 +53,7 @@ const fs = require('fs');
         sum += arr[i] * (mult - i)
       }
       const res = sum % 11
-      return res < 2  0 : 11 - res
+      return res < 2 ? 0 : 11 - res
     }
 
     const d1 = calcDigit(nums)

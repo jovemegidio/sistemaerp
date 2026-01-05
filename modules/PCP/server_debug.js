@@ -10,8 +10,7 @@ console.log('🔧 Iniciando servidor de debug...');
 const app = express();
 const PORT = 3001;
 
-// Middlewares básicos
-app.use(cors({ origin: true, credentials: true }));
+// Middlewares básicos ? app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
 // Configuração do banco - Railway MySQL
@@ -27,8 +26,7 @@ const db = mysql.createPool({
     queueLimit: 0
 });
 
-// Teste de conexão com banco
-console.log('🔗 Testando conexão com banco...');
+// Teste de conexão com banco ? console.log('🔗 Testando conexão com banco...');
 db.getConnection()
   .then(connection => {
       console.log('✅ Banco conectação com sucesso!');
@@ -46,7 +44,7 @@ function getSessionIdFromReq(req) {
     const cookie = req.headers && req.headers.cookie;
     if (!cookie) return null;
     const m = cookie.match(/pcp_session=([^;]+)/);
-    return m  m[1] : null;
+    return m ? m[1] : null;
 }
 
 function authRequired(req, res, next) {
@@ -56,14 +54,12 @@ function authRequired(req, res, next) {
     next();
 }
 
-// Rota de teste
-app.get('/api/test', (req, res) => {
+// Rota de teste ? app.get('/api/test', (req, res) => {
     console.log('📋 Rota /api/test acessada');
     res.json({ message: 'API funcionando', timestamp: new Date().toISOString() });
 });
 
-// Rota de login simplificada
-app.post('/api/pcp/login', async (req, res) => {
+// Rota de login simplificada ? app.post('/api/pcp/login', async (req, res) => {
     const { email, password } = req.body;
     
     try {
@@ -118,14 +114,12 @@ app.post('/api/pcp/login', async (req, res) => {
     }
 });
 
-// Handler de erro global
-app.use((err, req, res, next) => {
+// Handler de erro global ? app.use((err, req, res, next) => {
     console.error('❌ Erro não tratação:', err.message);
     res.status(500).json({ message: 'Erro interno', error: err.message });
 });
 
-// Iniciar servidor
-console.log('🚀 Iniciando servidor...');
+// Iniciar servidor ? console.log('🚀 Iniciando servidor...');
 
 const server = app.listen(PORT, () => {
     console.log(`✅ Servidor rodando em http://localhost:${PORT}`);
@@ -138,8 +132,7 @@ server.on('error', (err) => {
     }
 });
 
-// Capturar erros não trataçãos
-process.on('uncaughtException', (err) => {
+// Capturar erros não trataçãos ? process.on('uncaughtException', (err) => {
     console.error('❌ Exceção não capturada:', err.message);
     console.error(err.stack);
     process.exit(1);

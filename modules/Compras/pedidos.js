@@ -9,8 +9,7 @@ let produtos = [];
 let itemCounter = 0;
 let filtroAtual = 'todos';
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
+// Inicialização ? document.addEventListener('DOMContentLoaded', () => {
     inicializarSistema();
 });
 
@@ -321,7 +320,7 @@ async function salvarPedido() {
     atualizarCards();
     fecharModalPedido();
     
-    mostrarNotificacao(pedidoId ? 'Pedido atualização com sucesso!' : 'Pedido criado com sucesso!', 'success');
+    mostrarNotificacao(pedidoId ? 'Pedido atualizado com sucesso!' : 'Pedido criado com sucesso!', 'success');
 }
 
 function coletarItens() {

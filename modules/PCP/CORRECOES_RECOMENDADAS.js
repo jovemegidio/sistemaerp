@@ -12,8 +12,7 @@ const logger = {
     error: console.error
 };
 
-// Tratamento global de erros para evitar crashes
-process.on('uncaughtException', (err) => {
+// Tratamento global de erros para evitar crashes ? process.on('uncaughtException', (err) => {
     logger.error('❌ Erro não tratação capturação:', err.message);
     logger.error('Stack:', err.stack);
     // Não parar o servidor, apenas logar
@@ -29,8 +28,7 @@ process.on('unhandledRejection', (reason, promise) => {
 // console.log('[LOGIN] attempt...') → logger.debug('[LOGIN] attempt...')
 // console.error('Erro...') → logger.error('Erro...')
 
-// 3. MELHORAR MIDDLEWARE DE ERRO GLOBAL
-app.use((err, req, res, next) => {
+// 3. MELHORAR MIDDLEWARE DE ERRO GLOBAL ? app.use((err, req, res, next) => {
     logger.error('❌ Erro global capturação:', err.message);
     logger.error('URL:', req.url);
     logger.error('Method:', req.method);
@@ -57,8 +55,7 @@ const timeoutMiddleware = (timeout = 30000) => {
     };
 };
 
-// Usar em rotas que geram Excel/PDF
-app.use('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000));
+// Usar em rotas que geram Excel/PDF ? app.use('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000));
 app.use('/api/pcp/export/*', timeoutMiddleware(60000));
 
 // 5. VALIDAÇÃO DE ENTRADA MAIS ROBUSTA
@@ -79,8 +76,7 @@ const validateRequired = (fields) => {
     };
 };
 
-// 6. HEALTH CHECK MAIS DETALHADO
-app.get('/health', async (req, res) => {
+// 6. HEALTH CHECK MAIS DETALHADO ? app.get('/health', async (req, res) => {
     try {
         const health = {
             status: 'ok',

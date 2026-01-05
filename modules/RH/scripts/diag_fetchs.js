@@ -9,7 +9,7 @@ async function postToken (id, role) {
 
 async function call (url, token) {
   try {
-    const hdr = token  { Authorization: 'Bearer ' + token } : {}
+    const hdr = token ? { Authorization: 'Bearer ' + token } : {}
     const r = await fetch(url, { headers: hdr })
     const txt = await r.text()
     console.log(`\n==> ${url} status=${r.status} ok=${r.ok}`)

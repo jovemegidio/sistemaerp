@@ -119,9 +119,9 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         
         // Transportaçãora (Linha 12)
         // Fone Transportaçãora
-        worksheet.getCell('H12').value = dados.transportaçãora_fone || '';
-        worksheet.getCell('I12').value = dados.transportaçãora_fone || '';
-        worksheet.getCell('J12').value = dados.transportaçãora_fone || '';
+        worksheet.getCell('H12').value = dados.transportadora_fone || '';
+        worksheet.getCell('I12').value = dados.transportadora_fone || '';
+        worksheet.getCell('J12').value = dados.transportadora_fone || '';
         
         // CEP (Linha 13)
         worksheet.getCell('C13').value = dados.cep || '';

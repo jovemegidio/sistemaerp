@@ -419,7 +419,7 @@ class GeraçãorPDF {
                 </tr>
                 `).join('')}
             </tbody>
-            ${totais  `
+            ${totais ? `
             <tfoot>
                 <tr class="totais">
                     ${colunas.map(col => `

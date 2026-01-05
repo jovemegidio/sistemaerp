@@ -304,7 +304,7 @@ async function salvarEntidade(event) {
         }
         
         mostrarAlerta(
-            isEdicao ? `${tipo === 'fornecedor' ? 'Fornecedor' : 'Cliente'} atualização com sucesso!` : `${tipo === 'fornecedor' ? 'Fornecedor' : 'Cliente'} criado com sucesso!`,
+            isEdicao ? `${tipo === 'fornecedor' ? 'Fornecedor' : 'Cliente'} atualizado com sucesso!` : `${tipo === 'fornecedor' ? 'Fornecedor' : 'Cliente'} criado com sucesso!`,
             'success'
         );
         

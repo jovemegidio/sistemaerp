@@ -10,7 +10,7 @@ let soap = null;
 try {
     soap = require('soap');
 } catch (e) {
-    console.warn('[SEFAZ] ⚠️  Módulo soap não instalação. Integração NFe/SEFAZ desabilitada.');
+    console.warn('[SEFAZ] ⚠️  Módulo soap não instalado. Integração NFe/SEFAZ desabilitada.');
 }
 const fs = require('fs').promises;
 const https = require('https');
@@ -20,7 +20,7 @@ class SEFAZService {
         this.pool = pool;
         this.clienteSOAP = null;
         
-        // URLs dos webservices SEFAZ por UF (Homologação)
+        // URLs dos webservices SEFAZ por UF (Homologado)
         this.urlsHomologacao = {
             // Região Sul
             'PR': 'https://homologacao.nfce.fazenda.pr.gov.br/nfce/NFeAutorizacao4',
@@ -238,7 +238,7 @@ class SEFAZService {
      */
     montarLoteNFe(xmlNFe, idLote) {
         const versao = '4.00';
-        const tpAmb = '2'; // Homologação
+        const tpAmb = '2'; // Homologado
         
         return `<xml version="1.0" encoding="UTF-8">
 <enviNFe xmlns="http://www.portalfiscal.inf.br/nfe" versao="${versao}">
@@ -350,7 +350,7 @@ class SEFAZService {
      */
     async criarClienteSOAP(url) {
         const options = {
-            // Aceitar certificaçãos auto-assinaçãos em homologação
+            // Aceitar certificados auto-assinaçãos em homologado
             rejectUnauthorized: false,
             timeout: 60000
         };
@@ -383,7 +383,7 @@ class SEFAZService {
         try {
             await this.pool.query(`
                 INSERT INTO nfe_logs_sefaz (
-                    tipo_operacao, xml_enviação, xml_retorno,
+                    tipo_operacao, xml_enviado, xml_retorno,
                     codigo_status, erro, created_at
                 ) VALUES (?, ?, ?, ?, , NOW())
             `, [

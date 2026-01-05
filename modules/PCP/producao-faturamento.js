@@ -209,7 +209,7 @@
             
             const result = await response.json();
             faturamentos = result.data || result || [];
-            console.log('✅ Faturamentos carregaçãos:', faturamentos.length);
+            console.log('✅ Faturamentos carregados:', faturamentos.length);
             
             renderFaturamentos();
             renderCalendar();
@@ -480,7 +480,7 @@
         observer.observe(faturamentoView, { attributes: true });
     }
 
-    console.log('✅ Módulo de Produção e Faturamento carregação');
+    console.log('✅ Módulo de Produção e Faturamento carregado');
 
     // =====================================================
     // FUNÇÕES GLOBAIS PARA OS MODAIS
@@ -653,7 +653,7 @@
             
             if (!response.ok) throw new Error('Erro ao atualizar progresso');
             
-            console.log('✅ Progresso atualização');
+            console.log('✅ Progresso atualizado');
             
             // Recarregar lista
             await loadOrdensProducao();
@@ -661,7 +661,7 @@
             // Fechar modal
             fecharModalProgresso();
             
-            alert('✅ Progresso atualização com sucesso!');
+            alert('✅ Progresso atualizado com sucesso!');
             
         } catch (error) {
             console.error('❌ Erro ao atualizar progresso:', error);

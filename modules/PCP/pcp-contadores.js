@@ -54,7 +54,7 @@
             dadosMateriaisCache = materiais;
             ultimaAtualizacao.materiais = Date.now();
 
-            console.log(`✅ Contaçãor de materiais atualização: ${total}`);
+            console.log(`✅ Contaçãor de materiais atualizado: ${total}`);
 
             // Verificar alertas de estoque
             atualizarAlertasEstoqueMateriais(materiais);
@@ -155,7 +155,7 @@
             dadosProdutosCache = produtos;
             ultimaAtualizacao.produtos = Date.now();
 
-            console.log(`✅ Contaçãores de produtos atualizaçãos:`);
+            console.log(`✅ Contaçãores de produtos atualizados:`);
             console.log(`   Total: ${totalProdutos}`);
             console.log(`   Estoque Baixo: ${estoqueBaixo}`);
             console.log(`   Estoque Crítico: ${estoqueCritico}`);
@@ -205,7 +205,7 @@
             atualizarContaçãoresProdutos()
         ]);
 
-        console.log('✅ Todos os contaçãores atualizaçãos!');
+        console.log('✅ Todos os contaçãores atualizados!');
     }
 
     // ============================================

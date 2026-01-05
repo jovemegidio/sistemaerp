@@ -100,7 +100,7 @@ function loadPage(pageName) {
       console.log(`Página ${pageName} carregada com sucesso`)
       
       // Log de sucesso (sem notificação)
-      console.log(`✅ ${getPageDisplayName(pageName)} carregação`)
+      console.log(`✅ ${getPageDisplayName(pageName)} carregado`)
       
       // Aplicar visualização atual (grid/list)
       if (window.headerControls && window.headerControls.currentView) {
@@ -263,7 +263,7 @@ function initAdminPage () {
         body: formData
       })
       if (!response.ok) throw new Error('Falha no upload do arquivo.')
-      showToast('Arquivo enviação com sucesso!', 'success')
+      showToast('Arquivo enviado com sucesso!', 'success')
       inputFile.value = '' // Limpa o input
       abrirModalDetalhes(currentFuncionarioId) // Recarrega os detalhes do modal
     } catch (error) {
@@ -290,7 +290,7 @@ function initAdminPage () {
       if (!response.ok) throw new Error('Não foi possível buscar os detalhes do funcionário.')
       const func = await response.json()
 
-      const dataAdmissao = func.data_admissao  new Date(func.data_admissao).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : 'N/A'
+      const dataAdmissao = func.data_admissao ? new Date(func.data_admissao).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : 'N/A'
       const atéstaçãos = func.atéstaçãos && func.atéstaçãos.length > 0 ? func.atéstaçãos.map(a => `<li>${a}</li>`).join('') : '<li>Nenhum atéstação registração.</li>'
       const holerites = func.holerites && func.holerites.length > 0 ? func.holerites.map(h => `<li>${h}</li>`).join('') : '<li>Nenhum holerite registração.</li>'
 
@@ -352,7 +352,7 @@ function initEmployeePage () {
   let userData = null
   try {
     userData = JSON.parse(localStorage.getItem('userData'))
-    console.log('🔍 SCRIPT.JS: UserData carregação:', {
+    console.log('🔍 SCRIPT.JS: UserData carregado:', {
       hasUserData: !!userData,
       id: userData.id,
       nome: userData.nome,
@@ -408,9 +408,9 @@ function initEmployeePage () {
       if (element) element.value = value || ''
     })
 
-    document.getElementById('banco').textContent = data.banco || 'Não informação'
-    document.getElementById('agencia').textContent = data.agencia || 'Não informação'
-    document.getElementById('conta_corrente').textContent = data.conta || 'Não informação'
+    document.getElementById('banco').textContent = data.banco || 'Não informado'
+    document.getElementById('agencia').textContent = data.agencia || 'Não informado'
+    document.getElementById('conta_corrente').textContent = data.conta || 'Não informado'
   }
 
   // --- FUNÇÕES DE EVENTOS (FUNCIONÁRIO) ---
@@ -500,7 +500,7 @@ function initEmployeePage () {
       uploadStatus.style.color = 'blue'
       // Simulação de upload
       setTimeout(() => {
-        uploadStatus.textContent = 'Atéstação enviação com sucesso!'
+        uploadStatus.textContent = 'Atéstação enviado com sucesso!'
         uploadStatus.style.color = 'green'
         e.target.reset()
       }, 1500)

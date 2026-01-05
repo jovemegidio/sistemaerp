@@ -258,7 +258,7 @@ async function salvarCentroCusto(event) {
             if (index !== -1) {
                 centrosCusto[index] = { ...centrosCusto[index], ...dados };
             }
-            mostrarMensagem('Centro de custo atualização com sucesso!', 'success');
+            mostrarMensagem('Centro de custo atualizado com sucesso!', 'success');
         } else {
             // TODO: Substituir por chamada real à API
             const novo = await criarCentroCusto(dados);

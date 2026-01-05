@@ -14,7 +14,7 @@ if (names.length === 0) {
 async function postJson (path, body, token) {
   const res = await fetch(API + path, {
     method: 'POST',
-    headers: Object.assign({ 'Content-Type': 'application/json' }, token  { Authorization: 'Bearer ' + token } : {}),
+    headers: Object.assign({ 'Content-Type': 'application/json' }, token ? { Authorization: 'Bearer ' + token } : {}),
     body: JSON.stringify(body)
   })
   const json = await res.json().catch(() => null)
@@ -22,7 +22,7 @@ async function postJson (path, body, token) {
 }
 
 async function getJson (path, token) {
-  const res = await fetch(API + path, { headers: token  { Authorization: 'Bearer ' + token } : {} })
+  const res = await fetch(API + path, { headers: token ? { Authorization: 'Bearer ' + token } : {} })
   const json = await res.json().catch(() => null)
   return { status: res.status, body: json }
 }
@@ -48,7 +48,7 @@ async function getJson (path, token) {
         console.log(`Usuario '${name}' ja existe: id=${existing.id} email=${existing.email}`)
         // generate debug token for existing user
         const dbg = await postJson('/api/debug/generate-token', { id: Number(existing.id), role: 'funcionario' }, adminToken)
-        const token = dbg && dbg.body  (dbg.body.token || (dbg.body.url  new URL(dbg.body.url, API).searchParams.get('token') : null)) : null
+        const token = dbg && dbg.body ? (dbg.body.token || (dbg.body.url ? new URL(dbg.body.url, API).searchParams.get('token') : null)) : null
         console.log('Debug token:', token ? token.slice(0, 12) + '...' : '(none)')
         const me = await getJson('/api/me', token)
         console.log('/api/me ->', me.status, JSON.stringify(me.body))
@@ -62,7 +62,7 @@ async function getJson (path, token) {
         const newId = createResp.body && createResp.body.id
         console.log(`Criação id=${newId}`)
         const dbg = await postJson('/api/debug/generate-token', { id: Number(newId), role: 'funcionario' }, adminToken)
-        const token = dbg && dbg.body  (dbg.body.token || (dbg.body.url  new URL(dbg.body.url, API).searchParams.get('token') : null)) : null
+        const token = dbg && dbg.body ? (dbg.body.token || (dbg.body.url ? new URL(dbg.body.url, API).searchParams.get('token') : null)) : null
         console.log('Debug token:', token ? token.slice(0, 12) + '...' : '(none)')
         const me = await getJson('/api/me', token)
         console.log('/api/me ->', me.status, JSON.stringify(me.body))

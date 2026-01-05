@@ -122,7 +122,7 @@ async function main(){
         const out = String(res.stdout || '').trim();
         // Expect script to print the backup filename on the last line
         const lines = out.split(/\r\n/).filter(Boolean);
-        const maybeName = lines.length  lines[lines.length-1].trim() : '';
+        const maybeName = lines.length ? lines[lines.length-1].trim() : '';
         if (maybeName && maybeName.includes('backups')) {
           // record the backup in migration_backups
           await db.query('INSERT INTO migration_backups (migration_name, backup_path) VALUES (?, )', [migrationName, maybeName]);

@@ -25,7 +25,7 @@ function request(options, body) {
   console.log('Login status', login.status, 'cookie', cookie);
 
   // get produto (use cookie if present)
-  const prod = await request({ hostname: baseHost, port: basePort, path: '/api/pcp/produtospage=1&limit=1', method: 'GET', headers: cookie  { Cookie: cookie } : {} });
+  const prod = await request({ hostname: baseHost, port: basePort, path: '/api/pcp/produtospage=1&limit=1', method: 'GET', headers: cookie ? { Cookie: cookie } : {} });
   let produto_id = null;
   try {
     const prodJson = JSON.parse(prod.body || '{}');
@@ -36,7 +36,7 @@ function request(options, body) {
   }
 
   // get locations
-  const loc = await request({ hostname: baseHost, port: basePort, path: '/api/pcp/locations', method: 'GET', headers: cookie  { Cookie: cookie } : {} });
+  const loc = await request({ hostname: baseHost, port: basePort, path: '/api/pcp/locations', method: 'GET', headers: cookie ? { Cookie: cookie } : {} });
   console.log('Locations response status', loc.status, 'headers', loc.headers);
   let locs = [];
   try { locs = JSON.parse(loc.body || '[]'); } catch (e) { console.warn('Locations returned non-JSON:', (loc.body||'').slice(0,200)); }

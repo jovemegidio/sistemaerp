@@ -403,13 +403,13 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
       // Registrar envio no banco
       await pool.query(`
         UPDATE nfe 
-        SET email_enviação = true, data_envio_email = NOW() 
+        SET email_enviado = true, data_envio_email = NOW() 
         WHERE id = 
       `, [nfe_id]);
 
       res.json({
         success: true,
-        message: `Email enviação para ${email_cliente}`,
+        message: `Email enviado para ${email_cliente}`,
         data: {
           destinatario: email_cliente,
           anexos,
@@ -427,7 +427,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
     try {
       const { nfe_id } = req.params;
       const { motivo } = req.body;
-      await pool.query('UPDATE nfe SET status = "cancelada", motivo_cancelamento =  WHERE id = ', [motivo, nfe_id]);
+      await pool.query('UPDATE nfe SET status = "cancelada", motivo_cancelamento =  WHERE id = ?', [motivo, nfe_id]);
       res.json({ message: 'NF-e cancelada.' });
     } catch (error) { next(error); }
   });
@@ -436,7 +436,7 @@ module.exports = function createApiNfeRouter({ pool, authenticateToken, authoriz
     try {
       const { nfe_id } = req.params;
       const { correcao } = req.body;
-      await pool.query('UPDATE nfe SET carta_correcao =  WHERE id = ', [correcao, nfe_id]);
+      await pool.query('UPDATE nfe SET carta_correcao =  WHERE id = ?', [correcao, nfe_id]);
       res.json({ message: 'Carta de Correção registrada.' });
     } catch (error) { next(error); }
   });

@@ -285,7 +285,7 @@ class NotificationSystem {
             <div class="notification-content">
                 <div class="notification-title">${notification.title}</div>
                 <div class="notification-message">${notification.message}</div>
-                ${notification.actions && notification.actions.length > 0  `
+                ${notification.actions && notification.actions.length > 0 ? `
                     <div class="notification-actions">
                         ${notification.actions.map(action => `
                             <button class="notification-action-btn" onclick="notificationSystem.handleAction('${action.action}', ${notification.id})">
@@ -796,8 +796,7 @@ const notificationPanelHTML = `
 </div>
 `;
 
-// Inicializar quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', function() {
+// Inicializar quando o DOM estiver pronto ? document.addEventListener('DOMContentLoaded', function() {
     // Adicionar estilos
     document.head.insertAdjacentHTML('beforeend', notificationStyles);
     

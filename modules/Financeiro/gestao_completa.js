@@ -12,11 +12,10 @@ let ordenarDirecao = 'ASC';
 // CONTROLE DE ACESSO
 // =============================================================================
 
-// Verificar permissões ao carregar a página
-document.addEventListener('DOMContentLoaded', function() {
+// Verificar permissões ao carregar a página ? document.addEventListener('DOMContentLoaded', function() {
     // Verificar se o sistema de autenticação está disponível
     if (typeof auth === 'undefined') {
-        console.error('❌ Sistema de autenticação não carregação. Verifique se auth.js está incluído antes deste script.');
+        console.error('❌ Sistema de autenticação não carregado. Verifique se auth.js está incluído antes deste script.');
         alert('⚠️ Erro: Sistema de autenticação não disponível. Recarregue a página.');
         return;
     }
@@ -254,9 +253,9 @@ function aplicarFiltros() {
         const valorB = b[ordenarPor];
         
         if (ordenarDirecao === 'ASC') {
-            return valorA > valorB  1 : -1;
+            return valorA > valorB ? 1 : -1;
         } else {
-            return valorA < valorB  1 : -1;
+            return valorA < valorB ? 1 : -1;
         }
     });
 
@@ -584,7 +583,7 @@ async function marcarPago(id) {
     }
 }
 
-// Excluir selecionaçãos
+// Excluir selecionados
 async function excluirSelecionaçãos() {
     // Verificar permissão
     const permissao = abaAtual === 'pagar' ? 'contas_pagar.excluir' : 'contas_receber.excluir';
@@ -599,7 +598,7 @@ async function excluirSelecionaçãos() {
         return;
     }
     
-    if (!confirm(`Deseja realmente excluir ${itensSelecionaçãos.size} item(ns) selecionação(s)`)) return;
+    if (!confirm(`Deseja realmente excluir ${itensSelecionaçãos.size} item(ns) selecionado(s)`)) return;
     
     try {
         const token = getToken();
@@ -651,7 +650,7 @@ function abrirModalParcelamento(id) {
     
     // Verificar se o sistema de parcelamento está disponível
     if (typeof SistemaParcelamento === 'undefined') {
-        alert('⚠️ Sistema de parcelamento não carregação. Verifique se o arquivo parcelamento.js está incluído.');
+        alert('⚠️ Sistema de parcelamento não carregado. Verifique se o arquivo parcelamento.js está incluído.');
         return;
     }
     

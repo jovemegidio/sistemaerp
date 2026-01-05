@@ -9,7 +9,7 @@ const path = require('path');
     user: process.env.DB_USER || 'root',
     password: process.env.DB_PASS || '@dminalu',
     database: process.env.DB_NAME || 'aluforce_vendas',
-    port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
+    port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
   })
 
   try {

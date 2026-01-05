@@ -454,8 +454,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Export functions for global access
-window.modernSections = {
+// Export functions for global access ? window.modernSections = {
     showGridView,
     showListView,
     filterEmployees,

@@ -162,8 +162,7 @@ function filtrarRapidoGestao(tipo) {
     buscarProdutosGestao(1, 20);
 }
 
-// Disponibiliza globalmente
-window.buscarProdutosGestao = buscarProdutosGestao;
+// Disponibiliza globalmente ? window.buscarProdutosGestao = buscarProdutosGestao;
 window.filtrarRapidoGestao = filtrarRapidoGestao;
 
 // Atualiza contaçãores específicos da página Gestão de Produtos
@@ -232,8 +231,7 @@ function initGestaoProdutos() {
 // Garante que a função está disponível globalmente (caso necessário)
 window.initGestaoProdutos = initGestaoProdutos;
 window.updateCountersGestaoProdutos = updateCountersGestaoProdutos;
-// Modern PCP Interface Controller
-console.log('JavaScript file loaded successfully');
+// Modern PCP Interface Controller ? console.log('JavaScript file loaded successfully');
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOMContentLoaded event fired - PCP Interface starting initialization...');
@@ -295,11 +293,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 this.style.opacity = '1';
                 
                 // Show success feedback
-                showToast('Daçãos atualizaçãos com sucesso!', 'success');
+                showToast('Daçãos atualizados com sucesso!', 'success');
                 
                 // Add a detailed notification about what was refreshed
                 setTimeout(() => {
-                    showToast('Inventário sincronização - 245 itens atualizaçãos', 'info');
+                    showToast('Inventário sincronização - 245 itens atualizados', 'info');
                 }, 500);
                 
                 // Refresh dashboard if active
@@ -735,8 +733,7 @@ function showToast(message, type = 'info', duration = 4000) {
     updateNotificationPanel();
 }
 
-// Make showToast available globally for compatibility
-window.showToast = showToast;
+// Make showToast available globally for compatibility ? window.showToast = showToast;
 
 function displayToast(message, type, duration) {
     const container = document.getElementById('pcp-toast-container') || createToastContainer();
@@ -1693,8 +1690,7 @@ function initializeDarkMode() {
     }
 }
 
-// Initialize dark mode on page load
-document.addEventListener('DOMContentLoaded', function() {
+// Initialize dark mode on page load ? document.addEventListener('DOMContentLoaded', function() {
     initializeDarkMode();
     addBellRingAnimation();
     
@@ -1796,7 +1792,7 @@ async function carregarMateriais() {
             materiaisInfo.textContent = `${materiais.length} materiais encontrados`;
         }
         
-        showToast(`${materiais.length} materiais carregaçãos`, 'success');
+        showToast(`${materiais.length} materiais carregados`, 'success');
         
     } catch (error) {
         console.error('Erro ao carregar materiais:', error);
@@ -1930,7 +1926,7 @@ async function carregarProdutos(page = 1, limit = 20) {
             produtosInfo.textContent = `${total} produtos encontrados`;
         }
         
-    showToast(`${produtos.length} produtos carregaçãos`, 'success');
+    showToast(`${produtos.length} produtos carregados`, 'success');
         
     } catch (error) {
         console.error('Erro ao carregar produtos:', error);
@@ -2180,8 +2176,7 @@ function atualizarPreviewVariacao(variacoes) {
     }
 }
 
-// Função de ajuda para variações
-window.mostrarAjudaVariacao = function() {
+// Função de ajuda para variações ? window.mostrarAjudaVariacao = function() {
     showToast(`
         <i class="fas fa-clipboard-list"></i> <strong>Formato de Variações:</strong><br>
         • JSON Array: ["Item1", "Item2"]<br>
@@ -2239,13 +2234,11 @@ window.excluirProduto = function(id) {
     }
 };
 
-// Make functions available globally
-window.carregarMateriais = carregarMateriais;
+// Make functions available globally ? window.carregarMateriais = carregarMateriais;
 window.carregarProdutos = carregarProdutos;
 window.initializeMaterialsView = initializeMaterialsView;
 
-// Função para gerar catálogo de produtos
-window.gerarCatalogoProdutos = async function() {
+// Função para gerar catálogo de produtos ? window.gerarCatalogoProdutos = async function() {
     console.log('<i class="fas fa-chart-bar"></i> Gerando catálogo de produtos...');
     
     try {
@@ -2412,8 +2405,7 @@ window.gerarCatalogoProdutos = async function() {
     }
 };
 
-// Test function to manually test loading
-window.testMateriais = async function() {
+// Test function to manually test loading ? window.testMateriais = async function() {
     console.log('Testing materiais load...');
     
     try {
@@ -2505,7 +2497,7 @@ async function openProductDetailsModal(productId) {
     if (product) {
         title.textContent = `Detalhes: ${product.descricao || product.codigo || 'Produto'}`;
         displayProductDetails(product, body);
-        showToast('Detalhes do produto carregaçãos', 'success');
+        showToast('Detalhes do produto carregados', 'success');
     } else {
         body.innerHTML = `
             <div class="error-message">
@@ -2590,11 +2582,11 @@ function displayProductDetails(product, container) {
                 <div class="info-grid">
                     <div class="info-item">
                         <label>Data de Criação:</label>
-                        <span class="info-value">${product.created_at  new Date(product.created_at).toLocaleDateString('pt-BR') : 'N/A'}</span>
+                        <span class="info-value">${product.created_at ? new Date(product.created_at).toLocaleDateString('pt-BR') : 'N/A'}</span>
                     </div>
                     <div class="info-item">
                         <label>Última Atualização:</label>
-                        <span class="info-value">${product.updated_at  new Date(product.updated_at).toLocaleDateString('pt-BR') : 'N/A'}</span>
+                        <span class="info-value">${product.updated_at ? new Date(product.updated_at).toLocaleDateString('pt-BR') : 'N/A'}</span>
                     </div>
                     <div class="info-item">
                         <label>Criação por:</label>
@@ -2702,8 +2694,7 @@ function displaySearchResults(products, container) {
     container.setAttribute('aria-hidden', 'false');
 }
 
-// Make functions globally available
-window.openProductDetailsModal = openProductDetailsModal;
+// Make functions globally available ? window.openProductDetailsModal = openProductDetailsModal;
 window.closeProductDetailsModal = closeProductDetailsModal;
 window.editProductFromDetails = editProductFromDetails;
 window.searchProducts = searchProducts;
@@ -2732,7 +2723,7 @@ function initializeAllPageHeaders() {
                 this.style.opacity = '1';
                 
                 // Show success feedback
-                showToast('Materiais atualizaçãos com sucesso!', 'success');
+                showToast('Materiais atualizados com sucesso!', 'success');
                 
                 // Reload materials if function exists
                 if (typeof window.carregarMateriais === 'function') {
@@ -3028,14 +3019,12 @@ async function exportarProdutos() {
     }
 }
 
-// Expose functions globally
-window.abrirModalNovoProduto = abrirModalNovoProduto;
+// Expose functions globally ? window.abrirModalNovoProduto = abrirModalNovoProduto;
 window.fecharModalNovoProduto = fecharModalNovoProduto;
 window.salvarNovoProduto = salvarNovoProduto;
 window.exportarProdutos = exportarProdutos;
 
-// Debug helper: call window.testOpenNewProductModal() from browser console to open modal and print key fields
-window.testOpenNewProductModal = function() {
+// Debug helper: call window.testOpenNewProductModal() from browser console to open modal and print key fields ? window.testOpenNewProductModal = function() {
     try {
         abrirModalNovoProduto();
         const modal = document.getElementById('modal-novo-produto');
@@ -3063,8 +3052,8 @@ function updateMateriaisStatus() {
     // Simulate API delay (or use real API values when available)
     setTimeout(() => {
         // Read targets from data attributes if present
-        const materiaisTarget = materiaisCount && materiaisCount.dataset && materiaisCount.dataset.target  parseInt(materiaisCount.dataset.target, 10) : 189;
-        const produtosTarget = produtosCount && produtosCount.dataset && produtosCount.dataset.target  parseInt(produtosCount.dataset.target, 10) : 238;
+        const materiaisTarget = materiaisCount && materiaisCount.dataset && materiaisCount.dataset.target ? parseInt(materiaisCount.dataset.target, 10) : 189;
+        const produtosTarget = produtosCount && produtosCount.dataset && produtosCount.dataset.target ? parseInt(produtosCount.dataset.target, 10) : 238;
 
         if (materiaisCount) {
             animateCounter(materiaisCount, materiaisTarget, 1200);
@@ -3160,7 +3149,7 @@ function triggerSuccessAnimation() {
     });
     
     // Show notification
-    showStatusNotification('📊 Daçãos atualizaçãos com sucesso!', 'success');
+    showStatusNotification('📊 Daçãos atualizados com sucesso!', 'success');
 }
 
 // Status notification system
@@ -3435,8 +3424,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
-            console.log('✅ Produto atualização:', data.message);
-            showToast('✅ Produto atualização com sucesso!', 'success');
+            console.log('✅ Produto atualizado:', data.message);
+            showToast('✅ Produto atualizado com sucesso!', 'success');
             
             // Fecha modal e recarrega produtos
             fecharModal();
@@ -3553,7 +3542,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Event listeners para campos de estoque - atualização em tempo real
+    // Event listeners para campos de estoque - atualizado em tempo real
     const quantidadeInput = document.getElementById('edit-quantidade');
     const estoqueMinInput = document.getElementById('edit-estoque-minimo');
     const estoqueMaxInput = document.getElementById('edit-estoque-maximo');
@@ -3577,8 +3566,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Call initialization when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+// Call initialization when DOM is ready ? document.addEventListener('DOMContentLoaded', function() {
     // Initialize after a short delay to ensure all elements are loaded
     setTimeout(() => {
         initializeAllPageHeaders();

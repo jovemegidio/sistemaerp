@@ -24,7 +24,7 @@ function findPhoto (name) {
   const files = fs.readdirSync(uploadsDir)
   const lower = name.toLowerCase()
   const match = files.find(f => f.toLowerCase().includes(lower))
-  return match  ('/uploads/fotos/' + match) : null
+  return match ? ('/uploads/fotos/' + match) : null
 }
 
 async function run () {
@@ -40,7 +40,7 @@ async function run () {
       for (const row of rows) {
         // update only if different
         if (!row.foto_perfil_url || row.foto_perfil_url !== photo) {
-          await new Promise((res, rej) => db.query('UPDATE funcionarios SET foto_perfil_url =  WHERE id = ', [photo, row.id], (e, r) => e  rej(e) : res(r)))
+          await new Promise((res, rej) => db.query('UPDATE funcionarios SET foto_perfil_url =  WHERE id = ?', [photo, row.id], (e, r) => e  rej(e) : res(r)))
           console.log(`Atualizada foto de ${row.nome_completo} (id=${row.id}) -> ${photo}`)
         } else {
           console.log(`Foto já configurada para ${row.nome_completo} (id=${row.id}).`)

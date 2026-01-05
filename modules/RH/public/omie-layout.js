@@ -311,7 +311,7 @@ class OmieLayoutManager {
                 tab.classList.add('active');
                 
                 // Toast de confirmação
-                this.showToast('Filtro', `${tab.textContent} selecionação`, 'info');
+                this.showToast('Filtro', `${tab.textContent} selecionado`, 'info');
             });
         });
     }
@@ -812,7 +812,7 @@ class OmieLayoutManager {
                         <div class="message-avatar"></div>
                         <div class="message-content">
                             <div class="message-sender">Administraçãor</div>
-                            <p>Documentos atualizaçãos no sistema</p>
+                            <p>Documentos atualizados no sistema</p>
                             <span class="message-time">Ontem, 16:45</span>
                         </div>
                     </div>
@@ -939,7 +939,7 @@ class OmieLayoutManager {
                 }
             }
             
-            this.showToast('Sistema', 'Daçãos atualizaçãos com sucesso!', 'success');
+            this.showToast('Sistema', 'Daçãos atualizados com sucesso!', 'success');
         }, 1500);
     }
 
@@ -1084,7 +1084,7 @@ class OmieLayoutManager {
                         <i class="fas fa-info-circle text-blue"></i>
                         <div>
                             <strong>Bem-vindo ao sistema!</strong>
-                            <p>Sistema Aluforce RH atualização</p>
+                            <p>Sistema Aluforce RH atualizado</p>
                             <small>Há 2 horas</small>
                         </div>
                     </div>
@@ -1480,7 +1480,7 @@ class OmieLayoutManager {
             dateEl.textContent = new Date().toLocaleDateString('pt-BR');
         }
         
-        // Simular atualização de notificações
+        // Simular atualizado de notificações
         setTimeout(() => {
             this.updateNotificationsCount();
         }, 500);
@@ -1528,10 +1528,8 @@ class OmieLayoutManager {
     }
 }
 
-// Inicializar quando o DOM estiver pronto
-document.addEventListener('DOMContentLoaded', () => {
+// Inicializar quando o DOM estiver pronto ? document.addEventListener('DOMContentLoaded', () => {
     window.omieLayout = new OmieLayoutManager();
 });
 
-// Export para uso global
-window.OmieLayoutManager = OmieLayoutManager;
+// Export para uso global ? window.OmieLayoutManager = OmieLayoutManager;

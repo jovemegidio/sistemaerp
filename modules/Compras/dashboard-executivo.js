@@ -464,7 +464,7 @@ class DashboardExecutivoManager {
     }
 
     atualizarDaçãosTempoReal() {
-        // Simular atualização de dados em tempo real
+        // Simular atualizado de dados em tempo real
         
         // Pequenas variações nos KPIs
         const variacao = (Math.random() - 0.5) * 0.02; // ±1%
@@ -472,7 +472,7 @@ class DashboardExecutivoManager {
         
         // Atualizar alertas críticos
         if (Math.random() > 0.7) {
-            this.dados.alertasCriticos += Math.random() > 0.5  1 : -1;
+            this.dados.alertasCriticos += Math.random() > 0.5 ? 1 : -1;
             this.dados.alertasCriticos = Math.max(0, this.dados.alertasCriticos);
         }
         
@@ -481,7 +481,7 @@ class DashboardExecutivoManager {
         
         // Atualizar gráficos
         Object.values(this.charts).forEach(chart => {
-            chart.update('none'); // Sem animação para atualização em tempo real
+            chart.update('none'); // Sem animação para atualizado em tempo real
         });
         
         // Feedback visual
@@ -566,8 +566,7 @@ function inicializarUsuario() {
     }
 }
 
-// Fechar menu ao clicar fora
-document.addEventListener('click', function(event) {
+// Fechar menu ao clicar fora ? document.addEventListener('click', function(event) {
     const userProfile = document.querySelector('.user-profile');
     const userMenu = document.getElementById('userMenu');
     

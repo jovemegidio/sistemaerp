@@ -7,7 +7,7 @@ const DB_CONFIG = {
   user: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || '@dminalu',
   database: process.env.DB_NAME || 'aluforce_vendas',
-  port: process.env.DB_PORT  Number(process.env.DB_PORT) : 3306
+  port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 3306
 }
 
 async function upsert (email, password, nome, role = 'funcionario') {
@@ -18,7 +18,7 @@ async function upsert (email, password, nome, role = 'funcionario') {
     const cpfArg = argv[4] || null // optional cpf
     if (rows && rows.length > 0) {
       const id = rows[0].id
-      await conn.execute('UPDATE funcionarios SET senha = , nome_completo = , role =  WHERE id = ', [hashed, nome, role, id])
+      await conn.execute('UPDATE funcionarios SET senha = , nome_completo = , role =  WHERE id = ?', [hashed, nome, role, id])
       console.log(`Atualização usuário id=${id} email=${email}`)
     } else {
       // cpf is required by the schema; generate a short placeholder if not provided

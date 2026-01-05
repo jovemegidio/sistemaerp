@@ -1,5 +1,4 @@
-// Script para gerenciar avatar e informações do usuário logação
-(function() {
+// Script para gerenciar avatar e informações do usuário logado ? (function() {
     'use strict';
     
     let currentUser = null;
@@ -15,7 +14,7 @@
             if (response.ok) {
                 const data = await response.json();
                 currentUser = data.user;
-                console.log('👤 Usuário logação:', currentUser);
+                console.log('👤 Usuário logado:', currentUser);
                 atualizarInterfaceUsuario(currentUser);
                 return currentUser;
             } else {

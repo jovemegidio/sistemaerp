@@ -145,7 +145,7 @@ module.exports = function({ pool, authenticateToken }) {
             const { id } = req.params;
             
             const [[nfe]] = await pool.query(
-                'SELECT * FROM nfes WHERE id = ',
+                'SELECT * FROM nfes WHERE id = ?',
                 [id]
             );
 
@@ -196,7 +196,7 @@ module.exports = function({ pool, authenticateToken }) {
             const { id } = req.params;
             
             const [[nfe]] = await pool.query(
-                'SELECT * FROM nfes WHERE id = ',
+                'SELECT * FROM nfes WHERE id = ?',
                 [id]
             );
 
@@ -216,7 +216,7 @@ module.exports = function({ pool, authenticateToken }) {
 
             // Atualizar status para processando
             await pool.query(
-                'UPDATE nfes SET status = , tentativas_envio = tentativas_envio + 1, updated_at = NOW() WHERE id = ',
+                'UPDATE nfes SET status = , tentativas_envio = tentativas_envio + 1, updated_at = NOW() WHERE id = ?',
                 ['processando', id]
             );
 
@@ -356,7 +356,7 @@ module.exports = function({ pool, authenticateToken }) {
             }
 
             const [[nfe]] = await pool.query(
-                'SELECT * FROM nfes WHERE id = ',
+                'SELECT * FROM nfes WHERE id = ?',
                 [id]
             );
 
@@ -568,7 +568,7 @@ module.exports = function({ pool, authenticateToken }) {
             const { tipo = 'autorização' } = req.query;
 
             const [[nfe]] = await pool.query(
-                'SELECT numero, serie, xml_assinação, xml_autorização FROM nfes WHERE id = ',
+                'SELECT numero, serie, xml_assinação, xml_autorização FROM nfes WHERE id = ?',
                 [id]
             );
 
@@ -613,7 +613,7 @@ module.exports = function({ pool, authenticateToken }) {
             res.json({
                 success: true,
                 data: configs[0] || {
-                    ambiente: 2, // Homologação
+                    ambiente: 2, // Homologado
                     serie_nfe: 1,
                     serie_nfce: 1,
                     ultimo_numero_nfe: 0,

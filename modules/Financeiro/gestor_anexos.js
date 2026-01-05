@@ -526,7 +526,7 @@ class GestorAnexos {
                         </div>
                     ` : ''}
                 </div>
-                ${!anexo.uploading  `
+                ${!anexo.uploading ? `
                     <div class="anexo-acoes">
                         ${this.podeVisualizar(anexo.tipo)  `
                             <button class="btn-visualizar" onclick="gestorAnexos.visualizar('${anexo.id}')">

@@ -60,7 +60,7 @@ router.get('/executivo', async (req, res) => {
                 faturamento_periodo: kpisVendas.faturamento + kpisNFe.valor_emitido,
                 receitas: kpisFinanceiro.receitas,
                 despesas: kpisFinanceiro.despesas,
-                lucro_estimação: kpisFinanceiro.receitas - kpisFinanceiro.despesas,
+                lucro_estimado: kpisFinanceiro.receitas - kpisFinanceiro.despesas,
                 margem_percentual: kpisFinanceiro.receitas > 0 
                      ((kpisFinanceiro.receitas - kpisFinanceiro.despesas) / kpisFinanceiro.receitas * 100).toFixed(1)
                     : 0,
@@ -73,7 +73,7 @@ router.get('/executivo', async (req, res) => {
             rh: kpisRH,
             fiscal: kpisNFe,
             alertas: gerarAlertas(kpisVendas, kpisCompras, kpisFinanceiro, kpisPCP),
-            atualização_em: new Date().toISOString()
+            atualizado_em: new Date().toISOString()
         };
 
         res.json(dashboard);

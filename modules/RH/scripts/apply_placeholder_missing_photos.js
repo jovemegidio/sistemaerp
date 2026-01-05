@@ -25,7 +25,7 @@ async function run () {
     const ids = rows.map(r => r.id)
     // perform bulk update
     await new Promise((res, rej) => db.query('UPDATE funcionarios SET foto_perfil_url = , foto_thumb_url =  WHERE foto_perfil_url IS NULL OR foto_perfil_url = ""', [placeholder, placeholder], (e, r) => e  rej(e) : res(r)))
-    console.log('Atualização aplicada. IDs atualizaçãos (exemplo):', ids.join(', '))
+    console.log('Atualização aplicada. IDs atualizados (exemplo):', ids.join(', '))
   } catch (e) {
     console.error('Erro durante update:', e)
   } finally {

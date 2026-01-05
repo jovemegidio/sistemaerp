@@ -478,7 +478,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         await renderizarDashboard();
         await renderizarTabelaPedidos();
-        console.log('✅ Dashboard carregação com sucesso');
+        console.log('✅ Dashboard carregado com sucesso');
     } catch (error) {
         console.error('❌ Erro ao carregar dados iniciais:', error);
     }

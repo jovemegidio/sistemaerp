@@ -8,15 +8,14 @@ let itemReqCounter = 0;
 let filtroAtual = 'todos';
 let usuarioLogação = { nome: 'Admin', departamento: 'Compras', nivel: 'gerente' };
 
-// Inicialização
-document.addEventListener('DOMContentLoaded', () => {
+// Inicialização ? document.addEventListener('DOMContentLoaded', () => {
     inicializarSistemaRequisicoes();
 });
 
 async function inicializarSistemaRequisicoes() {
     console.log('🚀 Inicializando sistema de requisições...');
     
-    // Carregar usuário logação
+    // Carregar usuário logado
     const userData = localStorage.getItem('usuarioLogação');
     if (userData) {
         const user = JSON.parse(userData);
@@ -135,7 +134,7 @@ function adicionarItemRequisicao(itemData = null) {
         </td>
         <td>
             <input type="number" class="itemReq-total" 
-                   value="${itemData.total_estimação || 0}" 
+                   value="${itemData.total_estimado || 0}" 
                    reaçãonly 
                    style="background: #f9fafb; font-weight: 600;">
         </td>
@@ -206,7 +205,7 @@ function salvarRequisicao(status) {
         return;
     }
     
-    const total = itens.reduce((sum, item) => sum + item.total_estimação, 0);
+    const total = itens.reduce((sum, item) => sum + item.total_estimado, 0);
     
     const requisicao = {
         id: requisicaoId || Date.now().toString(),
@@ -262,7 +261,7 @@ function coletarItensRequisicao() {
             quantidade: quantidade,
             unidade: row.querySelector('.itemReq-unidade').value,
             valor_estimado: valor,
-            total_estimação: quantidade * valor
+            total_estimado: quantidade * valor
         });
     });
     
@@ -356,7 +355,7 @@ function visualizarRequisicao(requisicaoId) {
                         <td style="padding: 12px; text-align: center;">${item.quantidade}</td>
                         <td style="padding: 12px; text-align: center;">${item.unidade}</td>
                         <td style="padding: 12px; text-align: right;">${formatarMoeda(item.valor_estimado)}</td>
-                        <td style="padding: 12px; text-align: right; font-weight: 600;">${formatarMoeda(item.total_estimação)}</td>
+                        <td style="padding: 12px; text-align: right; font-weight: 600;">${formatarMoeda(item.total_estimado)}</td>
                     </tr>
                 `).join('')}
             </tbody>
@@ -369,7 +368,7 @@ function visualizarRequisicao(requisicaoId) {
             </div>
         </div>
         
-        ${req.historico_aprovacao && req.historico_aprovacao.length > 0  `
+        ${req.historico_aprovacao && req.historico_aprovacao.length > 0 ? `
             <div class="approval-timeline">
                 <h4 style="margin-bottom: 16px;"><i class="fas fa-history"></i> Histórico de Aprovação</h4>
                 ${req.historico_aprovacao.map(h => `
@@ -591,11 +590,11 @@ function formatarMoeda(valor) {
 }
 
 function formatarData(data) {
-    return data  new Date(data).toLocaleDateString('pt-BR') : '-';
+    return data ? new Date(data).toLocaleDateString('pt-BR') : '-';
 }
 
 function formatarDataHora(data) {
-    return data  new Date(data).toLocaleString('pt-BR') : '-';
+    return data ? new Date(data).toLocaleString('pt-BR') : '-';
 }
 
 function getStatusLabelReq(status) {
@@ -633,8 +632,8 @@ function gerarRequisicoesExemplo() {
             status: 'aguardando_aprovacao',
             valor_estimado: 15000,
             itens: [
-                { descricao: 'Cabo Triplex 10mm²', quantidade: 500, unidade: 'M', valor_estimado: 25, total_estimação: 12500 },
-                { descricao: 'Conectores', quantidade: 100, unidade: 'UN', valor_estimado: 25, total_estimação: 2500 }
+                { descricao: 'Cabo Triplex 10mm²', quantidade: 500, unidade: 'M', valor_estimado: 25, total_estimado: 12500 },
+                { descricao: 'Conectores', quantidade: 100, unidade: 'UN', valor_estimado: 25, total_estimado: 2500 }
             ],
             historico_aprovacao: [],
             created_at: '2025-12-10T10:00:00Z'
@@ -650,7 +649,7 @@ function gerarRequisicoesExemplo() {
             status: 'aprovada',
             valor_estimado: 8500,
             itens: [
-                { descricao: 'Jogo de chaves', quantidade: 5, unidade: 'UN', valor_estimado: 350, total_estimação: 1750 }
+                { descricao: 'Jogo de chaves', quantidade: 5, unidade: 'UN', valor_estimado: 350, total_estimado: 1750 }
             ],
             historico_aprovacao: [
                 {
