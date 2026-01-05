@@ -1,4 +1,4 @@
-// server.js - VERSÉO FINAL, ESTÁVEL E COM NOVAS FUNCIONALIDADES
+﻿// server.js - VERSÉO FINAL, ESTÁVEL E COM NOVAS FUNCIONALIDADES
 // Load environment variables from .env when present
 require('dotenv').config();
 const express = require('express');
@@ -460,7 +460,7 @@ apiVendasRouter.get('/kanban/pedidos', async (req, res) => {
             try {
                 const decoded = jwt.verify(token, JWT_SECRET);
                 if (decoded && decoded.id) {
-                    const [userRows] = await pool.query('SELECT id, nome, email, role, is_admin FROM usuarios WHERE id = ', [decoded.id]);
+                    const [userRows] = await pool.query('SELECT id, nome, email, role, is_admin FROM usuarios WHERE id = ?', [decoded.id]);
                     if (userRows.length > 0) {
                         currentUser = userRows[0];
                         isAdmin = verificarSeAdmin(currentUser);
@@ -532,32 +532,32 @@ apiVendasRouter.get('/kanban/pedidos', async (req, res) => {
                 case 'ultimos-3':
                 case 'proximos-3':
                     const d3 = new Date(hoje);
-                    d3.setDate(d3.getDate() + (tipo === 'futuro'  3 : -3));
+                    d3.setDate(d3.getDate() + (tipo === 'futuro' ? 3 : -3));
                     return d3;
                 case 'ultimos-7':
                 case 'proximos-7':
                     const d7 = new Date(hoje);
-                    d7.setDate(d7.getDate() + (tipo === 'futuro'  7 : -7));
+                    d7.setDate(d7.getDate() + (tipo === 'futuro' ? 7 : -7));
                     return d7;
                 case 'ultimos-15':
                 case 'proximos-15':
                     const d15 = new Date(hoje);
-                    d15.setDate(d15.getDate() + (tipo === 'futuro'  15 : -15));
+                    d15.setDate(d15.getDate() + (tipo === 'futuro' ? 15 : -15));
                     return d15;
                 case 'ultimos-30':
                 case 'proximos-30':
                     const d30 = new Date(hoje);
-                    d30.setDate(d30.getDate() + (tipo === 'futuro'  30 : -30));
+                    d30.setDate(d30.getDate() + (tipo === 'futuro' ? 30 : -30));
                     return d30;
                 case 'ultimos-60':
                 case 'proximos-60':
                     const d60 = new Date(hoje);
-                    d60.setDate(d60.getDate() + (tipo === 'futuro'  60 : -60));
+                    d60.setDate(d60.getDate() + (tipo === 'futuro' ? 60 : -60));
                     return d60;
                 case 'ultimos-90':
                 case 'proximos-90':
                     const d90 = new Date(hoje);
-                    d90.setDate(d90.getDate() + (tipo === 'futuro'  90 : -90));
+                    d90.setDate(d90.getDate() + (tipo === 'futuro' ? 90 : -90));
                     return d90;
                 case 'ultimos-120':
                     const d120 = new Date(hoje);
@@ -694,7 +694,7 @@ apiVendasRouter.get('/kanban/pedidos', async (req, res) => {
         const pedidosFormataçãos = rows.map(p => ({
             id: p.id,
             numero: `Orçamento Nº ${p.id}`,
-            cliente: p.empresa_nome || 'Cliente não informação',
+            cliente: p.empresa_nome || 'Cliente não informado',
             cliente_nome: p.empresa_nome,
             vendedor_nome: p.vendedor_nome || '',
             vendedor_id: p.vendedor_id,
@@ -713,7 +713,7 @@ apiVendasRouter.get('/kanban/pedidos', async (req, res) => {
             itens: itensMap[p.id] || []
         }));
         
-        console.log(`📋 Kanban: ${pedidosFormataçãos.length} pedidos carregaçãos com filtros`);
+        console.log(`📋 Kanban: ${pedidosFormataçãos.length} pedidos carregados com filtros`);
         res.json(pedidosFormataçãos);
         
     } catch (err) {
@@ -1096,7 +1096,7 @@ apiVendasRouter.get('/notificacoes', async (req, res, next) => {
             ${!isAdmin ? 'AND p.vendedor_id = ' : ''}
             ORDER BY p.created_at ASC
             LIMIT 10
-        `, !isAdmin  [user.id] : []);
+        `, !isAdmin ? [user.id] : []);
 
         notificacoes = notificacoes.concat(pedidosAtrasaçãos.map(p => ({
             tipo: 'pedido_atrasação',
@@ -1120,7 +1120,7 @@ apiVendasRouter.get('/notificacoes', async (req, res, next) => {
             ${!isAdmin ? 'AND p.vendedor_id = ' : ''}
             ORDER BY p.created_at ASC
             LIMIT 10
-        `, !isAdmin  [user.id] : []);
+        `, !isAdmin ? [user.id] : []);
 
         notificacoes = notificacoes.concat(orçamentosSemFollowup.map(p => ({
             tipo: 'follow_up',
@@ -1228,18 +1228,18 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
         const data_fim = req.query.data_fim || null;
         const status = req.query.status || null; // Filtro por status (novo, em_negociacao, faturado, entregue, perdido)
 
-        // Identificar usuário logação (igual ao Kanban - lê do cookie)
+        // Identificar usuário logado (igual ao Kanban - lê do cookie)
         let currentUser = null;
         let isAdmin = false;
         const token = req.cookies.authToken || req.cookies.token || 
                       (req.headers.authorization && req.headers.authorization.startsWith('Bearer ') 
-                           req.headers.authorization.split(' ')[1] : null);
+                          ? req.headers.authorization.split(' ')[1] : null);
         
         if (token) {
             try {
                 const decoded = jwt.verify(token, JWT_SECRET);
                 if (decoded && decoded.id) {
-                    const [userRows] = await pool.query('SELECT id, nome, email, role, is_admin FROM usuarios WHERE id = ', [decoded.id]);
+                    const [userRows] = await pool.query('SELECT id, nome, email, role, is_admin FROM usuarios WHERE id = ?', [decoded.id]);
                     if (userRows.length > 0) {
                         currentUser = userRows[0];
                         isAdmin = verificarSeAdmin(currentUser);
@@ -1298,7 +1298,7 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
             SELECT p.id, p.valor, p.valor as valor_total, p.status, p.created_at, p.created_at as data_pedido, 
                    p.vendedor_id, p.empresa_id, p.cliente_id, p.descricao, p.observacao, p.frete, p.prioridade,
                    p.data_previsao, p.data_entrega, p.data_faturamento,
-                   COALESCE(c.nome, e.nome_fantasia, e.razao_social, 'Cliente não informação') AS cliente_nome,
+                   COALESCE(c.nome, e.nome_fantasia, e.razao_social, 'Cliente não informado') AS cliente_nome,
                    e.nome_fantasia AS empresa_nome,
                    u.nome AS vendedor_nome
             FROM pedidos p
@@ -1319,7 +1319,7 @@ apiVendasRouter.get('/pedidos', async (req, res, next) => {
 apiVendasRouter.get('/pedidos/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM pedidos WHERE id = ', [id]);
+        const [rows] = await pool.query('SELECT * FROM pedidos WHERE id = ?', [id]);
         if (rows.length === 0) {
             return res.status(404).json({ message: "Pedido não encontrado." });
         }
@@ -1342,9 +1342,9 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
         // Suporte a JSON e multipart
         const empresa_id = req.body.empresa_id || req.body.empresaId || null;
         const cliente_nome = req.body.cliente_nome || req.body.clienteNome || null;
-        const valor = req.body.valor  parseFloat(req.body.valor) : 0;
+        const valor = req.body.valor ? parseFloat(req.body.valor) : 0;
         const descricao = req.body.descricao || req.body.descricao || null;
-        const frete = req.body.frete  parseFloat(req.body.frete) : 0.00;
+        const frete = req.body.frete ? parseFloat(req.body.frete) : 0.00;
         const redespacho = req.body.redespacho === '1' || req.body.redespacho === true || req.body.redespacho === 'true';
         const observacao = req.body.observacao || req.body.observacoes || null;
         const status = req.body.status || 'orcamento';
@@ -1354,7 +1354,7 @@ apiVendasRouter.post('/pedidos', upload.array('anexos', 8), async (req, res, nex
         const departamento = req.body.departamento || null;
         const itens = req.body.itens || [];
         
-        // Vendedor: usa o informação ou o usuário logação
+        // Vendedor: usa o informado ou o usuário logação
         const vendedor_id = req.body.vendedor_id || req.body.vendedorId || (req.user ? req.user.id : null);
         
         // Validação flexível - aceita empresa_id OU cliente_nome
@@ -1456,9 +1456,9 @@ apiVendasRouter.put('/pedidos/:id', upload.array('anexos', 8), async (req, res, 
     const { id } = req.params;
     // parse básico para multipart compat
     const empresa_id = req.body.empresa_id || req.body.empresaId;
-    const valor = req.body.valor  parseFloat(req.body.valor) : null;
+    const valor = req.body.valor ? parseFloat(req.body.valor) : null;
     const descricao = req.body.descricao;
-    const frete = req.body.frete  parseFloat(req.body.frete) : 0.00;
+    const frete = req.body.frete ? parseFloat(req.body.frete) : 0.00;
     const redespacho = req.body.redespacho === '1' || req.body.redespacho === true || req.body.redespacho === 'true';
     const observacao = req.body.observacao;
     const vendedor_id = req.body.vendedor_id || req.body.vendedorId;
@@ -1466,7 +1466,7 @@ apiVendasRouter.put('/pedidos/:id', upload.array('anexos', 8), async (req, res, 
             return res.status(400).json({ message: 'Empresa e valor são obrigatórios.' });
         }
 
-        const [existingRows] = await pool.query('SELECT vendedor_id FROM pedidos WHERE id = ', [id]);
+        const [existingRows] = await pool.query('SELECT vendedor_id FROM pedidos WHERE id = ?', [id]);
         if (existingRows.length === 0) return res.status(404).json({ message: 'Pedido não encontrado.' });
         const existing = existingRows[0];
         const user = req.user || {};
@@ -1475,7 +1475,7 @@ apiVendasRouter.put('/pedidos/:id', upload.array('anexos', 8), async (req, res, 
             return res.status(403).json({ message: 'Acesso negação: somente o vendedor responsável ou admin podem editar este pedido.' });
         }
 
-        const vendedorParaAtualizar = isAdmin && vendedor_id  vendedor_id : existing.vendedor_id;
+        const vendedorParaAtualizar = isAdmin && vendedor_id ? vendedor_id : existing.vendedor_id;
 
         const [result] = await pool.query(
             `UPDATE pedidos SET empresa_id = , valor = , descricao = , frete = , redespacho = , observacao = , vendedor_id =  WHERE id = `,
@@ -1492,7 +1492,7 @@ apiVendasRouter.put('/pedidos/:id', upload.array('anexos', 8), async (req, res, 
             await saveAnexos(id, req.body.anexos);
         }
 
-        res.json({ message: 'Pedido atualização com sucesso.' });
+        res.json({ message: 'Pedido atualizado com sucesso.' });
     } catch (error) {
         next(error);
     }
@@ -1541,7 +1541,7 @@ apiVendasRouter.get('/pedidos/:id/anexos', async (req, res, next) => {
         const { id } = req.params;
         const user = req.user || {};
         // Busca pedido para checar permissões
-        const [pedidoRows] = await pool.query('SELECT id, vendedor_id FROM pedidos WHERE id = ', [id]);
+        const [pedidoRows] = await pool.query('SELECT id, vendedor_id FROM pedidos WHERE id = ?', [id]);
         if (!pedidoRows || pedidoRows.length === 0) return res.status(404).json({ message: 'Pedido não encontrado.' });
         const pedido = pedidoRows[0];
         const isAdmin = user.is_admin === true || user.is_admin === 1 || (user.role && user.role.toString().toLowerCase() === 'admin');
@@ -1618,7 +1618,7 @@ apiVendasRouter.delete('/pedidos/:id/anexos/:anexoId', async (req, res, next) =>
             return res.status(403).json({ message: 'Acesso negação: somente o vendedor responsável ou admin podem deletar este anexo.' });
         }
 
-        const [result] = await pool.query('DELETE FROM pedido_anexos WHERE id = ', [anexoId]);
+        const [result] = await pool.query('DELETE FROM pedido_anexos WHERE id = ?', [anexoId]);
         if (result.affectedRows === 0) return res.status(404).json({ message: 'Anexo não encontrado.' });
         res.status(204).send();
     } catch (error) {
@@ -1631,7 +1631,7 @@ apiVendasRouter.delete('/pedidos/:id/anexos/:anexoId', async (req, res, next) =>
 apiVendasRouter.delete('/pedidos/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT vendedor_id FROM pedidos WHERE id = ', [id]);
+        const [rows] = await pool.query('SELECT vendedor_id FROM pedidos WHERE id = ?', [id]);
         if (rows.length === 0) return res.status(404).json({ message: 'Pedido não encontrado.' });
         const pedido = rows[0];
         const user = req.user || {};
@@ -1640,7 +1640,7 @@ apiVendasRouter.delete('/pedidos/:id', async (req, res, next) => {
             return res.status(403).json({ message: 'Acesso negação: somente o vendedor responsável ou admin podem excluir este pedido.' });
         }
 
-        const [result] = await pool.query('DELETE FROM pedidos WHERE id = ', [id]);
+        const [result] = await pool.query('DELETE FROM pedidos WHERE id = ?', [id]);
         if (result.affectedRows === 0) return res.status(404).json({ message: "Pedido não encontrado." });
         res.status(204).send();
     } catch (error) {
@@ -1687,7 +1687,7 @@ apiVendasRouter.put('/pedidos/:id/status', async (req, res, next) => {
         // Vendedores (não-admin) só podem mover até "analise"
         if (!isAdmin) {
             // Verificar se é dono do pedido
-            const [pedidoRows] = await pool.query('SELECT vendedor_id FROM pedidos WHERE id = ', [id]);
+            const [pedidoRows] = await pool.query('SELECT vendedor_id FROM pedidos WHERE id = ?', [id]);
             if (pedidoRows.length > 0) {
                 const pedido = pedidoRows[0];
                 if (pedido.vendedor_id && user.id && pedido.vendedor_id !== user.id) {
@@ -1702,11 +1702,11 @@ apiVendasRouter.put('/pedidos/:id/status', async (req, res, next) => {
             }
         }
 
-        const [result] = await pool.query('UPDATE pedidos SET status =  WHERE id = ', [status, id]);
+        const [result] = await pool.query('UPDATE pedidos SET status =  WHERE id = ?', [status, id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: "Pedido não encontrado." });
         }
-        res.json({ message: 'Status atualização com sucesso.' });
+        res.json({ message: 'Status atualizado com sucesso.' });
     } catch (error) {
         next(error);
     }
@@ -1721,7 +1721,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         console.log(`📝 PATCH /pedidos/${id} - Daçãos recebidos:`, updates);
         
         // Verificar se pedido existe
-        const [existingRows] = await pool.query('SELECT * FROM pedidos WHERE id = ', [id]);
+        const [existingRows] = await pool.query('SELECT * FROM pedidos WHERE id = ?', [id]);
         if (existingRows.length === 0) {
             return res.status(404).json({ message: 'Pedido não encontrado.' });
         }
@@ -1735,7 +1735,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
             return res.status(403).json({ message: 'Acesso negação: somente o vendedor responsável ou admin podem editar este pedido.' });
         }
         
-        // Construir query de atualização dinâmica
+        // Construir query de atualizado dinâmica
         // Colunas que existem na tabela pedidos: vendedor_id, observacao, status, valor, frete, descricao, prioridade
         const fieldsToUpdate = [];
         const values = [];
@@ -1796,14 +1796,14 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         if (updates.cliente_id !== undefined) {
             fieldsToUpdate.push('cliente_id = ');
             values.push(updates.cliente_id || null);
-            console.log(`✅ Cliente_id atualização para: ${updates.cliente_id}`);
+            console.log(`✅ Cliente_id atualizado para: ${updates.cliente_id}`);
         }
         
         // Empresa_id existe na tabela
         if (updates.empresa_id !== undefined) {
             fieldsToUpdate.push('empresa_id = ');
             values.push(updates.empresa_id || null);
-            console.log(`✅ Empresa_id atualização para: ${updates.empresa_id}`);
+            console.log(`✅ Empresa_id atualizado para: ${updates.empresa_id}`);
         }
         
         // parcelas, transportaçãora, nf NÃO existem na tabela - armazenar em observacao ou JSON se necessário
@@ -1842,9 +1842,9 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
             return res.status(404).json({ message: 'Pedido não encontrado.' });
         }
         
-        console.log(`✅ Pedido ${id} atualização com sucesso! (${result.affectedRows} linha(s) afetada(s))`);
+        console.log(`✅ Pedido ${id} atualizado com sucesso! (${result.affectedRows} linha(s) afetada(s))`);
         
-        // Buscar pedido atualização para retornar
+        // Buscar pedido atualizado para retornar
         const [updatedRows] = await pool.query(`
             SELECT p.*, 
                    c.nome as cliente_nome,
@@ -1856,7 +1856,7 @@ apiVendasRouter.patch('/pedidos/:id', async (req, res, next) => {
         `, [id]);
         
         res.json({ 
-            message: 'Pedido atualização com sucesso.',
+            message: 'Pedido atualizado com sucesso.',
             pedido: updatedRows[0] || null
         });
     } catch (error) {
@@ -1967,7 +1967,7 @@ apiVendasRouter.put('/pedidos/:pedidoId/itens/:itemId', async (req, res, next) =
         
         await logAudit(req.user.id, 'item_updated', 'pedido_itens', itemId, { pedido_id: pedidoId, codigo });
         
-        res.json({ message: 'Item atualização com sucesso!' });
+        res.json({ message: 'Item atualizado com sucesso!' });
     } catch (error) {
         next(error);
     }
@@ -2028,7 +2028,7 @@ async function atualizarTotalPedido(pedidoId) {
             [pedidoId]
         );
         const novoTotal = rows[0].total || 0;
-        await pool.query('UPDATE pedidos SET valor =  WHERE id = ', [novoTotal, pedidoId]);
+        await pool.query('UPDATE pedidos SET valor =  WHERE id = ?', [novoTotal, pedidoId]);
     } catch (e) {
         console.warn('Erro ao atualizar total do pedido:', e.message);
     }
@@ -2110,7 +2110,7 @@ apiVendasRouter.post('/pedidos/:id/faturar', async (req, res, next) => {
         const user = req.user || {};
         
         // Verificar se pedido existe
-        const [pedidoRows] = await pool.query('SELECT * FROM pedidos WHERE id = ', [id]);
+        const [pedidoRows] = await pool.query('SELECT * FROM pedidos WHERE id = ?', [id]);
         if (pedidoRows.length === 0) {
             return res.status(404).json({ message: 'Pedido não encontrado.' });
         }
@@ -2121,7 +2121,7 @@ apiVendasRouter.post('/pedidos/:id/faturar', async (req, res, next) => {
         const [itensRows] = await pool.query('SELECT * FROM pedido_itens WHERE pedido_id = ', [id]);
         
         // Buscar dados do cliente
-        const [clienteRows] = await pool.query('SELECT * FROM clientes WHERE id = ', [pedido.cliente_id]);
+        const [clienteRows] = await pool.query('SELECT * FROM clientes WHERE id = ?', [pedido.cliente_id]);
         const cliente = clienteRows[0] || {};
         
         let novaNf = null;
@@ -2261,7 +2261,7 @@ apiVendasRouter.get('/empresas/search', async (req, res, next) => {
 apiVendasRouter.get('/empresas/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM empresas WHERE id = ', [id]);
+        const [rows] = await pool.query('SELECT * FROM empresas WHERE id = ?', [id]);
         if (rows.length === 0) return res.status(404).json({ message: 'Empresa não encontrada.' });
         res.json(rows[0]);
     } catch (error) {
@@ -2273,7 +2273,7 @@ apiVendasRouter.get('/empresas/:id/details', async (req, res, next) => {
     try {
         const { id } = req.params;
         const [empresaResult, kpisResult, pedidosResult, clientesResult] = await Promise.all([
-            pool.query('SELECT * FROM empresas WHERE id = ', [id]),
+            pool.query('SELECT * FROM empresas WHERE id = ?', [id]),
             pool.query(`SELECT 
                 COUNT(*) AS totalPedidos, 
                 COALESCE(SUM(CASE WHEN status = 'faturado' THEN valor ELSE 0 END), 0) AS totalFaturado, 
@@ -2338,7 +2338,7 @@ apiVendasRouter.delete('/empresas/:id', authorizeAdmin, async (req, res, next) =
         const { id } = req.params;
         await pool.query('DELETE FROM clientes WHERE empresa_id = ', [id]);
         await pool.query('DELETE FROM pedidos WHERE empresa_id = ', [id]);
-        const [result] = await pool.query('DELETE FROM empresas WHERE id = ', [id]);
+        const [result] = await pool.query('DELETE FROM empresas WHERE id = ?', [id]);
         if (result.affectedRows === 0) return res.status(404).json({ message: 'Empresa não encontrada.' });
         res.status(204).send();
     } catch (error) {
@@ -2424,7 +2424,7 @@ apiVendasRouter.get('/clientes', async (req, res, next) => {
 apiVendasRouter.get('/clientes/:id', async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM clientes WHERE id = ', [id]);
+        const [rows] = await pool.query('SELECT * FROM clientes WHERE id = ?', [id]);
         if (rows.length === 0) return res.status(404).json({ message: 'Cliente não encontrado.' });
         res.json(rows[0]);
     } catch (error) {
@@ -2481,7 +2481,7 @@ apiVendasRouter.put('/clientes/:id', async (req, res, next) => {
             [nome, email, email_2, telefone, telefone_2, empresa_id, id]
         );
         if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontrado.' });
-        res.json({ message: 'Cliente atualização com sucesso.' });
+        res.json({ message: 'Cliente atualizado com sucesso.' });
     } catch (error) {
         next(error);
     }
@@ -2490,7 +2490,7 @@ apiVendasRouter.put('/clientes/:id', async (req, res, next) => {
 apiVendasRouter.delete('/clientes/:id', authorizeAdmin, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [result] = await pool.query('DELETE FROM clientes WHERE id = ', [id]);
+        const [result] = await pool.query('DELETE FROM clientes WHERE id = ?', [id]);
         if (result.affectedRows === 0) return res.status(404).json({ message: 'Cliente não encontrado.' });
         res.status(204).send();
     } catch (error) {
@@ -2649,7 +2649,7 @@ apiVendasRouter.get('/produtos/:id', async (req, res, next) => {
     try {
         await ensureProdutosTable();
         const { id } = req.params;
-        const [rows] = await pool.query('SELECT * FROM produtos WHERE id = ', [id]);
+        const [rows] = await pool.query('SELECT * FROM produtos WHERE id = ?', [id]);
         if (rows.length === 0) return res.status(404).json({ message: 'Produto não encontrado.' });
         res.json(rows[0]);
     } catch (error) {
@@ -2729,7 +2729,7 @@ apiVendasRouter.put('/produtos/:id', async (req, res, next) => {
         
         await logAudit(req.user.id, 'update_produto', 'produto', id, { codigo, descricao });
         
-        res.json({ message: 'Produto atualização com sucesso.' });
+        res.json({ message: 'Produto atualizado com sucesso.' });
     } catch (error) {
         if (error.code === 'ER_DUP_ENTRY') {
             return res.status(409).json({ message: 'Já existe outro produto com este código.' });
@@ -2742,7 +2742,7 @@ apiVendasRouter.put('/produtos/:id', async (req, res, next) => {
 apiVendasRouter.delete('/produtos/:id', authorizeAdmin, async (req, res, next) => {
     try {
         const { id } = req.params;
-        const [result] = await pool.query('DELETE FROM produtos WHERE id = ', [id]);
+        const [result] = await pool.query('DELETE FROM produtos WHERE id = ?', [id]);
         if (result.affectedRows === 0) {
             return res.status(404).json({ message: 'Produto não encontrado.' });
         }
@@ -3342,7 +3342,7 @@ app.use((err, req, res, next) => {
     if (!res.headersSent) {
         res.status(500).json({
             message: 'Ocorreu um erro inesperação no servidor.',
-            error: process.env.NODE_ENV === 'development'  err.message : {}
+            error: process.env.NODE_ENV === 'development' ? err.message : {}
         });
     }
 });
@@ -3386,7 +3386,7 @@ const startServer = async () => {
                 // Accept token via handshake.auth.token or Authorization header
                 const tokenFromAuth = socket.handshake && socket.handshake.auth && socket.handshake.auth.token;
                 const authHeader = socket.handshake && socket.handshake.headers && (socket.handshake.headers.authorization || socket.handshake.headers.Authorization);
-                const token = tokenFromAuth || (typeof authHeader === 'string'  (authHeader.split(' ')[1] || null) : null);
+                const token = tokenFromAuth || (typeof authHeader === 'string' ? (authHeader.split(' ')[1] || null) : null);
 
                 if (!token) {
                     socket.emit('chat:error', { message: 'Token ausente. Conexão negada.' });
@@ -3438,7 +3438,7 @@ const startServer = async () => {
     }
 
     server.listen(port, () => {
-        console.log(`🚀 Servidor executando em http://localhost:${port}` + (dbAvailable  '' : ' (DB indisponível, modo dev)'));
+        console.log(`🚀 Servidor executando em http://localhost:${port}` + (dbAvailable ? '' : ' (DB indisponível, modo dev)'));
     }).on('error', (err) => {
         if (err.code === 'EADDRINUSE') {
             console.log(`⚠️  Porta ${port} já está em uso.`);

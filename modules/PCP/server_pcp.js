@@ -1,4 +1,4 @@
-const express = require('express');
+﻿const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
@@ -26,7 +26,7 @@ require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 // Sistema de logs melhoração
 const LOG_LEVEL = process.env.LOG_LEVEL || 'info';
 const logger = {
-    debug: LOG_LEVEL === 'debug'  console.log : () => {},
+    debug: LOG_LEVEL === 'debug' ? console.log : () => {},
     info: console.log,
     warn: console.warn,
     error: console.error
@@ -217,7 +217,7 @@ function getSessionIdFromReq(req) {
     const cookie = req.headers && req.headers.cookie;
     if (!cookie) return null;
     const m = cookie.match(/pcp_session=([^;]+)/);
-    return m  m[1] : null;
+    return m ? m[1] : null;
 }
 
 function authRequired(req, res, next) {
@@ -770,9 +770,9 @@ app.post('/api/pcp/ordens', async (req, res) => {
     async function getTableColumns(tableName) {
         if (tableColsCache[tableName]) return tableColsCache[tableName];
         try {
-            const schema = (db && db.config && db.config.connectionConfig && db.config.connectionConfig.database)  db.config.connectionConfig.database : 'aluforce_vendas';
+            const schema = (db && db.config && db.config.connectionConfig && db.config.connectionConfig.database) ? db.config.connectionConfig.database : 'aluforce_vendas';
             const [cols] = await db.query('SELECT COLUMN_NAME FROM information_schema.columns WHERE table_schema =  AND table_name = ', [schema, tableName]);
-            const names = Array.isArray(cols)  cols.map(r => r.COLUMN_NAME) : [];
+            const names = Array.isArray(cols) ? cols.map(r => r.COLUMN_NAME) : [];
             tableColsCache[tableName] = names;
             return names;
         } catch (e) {
@@ -834,7 +834,7 @@ app.post('/api/pcp/ordens', async (req, res) => {
         // If client sent items JSON (from new UI table), include it in extras so it can be persisted
         if (req.body.items_json) {
             try {
-                const parsed = typeof req.body.items_json === 'string'  JSON.parse(req.body.items_json) : req.body.items_json;
+                const parsed = typeof req.body.items_json === 'string' ? JSON.parse(req.body.items_json) : req.body.items_json;
                 if (Array.isArray(parsed) && parsed.length > 0) {
                     extras.items = parsed;
                 }
@@ -855,7 +855,7 @@ app.post('/api/pcp/ordens', async (req, res) => {
             } else {
                 // fallback: append JSON-encoded extras to observacoes so data is not lost
                 try {
-                    const existing = observacoes  observacoes + '\n' : '';
+                    const existing = observacoes ? observacoes + '\n' : '';
                     observacoes = existing + JSON.stringify(extras);
                     // update observacoes value in the values array (it's at index 4)
                     const obsIndex = insertCols.indexOf('observacoes');
@@ -881,7 +881,7 @@ app.put('/api/pcp/ordens/:id/status', async (req, res) => {
     try {
         const [result] = await db.query("UPDATE ordens_producao SET status =  WHERE id = ", [status, id]);
         if (result.affectedRows > 0) {
-            res.json({ message: "Status atualização com sucesso!" });
+            res.json({ message: "Status atualizado com sucesso!" });
         } else {
             res.status(404).json({ message: "Ordem não encontrada." });
         }
@@ -941,7 +941,7 @@ app.get('/api/pcp/produtos', async (req, res) => {
         try {
             console.log('[API_PRODUTOS] Buscando colunas da tabela produtos...');
             const [cols] = await db.query('SHOW COLUMNS FROM produtos');
-            columns = Array.isArray(cols)  cols.map(c => c.Field) : [];
+            columns = Array.isArray(cols) ? cols.map(c => c.Field) : [];
             console.log('[API_PRODUTOS] Colunas encontradas:', columns.length);
         } catch (e) {
             // if table missing or permission issues, respond gracefully
@@ -950,7 +950,7 @@ app.get('/api/pcp/produtos', async (req, res) => {
         }
 
         const has = (name) => columns.includes(name);
-        const orderColumn = has('descricao')  'descricao' : (has('nome')  'nome' : (has('codigo')  'codigo' : 'id'));
+        const orderColumn = has('descricao') ? 'descricao' : (has('nome') ? 'nome' : (has('codigo') ? 'codigo' : 'id'));
 
         // fetch rows with limit (optionally filtered by q) using only existing searchable columns
         let rows = [];
@@ -975,7 +975,7 @@ app.get('/api/pcp/produtos', async (req, res) => {
                 // count
                 const countSql = `SELECT COUNT(*) AS total FROM produtos WHERE ${whereParts.join(' OR ')}`;
                 const [countRes] = await db.query(countSql, params.slice(0, params.length - 2));
-                total = countRes && countRes[0]  countRes[0].total : 0;
+                total = countRes && countRes[0] ? countRes[0].total : 0;
             }
         } else {
             const sql = `SELECT * FROM produtos ORDER BY ${orderColumn} ASC LIMIT ? OFFSET `;
@@ -984,7 +984,7 @@ app.get('/api/pcp/produtos', async (req, res) => {
             rows = rs;
             console.log('[API_PRODUTOS] Produtos retornaçãos:', rows.length);
             const [countRes] = await db.query('SELECT COUNT(*) AS total FROM produtos');
-            total = countRes && countRes[0]  countRes[0].total : 0;
+            total = countRes && countRes[0] ? countRes[0].total : 0;
             console.log('[API_PRODUTOS] Total no banco:', total);
         }
 
@@ -1164,7 +1164,7 @@ app.put('/api/pcp/ordens-kanban/:id', async (req, res) => {
         }
 
         console.log('[API_ORDENS_KANBAN] Ordem atualizada');
-        res.json({ success: true, message: 'Status atualização com sucesso' });
+        res.json({ success: true, message: 'Status atualizado com sucesso' });
 
     } catch (error) {
         console.error('[API_ORDENS_KANBAN] Erro ao atualizar:', error.message);
@@ -1573,10 +1573,10 @@ app.put('/api/pcp/faturamentos/:id', async (req, res) => {
             WHERE id = 
         `, values);
 
-        console.log('[API_FATURAMENTOS] Faturamento atualização');
+        console.log('[API_FATURAMENTOS] Faturamento atualizado');
         res.json({ 
             success: true, 
-            message: 'Faturamento atualização com sucesso' 
+            message: 'Faturamento atualizado com sucesso' 
         });
 
     } catch (error) {
@@ -1781,8 +1781,8 @@ app.put('/api/pcp/produtos/:id', async (req, res) => {
         const [result] = await db.query(sql, values);
         
         if (result.affectedRows > 0) {
-            console.log('[UPDATE_PRODUCT] ✅ Produto atualização com sucesso:', { id, codigo, estoque: estoqueAtualFinal, preco: precoVendaFinal });
-            res.json({ message: 'Produto atualização com sucesso' });
+            console.log('[UPDATE_PRODUCT] ✅ Produto atualizado com sucesso:', { id, codigo, estoque: estoqueAtualFinal, preco: precoVendaFinal });
+            res.json({ message: 'Produto atualizado com sucesso' });
             broadcastProducts();
         } else {
             res.status(404).json({ message: 'Produto não encontrado' });
@@ -1808,7 +1808,7 @@ app.put('/api/pcp/produtos/:id', async (req, res) => {
 app.delete('/api/pcp/produtos/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const [result] = await db.query('DELETE FROM produtos WHERE id = ', [id]);
+        const [result] = await db.query('DELETE FROM produtos WHERE id = ?', [id]);
         if (result.affectedRows > 0) {
             res.json({ message: 'Produto excluído' });
             broadcastProducts();
@@ -1874,8 +1874,8 @@ app.get('/api/pcp/produtos/catalogo/csv', async (req, res) => {
         const csvContent = [
             'ID,Código,Nome,GTIN,SKU,Marca,Descrição',
             ...produtos.map(p => {
-                const nome = (p.nome || '').replace(/"/g, '""').replace(/\/g, '²');
-                const desc = (p.descricao || '').replace(/"/g, '""').replace(/\/g, '²');
+                const nome = (p.nome || '').replace(/"/g, '""').replace(/\n/g, ' ');
+                const desc = (p.descricao || '').replace(/"/g, '""').replace(/\n/g, ' ');
                 return `${p.id},"${p.codigo}","${nome}","${p.gtin}","${p.sku || ''}","${p.marca || 'Aluforce'}","${desc}"`;
             })
         ].join('\n');
@@ -2061,7 +2061,7 @@ app.get('/api/pcp/materiais/:id', async (req, res) => {
 app.delete('/api/pcp/materiais/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const [result] = await db.query('DELETE FROM materiais WHERE id = ', [id]);
+        const [result] = await db.query('DELETE FROM materiais WHERE id = ?', [id]);
         if (result.affectedRows > 0) {
             res.json({ message: 'Material excluído com sucesso.' });
             broadcastMaterials();
@@ -2082,7 +2082,7 @@ app.put('/api/pcp/materiais/:id', async (req, res) => {
         const sql = "UPDATE materiais SET descricao = , unidade_medida = , quantidade_estoque = , fornecedor_padrao =  WHERE id = ";
         const [result] = await db.query(sql, [descricao, unidade_medida, quantidade_estoque, fornecedor_padrao, id]);
         if (result.affectedRows > 0) {
-            res.json({ message: "Material atualização com sucesso!" });
+            res.json({ message: "Material atualizado com sucesso!" });
             broadcastMaterials();
         } else {
             res.status(404).json({ message: "Material não encontrado." });
@@ -2172,7 +2172,7 @@ app.get('/api/pcp/pedidos/faturados', async (req, res) => {
         });
     // total count for pagination
     const [countRows] = await db.query("SELECT COUNT(*) AS total FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%')");
-    const total = countRows && countRows[0]  countRows[0].total : 0;
+    const total = countRows && countRows[0] ? countRows[0].total : 0;
     res.json({ page, limit, total, rows: normalized });
     } catch (err) {
         console.error('Erro ao buscar pedidos faturados:', err && err.message ? err.message : err);
@@ -2191,7 +2191,7 @@ app.get('/api/pcp/pedidos/prazos', async (req, res) => {
     const [rows] = await db.query(sql, [limit, offset]);
     const normalized = (rows || []).map(r => { try { if (r.produtos_preview && typeof r.produtos_preview === 'string') r.produtos_preview = JSON.parse(r.produtos_preview); } catch(e){} return r; });
     const [countRows] = await db.query("SELECT COUNT(*) AS total FROM pedidos WHERE (status LIKE '%fatur%' OR status LIKE '%entreg%' OR status LIKE '%aprov%')");
-    const total = countRows && countRows[0]  countRows[0].total : 0;
+    const total = countRows && countRows[0] ? countRows[0].total : 0;
     res.json({ page, limit, total, rows: normalized });
     } catch (err) {
         console.error('Erro ao buscar prazos de pedidos:', err && err.message ? err.message : err);
@@ -2204,7 +2204,7 @@ app.get('/api/pcp/acompanhamento', async (req, res) => {
     try {
         // totals and recent pedidos
     const [totalsRows] = await db.query('SELECT COUNT(*) AS total_pedidos FROM pedidos');
-    const totals = totalsRows && totalsRows[0]  totalsRows[0] : { total_pedidos: 0 };
+    const totals = totalsRows && totalsRows[0] ? totalsRows[0] : { total_pedidos: 0 };
     const [recent] = await db.query(`SELECT id, descricao, status, created_at, produtos_preview, data_prevista FROM pedidos ORDER BY created_at DESC LIMIT 20`);
     const normalized = (recent || []).map(r => { try { if (r.produtos_preview && typeof r.produtos_preview === 'string') r.produtos_preview = JSON.parse(r.produtos_preview); } catch(e){} return r; });
     res.json({ totals, recentPedidos: normalized });
@@ -2231,9 +2231,9 @@ app.put('/api/pcp/pedidos/:id', async (req, res) => {
     const { id } = req.params;
     const { status } = req.body;
     try {
-        const [result] = await db.query('UPDATE pedidos SET status =  WHERE id = ', [status, id]);
+        const [result] = await db.query('UPDATE pedidos SET status =  WHERE id = ?', [status, id]);
         if (result.affectedRows > 0) {
-            res.json({ message: 'Pedido atualização' });
+            res.json({ message: 'Pedido atualizado' });
             broadcastMaterials();
         } else {
             res.status(404).json({ message: 'Pedido não encontrado' });
@@ -2522,7 +2522,7 @@ app.post('/api/pcp/estoque/movimentacao', authRequired, async (req, res) => {
     
     try {
         // Buscar quantidade atual do material
-        const [material] = await db.query('SELECT quantidade_estoque FROM materiais WHERE id = ', [material_id]);
+        const [material] = await db.query('SELECT quantidade_estoque FROM materiais WHERE id = ?', [material_id]);
         if (!material || material.length === 0) {
             return res.status(404).json({ message: 'Material não encontrado' });
         }
@@ -2553,7 +2553,7 @@ app.post('/api/pcp/estoque/movimentacao', authRequired, async (req, res) => {
         await db.query('START TRANSACTION');
 
         // Atualizar estoque do material
-        await db.query('UPDATE materiais SET quantidade_estoque =  WHERE id = ', [novaQuantidade, material_id]);
+        await db.query('UPDATE materiais SET quantidade_estoque =  WHERE id = ?', [novaQuantidade, material_id]);
 
         // Registrar movimentação
         await db.query(`
@@ -2564,7 +2564,7 @@ app.post('/api/pcp/estoque/movimentacao', authRequired, async (req, res) => {
 
         await db.query('COMMIT');
 
-        // Broadcast atualização
+        // Broadcast atualizado
         broadcastMaterials();
 
         res.json({ 
@@ -2625,7 +2625,7 @@ app.get('/api/pcp/relatorios/produtividade', authRequired, async (req, res) => {
             ${whereClause}
         `, params);
 
-        const produtividade = geral[0].total_ordens > 0  
+        const produtividade = geral[0].total_ordens > 0 ?
             (geral[0].concluidas / geral[0].total_ordens * 100).toFixed(2) : 0;
 
         res.json({
@@ -2804,7 +2804,7 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
             if (fs.existsSync(templatePath)) {
                 workbook = new ExcelJS.Workbook();
                 await workbook.xlsx.readFile(templatePath);
-                console.log('[EXCEL] Template carregação:', templatePath);
+                console.log('[EXCEL] Template carregado:', templatePath);
             } else {
                 throw new Error('Template não encontrado');
             }
@@ -2935,7 +2935,7 @@ app.post('/api/pcp/ordem-producao/excel', timeoutMiddleware(60000), authRequired
         preencherCelulasSeguro(['F13', 'G13', 'H13', 'I13'], transportaçãora_endereco, 'Endereço');
         camposPreenchidos += 4;
         
-        // CPF/CNPJ com formato especial - usar valor padrão se não informação
+        // CPF/CNPJ com formato especial - usar valor padrão se não informado
         const cnpjTransportaçãoraFinal = transportaçãora_cpf_cnpj || '00000000000000';
         ['C15', 'D15'].forEach(cellAddr => {
             try {
@@ -3292,7 +3292,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             await workbook.xlsx.readFile(templatePath, {
                 ignoreReadErrors: true
             });
-            console.log('[MODAL-EXCEL] Template carregação com sucesso');
+            console.log('[MODAL-EXCEL] Template carregado com sucesso');
         } else {
             return res.status(500).json({ message: 'Template Ordem de Produção.xlsx não encontrado' });
         }
@@ -3379,31 +3379,31 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             if (match) {
                 numeroLimpo = match[1].padStart(3, '0'); // Preenche com zeros à esquerda para ter 3 dígitos
             }
-            camposPreenchidos += preencherCelula('C4', numeroLimpo, 'Orçamento (Número)')  1 : 0; // Valor na célula C4
+            camposPreenchidos += preencherCelula('C4', numeroLimpo, 'Orçamento (Número)') ? 1 : 0; // Valor na célula C4
             
             // 🆕 PREENCHER TAMBÉM NA ABA PRODUÇÃO
             if (temAbaProducao) {
                 preencherCelula('C4', numeroLimpo, '', null, worksheetProducao);
             }
         }
-        // Revisão - sempre preencher, padrão '00' se não informação
+        // Revisão - sempre preencher, padrão '00' se não informado
         const revisaoFinal = revisao || '00';
         console.log(`[MODAL-EXCEL] 🔍 Revisão recebida: "${revisao}" -> usando: "${revisaoFinal}"`);
-        camposPreenchidos += preencherCelula('E4', revisaoFinal, 'Revisão')  1 : 0; // Valor na célula E4
+        camposPreenchidos += preencherCelula('E4', revisaoFinal, 'Revisão') ? 1 : 0; // Valor na célula E4
         if (temAbaProducao) {
             preencherCelula('E4', revisaoFinal, '', null, worksheetProducao);
         }
         
-        // Pedido - se não informação, usar sequencial ou padrão
+        // Pedido - se não informado, usar sequencial ou padrão
         const pedidoFinal = pedido_referencia || '0';
-        camposPreenchidos += preencherCelula('G4', pedidoFinal, 'Pedido')  1 : 0; // Valor na célula G4
+        camposPreenchidos += preencherCelula('G4', pedidoFinal, 'Pedido') ? 1 : 0; // Valor na célula G4
         if (temAbaProducao) {
             preencherCelula('G4', pedidoFinal, '', null, worksheetProducao);
         }
         
         // Data de liberação - se não informada, usar data atual
-        const dataLiberacaoFinal = data_liberacao  new Date(data_liberacao).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR');
-        camposPreenchidos += preencherCelula('J4', dataLiberacaoFinal, 'Data Liberação')  1 : 0; // Valor na célula J4
+        const dataLiberacaoFinal = data_liberacao ? new Date(data_liberacao).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR');
+        camposPreenchidos += preencherCelula('J4', dataLiberacaoFinal, 'Data Liberação') ? 1 : 0; // Valor na célula J4
         if (temAbaProducao) {
             preencherCelula('J4', dataLiberacaoFinal, '', null, worksheetProducao);
         }
@@ -3412,14 +3412,14 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         // **LINHA 6 - VENDEDOR E PRAZO DE ENTREGA**
         // Baseação na análise: A6="VENDEDOR:", F6="Prazo de entrega:"
         if (vendedor) {
-            camposPreenchidos += preencherCelula('C6', vendedor, 'Vendedor')  1 : 0; // Valor na célula C6
+            camposPreenchidos += preencherCelula('C6', vendedor, 'Vendedor') ? 1 : 0; // Valor na célula C6
             if (temAbaProducao) {
                 preencherCelula('C6', vendedor, '', null, worksheetProducao);
             }
         }
         if (data_previsao_entrega) {
             const dataFormatada = new Date(data_previsao_entrega).toLocaleDateString('pt-BR');
-            camposPreenchidos += preencherCelula('H6', dataFormatada, 'Prazo Entrega')  1 : 0; // Valor na célula H6
+            camposPreenchidos += preencherCelula('H6', dataFormatada, 'Prazo Entrega') ? 1 : 0; // Valor na célula H6
             if (temAbaProducao) {
                 preencherCelula('H6', dataFormatada, '', null, worksheetProducao);
             }
@@ -3428,7 +3428,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         // **LINHA 7 - CLIENTE**
         // Baseação na análise: A7="Cliente:"
         if (cliente) {
-            camposPreenchidos += preencherCelula('C7', cliente, 'Cliente')  1 : 0; // Valor na célula C7
+            camposPreenchidos += preencherCelula('C7', cliente, 'Cliente') ? 1 : 0; // Valor na célula C7
             if (temAbaProducao) {
                 preencherCelula('C7', cliente, '', null, worksheetProducao);
             }
@@ -3437,13 +3437,13 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         // **LINHA 8 - CONTATO E TELEFONE**
         // Baseação na análise: A8="Contato:", G8="Fone:"
         if (contato) {
-            camposPreenchidos += preencherCelula('C8', contato, 'Contato')  1 : 0; // Valor na célula C8
+            camposPreenchidos += preencherCelula('C8', contato, 'Contato') ? 1 : 0; // Valor na célula C8
             if (temAbaProducao) {
                 preencherCelula('C8', contato, '', null, worksheetProducao);
             }
         }
         if (telefone) {
-            camposPreenchidos += preencherCelula('H8', telefone, 'Telefone')  1 : 0; // Valor na célula H8
+            camposPreenchidos += preencherCelula('H8', telefone, 'Telefone') ? 1 : 0; // Valor na célula H8
             if (temAbaProducao) {
                 preencherCelula('H8', telefone, '', null, worksheetProducao);
             }
@@ -3452,13 +3452,13 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         // **LINHA 9 - EMAIL E FRETE**
         // Baseação na análise: A9="Email:", H9="Frete:"
         if (email) {
-            camposPreenchidos += preencherCelula('C9', email, 'Email')  1 : 0; // Valor na célula C9
+            camposPreenchidos += preencherCelula('C9', email, 'Email') ? 1 : 0; // Valor na célula C9
             if (temAbaProducao) {
                 preencherCelula('C9', email, '', null, worksheetProducao);
             }
         }
         if (frete) {
-            camposPreenchidos += preencherCelula('J9', frete, 'Frete')  1 : 0; // Valor na célula J9
+            camposPreenchidos += preencherCelula('J9', frete, 'Frete') ? 1 : 0; // Valor na célula J9
             if (temAbaProducao) {
                 preencherCelula('J9', frete, '', null, worksheetProducao);
             }
@@ -3469,35 +3469,35 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         
         // Nome da transportaçãora - usar valor do modal
         const nomeTransportaçãoraFinal = transportaçãoraNome || 'A DEFINIR';
-        camposPreenchidos += preencherCelula('C12', nomeTransportaçãoraFinal, 'Nome Transportaçãora')  1 : 0; // Valor na célula C12
+        camposPreenchidos += preencherCelula('C12', nomeTransportaçãoraFinal, 'Nome Transportaçãora') ? 1 : 0; // Valor na célula C12
         if (temAbaProducao) {
             preencherCelula('C12', nomeTransportaçãoraFinal, '', null, worksheetProducao);
         }
         
         // Telefone da transportaçãora - usar valor do modal
         const foneTransportaçãoraFinal = transportaçãoraFone || '(11) 99999-9999';
-        camposPreenchidos += preencherCelula('H12', foneTransportaçãoraFinal, 'Fone Transportaçãora')  1 : 0; // Valor na célula H12
+        camposPreenchidos += preencherCelula('H12', foneTransportaçãoraFinal, 'Fone Transportaçãora') ? 1 : 0; // Valor na célula H12
         if (temAbaProducao) {
             preencherCelula('H12', foneTransportaçãoraFinal, '', null, worksheetProducao);
         }
         
         // CEP da transportaçãora - usar valor do modal
         const cepTransportaçãoraFinal = transportaçãoraCep || '00000-000';
-        camposPreenchidos += preencherCelula('C13', cepTransportaçãoraFinal, 'CEP')  1 : 0; // Valor na célula C13
+        camposPreenchidos += preencherCelula('C13', cepTransportaçãoraFinal, 'CEP') ? 1 : 0; // Valor na célula C13
         if (temAbaProducao) {
             preencherCelula('C13', cepTransportaçãoraFinal, '', null, worksheetProducao);
         }
         
         // Endereço da transportaçãora - usar valor do modal
         const enderecoTransportaçãoraFinal = transportaçãoraEndereco || 'A DEFINIR';
-        camposPreenchidos += preencherCelula('F13', enderecoTransportaçãoraFinal, 'Endereço')  1 : 0; // Valor na célula F13
+        camposPreenchidos += preencherCelula('F13', enderecoTransportaçãoraFinal, 'Endereço') ? 1 : 0; // Valor na célula F13
         if (temAbaProducao) {
             preencherCelula('F13', enderecoTransportaçãoraFinal, '', null, worksheetProducao);
         }
         
-        // Email para NFe da transportaçãora - usar valor padrão se não informação
+        // Email para NFe da transportaçãora - usar valor padrão se não informado
         const emailTransportaçãoraFinal = transportaçãora_email_nfe || 'teste@empresa.com';
-        camposPreenchidos += preencherCelula('H13', emailTransportaçãoraFinal, 'Email NFe')  1 : 0; // Valor na célula H13
+        camposPreenchidos += preencherCelula('H13', emailTransportaçãoraFinal, 'Email NFe') ? 1 : 0; // Valor na célula H13
         if (temAbaProducao) {
             preencherCelula('H13', emailTransportaçãoraFinal, '', null, worksheetProducao);
         }
@@ -3533,7 +3533,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         }
         
         if (transportaçãoraEmailNfe) {
-            camposPreenchidos += preencherCelula('G15', transportaçãoraEmailNfe, 'Email NFe')  1 : 0; // Valor na célula G15
+            camposPreenchidos += preencherCelula('G15', transportaçãoraEmailNfe, 'Email NFe') ? 1 : 0; // Valor na célula G15
             if (temAbaProducao) {
                 preencherCelula('G15', transportaçãoraEmailNfe, '', null, worksheetProducao);
             }
@@ -3621,10 +3621,10 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             // J18: Valor Total
             
             // Preencher na aba VENDAS_PCP
-            camposPreenchidos += preencherCelula(`A${linha}`, index + 1, `Item ${index + 1} - Seq`)  1 : 0;
+            camposPreenchidos += preencherCelula(`A${linha}`, index + 1, `Item ${index + 1} - Seq`) ? 1 : 0;
             
             if (codigo) {
-                camposPreenchidos += preencherCelula(`B${linha}`, codigo, `Item ${index + 1} - Código`)  1 : 0;
+                camposPreenchidos += preencherCelula(`B${linha}`, codigo, `Item ${index + 1} - Código`) ? 1 : 0;
                 // Também preencher na aba PRODUÇÃO - Coluna B da linha do produto
                 if (temAbaProducao) {
                     preencherCelula(`B${linhaProducao}`, codigo, `[PRODUÇÃO] Código linha ${linhaProducao}`, null, worksheetProducao);
@@ -3632,7 +3632,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             }
             if (descricao) {
                 // Produto ocupa células C, D, E na aba VENDAS_PCP
-                camposPreenchidos += preencherCelula(`C${linha}`, descricao, `Item ${index + 1} - Descrição`)  1 : 0;
+                camposPreenchidos += preencherCelula(`C${linha}`, descricao, `Item ${index + 1} - Descrição`) ? 1 : 0;
                 // 🔧 CORREÇÃO: Preencher nome do produto na aba PRODUÇÃO
                 if (temAbaProducao) {
                     // Na aba PRODUÇÃO, o produto vai na coluna C (igual à VENDAS)
@@ -3645,8 +3645,8 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             const embalagemItem = item.embalagem || embalagem || 'Bobina';
             const lancesItem = item.lances || lances || '';
             
-            camposPreenchidos += preencherCelula(`F${linha}`, embalagemItem, `Item ${index + 1} - Embalagem`)  1 : 0;
-            camposPreenchidos += preencherCelula(`G${linha}`, lancesItem, `Item ${index + 1} - Lances`)  1 : 0;
+            camposPreenchidos += preencherCelula(`F${linha}`, embalagemItem, `Item ${index + 1} - Embalagem`) ? 1 : 0;
+            camposPreenchidos += preencherCelula(`G${linha}`, lancesItem, `Item ${index + 1} - Lances`) ? 1 : 0;
             
             // 🔧 CORREÇÃO: Preencher embalagem e lances também na aba PRODUÇÃO
             if (temAbaProducao) {
@@ -3655,7 +3655,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
             }
             
             if (quantidade) {
-                camposPreenchidos += preencherCelula(`H${linha}`, quantidade, `Item ${index + 1} - Quantidade`)  1 : 0;
+                camposPreenchidos += preencherCelula(`H${linha}`, quantidade, `Item ${index + 1} - Quantidade`) ? 1 : 0;
                 // Também preencher na aba PRODUÇÃO - Coluna J
                 if (temAbaProducao) {
                     preencherCelula(`J${linhaProducao}`, quantidade, `[PRODUÇÃO] Qtd linha ${linhaProducao}`, null, worksheetProducao);
@@ -3789,7 +3789,7 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         if (observacoes) {
             // Observações na área específica (A37+)
             const linhaObservacoes = 37;
-            camposPreenchidos += preencherCelula(`A${linhaObservacoes}`, observacoes, 'Observações do Pedido')  1 : 0;
+            camposPreenchidos += preencherCelula(`A${linhaObservacoes}`, observacoes, 'Observações do Pedido') ? 1 : 0;
         }
         
         // **SEÇÃO CONDIÇÕES DE PAGAMENTO**
@@ -3798,9 +3798,9 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         
         // Linha PARCELADO (linha 45)
         const linhaParcelação = 45;
-        camposPreenchidos += preencherCelula(`A${linhaParcelação}`, 'PARCELADO', 'Parcelação')  1 : 0;
-        camposPreenchidos += preencherCelula(`E${linhaParcelação}`, '100%', 'Perc Parcelação')  1 : 0;
-        camposPreenchidos += preencherCelula(`F${linhaParcelação}`, 'FATURAMENTO', 'Método Pagamento')  1 : 0;
+        camposPreenchidos += preencherCelula(`A${linhaParcelação}`, 'PARCELADO', 'Parcelação') ? 1 : 0;
+        camposPreenchidos += preencherCelula(`E${linhaParcelação}`, '100%', 'Perc Parcelação') ? 1 : 0;
+        camposPreenchidos += preencherCelula(`F${linhaParcelação}`, 'FATURAMENTO', 'Método Pagamento') ? 1 : 0;
         
         // Aplicar formatação de moeda brasileira no valor total
         if (valorTotalGeral > 0) {
@@ -3823,8 +3823,8 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         
         // Linha ENTREGA (linha 46)
         const linhaEntrega = 46;
-        camposPreenchidos += preencherCelula(`A${linhaEntrega}`, 'ENTREGA', 'Entrega')  1 : 0;
-        camposPreenchidos += preencherCelula(`E${linhaEntrega}`, '0%', 'Perc Entrega')  1 : 0;
+        camposPreenchidos += preencherCelula(`A${linhaEntrega}`, 'ENTREGA', 'Entrega') ? 1 : 0;
+        camposPreenchidos += preencherCelula(`E${linhaEntrega}`, '0%', 'Perc Entrega') ? 1 : 0;
         
         // Valor R$ na coluna da direita (mesmo se for 0)
         try {
@@ -3846,15 +3846,15 @@ app.post('/api/pcp/ordens-producao', timeoutMiddleware(60000), async (req, res) 
         // **SEÇÃO EMBALAGEM**
         // Baseação na análise: F48="EMBALAGEM:"
         if (embalagem) {
-            camposPreenchidos += preencherCelula('H48', embalagem, 'Embalagem Geral')  1 : 0;
+            camposPreenchidos += preencherCelula('H48', embalagem, 'Embalagem Geral') ? 1 : 0;
         }
         
         // **CAMPOS ADICIONAIS DO MODAL**
         // Variação - pode ir em uma área específica
         if (variacao) {
             const linhaVariacao = linhaPagamento + 5;
-            camposPreenchidos += preencherCelula(`A${linhaVariacao}`, 'Variação:', 'Label Variação')  1 : 0;
-            camposPreenchidos += preencherCelula(`B${linhaVariacao}`, variacao, 'Variação')  1 : 0;
+            camposPreenchidos += preencherCelula(`A${linhaVariacao}`, 'Variação:', 'Label Variação') ? 1 : 0;
+            camposPreenchidos += preencherCelula(`B${linhaVariacao}`, variacao, 'Variação') ? 1 : 0;
         }
         
         console.log(`[MODAL-EXCEL] Total de campos preenchidos: ${camposPreenchidos}`);
@@ -4207,7 +4207,7 @@ tryListen(PORT, 12);
 app.get('/api/pcp/produtos/:id', async (req, res) => {
     const { id } = req.params;
     try {
-        const [rows] = await db.query('SELECT * FROM produtos WHERE id = ', [id]);
+        const [rows] = await db.query('SELECT * FROM produtos WHERE id = ?', [id]);
         if (rows.length > 0) {
             const r = rows[0];
             // normalize variacao to array for clients (same behaviour as list endpoint)
@@ -4485,7 +4485,7 @@ app.get('/api/pcp/pedidos/:id', async (req, res) => {
     
     try {
         // Query the pedidos table directly - no JOIN since produto_id column doesn't exist
-        const [rows] = await db.query('SELECT * FROM pedidos WHERE id = ', [id]);
+        const [rows] = await db.query('SELECT * FROM pedidos WHERE id = ?', [id]);
         console.log(`[DEBUG] Query resultado: ${rows ? rows.length : 0} linhas`);
         
         if (!rows || rows.length === 0) {
@@ -4526,7 +4526,7 @@ app.get('/api/pcp/debug/pedidos-faturados', async (req, res) => {
         const [rows] = await db.query(sql);
         return res.json({ ok: true, rows: rows.slice(0,10) });
     } catch (err) {
-        return res.status(500).json({ ok: false, error: (err && err.message)  err.message : String(err) });
+        return res.status(500).json({ ok: false, error: (err && err.message) ? err.message : String(err) });
     }
 });
 
@@ -4566,7 +4566,7 @@ app.post('/api/pcp/stock_movements', authRequired, async (req, res) => {
                 SELECT COALESCE(SUM(CASE WHEN tipo='IN' THEN quantidade WHEN tipo='OUT' THEN -quantidade WHEN tipo='TRANSFER' AND location_to= THEN quantidade WHEN tipo='TRANSFER' AND location_from= THEN -quantidade WHEN tipo='ADJUST' THEN quantidade ELSE 0 END),0) AS saldo
                 FROM stock_movements WHERE produto_id = 
             `, [location_from, location_from, produto_id]);
-            const saldo = rows && rows[0]  parseFloat(rows[0].saldo) : 0;
+            const saldo = rows && rows[0] ? parseFloat(rows[0].saldo) : 0;
             if (saldo < quantidade) return res.status(400).json({ message: `Saldo insuficiente na localização ${location_from}. Saldo atual: ${saldo}` });
         }
         const sql = 'INSERT INTO stock_movements (produto_id, location_from, location_to, quantidade, tipo, referencia, lote, created_by) VALUES (?, ?, ?, ?, , ?, ?, )';
@@ -4589,7 +4589,7 @@ app.post('/api/pcp/transfer', authRequired, async (req, res) => {
             SELECT COALESCE(SUM(CASE WHEN tipo='IN' THEN quantidade WHEN tipo='OUT' THEN -quantidade WHEN tipo='TRANSFER' AND location_to= THEN quantidade WHEN tipo='TRANSFER' AND location_from= THEN -quantidade WHEN tipo='ADJUST' THEN quantidade ELSE 0 END),0) AS saldo
             FROM stock_movements WHERE produto_id = 
         `, [from_location, from_location, produto_id]);
-        const saldo = rows && rows[0]  parseFloat(rows[0].saldo) : 0;
+        const saldo = rows && rows[0] ? parseFloat(rows[0].saldo) : 0;
         if (saldo < quantidade) return res.status(400).json({ message: `Saldo insuficiente na localização ${from_location}. Saldo atual: ${saldo}` });
         // Insert transfer as two entries or as a single transfer record depending on your accounting; we'll use single transfer record
         const created_by = req.user ? req.user.id : null;
@@ -4684,7 +4684,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         // Vendedor
         wsVendas.getCell('C6').value = dados.vendedor || '';
         
-        // Prazo de Entrega - H6 tem fórmula =J4+30, só preencher se prazo específico foi informação
+        // Prazo de Entrega - H6 tem fórmula =J4+30, só preencher se prazo específico foi informado
         if (dados.prazo_entrega && dados.prazo_entrega.trim()) {
             let dataPrazo;
             if (dados.prazo_entrega.includes('/')) {
@@ -4729,7 +4729,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         const cpfCnpjFormatação = formatarCpfCnpjExcel(dados.cpf_cnpj || '');
         wsVendas.getCell('C15').value = cpfCnpjFormatação;
         
-        // Email NF-e (usa o email do cliente se não informação)
+        // Email NF-e (usa o email do cliente se não informado)
         wsVendas.getCell('G15').value = dados.email_nfe || dados.email_cliente || dados.email || '';
         
         // PRODUTOS na planilha VENDAS_PCP (Linhas 18-32)
@@ -4824,7 +4824,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
                 wsVendas.getCell('F45').value = dados.metodo_pagamento.toUpperCase();
             }
             // E45 é percentual (1 = 100%)
-            const percentual = dados.percentual_pagamento  dados.percentual_pagamento / 100 : 1;
+            const percentual = dados.percentual_pagamento ? dados.percentual_pagamento / 100 : 1;
             wsVendas.getCell('E45').value = percentual;
             wsVendas.getCell('E45').numFmt = '0%';
         }
@@ -4896,7 +4896,7 @@ app.post('/api/gerar-ordem-excel', async (req, res) => {
         logger.error('[GERAR ORDEM EXCEL] Stack:', error.stack);
         res.status(500).json({ 
             message: 'Erro ao gerar ordem de produção em Excel', 
-            error: process.env.NODE_ENV === 'development'  error.message : undefined 
+            error: process.env.NODE_ENV === 'development' ? error.message : undefined 
         });
     }
 });
@@ -4924,7 +4924,7 @@ app.use((err, req, res, next) => {
     if (req.isApi) {
         return res.status(500).json({ 
             message: 'Erro interno no servidor', 
-            error: process.env.NODE_ENV === 'development'  err.message : undefined
+            error: process.env.NODE_ENV === 'development' ? err.message : undefined
         });
     }
     res.status(500).send('Erro interno no servidor');

@@ -1,4 +1,4 @@
-// ===== MÓDULO FINANCEIRO - ALUFORCE =====
+﻿// ===== MÓDULO FINANCEIRO - ALUFORCE =====
 // Sistema completo de gestão financeira
 
 // Variáveis Globais
@@ -120,7 +120,7 @@ async function carregarDaçãosFinanceiros() {
         // Atualizar dashboard
         atualizarDashboard();
         
-        console.log('✅ Daçãos financeiros carregaçãos com sucesso');
+        console.log('✅ Daçãos financeiros carregados com sucesso');
     } catch (error) {
         console.error('❌ Erro ao carregar dados financeiros:', error);
         mostrarAlerta('Erro ao carregar dados financeiros', 'error');
@@ -308,16 +308,16 @@ function renderizarLinhaConta(conta, tipo) {
     const vencido = vencimento < hoje && conta.status !== 'pago';
     
     const statusBadge = conta.status === 'pago' ? 'badge-pago' :
-                        vencido ? 'badge-atrasação' : 'badge-pendente';
+                        vencido ? 'badge-atrasado' : 'badge-pendente';
     
     const statusTexto = conta.status === 'pago' ? 'Pago' :
-                        vencido ? 'Atrasação' : 'Pendente';
+                        vencido ? 'Atrasado' : 'Pendente';
     
-    const podeEditar = tipo === 'pagar'  
+    const podeEditar = tipo === 'pagar' ?
         permissoesFinanceiro.contas_pagar.editar : 
         permissoesFinanceiro.contas_receber.editar;
     
-    const podeExcluir = tipo === 'pagar'  
+    const podeExcluir = tipo === 'pagar' ?
         permissoesFinanceiro.contas_pagar.excluir : 
         permissoesFinanceiro.contas_receber.excluir;
     
@@ -336,7 +336,7 @@ function renderizarLinhaConta(conta, tipo) {
                         <i class="fas fa-edit"></i>
                     </button>
                 ` : ''}
-                ${conta.status !== 'pago'  `
+                ${conta.status !== 'pago' ? `
                     <button class="action-btn" onclick="marcarComoPago(${conta.id}, '${tipo}')" title="Marcar como pago">
                         <i class="fas fa-check-circle"></i>
                     </button>
@@ -512,7 +512,7 @@ function inicializarModais() {
 }
 
 function abrirModalNovaConta(tipo) {
-    const podeCriar = tipo === 'pagar'  
+    const podeCriar = tipo === 'pagar' ?
         permissoesFinanceiro.contas_pagar.criar : 
         permissoesFinanceiro.contas_receber.criar;
     
@@ -540,7 +540,7 @@ function abrirModalNovaConta(tipo) {
 }
 
 function editarConta(id, tipo) {
-    const podeEditar = tipo === 'pagar'  
+    const podeEditar = tipo === 'pagar' ?
         permissoesFinanceiro.contas_pagar.editar : 
         permissoesFinanceiro.contas_receber.editar;
     
@@ -549,7 +549,7 @@ function editarConta(id, tipo) {
         return;
     }
     
-    const conta = tipo === 'pagar'  
+    const conta = tipo === 'pagar' ?
         contasPagar.find(c => c.id === id) : 
         contasReceber.find(c => c.id === id);
     
@@ -600,7 +600,7 @@ async function salvarConta(event) {
     }
     
     try {
-        const url = isEdicao  
+        const url = isEdicao ?
             `/api/financeiro/contas-${tipo}/${id}` : 
             `/api/financeiro/contas-${tipo}`;
         
@@ -634,10 +634,10 @@ async function salvarConta(event) {
 }
 
 async function marcarComoPago(id, tipo) {
-    if (!confirm('Deseja marcar está conta como paga')) return;
+    if (!confirm('Deseja marcar esta conta como paga?')) return;
     
     try {
-        const conta = tipo === 'pagar'  
+        const conta = tipo === 'pagar' ?
             contasPagar.find(c => c.id === id) : 
             contasReceber.find(c => c.id === id);
         
@@ -659,9 +659,9 @@ async function marcarComoPago(id, tipo) {
 }
 
 async function excluirConta(id, tipo) {
-    if (!confirm('Deseja realmente excluir está conta Está ação não pode ser desfeita.')) return;
+    if (!confirm('Deseja realmente excluir esta conta? Esta ação não pode ser desfeita.')) return;
     
-    const podeExcluir = tipo === 'pagar'  
+    const podeExcluir = tipo === 'pagar' ?
         permissoesFinanceiro.contas_pagar.excluir : 
         permissoesFinanceiro.contas_receber.excluir;
     
